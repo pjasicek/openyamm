@@ -32,7 +32,7 @@ script.labels["StopNjam"] = function(ctx)
             ctx:giveItem(576) -- NPC335.scr:48
             ctx:giveKey(191) -- NPC335.scr:49
             ctx:giveExp(218000) -- NPC335.scr:50
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC335.scr:51
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC335.scr:51
             -- gives reward
             do return ctx:exit("") end -- NPC335.scr:55
         end -- NPC335.scr:56
@@ -44,20 +44,20 @@ end
 
 script.labels["Loop"] = function(ctx)
     -- NPC335.scr:67
-    ctx:command("getmyhandle", "g_hobject") -- NPC335.scr:71
-    ctx:command("clearflag", "g_hobject, visible") -- NPC335.scr:72
-    ctx:command("clearflag", "g_hobject, solid") -- NPC335.scr:73
-    ctx:command("clearflag", "g_hobject, gravity") -- NPC335.scr:74
+    ctx:state().g_hobject = ctx:self() -- NPC335.scr:71
+    ctx:self():setFlag("visible", false) -- NPC335.scr:72
+    ctx:self():setFlag("solid", false) -- NPC335.scr:73
+    ctx:self():setFlag("gravity", false) -- NPC335.scr:74
     do return ctx:exit("") end -- NPC335.scr:75
 end
 
 script.labels["OnStart"] = function(ctx)
     -- NPC335.scr:78
-    ctx:command("getmyhandle", "g_hobject") -- NPC335.scr:81
-    ctx:command("setflag", "g_hobject, visible") -- NPC335.scr:82
-    ctx:command("setflag", "g_hobject, solid") -- NPC335.scr:83
-    ctx:command("setflag", "g_hobject, gravity") -- NPC335.scr:84
-    ctx:command("loopanim", "stand 0 DoNothing") -- NPC335.scr:85
+    ctx:state().g_hobject = ctx:self() -- NPC335.scr:81
+    ctx:self():setFlag("visible", true) -- NPC335.scr:82
+    ctx:self():setFlag("solid", true) -- NPC335.scr:83
+    ctx:self():setFlag("gravity", true) -- NPC335.scr:84
+    ctx:self():loopAnimation("stand", 0, "DoNothing") -- NPC335.scr:85
     do return ctx:exit("") end -- NPC335.scr:86
 end
 

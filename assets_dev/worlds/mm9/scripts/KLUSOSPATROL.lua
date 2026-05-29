@@ -19,32 +19,32 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(1, "LISTFIRST") -- KLUSOSPATROL.scr:20
     ctx:getParam(2, "LISTLAST") -- KLUSOSPATROL.scr:21
     ctx:getParam(3, "sBuddyName") -- KLUSOSPATROL.scr:22
-    ctx:command("onpoststartworld", "InitKlusosPatrol") -- KLUSOSPATROL.scr:24
-    ctx:command("onpostminisaveload", "InitKlusosPatrol") -- KLUSOSPATROL.scr:25
-    ctx:command("oncachefiles", "CacheFiles") -- KLUSOSPATROL.scr:26
+    ctx:onEvent("OnPostStartWorld", "InitKlusosPatrol") -- KLUSOSPATROL.scr:24
+    ctx:onEvent("OnPostMiniSaveLoad", "InitKlusosPatrol") -- KLUSOSPATROL.scr:25
+    ctx:onEvent("OnCacheFiles", "CacheFiles") -- KLUSOSPATROL.scr:26
     do return ctx:exit("TRUE") end -- KLUSOSPATROL.scr:28
 end
 
 script.labels["CacheFiles"] = function(ctx)
     -- KLUSOSPATROL.scr:31
-    ctx:command("cachesound", "\"sounds\\animsounds\\guard\\aware2.wav\"") -- KLUSOSPATROL.scr:33
+    ctx:cacheSound("sounds\\animsounds\\guard\\aware2.wav") -- KLUSOSPATROL.scr:33
     do return ctx:exit("TRUE") end -- KLUSOSPATROL.scr:35
 end
 
 script.labels["InitKlusosPatrol"] = function(ctx)
     -- KLUSOSPATROL.scr:38
-    ctx:command("getobjecthandle", "GuardTrigger, hTrigger") -- KLUSOSPATROL.scr:40
-    ctx:command("getobjecthandle", "sBuddyName, hBuddy") -- KLUSOSPATROL.scr:41
-    ctx:command("addfriend", "AIBase") -- KLUSOSPATROL.scr:43
-    ctx:command("addenemy", "Player") -- KLUSOSPATROL.scr:44
+    ctx:state().hTrigger = ctx:objectOrNil("GuardTrigger") -- KLUSOSPATROL.scr:40
+    ctx:state().hBuddy = ctx:objectOrNil("sBuddyName") -- KLUSOSPATROL.scr:41
+    ctx:self():addFriend("AIBase") -- KLUSOSPATROL.scr:43
+    ctx:self():addEnemy("Player") -- KLUSOSPATROL.scr:44
     mm9.gosub(script, ctx, "SetTraverseLoop") -- KLUSOSPATROL.scr:46
     mm9.gosub(script, ctx, "SetTraverseWalk") -- KLUSOSPATROL.scr:47
     mm9.gosub(script, ctx, "BaseWanderInit") -- KLUSOSPATROL.scr:49
     mm9.gosub(script, ctx, "BaseDoorInit") -- KLUSOSPATROL.scr:50
-    ctx:command("traverseradius", "= 10") -- KLUSOSPATROL.scr:52
+    ctx:state().TRAVERSERADIUS = 10 -- KLUSOSPATROL.scr:52
     ctx:addTrigger("start", "TraverseBegin") -- KLUSOSPATROL.scr:54
     ctx:addTrigger("charge", "HuntPlayer") -- KLUSOSPATROL.scr:55
-    ctx:command("onfoundtarget", "AlertOthers") -- KLUSOSPATROL.scr:57
+    ctx:onEvent("OnFoundTarget", "AlertOthers") -- KLUSOSPATROL.scr:57
     mm9.gosub(script, ctx, "TraverseBegin") -- KLUSOSPATROL.scr:59
     do return ctx:exit("TRUE") end -- KLUSOSPATROL.scr:61
 end
@@ -55,7 +55,7 @@ script.labels["AlertOthers"] = function(ctx)
     if ctx:condition("hTrigger!=0") then -- KLUSOSPATROL.scr:67
         ctx:trigger("hTrigger", "trigger") -- KLUSOSPATROL.scr:68
     end -- KLUSOSPATROL.scr:69
-    ctx:command("playsound", "\"sounds\\animsounds\\guard\\aware2.wav\", DoNothing, 1, 100, FALSE, 100") -- KLUSOSPATROL.scr:71
+    ctx:playSound("sounds\\animsounds\\guard\\aware2.wav", "DoNothing", 1, 100, "FALSE", 100) -- KLUSOSPATROL.scr:71
     mm9.gosub(script, ctx, "HuntPlayer") -- KLUSOSPATROL.scr:73
     do return ctx:exit("TRUE") end -- KLUSOSPATROL.scr:75
 end
@@ -64,7 +64,7 @@ script.labels["HuntPlayer"] = function(ctx)
     -- KLUSOSPATROL.scr:78
     -- runs if foundplayer or alerted
     mm9.gosub(script, ctx, "BaseInit") -- KLUSOSPATROL.scr:81
-    ctx:command("getplayerhandle", "g_hTarget") -- KLUSOSPATROL.scr:82
+    ctx:state().g_hTarget = ctx:player() -- KLUSOSPATROL.scr:82
     mm9.gosub(script, ctx, "SetupTarget") -- KLUSOSPATROL.scr:83
     mm9.gosub(script, ctx, "AggressiveStart") -- KLUSOSPATROL.scr:84
     do return ctx:exit("TRUE") end -- KLUSOSPATROL.scr:86

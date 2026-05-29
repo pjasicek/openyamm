@@ -18,7 +18,7 @@ script.labels["EndScene"] = function(ctx)
     -- get the registered name of the camera
     if ctx:condition("sceneactor_hCamera==0") then -- CUTSCENEACTOR.inc:18
         ctx:getConsoleStrVar("CUTSCENE_NAME", "sceneactor_sCameraName") -- CUTSCENEACTOR.inc:19
-        ctx:command("getobjecthandle", "sceneactor_sCameraName, sceneactor_hCamera") -- CUTSCENEACTOR.inc:20
+        ctx:state().sceneactor_hCamera = ctx:objectOrNil("sceneactor_sCameraName") -- CUTSCENEACTOR.inc:20
         if ctx:condition("sceneactor_hCamera==0") then -- CUTSCENEACTOR.inc:21
             do return ctx:exit(1) end -- CUTSCENEACTOR.inc:22
         end -- CUTSCENEACTOR.inc:23

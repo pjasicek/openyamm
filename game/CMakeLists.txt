@@ -100,6 +100,13 @@ add_library(openyamm_game STATIC
     mm9/Mm9DtxTexture.cpp
     mm9/Mm9DatWorld.cpp
     mm9/Mm9DatPhysicsQuery.cpp
+    mm9/Mm9DatCollisionWorld.cpp
+    mm9/Mm9DatLevelRuntimeLoader.cpp
+    mm9/Mm9DatPartyRuntime.cpp
+    mm9/Mm9DatRuntimeDevEntry.cpp
+    mm9/Mm9DatSceneRuntime.cpp
+    mm9/Mm9DatWorldRenderer.cpp
+    mm9/Mm9DatWorldRuntime.cpp
     mm9/Mm9SkyLayer.cpp
     mm9/Mm9ObjectLayer.cpp
     mm9/Mm9LightLayer.cpp
@@ -108,7 +115,6 @@ add_library(openyamm_game STATIC
     mm9/Mm9ServiceRuntime.cpp
     mm9/Mm9ScriptRuntime.cpp
     mm9/Mm9ScriptedObjectRuntime.cpp
-    mm9/Mm9ScriptedBillboardVisuals.cpp
     maps/OutdoorSceneYml.cpp
     maps/TerrainTileData.cpp
     data/GameDataLoader.cpp

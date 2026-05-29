@@ -4,6 +4,7 @@ map_id: 1000terrors
 display_name: Thousand Terrors
 source:
   dat: ../source/worlds/1000TERRORS.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/1000TERRORS.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: 1000terrors.raw_objects.yml
   materials: 1000terrors.material_aliases.yml
   events: 1000terrors.events.yml
-  scene_compat: 1000terrors.scene.yml
+  scene_compat: null
   source_metadata_compat: 1000terrors.mm9.yml
-  bsp_compat: 1000terrors.bsp.yml
-  geometry_compat: 1000terrors.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: 1000terrors.blv
+  blv_compat: null
 scripts:
   level: ../events/1000terrors.lua
   script_ir: ../events/1000terrors.script_ir.yml

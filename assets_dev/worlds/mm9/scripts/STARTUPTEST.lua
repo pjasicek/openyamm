@@ -11,8 +11,8 @@ script.labels = {}
 script.labels["Main"] = function(ctx)
     -- STARTUPTEST.scr:7
     -- ConsoleCommand ShowFrameRate 1
-    ctx:command("consolecommand", "NumConsoleLines 1") -- STARTUPTEST.scr:9
-    ctx:command("exitscript", "") -- STARTUPTEST.scr:10
+    ctx:consoleCommand("NumConsoleLines", 1) -- STARTUPTEST.scr:9
+    ctx:exitScript() -- STARTUPTEST.scr:10
     do return ctx:exit("") end -- STARTUPTEST.scr:12
 end
 

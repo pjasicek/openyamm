@@ -18,20 +18,20 @@ script.labels["InitDrunk"] = function(ctx)
     -- Set wander distance
     ctx:getParam(1, "g_nDistance") -- DRUNK.scr:21
     if ctx:condition("g_nDistance != 0") then -- DRUNK.scr:23
-        ctx:command("set", "MAX_DIST_FROM_STARTPOINT, g_nDistance") -- DRUNK.scr:24
+        ctx:set("MAX_DIST_FROM_STARTPOINT", "g_nDistance") -- DRUNK.scr:24
     else -- DRUNK.scr:25
-        ctx:command("set", "MAX_DIST_FROM_STARTPOINT, 350") -- DRUNK.scr:26
+        ctx:state().MAX_DIST_FROM_STARTPOINT = 350 -- DRUNK.scr:26
     end -- DRUNK.scr:27
     -- Set how often we idle 1 equals 10% valid numbers are 1 to 10
-    ctx:command("set", "g_IdleFrequency, 0") -- DRUNK.scr:30
+    ctx:state().g_IdleFrequency = 0 -- DRUNK.scr:30
     -- Set max time in seconds before idle check
-    ctx:command("set", "g_IdleCheckMin, 2") -- DRUNK.scr:33
-    ctx:command("set", "g_IdleCheckMax, 2") -- DRUNK.scr:34
+    ctx:state().g_IdleCheckMin = 2 -- DRUNK.scr:33
+    ctx:state().g_IdleCheckMax = 2 -- DRUNK.scr:34
     -- Set turn degree min max for more erratic movement
-    ctx:command("set", "g_TurnDegreeMin, 60") -- DRUNK.scr:37
-    ctx:command("set", "g_TurnDegreeMax, 90") -- DRUNK.scr:38
+    ctx:state().g_TurnDegreeMin = 60 -- DRUNK.scr:37
+    ctx:state().g_TurnDegreeMax = 90 -- DRUNK.scr:38
     -- Set how often special anim is played valid numbers are 1 to 10
-    ctx:command("set", "g_SpecialAnimFrequency, 0") -- DRUNK.scr:41
+    ctx:state().g_SpecialAnimFrequency = 0 -- DRUNK.scr:41
     do return ctx:exit("") end -- DRUNK.scr:43
 end
 

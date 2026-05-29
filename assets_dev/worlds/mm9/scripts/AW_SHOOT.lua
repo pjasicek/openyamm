@@ -15,8 +15,8 @@ script.labels["Init"] = function(ctx)
     if ctx:condition("sTarget==NULL") then -- AW_SHOOT.scr:18
         do return ctx:exit("") end -- AW_SHOOT.scr:19
     end -- AW_SHOOT.scr:20
-    ctx:command("getobjecthandle", "sTarget g_hobject") -- AW_SHOOT.scr:22
-    ctx:command("target", "g_hobject") -- AW_SHOOT.scr:23
+    ctx:state().g_hobject = ctx:objectOrNil("sTarget") -- AW_SHOOT.scr:22
+    ctx:self():setTarget(ctx:object("g_hobject")) -- AW_SHOOT.scr:23
     do return ctx:exit("") end -- AW_SHOOT.scr:24
 end
 
@@ -25,8 +25,8 @@ script.labels["Main"] = function(ctx)
     -- traceon
     -- Don't Forget to Delete this!
     ctx:getParam(0, "sTarget") -- AW_SHOOT.scr:33
-    ctx:command("onpoststartworld", "Init") -- AW_SHOOT.scr:34
-    ctx:command("onpostminisaveload", "Init") -- AW_SHOOT.scr:35
+    ctx:onEvent("OnPostStartWorld", "Init") -- AW_SHOOT.scr:34
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- AW_SHOOT.scr:35
     do return ctx:exit("") end -- AW_SHOOT.scr:36
 end
 

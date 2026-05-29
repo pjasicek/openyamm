@@ -8,8 +8,8 @@ script.labels = {}
 
 script.labels["TriggerMe"] = function(ctx)
     -- BUTTON.scr:12
-    ctx:command("ntrig", "= 1") -- BUTTON.scr:15
-    ctx:command("getmyhandle", "hHandle") -- BUTTON.scr:16
+    ctx:state().nTrig = 1 -- BUTTON.scr:15
+    ctx:state().hHandle = ctx:self() -- BUTTON.scr:16
     ctx:trigger("hHandle", "Use") -- BUTTON.scr:17
     do return ctx:exit(1) end -- BUTTON.scr:19
 end
@@ -17,10 +17,9 @@ end
 script.labels["UseMe"] = function(ctx)
     -- BUTTON.scr:23
     if ctx:condition("nTrig == 0") then -- BUTTON.scr:26
-        ctx:command("getobjecthandle", "sButtonPad hHandle") -- BUTTON.scr:27
-        ctx:trigger("hHandle", "sButtonName") -- BUTTON.scr:28
+        ctx:object("sButtonPad"):trigger("sButtonName") -- BUTTON.scr:27-28
     else -- BUTTON.scr:29
-        ctx:command("ntrig", "= 0") -- BUTTON.scr:30
+        ctx:state().nTrig = 0 -- BUTTON.scr:30
     end -- BUTTON.scr:31
     do return ctx:exit(1) end -- BUTTON.scr:34
 end

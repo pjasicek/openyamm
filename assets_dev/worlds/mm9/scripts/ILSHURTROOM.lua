@@ -19,41 +19,37 @@ script.labels["OnUse"] = function(ctx)
     if ctx:condition("doorclosed==False") then -- ILSHURTROOM.scr:31
         do return ctx:exit("") end -- ILSHURTROOM.scr:32
     end -- ILSHURTROOM.scr:33
-    ctx:command("getobjecthandle", "healinside2, g_hobject") -- ILSHURTROOM.scr:36
-    ctx:trigger("g_hobject", "DamageOn") -- ILSHURTROOM.scr:37
-    ctx:command("playanim", "OpenBook") -- ILSHURTROOM.scr:38
-    ctx:command("set", "BookOpen, true") -- ILSHURTROOM.scr:39
+    ctx:object("healinside2"):trigger("DamageOn") -- ILSHURTROOM.scr:36-37
+    ctx:self():playAnimation("OpenBook") -- ILSHURTROOM.scr:38
+    ctx:state().BookOpen = true -- ILSHURTROOM.scr:39
     do return ctx:exit("") end -- ILSHURTROOM.scr:40
 end
 
 script.labels["Onopen"] = function(ctx)
     -- ILSHURTROOM.scr:42
-    ctx:command("set", "doorclosed, false") -- ILSHURTROOM.scr:45
-    ctx:command("getobjecthandle", "healinside2, g_hobject") -- ILSHURTROOM.scr:47
-    ctx:trigger("g_hobject", "DamageOff") -- ILSHURTROOM.scr:48
+    ctx:state().doorclosed = false -- ILSHURTROOM.scr:45
+    ctx:object("healinside2"):trigger("DamageOff") -- ILSHURTROOM.scr:47-48
     do return ctx:exit("") end -- ILSHURTROOM.scr:49
 end
 
 script.labels["Onclose"] = function(ctx)
     -- ILSHURTROOM.scr:52
-    ctx:command("set", "doorclosed, true") -- ILSHURTROOM.scr:55
+    ctx:state().doorclosed = true -- ILSHURTROOM.scr:55
     do return ctx:exit("") end -- ILSHURTROOM.scr:56
 end
 
 script.labels["Onbreak"] = function(ctx)
     -- ILSHURTROOM.scr:60
-    ctx:command("set", "broken, true") -- ILSHURTROOM.scr:63
-    ctx:command("getobjecthandle", "healinside2, g_hobject") -- ILSHURTROOM.scr:65
-    ctx:trigger("g_hobject", "DamageOff") -- ILSHURTROOM.scr:66
+    ctx:state().broken = true -- ILSHURTROOM.scr:63
+    ctx:object("healinside2"):trigger("DamageOff") -- ILSHURTROOM.scr:65-66
     do return ctx:exit("") end -- ILSHURTROOM.scr:67
 end
 
 script.labels["CloseBook"] = function(ctx)
     -- ILSHURTROOM.scr:72
-    ctx:command("playanim", "CloseBook") -- ILSHURTROOM.scr:75
-    ctx:command("getobjecthandle", "healinside2, g_hobject") -- ILSHURTROOM.scr:76
-    ctx:trigger("g_hobject", "DamageOff") -- ILSHURTROOM.scr:77
-    ctx:command("set", "BookOpen, false") -- ILSHURTROOM.scr:78
+    ctx:self():playAnimation("CloseBook") -- ILSHURTROOM.scr:75
+    ctx:object("healinside2"):trigger("DamageOff") -- ILSHURTROOM.scr:76-77
+    ctx:state().BookOpen = false -- ILSHURTROOM.scr:78
 end
 
 script.labels["Main"] = function(ctx)

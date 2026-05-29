@@ -14,7 +14,7 @@ script.includes[#script.includes + 1] = { line = 12, path = "Globals.inc" }
 -- leaving
 script.labels["OnSinkSpeed"] = function(ctx)
     -- IA_ISLAND.scr:17
-    ctx:setPropNumber("speed", 1000) -- IA_ISLAND.scr:20
+    ctx:self():setNumberProperty("speed", 1000) -- IA_ISLAND.scr:20
     do return ctx:exit("") end -- IA_ISLAND.scr:21
 end
 

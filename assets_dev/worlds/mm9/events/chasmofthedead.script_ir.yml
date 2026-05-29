@@ -1,0 +1,356 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: chasmofthedead
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: autoresurrect.scr
+  source_path: AUTORESURRECT.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: flags.inc
+  - line: 14
+    path: AICommon.inc
+  labels:
+  - line: 25
+    name: ResurrectDone
+  - line: 34
+    name: OnResurrect
+  - line: 49
+    name: Init
+  - line: 58
+    name: CacheFiles
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 83
+    message: TMSG_RESURRECT
+    callback: OnResurrect
+    arguments_raw: TMSG_RESURRECT,OnResurrect
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 42
+    command: SetFlag
+    arguments_raw: g_hMyObject,FLAG_SOLID
+  - line: 43
+    command: SetFlag
+    arguments_raw: g_hMyObject,FLAG_GRAVITY
+  - line: 44
+    command: SetFlag
+    arguments_raw: g_hMyObject,FLAG_VISIBLE
+  - line: 77
+    command: ClearFlag
+    arguments_raw: g_hMyObject,FLAG_SOLID
+  - line: 78
+    command: ClearFlag
+    arguments_raw: g_hMyObject,FLAG_GRAVITY
+  - line: 79
+    command: ClearFlag
+    arguments_raw: g_hMyObject,FLAG_VISIBLE
+  presentation_commands:
+  - line: 54
+    command: LoopAnim
+    arguments_raw: 0,0
+  unknown_commands:
+  - line: 28
+    command: GetStatStr
+    arguments_raw: g_hMyObject,ScriptName,g_sTemp
+  - line: 29
+    command: RunScript
+    arguments_raw: g_sTemp
+  - line: 60
+    command: GetStatStr
+    arguments_raw: g_hMyObject,ScriptName,g_sTemp
+  - line: 61
+    command: CacheScript
+    arguments_raw: g_sTemp
+  - line: 84
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  command_count: 25
+- script_id: chasm_ghostspawner.scr
+  source_path: CHASM_GHOSTSPAWNER.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: BaseGlobals.inc
+  - line: 13
+    path: ListMaker.inc
+  labels:
+  - line: 26
+    name: Main
+  - line: 41
+    name: CacheFiles
+  - line: 50
+    name: SpawnCreature
+  registered_triggers:
+  - line: 36
+    message: spawn
+    callback: SpawnCreature
+    arguments_raw: spawn, SpawnCreature
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 34
+    command: LISTINDEX
+    arguments_raw: = LISTLAST
+  - line: 43
+    command: CacheScript
+    arguments_raw: '"ghost.scr"'
+  - line: 45
+    command: CacheClientFX
+    arguments_raw: SPELL_BLUEFIRE
+  - line: 55
+    command: Spawn
+    arguments_raw: hDummy, x,y,z, SPAWN_PARAM
+  - line: 58
+    command: DoClientFX
+    arguments_raw: hDummy, SPELL_BLUEFIRE, FALSE, TRUE
+  - line: 62
+    command: RemoveTrigger
+    arguments_raw: spawn
+  command_count: 20
+- script_id: cronakiga.scr
+  source_path: CRONAKIGA.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 20
+    name: Onuse
+  - line: 86
+    name: RemoveMe
+  - line: 94
+    name: Main
+  registered_triggers:
+  - line: 101
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges:
+  - line: 27
+    target_expression: hTrigger
+    message_expression: trigger
+    arguments_raw: hTrigger, trigger
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: Haskey
+    arguments_raw: 46 g_ntemp
+  - line: 36
+    command: Haskey
+    arguments_raw: 48 keycheck
+  - line: 39
+    command: givekey
+    arguments_raw: '48'
+  - line: 46
+    command: RemoveTrigger
+    arguments_raw: Use
+  - line: 48
+    command: GiveItem
+    arguments_raw: '390'
+  - line: 49
+    command: GiveExp
+    arguments_raw: '10000'
+  - line: 60
+    command: Haskey
+    arguments_raw: 169 keycheck
+  - line: 63
+    command: givekey
+    arguments_raw: '169'
+  - line: 68
+    command: GiveItem
+    arguments_raw: '390'
+  - line: 69
+    command: GiveExp
+    arguments_raw: '10000'
+  - line: 72
+    command: RemoveTrigger
+    arguments_raw: Use
+  - line: 89
+    command: RemoveObject
+    arguments_raw: g_hobject
+  - line: 102
+    command: Haskey
+    arguments_raw: 48 keycheck
+  - line: 105
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 106
+    command: exitscript
+    arguments_raw: ''
+  - line: 110
+    command: Haskey
+    arguments_raw: 169 keycheck
+  - line: 113
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 114
+    command: exitscript
+    arguments_raw: ''
+  command_count: 49
+- script_id: lichinstructions.scr
+  source_path: LICHINSTRUCTIONS.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 29
+    name: Init
+  - line: 42
+    name: Main
+  registered_triggers:
+  - line: 46
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: haskey
+    arguments_raw: 296 g_ntemp
+  - line: 21
+    command: givekey
+    arguments_raw: '296'
+  - line: 22
+    command: giveitem
+    arguments_raw: '447'
+  - line: 24
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 32
+    command: haskey
+    arguments_raw: 296 g_ntemp
+  - line: 35
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 48
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 49
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 50
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 23
+- script_id: mummyawaken.scr
+  source_path: MUMMYAWAKEN.scr
+  parse_status: parsed
+  includes:
+  - line: 15
+    path: baseMelee.inc
+  labels:
+  - line: 26
+    name: Main
+  - line: 36
+    name: InitMummyAwaken
+  - line: 67
+    name: WakeUp
+  - line: 82
+    name: OnDeath
+  - line: 92
+    name: OnObjectLinkBroken
+  registered_triggers:
+  - line: 61
+    message: awaken
+    callback: WakeUp
+    arguments_raw: awaken, WakeUp
+  trigger_edges:
+  - line: 86
+    target_expression: hNext
+    message_expression: awaken
+    arguments_raw: hNext, awaken
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 52
+    command: LoopAnim
+    arguments_raw: '"coffin", 0'
+  unknown_commands:
+  - line: 31
+    command: OnPostStartWorld
+    arguments_raw: InitMummyAwaken
+  - line: 42
+    command: CreateObjectLink
+    arguments_raw: hNext
+  - line: 43
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 46
+    command: IsClass
+    arguments_raw: hMe, "Mummy", bAnimOk
+  - line: 48
+    command: IsClass
+    arguments_raw: hMe, "Zombie", bAnimOk
+  - line: 56
+    command: OnDeath
+    arguments_raw: OnDeath
+  - line: 58
+    command: OnDeath
+    arguments_raw: DoNothing
+  - line: 62
+    command: OnDamage
+    arguments_raw: WakeUp
+  - line: 70
+    command: RemoveTrigger
+    arguments_raw: awaken
+  - line: 71
+    command: OnDamage
+    arguments_raw: DoNothing
+  - line: 94
+    command: hNext
+    arguments_raw: = NULL
+  command_count: 38
+- script_id: offrailtrigger.scr
+  source_path: OFFRAILTRIGGER.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 24
+    name: Check
+  - line: 43
+    name: Main
+  registered_triggers: []
+  trigger_edges:
+  - line: 33
+    target_expression: g_hmyobject
+    message_expression: sMessage
+    arguments_raw: g_hmyobject sMessage
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: target
+    arguments_raw: 'null'
+  - line: 28
+    command: getplayerhandle
+    arguments_raw: g_hPlayer
+  - line: 29
+    command: GetContainerCount
+    arguments_raw: g_hplayer g_ntemp
+  - line: 31
+    command: target
+    arguments_raw: g_hplayer
+  command_count: 15
+validation:
+  script_count: 6

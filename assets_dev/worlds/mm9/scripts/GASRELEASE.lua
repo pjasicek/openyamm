@@ -17,8 +17,7 @@ end
 
 script.labels["SendTrigger"] = function(ctx)
     -- GASRELEASE.scr:25
-    ctx:command("getobjecthandle", "PumpSwitch0, hMessage") -- GASRELEASE.scr:28
-    ctx:command("getstat", "hMessage, IsOpen, nBool") -- GASRELEASE.scr:29
+    ctx:state().nBool = ctx:object("PumpSwitch0"):getStat("IsOpen") -- GASRELEASE.scr:28-29
     -- if nBool==TRUE
     -- Trigger hMCMarkerA, MoveMe
     -- Trigger hMCMarkerB, MoveMe

@@ -20,7 +20,7 @@ script.labels["OnUse"] = function(ctx)
             ctx:takeItem(358) -- GIVEELIXIR.scr:34
             ctx:takeItem(561) -- GIVEELIXIR.scr:35
             ctx:giveItem(246) -- GIVEELIXIR.scr:36
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- GIVEELIXIR.scr:37
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- GIVEELIXIR.scr:37
             do return ctx:exit("") end -- GIVEELIXIR.scr:38
         end -- GIVEELIXIR.scr:39
     end -- GIVEELIXIR.scr:40

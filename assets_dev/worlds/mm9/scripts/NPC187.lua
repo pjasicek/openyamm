@@ -17,13 +17,13 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 -- flag variables
 script.labels["OnUse"] = function(ctx)
     -- NPC187.scr:28
-    ctx:command("getrandomint", "1, 2, g_ntemp") -- NPC187.scr:31
+    ctx:randomInt(1, 2, "g_ntemp") -- NPC187.scr:31
     if ctx:condition("g_ntemp==1") then -- NPC187.scr:33
-        ctx:command("playsound", "voices\\NPC\\NPC_187a.wav, DoNothing, 100, 240, FALSE, 100") -- NPC187.scr:34
+        ctx:playSound("voices\\NPC\\NPC_187a.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC187.scr:34
         do return ctx:exit("") end -- NPC187.scr:35
     end -- NPC187.scr:36
     if ctx:condition("g_ntemp==2") then -- NPC187.scr:38
-        ctx:command("playsound", "voices\\NPC\\NPC_187b.wav, DoNothing, 100, 240, FALSE, 100") -- NPC187.scr:39
+        ctx:playSound("voices\\NPC\\NPC_187b.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC187.scr:39
         do return ctx:exit("") end -- NPC187.scr:40
     end -- NPC187.scr:41
     do return ctx:exit("") end -- NPC187.scr:45
@@ -31,8 +31,8 @@ end
 
 script.labels["OnReturn"] = function(ctx)
     -- NPC187.scr:50
-    ctx:command("getobjecthandle", "Atlimarker0 g_hobject") -- NPC187.scr:53
-    ctx:command("walkto", "g_hobject 256 DoNothing") -- NPC187.scr:54
+    ctx:state().g_hobject = ctx:objectOrNil("Atlimarker0") -- NPC187.scr:53
+    ctx:self():walkTo(ctx:object("g_hobject"), 256, "DoNothing") -- NPC187.scr:54
     do return ctx:exit("") end -- NPC187.scr:55
     do return ctx:exit("") end -- NPC187.scr:57
 end
@@ -40,8 +40,8 @@ end
 script.labels["OnArrive"] = function(ctx)
     -- NPC187.scr:60
     if ctx:hasKey(197) then -- NPC187.scr:63-64
-        ctx:command("getobjecthandle", "AtliMarker g_hobject") -- NPC187.scr:65
-        ctx:command("walkto", "g_hobject 256, DoNothing") -- NPC187.scr:66
+        ctx:state().g_hobject = ctx:objectOrNil("AtliMarker") -- NPC187.scr:65
+        ctx:self():walkTo(ctx:object("g_hobject"), 256, "DoNothing") -- NPC187.scr:66
         do return ctx:exit("") end -- NPC187.scr:67
     end -- NPC187.scr:68
     do return ctx:exit("") end -- NPC187.scr:69
@@ -50,10 +50,10 @@ end
 script.labels["Init"] = function(ctx)
     -- NPC187.scr:71
     if ctx:hasKey(127) then -- NPC187.scr:74-75
-        ctx:command("getmyhandle", "g_hobject") -- NPC187.scr:77
-        ctx:command("clearflag", "g_hobject, visible") -- NPC187.scr:78
-        ctx:command("clearflag", "g_hobject, solid") -- NPC187.scr:79
-        ctx:command("clearflag", "g_hobject, gravity") -- NPC187.scr:80
+        ctx:state().g_hobject = ctx:self() -- NPC187.scr:77
+        ctx:self():setFlag("visible", false) -- NPC187.scr:78
+        ctx:self():setFlag("solid", false) -- NPC187.scr:79
+        ctx:self():setFlag("gravity", false) -- NPC187.scr:80
         do return ctx:exit("") end -- NPC187.scr:81
     end -- NPC187.scr:83
     do return ctx:exit("") end -- NPC187.scr:86
@@ -65,10 +65,10 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:addTrigger("Use", "OnUse") -- NPC187.scr:97
     ctx:addTrigger("Return", "OnReturn") -- NPC187.scr:98
-    ctx:command("onpoststartworld", "Init") -- NPC187.scr:99
-    ctx:command("onpostminisaveload", "Init") -- NPC187.scr:100
-    ctx:command("onpostsaveload", "Init") -- NPC187.scr:101
-    ctx:command("wait", "1 .1 Init") -- NPC187.scr:102
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC187.scr:99
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC187.scr:100
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC187.scr:101
+    ctx:wait(1, .1, "Init") -- NPC187.scr:102
     do return ctx:exit("") end -- NPC187.scr:103
 end
 

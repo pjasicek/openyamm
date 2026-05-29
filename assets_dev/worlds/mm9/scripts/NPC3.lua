@@ -37,7 +37,7 @@ script.labels["GoGetEm"] = function(ctx)
             do return ctx:exit("") end -- NPC3.scr:55
         end -- NPC3.scr:56
         ctx:giveKey(486) -- NPC3.scr:58
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC3.scr:59
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC3.scr:59
     end -- NPC3.scr:60
     do return ctx:exit("") end -- NPC3.scr:61
 end
@@ -49,12 +49,12 @@ script.labels["Lifesaver"] = function(ctx)
             ctx:giveExp(5000) -- NPC3.scr:72
             if ctx:hasKey(233) then -- NPC3.scr:73-74
                 ctx:giveGold(10000) -- NPC3.scr:75
-                ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC3.scr:76
+                ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC3.scr:76
                 ctx:giveKey(235) -- NPC3.scr:77
                 do return ctx:exit("") end -- NPC3.scr:78
             else -- NPC3.scr:79
                 ctx:giveGold(10000) -- NPC3.scr:80
-                ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC3.scr:81
+                ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC3.scr:81
                 ctx:giveKey(235) -- NPC3.scr:82
                 do return ctx:exit("") end -- NPC3.scr:83
             end -- NPC3.scr:84
@@ -74,7 +74,7 @@ script.labels["Thjorad"] = function(ctx)
             ctx:giveKey(163) -- NPC3.scr:102
             ctx:giveExp(12000) -- NPC3.scr:103
             ctx:giveGold(6000) -- NPC3.scr:104
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC3.scr:105
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC3.scr:105
             ctx:takeItem(197) -- NPC3.scr:106
             -- gives reward
             do return ctx:exit("") end -- NPC3.scr:109
@@ -96,7 +96,7 @@ script.labels["Refinery"] = function(ctx)
             ctx:giveKey(177) -- NPC3.scr:135
             ctx:giveExp(68004) -- NPC3.scr:136
             ctx:giveGold(3000) -- NPC3.scr:137
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC3.scr:138
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC3.scr:138
             -- gives reward
             do return ctx:exit("") end -- NPC3.scr:141
         end -- NPC3.scr:142
@@ -118,26 +118,26 @@ script.labels["Init"] = function(ctx)
     if ctx:condition("sLocation==Arslegard") then -- NPC3.scr:169
         -- Cprint INArslegard
         if ctx:hasKey(102) then -- NPC3.scr:173-174
-            ctx:command("set", "bVanish, False") -- NPC3.scr:175
+            ctx:state().bVanish = false -- NPC3.scr:175
             mm9.gosub(script, ctx, "Vanish") -- NPC3.scr:176
         else -- NPC3.scr:177
-            ctx:command("set", "bVanish, TRUE") -- NPC3.scr:178
+            ctx:state().bVanish = true -- NPC3.scr:178
             mm9.gosub(script, ctx, "Vanish") -- NPC3.scr:179
         end -- NPC3.scr:180
         if ctx:hasKey(104) then -- NPC3.scr:183-184
-            ctx:command("set", "bVanish TRUE") -- NPC3.scr:185
+            ctx:state().bVanish = true -- NPC3.scr:185
             mm9.gosub(script, ctx, "Vanish") -- NPC3.scr:186
             do return ctx:exit("") end -- NPC3.scr:187
         end -- NPC3.scr:188
         do return ctx:exit("") end -- NPC3.scr:189
     end -- NPC3.scr:190
     if ctx:hasKey(40) then -- NPC3.scr:192-193
-        ctx:command("set", "bVanish TRUE") -- NPC3.scr:194
+        ctx:state().bVanish = true -- NPC3.scr:194
         mm9.gosub(script, ctx, "vanish") -- NPC3.scr:195
     end -- NPC3.scr:196
-    ctx:command("movetopos", "32 1438 8100") -- NPC3.scr:198
+    ctx:self():moveToPos(32, 1438, 8100) -- NPC3.scr:198
     if ctx:hasKey(108) then -- NPC3.scr:200-201
-        ctx:command("set", "bVanish False") -- NPC3.scr:202
+        ctx:state().bVanish = false -- NPC3.scr:202
         mm9.gosub(script, ctx, "Vanish") -- NPC3.scr:203
         -- loopanim Sit 0 DoNothing
     end -- NPC3.scr:205
@@ -146,16 +146,16 @@ end
 
 script.labels["Vanish"] = function(ctx)
     -- NPC3.scr:211
-    ctx:command("getmyhandle", "g_hobject") -- NPC3.scr:214
+    ctx:state().g_hobject = ctx:self() -- NPC3.scr:214
     if ctx:condition("bVanish==TRUE") then -- NPC3.scr:216
-        ctx:command("clearflag", "g_hobject, visible") -- NPC3.scr:217
-        ctx:command("clearflag", "g_hobject, solid") -- NPC3.scr:218
-        ctx:command("clearflag", "g_hobject, gravity") -- NPC3.scr:219
+        ctx:self():setFlag("visible", false) -- NPC3.scr:217
+        ctx:self():setFlag("solid", false) -- NPC3.scr:218
+        ctx:self():setFlag("gravity", false) -- NPC3.scr:219
         do return ctx:exit("") end -- NPC3.scr:220
     else -- NPC3.scr:221
-        ctx:command("setflag", "g_hobject, visible") -- NPC3.scr:222
-        ctx:command("setflag", "g_hobject, solid") -- NPC3.scr:223
-        ctx:command("setflag", "g_hobject, gravity") -- NPC3.scr:224
+        ctx:self():setFlag("visible", true) -- NPC3.scr:222
+        ctx:self():setFlag("solid", true) -- NPC3.scr:223
+        ctx:self():setFlag("gravity", true) -- NPC3.scr:224
         do return ctx:exit("") end -- NPC3.scr:225
     end -- NPC3.scr:226
     do return ctx:exit("") end -- NPC3.scr:228
@@ -168,12 +168,12 @@ script.labels["Main"] = function(ctx)
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC3.scr:236
     ctx:addTrigger("Use", "OnUse") -- NPC3.scr:237
     ctx:getParam(0, "sLocation") -- NPC3.scr:238
-    ctx:command("set", "Jarl, Sven") -- NPC3.scr:239
+    ctx:set("Jarl", "Sven") -- NPC3.scr:239
     mm9.gosub(script, ctx, "UnitedInit") -- NPC3.scr:240
-    ctx:command("onpoststartworld", "Init") -- NPC3.scr:241
-    ctx:command("onpostminisaveload", "Init") -- NPC3.scr:242
-    ctx:command("onpostsaveload", "Init") -- NPC3.scr:243
-    ctx:command("wait", "1 .1 Init") -- NPC3.scr:244
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC3.scr:241
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC3.scr:242
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC3.scr:243
+    ctx:wait(1, .1, "Init") -- NPC3.scr:244
     do return ctx:exit("") end -- NPC3.scr:245
 end
 

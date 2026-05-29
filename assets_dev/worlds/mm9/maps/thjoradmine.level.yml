@@ -4,6 +4,7 @@ map_id: thjoradmine
 display_name: Thjorad Mine
 source:
   dat: ../source/worlds/THJORADMINE.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/THJORADMINE.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: thjoradmine.raw_objects.yml
   materials: thjoradmine.material_aliases.yml
   events: thjoradmine.events.yml
-  scene_compat: thjoradmine.scene.yml
+  scene_compat: null
   source_metadata_compat: thjoradmine.mm9.yml
-  bsp_compat: thjoradmine.bsp.yml
-  geometry_compat: thjoradmine.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: thjoradmine.blv
+  blv_compat: null
 scripts:
   level: ../events/thjoradmine.lua
   script_ir: ../events/thjoradmine.script_ir.yml

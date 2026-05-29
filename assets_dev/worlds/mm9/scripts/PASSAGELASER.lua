@@ -14,13 +14,12 @@ script.labels = {}
 script.labels["Main"] = function(ctx)
     -- PASSAGELASER.scr:17
     -- OnPostStartWorld InitPassageLaser
-    ctx:command("wait", "0, 5, InitPassageLaser") -- PASSAGELASER.scr:20
+    ctx:wait(0, 5, "InitPassageLaser") -- PASSAGELASER.scr:20
     do return ctx:exit(1) end -- PASSAGELASER.scr:22
 end
 
 script.labels["InitPassageLaser"] = function(ctx)
     -- PASSAGELASER.scr:25
-    ctx:command("getmyhandle", "hMe") -- PASSAGELASER.scr:27
     ctx:addTrigger("rotate", "Rotate") -- PASSAGELASER.scr:29
     do return ctx:exit(1) end -- PASSAGELASER.scr:31
 end
@@ -28,15 +27,15 @@ end
 script.labels["Rotate"] = function(ctx)
     -- PASSAGELASER.scr:34
     ctx:getParam(0, "hMirror") -- PASSAGELASER.scr:36
-    ctx:command("getfacedir", "hMirror, dx,dy,dz") -- PASSAGELASER.scr:37
-    ctx:command("facedir", "dx,0,dz, 720, Shoot") -- PASSAGELASER.scr:38
+    ctx:state().dx, ctx:state().dy, ctx:state().dz = ctx:object("hMirror"):rotation() -- PASSAGELASER.scr:37
+    ctx:self():faceDir("dx", 0, "dz", 720, "Shoot") -- PASSAGELASER.scr:38
     do return ctx:exit(1) end -- PASSAGELASER.scr:40
 end
 
 script.labels["Shoot"] = function(ctx)
     -- PASSAGELASER.scr:43
     ctx:trigger("hMe", "shoot") -- PASSAGELASER.scr:45
-    ctx:command("wait", "0, .5, Reset") -- PASSAGELASER.scr:47
+    ctx:wait(0, .5, "Reset") -- PASSAGELASER.scr:47
     do return ctx:exit(1) end -- PASSAGELASER.scr:49
 end
 
@@ -44,7 +43,7 @@ script.labels["Reset"] = function(ctx)
     -- PASSAGELASER.scr:52
     -- have to do this or else the real
     -- facedir wont happen if 0 deg.
-    ctx:command("facedir", "0,-1,0, 720") -- PASSAGELASER.scr:56
+    ctx:self():faceDir(0, -1, 0, 720) -- PASSAGELASER.scr:56
     do return ctx:exit(1) end -- PASSAGELASER.scr:58
 end
 

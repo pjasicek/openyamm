@@ -1,0 +1,977 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: templeofhonk
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: dumbgoose.scr
+  source_path: DUMBGOOSE.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: HonkHostility.inc
+  labels:
+  - line: 10
+    name: Main
+  - line: 18
+    name: InitDumbGoose
+  - line: 34
+    name: RunLoop
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 21
+    command: GetStat
+    arguments_raw: g_hMyObject, RunVel, g_nTemp
+  - line: 22
+    command: SetStat
+    arguments_raw: g_hMyObject, RunVel, g_nTemp
+  - line: 23
+    command: SetStat
+    arguments_raw: g_hMyObject, WalkVel, g_nTemp
+  presentation_commands: []
+  unknown_commands:
+  - line: 36
+    command: GetRandomInt
+    arguments_raw: -5000, 5000, g_nTemp
+  - line: 38
+    command: RunToPOS
+    arguments_raw: g_nTemp, g_nTemp, g_nTemp
+  command_count: 13
+- script_id: dumbgoose2.scr
+  source_path: DUMBGOOSE2.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: HonkHostility.inc
+  labels:
+  - line: 12
+    name: TurnHostilityOn
+  - line: 29
+    name: Main
+  - line: 37
+    name: InitDumbGoose
+  - line: 57
+    name: RunLoop
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 20
+    command: setstat
+    arguments_raw: g_hmyobject HitPoints g_ntemp
+  - line: 22
+    command: getstat
+    arguments_raw: g_hmyobject AC g_ntemp
+  - line: 43
+    command: GetStat
+    arguments_raw: g_hMyObject, RunVel, g_nTemp
+  - line: 44
+    command: SetStat
+    arguments_raw: g_hMyObject, RunVel, g_nTemp
+  - line: 45
+    command: SetStat
+    arguments_raw: g_hMyObject, WalkVel, g_nTemp
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: g_ntemp
+    arguments_raw: = 10
+  - line: 21
+    command: g_ntemp
+    arguments_raw: = 1
+  - line: 59
+    command: GetRandomInt
+    arguments_raw: -5000, 5000, g_nTemp
+  - line: 61
+    command: RunToPOS
+    arguments_raw: g_nTemp, g_nTemp, g_nTemp
+  command_count: 20
+- script_id: honk.scr
+  source_path: HONK.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 11
+    name: Onuse
+  - line: 45
+    name: TurnHostilityOn
+  - line: 54
+    name: Init
+  - line: 90
+    name: Main
+  registered_triggers:
+  - line: 94
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges:
+  - line: 62
+    target_expression: g_hobject
+    message_expression: Unlock
+    arguments_raw: g_hobject Unlock
+  - line: 64
+    target_expression: g_hobject
+    message_expression: Unlock
+    arguments_raw: g_hobject Unlock
+  - line: 67
+    target_expression: g_hobject
+    message_expression: lock
+    arguments_raw: g_hobject lock
+  - line: 69
+    target_expression: g_hobject
+    message_expression: lock
+    arguments_raw: g_hobject lock
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 14
+    command: Haskey
+    arguments_raw: 343 g_ntemp
+  - line: 16
+    command: haskey
+    arguments_raw: 344 g_ntemp
+  - line: 21
+    command: giveitem
+    arguments_raw: '369'
+  - line: 22
+    command: givekey
+    arguments_raw: '344'
+  - line: 24
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 28
+    command: haskey
+    arguments_raw: 345 g_ntemp
+  - line: 33
+    command: giveitem
+    arguments_raw: '369'
+  - line: 34
+    command: givekey
+    arguments_raw: '345'
+  - line: 36
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 48
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 59
+    command: haskey
+    arguments_raw: 343 g_ntemp
+  - line: 73
+    command: Haskey
+    arguments_raw: 344 g_ntemp
+  - line: 76
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 80
+    command: haskey
+    arguments_raw: 345 g_ntemp
+  - line: 83
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 95
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 96
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 97
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 57
+- script_id: honkaccountant.scr
+  source_path: HONKACCOUNTANT.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: BaseGlobals.inc
+  - line: 14
+    path: ListTraverse.inc
+  - line: 15
+    path: HonkHostility.inc
+  labels:
+  - line: 25
+    name: Main
+  - line: 39
+    name: InitHonkAccountant
+  - line: 63
+    name: OnTraverseDone
+  - line: 91
+    name: CollectMoney
+  - line: 100
+    name: CloseChest
+  - line: 107
+    name: DoPuzzle
+  - line: 114
+    name: TakeKey
+  - line: 126
+    name: ReplaceKey
+  - line: 133
+    name: OnObjectLinkBroken
+  - line: 148
+    name: KeyWasStolen
+  registered_triggers:
+  - line: 55
+    message: stolen
+    callback: KeyWasStolen
+    arguments_raw: stolen, KeyWasStolen
+  trigger_edges:
+  - line: 119
+    target_expression: hKey
+    message_expression: getkey
+    arguments_raw: hKey, getkey
+  - line: 128
+    target_expression: hKey
+    message_expression: putkey
+    arguments_raw: hKey, putkey
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 109
+    command: PlayAnim
+    arguments_raw: '"prop-fidget1", TraverseResume'
+  unknown_commands:
+  - line: 33
+    command: OnPostStartWorld
+    arguments_raw: InitHonkAccountant
+  - line: 34
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitHonkAccountant
+  - line: 46
+    command: CreateObjectLink
+    arguments_raw: hKey
+  - line: 47
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 50
+    command: unknown
+    arguments_raw: '@M 7 : 0,  TraverseBegin, DoNothing'
+  - line: 51
+    command: unknown
+    arguments_raw: '@M 19 : 0, TraverseBegin, DoNothing'
+  - line: 140
+    command: hKey
+    arguments_raw: = NULL
+  - line: 152
+    command: hKey
+    arguments_raw: = NULL
+  - line: 154
+    command: RemoveTrigger
+    arguments_raw: stolen
+  command_count: 68
+- script_id: honkfollower.scr
+  source_path: HONKFOLLOWER.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: ListTraverse.inc
+  - line: 14
+    path: baseWander.inc
+  - line: 15
+    path: HonkHostility.inc
+  labels:
+  - line: 36
+    name: Main
+  - line: 48
+    name: InitHonkFollower
+  - line: 83
+    name: OnObjectLinkBroken
+  - line: 95
+    name: OnRingGong
+  - line: 112
+    name: StartCeremony
+  - line: 124
+    name: OnTraverseDone
+  - line: 137
+    name: EndCeremony
+  - line: 147
+    name: PlayRandomAnim
+  registered_triggers: []
+  trigger_edges:
+  - line: 117
+    target_expression: hPodium
+    message_expression: FollowerReady
+    arguments_raw: hPodium, FollowerReady
+  movement_commands: []
+  state_commands:
+  - line: 51
+    command: SetStat
+    arguments_raw: hPodium, AutoDeactivate, FALSE
+  presentation_commands:
+  - line: 156
+    command: PlayAnim
+    arguments_raw: sAnim, PlayRandomAnim
+  unknown_commands:
+  - line: 42
+    command: OnPostStartWorld
+    arguments_raw: InitHonkFollower
+  - line: 43
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitHonkFollower
+  - line: 52
+    command: hPodium
+    arguments_raw: = NULL
+  - line: 56
+    command: GetConsoleStrVar
+    arguments_raw: HONK_PASTOR, sPastorName
+  - line: 59
+    command: CreateObjectLink
+    arguments_raw: hPodium
+  - line: 60
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 63
+    command: ArrayPut
+    arguments_raw: spAnims, 0, "hattack2"
+  - line: 64
+    command: ArrayPut
+    arguments_raw: spAnims, 1, "hattack1"
+  - line: 65
+    command: ArrayPut
+    arguments_raw: spAnims, 2, "fidget1"
+  - line: 66
+    command: ArrayPut
+    arguments_raw: spAnims, 3, "fidget2"
+  - line: 71
+    command: unknown
+    arguments_raw: '@M 6 : 15, OnRingGong, DoNothing'
+  - line: 72
+    command: unknown
+    arguments_raw: '@M 6 : 45, EndCeremony, DoNothing'
+  - line: 74
+    command: unknown
+    arguments_raw: '@M 18 : 15, OnRingGong, DoNothing'
+  - line: 75
+    command: unknown
+    arguments_raw: '@M 18 : 45, EndCeremony, DoNothing'
+  - line: 87
+    command: hPodium
+    arguments_raw: = NULL
+  - line: 103
+    command: bAttended
+    arguments_raw: = TRUE
+  - line: 106
+    command: FaceObject
+    arguments_raw: hPodium, 180, TraverseBegin
+  - line: 115
+    command: Stop
+    arguments_raw: ''
+  - line: 118
+    command: FaceObject
+    arguments_raw: hPodium, 180, PlayRandomAnim
+  - line: 140
+    command: bCeremonyDone
+    arguments_raw: = TRUE
+  - line: 154
+    command: GetRandomInt
+    arguments_raw: 1, 3, rand
+  - line: 155
+    command: ArrayGet
+    arguments_raw: spAnims, rand, sAnim
+  command_count: 68
+- script_id: honkfollowgoose.scr
+  source_path: HONKFOLLOWGOOSE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: BaseGlobals.inc
+  - line: 10
+    path: HonkHostility.inc
+  labels:
+  - line: 22
+    name: Main
+  - line: 33
+    name: CacheFiles
+  - line: 41
+    name: InitHonkFollowGoose
+  - line: 59
+    name: FollowLoop
+  - line: 68
+    name: CrazyRun
+  - line: 78
+    name: OnTargetDead
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: OnPostStartWorld
+    arguments_raw: InitHonkFollowGoose
+  - line: 27
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitHonkFollowGoose
+  - line: 28
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 35
+    command: CacheSound
+    arguments_raw: '"sounds\ambient\crowd01.wav"'
+  - line: 36
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\goose\wince1.wav"'
+  - line: 43
+    command: OnTargetDead
+    arguments_raw: OnTargetDead
+  - line: 50
+    command: Target
+    arguments_raw: hGoose, TRUE
+  - line: 62
+    command: RunTo
+    arguments_raw: hGoose, 64, CrazyRun
+  - line: 71
+    command: GetRandomInt
+    arguments_raw: -5000, 5000, diff
+  - line: 72
+    command: RunToPOS
+    arguments_raw: diff,diff,diff, 0, DoNothing
+  - line: 81
+    command: Stop
+    arguments_raw: ''
+  - line: 82
+    command: hGoose
+    arguments_raw: = NULL
+  - line: 84
+    command: AddEnemy
+    arguments_raw: Player
+  command_count: 31
+- script_id: honkfollowgoose2.scr
+  source_path: HONKFOLLOWGOOSE2.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: BaseGlobals.inc
+  - line: 10
+    path: HonkHostility.inc
+  labels:
+  - line: 22
+    name: Main
+  - line: 31
+    name: TurnHostilityOn
+  - line: 56
+    name: InitHonkFollowGoose
+  - line: 80
+    name: FollowLoop
+  - line: 89
+    name: CrazyRun
+  - line: 99
+    name: OnTargetDead
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 43
+    command: setstat
+    arguments_raw: g_hmyobject HitPoints g_ntemp
+  - line: 45
+    command: getstat
+    arguments_raw: g_hmyobject AC g_ntemp
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: OnPostStartWorld
+    arguments_raw: InitHonkFollowGoose
+  - line: 42
+    command: g_ntemp
+    arguments_raw: = 10
+  - line: 44
+    command: g_ntemp
+    arguments_raw: = 1
+  - line: 63
+    command: CacheSound
+    arguments_raw: sounds\ambient\crowd01.wav
+  - line: 64
+    command: OnTargetDead
+    arguments_raw: OnTargetDead
+  - line: 71
+    command: Target
+    arguments_raw: hGoose, TRUE
+  - line: 83
+    command: RunTo
+    arguments_raw: hGoose, 64, CrazyRun
+  - line: 92
+    command: GetRandomInt
+    arguments_raw: -5000, 5000, diff
+  - line: 93
+    command: RunToPOS
+    arguments_raw: diff,diff,diff, 0, DoNothing
+  - line: 102
+    command: Stop
+    arguments_raw: ''
+  - line: 103
+    command: hGoose
+    arguments_raw: = NULL
+  - line: 105
+    command: AddEnemy
+    arguments_raw: Player
+  command_count: 34
+- script_id: honkkey.scr
+  source_path: HONKKEY.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: BaseGlobals.inc
+  - line: 14
+    path: flags.inc
+  labels:
+  - line: 27
+    name: Main
+  - line: 38
+    name: InitHonkKey
+  - line: 61
+    name: OnObjectLinkBroken
+  - line: 68
+    name: GivePlayerKey
+  - line: 86
+    name: RemoveKey
+  - line: 94
+    name: ReplaceKey
+  registered_triggers:
+  - line: 54
+    message: use
+    callback: GivePlayerKey
+    arguments_raw: use, GivePlayerKey
+  - line: 55
+    message: getkey
+    callback: RemoveKey
+    arguments_raw: getkey, RemoveKey
+  - line: 56
+    message: putkey
+    callback: ReplaceKey
+    arguments_raw: putkey, ReplaceKey
+  - line: 97
+    message: use
+    callback: GivePlayerKey
+    arguments_raw: use, GivePlayerKey
+  trigger_edges:
+  - line: 72
+    target_expression: hDoor
+    message_expression: unlockbuttons
+    arguments_raw: hDoor, unlockbuttons
+  - line: 77
+    target_expression: hAcct
+    message_expression: stolen
+    arguments_raw: hAcct, stolen
+  movement_commands: []
+  state_commands:
+  - line: 88
+    command: ClearFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  - line: 96
+    command: SetFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: OnPostStartWorld
+    arguments_raw: InitHonkKey
+  - line: 33
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitHonkKey
+  - line: 44
+    command: CreateObjectLink
+    arguments_raw: hAcct
+  - line: 45
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 48
+    command: HasKey
+    arguments_raw: KEY_HONKKEY, bKeyGone
+  - line: 50
+    command: RemoveObject
+    arguments_raw: hMe
+  - line: 63
+    command: hAcct
+    arguments_raw: = NULL
+  - line: 70
+    command: GiveKey
+    arguments_raw: KEY_HONKKEY
+  - line: 71
+    command: GiveItem
+    arguments_raw: ITEM_HONKKEY
+  - line: 75
+    command: GetDistance
+    arguments_raw: hMe, hAcct, bKeyGone
+  - line: 76
+    command: unknown
+    arguments_raw: if( bKeyGone<200 )
+  - line: 81
+    command: RemoveObject
+    arguments_raw: hMe
+  - line: 89
+    command: RemoveTrigger
+    arguments_raw: use
+  command_count: 40
+- script_id: honkleader.scr
+  source_path: HONKLEADER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: BaseGlobals.inc
+  - line: 9
+    path: HonkHostility.inc
+  labels:
+  - line: 28
+    name: Main
+  - line: 41
+    name: CacheFiles
+  - line: 48
+    name: InitHonkFollower
+  - line: 66
+    name: StartCeremony
+  - line: 89
+    name: RingGong
+  - line: 103
+    name: EndCeremony
+  - line: 123
+    name: Pace
+  - line: 139
+    name: RandomPreach
+  - line: 156
+    name: InitStrings
+  registered_triggers:
+  - line: 52
+    message: FollowerReady
+    callback: StartCeremony
+    arguments_raw: FollowerReady, StartCeremony
+  trigger_edges:
+  - line: 76
+    target_expression: hFire
+    message_expression: 'on'
+    arguments_raw: hFire, on
+  - line: 80
+    target_expression: hFire
+    message_expression: 'on'
+    arguments_raw: hFire, on
+  - line: 112
+    target_expression: hFire
+    message_expression: 'Off'
+    arguments_raw: hFire, Off
+  - line: 117
+    target_expression: hFire
+    message_expression: 'Off'
+    arguments_raw: hFire, Off
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 105
+    command: LoopAnim
+    arguments_raw: '"prop-stand", 0'
+  - line: 147
+    command: PlayAnim
+    arguments_raw: sHolder
+  unknown_commands:
+  - line: 31
+    command: GetObjectName
+    arguments_raw: hFire, sMyName
+  - line: 32
+    command: SetConsoleStrVar
+    arguments_raw: HONK_PASTOR, sMyName
+  - line: 34
+    command: OnPostStartWorld
+    arguments_raw: InitHonkFollower
+  - line: 35
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitHonkFollower
+  - line: 36
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 43
+    command: CacheSound
+    arguments_raw: '"sounds\events\churchbellring.wav"'
+  - line: 54
+    command: unknown
+    arguments_raw: '@M 6 : 15, RingGong, DoNothing'
+  - line: 55
+    command: unknown
+    arguments_raw: '@M 6 : 45, EndCeremony, DoNothing'
+  - line: 57
+    command: unknown
+    arguments_raw: '@M 18 : 15, RingGong, DoNothing'
+  - line: 58
+    command: unknown
+    arguments_raw: '@M 18 : 45, EndCeremony, DoNothing'
+  - line: 72
+    command: bBeginCeremony
+    arguments_raw: = TRUE
+  - line: 83
+    command: FaceDir
+    arguments_raw: -1,0,0, 180, RandomPreach
+  - line: 91
+    command: bEndCeremony
+    arguments_raw: = FALSE
+  - line: 92
+    command: bBeginCeremony
+    arguments_raw: = TRUE
+  - line: 97
+    command: bAttended
+    arguments_raw: = TRUE
+  - line: 106
+    command: Stop
+    arguments_raw: ''
+  - line: 107
+    command: bEndCeremony
+    arguments_raw: = TRUE
+  - line: 108
+    command: bBeginCeremony
+    arguments_raw: = FALSE
+  - line: 129
+    command: GetRandomInt
+    arguments_raw: 1, 3, nRandom
+  - line: 130
+    command: ArrayGet
+    arguments_raw: spObjects, nRandom, sHolder
+  - line: 133
+    command: WalkTo
+    arguments_raw: hPlatform, 0, RandomPreach
+  - line: 141
+    command: Stop
+    arguments_raw: ''
+  - line: 143
+    command: FaceDir
+    arguments_raw: -1,0,0, 270, DoNothing
+  - line: 145
+    command: GetRandomInt
+    arguments_raw: 0, 3, nRandom
+  - line: 146
+    command: ArrayGet
+    arguments_raw: spAnims, nRandom, sHolder
+  - line: 149
+    command: GetRandomInt
+    arguments_raw: 0, 3, nRandom
+  - line: 150
+    command: ArrayGet
+    arguments_raw: spSounds, nRandom, sHolder
+  - line: 158
+    command: ArrayPut
+    arguments_raw: spAnims, 0, "prop-fidget1"
+  - line: 159
+    command: ArrayPut
+    arguments_raw: spAnims, 1, "prop-fidget2"
+  - line: 160
+    command: ArrayPut
+    arguments_raw: spAnims, 2, "fidget1"
+  - line: 161
+    command: ArrayPut
+    arguments_raw: spAnims, 3, "prop-stand"
+  - line: 163
+    command: ArrayPut
+    arguments_raw: spSounds, 0, "sounds\ambient\thunder04.wav"
+  - line: 164
+    command: ArrayPut
+    arguments_raw: spSounds, 1, "sounds\ambient\thunder03.wav"
+  - line: 165
+    command: ArrayPut
+    arguments_raw: spSounds, 2, "sounds\ambient\thunder02.wav"
+  - line: 166
+    command: ArrayPut
+    arguments_raw: spSounds, 3, "sounds\ambient\thunder01.wav"
+  - line: 168
+    command: ArrayPut
+    arguments_raw: spObjects, 0, "PlatformMarker0"
+  - line: 169
+    command: ArrayPut
+    arguments_raw: spObjects, 1, "PlatformMarker1"
+  - line: 170
+    command: ArrayPut
+    arguments_raw: spObjects, 2, "PlatformMarker2"
+  - line: 171
+    command: ArrayPut
+    arguments_raw: spObjects, 3, "PlatformMarker3"
+  command_count: 86
+- script_id: honksecretdoor.scr
+  source_path: HONKSECRETDOOR.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 27
+    name: dn
+  - line: 33
+    name: OpenDoor
+  - line: 42
+    name: resetButtons
+  - line: 59
+    name: hpressed
+  - line: 73
+    name: opressed
+  - line: 87
+    name: npressed
+  - line: 101
+    name: kpressed
+  - line: 128
+    name: UnlockButtons
+  - line: 141
+    name: Main2
+  - line: 167
+    name: Main
+  registered_triggers:
+  - line: 170
+    message: reset
+    callback: resetButtons
+    arguments_raw: reset resetButtons
+  - line: 172
+    message: UnlockButtons
+    callback: UnlockButtons
+    arguments_raw: UnlockButtons UnlockButtons
+  - line: 173
+    message: hPressed
+    callback: hPressed
+    arguments_raw: hPressed hPressed
+  - line: 174
+    message: oPressed
+    callback: oPressed
+    arguments_raw: oPressed oPressed
+  - line: 175
+    message: nPressed
+    callback: nPressed
+    arguments_raw: nPressed nPressed
+  - line: 176
+    message: kPressed
+    callback: kPressed
+    arguments_raw: kPressed kPressed
+  trigger_edges:
+  - line: 36
+    target_expression: hSecretDoor
+    message_expression: open
+    arguments_raw: hSecretDoor open
+  - line: 48
+    target_expression: hHColumn
+    message_expression: close
+    arguments_raw: hHColumn close
+  - line: 50
+    target_expression: hOColumn
+    message_expression: close
+    arguments_raw: hOColumn close
+  - line: 52
+    target_expression: hNColumn
+    message_expression: close
+    arguments_raw: hNColumn close
+  - line: 54
+    target_expression: hKColumn
+    message_expression: close
+    arguments_raw: hKColumn close
+  - line: 131
+    target_expression: hHButton
+    message_expression: unlock
+    arguments_raw: hHButton unlock
+  - line: 132
+    target_expression: hOButton
+    message_expression: unlock
+    arguments_raw: hOButton unlock
+  - line: 133
+    target_expression: hNButton
+    message_expression: unlock
+    arguments_raw: hNButton unlock
+  - line: 134
+    target_expression: hKButton
+    message_expression: unlock
+    arguments_raw: hKButton unlock
+  - line: 156
+    target_expression: hHButton
+    message_expression: unlock
+    arguments_raw: hHButton unlock
+  - line: 157
+    target_expression: hOButton
+    message_expression: unlock
+    arguments_raw: hOButton unlock
+  - line: 158
+    target_expression: hNButton
+    message_expression: unlock
+    arguments_raw: hNButton unlock
+  - line: 159
+    target_expression: hKButton
+    message_expression: unlock
+    arguments_raw: hKButton unlock
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 45
+    command: nOkSooFar
+    arguments_raw: = 0
+  - line: 46
+    command: count
+    arguments_raw: = 0
+  - line: 63
+    command: count
+    arguments_raw: = count + 1
+  - line: 65
+    command: nOkSooFar
+    arguments_raw: = 1
+  - line: 77
+    command: count
+    arguments_raw: = count + 1
+  - line: 79
+    command: nOkSooFar
+    arguments_raw: = 1
+  - line: 91
+    command: count
+    arguments_raw: = count + 1
+  - line: 93
+    command: nOkSooFar
+    arguments_raw: = 1
+  - line: 105
+    command: count
+    arguments_raw: = count + 1
+  - line: 107
+    command: nOkSooFar
+    arguments_raw: = 1
+  - line: 113
+    command: HasKey
+    arguments_raw: nKeyNumber nHasKey
+  - line: 154
+    command: HasKey
+    arguments_raw: nKeyNumber nHasKey
+  command_count: 81
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+validation:
+  script_count: 11

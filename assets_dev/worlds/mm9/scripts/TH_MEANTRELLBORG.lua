@@ -23,53 +23,53 @@ end
 
 script.labels["Start"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:31
-    ctx:command("bisjousting", "= TRUE") -- TH_MEANTRELLBORG.scr:33
+    ctx:state().bIsJousting = true -- TH_MEANTRELLBORG.scr:33
     mm9.gosub(script, ctx, "StartAnimations") -- TH_MEANTRELLBORG.scr:34
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:35
 end
 
 script.labels["TurnOff"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:37
-    ctx:command("wait", "1, 1, DoNothing") -- TH_MEANTRELLBORG.scr:39
-    ctx:command("bisjousting", "= FALSE") -- TH_MEANTRELLBORG.scr:40
+    ctx:wait(1, 1, "DoNothing") -- TH_MEANTRELLBORG.scr:39
+    ctx:state().bIsJousting = false -- TH_MEANTRELLBORG.scr:40
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:41
 end
 
 script.labels["AnimationA"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:44
-    ctx:command("stop", "") -- TH_MEANTRELLBORG.scr:45
-    ctx:command("playanim", "Stand, AnimationB") -- TH_MEANTRELLBORG.scr:46
+    ctx:self():stop() -- TH_MEANTRELLBORG.scr:45
+    ctx:self():playAnimation("Stand", "AnimationB") -- TH_MEANTRELLBORG.scr:46
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:47
 end
 
 script.labels["AnimationB"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:48
-    ctx:command("playanim", "Fidget3, AnimationC") -- TH_MEANTRELLBORG.scr:49
+    ctx:self():playAnimation("Fidget3", "AnimationC") -- TH_MEANTRELLBORG.scr:49
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:50
 end
 
 script.labels["AnimationC"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:51
-    ctx:command("playanim", "Fidget1, AnimationD") -- TH_MEANTRELLBORG.scr:52
+    ctx:self():playAnimation("Fidget1", "AnimationD") -- TH_MEANTRELLBORG.scr:52
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:53
 end
 
 script.labels["AnimationD"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:54
-    ctx:command("playanim", "Taunt, LaunchHorse") -- TH_MEANTRELLBORG.scr:55
+    ctx:self():playAnimation("Taunt", "LaunchHorse") -- TH_MEANTRELLBORG.scr:55
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:56
 end
 
 script.labels["LaunchHorse"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:57
     ctx:trigger("hSwitch", "Use") -- TH_MEANTRELLBORG.scr:58
-    ctx:command("faceobject", "hTrellborg, 180") -- TH_MEANTRELLBORG.scr:59
+    ctx:self():faceObject(ctx:object("hTrellborg"), 180) -- TH_MEANTRELLBORG.scr:59
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:60
 end
 
 script.labels["ResetSwitch"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:65
-    ctx:command("faceobject", "hSwitch, 180") -- TH_MEANTRELLBORG.scr:67
+    ctx:self():faceObject(ctx:object("hSwitch"), 180) -- TH_MEANTRELLBORG.scr:67
     ctx:trigger("hSwitch", "Use") -- TH_MEANTRELLBORG.scr:68
     do return ctx:exit("TRUE") end -- TH_MEANTRELLBORG.scr:69
 end
@@ -85,8 +85,8 @@ end
 
 script.labels["Main2"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:82
-    ctx:command("getobjecthandle", "sSwitch, hSwitch") -- TH_MEANTRELLBORG.scr:84
-    ctx:command("getobjecthandle", "sTrellborg, hTrellborg") -- TH_MEANTRELLBORG.scr:85
+    ctx:state().hSwitch = ctx:objectOrNil("sSwitch") -- TH_MEANTRELLBORG.scr:84
+    ctx:state().hTrellborg = ctx:objectOrNil("sTrellborg") -- TH_MEANTRELLBORG.scr:85
     ctx:addTrigger("Go", "Start") -- TH_MEANTRELLBORG.scr:86
     ctx:addTrigger("Stop", "TurnOff") -- TH_MEANTRELLBORG.scr:87
     ctx:addTrigger("Switch", "ResetSwitch") -- TH_MEANTRELLBORG.scr:88
@@ -99,7 +99,7 @@ script.labels["Main"] = function(ctx)
     -- TH_MEANTRELLBORG.scr:93
     ctx:getParam(0, "sSwitch") -- TH_MEANTRELLBORG.scr:95
     ctx:getParam(1, "sTrellborg") -- TH_MEANTRELLBORG.scr:96
-    ctx:command("onpoststartworld", "Main2") -- TH_MEANTRELLBORG.scr:97
+    ctx:onEvent("OnPostStartWorld", "Main2") -- TH_MEANTRELLBORG.scr:97
     do return ctx:exit("") end -- TH_MEANTRELLBORG.scr:98
 end
 

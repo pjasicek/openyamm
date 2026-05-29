@@ -17,11 +17,11 @@ script.includes[#script.includes + 1] = { line = 9, path = "globals.inc" }
 script.labels["OnUse"] = function(ctx)
     -- COTD_COFFIN.scr:24
     if ctx:condition("nOpened==False") then -- COTD_COFFIN.scr:27
-        ctx:command("playanim", "Open DoNothing") -- COTD_COFFIN.scr:28
-        ctx:command("set", "nOpened, True") -- COTD_COFFIN.scr:29
+        ctx:self():playAnimation("Open", "DoNothing") -- COTD_COFFIN.scr:28
+        ctx:state().nOpened = true -- COTD_COFFIN.scr:29
         do return ctx:exit("") end -- COTD_COFFIN.scr:30
     end -- COTD_COFFIN.scr:31
-    ctx:command("getobjecthandle", "Target g_hobject") -- COTD_COFFIN.scr:33
+    ctx:state().g_hobject = ctx:objectOrNil("Target") -- COTD_COFFIN.scr:33
     if ctx:condition("g_hobject!=null") then -- COTD_COFFIN.scr:34
         ctx:trigger("g_hobject", "message") -- COTD_COFFIN.scr:35
         do return ctx:exit("") end -- COTD_COFFIN.scr:36

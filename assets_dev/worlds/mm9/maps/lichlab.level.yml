@@ -4,6 +4,7 @@ map_id: lichlab
 display_name: Lich Lab
 source:
   dat: ../source/worlds/LICHLAB.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/LICHLAB.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: lichlab.raw_objects.yml
   materials: lichlab.material_aliases.yml
   events: lichlab.events.yml
-  scene_compat: lichlab.scene.yml
+  scene_compat: null
   source_metadata_compat: lichlab.mm9.yml
-  bsp_compat: lichlab.bsp.yml
-  geometry_compat: lichlab.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: lichlab.blv
+  blv_compat: null
 scripts:
   level: ../events/lichlab.lua
   script_ir: ../events/lichlab.script_ir.yml

@@ -19,13 +19,12 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "LISTNAME") -- BONEDRAGON.scr:22
     ctx:getParam(1, "LISTFIRST") -- BONEDRAGON.scr:23
     ctx:getParam(2, "LISTLAST") -- BONEDRAGON.scr:24
-    ctx:command("wait", "0, 1, InitBoneDragon") -- BONEDRAGON.scr:26
+    ctx:wait(0, 1, "InitBoneDragon") -- BONEDRAGON.scr:26
     do return ctx:exit("TRUE") end -- BONEDRAGON.scr:28
 end
 
 script.labels["InitBoneDragon"] = function(ctx)
     -- BONEDRAGON.scr:31
-    ctx:command("getmyhandle", "hMe") -- BONEDRAGON.scr:33
     do return ctx:exit("TRUE") end -- BONEDRAGON.scr:34
 end
 

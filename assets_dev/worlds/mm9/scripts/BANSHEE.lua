@@ -14,22 +14,22 @@ script.includes[#script.includes + 1] = { line = 11, path = "FlyRange.inc" }
 -- attack is done.
 script.labels["GoNormal"] = function(ctx)
     -- BANSHEE.scr:19
-    ctx:command("wait", "UNDEAD_WAIT, 0, DoNothing") -- BANSHEE.scr:22
-    ctx:command("setstat", "g_hMyObject,Undead, FALSE") -- BANSHEE.scr:24
+    ctx:wait("UNDEAD_WAIT", 0, "DoNothing") -- BANSHEE.scr:22
+    ctx:self():setStat("Undead", "FALSE") -- BANSHEE.scr:24
     do return ctx:exit("") end -- BANSHEE.scr:26
 end
 
 script.labels["GoUndead"] = function(ctx)
     -- BANSHEE.scr:29
-    ctx:command("setstat", "g_hMyObject,Undead, TRUE") -- BANSHEE.scr:32
+    ctx:self():setStat("Undead", "TRUE") -- BANSHEE.scr:32
     -- Make sure we don't stay undead....
-    ctx:command("wait", "UNDEAD_WAIT, 5, GoNormal") -- BANSHEE.scr:36
+    ctx:wait("UNDEAD_WAIT", 5, "GoNormal") -- BANSHEE.scr:36
     do return ctx:exit("") end -- BANSHEE.scr:38
 end
 
 script.labels["BaseFlyAttack"] = function(ctx)
     -- BANSHEE.scr:42
-    ctx:command("getstat", "g_hMyObject,Undead,g_bTemp") -- BANSHEE.scr:45
+    ctx:state().g_bTemp = ctx:self():getStat("Undead") -- BANSHEE.scr:45
     if ctx:condition("g_bTemp==FALSE") then -- BANSHEE.scr:47
         mm9.gosub(script, ctx, "GoUndead") -- BANSHEE.scr:48
     end -- BANSHEE.scr:49
@@ -54,9 +54,9 @@ end
 script.labels["Main"] = function(ctx)
     -- BANSHEE.scr:74
     mm9.gosub(script, ctx, "FlyRangeInit") -- BANSHEE.scr:77
-    ctx:command("g_backoffyval", "= 0.2") -- BANSHEE.scr:79
-    ctx:command("g_backofftime", "= 0.6") -- BANSHEE.scr:80
-    ctx:command("hidepiece", "Cloth") -- BANSHEE.scr:82
+    ctx:set("g_backOffYVal", 0.2) -- BANSHEE.scr:79
+    ctx:set("g_backOffTime", 0.6) -- BANSHEE.scr:80
+    ctx:hidePiece("Cloth") -- BANSHEE.scr:82
     do return ctx:exit("") end -- BANSHEE.scr:84
 end
 

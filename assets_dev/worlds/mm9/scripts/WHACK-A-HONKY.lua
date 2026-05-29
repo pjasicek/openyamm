@@ -26,8 +26,7 @@ script.labels["Main"] = function(ctx)
     ctx:addTrigger("reset", "ResetPOS") -- WHACK-A-HONKY.scr:36
     -- global counter
     ctx:setConsoleNumVar("WHACK_COUNTER", 0) -- WHACK-A-HONKY.scr:39
-    ctx:command("getmyhandle", "hMe") -- WHACK-A-HONKY.scr:41
-    ctx:command("getpos", "hMe, xMe,yMe,zMe") -- WHACK-A-HONKY.scr:42
+    ctx:state().xMe, ctx:state().yMe, ctx:state().zMe = ctx:self():pos() -- WHACK-A-HONKY.scr:42
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:44
 end
 
@@ -44,8 +43,8 @@ script.labels["StartGame"] = function(ctx)
     mm9.gosub(script, ctx, "ResetPOS") -- WHACK-A-HONKY.scr:59
     -- timers for start and win
     mm9.gosub(script, ctx, "Countdown5") -- WHACK-A-HONKY.scr:62
-    ctx:command("wait", "0, 5, ReceivePopup") -- WHACK-A-HONKY.scr:63
-    ctx:command("wait", "19, 15, EndGame") -- WHACK-A-HONKY.scr:64
+    ctx:wait(0, 5, "ReceivePopup") -- WHACK-A-HONKY.scr:63
+    ctx:wait(19, 15, "EndGame") -- WHACK-A-HONKY.scr:64
     mm9.gosub(script, ctx, "DisableInput") -- WHACK-A-HONKY.scr:66
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:68
 end
@@ -59,11 +58,11 @@ script.labels["EndGame"] = function(ctx)
     if ctx:condition("nWhackCounter>=WIN_CONDITION") then -- WHACK-A-HONKY.scr:78
         mm9.gosub(script, ctx, "RecordHonkyWin") -- WHACK-A-HONKY.scr:79
     else -- WHACK-A-HONKY.scr:80
-        ctx:command("rollovertext", "TEXT_DEFEAT, 1, 3000, 2000") -- WHACK-A-HONKY.scr:81
+        ctx:rolloverText("TEXT_DEFEAT", 1, 3000, 2000) -- WHACK-A-HONKY.scr:81
     end -- WHACK-A-HONKY.scr:82
     -- reset counters
     ctx:setConsoleNumVar("WHACK_COUNTER", 0) -- WHACK-A-HONKY.scr:85
-    ctx:command("nwhackcounter", "= 0") -- WHACK-A-HONKY.scr:86
+    ctx:state().nWhackCounter = 0 -- WHACK-A-HONKY.scr:86
     mm9.gosub(script, ctx, "EnableInput") -- WHACK-A-HONKY.scr:88
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:90
 end
@@ -79,8 +78,8 @@ script.labels["ReceivePopup"] = function(ctx)
     end -- WHACK-A-HONKY.scr:101
     -- enable user input
     ctx:addTrigger("use", "OnDamage") -- WHACK-A-HONKY.scr:104
-    ctx:command("bsent", "= FALSE") -- WHACK-A-HONKY.scr:106
-    ctx:command("movedir", "0,1,0, 20, 100, OnFinishedRaise") -- WHACK-A-HONKY.scr:108
+    ctx:state().bSent = false -- WHACK-A-HONKY.scr:106
+    ctx:self():moveDir(0, 1, 0, 20, 100, "OnFinishedRaise") -- WHACK-A-HONKY.scr:108
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:110
 end
 
@@ -89,9 +88,9 @@ script.labels["OnDamage"] = function(ctx)
     -- play sound, check victory
     -- increment global counter
     ctx:getConsoleNumVar("WHACK_COUNTER", "nWhackCounter") -- WHACK-A-HONKY.scr:117
-    ctx:command("nwhackcounter", "= nWhackCounter + 1") -- WHACK-A-HONKY.scr:118
+    ctx:set("nWhackCounter", "nWhackCounter + 1") -- WHACK-A-HONKY.scr:118
     ctx:setConsoleNumVar("WHACK_COUNTER", "nWhackCounter") -- WHACK-A-HONKY.scr:119
-    ctx:command("playsound", "\"sounds\\animsounds\\hen\\fidget01.wav\", DoNothing, 1, 1000, FALSE, 100") -- WHACK-A-HONKY.scr:121
+    ctx:playSound("sounds\\animsounds\\hen\\fidget01.wav", "DoNothing", 1, 1000, "FALSE", 100) -- WHACK-A-HONKY.scr:121
     mm9.gosub(script, ctx, "SendPopup") -- WHACK-A-HONKY.scr:123
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:125
 end
@@ -104,30 +103,30 @@ script.labels["SendPopup"] = function(ctx)
     if ctx:condition("bSent==TRUE") then -- WHACK-A-HONKY.scr:133
         do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:134
     else -- WHACK-A-HONKY.scr:135
-        ctx:command("bsent", "= TRUE") -- WHACK-A-HONKY.scr:136
+        ctx:state().bSent = true -- WHACK-A-HONKY.scr:136
     end -- WHACK-A-HONKY.scr:137
     -- disable user input until finished
-    ctx:command("removetrigger", "use") -- WHACK-A-HONKY.scr:140
-    ctx:command("movetopos", "xMe,yMe,zMe, 100, OnFinishedLower") -- WHACK-A-HONKY.scr:142
+    ctx:removeTrigger("use") -- WHACK-A-HONKY.scr:140
+    ctx:self():moveToPos("xMe", "yMe", "zMe", 100, "OnFinishedLower") -- WHACK-A-HONKY.scr:142
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:144
 end
 
 script.labels["OnFinishedRaise"] = function(ctx)
     -- WHACK-A-HONKY.scr:147
     -- wait before returning
-    ctx:command("getrandomfloat", ".5, 1, dt") -- WHACK-A-HONKY.scr:150
+    ctx:randomFloat(.5, 1, "dt") -- WHACK-A-HONKY.scr:150
     -- wait at top for a bit
-    ctx:command("wait", "0, dt, SendPopup") -- WHACK-A-HONKY.scr:153
+    ctx:wait(0, "dt", "SendPopup") -- WHACK-A-HONKY.scr:153
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:155
 end
 
 script.labels["OnFinishedLower"] = function(ctx)
     -- WHACK-A-HONKY.scr:158
     -- trigger next random mole
-    ctx:command("getrandomint", "LISTFIRST, LISTLAST, LISTINDEX") -- WHACK-A-HONKY.scr:161
+    ctx:randomInt("LISTFIRST", "LISTLAST", "LISTINDEX") -- WHACK-A-HONKY.scr:161
     -- make sure we dont psych ourselves out
     while ctx:condition("LISTINDEX==nMyIndex") do -- WHACK-A-HONKY.scr:163
-        ctx:command("getrandomint", "LISTFIRST, LISTLAST, LISTINDEX") -- WHACK-A-HONKY.scr:164
+        ctx:randomInt("LISTFIRST", "LISTLAST", "LISTINDEX") -- WHACK-A-HONKY.scr:164
     end -- WHACK-A-HONKY.scr:165
     mm9.gosub(script, ctx, "GetCurrentObject") -- WHACK-A-HONKY.scr:167
     ctx:trigger("LISTOBJECT", "popup") -- WHACK-A-HONKY.scr:168
@@ -136,7 +135,7 @@ end
 
 script.labels["DisableInput"] = function(ctx)
     -- WHACK-A-HONKY.scr:173
-    ctx:command("removetrigger", "start") -- WHACK-A-HONKY.scr:175
+    ctx:removeTrigger("start") -- WHACK-A-HONKY.scr:175
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:177
 end
 
@@ -148,7 +147,7 @@ end
 
 script.labels["ResetPOS"] = function(ctx)
     -- WHACK-A-HONKY.scr:187
-    ctx:command("setpos", "hMe, xMe,yMe,zMe") -- WHACK-A-HONKY.scr:189
+    ctx:self():setPos("xMe", "yMe", "zMe") -- WHACK-A-HONKY.scr:189
     do return ctx:exit("TRUE") end -- WHACK-A-HONKY.scr:191
 end
 

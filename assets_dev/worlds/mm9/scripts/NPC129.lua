@@ -15,21 +15,21 @@ script.labels["PromotePriest"] = function(ctx)
     -- NPC129.scr:35
     -- Player has already completed the quest
     -- just check to see who gets promoted
-    ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC129.scr:40
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC129.scr:40
     if ctx:hasKey(441) then -- NPC129.scr:41-42
-        ctx:command("givepromo", "Priest Char1") -- NPC129.scr:43
+        ctx:givePromo("Priest", "Char1") -- NPC129.scr:43
         ctx:takeKey(441) -- NPC129.scr:44
     end -- NPC129.scr:45
     if ctx:hasKey(442) then -- NPC129.scr:47-48
-        ctx:command("givepromo", "Priest Char2") -- NPC129.scr:49
+        ctx:givePromo("Priest", "Char2") -- NPC129.scr:49
         ctx:takeKey(442) -- NPC129.scr:50
     end -- NPC129.scr:51
     if ctx:hasKey(443) then -- NPC129.scr:53-54
-        ctx:command("givepromo", "Priest Char3") -- NPC129.scr:55
+        ctx:givePromo("Priest", "Char3") -- NPC129.scr:55
         ctx:takeKey(443) -- NPC129.scr:56
     end -- NPC129.scr:57
     if ctx:hasKey(444) then -- NPC129.scr:59-60
-        ctx:command("givepromo", "Priest Char4") -- NPC129.scr:61
+        ctx:givePromo("Priest", "Char4") -- NPC129.scr:61
         ctx:takeKey(444) -- NPC129.scr:62
     end -- NPC129.scr:63
     do return ctx:exit("") end -- NPC129.scr:64
@@ -76,7 +76,7 @@ script.labels["priest"] = function(ctx)
     if not ctx:hasKey(261) then -- NPC129.scr:124-125
         if ctx:hasKey(260) then -- NPC129.scr:126-127
             ctx:giveExp(63000) -- NPC129.scr:128
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC129.scr:129
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC129.scr:129
             ctx:giveGold(5000) -- NPC129.scr:130
             ctx:giveKey(261) -- NPC129.scr:131
             ctx:takeItem(241) -- NPC129.scr:132
@@ -92,7 +92,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC129.scr:149
-    ctx:command("playsound", "voices\\NPC\\NPC_129.wav, Onexit, 100, 240, FALSE, 100") -- NPC129.scr:152
+    ctx:playSound("voices\\NPC\\NPC_129.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC129.scr:152
     do return ctx:exit("") end -- NPC129.scr:153
 end
 

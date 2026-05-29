@@ -17,17 +17,17 @@ script.includes[#script.includes + 1] = { line = 15, path = "basecrawl.inc" }
 -- their range is not as powerful...
 script.labels["PreRangeAttack"] = function(ctx)
     -- NEWRANGE.inc:24
-    ctx:command("gettime", "g_lastAttackTime") -- NEWRANGE.inc:26
-    ctx:command("stop", "") -- NEWRANGE.inc:28
+    ctx:getTime("g_lastAttackTime") -- NEWRANGE.inc:26
+    ctx:self():stop() -- NEWRANGE.inc:28
     -- Make sure we face our target during the attack anim...
-    ctx:command("target", "g_hTarget, TRUE") -- NEWRANGE.inc:31
-    ctx:command("faceobject", "g_hTarget, 360") -- NEWRANGE.inc:33
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- NEWRANGE.inc:31
+    ctx:self():faceObject(ctx:object("g_hTarget"), 360) -- NEWRANGE.inc:33
     do return ctx:exit("") end -- NEWRANGE.inc:36
 end
 
 script.labels["DoRangeAttack"] = function(ctx)
     -- NEWRANGE.inc:39
-    ctx:command("rangeattack", "RangeAttackDone") -- NEWRANGE.inc:42
+    ctx:self():rangeAttack("RangeAttackDone") -- NEWRANGE.inc:42
     do return ctx:exit("") end -- NEWRANGE.inc:44
 end
 
@@ -54,35 +54,35 @@ end
 script.labels["CheckRangeTick"] = function(ctx)
     -- NEWRANGE.inc:75
     -- See if we can range attack the target....
-    ctx:command("getrandomfloat", "RANGE_ATTACK_CHECK_MIN, RANGE_ATTACK_CHECK_MAX, g_nRandom") -- NEWRANGE.inc:81
-    ctx:command("wait", "ATTACK_CHECK_WAIT, g_nRandom, CheckRangeTick") -- NEWRANGE.inc:83
+    ctx:randomFloat("RANGE_ATTACK_CHECK_MIN", "RANGE_ATTACK_CHECK_MAX", "g_nRandom") -- NEWRANGE.inc:81
+    ctx:wait("ATTACK_CHECK_WAIT", "g_nRandom", "CheckRangeTick") -- NEWRANGE.inc:83
     if ctx:condition("g_hTarget==NULL") then -- NEWRANGE.inc:85
         do return ctx:exit("") end -- NEWRANGE.inc:86
     end -- NEWRANGE.inc:87
-    ctx:command("canrangeattack", "g_bCanAttack") -- NEWRANGE.inc:89
+    ctx:state().g_bCanAttack = ctx:self():canRangeAttack() -- NEWRANGE.inc:89
     if ctx:condition("g_bCanAttack==FALSE") then -- NEWRANGE.inc:91
         do return ctx:exit("") end -- NEWRANGE.inc:92
     end -- NEWRANGE.inc:93
-    ctx:command("estimaterangeattackhit", "g_hObject") -- NEWRANGE.inc:95
-    ctx:command("g_attackchance", "= 0") -- NEWRANGE.inc:97
+    ctx:self():estimateRangeAttackHit(ctx:object("g_hObject")) -- NEWRANGE.inc:95
+    ctx:state().g_attackChance = 0 -- NEWRANGE.inc:97
     if ctx:condition("g_hObject==NULL") then -- NEWRANGE.inc:99
-        ctx:command("g_attackchance", "= 20") -- NEWRANGE.inc:100
+        ctx:state().g_attackChance = 20 -- NEWRANGE.inc:100
     else -- NEWRANGE.inc:101
         if ctx:condition("g_hObject==g_hTarget") then -- NEWRANGE.inc:102
-            ctx:command("g_attackchance", "= 100") -- NEWRANGE.inc:103
+            ctx:state().g_attackChance = 100 -- NEWRANGE.inc:103
         else -- NEWRANGE.inc:104
-            ctx:command("isclass", "g_hObject,AIBase,g_bTemp") -- NEWRANGE.inc:105
+            ctx:state().g_bTemp = ctx:object("g_hObject"):isClass("AIBase") -- NEWRANGE.inc:105
             if ctx:condition("g_bTemp==TRUE") then -- NEWRANGE.inc:107
-                ctx:command("g_attackchance", "= 0") -- NEWRANGE.inc:108
+                ctx:state().g_attackChance = 0 -- NEWRANGE.inc:108
             else -- NEWRANGE.inc:109
-                ctx:command("g_attackchance", "= 20") -- NEWRANGE.inc:110
+                ctx:state().g_attackChance = 20 -- NEWRANGE.inc:110
             end -- NEWRANGE.inc:111
         end -- NEWRANGE.inc:112
     end -- NEWRANGE.inc:113
     if ctx:condition("g_attackChance==0") then -- NEWRANGE.inc:115
         do return ctx:exit("") end -- NEWRANGE.inc:116
     end -- NEWRANGE.inc:117
-    ctx:command("getrandomint", "0, 100, g_nRandom") -- NEWRANGE.inc:119
+    ctx:randomInt(0, 100, "g_nRandom") -- NEWRANGE.inc:119
     if ctx:condition("g_nRandom > g_attackChance") then -- NEWRANGE.inc:121
         do return ctx:exit("") end -- NEWRANGE.inc:122
     end -- NEWRANGE.inc:123
@@ -98,7 +98,7 @@ end
 
 script.labels["CheckRangeAttackStop"] = function(ctx)
     -- NEWRANGE.inc:138
-    ctx:command("wait", "ATTACK_CHECK_WAIT, 0, DoNothing") -- NEWRANGE.inc:141
+    ctx:wait("ATTACK_CHECK_WAIT", 0, "DoNothing") -- NEWRANGE.inc:141
     do return ctx:exit("") end -- NEWRANGE.inc:143
 end
 

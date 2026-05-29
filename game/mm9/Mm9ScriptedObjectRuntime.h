@@ -2,7 +2,6 @@
 
 #include "game/maps/Mm9EventsYml.h"
 #include "game/maps/OutdoorSceneYml.h"
-#include "game/mm9/Mm9ScriptedBillboardVisuals.h"
 
 #include <cstddef>
 #include <string>
@@ -90,7 +89,6 @@ public:
     bool initialize(
         const std::string &mapId,
         const OutdoorSceneData &sceneData,
-        const Mm9ScriptedBillboardVisualSet &visualSet,
         const Mm9EventsData *pEventsData);
 
     const std::vector<Mm9ScriptedObject> &objects() const;

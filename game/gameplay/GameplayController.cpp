@@ -2,6 +2,7 @@
 
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/mm9/Mm9DatSceneRuntime.h"
 
 namespace OpenYAMM::Game
 {
@@ -23,7 +24,11 @@ void GameplayController::bindRuntime(IMapSceneRuntime *pRuntime)
 
     if (pRuntime != nullptr)
     {
-        if (pRuntime->kind() == SceneKind::Outdoor)
+        if (Mm9DatSceneRuntime *pMm9DatRuntime = dynamic_cast<Mm9DatSceneRuntime *>(pRuntime))
+        {
+            pWorldRuntime = &pMm9DatRuntime->worldRuntime();
+        }
+        else if (pRuntime->kind() == SceneKind::Outdoor)
         {
             OutdoorSceneRuntime *pOutdoorRuntime = static_cast<OutdoorSceneRuntime *>(pRuntime);
             pWorldRuntime = &pOutdoorRuntime->worldRuntime();

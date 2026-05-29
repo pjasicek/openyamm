@@ -36,7 +36,7 @@ script.labels["Mainline"] = function(ctx)
     if not ctx:hasKey(367) then -- YRSA.scr:43-44
         if ctx:hasKey(1) then -- YRSA.scr:45-46
             ctx:giveExp(2000) -- YRSA.scr:47
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- YRSA.scr:48
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- YRSA.scr:48
             ctx:giveKey(367) -- YRSA.scr:49
             do return ctx:exit("") end -- YRSA.scr:50
         end -- YRSA.scr:51
@@ -49,7 +49,7 @@ script.labels["dragonfly"] = function(ctx)
     if not ctx:hasKey(366) then -- YRSA.scr:60-61
         if ctx:hasKey(27) then -- YRSA.scr:62-63
             ctx:giveExp(2000) -- YRSA.scr:64
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- YRSA.scr:65
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- YRSA.scr:65
             ctx:giveKey(366) -- YRSA.scr:66
             do return ctx:exit("") end -- YRSA.scr:67
         end -- YRSA.scr:68
@@ -63,33 +63,32 @@ script.labels["OnUse"] = function(ctx)
     if not ctx:hasKey(365) then -- YRSA.scr:81-82
         ctx:giveKey(365) -- YRSA.scr:83
         ctx:giveExp(800) -- YRSA.scr:84
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- YRSA.scr:85
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- YRSA.scr:85
         -- found Yrsa for the first time
     end -- YRSA.scr:87
-    ctx:command("set", "Talking, TRUE") -- YRSA.scr:92
-    ctx:command("stop", "") -- YRSA.scr:93
+    ctx:state().Talking = true -- YRSA.scr:92
+    ctx:self():stop() -- YRSA.scr:93
     mm9.gosub(script, ctx, "BasewanderStop") -- YRSA.scr:94
     ctx:getParam(0, "g_hobject") -- YRSA.scr:95
-    ctx:command("faceobject", "g_hobject 200 DoNothing") -- YRSA.scr:96
+    ctx:self():faceObject(ctx:object("g_hobject"), 200, "DoNothing") -- YRSA.scr:96
     -- DoRude 1
-    ctx:command("playsound", "voices\\NPC\\NPC_001.wav, Onexit, 100, 240, FALSE, 100") -- YRSA.scr:98
+    ctx:playSound("voices\\NPC\\NPC_001.wav", "Onexit", 100, 240, "FALSE", 100) -- YRSA.scr:98
     do return ctx:exit("") end -- YRSA.scr:102
 end
 
 script.labels["Init"] = function(ctx)
     -- YRSA.scr:106
     if ctx:hasKey(29) then -- YRSA.scr:109-110
-        ctx:command("getmyhandle", "g_hmyobject") -- YRSA.scr:111
-        ctx:command("removeobject", "g_hmyobject") -- YRSA.scr:112
+        ctx:self():remove() -- YRSA.scr:112
         do return ctx:exit("") end -- YRSA.scr:113
     end -- YRSA.scr:114
-    ctx:command("loopanim", "stand 0 DoNothing") -- YRSA.scr:117
+    ctx:self():loopAnimation("stand", 0, "DoNothing") -- YRSA.scr:117
     do return ctx:exit("") end -- YRSA.scr:118
 end
 
 script.labels["Onexit"] = function(ctx)
     -- YRSA.scr:123
-    ctx:command("set", "talking, false") -- YRSA.scr:126
+    ctx:state().talking = false -- YRSA.scr:126
     do return ctx:exit("") end -- YRSA.scr:127
 end
 
@@ -100,7 +99,7 @@ script.labels["Main"] = function(ctx)
     mm9.gosub(script, ctx, "basewanderinit") -- YRSA.scr:136
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- YRSA.scr:137
     mm9.gosub(script, ctx, "Init") -- YRSA.scr:138
-    ctx:command("wait", "1 .1 Init") -- YRSA.scr:139
+    ctx:wait(1, .1, "Init") -- YRSA.scr:139
     do return ctx:exit("") end -- YRSA.scr:140
 end
 

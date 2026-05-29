@@ -12,15 +12,15 @@ script.includes[#script.includes + 1] = { line = 11, path = "Globals.inc" }
 -- Super simple "Move My World Object" script.
 script.labels["StopHere"] = function(ctx)
     -- MOVEHOTWATER.scr:23
-    ctx:command("hmcmarker", "= NULL") -- MOVEHOTWATER.scr:25
+    ctx:state().hMCMarker = nil -- MOVEHOTWATER.scr:25
     do return ctx:exit("TRUE") end -- MOVEHOTWATER.scr:27
 end
 
 script.labels["MoveToMarker"] = function(ctx)
     -- MOVEHOTWATER.scr:30
-    ctx:command("getobjecthandle", "sMarker, hMCMarker") -- MOVEHOTWATER.scr:34
-    ctx:command("getpos", "hMCMarker, nVarX, nVarY, nVarZ") -- MOVEHOTWATER.scr:36
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 10, StopHere") -- MOVEHOTWATER.scr:38
+    ctx:state().hMCMarker = ctx:objectOrNil("sMarker") -- MOVEHOTWATER.scr:34
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("hMCMarker"):pos() -- MOVEHOTWATER.scr:36
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 10, "StopHere") -- MOVEHOTWATER.scr:38
     do return ctx:exit("") end -- MOVEHOTWATER.scr:40
 end
 

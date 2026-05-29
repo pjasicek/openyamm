@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/hallofthegods.lua
+  script_ir: ../events/hallofthegods.script_ir.yml
 objects:
 - object_id: mm9:hallofthegods:object:0
   source_object_index: 0
@@ -32425,6 +32426,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id001 []
 triggers: []
 interactions:
@@ -32789,6 +32791,146 @@ interactions:
   script_id: bookletter.scr
   sends: []
 bindings:
+- object_id: mm9:hallofthegods:object:1
+  source_object_index: 1
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: StainedGlassWindows
+    source_model_name: StainedGlassWindows
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: StainedGlassWindows
+      source_poly_count: 48
+      source_surface_count: 48
+      roles: &id002
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: StainedGlassWindows
+    source_model_name: StainedGlassWindows
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: StainedGlassWindows
+      source_poly_count: 48
+      source_surface_count: 48
+      roles: *id002
+- object_id: mm9:hallofthegods:object:11
+  source_object_index: 11
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group: &id012
+      source_model_index: 1
+      source_model_name: WorldObject0
+      source_poly_count: 42
+      source_surface_count: 42
+      roles: &id003
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group: &id013
+      source_model_index: 1
+      source_model_name: WorldObject0
+      source_poly_count: 42
+      source_surface_count: 42
+      roles: *id003
+- object_id: mm9:hallofthegods:object:34
+  source_object_index: 34
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: Snow
+    source_model_name: Snow
+    source_polygon_group: &id016
+      source_model_index: 2
+      source_model_name: Snow
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id004
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: Snow
+    source_model_name: Snow
+    source_polygon_group: &id017
+      source_model_index: 2
+      source_model_name: Snow
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id004
+- object_id: mm9:hallofthegods:object:35
+  source_object_index: 35
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: WorldObject42
+    source_model_name: WorldObject42
+    source_polygon_group: &id014
+      source_model_index: 3
+      source_model_name: WorldObject42
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: &id005
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: WorldObject42
+    source_model_name: WorldObject42
+    source_polygon_group: &id015
+      source_model_index: 3
+      source_model_name: WorldObject42
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: *id005
 - object_id: mm9:hallofthegods:object:38
   source_object_index: 38
   targets:
@@ -33101,6 +33243,76 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:hallofthegods:object:139
     confidence: exact_source_object_index
+- object_id: mm9:hallofthegods:object:143
+  source_object_index: 143
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: WorldObject6
+    source_model_name: WorldObject6
+    source_polygon_group: &id008
+      source_model_index: 4
+      source_model_name: WorldObject6
+      source_poly_count: 9
+      source_surface_count: 9
+      roles: &id006
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: WorldObject6
+    source_model_name: WorldObject6
+    source_polygon_group: &id009
+      source_model_index: 4
+      source_model_name: WorldObject6
+      source_poly_count: 9
+      source_surface_count: 9
+      roles: *id006
+- object_id: mm9:hallofthegods:object:148
+  source_object_index: 148
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group: &id010
+      source_model_index: 5
+      source_model_name: WorldObject2
+      source_poly_count: 30
+      source_surface_count: 30
+      roles: &id007
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group: &id011
+      source_model_index: 5
+      source_model_name: WorldObject2
+      source_poly_count: 30
+      source_surface_count: 30
+      roles: *id007
 - object_id: mm9:hallofthegods:object:149
   source_object_index: 149
   targets:
@@ -33118,6 +33330,182 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id018
+    - source_model_index: 4
+      source_name: WorldObject6
+      movable: true
+      world_translation_lt:
+      - -2976.0
+      - 72.00000762939453
+      - 1152.0
+      distance_from_position_lt: 1860.262
+      claimed_by_exact_bindings:
+      - source_object_index: 143
+        source_name: WorldObject6
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -2976.0
+        - 81.0
+        - 1152.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: WorldObject6
+        source_model_name: WorldObject6
+        source_polygon_group: *id008
+      - source_object_index: 143
+        source_name: WorldObject6
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -2976.0
+        - 81.0
+        - 1152.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: WorldObject6
+        source_model_name: WorldObject6
+        source_polygon_group: *id009
+    - source_model_index: 5
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt:
+      - -2896.0
+      - 63.5
+      - 1152.0
+      distance_from_position_lt: 1910.471
+      claimed_by_exact_bindings:
+      - source_object_index: 148
+        source_name: WorldObject2
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -3104.0
+        - 64.0
+        - 1152.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:5
+        bmodel_index: 5
+        bmodel_name: WorldObject2
+        source_model_name: WorldObject2
+        source_polygon_group: *id010
+      - source_object_index: 148
+        source_name: WorldObject2
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -3104.0
+        - 64.0
+        - 1152.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:5
+        bmodel_index: 5
+        bmodel_name: WorldObject2
+        source_model_name: WorldObject2
+        source_polygon_group: *id011
+    - source_model_index: 1
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt:
+      - -1512.0
+      - 1696.0
+      - 1156.0
+      distance_from_position_lt: 2448.938
+      claimed_by_exact_bindings:
+      - source_object_index: 11
+        source_name: WorldObject0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -2464.0
+        - 1712.0
+        - 1152.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: WorldObject0
+        source_model_name: WorldObject0
+        source_polygon_group: *id012
+      - source_object_index: 11
+        source_name: WorldObject0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -2464.0
+        - 1712.0
+        - 1152.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: WorldObject0
+        source_model_name: WorldObject0
+        source_polygon_group: *id013
+    - source_model_index: 3
+      source_name: WorldObject42
+      movable: true
+      world_translation_lt:
+      - -1328.0
+      - 9.0
+      - 1160.0
+      distance_from_position_lt: 3097.088
+      claimed_by_exact_bindings:
+      - source_object_index: 35
+        source_name: WorldObject42
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1328.0
+        - 81.0
+        - 1160.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: WorldObject42
+        source_model_name: WorldObject42
+        source_polygon_group: *id014
+      - source_object_index: 35
+        source_name: WorldObject42
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1328.0
+        - 81.0
+        - 1160.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: WorldObject42
+        source_model_name: WorldObject42
+        source_polygon_group: *id015
+    - source_model_index: 2
+      source_name: Snow
+      movable: true
+      world_translation_lt:
+      - -1920.0001220703125
+      - 576.0
+      - -1664.0
+      distance_from_position_lt: 3794.511
+      claimed_by_exact_bindings:
+      - source_object_index: 34
+        source_name: Snow
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1920.0
+        - 576.0
+        - -1664.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: Snow
+        source_model_name: Snow
+        source_polygon_group: *id016
+      - source_object_index: 34
+        source_name: Snow
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1920.0
+        - 576.0
+        - -1664.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: Snow
+        source_model_name: Snow
+        source_polygon_group: *id017
 - object_id: mm9:hallofthegods:object:187
   source_object_index: 187
   targets:
@@ -34916,6 +35304,8 @@ unresolved:
   source_name: WinMan
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id018
 validation:
   raw_object_count: 188
   event_object_count: 188

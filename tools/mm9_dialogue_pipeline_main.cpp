@@ -9,7 +9,7 @@ namespace
 void printUsage()
 {
     std::cerr
-        << "usage: mm9_dialogue_pipeline [--check] "
+        << "usage: mm9_dialogue_pipeline [--check] [--debug-progress] "
         << "<mm9-extracted-root> <mm9-maps-directory> <output-world-root>\n";
 }
 }
@@ -17,11 +17,29 @@ void printUsage()
 int main(int argc, char **argv)
 {
     bool checkOnly = false;
+    bool debugProgress = false;
     int firstPathArgument = 1;
-    if (argc > 1 && std::string(argv[1]) == "--check")
+    while (firstPathArgument < argc)
     {
-        checkOnly = true;
-        firstPathArgument = 2;
+        const std::string argument = argv[firstPathArgument];
+        if (argument == "--check")
+        {
+            checkOnly = true;
+            ++firstPathArgument;
+            continue;
+        }
+        if (argument == "--debug-progress")
+        {
+            debugProgress = true;
+            ++firstPathArgument;
+            continue;
+        }
+        if (argument.rfind("--", 0) == 0)
+        {
+            printUsage();
+            return 2;
+        }
+        break;
     }
 
     if (argc - firstPathArgument != 3)
@@ -35,7 +53,10 @@ int main(int argc, char **argv)
     const std::filesystem::path outputRoot = argv[firstPathArgument + 2];
 
     const OpenYAMM::Game::Mm9DialoguePipelineResult generateResult =
-        OpenYAMM::Game::generateMm9DialoguePipelineFiles(extractedRoot, mapsDirectory);
+        OpenYAMM::Game::generateMm9DialoguePipelineFiles(
+            extractedRoot,
+            mapsDirectory,
+            debugProgress ? &std::cerr : nullptr);
     for (const OpenYAMM::Game::Mm9RudeParseError &error : generateResult.errors)
     {
         std::cerr << "error: " << error.sourcePath;
@@ -52,7 +73,11 @@ int main(int argc, char **argv)
     }
 
     const OpenYAMM::Game::Mm9DialoguePipelineWriteResult writeResult =
-        OpenYAMM::Game::writeMm9DialoguePipelineFiles(outputRoot, generateResult.files, checkOnly);
+        OpenYAMM::Game::writeMm9DialoguePipelineFiles(
+            outputRoot,
+            generateResult.files,
+            checkOnly,
+            debugProgress ? &std::cerr : nullptr);
     for (const OpenYAMM::Game::Mm9RudeParseError &error : writeResult.errors)
     {
         std::cerr << "error: " << error.sourcePath << ": " << error.message << '\n';

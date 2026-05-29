@@ -17,6 +17,8 @@
 #include "game/events/EvtEnums.h"
 #include "game/maps/MapIdentity.h"
 #include "game/mm9/Mm9DialoguePackage.h"
+#include "game/mm9/Mm9DatRuntimeDevEntry.h"
+#include "game/mm9/Mm9DatSceneRuntime.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ClassSkillTable.h"
@@ -29,6 +31,7 @@
 #include "game/ui/screens/MainMenuScreen.h"
 #include "game/ui/screens/NewGameScreen.h"
 #include "game/ui/screens/WinGameScreen.h"
+#include "engine/AssetFileSystem.h"
 #include "engine/TextTable.h"
 
 #include <imgui.h>
@@ -1209,6 +1212,83 @@ std::optional<float> parseFloatArgument(const std::string &value)
     }
 
     return parsed;
+}
+
+std::string mm9DatMapIdForMap(const MapStatsEntry &map)
+{
+    return normalizeMapFileStem(map.fileName);
+}
+
+std::string preferredMm9DatStartNameForMapId(const std::string &mapId)
+{
+    const std::string normalizedMapId = toLowerCopy(mapId);
+
+    if (normalizedMapId == "thjorgard")
+    {
+        return "ThjorgardCityTerrainExit";
+    }
+
+    if (normalizedMapId == "thjorgardcity")
+    {
+        return "StartPointTerrain";
+    }
+
+    return {};
+}
+
+std::filesystem::path mm9DatSourceRootFromAssetFileSystem(const Engine::AssetFileSystem &assetFileSystem)
+{
+    const std::filesystem::path developmentRoot = assetFileSystem.getDevelopmentRoot();
+
+    if (developmentRoot.empty())
+    {
+        return std::filesystem::current_path();
+    }
+
+    if (toLowerCopy(developmentRoot.filename().string()) == "assets_dev")
+    {
+        return developmentRoot.parent_path();
+    }
+
+    return developmentRoot;
+}
+
+const MapStatsEntry *findMm9DatDebugMap(const MapStats &mapStats, const std::string &argument)
+{
+    const std::optional<int32_t> numericMapId = parseInt32Argument(argument);
+
+    if (numericMapId && *numericMapId > 0)
+    {
+        const MapStatsEntry *pMap = mapStats.findById(static_cast<uint32_t>(*numericMapId));
+
+        if (pMap != nullptr && normalizeWorldId(pMap->worldId) == "mm9")
+        {
+            return pMap;
+        }
+
+        return nullptr;
+    }
+
+    const std::string normalizedArgument = toLowerCopy(trimCopy(argument));
+
+    for (const MapStatsEntry &map : mapStats.getEntries())
+    {
+        if (normalizeWorldId(map.worldId) != "mm9")
+        {
+            continue;
+        }
+
+        if (mm9DatMapIdForMap(map) == normalizedArgument
+            || toLowerCopy(map.canonicalId) == normalizedArgument
+            || toLowerCopy(map.name) == normalizedArgument
+            || toLowerCopy(map.fileName) == normalizedArgument
+            || toLowerCopy(map.sourceFileName) == normalizedArgument)
+        {
+            return &map;
+        }
+    }
+
+    return nullptr;
 }
 
 std::string boolString(bool value)
@@ -2679,6 +2759,7 @@ void GameApplication::registerDebugConsoleCommands()
             std::ostringstream out;
             out << "Commands: help, cls, map, setup breach, event <id>, "
                 << "mm9.trigger <object-name> [message], "
+                << "mm9.dat.goto <map-id|map-stem>, "
                 << "time [advance [days]], "
                 << "qbit get|set|clear <id> [id...], qbit dump [active|all|filter], "
                 << "var get|set|add|clear <id|name> [value], var dump [active|arena|all], "
@@ -2839,6 +2920,60 @@ void GameApplication::registerDebugConsoleCommands()
 
             m_pendingDebugMapJump = pendingJump;
             return commandResult(true, "Queued map jump " + std::to_string(*mapId));
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "mm9.dat.goto",
+        .description = "Jump to an MM9 map using the native DAT runtime.",
+        .usage = "mm9.dat.goto <map-id|map-stem> [x y z direction-yaw-units]",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            if (context.args.empty())
+            {
+                return commandResult(false, "Usage: mm9.dat.goto <map-id|map-stem> [x y z direction-yaw-units]");
+            }
+
+            const MapStatsEntry *pMap = findMm9DatDebugMap(m_gameDataLoader.getMapStats(), context.args[0]);
+
+            if (pMap == nullptr)
+            {
+                return commandResult(false, "Unknown MM9 map.");
+            }
+
+            PendingDebugMapJump pendingJump = {};
+            pendingJump.mapId = pMap->id;
+            pendingJump.nativeMm9Dat = true;
+
+            if (context.args.size() != 1 && context.args.size() != 5)
+            {
+                return commandResult(false, "Usage: mm9.dat.goto <map-id|map-stem> [x y z direction-yaw-units]");
+            }
+
+            if (context.args.size() == 5)
+            {
+                std::optional<int32_t> x = parseInt32Argument(context.args[1]);
+                std::optional<int32_t> y = parseInt32Argument(context.args[2]);
+                std::optional<int32_t> z = parseInt32Argument(context.args[3]);
+                std::optional<int32_t> direction = parseInt32Argument(context.args[4]);
+
+                if (!x || !y || !z || !direction)
+                {
+                    return commandResult(false, "Invalid map start coordinates.");
+                }
+
+                pendingJump.start = DebugMapJumpStart{
+                    .x = *x,
+                    .y = *y,
+                    .z = *z,
+                    .directionYawUnits = *direction,
+                };
+            }
+
+            m_pendingDebugMapJump = pendingJump;
+            return commandResult(
+                true,
+                "Queued native MM9 DAT map jump "
+                    + std::to_string(pMap->id) + " (" + mm9DatMapIdForMap(*pMap) + ")");
         }});
 
     m_debugConsole.registerCommand({
@@ -4249,6 +4384,14 @@ void GameApplication::registerDebugConsoleCommands()
                 IndoorSceneRuntime *pIndoorRuntime = static_cast<IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
                 pIndoorRuntime->partyRuntime().teleportPartyPosition(*x, *y, *z);
             }
+            else if (IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime())
+            {
+                pWorldRuntime->teleportPartyTo(*x, *y, *z, 0);
+            }
+            else
+            {
+                return commandResult(false, "Teleport unavailable for active runtime.");
+            }
 
             synchronizeSessionFromRuntime();
             return commandResult(true, "Teleported.");
@@ -4690,7 +4833,11 @@ bool GameApplication::processPendingDebugMapJump()
     renderLoadingOverlayProgress(15);
     timingLogger.stage("loading overlay begun");
 
-    if (!m_gameDataLoader.loadMapByIdForGameplay(*m_pAssetFileSystem, mapId))
+    const bool mapLoaded = pendingJump.nativeMm9Dat
+        ? m_gameDataLoader.selectMapMetadataOnlyById(mapId)
+        : m_gameDataLoader.loadMapByIdForGameplay(*m_pAssetFileSystem, mapId);
+
+    if (!mapLoaded)
     {
         if (pLeavingRuntimeState != nullptr
             && m_pMapSceneRuntime != nullptr
@@ -4703,7 +4850,7 @@ bool GameApplication::processPendingDebugMapJump()
         m_debugConsole.addMessage(DebugConsole::MessageKind::Error, "Map jump failed: map load failed.");
         return false;
     }
-    timingLogger.stage("game data loader map load");
+    timingLogger.stage(pendingJump.nativeMm9Dat ? "map metadata selected" : "game data loader map load");
 
     renderLoadingOverlayProgress(70);
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
@@ -4726,13 +4873,25 @@ bool GameApplication::processPendingDebugMapJump()
     shutdownRenderer();
     timingLogger.stage("renderer shutdown");
 
-    if (!initializeSelectedMapRuntime(true))
+    std::string nativeMm9DatErrorMessage;
+    const bool runtimeInitialized = pendingJump.nativeMm9Dat
+        ? initializeNativeMm9DatSceneRuntime(*selectedMap, nativeMm9DatErrorMessage)
+        : initializeSelectedMapRuntime(true);
+
+    if (!runtimeInitialized)
     {
         cancelLoadingOverlay();
-        m_debugConsole.addMessage(DebugConsole::MessageKind::Error, "Map jump failed: runtime init failed.");
+        std::string runtimeError = "Map jump failed: runtime init failed.";
+
+        if (!nativeMm9DatErrorMessage.empty())
+        {
+            runtimeError += " " + nativeMm9DatErrorMessage;
+        }
+
+        m_debugConsole.addMessage(DebugConsole::MessageKind::Error, runtimeError);
         return false;
     }
-    timingLogger.stage("runtime and view initialized");
+    timingLogger.stage(pendingJump.nativeMm9Dat ? "native DAT runtime initialized" : "runtime and view initialized");
 
     if (!isSameMapJump)
     {
@@ -4779,13 +4938,23 @@ bool GameApplication::processPendingDebugMapJump()
         debugStartDirectionDegrees = directionDegrees;
         const float yawRadians = mapMoveHeadingDegreesToYawRadians(directionDegrees);
 
-        if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
+        if (m_pMapSceneRuntime != nullptr
+            && m_pMapSceneRuntime->kind() == SceneKind::Outdoor
+            && m_pOutdoorPartyRuntime != nullptr)
         {
             m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
         }
         else if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Indoor)
         {
             m_indoorRenderer.setCameraAngles(yawRadians, m_indoorRenderer.cameraPitchRadians());
+        }
+        else if (IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime())
+        {
+            pWorldRuntime->teleportPartyTo(
+                static_cast<float>(start.x),
+                static_cast<float>(start.y),
+                static_cast<float>(start.z),
+                directionDegrees);
         }
     }
     timingLogger.stage("debug start applied");
@@ -5407,7 +5576,14 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
         else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
         {
             IndoorSceneRuntime *pIndoorRuntime = static_cast<IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
-            pIndoorRuntime->partyRuntime().teleportPartyPosition(m_settings.startX, m_settings.startY, m_settings.startZ);
+            pIndoorRuntime->partyRuntime().teleportPartyPosition(
+                m_settings.startX,
+                m_settings.startY,
+                m_settings.startZ);
+        }
+        else if (IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime())
+        {
+            pWorldRuntime->teleportPartyTo(m_settings.startX, m_settings.startY, m_settings.startZ, 0);
         }
     }
 
@@ -5426,19 +5602,52 @@ bool GameApplication::initializeMm9NewGameStateIfNeeded()
         return false;
     }
 
-    Mm9DialoguePackage package = {};
-    if (!loadMm9DialoguePackage(*m_pAssetFileSystem, package) || !package.errors.empty())
+    if (!m_mm9DialoguePackage)
     {
-        std::cerr << "GameApplication: failed to load MM9 generated state defaults";
-        if (!package.errors.empty())
+        Mm9DialoguePackage package = {};
+        if (!loadMm9DialoguePackage(*m_pAssetFileSystem, package) || !package.errors.empty())
         {
-            std::cerr << ": " << package.errors.front().virtualPath << ": " << package.errors.front().message;
+            std::cerr << "GameApplication: failed to load MM9 generated state defaults";
+            if (!package.errors.empty())
+            {
+                std::cerr << ": " << package.errors.front().virtualPath << ": " << package.errors.front().message;
+            }
+            std::cerr << '\n';
+            return false;
         }
-        std::cerr << '\n';
+
+        m_mm9DialoguePackage = std::move(package);
+    }
+
+    m_gameSession.initializeMm9ScriptState(*m_mm9DialoguePackage);
+    return true;
+}
+
+bool GameApplication::ensureMm9DialoguePackageLoaded(std::string &errorMessage)
+{
+    if (m_mm9DialoguePackage)
+    {
+        return true;
+    }
+
+    if (m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "MM9 dialogue package cannot load without an asset file system";
         return false;
     }
 
-    m_gameSession.initializeMm9ScriptState(package);
+    Mm9DialoguePackage package = {};
+    if (!loadMm9DialoguePackage(*m_pAssetFileSystem, package) || !package.errors.empty())
+    {
+        errorMessage = "MM9 dialogue package could not be loaded";
+        if (!package.errors.empty())
+        {
+            errorMessage += ": " + package.errors.front().virtualPath + ": " + package.errors.front().message;
+        }
+        return false;
+    }
+
+    m_mm9DialoguePackage = std::move(package);
     return true;
 }
 
@@ -5454,6 +5663,7 @@ void GameApplication::shutdownApplication()
 bool GameApplication::loadGameData(Engine::AssetFileSystem &assetFileSystem)
 {
     m_pAssetFileSystem = &assetFileSystem;
+    m_mm9DialoguePackage.reset();
     m_gameSession.clear();
     m_gameDataRepository.clear();
     m_gameSession.bindDataRepository(&m_gameDataRepository);
@@ -5853,6 +6063,10 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             &m_gameDataLoader.getMergedBolsterMonsterTable(),
             selectedMap->mm9EventsData
         );
+        if (selectedMap->outdoorSceneData)
+        {
+            m_pOutdoorWorldRuntime->registerOutdoorSceneMechanisms(*selectedMap->outdoorSceneData);
+        }
         timingLogger.stage("outdoor runtime initialized");
 
         if (restoreSavedOutdoorState)
@@ -6185,6 +6399,60 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         << selectedMap->map.fileName
         << " has neither outdoor nor indoor runtime data\n";
     return false;
+}
+
+bool GameApplication::initializeNativeMm9DatSceneRuntime(
+    const MapAssetInfo &selectedMap,
+    std::string &errorMessage)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "no asset filesystem";
+        return false;
+    }
+
+    const std::string mapId = mm9DatMapIdForMap(selectedMap.map);
+
+    Mm9DatRuntimeDevEntryRequest request = {};
+    request.sourceRoot = mm9DatSourceRootFromAssetFileSystem(*m_pAssetFileSystem);
+    request.mapId = mapId;
+    request.preferredStartName = preferredMm9DatStartNameForMapId(mapId);
+
+    std::optional<Mm9DatRuntimeDevEntryResult> entry =
+        loadMm9DatRuntimeForDevEntry(request, errorMessage);
+
+    if (!entry)
+    {
+        return false;
+    }
+
+    if (!ensureMm9DialoguePackageLoaded(errorMessage))
+    {
+        return false;
+    }
+
+    Party party = ensureSessionPartyState();
+    bindPartyDependencies(party);
+
+    m_pOutdoorPartyRuntime.reset();
+    m_pOutdoorWorldRuntime.reset();
+    m_pMapSceneRuntime.reset();
+
+    m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
+    m_gameSession.setCurrentMapFileName(selectedMap.map.fileName);
+    m_screenManager.setCurrentMode(AppMode::GameplayOutdoor);
+    m_gameAudioSystem.setBackgroundMusicTrack(selectedMap.map.redbookTrack);
+
+    m_pMapSceneRuntime = std::make_unique<Mm9DatSceneRuntime>(
+        selectedMap.map.fileName,
+        std::move(*entry),
+        std::move(party),
+        m_gameSession.gameMinutes(),
+        &m_gameSession.mm9ScriptState(),
+        m_mm9DialoguePackage ? &*m_mm9DialoguePackage : nullptr);
+    m_gameplayController.bindRuntime(m_pMapSceneRuntime.get());
+    applyCurrentSettingsToActiveRuntime();
+    return true;
 }
 
 Party &GameApplication::ensureSessionPartyState()

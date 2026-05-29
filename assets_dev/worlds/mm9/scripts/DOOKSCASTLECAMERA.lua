@@ -16,7 +16,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(3, "LISTFIRST") -- DOOKSCASTLECAMERA.scr:10
     ctx:getParam(4, "LISTLAST") -- DOOKSCASTLECAMERA.scr:11
     -- OnPostStartWorld InitDooksCastleCamera
-    ctx:command("wait", "0, 5, InitDooksCastleCamera") -- DOOKSCASTLECAMERA.scr:14
+    ctx:wait(0, 5, "InitDooksCastleCamera") -- DOOKSCASTLECAMERA.scr:14
     do return ctx:exit(1) end -- DOOKSCASTLECAMERA.scr:16
 end
 
@@ -24,8 +24,8 @@ script.labels["InitDooksCastleCamera"] = function(ctx)
     -- DOOKSCASTLECAMERA.scr:19
     ctx:addTrigger("Next", "StartNextScene") -- DOOKSCASTLECAMERA.scr:21
     ctx:addTrigger("Zoom", "ZoomToTarget") -- DOOKSCASTLECAMERA.scr:22
-    ctx:command("cutscene_nrate", "= 64") -- DOOKSCASTLECAMERA.scr:24
-    ctx:command("cutscene_ngap", "= 96") -- DOOKSCASTLECAMERA.scr:25
+    ctx:state().cutscene_nRate = 64 -- DOOKSCASTLECAMERA.scr:24
+    ctx:state().cutscene_nGap = 96 -- DOOKSCASTLECAMERA.scr:25
     mm9.gosub(script, ctx, "InitCutScene") -- DOOKSCASTLECAMERA.scr:27
     do return ctx:exit(1) end -- DOOKSCASTLECAMERA.scr:29
 end

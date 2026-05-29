@@ -20,13 +20,13 @@ script.labels["OnUse"] = function(ctx)
     -- DORUDE.scr:22
     if ctx:condition("attacked==false") then -- DORUDE.scr:25
         if ctx:condition("NPC_ID!=NULL") then -- DORUDE.scr:26
-            ctx:command("stop", "") -- DORUDE.scr:27
+            ctx:self():stop() -- DORUDE.scr:27
             mm9.gosub(script, ctx, "BaseWanderStop") -- DORUDE.scr:28
             ctx:getParam(0, "g_hobject") -- DORUDE.scr:29
-            ctx:command("faceobject", "g_hobject 200 DoNothing") -- DORUDE.scr:30
+            ctx:self():faceObject(ctx:object("g_hobject"), 200, "DoNothing") -- DORUDE.scr:30
             ctx:doRude("NPC_ID") -- DORUDE.scr:31
             if ctx:condition("top_Blurb!=NULL") then -- DORUDE.scr:32
-                ctx:command("playsound", "Top_Blurb, DoNothing, 100, 240, FALSE, 100") -- DORUDE.scr:33
+                ctx:playSound("Top_Blurb", "DoNothing", 100, 240, "FALSE", 100) -- DORUDE.scr:33
             end -- DORUDE.scr:34
             do return ctx:exit("") end -- DORUDE.scr:35
         end -- DORUDE.scr:37
@@ -43,7 +43,7 @@ end
 script.labels["OnDamage"] = function(ctx)
     -- DORUDE.scr:52
     if ctx:condition("hostile==true") then -- DORUDE.scr:56
-        ctx:command("set", "Attacked, True") -- DORUDE.scr:57
+        ctx:state().Attacked = true -- DORUDE.scr:57
         mm9.gosub(script, ctx, "BaseInit") -- DORUDE.scr:58
     end -- DORUDE.scr:59
     do return ctx:exit("") end -- DORUDE.scr:60
@@ -58,7 +58,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(2, "Hostile") -- DORUDE.scr:70
     ctx:addTrigger("Use", "Onuse") -- DORUDE.scr:71
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- DORUDE.scr:72
-    ctx:command("ondamage", "OnDamage") -- DORUDE.scr:73
+    ctx:onEvent("OnDamage", "OnDamage") -- DORUDE.scr:73
     do return ctx:exit("") end -- DORUDE.scr:74
 end
 

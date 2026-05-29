@@ -1,0 +1,379 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: bootcamp
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bc_manager.scr
+  source_path: BC_MANAGER.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  labels:
+  - line: 37
+    name: Main
+  - line: 49
+    name: CacheFiles
+  - line: 61
+    name: InitMonsterFight
+  - line: 78
+    name: StartFight
+  - line: 99
+    name: StartOpen
+  - line: 112
+    name: OnObjectLinkBroken
+  - line: 140
+    name: RemoveCreature
+  - line: 157
+    name: ForceEndFight
+  registered_triggers:
+  - line: 63
+    message: fight
+    callback: StartFight
+    arguments_raw: fight, StartFight
+  - line: 64
+    message: open
+    callback: StartOpen
+    arguments_raw: open, StartOpen
+  - line: 132
+    message: open
+    callback: StartOpen
+    arguments_raw: open, StartOpen
+  - line: 152
+    message: fight
+    callback: StartFight
+    arguments_raw: fight, StartFight
+  - line: 169
+    message: fight
+    callback: StartFight
+    arguments_raw: fight, StartFight
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 43
+    command: OnPostStartWorld
+    arguments_raw: InitMonsterFight
+  - line: 44
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 51
+    command: CacheScript
+    arguments_raw: '"BC_MonsterFight.scr"'
+  - line: 52
+    command: CacheScript
+    arguments_raw: '"BC_MonsterOpen.scr"'
+  - line: 53
+    command: CacheScript
+    arguments_raw: '"EvilSorcerer.scr"'
+  - line: 54
+    command: CacheScript
+    arguments_raw: '"flyrange.scr"'
+  - line: 56
+    command: CacheClientFX
+    arguments_raw: SPELL_MIST
+  - line: 66
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 80
+    command: RemoveTrigger
+    arguments_raw: fight
+  - line: 82
+    command: Spawn
+    arguments_raw: hSpawn0, x0,y0,z0, SPAWN_PARAM_0
+  - line: 84
+    command: DoClientFX
+    arguments_raw: hSpawn0, SPELL_MIST, FALSE, TRUE
+  - line: 85
+    command: CreateObjectLink
+    arguments_raw: hSpawn0
+  - line: 88
+    command: Spawn
+    arguments_raw: hSpawn1, x1,y1,z1, SPAWN_PARAM_1
+  - line: 90
+    command: DoClientFX
+    arguments_raw: hSpawn1, SPELL_MIST, FALSE, TRUE
+  - line: 91
+    command: CreateObjectLink
+    arguments_raw: hSpawn1
+  - line: 101
+    command: RemoveTrigger
+    arguments_raw: open
+  - line: 103
+    command: Spawn
+    arguments_raw: hOpener, x2,y2,z2, SPAWN_PARAM_2
+  - line: 105
+    command: DoClientFX
+    arguments_raw: hOpener, SPELL_MIST, FALSE, TRUE
+  - line: 106
+    command: CreateObjectLink
+    arguments_raw: hOpener
+  - line: 117
+    command: hSpawn0
+    arguments_raw: = NULL
+  - line: 119
+    command: DoClientFX
+    arguments_raw: hSpawn1, SPELL_MIST, FALSE, TRUE
+  - line: 124
+    command: hSpawn1
+    arguments_raw: = NULL
+  - line: 126
+    command: DoClientFX
+    arguments_raw: hSpawn0, SPELL_MIST, FALSE, TRUE
+  - line: 131
+    command: hOpener
+    arguments_raw: = NULL
+  - line: 143
+    command: RemoveObject
+    arguments_raw: hSpawn0
+  - line: 144
+    command: hSpawn0
+    arguments_raw: = NULL
+  - line: 147
+    command: RemoveObject
+    arguments_raw: hSpawn1
+  - line: 148
+    command: hSpawn1
+    arguments_raw: = NULL
+  - line: 160
+    command: RemoveObject
+    arguments_raw: hSpawn0
+  - line: 161
+    command: hSpawn0
+    arguments_raw: = NULL
+  - line: 165
+    command: RemoveObject
+    arguments_raw: hSpawn1
+  - line: 166
+    command: hSpawn1
+    arguments_raw: = NULL
+  command_count: 85
+- script_id: bc_treasurechest.scr
+  source_path: BC_TREASURECHEST.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: BaseGlobals.inc
+  labels:
+  - line: 15
+    name: Main
+  - line: 26
+    name: CacheFiles
+  - line: 36
+    name: PlayOpenAnim
+  - line: 48
+    name: HoldOpenAnim
+  - line: 55
+    name: PlayCloseAnim
+  - line: 62
+    name: SpringTrap
+  - line: 75
+    name: KillTheGuy
+  - line: 84
+    name: RemoveTheGuy
+  registered_triggers:
+  - line: 19
+    message: open
+    callback: PlayOpenAnim
+    arguments_raw: open, PlayOpenAnim
+  trigger_edges:
+  - line: 77
+    target_expression: hOpener
+    message_expression: destroy
+    arguments_raw: hOpener, destroy
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 40
+    command: PlayAnim
+    arguments_raw: open, SpringTrap
+  - line: 42
+    command: PlayAnim
+    arguments_raw: open, HoldOpenAnim
+  - line: 57
+    command: PlayAnim
+    arguments_raw: Close, DoNothing
+  unknown_commands:
+  - line: 21
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 29
+    command: CacheClientFX
+    arguments_raw: SPELL_COLUMNOFFIRE
+  - line: 30
+    command: CacheSound
+    arguments_raw: '"sounds\door\doorlatch01.wav"'
+  - line: 64
+    command: DoClientFX
+    arguments_raw: hOpener, SPELL_COLUMNOFFIRE, FALSE, TRUE
+  - line: 87
+    command: RemoveObject
+    arguments_raw: hOpener
+  command_count: 32
+- script_id: bootgive.scr
+  source_path: BOOTGIVE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnUse
+  - line: 47
+    name: Init
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 70
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 50
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  unknown_commands:
+  - line: 32
+    command: giveitem
+    arguments_raw: item_ID
+  - line: 34
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 38
+    command: giveitem
+    arguments_raw: Item_ID
+  - line: 40
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 59
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 31
+- script_id: givetake.scr
+  source_path: GIVETAKE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnUse
+  - line: 47
+    name: Init
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 70
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: giveitem
+    arguments_raw: item_ID
+  - line: 34
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 38
+    command: giveitem
+    arguments_raw: Item_ID
+  - line: 40
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 59
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 30
+- script_id: npc436.scr
+  source_path: NPC436.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 12
+    name: OnRude
+  - line: 43
+    name: OnUse
+  - line: 49
+    name: DoRude
+  - line: 61
+    name: Init
+  - line: 69
+    name: OnLeave
+  - line: 77
+    name: Main
+  registered_triggers:
+  - line: 85
+    message: Leave
+    callback: OnLeave
+    arguments_raw: Leave, OnLeave
+  - line: 86
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 15
+    command: haskey
+    arguments_raw: 475 g_ntemp
+  - line: 17
+    command: haskey
+    arguments_raw: 496 g_ntemp
+  - line: 19
+    command: giveitem
+    arguments_raw: '589'
+  - line: 20
+    command: giveitem
+    arguments_raw: '298'
+  - line: 21
+    command: giveitem
+    arguments_raw: '302'
+  - line: 22
+    command: givekey
+    arguments_raw: '496'
+  - line: 32
+    command: giveitem
+    arguments_raw: '579'
+  - line: 33
+    command: giveitem
+    arguments_raw: '580'
+  - line: 53
+    command: set
+    arguments_raw: bSpokeTo, TRUE
+  - line: 54
+    command: DoRude
+    arguments_raw: '436'
+  - line: 64
+    command: OnFoundPlayer
+    arguments_raw: DoRude
+  - line: 72
+    command: Givekey
+    arguments_raw: '473'
+  - line: 84
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 87
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 88
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 89
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 38
+validation:
+  script_count: 5

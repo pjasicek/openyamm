@@ -14,13 +14,13 @@ script.includes[#script.includes + 1] = { line = 9, path = "Globals.inc" }
 -- Lich deals killing blow.
 script.labels["NpcDie"] = function(ctx)
     -- IS_DYINGNPC.scr:11
-    ctx:command("stop", "") -- IS_DYINGNPC.scr:13
+    ctx:self():stop() -- IS_DYINGNPC.scr:13
     do return ctx:exit("TRUE") end -- IS_DYINGNPC.scr:14
 end
 
 script.labels["KillNpc"] = function(ctx)
     -- IS_DYINGNPC.scr:16
-    ctx:command("playanim", "Wince2, NpcDie") -- IS_DYINGNPC.scr:18
+    ctx:self():playAnimation("Wince2", "NpcDie") -- IS_DYINGNPC.scr:18
     do return ctx:exit("TRUE") end -- IS_DYINGNPC.scr:19
 end
 
@@ -32,7 +32,7 @@ end
 
 script.labels["Main"] = function(ctx)
     -- IS_DYINGNPC.scr:27
-    ctx:command("wait", "0 .1 main2") -- IS_DYINGNPC.scr:29
+    ctx:wait(0, .1, "main2") -- IS_DYINGNPC.scr:29
     do return ctx:exit("TRUE") end -- IS_DYINGNPC.scr:30
 end
 

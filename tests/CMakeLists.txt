@@ -42,11 +42,11 @@ add_executable(openyamm_unit_tests
     Mm9RudeTranscodeTests.cpp
     Mm9DatWorldTests.cpp
     Mm9DatPhysicsQueryTests.cpp
+    Mm9DatWorldRuntimeTests.cpp
     Mm9SkyLayerTests.cpp
     Mm9LightLayerTests.cpp
     Mm9ModelInstanceActorResolverTests.cpp
     Mm9ScriptRuntimeCommandTests.cpp
-    Mm9ScriptedBillboardVisualTests.cpp
     OutdoorLightingRuntimeTests.cpp
     PartyRegressionTests.cpp
     PathMapTests.cpp
@@ -114,6 +114,13 @@ add_executable(openyamm_unit_tests
     ../game/mm9/Mm9DialoguePackage.cpp
     ../game/mm9/Mm9DatWorld.cpp
     ../game/mm9/Mm9DatPhysicsQuery.cpp
+    ../game/mm9/Mm9DatCollisionWorld.cpp
+    ../game/mm9/Mm9DatLevelRuntimeLoader.cpp
+    ../game/mm9/Mm9DatPartyRuntime.cpp
+    ../game/mm9/Mm9DatRuntimeDevEntry.cpp
+    ../game/mm9/Mm9DatSceneRuntime.cpp
+    ../game/mm9/Mm9DatWorldRenderer.cpp
+    ../game/mm9/Mm9DatWorldRuntime.cpp
     ../game/mm9/Mm9SkyLayer.cpp
     ../game/mm9/Mm9ObjectLayer.cpp
     ../game/mm9/Mm9LightLayer.cpp
@@ -134,7 +141,6 @@ add_executable(openyamm_unit_tests
     ../game/maps/MapAssetLoader.cpp
     ../game/maps/MapIdentity.cpp
     ../game/maps/SaveGame.cpp
-    ../game/mm9/Mm9ScriptedBillboardVisuals.cpp
     ../game/maps/MapRegistry.cpp
     ../game/maps/IndoorSceneYml.cpp
     ../game/maps/OutdoorSceneYml.cpp
@@ -191,6 +197,7 @@ add_executable(openyamm_unit_tests
     ../game/tables/ReadableScrollTable.cpp
     ../game/render/AnimatedModelAsset.cpp
     ../game/render/AnimatedModelRenderer.cpp
+    ../game/render/TextureFiltering.cpp
     ../game/tables/SpellTable.cpp
     ../game/tables/SpellFxTable.cpp
     ../game/tables/SpeechReactionTable.cpp
@@ -266,6 +273,49 @@ if (UNIX AND NOT APPLE)
 endif()
 
 add_test(NAME openyamm_unit_tests COMMAND openyamm_unit_tests)
+
+add_executable(openyamm_mm9_dat_world_runtime_tests
+    UnitTestMain.cpp
+    Mm9DatWorldRuntimeTests.cpp
+)
+
+target_include_directories(openyamm_mm9_dat_world_runtime_tests
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}/third_party/doctest
+        ${OPENYAMM_BGFX_SOURCE_DIR}/include
+        ${OPENYAMM_BIMG_SOURCE_DIR}/include
+        ${OPENYAMM_BX_SOURCE_DIR}/include
+)
+
+target_compile_features(openyamm_mm9_dat_world_runtime_tests PRIVATE cxx_std_20)
+
+target_compile_definitions(openyamm_mm9_dat_world_runtime_tests
+    PRIVATE
+        OPENYAMM_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
+)
+
+target_link_libraries(openyamm_mm9_dat_world_runtime_tests
+    PRIVATE
+        openyamm_game
+        openyamm_bgfx
+        SDL3::SDL3
+        physfs-static
+        ${OPENYAMM_LUA_TARGET}
+        yaml-cpp::yaml-cpp
+)
+
+add_test(NAME openyamm_mm9_dat_world_runtime_tests COMMAND openyamm_mm9_dat_world_runtime_tests)
+
+find_package(Python3 COMPONENTS Interpreter)
+
+if (Python3_Interpreter_FOUND)
+    add_test(
+        NAME mm9_active_gate_tests
+        COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/mm9_active_gate_tests.py
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+endif()
 
 add_executable(openyamm_mm9_outdoor_runtime_tests
     UnitTestMain.cpp

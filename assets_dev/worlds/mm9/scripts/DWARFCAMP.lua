@@ -16,7 +16,7 @@ script.includes[#script.includes + 1] = { line = 12, path = "aiglobals.inc" }
 script.labels["OnUse"] = function(ctx)
     -- DWARFCAMP.scr:32
     ctx:getParam(0, "g_hObject") -- DWARFCAMP.scr:35
-    ctx:command("faceobject", "g_hObject, 180") -- DWARFCAMP.scr:37
+    ctx:self():faceObject(ctx:object("g_hObject"), 180) -- DWARFCAMP.scr:37
     do return ctx:exit("") end -- DWARFCAMP.scr:39
 end
 
@@ -24,13 +24,13 @@ script.labels["DwarfOnAlert"] = function(ctx)
     -- DWARFCAMP.scr:42
     if ctx:condition("g_hTarget!=NULL") then -- DWARFCAMP.scr:44
         -- only a small chance we'll go consider switching targets...
-        ctx:command("getrandomint", "0,100,g_nRandom") -- DWARFCAMP.scr:46
+        ctx:randomInt(0, 100, "g_nRandom") -- DWARFCAMP.scr:46
         if ctx:condition("g_nRandom > 10") then -- DWARFCAMP.scr:47
             do return ctx:exit("FALSE") end -- DWARFCAMP.scr:48
         end -- DWARFCAMP.scr:49
     end -- DWARFCAMP.scr:50
     ctx:getParam(0, "hAlertedBy") -- DWARFCAMP.scr:52
-    ctx:command("getclassname", "hAlertedBy, sAlertName") -- DWARFCAMP.scr:53
+    ctx:state().sAlertName = ctx:object("hAlertedBy"):className() -- DWARFCAMP.scr:53
     if ctx:condition("sAlertName != g_sMyClassName") then -- DWARFCAMP.scr:55
         do return ctx:exit("FALSE") end -- DWARFCAMP.scr:56
     end -- DWARFCAMP.scr:57
@@ -38,31 +38,31 @@ script.labels["DwarfOnAlert"] = function(ctx)
     -- let's see if we want to attack the guy who
     -- is attacking our buddy!
     ctx:getParam(1, "g_hObject") -- DWARFCAMP.scr:63
-    ctx:command("getclassname", "g_hObject, g_sTemp") -- DWARFCAMP.scr:64
+    ctx:state().g_sTemp = ctx:object("g_hObject"):className() -- DWARFCAMP.scr:64
     if ctx:condition("g_sTemp==g_sMyClassName") then -- DWARFCAMP.scr:66
         do return ctx:exit("FALSE") end -- DWARFCAMP.scr:67
     end -- DWARFCAMP.scr:68
-    ctx:command("set", "g_hTarget, g_hObject") -- DWARFCAMP.scr:70
-    ctx:command("target", "g_hTarget") -- DWARFCAMP.scr:71
+    ctx:set("g_hTarget", "g_hObject") -- DWARFCAMP.scr:70
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- DWARFCAMP.scr:71
     mm9.gosub(script, ctx, "BaseGoGetHim") -- DWARFCAMP.scr:73
     do return ctx:exit("") end -- DWARFCAMP.scr:75
 end
 
 script.labels["DwarfFindTarget"] = function(ctx)
     -- DWARFCAMP.scr:78
-    ctx:command("getobjects", "g_sEnemyName, 1000, 10, g_hEnemyArray, g_nObjects") -- DWARFCAMP.scr:80
+    ctx:getObjects("g_sEnemyName", 1000, 10, "g_hEnemyArray", "g_nObjects") -- DWARFCAMP.scr:80
     if ctx:condition("g_nObjects != NULL") then -- DWARFCAMP.scr:82
         if ctx:condition("g_hTarget == NULL") then -- DWARFCAMP.scr:83
             -- Randomly pick a target
-            ctx:command("sub", "g_nObjects, 1") -- DWARFCAMP.scr:85
-            ctx:command("getrandomint", "0, g_nObjects, g_nRandom") -- DWARFCAMP.scr:86
-            ctx:command("arrayget", "g_hEnemyArray, g_nRandom, g_hTarget") -- DWARFCAMP.scr:87
-            ctx:command("target", "g_hTarget") -- DWARFCAMP.scr:88
+            ctx:state().g_nObjects = (tonumber(ctx:state().g_nObjects) or 0) - 1 -- DWARFCAMP.scr:85
+            ctx:randomInt(0, "g_nObjects", "g_nRandom") -- DWARFCAMP.scr:86
+            ctx:arrayGet("g_hEnemyArray", "g_nRandom", "g_hTarget") -- DWARFCAMP.scr:87
+            ctx:self():setTarget(ctx:object("g_hTarget")) -- DWARFCAMP.scr:88
             mm9.gosub(script, ctx, "BaseGoGetHim") -- DWARFCAMP.scr:89
         end -- DWARFCAMP.scr:90
     else -- DWARFCAMP.scr:91
-        ctx:command("setidle", "") -- DWARFCAMP.scr:92
-        ctx:command("wait", "0, 5, DwarfFindTarget") -- DWARFCAMP.scr:93
+        ctx:self():setIdle() -- DWARFCAMP.scr:92
+        ctx:wait(0, 5, "DwarfFindTarget") -- DWARFCAMP.scr:93
     end -- DWARFCAMP.scr:94
     do return ctx:exit("") end -- DWARFCAMP.scr:96
 end
@@ -70,12 +70,12 @@ end
 script.labels["DwarfTargetDead"] = function(ctx)
     -- DWARFCAMP.scr:99
     ctx:getParam(0, "g_nTemp") -- DWARFCAMP.scr:102
-    ctx:command("target", "NULL") -- DWARFCAMP.scr:104
-    ctx:command("set", "g_hTarget, NULL") -- DWARFCAMP.scr:105
+    ctx:self():setTarget(nil) -- DWARFCAMP.scr:104
+    ctx:state().g_hTarget = nil -- DWARFCAMP.scr:105
     if ctx:condition("g_nTemp==g_hMyObject") then -- DWARFCAMP.scr:107
         -- We killed him!
         -- taunt him, and go home....
-        ctx:command("taunt", "DwarfFindTarget") -- DWARFCAMP.scr:112
+        ctx:self():taunt("DwarfFindTarget") -- DWARFCAMP.scr:112
     else -- DWARFCAMP.scr:113
         -- just go home...
         mm9.gosub(script, ctx, "DwarfFindTarget") -- DWARFCAMP.scr:115
@@ -90,7 +90,7 @@ script.labels["DwarfDamageDone"] = function(ctx)
     if ctx:condition("g_hAttacker==g_hMyObject") then -- DWARFCAMP.scr:128
         do return ctx:exit("FALSE") end -- DWARFCAMP.scr:129
     end -- DWARFCAMP.scr:130
-    ctx:command("getclassname", "g_hAttacker, sAlertName") -- DWARFCAMP.scr:132
+    ctx:state().sAlertName = ctx:object("g_hAttacker"):className() -- DWARFCAMP.scr:132
     -- Make sure we don't attack fellow dwarves
     if ctx:condition("sAlertName == g_sMyClassName") then -- DWARFCAMP.scr:135
         do return ctx:exit("FALSE") end -- DWARFCAMP.scr:136
@@ -104,15 +104,15 @@ script.labels["DwarfAttackReady"] = function(ctx)
     -- We are now in attack range (for our
     -- currently selected weapon) and ready
     -- to attack.  So let's do it!
-    ctx:command("getclassname", "g_hTarget, sAlertName") -- DWARFCAMP.scr:151
+    ctx:state().sAlertName = ctx:object("g_hTarget"):className() -- DWARFCAMP.scr:151
     if ctx:condition("sAlertName == g_sMyClassName") then -- DWARFCAMP.scr:152
-        ctx:command("target", "NULL") -- DWARFCAMP.scr:153
-        ctx:command("set", "g_hTarget, NULL") -- DWARFCAMP.scr:154
+        ctx:self():setTarget(nil) -- DWARFCAMP.scr:153
+        ctx:state().g_hTarget = nil -- DWARFCAMP.scr:154
         mm9.gosub(script, ctx, "DwarfFindTarget") -- DWARFCAMP.scr:155
     else -- DWARFCAMP.scr:156
-        ctx:command("set", "g_bFighting, TRUE") -- DWARFCAMP.scr:157
-        ctx:command("gettime", "g_nLastAttackTime") -- DWARFCAMP.scr:159
-        ctx:command("attack", "") -- DWARFCAMP.scr:161
+        ctx:state().g_bFighting = true -- DWARFCAMP.scr:157
+        ctx:getTime("g_nLastAttackTime") -- DWARFCAMP.scr:159
+        ctx:self():attack() -- DWARFCAMP.scr:161
     end -- DWARFCAMP.scr:162
     do return ctx:exit("") end -- DWARFCAMP.scr:164
 end
@@ -124,11 +124,11 @@ script.labels["DwarfOnLostTarget"] = function(ctx)
     -- TRUE
     -- This will keep us from losing the target
     if ctx:condition("g_hTarget != NULL") then -- DWARFCAMP.scr:174
-        ctx:command("target", "g_hTarget") -- DWARFCAMP.scr:175
+        ctx:self():setTarget(ctx:object("g_hTarget")) -- DWARFCAMP.scr:175
         mm9.gosub(script, ctx, "BaseGoGetHim") -- DWARFCAMP.scr:176
     else -- DWARFCAMP.scr:177
-        ctx:command("target", "NULL") -- DWARFCAMP.scr:178
-        ctx:command("set", "g_hTarget, NULL") -- DWARFCAMP.scr:179
+        ctx:self():setTarget(nil) -- DWARFCAMP.scr:178
+        ctx:state().g_hTarget = nil -- DWARFCAMP.scr:179
         mm9.gosub(script, ctx, "DwarfFindTarget") -- DWARFCAMP.scr:180
     end -- DWARFCAMP.scr:181
     do return ctx:exit("TRUE") end -- DWARFCAMP.scr:183
@@ -138,15 +138,15 @@ script.labels["DwarfTargetOutOfRange"] = function(ctx)
     -- DWARFCAMP.scr:186
     -- Target moved out of our weapon range.
     -- Go after him!
-    ctx:command("canattack", "g_bCanAttack") -- DWARFCAMP.scr:193
-    ctx:command("isattacking", "g_bAttacking") -- DWARFCAMP.scr:194
+    ctx:state().g_bCanAttack = ctx:self():canAttack() -- DWARFCAMP.scr:193
+    ctx:state().g_bAttacking = ctx:self():isAttacking() -- DWARFCAMP.scr:194
     if ctx:condition("g_bAttacking==TRUE") then -- DWARFCAMP.scr:196
-        ctx:command("wait", "0, 0.5, DwarfOutOfRangeWait") -- DWARFCAMP.scr:197
+        ctx:wait(0, 0.5, "DwarfOutOfRangeWait") -- DWARFCAMP.scr:197
     end -- DWARFCAMP.scr:198
     if ctx:condition("g_bCanAttack==TRUE") then -- DWARFCAMP.scr:200
         mm9.gosub(script, ctx, "BaseGoGetHim") -- DWARFCAMP.scr:201
     else -- DWARFCAMP.scr:202
-        ctx:command("wait", "0, 0.5, DwarfOutOfRangeWait") -- DWARFCAMP.scr:203
+        ctx:wait(0, 0.5, "DwarfOutOfRangeWait") -- DWARFCAMP.scr:203
     end -- DWARFCAMP.scr:204
     do return ctx:exit("") end -- DWARFCAMP.scr:206
 end
@@ -159,14 +159,14 @@ script.labels["DwarfOutOfRangeWait"] = function(ctx)
     if ctx:condition("g_hTarget==NULL") then -- DWARFCAMP.scr:216
         do return ctx:exit("TRUE") end -- DWARFCAMP.scr:217
     end -- DWARFCAMP.scr:218
-    ctx:command("isattacking", "g_bAttacking") -- DWARFCAMP.scr:220
+    ctx:state().g_bAttacking = ctx:self():isAttacking() -- DWARFCAMP.scr:220
     if ctx:condition("g_bAttacking==TRUE") then -- DWARFCAMP.scr:222
-        ctx:command("wait", "0, 0.5, DwarfOutOfRangeWait") -- DWARFCAMP.scr:223
+        ctx:wait(0, 0.5, "DwarfOutOfRangeWait") -- DWARFCAMP.scr:223
         do return ctx:exit("TRUE") end -- DWARFCAMP.scr:224
     end -- DWARFCAMP.scr:225
-    ctx:command("canattack", "g_bCanAttack") -- DWARFCAMP.scr:227
+    ctx:state().g_bCanAttack = ctx:self():canAttack() -- DWARFCAMP.scr:227
     if ctx:condition("g_bCanAttack==TRUE") then -- DWARFCAMP.scr:228
-        ctx:command("isattacking", "g_bAttacking") -- DWARFCAMP.scr:229
+        ctx:state().g_bAttacking = ctx:self():isAttacking() -- DWARFCAMP.scr:229
         if ctx:condition("g_bAttacking==TRUE") then -- DWARFCAMP.scr:231
             do return ctx:exit("TRUE") end -- DWARFCAMP.scr:232
         end -- DWARFCAMP.scr:233
@@ -174,23 +174,23 @@ script.labels["DwarfOutOfRangeWait"] = function(ctx)
         do return ctx:exit("TRUE") end -- DWARFCAMP.scr:236
     end -- DWARFCAMP.scr:237
     -- randomly play a taunt animation...
-    ctx:command("getrandomint", "0, 100, g_nRandom") -- DWARFCAMP.scr:240
+    ctx:randomInt(0, 100, "g_nRandom") -- DWARFCAMP.scr:240
     if ctx:condition("g_nRandom < 30") then -- DWARFCAMP.scr:242
         if ctx:condition("g_nRandom < 15") then -- DWARFCAMP.scr:243
-            ctx:command("taunt", "DwarfAttackWaitAnimDone") -- DWARFCAMP.scr:244
+            ctx:self():taunt("DwarfAttackWaitAnimDone") -- DWARFCAMP.scr:244
         else -- DWARFCAMP.scr:245
-            ctx:command("aware", "DwarfAttackWaitAnimDone") -- DWARFCAMP.scr:246
+            ctx:self():aware("DwarfAttackWaitAnimDone") -- DWARFCAMP.scr:246
         end -- DWARFCAMP.scr:247
         do return ctx:exit("TRUE") end -- DWARFCAMP.scr:248
     end -- DWARFCAMP.scr:249
     -- AIGetDistance g_hTarget, g_nDist1
     -- if ( g_nDist1 > 200 )		; if they are too far away...
-    ctx:command("walkto", "g_hTarget") -- DWARFCAMP.scr:254
+    ctx:self():walkTo(ctx:object("g_hTarget")) -- DWARFCAMP.scr:254
     -- Wait 0, 0.5, DwarfOutOfRangeWalkingWait
     -- Exit TRUE
     -- endif
     -- Continue waiting....
-    ctx:command("wait", "0, 0.5, DwarfOutOfRangeWait") -- DWARFCAMP.scr:261
+    ctx:wait(0, 0.5, "DwarfOutOfRangeWait") -- DWARFCAMP.scr:261
     do return ctx:exit("") end -- DWARFCAMP.scr:263
 end
 
@@ -213,16 +213,16 @@ script.labels["DwarfOutOfRangeWalkingWait"] = function(ctx)
     -- Once we start walking after target,
     -- we want to start running as soon as
     -- we are attack ready...
-    ctx:command("canattack", "g_bCanAttack") -- DWARFCAMP.scr:294
+    ctx:state().g_bCanAttack = ctx:self():canAttack() -- DWARFCAMP.scr:294
     if ctx:condition("g_bCanAttack==TRUE") then -- DWARFCAMP.scr:295
-        ctx:command("isattacking", "g_bAttacking") -- DWARFCAMP.scr:296
+        ctx:state().g_bAttacking = ctx:self():isAttacking() -- DWARFCAMP.scr:296
         if ctx:condition("g_bAttacking==TRUE") then -- DWARFCAMP.scr:298
             do return ctx:exit("TRUE") end -- DWARFCAMP.scr:299
         end -- DWARFCAMP.scr:300
         mm9.gosub(script, ctx, "BaseGoGetHim") -- DWARFCAMP.scr:302
         do return ctx:exit("TRUE") end -- DWARFCAMP.scr:303
     end -- DWARFCAMP.scr:304
-    ctx:command("wait", "0, 0.5, DwarfOutOfRangeWait") -- DWARFCAMP.scr:306
+    ctx:wait(0, 0.5, "DwarfOutOfRangeWait") -- DWARFCAMP.scr:306
     do return ctx:exit("") end -- DWARFCAMP.scr:308
 end
 
@@ -235,12 +235,12 @@ end
 script.labels["DwarfObstacle"] = function(ctx)
     -- DWARFCAMP.scr:320
     ctx:getParam(0, "g_hObstacle") -- DWARFCAMP.scr:323
-    ctx:command("getclassname", "g_hObstacle, g_sObstacleName") -- DWARFCAMP.scr:324
+    ctx:state().g_sObstacleName = ctx:object("g_hObstacle"):className() -- DWARFCAMP.scr:324
     if ctx:condition("g_sObstacleName == g_sEnemyName") then -- DWARFCAMP.scr:326
-        ctx:command("getrandomint", "0, 10, g_nRandom") -- DWARFCAMP.scr:327
+        ctx:randomInt(0, 10, "g_nRandom") -- DWARFCAMP.scr:327
         if ctx:condition("g_nRandom > 3") then -- DWARFCAMP.scr:328
-            ctx:command("set", "g_hTarget, g_hObstacle") -- DWARFCAMP.scr:329
-            ctx:command("target", "g_hTarget") -- DWARFCAMP.scr:330
+            ctx:set("g_hTarget", "g_hObstacle") -- DWARFCAMP.scr:329
+            ctx:self():setTarget(ctx:object("g_hTarget")) -- DWARFCAMP.scr:330
             mm9.gosub(script, ctx, "BaseGoGetHim") -- DWARFCAMP.scr:331
             do return ctx:exit("TRUE") end -- DWARFCAMP.scr:333
         end -- DWARFCAMP.scr:334
@@ -258,11 +258,11 @@ end
 
 script.labels["Init"] = function(ctx)
     -- DWARFCAMP.scr:351
-    ctx:command("getobjecthandle", "CampDirector, g_hCampDirector") -- DWARFCAMP.scr:354
+    ctx:state().g_hCampDirector = ctx:objectOrNil("CampDirector") -- DWARFCAMP.scr:354
     -- See if we already have a target (this would normally happen if
     -- the ai were running another script and then decided to start running
     -- this one...
-    ctx:command("gettarget", "g_hTarget") -- DWARFCAMP.scr:360
+    ctx:state().g_hTarget = ctx:self():target() -- DWARFCAMP.scr:360
     if ctx:condition("g_hTarget!=NULL") then -- DWARFCAMP.scr:362
         mm9.gosub(script, ctx, "BaseGoGetHim") -- DWARFCAMP.scr:363
     else -- DWARFCAMP.scr:364
@@ -281,28 +281,27 @@ script.labels["Main"] = function(ctx)
     -- DWARFCAMP.scr:377
     -- This routine is automatically run
     -- at script startup...
-    ctx:command("getmyhandle", "g_hMyObject") -- DWARFCAMP.scr:382
-    ctx:command("getclassname", "g_hMyObject, g_sMyClassName") -- DWARFCAMP.scr:383
+    ctx:state().g_sMyClassName = ctx:self():className() -- DWARFCAMP.scr:383
     mm9.gosub(script, ctx, "InitBase") -- DWARFCAMP.scr:385
     -- Setup our event handlers...
     -- Base callbacks
-    ctx:command("ondamage", "BaseDamage") -- DWARFCAMP.scr:392
-    ctx:command("oncongestion", "BaseCongestion") -- DWARFCAMP.scr:393
-    ctx:command("onpathclear", "BasePathClear") -- DWARFCAMP.scr:394
+    ctx:onEvent("OnDamage", "BaseDamage") -- DWARFCAMP.scr:392
+    ctx:onEvent("OnCongestion", "BaseCongestion") -- DWARFCAMP.scr:393
+    ctx:onEvent("OnPathClear", "BasePathClear") -- DWARFCAMP.scr:394
     -- Dwarf script call backs
-    ctx:command("ondamagedone", "DwarfDamageDone") -- DWARFCAMP.scr:397
-    ctx:command("onalert", "DwarfOnAlert") -- DWARFCAMP.scr:398
-    ctx:command("ontargetdead", "DwarfTargetDead") -- DWARFCAMP.scr:399
-    ctx:command("onattackready", "DwarfAttackReady") -- DWARFCAMP.scr:400
-    ctx:command("onlosttarget", "DwarfOnLostTarget") -- DWARFCAMP.scr:401
-    ctx:command("ondeathdone", "DwarfDeathDone") -- DWARFCAMP.scr:402
-    ctx:command("ontargetoutofrange", "DwarfTargetOutOfRange") -- DWARFCAMP.scr:403
-    ctx:command("onstuckdone", "DwarfStuckDone") -- DWARFCAMP.scr:404
-    ctx:command("onobstacle", "DwarfObstacle") -- DWARFCAMP.scr:405
-    ctx:command("onfoundplayer", "DoNothing") -- DWARFCAMP.scr:406
-    ctx:command("set", "g_bAlwaysRunToTarget, TRUE") -- DWARFCAMP.scr:408
-    ctx:command("set", "g_sEnemyName,Zombie") -- DWARFCAMP.scr:409
-    ctx:command("wait", "0, 0.1, Init") -- DWARFCAMP.scr:411
+    ctx:onEvent("OnDamageDone", "DwarfDamageDone") -- DWARFCAMP.scr:397
+    ctx:onEvent("OnAlert", "DwarfOnAlert") -- DWARFCAMP.scr:398
+    ctx:onEvent("OnTargetDead", "DwarfTargetDead") -- DWARFCAMP.scr:399
+    ctx:onEvent("OnAttackReady", "DwarfAttackReady") -- DWARFCAMP.scr:400
+    ctx:onEvent("OnLostTarget", "DwarfOnLostTarget") -- DWARFCAMP.scr:401
+    ctx:onEvent("OnDeathDone", "DwarfDeathDone") -- DWARFCAMP.scr:402
+    ctx:onEvent("OnTargetOutOfRange", "DwarfTargetOutOfRange") -- DWARFCAMP.scr:403
+    ctx:onEvent("OnStuckDone", "DwarfStuckDone") -- DWARFCAMP.scr:404
+    ctx:onEvent("OnObstacle", "DwarfObstacle") -- DWARFCAMP.scr:405
+    ctx:onEvent("OnFoundPlayer", "DoNothing") -- DWARFCAMP.scr:406
+    ctx:state().g_bAlwaysRunToTarget = true -- DWARFCAMP.scr:408
+    ctx:set("g_sEnemyName", "Zombie") -- DWARFCAMP.scr:409
+    ctx:wait(0, 0.1, "Init") -- DWARFCAMP.scr:411
     do return ctx:exit("") end -- DWARFCAMP.scr:413
 end
 

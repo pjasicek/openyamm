@@ -4,6 +4,7 @@ map_id: inventastorca
 display_name: Inventa Storca
 source:
   dat: ../source/worlds/INVENTASTORCA.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/INVENTASTORCA.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: inventastorca.raw_objects.yml
   materials: inventastorca.material_aliases.yml
   events: inventastorca.events.yml
-  scene_compat: inventastorca.scene.yml
+  scene_compat: null
   source_metadata_compat: inventastorca.mm9.yml
-  bsp_compat: inventastorca.bsp.yml
-  geometry_compat: inventastorca.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: inventastorca.blv
+  blv_compat: null
 scripts:
   level: ../events/inventastorca.lua
   script_ir: ../events/inventastorca.script_ir.yml

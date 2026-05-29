@@ -30,7 +30,7 @@ script.labels["crusaderpromo"] = function(ctx)
             ctx:giveKey(137) -- NPC89.scr:56
             ctx:giveGold(5000) -- NPC89.scr:57
             ctx:giveExp(24500) -- NPC89.scr:58
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC89.scr:59
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC89.scr:59
             mm9.gosub(script, ctx, "PromoteCrusader") -- NPC89.scr:60
             -- gives key and reward.
             do return ctx:exit("") end -- NPC89.scr:62
@@ -46,19 +46,19 @@ script.labels["PromoteCrusader"] = function(ctx)
     -- Player has already completed the quest
     -- just check to see who gets promoted
     if ctx:hasKey(413) then -- NPC89.scr:83-84
-        ctx:command("givepromo", "Crusader Char1") -- NPC89.scr:85
+        ctx:givePromo("Crusader", "Char1") -- NPC89.scr:85
         ctx:takeKey(413) -- NPC89.scr:86
     end -- NPC89.scr:87
     if ctx:hasKey(414) then -- NPC89.scr:89-90
-        ctx:command("givepromo", "Crusader Char2") -- NPC89.scr:91
+        ctx:givePromo("Crusader", "Char2") -- NPC89.scr:91
         ctx:takeKey(414) -- NPC89.scr:92
     end -- NPC89.scr:93
     if ctx:hasKey(415) then -- NPC89.scr:95-96
-        ctx:command("givepromo", "Crusader Char3") -- NPC89.scr:97
+        ctx:givePromo("Crusader", "Char3") -- NPC89.scr:97
         ctx:takeKey(415) -- NPC89.scr:98
     end -- NPC89.scr:99
     if ctx:hasKey(416) then -- NPC89.scr:101-102
-        ctx:command("givepromo", "Crusader Char4") -- NPC89.scr:103
+        ctx:givePromo("Crusader", "Char4") -- NPC89.scr:103
         ctx:takeKey(416) -- NPC89.scr:104
     end -- NPC89.scr:105
     do return ctx:exit("") end -- NPC89.scr:106
@@ -66,7 +66,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC89.scr:110
-    ctx:command("playsound", "voices\\NPC\\NPC_089.wav, Onexit, 100, 240, FALSE, 100") -- NPC89.scr:113
+    ctx:playSound("voices\\NPC\\NPC_089.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC89.scr:113
     do return ctx:exit("") end -- NPC89.scr:114
 end
 

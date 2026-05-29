@@ -12,7 +12,10 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr float DefaultLightRadius = 0.0f;
+constexpr float DefaultLightRadius = 300.0f;
+constexpr float DefaultLightSize = 5.0f;
+constexpr float DefaultLightFov = 90.0f;
+constexpr float Pi = 3.14159265358979323846f;
 
 std::string lowerCopy(const std::string &value)
 {
@@ -27,6 +30,34 @@ std::string lowerCopy(const std::string &value)
 bool equalsIgnoreCase(const std::string &left, const std::string &right)
 {
     return lowerCopy(left) == lowerCopy(right);
+}
+
+std::string numberListRawValue(const std::vector<float> &values)
+{
+    std::ostringstream stream;
+    for (size_t index = 0; index < values.size(); ++index)
+    {
+        if (index > 0)
+        {
+            stream << ' ';
+        }
+        stream << values[index];
+    }
+    return stream.str();
+}
+
+std::string stringListRawValue(const std::vector<std::string> &values)
+{
+    std::ostringstream stream;
+    for (size_t index = 0; index < values.size(); ++index)
+    {
+        if (index > 0)
+        {
+            stream << ' ';
+        }
+        stream << values[index];
+    }
+    return stream.str();
 }
 
 std::optional<float> parseFloat(const std::string &text)
@@ -254,6 +285,87 @@ bool lightClass(const std::string &sourceClass)
         || equalsIgnoreCase(sourceClass, "ObjectLight");
 }
 
+bool lightClassIsLight(const std::string &sourceClass)
+{
+    return equalsIgnoreCase(sourceClass, "Light");
+}
+
+bool lightClassIsDirLight(const std::string &sourceClass)
+{
+    return equalsIgnoreCase(sourceClass, "DirLight");
+}
+
+bool lightClassIsObjectLight(const std::string &sourceClass)
+{
+    return equalsIgnoreCase(sourceClass, "ObjectLight");
+}
+
+std::vector<float> defaultAttCoefs()
+{
+    return {1.0f, 0.0f, 19.0f};
+}
+
+std::vector<float> defaultAttExps()
+{
+    return {0.0f, 0.0f, -2.0f};
+}
+
+bool classDeclaresLightObjects(const std::string &sourceClass)
+{
+    return lightClassIsLight(sourceClass) || lightClassIsDirLight(sourceClass);
+}
+
+bool defaultFastLightObjects(const std::string &sourceClass)
+{
+    return lightClassIsLight(sourceClass)
+        || lightClassIsDirLight(sourceClass)
+        || lightClassIsObjectLight(sourceClass);
+}
+
+bool classDeclaresClipLight(const std::string &sourceClass)
+{
+    return lightClassIsLight(sourceClass) || lightClassIsDirLight(sourceClass);
+}
+
+bool classDeclaresObjectBrightScale(const std::string &sourceClass)
+{
+    return lightClassIsLight(sourceClass) || lightClassIsDirLight(sourceClass);
+}
+
+bool classDeclaresSize(const std::string &sourceClass)
+{
+    return lightClassIsLight(sourceClass) || lightClassIsDirLight(sourceClass);
+}
+
+bool classDeclaresCastShadowMesh(const std::string &sourceClass)
+{
+    return lightClassIsLight(sourceClass) || lightClassIsDirLight(sourceClass);
+}
+
+bool validAttenuationName(const std::string &value)
+{
+    return equalsIgnoreCase(value, "D3D")
+        || equalsIgnoreCase(value, "Linear")
+        || equalsIgnoreCase(value, "Quartic");
+}
+
+std::string canonicalAttenuationName(const std::string &value)
+{
+    if (equalsIgnoreCase(value, "D3D"))
+    {
+        return "D3D";
+    }
+    if (equalsIgnoreCase(value, "Linear"))
+    {
+        return "Linear";
+    }
+    if (equalsIgnoreCase(value, "Quartic"))
+    {
+        return "Quartic";
+    }
+    return value;
+}
+
 std::set<std::string> knownLightProperties()
 {
     return {
@@ -262,11 +374,13 @@ std::set<std::string> knownLightProperties()
         "attexps",
         "brightscale",
         "castshadows",
+        "castshadowmesh",
         "cliplight",
         "converttoambient",
         "fastlightobjects",
         "fov",
         "innercolor",
+        "atttype",
         "lightcolor",
         "lightgroup",
         "lightobjects",
@@ -276,8 +390,111 @@ std::set<std::string> knownLightProperties()
         "outercolor",
         "pos",
         "rotation",
+        "size",
         "time",
     };
+}
+
+float clampColorValue(float value)
+{
+    return std::clamp(value, 0.0f, 255.0f);
+}
+
+Mm9LightColor scaleColor(const Mm9LightColor &color, float scale)
+{
+    return {color.r * scale, color.g * scale, color.b * scale};
+}
+
+bool resolveEffectiveColor(Mm9LightObject &light)
+{
+    if (lightClassIsDirLight(light.sourceClass) && light.hasInnerColor)
+    {
+        light.effectiveColor = light.innerColor;
+        light.hasEffectiveColor = true;
+        return true;
+    }
+
+    if (light.hasLightColor)
+    {
+        light.effectiveColor = light.lightColor;
+        light.hasEffectiveColor = true;
+        return true;
+    }
+
+    if (light.hasInnerColor)
+    {
+        light.effectiveColor = light.innerColor;
+        light.hasEffectiveColor = true;
+        return true;
+    }
+
+    if (lightClassIsDirLight(light.sourceClass))
+    {
+        light.effectiveColor = light.innerColor;
+        light.hasEffectiveColor = true;
+        return true;
+    }
+
+    if (lightClassIsLight(light.sourceClass) || lightClassIsObjectLight(light.sourceClass))
+    {
+        light.effectiveColor = light.lightColor;
+        light.hasEffectiveColor = true;
+        return true;
+    }
+
+    return false;
+}
+
+std::vector<float> computeEffectiveAttCoefs(
+    const std::vector<float> &attCoefs,
+    const std::vector<float> &attExps,
+    float radius)
+{
+    if (attCoefs.size() < 3 || attExps.size() < 3 || radius <= 0.0f)
+    {
+        return {};
+    }
+
+    std::vector<float> values;
+    values.reserve(3);
+    for (size_t index = 0; index < 3; ++index)
+    {
+        values.push_back(attCoefs[index] * std::pow(radius, attExps[index]));
+    }
+    return values;
+}
+
+std::string attenuationProperty(
+    const Mm9LightSourceObject &object,
+    const std::string &name,
+    const std::string &fallback,
+    bool &present,
+    bool &valid,
+    Mm9LightLayer &layer)
+{
+    const Mm9LightSourceProperty *pProperty = findProperty(object, name);
+    present = false;
+    valid = true;
+    if (pProperty == nullptr)
+    {
+        return fallback;
+    }
+
+    if (pProperty->kind != Mm9LightSourcePropertyKind::String)
+    {
+        addObjectDiagnostic(layer, object, name, "invalid_string_property");
+        return fallback;
+    }
+
+    present = true;
+    if (!validAttenuationName(pProperty->stringValue))
+    {
+        valid = false;
+        addObjectDiagnostic(layer, object, name, "invalid_attenuation_property");
+        return pProperty->stringValue;
+    }
+
+    return canonicalAttenuationName(pProperty->stringValue);
 }
 
 uint8_t colorChannel(float value)
@@ -361,6 +578,7 @@ Mm9LightSourceProperty mm9LightNumberListProperty(const std::string &name, const
     property.name = name;
     property.kind = Mm9LightSourcePropertyKind::NumberList;
     property.numberValues = values;
+    property.rawValue = numberListRawValue(values);
     return property;
 }
 
@@ -372,6 +590,7 @@ Mm9LightSourceProperty mm9LightStringListProperty(
     property.name = name;
     property.kind = Mm9LightSourcePropertyKind::StringList;
     property.stringValues = values;
+    property.rawValue = stringListRawValue(values);
     return property;
 }
 
@@ -402,7 +621,7 @@ Mm9WorldLightingInfo parseMm9WorldLightingInfo(const Mm9DatWorldInfo &worldInfo)
                 continue;
             }
 
-            lightingInfo.ambientLight = {*red, *green, *blue};
+            lightingInfo.ambientLight = {clampColorValue(*red), clampColorValue(*green), clampColorValue(*blue)};
             lightingInfo.hasAmbientLight = true;
             index += 3;
         }
@@ -464,6 +683,19 @@ Mm9LightLayer buildMm9LightLayer(
         light.sourceClass = sourceObject.sourceClass;
         light.sourceName = sourceObject.sourceName;
         light.sourceProperties = sourceObject.properties;
+        light.lightRadius = DefaultLightRadius;
+        light.lightColor = {255.0f, 255.0f, 255.0f};
+        light.innerColor = {255.0f, 255.0f, 255.0f};
+        light.attCoefs = defaultAttCoefs();
+        light.attExps = defaultAttExps();
+        light.attType = "Default";
+        light.lightObjects = classDeclaresLightObjects(sourceObject.sourceClass);
+        light.fastLightObjects = defaultFastLightObjects(sourceObject.sourceClass);
+        light.castShadows = true;
+        light.clipLight = classDeclaresClipLight(sourceObject.sourceClass);
+        light.objectBrightScale = 1.0f;
+        light.size = classDeclaresSize(sourceObject.sourceClass) ? DefaultLightSize : 0.0f;
+        light.fov = lightClassIsDirLight(sourceObject.sourceClass) ? DefaultLightFov : 0.0f;
 
         bool present = false;
         const std::string sourceName = stringProperty(sourceObject, "Name", present, layer);
@@ -476,11 +708,20 @@ Mm9LightLayer buildMm9LightLayer(
         light.lightRadius = numberProperty(
             sourceObject,
             "LightRadius",
-            DefaultLightRadius,
+            light.lightRadius,
             light.hasLightRadius,
             layer);
         light.lightColor = colorProperty(sourceObject, "LightColor", light.hasLightColor, layer);
+        if (!light.hasLightColor && (lightClassIsLight(sourceObject.sourceClass)
+            || lightClassIsObjectLight(sourceObject.sourceClass)))
+        {
+            light.lightColor = {255.0f, 255.0f, 255.0f};
+        }
         light.innerColor = colorProperty(sourceObject, "InnerColor", light.hasInnerColor, layer);
+        if (!light.hasInnerColor && lightClassIsDirLight(sourceObject.sourceClass))
+        {
+            light.innerColor = {255.0f, 255.0f, 255.0f};
+        }
         light.outerColor = colorProperty(sourceObject, "OuterColor", light.hasOuterColor, layer);
         light.brightScale = numberProperty(sourceObject, "BrightScale", 1.0f, light.hasBrightScale, layer);
         light.objectBrightScale = numberProperty(
@@ -489,34 +730,97 @@ Mm9LightLayer buildMm9LightLayer(
             1.0f,
             light.hasObjectBrightScale,
             layer);
+        if (!classDeclaresObjectBrightScale(sourceObject.sourceClass))
+        {
+            light.objectBrightScale = 1.0f;
+            light.hasObjectBrightScale = false;
+        }
         light.attCoefs = numberListProperty(sourceObject, "AttCoefs", layer);
+        if (light.attCoefs.empty())
+        {
+            light.attCoefs = defaultAttCoefs();
+        }
         light.attExps = numberListProperty(sourceObject, "AttExps", layer);
-        light.attenuation = numberListProperty(sourceObject, "Attenuation", layer);
-        light.lightObjects = boolProperty(sourceObject, "LightObjects", false, layer);
+        if (light.attExps.empty())
+        {
+            light.attExps = defaultAttExps();
+        }
+        light.attenuation = attenuationProperty(
+            sourceObject,
+            "Attenuation",
+            "Quartic",
+            light.hasAttenuation,
+            light.validAttenuation,
+            layer);
+        light.size = numberProperty(sourceObject, "Size", light.size, light.hasSize, layer);
+        if (!classDeclaresSize(sourceObject.sourceClass))
+        {
+            light.size = 0.0f;
+            light.hasSize = false;
+        }
+        light.attType = stringProperty(sourceObject, "AttType", light.hasAttType, layer);
+        if (!light.hasAttType)
+        {
+            light.attType = "Default";
+        }
+        light.castShadowMesh = boolProperty(sourceObject, "CastShadowMesh", false, layer);
+        light.hasCastShadowMesh = findProperty(sourceObject, "CastShadowMesh") != nullptr;
+        if (!classDeclaresCastShadowMesh(sourceObject.sourceClass))
+        {
+            light.castShadowMesh = false;
+            light.hasCastShadowMesh = false;
+        }
+        light.lightObjects = boolProperty(sourceObject, "LightObjects", light.lightObjects, layer);
         light.hasLightObjects = findProperty(sourceObject, "LightObjects") != nullptr;
-        light.fastLightObjects = boolProperty(sourceObject, "FastLightObjects", false, layer);
+        if (!classDeclaresLightObjects(sourceObject.sourceClass))
+        {
+            light.lightObjects = false;
+            light.hasLightObjects = false;
+        }
+        light.fastLightObjects = boolProperty(sourceObject, "FastLightObjects", light.fastLightObjects, layer);
         light.hasFastLightObjects = findProperty(sourceObject, "FastLightObjects") != nullptr;
-        light.castShadows = boolProperty(sourceObject, "CastShadows", false, layer);
+        light.castShadows = boolProperty(sourceObject, "CastShadows", light.castShadows, layer);
         light.hasCastShadows = findProperty(sourceObject, "CastShadows") != nullptr;
-        light.clipLight = boolProperty(sourceObject, "ClipLight", false, layer);
+        light.clipLight = boolProperty(sourceObject, "ClipLight", light.clipLight, layer);
         light.hasClipLight = findProperty(sourceObject, "ClipLight") != nullptr;
-        light.convertToAmbient = boolProperty(sourceObject, "ConvertToAmbient", false, layer);
-        light.hasConvertToAmbient = findProperty(sourceObject, "ConvertToAmbient") != nullptr;
-        light.fov = numberProperty(sourceObject, "FOV", 0.0f, light.hasFov, layer);
+        if (!classDeclaresClipLight(sourceObject.sourceClass))
+        {
+            light.clipLight = false;
+            light.hasClipLight = false;
+        }
+        light.convertToAmbient = numberProperty(
+            sourceObject,
+            "ConvertToAmbient",
+            0.0f,
+            light.hasConvertToAmbient,
+            layer);
+        light.fov = numberProperty(sourceObject, "FOV", light.fov, light.hasFov, layer);
         light.time = numberProperty(sourceObject, "Time", 0.0f, light.hasTime, layer);
         light.lightGroup = stringProperty(sourceObject, "LightGroup", light.hasLightGroup, layer);
+
+        resolveEffectiveColor(light);
+        if (light.hasEffectiveColor)
+        {
+            const float objectColorScale = light.brightScale * light.objectBrightScale;
+            light.effectiveObjectLightColor = scaleColor(light.effectiveColor, objectColorScale);
+            light.hasEffectiveObjectLightColor = true;
+        }
+        light.effectiveAttCoefs = computeEffectiveAttCoefs(light.attCoefs, light.attExps, light.lightRadius);
+        if (light.hasFov || lightClassIsDirLight(sourceObject.sourceClass))
+        {
+            light.effectiveFovCos = std::cos(light.fov * Pi / 360.0f);
+            light.hasEffectiveFovCos = true;
+        }
+        light.effectiveLightObjects = light.lightObjects;
+        light.effectiveFastLightObjects = light.fastLightObjects;
+        light.effectiveCastShadows = light.castShadows;
+        light.effectiveClipLight = light.clipLight;
+        light.staticObjectLightEligible = light.effectiveLightObjects && !light.effectiveFastLightObjects;
+        light.fastObjectLightingSource = light.effectiveLightObjects && light.effectiveFastLightObjects;
 
         if (!light.hasPosition)
         {
             addObjectDiagnostic(layer, sourceObject, "Pos", "missing_light_position");
-        }
-        if (!light.hasLightColor)
-        {
-            addObjectDiagnostic(layer, sourceObject, "LightColor", "missing_light_color");
-        }
-        if (!light.hasLightRadius)
-        {
-            addObjectDiagnostic(layer, sourceObject, "LightRadius", "missing_light_radius");
         }
 
         for (const Mm9LightSourceProperty &property : sourceObject.properties)
@@ -538,23 +842,27 @@ std::optional<RenderLight> convertMm9LightObjectToRenderLight(
     const Mm9LightObject &lightObject,
     float scale)
 {
-    if (!lightObject.hasPosition
-        || !lightObject.hasLightColor
-        || !lightObject.hasLightRadius
+    if (!lightObject.staticObjectLightEligible
+        || !lightObject.hasPosition
+        || !lightObject.hasEffectiveColor
         || lightObject.lightRadius <= 0.0f)
     {
         return std::nullopt;
     }
 
+    const Mm9LightColor color = lightObject.hasEffectiveObjectLightColor
+        ? lightObject.effectiveObjectLightColor
+        : lightObject.effectiveColor;
+
     RenderLight light = {};
     light.position = ltToOpenYamm(lightObject.positionLt, scale);
     light.radius = lightObject.lightRadius * scale;
-    light.colorAbgr = makeAbgr(lightObject.lightColor);
-    light.intensity = lightObject.hasBrightScale ? lightObject.brightScale : 1.0f;
+    light.colorAbgr = makeAbgr(color);
+    light.intensity = 1.0f;
     light.kind = RenderLightKind::Static;
     light.stableId = static_cast<uint32_t>(lightObject.sourceObjectIndex + 1);
     light.dynamic = false;
-    light.important = lightObject.lightObjects && !lightObject.fastLightObjects;
+    light.important = true;
     return light;
 }
 

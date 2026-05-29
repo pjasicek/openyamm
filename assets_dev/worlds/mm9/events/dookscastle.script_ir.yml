@@ -1,0 +1,361 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: dookscastle
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: dc_sargent.scr
+  source_path: DC_SARGENT.scr
+  parse_status: parsed
+  includes:
+  - line: 15
+    path: DookHostility.inc
+  labels:
+  - line: 33
+    name: dn
+  - line: 40
+    name: WakeGuardUp
+  - line: 51
+    name: WakeGuards
+  - line: 73
+    name: StartUp
+  - line: 81
+    name: ClearofDoor
+  - line: 89
+    name: GoThruDoor
+  - line: 104
+    name: Main2
+  - line: 114
+    name: Main
+  registered_triggers:
+  - line: 122
+    message: StartUp
+    callback: StartUp
+    arguments_raw: StartUp StartUp
+  trigger_edges:
+  - line: 45
+    target_expression: hMoveToObject
+    message_expression: WakeUp
+    arguments_raw: hMoveToObject WakeUp
+  - line: 96
+    target_expression: hDoor
+    message_expression: use
+    arguments_raw: hDoor use
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 44
+    command: PlayAnim
+    arguments_raw: aware dn
+  unknown_commands:
+  - line: 35
+    command: SetIdle
+    arguments_raw: ''
+  - line: 43
+    command: SetIdle
+    arguments_raw: ''
+  - line: 57
+    command: sGuard
+    arguments_raw: = sGuardName + nCount
+  - line: 59
+    command: WalkTo
+    arguments_raw: hMoveToObject 10 WakeGuardUp
+  - line: 60
+    command: nCount
+    arguments_raw: = nCount + 1
+  - line: 64
+    command: sMarker
+    arguments_raw: = sMarkerName + 1
+  - line: 66
+    command: WalkTo
+    arguments_raw: hMoveToObject 10 dn
+  - line: 76
+    command: WalkTo
+    arguments_raw: hMoveToObject 10 WakeGuards
+  - line: 84
+    command: nDoor
+    arguments_raw: = 0
+  - line: 94
+    command: SetIdle
+    arguments_raw: ''
+  - line: 95
+    command: nDoor
+    arguments_raw: = 1
+  - line: 108
+    command: sMarker
+    arguments_raw: = sMarkerName + 0
+  - line: 117
+    command: nCount
+    arguments_raw: = 0
+  - line: 123
+    command: OnDoor
+    arguments_raw: GoThruDoor
+  - line: 124
+    command: OnStuck
+    arguments_raw: StartUp
+  - line: 126
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 44
+- script_id: dookguardbasic.scr
+  source_path: DOOKGUARDBASIC.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: DookHostility.inc
+  labels:
+  - line: 12
+    name: Main
+  - line: 20
+    name: InitDookGuardBasic
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 14
+    command: OnPostStartWorld
+    arguments_raw: InitDookGuardBasic
+  - line: 15
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDookGuardBasic
+  command_count: 7
+- script_id: dooksleepgaurd.scr
+  source_path: DOOKSLEEPGAURD.scr
+  parse_status: parsed
+  includes:
+  - line: 21
+    path: DookHostility.inc
+  labels:
+  - line: 37
+    name: InitDookSleepGaurd
+  - line: 48
+    name: SleepRoutine
+  - line: 56
+    name: WakeUp
+  - line: 65
+    name: GoCower
+  - line: 73
+    name: EndCower
+  - line: 81
+    name: GoWait
+  - line: 90
+    name: DoFidget3
+  - line: 101
+    name: DoFidget2
+  - line: 112
+    name: Main
+  registered_triggers:
+  - line: 114
+    message: WakeUp
+    callback: WakeUp
+    arguments_raw: WakeUp, WakeUp
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 51
+    command: LoopAnim
+    arguments_raw: Sleep, 0, DoNothing
+  - line: 59
+    command: PlayAnim
+    arguments_raw: Cowerstart, GoCower
+  - line: 68
+    command: PlayAnim
+    arguments_raw: CowerEnd, DoNothing
+  - line: 96
+    command: PlayAnim
+    arguments_raw: Fidget3, DoNothing
+  - line: 107
+    command: PlayAnim
+    arguments_raw: Fidget2, DoNothing
+  unknown_commands:
+  - line: 50
+    command: Stop
+    arguments_raw: ''
+  - line: 58
+    command: FaceObject
+    arguments_raw: hTarget, 180, DoNothing
+  - line: 75
+    command: GetFaceDir
+    arguments_raw: hWayPoint, SleepMarkerX, SleepMarkerY, SleepMarkerZ
+  - line: 76
+    command: FaceDir
+    arguments_raw: SleepMarkerX, SleepMarkerY, SleepMarkerZ, 500,GoWait
+  - line: 83
+    command: Stop
+    arguments_raw: ''
+  - line: 92
+    command: Stop
+    arguments_raw: ''
+  - line: 103
+    command: Stop
+    arguments_raw: ''
+  - line: 119
+    command: OnPostStartWorld
+    arguments_raw: InitDookSleepGaurd
+  command_count: 33
+- script_id: npc415.scr
+  source_path: NPC415.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 19
+    name: OnRude
+  - line: 29
+    name: Thjorad
+  - line: 44
+    name: Refinery
+  - line: 61
+    name: OnUse
+  - line: 69
+    name: OnExit
+  - line: 75
+    name: Main
+  registered_triggers:
+  - line: 84
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 65
+    command: DoRude
+    arguments_raw: '415'
+  - line: 82
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 11
+- script_id: scurrycreature.scr
+  source_path: SCURRYCREATURE.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 22
+    name: Main
+  - line: 32
+    name: InitScurryCreature
+  - line: 45
+    name: GoHide
+  - line: 54
+    name: Turn
+  - line: 65
+    name: Disappear
+  - line: 72
+    name: DoNothing
+  registered_triggers:
+  - line: 38
+    message: Hide
+    callback: GoHide
+    arguments_raw: Hide, GoHide
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 35
+    command: GetStat
+    arguments_raw: hMe, RunVel, v
+  - line: 37
+    command: SetStat
+    arguments_raw: hMe, RunVel, v
+  presentation_commands: []
+  unknown_commands:
+  - line: 36
+    command: v
+    arguments_raw: = v * 6
+  - line: 39
+    command: OnObstacle
+    arguments_raw: Turn
+  - line: 40
+    command: OnStuck
+    arguments_raw: Turn
+  - line: 49
+    command: RunTo
+    arguments_raw: hHide, 100, Disappear
+  - line: 56
+    command: GetFaceDir
+    arguments_raw: hMe, x,y,z
+  - line: 57
+    command: GetRandomInt
+    arguments_raw: -5, 5, v
+  - line: 58
+    command: x
+    arguments_raw: = x * v
+  - line: 59
+    command: z
+    arguments_raw: = z * v
+  - line: 60
+    command: FaceDir
+    arguments_raw: z,y,x, 0, GoHide
+  - line: 67
+    command: RemoveObject
+    arguments_raw: hMe
+  command_count: 24
+validation:
+  script_count: 6

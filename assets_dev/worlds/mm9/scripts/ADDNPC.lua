@@ -13,18 +13,18 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 script.labels["ONUse"] = function(ctx)
     -- ADDNPC.scr:17
     if ctx:condition("nKeycheck==false") then -- ADDNPC.scr:19
-        ctx:command("addnpc", "2 g_hobject") -- ADDNPC.scr:20
-        ctx:command("set", "nKeycheck, TRUE") -- ADDNPC.scr:21
+        ctx:addNpc(2, "g_hobject") -- ADDNPC.scr:20
+        ctx:state().nKeycheck = true -- ADDNPC.scr:21
     else -- ADDNPC.scr:22
-        ctx:command("removenpc", "2 g_hobject") -- ADDNPC.scr:23
-        ctx:command("set", "nKeycheck, FALSE") -- ADDNPC.scr:24
+        ctx:removeNpc(2, "g_hobject") -- ADDNPC.scr:23
+        ctx:state().nKeycheck = false -- ADDNPC.scr:24
     end -- ADDNPC.scr:25
     do return ctx:exit("") end -- ADDNPC.scr:26
 end
 
 script.labels["Main"] = function(ctx)
     -- ADDNPC.scr:29
-    ctx:command("traceon", "") -- ADDNPC.scr:32
+    ctx:traceOn() -- ADDNPC.scr:32
     -- Don't Forget to Delete this!
     ctx:addTrigger("Use", "OnUse") -- ADDNPC.scr:34
     do return ctx:exit("") end -- ADDNPC.scr:35

@@ -16,8 +16,7 @@ script.labels["OnUse"] = function(ctx)
         ctx:giveItem(560) -- GREATBOOKKEY.scr:22
         ctx:giveItem(244) -- GREATBOOKKEY.scr:23
         ctx:giveItem(347) -- GREATBOOKKEY.scr:24
-        ctx:command("getmyhandle", "g_hmyobject") -- GREATBOOKKEY.scr:25
-        ctx:command("removeobject", "g_hmyobject") -- GREATBOOKKEY.scr:26
+        ctx:self():remove() -- GREATBOOKKEY.scr:26
         ctx:giveKey(374) -- GREATBOOKKEY.scr:27
         do return ctx:exit("") end -- GREATBOOKKEY.scr:28
     else -- GREATBOOKKEY.scr:29
@@ -29,29 +28,27 @@ end
 script.labels["OnAppear"] = function(ctx)
     -- GREATBOOKKEY.scr:34
     ctx:giveKey(375) -- GREATBOOKKEY.scr:37
-    ctx:command("setflag", "g_hmyobject, visible") -- GREATBOOKKEY.scr:38
-    ctx:command("setflag", "g_hmyobject, solid") -- GREATBOOKKEY.scr:39
-    ctx:command("setflag", "g_hmyobject, gravity") -- GREATBOOKKEY.scr:40
+    ctx:self():setFlag("visible", true) -- GREATBOOKKEY.scr:38
+    ctx:self():setFlag("solid", true) -- GREATBOOKKEY.scr:39
+    ctx:self():setFlag("gravity", true) -- GREATBOOKKEY.scr:40
     do return ctx:exit("") end -- GREATBOOKKEY.scr:41
 end
 
 script.labels["Init"] = function(ctx)
     -- GREATBOOKKEY.scr:43
-    ctx:command("getmyhandle", "g_hmyobject") -- GREATBOOKKEY.scr:46
     if ctx:hasKey(374) then -- GREATBOOKKEY.scr:48-49
-        ctx:command("getmyhandle", "g_hmyobject") -- GREATBOOKKEY.scr:50
-        ctx:command("removeobject", "g_hmyobject") -- GREATBOOKKEY.scr:51
+        ctx:self():remove() -- GREATBOOKKEY.scr:51
         do return ctx:exit("") end -- GREATBOOKKEY.scr:52
     end -- GREATBOOKKEY.scr:53
     if ctx:hasKey(375) then -- GREATBOOKKEY.scr:55-56
-        ctx:command("setflag", "g_hmyobject, visible") -- GREATBOOKKEY.scr:57
-        ctx:command("setflag", "g_hmyobject, solid") -- GREATBOOKKEY.scr:58
-        ctx:command("setflag", "g_hmyobject, gravity") -- GREATBOOKKEY.scr:59
+        ctx:self():setFlag("visible", true) -- GREATBOOKKEY.scr:57
+        ctx:self():setFlag("solid", true) -- GREATBOOKKEY.scr:58
+        ctx:self():setFlag("gravity", true) -- GREATBOOKKEY.scr:59
         do return ctx:exit("") end -- GREATBOOKKEY.scr:60
     else -- GREATBOOKKEY.scr:61
-        ctx:command("clearflag", "g_hmyobject, visible") -- GREATBOOKKEY.scr:62
-        ctx:command("clearflag", "g_hmyobject, solid") -- GREATBOOKKEY.scr:63
-        ctx:command("clearflag", "g_hmyobject, gravity") -- GREATBOOKKEY.scr:64
+        ctx:self():setFlag("visible", false) -- GREATBOOKKEY.scr:62
+        ctx:self():setFlag("solid", false) -- GREATBOOKKEY.scr:63
+        ctx:self():setFlag("gravity", false) -- GREATBOOKKEY.scr:64
         do return ctx:exit("") end -- GREATBOOKKEY.scr:65
     end -- GREATBOOKKEY.scr:66
     do return ctx:exit("") end -- GREATBOOKKEY.scr:67

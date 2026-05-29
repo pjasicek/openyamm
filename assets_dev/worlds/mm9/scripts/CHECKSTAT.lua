@@ -28,7 +28,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(3, "sSuccessName") -- CHECKSTAT.scr:33
     ctx:getParam(4, "sFailureName") -- CHECKSTAT.scr:34
     -- OnPostStartWorld InitCheckStat
-    ctx:command("wait", "0, 5, InitCheckStat") -- CHECKSTAT.scr:37
+    ctx:wait(0, 5, "InitCheckStat") -- CHECKSTAT.scr:37
     do return ctx:exit(1) end -- CHECKSTAT.scr:39
 end
 
@@ -42,9 +42,9 @@ script.labels["CheckThisStat"] = function(ctx)
     -- CHECKSTAT.scr:49
     mm9.gosub(script, ctx, "CheckStat") -- CHECKSTAT.scr:51
     if ctx:condition("STATRESULT == opComparison") then -- CHECKSTAT.scr:53
-        ctx:command("getobjecthandle", "sSuccessName, hTrigger") -- CHECKSTAT.scr:54
+        ctx:state().hTrigger = ctx:objectOrNil("sSuccessName") -- CHECKSTAT.scr:54
     else -- CHECKSTAT.scr:55
-        ctx:command("getobjecthandle", "sFailureName, hTrigger") -- CHECKSTAT.scr:56
+        ctx:state().hTrigger = ctx:objectOrNil("sFailureName") -- CHECKSTAT.scr:56
     end -- CHECKSTAT.scr:57
     ctx:trigger("hTrigger", "trigger") -- CHECKSTAT.scr:59
     do return ctx:exit(1) end -- CHECKSTAT.scr:61

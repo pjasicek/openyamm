@@ -11,7 +11,7 @@ script.labels = {}
 -- turns megahydra damage on
 script.labels["DamageOn"] = function(ctx)
     -- DP2MEGAHYDRA.scr:10
-    ctx:setPropNumber("CanDamage", 1) -- DP2MEGAHYDRA.scr:14
+    ctx:self():setNumberProperty("CanDamage", 1) -- DP2MEGAHYDRA.scr:14
     do return ctx:exit("") end -- DP2MEGAHYDRA.scr:15
 end
 

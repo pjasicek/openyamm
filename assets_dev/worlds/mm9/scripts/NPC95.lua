@@ -34,11 +34,11 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC95.scr:48
-    ctx:command("stop", "") -- NPC95.scr:52
+    ctx:self():stop() -- NPC95.scr:52
     mm9.gosub(script, ctx, "BasewanderStop") -- NPC95.scr:53
     ctx:getParam(0, "g_hobject") -- NPC95.scr:54
-    ctx:command("faceobject", "g_hobject 200 DoNothing") -- NPC95.scr:55
-    ctx:command("playsound", "voices\\NPC\\NPC_095.wav, DoNothing, 100, 240, FALSE, 100") -- NPC95.scr:56
+    ctx:self():faceObject(ctx:object("g_hobject"), 200, "DoNothing") -- NPC95.scr:55
+    ctx:playSound("voices\\NPC\\NPC_095.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC95.scr:56
     ctx:doRude(95) -- NPC95.scr:57
     do return ctx:exit("") end -- NPC95.scr:58
 end
@@ -46,23 +46,22 @@ end
 script.labels["Init"] = function(ctx)
     -- NPC95.scr:61
     if ctx:hasKey(225) then -- NPC95.scr:64-65
-        ctx:command("getmyhandle", "g_hmyobject") -- NPC95.scr:66
-        ctx:command("removeobject", "g_hmyobject") -- NPC95.scr:67
+        ctx:self():remove() -- NPC95.scr:67
         do return ctx:exit("") end -- NPC95.scr:68
     end -- NPC95.scr:69
-    ctx:command("getmyhandle", "g_hobject") -- NPC95.scr:71
+    ctx:state().g_hobject = ctx:self() -- NPC95.scr:71
     if ctx:hasKey(222) then -- NPC95.scr:73-74
-        ctx:command("setstat", "g_hobject Hitpoints 300") -- NPC95.scr:75
-        ctx:command("setstat", "g_hobject AC 50") -- NPC95.scr:76
-        ctx:command("setflag", "g_hobject, visible") -- NPC95.scr:77
-        ctx:command("setflag", "g_hobject, solid") -- NPC95.scr:78
-        ctx:command("setflag", "g_hobject, gravity") -- NPC95.scr:79
+        ctx:object("g_hobject"):setStat("Hitpoints", 300) -- NPC95.scr:75
+        ctx:object("g_hobject"):setStat("AC", 50) -- NPC95.scr:76
+        ctx:self():setFlag("visible", true) -- NPC95.scr:77
+        ctx:self():setFlag("solid", true) -- NPC95.scr:78
+        ctx:self():setFlag("gravity", true) -- NPC95.scr:79
         mm9.gosub(script, ctx, "basewanderinit") -- NPC95.scr:80
         do return ctx:exit("") end -- NPC95.scr:81
     else -- NPC95.scr:82
-        ctx:command("clearflag", "g_hobject, visible") -- NPC95.scr:83
-        ctx:command("clearflag", "g_hobject, solid") -- NPC95.scr:84
-        ctx:command("clearflag", "g_hobject, gravity") -- NPC95.scr:85
+        ctx:object("g_hobject"):setFlag("visible", false) -- NPC95.scr:83
+        ctx:object("g_hobject"):setFlag("solid", false) -- NPC95.scr:84
+        ctx:object("g_hobject"):setFlag("gravity", false) -- NPC95.scr:85
         do return ctx:exit("") end -- NPC95.scr:86
     end -- NPC95.scr:87
     do return ctx:exit("") end -- NPC95.scr:90
@@ -81,12 +80,12 @@ script.labels["Main"] = function(ctx)
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC95.scr:107
     ctx:addTrigger("Use", "OnUse") -- NPC95.scr:108
     -- OnDeath Death
-    ctx:command("ondamage", "OnDamage") -- NPC95.scr:110
+    ctx:onEvent("OnDamage", "OnDamage") -- NPC95.scr:110
     mm9.gosub(script, ctx, "basewanderinit") -- NPC95.scr:111
-    ctx:command("onpoststartworld", "Init") -- NPC95.scr:112
-    ctx:command("onpostminisaveload", "Init") -- NPC95.scr:113
-    ctx:command("onpostsaveload", "Init") -- NPC95.scr:114
-    ctx:command("wait", "1 .1 Init") -- NPC95.scr:115
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC95.scr:112
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC95.scr:113
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC95.scr:114
+    ctx:wait(1, .1, "Init") -- NPC95.scr:115
     do return ctx:exit("") end -- NPC95.scr:116
 end
 

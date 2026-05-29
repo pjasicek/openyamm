@@ -9,7 +9,7 @@ script.includes[#script.includes + 1] = { line = 2, path = "globals.inc" }
 
 script.labels["DoRotate"] = function(ctx)
     -- JEFFTEST.scr:10
-    ctx:command("rotate", "axis_x,axis_y,axis_z,180,rate,DoRotate") -- JEFFTEST.scr:11
+    ctx:self():rotate("axis_x", "axis_y", "axis_z", 180, "rate", "DoRotate") -- JEFFTEST.scr:11
     do return ctx:exit("") end -- JEFFTEST.scr:12
 end
 

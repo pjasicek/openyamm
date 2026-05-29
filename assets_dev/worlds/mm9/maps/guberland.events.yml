@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/guberland.lua
+  script_ir: ../events/guberland.script_ir.yml
 objects:
 - object_id: mm9:guberland:object:0
   source_object_index: 0
@@ -84882,6 +84883,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id004 []
 - mechanism_id: mm9:guberland:object:58:mechanism
   object_id: mm9:guberland:object:58
@@ -84893,6 +84895,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id005 []
 - mechanism_id: mm9:guberland:object:74:mechanism
   object_id: mm9:guberland:object:74
@@ -84903,6 +84906,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:guberland:object:75:mechanism
   object_id: mm9:guberland:object:75
@@ -84913,6 +84917,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:guberland:object:76:mechanism
   object_id: mm9:guberland:object:76
@@ -84923,6 +84928,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:guberland:object:77:mechanism
   object_id: mm9:guberland:object:77
@@ -84933,6 +84939,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:guberland:object:79:mechanism
   object_id: mm9:guberland:object:79
@@ -84943,6 +84950,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:guberland:object:266:mechanism
   object_id: mm9:guberland:object:266
@@ -84954,6 +84962,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id006 []
 - mechanism_id: mm9:guberland:object:306:mechanism
   object_id: mm9:guberland:object:306
@@ -84979,6 +84988,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id007
   - phase: open
     slot: 0
@@ -84995,6 +85033,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id008 []
 - mechanism_id: mm9:guberland:object:321:mechanism
   object_id: mm9:guberland:object:321
@@ -85020,6 +85059,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id009
   - phase: open
     slot: 0
@@ -85055,6 +85123,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id010
   - phase: open
     slot: 0
@@ -85081,6 +85178,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 triggers: []
 interactions:
@@ -86985,6 +87083,146 @@ interactions:
   script_id: retainer.scr
   sends: []
 bindings:
+- object_id: mm9:guberland:object:0
+  source_object_index: 0
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 21746
+      source_surface_count: 19648
+      roles: &id011
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 21746
+      source_surface_count: 19648
+      roles: *id011
+- object_id: mm9:guberland:object:1
+  source_object_index: 1
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id012
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id012
+- object_id: mm9:guberland:object:3
+  source_object_index: 3
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id013
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id013
+- object_id: mm9:guberland:object:17
+  source_object_index: 17
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group: &id018
+      source_model_index: 3
+      source_model_name: Ocean
+      source_poly_count: 13
+      source_surface_count: 13
+      roles: &id014
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group: &id019
+      source_model_index: 3
+      source_model_name: Ocean
+      source_poly_count: 13
+      source_surface_count: 13
+      roles: *id014
 - object_id: mm9:guberland:object:20
   source_object_index: 20
   targets:
@@ -87006,8 +87244,38 @@ bindings:
 - object_id: mm9:guberland:object:23
   source_object_index: 23
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group: &id021
+      source_model_index: 4
+      source_model_name: BlueWater0
+      source_poly_count: 222
+      source_surface_count: 6
+      roles: &id015
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group: &id022
+      source_model_index: 4
+      source_model_name: BlueWater0
+      source_poly_count: 222
+      source_surface_count: 6
+      roles: *id015
 - object_id: mm9:guberland:object:25
   source_object_index: 25
   targets:
@@ -87092,6 +87360,41 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:guberland:object:38
     confidence: exact_source_object_index
+- object_id: mm9:guberland:object:39
+  source_object_index: 39
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: Terrain1
+    source_model_name: Terrain1
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: Terrain1
+      source_poly_count: 48
+      source_surface_count: 48
+      roles: &id016
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: Terrain1
+    source_model_name: Terrain1
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: Terrain1
+      source_poly_count: 48
+      source_surface_count: 48
+      roles: *id016
 - object_id: mm9:guberland:object:42
   source_object_index: 42
   targets:
@@ -87193,6 +87496,236 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id096
+    - source_model_index: 6
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt:
+      - -2048.0
+      - 656.0
+      - -3336.0
+      distance_from_position_lt: 3882.342
+      claimed_by_exact_bindings:
+      - source_object_index: 74
+        source_name: PerceptionBrush2
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1952.0
+        - 768.0
+        - -3345.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:6
+        bmodel_index: 6
+        bmodel_name: PerceptionBrush2
+        source_model_name: PerceptionBrush2
+        source_polygon_group: &id024
+          source_model_index: 6
+          source_model_name: PerceptionBrush2
+          source_poly_count: 16
+          source_surface_count: 16
+          roles: &id017
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 74
+        source_name: PerceptionBrush2
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1952.0
+        - 768.0
+        - -3345.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:6
+        bmodel_index: 6
+        bmodel_name: PerceptionBrush2
+        source_model_name: PerceptionBrush2
+        source_polygon_group: &id025
+          source_model_index: 6
+          source_model_name: PerceptionBrush2
+          source_poly_count: 16
+          source_surface_count: 16
+          roles: *id017
+    - source_model_index: 3
+      source_name: Ocean
+      movable: true
+      world_translation_lt:
+      - 4480.0
+      - -64.0
+      - 0.0
+      distance_from_position_lt: 4544.901
+      claimed_by_exact_bindings:
+      - source_object_index: 17
+        source_name: Ocean
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -5376.0
+        - -64.0
+        - 0.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: Ocean
+        source_model_name: Ocean
+        source_polygon_group: *id018
+      - source_object_index: 17
+        source_name: Ocean
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -5376.0
+        - -64.0
+        - 0.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: Ocean
+        source_model_name: Ocean
+        source_polygon_group: *id019
+    - source_model_index: 10
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - 5216.0
+      - 96.0
+      - 512.0
+      distance_from_position_lt: 5312.193
+      claimed_by_exact_bindings:
+      - source_object_index: 79
+        source_name: InvisibleBrush0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 6720.0
+        - 96.0
+        - -1600.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:10
+        bmodel_index: 10
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id029
+          source_model_index: 10
+          source_model_name: InvisibleBrush0
+          source_poly_count: 30
+          source_surface_count: 30
+          roles: &id020
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 79
+        source_name: InvisibleBrush0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 6720.0
+        - 96.0
+        - -1600.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:10
+        bmodel_index: 10
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id030
+          source_model_index: 10
+          source_model_name: InvisibleBrush0
+          source_poly_count: 30
+          source_surface_count: 30
+          roles: *id020
+    - source_model_index: 4
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt:
+      - 6144.0
+      - -192.0
+      - 0.0
+      distance_from_position_lt: 6211.298
+      claimed_by_exact_bindings:
+      - source_object_index: 23
+        source_name: BlueWater0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 6144.0
+        - -192.0
+        - 0.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: BlueWater0
+        source_model_name: BlueWater0
+        source_polygon_group: *id021
+      - source_object_index: 23
+        source_name: BlueWater0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 6144.0
+        - -192.0
+        - 0.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: BlueWater0
+        source_model_name: BlueWater0
+        source_polygon_group: *id022
+    - source_model_index: 52
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt: &id080
+      - 512.0
+      - 135.0
+      - 6784.0
+      distance_from_position_lt: 6873.507
+      claimed_by_exact_bindings: &id081
+      - source_object_index: 332
+        source_name: WorldObject2
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 512.0
+        - 135.0
+        - 6784.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:52
+        bmodel_index: 52
+        bmodel_name: WorldObject2
+        source_model_name: WorldObject2
+        source_polygon_group: &id092
+          source_model_index: 52
+          source_model_name: WorldObject2
+          source_poly_count: 44
+          source_surface_count: 44
+          roles: &id023
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 332
+        source_name: WorldObject2
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 512.0
+        - 135.0
+        - 6784.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:52
+        bmodel_index: 52
+        bmodel_name: WorldObject2
+        source_model_name: WorldObject2
+        source_polygon_group: &id093
+          source_model_index: 52
+          source_model_name: WorldObject2
+          source_poly_count: 44
+          source_surface_count: 44
+          roles: *id023
 - object_id: mm9:guberland:object:68
   source_object_index: 68
   targets:
@@ -87232,23 +87765,125 @@ bindings:
 - object_id: mm9:guberland:object:74
   source_object_index: 74
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_source_model_name
+    bmodel_index: 6
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group: *id024
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_bmodel_name
+    bmodel_index: 6
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group: *id025
 - object_id: mm9:guberland:object:75
   source_object_index: 75
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_source_model_name
+    bmodel_index: 7
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: PerceptionBrush3
+      source_poly_count: 68
+      source_surface_count: 68
+      roles: &id026
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_bmodel_name
+    bmodel_index: 7
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: PerceptionBrush3
+      source_poly_count: 68
+      source_surface_count: 68
+      roles: *id026
 - object_id: mm9:guberland:object:76
   source_object_index: 76
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_source_model_name
+    bmodel_index: 8
+    bmodel_name: PerceptionBrush4
+    source_model_name: PerceptionBrush4
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: PerceptionBrush4
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id027
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_bmodel_name
+    bmodel_index: 8
+    bmodel_name: PerceptionBrush4
+    source_model_name: PerceptionBrush4
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: PerceptionBrush4
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id027
 - object_id: mm9:guberland:object:77
   source_object_index: 77
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_source_model_name
+    bmodel_index: 9
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: PerceptionBrush0
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: &id028
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_bmodel_name
+    bmodel_index: 9
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: PerceptionBrush0
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: *id028
 - object_id: mm9:guberland:object:78
   source_object_index: 78
   targets:
@@ -87258,8 +87893,20 @@ bindings:
 - object_id: mm9:guberland:object:79
   source_object_index: 79
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_source_model_name
+    bmodel_index: 10
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id029
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_bmodel_name
+    bmodel_index: 10
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id030
 - object_id: mm9:guberland:object:80
   source_object_index: 80
   targets:
@@ -87788,11 +88435,1447 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:guberland:object:229
     confidence: exact_source_object_index
+- object_id: mm9:guberland:object:230
+  source_object_index: 230
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_source_model_name
+    bmodel_index: 11
+    bmodel_name: Square0
+    source_model_name: Square0
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: Square0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id031
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_bmodel_name
+    bmodel_index: 11
+    bmodel_name: Square0
+    source_model_name: Square0
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: Square0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id031
+- object_id: mm9:guberland:object:231
+  source_object_index: 231
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_source_model_name
+    bmodel_index: 12
+    bmodel_name: Square1
+    source_model_name: Square1
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: Square1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id032
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_bmodel_name
+    bmodel_index: 12
+    bmodel_name: Square1
+    source_model_name: Square1
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: Square1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id032
+- object_id: mm9:guberland:object:232
+  source_object_index: 232
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_source_model_name
+    bmodel_index: 13
+    bmodel_name: Square2
+    source_model_name: Square2
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: Square2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id033
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_bmodel_name
+    bmodel_index: 13
+    bmodel_name: Square2
+    source_model_name: Square2
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: Square2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id033
+- object_id: mm9:guberland:object:233
+  source_object_index: 233
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_source_model_name
+    bmodel_index: 14
+    bmodel_name: Square3
+    source_model_name: Square3
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: Square3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id034
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_bmodel_name
+    bmodel_index: 14
+    bmodel_name: Square3
+    source_model_name: Square3
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: Square3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id034
+- object_id: mm9:guberland:object:234
+  source_object_index: 234
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_source_model_name
+    bmodel_index: 15
+    bmodel_name: Square4
+    source_model_name: Square4
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: Square4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id035
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_bmodel_name
+    bmodel_index: 15
+    bmodel_name: Square4
+    source_model_name: Square4
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: Square4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id035
+- object_id: mm9:guberland:object:235
+  source_object_index: 235
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_source_model_name
+    bmodel_index: 16
+    bmodel_name: Square5
+    source_model_name: Square5
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: Square5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id036
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_bmodel_name
+    bmodel_index: 16
+    bmodel_name: Square5
+    source_model_name: Square5
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: Square5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id036
+- object_id: mm9:guberland:object:236
+  source_object_index: 236
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_source_model_name
+    bmodel_index: 17
+    bmodel_name: Square6
+    source_model_name: Square6
+    source_polygon_group: &id071
+      source_model_index: 17
+      source_model_name: Square6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id037
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_bmodel_name
+    bmodel_index: 17
+    bmodel_name: Square6
+    source_model_name: Square6
+    source_polygon_group: &id072
+      source_model_index: 17
+      source_model_name: Square6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id037
+- object_id: mm9:guberland:object:237
+  source_object_index: 237
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_source_model_name
+    bmodel_index: 18
+    bmodel_name: Square7
+    source_model_name: Square7
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: Square7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id038
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_bmodel_name
+    bmodel_index: 18
+    bmodel_name: Square7
+    source_model_name: Square7
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: Square7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id038
+- object_id: mm9:guberland:object:238
+  source_object_index: 238
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_source_model_name
+    bmodel_index: 19
+    bmodel_name: Square8
+    source_model_name: Square8
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: Square8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id039
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_bmodel_name
+    bmodel_index: 19
+    bmodel_name: Square8
+    source_model_name: Square8
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: Square8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id039
+- object_id: mm9:guberland:object:239
+  source_object_index: 239
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_source_model_name
+    bmodel_index: 20
+    bmodel_name: Square9
+    source_model_name: Square9
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: Square9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id040
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_bmodel_name
+    bmodel_index: 20
+    bmodel_name: Square9
+    source_model_name: Square9
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: Square9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id040
+- object_id: mm9:guberland:object:240
+  source_object_index: 240
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_source_model_name
+    bmodel_index: 21
+    bmodel_name: Square10
+    source_model_name: Square10
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: Square10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id041
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_bmodel_name
+    bmodel_index: 21
+    bmodel_name: Square10
+    source_model_name: Square10
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: Square10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id041
+- object_id: mm9:guberland:object:241
+  source_object_index: 241
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_source_model_name
+    bmodel_index: 22
+    bmodel_name: Square11
+    source_model_name: Square11
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: Square11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id042
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_bmodel_name
+    bmodel_index: 22
+    bmodel_name: Square11
+    source_model_name: Square11
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: Square11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id042
+- object_id: mm9:guberland:object:242
+  source_object_index: 242
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_source_model_name
+    bmodel_index: 23
+    bmodel_name: Square12
+    source_model_name: Square12
+    source_polygon_group: &id067
+      source_model_index: 23
+      source_model_name: Square12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id043
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_bmodel_name
+    bmodel_index: 23
+    bmodel_name: Square12
+    source_model_name: Square12
+    source_polygon_group: &id068
+      source_model_index: 23
+      source_model_name: Square12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id043
+- object_id: mm9:guberland:object:243
+  source_object_index: 243
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_source_model_name
+    bmodel_index: 24
+    bmodel_name: Square13
+    source_model_name: Square13
+    source_polygon_group: &id075
+      source_model_index: 24
+      source_model_name: Square13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id044
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_bmodel_name
+    bmodel_index: 24
+    bmodel_name: Square13
+    source_model_name: Square13
+    source_polygon_group: &id076
+      source_model_index: 24
+      source_model_name: Square13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id044
+- object_id: mm9:guberland:object:244
+  source_object_index: 244
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_source_model_name
+    bmodel_index: 25
+    bmodel_name: Square14
+    source_model_name: Square14
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: Square14
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id045
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_bmodel_name
+    bmodel_index: 25
+    bmodel_name: Square14
+    source_model_name: Square14
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: Square14
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id045
+- object_id: mm9:guberland:object:245
+  source_object_index: 245
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_source_model_name
+    bmodel_index: 26
+    bmodel_name: Square15
+    source_model_name: Square15
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: Square15
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id046
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_bmodel_name
+    bmodel_index: 26
+    bmodel_name: Square15
+    source_model_name: Square15
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: Square15
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id046
+- object_id: mm9:guberland:object:246
+  source_object_index: 246
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_source_model_name
+    bmodel_index: 27
+    bmodel_name: Square16
+    source_model_name: Square16
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: Square16
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id047
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_bmodel_name
+    bmodel_index: 27
+    bmodel_name: Square16
+    source_model_name: Square16
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: Square16
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id047
+- object_id: mm9:guberland:object:247
+  source_object_index: 247
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_source_model_name
+    bmodel_index: 28
+    bmodel_name: Square17
+    source_model_name: Square17
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: Square17
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id048
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_bmodel_name
+    bmodel_index: 28
+    bmodel_name: Square17
+    source_model_name: Square17
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: Square17
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id048
+- object_id: mm9:guberland:object:248
+  source_object_index: 248
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_source_model_name
+    bmodel_index: 29
+    bmodel_name: Square18
+    source_model_name: Square18
+    source_polygon_group: &id069
+      source_model_index: 29
+      source_model_name: Square18
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id049
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_bmodel_name
+    bmodel_index: 29
+    bmodel_name: Square18
+    source_model_name: Square18
+    source_polygon_group: &id070
+      source_model_index: 29
+      source_model_name: Square18
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id049
+- object_id: mm9:guberland:object:249
+  source_object_index: 249
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_source_model_name
+    bmodel_index: 30
+    bmodel_name: Square19
+    source_model_name: Square19
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: Square19
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id050
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_bmodel_name
+    bmodel_index: 30
+    bmodel_name: Square19
+    source_model_name: Square19
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: Square19
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id050
+- object_id: mm9:guberland:object:250
+  source_object_index: 250
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_source_model_name
+    bmodel_index: 31
+    bmodel_name: Square20
+    source_model_name: Square20
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: Square20
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id051
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_bmodel_name
+    bmodel_index: 31
+    bmodel_name: Square20
+    source_model_name: Square20
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: Square20
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id051
+- object_id: mm9:guberland:object:251
+  source_object_index: 251
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_source_model_name
+    bmodel_index: 32
+    bmodel_name: Square21
+    source_model_name: Square21
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: Square21
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id052
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_bmodel_name
+    bmodel_index: 32
+    bmodel_name: Square21
+    source_model_name: Square21
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: Square21
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id052
+- object_id: mm9:guberland:object:252
+  source_object_index: 252
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_source_model_name
+    bmodel_index: 33
+    bmodel_name: Square22
+    source_model_name: Square22
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: Square22
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id053
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_bmodel_name
+    bmodel_index: 33
+    bmodel_name: Square22
+    source_model_name: Square22
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: Square22
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id053
+- object_id: mm9:guberland:object:253
+  source_object_index: 253
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_source_model_name
+    bmodel_index: 34
+    bmodel_name: Square23
+    source_model_name: Square23
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: Square23
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id054
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_bmodel_name
+    bmodel_index: 34
+    bmodel_name: Square23
+    source_model_name: Square23
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: Square23
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id054
+- object_id: mm9:guberland:object:254
+  source_object_index: 254
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_source_model_name
+    bmodel_index: 35
+    bmodel_name: Square24
+    source_model_name: Square24
+    source_polygon_group: &id073
+      source_model_index: 35
+      source_model_name: Square24
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id055
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_bmodel_name
+    bmodel_index: 35
+    bmodel_name: Square24
+    source_model_name: Square24
+    source_polygon_group: &id074
+      source_model_index: 35
+      source_model_name: Square24
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id055
+- object_id: mm9:guberland:object:255
+  source_object_index: 255
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_source_model_name
+    bmodel_index: 36
+    bmodel_name: Square25
+    source_model_name: Square25
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: Square25
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id056
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_bmodel_name
+    bmodel_index: 36
+    bmodel_name: Square25
+    source_model_name: Square25
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: Square25
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id056
+- object_id: mm9:guberland:object:256
+  source_object_index: 256
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_source_model_name
+    bmodel_index: 37
+    bmodel_name: Square26
+    source_model_name: Square26
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: Square26
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id057
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_bmodel_name
+    bmodel_index: 37
+    bmodel_name: Square26
+    source_model_name: Square26
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: Square26
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id057
+- object_id: mm9:guberland:object:257
+  source_object_index: 257
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_source_model_name
+    bmodel_index: 38
+    bmodel_name: Square27
+    source_model_name: Square27
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: Square27
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id058
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_bmodel_name
+    bmodel_index: 38
+    bmodel_name: Square27
+    source_model_name: Square27
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: Square27
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id058
+- object_id: mm9:guberland:object:258
+  source_object_index: 258
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_source_model_name
+    bmodel_index: 39
+    bmodel_name: Square28
+    source_model_name: Square28
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: Square28
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id059
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_bmodel_name
+    bmodel_index: 39
+    bmodel_name: Square28
+    source_model_name: Square28
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: Square28
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id059
+- object_id: mm9:guberland:object:259
+  source_object_index: 259
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_source_model_name
+    bmodel_index: 40
+    bmodel_name: Square29
+    source_model_name: Square29
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: Square29
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id060
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_bmodel_name
+    bmodel_index: 40
+    bmodel_name: Square29
+    source_model_name: Square29
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: Square29
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id060
+- object_id: mm9:guberland:object:260
+  source_object_index: 260
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_source_model_name
+    bmodel_index: 41
+    bmodel_name: Square30
+    source_model_name: Square30
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: Square30
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id061
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_bmodel_name
+    bmodel_index: 41
+    bmodel_name: Square30
+    source_model_name: Square30
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: Square30
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id061
+- object_id: mm9:guberland:object:261
+  source_object_index: 261
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_source_model_name
+    bmodel_index: 42
+    bmodel_name: Square31
+    source_model_name: Square31
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: Square31
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id062
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_bmodel_name
+    bmodel_index: 42
+    bmodel_name: Square31
+    source_model_name: Square31
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: Square31
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id062
+- object_id: mm9:guberland:object:262
+  source_object_index: 262
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_source_model_name
+    bmodel_index: 43
+    bmodel_name: Square32
+    source_model_name: Square32
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: Square32
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id063
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_bmodel_name
+    bmodel_index: 43
+    bmodel_name: Square32
+    source_model_name: Square32
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: Square32
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id063
+- object_id: mm9:guberland:object:263
+  source_object_index: 263
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_source_model_name
+    bmodel_index: 44
+    bmodel_name: Square33
+    source_model_name: Square33
+    source_polygon_group: &id086
+      source_model_index: 44
+      source_model_name: Square33
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id064
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_bmodel_name
+    bmodel_index: 44
+    bmodel_name: Square33
+    source_model_name: Square33
+    source_polygon_group: &id087
+      source_model_index: 44
+      source_model_name: Square33
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id064
+- object_id: mm9:guberland:object:264
+  source_object_index: 264
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_source_model_name
+    bmodel_index: 45
+    bmodel_name: Square34
+    source_model_name: Square34
+    source_polygon_group: &id084
+      source_model_index: 45
+      source_model_name: Square34
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id065
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_bmodel_name
+    bmodel_index: 45
+    bmodel_name: Square34
+    source_model_name: Square34
+    source_polygon_group: &id085
+      source_model_index: 45
+      source_model_name: Square34
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id065
+- object_id: mm9:guberland:object:265
+  source_object_index: 265
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_source_model_name
+    bmodel_index: 46
+    bmodel_name: Square35
+    source_model_name: Square35
+    source_polygon_group: &id082
+      source_model_index: 46
+      source_model_name: Square35
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id066
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_bmodel_name
+    bmodel_index: 46
+    bmodel_name: Square35
+    source_model_name: Square35
+    source_polygon_group: &id083
+      source_model_index: 46
+      source_model_name: Square35
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id066
 - object_id: mm9:guberland:object:266
   source_object_index: 266
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id097
+    - source_model_index: 23
+      source_name: Square12
+      movable: true
+      world_translation_lt:
+      - 216.0
+      - 81.0
+      - 7688.0
+      distance_from_position_lt: 16.248
+      claimed_by_exact_bindings:
+      - source_object_index: 242
+        source_name: Square12
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7688.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:23
+        bmodel_index: 23
+        bmodel_name: Square12
+        source_model_name: Square12
+        source_polygon_group: *id067
+      - source_object_index: 242
+        source_name: Square12
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7688.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:23
+        bmodel_index: 23
+        bmodel_name: Square12
+        source_model_name: Square12
+        source_polygon_group: *id068
+    - source_model_index: 29
+      source_name: Square18
+      movable: true
+      world_translation_lt:
+      - 216.0
+      - 81.0
+      - 7672.0
+      distance_from_position_lt: 16.248
+      claimed_by_exact_bindings:
+      - source_object_index: 248
+        source_name: Square18
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7672.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:29
+        bmodel_index: 29
+        bmodel_name: Square18
+        source_model_name: Square18
+        source_polygon_group: *id069
+      - source_object_index: 248
+        source_name: Square18
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7672.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:29
+        bmodel_index: 29
+        bmodel_name: Square18
+        source_model_name: Square18
+        source_polygon_group: *id070
+    - source_model_index: 17
+      source_name: Square6
+      movable: true
+      world_translation_lt:
+      - 216.0
+      - 81.0
+      - 7704.0
+      distance_from_position_lt: 27.857
+      claimed_by_exact_bindings:
+      - source_object_index: 236
+        source_name: Square6
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7704.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:17
+        bmodel_index: 17
+        bmodel_name: Square6
+        source_model_name: Square6
+        source_polygon_group: *id071
+      - source_object_index: 236
+        source_name: Square6
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7704.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:17
+        bmodel_index: 17
+        bmodel_name: Square6
+        source_model_name: Square6
+        source_polygon_group: *id072
+    - source_model_index: 35
+      source_name: Square24
+      movable: true
+      world_translation_lt:
+      - 216.0
+      - 81.0
+      - 7656.0
+      distance_from_position_lt: 27.857
+      claimed_by_exact_bindings:
+      - source_object_index: 254
+        source_name: Square24
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7656.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:35
+        bmodel_index: 35
+        bmodel_name: Square24
+        source_model_name: Square24
+        source_polygon_group: *id073
+      - source_object_index: 254
+        source_name: Square24
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 216.0
+        - 81.0
+        - 7656.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:35
+        bmodel_index: 35
+        bmodel_name: Square24
+        source_model_name: Square24
+        source_polygon_group: *id074
+    - source_model_index: 24
+      source_name: Square13
+      movable: true
+      world_translation_lt:
+      - 232.0
+      - 81.0
+      - 7688.0
+      distance_from_position_lt: 31.113
+      claimed_by_exact_bindings:
+      - source_object_index: 243
+        source_name: Square13
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 232.0
+        - 81.0
+        - 7688.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:24
+        bmodel_index: 24
+        bmodel_name: Square13
+        source_model_name: Square13
+        source_polygon_group: *id075
+      - source_object_index: 243
+        source_name: Square13
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 232.0
+        - 81.0
+        - 7688.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:24
+        bmodel_index: 24
+        bmodel_name: Square13
+        source_model_name: Square13
+        source_polygon_group: *id076
 - object_id: mm9:guberland:object:267
   source_object_index: 267
   targets:
@@ -88030,8 +90113,38 @@ bindings:
 - object_id: mm9:guberland:object:306
   source_object_index: 306
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_source_model_name
+    bmodel_index: 47
+    bmodel_name: Switch
+    source_model_name: Switch
+    source_polygon_group: &id078
+      source_model_index: 47
+      source_model_name: Switch
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id077
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_bmodel_name
+    bmodel_index: 47
+    bmodel_name: Switch
+    source_model_name: Switch
+    source_polygon_group: &id079
+      source_model_index: 47
+      source_model_name: Switch
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id077
 - object_id: mm9:guberland:object:307
   source_object_index: 307
   targets:
@@ -88091,16 +90204,223 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id098
+    - source_model_index: 47
+      source_name: Switch
+      movable: true
+      world_translation_lt:
+      - 512.0
+      - 125.0
+      - 6839.0
+      distance_from_position_lt: 37.824
+      claimed_by_exact_bindings:
+      - source_object_index: 306
+        source_name: Switch
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 512.0
+        - 125.0
+        - 6840.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:47
+        bmodel_index: 47
+        bmodel_name: Switch
+        source_model_name: Switch
+        source_polygon_group: *id078
+      - source_object_index: 306
+        source_name: Switch
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 512.0
+        - 125.0
+        - 6840.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:47
+        bmodel_index: 47
+        bmodel_name: Switch
+        source_model_name: Switch
+        source_polygon_group: *id079
+    - source_model_index: 52
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt: *id080
+      distance_from_position_lt: 49.68
+      claimed_by_exact_bindings: *id081
+    - source_model_index: 46
+      source_name: Square35
+      movable: true
+      world_translation_lt:
+      - 296.0
+      - 81.0
+      - 7640.0
+      distance_from_position_lt: 853.499
+      claimed_by_exact_bindings:
+      - source_object_index: 265
+        source_name: Square35
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 296.0
+        - 81.0
+        - 7640.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:46
+        bmodel_index: 46
+        bmodel_name: Square35
+        source_model_name: Square35
+        source_polygon_group: *id082
+      - source_object_index: 265
+        source_name: Square35
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 296.0
+        - 81.0
+        - 7640.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:46
+        bmodel_index: 46
+        bmodel_name: Square35
+        source_model_name: Square35
+        source_polygon_group: *id083
+    - source_model_index: 45
+      source_name: Square34
+      movable: true
+      world_translation_lt:
+      - 280.0
+      - 81.0
+      - 7640.0
+      distance_from_position_lt: 857.711
+      claimed_by_exact_bindings:
+      - source_object_index: 264
+        source_name: Square34
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 280.0
+        - 81.0
+        - 7640.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:45
+        bmodel_index: 45
+        bmodel_name: Square34
+        source_model_name: Square34
+        source_polygon_group: *id084
+      - source_object_index: 264
+        source_name: Square34
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 280.0
+        - 81.0
+        - 7640.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:45
+        bmodel_index: 45
+        bmodel_name: Square34
+        source_model_name: Square34
+        source_polygon_group: *id085
+    - source_model_index: 44
+      source_name: Square33
+      movable: true
+      world_translation_lt:
+      - 264.0
+      - 81.0
+      - 7640.0
+      distance_from_position_lt: 862.2
+      claimed_by_exact_bindings:
+      - source_object_index: 263
+        source_name: Square33
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 264.0
+        - 81.0
+        - 7640.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:44
+        bmodel_index: 44
+        bmodel_name: Square33
+        source_model_name: Square33
+        source_polygon_group: *id086
+      - source_object_index: 263
+        source_name: Square33
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 264.0
+        - 81.0
+        - 7640.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:44
+        bmodel_index: 44
+        bmodel_name: Square33
+        source_model_name: Square33
+        source_polygon_group: *id087
 - object_id: mm9:guberland:object:321
   source_object_index: 321
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_source_model_name
+    bmodel_index: 48
+    bmodel_name: Strikeplate1
+    source_model_name: Strikeplate1
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: Strikeplate1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id088
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_bmodel_name
+    bmodel_index: 48
+    bmodel_name: Strikeplate1
+    source_model_name: Strikeplate1
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: Strikeplate1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id088
 - object_id: mm9:guberland:object:322
   source_object_index: 322
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_source_model_name
+    bmodel_index: 49
+    bmodel_name: Riser1
+    source_model_name: Riser1
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: Riser1
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: &id089
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_bmodel_name
+    bmodel_index: 49
+    bmodel_name: Riser1
+    source_model_name: Riser1
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: Riser1
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: *id089
 - object_id: mm9:guberland:object:323
   source_object_index: 323
   targets:
@@ -88137,12 +90457,134 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:guberland:object:328
     confidence: exact_source_object_index
+- object_id: mm9:guberland:object:329
+  source_object_index: 329
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_source_model_name
+    bmodel_index: 50
+    bmodel_name: Switch0
+    source_model_name: Switch0
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: Switch0
+      source_poly_count: 15
+      source_surface_count: 15
+      roles: &id090
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_bmodel_name
+    bmodel_index: 50
+    bmodel_name: Switch0
+    source_model_name: Switch0
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: Switch0
+      source_poly_count: 15
+      source_surface_count: 15
+      roles: *id090
 - object_id: mm9:guberland:object:330
   source_object_index: 330
   targets:
   - target_kind: model_instance
     target_id: mm9:guberland:object:330
     confidence: exact_source_object_index
+- object_id: mm9:guberland:object:331
+  source_object_index: 331
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_source_model_name
+    bmodel_index: 51
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: WorldObject1
+      source_poly_count: 44
+      source_surface_count: 44
+      roles: &id091
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_bmodel_name
+    bmodel_index: 51
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: WorldObject1
+      source_poly_count: 44
+      source_surface_count: 44
+      roles: *id091
+- object_id: mm9:guberland:object:332
+  source_object_index: 332
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_source_model_name
+    bmodel_index: 52
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group: *id092
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_bmodel_name
+    bmodel_index: 52
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group: *id093
+- object_id: mm9:guberland:object:333
+  source_object_index: 333
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_source_model_name
+    bmodel_index: 53
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: WorldObject3
+      source_poly_count: 44
+      source_surface_count: 44
+      roles: &id094
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_bmodel_name
+    bmodel_index: 53
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: WorldObject3
+      source_poly_count: 44
+      source_surface_count: 44
+      roles: *id094
 - object_id: mm9:guberland:object:334
   source_object_index: 334
   targets:
@@ -88158,8 +90600,38 @@ bindings:
 - object_id: mm9:guberland:object:336
   source_object_index: 336
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_source_model_name
+    bmodel_index: 54
+    bmodel_name: AIBarrier0
+    source_model_name: AIBarrier0
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: AIBarrier0
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: &id095
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_bmodel_name
+    bmodel_index: 54
+    bmodel_name: AIBarrier0
+    source_model_name: AIBarrier0
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: AIBarrier0
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: *id095
 - object_id: mm9:guberland:object:337
   source_object_index: 337
   targets:
@@ -90607,70 +93079,26 @@ scripts:
   command_count: 73
 unresolved:
 - kind: unresolved_binding
-  source_object_index: 23
-  source_name: BlueWater0
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
   source_object_index: 58
   source_name: ScriptObject0
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 74
-  source_name: PerceptionBrush2
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 75
-  source_name: PerceptionBrush3
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 76
-  source_name: PerceptionBrush4
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 77
-  source_name: PerceptionBrush0
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 79
-  source_name: InvisibleBrush0
-  source_class: InvisibleBrush
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id096
 - kind: unresolved_binding
   source_object_index: 266
   source_name: TronMgr
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 306
-  source_name: Switch
-  source_class: Door
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id097
 - kind: unresolved_binding
   source_object_index: 320
   source_name: Mastermind
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 321
-  source_name: Strikeplate1
-  source_class: Door
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 322
-  source_name: Riser1
-  source_class: Door
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 336
-  source_name: AIBarrier0
-  source_class: AIBarrier
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id098
 validation:
   raw_object_count: 346
   event_object_count: 346
@@ -90718,4 +93146,4 @@ validation:
   trigger_count: 0
   interaction_count: 188
   script_count: 29
-  unresolved_count: 13
+  unresolved_count: 3

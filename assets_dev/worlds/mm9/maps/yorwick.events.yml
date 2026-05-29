@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/yorwick.lua
+  script_ir: ../events/yorwick.script_ir.yml
 objects:
 - object_id: mm9:yorwick:object:0
   source_object_index: 0
@@ -43552,10 +43553,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 5056.0
     - 512.0
@@ -43960,10 +43963,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 2304.0
     - 512.0
@@ -135034,6 +135039,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id025 []
 - mechanism_id: mm9:yorwick:object:17:mechanism
   object_id: mm9:yorwick:object:17
@@ -135063,6 +135069,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id026 []
 - mechanism_id: mm9:yorwick:object:18:mechanism
   object_id: mm9:yorwick:object:18
@@ -135073,6 +135108,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id027 []
 - mechanism_id: mm9:yorwick:object:19:mechanism
   object_id: mm9:yorwick:object:19
@@ -135083,6 +135119,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id028 []
 - mechanism_id: mm9:yorwick:object:20:mechanism
   object_id: mm9:yorwick:object:20
@@ -135093,6 +135130,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id029 []
 - mechanism_id: mm9:yorwick:object:21:mechanism
   object_id: mm9:yorwick:object:21
@@ -135103,6 +135141,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id030 []
 - mechanism_id: mm9:yorwick:object:22:mechanism
   object_id: mm9:yorwick:object:22
@@ -135113,6 +135152,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id031 []
 - mechanism_id: mm9:yorwick:object:23:mechanism
   object_id: mm9:yorwick:object:23
@@ -135123,6 +135163,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id032 []
 - mechanism_id: mm9:yorwick:object:211:mechanism
   object_id: mm9:yorwick:object:211
@@ -135133,6 +135174,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:212:mechanism
   object_id: mm9:yorwick:object:212
@@ -135143,6 +135185,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:213:mechanism
   object_id: mm9:yorwick:object:213
@@ -135153,6 +135196,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:214:mechanism
   object_id: mm9:yorwick:object:214
@@ -135163,6 +135207,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:215:mechanism
   object_id: mm9:yorwick:object:215
@@ -135173,6 +135218,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:216:mechanism
   object_id: mm9:yorwick:object:216
@@ -135183,6 +135229,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:217:mechanism
   object_id: mm9:yorwick:object:217
@@ -135193,6 +135240,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:218:mechanism
   object_id: mm9:yorwick:object:218
@@ -135203,6 +135251,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:219:mechanism
   object_id: mm9:yorwick:object:219
@@ -135213,6 +135262,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:250:mechanism
   object_id: mm9:yorwick:object:250
@@ -135224,6 +135274,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id033 []
 - mechanism_id: mm9:yorwick:object:405:mechanism
   object_id: mm9:yorwick:object:405
@@ -135253,6 +135304,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door02open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door02close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id034 []
 - mechanism_id: mm9:yorwick:object:406:mechanism
   object_id: mm9:yorwick:object:406
@@ -135282,6 +135362,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door02open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door02close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id035 []
 - mechanism_id: mm9:yorwick:object:407:mechanism
   object_id: mm9:yorwick:object:407
@@ -135311,6 +135420,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door02open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door02close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id036 []
 - mechanism_id: mm9:yorwick:object:408:mechanism
   object_id: mm9:yorwick:object:408
@@ -135340,6 +135478,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door02open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door02close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id037 []
 - mechanism_id: mm9:yorwick:object:410:mechanism
   object_id: mm9:yorwick:object:410
@@ -135369,6 +135536,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door02open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door02close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door01.wav
+    authored: true
   trigger_outputs: &id038 []
 - mechanism_id: mm9:yorwick:object:411:mechanism
   object_id: mm9:yorwick:object:411
@@ -135398,6 +135594,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: OutfitterDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door06close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id039 []
 - mechanism_id: mm9:yorwick:object:412:mechanism
   object_id: mm9:yorwick:object:412
@@ -135427,6 +135652,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: OutfitterDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door06close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id040 []
 - mechanism_id: mm9:yorwick:object:417:mechanism
   object_id: mm9:yorwick:object:417
@@ -135437,6 +135691,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:418:mechanism
   object_id: mm9:yorwick:object:418
@@ -135447,6 +135702,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:yorwick:object:502:mechanism
   object_id: mm9:yorwick:object:502
@@ -135457,6 +135713,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers: []
 interactions:
@@ -138721,46 +138978,566 @@ interactions:
   script_id: svenspeech.scr
   sends: []
 bindings:
+- object_id: mm9:yorwick:object:0
+  source_object_index: 0
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 22720
+      source_surface_count: 18444
+      roles: &id041
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 22720
+      source_surface_count: 18444
+      roles: *id041
+- object_id: mm9:yorwick:object:2
+  source_object_index: 2
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id042
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id042
+- object_id: mm9:yorwick:object:4
+  source_object_index: 4
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id043
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id043
 - object_id: mm9:yorwick:object:5
   source_object_index: 5
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group: &id069
+      source_model_index: 3
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id044
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group: &id070
+      source_model_index: 3
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id044
+- object_id: mm9:yorwick:object:11
+  source_object_index: 11
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 4
+      source_model_name: WorldObject1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id045
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 4
+      source_model_name: WorldObject1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id045
+- object_id: mm9:yorwick:object:12
+  source_object_index: 12
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: WorldObject0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id046
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: WorldObject0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id046
+- object_id: mm9:yorwick:object:15
+  source_object_index: 15
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_source_model_name
+    bmodel_index: 6
+    bmodel_name: WorldObject4
+    source_model_name: WorldObject4
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: WorldObject4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id047
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_bmodel_name
+    bmodel_index: 6
+    bmodel_name: WorldObject4
+    source_model_name: WorldObject4
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: WorldObject4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id047
+- object_id: mm9:yorwick:object:16
+  source_object_index: 16
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_source_model_name
+    bmodel_index: 7
+    bmodel_name: WorldObject5
+    source_model_name: WorldObject5
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: WorldObject5
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id048
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_bmodel_name
+    bmodel_index: 7
+    bmodel_name: WorldObject5
+    source_model_name: WorldObject5
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: WorldObject5
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id048
 - object_id: mm9:yorwick:object:17
   source_object_index: 17
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_source_model_name
+    bmodel_index: 8
+    bmodel_name: CTgate
+    source_model_name: CTgate
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: CTgate
+      source_poly_count: 53
+      source_surface_count: 53
+      roles: &id049
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_bmodel_name
+    bmodel_index: 8
+    bmodel_name: CTgate
+    source_model_name: CTgate
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: CTgate
+      source_poly_count: 53
+      source_surface_count: 53
+      roles: *id049
 - object_id: mm9:yorwick:object:18
   source_object_index: 18
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_source_model_name
+    bmodel_index: 9
+    bmodel_name: board0
+    source_model_name: board0
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: board0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id050
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_bmodel_name
+    bmodel_index: 9
+    bmodel_name: board0
+    source_model_name: board0
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: board0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id050
 - object_id: mm9:yorwick:object:19
   source_object_index: 19
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_source_model_name
+    bmodel_index: 10
+    bmodel_name: board1
+    source_model_name: board1
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: board1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id051
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_bmodel_name
+    bmodel_index: 10
+    bmodel_name: board1
+    source_model_name: board1
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: board1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id051
 - object_id: mm9:yorwick:object:20
   source_object_index: 20
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_source_model_name
+    bmodel_index: 11
+    bmodel_name: board2
+    source_model_name: board2
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: board2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id052
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_bmodel_name
+    bmodel_index: 11
+    bmodel_name: board2
+    source_model_name: board2
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: board2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id052
 - object_id: mm9:yorwick:object:21
   source_object_index: 21
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_source_model_name
+    bmodel_index: 12
+    bmodel_name: board3
+    source_model_name: board3
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: board3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id053
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_bmodel_name
+    bmodel_index: 12
+    bmodel_name: board3
+    source_model_name: board3
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: board3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id053
 - object_id: mm9:yorwick:object:22
   source_object_index: 22
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_source_model_name
+    bmodel_index: 13
+    bmodel_name: board4
+    source_model_name: board4
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: board4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id054
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_bmodel_name
+    bmodel_index: 13
+    bmodel_name: board4
+    source_model_name: board4
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: board4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id054
 - object_id: mm9:yorwick:object:23
   source_object_index: 23
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_source_model_name
+    bmodel_index: 14
+    bmodel_name: gateboard
+    source_model_name: gateboard
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: gateboard
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id055
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_bmodel_name
+    bmodel_index: 14
+    bmodel_name: gateboard
+    source_model_name: gateboard
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: gateboard
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id055
+- object_id: mm9:yorwick:object:26
+  source_object_index: 26
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_source_model_name
+    bmodel_index: 15
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group: &id067
+      source_model_index: 15
+      source_model_name: Ocean
+      source_poly_count: 13
+      source_surface_count: 13
+      roles: &id056
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_bmodel_name
+    bmodel_index: 15
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group: &id068
+      source_model_index: 15
+      source_model_name: Ocean
+      source_poly_count: 13
+      source_surface_count: 13
+      roles: *id056
 - object_id: mm9:yorwick:object:27
   source_object_index: 27
   targets:
@@ -139790,48 +140567,318 @@ bindings:
 - object_id: mm9:yorwick:object:211
   source_object_index: 211
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_source_model_name
+    bmodel_index: 16
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: PerceptionBrush0
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: &id057
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_bmodel_name
+    bmodel_index: 16
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: PerceptionBrush0
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: *id057
 - object_id: mm9:yorwick:object:212
   source_object_index: 212
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_source_model_name
+    bmodel_index: 17
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: PerceptionBrush1
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: &id058
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_bmodel_name
+    bmodel_index: 17
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: PerceptionBrush1
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: *id058
 - object_id: mm9:yorwick:object:213
   source_object_index: 213
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_source_model_name
+    bmodel_index: 18
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: PerceptionBrush2
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: &id059
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_bmodel_name
+    bmodel_index: 18
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: PerceptionBrush2
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: *id059
 - object_id: mm9:yorwick:object:214
   source_object_index: 214
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_source_model_name
+    bmodel_index: 19
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: PerceptionBrush3
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id060
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_bmodel_name
+    bmodel_index: 19
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: PerceptionBrush3
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id060
 - object_id: mm9:yorwick:object:215
   source_object_index: 215
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_source_model_name
+    bmodel_index: 20
+    bmodel_name: PerceptionBrush4
+    source_model_name: PerceptionBrush4
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: PerceptionBrush4
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id061
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_bmodel_name
+    bmodel_index: 20
+    bmodel_name: PerceptionBrush4
+    source_model_name: PerceptionBrush4
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: PerceptionBrush4
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id061
 - object_id: mm9:yorwick:object:216
   source_object_index: 216
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_source_model_name
+    bmodel_index: 21
+    bmodel_name: PerceptionBrush5
+    source_model_name: PerceptionBrush5
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: PerceptionBrush5
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id062
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_bmodel_name
+    bmodel_index: 21
+    bmodel_name: PerceptionBrush5
+    source_model_name: PerceptionBrush5
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: PerceptionBrush5
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id062
 - object_id: mm9:yorwick:object:217
   source_object_index: 217
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_source_model_name
+    bmodel_index: 22
+    bmodel_name: PerceptionBrush6
+    source_model_name: PerceptionBrush6
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: PerceptionBrush6
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id063
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_bmodel_name
+    bmodel_index: 22
+    bmodel_name: PerceptionBrush6
+    source_model_name: PerceptionBrush6
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: PerceptionBrush6
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id063
 - object_id: mm9:yorwick:object:218
   source_object_index: 218
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_source_model_name
+    bmodel_index: 23
+    bmodel_name: PerceptionBrush7
+    source_model_name: PerceptionBrush7
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: PerceptionBrush7
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id064
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_bmodel_name
+    bmodel_index: 23
+    bmodel_name: PerceptionBrush7
+    source_model_name: PerceptionBrush7
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: PerceptionBrush7
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id064
 - object_id: mm9:yorwick:object:219
   source_object_index: 219
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_source_model_name
+    bmodel_index: 24
+    bmodel_name: PerceptionBrush8
+    source_model_name: PerceptionBrush8
+    source_polygon_group: &id071
+      source_model_index: 24
+      source_model_name: PerceptionBrush8
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id065
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_bmodel_name
+    bmodel_index: 24
+    bmodel_name: PerceptionBrush8
+    source_model_name: PerceptionBrush8
+    source_polygon_group: &id072
+      source_model_index: 24
+      source_model_name: PerceptionBrush8
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id065
 - object_id: mm9:yorwick:object:220
   source_object_index: 220
   targets:
@@ -140017,6 +141064,235 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id089
+    - source_model_index: 25
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt:
+      - -3551.0
+      - 507.0000305175781
+      - 6944.0
+      distance_from_position_lt: 7729.852
+      claimed_by_exact_bindings:
+      - source_object_index: 251
+        source_name: WorldObject2
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -3551.0
+        - 507.0
+        - 6944.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:25
+        bmodel_index: 25
+        bmodel_name: WorldObject2
+        source_model_name: WorldObject2
+        source_polygon_group: &id074
+          source_model_index: 25
+          source_model_name: WorldObject2
+          source_poly_count: 13
+          source_surface_count: 13
+          roles: &id066
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 251
+        source_name: WorldObject2
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -3551.0
+        - 507.0
+        - 6944.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:25
+        bmodel_index: 25
+        bmodel_name: WorldObject2
+        source_model_name: WorldObject2
+        source_polygon_group: &id075
+          source_model_index: 25
+          source_model_name: WorldObject2
+          source_poly_count: 13
+          source_surface_count: 13
+          roles: *id066
+    - source_model_index: 15
+      source_name: Ocean
+      movable: true
+      world_translation_lt:
+      - -9600.0
+      - 314.0
+      - -256.0
+      distance_from_position_lt: 9546.533
+      claimed_by_exact_bindings:
+      - source_object_index: 26
+        source_name: Ocean
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -255.9998779296875
+        - 313.9999694824219
+        - -256.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:15
+        bmodel_index: 15
+        bmodel_name: Ocean
+        source_model_name: Ocean
+        source_polygon_group: *id067
+      - source_object_index: 26
+        source_name: Ocean
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -255.9998779296875
+        - 313.9999694824219
+        - -256.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:15
+        bmodel_index: 15
+        bmodel_name: Ocean
+        source_model_name: Ocean
+        source_polygon_group: *id068
+    - source_model_index: 3
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt:
+      - -9600.0
+      - 157.0
+      - -608.0
+      distance_from_position_lt: 9560.938
+      claimed_by_exact_bindings:
+      - source_object_index: 5
+        source_name: BlueWater1
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -9600.0
+        - 156.99998474121094
+        - -352.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: BlueWater1
+        source_model_name: BlueWater1
+        source_polygon_group: *id069
+      - source_object_index: 5
+        source_name: BlueWater1
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -9600.0
+        - 156.99998474121094
+        - -352.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: BlueWater1
+        source_model_name: BlueWater1
+        source_polygon_group: *id070
+    - source_model_index: 24
+      source_name: PerceptionBrush8
+      movable: true
+      world_translation_lt:
+      - 5148.5
+      - 524.0
+      - -8123.5
+      distance_from_position_lt: 9720.077
+      claimed_by_exact_bindings:
+      - source_object_index: 219
+        source_name: PerceptionBrush8
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5148.5
+        - 588.0
+        - -8123.5
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:24
+        bmodel_index: 24
+        bmodel_name: PerceptionBrush8
+        source_model_name: PerceptionBrush8
+        source_polygon_group: *id071
+      - source_object_index: 219
+        source_name: PerceptionBrush8
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5148.5
+        - 588.0
+        - -8123.5
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:24
+        bmodel_index: 24
+        bmodel_name: PerceptionBrush8
+        source_model_name: PerceptionBrush8
+        source_polygon_group: *id072
+    - source_model_index: 31
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt:
+      - -6100.0
+      - 489.0
+      - -7586.0
+      distance_from_position_lt: 9756.788
+      claimed_by_exact_bindings:
+      - source_object_index: 409
+        source_name: WorldObject3
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -6100.0
+        - 489.0
+        - -7586.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:31
+        bmodel_index: 31
+        bmodel_name: WorldObject3
+        source_model_name: WorldObject3
+        source_polygon_group: &id081
+          source_model_index: 31
+          source_model_name: WorldObject3
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id073
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 409
+        source_name: WorldObject3
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -6100.0
+        - 489.0
+        - -7586.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:31
+        bmodel_index: 31
+        bmodel_name: WorldObject3
+        source_model_name: WorldObject3
+        source_polygon_group: &id082
+          source_model_index: 31
+          source_model_name: WorldObject3
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id073
+- object_id: mm9:yorwick:object:251
+  source_object_index: 251
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_source_model_name
+    bmodel_index: 25
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group: *id074
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_bmodel_name
+    bmodel_index: 25
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group: *id075
 - object_id: mm9:yorwick:object:252
   source_object_index: 252
   targets:
@@ -140053,6 +141329,41 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:yorwick:object:301
     confidence: exact_source_object_index
+- object_id: mm9:yorwick:object:303
+  source_object_index: 303
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_source_model_name
+    bmodel_index: 26
+    bmodel_name: WorldObject15
+    source_model_name: WorldObject15
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: WorldObject15
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id076
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_bmodel_name
+    bmodel_index: 26
+    bmodel_name: WorldObject15
+    source_model_name: WorldObject15
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: WorldObject15
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id076
 - object_id: mm9:yorwick:object:306
   source_object_index: 306
   targets:
@@ -140584,38 +141895,265 @@ bindings:
 - object_id: mm9:yorwick:object:405
   source_object_index: 405
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_source_model_name
+    bmodel_index: 27
+    bmodel_name: RotatingDoor0
+    source_model_name: RotatingDoor0
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: RotatingDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id077
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_bmodel_name
+    bmodel_index: 27
+    bmodel_name: RotatingDoor0
+    source_model_name: RotatingDoor0
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: RotatingDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id077
 - object_id: mm9:yorwick:object:406
   source_object_index: 406
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_source_model_name
+    bmodel_index: 28
+    bmodel_name: RotatingDoor1
+    source_model_name: RotatingDoor1
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: RotatingDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id078
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_bmodel_name
+    bmodel_index: 28
+    bmodel_name: RotatingDoor1
+    source_model_name: RotatingDoor1
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: RotatingDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id078
 - object_id: mm9:yorwick:object:407
   source_object_index: 407
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_source_model_name
+    bmodel_index: 29
+    bmodel_name: RotatingDoor2
+    source_model_name: RotatingDoor2
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: RotatingDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id079
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_bmodel_name
+    bmodel_index: 29
+    bmodel_name: RotatingDoor2
+    source_model_name: RotatingDoor2
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: RotatingDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id079
 - object_id: mm9:yorwick:object:408
   source_object_index: 408
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_source_model_name
+    bmodel_index: 30
+    bmodel_name: RotatingDoor3
+    source_model_name: RotatingDoor3
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: RotatingDoor3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id080
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_bmodel_name
+    bmodel_index: 30
+    bmodel_name: RotatingDoor3
+    source_model_name: RotatingDoor3
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: RotatingDoor3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id080
+- object_id: mm9:yorwick:object:409
+  source_object_index: 409
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_source_model_name
+    bmodel_index: 31
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group: *id081
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_bmodel_name
+    bmodel_index: 31
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group: *id082
 - object_id: mm9:yorwick:object:410
   source_object_index: 410
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_source_model_name
+    bmodel_index: 32
+    bmodel_name: StoreFrontDoor
+    source_model_name: StoreFrontDoor
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: StoreFrontDoor
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id083
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_bmodel_name
+    bmodel_index: 32
+    bmodel_name: StoreFrontDoor
+    source_model_name: StoreFrontDoor
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: StoreFrontDoor
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id083
 - object_id: mm9:yorwick:object:411
   source_object_index: 411
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_source_model_name
+    bmodel_index: 33
+    bmodel_name: OutfitterDoor1
+    source_model_name: OutfitterDoor1
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: OutfitterDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id084
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_bmodel_name
+    bmodel_index: 33
+    bmodel_name: OutfitterDoor1
+    source_model_name: OutfitterDoor1
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: OutfitterDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id084
 - object_id: mm9:yorwick:object:412
   source_object_index: 412
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_source_model_name
+    bmodel_index: 34
+    bmodel_name: OutfitterDoor2
+    source_model_name: OutfitterDoor2
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: OutfitterDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id085
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_bmodel_name
+    bmodel_index: 34
+    bmodel_name: OutfitterDoor2
+    source_model_name: OutfitterDoor2
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: OutfitterDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id085
 - object_id: mm9:yorwick:object:413
   source_object_index: 413
   targets:
@@ -140643,13 +142181,73 @@ bindings:
 - object_id: mm9:yorwick:object:417
   source_object_index: 417
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_source_model_name
+    bmodel_index: 35
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: InvisibleBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id086
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_bmodel_name
+    bmodel_index: 35
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: InvisibleBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id086
 - object_id: mm9:yorwick:object:418
   source_object_index: 418
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_source_model_name
+    bmodel_index: 36
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id087
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_bmodel_name
+    bmodel_index: 36
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id087
 - object_id: mm9:yorwick:object:419
   source_object_index: 419
   targets:
@@ -141085,8 +142683,38 @@ bindings:
 - object_id: mm9:yorwick:object:502
   source_object_index: 502
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_source_model_name
+    bmodel_index: 37
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: InvisibleBrush2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id088
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_bmodel_name
+    bmodel_index: 37
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: InvisibleBrush2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id088
 - object_id: mm9:yorwick:object:503
   source_object_index: 503
   targets:
@@ -141948,145 +143576,12 @@ scripts:
   command_count: 159
 unresolved:
 - kind: unresolved_binding
-  source_object_index: 5
-  source_name: BlueWater1
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 17
-  source_name: CTgate
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 18
-  source_name: board0
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 19
-  source_name: board1
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 20
-  source_name: board2
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 21
-  source_name: board3
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 22
-  source_name: board4
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 23
-  source_name: gateboard
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 211
-  source_name: PerceptionBrush0
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 212
-  source_name: PerceptionBrush1
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 213
-  source_name: PerceptionBrush2
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 214
-  source_name: PerceptionBrush3
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 215
-  source_name: PerceptionBrush4
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 216
-  source_name: PerceptionBrush5
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 217
-  source_name: PerceptionBrush6
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 218
-  source_name: PerceptionBrush7
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 219
-  source_name: PerceptionBrush8
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
   source_object_index: 250
   source_name: ScriptObject0
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 405
-  source_name: RotatingDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 406
-  source_name: RotatingDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 407
-  source_name: RotatingDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 408
-  source_name: RotatingDoor3
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 410
-  source_name: StoreFrontDoor
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 411
-  source_name: OutfitterDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 412
-  source_name: OutfitterDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 417
-  source_name: InvisibleBrush0
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 418
-  source_name: InvisibleBrush1
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 502
-  source_name: InvisibleBrush2
-  source_class: InvisibleBrush
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id089
 validation:
   raw_object_count: 508
   event_object_count: 508
@@ -142142,4 +143637,4 @@ validation:
   trigger_count: 0
   interaction_count: 326
   script_count: 9
-  unresolved_count: 28
+  unresolved_count: 1

@@ -11,25 +11,25 @@ script.labels = {}
 -- sets damage for water
 script.labels["OnTele1"] = function(ctx)
     -- RYANTELEPORTER.scr:13
-    ctx:command("setpropstring", "TeleportDestination, tele1") -- RYANTELEPORTER.scr:16
+    ctx:self():setStringProperty("TeleportDestination", "tele1") -- RYANTELEPORTER.scr:16
     do return ctx:exit("") end -- RYANTELEPORTER.scr:17
 end
 
 script.labels["OnTele2"] = function(ctx)
     -- RYANTELEPORTER.scr:21
-    ctx:command("setpropstring", "TeleportDestination, tele2") -- RYANTELEPORTER.scr:24
+    ctx:self():setStringProperty("TeleportDestination", "tele2") -- RYANTELEPORTER.scr:24
     do return ctx:exit("") end -- RYANTELEPORTER.scr:25
 end
 
 script.labels["OnTele3"] = function(ctx)
     -- RYANTELEPORTER.scr:29
-    ctx:command("setpropstring", "TeleportDestination, tele3") -- RYANTELEPORTER.scr:32
+    ctx:self():setStringProperty("TeleportDestination", "tele3") -- RYANTELEPORTER.scr:32
     do return ctx:exit("") end -- RYANTELEPORTER.scr:33
 end
 
 script.labels["OnTele4"] = function(ctx)
     -- RYANTELEPORTER.scr:36
-    ctx:command("setpropstring", "TeleportDestination, tele4") -- RYANTELEPORTER.scr:39
+    ctx:self():setStringProperty("TeleportDestination", "tele4") -- RYANTELEPORTER.scr:39
     do return ctx:exit("") end -- RYANTELEPORTER.scr:40
 end
 

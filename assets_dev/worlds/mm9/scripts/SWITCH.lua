@@ -16,14 +16,13 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 script.labels["Onuse"] = function(ctx)
     -- SWITCH.scr:19
     if ctx:condition("bUp==FALSE") then -- SWITCH.scr:22
-        ctx:command("playanim", "up DoNothing") -- SWITCH.scr:23
-        ctx:command("set", "bUp TRUE") -- SWITCH.scr:24
+        ctx:self():playAnimation("up", "DoNothing") -- SWITCH.scr:23
+        ctx:state().bUp = true -- SWITCH.scr:24
     else -- SWITCH.scr:25
-        ctx:command("playanim", "Down") -- SWITCH.scr:26
-        ctx:command("set", "bUp FALSE") -- SWITCH.scr:27
+        ctx:self():playAnimation("Down") -- SWITCH.scr:26
+        ctx:state().bUp = false -- SWITCH.scr:27
     end -- SWITCH.scr:28
-    ctx:command("getobjecthandle", "sTarget g_hobject") -- SWITCH.scr:30
-    ctx:trigger("g_hobject", "sMessage") -- SWITCH.scr:31
+    ctx:object("sTarget"):trigger("sMessage") -- SWITCH.scr:30-31
     do return ctx:exit("") end -- SWITCH.scr:33
 end
 

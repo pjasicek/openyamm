@@ -4,6 +4,7 @@ map_id: tasaracademy
 display_name: Ta'Sar Academy
 source:
   dat: ../source/worlds/TASARACADEMY.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/TASARACADEMY.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: tasaracademy.raw_objects.yml
   materials: tasaracademy.material_aliases.yml
   events: tasaracademy.events.yml
-  scene_compat: tasaracademy.scene.yml
+  scene_compat: null
   source_metadata_compat: tasaracademy.mm9.yml
-  bsp_compat: tasaracademy.bsp.yml
-  geometry_compat: tasaracademy.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: tasaracademy.blv
+  blv_compat: null
 scripts:
   level: ../events/tasaracademy.lua
   script_ir: ../events/tasaracademy.script_ir.yml

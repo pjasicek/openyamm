@@ -18,10 +18,10 @@ script.includes[#script.includes + 1] = { line = 13, path = "basedoor.inc" }
 script.labels["Stop"] = function(ctx)
     -- PRINCESS.scr:31
     -- Stop moving, and prepare to start walking again...
-    ctx:command("stop", "") -- PRINCESS.scr:37
-    ctx:command("set", "bAvoidingObstacle, FALSE") -- PRINCESS.scr:39
+    ctx:self():stop() -- PRINCESS.scr:37
+    ctx:state().bAvoidingObstacle = false -- PRINCESS.scr:39
     if ctx:condition("g_hTarget!=NULL") then -- PRINCESS.scr:41
-        ctx:command("ontargetbeyonddist", "WALK_RADIUS, StartWalking") -- PRINCESS.scr:42
+        ctx:onEvent("OnTargetBeyondDist", "WALK_RADIUS", "StartWalking") -- PRINCESS.scr:42
     end -- PRINCESS.scr:43
     do return ctx:exit("") end -- PRINCESS.scr:45
 end
@@ -29,20 +29,20 @@ end
 script.labels["WalkAfterTarget"] = function(ctx)
     -- PRINCESS.scr:48
     -- Walk to target...
-    ctx:command("runto", "g_hTarget, STOP_RADIUS, Stop") -- PRINCESS.scr:54
+    ctx:self():runTo(ctx:object("g_hTarget"), "STOP_RADIUS", "Stop") -- PRINCESS.scr:54
     do return ctx:exit("") end -- PRINCESS.scr:56
 end
 
 script.labels["RunAfterTarget"] = function(ctx)
     -- PRINCESS.scr:59
-    ctx:command("runto", "g_hTarget, WALK_RADIUS, WalkAfterTarget") -- PRINCESS.scr:62
+    ctx:self():runTo(ctx:object("g_hTarget"), "WALK_RADIUS", "WalkAfterTarget") -- PRINCESS.scr:62
     do return ctx:exit("") end -- PRINCESS.scr:64
 end
 
 script.labels["StartWalking"] = function(ctx)
     -- PRINCESS.scr:67
-    ctx:command("ontargetbeyonddist", "RUN_RADIUS, StartRunning") -- PRINCESS.scr:70
-    ctx:command("ontargetwithindist", "0") -- PRINCESS.scr:71
+    ctx:onEvent("OnTargetBeyondDist", "RUN_RADIUS", "StartRunning") -- PRINCESS.scr:70
+    ctx:onEvent("OnTargetWithinDist", 0) -- PRINCESS.scr:71
     mm9.gosub(script, ctx, "WalkAfterTarget") -- PRINCESS.scr:72
     do return ctx:exit("") end -- PRINCESS.scr:74
 end
@@ -52,8 +52,8 @@ script.labels["StartRunning"] = function(ctx)
     if ctx:condition("bAvoidingObstacle==TRUE") then -- PRINCESS.scr:80
         do return ctx:exit("") end -- PRINCESS.scr:81
     end -- PRINCESS.scr:82
-    ctx:command("ontargetbeyonddist", "0") -- PRINCESS.scr:84
-    ctx:command("ontargetwithindist", "WALK_RADIUS, StartWalking") -- PRINCESS.scr:85
+    ctx:onEvent("OnTargetBeyondDist", 0) -- PRINCESS.scr:84
+    ctx:onEvent("OnTargetWithinDist", "WALK_RADIUS", "StartWalking") -- PRINCESS.scr:85
     mm9.gosub(script, ctx, "RunAfterTarget") -- PRINCESS.scr:87
     do return ctx:exit("") end -- PRINCESS.scr:89
 end
@@ -63,7 +63,7 @@ script.labels["FollowTarget"] = function(ctx)
     if ctx:condition("g_hTarget==NULL") then -- PRINCESS.scr:95
         do return ctx:exit("") end -- PRINCESS.scr:96
     end -- PRINCESS.scr:97
-    ctx:command("aigetdistance", "g_hTarget, distance") -- PRINCESS.scr:99
+    ctx:state().distance = ctx:self():aiDistanceTo(ctx:object("g_hTarget")) -- PRINCESS.scr:99
     if ctx:condition("distance > RUN_RADIUS") then -- PRINCESS.scr:101
         mm9.gosub(script, ctx, "StartRunning") -- PRINCESS.scr:102
     else -- PRINCESS.scr:103
@@ -83,14 +83,14 @@ script.labels["FoundTarget"] = function(ctx)
     ctx:getParam(0, "g_hObject") -- PRINCESS.scr:120
     if ctx:condition("g_hTarget!=NULL") then -- PRINCESS.scr:122
         -- Why is this callback set... Get rid of it!
-        ctx:command("onfoundtarget", "") -- PRINCESS.scr:124
+        ctx:onEvent("OnFoundTarget") -- PRINCESS.scr:124
         do return ctx:exit("") end -- PRINCESS.scr:125
     end -- PRINCESS.scr:126
     if ctx:condition("g_hObject==hLastTarget") then -- PRINCESS.scr:128
         -- We found him again, start walking after him...
-        ctx:command("onfoundtarget", "") -- PRINCESS.scr:130
-        ctx:command("set", "g_hTarget, g_hObject") -- PRINCESS.scr:131
-        ctx:command("target", "g_hTarget, FALSE") -- PRINCESS.scr:132
+        ctx:onEvent("OnFoundTarget") -- PRINCESS.scr:130
+        ctx:set("g_hTarget", "g_hObject") -- PRINCESS.scr:131
+        ctx:self():setTarget(ctx:object("g_hTarget")) -- PRINCESS.scr:132
         mm9.gosub(script, ctx, "FollowTarget") -- PRINCESS.scr:133
     end -- PRINCESS.scr:134
     do return ctx:exit("") end -- PRINCESS.scr:136
@@ -103,12 +103,12 @@ script.labels["LostTarget"] = function(ctx)
     if ctx:condition("g_hTarget!=NULL") then -- PRINCESS.scr:146
         ctx:trigger("g_hTarget", "PrincessLost") -- PRINCESS.scr:147
     end -- PRINCESS.scr:148
-    ctx:command("set", "hLastTarget, g_hTarget") -- PRINCESS.scr:150
-    ctx:command("set", "g_hTarget, NULL") -- PRINCESS.scr:151
+    ctx:set("hLastTarget", "g_hTarget") -- PRINCESS.scr:150
+    ctx:state().g_hTarget = nil -- PRINCESS.scr:151
     ctx:trigger("g_hTarget", "PrincessLost") -- PRINCESS.scr:153
-    ctx:command("target", "NULL") -- PRINCESS.scr:155
+    ctx:self():setTarget(nil) -- PRINCESS.scr:155
     mm9.gosub(script, ctx, "Stop") -- PRINCESS.scr:156
-    ctx:command("onfoundtarget", "FoundTarget") -- PRINCESS.scr:158
+    ctx:onEvent("OnFoundTarget", "FoundTarget") -- PRINCESS.scr:158
     do return ctx:exit("TRUE") end -- PRINCESS.scr:160
 end
 
@@ -119,15 +119,15 @@ script.labels["StopFollowingTarget"] = function(ctx)
     if ctx:condition("g_hTarget!=NULL") then -- PRINCESS.scr:169
         ctx:trigger("g_hTarget", "PrincessLost") -- PRINCESS.scr:170
     end -- PRINCESS.scr:171
-    ctx:command("target", "NULL") -- PRINCESS.scr:173
-    ctx:command("set", "g_hTarget, NULL") -- PRINCESS.scr:174
+    ctx:self():setTarget(nil) -- PRINCESS.scr:173
+    ctx:state().g_hTarget = nil -- PRINCESS.scr:174
     do return ctx:exit("") end -- PRINCESS.scr:176
 end
 
 script.labels["TargetDead"] = function(ctx)
     -- PRINCESS.scr:179
-    ctx:command("target", "NULL") -- PRINCESS.scr:182
-    ctx:command("set", "g_hTarget, NULL") -- PRINCESS.scr:183
+    ctx:self():setTarget(nil) -- PRINCESS.scr:182
+    ctx:state().g_hTarget = nil -- PRINCESS.scr:183
     mm9.gosub(script, ctx, "Stop") -- PRINCESS.scr:185
     do return ctx:exit("") end -- PRINCESS.scr:187
 end
@@ -141,7 +141,7 @@ script.labels["OnUse"] = function(ctx)
         do return ctx:exit("") end -- PRINCESS.scr:198
     end -- PRINCESS.scr:199
     ctx:getParam(0, "g_hObject") -- PRINCESS.scr:201
-    ctx:command("set", "hLastTarget, NULL") -- PRINCESS.scr:203
+    ctx:state().hLastTarget = nil -- PRINCESS.scr:203
     if ctx:condition("g_hTarget==g_hObject") then -- PRINCESS.scr:205
         mm9.gosub(script, ctx, "StopFollowingTarget") -- PRINCESS.scr:206
         do return ctx:exit("TRUE") end -- PRINCESS.scr:207
@@ -149,25 +149,24 @@ script.labels["OnUse"] = function(ctx)
     if ctx:condition("g_hTarget!=NULL") then -- PRINCESS.scr:210
         mm9.gosub(script, ctx, "StopFollowingTarget") -- PRINCESS.scr:211
     end -- PRINCESS.scr:212
-    ctx:command("set", "g_hTarget, g_hObject") -- PRINCESS.scr:214
-    ctx:command("target", "g_hTarget, FALSE") -- PRINCESS.scr:216
-    ctx:command("onlosttarget", "LostTarget") -- PRINCESS.scr:217
+    ctx:set("g_hTarget", "g_hObject") -- PRINCESS.scr:214
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- PRINCESS.scr:216
+    ctx:onEvent("OnLostTarget", "LostTarget") -- PRINCESS.scr:217
     mm9.gosub(script, ctx, "FollowTarget") -- PRINCESS.scr:219
-    ctx:command("faceobject", "g_hTarget, 180") -- PRINCESS.scr:221
+    ctx:self():faceObject(ctx:object("g_hTarget"), 180) -- PRINCESS.scr:221
     do return ctx:exit("TRUE") end -- PRINCESS.scr:223
 end
 
 script.labels["Init"] = function(ctx)
     -- PRINCESS.scr:226
-    ctx:command("getmyhandle", "g_hMyObject") -- PRINCESS.scr:229
     do return ctx:exit("") end -- PRINCESS.scr:231
 end
 
 script.labels["ObstacleAvoided"] = function(ctx)
     -- PRINCESS.scr:234
-    ctx:command("set", "bAvoidingObstacle, FALSE") -- PRINCESS.scr:237
+    ctx:state().bAvoidingObstacle = false -- PRINCESS.scr:237
     mm9.gosub(script, ctx, "FollowTarget") -- PRINCESS.scr:239
-    ctx:command("onobstacleavoided", "") -- PRINCESS.scr:240
+    ctx:onEvent("OnObstacleAvoided") -- PRINCESS.scr:240
     do return ctx:exit("") end -- PRINCESS.scr:242
 end
 
@@ -180,8 +179,8 @@ script.labels["OnAvoidingObstacle"] = function(ctx)
     if ctx:condition("g_nTemp > MAX_RUN_ANGLE") then -- PRINCESS.scr:253
         -- Let's walk around it...
         mm9.gosub(script, ctx, "StartWalking") -- PRINCESS.scr:255
-        ctx:command("onobstacleavoided", "ObstacleAvoided") -- PRINCESS.scr:256
-        ctx:command("set", "bAvoidingObstacle, TRUE") -- PRINCESS.scr:257
+        ctx:onEvent("OnObstacleAvoided", "ObstacleAvoided") -- PRINCESS.scr:256
+        ctx:state().bAvoidingObstacle = true -- PRINCESS.scr:257
     end -- PRINCESS.scr:258
     do return ctx:exit("TRUE") end -- PRINCESS.scr:260
 end
@@ -198,9 +197,9 @@ script.labels["OnRescued"] = function(ctx)
     if ctx:condition("g_hTarget!=NULL") then -- PRINCESS.scr:276
         ctx:trigger("g_hTarget", "PrincessRescued") -- PRINCESS.scr:277
     end -- PRINCESS.scr:278
-    ctx:command("set", "bRescued, TRUE") -- PRINCESS.scr:280
-    ctx:command("target", "NULL") -- PRINCESS.scr:282
-    ctx:command("set", "g_hTarget, NULL") -- PRINCESS.scr:283
+    ctx:state().bRescued = true -- PRINCESS.scr:280
+    ctx:self():setTarget(nil) -- PRINCESS.scr:282
+    ctx:state().g_hTarget = nil -- PRINCESS.scr:283
     mm9.gosub(script, ctx, "Stop") -- PRINCESS.scr:285
     do return ctx:exit("") end -- PRINCESS.scr:287
 end
@@ -213,8 +212,8 @@ end
 
 script.labels["OnTargetTeleport"] = function(ctx)
     -- PRINCESS.scr:298
-    ctx:command("target", "NULL") -- PRINCESS.scr:301
-    ctx:command("set", "g_hTarget, NULL") -- PRINCESS.scr:302
+    ctx:self():setTarget(nil) -- PRINCESS.scr:301
+    ctx:state().g_hTarget = nil -- PRINCESS.scr:302
     mm9.gosub(script, ctx, "Stop") -- PRINCESS.scr:303
     do return ctx:exit("") end -- PRINCESS.scr:305
 end
@@ -222,16 +221,16 @@ end
 script.labels["Main"] = function(ctx)
     -- PRINCESS.scr:308
     -- TraceON
-    ctx:command("setidle", "") -- PRINCESS.scr:312
+    ctx:self():setIdle() -- PRINCESS.scr:312
     ctx:addTrigger("Use", "OnUse") -- PRINCESS.scr:314
     ctx:addTrigger("HostageRescued", "OnRescued") -- PRINCESS.scr:315
     ctx:addTrigger("ComeToMe", "ComeToMe") -- PRINCESS.scr:316
     ctx:addTrigger("TargetTeleported", "OnTargetTeleport") -- PRINCESS.scr:317
-    ctx:command("onavoidingobstacle", "OnAvoidingObstacle") -- PRINCESS.scr:318
-    ctx:command("onstuckdone", "OnStuckDone") -- PRINCESS.scr:319
-    ctx:command("ontargetdead", "TargetDead") -- PRINCESS.scr:320
+    ctx:onEvent("OnAvoidingObstacle", "OnAvoidingObstacle") -- PRINCESS.scr:318
+    ctx:onEvent("OnStuckDone", "OnStuckDone") -- PRINCESS.scr:319
+    ctx:onEvent("OnTargetDead", "TargetDead") -- PRINCESS.scr:320
     mm9.gosub(script, ctx, "BaseDoorInit") -- PRINCESS.scr:322
-    ctx:command("wait", "0, 0.1, Init") -- PRINCESS.scr:324
+    ctx:wait(0, 0.1, "Init") -- PRINCESS.scr:324
     do return ctx:exit("") end -- PRINCESS.scr:326
 end
 

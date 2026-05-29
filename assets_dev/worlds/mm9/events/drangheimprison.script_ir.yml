@@ -1,0 +1,1516 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: drangheimprison
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: alarmcontrol.scr
+  source_path: ALARMCONTROL.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: Globals.inc
+  labels:
+  - line: 13
+    name: OnAlarm
+  - line: 35
+    name: Main
+  registered_triggers:
+  - line: 40
+    message: Alarm
+    callback: OnAlarm
+    arguments_raw: Alarm OnAlarm
+  trigger_edges:
+  - line: 24
+    target_expression: g_hobject
+    message_expression: Alarm
+    arguments_raw: g_hobject Alarm
+  - line: 27
+    target_expression: g_hobject
+    message_expression: Alarm
+    arguments_raw: g_hobject Alarm
+  - line: 30
+    target_expression: g_hobject
+    message_expression: Alarm
+    arguments_raw: g_hobject Alarm
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: haskey
+    arguments_raw: 5006 g_ntemp
+  - line: 20
+    command: givekey
+    arguments_raw: '5006'
+  command_count: 13
+- script_id: dp_patrol.scr
+  source_path: DP_PATROL.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: DrangheimHostility.inc
+  labels:
+  - line: 25
+    name: dn
+  - line: 31
+    name: GoToMarker
+  - line: 59
+    name: UnStuckMe
+  - line: 73
+    name: ClearofDoor
+  - line: 84
+    name: GoThruDoor
+  - line: 106
+    name: Main2
+  - line: 117
+    name: Main
+  registered_triggers: []
+  trigger_edges:
+  - line: 97
+    target_expression: hDoor
+    message_expression: use
+    arguments_raw: hDoor use
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 34
+    command: sMarker
+    arguments_raw: = sPatrolMarkerRoot + nMarker
+  - line: 39
+    command: nMarker
+    arguments_raw: = nMarker + 1
+  - line: 41
+    command: nForward
+    arguments_raw: = 1
+  - line: 42
+    command: nMarker
+    arguments_raw: = nMarker - 1
+  - line: 46
+    command: nMarker
+    arguments_raw: = nMarker - 1
+  - line: 48
+    command: nForward
+    arguments_raw: = 0
+  - line: 49
+    command: nMarker
+    arguments_raw: = nMarker + 1
+  - line: 53
+    command: WalkTo
+    arguments_raw: hMarker 40 GoToMarker
+  - line: 63
+    command: nMarker
+    arguments_raw: = nMarker - 1
+  - line: 65
+    command: nMarker
+    arguments_raw: = nMarker + 1
+  - line: 76
+    command: nDoor
+    arguments_raw: = 0
+  - line: 89
+    command: SetIdle
+    arguments_raw: ''
+  - line: 90
+    command: nDoor
+    arguments_raw: = 1
+  - line: 92
+    command: nMarker
+    arguments_raw: = nMarker - 1
+  - line: 94
+    command: nMarker
+    arguments_raw: = nMarker + 1
+  - line: 110
+    command: nNumMarkers
+    arguments_raw: = nNumMarkers - 1
+  - line: 122
+    command: OnStuck
+    arguments_raw: UnStuckMe
+  - line: 123
+    command: OnDoor
+    arguments_raw: GoThruDoor
+  command_count: 53
+- script_id: drangheimdoorman.scr
+  source_path: DRANGHEIMDOORMAN.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: BaseMelee.inc
+  - line: 10
+    path: BaseGlobals.inc
+  - line: 11
+    path: DrangheimHostility.inc
+  labels:
+  - line: 17
+    name: Main
+  - line: 27
+    name: InitDoorman
+  - line: 41
+    name: OpenRoom
+  - line: 51
+    name: CloseRoom
+  registered_triggers:
+  - line: 31
+    message: open
+    callback: OpenRoom
+    arguments_raw: open,  OpenRoom
+  - line: 32
+    message: close
+    callback: CloseRoom
+    arguments_raw: close, CloseRoom
+  trigger_edges:
+  - line: 44
+    target_expression: hDoor
+    message_expression: unlock
+    arguments_raw: hDoor, unlock
+  - line: 45
+    target_expression: hDoor
+    message_expression: use
+    arguments_raw: hDoor, use
+  - line: 54
+    target_expression: hDoor
+    message_expression: close
+    arguments_raw: hDoor, close
+  - line: 55
+    target_expression: hDoor
+    message_expression: lock
+    arguments_raw: hDoor, lock
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 21
+    command: OnPostStartWorld
+    arguments_raw: InitDoorman
+  - line: 22
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDoorman
+  command_count: 20
+- script_id: drangheimguardbasic.scr
+  source_path: DRANGHEIMGUARDBASIC.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: DrangheimHostility.inc
+  labels:
+  - line: 10
+    name: Main
+  - line: 18
+    name: InitDrangheimGuardBasic
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 12
+    command: OnPostStartWorld
+    arguments_raw: InitDrangheimGuardBasic
+  - line: 13
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDrangheimGuardBasic
+  command_count: 5
+- script_id: drangheiminterrogator.scr
+  source_path: DRANGHEIMINTERROGATOR.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: BaseGlobals.inc
+  - line: 7
+    path: ListTraverse.inc
+  - line: 8
+    path: DrangheimHostility.inc
+  labels:
+  - line: 37
+    name: Main
+  - line: 50
+    name: CacheFiles
+  - line: 57
+    name: InitDrangheimInterrogator
+  - line: 100
+    name: OnObjectLinkBroken
+  - line: 114
+    name: StartScript
+  - line: 127
+    name: GetNextPrisoner
+  - line: 140
+    name: EscortNextPrisoner
+  - line: 157
+    name: OnSignalComeOut
+  - line: 167
+    name: OnPrisonerOut
+  - line: 175
+    name: OnSignalShutCell
+  - line: 190
+    name: OnPrisonerIn
+  - line: 209
+    name: OnBeatingStart
+  - line: 218
+    name: OnBeatingDone
+  - line: 230
+    name: OnReturned
+  - line: 238
+    name: OnSignalGoBack
+  - line: 248
+    name: OnTraverseDone
+  - line: 301
+    name: OnSignalOpenCell
+  registered_triggers:
+  - line: 93
+    message: start
+    callback: StartScript
+    arguments_raw: start, StartScript
+  - line: 94
+    message: outside
+    callback: OnPrisonerOut
+    arguments_raw: outside, OnPrisonerOut
+  - line: 95
+    message: inside
+    callback: OnPrisonerIn
+    arguments_raw: inside,  OnPrisonerIn
+  - line: 198
+    message: start
+    callback: StartScript
+    arguments_raw: start, StartScript
+  trigger_edges:
+  - line: 131
+    target_expression: hWarden
+    message_expression: change
+    arguments_raw: hWarden, change
+  - line: 132
+    target_expression: hWarden
+    message_expression: open
+    arguments_raw: hWarden, open
+  - line: 161
+    target_expression: hPrisoner
+    message_expression: leave
+    arguments_raw: hPrisoner, leave
+  - line: 179
+    target_expression: hPrisoner
+    message_expression: followme
+    arguments_raw: hPrisoner, followme
+  - line: 182
+    target_expression: hWarden
+    message_expression: close
+    arguments_raw: hWarden, close
+  - line: 194
+    target_expression: hWarden
+    message_expression: close
+    arguments_raw: hWarden, close
+  - line: 222
+    target_expression: hDoorman
+    message_expression: open
+    arguments_raw: hDoorman, open
+  - line: 242
+    target_expression: hPrisoner
+    message_expression: return
+    arguments_raw: hPrisoner, return
+  - line: 255
+    target_expression: hDoorman
+    message_expression: close
+    arguments_raw: hDoorman, close
+  - line: 257
+    target_expression: hDoorman
+    message_expression: open
+    arguments_raw: hDoorman, open
+  - line: 268
+    target_expression: hDoorman
+    message_expression: close
+    arguments_raw: hDoorman, close
+  - line: 279
+    target_expression: hWarden
+    message_expression: open
+    arguments_raw: hWarden, open
+  movement_commands: []
+  state_commands:
+  - line: 61
+    command: GetStat
+    arguments_raw: hMe, WalkVel, nMyWalk
+  - line: 66
+    command: GetStat
+    arguments_raw: hDummy, DoorOpenTime, CELL_OPEN_TIME
+  - line: 70
+    command: GetStat
+    arguments_raw: hDummy, DoorOpenTime, DOOR_OPEN_TIME
+  - line: 149
+    command: GetStat
+    arguments_raw: hPrisoner, WalkVel, nTemp
+  - line: 150
+    command: SetStat
+    arguments_raw: hMe, WalkVel, nTemp
+  - line: 200
+    command: SetStat
+    arguments_raw: hMe, WalkVel, nMyWalk
+  presentation_commands:
+  - line: 151
+    command: PlayAnim
+    arguments_raw: ANIM_COMEOUT, OnSignalComeOut
+  - line: 170
+    command: PlayAnim
+    arguments_raw: ANIM_SHUTCELL, OnSignalShutCell
+  - line: 233
+    command: PlayAnim
+    arguments_raw: ANIM_GOBACK, OnSignalGoBack
+  - line: 304
+    command: PlayAnim
+    arguments_raw: ANIM_OPENCELL, TraverseResume
+  unknown_commands:
+  - line: 43
+    command: OnPostStartWorld
+    arguments_raw: InitDrangheimInterrogator
+  - line: 44
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDrangheimInterrogator
+  - line: 45
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 52
+    command: CacheSound
+    arguments_raw: '"sounds\events\BeatdownMix8bit.wav"'
+  - line: 74
+    command: CreateObjectLink
+    arguments_raw: hWarden
+  - line: 77
+    command: CreateObjectLink
+    arguments_raw: hDoorman
+  - line: 79
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 82
+    command: DOOR_OPEN_TIME
+    arguments_raw: = DOOR_OPEN_TIME + 1
+  - line: 83
+    command: CELL_OPEN_TIME
+    arguments_raw: = CELL_OPEN_TIME + 1
+  - line: 89
+    command: TRAVERSERADIUS
+    arguments_raw: = 5
+  - line: 91
+    command: OnStuck
+    arguments_raw: TraverseResume
+  - line: 104
+    command: hWarden
+    arguments_raw: = NULL
+  - line: 107
+    command: hDoorman
+    arguments_raw: = NULL
+  - line: 117
+    command: RemoveTrigger
+    arguments_raw: start
+  - line: 119
+    command: nCounter
+    arguments_raw: = 0
+  - line: 120
+    command: bReturning
+    arguments_raw: = FALSE
+  - line: 121
+    command: LISTINDEX
+    arguments_raw: = LISTFIRST
+  - line: 143
+    command: sPrisonerName
+    arguments_raw: = PRISONER_BASE + nCounter
+  - line: 147
+    command: GetClassName
+    arguments_raw: hPrisoner, sTemp
+  - line: 148
+    command: AddFriend
+    arguments_raw: sTemp
+  - line: 199
+    command: nCounter
+    arguments_raw: = 0
+  - line: 224
+    command: bReturning
+    arguments_raw: = TRUE
+  - line: 278
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 281
+    command: bReturning
+    arguments_raw: = FALSE
+  - line: 291
+    command: FaceObject
+    arguments_raw: hWarden, 180, OnSignalOpenCell
+  command_count: 156
+- script_id: drangheimprisoner.scr
+  source_path: DRANGHEIMPRISONER.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: BaseGlobals.inc
+  labels:
+  - line: 21
+    name: Main
+  - line: 31
+    name: InitDrangheimPrisoner
+  - line: 45
+    name: OnTargetDead
+  - line: 53
+    name: EnterCell
+  - line: 64
+    name: LeaveCell
+  - line: 74
+    name: OnEnteredCell
+  - line: 86
+    name: OnLeftCell
+  - line: 94
+    name: OnPlayedAnim
+  - line: 103
+    name: StartFollowing
+  - line: 113
+    name: FollowLoop
+  - line: 128
+    name: OnPlayerRescue
+  registered_triggers:
+  - line: 35
+    message: followme
+    callback: StartFollowing
+    arguments_raw: followme, StartFollowing
+  - line: 36
+    message: return
+    callback: EnterCell
+    arguments_raw: return, EnterCell
+  - line: 37
+    message: leave
+    callback: LeaveCell
+    arguments_raw: leave, LeaveCell
+  - line: 38
+    message: use
+    callback: OnPlayerRescue
+    arguments_raw: use, OnPlayerRescue
+  trigger_edges:
+  - line: 79
+    target_expression: hGuard
+    message_expression: inside
+    arguments_raw: hGuard, inside
+  - line: 97
+    target_expression: hGuard
+    message_expression: outside
+    arguments_raw: hGuard, outside
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 89
+    command: PlayAnim
+    arguments_raw: cower, OnPlayedAnim
+  - line: 117
+    command: PlayAnim
+    arguments_raw: Fidget3, DoNothing
+  unknown_commands:
+  - line: 25
+    command: OnPostStartWorld
+    arguments_raw: InitDrangheimPrisoner
+  - line: 26
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDrangheimPrisoner
+  - line: 40
+    command: OnTargetDead
+    arguments_raw: OnTargetDead
+  - line: 47
+    command: hGuard
+    arguments_raw: = NULL
+  - line: 48
+    command: Target
+    arguments_raw: 'NULL'
+  - line: 55
+    command: bReturning
+    arguments_raw: = TRUE
+  - line: 56
+    command: Target
+    arguments_raw: 'NULL'
+  - line: 58
+    command: WalkTo
+    arguments_raw: hCell, 5, OnEnteredCell
+  - line: 67
+    command: Target
+    arguments_raw: 'NULL'
+  - line: 68
+    command: CreateObjectLink
+    arguments_raw: hGuard
+  - line: 69
+    command: WalkTo
+    arguments_raw: hGuard, 5, OnLeftCell
+  - line: 76
+    command: Stop
+    arguments_raw: ''
+  - line: 80
+    command: FaceObject
+    arguments_raw: hGuard, 180, DoNothing
+  - line: 88
+    command: Stop
+    arguments_raw: ''
+  - line: 106
+    command: Target
+    arguments_raw: hGuard, TRUE
+  - line: 107
+    command: bReturning
+    arguments_raw: = FALSE
+  - line: 115
+    command: Stop
+    arguments_raw: ''
+  - line: 120
+    command: WalkTo
+    arguments_raw: hGuard, 32, StopMoving
+  - line: 130
+    command: HasKey
+    arguments_raw: 5007, nTemp
+  - line: 132
+    command: RemoveTrigger
+    arguments_raw: use
+  - line: 134
+    command: GiveExp
+    arguments_raw: EXP_RESCUE
+  command_count: 60
+- script_id: drangheimsmith.scr
+  source_path: DRANGHEIMSMITH.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: BaseGlobals.inc
+  labels:
+  - line: 29
+    name: Main
+  - line: 46
+    name: CacheFiles
+  - line: 57
+    name: InitDrangheimSmith
+  - line: 75
+    name: AnvilLoop
+  - line: 97
+    name: CoolWeapon
+  - line: 106
+    name: OnCooledWeapon
+  - line: 116
+    name: ReturnWeapon
+  - line: 125
+    name: OnReturnedWeapon
+  - line: 135
+    name: StartOver
+  - line: 143
+    name: PlayRandom
+  - line: 150
+    name: PlayRandomSound
+  - line: 159
+    name: InitStrings
+  - line: 170
+    name: TurnOff
+  - line: 180
+    name: AttachHammer
+  - line: 189
+    name: AttachSword
+  - line: 198
+    name: DetachItem
+  registered_triggers:
+  - line: 66
+    message: 'off'
+    callback: TurnOff
+    arguments_raw: off, TurnOff
+  - line: 67
+    message: 'on'
+    callback: OnReturnedWeapon
+    arguments_raw: on, OnReturnedWeapon
+  trigger_edges:
+  - line: 110
+    target_expression: hSteam
+    message_expression: 'on'
+    arguments_raw: hSteam, on
+  - line: 119
+    target_expression: hSteam
+    message_expression: 'off'
+    arguments_raw: hSteam, off
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 145
+    command: PlayAnim
+    arguments_raw: HAttack1, PlayRandomSound
+  unknown_commands:
+  - line: 35
+    command: RemoveObject
+    arguments_raw: hRack
+  - line: 39
+    command: OnPostStartWorld
+    arguments_raw: InitDrangheimSmith
+  - line: 40
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDrangheimSmith
+  - line: 41
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 48
+    command: CacheSound
+    arguments_raw: sounds\events\metalmetal01.wav"
+  - line: 49
+    command: CacheSound
+    arguments_raw: sounds\events\metalmetal02.wav"
+  - line: 50
+    command: CacheSound
+    arguments_raw: sounds\events\metalmetal03.wav"
+  - line: 51
+    command: CacheSound
+    arguments_raw: sounds\events\metalmetal04.wav"
+  - line: 52
+    command: CacheSound
+    arguments_raw: sounds\events\metalmetal05.wav"
+  - line: 64
+    command: OnDeath
+    arguments_raw: DetachItem
+  - line: 78
+    command: bQuit
+    arguments_raw: = FALSE
+  - line: 83
+    command: nCounter
+    arguments_raw: = 10
+  - line: 89
+    command: FaceObject
+    arguments_raw: hAnvil, 180, DoNothing
+  - line: 91
+    command: nCounter
+    arguments_raw: = nCounter - bBearer
+  - line: 101
+    command: WalkTo
+    arguments_raw: hSteam, 40, OnCooledWeapon
+  - line: 108
+    command: Stop
+    arguments_raw: ''
+  - line: 109
+    command: FaceObject
+    arguments_raw: hSteam, 180, DoNothing
+  - line: 118
+    command: Stop
+    arguments_raw: ''
+  - line: 120
+    command: WalkTo
+    arguments_raw: hRack, 5, OnReturnedWeapon
+  - line: 127
+    command: Stop
+    arguments_raw: ''
+  - line: 130
+    command: WalkTo
+    arguments_raw: hAnvil, 10, StartOver
+  - line: 137
+    command: Stop
+    arguments_raw: ''
+  - line: 152
+    command: GetRandomInt
+    arguments_raw: 0, 4, nTemp
+  - line: 153
+    command: ArrayGet
+    arguments_raw: spSounds, nTemp, sSound
+  - line: 161
+    command: ArrayPut
+    arguments_raw: spSounds, 0, "sounds\events\metalmetal01.wav"
+  - line: 162
+    command: ArrayPut
+    arguments_raw: spSounds, 1, "sounds\events\metalmetal02.wav"
+  - line: 163
+    command: ArrayPut
+    arguments_raw: spSounds, 2, "sounds\events\metalmetal03.wav"
+  - line: 164
+    command: ArrayPut
+    arguments_raw: spSounds, 3, "sounds\events\metalmetal04.wav"
+  - line: 165
+    command: ArrayPut
+    arguments_raw: spSounds, 4, "sounds\events\metalmetal05.wav"
+  - line: 172
+    command: Stop
+    arguments_raw: ''
+  - line: 173
+    command: bQuit
+    arguments_raw: = TRUE
+  - line: 184
+    command: AttachProp
+    arguments_raw: '"hammer.abc", "hammer.dtx", rhand1, hWeapon'
+  - line: 193
+    command: AttachProp
+    arguments_raw: '"kirasword.abc", "kirasword.dtx", rhand1, hWeapon'
+  - line: 201
+    command: DetachProp
+    arguments_raw: hWeapon, FALSE
+  - line: 202
+    command: RemoveObject
+    arguments_raw: hWeapon
+  - line: 203
+    command: hWeapon
+    arguments_raw: = NULL
+  command_count: 87
+- script_id: drangheimwarden.scr
+  source_path: DRANGHEIMWARDEN.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: BaseGlobals.inc
+  - line: 10
+    path: BaseMelee.inc
+  - line: 11
+    path: DrangheimHostility.inc
+  labels:
+  - line: 22
+    name: Main
+  - line: 42
+    name: OpenCell
+  - line: 52
+    name: CloseCell
+  - line: 62
+    name: ChangeCell
+  registered_triggers:
+  - line: 33
+    message: open
+    callback: OpenCell
+    arguments_raw: open, OpenCell
+  - line: 34
+    message: close
+    callback: CloseCell
+    arguments_raw: close, CloseCell
+  - line: 35
+    message: change
+    callback: ChangeCell
+    arguments_raw: change, ChangeCell
+  trigger_edges:
+  - line: 46
+    target_expression: hCell
+    message_expression: use
+    arguments_raw: hCell, use
+  - line: 56
+    target_expression: hCell
+    message_expression: use
+    arguments_raw: hCell, use
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 44
+    command: PlayAnim
+    arguments_raw: aware, DoNothing
+  - line: 54
+    command: PlayAnim
+    arguments_raw: aware, DoNothing
+  unknown_commands:
+  - line: 25
+    command: ArrayPut
+    arguments_raw: spCellNames, 0, sCellName
+  - line: 27
+    command: ArrayPut
+    arguments_raw: spCellNames, 1, sCellName
+  - line: 29
+    command: ArrayPut
+    arguments_raw: spCellNames, 2, sCellName
+  - line: 37
+    command: nCounter
+    arguments_raw: = 0
+  - line: 64
+    command: ArrayGet
+    arguments_raw: spCellNames, nCounter, sCellName
+  - line: 66
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 67
+    command: Mod
+    arguments_raw: nCounter, 3
+  command_count: 27
+- script_id: guardhelp.scr
+  source_path: GUARDHELP.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: basemelee.inc
+  - line: 9
+    path: BaseDoor.inc
+  - line: 10
+    path: guardsounds.inc
+  labels:
+  - line: 22
+    name: OnGiveHelp
+  - line: 30
+    name: OnTarget
+  - line: 46
+    name: OnDamage
+  - line: 64
+    name: Help
+  - line: 80
+    name: OnExit
+  - line: 86
+    name: Main
+  registered_triggers:
+  - line: 91
+    message: help
+    callback: OnGiveHelp
+    arguments_raw: help OnGiveHelp
+  trigger_edges:
+  - line: 69
+    target_expression: g_hobject
+    message_expression: help
+    arguments_raw: g_hobject help
+  - line: 72
+    target_expression: g_hobject
+    message_expression: help
+    arguments_raw: g_hobject help
+  - line: 75
+    target_expression: g_hobject
+    message_expression: help
+    arguments_raw: g_hobject help
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: runto
+    arguments_raw: g_hobject 32 DoNothing
+  - line: 36
+    command: IsPlayer
+    arguments_raw: hParam, bIsPlayer
+  - line: 37
+    command: HasKey
+    arguments_raw: nKeyValue, bHasKey
+  - line: 38
+    command: bResult
+    arguments_raw: = bIsPlayer * bHasKey
+  - line: 40
+    command: RunTo
+    arguments_raw: hParam, 25, BaseInit
+  - line: 51
+    command: IsPlayer
+    arguments_raw: g_hobject, bIsPlayer
+  - line: 53
+    command: givekey
+    arguments_raw: '5006'
+  - line: 54
+    command: removefriend
+    arguments_raw: Player
+  - line: 58
+    command: addfriend
+    arguments_raw: player
+  - line: 90
+    command: addfriend
+    arguments_raw: CommonerHuman2MaleA
+  - line: 92
+    command: Onfoundtarget
+    arguments_raw: OnTarget
+  - line: 93
+    command: OnDamage
+    arguments_raw: OnDamage
+  command_count: 38
+- script_id: guardrude.scr
+  source_path: GUARDRUDE.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: basemelee.inc
+  - line: 10
+    path: guardsounds.inc
+  labels:
+  - line: 22
+    name: OnAlarm
+  - line: 31
+    name: Wakeup
+  - line: 38
+    name: OnUse
+  - line: 51
+    name: OnDamage
+  - line: 62
+    name: OnRude
+  - line: 83
+    name: OnMove
+  - line: 108
+    name: OnTarget
+  - line: 119
+    name: StartWork
+  - line: 134
+    name: Main
+  registered_triggers:
+  - line: 142
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  - line: 145
+    message: Alarm
+    callback: ONAlarm
+    arguments_raw: Alarm ONAlarm
+  trigger_edges:
+  - line: 58
+    target_expression: g_hobject
+    message_expression: Alarm
+    arguments_raw: g_hobject Alarm
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 34
+    command: Playanim
+    arguments_raw: Stand DoNothing
+  - line: 127
+    command: LoopAnim
+    arguments_raw: sleep 0 DoNothing
+  unknown_commands:
+  - line: 26
+    command: Addenemy
+    arguments_raw: Player
+  - line: 27
+    command: Goto
+    arguments_raw: BaseInit
+  - line: 46
+    command: FaceObject
+    arguments_raw: g_hobject 200 DoNothing
+  - line: 47
+    command: DoRude
+    arguments_raw: NPC_ID
+  - line: 53
+    command: haskey
+    arguments_raw: 5006 g_ntemp
+  - line: 55
+    command: givekey
+    arguments_raw: '5006'
+  - line: 67
+    command: Haskey
+    arguments_raw: 5006 g_ntemp
+  - line: 75
+    command: haskey
+    arguments_raw: 5007 g_ntemp
+  - line: 91
+    command: giveitem
+    arguments_raw: '446'
+  - line: 92
+    command: traceoff
+    arguments_raw: ''
+  - line: 102
+    command: Walkto
+    arguments_raw: g_hobject 0 DoNothing
+  - line: 111
+    command: haskey
+    arguments_raw: 5006 g_ntemp
+  - line: 122
+    command: GetRandomInt
+    arguments_raw: 1, 20, G_ntemp
+  - line: 128
+    command: set
+    arguments_raw: nSleeping, TRUE
+  - line: 143
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 144
+    command: OnDamage
+    arguments_raw: OnDamage
+  - line: 146
+    command: OnFoundTarget
+    arguments_raw: OnTarget
+  command_count: 71
+- script_id: guardtonegate.scr
+  source_path: GUARDTONEGATE.scr
+  parse_status: parsed
+  includes:
+  - line: 14
+    path: BaseMelee.inc
+  labels:
+  - line: 34
+    name: WalkBack
+  - line: 43
+    name: BackToStart
+  - line: 49
+    name: WereHere2
+  - line: 55
+    name: NagateMarker
+  - line: 62
+    name: FaceEachOther
+  - line: 70
+    name: WereHere
+  - line: 76
+    name: PlayerIsHere
+  - line: 82
+    name: CheckPlayer
+  - line: 106
+    name: SetKeyValue
+  - line: 121
+    name: AlertCall
+  - line: 131
+    name: Main2
+  - line: 144
+    name: Main
+  registered_triggers:
+  - line: 133
+    message: Hello
+    callback: PlayerIsHere
+    arguments_raw: Hello, PlayerIsHere
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 37
+    command: hGuardMarker
+    arguments_raw: = NULL
+  - line: 39
+    command: WalkTo
+    arguments_raw: hGuardMarker, 0, DoNothing
+  - line: 51
+    command: Stop
+    arguments_raw: ''
+  - line: 57
+    command: hGuardMarker
+    arguments_raw: = NULL
+  - line: 59
+    command: RunTo
+    arguments_raw: hGuardMarker, 0, DoNothing
+  - line: 67
+    command: FaceObject
+    arguments_raw: hGuard, 180, NagateMarker
+  - line: 72
+    command: Stop
+    arguments_raw: ''
+  - line: 79
+    command: RunTo
+    arguments_raw: hGuardMarker, 2, WereHere
+  - line: 85
+    command: IsPlayer
+    arguments_raw: hParam, bIsPlayer
+  - line: 88
+    command: HasKey
+    arguments_raw: 5007, bHasFriendlyKey
+  - line: 89
+    command: HasKey
+    arguments_raw: 5006, bHasHostileKey
+  - line: 90
+    command: bHasHostileKey
+    arguments_raw: = 1 - bHasHostileKey
+  - line: 91
+    command: bResult
+    arguments_raw: = bHasFriendlyKey * bHasHostileKey * bIsPlayer
+  - line: 93
+    command: GiveKey
+    arguments_raw: '5006'
+  - line: 96
+    command: AddFriend
+    arguments_raw: Player
+  - line: 100
+    command: OnTargetDead
+    arguments_raw: BackToStart
+  - line: 109
+    command: IsPlayer
+    arguments_raw: hParam, bIsPlayer
+  - line: 111
+    command: GiveKey
+    arguments_raw: '5006'
+  - line: 112
+    command: RemoveFriend
+    arguments_raw: Player
+  - line: 115
+    command: AddFriend
+    arguments_raw: Player
+  - line: 117
+    command: OnTargetDead
+    arguments_raw: BackToStart
+  - line: 128
+    command: RunTo
+    arguments_raw: hParam, 25, BaseInit
+  - line: 134
+    command: AddEnemy
+    arguments_raw: Nagate
+  - line: 135
+    command: AddFriend
+    arguments_raw: PrisonerHumanMaleA
+  - line: 136
+    command: OnFoundTarget
+    arguments_raw: CheckPlayer
+  - line: 137
+    command: OnDamage
+    arguments_raw: SetKeyValue
+  - line: 138
+    command: OnTargetDead
+    arguments_raw: BackToStart
+  - line: 149
+    command: CacheSound
+    arguments_raw: sounds\VO\IRequireAssistance.WAV
+  - line: 150
+    command: CacheSound
+    arguments_raw: sounds\VO\TheyAreHere.wav
+  - line: 151
+    command: CacheSound
+    arguments_raw: sounds\VO\Charrrge.wav
+  command_count: 79
+- script_id: npc419.scr
+  source_path: NPC419.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 14
+    name: OnRude
+  - line: 35
+    name: StartUnlock
+  - line: 43
+    name: Unlock
+  - line: 52
+    name: WalkAway
+  - line: 60
+    name: Call
+  - line: 76
+    name: OnExit
+  - line: 82
+    name: DoRude
+  - line: 90
+    name: OnTarget
+  - line: 111
+    name: Main
+  registered_triggers: []
+  trigger_edges:
+  - line: 48
+    target_expression: g_hobject
+    message_expression: unlock
+    arguments_raw: g_hobject unlock
+  - line: 67
+    target_expression: g_hobject
+    message_expression: help
+    arguments_raw: g_hobject help
+  - line: 70
+    target_expression: g_hobject
+    message_expression: help
+    arguments_raw: g_hobject help
+  - line: 73
+    target_expression: g_hobject
+    message_expression: help
+    arguments_raw: g_hobject help
+  - line: 123
+    target_expression: g_hobject
+    message_expression: unlock
+    arguments_raw: g_hobject unlock
+  - line: 126
+    target_expression: g_hobject
+    message_expression: lock
+    arguments_raw: g_hobject lock
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: haskey
+    arguments_raw: 5004 g_ntemp
+  - line: 21
+    command: givekey
+    arguments_raw: '5005'
+  - line: 28
+    command: traceoff
+    arguments_raw: ''
+  - line: 39
+    command: walkto
+    arguments_raw: g_hobject 32 Unlock
+  - line: 56
+    command: walkto
+    arguments_raw: g_hobject 32 DoNothing
+  - line: 63
+    command: givekey
+    arguments_raw: '5006'
+  - line: 85
+    command: STOP
+    arguments_raw: ''
+  - line: 86
+    command: DoRude
+    arguments_raw: '419'
+  - line: 94
+    command: target
+    arguments_raw: g_hplayer
+  - line: 95
+    command: OnTargetWithinDist
+    arguments_raw: 16 DoRude
+  - line: 96
+    command: haskey
+    arguments_raw: 5004 g_ntemp
+  - line: 100
+    command: haskey
+    arguments_raw: 5006 g_btemp
+  - line: 105
+    command: Walkto
+    arguments_raw: g_hplayer 8 DoNothing
+  - line: 118
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 119
+    command: OnFoundPlayer
+    arguments_raw: OnTarget 256
+  - line: 120
+    command: haskey
+    arguments_raw: 5005 g_ntemp
+  command_count: 57
+- script_id: npc427.scr
+  source_path: NPC427.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: BaseDoor.inc
+  labels:
+  - line: 13
+    name: OnRude
+  - line: 32
+    name: OnRunAway
+  - line: 40
+    name: OnVanish
+  - line: 48
+    name: DeleteCheck
+  - line: 60
+    name: OnUse
+  - line: 67
+    name: Main
+  registered_triggers:
+  - line: 73
+    message: Use
+    callback: ONUse
+    arguments_raw: Use, ONUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 16
+    command: haskey
+    arguments_raw: 369 g_ntemp
+  - line: 19
+    command: haskey
+    arguments_raw: 370 g_ntemp
+  - line: 21
+    command: givekey
+    arguments_raw: '370'
+  - line: 22
+    command: giveexp
+    arguments_raw: '4000'
+  - line: 36
+    command: Runto
+    arguments_raw: g_hobject 8 OnVanish
+  - line: 44
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 51
+    command: Haskey
+    arguments_raw: 370 g_ntemp
+  - line: 54
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 74
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 30
+- script_id: npc90.scr
+  source_path: NPC90.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: globals.inc
+  - line: 13
+    path: basedoor.inc
+  - line: 14
+    path: followplayer.inc
+  labels:
+  - line: 36
+    name: BD_DoorOpen
+  - line: 64
+    name: OnUse
+  - line: 104
+    name: Onrude
+  - line: 127
+    name: FollowPlayer
+  - line: 151
+    name: Init
+  - line: 249
+    name: OnSTop
+  - line: 258
+    name: OnArrive
+  - line: 265
+    name: Main
+  registered_triggers:
+  - line: 274
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 275
+    message: Stop
+    callback: OnSTop
+    arguments_raw: Stop OnSTop
+  trigger_edges: []
+  movement_commands:
+  - line: 78
+    command: setpos
+    arguments_raw: g_hMyObject -2525 948 397
+  - line: 84
+    command: setpos
+    arguments_raw: g_hMyObject -4253 817 -6191
+  - line: 227
+    command: setpos
+    arguments_raw: g_hmyobject xPos yPos zPos
+  state_commands:
+  - line: 164
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 165
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 166
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 169
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 170
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 171
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 185
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 186
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 187
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 190
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 191
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 192
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 211
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 212
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 213
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 216
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 217
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 218
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 38
+    command: g_bDoorOpening
+    arguments_raw: = FALSE
+  - line: 40
+    command: ResumeWait
+    arguments_raw: '-1'
+  - line: 42
+    command: GetTarget
+    arguments_raw: g_hObject
+  - line: 46
+    command: Run
+    arguments_raw: ''
+  - line: 48
+    command: Walk
+    arguments_raw: ''
+  - line: 52
+    command: RunTo
+    arguments_raw: g_hObject
+  - line: 54
+    command: WalkTo
+    arguments_raw: g_hObject
+  - line: 58
+    command: RestorePath
+    arguments_raw: ''
+  - line: 67
+    command: OnFoundPlayer
+    arguments_raw: ''
+  - line: 70
+    command: givekey
+    arguments_raw: '194'
+  - line: 76
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 82
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 88
+    command: GetPlayerHandle
+    arguments_raw: g_hPlayer
+  - line: 89
+    command: FaceObject
+    arguments_raw: g_hPlayer
+  - line: 90
+    command: Target
+    arguments_raw: g_hPlayer TRUE
+  - line: 93
+    command: DoRude
+    arguments_raw: '90'
+  - line: 108
+    command: haskey
+    arguments_raw: 194 g_ntemp
+  - line: 110
+    command: haskey
+    arguments_raw: 242 g_ntemp
+  - line: 112
+    command: DoRude
+    arguments_raw: '90'
+  - line: 117
+    command: takekey
+    arguments_raw: '194'
+  - line: 134
+    command: haskey
+    arguments_raw: 21 g_ntemp
+  - line: 140
+    command: givekey
+    arguments_raw: '196'
+  - line: 142
+    command: givekey
+    arguments_raw: '5006'
+  - line: 161
+    command: haskey
+    arguments_raw: 17 g_ntemp
+  - line: 172
+    command: OnFoundPlayer
+    arguments_raw: OnUse
+  - line: 175
+    command: haskey
+    arguments_raw: 194 g_ntemp
+  - line: 178
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 182
+    command: haskey
+    arguments_raw: 242 g_ntemp
+  - line: 193
+    command: OnFoundPlayer
+    arguments_raw: OnUse
+  - line: 208
+    command: haskey
+    arguments_raw: 242 g_ntemp
+  - line: 222
+    command: haskey
+    arguments_raw: 21 g_ntemp
+  - line: 236
+    command: haskey
+    arguments_raw: 242 g_ntemp
+  - line: 239
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 254
+    command: walkto
+    arguments_raw: g_hobject 32 OnArrive
+  - line: 261
+    command: stop
+    arguments_raw: ''
+  - line: 273
+    command: OnrudeExit
+    arguments_raw: OnRude
+  - line: 276
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 277
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 278
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 150
+validation:
+  script_count: 14

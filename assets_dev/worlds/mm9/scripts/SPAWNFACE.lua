@@ -12,8 +12,8 @@ script.includes[#script.includes + 1] = { line = 8, path = "range.inc" }
 -- Handles facing of a spawned monster.
 script.labels["Target"] = function(ctx)
     -- SPAWNFACE.scr:12
-    ctx:command("getplayerhandle", "g_hplayer") -- SPAWNFACE.scr:15
-    ctx:command("target", "g_hplayer") -- SPAWNFACE.scr:16
+    ctx:state().g_hplayer = ctx:player() -- SPAWNFACE.scr:15
+    ctx:self():setTarget(ctx:player()) -- SPAWNFACE.scr:16
     do return ctx:exit("") end -- SPAWNFACE.scr:17
 end
 

@@ -4,6 +4,7 @@ map_id: traininghall
 display_name: Training Hall
 source:
   dat: ../source/worlds/TRAININGHALL.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/TRAININGHALL.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: traininghall.raw_objects.yml
   materials: traininghall.material_aliases.yml
   events: traininghall.events.yml
-  scene_compat: traininghall.scene.yml
+  scene_compat: null
   source_metadata_compat: traininghall.mm9.yml
-  bsp_compat: traininghall.bsp.yml
-  geometry_compat: traininghall.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: traininghall.blv
+  blv_compat: null
 scripts:
   level: ../events/traininghall.lua
   script_ir: ../events/traininghall.script_ir.yml

@@ -1,5 +1,10 @@
 schema: openyamm.mm9.model_registry.v2
 world: mm9
+aliases:
+  source_models:
+    models/props/barrel02.abc: models/props/barrel.abc
+  source_skins:
+    skins/props/barrel02.dtx: skins/props/barrel.dtx
 models:
 - model_id: 3dsprite
   roles:

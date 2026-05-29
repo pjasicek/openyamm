@@ -30,7 +30,7 @@ script.labels["Prize"] = function(ctx)
             -- checks to see if they've given the prize
             ctx:giveKey(186) -- NPC244.scr:44
             ctx:giveExp(53000) -- NPC244.scr:45
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC244.scr:46
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC244.scr:46
             ctx:takeItem(395) -- NPC244.scr:47
             -- gives reward
             do return ctx:exit("") end -- NPC244.scr:50
@@ -43,7 +43,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC244.scr:65
-    ctx:command("playsound", "voices\\NPC\\NPC_244.wav, Onexit, 100, 240, FALSE, 100") -- NPC244.scr:68
+    ctx:playSound("voices\\NPC\\NPC_244.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC244.scr:68
     do return ctx:exit("") end -- NPC244.scr:69
 end
 

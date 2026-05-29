@@ -25,7 +25,7 @@ end
 script.labels["ChangeColor"] = function(ctx)
     -- MASTERMINDCOLOR.scr:25
     -- sets the current color
-    ctx:command("playsound", "\"sounds\\door\\trapdooropen.wav\", DoNothing, 1, 100, FALSE, 100") -- MASTERMINDCOLOR.scr:28
+    ctx:playSound("sounds\\door\\trapdooropen.wav", "DoNothing", 1, 100, "FALSE", 100) -- MASTERMINDCOLOR.scr:28
     ctx:setConsoleNumVar("MASTERMIND_COLOR", "nColor") -- MASTERMINDCOLOR.scr:30
     do return ctx:exit("TRUE") end -- MASTERMINDCOLOR.scr:32
 end

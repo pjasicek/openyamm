@@ -1,0 +1,1223 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: lindisfarnemonastery
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: book.scr
+  source_path: BOOK.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 12
+    name: OnUse
+  - line: 44
+    name: Main
+  registered_triggers:
+  - line: 50
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 17
+    command: Playanim
+    arguments_raw: OpenBook
+  - line: 23
+    command: Playanim
+    arguments_raw: TurnPage
+  - line: 29
+    command: Playanim
+    arguments_raw: TurnBack
+  - line: 35
+    command: Playanim
+    arguments_raw: Closebook
+  unknown_commands:
+  - line: 18
+    command: Add
+    arguments_raw: counter, 1
+  - line: 24
+    command: Add
+    arguments_raw: counter, 1
+  - line: 30
+    command: Add
+    arguments_raw: counter, 1
+  - line: 36
+    command: Set
+    arguments_raw: counter, 0
+  - line: 49
+    command: Set
+    arguments_raw: counter, 0
+  command_count: 23
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: lindisfarnebell.scr
+  source_path: LINDISFARNEBELL.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 23
+    name: DoNothing
+  - line: 28
+    name: StopDone
+  - line: 40
+    name: RingDone
+  - line: 48
+    name: OnUse
+  - line: 66
+    name: OnBellBing
+  - line: 73
+    name: OnBellBong
+  - line: 80
+    name: BellSound
+  - line: 119
+    name: Main
+  registered_triggers:
+  - line: 129
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges:
+  - line: 34
+    target_expression: g_hobject
+    message_expression: Bell_Trigger
+    arguments_raw: g_hobject Bell_Trigger
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 43
+    command: PlayAnim
+    arguments_raw: Stop
+  - line: 54
+    command: PlayAnim
+    arguments_raw: Ring, RingDone
+  unknown_commands:
+  - line: 31
+    command: Set
+    arguments_raw: Counter, 0
+  - line: 32
+    command: haskey
+    arguments_raw: 9507 g_ntemp
+  - line: 53
+    command: Add
+    arguments_raw: Counter, 1
+  - line: 84
+    command: Set
+    arguments_raw: Bell_Note Sounds\Events\churchbellring.wav
+  - line: 85
+    command: Set
+    arguments_raw: Bell_Trigger Bell1
+  - line: 90
+    command: Set
+    arguments_raw: Bell_Note Sounds\Events\churchbellring2.wav
+  - line: 91
+    command: Set
+    arguments_raw: Bell_Trigger Bell2
+  - line: 97
+    command: Set
+    arguments_raw: Bell_Note Sounds\Events\churchbellring3.wav
+  - line: 98
+    command: Set
+    arguments_raw: Bell_Trigger Bell3
+  - line: 104
+    command: Set
+    arguments_raw: Bell_Note Sounds\Events\churchbellring4.wav
+  - line: 105
+    command: Set
+    arguments_raw: Bell_Trigger Bell4
+  - line: 111
+    command: Set
+    arguments_raw: Bell_Note Sounds\Events\churchbellring5.wav
+  - line: 112
+    command: Set
+    arguments_raw: Bell_Trigger Bell5
+  - line: 124
+    command: Set
+    arguments_raw: Counter, 0
+  - line: 130
+    command: AddModelKey
+    arguments_raw: BellBing, OnBellBing
+  - line: 131
+    command: AddModelKey
+    arguments_raw: BellBong, OnBellBong
+  - line: 132
+    command: OnDamage
+    arguments_raw: OnUse
+  command_count: 59
+- script_id: lindisfarnebellcontroller.scr
+  source_path: LINDISFARNEBELLCONTROLLER.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 18
+    name: Reset
+  - line: 29
+    name: OnBell1
+  - line: 36
+    name: OnBell2
+  - line: 50
+    name: OnBell3
+  - line: 64
+    name: OnBell4
+  - line: 78
+    name: OnBell5
+  - line: 94
+    name: Finish
+  - line: 122
+    name: '1'
+  - line: 132
+    name: '2'
+  - line: 144
+    name: '3'
+  - line: 154
+    name: '4'
+  - line: 167
+    name: Main
+  registered_triggers:
+  - line: 172
+    message: Bell1
+    callback: OnBell1
+    arguments_raw: Bell1 OnBell1
+  - line: 173
+    message: Bell2
+    callback: OnBell2
+    arguments_raw: Bell2 OnBell2
+  - line: 174
+    message: Bell3
+    callback: OnBell3
+    arguments_raw: Bell3 OnBell3
+  - line: 175
+    message: Bell4
+    callback: OnBell4
+    arguments_raw: Bell4 OnBell4
+  - line: 176
+    message: Bell5
+    callback: OnBell5
+    arguments_raw: Bell5 OnBell5
+  trigger_edges:
+  - line: 104
+    target_expression: G_Hobject
+    message_expression: TurnOn
+    arguments_raw: G_Hobject TurnOn
+  - line: 107
+    target_expression: g_hobject
+    message_expression: GoToPray
+    arguments_raw: g_hobject GoToPray
+  - line: 109
+    target_expression: g_hobject
+    message_expression: GoToPray
+    arguments_raw: g_hobject GoToPray
+  - line: 111
+    target_expression: g_hobject
+    message_expression: GoToPray
+    arguments_raw: g_hobject GoToPray
+  - line: 113
+    target_expression: g_hobject
+    message_expression: GoToPray
+    arguments_raw: g_hobject GoToPray
+  - line: 117
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 126
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 136
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 148
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 158
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 21
+    command: Set
+    arguments_raw: FirstBell, 0
+  - line: 22
+    command: Set
+    arguments_raw: SecondBell, 0
+  - line: 23
+    command: Set
+    arguments_raw: ThirdBell, 0
+  - line: 24
+    command: Set
+    arguments_raw: FourthBell, 0
+  - line: 25
+    command: Set
+    arguments_raw: FifthBell, 0
+  - line: 32
+    command: Set
+    arguments_raw: FirstBell 1
+  - line: 40
+    command: Set
+    arguments_raw: SecondBell, 1
+  - line: 55
+    command: Set
+    arguments_raw: ThirdBell, 1
+  - line: 69
+    command: Set
+    arguments_raw: FourthBell, 1
+  - line: 83
+    command: Set
+    arguments_raw: FifthBell, 1
+  - line: 97
+    command: haskey
+    arguments_raw: 9507 g_ntemp
+  - line: 99
+    command: giveexp
+    arguments_raw: '2000'
+  - line: 102
+    command: GiveKey
+    arguments_raw: '9507'
+  command_count: 83
+- script_id: monkguardbasic.scr
+  source_path: MONKGUARDBASIC.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: MonkHostility.inc
+  - line: 14
+    path: MonkSounds.inc
+  labels:
+  - line: 35
+    name: Main
+  - line: 52
+    name: InitMonkGuardBasic
+  - line: 83
+    name: StartPrayer
+  - line: 92
+    name: Pray
+  - line: 101
+    name: StopPrayer
+  - line: 108
+    name: StartWork
+  - line: 115
+    name: StopWork
+  - line: 122
+    name: AttachTool
+  - line: 155
+    name: OnRudeEnter
+  - line: 180
+    name: FidgetStand
+  - line: 190
+    name: OnRudeExit
+  - line: 209
+    name: BaseWanderStopTick
+  - line: 229
+    name: BaseWanderStart
+  - line: 242
+    name: BaseWanderObstacle
+  - line: 284
+    name: BecomeHostile
+  - line: 293
+    name: SafeDetach
+  registered_triggers:
+  - line: 46
+    message: use
+    callback: OnRudeEnter
+    arguments_raw: use, OnRudeEnter
+  - line: 63
+    message: gotopray
+    callback: StartPrayer
+    arguments_raw: gotopray, StartPrayer
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 94
+    command: LoopAnim
+    arguments_raw: sPrayName, 0
+  - line: 110
+    command: LoopAnim
+    arguments_raw: sAnimName, 0
+  - line: 117
+    command: LoopAnim
+    arguments_raw: sPauseName, 0
+  - line: 166
+    command: PlayAnim
+    arguments_raw: Fidget_Name, FidgetStand
+  - line: 184
+    command: LoopAnim
+    arguments_raw: sPauseName 0 Donothing
+  - line: 213
+    command: LoopAnim
+    arguments_raw: sAnimName, 0, DoNothing
+  - line: 217
+    command: LoopAnim
+    arguments_raw: sAnimName, 0, DoNothing
+  - line: 235
+    command: LoopAnim
+    arguments_raw: sPauseName 0 Donothing
+  - line: 269
+    command: LoopAnim
+    arguments_raw: sAnimName, 0 Donothing
+  unknown_commands:
+  - line: 43
+    command: OnPostStartWorld
+    arguments_raw: InitMonkGuardBasic
+  - line: 44
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitMonkGuardBasic
+  - line: 47
+    command: OnRudeExit
+    arguments_raw: OnRudeExit
+  - line: 56
+    command: unknown
+    arguments_raw: if( MONK_TYPE<0 )
+  - line: 65
+    command: unknown
+    arguments_raw: if( MONK_TYPE<3 )
+  - line: 70
+    command: unknown
+    arguments_raw: if( MONK_TYPE>0 )
+  - line: 72
+    command: unknown
+    arguments_raw: if( MONK_TYPE>2 )
+  - line: 73
+    command: FaceObject
+    arguments_raw: hPlace, 360, StartWork
+  - line: 86
+    command: WalkTo
+    arguments_raw: hPlace, 100, Pray
+  - line: 103
+    command: WalkToPOS
+    arguments_raw: xMe,yMe,zMe, 10, DoNothing
+  - line: 125
+    command: AttachProp
+    arguments_raw: '"MonkHoe.ABC", "MonkHoe.DTX", "Hoe", hProp'
+  - line: 126
+    command: sAnimName
+    arguments_raw: = "hoe"
+  - line: 127
+    command: sPauseName
+    arguments_raw: = "hoewait"
+  - line: 128
+    command: Fidget_Name
+    arguments_raw: = "HoeFidget"
+  - line: 131
+    command: AttachProp
+    arguments_raw: '"MonkBroom.ABC", "MonkBroom.DTX", "Broom", hProp'
+  - line: 132
+    command: sAnimName
+    arguments_raw: = "sweep"
+  - line: 133
+    command: sPauseName
+    arguments_raw: = "sweepwait"
+  - line: 134
+    command: Fidget_Name
+    arguments_raw: = "SweepFidget"
+  - line: 137
+    command: AttachProp
+    arguments_raw: '"MonkHammer.ABC", "MonkHammer.DTX", "Hammer", hProp'
+  - line: 138
+    command: sAnimName
+    arguments_raw: = "hammer"
+  - line: 139
+    command: sPauseName
+    arguments_raw: = "hammerwait"
+  - line: 140
+    command: Fidget_Name
+    arguments_raw: = "HammerFidget"
+  - line: 143
+    command: AttachProp
+    arguments_raw: '"MonkCloth.ABC", "MonkCloth.DTX", "Cloth", hProp'
+  - line: 144
+    command: sAnimName
+    arguments_raw: = "wash"
+  - line: 145
+    command: sPauseName
+    arguments_raw: = "washwait"
+  - line: 146
+    command: Fidget_Name
+    arguments_raw: = "WashFidget"
+  - line: 159
+    command: unknown
+    arguments_raw: if( MONK_TYPE<0 )
+  - line: 160
+    command: FaceObject
+    arguments_raw: hSpeaker, 360, DoNothing
+  - line: 163
+    command: FaceObject
+    arguments_raw: hSpeaker, 360, BaseWanderStop
+  - line: 168
+    command: FaceObject
+    arguments_raw: hSpeaker, 360, DoNothing
+  - line: 172
+    command: PauseWait
+    arguments_raw: '-1'
+  - line: 174
+    command: DoRude
+    arguments_raw: MONK_RUDE
+  - line: 193
+    command: ResumeWait
+    arguments_raw: '-1'
+  - line: 195
+    command: unknown
+    arguments_raw: if( MONK_TYPE<0 )
+  - line: 197
+    command: unknown
+    arguments_raw: if( MONK_TYPE<3 )
+  - line: 201
+    command: FaceObject
+    arguments_raw: hPlace, 360, StartWork
+  - line: 248
+    command: GetRandomInt
+    arguments_raw: 0, 100, g_nRandom
+  - line: 251
+    command: IsClass
+    arguments_raw: g_hObject,Actor, g_bTemp
+  - line: 268
+    command: Stop
+    arguments_raw: ''
+  - line: 271
+    command: bObstacle
+    arguments_raw: = TRUE
+  - line: 275
+    command: IsClass
+    arguments_raw: g_hObject,Actor, g_bTemp
+  - line: 277
+    command: FaceDir
+    arguments_raw: normalX, 0, normalZ, 360
+  - line: 297
+    command: DetachProp
+    arguments_raw: hProp, FALSE
+  - line: 298
+    command: RemoveObject
+    arguments_raw: hProp
+  - line: 299
+    command: hProp
+    arguments_raw: = NULL
+  command_count: 155
+- script_id: npc282.scr
+  source_path: NPC282.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: BaseMelee.inc
+  - line: 9
+    path: MonkHostility.inc
+  labels:
+  - line: 41
+    name: OnRude
+  - line: 53
+    name: PromotePaladin
+  - line: 86
+    name: paladins
+  - line: 104
+    name: giveletter
+  - line: 120
+    name: OnUse
+  - line: 134
+    name: Init
+  - line: 142
+    name: Main
+  registered_triggers:
+  - line: 148
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 60
+    command: haskey
+    arguments_raw: 421 g_ntemp
+  - line: 62
+    command: GivePromo
+    arguments_raw: Paladin Char1
+  - line: 63
+    command: takekey
+    arguments_raw: '421'
+  - line: 66
+    command: haskey
+    arguments_raw: 422 g_ntemp
+  - line: 68
+    command: GivePromo
+    arguments_raw: Paladin Char2
+  - line: 69
+    command: takekey
+    arguments_raw: '422'
+  - line: 72
+    command: haskey
+    arguments_raw: 423 g_ntemp
+  - line: 74
+    command: GivePromo
+    arguments_raw: Paladin Char3
+  - line: 75
+    command: takekey
+    arguments_raw: '423'
+  - line: 78
+    command: haskey
+    arguments_raw: 424 g_ntemp
+  - line: 80
+    command: GivePromo
+    arguments_raw: Paladin Char4
+  - line: 81
+    command: takekey
+    arguments_raw: '424'
+  - line: 89
+    command: haskey
+    arguments_raw: 237 g_ntemp
+  - line: 91
+    command: haskey
+    arguments_raw: 236 g_ntemp
+  - line: 93
+    command: giveexp
+    arguments_raw: '63000'
+  - line: 96
+    command: givegold
+    arguments_raw: '5000'
+  - line: 97
+    command: givekey
+    arguments_raw: '237'
+  - line: 107
+    command: haskey
+    arguments_raw: 229 g_ntemp
+  - line: 109
+    command: haskey
+    arguments_raw: 228 g_ntemp
+  - line: 111
+    command: givekey
+    arguments_raw: '229'
+  - line: 112
+    command: giveitem
+    arguments_raw: '419'
+  - line: 123
+    command: Stop
+    arguments_raw: ''
+  - line: 126
+    command: FaceObject
+    arguments_raw: g_hobject 240 DoNothing
+  - line: 127
+    command: DoRude
+    arguments_raw: '282'
+  - line: 147
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 149
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 150
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 151
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 66
+- script_id: npc283.scr
+  source_path: NPC283.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: MonkHostility.inc
+  labels:
+  - line: 13
+    name: OnRude
+  - line: 21
+    name: MissingRelic
+  - line: 39
+    name: GiveKey
+  - line: 61
+    name: OnUse
+  - line: 71
+    name: Init
+  - line: 79
+    name: Main
+  registered_triggers:
+  - line: 86
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges:
+  - line: 53
+    target_expression: g_hobject
+    message_expression: Appear
+    arguments_raw: g_hobject Appear
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 24
+    command: haskey
+    arguments_raw: 342 g_ntemp
+  - line: 26
+    command: haskey
+    arguments_raw: 341 g_ntemp
+  - line: 29
+    command: givegold
+    arguments_raw: '3000'
+  - line: 30
+    command: giveexp
+    arguments_raw: '80000'
+  - line: 32
+    command: givekey
+    arguments_raw: '342'
+  - line: 42
+    command: haskey
+    arguments_raw: 255 g_ntemp
+  - line: 47
+    command: haskey
+    arguments_raw: 254 g_ntemp
+  - line: 49
+    command: haskey
+    arguments_raw: 253 g_ntemp
+  - line: 51
+    command: givekey
+    arguments_raw: '254'
+  - line: 65
+    command: FaceObject
+    arguments_raw: g_hobject 240 DoNothing
+  - line: 66
+    command: DoRude
+    arguments_raw: '283'
+  - line: 75
+    command: unknown
+    arguments_raw: '@M 5 : 00 Givekey Givekey'
+  - line: 85
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 89
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 90
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 91
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 45
+- script_id: npc284.scr
+  source_path: NPC284.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: baseMelee.inc
+  labels:
+  - line: 18
+    name: Init
+  - line: 44
+    name: Appear
+  - line: 63
+    name: OnUse
+  - line: 75
+    name: OnRude
+  - line: 82
+    name: OnExit
+  - line: 88
+    name: Main
+  registered_triggers:
+  - line: 94
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 95
+    message: Appear
+    callback: Appear
+    arguments_raw: Appear Appear
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 33
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 34
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 35
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 55
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 56
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 57
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 22
+    command: haskey
+    arguments_raw: 255 g_ntemp
+  - line: 25
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 29
+    command: Haskey
+    arguments_raw: 254 g_ntemp
+  - line: 47
+    command: haskey
+    arguments_raw: 255 g_ntemp
+  - line: 52
+    command: Haskey
+    arguments_raw: 254 g_ntemp
+  - line: 66
+    command: Stop
+    arguments_raw: ''
+  - line: 69
+    command: FaceObject
+    arguments_raw: g_hobject 240 DoNothing
+  - line: 70
+    command: DoRude
+    arguments_raw: '284'
+  - line: 93
+    command: unknown
+    arguments_raw: '@M 6 : 00 Appear Appear'
+  - line: 96
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 97
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 98
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 99
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 48
+- script_id: npc420.scr
+  source_path: NPC420.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: MonkHostility.inc
+  labels:
+  - line: 13
+    name: OnRude
+  - line: 22
+    name: TurnHostilityOn
+  - line: 30
+    name: PlaySong
+  - line: 44
+    name: PlayAnim
+  - line: 54
+    name: Play
+  - line: 71
+    name: CancelSound
+  - line: 84
+    name: OnUse
+  - line: 99
+    name: OnExit
+  - line: 107
+    name: Init
+  - line: 113
+    name: Main
+  registered_triggers:
+  - line: 121
+    message: Play
+    callback: PlayAnim
+    arguments_raw: Play PlayAnim
+  - line: 122
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges:
+  - line: 58
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 75
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 46
+    command: Loopanim
+    arguments_raw: play 0 DoNothing
+  - line: 61
+    command: Loopanim
+    arguments_raw: play 0 DoNothing
+  - line: 103
+    command: Playanim
+    arguments_raw: stand DoNothing
+  unknown_commands:
+  - line: 33
+    command: Haskey
+    arguments_raw: 9506 g_ntemp
+  - line: 36
+    command: FaceObject
+    arguments_raw: g_hobject 180 Play
+  - line: 37
+    command: bIsPlaying
+    arguments_raw: = True
+  - line: 63
+    command: PlaySoundHandle
+    arguments_raw: '"sounds\Events\HeroesPipe441.wav", hSound, 1000, FALSE, 100'
+  - line: 65
+    command: takekey
+    arguments_raw: '9506'
+  - line: 77
+    command: IsSoundDone
+    arguments_raw: hSound, bIsPlaying
+  - line: 79
+    command: KillSound
+    arguments_raw: hSound
+  - line: 93
+    command: FaceObject
+    arguments_raw: g_hobject 200 DoNothing
+  - line: 94
+    command: DoRude
+    arguments_raw: '420'
+  - line: 102
+    command: bIsPlaying
+    arguments_raw: = false
+  - line: 120
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 123
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 124
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 125
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 52
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: thjorad.scr
+  source_path: THJORAD.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 18
+    name: Onuse
+  - line: 57
+    name: Init
+  - line: 89
+    name: OnTurnOn
+  - line: 96
+    name: Main
+  registered_triggers:
+  - line: 100
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  - line: 101
+    message: TurnOn
+    callback: OnTurnOn
+    arguments_raw: TurnOn, OnTurnOn
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 25
+    command: Haskey
+    arguments_raw: 2 g_ntemp
+  - line: 28
+    command: Haskey
+    arguments_raw: 31 keycheck
+  - line: 30
+    command: givekey
+    arguments_raw: '31'
+  - line: 31
+    command: GiveItem
+    arguments_raw: '197'
+  - line: 32
+    command: giveexp
+    arguments_raw: '1000'
+  - line: 35
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 41
+    command: Haskey
+    arguments_raw: 162 keycheck
+  - line: 44
+    command: givekey
+    arguments_raw: '162'
+  - line: 45
+    command: set
+    arguments_raw: keydata, 162
+  - line: 46
+    command: GiveItem
+    arguments_raw: '197'
+  - line: 47
+    command: giveexp
+    arguments_raw: '1000'
+  - line: 49
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 62
+    command: set
+    arguments_raw: On, False
+  - line: 66
+    command: CreateObjectLink
+    arguments_raw: hMONK_HOSTILITY
+  - line: 67
+    command: OnObjectLinkBroken
+    arguments_raw: OnTurnOn
+  - line: 71
+    command: Haskey
+    arguments_raw: 31 keycheck
+  - line: 74
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 75
+    command: exitscript
+    arguments_raw: ''
+  - line: 79
+    command: Haskey
+    arguments_raw: 162 keycheck
+  - line: 82
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 83
+    command: exitscript
+    arguments_raw: ''
+  - line: 92
+    command: set
+    arguments_raw: On, True
+  - line: 105
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 106
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 107
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 56
+- script_id: thjoradmonk.scr
+  source_path: THJORADMONK.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: baseMelee.inc
+  - line: 9
+    path: basedoor.inc
+  - line: 10
+    path: Monksounds.inc
+  - line: 11
+    path: MonkHostility.inc
+  labels:
+  - line: 24
+    name: Pray
+  - line: 37
+    name: Pray2
+  - line: 43
+    name: OnGoToPray
+  - line: 59
+    name: OnDamage
+  - line: 70
+    name: OnUse
+  - line: 84
+    name: OnRude
+  - line: 92
+    name: OnStuck
+  - line: 100
+    name: Init
+  - line: 111
+    name: Main
+  registered_triggers:
+  - line: 116
+    message: GoToPray
+    callback: OnGoToPray
+    arguments_raw: GoToPray OnGoToPray
+  - line: 117
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges:
+  - line: 64
+    target_expression: g_hobject
+    message_expression: TurnOn
+    arguments_raw: g_hobject TurnOn
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 31
+    command: playanim
+    arguments_raw: stand Pray2
+  - line: 39
+    command: LoopAnim
+    arguments_raw: Anim_1, 0 Donothing
+  - line: 52
+    command: loopanim
+    arguments_raw: pray 0 DoNothing
+  - line: 65
+    command: Playanim
+    arguments_raw: stand DoNothing
+  unknown_commands:
+  - line: 28
+    command: AttachProp
+    arguments_raw: MonkHammer.ABC MonkHammer.dtx Hammer g_hobject2
+  - line: 47
+    command: DetachProp
+    arguments_raw: g_hobject2 False
+  - line: 50
+    command: set
+    arguments_raw: atPrayer, True
+  - line: 53
+    command: set
+    arguments_raw: Anim_1 Pray
+  - line: 55
+    command: Walkto
+    arguments_raw: g_hobject 8 Pray
+  - line: 62
+    command: Set
+    arguments_raw: AtPrayer, TRUE
+  - line: 77
+    command: DoRude
+    arguments_raw: NPC_ID
+  - line: 88
+    command: FaceObject
+    arguments_raw: g_hobject 180 DoNothing
+  - line: 95
+    command: walkto
+    arguments_raw: g_hobject 8 Pray
+  - line: 107
+    command: OnStuck
+    arguments_raw: Onstuck
+  - line: 118
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 119
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 120
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 121
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 51
+validation:
+  script_count: 12

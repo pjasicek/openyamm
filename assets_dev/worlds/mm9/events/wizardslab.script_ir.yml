@@ -1,0 +1,830 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: wizardslab
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: book.scr
+  source_path: BOOK.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 12
+    name: OnUse
+  - line: 44
+    name: Main
+  registered_triggers:
+  - line: 50
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 17
+    command: Playanim
+    arguments_raw: OpenBook
+  - line: 23
+    command: Playanim
+    arguments_raw: TurnPage
+  - line: 29
+    command: Playanim
+    arguments_raw: TurnBack
+  - line: 35
+    command: Playanim
+    arguments_raw: Closebook
+  unknown_commands:
+  - line: 18
+    command: Add
+    arguments_raw: counter, 1
+  - line: 24
+    command: Add
+    arguments_raw: counter, 1
+  - line: 30
+    command: Add
+    arguments_raw: counter, 1
+  - line: 36
+    command: Set
+    arguments_raw: counter, 0
+  - line: 49
+    command: Set
+    arguments_raw: counter, 0
+  command_count: 23
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: givetake.scr
+  source_path: GIVETAKE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnUse
+  - line: 47
+    name: Init
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 70
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: giveitem
+    arguments_raw: item_ID
+  - line: 34
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 38
+    command: giveitem
+    arguments_raw: Item_ID
+  - line: 40
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 59
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 30
+- script_id: npc55.scr
+  source_path: NPC55.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: nogold.inc
+  labels:
+  - line: 12
+    name: OnRude
+  - line: 21
+    name: BlackOrb
+  - line: 58
+    name: OnUse
+  - line: 66
+    name: OnExit
+  - line: 72
+    name: Main
+  registered_triggers:
+  - line: 81
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: haskey
+    arguments_raw: 313 g_ntemp
+  - line: 28
+    command: haskey
+    arguments_raw: 312 g_ntemp
+  - line: 30
+    command: hasgold
+    arguments_raw: 2000 g_ntemp
+  - line: 32
+    command: takegold
+    arguments_raw: '2000'
+  - line: 33
+    command: givekey
+    arguments_raw: '313'
+  - line: 34
+    command: giveitem
+    arguments_raw: '250'
+  - line: 38
+    command: takekey
+    arguments_raw: '312'
+  - line: 62
+    command: Dorude
+    arguments_raw: '55'
+  - line: 79
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 30
+- script_id: relic.scr
+  source_path: RELIC.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 11
+    name: Onuse
+  - line: 40
+    name: DeleteCheck
+  - line: 60
+    name: Main
+  registered_triggers:
+  - line: 64
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 14
+    command: Haskey
+    arguments_raw: 338 g_ntemp
+  - line: 16
+    command: haskey
+    arguments_raw: 340 g_ntemp
+  - line: 18
+    command: giveitem
+    arguments_raw: '368'
+  - line: 19
+    command: givekey
+    arguments_raw: '340'
+  - line: 21
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 26
+    command: haskey
+    arguments_raw: 339 g_ntemp
+  - line: 28
+    command: giveitem
+    arguments_raw: '368'
+  - line: 29
+    command: givekey
+    arguments_raw: '339'
+  - line: 31
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 43
+    command: Haskey
+    arguments_raw: 340 g_ntemp
+  - line: 46
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 50
+    command: haskey
+    arguments_raw: 339 g_ntemp
+  - line: 53
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 39
+- script_id: teleportermulti.scr
+  source_path: TELEPORTERMULTI.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 17
+    name: Main
+  - line: 28
+    name: UpdateDestination
+  - line: 36
+    name: OnTouchNotify
+  - line: 47
+    name: ResetDestination
+  registered_triggers:
+  - line: 19
+    message: update
+    callback: UpdateDestination
+    arguments_raw: update, UpdateDestination
+  trigger_edges:
+  - line: 49
+    target_expression: hMe
+    message_expression: 'off'
+    arguments_raw: hMe, off
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 23
+    command: OnTouchNotify
+    arguments_raw: OnTouchNotify
+  - line: 30
+    command: GetConsoleStrVar
+    arguments_raw: TELEPORTER_DESTINATION, DESTINATION_NAME
+  - line: 31
+    command: SetPropString
+    arguments_raw: TeleportDestination, DESTINATION_NAME
+  - line: 39
+    command: IsPlayer
+    arguments_raw: hContact, bIsPlayer
+  command_count: 15
+- script_id: teleporterswitch.scr
+  source_path: TELEPORTERSWITCH.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 23
+    name: Main
+  - line: 38
+    name: CacheFiles
+  - line: 47
+    name: SetDestination
+  - line: 73
+    name: TurnEffectsOn
+  - line: 81
+    name: TurnEffectsOff
+  registered_triggers:
+  - line: 31
+    message: use
+    callback: SetDestination
+    arguments_raw: use, SetDestination
+  - line: 84
+    message: use
+    callback: SetDestination
+    arguments_raw: use, SetDestination
+  trigger_edges:
+  - line: 59
+    target_expression: hTeleporter
+    message_expression: 'on'
+    arguments_raw: hTeleporter, on
+  - line: 60
+    target_expression: hTeleporter
+    message_expression: update
+    arguments_raw: hTeleporter, update
+  - line: 76
+    target_expression: hEffects
+    message_expression: 'on'
+    arguments_raw: hEffects, on
+  - line: 83
+    target_expression: hEffects
+    message_expression: 'off'
+    arguments_raw: hEffects, off
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 29
+    command: SetConsoleStrVar
+    arguments_raw: TELEPORTER_DESTINATION, ""
+  - line: 33
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 40
+    command: CacheSound
+    arguments_raw: '"sounds\magic\wizardeyeloop.wav"'
+  - line: 42
+    command: CacheClientFX
+    arguments_raw: SPELL_SPELLREAVER
+  - line: 49
+    command: SetConsoleStrVar
+    arguments_raw: TELEPORTER_DESTINATION, DESTINATION_NAME
+  - line: 65
+    command: DoClientFX
+    arguments_raw: hTeleporter, SPELL_SPELLREAVER, 0, 1
+  - line: 75
+    command: RemoveTrigger
+    arguments_raw: use
+  command_count: 34
+- script_id: wizardeffect.scr
+  source_path: WIZARDEFFECT.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  - line: 8
+    path: flags.inc
+  labels:
+  - line: 21
+    name: Main
+  - line: 30
+    name: InitWizardEffect
+  - line: 41
+    name: PlayConjureEffect
+  - line: 54
+    name: PlayShootEffect
+  registered_triggers:
+  - line: 35
+    message: play
+    callback: PlayConjureEffect
+    arguments_raw: play, PlayConjureEffect
+  - line: 36
+    message: shoot
+    callback: PlayShootEffect
+    arguments_raw: shoot, PlayShootEffect
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 33
+    command: SetFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  presentation_commands: []
+  unknown_commands:
+  - line: 45
+    command: DoClientFX
+    arguments_raw: hCaster, SPELL_SPARKLIES, FALSE, TRUE
+  - line: 46
+    command: DoClientFX
+    arguments_raw: hMe, SPELL_GREENDOTS, FALSE, TRUE
+  - line: 49
+    command: FaceObject
+    arguments_raw: hLocation
+  - line: 56
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_BUGS, FALSE, TRUE
+  command_count: 16
+- script_id: wizardlabcamera.scr
+  source_path: WIZARDLABCAMERA.scr
+  parse_status: parsed
+  includes:
+  - line: 1
+    path: CutScene.inc
+  labels:
+  - line: 4
+    name: Main
+  - line: 17
+    name: InitWizardLabCamera
+  - line: 26
+    name: SoftExit
+  - line: 38
+    name: SoftEntrance
+  registered_triggers:
+  - line: 19
+    message: next
+    callback: SoftExit
+    arguments_raw: next, SoftExit
+  - line: 29
+    message: next
+    callback: StartNextScene
+    arguments_raw: next, StartNextScene
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 28
+    command: RemoveTrigger
+    arguments_raw: next
+  - line: 31
+    command: ScreenFadeOut
+    arguments_raw: '0'
+  - line: 42
+    command: ScreenFadeIn
+    arguments_raw: '2'
+  command_count: 18
+- script_id: wizardmaster.scr
+  source_path: WIZARDMASTER.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  - line: 8
+    path: CutSceneActor.inc
+  labels:
+  - line: 27
+    name: Main
+  - line: 37
+    name: InitWizardMaster
+  - line: 67
+    name: CacheFiles
+  - line: 99
+    name: OnDeath
+  - line: 109
+    name: OnDamage
+  - line: 120
+    name: ConjureSpell
+  - line: 134
+    name: CastSpell
+  - line: 144
+    name: Summon
+  - line: 158
+    name: Backup
+  - line: 168
+    name: OnTargetDead
+  - line: 182
+    name: BeginBanish
+  - line: 194
+    name: BanishDemon
+  - line: 214
+    name: PerformBanish
+  - line: 225
+    name: RemoveDemon
+  - line: 240
+    name: PassOut
+  registered_triggers:
+  - line: 47
+    message: start
+    callback: ConjureSpell
+    arguments_raw: start, ConjureSpell
+  - line: 48
+    message: finish
+    callback: BanishDemon
+    arguments_raw: finish, BanishDemon
+  trigger_edges:
+  - line: 205
+    target_expression: hLocation
+    message_expression: finish
+    arguments_raw: hLocation, finish
+  - line: 234
+    target_expression: hLocation
+    message_expression: destroy
+    arguments_raw: hLocation, destroy
+  movement_commands: []
+  state_commands:
+  - line: 206
+    command: SetStat
+    arguments_raw: hLocation, Gravity, FALSE
+  presentation_commands:
+  - line: 122
+    command: LoopAnim
+    arguments_raw: fidget2, 0
+  - line: 136
+    command: PlayAnim
+    arguments_raw: rattack1, DoNothing
+  - line: 153
+    command: PlayAnim
+    arguments_raw: taunt, Backup
+  - line: 189
+    command: LoopAnim
+    arguments_raw: fidget2, 0
+  - line: 227
+    command: PlayAnim
+    arguments_raw: fidget3, DoNothing
+  unknown_commands:
+  - line: 31
+    command: OnPostStartWorld
+    arguments_raw: InitWizardMaster
+  - line: 32
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 39
+    command: SetConsoleNumVar
+    arguments_raw: PLAYER_FRIEND, TRUE
+  - line: 41
+    command: AddFriend
+    arguments_raw: GreaterDemon
+  - line: 50
+    command: OnTargetDead
+    arguments_raw: OnTargetDead
+  - line: 70
+    command: CacheClientFX
+    arguments_raw: SPELL_GREENDOTS
+  - line: 71
+    command: CacheClientFX
+    arguments_raw: SPELL_BUGS
+  - line: 72
+    command: CacheClientFX
+    arguments_raw: SPELL_BLUEDOTS
+  - line: 73
+    command: CacheClientFX
+    arguments_raw: SPELL_SPELLREAVER
+  - line: 74
+    command: CacheClientFX
+    arguments_raw: SPELL_DARKGRASP
+  - line: 75
+    command: CacheClientFX
+    arguments_raw: SPELL_PARALYZE
+  - line: 76
+    command: CacheClientFX
+    arguments_raw: SPELL_ELEMBLAST
+  - line: 77
+    command: CacheClientFX
+    arguments_raw: SPELL_COLUMNOFFIRE
+  - line: 78
+    command: CacheClientFX
+    arguments_raw: SPELL_SPARKLIES
+  - line: 79
+    command: CacheClientFX
+    arguments_raw: SPELL_TOWNPORTAL
+  - line: 80
+    command: CacheClientFX
+    arguments_raw: SPELL_METEOR
+  - line: 81
+    command: CacheClientFX
+    arguments_raw: SPELL_BLUEFIRE
+  - line: 83
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\dragon\hattack1.wav"'
+  - line: 84
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\dragon\wingattack.wav"'
+  - line: 85
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\dragon\rattack1.wav"'
+  - line: 86
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\dragon\die1.wav"'
+  - line: 87
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\dragon\fidget2.wav"'
+  - line: 88
+    command: CacheSound
+    arguments_raw: '"sounds\magic\cast01.wav"'
+  - line: 89
+    command: CacheSound
+    arguments_raw: '"sounds\magic\cast03.wav"'
+  - line: 90
+    command: CacheSound
+    arguments_raw: '"sounds\magic\wizardeyeloop.wav"'
+  - line: 91
+    command: CacheSound
+    arguments_raw: '"sounds\ambient\thunder\thunderlong.wav"'
+  - line: 92
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\evilsorcerer\rattack1.wav"'
+  - line: 93
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\evilsorcerer\wince2.wav"'
+  - line: 94
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\evilsorcerer\die1.wav"'
+  - line: 102
+    command: IsPlayer
+    arguments_raw: g_hObject, g_bTemp
+  - line: 104
+    command: SetConsoleNumVar
+    arguments_raw: PLAYER_FRIEND, FALSE
+  - line: 112
+    command: IsPlayer
+    arguments_raw: g_hObject, g_bTemp
+  - line: 114
+    command: SetConsoleNumVar
+    arguments_raw: PLAYER_FRIEND, FALSE
+  - line: 124
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_METEOR, FALSE, TRUE
+  - line: 125
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_TOWNPORTAL, FALSE, TRUE
+  - line: 126
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_SPARKLIES, FALSE, TRUE
+  - line: 127
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_COLUMNOFFIRE, FALSE, TRUE
+  - line: 147
+    command: Spawn
+    arguments_raw: hLocation, x,y,z, SPAWN_PARAM
+  - line: 148
+    command: CreateObjectLink
+    arguments_raw: hLocation
+  - line: 150
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_ELEMBLAST, FALSE, TRUE
+  - line: 151
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_PARALYZE, FALSE, TRUE
+  - line: 161
+    command: GetReverseDir
+    arguments_raw: x,y,z
+  - line: 162
+    command: Strafe
+    arguments_raw: x,y,z, FALSE
+  - line: 163
+    command: OnObstacle
+    arguments_raw: BeginBanish
+  - line: 170
+    command: hLocation
+    arguments_raw: = NULL
+  - line: 171
+    command: GetConsoleNumVar
+    arguments_raw: PLAYER_FRIEND, g_nTemp
+  - line: 173
+    command: AddEnemy
+    arguments_raw: Player
+  - line: 174
+    command: RunScript
+    arguments_raw: '"EvilSorcerer.scr"'
+  - line: 184
+    command: Stop
+    arguments_raw: ''
+  - line: 186
+    command: DoClientFX
+    arguments_raw: hMe, SPELL_SPARKLIES, TRUE, TRUE
+  - line: 187
+    command: DoClientFX
+    arguments_raw: hMe, SPELL_BLUEFIRE, TRUE, TRUE
+  - line: 196
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 197
+    command: unknown
+    arguments_raw: if( nCounter<6 )
+  - line: 203
+    command: Target
+    arguments_raw: hLocation, TRUE
+  - line: 204
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_DARKGRASP, TRUE, TRUE
+  - line: 207
+    command: SetVelocity
+    arguments_raw: hLocation, 0, 25, 0
+  - line: 218
+    command: SetVelocity
+    arguments_raw: hLocation, 0, -50, 0
+  - line: 232
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_SPELLREAVER, FALSE, TRUE
+  - line: 233
+    command: DoClientFX
+    arguments_raw: hLocation, SPELL_ELEMBLAST, FALSE, TRUE
+  - line: 243
+    command: Die
+    arguments_raw: ''
+  command_count: 120
+- script_id: wizardsummoner.scr
+  source_path: WIZARDSUMMONER.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: baseMelee.inc
+  - line: 8
+    path: range.inc
+  labels:
+  - line: 22
+    name: Main
+  - line: 33
+    name: InitWizardSummoner
+  - line: 48
+    name: ConjureSpell
+  - line: 58
+    name: CastSpell
+  - line: 66
+    name: FinishSpell
+  - line: 76
+    name: OnDamage
+  - line: 97
+    name: OnDeath
+  - line: 108
+    name: LinkToBaseRange
+  registered_triggers:
+  - line: 43
+    message: start
+    callback: ConjureSpell
+    arguments_raw: start, ConjureSpell
+  trigger_edges:
+  - line: 52
+    target_expression: hShooter
+    message_expression: play
+    arguments_raw: hShooter, play
+  - line: 70
+    target_expression: hShooter
+    message_expression: shoot
+    arguments_raw: hShooter, shoot
+  - line: 71
+    target_expression: hNext
+    message_expression: start
+    arguments_raw: hNext, start
+  - line: 89
+    target_expression: hShooter
+    message_expression: finish
+    arguments_raw: hShooter, finish
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 51
+    command: PlayAnim
+    arguments_raw: fidget2, DoNothing
+  - line: 60
+    command: PlayAnim
+    arguments_raw: rattack1, DoNothing
+  unknown_commands:
+  - line: 28
+    command: OnPostStartWorld
+    arguments_raw: InitWizardSummoner
+  - line: 35
+    command: AddFriend
+    arguments_raw: Player
+  - line: 41
+    command: FaceObject
+    arguments_raw: hLocation, 180, DoNothing
+  - line: 68
+    command: AddEnemy
+    arguments_raw: GreaterDemon
+  - line: 69
+    command: OnFoundTarget
+    arguments_raw: LinkToBaseRange
+  - line: 79
+    command: IsPlayer
+    arguments_raw: g_hObject, g_bTemp
+  - line: 81
+    command: AddEnemy
+    arguments_raw: Player
+  - line: 82
+    command: SetConsoleNumVar
+    arguments_raw: PLAYER_FRIEND, FALSE
+  - line: 87
+    command: DoClientFX
+    arguments_raw: hShooter, SPELL_BLUEDOTS, FALSE, TRUE
+  - line: 91
+    command: Die
+    arguments_raw: ''
+  - line: 100
+    command: IsPlayer
+    arguments_raw: g_hObject, g_bTemp
+  - line: 102
+    command: SetConsoleNumVar
+    arguments_raw: PLAYER_FRIEND, FALSE
+  - line: 113
+    command: g_rangeAttackType
+    arguments_raw: = RANGE_TYPE2
+  - line: 117
+    command: OnDamage
+    arguments_raw: OnDamage
+  command_count: 52
+validation:
+  script_count: 11

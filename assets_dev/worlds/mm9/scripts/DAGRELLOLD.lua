@@ -22,7 +22,7 @@ script.includes[#script.includes + 1] = { line = 13, path = "globals.inc" }
 script.labels["OnUse"] = function(ctx)
     -- DAGRELLOLD.scr:40
     ctx:getParam(0, "g_hObject") -- DAGRELLOLD.scr:42
-    ctx:command("faceobject", "g_hObject, 180") -- DAGRELLOLD.scr:44
+    ctx:self():faceObject(ctx:object("g_hObject"), 180) -- DAGRELLOLD.scr:44
     do return ctx:exit("") end -- DAGRELLOLD.scr:46
 end
 
@@ -31,10 +31,10 @@ script.labels["DagrellTargetDead"] = function(ctx)
     -- We override this so we can crouch after
     -- killing a player.  We call base first
     ctx:getParam(0, "g_nTemp") -- DAGRELLOLD.scr:53
-    ctx:command("target", "NULL") -- DAGRELLOLD.scr:55
-    ctx:command("set", "g_hTarget, NULL") -- DAGRELLOLD.scr:56
+    ctx:self():setTarget(nil) -- DAGRELLOLD.scr:55
+    ctx:state().g_hTarget = nil -- DAGRELLOLD.scr:56
     if ctx:condition("g_nTemp == g_hMyObject") then -- DAGRELLOLD.scr:58
-        ctx:command("taunt", "DagrellTauntDone") -- DAGRELLOLD.scr:59
+        ctx:self():taunt("DagrellTauntDone") -- DAGRELLOLD.scr:59
     else -- DAGRELLOLD.scr:60
         mm9.gosub(script, ctx, "DagrellCrouch") -- DAGRELLOLD.scr:61
     end -- DAGRELLOLD.scr:62
@@ -51,22 +51,22 @@ script.labels["DagrellCrouch"] = function(ctx)
     -- DAGRELLOLD.scr:74
     -- If not standing begin crouch
     if ctx:condition("g_bIsCrouching == FALSE") then -- DAGRELLOLD.scr:77
-        ctx:command("playanim", "returntocrouch") -- DAGRELLOLD.scr:78
+        ctx:self():playAnimation("returntocrouch") -- DAGRELLOLD.scr:78
     else -- DAGRELLOLD.scr:79
         -- if we are already crouched might as well fidget
-        ctx:command("playanim", "CrouchFidget") -- DAGRELLOLD.scr:81
+        ctx:self():playAnimation("CrouchFidget") -- DAGRELLOLD.scr:81
     end -- DAGRELLOLD.scr:82
-    ctx:command("set", "g_bIsCrouching, 1") -- DAGRELLOLD.scr:84
+    ctx:state().g_bIsCrouching = 1 -- DAGRELLOLD.scr:84
     -- How long are we going to crouch for
-    ctx:command("getrandomint", "g_nCrouchMin, g_nCrouchMax, g_nRandom") -- DAGRELLOLD.scr:87
-    ctx:command("loopanim", "Crouch, g_nRandom, DagrellCrouchDone") -- DAGRELLOLD.scr:88
+    ctx:randomInt("g_nCrouchMin", "g_nCrouchMax", "g_nRandom") -- DAGRELLOLD.scr:87
+    ctx:self():loopAnimation("Crouch", "g_nRandom", "DagrellCrouchDone") -- DAGRELLOLD.scr:88
     do return ctx:exit("") end -- DAGRELLOLD.scr:90
 end
 
 script.labels["DagrellCrouchDone"] = function(ctx)
     -- DAGRELLOLD.scr:93
     -- Once he is done crouching we should fidget
-    ctx:command("playanim", "CrouchFidget, DagrellFidgetDone") -- DAGRELLOLD.scr:96
+    ctx:self():playAnimation("CrouchFidget", "DagrellFidgetDone") -- DAGRELLOLD.scr:96
     do return ctx:exit("") end -- DAGRELLOLD.scr:98
 end
 
@@ -83,8 +83,8 @@ script.labels["DagrellStand"] = function(ctx)
     -- ticker back up.  We use aware to stand because it is the only
     -- anim that stands smoothly.
     if ctx:condition("g_bIsCrouching == TRUE") then -- DAGRELLOLD.scr:115
-        ctx:command("playanim", "Aware, DagrellAwareDone") -- DAGRELLOLD.scr:116
-        ctx:command("set", "g_bIsCrouching, 0") -- DAGRELLOLD.scr:117
+        ctx:self():playAnimation("Aware", "DagrellAwareDone") -- DAGRELLOLD.scr:116
+        ctx:state().g_bIsCrouching = 0 -- DAGRELLOLD.scr:117
     else -- DAGRELLOLD.scr:118
         mm9.gosub(script, ctx, "DagrellTick") -- DAGRELLOLD.scr:119
     end -- DAGRELLOLD.scr:120
@@ -94,17 +94,17 @@ end
 script.labels["DagrellAwareDone"] = function(ctx)
     -- DAGRELLOLD.scr:125
     -- Ok the aware anim finished we can now complete the standup process
-    ctx:command("playanim", "Stand") -- DAGRELLOLD.scr:128
+    ctx:self():playAnimation("Stand") -- DAGRELLOLD.scr:128
     -- How long should we stand before starting up ticker?
-    ctx:command("getrandomint", "g_nStandMin, g_nStandMax, g_nRandom") -- DAGRELLOLD.scr:131
-    ctx:command("wait", "0, g_nRandom, DagrellTick") -- DAGRELLOLD.scr:132
+    ctx:randomInt("g_nStandMin", "g_nStandMax", "g_nRandom") -- DAGRELLOLD.scr:131
+    ctx:wait(0, "g_nRandom", "DagrellTick") -- DAGRELLOLD.scr:132
     do return ctx:exit("") end -- DAGRELLOLD.scr:134
 end
 
 script.labels["DagrellTick"] = function(ctx)
     -- DAGRELLOLD.scr:136
     -- Heartbeat function.  This gets called to keep things rolling
-    ctx:command("getrandomint", "0, 10, g_nRandom") -- DAGRELLOLD.scr:139
+    ctx:randomInt(0, 10, "g_nRandom") -- DAGRELLOLD.scr:139
     if ctx:condition("g_nRandom <= g_nCrouchFrequency") then -- DAGRELLOLD.scr:140
         mm9.gosub(script, ctx, "DagrellCrouch") -- DAGRELLOLD.scr:141
     else -- DAGRELLOLD.scr:142
@@ -134,14 +134,14 @@ end
 script.labels["DagrellTargetWithinDist"] = function(ctx)
     -- DAGRELLOLD.scr:170
     -- Jump at him!
-    ctx:command("jump", "JumpDone") -- DAGRELLOLD.scr:173
-    ctx:command("ontargetbeyonddist", "minJumpDist, DagrellTargetBeyondDist") -- DAGRELLOLD.scr:175
+    ctx:self():jump("JumpDone") -- DAGRELLOLD.scr:173
+    ctx:onEvent("OnTargetBeyondDist", "minJumpDist", "DagrellTargetBeyondDist") -- DAGRELLOLD.scr:175
     do return ctx:exit("TRUE") end -- DAGRELLOLD.scr:177
 end
 
 script.labels["DagrellTargetBeyondDist"] = function(ctx)
     -- DAGRELLOLD.scr:180
-    ctx:command("ontargetwithindist", "minJumpDist, DagrellTargetWithinDist") -- DAGRELLOLD.scr:183
+    ctx:onEvent("OnTargetWithinDist", "minJumpDist", "DagrellTargetWithinDist") -- DAGRELLOLD.scr:183
     do return ctx:exit("TRUE") end -- DAGRELLOLD.scr:185
 end
 
@@ -155,14 +155,14 @@ script.labels["Main"] = function(ctx)
     ctx:addTrigger("Use", "OnUse") -- DAGRELLOLD.scr:199
     mm9.gosub(script, ctx, "InitBase") -- DAGRELLOLD.scr:201
     -- Override these base handlers
-    ctx:command("ontargetdead", "DagrellTargetDead") -- DAGRELLOLD.scr:204
-    ctx:command("onfoundplayer", "DagrellFoundPlayer") -- DAGRELLOLD.scr:205
+    ctx:onEvent("OnTargetDead", "DagrellTargetDead") -- DAGRELLOLD.scr:204
+    ctx:onEvent("OnFoundPlayer", "DagrellFoundPlayer") -- DAGRELLOLD.scr:205
     -- GetDims g_hMyObject, dimsX, dimsY, dimsZ
-    ctx:command("getstat", "g_hMyObject, JumpVel, minJumpDist") -- DAGRELLOLD.scr:208
-    ctx:command("mul", "minJumpDist, jumpTime") -- DAGRELLOLD.scr:210
+    ctx:state().minJumpDist = ctx:self():getStat("JumpVel") -- DAGRELLOLD.scr:208
+    ctx:mul("minJumpDist", "jumpTime") -- DAGRELLOLD.scr:210
     -- Take off 20 %
-    ctx:command("mul", "minJumpDist, 0.80") -- DAGRELLOLD.scr:213
-    ctx:command("ontargetbeyonddist", "minJumpDist, DagrellTargetBeyondDist") -- DAGRELLOLD.scr:215
+    ctx:mul("minJumpDist", 0.80) -- DAGRELLOLD.scr:213
+    ctx:onEvent("OnTargetBeyondDist", "minJumpDist", "DagrellTargetBeyondDist") -- DAGRELLOLD.scr:215
     mm9.gosub(script, ctx, "DagrellTick") -- DAGRELLOLD.scr:218
     do return ctx:exit("") end -- DAGRELLOLD.scr:220
 end

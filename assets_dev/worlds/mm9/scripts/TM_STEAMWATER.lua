@@ -13,25 +13,22 @@ script.includes[#script.includes + 1] = { line = 11, path = "Globals.inc" }
 -- Moves a water brush that breaks a board barrier.
 script.labels["StopHere"] = function(ctx)
     -- TM_STEAMWATER.scr:20
-    ctx:command("hblocker", "= NULL") -- TM_STEAMWATER.scr:22
-    ctx:command("getobjecthandle", "ABMineBoards1, hBlocker") -- TM_STEAMWATER.scr:23
-    ctx:trigger("hBlocker", "Destroy") -- TM_STEAMWATER.scr:24
+    ctx:state().hBlocker = nil -- TM_STEAMWATER.scr:22
+    ctx:object("ABMineBoards1"):trigger("Destroy") -- TM_STEAMWATER.scr:23-24
     do return ctx:exit("TRUE") end -- TM_STEAMWATER.scr:25
 end
 
 script.labels["MoveToMarker"] = function(ctx)
     -- TM_STEAMWATER.scr:27
-    ctx:command("getobjecthandle", "WaterMarker0, hMCMarker") -- TM_STEAMWATER.scr:29
-    ctx:command("getpos", "hMCMarker, nVarX, nVarY, nVarZ") -- TM_STEAMWATER.scr:30
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 1500, StopHere") -- TM_STEAMWATER.scr:31
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("WaterMarker0"):pos() -- TM_STEAMWATER.scr:29-30
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 1500, "StopHere") -- TM_STEAMWATER.scr:31
     do return ctx:exit(1) end -- TM_STEAMWATER.scr:32
 end
 
 script.labels["MoveBack"] = function(ctx)
     -- TM_STEAMWATER.scr:34
-    ctx:command("getobjecthandle", "WaterMarker1, hMCMarker") -- TM_STEAMWATER.scr:36
-    ctx:command("getpos", "hMCMarker, nVarX, nVarY, nVarZ") -- TM_STEAMWATER.scr:37
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 2000, DoNothing") -- TM_STEAMWATER.scr:38
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("WaterMarker1"):pos() -- TM_STEAMWATER.scr:36-37
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 2000, "DoNothing") -- TM_STEAMWATER.scr:38
     do return ctx:exit(1) end -- TM_STEAMWATER.scr:39
 end
 
@@ -44,7 +41,7 @@ end
 
 script.labels["Main"] = function(ctx)
     -- TM_STEAMWATER.scr:47
-    ctx:command("wait", "0, 0.1, Main2") -- TM_STEAMWATER.scr:49
+    ctx:wait(0, 0.1, "Main2") -- TM_STEAMWATER.scr:49
     do return ctx:exit("") end -- TM_STEAMWATER.scr:50
 end
 

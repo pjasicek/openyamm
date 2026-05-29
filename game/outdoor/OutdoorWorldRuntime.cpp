@@ -16030,6 +16030,75 @@ void OutdoorWorldRuntime::registerMm9OutdoorMechanisms()
         << '\n';
 }
 
+void OutdoorWorldRuntime::registerOutdoorSceneMechanisms(const OutdoorSceneData &sceneData)
+{
+    if (m_pOutdoorMapData == nullptr || !m_eventRuntimeState || sceneData.mechanisms.empty())
+    {
+        return;
+    }
+
+    size_t registeredLinearCount = 0;
+    size_t registeredRotatingCount = 0;
+    size_t skippedCount = 0;
+
+    for (const OutdoorSceneMechanism &mechanism : sceneData.mechanisms)
+    {
+        if (mechanism.mechanismId == 0 || mechanism.binding.targetKind != "odm_bmodel")
+        {
+            ++skippedCount;
+            continue;
+        }
+
+        if (!mechanism.motion.hasLinear && !mechanism.motion.hasRotation)
+        {
+            ++skippedCount;
+            continue;
+        }
+
+        const bool closed = !mechanism.activation.startOpen;
+        if (!registerOutdoorModelMechanism(
+                mechanism.mechanismId,
+                mechanism.binding.bmodelName,
+                mechanism.motion.dx,
+                mechanism.motion.dy,
+                mechanism.motion.dz,
+                mechanism.motion.moveTimeMs,
+                closed,
+                false))
+        {
+            ++skippedCount;
+            continue;
+        }
+
+        if (mechanism.motion.hasLinear)
+        {
+            ++registeredLinearCount;
+        }
+
+        if (mechanism.motion.hasRotation)
+        {
+            EventRuntimeState::OutdoorModelMechanismDefinition &definition =
+                m_eventRuntimeState->outdoorModelMechanisms[mechanism.mechanismId];
+            definition.hasRotation = true;
+            definition.rotationPivotX = mechanism.motion.rotationPivotX;
+            definition.rotationPivotY = mechanism.motion.rotationPivotY;
+            definition.rotationPivotZ = mechanism.motion.rotationPivotZ;
+            definition.rotationDegreesX = mechanism.motion.rotationDegreesX;
+            definition.rotationDegreesY = mechanism.motion.rotationDegreesY;
+            definition.rotationDegreesZ = mechanism.motion.rotationDegreesZ;
+            ++registeredRotatingCount;
+            refreshOutdoorModelMechanismGeometry();
+        }
+    }
+
+    std::cout
+        << "  outdoor scene mechanisms: total=" << sceneData.mechanisms.size()
+        << " registered_linear=" << registeredLinearCount
+        << " registered_rotating=" << registeredRotatingCount
+        << " skipped=" << skippedCount
+        << '\n';
+}
+
 bool OutdoorWorldRuntime::triggerMm9Object(const std::string &objectName, const std::string &messageName)
 {
     if (!m_mm9EventsData)

@@ -4,6 +4,7 @@ map_id: thearena
 display_name: The Arena
 source:
   dat: ../source/worlds/THEARENA.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/THEARENA.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: thearena.raw_objects.yml
   materials: thearena.material_aliases.yml
   events: thearena.events.yml
-  scene_compat: thearena.scene.yml
+  scene_compat: null
   source_metadata_compat: thearena.mm9.yml
-  bsp_compat: thearena.bsp.yml
-  geometry_compat: thearena.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: thearena.blv
+  blv_compat: null
 scripts:
   level: ../events/thearena.lua
   script_ir: ../events/thearena.script_ir.yml

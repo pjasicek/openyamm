@@ -21,8 +21,8 @@ end
 
 script.labels["CallGenie"] = function(ctx)
     -- GENIECRYSTAL.scr:24
-    ctx:command("removetrigger", "use") -- GENIECRYSTAL.scr:26
-    ctx:command("getobjecthandle", "sGenieName, hGenie") -- GENIECRYSTAL.scr:28
+    ctx:removeTrigger("use") -- GENIECRYSTAL.scr:26
+    ctx:state().hGenie = ctx:objectOrNil("sGenieName") -- GENIECRYSTAL.scr:28
     if ctx:condition("hGenie!=0") then -- GENIECRYSTAL.scr:30
         ctx:trigger("hGenie", "appear") -- GENIECRYSTAL.scr:31
     end -- GENIECRYSTAL.scr:32

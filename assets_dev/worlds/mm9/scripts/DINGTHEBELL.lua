@@ -26,13 +26,13 @@ script.labels["HitBell"] = function(ctx)
     else -- DINGTHEBELL.scr:30
         mm9.gosub(script, ctx, "TakeGameTicket") -- DINGTHEBELL.scr:31
     end -- DINGTHEBELL.scr:32
-    ctx:command("removetrigger", "use") -- DINGTHEBELL.scr:34
+    ctx:removeTrigger("use") -- DINGTHEBELL.scr:34
     ctx:addTrigger("use", "BlockUse") -- DINGTHEBELL.scr:35
-    ctx:command("getrandomint", "60, 80, nDingValue") -- DINGTHEBELL.scr:37
-    ctx:command("getrandomint", "40, 60, nTimingValue") -- DINGTHEBELL.scr:38
-    ctx:command("getattribute", "0, nPlayerStrength") -- DINGTHEBELL.scr:39
-    ctx:command("ntimingvalue", "= nTimingValue + nPlayerStrength") -- DINGTHEBELL.scr:40
-    ctx:command("ntemp", "= nTimingValue / nDingValue") -- DINGTHEBELL.scr:42
+    ctx:randomInt(60, 80, "nDingValue") -- DINGTHEBELL.scr:37
+    ctx:randomInt(40, 60, "nTimingValue") -- DINGTHEBELL.scr:38
+    ctx:getAttribute(0, "nPlayerStrength") -- DINGTHEBELL.scr:39
+    ctx:set("nTimingValue", "nTimingValue + nPlayerStrength") -- DINGTHEBELL.scr:40
+    ctx:set("nTemp", "nTimingValue / nDingValue") -- DINGTHEBELL.scr:42
     ctx:setConsoleNumVar("GAME_BELL_HEIGHT", "nTemp") -- DINGTHEBELL.scr:43
     do return ctx:exit("FALSE") end -- DINGTHEBELL.scr:45
 end
@@ -40,12 +40,12 @@ end
 script.labels["CheckWin"] = function(ctx)
     -- DINGTHEBELL.scr:48
     if ctx:condition("nTimingValue>nDingValue") then -- DINGTHEBELL.scr:50
-        ctx:command("playsound", "\"sounds\\events\\dingbell.wav\", DoNothing, 1, 500, FALSE, 100") -- DINGTHEBELL.scr:51
+        ctx:playSound("sounds\\events\\dingbell.wav", "DoNothing", 1, 500, "FALSE", 100) -- DINGTHEBELL.scr:51
         mm9.gosub(script, ctx, "RecordBellWin") -- DINGTHEBELL.scr:52
     else -- DINGTHEBELL.scr:53
-        ctx:command("rollovertext", "TEXT_DEFEAT, 1, 3000, 2000") -- DINGTHEBELL.scr:54
+        ctx:rolloverText("TEXT_DEFEAT", 1, 3000, 2000) -- DINGTHEBELL.scr:54
     end -- DINGTHEBELL.scr:55
-    ctx:command("wait", "0, 3, AllowUse") -- DINGTHEBELL.scr:57
+    ctx:wait(0, 3, "AllowUse") -- DINGTHEBELL.scr:57
     do return ctx:exit("TRUE") end -- DINGTHEBELL.scr:59
 end
 
@@ -56,7 +56,7 @@ end
 
 script.labels["AllowUse"] = function(ctx)
     -- DINGTHEBELL.scr:67
-    ctx:command("removetrigger", "use") -- DINGTHEBELL.scr:69
+    ctx:removeTrigger("use") -- DINGTHEBELL.scr:69
     ctx:addTrigger("use", "HitBell") -- DINGTHEBELL.scr:70
     do return ctx:exit("TRUE") end -- DINGTHEBELL.scr:72
 end

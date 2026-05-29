@@ -42,7 +42,7 @@ script.labels["Capstone"] = function(ctx)
         -- gives player finished quest key
         ctx:giveKey("", 188) -- NPC133.scr:55
         ctx:giveExp(146000) -- NPC133.scr:56
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC133.scr:57
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC133.scr:57
         do return ctx:exit("") end -- NPC133.scr:58
     end -- NPC133.scr:59
     do return ctx:exit("") end -- NPC133.scr:61
@@ -57,7 +57,7 @@ script.labels["Nicolai"] = function(ctx)
     if ctx:hasKey(121) then -- NPC133.scr:75-76
         ctx:giveGold(5000) -- NPC133.scr:77
         ctx:giveExp(20000) -- NPC133.scr:78
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC133.scr:79
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC133.scr:79
         ctx:giveKey(122) -- NPC133.scr:80
         do return ctx:exit("") end -- NPC133.scr:81
     end -- NPC133.scr:82
@@ -68,24 +68,24 @@ end
 script.labels["ItemCheck"] = function(ctx)
     -- NPC133.scr:92
     -- Checks to see if the player has all the prize set.
-    ctx:command("set", "g_ncounter, 0") -- NPC133.scr:95
+    ctx:state().g_ncounter = 0 -- NPC133.scr:95
     if ctx:hasItem(362) then -- NPC133.scr:97-98
-        ctx:command("g_ncounter", "= g_ncounter + 1") -- NPC133.scr:99
+        ctx:set("g_ncounter", "g_ncounter + 1") -- NPC133.scr:99
     end -- NPC133.scr:100
     if ctx:hasItem(363) then -- NPC133.scr:102-103
-        ctx:command("g_ncounter", "= g_ncounter + 1") -- NPC133.scr:104
+        ctx:set("g_ncounter", "g_ncounter + 1") -- NPC133.scr:104
     end -- NPC133.scr:105
     if ctx:hasItem(364) then -- NPC133.scr:108-109
-        ctx:command("g_ncounter", "= g_ncounter + 1") -- NPC133.scr:110
+        ctx:set("g_ncounter", "g_ncounter + 1") -- NPC133.scr:110
     end -- NPC133.scr:111
     if ctx:hasItem(365) then -- NPC133.scr:114-115
-        ctx:command("g_ncounter", "= g_ncounter + 1") -- NPC133.scr:116
+        ctx:set("g_ncounter", "g_ncounter + 1") -- NPC133.scr:116
     end -- NPC133.scr:117
     if ctx:hasItem(366) then -- NPC133.scr:120-121
-        ctx:command("g_ncounter", "= g_ncounter + 1") -- NPC133.scr:122
+        ctx:set("g_ncounter", "g_ncounter + 1") -- NPC133.scr:122
     end -- NPC133.scr:123
     if ctx:hasItem(367) then -- NPC133.scr:126-127
-        ctx:command("g_ncounter", "= g_ncounter + 1") -- NPC133.scr:128
+        ctx:set("g_ncounter", "g_ncounter + 1") -- NPC133.scr:128
     end -- NPC133.scr:129
     if ctx:condition("g_ncounter==6") then -- NPC133.scr:131
         ctx:giveKey(487) -- NPC133.scr:132
@@ -96,7 +96,7 @@ end
 script.labels["OnUse"] = function(ctx)
     -- NPC133.scr:139
     mm9.gosub(script, ctx, "ItemCheck") -- NPC133.scr:143
-    ctx:command("playsound", "voices\\NPC\\NPC_133.wav, Onexit, 100, 240, FALSE, 100") -- NPC133.scr:145
+    ctx:playSound("voices\\NPC\\NPC_133.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC133.scr:145
     do return ctx:exit("") end -- NPC133.scr:146
 end
 

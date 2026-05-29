@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/dookscastle.lua
+  script_ir: ../events/dookscastle.script_ir.yml
 objects:
 - object_id: mm9:dookscastle:object:0
   source_object_index: 0
@@ -62883,10 +62884,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 1072.0
     - 176.0
@@ -63291,10 +63294,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -192.0
     - 176.0
@@ -63699,10 +63704,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest3
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -928.0
     - 176.0
@@ -64107,10 +64114,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest4
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -2368.0
     - 176.0
@@ -64515,10 +64524,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest5
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -992.0
     - 224.0
@@ -83572,10 +83583,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\BlackChest.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 5136.0
     - -992.0
@@ -91246,7 +91259,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: ScurryTrigger0
-    Pos: &id071
+    Pos: &id109
     - 4608.0
     - -909.0
     - 3424.0
@@ -93011,7 +93024,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: ScurryTrigger1
-    Pos: &id072
+    Pos: &id110
     - 2400.0
     - -419.0
     - 3136.0
@@ -95184,7 +95197,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: SleepTrigger
-    Pos: &id073
+    Pos: &id111
     - 0.0
     - 208.0
     - 1568.0
@@ -97959,10 +97972,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\BlackChest.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest6
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 3600.0
     - -1872.0
@@ -98004,6 +98019,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Events\slam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id050
   - phase: open
     slot: 0
@@ -98048,6 +98092,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id051
   - phase: open
     slot: 0
@@ -98087,6 +98160,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door right 01
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id052 []
 - mechanism_id: mm9:dookscastle:object:244:mechanism
   object_id: mm9:dookscastle:object:244
@@ -98116,6 +98218,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door left 01
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id053 []
 - mechanism_id: mm9:dookscastle:object:245:mechanism
   object_id: mm9:dookscastle:object:245
@@ -98145,6 +98276,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door right 02
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id054 []
 - mechanism_id: mm9:dookscastle:object:246:mechanism
   object_id: mm9:dookscastle:object:246
@@ -98174,6 +98334,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door left 02
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id055 []
 - mechanism_id: mm9:dookscastle:object:247:mechanism
   object_id: mm9:dookscastle:object:247
@@ -98203,6 +98392,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door right 03
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id056 []
 - mechanism_id: mm9:dookscastle:object:248:mechanism
   object_id: mm9:dookscastle:object:248
@@ -98232,6 +98450,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door left 03
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id057 []
 - mechanism_id: mm9:dookscastle:object:249:mechanism
   object_id: mm9:dookscastle:object:249
@@ -98261,6 +98508,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door right 04
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id058 []
 - mechanism_id: mm9:dookscastle:object:250:mechanism
   object_id: mm9:dookscastle:object:250
@@ -98290,6 +98566,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door left 04
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id059 []
 - mechanism_id: mm9:dookscastle:object:251:mechanism
   object_id: mm9:dookscastle:object:251
@@ -98319,6 +98624,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door right 05
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id060 []
 - mechanism_id: mm9:dookscastle:object:252:mechanism
   object_id: mm9:dookscastle:object:252
@@ -98348,6 +98682,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door left 05
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id061 []
 - mechanism_id: mm9:dookscastle:object:253:mechanism
   object_id: mm9:dookscastle:object:253
@@ -98377,6 +98740,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door right 06
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id062 []
 - mechanism_id: mm9:dookscastle:object:254:mechanism
   object_id: mm9:dookscastle:object:254
@@ -98406,6 +98798,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door left 06
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id063 []
 - mechanism_id: mm9:dookscastle:object:255:mechanism
   object_id: mm9:dookscastle:object:255
@@ -98435,6 +98856,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door right 07
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id064 []
 - mechanism_id: mm9:dookscastle:object:256:mechanism
   object_id: mm9:dookscastle:object:256
@@ -98464,6 +98914,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: double door left 07
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id065 []
 - mechanism_id: mm9:dookscastle:object:388:mechanism
   object_id: mm9:dookscastle:object:388
@@ -98475,6 +98954,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id066 []
 - mechanism_id: mm9:dookscastle:object:444:mechanism
   object_id: mm9:dookscastle:object:444
@@ -98486,6 +98966,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: &id069 []
 triggers:
 - trigger_id: mm9:dookscastle:object:435:trigger
@@ -99796,93 +100277,1057 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id112
+    - source_model_index: 4
+      source_name: doorslide
+      movable: true
+      world_translation_lt:
+      - 344.0
+      - 240.0
+      - 2960.0
+      distance_from_position_lt: 88.544
+    - source_model_index: 8
+      source_name: double door left 02
+      movable: true
+      world_translation_lt: &id082
+      - 128.0
+      - 220.0
+      - 2736.0
+      distance_from_position_lt: 294.89
+    - source_model_index: 50
+      source_name: AITrk25
+      movable: true
+      world_translation_lt: &id085
+      - 192.0
+      - 168.0
+      - 2704.0
+      distance_from_position_lt: 301.834
+    - source_model_index: 9
+      source_name: double door right 02
+      movable: true
+      world_translation_lt: &id084
+      - 128.0
+      - 220.0
+      - 2672.0
+      distance_from_position_lt: 339.293
+    - source_model_index: 49
+      source_name: AITrk24
+      movable: true
+      world_translation_lt: &id083
+      - 120.0
+      - 168.0
+      - 2704.0
+      distance_from_position_lt: 341.245
 - object_id: mm9:dookscastle:object:242
   source_object_index: 242
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id113
+    - source_model_index: 5
+      source_name: Tempbutton
+      movable: true
+      world_translation_lt: &id071
+      - 1024.0
+      - 240.0
+      - 3640.0
+      distance_from_rotation_point_lt: 8.0
+    - source_model_index: 61
+      source_name: AITrk36
+      movable: true
+      world_translation_lt: &id072
+      - 736.0
+      - 168.0
+      - 3552.0
+      distance_from_rotation_point_lt: 312.0
+    - source_model_index: 23
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: &id073
+      - 736.0
+      - 160.5
+      - 3264.0
+      distance_from_rotation_point_lt: 486.539
+    - source_model_index: 62
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: &id074
+      - 736.0
+      - 168.0
+      - 3168.0
+      distance_from_rotation_point_lt: 564.383
+    - source_model_index: 60
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: &id075
+      - 224.0
+      - 168.0
+      - 3552.0
+      distance_from_rotation_point_lt: 808.95
+    nearest_movable_world_models_by_position: &id114
+    - source_model_index: 5
+      source_name: Tempbutton
+      movable: true
+      world_translation_lt: *id071
+      distance_from_position_lt: 8.0
+    - source_model_index: 61
+      source_name: AITrk36
+      movable: true
+      world_translation_lt: *id072
+      distance_from_position_lt: 312.0
+    - source_model_index: 23
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id073
+      distance_from_position_lt: 486.539
+    - source_model_index: 62
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id074
+      distance_from_position_lt: 564.383
+    - source_model_index: 60
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id075
+      distance_from_position_lt: 808.95
 - object_id: mm9:dookscastle:object:243
   source_object_index: 243
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id115
+    - source_model_index: 6
+      source_name: double door left 01
+      movable: true
+      world_translation_lt: &id076
+      - -128.0
+      - 220.0
+      - 2080.0
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 54
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: &id077
+      - -120.0
+      - 168.0
+      - 2048.0
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 7
+      source_name: double door right 01
+      movable: true
+      world_translation_lt: &id078
+      - -128.0
+      - 220.0
+      - 2016.0
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: &id079
+      - 0.0
+      - 168.0
+      - 2048.0
+      distance_from_rotation_point_lt: 150.625
+    - source_model_index: 10
+      source_name: double door left 03
+      movable: true
+      world_translation_lt: &id080
+      - 128.0
+      - 220.0
+      - 2080.0
+      distance_from_rotation_point_lt: 257.527
+    nearest_movable_world_models_by_position: &id116
+    - source_model_index: 6
+      source_name: double door left 01
+      movable: true
+      world_translation_lt: *id076
+      distance_from_position_lt: 28.0
+    - source_model_index: 54
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: *id077
+      distance_from_position_lt: 79.8
+    - source_model_index: 7
+      source_name: double door right 01
+      movable: true
+      world_translation_lt: *id078
+      distance_from_position_lt: 92.0
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id079
+      distance_from_position_lt: 150.625
+    - source_model_index: 10
+      source_name: double door left 03
+      movable: true
+      world_translation_lt: *id080
+      distance_from_position_lt: 257.527
 - object_id: mm9:dookscastle:object:244
   source_object_index: 244
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id117
+    - source_model_index: 7
+      source_name: double door right 01
+      movable: true
+      world_translation_lt: *id078
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 54
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: *id077
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 6
+      source_name: double door left 01
+      movable: true
+      world_translation_lt: *id076
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id079
+      distance_from_rotation_point_lt: 150.625
+    - source_model_index: 11
+      source_name: double door right 03
+      movable: true
+      world_translation_lt: &id081
+      - 128.0
+      - 220.0
+      - 2016.0
+      distance_from_rotation_point_lt: 257.527
+    nearest_movable_world_models_by_position: &id118
+    - source_model_index: 7
+      source_name: double door right 01
+      movable: true
+      world_translation_lt: *id078
+      distance_from_position_lt: 28.0
+    - source_model_index: 54
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: *id077
+      distance_from_position_lt: 79.8
+    - source_model_index: 6
+      source_name: double door left 01
+      movable: true
+      world_translation_lt: *id076
+      distance_from_position_lt: 92.0
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id079
+      distance_from_position_lt: 150.625
+    - source_model_index: 11
+      source_name: double door right 03
+      movable: true
+      world_translation_lt: *id081
+      distance_from_position_lt: 257.527
 - object_id: mm9:dookscastle:object:245
   source_object_index: 245
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id119
+    - source_model_index: 8
+      source_name: double door left 02
+      movable: true
+      world_translation_lt: *id082
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 49
+      source_name: AITrk24
+      movable: true
+      world_translation_lt: *id083
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 9
+      source_name: double door right 02
+      movable: true
+      world_translation_lt: *id084
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 50
+      source_name: AITrk25
+      movable: true
+      world_translation_lt: *id085
+      distance_from_rotation_point_lt: 101.98
+    - source_model_index: 48
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: &id086
+      - -8.0
+      - 168.0
+      - 2704.0
+      distance_from_rotation_point_lt: 157.48
+    nearest_movable_world_models_by_position: &id120
+    - source_model_index: 8
+      source_name: double door left 02
+      movable: true
+      world_translation_lt: *id082
+      distance_from_position_lt: 28.0
+    - source_model_index: 49
+      source_name: AITrk24
+      movable: true
+      world_translation_lt: *id083
+      distance_from_position_lt: 79.8
+    - source_model_index: 9
+      source_name: double door right 02
+      movable: true
+      world_translation_lt: *id084
+      distance_from_position_lt: 92.0
+    - source_model_index: 50
+      source_name: AITrk25
+      movable: true
+      world_translation_lt: *id085
+      distance_from_position_lt: 101.98
+    - source_model_index: 48
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id086
+      distance_from_position_lt: 157.48
 - object_id: mm9:dookscastle:object:246
   source_object_index: 246
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id121
+    - source_model_index: 9
+      source_name: double door right 02
+      movable: true
+      world_translation_lt: *id084
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 49
+      source_name: AITrk24
+      movable: true
+      world_translation_lt: *id083
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 8
+      source_name: double door left 02
+      movable: true
+      world_translation_lt: *id082
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 50
+      source_name: AITrk25
+      movable: true
+      world_translation_lt: *id085
+      distance_from_rotation_point_lt: 101.98
+    - source_model_index: 48
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id086
+      distance_from_rotation_point_lt: 157.48
+    nearest_movable_world_models_by_position: &id122
+    - source_model_index: 9
+      source_name: double door right 02
+      movable: true
+      world_translation_lt: *id084
+      distance_from_position_lt: 28.0
+    - source_model_index: 49
+      source_name: AITrk24
+      movable: true
+      world_translation_lt: *id083
+      distance_from_position_lt: 79.8
+    - source_model_index: 8
+      source_name: double door left 02
+      movable: true
+      world_translation_lt: *id082
+      distance_from_position_lt: 92.0
+    - source_model_index: 50
+      source_name: AITrk25
+      movable: true
+      world_translation_lt: *id085
+      distance_from_position_lt: 101.98
+    - source_model_index: 48
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id086
+      distance_from_position_lt: 157.48
 - object_id: mm9:dookscastle:object:247
   source_object_index: 247
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id123
+    - source_model_index: 10
+      source_name: double door left 03
+      movable: true
+      world_translation_lt: *id080
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 44
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: &id087
+      - 120.0
+      - 168.0
+      - 2048.0
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 11
+      source_name: double door right 03
+      movable: true
+      world_translation_lt: *id081
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 45
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: &id088
+      - 192.0
+      - 168.0
+      - 2048.0
+      distance_from_rotation_point_lt: 101.98
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id079
+      distance_from_rotation_point_lt: 150.625
+    nearest_movable_world_models_by_position: &id124
+    - source_model_index: 10
+      source_name: double door left 03
+      movable: true
+      world_translation_lt: *id080
+      distance_from_position_lt: 28.0
+    - source_model_index: 44
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: *id087
+      distance_from_position_lt: 79.8
+    - source_model_index: 11
+      source_name: double door right 03
+      movable: true
+      world_translation_lt: *id081
+      distance_from_position_lt: 92.0
+    - source_model_index: 45
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: *id088
+      distance_from_position_lt: 101.98
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id079
+      distance_from_position_lt: 150.625
 - object_id: mm9:dookscastle:object:248
   source_object_index: 248
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id125
+    - source_model_index: 11
+      source_name: double door right 03
+      movable: true
+      world_translation_lt: *id081
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 44
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: *id087
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 10
+      source_name: double door left 03
+      movable: true
+      world_translation_lt: *id080
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 45
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: *id088
+      distance_from_rotation_point_lt: 101.98
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id079
+      distance_from_rotation_point_lt: 150.625
+    nearest_movable_world_models_by_position: &id126
+    - source_model_index: 11
+      source_name: double door right 03
+      movable: true
+      world_translation_lt: *id081
+      distance_from_position_lt: 28.0
+    - source_model_index: 44
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: *id087
+      distance_from_position_lt: 79.8
+    - source_model_index: 10
+      source_name: double door left 03
+      movable: true
+      world_translation_lt: *id080
+      distance_from_position_lt: 92.0
+    - source_model_index: 45
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: *id088
+      distance_from_position_lt: 101.98
+    - source_model_index: 43
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id079
+      distance_from_position_lt: 150.625
 - object_id: mm9:dookscastle:object:249
   source_object_index: 249
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id127
+    - source_model_index: 12
+      source_name: double door left 04
+      movable: true
+      world_translation_lt: &id089
+      - 128.0
+      - 220.0
+      - 3584.0
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 13
+      source_name: double door right 04
+      movable: true
+      world_translation_lt: &id090
+      - 128.0
+      - 220.0
+      - 3520.0
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 60
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id075
+      distance_from_rotation_point_lt: 124.579
+    - source_model_index: 59
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: &id091
+      - 0.0
+      - 168.0
+      - 3552.0
+      distance_from_rotation_point_lt: 150.625
+    - source_model_index: 53
+      source_name: AITrk28
+      movable: true
+      world_translation_lt: &id092
+      - 0.0
+      - 168.0
+      - 3112.0
+      distance_from_rotation_point_lt: 518.737
+    nearest_movable_world_models_by_position: &id128
+    - source_model_index: 12
+      source_name: double door left 04
+      movable: true
+      world_translation_lt: *id089
+      distance_from_position_lt: 28.0
+    - source_model_index: 13
+      source_name: double door right 04
+      movable: true
+      world_translation_lt: *id090
+      distance_from_position_lt: 92.0
+    - source_model_index: 60
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id075
+      distance_from_position_lt: 124.579
+    - source_model_index: 59
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: *id091
+      distance_from_position_lt: 150.625
+    - source_model_index: 53
+      source_name: AITrk28
+      movable: true
+      world_translation_lt: *id092
+      distance_from_position_lt: 518.737
 - object_id: mm9:dookscastle:object:250
   source_object_index: 250
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id129
+    - source_model_index: 13
+      source_name: double door right 04
+      movable: true
+      world_translation_lt: *id090
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 12
+      source_name: double door left 04
+      movable: true
+      world_translation_lt: *id089
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 60
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id075
+      distance_from_rotation_point_lt: 124.579
+    - source_model_index: 59
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: *id091
+      distance_from_rotation_point_lt: 150.625
+    - source_model_index: 53
+      source_name: AITrk28
+      movable: true
+      world_translation_lt: *id092
+      distance_from_rotation_point_lt: 404.336
+    nearest_movable_world_models_by_position: &id130
+    - source_model_index: 13
+      source_name: double door right 04
+      movable: true
+      world_translation_lt: *id090
+      distance_from_position_lt: 28.0
+    - source_model_index: 12
+      source_name: double door left 04
+      movable: true
+      world_translation_lt: *id089
+      distance_from_position_lt: 92.0
+    - source_model_index: 60
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id075
+      distance_from_position_lt: 124.579
+    - source_model_index: 59
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: *id091
+      distance_from_position_lt: 150.625
+    - source_model_index: 53
+      source_name: AITrk28
+      movable: true
+      world_translation_lt: *id092
+      distance_from_position_lt: 404.336
 - object_id: mm9:dookscastle:object:251
   source_object_index: 251
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id131
+    - source_model_index: 14
+      source_name: double door left 05
+      movable: true
+      world_translation_lt: &id093
+      - -1024.0
+      - 220.0
+      - 3152.0
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 69
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: &id094
+      - -992.0
+      - 168.0
+      - 3152.0
+      distance_from_rotation_point_lt: 79.398
+    - source_model_index: 15
+      source_name: double door right 05
+      movable: true
+      world_translation_lt: &id095
+      - -960.0
+      - 220.0
+      - 3152.0
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 68
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: &id096
+      - -1120.0
+      - 168.0
+      - 3008.0
+      distance_from_rotation_point_lt: 167.523
+    - source_model_index: 66
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: &id097
+      - -992.0
+      - 168.0
+      - 2992.0
+      distance_from_rotation_point_lt: 178.617
+    nearest_movable_world_models_by_position: &id132
+    - source_model_index: 14
+      source_name: double door left 05
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 28.0
+    - source_model_index: 69
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 79.398
+    - source_model_index: 15
+      source_name: double door right 05
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 92.0
+    - source_model_index: 68
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 167.523
+    - source_model_index: 66
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 178.617
 - object_id: mm9:dookscastle:object:252
   source_object_index: 252
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id133
+    - source_model_index: 15
+      source_name: double door right 05
+      movable: true
+      world_translation_lt: *id095
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 69
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id094
+      distance_from_rotation_point_lt: 79.398
+    - source_model_index: 14
+      source_name: double door left 05
+      movable: true
+      world_translation_lt: *id093
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 67
+      source_name: AITrk42
+      movable: true
+      world_translation_lt: &id098
+      - -864.0
+      - 168.0
+      - 3008.0
+      distance_from_rotation_point_lt: 167.523
+    - source_model_index: 66
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id097
+      distance_from_rotation_point_lt: 178.617
+    nearest_movable_world_models_by_position: &id134
+    - source_model_index: 15
+      source_name: double door right 05
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 28.0
+    - source_model_index: 69
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 79.398
+    - source_model_index: 14
+      source_name: double door left 05
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 92.0
+    - source_model_index: 67
+      source_name: AITrk42
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 167.523
+    - source_model_index: 66
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 178.617
 - object_id: mm9:dookscastle:object:253
   source_object_index: 253
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id135
+    - source_model_index: 16
+      source_name: double door left 06
+      movable: true
+      world_translation_lt: &id099
+      - -1024.0
+      - 220.0
+      - 2320.0
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 17
+      source_name: double door right 06
+      movable: true
+      world_translation_lt: &id100
+      - -960.0
+      - 220.0
+      - 2320.0
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 65
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: &id101
+      - -992.0
+      - 168.0
+      - 2456.0
+      distance_from_rotation_point_lt: 157.48
+    - source_model_index: 75
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: &id102
+      - -1000.0
+      - 168.0
+      - 2144.0
+      distance_from_rotation_point_lt: 190.746
+    - source_model_index: 21
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: &id103
+      - -992.0
+      - 160.5
+      - 2016.0
+      distance_from_rotation_point_lt: 315.525
+    nearest_movable_world_models_by_position: &id136
+    - source_model_index: 16
+      source_name: double door left 06
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 28.0
+    - source_model_index: 17
+      source_name: double door right 06
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 92.0
+    - source_model_index: 65
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 157.48
+    - source_model_index: 75
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 190.746
+    - source_model_index: 21
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 315.525
 - object_id: mm9:dookscastle:object:254
   source_object_index: 254
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id137
+    - source_model_index: 17
+      source_name: double door right 06
+      movable: true
+      world_translation_lt: *id100
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 16
+      source_name: double door left 06
+      movable: true
+      world_translation_lt: *id099
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 65
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: *id101
+      distance_from_rotation_point_lt: 157.48
+    - source_model_index: 75
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id102
+      distance_from_rotation_point_lt: 195.714
+    - source_model_index: 21
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id103
+      distance_from_rotation_point_lt: 315.525
+    nearest_movable_world_models_by_position: &id138
+    - source_model_index: 17
+      source_name: double door right 06
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 28.0
+    - source_model_index: 16
+      source_name: double door left 06
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 92.0
+    - source_model_index: 65
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 157.48
+    - source_model_index: 75
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 195.714
+    - source_model_index: 21
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 315.525
 - object_id: mm9:dookscastle:object:255
   source_object_index: 255
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id139
+    - source_model_index: 18
+      source_name: double door left 07
+      movable: true
+      world_translation_lt: &id104
+      - -1264.0
+      - 220.0
+      - 1952.0
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 78
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: &id105
+      - -1256.0
+      - 168.0
+      - 1920.0
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 19
+      source_name: double door right 07
+      movable: true
+      world_translation_lt: &id106
+      - -1264.0
+      - 220.0
+      - 1888.0
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 79
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: &id107
+      - -1464.0
+      - 168.0
+      - 1920.0
+      distance_from_rotation_point_lt: 215.184
+    - source_model_index: 21
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id103
+      distance_from_rotation_point_lt: 280.749
+    nearest_movable_world_models_by_position: &id140
+    - source_model_index: 18
+      source_name: double door left 07
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 28.0
+    - source_model_index: 78
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 79.8
+    - source_model_index: 19
+      source_name: double door right 07
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 92.0
+    - source_model_index: 79
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 215.184
+    - source_model_index: 21
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 280.749
 - object_id: mm9:dookscastle:object:256
   source_object_index: 256
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id141
+    - source_model_index: 19
+      source_name: double door right 07
+      movable: true
+      world_translation_lt: *id106
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 78
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: *id105
+      distance_from_rotation_point_lt: 79.8
+    - source_model_index: 18
+      source_name: double door left 07
+      movable: true
+      world_translation_lt: *id104
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 79
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: *id107
+      distance_from_rotation_point_lt: 215.184
+    - source_model_index: 76
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: &id108
+      - -992.0
+      - 168.0
+      - 1920.0
+      distance_from_rotation_point_lt: 283.351
+    nearest_movable_world_models_by_position: &id142
+    - source_model_index: 19
+      source_name: double door right 07
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 28.0
+    - source_model_index: 78
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 79.8
+    - source_model_index: 18
+      source_name: double door left 07
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 92.0
+    - source_model_index: 79
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 215.184
+    - source_model_index: 76
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 283.351
 - object_id: mm9:dookscastle:object:388
   source_object_index: 388
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id143
+    - source_model_index: 85
+      source_name: Ladder0
+      movable: true
+      world_translation_lt:
+      - 3560.0
+      - -1340.0
+      - 1144.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 83
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt:
+      - 3901.0
+      - -1056.0
+      - 1725.5
+      distance_from_position_lt: 731.491
+    - source_model_index: 84
+      source_name: ClearWater0
+      movable: true
+      world_translation_lt:
+      - 3904.0
+      - -1808.0
+      - 1760.0
+      distance_from_position_lt: 846.65
+    - source_model_index: 46
+      source_name: AITrk21
+      movable: true
+      world_translation_lt:
+      - 592.0
+      - 168.0
+      - 2048.0
+      distance_from_position_lt: 3449.682
+    - source_model_index: 34
+      source_name: AITrk9
+      movable: true
+      world_translation_lt:
+      - 384.0
+      - 168.0
+      - 1104.0
+      distance_from_position_lt: 3516.055
 - object_id: mm9:dookscastle:object:435
   source_object_index: 435
   targets:
   - target_kind: trigger_volume
     target_id: mm9:dookscastle:object:435:volume
     confidence: source_object_volume
-    pos_lt: *id071
+    pos_lt: *id109
     dims_lt: *id047
 - object_id: mm9:dookscastle:object:440
   source_object_index: 440
@@ -99890,20 +101335,49 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:dookscastle:object:440:volume
     confidence: source_object_volume
-    pos_lt: *id072
+    pos_lt: *id110
     dims_lt: *id048
 - object_id: mm9:dookscastle:object:444
   source_object_index: 444
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id144
+    - source_model_index: 59
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: *id091
+      distance_from_position_lt: 600.853
+    - source_model_index: 12
+      source_name: double door left 04
+      movable: true
+      world_translation_lt: *id089
+      distance_from_position_lt: 642.607
+    - source_model_index: 13
+      source_name: double door right 04
+      movable: true
+      world_translation_lt: *id090
+      distance_from_position_lt: 694.677
+    - source_model_index: 60
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id075
+      distance_from_position_lt: 705.135
+    - source_model_index: 71
+      source_name: AITrk46
+      movable: true
+      world_translation_lt:
+      - -704.0
+      - 168.0
+      - 3536.0
+      distance_from_position_lt: 777.154
 - object_id: mm9:dookscastle:object:450
   source_object_index: 450
   targets:
   - target_kind: trigger_volume
     target_id: mm9:dookscastle:object:450:volume
     confidence: source_object_volume
-    pos_lt: *id073
+    pos_lt: *id111
     dims_lt: *id049
 scripts:
 - script_id: bookletter.scr
@@ -100265,91 +101739,142 @@ unresolved:
   source_name: doorslide
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id112
 - kind: unresolved_binding
   source_object_index: 242
   source_name: Tempbutton
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id113
+    nearest_movable_world_models_by_position: *id114
 - kind: unresolved_binding
   source_object_index: 243
   source_name: double door left 01
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id115
+    nearest_movable_world_models_by_position: *id116
 - kind: unresolved_binding
   source_object_index: 244
   source_name: double door right 01
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id117
+    nearest_movable_world_models_by_position: *id118
 - kind: unresolved_binding
   source_object_index: 245
   source_name: double door left 02
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id119
+    nearest_movable_world_models_by_position: *id120
 - kind: unresolved_binding
   source_object_index: 246
   source_name: double door right 02
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id121
+    nearest_movable_world_models_by_position: *id122
 - kind: unresolved_binding
   source_object_index: 247
   source_name: double door left 03
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id123
+    nearest_movable_world_models_by_position: *id124
 - kind: unresolved_binding
   source_object_index: 248
   source_name: double door right 03
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id125
+    nearest_movable_world_models_by_position: *id126
 - kind: unresolved_binding
   source_object_index: 249
   source_name: double door left 04
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id127
+    nearest_movable_world_models_by_position: *id128
 - kind: unresolved_binding
   source_object_index: 250
   source_name: double door right 04
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id129
+    nearest_movable_world_models_by_position: *id130
 - kind: unresolved_binding
   source_object_index: 251
   source_name: double door left 05
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id131
+    nearest_movable_world_models_by_position: *id132
 - kind: unresolved_binding
   source_object_index: 252
   source_name: double door right 05
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id133
+    nearest_movable_world_models_by_position: *id134
 - kind: unresolved_binding
   source_object_index: 253
   source_name: double door left 06
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id135
+    nearest_movable_world_models_by_position: *id136
 - kind: unresolved_binding
   source_object_index: 254
   source_name: double door right 06
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id137
+    nearest_movable_world_models_by_position: *id138
 - kind: unresolved_binding
   source_object_index: 255
   source_name: double door left 07
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id139
+    nearest_movable_world_models_by_position: *id140
 - kind: unresolved_binding
   source_object_index: 256
   source_name: double door right 07
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id141
+    nearest_movable_world_models_by_position: *id142
 - kind: unresolved_binding
   source_object_index: 388
   source_name: Ladder0
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id143
 - kind: unresolved_binding
   source_object_index: 444
   source_name: DOOK_HOSTILITY
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id144
 - kind: unresolved_target_name
   source: mechanism
   source_object_index: 241

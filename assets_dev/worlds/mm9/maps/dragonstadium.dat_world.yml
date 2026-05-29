@@ -26,7 +26,7 @@ world_info:
 classification:
   recommendation: indoor_like
   confidence: medium
-  reason: not terrain-dominated and already imported through the BLV/BSP path
+  reason: not terrain-dominated and carries meaningful helper BSP geometry
 totals:
   world_model_count: 26
   object_count: 48

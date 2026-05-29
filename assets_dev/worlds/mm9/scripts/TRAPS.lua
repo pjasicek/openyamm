@@ -24,37 +24,36 @@ script.labels["TrapsSpike"] = function(ctx)
     ctx:getParam(5, "g_nRate") -- TRAPS.scr:34
     ctx:getParam(6, "g_nReturnRate") -- TRAPS.scr:35
     ctx:getParam(7, "g_nTrapRecycle") -- TRAPS.scr:36
-    ctx:command("playsound", "sounds\\gibs\\GIB_IMPACT1.WAV") -- TRAPS.scr:38
-    ctx:command("movedir(", "X, Y, Z, g_nDist, g_nRate, TrapsSpikeMoveDone )") -- TRAPS.scr:39
-    ctx:command("set", "g_bMoving, TRUE") -- TRAPS.scr:41
+    ctx:playSound("sounds\\gibs\\GIB_IMPACT1.WAV") -- TRAPS.scr:38
+    ctx:self():moveDir("X", "Y", "Z", "g_nDist", "g_nRate", "TrapsSpikeMoveDone") -- TRAPS.scr:39
+    ctx:state().g_bMoving = true -- TRAPS.scr:41
     do return ctx:exit("") end -- TRAPS.scr:43
 end
 
 script.labels["TrapsSpikeMoveDone"] = function(ctx)
     -- TRAPS.scr:46
     -- Now move the spikes back to where they came from
-    ctx:command("movetopos(", "g_posX, g_posY, g_posZ, g_nReturnRate, TrapsMoveBackDone )") -- TRAPS.scr:49
+    ctx:self():moveToPos("g_posX", "g_posY", "g_posZ", "g_nReturnRate", "TrapsMoveBackDone") -- TRAPS.scr:49
     do return ctx:exit("") end -- TRAPS.scr:51
 end
 
 script.labels["TrapsMoveBackDone"] = function(ctx)
     -- TRAPS.scr:54
-    ctx:command("wait", "g_nTrapRecycle, TrapsMoveWaitDone") -- TRAPS.scr:56
+    ctx:wait("g_nTrapRecycle", "g_nTrapRecycle", "TrapsMoveWaitDone") -- TRAPS.scr:56
     do return ctx:exit("") end -- TRAPS.scr:58
 end
 
 script.labels["TrapsMoveWaitDone"] = function(ctx)
     -- TRAPS.scr:61
-    ctx:command("set", "g_bMoving, FALSE") -- TRAPS.scr:63
+    ctx:state().g_bMoving = false -- TRAPS.scr:63
     do return ctx:exit("") end -- TRAPS.scr:65
 end
 
 script.labels["Main"] = function(ctx)
     -- TRAPS.scr:68
     -- First Get my objects handle
-    ctx:command("getmyhandle", "g_hMyObject") -- TRAPS.scr:71
     -- Get the position of the object
-    ctx:command("getpos(", "g_hMyObject, g_posX, g_posY, g_posZ )") -- TRAPS.scr:74
+    ctx:state().g_posX, ctx:state().g_posY, ctx:state().g_posZ = ctx:self():pos() -- TRAPS.scr:74
     -- Traps we currently support
     ctx:addTrigger("Spikes", "TrapsSpike") -- TRAPS.scr:77
     do return ctx:exit("") end -- TRAPS.scr:79

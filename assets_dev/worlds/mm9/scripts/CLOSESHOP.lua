@@ -26,8 +26,8 @@ script.labels["Main"] = function(ctx)
     -- CLOSESHOP.scr:27
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("@m", "20 : 00 Close") -- CLOSESHOP.scr:32
-    ctx:command("@m", "6 : 00 Open") -- CLOSESHOP.scr:33
+    ctx:atTime(20, 0, "Close") -- CLOSESHOP.scr:32
+    ctx:atTime(6, 0, "Open") -- CLOSESHOP.scr:33
     do return ctx:exit("") end -- CLOSESHOP.scr:35
 end
 

@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/thronheim.lua
+  script_ir: ../events/thronheim.script_ir.yml
 objects:
 - object_id: mm9:thronheim:object:0
   source_object_index: 0
@@ -8175,10 +8176,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -19072.0
     - 1152.0
@@ -22064,10 +22067,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -11840.0
     - 928.0
@@ -22472,10 +22477,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -7712.0
     - 896.0
@@ -55425,6 +55432,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:34:mechanism
   object_id: mm9:thronheim:object:34
@@ -55435,6 +55443,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:35:mechanism
   object_id: mm9:thronheim:object:35
@@ -55446,6 +55455,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id001 []
 - mechanism_id: mm9:thronheim:object:42:mechanism
   object_id: mm9:thronheim:object:42
@@ -55457,6 +55467,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id002 []
 - mechanism_id: mm9:thronheim:object:43:mechanism
   object_id: mm9:thronheim:object:43
@@ -55468,6 +55479,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id003 []
 - mechanism_id: mm9:thronheim:object:176:mechanism
   object_id: mm9:thronheim:object:176
@@ -55478,6 +55490,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:178:mechanism
   object_id: mm9:thronheim:object:178
@@ -55488,6 +55501,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:179:mechanism
   object_id: mm9:thronheim:object:179
@@ -55498,6 +55512,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:180:mechanism
   object_id: mm9:thronheim:object:180
@@ -55508,6 +55523,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:181:mechanism
   object_id: mm9:thronheim:object:181
@@ -55518,6 +55534,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:187:mechanism
   object_id: mm9:thronheim:object:187
@@ -55528,6 +55545,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:188:mechanism
   object_id: mm9:thronheim:object:188
@@ -55538,6 +55556,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:189:mechanism
   object_id: mm9:thronheim:object:189
@@ -55548,6 +55567,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:190:mechanism
   object_id: mm9:thronheim:object:190
@@ -55558,6 +55578,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:191:mechanism
   object_id: mm9:thronheim:object:191
@@ -55568,6 +55589,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thronheim:object:192:mechanism
   object_id: mm9:thronheim:object:192
@@ -55578,6 +55600,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers: []
 interactions:
@@ -56722,6 +56745,146 @@ interactions:
   script_id: ''
   sends: []
 bindings:
+- object_id: mm9:thronheim:object:0
+  source_object_index: 0
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 21846
+      source_surface_count: 20793
+      roles: &id004
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 21846
+      source_surface_count: 20793
+      roles: *id004
+- object_id: mm9:thronheim:object:1
+  source_object_index: 1
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id014
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id005
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id015
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id005
+- object_id: mm9:thronheim:object:3
+  source_object_index: 3
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id016
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id006
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id017
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id006
+- object_id: mm9:thronheim:object:6
+  source_object_index: 6
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: WorldObject0
+      source_poly_count: 10
+      source_surface_count: 6
+      roles: &id007
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: WorldObject0
+      source_poly_count: 10
+      source_surface_count: 6
+      roles: *id007
 - object_id: mm9:thronheim:object:8
   source_object_index: 8
   targets:
@@ -56788,6 +56951,41 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:thronheim:object:21
     confidence: exact_source_object_index
+- object_id: mm9:thronheim:object:23
+  source_object_index: 23
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group:
+      source_model_index: 4
+      source_model_name: Ocean
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: &id008
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group:
+      source_model_index: 4
+      source_model_name: Ocean
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: *id008
 - object_id: mm9:thronheim:object:24
   source_object_index: 24
   targets:
@@ -56797,28 +56995,448 @@ bindings:
 - object_id: mm9:thronheim:object:26
   source_object_index: 26
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: InvisibleBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id009
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: InvisibleBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id009
 - object_id: mm9:thronheim:object:34
   source_object_index: 34
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_source_model_name
+    bmodel_index: 6
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id010
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_bmodel_name
+    bmodel_index: 6
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id010
 - object_id: mm9:thronheim:object:35
   source_object_index: 35
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_source_model_name
+    bmodel_index: 7
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: BlueWater0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id011
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_bmodel_name
+    bmodel_index: 7
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: BlueWater0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id011
+- object_id: mm9:thronheim:object:36
+  source_object_index: 36
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_source_model_name
+    bmodel_index: 8
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: WorldObject2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id012
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_bmodel_name
+    bmodel_index: 8
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: WorldObject2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id012
+- object_id: mm9:thronheim:object:37
+  source_object_index: 37
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_source_model_name
+    bmodel_index: 9
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: WorldObject3
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id013
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_bmodel_name
+    bmodel_index: 9
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: WorldObject3
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id013
 - object_id: mm9:thronheim:object:42
   source_object_index: 42
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id036
+    - source_model_index: 1
+      source_name: TOD_Sky0
+      movable: true
+      world_translation_lt:
+      - -1536.0
+      - 192.00003051757812
+      - 1938.0001220703125
+      distance_from_position_lt: 2390.716
+      claimed_by_exact_bindings:
+      - source_object_index: 1
+        source_name: TOD_Sky0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1536.0
+        - 144.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id014
+      - source_object_index: 1
+        source_name: TOD_Sky0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1536.0
+        - 144.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id015
+    - source_model_index: 2
+      source_name: SkyBox0
+      movable: true
+      world_translation_lt:
+      - -1536.0
+      - 192.00001525878906
+      - 1938.0001220703125
+      distance_from_position_lt: 2390.716
+      claimed_by_exact_bindings:
+      - source_object_index: 3
+        source_name: SkyBox0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1536.0
+        - 192.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id016
+      - source_object_index: 3
+        source_name: SkyBox0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1536.0
+        - 192.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id017
+    - source_model_index: 15
+      source_name: InvisibleBrush6
+      movable: true
+      world_translation_lt:
+      - -5056.0
+      - 380.0
+      - 768.0
+      distance_from_position_lt: 5055.698
+      claimed_by_exact_bindings:
+      - source_object_index: 181
+        source_name: InvisibleBrush6
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -5056.0
+        - 380.0
+        - 768.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:15
+        bmodel_index: 15
+        bmodel_name: InvisibleBrush6
+        source_model_name: InvisibleBrush6
+        source_polygon_group: &id026
+          source_model_index: 15
+          source_model_name: InvisibleBrush6
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id018
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 181
+        source_name: InvisibleBrush6
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -5056.0
+        - 380.0
+        - 768.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:15
+        bmodel_index: 15
+        bmodel_name: InvisibleBrush6
+        source_model_name: InvisibleBrush6
+        source_polygon_group: &id027
+          source_model_index: 15
+          source_model_name: InvisibleBrush6
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id018
+    - source_model_index: 17
+      source_name: InvisibleBrush8
+      movable: true
+      world_translation_lt:
+      - -4672.0
+      - 572.0
+      - -3264.0
+      distance_from_position_lt: 5712.83
+      claimed_by_exact_bindings:
+      - source_object_index: 188
+        source_name: InvisibleBrush8
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -4672.0
+        - 572.0
+        - -3264.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:17
+        bmodel_index: 17
+        bmodel_name: InvisibleBrush8
+        source_model_name: InvisibleBrush8
+        source_polygon_group: &id030
+          source_model_index: 17
+          source_model_name: InvisibleBrush8
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id019
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 188
+        source_name: InvisibleBrush8
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -4672.0
+        - 572.0
+        - -3264.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:17
+        bmodel_index: 17
+        bmodel_name: InvisibleBrush8
+        source_model_name: InvisibleBrush8
+        source_polygon_group: &id031
+          source_model_index: 17
+          source_model_name: InvisibleBrush8
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id019
+    - source_model_index: 16
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt:
+      - -4032.0
+      - 572.0
+      - -5504.0
+      distance_from_position_lt: 6861.11
+      claimed_by_exact_bindings:
+      - source_object_index: 187
+        source_name: InvisibleBrush7
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -4032.0
+        - 572.0
+        - -5504.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:16
+        bmodel_index: 16
+        bmodel_name: InvisibleBrush7
+        source_model_name: InvisibleBrush7
+        source_polygon_group: &id028
+          source_model_index: 16
+          source_model_name: InvisibleBrush7
+          source_poly_count: 13
+          source_surface_count: 6
+          roles: &id020
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 187
+        source_name: InvisibleBrush7
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -4032.0
+        - 572.0
+        - -5504.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:16
+        bmodel_index: 16
+        bmodel_name: InvisibleBrush7
+        source_model_name: InvisibleBrush7
+        source_polygon_group: &id029
+          source_model_index: 16
+          source_model_name: InvisibleBrush7
+          source_poly_count: 13
+          source_surface_count: 6
+          roles: *id020
 - object_id: mm9:thronheim:object:43
   source_object_index: 43
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_source_model_name
+    bmodel_index: 10
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id021
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_bmodel_name
+    bmodel_index: 10
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id021
 - object_id: mm9:thronheim:object:44
   source_object_index: 44
   targets:
@@ -57596,8 +58214,38 @@ bindings:
 - object_id: mm9:thronheim:object:176
   source_object_index: 176
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_source_model_name
+    bmodel_index: 11
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: InvisibleBrush2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id022
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_bmodel_name
+    bmodel_index: 11
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: InvisibleBrush2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id022
 - object_id: mm9:thronheim:object:177
   source_object_index: 177
   targets:
@@ -57607,23 +58255,125 @@ bindings:
 - object_id: mm9:thronheim:object:178
   source_object_index: 178
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_source_model_name
+    bmodel_index: 12
+    bmodel_name: InvisibleBrush3
+    source_model_name: InvisibleBrush3
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: InvisibleBrush3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id023
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_bmodel_name
+    bmodel_index: 12
+    bmodel_name: InvisibleBrush3
+    source_model_name: InvisibleBrush3
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: InvisibleBrush3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id023
 - object_id: mm9:thronheim:object:179
   source_object_index: 179
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_source_model_name
+    bmodel_index: 13
+    bmodel_name: InvisibleBrush4
+    source_model_name: InvisibleBrush4
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: InvisibleBrush4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id024
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_bmodel_name
+    bmodel_index: 13
+    bmodel_name: InvisibleBrush4
+    source_model_name: InvisibleBrush4
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: InvisibleBrush4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id024
 - object_id: mm9:thronheim:object:180
   source_object_index: 180
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_source_model_name
+    bmodel_index: 14
+    bmodel_name: InvisibleBrush5
+    source_model_name: InvisibleBrush5
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: InvisibleBrush5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id025
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_bmodel_name
+    bmodel_index: 14
+    bmodel_name: InvisibleBrush5
+    source_model_name: InvisibleBrush5
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: InvisibleBrush5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id025
 - object_id: mm9:thronheim:object:181
   source_object_index: 181
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_source_model_name
+    bmodel_index: 15
+    bmodel_name: InvisibleBrush6
+    source_model_name: InvisibleBrush6
+    source_polygon_group: *id026
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_bmodel_name
+    bmodel_index: 15
+    bmodel_name: InvisibleBrush6
+    source_model_name: InvisibleBrush6
+    source_polygon_group: *id027
 - object_id: mm9:thronheim:object:182
   source_object_index: 182
   targets:
@@ -57657,33 +58407,177 @@ bindings:
 - object_id: mm9:thronheim:object:187
   source_object_index: 187
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_source_model_name
+    bmodel_index: 16
+    bmodel_name: InvisibleBrush7
+    source_model_name: InvisibleBrush7
+    source_polygon_group: *id028
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_bmodel_name
+    bmodel_index: 16
+    bmodel_name: InvisibleBrush7
+    source_model_name: InvisibleBrush7
+    source_polygon_group: *id029
 - object_id: mm9:thronheim:object:188
   source_object_index: 188
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_source_model_name
+    bmodel_index: 17
+    bmodel_name: InvisibleBrush8
+    source_model_name: InvisibleBrush8
+    source_polygon_group: *id030
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_bmodel_name
+    bmodel_index: 17
+    bmodel_name: InvisibleBrush8
+    source_model_name: InvisibleBrush8
+    source_polygon_group: *id031
 - object_id: mm9:thronheim:object:189
   source_object_index: 189
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_source_model_name
+    bmodel_index: 18
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: PerceptionBrush0
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id032
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_bmodel_name
+    bmodel_index: 18
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: PerceptionBrush0
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id032
 - object_id: mm9:thronheim:object:190
   source_object_index: 190
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_source_model_name
+    bmodel_index: 19
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: PerceptionBrush1
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: &id033
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_bmodel_name
+    bmodel_index: 19
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: PerceptionBrush1
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: *id033
 - object_id: mm9:thronheim:object:191
   source_object_index: 191
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_source_model_name
+    bmodel_index: 20
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: PerceptionBrush2
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: &id034
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_bmodel_name
+    bmodel_index: 20
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: PerceptionBrush2
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: *id034
 - object_id: mm9:thronheim:object:192
   source_object_index: 192
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_source_model_name
+    bmodel_index: 21
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: PerceptionBrush3
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: &id035
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_bmodel_name
+    bmodel_index: 21
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: PerceptionBrush3
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: *id035
 - object_id: mm9:thronheim:object:193
   source_object_index: 193
   targets:
@@ -58001,85 +58895,12 @@ scripts:
   command_count: 25
 unresolved:
 - kind: unresolved_binding
-  source_object_index: 26
-  source_name: InvisibleBrush0
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 34
-  source_name: InvisibleBrush1
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 35
-  source_name: BlueWater0
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
   source_object_index: 42
   source_name: ScriptObject0
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 43
-  source_name: BlueWater1
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 176
-  source_name: InvisibleBrush2
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 178
-  source_name: InvisibleBrush3
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 179
-  source_name: InvisibleBrush4
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 180
-  source_name: InvisibleBrush5
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 181
-  source_name: InvisibleBrush6
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 187
-  source_name: InvisibleBrush7
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 188
-  source_name: InvisibleBrush8
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 189
-  source_name: PerceptionBrush0
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 190
-  source_name: PerceptionBrush1
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 191
-  source_name: PerceptionBrush2
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 192
-  source_name: PerceptionBrush3
-  source_class: PerceptionBrush
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id036
 validation:
   raw_object_count: 204
   event_object_count: 204
@@ -58120,4 +58941,4 @@ validation:
   trigger_count: 0
   interaction_count: 114
   script_count: 4
-  unresolved_count: 16
+  unresolved_count: 1

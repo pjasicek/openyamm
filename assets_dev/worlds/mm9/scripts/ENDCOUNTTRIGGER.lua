@@ -16,8 +16,7 @@ end
 -- in the Tomb of a Thousand Terrors
 script.labels["OnSpawn"] = function(ctx)
     -- ENDCOUNTTRIGGER.scr:18
-    ctx:command("getobjecthandle", "sSpawnCounter g_hobject") -- ENDCOUNTTRIGGER.scr:21
-    ctx:trigger("g_hobject", "Spawned") -- ENDCOUNTTRIGGER.scr:22
+    ctx:object("sSpawnCounter"):trigger("Spawned") -- ENDCOUNTTRIGGER.scr:21-22
     do return ctx:exit("FALSE") end -- ENDCOUNTTRIGGER.scr:25
 end
 

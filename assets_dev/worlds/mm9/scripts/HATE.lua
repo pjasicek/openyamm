@@ -15,9 +15,9 @@ script.labels["Main"] = function(ctx)
     -- HATE.scr:13
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("addfriend", "NPC") -- HATE.scr:18
-    ctx:command("addfriend", "Player") -- HATE.scr:19
-    ctx:command("addenemy", "Horde") -- HATE.scr:20
+    ctx:self():addFriend("NPC") -- HATE.scr:18
+    ctx:self():addFriend("Player") -- HATE.scr:19
+    ctx:self():addEnemy("Horde") -- HATE.scr:20
     mm9.gosub(script, ctx, "BaseInit") -- HATE.scr:22
     do return ctx:exit("") end -- HATE.scr:23
 end

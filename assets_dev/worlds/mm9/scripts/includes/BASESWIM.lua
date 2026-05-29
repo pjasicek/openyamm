@@ -13,13 +13,13 @@ script.includes[#script.includes + 1] = { line = 11, path = "baseCrawl.inc" }
 -- Base script for monsters that SWIM...
 script.labels["LocalShouldRunAway"] = function(ctx)
     -- BASESWIM.inc:14
-    ctx:command("g_btemp", "= FALSE") -- BASESWIM.inc:16
-    ctx:command("getstat", "g_hObject,IsInWater,g_bTemp") -- BASESWIM.inc:18
+    ctx:state().g_bTemp = false -- BASESWIM.inc:16
+    ctx:state().g_bTemp = ctx:object("g_hObject"):getStat("IsInWater") -- BASESWIM.inc:18
     if ctx:condition("g_bTemp==FALSE") then -- BASESWIM.inc:20
-        ctx:command("g_btemp", "= TRUE") -- BASESWIM.inc:21
+        ctx:state().g_bTemp = true -- BASESWIM.inc:21
         do return ctx:exit("") end -- BASESWIM.inc:22
     end -- BASESWIM.inc:23
-    ctx:command("g_btemp", "= FALSE") -- BASESWIM.inc:25
+    ctx:state().g_bTemp = false -- BASESWIM.inc:25
     do return ctx:exit("") end -- BASESWIM.inc:27
 end
 
@@ -47,13 +47,13 @@ end
 
 script.labels["BaseSwimStartup"] = function(ctx)
     -- BASESWIM.inc:59
-    ctx:command("setidle", "") -- BASESWIM.inc:61
+    ctx:self():setIdle() -- BASESWIM.inc:61
     do return ctx:exit("") end -- BASESWIM.inc:62
 end
 
 script.labels["BaseSwimInit"] = function(ctx)
     -- BASESWIM.inc:65
-    ctx:command("wait", "29,0.1,BaseSwimStartup") -- BASESWIM.inc:67
+    ctx:wait(29, 0.1, "BaseSwimStartup") -- BASESWIM.inc:67
     mm9.gosub(script, ctx, "BaseCrawlInit") -- BASESWIM.inc:68
     do return ctx:exit("") end -- BASESWIM.inc:69
 end

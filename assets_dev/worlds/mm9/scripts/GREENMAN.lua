@@ -17,7 +17,7 @@ end
 script.labels["Main"] = function(ctx)
     -- GREENMAN.scr:19
     mm9.gosub(script, ctx, "BaseWanderInit") -- GREENMAN.scr:22
-    ctx:command("ondamage", "OnDamage") -- GREENMAN.scr:23
+    ctx:onEvent("OnDamage", "OnDamage") -- GREENMAN.scr:23
     do return ctx:exit("") end -- GREENMAN.scr:25
 end
 

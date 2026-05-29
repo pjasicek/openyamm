@@ -16,6 +16,7 @@
 #include <optional>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <utility>
 
@@ -88,6 +89,41 @@ std::string luaArgumentText(lua_State *pLuaState, int index)
     return {};
 }
 
+std::string luaScriptExpressionText(lua_State *pLuaState, int index)
+{
+    if (lua_isboolean(pLuaState, index))
+    {
+        return lua_toboolean(pLuaState, index) != 0 ? "true" : "false";
+    }
+    if (lua_isnumber(pLuaState, index))
+    {
+        return realToScriptString(lua_tonumber(pLuaState, index));
+    }
+    if (lua_isstring(pLuaState, index))
+    {
+        return lua_tostring(pLuaState, index);
+    }
+
+    return {};
+}
+
+std::string luaObjectProxyHandle(lua_State *pLuaState, int index)
+{
+    if (lua_isstring(pLuaState, index))
+    {
+        return lua_tostring(pLuaState, index);
+    }
+    if (!lua_istable(pLuaState, index))
+    {
+        return {};
+    }
+
+    lua_getfield(pLuaState, index, "__mm9Handle");
+    const std::string handle = lua_isstring(pLuaState, -1) ? lua_tostring(pLuaState, -1) : "";
+    lua_pop(pLuaState, 1);
+    return handle;
+}
+
 std::optional<int32_t> luaRawKeyId(lua_State *pLuaState, int index, const Mm9ScriptRuntime &runtime)
 {
     if (lua_isinteger(pLuaState, index))
@@ -104,6 +140,10 @@ std::optional<int32_t> luaRawKeyId(lua_State *pLuaState, int index, const Mm9Scr
 
 size_t luaMetadataLine(lua_State *pLuaState, int index)
 {
+    if (index <= 0)
+    {
+        return 0;
+    }
     if (!lua_istable(pLuaState, index))
     {
         return 0;
@@ -119,6 +159,10 @@ size_t luaMetadataLine(lua_State *pLuaState, int index)
 
 std::string luaMetadataRaw(lua_State *pLuaState, int index)
 {
+    if (index <= 0)
+    {
+        return {};
+    }
     if (!lua_istable(pLuaState, index))
     {
         return {};
@@ -132,6 +176,10 @@ std::string luaMetadataRaw(lua_State *pLuaState, int index)
 
 std::string luaMetadataArgs(lua_State *pLuaState, int index)
 {
+    if (index <= 0)
+    {
+        return {};
+    }
     if (!lua_istable(pLuaState, index))
     {
         return {};
@@ -144,6 +192,8 @@ std::string luaMetadataArgs(lua_State *pLuaState, int index)
 }
 
 std::vector<std::string> splitScriptArguments(const std::string &argumentsText);
+std::vector<std::string> splitWhitespaceScriptArguments(const std::string &text);
+std::string trimCopy(const std::string &text);
 
 std::vector<std::string> luaCommandArguments(lua_State *pLuaState, int metadataIndex, int firstArgumentIndex)
 {
@@ -173,6 +223,130 @@ std::vector<std::string> luaCommandArguments(lua_State *pLuaState, int metadataI
         }
     }
     return arguments;
+}
+
+std::vector<std::string> luaServiceArguments(lua_State *pLuaState, int metadataIndex, int firstArgumentIndex)
+{
+    const std::vector<std::string> metadataArguments = splitScriptArguments(luaMetadataArgs(pLuaState, metadataIndex));
+    if (!metadataArguments.empty())
+    {
+        return metadataArguments;
+    }
+
+    std::vector<std::string> arguments;
+    const int top = lua_gettop(pLuaState);
+    for (int index = firstArgumentIndex; index <= top; ++index)
+    {
+        if (index == metadataIndex && lua_istable(pLuaState, index))
+        {
+            continue;
+        }
+        if (lua_istable(pLuaState, index))
+        {
+            continue;
+        }
+        if (lua_isstring(pLuaState, index) || lua_isnumber(pLuaState, index) || lua_isboolean(pLuaState, index))
+        {
+            arguments.push_back(luaScriptExpressionText(pLuaState, index));
+        }
+    }
+    return arguments;
+}
+
+std::vector<std::string> luaMovementArguments(lua_State *pLuaState, int metadataIndex, int firstArgumentIndex)
+{
+    const std::vector<std::string> metadataArguments = splitScriptArguments(luaMetadataArgs(pLuaState, metadataIndex));
+    if (!metadataArguments.empty())
+    {
+        return metadataArguments;
+    }
+
+    std::vector<std::string> arguments;
+    const int top = lua_gettop(pLuaState);
+    for (int index = firstArgumentIndex; index <= top; ++index)
+    {
+        if (index == metadataIndex && lua_istable(pLuaState, index))
+        {
+            continue;
+        }
+        if (lua_istable(pLuaState, index))
+        {
+            const std::string handle = luaObjectProxyHandle(pLuaState, index);
+            if (!handle.empty())
+            {
+                arguments.push_back(handle);
+            }
+            continue;
+        }
+        if (lua_isstring(pLuaState, index) || lua_isnumber(pLuaState, index) || lua_isboolean(pLuaState, index))
+        {
+            arguments.push_back(luaScriptExpressionText(pLuaState, index));
+        }
+    }
+    return arguments;
+}
+
+int luaTrailingMetadataIndex(lua_State *pLuaState)
+{
+    const int top = lua_gettop(pLuaState);
+    return top > 0 && lua_istable(pLuaState, top) ? top : 0;
+}
+
+std::string scriptArgumentsText(const std::vector<std::string> &arguments)
+{
+    std::string result;
+    for (size_t index = 0; index < arguments.size(); ++index)
+    {
+        if (index != 0)
+        {
+            result += ", ";
+        }
+        result += arguments[index];
+    }
+    return result;
+}
+
+std::vector<std::string> normalizedWaitArguments(const std::vector<std::string> &arguments)
+{
+    if (arguments.size() != 2)
+    {
+        return arguments;
+    }
+
+    const std::vector<std::string> firstArguments = splitWhitespaceScriptArguments(arguments[0]);
+    if (firstArguments.size() == 2)
+    {
+        return { firstArguments[0], firstArguments[1], arguments[1] };
+    }
+
+    const std::vector<std::string> secondArguments = splitWhitespaceScriptArguments(arguments[1]);
+    if (secondArguments.size() == 2)
+    {
+        return { arguments[0], secondArguments[0], secondArguments[1] };
+    }
+
+    return { arguments[0], arguments[0], arguments[1] };
+}
+
+std::vector<std::string> normalizedServiceArguments(const std::vector<std::string> &arguments)
+{
+    std::vector<std::string> result;
+    for (const std::string &argument : arguments)
+    {
+        const std::vector<std::string> parts = splitWhitespaceScriptArguments(argument);
+        if (parts.empty())
+        {
+            const std::string trimmed = trimCopy(argument);
+            if (!trimmed.empty())
+            {
+                result.push_back(trimmed);
+            }
+            continue;
+        }
+
+        result.insert(result.end(), parts.begin(), parts.end());
+    }
+    return result;
 }
 
 std::string trimCopy(const std::string &text)
@@ -435,6 +609,46 @@ std::optional<std::pair<std::string, int32_t>> mm9ObjectHandleParts(const std::s
     return std::make_pair(mapId, *objectIndex);
 }
 
+std::string objectNumberPropertyKeyForHandle(const std::string &handle, const std::string &propertyName)
+{
+    const std::optional<std::pair<std::string, int32_t>> parts = mm9ObjectHandleParts(handle);
+    const std::string trimmedPropertyName = trimCopy(propertyName);
+    if (!parts || trimmedPropertyName.empty())
+    {
+        return {};
+    }
+
+    return parts->first + ":" + std::to_string(parts->second) + ":" + trimmedPropertyName;
+}
+
+std::string normalizedObjectFlagName(const std::string &flagName)
+{
+    std::string flag = lowerCopy(trimCopy(flagName));
+    constexpr std::string_view prefix = "flag_";
+    if (flag.rfind(prefix, 0) == 0)
+    {
+        flag = flag.substr(prefix.size());
+    }
+    return flag;
+}
+
+bool objectFlagValue(
+    const Mm9ScriptRuntimeState &state,
+    const std::string &handle,
+    const std::string &flagName,
+    bool defaultValue)
+{
+    const std::string normalizedFlag = normalizedObjectFlagName(flagName);
+    const auto objectIterator = state.objectFlags.find(handle);
+    if (objectIterator == state.objectFlags.end())
+    {
+        return defaultValue;
+    }
+
+    const auto flagIterator = objectIterator->second.find(normalizedFlag);
+    return flagIterator != objectIterator->second.end() ? flagIterator->second != 0 : defaultValue;
+}
+
 enum class Mm9ScriptValueKind
 {
     Null,
@@ -451,6 +665,9 @@ struct Mm9ScriptValue
 };
 
 Mm9ScriptValue evaluateScriptExpression(const Mm9ScriptRuntime &runtime, const std::string &expression);
+Mm9ScriptValue scriptValueFromLua(lua_State *pLuaState, int index);
+std::string objectHandleFromLua(Mm9ScriptRuntime &runtime, lua_State *pLuaState, int index);
+void pushObjectProxy(lua_State *pLuaState, Mm9ScriptRuntime &runtime, const std::string &handle);
 
 Mm9ScriptValue nullValue()
 {
@@ -480,6 +697,19 @@ Mm9ScriptValue handleValue(const std::string &value)
     result.kind = value.empty() ? Mm9ScriptValueKind::Null : Mm9ScriptValueKind::Handle;
     result.text = value;
     return result;
+}
+
+bool looksLikeMm9HandleVariableName(const std::string &name)
+{
+    const std::string trimmed = trimCopy(name);
+    const std::string lowered = lowerCopy(trimmed);
+    if (lowered.rfind("g_h", 0) == 0)
+    {
+        return true;
+    }
+
+    return trimmed.size() > 1 && trimmed.front() == 'h'
+        && std::isupper(static_cast<unsigned char>(trimmed[1])) != 0;
 }
 
 bool scriptValueTruthy(const Mm9ScriptValue &value)
@@ -581,6 +811,30 @@ double scriptVectorDistance(const Mm9ScriptRuntimeVec3 &a, const Mm9ScriptRuntim
     const double dy = a.y - b.y;
     const double dz = a.z - b.z;
     return std::sqrt((dx * dx) + (dy * dy) + (dz * dz));
+}
+
+Mm9ScriptRuntimeVec3 objectDirectionVector(
+    const Mm9ScriptRuntimeState &state,
+    const std::string &handle,
+    const std::string &operation)
+{
+    const auto directionIterator = state.objectFaceDirs.find(handle);
+    Mm9ScriptRuntimeVec3 direction =
+        directionIterator != state.objectFaceDirs.end() ? directionIterator->second : Mm9ScriptRuntimeVec3();
+    if (operation == "rightdir")
+    {
+        return {direction.y, -direction.x, direction.z};
+    }
+    if (operation == "leftdir")
+    {
+        return {-direction.y, direction.x, direction.z};
+    }
+    if (operation == "reversedir")
+    {
+        return {-direction.x, -direction.y, -direction.z};
+    }
+
+    return direction;
 }
 
 double scheduledDelaySeconds(double minDelay, double maxDelay)
@@ -996,15 +1250,20 @@ private:
             return numberValue(*parsed);
         }
 
-        if (lowered == "hme" || lowered == "g_hobject")
+        const std::string missingHandle = "\x1f";
+        const std::string handle = m_runtime.getObjectHandleVar(trimmed, missingHandle);
+        if (handle != missingHandle)
+        {
+            return handleValue(handle);
+        }
+
+        if (lowered == "hme" || lowered == "g_hmyobject")
         {
             return handleValue(m_runtime.resolveScriptString(trimmed));
         }
-
-        const std::string handle = m_runtime.getObjectHandleVar(trimmed);
-        if (!handle.empty())
+        if (lowered == "hplayer" || lowered == "player")
         {
-            return handleValue(handle);
+            return handleValue("mm9:player");
         }
 
         const std::string scriptString = m_runtime.getScriptStrVar(trimmed);
@@ -1030,6 +1289,11 @@ private:
         if (consoleNumber != missingSentinel)
         {
             return numberValue(consoleNumber);
+        }
+
+        if (looksLikeMm9HandleVariableName(trimmed))
+        {
+            return nullValue();
         }
 
         return stringValue(trimmed);
@@ -1138,11 +1402,13 @@ void setScriptVariableFromValue(Mm9ScriptRuntime &runtime, const std::string &na
 
     if (value.kind == Mm9ScriptValueKind::Number)
     {
+        runtime.clearObjectHandleVar(name);
         runtime.setScriptNumVar(name, static_cast<int32_t>(value.number));
         runtime.setScriptStrVar(name, realToScriptString(value.number));
         return;
     }
 
+    runtime.clearObjectHandleVar(name);
     runtime.setScriptStrVar(name, value.text);
     const std::optional<int32_t> parsed = parseInt(value.text);
     if (parsed)
@@ -1225,6 +1491,7 @@ void setScriptVariableFromString(Mm9ScriptRuntime &runtime, const std::string &n
         return;
     }
 
+    runtime.clearObjectHandleVar(name);
     runtime.setScriptStrVar(name, value);
     const std::optional<int32_t> parsed = parseInt(value);
     if (parsed)
@@ -1283,10 +1550,416 @@ int luaOnRudeExit(lua_State *pLuaState)
     if (!label.empty())
     {
         pRuntime->dialogueRuntime().setOnRudeExitLabel(label);
-        pRuntime->registerCallback(label, luaMetadataLine(pLuaState, 4), "onrudeexit");
+        pRuntime->registerCallback(label, luaMetadataLine(pLuaState, 4), "OnRudeExit");
     }
 
     return 0;
+}
+
+int luaOnEvent(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string eventName = luaArgumentText(pLuaState, 2);
+    if (eventName.empty())
+    {
+        return 0;
+    }
+
+    const int top = lua_gettop(pLuaState);
+    const std::string selector = top >= 4 ? luaScriptExpressionText(pLuaState, 3) : "";
+    const std::string label = top >= 4 ? luaArgumentText(pLuaState, 4) : luaArgumentText(pLuaState, 3);
+    pRuntime->registerCallback(label, luaMetadataLine(pLuaState, top >= 5 ? 5 : 4), eventName, selector);
+    return 0;
+}
+
+int luaAddModelKey(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->registerCallback(
+        luaArgumentText(pLuaState, 3),
+        luaMetadataLine(pLuaState, 4),
+        "AddModelKey",
+        luaScriptExpressionText(pLuaState, 2));
+    return 0;
+}
+
+int luaRemoveModelKey(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->removeCallbackRegistrations("addmodelkey", luaScriptExpressionText(pLuaState, 2));
+    return 0;
+}
+
+int luaSetCallback(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->registerCallback(
+        luaArgumentText(pLuaState, 3),
+        luaMetadataLine(pLuaState, 4),
+        "SetCallBack",
+        luaScriptExpressionText(pLuaState, 2));
+    return 0;
+}
+
+int luaKillCallback(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->removeCallbackRegistrations("setcallback", luaScriptExpressionText(pLuaState, 2));
+    return 0;
+}
+
+int luaDebugOut(lua_State *pLuaState)
+{
+    return 0;
+}
+
+int luaCPrint(lua_State *pLuaState)
+{
+    return 0;
+}
+
+bool executeReadableCommand(lua_State *pLuaState, const std::string &command, int firstArgumentIndex)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments =
+        luaCommandArguments(pLuaState, metadataIndex, firstArgumentIndex);
+    return pRuntime->executeCommand(
+        command,
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
+}
+
+int luaAtTime(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    if (arguments.size() < 2)
+    {
+        recordUnresolvedKnownCommand(pLuaState, "atTime");
+        return 0;
+    }
+
+    std::string argumentsText = arguments[0] + " : " + arguments[1];
+    for (size_t index = 2; index < arguments.size(); ++index)
+    {
+        argumentsText += ", " + arguments[index];
+    }
+
+    if (!pRuntime->executeCommand("@m", argumentsText, luaMetadataLine(pLuaState, metadataIndex), {}))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "atTime");
+    }
+    return 0;
+}
+
+int luaDoCallback(lua_State *pLuaState)
+{
+    if (!executeReadableCommand(pLuaState, "DoCallback", 2))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "doCallback");
+    }
+    return 0;
+}
+
+int luaExitScript(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "ExitScript", 2);
+    return 0;
+}
+
+int luaIsTurnBased(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    if (!executeReadableCommand(pLuaState, "IsTurnBased", 2))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "isTurnBased");
+    }
+    const std::string target = luaArgumentText(pLuaState, 2);
+    lua_pushboolean(pLuaState, pRuntime->getScriptNumVar(target, 0) != 0);
+    return 1;
+}
+
+int luaGetPcVoice(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    if (arguments.empty()
+        || !pRuntime->executeCommand(
+            "GetPcVoice",
+            scriptArgumentsText(arguments),
+            luaMetadataLine(pLuaState, metadataIndex),
+            {}))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "getPcVoice");
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    lua_pushinteger(pLuaState, pRuntime->getScriptNumVar(arguments[0], 0));
+    return 1;
+}
+
+int luaGetPcLevel(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    if (arguments.size() < 2
+        || !pRuntime->executeCommand(
+            "GetPcLevel",
+            scriptArgumentsText(arguments),
+            luaMetadataLine(pLuaState, metadataIndex),
+            {}))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "getPcLevel");
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    lua_pushinteger(pLuaState, pRuntime->getScriptNumVar(arguments[1], 0));
+    return 1;
+}
+
+int luaGetGameTime(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 2;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    if (arguments.size() < 2
+        || !pRuntime->executeCommand(
+            "GetGameTime",
+            scriptArgumentsText(arguments),
+            luaMetadataLine(pLuaState, metadataIndex),
+            {}))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "getGameTime");
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 2;
+    }
+
+    lua_pushinteger(pLuaState, pRuntime->getScriptNumVar(arguments[0], 0));
+    lua_pushinteger(pLuaState, pRuntime->getScriptNumVar(arguments[1], 0));
+    return 2;
+}
+
+int luaHeal(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaMovementArguments(pLuaState, metadataIndex, 2);
+    if (!pRuntime->executeCommand(
+        "Heal",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {}))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "heal");
+    }
+    return 0;
+}
+
+int luaAddNpc(lua_State *pLuaState)
+{
+    if (!executeReadableCommand(pLuaState, "AddNPC", 2))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "addNpc");
+    }
+    return 0;
+}
+
+int luaRemoveNpc(lua_State *pLuaState)
+{
+    if (!executeReadableCommand(pLuaState, "RemoveNPC", 2))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "removeNpc");
+    }
+    return 0;
+}
+
+int luaSetParam(lua_State *pLuaState)
+{
+    if (!executeReadableCommand(pLuaState, "SetParam", 2))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "setParam");
+    }
+    return 0;
+}
+
+int luaSavePath(lua_State *pLuaState)
+{
+    if (!executeReadableCommand(pLuaState, "SavePath", 2))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "savePath");
+    }
+    return 0;
+}
+
+int luaRestorePath(lua_State *pLuaState)
+{
+    if (!executeReadableCommand(pLuaState, "RestorePath", 2))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "restorePath");
+    }
+    return 0;
+}
+
+int luaCastRay(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaMovementArguments(pLuaState, metadataIndex, 2);
+    if (!pRuntime->executeCommand(
+        "CastRay",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        luaMetadataRaw(pLuaState, metadataIndex)))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "castRay");
+    }
+    return 0;
+}
+
+int luaTraceOff(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "TraceOff", 2);
+    return 0;
+}
+
+int luaTraceOn(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "TraceOn", 2);
+    return 0;
+}
+
+int luaBreakpoint(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "Breakpoint", 2);
+    return 0;
+}
+
+int luaDontIncludeThisFile(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "Dont_Include_This_File", 2);
+    return 0;
+}
+
+int luaCacheTexture(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "CacheTexture", 2);
+    return 0;
+}
+
+int luaHidePiece(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "HidePiece", 2);
+    return 0;
+}
+
+int luaDoLetter(lua_State *pLuaState)
+{
+    executeReadableCommand(pLuaState, "DoLetter", 2);
+    return 0;
+}
+
+int luaGetContainerCount(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments =
+        luaMovementArguments(pLuaState, metadataIndex, 2);
+    if (!pRuntime->executeCommand(
+        "GetContainerCount",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {}))
+    {
+        recordUnresolvedKnownCommand(pLuaState, "getContainerCount");
+    }
+
+    const std::string target = arguments.size() >= 2 ? arguments[1] : "";
+    lua_pushinteger(pLuaState, pRuntime->getScriptNumVar(target, 0));
+    return 1;
 }
 
 int luaHasKey(lua_State *pLuaState)
@@ -1459,6 +2132,192 @@ int luaGiveGold(lua_State *pLuaState)
         : static_cast<int32_t>(scriptValueNumber(evaluateScriptExpression(*pRuntime, arguments[0])));
     pRuntime->dialogueRuntime().party().addGold(amount);
     pRuntime->recordPartyAccess("giveGold", 0, amount, true, luaMetadataLine(pLuaState, 3));
+    return 0;
+}
+
+int luaHasGold(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(luaCommandArguments(pLuaState, metadataIndex, 2));
+    if (arguments.size() < 2)
+    {
+        recordUnresolvedKnownCommand(pLuaState, "hasGold");
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    const bool executed = pRuntime->executeCommand(
+        "HasGold",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
+    lua_pushboolean(pLuaState, executed && pRuntime->getScriptNumVar(arguments[1], 0) != 0);
+    return 1;
+}
+
+int luaTakeGold(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(luaCommandArguments(pLuaState, metadataIndex, 2));
+    if (arguments.empty())
+    {
+        recordUnresolvedKnownCommand(pLuaState, "takeGold");
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    const size_t oldAccessCount = pRuntime->partyAccesses().size();
+    const bool executed = pRuntime->executeCommand(
+        "TakeGold",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
+    const std::vector<Mm9ScriptRuntimePartyAccess> &accesses = pRuntime->partyAccesses();
+    const bool tookGold = executed && accesses.size() > oldAccessCount
+        && accesses.back().operation == "takeGold" && accesses.back().result;
+    lua_pushboolean(pLuaState, tookGold);
+    return 1;
+}
+
+int luaCacheScript(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    if (arguments.empty())
+    {
+        recordUnresolvedKnownCommand(pLuaState, "cacheScript");
+        return 0;
+    }
+
+    pRuntime->executeCommand(
+        "CacheScript",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
+    return 0;
+}
+
+int luaRunScript(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    if (arguments.empty())
+    {
+        recordUnresolvedKnownCommand(pLuaState, "runScript");
+        return 0;
+    }
+
+    pRuntime->executeCommand(
+        "RunScript",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
+    return 0;
+}
+
+int luaGivePromo(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(luaCommandArguments(pLuaState, metadataIndex, 2));
+    if (arguments.size() < 2)
+    {
+        recordUnresolvedKnownCommand(pLuaState, "givePromo");
+        return 0;
+    }
+
+    pRuntime->executeCommand(
+        "GivePromo",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
+    return 0;
+}
+
+int luaGetAttribute(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(luaCommandArguments(pLuaState, metadataIndex, 2));
+    if (arguments.size() < 2)
+    {
+        recordUnresolvedKnownCommand(pLuaState, "getAttribute");
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    pRuntime->executeCommand(
+        "GetAttribute",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
+    lua_pushinteger(pLuaState, pRuntime->getScriptNumVar(arguments[1], 0));
+    return 1;
+}
+
+int luaGiveAttribute(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(luaCommandArguments(pLuaState, metadataIndex, 2));
+    if (arguments.size() < 3)
+    {
+        recordUnresolvedKnownCommand(pLuaState, "giveAttribute");
+        return 0;
+    }
+
+    pRuntime->executeCommand(
+        "GiveAttribute",
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        {});
     return 0;
 }
 
@@ -1678,6 +2537,30 @@ int luaAddTrigger(lua_State *pLuaState)
     return 0;
 }
 
+int luaRemoveTrigger(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->removeTrigger(luaArgumentText(pLuaState, 2));
+    return 0;
+}
+
+std::string triggerTargetHandleFromScriptToken(Mm9ScriptRuntime &runtime, const std::string &token)
+{
+    const std::string trimmed = trimCopy(token);
+    const std::string lowered = lowerCopy(trimmed);
+    if (lowered == "null" || lowered == "nil" || lowered == "0")
+    {
+        return {};
+    }
+
+    return runtime.resolveScriptString(trimmed);
+}
+
 int luaTrigger(lua_State *pLuaState)
 {
     Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
@@ -1686,13 +2569,23 @@ int luaTrigger(lua_State *pLuaState)
         return 0;
     }
 
-    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 3, 2);
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    if (metadataIndex == 0 && lua_gettop(pLuaState) >= 3)
+    {
+        pRuntime->dispatchTrigger(
+            objectHandleFromLua(*pRuntime, pLuaState, 2),
+            pRuntime->resolveScriptString(luaArgumentText(pLuaState, 3)),
+            0);
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
     if (arguments.size() >= 2)
     {
         pRuntime->dispatchTrigger(
-            pRuntime->resolveScriptString(arguments[0]),
+            triggerTargetHandleFromScriptToken(*pRuntime, arguments[0]),
             pRuntime->resolveScriptString(arguments[1]),
-            luaMetadataLine(pLuaState, 3));
+            luaMetadataLine(pLuaState, metadataIndex));
     }
     else
     {
@@ -1700,6 +2593,2593 @@ int luaTrigger(lua_State *pLuaState)
     }
 
     return 0;
+}
+
+int luaGetObjects(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 7, 2);
+    const size_t line = luaMetadataLine(pLuaState, 7);
+    const std::string raw = luaMetadataRaw(pLuaState, 7);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("getobjects", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("getobjects", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaArrayPut(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 5, 2);
+    const size_t line = luaMetadataLine(pLuaState, 5);
+    const std::string raw = luaMetadataRaw(pLuaState, 5);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("arrayput", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("arrayput", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaArrayGet(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 5, 2);
+    const size_t line = luaMetadataLine(pLuaState, 5);
+    const std::string raw = luaMetadataRaw(pLuaState, 5);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("arrayget", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("arrayget", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaRandomInt(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 5, 2);
+    const size_t line = luaMetadataLine(pLuaState, 5);
+    const std::string raw = luaMetadataRaw(pLuaState, 5);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("getrandomint", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("getrandomint", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaRandomFloat(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 5, 2);
+    const size_t line = luaMetadataLine(pLuaState, 5);
+    const std::string raw = luaMetadataRaw(pLuaState, 5);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("getrandomfloat", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("getrandomfloat", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaGetTime(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 3, 2);
+    const size_t line = luaMetadataLine(pLuaState, 3);
+    const std::string raw = luaMetadataRaw(pLuaState, 3);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("gettime", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("gettime", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaStateCommand(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 4, 2);
+    const size_t line = luaMetadataLine(pLuaState, 4);
+    const std::string raw = luaMetadataRaw(pLuaState, 4);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand(command, argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand(command, argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaRuntimeCommand(lua_State *pLuaState, const std::string &command, bool objectArguments)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = objectArguments
+        ? luaMovementArguments(pLuaState, metadataIndex, 2)
+        : luaServiceArguments(pLuaState, metadataIndex, 2);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand(
+        command,
+        argumentsText,
+        luaMetadataLine(pLuaState, metadataIndex),
+        luaMetadataRaw(pLuaState, metadataIndex)))
+    {
+        pRuntime->recordUnimplementedCommand(
+            command,
+            argumentsText,
+            luaMetadataLine(pLuaState, metadataIndex),
+            luaMetadataRaw(pLuaState, metadataIndex));
+    }
+    return 0;
+}
+
+int luaGetPlayerId(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "getplayerid", true);
+}
+
+int luaGetPlayerNumber(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "getplayernbr", true);
+}
+
+int luaGetPlayersWithinDist(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "getplayerswithindist", false);
+}
+
+int luaConsoleCommand(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "consolecommand", false);
+}
+
+int luaDoHighScore(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "dohighscore", false);
+}
+
+int luaClearCondition(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "clearcondition", false);
+}
+
+int luaSetCondition(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "setcondition", false);
+}
+
+int luaSetInt(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "setint", false);
+}
+
+int luaSin(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "sin", false);
+}
+
+int luaCos(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "cos", false);
+}
+
+int luaGetAngleToPos(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "getangletopos", false);
+}
+
+int luaGetRotation(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "getrotation", true);
+}
+
+int luaSetRotation(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "setrotation", true);
+}
+
+int luaCalcRotationRate(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "calcrotationrate", true);
+}
+
+int luaCheckWorldCollision(lua_State *pLuaState)
+{
+    return luaRuntimeCommand(pLuaState, "checkworldcollision", false);
+}
+
+int luaSetStateValue(lua_State *pLuaState)
+{
+    return luaStateCommand(pLuaState, "set");
+}
+
+int luaAddStateValue(lua_State *pLuaState)
+{
+    return luaStateCommand(pLuaState, "add");
+}
+
+int luaSubStateValue(lua_State *pLuaState)
+{
+    return luaStateCommand(pLuaState, "sub");
+}
+
+int luaMulStateValue(lua_State *pLuaState)
+{
+    return luaStateCommand(pLuaState, "mul");
+}
+
+int luaDivStateValue(lua_State *pLuaState)
+{
+    return luaStateCommand(pLuaState, "div");
+}
+
+int luaModStateValue(lua_State *pLuaState)
+{
+    return luaStateCommand(pLuaState, "mod");
+}
+
+double luaEvaluatedNumber(Mm9ScriptRuntime &runtime, lua_State *pLuaState, int index)
+{
+    return scriptValueNumber(evaluateScriptExpression(runtime, luaScriptExpressionText(pLuaState, index)));
+}
+
+void luaPushVec3(lua_State *pLuaState, double x, double y, double z)
+{
+    lua_pushnumber(pLuaState, x);
+    lua_pushnumber(pLuaState, y);
+    lua_pushnumber(pLuaState, z);
+}
+
+int luaVecScale(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const double x = luaEvaluatedNumber(*pRuntime, pLuaState, 2);
+    const double y = luaEvaluatedNumber(*pRuntime, pLuaState, 3);
+    const double z = luaEvaluatedNumber(*pRuntime, pLuaState, 4);
+    const double scale = luaEvaluatedNumber(*pRuntime, pLuaState, 5);
+    luaPushVec3(pLuaState, x * scale, y * scale, z * scale);
+    return 3;
+}
+
+int luaVecNorm(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const double x = luaEvaluatedNumber(*pRuntime, pLuaState, 2);
+    const double y = luaEvaluatedNumber(*pRuntime, pLuaState, 3);
+    const double z = luaEvaluatedNumber(*pRuntime, pLuaState, 4);
+    const double length = std::sqrt((x * x) + (y * y) + (z * z));
+    if (length == 0.0)
+    {
+        luaPushVec3(pLuaState, 0.0, 0.0, 0.0);
+        return 3;
+    }
+
+    luaPushVec3(pLuaState, x / length, y / length, z / length);
+    return 3;
+}
+
+int luaVecAdd(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    luaPushVec3(
+        pLuaState,
+        luaEvaluatedNumber(*pRuntime, pLuaState, 2) + luaEvaluatedNumber(*pRuntime, pLuaState, 5),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 3) + luaEvaluatedNumber(*pRuntime, pLuaState, 6),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 4) + luaEvaluatedNumber(*pRuntime, pLuaState, 7));
+    return 3;
+}
+
+int luaVecSub(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    luaPushVec3(
+        pLuaState,
+        luaEvaluatedNumber(*pRuntime, pLuaState, 2) - luaEvaluatedNumber(*pRuntime, pLuaState, 5),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 3) - luaEvaluatedNumber(*pRuntime, pLuaState, 6),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 4) - luaEvaluatedNumber(*pRuntime, pLuaState, 7));
+    return 3;
+}
+
+int luaVecCross(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const double ax = luaEvaluatedNumber(*pRuntime, pLuaState, 2);
+    const double ay = luaEvaluatedNumber(*pRuntime, pLuaState, 3);
+    const double az = luaEvaluatedNumber(*pRuntime, pLuaState, 4);
+    const double bx = luaEvaluatedNumber(*pRuntime, pLuaState, 5);
+    const double by = luaEvaluatedNumber(*pRuntime, pLuaState, 6);
+    const double bz = luaEvaluatedNumber(*pRuntime, pLuaState, 7);
+    luaPushVec3(pLuaState, (ay * bz) - (az * by), (az * bx) - (ax * bz), (ax * by) - (ay * bx));
+    return 3;
+}
+
+int luaVecDist(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const Mm9ScriptRuntimeVec3 first = {
+        luaEvaluatedNumber(*pRuntime, pLuaState, 2),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 3),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 4)
+    };
+    const Mm9ScriptRuntimeVec3 second = {
+        luaEvaluatedNumber(*pRuntime, pLuaState, 5),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 6),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 7)
+    };
+    lua_pushnumber(pLuaState, scriptVectorDistance(first, second));
+    return 1;
+}
+
+int luaVecMag(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const double x = luaEvaluatedNumber(*pRuntime, pLuaState, 2);
+    const double y = luaEvaluatedNumber(*pRuntime, pLuaState, 3);
+    const double z = luaEvaluatedNumber(*pRuntime, pLuaState, 4);
+    lua_pushnumber(pLuaState, std::sqrt((x * x) + (y * y) + (z * z)));
+    return 1;
+}
+
+int luaVecAngle(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const Mm9ScriptRuntimeVec3 first = {
+        luaEvaluatedNumber(*pRuntime, pLuaState, 2),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 3),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 4)
+    };
+    const Mm9ScriptRuntimeVec3 second = {
+        luaEvaluatedNumber(*pRuntime, pLuaState, 5),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 6),
+        luaEvaluatedNumber(*pRuntime, pLuaState, 7)
+    };
+    const double firstLength = std::sqrt((first.x * first.x) + (first.y * first.y) + (first.z * first.z));
+    const double secondLength = std::sqrt((second.x * second.x) + (second.y * second.y) + (second.z * second.z));
+    double angle = 0.0;
+    if (firstLength != 0.0 && secondLength != 0.0)
+    {
+        const double dot = (first.x * second.x) + (first.y * second.y) + (first.z * second.z);
+        const double cosine = std::max(-1.0, std::min(1.0, dot / (firstLength * secondLength)));
+        angle = std::acos(cosine) * 180.0 / std::acos(-1.0);
+    }
+
+    lua_pushnumber(pLuaState, angle);
+    return 1;
+}
+
+int luaRotateDir(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const double x = luaEvaluatedNumber(*pRuntime, pLuaState, 2);
+    const double y = luaEvaluatedNumber(*pRuntime, pLuaState, 3);
+    const double z = luaEvaluatedNumber(*pRuntime, pLuaState, 4);
+    const double radians = luaEvaluatedNumber(*pRuntime, pLuaState, 5) * std::acos(-1.0) / 180.0;
+    luaPushVec3(pLuaState, (x * std::cos(radians)) - (y * std::sin(radians)),
+        (x * std::sin(radians)) + (y * std::cos(radians)), z);
+    return 3;
+}
+
+int luaWait(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, 5, 2);
+    const size_t line = luaMetadataLine(pLuaState, 5);
+    const std::string raw = luaMetadataRaw(pLuaState, 5);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("wait", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("wait", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaAudioCommand(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaServiceArguments(pLuaState, 8, 2);
+    const size_t line = luaMetadataLine(pLuaState, 8);
+    const std::string raw = luaMetadataRaw(pLuaState, 8);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand(command, argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand(command, argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaCacheSound(lua_State *pLuaState)
+{
+    return luaAudioCommand(pLuaState, "cachesound");
+}
+
+int luaPlaySound(lua_State *pLuaState)
+{
+    return luaAudioCommand(pLuaState, "playsound");
+}
+
+int luaSpeak(lua_State *pLuaState)
+{
+    return luaAudioCommand(pLuaState, "speak");
+}
+
+int luaPlaySoundHandle(lua_State *pLuaState)
+{
+    return luaAudioCommand(pLuaState, "playsoundhandle");
+}
+
+int luaKillSound(lua_State *pLuaState)
+{
+    return luaAudioCommand(pLuaState, "killsound");
+}
+
+int luaGetSoundDuration(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    std::vector<std::string> arguments = luaServiceArguments(pLuaState, 8, 2);
+    if (arguments.size() == 2)
+    {
+        arguments.insert(arguments.begin(), "");
+    }
+
+    const size_t line = luaMetadataLine(pLuaState, 8);
+    const std::string raw = luaMetadataRaw(pLuaState, 8);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("getsoundduration", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("getsoundduration", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaIsSoundDone(lua_State *pLuaState)
+{
+    return luaAudioCommand(pLuaState, "issounddone");
+}
+
+int luaCacheClientFx(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaServiceArguments(pLuaState, 8, 2);
+    const size_t line = luaMetadataLine(pLuaState, 8);
+    const std::string raw = luaMetadataRaw(pLuaState, 8);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand("cacheclientfx", argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand("cacheclientfx", argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaObjectHandle(lua_State *pLuaState)
+{
+    lua_pushstring(pLuaState, luaObjectProxyHandle(pLuaState, 1).c_str());
+    return 1;
+}
+
+int luaObjectName(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushstring(pLuaState, "");
+        return 1;
+    }
+
+    const std::string name = pRuntime->objectNameForHandle(luaObjectProxyHandle(pLuaState, 1));
+    lua_pushstring(pLuaState, name.c_str());
+    return 1;
+}
+
+int luaObjectClassName(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushstring(pLuaState, "");
+        return 1;
+    }
+
+    const std::string className = pRuntime->objectClassNameForHandle(luaObjectProxyHandle(pLuaState, 1));
+    lua_pushstring(pLuaState, className.c_str());
+    return 1;
+}
+
+int luaObjectIsClass(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const std::string expected = lowerCopy(unquoteScriptString(luaArgumentText(pLuaState, 2)));
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const bool matches = lowerCopy(pRuntime->objectClassNameForHandle(handle)) == expected
+        || lowerCopy(pRuntime->objectNameForHandle(handle)) == expected;
+    lua_pushboolean(pLuaState, matches ? 1 : 0);
+    return 1;
+}
+
+int luaObjectIsPlayer(lua_State *pLuaState)
+{
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    lua_pushboolean(pLuaState, handle == "mm9:player" ? 1 : 0);
+    return 1;
+}
+
+int luaObjectIsActor(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    lua_pushboolean(
+        pLuaState,
+        lowerCopy(pRuntime->objectClassNameForHandle(luaObjectProxyHandle(pLuaState, 1))) == "actor" ? 1 : 0);
+    return 1;
+}
+
+int luaObjectIsAi(lua_State *pLuaState)
+{
+    return luaObjectIsActor(pLuaState);
+}
+
+int luaObjectIsActive(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto removedIterator = pRuntime->state().removedObjects.find(handle);
+    const bool active = !handle.empty() && (removedIterator == pRuntime->state().removedObjects.end()
+        || !removedIterator->second);
+    lua_pushboolean(pLuaState, active ? 1 : 0);
+    return 1;
+}
+
+int luaObjectIsVisible(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto removedIterator = pRuntime->state().removedObjects.find(handle);
+    const bool active = !handle.empty() && (removedIterator == pRuntime->state().removedObjects.end()
+        || !removedIterator->second);
+    lua_pushboolean(pLuaState, active && objectFlagValue(pRuntime->state(), handle, "visible", true) ? 1 : 0);
+    return 1;
+}
+
+int luaObjectTrigger(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const std::string message = pRuntime->resolveScriptString(luaArgumentText(pLuaState, 2));
+    pRuntime->dispatchTrigger(handle, message, 0);
+    return 0;
+}
+
+int luaObjectPos(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 3;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto positionIterator = pRuntime->state().objectPositions.find(handle);
+    const Mm9ScriptRuntimeVec3 position = positionIterator != pRuntime->state().objectPositions.end()
+        ? positionIterator->second
+        : Mm9ScriptRuntimeVec3();
+    lua_pushinteger(pLuaState, static_cast<int32_t>(position.x));
+    lua_pushinteger(pLuaState, static_cast<int32_t>(position.y));
+    lua_pushinteger(pLuaState, static_cast<int32_t>(position.z));
+    return 3;
+}
+
+int luaObjectSetPos(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    if (handle.empty())
+    {
+        return 0;
+    }
+
+    const std::string arguments = handle + ", "
+        + luaArgumentText(pLuaState, 2) + ", "
+        + luaArgumentText(pLuaState, 3) + ", "
+        + luaArgumentText(pLuaState, 4);
+    pRuntime->executeCommand("setpos", arguments, 0, "object:setPos");
+    return 0;
+}
+
+int luaObjectRotation(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 3;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto directionIterator = pRuntime->state().objectFaceDirs.find(handle);
+    const Mm9ScriptRuntimeVec3 direction = directionIterator != pRuntime->state().objectFaceDirs.end()
+        ? directionIterator->second
+        : Mm9ScriptRuntimeVec3();
+    lua_pushinteger(pLuaState, static_cast<int32_t>(direction.x));
+    lua_pushinteger(pLuaState, static_cast<int32_t>(direction.y));
+    lua_pushinteger(pLuaState, static_cast<int32_t>(direction.z));
+    return 3;
+}
+
+int luaObjectDirection(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 3;
+    }
+
+    const Mm9ScriptRuntimeVec3 direction =
+        objectDirectionVector(pRuntime->state(), luaObjectProxyHandle(pLuaState, 1), operation);
+    lua_pushnumber(pLuaState, direction.x);
+    lua_pushnumber(pLuaState, direction.y);
+    lua_pushnumber(pLuaState, direction.z);
+    return 3;
+}
+
+int luaObjectForwardDir(lua_State *pLuaState)
+{
+    return luaObjectDirection(pLuaState, "forwarddir");
+}
+
+int luaObjectReverseDir(lua_State *pLuaState)
+{
+    return luaObjectDirection(pLuaState, "reversedir");
+}
+
+int luaObjectRightDir(lua_State *pLuaState)
+{
+    return luaObjectDirection(pLuaState, "rightdir");
+}
+
+int luaObjectLeftDir(lua_State *pLuaState)
+{
+    return luaObjectDirection(pLuaState, "leftdir");
+}
+
+int luaObjectSetRotation(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    if (handle.empty())
+    {
+        return 0;
+    }
+
+    std::string arguments = handle + ", "
+        + luaArgumentText(pLuaState, 2) + ", "
+        + luaArgumentText(pLuaState, 3) + ", "
+        + luaArgumentText(pLuaState, 4);
+    if (lua_gettop(pLuaState) >= 5 && !lua_isnil(pLuaState, 5))
+    {
+        arguments += ", " + luaArgumentText(pLuaState, 5);
+    }
+
+    pRuntime->executeCommand("setrotation", arguments, 0, "object:setRotation");
+    return 0;
+}
+
+int luaObjectVelocity(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 3;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto objectIterator = pRuntime->state().objectStats.find(handle);
+    const auto statValue = [&](const std::string &name) -> int32_t
+    {
+        if (objectIterator == pRuntime->state().objectStats.end())
+        {
+            return 0;
+        }
+
+        const auto valueIterator = objectIterator->second.find(name);
+        return valueIterator != objectIterator->second.end() ? valueIterator->second : 0;
+    };
+
+    lua_pushinteger(pLuaState, statValue("VelocityX"));
+    lua_pushinteger(pLuaState, statValue("VelocityY"));
+    lua_pushinteger(pLuaState, statValue("VelocityZ"));
+    return 3;
+}
+
+int luaObjectDims(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 3;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto objectIterator = pRuntime->state().objectStats.find(handle);
+    const auto statValue = [&](const std::string &name) -> int32_t
+    {
+        if (objectIterator == pRuntime->state().objectStats.end())
+        {
+            return 0;
+        }
+
+        const auto valueIterator = objectIterator->second.find(name);
+        return valueIterator != objectIterator->second.end() ? valueIterator->second : 0;
+    };
+
+    lua_pushinteger(pLuaState, statValue("DimsX"));
+    lua_pushinteger(pLuaState, statValue("DimsY"));
+    lua_pushinteger(pLuaState, statValue("DimsZ"));
+    return 3;
+}
+
+int luaObjectMinMax(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        for (int32_t i = 0; i < 6; ++i)
+        {
+            lua_pushinteger(pLuaState, 0);
+        }
+        return 6;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto objectIterator = pRuntime->state().objectStats.find(handle);
+    const auto statValue = [&](const std::string &name) -> int32_t
+    {
+        if (objectIterator == pRuntime->state().objectStats.end())
+        {
+            return 0;
+        }
+
+        const auto valueIterator = objectIterator->second.find(name);
+        return valueIterator != objectIterator->second.end() ? valueIterator->second : 0;
+    };
+
+    lua_pushinteger(pLuaState, statValue("MinX"));
+    lua_pushinteger(pLuaState, statValue("MinY"));
+    lua_pushinteger(pLuaState, statValue("MinZ"));
+    lua_pushinteger(pLuaState, statValue("MaxX"));
+    lua_pushinteger(pLuaState, statValue("MaxY"));
+    lua_pushinteger(pLuaState, statValue("MaxZ"));
+    return 6;
+}
+
+int luaObjectSetVelocity(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    if (handle.empty())
+    {
+        return 0;
+    }
+
+    const std::string arguments = handle + ", "
+        + luaArgumentText(pLuaState, 2) + ", "
+        + luaArgumentText(pLuaState, 3) + ", "
+        + luaArgumentText(pLuaState, 4);
+    pRuntime->executeCommand("setvelocity", arguments, 0, "object:setVelocity");
+    return 0;
+}
+
+int luaObjectSetNumberProperty(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string key = objectNumberPropertyKeyForHandle(
+        luaObjectProxyHandle(pLuaState, 1),
+        luaArgumentText(pLuaState, 2));
+    if (key.empty())
+    {
+        return 0;
+    }
+
+    pRuntime->setObjectNumberPropertyForHandle(
+        luaObjectProxyHandle(pLuaState, 1),
+        luaArgumentText(pLuaState, 2),
+        static_cast<int32_t>(
+            scriptValueNumber(evaluateScriptExpression(*pRuntime, luaScriptExpressionText(pLuaState, 3)))));
+    return 0;
+}
+
+int luaObjectNumberProperty(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    lua_pushinteger(
+        pLuaState,
+        pRuntime->getObjectNumberPropertyForHandle(
+            luaObjectProxyHandle(pLuaState, 1),
+            luaArgumentText(pLuaState, 2)));
+    return 1;
+}
+
+int luaObjectSetStringProperty(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->setObjectStringPropertyForHandle(
+        luaObjectProxyHandle(pLuaState, 1),
+        luaArgumentText(pLuaState, 2),
+        luaArgumentText(pLuaState, 3));
+    return 0;
+}
+
+int luaObjectStringProperty(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushstring(pLuaState, "");
+        return 1;
+    }
+
+    const std::string value = pRuntime->getObjectStringPropertyForHandle(
+        luaObjectProxyHandle(pLuaState, 1),
+        luaArgumentText(pLuaState, 2));
+
+    lua_pushstring(pLuaState, value.c_str());
+    return 1;
+}
+
+int luaObjectSetFlag(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string flag = normalizedObjectFlagName(luaArgumentText(pLuaState, 2));
+    const bool enabled = lua_gettop(pLuaState) < 3 || lua_isnil(pLuaState, 3)
+        || lua_toboolean(pLuaState, 3) != 0;
+    const std::string command = enabled ? "setflag" : "clearflag";
+    pRuntime->executeCommand(command, luaObjectProxyHandle(pLuaState, 1) + ", " + flag, 0, "object:setFlag");
+    return 0;
+}
+
+int luaObjectFlag(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    lua_pushboolean(pLuaState, objectFlagValue(pRuntime->state(), handle, luaArgumentText(pLuaState, 2), false));
+    return 1;
+}
+
+int luaObjectGetStat(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const std::string statName = luaArgumentText(pLuaState, 2);
+    const auto objectIterator = pRuntime->state().objectStats.find(handle);
+    if (objectIterator == pRuntime->state().objectStats.end())
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const auto statIterator = objectIterator->second.find(statName);
+    lua_pushinteger(
+        pLuaState,
+        statIterator != objectIterator->second.end() ? statIterator->second : 0);
+    return 1;
+}
+
+int luaObjectSetStat(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const std::string statName = luaArgumentText(pLuaState, 2);
+    if (handle.empty() || statName.empty())
+    {
+        return 0;
+    }
+
+    const std::string value = luaScriptExpressionText(pLuaState, 3);
+    if (value.empty())
+    {
+        return 0;
+    }
+
+    pRuntime->executeCommand(
+        "setstat",
+        handle + ", " + statName + ", " + value,
+        0,
+        "object:setStat");
+    return 0;
+}
+
+int luaObjectAnimationCommand(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    if (handle.empty())
+    {
+        return 0;
+    }
+
+    if (!pRuntime->requestAnimation(handle, command, luaServiceArguments(pLuaState, 8, 2), 0))
+    {
+        pRuntime->recordUnimplementedCommand(command, {}, 0, "object animation request");
+    }
+    return 0;
+}
+
+int luaObjectPlayAnimation(lua_State *pLuaState)
+{
+    return luaObjectAnimationCommand(pLuaState, "playanim");
+}
+
+int luaObjectPlayAnimationCommand(lua_State *pLuaState)
+{
+    return luaObjectAnimationCommand(pLuaState, "playanimation");
+}
+
+int luaObjectLoopAnimation(lua_State *pLuaState)
+{
+    return luaObjectAnimationCommand(pLuaState, "loopanim");
+}
+
+int luaObjectPlayAnimSound(lua_State *pLuaState)
+{
+    return luaObjectAnimationCommand(pLuaState, "playanimsound");
+}
+
+int luaObjectSetAnimationPlaying(lua_State *pLuaState)
+{
+    return luaObjectAnimationCommand(pLuaState, "setanimplaying");
+}
+
+int luaObjectAnimationQuery(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    std::vector<std::string> arguments = {handle};
+    const std::vector<std::string> luaArguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    arguments.insert(arguments.end(), luaArguments.begin(), luaArguments.end());
+    if (!pRuntime->executeCommand(
+        command,
+        scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex),
+        luaMetadataRaw(pLuaState, metadataIndex)))
+    {
+        recordUnresolvedKnownCommand(pLuaState, command);
+    }
+
+    const std::string loweredCommand = lowerCopy(command);
+    const size_t destinationIndex = loweredCommand == "getcurranim" ? 1 : 2;
+    const std::string destination = arguments.size() > destinationIndex ? arguments[destinationIndex] : "";
+    if (loweredCommand == "getanimname")
+    {
+        const std::string value = pRuntime->getScriptStrVar(destination);
+        lua_pushstring(pLuaState, value.c_str());
+        return 1;
+    }
+
+    lua_pushinteger(pLuaState, pRuntime->getScriptNumVar(destination, 0));
+    return 1;
+}
+
+int luaObjectGetCurrentAnimation(lua_State *pLuaState)
+{
+    return luaObjectAnimationQuery(pLuaState, "GetCurrAnim");
+}
+
+int luaObjectGetAnimationName(lua_State *pLuaState)
+{
+    return luaObjectAnimationQuery(pLuaState, "GetAnimName");
+}
+
+int luaObjectGetAnimationNumber(lua_State *pLuaState)
+{
+    return luaObjectAnimationQuery(pLuaState, "GetAnimNbr");
+}
+
+int luaObjectBlendAnimation(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    if (!pRuntime->requestActorAction(
+        luaObjectProxyHandle(pLuaState, 1),
+        "blendanim",
+        luaMovementArguments(pLuaState, 8, 2),
+        0))
+    {
+        pRuntime->recordUnimplementedCommand("blendanim", {}, 0, "object actor action request");
+    }
+    return 0;
+}
+
+int luaObjectClientFxCommand(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    if (handle.empty())
+    {
+        return 0;
+    }
+
+    std::vector<std::string> arguments = luaServiceArguments(pLuaState, 8, 2);
+    if (arguments.empty())
+    {
+        pRuntime->recordUnimplementedCommand(command, {}, 0, "object client FX request");
+        return 0;
+    }
+
+    if (command == "createfx")
+    {
+        arguments.insert(arguments.begin() + 1, handle);
+    }
+    else
+    {
+        arguments.insert(arguments.begin(), handle);
+    }
+
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand(command, argumentsText, 0, "object client FX request"))
+    {
+        pRuntime->recordUnimplementedCommand(command, argumentsText, 0, "object client FX request");
+    }
+    return 0;
+}
+
+int luaObjectDoClientFx(lua_State *pLuaState)
+{
+    return luaObjectClientFxCommand(pLuaState, "doclientfx");
+}
+
+int luaObjectCreateFx(lua_State *pLuaState)
+{
+    return luaObjectClientFxCommand(pLuaState, "createfx");
+}
+
+int luaObjectSetModelFilenames(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->setObjectModelFilenames(
+        luaObjectProxyHandle(pLuaState, 1),
+        luaServiceArguments(pLuaState, 8, 2));
+    return 0;
+}
+
+int luaObjectAttachmentCommand(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    if (!pRuntime->requestAttachment(
+        luaObjectProxyHandle(pLuaState, 1),
+        command,
+        luaMovementArguments(pLuaState, 8, 2),
+        0))
+    {
+        pRuntime->recordUnimplementedCommand(command, {}, 0, "object attachment request");
+    }
+    return 0;
+}
+
+int luaObjectAttachProp(lua_State *pLuaState)
+{
+    return luaObjectAttachmentCommand(pLuaState, "attachprop");
+}
+
+int luaObjectDetachProp(lua_State *pLuaState)
+{
+    return luaObjectAttachmentCommand(pLuaState, "detachprop");
+}
+
+int luaObjectMovementCommand(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    if (handle.empty())
+    {
+        return 0;
+    }
+
+    if (!pRuntime->requestMovement(handle, command, luaMovementArguments(pLuaState, 8, 2), 0))
+    {
+        pRuntime->recordUnimplementedCommand(command, {}, 0, "object movement request");
+    }
+    return 0;
+}
+
+int luaObjectMoveToPos(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "movetopos");
+}
+
+int luaObjectRunToPos(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "runtopos");
+}
+
+int luaObjectWalkToPos(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "walktopos");
+}
+
+int luaObjectWalkTo(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "walkto");
+}
+
+int luaObjectRunTo(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "runto");
+}
+
+int luaObjectMoveDir(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "movedir");
+}
+
+int luaObjectFaceObject(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "faceobject");
+}
+
+int luaObjectFacePos(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "facepos");
+}
+
+int luaObjectStop(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "stop");
+}
+
+int luaObjectWalk(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "walk");
+}
+
+int luaObjectRun(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "run");
+}
+
+int luaObjectRotate(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "rotate");
+}
+
+int luaObjectFaceDir(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "facedir");
+}
+
+int luaObjectStrafe(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "strafe");
+}
+
+int luaObjectSetPushBack(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "setpushback");
+}
+
+int luaObjectTurnLeft(lua_State *pLuaState)
+{
+    return luaObjectMovementCommand(pLuaState, "turnleft");
+}
+
+std::string objectHandleFromLua(Mm9ScriptRuntime &runtime, lua_State *pLuaState, int index);
+
+int luaObjectSetIdle(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->setObjectIdle(luaObjectProxyHandle(pLuaState, 1));
+    return 0;
+}
+
+int luaObjectSetStuck(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->setObjectStuck(luaObjectProxyHandle(pLuaState, 1));
+    return 0;
+}
+
+int luaObjectAddRelation(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string token = luaArgumentText(pLuaState, 2);
+    if (!token.empty())
+    {
+        pRuntime->addObjectRelation(luaObjectProxyHandle(pLuaState, 1), operation, token);
+    }
+    return 0;
+}
+
+int luaObjectRemoveRelation(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string token = luaArgumentText(pLuaState, 2);
+    if (!token.empty())
+    {
+        pRuntime->removeObjectRelation(luaObjectProxyHandle(pLuaState, 1), operation, token);
+    }
+    return 0;
+}
+
+int luaObjectAddFriend(lua_State *pLuaState)
+{
+    return luaObjectAddRelation(pLuaState, "addfriend");
+}
+
+int luaObjectAddEnemy(lua_State *pLuaState)
+{
+    return luaObjectAddRelation(pLuaState, "addenemy");
+}
+
+int luaObjectRemoveFriend(lua_State *pLuaState)
+{
+    return luaObjectRemoveRelation(pLuaState, "removefriend");
+}
+
+int luaObjectRemoveEnemy(lua_State *pLuaState)
+{
+    return luaObjectRemoveRelation(pLuaState, "removeenemy");
+}
+
+int luaObjectIsFriend(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const bool isFriend = pRuntime->objectIsFriend(
+        luaObjectProxyHandle(pLuaState, 1),
+        objectHandleFromLua(*pRuntime, pLuaState, 2));
+    lua_pushboolean(pLuaState, isFriend ? 1 : 0);
+    return 1;
+}
+
+int luaObjectAiDistanceTo(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    lua_pushnumber(
+        pLuaState,
+        pRuntime->objectDistanceTo(
+            luaObjectProxyHandle(pLuaState, 1),
+            objectHandleFromLua(*pRuntime, pLuaState, 2)));
+    return 1;
+}
+
+int luaObjectAiCommand(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    if (!pRuntime->requestAi(
+        luaObjectProxyHandle(pLuaState, 1),
+        operation,
+        luaMovementArguments(pLuaState, 8, 2),
+        0))
+    {
+        pRuntime->recordUnimplementedCommand(operation, {}, 0, "object AI request");
+    }
+    return 0;
+}
+
+int luaObjectAttack(lua_State *pLuaState)
+{
+    return luaObjectAiCommand(pLuaState, "attack");
+}
+
+int luaObjectRangeAttack(lua_State *pLuaState)
+{
+    return luaObjectAiCommand(pLuaState, "rangeattack");
+}
+
+int luaObjectFindTargets(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int metadataIndex = luaTrailingMetadataIndex(pLuaState);
+    const std::vector<std::string> arguments = luaCommandArguments(pLuaState, metadataIndex, 2);
+    if (!pRuntime->executeCommand("FindTargets", scriptArgumentsText(arguments),
+        luaMetadataLine(pLuaState, metadataIndex), {}))
+    {
+        pRuntime->recordUnimplementedCommand("findtargets", scriptArgumentsText(arguments), 0,
+            "object AI request");
+    }
+    return 0;
+}
+
+int luaObjectFindHidingPlace(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, luaObjectProxyHandle(pLuaState, 1));
+    return 1;
+}
+
+int luaObjectActorActionCommand(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    if (!pRuntime->requestActorAction(
+        luaObjectProxyHandle(pLuaState, 1),
+        operation,
+        luaMovementArguments(pLuaState, 8, 2),
+        0))
+    {
+        pRuntime->recordUnimplementedCommand(operation, {}, 0, "object actor action request");
+    }
+    return 0;
+}
+
+int luaObjectSetCrouch(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const int32_t value = scriptValueTruthy(
+        evaluateScriptExpression(*pRuntime, luaScriptExpressionText(pLuaState, 2))) ? 1 : 0;
+    pRuntime->executeCommand(
+        "setstat",
+        luaObjectProxyHandle(pLuaState, 1) + ", Crouch, " + std::to_string(value),
+        0,
+        "object:setCrouch");
+    return 0;
+}
+
+int luaObjectSetTargetLostTime(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->executeCommand(
+        "setstat",
+        luaObjectProxyHandle(pLuaState, 1) + ", TargetLostTime, " + luaScriptExpressionText(pLuaState, 2),
+        0,
+        "object:setTargetLostTime");
+    return 0;
+}
+
+int luaObjectLiquidContainer(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, luaObjectProxyHandle(pLuaState, 1));
+    return 1;
+}
+
+int luaObjectContainer(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, luaObjectProxyHandle(pLuaState, 1));
+    return 1;
+}
+
+int luaObjectSocketPos(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        lua_pushinteger(pLuaState, 0);
+        return 3;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    const auto positionIterator = pRuntime->state().objectPositions.find(handle);
+    const Mm9ScriptRuntimeVec3 position = positionIterator != pRuntime->state().objectPositions.end()
+        ? positionIterator->second
+        : Mm9ScriptRuntimeVec3();
+    lua_pushnumber(pLuaState, position.x);
+    lua_pushnumber(pLuaState, position.y);
+    lua_pushnumber(pLuaState, position.z);
+    return 3;
+}
+
+int luaObjectJump(lua_State *pLuaState)
+{
+    return luaObjectActorActionCommand(pLuaState, "jump");
+}
+
+int luaObjectTaunt(lua_State *pLuaState)
+{
+    return luaObjectActorActionCommand(pLuaState, "taunt");
+}
+
+int luaObjectAware(lua_State *pLuaState)
+{
+    return luaObjectActorActionCommand(pLuaState, "aware");
+}
+
+int luaObjectLaunch(lua_State *pLuaState)
+{
+    return luaObjectActorActionCommand(pLuaState, "launch");
+}
+
+int luaObjectConverse(lua_State *pLuaState)
+{
+    return luaObjectActorActionCommand(pLuaState, "converse");
+}
+
+int luaObjectResumeWait(lua_State *pLuaState)
+{
+    return luaObjectActorActionCommand(pLuaState, "resumewait");
+}
+
+int luaObjectPauseWait(lua_State *pLuaState)
+{
+    return luaObjectActorActionCommand(pLuaState, "pausewait");
+}
+
+int luaObjectAiQuery(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    lua_pushboolean(
+        pLuaState,
+        pRuntime->objectAiQuery(luaObjectProxyHandle(pLuaState, 1), operation) ? 1 : 0);
+    return 1;
+}
+
+int luaObjectRuntimeQuery(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    bool result = false;
+    if (operation == "ismoving")
+    {
+        const auto stateIterator = pRuntime->state().objectAiStates.find(handle);
+        result = stateIterator != pRuntime->state().objectAiStates.end()
+            && stateIterator->second != "idle"
+            && stateIterator->second != "stopped";
+        result = result || std::any_of(
+            pRuntime->state().movementRequests.begin(),
+            pRuntime->state().movementRequests.end(),
+            [&](const Mm9ScriptRuntimeMovementRequest &request)
+            {
+                return request.objectHandle == handle;
+            });
+    }
+    else if (operation == "isonground")
+    {
+        const auto objectIterator = pRuntime->state().objectStats.find(handle);
+        if (objectIterator != pRuntime->state().objectStats.end())
+        {
+            const auto groundedIterator = std::find_if(
+                objectIterator->second.begin(),
+                objectIterator->second.end(),
+                [](const std::pair<const std::string, int32_t> &stat)
+                {
+                    return lowerCopy(stat.first) == "grounded";
+                });
+            const auto onGroundIterator = std::find_if(
+                objectIterator->second.begin(),
+                objectIterator->second.end(),
+                [](const std::pair<const std::string, int32_t> &stat)
+                {
+                    return lowerCopy(stat.first) == "onground";
+                });
+            result = groundedIterator != objectIterator->second.end() && groundedIterator->second != 0;
+            result = result || (onGroundIterator != objectIterator->second.end() && onGroundIterator->second != 0);
+        }
+    }
+    else if (operation == "isdead")
+    {
+        const auto aiIterator = pRuntime->state().objectAiStates.find(handle);
+        const auto removedIterator = pRuntime->state().removedObjects.find(handle);
+        result = (aiIterator != pRuntime->state().objectAiStates.end() && aiIterator->second == "dead")
+            || (removedIterator != pRuntime->state().removedObjects.end() && removedIterator->second);
+    }
+    else if (operation == "canreachtarget")
+    {
+        const std::string targetHandle = pRuntime->objectTargetHandle(handle);
+        result = !targetHandle.empty();
+    }
+    else if (operation == "isworldobject")
+    {
+        result = handle != "mm9:player" && !handle.empty();
+    }
+
+    lua_pushboolean(pLuaState, result ? 1 : 0);
+    return 1;
+}
+
+int luaObjectRuntimeTargetQuery(lua_State *pLuaState, const std::string &operation)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushboolean(pLuaState, 0);
+        return 1;
+    }
+
+    const std::string targetHandle = objectHandleFromLua(*pRuntime, pLuaState, 2);
+    bool result = false;
+    if (operation == "canreachobject" || operation == "isfacing")
+    {
+        result = !targetHandle.empty();
+    }
+    else if (operation == "isclearshot")
+    {
+        const auto removedIterator = pRuntime->state().removedObjects.find(targetHandle);
+        result = !targetHandle.empty()
+            && (removedIterator == pRuntime->state().removedObjects.end() || !removedIterator->second);
+    }
+
+    lua_pushboolean(pLuaState, result ? 1 : 0);
+    if (operation == "isclearshot")
+    {
+        lua_pushnil(pLuaState);
+        return 2;
+    }
+    return 1;
+}
+
+int luaObjectCanAttack(lua_State *pLuaState)
+{
+    return luaObjectAiQuery(pLuaState, "canattack");
+}
+
+int luaObjectCanRangeAttack(lua_State *pLuaState)
+{
+    return luaObjectAiQuery(pLuaState, "canrangeattack");
+}
+
+int luaObjectHasRangeAttack(lua_State *pLuaState)
+{
+    return luaObjectAiQuery(pLuaState, "hasrangeattack");
+}
+
+int luaObjectIsTargetInRange(lua_State *pLuaState)
+{
+    return luaObjectAiQuery(pLuaState, "istargetinrange");
+}
+
+int luaObjectIsAttacking(lua_State *pLuaState)
+{
+    return luaObjectAiQuery(pLuaState, "isattacking");
+}
+
+int luaObjectIsMoving(lua_State *pLuaState)
+{
+    return luaObjectRuntimeQuery(pLuaState, "ismoving");
+}
+
+int luaObjectIsOnGround(lua_State *pLuaState)
+{
+    return luaObjectRuntimeQuery(pLuaState, "isonground");
+}
+
+int luaObjectIsDead(lua_State *pLuaState)
+{
+    return luaObjectRuntimeQuery(pLuaState, "isdead");
+}
+
+int luaObjectCanReachTarget(lua_State *pLuaState)
+{
+    return luaObjectRuntimeQuery(pLuaState, "canreachtarget");
+}
+
+int luaObjectCanReachObject(lua_State *pLuaState)
+{
+    return luaObjectRuntimeTargetQuery(pLuaState, "canreachobject");
+}
+
+int luaObjectIsFacing(lua_State *pLuaState)
+{
+    return luaObjectRuntimeTargetQuery(pLuaState, "isfacing");
+}
+
+int luaObjectShouldRunAwayFrom(lua_State *pLuaState)
+{
+    return luaObjectRuntimeTargetQuery(pLuaState, "shouldrunaway");
+}
+
+int luaObjectIsClearShot(lua_State *pLuaState)
+{
+    return luaObjectRuntimeTargetQuery(pLuaState, "isclearshot");
+}
+
+int luaObjectIsWorldObject(lua_State *pLuaState)
+{
+    return luaObjectRuntimeQuery(pLuaState, "isworldobject");
+}
+
+int luaObjectIsFear(lua_State *pLuaState)
+{
+    return luaObjectRuntimeQuery(pLuaState, "isfear");
+}
+
+int luaObjectIsInNoRunZone(lua_State *pLuaState)
+{
+    return luaObjectRuntimeQuery(pLuaState, "isinnorunzone");
+}
+
+int luaObjectSendAlert(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    std::vector<std::string> arguments;
+    if (lua_gettop(pLuaState) >= 2)
+    {
+        if (lua_isnil(pLuaState, 2))
+        {
+            arguments.push_back("NULL");
+        }
+        else if (lua_istable(pLuaState, 2))
+        {
+            arguments.push_back(luaObjectProxyHandle(pLuaState, 2));
+        }
+        else
+        {
+            arguments.push_back(luaScriptExpressionText(pLuaState, 2));
+        }
+    }
+
+    if (!pRuntime->requestAi(luaObjectProxyHandle(pLuaState, 1), "sendalert", arguments, 0))
+    {
+        pRuntime->recordUnimplementedCommand("sendalert", scriptArgumentsText(arguments), 0, "object AI request");
+    }
+    return 0;
+}
+
+int luaObjectHelp(lua_State *pLuaState)
+{
+    return luaObjectAiCommand(pLuaState, "help");
+}
+
+int luaObjectEstimateRangeAttackHit(lua_State *pLuaState)
+{
+    return luaObjectAiCommand(pLuaState, "estimaterangeattackhit");
+}
+
+int luaObjectLand(lua_State *pLuaState)
+{
+    return luaObjectAiCommand(pLuaState, "land");
+}
+
+int luaPresentationCommand(lua_State *pLuaState, const std::string &command)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::vector<std::string> arguments = luaServiceArguments(pLuaState, 8, 2);
+    const size_t line = luaMetadataLine(pLuaState, 8);
+    const std::string raw = luaMetadataRaw(pLuaState, 8);
+    const std::string argumentsText = scriptArgumentsText(arguments);
+    if (!pRuntime->executeCommand(command, argumentsText, line, raw))
+    {
+        pRuntime->recordUnimplementedCommand(command, argumentsText, line, raw);
+    }
+    return 0;
+}
+
+int luaScreenFadeOut(lua_State *pLuaState)
+{
+    return luaPresentationCommand(pLuaState, "screenfadeout");
+}
+
+int luaScreenFadeIn(lua_State *pLuaState)
+{
+    return luaPresentationCommand(pLuaState, "screenfadein");
+}
+
+int luaLetterBox(lua_State *pLuaState)
+{
+    return luaPresentationCommand(pLuaState, "letterbox");
+}
+
+int luaRolloverText(lua_State *pLuaState)
+{
+    return luaPresentationCommand(pLuaState, "rollovertext");
+}
+
+std::string objectTargetHandleFromLua(Mm9ScriptRuntime &runtime, lua_State *pLuaState, int index)
+{
+    const Mm9ScriptValue value = scriptValueFromLua(pLuaState, index);
+    if (value.kind == Mm9ScriptValueKind::Null)
+    {
+        return {};
+    }
+    if (value.kind == Mm9ScriptValueKind::Handle)
+    {
+        return value.text;
+    }
+    if (value.kind == Mm9ScriptValueKind::Number)
+    {
+        return value.number == 0.0 ? std::string() : value.text;
+    }
+
+    const std::string lowered = lowerCopy(trimCopy(value.text));
+    if (lowered == "null" || lowered == "nil" || lowered == "0")
+    {
+        return {};
+    }
+
+    return runtime.resolveScriptString(value.text);
+}
+
+std::string objectHandleFromLua(Mm9ScriptRuntime &runtime, lua_State *pLuaState, int index)
+{
+    const Mm9ScriptValue value = scriptValueFromLua(pLuaState, index);
+    if (value.kind == Mm9ScriptValueKind::Null)
+    {
+        return {};
+    }
+    if (value.kind == Mm9ScriptValueKind::Handle)
+    {
+        return value.text;
+    }
+    if (value.kind == Mm9ScriptValueKind::Number && value.number == 0.0)
+    {
+        return {};
+    }
+    if (value.kind == Mm9ScriptValueKind::String)
+    {
+        const std::string lowered = lowerCopy(trimCopy(value.text));
+        if (lowered == "null" || lowered == "nil" || lowered == "0")
+        {
+            return {};
+        }
+    }
+
+    return runtime.resolveScriptString(value.text);
+}
+
+int luaObjectTarget(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    const std::string targetHandle = pRuntime->objectTargetHandle(luaObjectProxyHandle(pLuaState, 1));
+    if (targetHandle.empty())
+    {
+        lua_pushnil(pLuaState);
+    }
+    else
+    {
+        pushObjectProxy(pLuaState, *pRuntime, targetHandle);
+    }
+    return 1;
+}
+
+int luaObjectSetTarget(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string objectHandle = luaObjectProxyHandle(pLuaState, 1);
+    pRuntime->setObjectTargetHandle(objectHandle, objectTargetHandleFromLua(*pRuntime, pLuaState, 2));
+    return 0;
+}
+
+int luaObjectLink(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->createObjectLink(
+        luaObjectProxyHandle(pLuaState, 1),
+        objectHandleFromLua(*pRuntime, pLuaState, 2));
+    return 0;
+}
+
+int luaObjectUnlink(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    pRuntime->breakObjectLink(
+        luaObjectProxyHandle(pLuaState, 1),
+        objectHandleFromLua(*pRuntime, pLuaState, 2));
+    return 0;
+}
+
+int luaObjectLinks(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_newtable(pLuaState);
+        return 1;
+    }
+
+    const std::vector<std::string> linkedHandles =
+        pRuntime->objectLinkedHandles(luaObjectProxyHandle(pLuaState, 1));
+    lua_newtable(pLuaState);
+    int32_t luaIndex = 1;
+    for (const std::string &linkedHandle : linkedHandles)
+    {
+        pushObjectProxy(pLuaState, *pRuntime, linkedHandle);
+        lua_rawseti(pLuaState, -2, luaIndex);
+        ++luaIndex;
+    }
+    return 1;
+}
+
+int luaObjectDistanceTo(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushinteger(pLuaState, 0);
+        return 1;
+    }
+
+    const std::string sourceHandle = luaObjectProxyHandle(pLuaState, 1);
+    const std::string targetHandle = objectHandleFromLua(*pRuntime, pLuaState, 2);
+    const auto sourcePositionIterator = pRuntime->state().objectPositions.find(sourceHandle);
+    const auto targetPositionIterator = pRuntime->state().objectPositions.find(targetHandle);
+    const Mm9ScriptRuntimeVec3 sourcePosition =
+        sourcePositionIterator != pRuntime->state().objectPositions.end()
+            ? sourcePositionIterator->second
+            : Mm9ScriptRuntimeVec3();
+    const Mm9ScriptRuntimeVec3 targetPosition =
+        targetPositionIterator != pRuntime->state().objectPositions.end()
+            ? targetPositionIterator->second
+            : Mm9ScriptRuntimeVec3();
+    lua_pushnumber(pLuaState, scriptVectorDistance(sourcePosition, targetPosition));
+    return 1;
+}
+
+int luaObjectRemove(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string handle = luaObjectProxyHandle(pLuaState, 1);
+    if (handle.empty())
+    {
+        return 0;
+    }
+
+    pRuntime->executeCommand("removeobject", handle, 0, "object:remove");
+    return 0;
+}
+
+int luaObjectDamage(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    if (!pRuntime->damageObject(
+        luaObjectProxyHandle(pLuaState, 1),
+        luaMovementArguments(pLuaState, 8, 2),
+        0))
+    {
+        pRuntime->recordUnimplementedCommand("damage", {}, 0, "object damage request");
+    }
+    return 0;
+}
+
+int luaObjectDie(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    if (!pRuntime->killObject(luaObjectProxyHandle(pLuaState, 1)))
+    {
+        pRuntime->recordUnimplementedCommand("die", {}, 0, "object death request");
+    }
+    return 0;
+}
+
+void pushObjectProxyMethod(lua_State *pLuaState, Mm9ScriptRuntime &runtime, const char *pName, lua_CFunction function)
+{
+    lua_pushlightuserdata(pLuaState, &runtime);
+    lua_pushcclosure(pLuaState, function, 1);
+    lua_setfield(pLuaState, -2, pName);
+}
+
+void pushObjectProxy(lua_State *pLuaState, Mm9ScriptRuntime &runtime, const std::string &handle)
+{
+    lua_newtable(pLuaState);
+    lua_pushstring(pLuaState, handle.c_str());
+    lua_setfield(pLuaState, -2, "__mm9Handle");
+    pushObjectProxyMethod(pLuaState, runtime, "handle", luaObjectHandle);
+    pushObjectProxyMethod(pLuaState, runtime, "name", luaObjectName);
+    pushObjectProxyMethod(pLuaState, runtime, "className", luaObjectClassName);
+    pushObjectProxyMethod(pLuaState, runtime, "isClass", luaObjectIsClass);
+    pushObjectProxyMethod(pLuaState, runtime, "isPlayer", luaObjectIsPlayer);
+    pushObjectProxyMethod(pLuaState, runtime, "isActor", luaObjectIsActor);
+    pushObjectProxyMethod(pLuaState, runtime, "isAi", luaObjectIsAi);
+    pushObjectProxyMethod(pLuaState, runtime, "isActive", luaObjectIsActive);
+    pushObjectProxyMethod(pLuaState, runtime, "isVisible", luaObjectIsVisible);
+    pushObjectProxyMethod(pLuaState, runtime, "trigger", luaObjectTrigger);
+    pushObjectProxyMethod(pLuaState, runtime, "pos", luaObjectPos);
+    pushObjectProxyMethod(pLuaState, runtime, "setPos", luaObjectSetPos);
+    pushObjectProxyMethod(pLuaState, runtime, "rotation", luaObjectRotation);
+    pushObjectProxyMethod(pLuaState, runtime, "setRotation", luaObjectSetRotation);
+    pushObjectProxyMethod(pLuaState, runtime, "forwardDir", luaObjectForwardDir);
+    pushObjectProxyMethod(pLuaState, runtime, "reverseDir", luaObjectReverseDir);
+    pushObjectProxyMethod(pLuaState, runtime, "rightDir", luaObjectRightDir);
+    pushObjectProxyMethod(pLuaState, runtime, "leftDir", luaObjectLeftDir);
+    pushObjectProxyMethod(pLuaState, runtime, "velocity", luaObjectVelocity);
+    pushObjectProxyMethod(pLuaState, runtime, "dims", luaObjectDims);
+    pushObjectProxyMethod(pLuaState, runtime, "minMax", luaObjectMinMax);
+    pushObjectProxyMethod(pLuaState, runtime, "setVelocity", luaObjectSetVelocity);
+    pushObjectProxyMethod(pLuaState, runtime, "setNumberProperty", luaObjectSetNumberProperty);
+    pushObjectProxyMethod(pLuaState, runtime, "numberProperty", luaObjectNumberProperty);
+    pushObjectProxyMethod(pLuaState, runtime, "setStringProperty", luaObjectSetStringProperty);
+    pushObjectProxyMethod(pLuaState, runtime, "stringProperty", luaObjectStringProperty);
+    pushObjectProxyMethod(pLuaState, runtime, "setFlag", luaObjectSetFlag);
+    pushObjectProxyMethod(pLuaState, runtime, "flag", luaObjectFlag);
+    pushObjectProxyMethod(pLuaState, runtime, "getStat", luaObjectGetStat);
+    pushObjectProxyMethod(pLuaState, runtime, "setStat", luaObjectSetStat);
+    pushObjectProxyMethod(pLuaState, runtime, "setCrouch", luaObjectSetCrouch);
+    pushObjectProxyMethod(pLuaState, runtime, "setTargetLostTime", luaObjectSetTargetLostTime);
+    pushObjectProxyMethod(pLuaState, runtime, "liquidContainer", luaObjectLiquidContainer);
+    pushObjectProxyMethod(pLuaState, runtime, "container", luaObjectContainer);
+    pushObjectProxyMethod(pLuaState, runtime, "socketPos", luaObjectSocketPos);
+    pushObjectProxyMethod(pLuaState, runtime, "playAnimation", luaObjectPlayAnimation);
+    pushObjectProxyMethod(pLuaState, runtime, "playAnimationCommand", luaObjectPlayAnimationCommand);
+    pushObjectProxyMethod(pLuaState, runtime, "loopAnimation", luaObjectLoopAnimation);
+    pushObjectProxyMethod(pLuaState, runtime, "playAnimSound", luaObjectPlayAnimSound);
+    pushObjectProxyMethod(pLuaState, runtime, "setAnimationPlaying", luaObjectSetAnimationPlaying);
+    pushObjectProxyMethod(pLuaState, runtime, "getCurrentAnimation", luaObjectGetCurrentAnimation);
+    pushObjectProxyMethod(pLuaState, runtime, "getAnimationName", luaObjectGetAnimationName);
+    pushObjectProxyMethod(pLuaState, runtime, "getAnimationNumber", luaObjectGetAnimationNumber);
+    pushObjectProxyMethod(pLuaState, runtime, "blendAnimation", luaObjectBlendAnimation);
+    pushObjectProxyMethod(pLuaState, runtime, "doClientFx", luaObjectDoClientFx);
+    pushObjectProxyMethod(pLuaState, runtime, "createFx", luaObjectCreateFx);
+    pushObjectProxyMethod(pLuaState, runtime, "setModelFilenames", luaObjectSetModelFilenames);
+    pushObjectProxyMethod(pLuaState, runtime, "attachProp", luaObjectAttachProp);
+    pushObjectProxyMethod(pLuaState, runtime, "detachProp", luaObjectDetachProp);
+    pushObjectProxyMethod(pLuaState, runtime, "moveToPos", luaObjectMoveToPos);
+    pushObjectProxyMethod(pLuaState, runtime, "runToPos", luaObjectRunToPos);
+    pushObjectProxyMethod(pLuaState, runtime, "walkToPos", luaObjectWalkToPos);
+    pushObjectProxyMethod(pLuaState, runtime, "walkTo", luaObjectWalkTo);
+    pushObjectProxyMethod(pLuaState, runtime, "runTo", luaObjectRunTo);
+    pushObjectProxyMethod(pLuaState, runtime, "moveDir", luaObjectMoveDir);
+    pushObjectProxyMethod(pLuaState, runtime, "faceObject", luaObjectFaceObject);
+    pushObjectProxyMethod(pLuaState, runtime, "facePos", luaObjectFacePos);
+    pushObjectProxyMethod(pLuaState, runtime, "stop", luaObjectStop);
+    pushObjectProxyMethod(pLuaState, runtime, "walk", luaObjectWalk);
+    pushObjectProxyMethod(pLuaState, runtime, "run", luaObjectRun);
+    pushObjectProxyMethod(pLuaState, runtime, "rotate", luaObjectRotate);
+    pushObjectProxyMethod(pLuaState, runtime, "faceDir", luaObjectFaceDir);
+    pushObjectProxyMethod(pLuaState, runtime, "strafe", luaObjectStrafe);
+    pushObjectProxyMethod(pLuaState, runtime, "setPushBack", luaObjectSetPushBack);
+    pushObjectProxyMethod(pLuaState, runtime, "turnLeft", luaObjectTurnLeft);
+    pushObjectProxyMethod(pLuaState, runtime, "setIdle", luaObjectSetIdle);
+    pushObjectProxyMethod(pLuaState, runtime, "setStuck", luaObjectSetStuck);
+    pushObjectProxyMethod(pLuaState, runtime, "addFriend", luaObjectAddFriend);
+    pushObjectProxyMethod(pLuaState, runtime, "addEnemy", luaObjectAddEnemy);
+    pushObjectProxyMethod(pLuaState, runtime, "removeFriend", luaObjectRemoveFriend);
+    pushObjectProxyMethod(pLuaState, runtime, "removeEnemy", luaObjectRemoveEnemy);
+    pushObjectProxyMethod(pLuaState, runtime, "isFriend", luaObjectIsFriend);
+    pushObjectProxyMethod(pLuaState, runtime, "aiDistanceTo", luaObjectAiDistanceTo);
+    pushObjectProxyMethod(pLuaState, runtime, "sendAlert", luaObjectSendAlert);
+    pushObjectProxyMethod(pLuaState, runtime, "attack", luaObjectAttack);
+    pushObjectProxyMethod(pLuaState, runtime, "rangeAttack", luaObjectRangeAttack);
+    pushObjectProxyMethod(pLuaState, runtime, "findTargets", luaObjectFindTargets);
+    pushObjectProxyMethod(pLuaState, runtime, "findHidingPlace", luaObjectFindHidingPlace);
+    pushObjectProxyMethod(pLuaState, runtime, "jump", luaObjectJump);
+    pushObjectProxyMethod(pLuaState, runtime, "taunt", luaObjectTaunt);
+    pushObjectProxyMethod(pLuaState, runtime, "aware", luaObjectAware);
+    pushObjectProxyMethod(pLuaState, runtime, "launch", luaObjectLaunch);
+    pushObjectProxyMethod(pLuaState, runtime, "converse", luaObjectConverse);
+    pushObjectProxyMethod(pLuaState, runtime, "resumeWait", luaObjectResumeWait);
+    pushObjectProxyMethod(pLuaState, runtime, "pauseWait", luaObjectPauseWait);
+    pushObjectProxyMethod(pLuaState, runtime, "canAttack", luaObjectCanAttack);
+    pushObjectProxyMethod(pLuaState, runtime, "canRangeAttack", luaObjectCanRangeAttack);
+    pushObjectProxyMethod(pLuaState, runtime, "hasRangeAttack", luaObjectHasRangeAttack);
+    pushObjectProxyMethod(pLuaState, runtime, "isTargetInRange", luaObjectIsTargetInRange);
+    pushObjectProxyMethod(pLuaState, runtime, "isAttacking", luaObjectIsAttacking);
+    pushObjectProxyMethod(pLuaState, runtime, "isMoving", luaObjectIsMoving);
+    pushObjectProxyMethod(pLuaState, runtime, "isOnGround", luaObjectIsOnGround);
+    pushObjectProxyMethod(pLuaState, runtime, "isDead", luaObjectIsDead);
+    pushObjectProxyMethod(pLuaState, runtime, "canReachTarget", luaObjectCanReachTarget);
+    pushObjectProxyMethod(pLuaState, runtime, "canReachObject", luaObjectCanReachObject);
+    pushObjectProxyMethod(pLuaState, runtime, "isFacing", luaObjectIsFacing);
+    pushObjectProxyMethod(pLuaState, runtime, "shouldRunAwayFrom", luaObjectShouldRunAwayFrom);
+    pushObjectProxyMethod(pLuaState, runtime, "isClearShot", luaObjectIsClearShot);
+    pushObjectProxyMethod(pLuaState, runtime, "isWorldObject", luaObjectIsWorldObject);
+    pushObjectProxyMethod(pLuaState, runtime, "isFear", luaObjectIsFear);
+    pushObjectProxyMethod(pLuaState, runtime, "isInNoRunZone", luaObjectIsInNoRunZone);
+    pushObjectProxyMethod(pLuaState, runtime, "help", luaObjectHelp);
+    pushObjectProxyMethod(pLuaState, runtime, "estimateRangeAttackHit", luaObjectEstimateRangeAttackHit);
+    pushObjectProxyMethod(pLuaState, runtime, "land", luaObjectLand);
+    pushObjectProxyMethod(pLuaState, runtime, "target", luaObjectTarget);
+    pushObjectProxyMethod(pLuaState, runtime, "setTarget", luaObjectSetTarget);
+    pushObjectProxyMethod(pLuaState, runtime, "link", luaObjectLink);
+    pushObjectProxyMethod(pLuaState, runtime, "unlink", luaObjectUnlink);
+    pushObjectProxyMethod(pLuaState, runtime, "links", luaObjectLinks);
+    pushObjectProxyMethod(pLuaState, runtime, "distanceTo", luaObjectDistanceTo);
+    pushObjectProxyMethod(pLuaState, runtime, "remove", luaObjectRemove);
+    pushObjectProxyMethod(pLuaState, runtime, "damage", luaObjectDamage);
+    pushObjectProxyMethod(pLuaState, runtime, "die", luaObjectDie);
+}
+
+std::string objectHandleForLuaValue(Mm9ScriptRuntime &runtime, const std::string &value)
+{
+    const std::string resolved = runtime.resolveScriptString(value);
+    const std::string handle = runtime.objectHandleForName(resolved);
+    return !handle.empty() ? handle : runtime.objectHandleForName(value);
+}
+
+int luaSelfObject(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, pRuntime->objectHandleForName("hMe"));
+    return 1;
+}
+
+int luaPlayerObject(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, "mm9:player");
+    return 1;
+}
+
+int luaObjectByName(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, objectHandleForLuaValue(*pRuntime, luaArgumentText(pLuaState, 2)));
+    return 1;
+}
+
+int luaObjectByNameOrNil(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    const std::string handle = objectHandleForLuaValue(*pRuntime, luaArgumentText(pLuaState, 2));
+    if (handle.empty())
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, handle);
+    return 1;
+}
+
+int luaSpawnCommand(lua_State *pLuaState, bool extended)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    const int metadataIndex = lua_istable(pLuaState, lua_gettop(pLuaState)) ? lua_gettop(pLuaState) : 8;
+    const std::vector<std::string> arguments = luaMovementArguments(pLuaState, metadataIndex, 2);
+    const std::string handle = pRuntime->spawnObject(
+        "",
+        arguments,
+        extended,
+        luaMetadataLine(pLuaState, metadataIndex));
+    if (handle.empty())
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushObjectProxy(pLuaState, *pRuntime, handle);
+    return 1;
+}
+
+int luaSpawn(lua_State *pLuaState)
+{
+    return luaSpawnCommand(pLuaState, false);
+}
+
+int luaSpawn2(lua_State *pLuaState)
+{
+    return luaSpawnCommand(pLuaState, true);
+}
+
+int luaParamObject(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    const int32_t paramIndex = static_cast<int32_t>(lua_tointeger(pLuaState, 2));
+    const std::vector<std::string> &params = pRuntime->dialogueRuntime().owner().scriptParams;
+    const std::string value = paramIndex >= 0 && static_cast<size_t>(paramIndex) < params.size()
+        ? params[static_cast<size_t>(paramIndex)]
+        : "";
+    pushObjectProxy(pLuaState, *pRuntime, objectHandleForLuaValue(*pRuntime, value));
+    return 1;
+}
+
+int luaParam(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushstring(pLuaState, "");
+        return 1;
+    }
+
+    const int32_t paramIndex = static_cast<int32_t>(lua_tointeger(pLuaState, 2));
+    const std::vector<std::string> &params = pRuntime->dialogueRuntime().owner().scriptParams;
+    const std::string value = paramIndex >= 0 && static_cast<size_t>(paramIndex) < params.size()
+        ? params[static_cast<size_t>(paramIndex)]
+        : "";
+    lua_pushstring(pLuaState, value.c_str());
+    return 1;
+}
+
+void pushScriptStateValue(lua_State *pLuaState, Mm9ScriptRuntime &runtime, const std::string &name)
+{
+    const std::string missingHandle = "\x1f";
+    const std::string handle = runtime.getObjectHandleVar(name, missingHandle);
+    if (handle != missingHandle)
+    {
+        if (handle.empty())
+        {
+            lua_pushnil(pLuaState);
+        }
+        else
+        {
+            pushObjectProxy(pLuaState, runtime, handle);
+        }
+        return;
+    }
+
+    const Mm9ScriptRuntimeState &state = runtime.state();
+    const auto numberIterator = state.scriptNumVars.find(name);
+    if (numberIterator != state.scriptNumVars.end())
+    {
+        lua_pushinteger(pLuaState, numberIterator->second);
+        return;
+    }
+
+    const auto stringIterator = state.scriptStrVars.find(name);
+    if (stringIterator != state.scriptStrVars.end())
+    {
+        lua_pushstring(pLuaState, stringIterator->second.c_str());
+        return;
+    }
+
+    lua_pushnil(pLuaState);
+}
+
+Mm9ScriptValue scriptValueFromLua(lua_State *pLuaState, int index)
+{
+    if (lua_isnil(pLuaState, index))
+    {
+        return nullValue();
+    }
+    if (lua_isboolean(pLuaState, index))
+    {
+        return numberValue(lua_toboolean(pLuaState, index) != 0 ? 1.0 : 0.0);
+    }
+    if (lua_isnumber(pLuaState, index))
+    {
+        return numberValue(lua_tonumber(pLuaState, index));
+    }
+
+    if (lua_istable(pLuaState, index))
+    {
+        const std::string handle = luaObjectProxyHandle(pLuaState, index);
+        if (!handle.empty())
+        {
+            return handleValue(handle);
+        }
+    }
+
+    if (lua_isstring(pLuaState, index))
+    {
+        const std::string value = lua_tostring(pLuaState, index);
+        if (value == "mm9:player" || mm9ObjectHandleParts(value))
+        {
+            return handleValue(value);
+        }
+        return stringValue(value);
+    }
+
+    return nullValue();
+}
+
+int luaStateIndex(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    pushScriptStateValue(pLuaState, *pRuntime, luaArgumentText(pLuaState, 2));
+    return 1;
+}
+
+int luaStateNewIndex(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        return 0;
+    }
+
+    setScriptVariableFromValue(*pRuntime, luaArgumentText(pLuaState, 2), scriptValueFromLua(pLuaState, 3));
+    return 0;
+}
+
+int luaState(lua_State *pLuaState)
+{
+    Mm9ScriptRuntime *pRuntime = runtimeFromLua(pLuaState);
+    if (pRuntime == nullptr)
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    lua_newtable(pLuaState);
+    lua_newtable(pLuaState);
+    lua_pushlightuserdata(pLuaState, pRuntime);
+    lua_pushcclosure(pLuaState, luaStateIndex, 1);
+    lua_setfield(pLuaState, -2, "__index");
+    lua_pushlightuserdata(pLuaState, pRuntime);
+    lua_pushcclosure(pLuaState, luaStateNewIndex, 1);
+    lua_setfield(pLuaState, -2, "__newindex");
+    lua_setmetatable(pLuaState, -2);
+    return 1;
 }
 
 int luaCondition(lua_State *pLuaState)
@@ -1765,6 +5245,37 @@ void pushContext(lua_State *pLuaState, Mm9ScriptRuntime &runtime)
     lua_newtable(pLuaState);
     pushRuntimeMethod(pLuaState, runtime, "doRude", luaDoRude);
     pushRuntimeMethod(pLuaState, runtime, "onRudeExit", luaOnRudeExit);
+    pushRuntimeMethod(pLuaState, runtime, "onEvent", luaOnEvent);
+    pushRuntimeMethod(pLuaState, runtime, "addModelKey", luaAddModelKey);
+    pushRuntimeMethod(pLuaState, runtime, "removeModelKey", luaRemoveModelKey);
+    pushRuntimeMethod(pLuaState, runtime, "setCallback", luaSetCallback);
+    pushRuntimeMethod(pLuaState, runtime, "killCallback", luaKillCallback);
+    pushRuntimeMethod(pLuaState, runtime, "atTime", luaAtTime);
+    pushRuntimeMethod(pLuaState, runtime, "doCallback", luaDoCallback);
+    pushRuntimeMethod(pLuaState, runtime, "exitScript", luaExitScript);
+    pushRuntimeMethod(pLuaState, runtime, "isTurnBased", luaIsTurnBased);
+    pushRuntimeMethod(pLuaState, runtime, "getPcVoice", luaGetPcVoice);
+    pushRuntimeMethod(pLuaState, runtime, "getPcLevel", luaGetPcLevel);
+    pushRuntimeMethod(pLuaState, runtime, "getGameTime", luaGetGameTime);
+    pushRuntimeMethod(pLuaState, runtime, "getPlayerId", luaGetPlayerId);
+    pushRuntimeMethod(pLuaState, runtime, "getPlayerNumber", luaGetPlayerNumber);
+    pushRuntimeMethod(pLuaState, runtime, "getPlayersWithinDist", luaGetPlayersWithinDist);
+    pushRuntimeMethod(pLuaState, runtime, "setInt", luaSetInt);
+    pushRuntimeMethod(pLuaState, runtime, "heal", luaHeal);
+    pushRuntimeMethod(pLuaState, runtime, "addNpc", luaAddNpc);
+    pushRuntimeMethod(pLuaState, runtime, "removeNpc", luaRemoveNpc);
+    pushRuntimeMethod(pLuaState, runtime, "setParam", luaSetParam);
+    pushRuntimeMethod(pLuaState, runtime, "savePath", luaSavePath);
+    pushRuntimeMethod(pLuaState, runtime, "restorePath", luaRestorePath);
+    pushRuntimeMethod(pLuaState, runtime, "castRay", luaCastRay);
+    pushRuntimeMethod(pLuaState, runtime, "traceOff", luaTraceOff);
+    pushRuntimeMethod(pLuaState, runtime, "traceOn", luaTraceOn);
+    pushRuntimeMethod(pLuaState, runtime, "breakpoint", luaBreakpoint);
+    pushRuntimeMethod(pLuaState, runtime, "dontIncludeThisFile", luaDontIncludeThisFile);
+    pushRuntimeMethod(pLuaState, runtime, "cacheTexture", luaCacheTexture);
+    pushRuntimeMethod(pLuaState, runtime, "hidePiece", luaHidePiece);
+    pushRuntimeMethod(pLuaState, runtime, "doLetter", luaDoLetter);
+    pushRuntimeMethod(pLuaState, runtime, "getContainerCount", luaGetContainerCount);
     pushRuntimeMethod(pLuaState, runtime, "hasKey", luaHasKey);
     pushRuntimeMethod(pLuaState, runtime, "giveKey", luaGiveKey);
     pushRuntimeMethod(pLuaState, runtime, "takeKey", luaTakeKey);
@@ -1772,16 +5283,83 @@ void pushContext(lua_State *pLuaState, Mm9ScriptRuntime &runtime)
     pushRuntimeMethod(pLuaState, runtime, "takeItem", luaTakeItem);
     pushRuntimeMethod(pLuaState, runtime, "hasItem", luaHasItem);
     pushRuntimeMethod(pLuaState, runtime, "giveGold", luaGiveGold);
+    pushRuntimeMethod(pLuaState, runtime, "hasGold", luaHasGold);
+    pushRuntimeMethod(pLuaState, runtime, "takeGold", luaTakeGold);
     pushRuntimeMethod(pLuaState, runtime, "giveExp", luaGiveExp);
+    pushRuntimeMethod(pLuaState, runtime, "givePromo", luaGivePromo);
+    pushRuntimeMethod(pLuaState, runtime, "getAttribute", luaGetAttribute);
+    pushRuntimeMethod(pLuaState, runtime, "giveAttribute", luaGiveAttribute);
+    pushRuntimeMethod(pLuaState, runtime, "cacheScript", luaCacheScript);
+    pushRuntimeMethod(pLuaState, runtime, "runScript", luaRunScript);
     pushRuntimeMethod(pLuaState, runtime, "setConsoleNumVar", luaSetConsoleNumVar);
     pushRuntimeMethod(pLuaState, runtime, "getConsoleNumVar", luaGetConsoleNumVar);
     pushRuntimeMethod(pLuaState, runtime, "setConsoleStrVar", luaSetConsoleStrVar);
     pushRuntimeMethod(pLuaState, runtime, "getConsoleStrVar", luaGetConsoleStrVar);
     pushRuntimeMethod(pLuaState, runtime, "getParam", luaGetParam);
+    pushRuntimeMethod(pLuaState, runtime, "param", luaParam);
+    pushRuntimeMethod(pLuaState, runtime, "paramObject", luaParamObject);
+    pushRuntimeMethod(pLuaState, runtime, "self", luaSelfObject);
+    pushRuntimeMethod(pLuaState, runtime, "player", luaPlayerObject);
+    pushRuntimeMethod(pLuaState, runtime, "object", luaObjectByName);
+    pushRuntimeMethod(pLuaState, runtime, "objectOrNil", luaObjectByNameOrNil);
+    pushRuntimeMethod(pLuaState, runtime, "spawn", luaSpawn);
+    pushRuntimeMethod(pLuaState, runtime, "spawn2", luaSpawn2);
+    pushRuntimeMethod(pLuaState, runtime, "state", luaState);
     pushRuntimeMethod(pLuaState, runtime, "setPropNumber", luaSetPropNumber);
     pushRuntimeMethod(pLuaState, runtime, "getObjectHandleByRudeId", luaGetObjectHandleByRudeId);
     pushRuntimeMethod(pLuaState, runtime, "addTrigger", luaAddTrigger);
+    pushRuntimeMethod(pLuaState, runtime, "removeTrigger", luaRemoveTrigger);
     pushRuntimeMethod(pLuaState, runtime, "trigger", luaTrigger);
+    pushRuntimeMethod(pLuaState, runtime, "debugOut", luaDebugOut);
+    pushRuntimeMethod(pLuaState, runtime, "cprint", luaCPrint);
+    pushRuntimeMethod(pLuaState, runtime, "getObjects", luaGetObjects);
+    pushRuntimeMethod(pLuaState, runtime, "arrayPut", luaArrayPut);
+    pushRuntimeMethod(pLuaState, runtime, "arrayGet", luaArrayGet);
+    pushRuntimeMethod(pLuaState, runtime, "randomInt", luaRandomInt);
+    pushRuntimeMethod(pLuaState, runtime, "randomFloat", luaRandomFloat);
+    pushRuntimeMethod(pLuaState, runtime, "getTime", luaGetTime);
+    pushRuntimeMethod(pLuaState, runtime, "set", luaSetStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "add", luaAddStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "sub", luaSubStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "subtract", luaSubStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "mul", luaMulStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "multiply", luaMulStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "div", luaDivStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "divide", luaDivStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "mod", luaModStateValue);
+    pushRuntimeMethod(pLuaState, runtime, "vecScale", luaVecScale);
+    pushRuntimeMethod(pLuaState, runtime, "vecNorm", luaVecNorm);
+    pushRuntimeMethod(pLuaState, runtime, "vecAdd", luaVecAdd);
+    pushRuntimeMethod(pLuaState, runtime, "vecSub", luaVecSub);
+    pushRuntimeMethod(pLuaState, runtime, "vecCross", luaVecCross);
+    pushRuntimeMethod(pLuaState, runtime, "vecDist", luaVecDist);
+    pushRuntimeMethod(pLuaState, runtime, "vecMag", luaVecMag);
+    pushRuntimeMethod(pLuaState, runtime, "vecAngle", luaVecAngle);
+    pushRuntimeMethod(pLuaState, runtime, "rotateDir", luaRotateDir);
+    pushRuntimeMethod(pLuaState, runtime, "sin", luaSin);
+    pushRuntimeMethod(pLuaState, runtime, "cos", luaCos);
+    pushRuntimeMethod(pLuaState, runtime, "getAngleToPos", luaGetAngleToPos);
+    pushRuntimeMethod(pLuaState, runtime, "getRotation", luaGetRotation);
+    pushRuntimeMethod(pLuaState, runtime, "setRotation", luaSetRotation);
+    pushRuntimeMethod(pLuaState, runtime, "calcRotationRate", luaCalcRotationRate);
+    pushRuntimeMethod(pLuaState, runtime, "checkWorldCollision", luaCheckWorldCollision);
+    pushRuntimeMethod(pLuaState, runtime, "wait", luaWait);
+    pushRuntimeMethod(pLuaState, runtime, "cacheSound", luaCacheSound);
+    pushRuntimeMethod(pLuaState, runtime, "playSound", luaPlaySound);
+    pushRuntimeMethod(pLuaState, runtime, "speak", luaSpeak);
+    pushRuntimeMethod(pLuaState, runtime, "playSoundHandle", luaPlaySoundHandle);
+    pushRuntimeMethod(pLuaState, runtime, "killSound", luaKillSound);
+    pushRuntimeMethod(pLuaState, runtime, "getSoundDuration", luaGetSoundDuration);
+    pushRuntimeMethod(pLuaState, runtime, "isSoundDone", luaIsSoundDone);
+    pushRuntimeMethod(pLuaState, runtime, "cacheClientFx", luaCacheClientFx);
+    pushRuntimeMethod(pLuaState, runtime, "screenFadeOut", luaScreenFadeOut);
+    pushRuntimeMethod(pLuaState, runtime, "screenFadeIn", luaScreenFadeIn);
+    pushRuntimeMethod(pLuaState, runtime, "letterBox", luaLetterBox);
+    pushRuntimeMethod(pLuaState, runtime, "rolloverText", luaRolloverText);
+    pushRuntimeMethod(pLuaState, runtime, "consoleCommand", luaConsoleCommand);
+    pushRuntimeMethod(pLuaState, runtime, "doHighScore", luaDoHighScore);
+    pushRuntimeMethod(pLuaState, runtime, "clearCondition", luaClearCondition);
+    pushRuntimeMethod(pLuaState, runtime, "setCondition", luaSetCondition);
     pushRuntimeMethod(pLuaState, runtime, "condition", luaCondition);
     pushRuntimeMethod(pLuaState, runtime, "exit", luaExit);
     pushRuntimeMethod(pLuaState, runtime, "command", luaCommand);
@@ -2133,6 +5711,45 @@ bool Mm9ScriptRuntime::dispatchRegisteredCallbacks(
     std::optional<std::string> &errorMessage,
     size_t &dispatchedCount)
 {
+    const std::optional<std::vector<std::string>> scriptParams = std::nullopt;
+    return dispatchRegisteredCallbacks(
+        kind,
+        selector,
+        mapId,
+        objectIndex,
+        scriptParams,
+        errorMessage,
+        dispatchedCount);
+}
+
+bool Mm9ScriptRuntime::dispatchRegisteredCallbacks(
+    const std::string &kind,
+    const std::string &selector,
+    const std::string &mapId,
+    int32_t objectIndex,
+    const std::vector<std::string> &scriptParams,
+    std::optional<std::string> &errorMessage,
+    size_t &dispatchedCount)
+{
+    return dispatchRegisteredCallbacks(
+        kind,
+        selector,
+        mapId,
+        objectIndex,
+        std::optional<std::vector<std::string>>(scriptParams),
+        errorMessage,
+        dispatchedCount);
+}
+
+bool Mm9ScriptRuntime::dispatchRegisteredCallbacks(
+    const std::string &kind,
+    const std::string &selector,
+    const std::string &mapId,
+    int32_t objectIndex,
+    const std::optional<std::vector<std::string>> &scriptParams,
+    std::optional<std::string> &errorMessage,
+    size_t &dispatchedCount)
+{
     dispatchedCount = 0;
 
     const std::string loweredKind = lowerCopy(trimCopy(kind));
@@ -2170,6 +5787,10 @@ bool Mm9ScriptRuntime::dispatchRegisteredCallbacks(
             owner.mapId = mapId;
             owner.objectIndex = objectIndex;
             owner.scriptName = callback.scriptSource;
+        }
+        if (scriptParams)
+        {
+            owner.scriptParams = *scriptParams;
         }
 
         m_dialogueRuntime.setOwnerContext(std::move(owner));
@@ -2559,10 +6180,78 @@ void Mm9ScriptRuntime::setObjectHandleVar(const std::string &name, const std::st
     }
 }
 
+void Mm9ScriptRuntime::clearObjectHandleVar(const std::string &name)
+{
+    const std::string loweredName = lowerCopy(trimCopy(name));
+    if (loweredName.empty())
+    {
+        return;
+    }
+
+    const auto matchesName = [&](const std::string &entryName)
+    {
+        return lowerCopy(trimCopy(entryName)) == loweredName;
+    };
+
+    for (std::map<std::string, std::string>::iterator iterator = m_state.objectHandleVars.begin();
+         iterator != m_state.objectHandleVars.end();)
+    {
+        if (matchesName(iterator->first))
+        {
+            iterator = m_state.objectHandleVars.erase(iterator);
+        }
+        else
+        {
+            ++iterator;
+        }
+    }
+
+    for (std::map<std::string, std::string>::iterator iterator = m_state.scriptStrVars.begin();
+         iterator != m_state.scriptStrVars.end();)
+    {
+        if (matchesName(iterator->first))
+        {
+            iterator = m_state.scriptStrVars.erase(iterator);
+        }
+        else
+        {
+            ++iterator;
+        }
+    }
+
+    for (std::map<std::string, int32_t>::iterator iterator = m_state.scriptNumVars.begin();
+         iterator != m_state.scriptNumVars.end();)
+    {
+        if (matchesName(iterator->first))
+        {
+            iterator = m_state.scriptNumVars.erase(iterator);
+        }
+        else
+        {
+            ++iterator;
+        }
+    }
+}
+
 std::string Mm9ScriptRuntime::getObjectHandleVar(const std::string &name, const std::string &defaultValue) const
 {
     const auto iterator = m_state.objectHandleVars.find(name);
-    return iterator != m_state.objectHandleVars.end() ? iterator->second : defaultValue;
+    if (iterator != m_state.objectHandleVars.end())
+    {
+        return iterator->second;
+    }
+
+    const std::string loweredName = lowerCopy(trimCopy(name));
+    const auto caseInsensitiveIterator = std::find_if(
+        m_state.objectHandleVars.begin(),
+        m_state.objectHandleVars.end(),
+        [&](const std::pair<const std::string, std::string> &entry)
+        {
+            return lowerCopy(trimCopy(entry.first)) == loweredName;
+        });
+    return caseInsensitiveIterator != m_state.objectHandleVars.end()
+        ? caseInsensitiveIterator->second
+        : defaultValue;
 }
 
 std::string Mm9ScriptRuntime::getSoundHandleVar(const std::string &name, const std::string &defaultValue) const
@@ -2585,7 +6274,7 @@ std::string Mm9ScriptRuntime::objectHandleForName(const std::string &name) const
     }
 
     const std::string lowered = lowerCopy(trimmed);
-    if (lowered == "hme" || lowered == "g_hobject")
+    if (lowered == "hme" || lowered == "g_hmyobject")
     {
         return activeObjectHandle();
     }
@@ -2611,6 +6300,77 @@ std::string Mm9ScriptRuntime::objectHandleForName(const std::string &name) const
     return {};
 }
 
+std::string Mm9ScriptRuntime::objectNameForHandle(const std::string &handle) const
+{
+    if (handle == "mm9:player")
+    {
+        return "Player";
+    }
+
+    const Mm9GeneratedObjectDialogueBinding *pBinding = objectBindingForHandle(handle);
+    return pBinding != nullptr ? pBinding->objectName : "";
+}
+
+std::string Mm9ScriptRuntime::objectClassNameForHandle(const std::string &handle) const
+{
+    if (handle == "mm9:player")
+    {
+        return "Player";
+    }
+
+    const Mm9GeneratedObjectDialogueBinding *pBinding = objectBindingForHandle(handle);
+    return pBinding != nullptr ? pBinding->objectClass : "";
+}
+
+void Mm9ScriptRuntime::setObjectTargetHandle(const std::string &objectHandle, const std::string &targetHandle)
+{
+    if (objectHandle.empty())
+    {
+        return;
+    }
+
+    if (targetHandle.empty())
+    {
+        m_state.objectTargetHandles.erase(objectHandle);
+        return;
+    }
+
+    m_state.objectTargetHandles[objectHandle] = targetHandle;
+}
+
+std::string Mm9ScriptRuntime::objectTargetHandle(const std::string &objectHandle) const
+{
+    const auto iterator = m_state.objectTargetHandles.find(objectHandle);
+    return iterator != m_state.objectTargetHandles.end() ? iterator->second : "";
+}
+
+void Mm9ScriptRuntime::createObjectLink(const std::string &objectHandle, const std::string &linkedHandle)
+{
+    if (objectHandle.empty() || linkedHandle.empty())
+    {
+        return;
+    }
+
+    m_state.objectLinks[objectHandle].push_back(linkedHandle);
+}
+
+void Mm9ScriptRuntime::breakObjectLink(const std::string &objectHandle, const std::string &linkedHandle)
+{
+    if (objectHandle.empty() || linkedHandle.empty())
+    {
+        return;
+    }
+
+    std::vector<std::string> &links = m_state.objectLinks[objectHandle];
+    links.erase(std::remove(links.begin(), links.end(), linkedHandle), links.end());
+}
+
+std::vector<std::string> Mm9ScriptRuntime::objectLinkedHandles(const std::string &objectHandle) const
+{
+    const auto iterator = m_state.objectLinks.find(objectHandle);
+    return iterator != m_state.objectLinks.end() ? iterator->second : std::vector<std::string>();
+}
+
 void Mm9ScriptRuntime::setObjectNumberProperty(const std::string &propertyName, int32_t value, size_t line)
 {
     const std::string key = activeObjectPropertyKey(propertyName);
@@ -2630,6 +6390,70 @@ int32_t Mm9ScriptRuntime::getObjectNumberProperty(const std::string &propertyKey
     return iterator != m_state.objectNumberProperties.end() ? iterator->second : defaultValue;
 }
 
+void Mm9ScriptRuntime::setObjectNumberPropertyForHandle(
+    const std::string &objectHandle,
+    const std::string &propertyName,
+    int32_t value)
+{
+    const std::string key = objectNumberPropertyKeyForHandle(objectHandle, propertyName);
+    if (!key.empty())
+    {
+        m_state.objectNumberProperties[key] = value;
+    }
+}
+
+int32_t Mm9ScriptRuntime::getObjectNumberPropertyForHandle(
+    const std::string &objectHandle,
+    const std::string &propertyName,
+    int32_t defaultValue) const
+{
+    const std::string key = objectNumberPropertyKeyForHandle(objectHandle, propertyName);
+    if (key.empty())
+    {
+        return defaultValue;
+    }
+
+    const auto iterator = m_state.objectNumberProperties.find(key);
+    return iterator != m_state.objectNumberProperties.end() ? iterator->second : defaultValue;
+}
+
+void Mm9ScriptRuntime::setObjectStringPropertyForHandle(
+    const std::string &objectHandle,
+    const std::string &propertyName,
+    const std::string &value)
+{
+    const std::string trimmedPropertyName = trimCopy(propertyName);
+    if (objectHandle.empty() || trimmedPropertyName.empty())
+    {
+        return;
+    }
+
+    m_state.objectStringProperties[objectHandle][trimmedPropertyName] = resolveScriptString(value);
+}
+
+std::string Mm9ScriptRuntime::getObjectStringPropertyForHandle(
+    const std::string &objectHandle,
+    const std::string &propertyName) const
+{
+    const std::string trimmedPropertyName = trimCopy(propertyName);
+    std::string value;
+    const auto objectIterator = m_state.objectStringProperties.find(objectHandle);
+    if (objectIterator != m_state.objectStringProperties.end())
+    {
+        const auto valueIterator = objectIterator->second.find(trimmedPropertyName);
+        if (valueIterator != objectIterator->second.end())
+        {
+            value = valueIterator->second;
+        }
+    }
+    if (value.empty() && lowerCopy(trimmedPropertyName) == "scriptname")
+    {
+        const auto scriptIterator = m_state.objectScriptOverrides.find(objectHandle);
+        value = scriptIterator != m_state.objectScriptOverrides.end() ? scriptIterator->second : m_activeScriptSource;
+    }
+    return value;
+}
+
 std::string Mm9ScriptRuntime::resolveScriptString(const std::string &token) const
 {
     const std::string trimmed = trimCopy(token);
@@ -2639,19 +6463,11 @@ std::string Mm9ScriptRuntime::resolveScriptString(const std::string &token) cons
     }
 
     const std::string lowered = lowerCopy(trimmed);
-    if (lowered == "hme" || lowered == "g_hobject")
+    const std::string missingHandle = "\x1f";
+    const std::string objectHandleVar = getObjectHandleVar(trimmed, missingHandle);
+    if (objectHandleVar != missingHandle)
     {
-        return activeObjectHandle();
-    }
-    if (lowered == "hplayer" || lowered == "player")
-    {
-        return "mm9:player";
-    }
-
-    const auto objectHandleIterator = m_state.objectHandleVars.find(trimmed);
-    if (objectHandleIterator != m_state.objectHandleVars.end())
-    {
-        return objectHandleIterator->second;
+        return objectHandleVar;
     }
 
     const auto scriptIterator = m_state.scriptStrVars.find(trimmed);
@@ -2664,6 +6480,15 @@ std::string Mm9ScriptRuntime::resolveScriptString(const std::string &token) cons
     if (consoleIterator != m_state.consoleStrVars.end())
     {
         return consoleIterator->second;
+    }
+
+    if (lowered == "hme" || lowered == "g_hmyobject")
+    {
+        return activeObjectHandle();
+    }
+    if (lowered == "hplayer" || lowered == "player")
+    {
+        return "mm9:player";
     }
 
     const std::string objectHandle = objectHandleForName(trimmed);
@@ -2716,8 +6541,22 @@ bool Mm9ScriptRuntime::executeCommand(
 
     if (normalizedCommand == "set")
     {
+        std::string target;
         std::string expression;
-        const std::string target = firstScriptArgument(trimmedArguments, expression);
+        if (hasTopLevelComma(trimmedArguments))
+        {
+            const std::vector<std::string> arguments = splitScriptArguments(trimmedArguments);
+            if (arguments.size() < 2)
+            {
+                return false;
+            }
+            target = trimCopy(arguments[0]);
+            expression = trimCopy(arguments[1]);
+        }
+        else
+        {
+            target = firstScriptArgument(trimmedArguments, expression);
+        }
         setScriptVariableFromValue(*this, target, evaluateScriptExpression(*this, expression));
         return true;
     }
@@ -2766,7 +6605,7 @@ bool Mm9ScriptRuntime::executeCommand(
 
     if (normalizedCommand == "wait")
     {
-        const std::vector<std::string> arguments = splitScriptArguments(trimmedArguments);
+        const std::vector<std::string> arguments = normalizedWaitArguments(splitScriptArguments(trimmedArguments));
         if (arguments.size() < 3)
         {
             return false;
@@ -2934,7 +6773,14 @@ bool Mm9ScriptRuntime::executeCommand(
             const auto valueIterator = strArrayIterator->second.find(index);
             if (valueIterator != strArrayIterator->second.end())
             {
-                setScriptVariableFromString(*this, target, valueIterator->second);
+                if (valueIterator->second == "mm9:player" || mm9ObjectHandleParts(valueIterator->second))
+                {
+                    setObjectHandleVar(target, valueIterator->second);
+                }
+                else
+                {
+                    setScriptVariableFromString(*this, target, valueIterator->second);
+                }
                 return true;
             }
         }
@@ -3386,39 +7232,7 @@ bool Mm9ScriptRuntime::executeCommand(
 
     if (normalizedCommand == "playanim" || normalizedCommand == "loopanim" || normalizedCommand == "playanimation")
     {
-        const std::vector<std::string> arguments = splitScriptArguments(trimmedArguments);
-        if (arguments.empty())
-        {
-            return false;
-        }
-
-        Mm9ScriptRuntimeAnimationRequest request = {};
-        request.scriptSource = m_activeScriptSource;
-        request.objectHandle = activeObjectHandle();
-        request.operation = normalizedCommand;
-        request.animationName = resolveScriptString(arguments[0]);
-        request.line = line;
-        if ((normalizedCommand == "playanim" || normalizedCommand == "playanimation") && arguments.size() >= 2)
-        {
-            const size_t callbackIndex = normalizedCommand == "playanimation" && arguments.size() >= 3 ? 2 : 1;
-            request.callbackLabel = trimCopy(arguments[callbackIndex]);
-        }
-        else if (normalizedCommand == "loopanim")
-        {
-            request.loopCount = scriptArgumentNumber(*this, arguments, 1);
-            if (arguments.size() >= 3)
-            {
-                request.callbackLabel = trimCopy(arguments[2]);
-            }
-        }
-
-        if (isCallbackLabel(request.callbackLabel))
-        {
-            registerCallback(request.callbackLabel, line, normalizedCommand, request.animationName);
-        }
-
-        recordAnimationRequest(std::move(request));
-        return true;
+        return requestAnimation(activeObjectHandle(), normalizedCommand, splitScriptArguments(trimmedArguments), line);
     }
 
     if (normalizedCommand == "playanimsound")
@@ -3444,52 +7258,11 @@ bool Mm9ScriptRuntime::executeCommand(
         || normalizedCommand == "converse" || normalizedCommand == "resumewait"
         || normalizedCommand == "pausewait" || normalizedCommand == "jump" || normalizedCommand == "blendanim")
     {
-        const std::vector<std::string> arguments = splitScriptArguments(trimmedArguments);
-        Mm9ScriptRuntimeAnimationRequest request = {};
-        request.scriptSource = m_activeScriptSource;
-        request.objectHandle = activeObjectHandle();
-        request.operation = normalizedCommand;
-        request.animationName = normalizedCommand;
-        request.line = line;
-
-        if (normalizedCommand == "blendanim" && !arguments.empty())
-        {
-            request.animationName = resolveScriptString(arguments[0]);
-            if (arguments.size() >= 2)
-            {
-                request.callbackLabel = trimCopy(arguments[1]);
-            }
-        }
-        else if (normalizedCommand == "converse" && arguments.size() >= 2)
-        {
-            request.loopCount = scriptArgumentNumber(*this, arguments, 0);
-            request.callbackLabel = trimCopy(arguments[1]);
-        }
-        else if (normalizedCommand == "launch")
-        {
-            if (!arguments.empty())
-            {
-                request.callbackLabel = trimCopy(arguments[0]);
-            }
-            request.loopCount = scriptArgumentNumber(*this, arguments, 1);
-        }
-        else if (normalizedCommand == "resumewait" || normalizedCommand == "pausewait")
-        {
-            request.loopCount = scriptArgumentNumber(*this, arguments, 0);
-        }
-        else if (!arguments.empty())
-        {
-            request.callbackLabel = trimCopy(arguments[0]);
-        }
-
-        m_state.objectAiStates[activeObjectHandle()] = normalizedCommand;
-        if (isCallbackLabel(request.callbackLabel))
-        {
-            registerCallback(request.callbackLabel, line, normalizedCommand, request.animationName);
-        }
-
-        recordAnimationRequest(std::move(request));
-        return true;
+        return requestActorAction(
+            activeObjectHandle(),
+            normalizedCommand,
+            splitScriptArguments(trimmedArguments),
+            line);
     }
 
     if (normalizedCommand == "getcurranim" || normalizedCommand == "getanimname" || normalizedCommand == "getanimnbr")
@@ -3613,119 +7386,10 @@ bool Mm9ScriptRuntime::executeCommand(
     if (normalizedCommand == "movetopos" || normalizedCommand == "runtopos"
         || normalizedCommand == "walktopos" || normalizedCommand == "walkto" || normalizedCommand == "runto"
         || normalizedCommand == "movedir" || normalizedCommand == "faceobject" || normalizedCommand == "rotate"
-        || normalizedCommand == "facepos" || normalizedCommand == "stop")
+        || normalizedCommand == "facedir" || normalizedCommand == "facepos" || normalizedCommand == "walk"
+        || normalizedCommand == "run" || normalizedCommand == "strafe" || normalizedCommand == "stop")
     {
-        const std::vector<std::string> arguments = splitScriptArguments(trimmedArguments);
-        if (normalizedCommand != "stop" && arguments.empty())
-        {
-            return false;
-        }
-
-        Mm9ScriptRuntimeMovementRequest request = {};
-        request.scriptSource = m_activeScriptSource;
-        request.objectHandle = activeObjectHandle();
-        request.operation = normalizedCommand;
-        request.line = line;
-
-        if (normalizedCommand == "movetopos")
-        {
-            if (arguments.size() < 5)
-            {
-                return false;
-            }
-
-            request.targetPosition = scriptVectorFromArguments(*this, arguments, 0);
-            request.speed = scriptValueNumber(evaluateScriptExpression(*this, arguments[3]));
-            request.callbackLabel = trimCopy(arguments[4]);
-        }
-        else if (normalizedCommand == "runtopos" || normalizedCommand == "walktopos")
-        {
-            if (arguments.size() < 3)
-            {
-                return false;
-            }
-
-            request.targetPosition = scriptVectorFromArguments(*this, arguments, 0);
-            request.speed = scriptArgumentNumber(*this, arguments, 3);
-            if (arguments.size() >= 5)
-            {
-                request.callbackLabel = trimCopy(arguments[4]);
-            }
-        }
-        else if (normalizedCommand == "walkto" || normalizedCommand == "runto")
-        {
-            if (arguments.size() < 3)
-            {
-                return false;
-            }
-
-            request.targetHandle = resolveScriptString(arguments[0]);
-            request.distance = scriptValueNumber(evaluateScriptExpression(*this, arguments[1]));
-            request.callbackLabel = trimCopy(arguments[2]);
-        }
-        else if (normalizedCommand == "movedir")
-        {
-            if (arguments.size() < 5)
-            {
-                return false;
-            }
-
-            request.direction = scriptVectorFromArguments(*this, arguments, 0);
-            request.distance = scriptValueNumber(evaluateScriptExpression(*this, arguments[3]));
-            request.speed = scriptValueNumber(evaluateScriptExpression(*this, arguments[4]));
-            if (arguments.size() >= 6)
-            {
-                request.callbackLabel = trimCopy(arguments[5]);
-            }
-        }
-        else if (normalizedCommand == "faceobject")
-        {
-            request.targetHandle = resolveScriptString(arguments[0]);
-            if (arguments.size() >= 2)
-            {
-                request.speed = scriptValueNumber(evaluateScriptExpression(*this, arguments[1]));
-            }
-        }
-        else if (normalizedCommand == "facepos")
-        {
-            if (arguments.size() < 3)
-            {
-                return false;
-            }
-
-            request.targetPosition = scriptVectorFromArguments(*this, arguments, 0);
-            if (arguments.size() >= 4)
-            {
-                request.speed = scriptValueNumber(evaluateScriptExpression(*this, arguments[3]));
-            }
-        }
-        else if (normalizedCommand == "rotate")
-        {
-            if (arguments.size() < 5)
-            {
-                return false;
-            }
-
-            request.direction = scriptVectorFromArguments(*this, arguments, 0);
-            request.distance = scriptValueNumber(evaluateScriptExpression(*this, arguments[3]));
-            request.speed = scriptValueNumber(evaluateScriptExpression(*this, arguments[4]));
-            if (arguments.size() >= 6)
-            {
-                request.callbackLabel = trimCopy(arguments[5]);
-            }
-        }
-        else if (normalizedCommand == "stop")
-        {
-            m_state.objectAttackStates[request.objectHandle] = false;
-            m_state.objectAiStates[request.objectHandle] = "stopped";
-        }
-
-        if (isCallbackLabel(request.callbackLabel))
-        {
-            registerCallback(request.callbackLabel, line, normalizedCommand, request.targetHandle);
-        }
-        recordMovementRequest(std::move(request));
-        return true;
+        return requestMovement(activeObjectHandle(), normalizedCommand, splitScriptArguments(trimmedArguments), line);
     }
 
     if (normalizedCommand == "setrotation")
@@ -3736,8 +7400,9 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
-        const bool hasExplicitHandle = arguments.size() == 4;
-        const std::string handle = hasExplicitHandle ? resolveScriptString(arguments[0]) : activeObjectHandle();
+        const std::string firstArgumentHandle = resolveScriptString(arguments[0]);
+        const bool hasExplicitHandle = firstArgumentHandle == "mm9:player" || mm9ObjectHandleParts(firstArgumentHandle);
+        const std::string handle = hasExplicitHandle ? firstArgumentHandle : activeObjectHandle();
         const size_t vectorOffset = hasExplicitHandle ? 1 : 0;
         m_state.objectFaceDirs[handle] = scriptVectorFromArguments(*this, arguments, vectorOffset);
 
@@ -3912,7 +7577,8 @@ bool Mm9ScriptRuntime::executeCommand(
         if (normalizedCommand == "isvisible")
         {
             const auto removedIterator = m_state.removedObjects.find(handle);
-            result = removedIterator == m_state.removedObjects.end() || !removedIterator->second;
+            const bool active = removedIterator == m_state.removedObjects.end() || !removedIterator->second;
+            result = active && objectFlagValue(m_state, handle, "visible", true);
         }
         else
         {
@@ -3959,6 +7625,10 @@ bool Mm9ScriptRuntime::executeCommand(
         const bool result = !targetHandle.empty()
             && (removedIterator == m_state.removedObjects.end() || !removedIterator->second);
         setScriptVariableFromValue(*this, arguments[1], numberValue(result ? 1.0 : 0.0));
+        if (arguments.size() >= 3)
+        {
+            setScriptVariableFromValue(*this, arguments[2], nullValue());
+        }
         return true;
     }
 
@@ -4096,11 +7766,18 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
+        std::string targetHandle = resolveScriptString(arguments[0]);
+        const std::string loweredTarget = lowerCopy(trimCopy(targetHandle));
+        if (loweredTarget == "null" || loweredTarget == "nil" || loweredTarget == "0")
+        {
+            targetHandle.clear();
+        }
+
         Mm9ScriptRuntimeAiRequest request = {};
         request.scriptSource = m_activeScriptSource;
         request.objectHandle = activeObjectHandle();
         request.operation = normalizedCommand;
-        request.targetHandle = resolveScriptString(arguments[0]);
+        request.targetHandle = targetHandle;
         request.line = line;
         recordAiRequest(std::move(request));
         return true;
@@ -4452,21 +8129,8 @@ bool Mm9ScriptRuntime::executeCommand(
         const bool hasHandle = arguments.size() >= 4;
         const std::string handle = hasHandle ? resolveScriptString(arguments[0]) : activeObjectHandle();
         const size_t destinationOffset = hasHandle ? 1 : 0;
-        const auto directionIterator = m_state.objectFaceDirs.find(handle);
-        Mm9ScriptRuntimeVec3 direction =
-            directionIterator != m_state.objectFaceDirs.end() ? directionIterator->second : Mm9ScriptRuntimeVec3();
-        if (normalizedCommand == "getrightdir")
-        {
-            direction = {direction.y, -direction.x, direction.z};
-        }
-        else if (normalizedCommand == "getleftdir")
-        {
-            direction = {-direction.y, direction.x, direction.z};
-        }
-        else if (normalizedCommand == "getreversedir")
-        {
-            direction = {-direction.x, -direction.y, -direction.z};
-        }
+        const Mm9ScriptRuntimeVec3 direction =
+            objectDirectionVector(m_state, handle, normalizedCommand.substr(3));
 
         setScriptVariableFromValue(*this, arguments[destinationOffset], numberValue(direction.x));
         setScriptVariableFromValue(*this, arguments[destinationOffset + 1], numberValue(direction.y));
@@ -4804,7 +8468,11 @@ bool Mm9ScriptRuntime::executeCommand(
         const std::string handle = activeObjectHandle();
         if (!handle.empty())
         {
-            m_state.objectTargetHandles[handle] = resolveScriptString(arguments[0]);
+            const std::string loweredTarget = lowerCopy(trimCopy(arguments[0]));
+            const std::string targetHandle = loweredTarget == "null" || loweredTarget == "nil" || loweredTarget == "0"
+                ? std::string()
+                : resolveScriptString(arguments[0]);
+            setObjectTargetHandle(handle, targetHandle);
         }
         return true;
     }
@@ -4965,7 +8633,7 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
-        m_state.objectFlags[resolveScriptString(arguments[0])][trimCopy(arguments[1])] =
+        m_state.objectFlags[resolveScriptString(arguments[0])][normalizedObjectFlagName(arguments[1])] =
             normalizedCommand == "setflag" ? 1 : 0;
         return true;
     }
@@ -5018,16 +8686,7 @@ bool Mm9ScriptRuntime::executeCommand(
 
     if (normalizedCommand == "die")
     {
-        const std::string handle = activeObjectHandle();
-        if (handle.empty())
-        {
-            return false;
-        }
-
-        m_state.objectAiStates[handle] = "dead";
-        m_state.objectAttackStates[handle] = false;
-        m_state.removedObjects[handle] = true;
-        return true;
+        return killObject(activeObjectHandle());
     }
 
     if (normalizedCommand == "damage")
@@ -5038,77 +8697,7 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
-        Mm9ScriptRuntimeDamageRequest request = {};
-        request.scriptSource = m_activeScriptSource;
-        request.targetHandle = resolveScriptString(arguments[0]);
-        request.amount = scriptArgumentNumber(*this, arguments, 1);
-        request.damageType = scriptArgumentNumber(*this, arguments, 2);
-        request.noReaction = scriptArgumentBool(*this, arguments, 3);
-        request.line = line;
-        const std::string targetHandle = request.targetHandle;
-        const int32_t amount = request.amount;
-        const bool noReaction = request.noReaction;
-        recordDamageRequest(std::move(request));
-
-        const std::optional<std::pair<std::string, int32_t>> targetParts = mm9ObjectHandleParts(targetHandle);
-        if (targetParts)
-        {
-            auto objectIterator = m_state.objectStats.find(targetHandle);
-            if (objectIterator != m_state.objectStats.end())
-            {
-                auto hitPointsIterator = findCaseInsensitiveStat(objectIterator->second, "HitPoints");
-                if (hitPointsIterator != objectIterator->second.end())
-                {
-                    hitPointsIterator->second = std::max(0, hitPointsIterator->second - std::max(0, amount));
-                    if (!noReaction)
-                    {
-                        std::optional<std::string> callbackError;
-                        size_t callbackCount = 0;
-                        dispatchRegisteredCallbacks(
-                            "ondamage",
-                            "",
-                            targetParts->first,
-                            targetParts->second,
-                            callbackError,
-                            callbackCount);
-                        dispatchRegisteredCallbacks(
-                            "ondamagedone",
-                            "",
-                            targetParts->first,
-                            targetParts->second,
-                            callbackError,
-                            callbackCount);
-                    }
-
-                    if (hitPointsIterator->second == 0)
-                    {
-                        m_state.objectAiStates[targetHandle] = "dead";
-                        m_state.objectAttackStates[targetHandle] = false;
-                        m_state.removedObjects[targetHandle] = true;
-                        if (!noReaction)
-                        {
-                            std::optional<std::string> callbackError;
-                            size_t callbackCount = 0;
-                            dispatchRegisteredCallbacks(
-                                "ondeath",
-                                "",
-                                targetParts->first,
-                                targetParts->second,
-                                callbackError,
-                                callbackCount);
-                            dispatchRegisteredCallbacks(
-                                "ondeathdone",
-                                "",
-                                targetParts->first,
-                                targetParts->second,
-                                callbackError,
-                                callbackCount);
-                        }
-                    }
-                }
-            }
-        }
-        return true;
+        return damageObject(resolveScriptString(arguments[0]), {arguments.begin() + 1, arguments.end()}, line);
     }
 
     if (normalizedCommand == "setmodelfilenames")
@@ -5119,51 +8708,18 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
-        m_state.objectModelFilenames[activeObjectHandle()] = arguments;
+        setObjectModelFilenames(activeObjectHandle(), arguments);
         return true;
     }
 
     if (normalizedCommand == "attachprop")
     {
-        const std::vector<std::string> arguments = splitScriptArguments(trimmedArguments);
-        if (arguments.size() < 4)
-        {
-            return false;
-        }
-
-        Mm9ScriptRuntimeAttachmentRequest request = {};
-        request.scriptSource = m_activeScriptSource;
-        request.objectHandle = activeObjectHandle();
-        request.operation = normalizedCommand;
-        request.modelName = resolveScriptString(arguments[0]);
-        request.textureName = resolveScriptString(arguments[1]);
-        request.socketName = resolveScriptString(arguments[2]);
-        request.attachedHandle = resolveScriptString(arguments[3]);
-        request.line = line;
-        recordAttachmentRequest(std::move(request));
-        return true;
+        return requestAttachment(activeObjectHandle(), normalizedCommand, splitScriptArguments(trimmedArguments), line);
     }
 
     if (normalizedCommand == "detachprop")
     {
-        const std::vector<std::string> arguments = splitScriptArguments(trimmedArguments);
-        if (arguments.empty())
-        {
-            return false;
-        }
-
-        Mm9ScriptRuntimeAttachmentRequest request = {};
-        request.scriptSource = m_activeScriptSource;
-        request.objectHandle = activeObjectHandle();
-        request.operation = normalizedCommand;
-        request.attachedHandle = resolveScriptString(arguments[0]);
-        if (arguments.size() >= 2)
-        {
-            request.textureName = scriptArgumentBool(*this, arguments, 1) ? "true" : "false";
-        }
-        request.line = line;
-        recordAttachmentRequest(std::move(request));
-        return true;
+        return requestAttachment(activeObjectHandle(), normalizedCommand, splitScriptArguments(trimmedArguments), line);
     }
 
     if (normalizedCommand == "createobjectlink")
@@ -5174,7 +8730,7 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
-        m_state.objectLinks[activeObjectHandle()].push_back(resolveScriptString(arguments[0]));
+        createObjectLink(activeObjectHandle(), resolveScriptString(arguments[0]));
         return true;
     }
 
@@ -5186,11 +8742,7 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
-        const std::string linkedHandle = resolveScriptString(arguments[0]);
-        std::vector<std::string> &links = m_state.objectLinks[activeObjectHandle()];
-        links.erase(
-            std::remove(links.begin(), links.end(), linkedHandle),
-            links.end());
+        breakObjectLink(activeObjectHandle(), resolveScriptString(arguments[0]));
         return true;
     }
 
@@ -5202,33 +8754,8 @@ bool Mm9ScriptRuntime::executeCommand(
             return false;
         }
 
-        Mm9ScriptRuntimeSpawnRequest request = {};
-        request.scriptSource = m_activeScriptSource;
-        request.handleVar = trimCopy(arguments[0]);
-        request.spawnedHandle = "mm9:spawn:" + std::to_string(m_state.nextSpawnHandleId++);
-        request.position = scriptVectorFromArguments(*this, arguments, 1);
-        if (normalizedCommand == "spawn2" && arguments.size() > 4)
-        {
-            std::string parameter;
-            for (size_t index = 4; index < arguments.size(); ++index)
-            {
-                if (!parameter.empty())
-                {
-                    parameter += ", ";
-                }
-                parameter += arguments[index];
-            }
-            request.parameter = parameter;
-        }
-        else
-        {
-            request.parameter = resolveScriptString(arguments[4]);
-        }
-        request.line = line;
-        setObjectHandleVar(request.handleVar, request.spawnedHandle);
-        m_state.objectPositions[request.spawnedHandle] = request.position;
-        recordSpawnRequest(std::move(request));
-        return true;
+        const std::vector<std::string> spawnArguments(arguments.begin() + 1, arguments.end());
+        return !spawnObject(arguments[0], spawnArguments, normalizedCommand == "spawn2", line).empty();
     }
 
     if (normalizedCommand == "runscript")
@@ -5352,7 +8879,7 @@ bool Mm9ScriptRuntime::executeCommand(
             return true;
         }
 
-        registerCallback(arguments[0], line, normalizedCommand);
+        registerCallback(arguments[0], line, trimCopy(command));
         return true;
     }
 
@@ -5367,11 +8894,11 @@ bool Mm9ScriptRuntime::executeCommand(
         }
         if (arguments.size() < 2)
         {
-            registerCallback("", line, normalizedCommand, arguments[0]);
+            registerCallback("", line, trimCopy(command), arguments[0]);
             return true;
         }
 
-        registerCallback(arguments[1], line, normalizedCommand, arguments[0]);
+        registerCallback(arguments[1], line, trimCopy(command), arguments[0]);
         return true;
     }
 
@@ -5570,7 +9097,8 @@ void Mm9ScriptRuntime::removeTrigger(const std::string &triggerName)
 
 void Mm9ScriptRuntime::dispatchTrigger(const std::string &targetHandle, const std::string &message, size_t line)
 {
-    if (targetHandle.empty() || message.empty())
+    const std::string resolvedTargetHandle = triggerTargetHandleFromScriptToken(*this, targetHandle);
+    if (resolvedTargetHandle.empty() || message.empty())
     {
         return;
     }
@@ -5579,7 +9107,7 @@ void Mm9ScriptRuntime::dispatchTrigger(const std::string &targetHandle, const st
     dispatch.scriptSource = m_activeScriptSource;
     dispatch.mapId = m_dialogueRuntime.owner().mapId;
     dispatch.objectIndex = m_dialogueRuntime.owner().objectIndex;
-    dispatch.targetHandle = targetHandle;
+    dispatch.targetHandle = resolvedTargetHandle;
     dispatch.message = message;
     dispatch.line = line;
     m_state.triggerDispatches.push_back(std::move(dispatch));
@@ -5589,7 +9117,7 @@ void Mm9ScriptRuntime::dispatchTrigger(const std::string &targetHandle, const st
         return;
     }
 
-    const Mm9GeneratedObjectDialogueBinding *pTargetBinding = objectBindingForHandle(targetHandle);
+    const Mm9GeneratedObjectDialogueBinding *pTargetBinding = objectBindingForHandle(resolvedTargetHandle);
     if (pTargetBinding == nullptr)
     {
         return;
@@ -5620,7 +9148,7 @@ void Mm9ScriptRuntime::dispatchTrigger(const std::string &targetHandle, const st
         return;
     }
 
-    const auto overrideIterator = m_state.objectScriptOverrides.find(targetHandle);
+    const auto overrideIterator = m_state.objectScriptOverrides.find(resolvedTargetHandle);
     const std::string scriptOverride = overrideIterator != m_state.objectScriptOverrides.end()
         ? overrideIterator->second
         : "";
@@ -5639,6 +9167,818 @@ void Mm9ScriptRuntime::dispatchTrigger(const std::string &targetHandle, const st
     runLabel(scriptSource, triggerIterator->label, scriptError);
     --m_triggerDispatchDepth;
     m_dialogueRuntime.setOwnerContext(previousOwner);
+}
+
+void Mm9ScriptRuntime::dispatchTriggerFromObject(
+    const Mm9DialogueOwnerContext &owner,
+    const std::string &scriptSource,
+    const std::string &targetHandle,
+    const std::string &message,
+    size_t line)
+{
+    const Mm9DialogueOwnerContext previousOwner = m_dialogueRuntime.owner();
+    const std::string previousActiveScriptSource = m_activeScriptSource;
+    m_dialogueRuntime.setOwnerContext(owner);
+    m_activeScriptSource = scriptSource;
+    dispatchTrigger(targetHandle, message, line);
+    m_activeScriptSource = previousActiveScriptSource;
+    m_dialogueRuntime.setOwnerContext(previousOwner);
+}
+
+bool Mm9ScriptRuntime::setObjectIdle(const std::string &objectHandle)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    if (handle.empty())
+    {
+        return false;
+    }
+
+    m_state.objectAiStates[handle] = "idle";
+    m_state.objectAttackStates[handle] = false;
+    return true;
+}
+
+bool Mm9ScriptRuntime::setObjectStuck(const std::string &objectHandle)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    if (handle.empty())
+    {
+        return false;
+    }
+
+    m_state.objectAiStates[handle] = "stuck";
+    return true;
+}
+
+void Mm9ScriptRuntime::addObjectRelation(
+    const std::string &objectHandle,
+    const std::string &operation,
+    const std::string &classOrName)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    const std::string token = unquoteScriptString(classOrName);
+    if (handle.empty() || token.empty())
+    {
+        return;
+    }
+
+    if (lowerCopy(trimCopy(operation)) == "addenemy")
+    {
+        m_state.objectEnemies[handle].push_back(token);
+    }
+    else
+    {
+        m_state.objectFriends[handle].push_back(token);
+    }
+}
+
+void Mm9ScriptRuntime::removeObjectRelation(
+    const std::string &objectHandle,
+    const std::string &operation,
+    const std::string &classOrName)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    if (handle.empty())
+    {
+        return;
+    }
+
+    std::vector<std::string> &relations = lowerCopy(trimCopy(operation)) == "removeenemy"
+        ? m_state.objectEnemies[handle]
+        : m_state.objectFriends[handle];
+    const std::string loweredRelation = lowerCopy(unquoteScriptString(classOrName));
+    relations.erase(
+        std::remove_if(
+            relations.begin(),
+            relations.end(),
+            [&](const std::string &relation)
+            {
+                return lowerCopy(relation) == loweredRelation;
+            }),
+        relations.end());
+}
+
+bool Mm9ScriptRuntime::objectIsFriend(const std::string &objectHandle, const std::string &targetHandle) const
+{
+    const Mm9GeneratedObjectDialogueBinding *pBinding = objectBindingForHandle(targetHandle);
+    const auto friendsIterator = m_state.objectFriends.find(objectHandle);
+    if (friendsIterator == m_state.objectFriends.end())
+    {
+        return false;
+    }
+
+    for (const std::string &friendToken : friendsIterator->second)
+    {
+        const std::string loweredFriend = lowerCopy(friendToken);
+        if (loweredFriend == lowerCopy(targetHandle))
+        {
+            return true;
+        }
+        if (pBinding != nullptr && loweredFriend == lowerCopy(pBinding->objectName))
+        {
+            return true;
+        }
+        if (pBinding != nullptr && loweredFriend == lowerCopy(pBinding->objectClass))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+double Mm9ScriptRuntime::objectDistanceTo(const std::string &sourceHandle, const std::string &targetHandle) const
+{
+    const auto sourcePositionIterator = m_state.objectPositions.find(sourceHandle);
+    const auto targetPositionIterator = m_state.objectPositions.find(targetHandle);
+    const Mm9ScriptRuntimeVec3 sourcePosition = sourcePositionIterator != m_state.objectPositions.end()
+        ? sourcePositionIterator->second
+        : Mm9ScriptRuntimeVec3();
+    const Mm9ScriptRuntimeVec3 targetPosition = targetPositionIterator != m_state.objectPositions.end()
+        ? targetPositionIterator->second
+        : Mm9ScriptRuntimeVec3();
+    return scriptVectorDistance(sourcePosition, targetPosition);
+}
+
+bool Mm9ScriptRuntime::objectAiQuery(const std::string &objectHandle, const std::string &operation) const
+{
+    const std::string normalizedOperation = lowerCopy(trimCopy(operation));
+    const auto attackStateIterator = m_state.objectAttackStates.find(objectHandle);
+    if (normalizedOperation == "isattacking")
+    {
+        return attackStateIterator != m_state.objectAttackStates.end() && attackStateIterator->second;
+    }
+    if (normalizedOperation == "hasrangeattack")
+    {
+        const auto objectIterator = m_state.objectStats.find(objectHandle);
+        const auto rangeIterator = objectIterator != m_state.objectStats.end()
+            ? objectIterator->second.find("RangeAttack")
+            : std::map<std::string, int32_t>::const_iterator();
+        return objectIterator == m_state.objectStats.end()
+            || rangeIterator == objectIterator->second.end()
+            || rangeIterator->second != 0;
+    }
+    if (normalizedOperation == "canattack" || normalizedOperation == "canrangeattack"
+        || normalizedOperation == "istargetinrange")
+    {
+        const auto targetIterator = m_state.objectTargetHandles.find(objectHandle);
+        const auto removedIterator = targetIterator != m_state.objectTargetHandles.end()
+            ? m_state.removedObjects.find(targetIterator->second)
+            : m_state.removedObjects.end();
+        return targetIterator != m_state.objectTargetHandles.end() && !targetIterator->second.empty()
+            && (removedIterator == m_state.removedObjects.end() || !removedIterator->second);
+    }
+
+    return false;
+}
+
+bool Mm9ScriptRuntime::requestAi(
+    const std::string &objectHandle,
+    const std::string &operation,
+    const std::vector<std::string> &arguments,
+    size_t line)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    const std::string normalizedOperation = lowerCopy(trimCopy(operation));
+    const std::vector<std::string> normalizedArguments = normalizedServiceArguments(arguments);
+    if (handle.empty())
+    {
+        return false;
+    }
+
+    if (normalizedOperation == "setidle")
+    {
+        return setObjectIdle(handle);
+    }
+    if (normalizedOperation == "addfriend" || normalizedOperation == "addenemy")
+    {
+        if (normalizedArguments.empty())
+        {
+            return false;
+        }
+        addObjectRelation(handle, normalizedOperation, normalizedArguments[0]);
+        return true;
+    }
+    if (normalizedOperation == "removefriend" || normalizedOperation == "removeenemy")
+    {
+        if (normalizedArguments.empty())
+        {
+            return false;
+        }
+        removeObjectRelation(handle, normalizedOperation, normalizedArguments[0]);
+        return true;
+    }
+    if (normalizedOperation == "sendalert")
+    {
+        if (normalizedArguments.empty())
+        {
+            return false;
+        }
+
+        std::string targetHandle = resolveScriptString(normalizedArguments[0]);
+        const std::string loweredTarget = lowerCopy(trimCopy(targetHandle));
+        if (loweredTarget == "null" || loweredTarget == "nil" || loweredTarget == "0")
+        {
+            targetHandle.clear();
+        }
+
+        Mm9ScriptRuntimeAiRequest request = {};
+        request.scriptSource = m_activeScriptSource;
+        request.objectHandle = handle;
+        request.operation = normalizedOperation;
+        request.targetHandle = targetHandle;
+        request.line = line;
+        recordAiRequest(std::move(request));
+        return true;
+    }
+    if (normalizedOperation == "help" || normalizedOperation == "estimaterangeattackhit"
+        || normalizedOperation == "land")
+    {
+        Mm9ScriptRuntimeAiRequest request = {};
+        request.scriptSource = m_activeScriptSource;
+        request.objectHandle = handle;
+        request.operation = normalizedOperation;
+        if (!normalizedArguments.empty())
+        {
+            request.targetHandle = resolveScriptString(normalizedArguments[0]);
+        }
+        request.line = line;
+        recordAiRequest(std::move(request));
+        return true;
+    }
+    if (normalizedOperation == "attack" || normalizedOperation == "rangeattack")
+    {
+        Mm9ScriptRuntimeAiRequest request = {};
+        request.scriptSource = m_activeScriptSource;
+        request.objectHandle = handle;
+        request.operation = normalizedOperation;
+        request.targetHandle = m_state.objectTargetHandles[handle];
+        request.line = line;
+        if (!normalizedArguments.empty())
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[0]);
+        }
+
+        m_state.objectAttackStates[handle] = true;
+        m_state.objectAiStates[handle] = normalizedOperation;
+        if (isCallbackLabel(request.callbackLabel))
+        {
+            registerCallback(request.callbackLabel, line, normalizedOperation, request.targetHandle);
+        }
+        recordAiRequest(std::move(request));
+        return true;
+    }
+
+    return false;
+}
+
+std::string Mm9ScriptRuntime::spawnObject(
+    const std::string &handleVar,
+    const std::vector<std::string> &arguments,
+    bool extended,
+    size_t line)
+{
+    const std::vector<std::string> normalizedArguments = normalizedServiceArguments(arguments);
+    if (normalizedArguments.size() < 4)
+    {
+        return {};
+    }
+
+    Mm9ScriptRuntimeSpawnRequest request = {};
+    request.scriptSource = m_activeScriptSource;
+    request.handleVar = trimCopy(handleVar);
+    request.spawnedHandle = "mm9:spawn:" + std::to_string(m_state.nextSpawnHandleId++);
+    request.position = scriptVectorFromArguments(*this, normalizedArguments, 0);
+    if (extended)
+    {
+        for (size_t index = 3; index < normalizedArguments.size(); ++index)
+        {
+            if (!request.parameter.empty())
+            {
+                request.parameter += ", ";
+            }
+            request.parameter += normalizedArguments[index];
+        }
+    }
+    else
+    {
+        request.parameter = resolveScriptString(normalizedArguments[3]);
+    }
+    request.line = line;
+
+    const std::string spawnedHandle = request.spawnedHandle;
+    if (!request.handleVar.empty())
+    {
+        setObjectHandleVar(request.handleVar, spawnedHandle);
+    }
+    m_state.objectPositions[spawnedHandle] = request.position;
+    recordSpawnRequest(std::move(request));
+    return spawnedHandle;
+}
+
+void Mm9ScriptRuntime::setObjectModelFilenames(
+    const std::string &objectHandle,
+    const std::vector<std::string> &filenames)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    if (handle.empty() || filenames.empty())
+    {
+        return;
+    }
+
+    m_state.objectModelFilenames[handle] = filenames;
+}
+
+bool Mm9ScriptRuntime::requestAttachment(
+    const std::string &objectHandle,
+    const std::string &operation,
+    const std::vector<std::string> &arguments,
+    size_t line)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    const std::string normalizedOperation = lowerCopy(trimCopy(operation));
+    const std::vector<std::string> normalizedArguments = normalizedServiceArguments(arguments);
+    if (handle.empty())
+    {
+        return false;
+    }
+
+    if (normalizedOperation == "attachprop")
+    {
+        if (normalizedArguments.size() < 4)
+        {
+            return false;
+        }
+
+        Mm9ScriptRuntimeAttachmentRequest request = {};
+        request.scriptSource = m_activeScriptSource;
+        request.objectHandle = handle;
+        request.operation = normalizedOperation;
+        request.modelName = resolveScriptString(normalizedArguments[0]);
+        request.textureName = resolveScriptString(normalizedArguments[1]);
+        request.socketName = resolveScriptString(normalizedArguments[2]);
+        request.attachedHandle = resolveScriptString(normalizedArguments[3]);
+        request.line = line;
+        recordAttachmentRequest(std::move(request));
+        return true;
+    }
+
+    if (normalizedOperation == "detachprop")
+    {
+        if (normalizedArguments.empty())
+        {
+            return false;
+        }
+
+        Mm9ScriptRuntimeAttachmentRequest request = {};
+        request.scriptSource = m_activeScriptSource;
+        request.objectHandle = handle;
+        request.operation = normalizedOperation;
+        request.attachedHandle = resolveScriptString(normalizedArguments[0]);
+        if (normalizedArguments.size() >= 2)
+        {
+            request.textureName = scriptArgumentBool(*this, normalizedArguments, 1) ? "true" : "false";
+        }
+        request.line = line;
+        recordAttachmentRequest(std::move(request));
+        return true;
+    }
+
+    return false;
+}
+
+bool Mm9ScriptRuntime::requestAnimation(
+    const std::string &objectHandle,
+    const std::string &operation,
+    const std::vector<std::string> &arguments,
+    size_t line)
+{
+    const std::string normalizedOperation = lowerCopy(trimCopy(operation));
+    std::vector<std::string> normalizedArguments = arguments;
+    if (normalizedOperation == "loopanim" && normalizedArguments.size() == 2)
+    {
+        const std::vector<std::string> secondArguments = splitWhitespaceScriptArguments(normalizedArguments[1]);
+        if (secondArguments.size() == 2)
+        {
+            normalizedArguments = { normalizedArguments[0], secondArguments[0], secondArguments[1] };
+        }
+    }
+    if (normalizedOperation != "playanim" && normalizedOperation != "loopanim"
+        && normalizedOperation != "playanimation" && normalizedOperation != "playanimsound"
+        && normalizedOperation != "setanimplaying")
+    {
+        return false;
+    }
+    if (normalizedArguments.empty())
+    {
+        return false;
+    }
+
+    Mm9ScriptRuntimeAnimationRequest request = {};
+    request.scriptSource = m_activeScriptSource;
+    request.objectHandle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    request.operation = normalizedOperation;
+    request.animationName = normalizedOperation == "setanimplaying"
+        ? scriptValueString(evaluateScriptExpression(*this, normalizedArguments[0]))
+        : resolveScriptString(normalizedArguments[0]);
+    request.line = line;
+    if ((normalizedOperation == "playanim" || normalizedOperation == "playanimation")
+        && normalizedArguments.size() >= 2)
+    {
+        const size_t callbackIndex = normalizedOperation == "playanimation" && normalizedArguments.size() >= 3 ? 2 : 1;
+        request.callbackLabel = trimCopy(normalizedArguments[callbackIndex]);
+    }
+    else if (normalizedOperation == "playanimsound")
+    {
+        request.loopCount = scriptArgumentNumber(*this, normalizedArguments, 1);
+    }
+    else if (normalizedOperation == "loopanim")
+    {
+        request.loopCount = scriptArgumentNumber(*this, normalizedArguments, 1);
+        if (normalizedArguments.size() >= 3)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[2]);
+        }
+    }
+
+    if (isCallbackLabel(request.callbackLabel))
+    {
+        registerCallback(request.callbackLabel, line, normalizedOperation, request.animationName);
+    }
+
+    recordAnimationRequest(std::move(request));
+    return true;
+}
+
+bool Mm9ScriptRuntime::requestActorAction(
+    const std::string &objectHandle,
+    const std::string &operation,
+    const std::vector<std::string> &arguments,
+    size_t line)
+{
+    const std::string normalizedOperation = lowerCopy(trimCopy(operation));
+    const std::vector<std::string> normalizedArguments = normalizedServiceArguments(arguments);
+    if (normalizedOperation != "taunt" && normalizedOperation != "aware" && normalizedOperation != "launch"
+        && normalizedOperation != "converse" && normalizedOperation != "resumewait"
+        && normalizedOperation != "pausewait" && normalizedOperation != "jump" && normalizedOperation != "blendanim")
+    {
+        return false;
+    }
+
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    if (handle.empty())
+    {
+        return false;
+    }
+
+    Mm9ScriptRuntimeAnimationRequest request = {};
+    request.scriptSource = m_activeScriptSource;
+    request.objectHandle = handle;
+    request.operation = normalizedOperation;
+    request.animationName = normalizedOperation;
+    request.line = line;
+
+    if (normalizedOperation == "blendanim" && !normalizedArguments.empty())
+    {
+        request.animationName = resolveScriptString(normalizedArguments[0]);
+        if (normalizedArguments.size() >= 2)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[1]);
+        }
+    }
+    else if (normalizedOperation == "converse" && normalizedArguments.size() >= 2)
+    {
+        request.loopCount = scriptArgumentNumber(*this, normalizedArguments, 0);
+        request.callbackLabel = trimCopy(normalizedArguments[1]);
+    }
+    else if (normalizedOperation == "launch")
+    {
+        if (!normalizedArguments.empty())
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[0]);
+        }
+        request.loopCount = scriptArgumentNumber(*this, normalizedArguments, 1);
+    }
+    else if (normalizedOperation == "resumewait" || normalizedOperation == "pausewait")
+    {
+        request.loopCount = scriptArgumentNumber(*this, normalizedArguments, 0);
+    }
+    else if (!normalizedArguments.empty())
+    {
+        request.callbackLabel = trimCopy(normalizedArguments[0]);
+    }
+
+    m_state.objectAiStates[handle] = normalizedOperation;
+    if (isCallbackLabel(request.callbackLabel))
+    {
+        registerCallback(request.callbackLabel, line, normalizedOperation, request.animationName);
+    }
+
+    recordAnimationRequest(std::move(request));
+    return true;
+}
+
+bool Mm9ScriptRuntime::killObject(const std::string &objectHandle)
+{
+    const std::string handle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    if (handle.empty())
+    {
+        return false;
+    }
+
+    m_state.objectAiStates[handle] = "dead";
+    m_state.objectAttackStates[handle] = false;
+    m_state.removedObjects[handle] = true;
+    return true;
+}
+
+bool Mm9ScriptRuntime::damageObject(
+    const std::string &targetHandle,
+    const std::vector<std::string> &arguments,
+    size_t line)
+{
+    const std::vector<std::string> normalizedArguments = normalizedServiceArguments(arguments);
+    if (targetHandle.empty() || normalizedArguments.size() < 2)
+    {
+        return false;
+    }
+
+    Mm9ScriptRuntimeDamageRequest request = {};
+    request.scriptSource = m_activeScriptSource;
+    request.targetHandle = targetHandle;
+    request.amount = scriptArgumentNumber(*this, normalizedArguments, 0);
+    request.damageType = scriptArgumentNumber(*this, normalizedArguments, 1);
+    request.noReaction = scriptArgumentBool(*this, normalizedArguments, 2);
+    request.line = line;
+    const int32_t amount = request.amount;
+    const bool noReaction = request.noReaction;
+    recordDamageRequest(std::move(request));
+
+    const std::optional<std::pair<std::string, int32_t>> targetParts = mm9ObjectHandleParts(targetHandle);
+    if (!targetParts)
+    {
+        return true;
+    }
+
+    auto objectIterator = m_state.objectStats.find(targetHandle);
+    if (objectIterator == m_state.objectStats.end())
+    {
+        return true;
+    }
+
+    auto hitPointsIterator = findCaseInsensitiveStat(objectIterator->second, "HitPoints");
+    if (hitPointsIterator == objectIterator->second.end())
+    {
+        return true;
+    }
+
+    hitPointsIterator->second = std::max(0, hitPointsIterator->second - std::max(0, amount));
+    if (!noReaction)
+    {
+        std::optional<std::string> callbackError;
+        size_t callbackCount = 0;
+        dispatchRegisteredCallbacks(
+            "ondamage",
+            "",
+            targetParts->first,
+            targetParts->second,
+            callbackError,
+            callbackCount);
+        dispatchRegisteredCallbacks(
+            "ondamagedone",
+            "",
+            targetParts->first,
+            targetParts->second,
+            callbackError,
+            callbackCount);
+    }
+
+    if (hitPointsIterator->second != 0)
+    {
+        return true;
+    }
+
+    m_state.objectAiStates[targetHandle] = "dead";
+    m_state.objectAttackStates[targetHandle] = false;
+    m_state.removedObjects[targetHandle] = true;
+    if (!noReaction)
+    {
+        std::optional<std::string> callbackError;
+        size_t callbackCount = 0;
+        dispatchRegisteredCallbacks(
+            "ondeath",
+            "",
+            targetParts->first,
+            targetParts->second,
+            callbackError,
+            callbackCount);
+        dispatchRegisteredCallbacks(
+            "ondeathdone",
+            "",
+            targetParts->first,
+            targetParts->second,
+            callbackError,
+            callbackCount);
+    }
+
+    return true;
+}
+
+bool Mm9ScriptRuntime::requestMovement(
+    const std::string &objectHandle,
+    const std::string &operation,
+    const std::vector<std::string> &arguments,
+    size_t line)
+{
+    const std::string normalizedOperation = lowerCopy(trimCopy(operation));
+    const std::vector<std::string> normalizedArguments = normalizedServiceArguments(arguments);
+    if (normalizedOperation != "stop" && normalizedOperation != "walk" && normalizedOperation != "run"
+        && normalizedArguments.empty())
+    {
+        return false;
+    }
+
+    Mm9ScriptRuntimeMovementRequest request = {};
+    request.scriptSource = m_activeScriptSource;
+    request.objectHandle = objectHandle.empty() ? activeObjectHandle() : objectHandle;
+    request.operation = normalizedOperation;
+    request.line = line;
+
+    if (normalizedOperation == "walk" || normalizedOperation == "run")
+    {
+        m_state.objectAiStates[request.objectHandle] = normalizedOperation;
+    }
+    else if (normalizedOperation == "movetopos")
+    {
+        if (normalizedArguments.size() < 4)
+        {
+            return false;
+        }
+
+        request.targetPosition = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[3]));
+        if (normalizedArguments.size() >= 5)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[4]);
+        }
+    }
+    else if (normalizedOperation == "runtopos" || normalizedOperation == "walktopos")
+    {
+        if (normalizedArguments.size() < 3)
+        {
+            return false;
+        }
+
+        request.targetPosition = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        request.speed = scriptArgumentNumber(*this, normalizedArguments, 3);
+        if (normalizedArguments.size() >= 5)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[4]);
+        }
+    }
+    else if (normalizedOperation == "walkto" || normalizedOperation == "runto")
+    {
+        if (normalizedArguments.empty())
+        {
+            return false;
+        }
+
+        request.targetHandle = resolveScriptString(normalizedArguments[0]);
+        if (normalizedArguments.size() >= 2)
+        {
+            request.distance = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[1]));
+        }
+        if (normalizedArguments.size() >= 3)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[2]);
+        }
+    }
+    else if (normalizedOperation == "movedir")
+    {
+        if (normalizedArguments.size() < 5)
+        {
+            return false;
+        }
+
+        request.direction = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        request.distance = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[3]));
+        request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[4]));
+        if (normalizedArguments.size() >= 6)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[5]);
+        }
+    }
+    else if (normalizedOperation == "faceobject")
+    {
+        request.targetHandle = resolveScriptString(normalizedArguments[0]);
+        if (normalizedArguments.size() >= 2)
+        {
+            request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[1]));
+        }
+        if (normalizedArguments.size() >= 3)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[2]);
+        }
+    }
+    else if (normalizedOperation == "facepos")
+    {
+        if (normalizedArguments.size() < 3)
+        {
+            return false;
+        }
+
+        request.targetPosition = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        if (normalizedArguments.size() >= 4)
+        {
+            request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[3]));
+        }
+        if (normalizedArguments.size() >= 5)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[4]);
+        }
+    }
+    else if (normalizedOperation == "rotate")
+    {
+        if (normalizedArguments.size() < 5)
+        {
+            return false;
+        }
+
+        request.direction = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        request.distance = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[3]));
+        request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[4]));
+        if (normalizedArguments.size() >= 6)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[5]);
+        }
+    }
+    else if (normalizedOperation == "facedir")
+    {
+        if (normalizedArguments.size() < 3)
+        {
+            return false;
+        }
+
+        request.direction = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        m_state.objectFaceDirs[request.objectHandle] = request.direction;
+        if (normalizedArguments.size() >= 4)
+        {
+            request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[3]));
+        }
+        if (normalizedArguments.size() >= 5)
+        {
+            request.callbackLabel = trimCopy(normalizedArguments[4]);
+        }
+    }
+    else if (normalizedOperation == "strafe")
+    {
+        if (normalizedArguments.size() < 3)
+        {
+            return false;
+        }
+
+        request.direction = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        if (normalizedArguments.size() >= 4)
+        {
+            request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[3]));
+        }
+    }
+    else if (normalizedOperation == "setpushback")
+    {
+        if (normalizedArguments.size() < 4)
+        {
+            return false;
+        }
+
+        request.direction = scriptVectorFromArguments(*this, normalizedArguments, 0);
+        request.speed = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[3]));
+    }
+    else if (normalizedOperation == "turnleft")
+    {
+        if (normalizedArguments.empty())
+        {
+            return false;
+        }
+
+        request.direction = {0.0, 0.0, 1.0};
+        request.distance = scriptValueNumber(evaluateScriptExpression(*this, normalizedArguments[0]));
+    }
+    else if (normalizedOperation == "stop")
+    {
+        m_state.objectAttackStates[request.objectHandle] = false;
+        m_state.objectAiStates[request.objectHandle] = "stopped";
+    }
+    else
+    {
+        return false;
+    }
+
+    if (isCallbackLabel(request.callbackLabel))
+    {
+        registerCallback(request.callbackLabel, line, normalizedOperation, request.targetHandle);
+    }
+    recordMovementRequest(std::move(request));
+    return true;
 }
 
 Mm9DialogueRuntime &Mm9ScriptRuntime::dialogueRuntime()
@@ -5711,6 +10051,35 @@ bool Mm9ScriptRuntime::runLabelForObject(
     int32_t objectIndex,
     std::optional<std::string> &errorMessage)
 {
+    const std::optional<std::vector<std::string>> scriptParams = std::nullopt;
+    return runLabelForObject(scriptSource, label, mapId, objectIndex, scriptParams, errorMessage);
+}
+
+bool Mm9ScriptRuntime::runLabelForObject(
+    const std::string &scriptSource,
+    const std::string &label,
+    const std::string &mapId,
+    int32_t objectIndex,
+    const std::vector<std::string> &scriptParams,
+    std::optional<std::string> &errorMessage)
+{
+    return runLabelForObject(
+        scriptSource,
+        label,
+        mapId,
+        objectIndex,
+        std::optional<std::vector<std::string>>(scriptParams),
+        errorMessage);
+}
+
+bool Mm9ScriptRuntime::runLabelForObject(
+    const std::string &scriptSource,
+    const std::string &label,
+    const std::string &mapId,
+    int32_t objectIndex,
+    const std::optional<std::vector<std::string>> &scriptParams,
+    std::optional<std::string> &errorMessage)
+{
     Mm9DialogueOwnerContext owner = {};
     std::string ownerError;
     if (!m_dialogueRuntime.ownerContextForObject(mapId, objectIndex, owner, &ownerError))
@@ -5718,6 +10087,10 @@ bool Mm9ScriptRuntime::runLabelForObject(
         owner.mapId = mapId;
         owner.objectIndex = objectIndex;
         owner.scriptName = scriptSource;
+    }
+    if (scriptParams)
+    {
+        owner.scriptParams = *scriptParams;
     }
 
     const Mm9DialogueOwnerContext previousOwner = m_dialogueRuntime.owner();

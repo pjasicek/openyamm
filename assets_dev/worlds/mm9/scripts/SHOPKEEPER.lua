@@ -19,7 +19,7 @@ script.includes[#script.includes + 1] = { line = 11, path = "BaseWander.inc" }
 -- P2  # of times animation runs
 script.labels["OnUse"] = function(ctx)
     -- SHOPKEEPER.scr:25
-    ctx:command("playsound", "sound, Onexit, 100, 240, FALSE, 100") -- SHOPKEEPER.scr:28
+    ctx:playSound("sound", "Onexit", 100, 240, "FALSE", 100) -- SHOPKEEPER.scr:28
     do return ctx:exit("") end -- SHOPKEEPER.scr:29
 end
 
@@ -45,15 +45,14 @@ end
 script.labels["BaseWanderInit"] = function(ctx)
     -- SHOPKEEPER.scr:58
     -- overloaded -- Bones
-    ctx:command("getmyhandle", "g_hMyObject") -- SHOPKEEPER.scr:62
-    ctx:command("getobjectname", "g_hMyObject g_sPad1") -- SHOPKEEPER.scr:63
+    ctx:state().g_sPad1 = ctx:self():name() -- SHOPKEEPER.scr:63
     if ctx:condition("g_sPad1 == JohnGoodman") then -- SHOPKEEPER.scr:64
         if ctx:condition("g_nPad2 == 0") then -- SHOPKEEPER.scr:65
-            ctx:command("onpostsaveload", "BaseWanderInit") -- SHOPKEEPER.scr:66
-            ctx:command("onpostminisaveload", "BaseWanderInit") -- SHOPKEEPER.scr:67
-            ctx:command("set", "g_nPad2 1") -- SHOPKEEPER.scr:68
+            ctx:onEvent("OnPostSaveLoad", "BaseWanderInit") -- SHOPKEEPER.scr:66
+            ctx:onEvent("OnPostMiniSaveLoad", "BaseWanderInit") -- SHOPKEEPER.scr:67
+            ctx:state().g_nPad2 = 1 -- SHOPKEEPER.scr:68
         else -- SHOPKEEPER.scr:69
-            ctx:command("setpos", "g_hMyObject -6415 544 4768") -- SHOPKEEPER.scr:70
+            ctx:self():setPos(-6415, 544, 4768) -- SHOPKEEPER.scr:70
             do return ctx:exit("") end -- SHOPKEEPER.scr:71
         end -- SHOPKEEPER.scr:72
     end -- SHOPKEEPER.scr:73

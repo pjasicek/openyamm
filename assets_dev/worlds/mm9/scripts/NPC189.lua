@@ -26,14 +26,14 @@ script.labels["GreenMan"] = function(ctx)
     if ctx:condition("g_hobject==FALSE") then -- NPC189.scr:33
         do return ctx:exit("") end -- NPC189.scr:34
     end -- NPC189.scr:35
-    ctx:command("getobjecthandle", "GreenMan0 g_hobject") -- NPC189.scr:36
-    ctx:command("walkto", "g_hobject 256 DoNothing") -- NPC189.scr:37
+    ctx:state().g_hobject = ctx:objectOrNil("GreenMan0") -- NPC189.scr:36
+    ctx:self():walkTo(ctx:object("g_hobject"), 256, "DoNothing") -- NPC189.scr:37
     do return ctx:exit("") end -- NPC189.scr:38
 end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC189.scr:44
-    ctx:command("playsound", "voices\\NPC\\NPC_189.wav, Onexit, 100, 240, FALSE, 100") -- NPC189.scr:47
+    ctx:playSound("voices\\NPC\\NPC_189.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC189.scr:47
     do return ctx:exit("") end -- NPC189.scr:48
 end
 

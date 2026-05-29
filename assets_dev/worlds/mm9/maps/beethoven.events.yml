@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/beethoven.lua
+  script_ir: ../events/beethoven.script_ir.yml
 objects:
 - object_id: mm9:beethoven:object:0
   source_object_index: 0
@@ -233944,10 +233945,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: Treasurechest4
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -1760.0
     - -672.0
@@ -234352,10 +234355,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: Treasurechest3
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -1528.0
     - -560.0
@@ -234760,10 +234765,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: Treasurechest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -5856.0
     - -1312.0
@@ -235168,10 +235175,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: Treasurechest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -3776.0
     - -1312.0
@@ -235576,10 +235585,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: Treasurechest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -4112.0
     - -1312.0
@@ -235984,10 +235995,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\CoffinRaised.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest5
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -6400.0
     - -698.0
@@ -236392,10 +236405,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\CoffinRaised.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest4
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -6656.0
     - -698.0
@@ -236800,10 +236815,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\CoffinRaised.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest3
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -448.0
     - -698.0
@@ -237208,10 +237225,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\CoffinRaised.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -448.0
     - -698.0
@@ -237616,10 +237635,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\CoffinRaised.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -2720.0
     - -698.0
@@ -238029,10 +238050,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\CoffinRaised.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -3296.0
     - -698.0
@@ -255646,7 +255669,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerBottleNE
-    Pos: &id173
+    Pos: &id306
     - 1744.0
     - 80.0
     - 6862.0
@@ -256026,7 +256049,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerBottleSW
-    Pos: &id174
+    Pos: &id307
     - -3840.0
     - 256.0
     - 212.0
@@ -256406,7 +256429,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerBottleNW
-    Pos: &id175
+    Pos: &id308
     - -6416.0
     - 256.0
     - 5118.0
@@ -256786,7 +256809,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerBottleSE
-    Pos: &id176
+    Pos: &id309
     - -672.0
     - 160.0
     - 1120.0
@@ -257166,7 +257189,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger7
-    Pos: &id177
+    Pos: &id310
     - -704.0
     - -720.0
     - -3232.0
@@ -258532,7 +258555,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger6
-    Pos: &id178
+    Pos: &id311
     - -448.0
     - -720.0
     - -3008.0
@@ -259898,7 +259921,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger3
-    Pos: &id179
+    Pos: &id315
     - -6656.0
     - -720.0
     - -1456.0
@@ -260847,7 +260870,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger5
-    Pos: &id180
+    Pos: &id316
     - -6656.0
     - -720.0
     - -1696.0
@@ -262213,7 +262236,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger1
-    Pos: &id181
+    Pos: &id320
     - -6400.0
     - -720.0
     - -1216.0
@@ -263579,7 +263602,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger0
-    Pos: &id182
+    Pos: &id321
     - -3296.0
     - -720.0
     - 2464.0
@@ -264945,7 +264968,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger2
-    Pos: &id183
+    Pos: &id322
     - -3008.0
     - -720.0
     - 2752.0
@@ -266311,7 +266334,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: Trigger4
-    Pos: &id184
+    Pos: &id325
     - -2720.0
     - -720.0
     - 2464.0
@@ -271017,6 +271040,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id107 []
 - mechanism_id: mm9:beethoven:object:3:mechanism
   object_id: mm9:beethoven:object:3
@@ -271028,6 +271052,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id108 []
 - mechanism_id: mm9:beethoven:object:4:mechanism
   object_id: mm9:beethoven:object:4
@@ -271057,6 +271082,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id109 []
 - mechanism_id: mm9:beethoven:object:231:mechanism
   object_id: mm9:beethoven:object:231
@@ -271068,6 +271122,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id110 []
 - mechanism_id: mm9:beethoven:object:233:mechanism
   object_id: mm9:beethoven:object:233
@@ -271079,6 +271134,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id111 []
 - mechanism_id: mm9:beethoven:object:321:mechanism
   object_id: mm9:beethoven:object:321
@@ -271089,6 +271145,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:322:mechanism
   object_id: mm9:beethoven:object:322
@@ -271099,6 +271156,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:323:mechanism
   object_id: mm9:beethoven:object:323
@@ -271109,6 +271167,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:324:mechanism
   object_id: mm9:beethoven:object:324
@@ -271119,6 +271178,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:325:mechanism
   object_id: mm9:beethoven:object:325
@@ -271129,6 +271189,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:326:mechanism
   object_id: mm9:beethoven:object:326
@@ -271139,6 +271200,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:327:mechanism
   object_id: mm9:beethoven:object:327
@@ -271149,6 +271211,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:328:mechanism
   object_id: mm9:beethoven:object:328
@@ -271159,6 +271222,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:345:mechanism
   object_id: mm9:beethoven:object:345
@@ -271170,6 +271234,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:375:mechanism
   object_id: mm9:beethoven:object:375
@@ -271181,6 +271246,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:376:mechanism
   object_id: mm9:beethoven:object:376
@@ -271192,6 +271258,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:413:mechanism
   object_id: mm9:beethoven:object:413
@@ -271203,6 +271270,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:414:mechanism
   object_id: mm9:beethoven:object:414
@@ -271214,6 +271282,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:775:mechanism
   object_id: mm9:beethoven:object:775
@@ -271225,6 +271294,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id112 []
 - mechanism_id: mm9:beethoven:object:779:mechanism
   object_id: mm9:beethoven:object:779
@@ -271236,6 +271306,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id113 []
 - mechanism_id: mm9:beethoven:object:781:mechanism
   object_id: mm9:beethoven:object:781
@@ -271265,6 +271336,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id114 []
 - mechanism_id: mm9:beethoven:object:782:mechanism
   object_id: mm9:beethoven:object:782
@@ -271294,6 +271394,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id115 []
 - mechanism_id: mm9:beethoven:object:783:mechanism
   object_id: mm9:beethoven:object:783
@@ -271323,6 +271452,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id116 []
 - mechanism_id: mm9:beethoven:object:784:mechanism
   object_id: mm9:beethoven:object:784
@@ -271352,6 +271510,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id117 []
 - mechanism_id: mm9:beethoven:object:785:mechanism
   object_id: mm9:beethoven:object:785
@@ -271381,6 +271568,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id118 []
 - mechanism_id: mm9:beethoven:object:786:mechanism
   object_id: mm9:beethoven:object:786
@@ -271410,6 +271626,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id119 []
 - mechanism_id: mm9:beethoven:object:787:mechanism
   object_id: mm9:beethoven:object:787
@@ -271439,6 +271684,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor10
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id120 []
 - mechanism_id: mm9:beethoven:object:788:mechanism
   object_id: mm9:beethoven:object:788
@@ -271468,6 +271742,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor10
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id121 []
 - mechanism_id: mm9:beethoven:object:789:mechanism
   object_id: mm9:beethoven:object:789
@@ -271497,6 +271800,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor9
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id122 []
 - mechanism_id: mm9:beethoven:object:790:mechanism
   object_id: mm9:beethoven:object:790
@@ -271526,6 +271858,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor9
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id123 []
 - mechanism_id: mm9:beethoven:object:791:mechanism
   object_id: mm9:beethoven:object:791
@@ -271555,6 +271916,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor12
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id124 []
 - mechanism_id: mm9:beethoven:object:792:mechanism
   object_id: mm9:beethoven:object:792
@@ -271584,6 +271974,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor12
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id125 []
 - mechanism_id: mm9:beethoven:object:793:mechanism
   object_id: mm9:beethoven:object:793
@@ -271613,6 +272032,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor15
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id126 []
 - mechanism_id: mm9:beethoven:object:794:mechanism
   object_id: mm9:beethoven:object:794
@@ -271642,6 +272090,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor15
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id127 []
 - mechanism_id: mm9:beethoven:object:795:mechanism
   object_id: mm9:beethoven:object:795
@@ -271671,6 +272148,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor18
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id128 []
 - mechanism_id: mm9:beethoven:object:796:mechanism
   object_id: mm9:beethoven:object:796
@@ -271700,6 +272206,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor18
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id129 []
 - mechanism_id: mm9:beethoven:object:797:mechanism
   object_id: mm9:beethoven:object:797
@@ -271729,6 +272264,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor16
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id130 []
 - mechanism_id: mm9:beethoven:object:798:mechanism
   object_id: mm9:beethoven:object:798
@@ -271758,6 +272322,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor16
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id131 []
 - mechanism_id: mm9:beethoven:object:799:mechanism
   object_id: mm9:beethoven:object:799
@@ -271787,6 +272380,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor14
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id132 []
 - mechanism_id: mm9:beethoven:object:800:mechanism
   object_id: mm9:beethoven:object:800
@@ -271816,6 +272438,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor14
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id133 []
 - mechanism_id: mm9:beethoven:object:801:mechanism
   object_id: mm9:beethoven:object:801
@@ -271845,6 +272496,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor19
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id134 []
 - mechanism_id: mm9:beethoven:object:802:mechanism
   object_id: mm9:beethoven:object:802
@@ -271874,6 +272554,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor19
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id135 []
 - mechanism_id: mm9:beethoven:object:803:mechanism
   object_id: mm9:beethoven:object:803
@@ -271903,6 +272612,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor21
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id136 []
 - mechanism_id: mm9:beethoven:object:804:mechanism
   object_id: mm9:beethoven:object:804
@@ -271932,6 +272670,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor21
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id137 []
 - mechanism_id: mm9:beethoven:object:805:mechanism
   object_id: mm9:beethoven:object:805
@@ -271961,6 +272728,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RightDoor22
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id138 []
 - mechanism_id: mm9:beethoven:object:806:mechanism
   object_id: mm9:beethoven:object:806
@@ -271990,6 +272786,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LeftDoor22
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorcreak03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doormetal_close02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id139 []
 - mechanism_id: mm9:beethoven:object:807:mechanism
   object_id: mm9:beethoven:object:807
@@ -272015,6 +272840,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: SDoor12
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\stonedoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id140
   - phase: open
     slot: 0
@@ -272045,6 +272899,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: SDoor11
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\stonedoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id141
   - phase: open
     slot: 0
@@ -272075,6 +272958,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Lever6
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id142 []
 - mechanism_id: mm9:beethoven:object:810:mechanism
   object_id: mm9:beethoven:object:810
@@ -272100,6 +273012,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Lever5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id143
   - phase: open
     slot: 0
@@ -272121,6 +273062,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id144 []
 - mechanism_id: mm9:beethoven:object:858:mechanism
   object_id: mm9:beethoven:object:858
@@ -272150,6 +273092,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id145 []
 - mechanism_id: mm9:beethoven:object:859:mechanism
   object_id: mm9:beethoven:object:859
@@ -272179,6 +273150,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id146 []
 - mechanism_id: mm9:beethoven:object:860:mechanism
   object_id: mm9:beethoven:object:860
@@ -272208,6 +273208,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id147 []
 - mechanism_id: mm9:beethoven:object:861:mechanism
   object_id: mm9:beethoven:object:861
@@ -272219,6 +273248,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id148 []
 - mechanism_id: mm9:beethoven:object:862:mechanism
   object_id: mm9:beethoven:object:862
@@ -272230,6 +273260,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id149 []
 - mechanism_id: mm9:beethoven:object:863:mechanism
   object_id: mm9:beethoven:object:863
@@ -272241,6 +273272,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id150 []
 - mechanism_id: mm9:beethoven:object:864:mechanism
   object_id: mm9:beethoven:object:864
@@ -272252,6 +273284,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id151 []
 - mechanism_id: mm9:beethoven:object:1153:mechanism
   object_id: mm9:beethoven:object:1153
@@ -272262,6 +273295,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id157 []
 - mechanism_id: mm9:beethoven:object:1156:mechanism
   object_id: mm9:beethoven:object:1156
@@ -272272,6 +273306,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id159 []
 - mechanism_id: mm9:beethoven:object:1159:mechanism
   object_id: mm9:beethoven:object:1159
@@ -272282,6 +273317,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id161 []
 - mechanism_id: mm9:beethoven:object:1161:mechanism
   object_id: mm9:beethoven:object:1161
@@ -272292,6 +273328,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id163 []
 - mechanism_id: mm9:beethoven:object:1164:mechanism
   object_id: mm9:beethoven:object:1164
@@ -272302,6 +273339,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id165 []
 - mechanism_id: mm9:beethoven:object:1167:mechanism
   object_id: mm9:beethoven:object:1167
@@ -272312,6 +273350,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id167 []
 - mechanism_id: mm9:beethoven:object:1170:mechanism
   object_id: mm9:beethoven:object:1170
@@ -272322,6 +273361,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id169 []
 - mechanism_id: mm9:beethoven:object:1173:mechanism
   object_id: mm9:beethoven:object:1173
@@ -272332,6 +273372,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id171 []
 - mechanism_id: mm9:beethoven:object:1183:mechanism
   object_id: mm9:beethoven:object:1183
@@ -272342,6 +273383,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:beethoven:object:1185:mechanism
   object_id: mm9:beethoven:object:1185
@@ -272352,6 +273394,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id172 []
 triggers:
 - trigger_id: mm9:beethoven:object:1148:trigger
@@ -275105,298 +276148,3051 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id327
+    - source_model_index: 0
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: &id185
+      - -6456.0
+      - 132.0
+      - 4887.0
+      distance_from_position_lt: 32.414
+    - source_model_index: 1
+      source_name: Ladder8
+      movable: true
+      world_translation_lt: &id186
+      - -6430.0
+      - 132.0
+      - 4886.5
+      distance_from_position_lt: 36.911
+    - source_model_index: 47
+      source_name: WorldObject8
+      movable: true
+      world_translation_lt: &id183
+      - -6456.0
+      - 366.0
+      - 5124.0
+      distance_from_position_lt: 356.403
+    - source_model_index: 48
+      source_name: Ladder7
+      movable: true
+      world_translation_lt: &id184
+      - -6432.0
+      - 366.0
+      - 5124.0
+      distance_from_position_lt: 356.739
+    - source_model_index: 6
+      source_name: Grates0
+      movable: true
+      world_translation_lt: &id187
+      - -6054.0
+      - 63.99999237060547
+      - 4841.0
+      distance_from_position_lt: 399.27
 - object_id: mm9:beethoven:object:3
   source_object_index: 3
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id328
+    - source_model_index: 2
+      source_name: WorldObject7
+      movable: true
+      world_translation_lt: &id180
+      - -3868.0
+      - 132.0
+      - -27.0
+      distance_from_position_lt: 32.414
+    - source_model_index: 3
+      source_name: Ladder4
+      movable: true
+      world_translation_lt: &id181
+      - -3842.0
+      - 132.0
+      - -27.5
+      distance_from_position_lt: 36.911
+    - source_model_index: 32
+      source_name: Grates27
+      movable: true
+      world_translation_lt: &id182
+      - -3622.0
+      - 64.0
+      - -70.0
+      distance_from_position_lt: 245.457
+    - source_model_index: 45
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: &id178
+      - -3868.0
+      - 366.0
+      - 213.0
+      distance_from_position_lt: 358.409
+    - source_model_index: 46
+      source_name: Ladder2
+      movable: true
+      world_translation_lt: &id179
+      - -3842.0
+      - 366.0
+      - 212.5
+      distance_from_position_lt: 358.509
 - object_id: mm9:beethoven:object:4
   source_object_index: 4
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id329
+    - source_model_index: 4
+      source_name: RotatingDoor18
+      movable: true
+      world_translation_lt: &id173
+      - 1800.0
+      - 80.0
+      - 6864.0
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 37
+      source_name: Grates32
+      movable: true
+      world_translation_lt: &id174
+      - 1789.0
+      - 64.00000762939453
+      - 7104.0
+      distance_from_rotation_point_lt: 212.887
+    - source_model_index: 605
+      source_name: InvisibleBrush8
+      movable: true
+      world_translation_lt: &id175
+      - 2019.0
+      - 198.0
+      - 6864.0
+      distance_from_rotation_point_lt: 250.338
+    - source_model_index: 40
+      source_name: Grates35
+      movable: true
+      world_translation_lt: &id176
+      - 1255.0
+      - 63.99999237060547
+      - 6592.0
+      distance_from_rotation_point_lt: 622.319
+    - source_model_index: 38
+      source_name: Grates33
+      movable: true
+      world_translation_lt: &id177
+      - 1789.0
+      - 63.9999885559082
+      - 6080.0
+      distance_from_rotation_point_lt: 812.232
+    nearest_movable_world_models_by_position: &id330
+    - source_model_index: 4
+      source_name: RotatingDoor18
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 28.0
+    - source_model_index: 37
+      source_name: Grates32
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 212.887
+    - source_model_index: 605
+      source_name: InvisibleBrush8
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 250.338
+    - source_model_index: 40
+      source_name: Grates35
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 622.319
+    - source_model_index: 38
+      source_name: Grates33
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 812.232
 - object_id: mm9:beethoven:object:231
   source_object_index: 231
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id331
+    - source_model_index: 45
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 50.49
+    - source_model_index: 46
+      source_name: Ladder2
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 53.488
+    - source_model_index: 2
+      source_name: WorldObject7
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 302.101
+    - source_model_index: 3
+      source_name: Ladder4
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 303.013
+    - source_model_index: 32
+      source_name: Grates27
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 447.695
 - object_id: mm9:beethoven:object:233
   source_object_index: 233
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id332
+    - source_model_index: 47
+      source_name: WorldObject8
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 50.843
+    - source_model_index: 48
+      source_name: Ladder7
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 53.151
+    - source_model_index: 0
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 304.884
+    - source_model_index: 1
+      source_name: Ladder8
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 305.793
+    - source_model_index: 6
+      source_name: Grates0
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 550.5
 - object_id: mm9:beethoven:object:321
   source_object_index: 321
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id333
+    - source_model_index: 554
+      source_name: WorldObject21
+      movable: true
+      world_translation_lt: &id195
+      - -2688.283935546875
+      - -692.686279296875
+      - -1730.3226318359375
+      distance_from_position_lt: 116.179
+    - source_model_index: 136
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - -2576.0
+      - -704.0
+      - -1608.0
+      distance_from_position_lt: 116.756
+    - source_model_index: 555
+      source_name: WorldObject22
+      movable: true
+      world_translation_lt: &id196
+      - -2804.97021484375
+      - -704.0
+      - -1698.3226318359375
+      distance_from_position_lt: 146.571
+    - source_model_index: 137
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: &id189
+      - -2832.0
+      - -704.0
+      - -1608.0
+      distance_from_position_lt: 147.729
+    - source_model_index: 556
+      source_name: WorldObject23
+      movable: true
+      world_translation_lt: &id188
+      - -2880.283935546875
+      - -692.686279296875
+      - -1698.3226318359375
+      distance_from_position_lt: 210.186
 - object_id: mm9:beethoven:object:322
   source_object_index: 322
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id334
+    - source_model_index: 556
+      source_name: WorldObject23
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 106.135
+    - source_model_index: 137
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: *id189
+      distance_from_position_lt: 116.756
+    - source_model_index: 148
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: &id198
+      - -2928.0
+      - -728.0
+      - -1744.0
+      distance_from_position_lt: 140.627
+    - source_model_index: 557
+      source_name: WorldObject24
+      movable: true
+      world_translation_lt: &id191
+      - -3060.97021484375
+      - -704.0
+      - -1698.32275390625
+      distance_from_position_lt: 146.571
+    - source_model_index: 138
+      source_name: InvisibleBrush2
+      movable: true
+      world_translation_lt: &id190
+      - -3088.0
+      - -704.0
+      - -1608.0
+      distance_from_position_lt: 147.729
 - object_id: mm9:beethoven:object:323
   source_object_index: 323
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id335
+    - source_model_index: 553
+      source_name: WorldObject19
+      movable: true
+      world_translation_lt: &id194
+      - -3168.283935546875
+      - -692.686279296875
+      - -1698.3226318359375
+      distance_from_position_lt: 90.614
+    - source_model_index: 138
+      source_name: InvisibleBrush2
+      movable: true
+      world_translation_lt: *id190
+      distance_from_position_lt: 116.756
+    - source_model_index: 139
+      source_name: InvisibleBrush3
+      movable: true
+      world_translation_lt: &id192
+      - -3312.0
+      - -704.0
+      - -1608.0
+      distance_from_position_lt: 116.756
+    - source_model_index: 557
+      source_name: WorldObject24
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 164.713
+    - source_model_index: 513
+      source_name: RightDoor10
+      movable: true
+      world_translation_lt: &id193
+      - -3440.0
+      - -672.0
+      - -1714.0
+      distance_from_position_lt: 259.237
 - object_id: mm9:beethoven:object:324
   source_object_index: 324
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id336
+    - source_model_index: 139
+      source_name: InvisibleBrush3
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 86.533
+    - source_model_index: 513
+      source_name: RightDoor10
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 109.124
+    - source_model_index: 147
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: &id202
+      - -3456.0
+      - -728.0
+      - -1744.0
+      distance_from_position_lt: 153.675
+    - source_model_index: 512
+      source_name: LeftDoor10
+      movable: true
+      world_translation_lt: &id200
+      - -3440.0
+      - -672.0
+      - -1778.0
+      distance_from_position_lt: 168.962
+    - source_model_index: 553
+      source_name: WorldObject19
+      movable: true
+      world_translation_lt: *id194
+      distance_from_position_lt: 239.278
 - object_id: mm9:beethoven:object:325
   source_object_index: 325
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id337
+    - source_model_index: 140
+      source_name: InvisibleBrush4
+      movable: true
+      world_translation_lt:
+      - -2576.0
+      - -704.0
+      - -1880.0
+      distance_from_position_lt: 116.756
+    - source_model_index: 141
+      source_name: InvisibleBrush5
+      movable: true
+      world_translation_lt: &id197
+      - -2832.0
+      - -704.0
+      - -1880.0
+      distance_from_position_lt: 147.729
+    - source_model_index: 554
+      source_name: WorldObject21
+      movable: true
+      world_translation_lt: *id195
+      distance_from_position_lt: 159.029
+    - source_model_index: 555
+      source_name: WorldObject22
+      movable: true
+      world_translation_lt: *id196
+      distance_from_position_lt: 225.13
+    - source_model_index: 556
+      source_name: WorldObject23
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 270.885
 - object_id: mm9:beethoven:object:326
   source_object_index: 326
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id338
+    - source_model_index: 141
+      source_name: InvisibleBrush5
+      movable: true
+      world_translation_lt: *id197
+      distance_from_position_lt: 116.756
+    - source_model_index: 142
+      source_name: InvisibleBrush6
+      movable: true
+      world_translation_lt: &id199
+      - -3088.0
+      - -704.0
+      - -1880.0
+      distance_from_position_lt: 147.729
+    - source_model_index: 148
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: *id198
+      distance_from_position_lt: 155.332
+    - source_model_index: 556
+      source_name: WorldObject23
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 201.16
+    - source_model_index: 557
+      source_name: WorldObject24
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 225.13
 - object_id: mm9:beethoven:object:327
   source_object_index: 327
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id339
+    - source_model_index: 142
+      source_name: InvisibleBrush6
+      movable: true
+      world_translation_lt: *id199
+      distance_from_position_lt: 116.756
+    - source_model_index: 143
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt: &id201
+      - -3312.0
+      - -704.0
+      - -1880.0
+      distance_from_position_lt: 116.756
+    - source_model_index: 553
+      source_name: WorldObject19
+      movable: true
+      world_translation_lt: *id194
+      distance_from_position_lt: 193.42
+    - source_model_index: 557
+      source_name: WorldObject24
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 237.341
+    - source_model_index: 512
+      source_name: LeftDoor10
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 264.008
 - object_id: mm9:beethoven:object:328
   source_object_index: 328
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id340
+    - source_model_index: 143
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt: *id201
+      distance_from_position_lt: 86.533
+    - source_model_index: 512
+      source_name: LeftDoor10
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 120.017
+    - source_model_index: 147
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 167.236
+    - source_model_index: 513
+      source_name: RightDoor10
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 180.499
+    - source_model_index: 139
+      source_name: InvisibleBrush3
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 292.957
 - object_id: mm9:beethoven:object:345
   source_object_index: 345
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id341
+    - source_model_index: 160
+      source_name: AIBarrier0
+      movable: true
+      world_translation_lt:
+      - -5616.0
+      - -656.0
+      - -1032.0
+      distance_from_position_lt: 148.593
+    - source_model_index: 594
+      source_name: WorldObject62
+      movable: true
+      world_translation_lt: &id281
+      - -5654.6865234375
+      - -692.686279296875
+      - -1112.725341796875
+      distance_from_position_lt: 192.181
+    - source_model_index: 155
+      source_name: AITrk67
+      movable: true
+      world_translation_lt: &id280
+      - -5616.0
+      - -728.0
+      - -1208.0
+      distance_from_position_lt: 223.714
+    - source_model_index: 159
+      source_name: AITrk71
+      movable: true
+      world_translation_lt:
+      - -5616.0
+      - -728.0
+      - -904.0
+      distance_from_position_lt: 263.636
+    - source_model_index: 154
+      source_name: AITrk66
+      movable: true
+      world_translation_lt:
+      - -5616.0
+      - -728.0
+      - -1312.0
+      distance_from_position_lt: 292.957
 - object_id: mm9:beethoven:object:375
   source_object_index: 375
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id342
+    - source_model_index: 190
+      source_name: AIBarrier1
+      movable: true
+      world_translation_lt:
+      - -1316.0
+      - -576.0
+      - 2084.0
+      distance_from_position_lt: 72.222
+    - source_model_index: 194
+      source_name: AITrk103
+      movable: true
+      world_translation_lt: &id203
+      - -1536.0
+      - -632.0
+      - 2096.0
+      distance_from_position_lt: 216.0
+    - source_model_index: 228
+      source_name: AIBarrier3
+      movable: true
+      world_translation_lt: &id204
+      - -1536.0
+      - -440.0
+      - 2272.0
+      distance_from_position_lt: 256.624
+    - source_model_index: 195
+      source_name: AITrk104
+      movable: true
+      world_translation_lt:
+      - -1536.0
+      - -632.0
+      - 2304.0
+      distance_from_position_lt: 288.555
+    - source_model_index: 196
+      source_name: AITrk105
+      movable: true
+      world_translation_lt:
+      - -1152.0
+      - -632.0
+      - 2304.0
+      distance_from_position_lt: 299.012
 - object_id: mm9:beethoven:object:376
   source_object_index: 376
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id343
+    - source_model_index: 191
+      source_name: AIBarrier2
+      movable: true
+      world_translation_lt: &id207
+      - -1756.0
+      - -576.0
+      - 2084.0
+      distance_from_position_lt: 72.222
+    - source_model_index: 212
+      source_name: AITrk124
+      movable: true
+      world_translation_lt: &id206
+      - -1920.0
+      - -632.0
+      - 2304.0
+      distance_from_position_lt: 256.5
+    - source_model_index: 194
+      source_name: AITrk103
+      movable: true
+      world_translation_lt: *id203
+      distance_from_position_lt: 279.886
+    - source_model_index: 218
+      source_name: AITrk129
+      movable: true
+      world_translation_lt: &id205
+      - -2024.0
+      - -440.0
+      - 2272.0
+      distance_from_position_lt: 292.957
+    - source_model_index: 228
+      source_name: AIBarrier3
+      movable: true
+      world_translation_lt: *id204
+      distance_from_position_lt: 312.308
 - object_id: mm9:beethoven:object:413
   source_object_index: 413
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id344
+    - source_model_index: 218
+      source_name: AITrk129
+      movable: true
+      world_translation_lt: *id205
+      distance_from_position_lt: 123.158
+    - source_model_index: 217
+      source_name: AITrk128
+      movable: true
+      world_translation_lt: &id208
+      - -2184.0
+      - -440.0
+      - 2312.0
+      distance_from_position_lt: 253.235
+    - source_model_index: 212
+      source_name: AITrk124
+      movable: true
+      world_translation_lt: *id206
+      distance_from_position_lt: 273.876
+    - source_model_index: 191
+      source_name: AIBarrier2
+      movable: true
+      world_translation_lt: *id207
+      distance_from_position_lt: 293.23
+    - source_model_index: 211
+      source_name: AITrk123
+      movable: true
+      world_translation_lt: &id209
+      - -2176.0
+      - -632.0
+      - 2304.0
+      distance_from_position_lt: 328.293
 - object_id: mm9:beethoven:object:414
   source_object_index: 414
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id345
+    - source_model_index: 218
+      source_name: AITrk129
+      movable: true
+      world_translation_lt: *id205
+      distance_from_position_lt: 123.158
+    - source_model_index: 217
+      source_name: AITrk128
+      movable: true
+      world_translation_lt: *id208
+      distance_from_position_lt: 214.96
+    - source_model_index: 214
+      source_name: AITrk126
+      movable: true
+      world_translation_lt:
+      - -2184.0
+      - -440.0
+      - 2512.0
+      distance_from_position_lt: 239.6
+    - source_model_index: 212
+      source_name: AITrk124
+      movable: true
+      world_translation_lt: *id206
+      distance_from_position_lt: 246.317
+    - source_model_index: 211
+      source_name: AITrk123
+      movable: true
+      world_translation_lt: *id209
+      distance_from_position_lt: 305.68
 - object_id: mm9:beethoven:object:775
   source_object_index: 775
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id346
+    - source_model_index: 106
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: &id227
+      - -1992.0
+      - -736.0
+      - -576.0
+      distance_from_position_lt: 48.703
+    - source_model_index: 501
+      source_name: frigidarium water
+      movable: true
+      world_translation_lt:
+      - -1888.0
+      - -778.0
+      - -562.0
+      distance_from_position_lt: 80.025
+    - source_model_index: 96
+      source_name: AITrk13
+      movable: true
+      world_translation_lt:
+      - -1976.0
+      - -736.0
+      - -432.0
+      distance_from_position_lt: 136.25
+    - source_model_index: 102
+      source_name: AITrk19
+      movable: true
+      world_translation_lt:
+      - -1768.0
+      - -728.0
+      - -560.0
+      distance_from_position_lt: 205.689
+    - source_model_index: 95
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: &id226
+      - -2160.0
+      - -728.0
+      - -432.0
+      distance_from_position_lt: 236.787
 - object_id: mm9:beethoven:object:779
   source_object_index: 779
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id347
+    - source_model_index: 504
+      source_name: Ladder0
+      movable: true
+      world_translation_lt:
+      - -674.0
+      - -384.0
+      - -986.0
+      distance_from_position_lt: 2.0
+    - source_model_index: 505
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt:
+      - -672.0
+      - -384.0
+      - -992.0
+      distance_from_position_lt: 6.0
+    - source_model_index: 498
+      source_name: PortalZone0
+      movable: true
+      world_translation_lt:
+      - -672.0
+      - -480.0
+      - -936.0
+      distance_from_position_lt: 108.24
+    - source_model_index: 69
+      source_name: AITrk302
+      movable: true
+      world_translation_lt:
+      - -672.0
+      - 44.0
+      - -936.0
+      distance_from_position_lt: 430.911
+    - source_model_index: 547
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt:
+      - -672.0
+      - -672.0
+      - -1399.5
+      distance_from_position_lt: 503.911
 - object_id: mm9:beethoven:object:781
   source_object_index: 781
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id348
+    - source_model_index: 506
+      source_name: LeftDoor2
+      movable: true
+      world_translation_lt: &id210
+      - -4256.0
+      - -672.0
+      - 990.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 507
+      source_name: RightDoor2
+      movable: true
+      world_translation_lt: &id211
+      - -4192.0
+      - -672.0
+      - 990.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 121
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: &id212
+      - -4208.0
+      - -728.0
+      - 760.0
+      distance_from_rotation_point_lt: 245.512
+    - source_model_index: 120
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: &id213
+      - -4224.0
+      - -728.0
+      - 464.0
+      distance_from_rotation_point_lt: 530.92
+    - source_model_index: 480
+      source_name: AITrk421
+      movable: true
+      world_translation_lt: &id214
+      - -4224.0
+      - -1208.0
+      - 1120.0
+      distance_from_rotation_point_lt: 539.351
+    nearest_movable_world_models_by_position: &id349
+    - source_model_index: 506
+      source_name: LeftDoor2
+      movable: true
+      world_translation_lt: *id210
+      distance_from_position_lt: 32.249
+    - source_model_index: 507
+      source_name: RightDoor2
+      movable: true
+      world_translation_lt: *id211
+      distance_from_position_lt: 93.381
+    - source_model_index: 121
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id212
+      distance_from_position_lt: 245.512
+    - source_model_index: 120
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: *id213
+      distance_from_position_lt: 530.92
+    - source_model_index: 480
+      source_name: AITrk421
+      movable: true
+      world_translation_lt: *id214
+      distance_from_position_lt: 539.351
 - object_id: mm9:beethoven:object:782
   source_object_index: 782
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id350
+    - source_model_index: 507
+      source_name: RightDoor2
+      movable: true
+      world_translation_lt: *id211
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 506
+      source_name: LeftDoor2
+      movable: true
+      world_translation_lt: *id210
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 121
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id212
+      distance_from_rotation_point_lt: 237.563
+    - source_model_index: 120
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: *id213
+      distance_from_rotation_point_lt: 530.92
+    - source_model_index: 480
+      source_name: AITrk421
+      movable: true
+      world_translation_lt: *id214
+      distance_from_rotation_point_lt: 539.351
+    nearest_movable_world_models_by_position: &id351
+    - source_model_index: 507
+      source_name: RightDoor2
+      movable: true
+      world_translation_lt: *id211
+      distance_from_position_lt: 32.249
+    - source_model_index: 506
+      source_name: LeftDoor2
+      movable: true
+      world_translation_lt: *id210
+      distance_from_position_lt: 93.381
+    - source_model_index: 121
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id212
+      distance_from_position_lt: 237.563
+    - source_model_index: 120
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: *id213
+      distance_from_position_lt: 530.92
+    - source_model_index: 480
+      source_name: AITrk421
+      movable: true
+      world_translation_lt: *id214
+      distance_from_position_lt: 539.351
 - object_id: mm9:beethoven:object:783
   source_object_index: 783
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id352
+    - source_model_index: 508
+      source_name: LeftDoor3
+      movable: true
+      world_translation_lt: &id215
+      - -4256.0
+      - -672.0
+      - -66.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 126
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: &id216
+      - -4224.0
+      - -728.0
+      - -48.0
+      distance_from_rotation_point_lt: 74.324
+    - source_model_index: 509
+      source_name: RightDoor3
+      movable: true
+      world_translation_lt: &id217
+      - -4192.0
+      - -672.0
+      - -66.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 585
+      source_name: WorldObject53
+      movable: true
+      world_translation_lt: &id218
+      - -4270.7763671875
+      - -692.686279296875
+      - -226.3226318359375
+      distance_from_rotation_point_lt: 160.935
+    - source_model_index: 123
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: &id219
+      - -4224.0
+      - -728.0
+      - 80.0
+      distance_from_rotation_point_lt: 162.837
+    nearest_movable_world_models_by_position: &id353
+    - source_model_index: 508
+      source_name: LeftDoor3
+      movable: true
+      world_translation_lt: *id215
+      distance_from_position_lt: 32.249
+    - source_model_index: 126
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: *id216
+      distance_from_position_lt: 74.324
+    - source_model_index: 509
+      source_name: RightDoor3
+      movable: true
+      world_translation_lt: *id217
+      distance_from_position_lt: 93.381
+    - source_model_index: 585
+      source_name: WorldObject53
+      movable: true
+      world_translation_lt: *id218
+      distance_from_position_lt: 160.935
+    - source_model_index: 123
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: *id219
+      distance_from_position_lt: 162.837
 - object_id: mm9:beethoven:object:784
   source_object_index: 784
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id354
+    - source_model_index: 509
+      source_name: RightDoor3
+      movable: true
+      world_translation_lt: *id217
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 126
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: *id216
+      distance_from_rotation_point_lt: 74.324
+    - source_model_index: 508
+      source_name: LeftDoor3
+      movable: true
+      world_translation_lt: *id215
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 123
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: *id219
+      distance_from_rotation_point_lt: 162.837
+    - source_model_index: 585
+      source_name: WorldObject53
+      movable: true
+      world_translation_lt: *id218
+      distance_from_rotation_point_lt: 192.682
+    nearest_movable_world_models_by_position: &id355
+    - source_model_index: 509
+      source_name: RightDoor3
+      movable: true
+      world_translation_lt: *id217
+      distance_from_position_lt: 32.249
+    - source_model_index: 126
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: *id216
+      distance_from_position_lt: 74.324
+    - source_model_index: 508
+      source_name: LeftDoor3
+      movable: true
+      world_translation_lt: *id215
+      distance_from_position_lt: 93.381
+    - source_model_index: 123
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: *id219
+      distance_from_position_lt: 162.837
+    - source_model_index: 585
+      source_name: WorldObject53
+      movable: true
+      world_translation_lt: *id218
+      distance_from_position_lt: 192.682
 - object_id: mm9:beethoven:object:785
   source_object_index: 785
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id356
+    - source_model_index: 510
+      source_name: LeftDoor5
+      movable: true
+      world_translation_lt: &id220
+      - -3696.0
+      - -672.0
+      - 432.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 119
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: &id221
+      - -3696.0
+      - -728.0
+      - 464.0
+      distance_from_rotation_point_lt: 72.111
+    - source_model_index: 511
+      source_name: RightDoor5
+      movable: true
+      world_translation_lt: &id222
+      - -3696.0
+      - -672.0
+      - 496.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 117
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: &id223
+      - -3536.0
+      - -728.0
+      - 464.0
+      distance_from_rotation_point_lt: 175.499
+    - source_model_index: 118
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: &id224
+      - -3552.0
+      - -728.0
+      - 304.0
+      distance_from_rotation_point_lt: 179.822
+    nearest_movable_world_models_by_position: &id357
+    - source_model_index: 510
+      source_name: LeftDoor5
+      movable: true
+      world_translation_lt: *id220
+      distance_from_position_lt: 32.249
+    - source_model_index: 119
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: *id221
+      distance_from_position_lt: 72.111
+    - source_model_index: 511
+      source_name: RightDoor5
+      movable: true
+      world_translation_lt: *id222
+      distance_from_position_lt: 93.381
+    - source_model_index: 117
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id223
+      distance_from_position_lt: 175.499
+    - source_model_index: 118
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: *id224
+      distance_from_position_lt: 179.822
 - object_id: mm9:beethoven:object:786
   source_object_index: 786
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id358
+    - source_model_index: 511
+      source_name: RightDoor5
+      movable: true
+      world_translation_lt: *id222
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 119
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: *id221
+      distance_from_rotation_point_lt: 72.111
+    - source_model_index: 510
+      source_name: LeftDoor5
+      movable: true
+      world_translation_lt: *id220
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 117
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id223
+      distance_from_rotation_point_lt: 175.499
+    - source_model_index: 116
+      source_name: AITrk36
+      movable: true
+      world_translation_lt: &id225
+      - -3552.0
+      - -728.0
+      - 624.0
+      distance_from_rotation_point_lt: 179.822
+    nearest_movable_world_models_by_position: &id359
+    - source_model_index: 511
+      source_name: RightDoor5
+      movable: true
+      world_translation_lt: *id222
+      distance_from_position_lt: 32.249
+    - source_model_index: 119
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: *id221
+      distance_from_position_lt: 72.111
+    - source_model_index: 510
+      source_name: LeftDoor5
+      movable: true
+      world_translation_lt: *id220
+      distance_from_position_lt: 93.381
+    - source_model_index: 117
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id223
+      distance_from_position_lt: 175.499
+    - source_model_index: 116
+      source_name: AITrk36
+      movable: true
+      world_translation_lt: *id225
+      distance_from_position_lt: 179.822
 - object_id: mm9:beethoven:object:787
   source_object_index: 787
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id360
+    - source_model_index: 512
+      source_name: LeftDoor10
+      movable: true
+      world_translation_lt: *id200
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 147
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id202
+      distance_from_rotation_point_lt: 75.498
+    - source_model_index: 513
+      source_name: RightDoor10
+      movable: true
+      world_translation_lt: *id193
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 143
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt: *id201
+      distance_from_rotation_point_lt: 148.714
+    - source_model_index: 139
+      source_name: InvisibleBrush3
+      movable: true
+      world_translation_lt: *id192
+      distance_from_rotation_point_lt: 236.313
+    nearest_movable_world_models_by_position: &id361
+    - source_model_index: 512
+      source_name: LeftDoor10
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 32.249
+    - source_model_index: 147
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 75.498
+    - source_model_index: 513
+      source_name: RightDoor10
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 93.381
+    - source_model_index: 143
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt: *id201
+      distance_from_position_lt: 148.714
+    - source_model_index: 139
+      source_name: InvisibleBrush3
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 236.313
 - object_id: mm9:beethoven:object:788
   source_object_index: 788
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id362
+    - source_model_index: 513
+      source_name: RightDoor10
+      movable: true
+      world_translation_lt: *id193
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 147
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id202
+      distance_from_rotation_point_lt: 72.25
+    - source_model_index: 512
+      source_name: LeftDoor10
+      movable: true
+      world_translation_lt: *id200
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 139
+      source_name: InvisibleBrush3
+      movable: true
+      world_translation_lt: *id192
+      distance_from_rotation_point_lt: 150.745
+    - source_model_index: 143
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt: *id201
+      distance_from_rotation_point_lt: 232.972
+    nearest_movable_world_models_by_position: &id363
+    - source_model_index: 513
+      source_name: RightDoor10
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 32.249
+    - source_model_index: 147
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 72.25
+    - source_model_index: 512
+      source_name: LeftDoor10
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 93.381
+    - source_model_index: 139
+      source_name: InvisibleBrush3
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 150.745
+    - source_model_index: 143
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt: *id201
+      distance_from_position_lt: 232.972
 - object_id: mm9:beethoven:object:789
   source_object_index: 789
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id364
+    - source_model_index: 514
+      source_name: LeftDoor9
+      movable: true
+      world_translation_lt: &id228
+      - -2160.0
+      - -672.0
+      - -466.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 95
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: *id226
+      distance_from_rotation_point_lt: 73.783
+    - source_model_index: 515
+      source_name: RightDoor9
+      movable: true
+      world_translation_lt: &id229
+      - -2160.0
+      - -672.0
+      - -402.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 94
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: &id230
+      - -2320.0
+      - -728.0
+      - -432.0
+      distance_from_rotation_point_lt: 176.193
+    - source_model_index: 106
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id227
+      distance_from_rotation_point_lt: 193.008
+    nearest_movable_world_models_by_position: &id365
+    - source_model_index: 514
+      source_name: LeftDoor9
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 32.249
+    - source_model_index: 95
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: *id226
+      distance_from_position_lt: 73.783
+    - source_model_index: 515
+      source_name: RightDoor9
+      movable: true
+      world_translation_lt: *id229
+      distance_from_position_lt: 93.381
+    - source_model_index: 94
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id230
+      distance_from_position_lt: 176.193
+    - source_model_index: 106
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id227
+      distance_from_position_lt: 193.008
 - object_id: mm9:beethoven:object:790
   source_object_index: 790
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id366
+    - source_model_index: 515
+      source_name: RightDoor9
+      movable: true
+      world_translation_lt: *id229
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 95
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: *id226
+      distance_from_rotation_point_lt: 70.456
+    - source_model_index: 514
+      source_name: LeftDoor9
+      movable: true
+      world_translation_lt: *id228
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 108
+      source_name: AITrk25
+      movable: true
+      world_translation_lt: &id231
+      - -2304.0
+      - -728.0
+      - -336.0
+      distance_from_rotation_point_lt: 154.208
+    - source_model_index: 94
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id230
+      distance_from_rotation_point_lt: 174.826
+    nearest_movable_world_models_by_position: &id367
+    - source_model_index: 515
+      source_name: RightDoor9
+      movable: true
+      world_translation_lt: *id229
+      distance_from_position_lt: 32.249
+    - source_model_index: 95
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: *id226
+      distance_from_position_lt: 70.456
+    - source_model_index: 514
+      source_name: LeftDoor9
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 93.381
+    - source_model_index: 108
+      source_name: AITrk25
+      movable: true
+      world_translation_lt: *id231
+      distance_from_position_lt: 154.208
+    - source_model_index: 94
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id230
+      distance_from_position_lt: 174.826
 - object_id: mm9:beethoven:object:791
   source_object_index: 791
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id368
+    - source_model_index: 516
+      source_name: LeftDoor12
+      movable: true
+      world_translation_lt: &id232
+      - -3040.0
+      - -672.0
+      - 734.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 114
+      source_name: AITrk32
+      movable: true
+      world_translation_lt: &id233
+      - -3008.0
+      - -728.0
+      - 736.0
+      distance_from_rotation_point_lt: 72.139
+    - source_model_index: 517
+      source_name: RightDoor12
+      movable: true
+      world_translation_lt: &id234
+      - -2976.0
+      - -672.0
+      - 734.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 173
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: &id235
+      - -3008.0
+      - -728.0
+      - 840.0
+      distance_from_rotation_point_lt: 128.203
+    - source_model_index: 175
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: &id236
+      - -3168.0
+      - -728.0
+      - 824.0
+      distance_from_rotation_point_lt: 140.357
+    nearest_movable_world_models_by_position: &id369
+    - source_model_index: 516
+      source_name: LeftDoor12
+      movable: true
+      world_translation_lt: *id232
+      distance_from_position_lt: 32.249
+    - source_model_index: 114
+      source_name: AITrk32
+      movable: true
+      world_translation_lt: *id233
+      distance_from_position_lt: 72.139
+    - source_model_index: 517
+      source_name: RightDoor12
+      movable: true
+      world_translation_lt: *id234
+      distance_from_position_lt: 93.381
+    - source_model_index: 173
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: *id235
+      distance_from_position_lt: 128.203
+    - source_model_index: 175
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: *id236
+      distance_from_position_lt: 140.357
 - object_id: mm9:beethoven:object:792
   source_object_index: 792
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id370
+    - source_model_index: 517
+      source_name: RightDoor12
+      movable: true
+      world_translation_lt: *id234
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 114
+      source_name: AITrk32
+      movable: true
+      world_translation_lt: *id233
+      distance_from_rotation_point_lt: 72.139
+    - source_model_index: 516
+      source_name: LeftDoor12
+      movable: true
+      world_translation_lt: *id232
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 173
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: *id235
+      distance_from_rotation_point_lt: 128.203
+    - source_model_index: 174
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: &id237
+      - -2848.0
+      - -728.0
+      - 824.0
+      distance_from_rotation_point_lt: 140.357
+    nearest_movable_world_models_by_position: &id371
+    - source_model_index: 517
+      source_name: RightDoor12
+      movable: true
+      world_translation_lt: *id234
+      distance_from_position_lt: 32.249
+    - source_model_index: 114
+      source_name: AITrk32
+      movable: true
+      world_translation_lt: *id233
+      distance_from_position_lt: 72.139
+    - source_model_index: 516
+      source_name: LeftDoor12
+      movable: true
+      world_translation_lt: *id232
+      distance_from_position_lt: 93.381
+    - source_model_index: 173
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: *id235
+      distance_from_position_lt: 128.203
+    - source_model_index: 174
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: *id237
+      distance_from_position_lt: 140.357
 - object_id: mm9:beethoven:object:793
   source_object_index: 793
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id372
+    - source_model_index: 518
+      source_name: LeftDoor15
+      movable: true
+      world_translation_lt: &id238
+      - -4464.0
+      - -672.0
+      - -2002.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 149
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: &id239
+      - -4440.0
+      - -728.0
+      - -1968.0
+      distance_from_rotation_point_lt: 77.589
+    - source_model_index: 519
+      source_name: RightDoor15
+      movable: true
+      world_translation_lt: &id240
+      - -4464.0
+      - -672.0
+      - -1938.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 590
+      source_name: WorldObject58
+      movable: true
+      world_translation_lt: &id241
+      - -4688.2841796875
+      - -692.686279296875
+      - -1938.322509765625
+      distance_from_rotation_point_lt: 242.343
+    - source_model_index: 150
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: &id242
+      - -4864.0
+      - -728.0
+      - -1968.0
+      distance_from_rotation_point_lt: 406.748
+    nearest_movable_world_models_by_position: &id373
+    - source_model_index: 518
+      source_name: LeftDoor15
+      movable: true
+      world_translation_lt: *id238
+      distance_from_position_lt: 32.249
+    - source_model_index: 149
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: *id239
+      distance_from_position_lt: 77.589
+    - source_model_index: 519
+      source_name: RightDoor15
+      movable: true
+      world_translation_lt: *id240
+      distance_from_position_lt: 93.381
+    - source_model_index: 590
+      source_name: WorldObject58
+      movable: true
+      world_translation_lt: *id241
+      distance_from_position_lt: 242.343
+    - source_model_index: 150
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id242
+      distance_from_position_lt: 406.748
 - object_id: mm9:beethoven:object:794
   source_object_index: 794
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id374
+    - source_model_index: 519
+      source_name: RightDoor15
+      movable: true
+      world_translation_lt: *id240
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 149
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: *id239
+      distance_from_rotation_point_lt: 74.431
+    - source_model_index: 518
+      source_name: LeftDoor15
+      movable: true
+      world_translation_lt: *id238
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 590
+      source_name: WorldObject58
+      movable: true
+      world_translation_lt: *id241
+      distance_from_rotation_point_lt: 226.114
+    - source_model_index: 150
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id242
+      distance_from_rotation_point_lt: 406.158
+    nearest_movable_world_models_by_position: &id375
+    - source_model_index: 519
+      source_name: RightDoor15
+      movable: true
+      world_translation_lt: *id240
+      distance_from_position_lt: 32.249
+    - source_model_index: 149
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: *id239
+      distance_from_position_lt: 74.431
+    - source_model_index: 518
+      source_name: LeftDoor15
+      movable: true
+      world_translation_lt: *id238
+      distance_from_position_lt: 93.381
+    - source_model_index: 590
+      source_name: WorldObject58
+      movable: true
+      world_translation_lt: *id241
+      distance_from_position_lt: 226.114
+    - source_model_index: 150
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id242
+      distance_from_position_lt: 406.158
 - object_id: mm9:beethoven:object:795
   source_object_index: 795
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id376
+    - source_model_index: 520
+      source_name: LeftDoor18
+      movable: true
+      world_translation_lt: &id243
+      - -6016.0
+      - -752.0
+      - -2226.0
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 169
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: &id244
+      - -5984.0
+      - -808.0
+      - -2248.0
+      distance_from_rotation_point_lt: 84.971
+    - source_model_index: 521
+      source_name: RightDoor18
+      movable: true
+      world_translation_lt: &id245
+      - -5952.0
+      - -752.0
+      - -2226.0
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 172
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: &id246
+      - -6112.0
+      - -808.0
+      - -2368.0
+      distance_from_rotation_point_lt: 167.105
+    - source_model_index: 170
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: &id247
+      - -5984.0
+      - -808.0
+      - -2408.0
+      distance_from_rotation_point_lt: 199.65
+    nearest_movable_world_models_by_position: &id377
+    - source_model_index: 520
+      source_name: LeftDoor18
+      movable: true
+      world_translation_lt: *id243
+      distance_from_position_lt: 28.0
+    - source_model_index: 169
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: *id244
+      distance_from_position_lt: 84.971
+    - source_model_index: 521
+      source_name: RightDoor18
+      movable: true
+      world_translation_lt: *id245
+      distance_from_position_lt: 92.0
+    - source_model_index: 172
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: *id246
+      distance_from_position_lt: 167.105
+    - source_model_index: 170
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: *id247
+      distance_from_position_lt: 199.65
 - object_id: mm9:beethoven:object:796
   source_object_index: 796
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id378
+    - source_model_index: 521
+      source_name: RightDoor18
+      movable: true
+      world_translation_lt: *id245
+      distance_from_rotation_point_lt: 28.0
+    - source_model_index: 169
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: *id244
+      distance_from_rotation_point_lt: 84.971
+    - source_model_index: 520
+      source_name: LeftDoor18
+      movable: true
+      world_translation_lt: *id243
+      distance_from_rotation_point_lt: 92.0
+    - source_model_index: 171
+      source_name: AITrk82
+      movable: true
+      world_translation_lt: &id248
+      - -5856.0
+      - -808.0
+      - -2368.0
+      distance_from_rotation_point_lt: 167.105
+    - source_model_index: 170
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: *id247
+      distance_from_rotation_point_lt: 199.65
+    nearest_movable_world_models_by_position: &id379
+    - source_model_index: 521
+      source_name: RightDoor18
+      movable: true
+      world_translation_lt: *id245
+      distance_from_position_lt: 28.0
+    - source_model_index: 169
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: *id244
+      distance_from_position_lt: 84.971
+    - source_model_index: 520
+      source_name: LeftDoor18
+      movable: true
+      world_translation_lt: *id243
+      distance_from_position_lt: 92.0
+    - source_model_index: 171
+      source_name: AITrk82
+      movable: true
+      world_translation_lt: *id248
+      distance_from_position_lt: 167.105
+    - source_model_index: 170
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: *id247
+      distance_from_position_lt: 199.65
 - object_id: mm9:beethoven:object:797
   source_object_index: 797
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id380
+    - source_model_index: 522
+      source_name: LeftDoor16
+      movable: true
+      world_translation_lt: &id249
+      - -4000.0
+      - -672.0
+      - -1058.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 130
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: &id250
+      - -3968.0
+      - -728.0
+      - -1072.0
+      distance_from_rotation_point_lt: 73.457
+    - source_model_index: 523
+      source_name: RightDoor16
+      movable: true
+      world_translation_lt: &id251
+      - -3936.0
+      - -672.0
+      - -1058.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 129
+      source_name: AITrk49
+      movable: true
+      world_translation_lt: &id252
+      - -3968.0
+      - -728.0
+      - -928.0
+      distance_from_rotation_point_lt: 148.661
+    - source_model_index: 131
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: &id253
+      - -3968.0
+      - -728.0
+      - -1192.0
+      distance_from_rotation_point_lt: 152.171
+    nearest_movable_world_models_by_position: &id381
+    - source_model_index: 522
+      source_name: LeftDoor16
+      movable: true
+      world_translation_lt: *id249
+      distance_from_position_lt: 32.249
+    - source_model_index: 130
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id250
+      distance_from_position_lt: 73.457
+    - source_model_index: 523
+      source_name: RightDoor16
+      movable: true
+      world_translation_lt: *id251
+      distance_from_position_lt: 93.381
+    - source_model_index: 129
+      source_name: AITrk49
+      movable: true
+      world_translation_lt: *id252
+      distance_from_position_lt: 148.661
+    - source_model_index: 131
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: *id253
+      distance_from_position_lt: 152.171
 - object_id: mm9:beethoven:object:798
   source_object_index: 798
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id382
+    - source_model_index: 523
+      source_name: RightDoor16
+      movable: true
+      world_translation_lt: *id251
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 130
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id250
+      distance_from_rotation_point_lt: 73.457
+    - source_model_index: 522
+      source_name: LeftDoor16
+      movable: true
+      world_translation_lt: *id249
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 129
+      source_name: AITrk49
+      movable: true
+      world_translation_lt: *id252
+      distance_from_rotation_point_lt: 148.661
+    - source_model_index: 131
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: *id253
+      distance_from_rotation_point_lt: 152.171
+    nearest_movable_world_models_by_position: &id383
+    - source_model_index: 523
+      source_name: RightDoor16
+      movable: true
+      world_translation_lt: *id251
+      distance_from_position_lt: 32.249
+    - source_model_index: 130
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id250
+      distance_from_position_lt: 73.457
+    - source_model_index: 522
+      source_name: LeftDoor16
+      movable: true
+      world_translation_lt: *id249
+      distance_from_position_lt: 93.381
+    - source_model_index: 129
+      source_name: AITrk49
+      movable: true
+      world_translation_lt: *id252
+      distance_from_position_lt: 148.661
+    - source_model_index: 131
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: *id253
+      distance_from_position_lt: 152.171
 - object_id: mm9:beethoven:object:799
   source_object_index: 799
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id384
+    - source_model_index: 524
+      source_name: LeftDoor14
+      movable: true
+      world_translation_lt: &id254
+      - -6256.0
+      - -672.0
+      - -1488.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 165
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: &id255
+      - -6280.0
+      - -728.0
+      - -1456.0
+      distance_from_rotation_point_lt: 76.0
+    - source_model_index: 525
+      source_name: RightDoor14
+      movable: true
+      world_translation_lt: &id256
+      - -6256.0
+      - -672.0
+      - -1424.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 164
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: &id257
+      - -6176.0
+      - -728.0
+      - -1456.0
+      distance_from_rotation_point_lt: 107.703
+    - source_model_index: 162
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: &id258
+      - -5984.0
+      - -728.0
+      - -1456.0
+      distance_from_rotation_point_lt: 281.397
+    nearest_movable_world_models_by_position: &id385
+    - source_model_index: 524
+      source_name: LeftDoor14
+      movable: true
+      world_translation_lt: *id254
+      distance_from_position_lt: 32.249
+    - source_model_index: 165
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id255
+      distance_from_position_lt: 76.0
+    - source_model_index: 525
+      source_name: RightDoor14
+      movable: true
+      world_translation_lt: *id256
+      distance_from_position_lt: 93.381
+    - source_model_index: 164
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: *id257
+      distance_from_position_lt: 107.703
+    - source_model_index: 162
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id258
+      distance_from_position_lt: 281.397
 - object_id: mm9:beethoven:object:800
   source_object_index: 800
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id386
+    - source_model_index: 525
+      source_name: RightDoor14
+      movable: true
+      world_translation_lt: *id256
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 165
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id255
+      distance_from_rotation_point_lt: 76.0
+    - source_model_index: 524
+      source_name: LeftDoor14
+      movable: true
+      world_translation_lt: *id254
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 164
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: *id257
+      distance_from_rotation_point_lt: 107.703
+    - source_model_index: 162
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id258
+      distance_from_rotation_point_lt: 281.397
+    nearest_movable_world_models_by_position: &id387
+    - source_model_index: 525
+      source_name: RightDoor14
+      movable: true
+      world_translation_lt: *id256
+      distance_from_position_lt: 32.249
+    - source_model_index: 165
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id255
+      distance_from_position_lt: 76.0
+    - source_model_index: 524
+      source_name: LeftDoor14
+      movable: true
+      world_translation_lt: *id254
+      distance_from_position_lt: 93.381
+    - source_model_index: 164
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: *id257
+      distance_from_position_lt: 107.703
+    - source_model_index: 162
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id258
+      distance_from_position_lt: 281.397
 - object_id: mm9:beethoven:object:801
   source_object_index: 801
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id388
+    - source_model_index: 526
+      source_name: LeftDoor19
+      movable: true
+      world_translation_lt: &id259
+      - -3040.0
+      - -672.0
+      - 2270.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 180
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: &id260
+      - -3008.0
+      - -728.0
+      - 2272.0
+      distance_from_rotation_point_lt: 72.139
+    - source_model_index: 527
+      source_name: RightDoor19
+      movable: true
+      world_translation_lt: &id261
+      - -2976.0
+      - -672.0
+      - 2270.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 181
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: &id262
+      - -3008.0
+      - -728.0
+      - 2168.0
+      distance_from_rotation_point_lt: 124.916
+    - source_model_index: 183
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: &id263
+      - -3168.0
+      - -728.0
+      - 2184.0
+      distance_from_rotation_point_lt: 137.826
+    nearest_movable_world_models_by_position: &id389
+    - source_model_index: 526
+      source_name: LeftDoor19
+      movable: true
+      world_translation_lt: *id259
+      distance_from_position_lt: 32.249
+    - source_model_index: 180
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: *id260
+      distance_from_position_lt: 72.139
+    - source_model_index: 527
+      source_name: RightDoor19
+      movable: true
+      world_translation_lt: *id261
+      distance_from_position_lt: 93.381
+    - source_model_index: 181
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: *id262
+      distance_from_position_lt: 124.916
+    - source_model_index: 183
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: *id263
+      distance_from_position_lt: 137.826
 - object_id: mm9:beethoven:object:802
   source_object_index: 802
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id390
+    - source_model_index: 527
+      source_name: RightDoor19
+      movable: true
+      world_translation_lt: *id261
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 180
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: *id260
+      distance_from_rotation_point_lt: 72.139
+    - source_model_index: 526
+      source_name: LeftDoor19
+      movable: true
+      world_translation_lt: *id259
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 181
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: *id262
+      distance_from_rotation_point_lt: 124.916
+    - source_model_index: 182
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: &id264
+      - -2848.0
+      - -728.0
+      - 2184.0
+      distance_from_rotation_point_lt: 137.826
+    nearest_movable_world_models_by_position: &id391
+    - source_model_index: 527
+      source_name: RightDoor19
+      movable: true
+      world_translation_lt: *id261
+      distance_from_position_lt: 32.249
+    - source_model_index: 180
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: *id260
+      distance_from_position_lt: 72.139
+    - source_model_index: 526
+      source_name: LeftDoor19
+      movable: true
+      world_translation_lt: *id259
+      distance_from_position_lt: 93.381
+    - source_model_index: 181
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: *id262
+      distance_from_position_lt: 124.916
+    - source_model_index: 182
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id264
+      distance_from_position_lt: 137.826
 - object_id: mm9:beethoven:object:803
   source_object_index: 803
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id392
+    - source_model_index: 528
+      source_name: LeftDoor21
+      movable: true
+      world_translation_lt: &id265
+      - -2176.0
+      - -672.0
+      - -1920.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 89
+      source_name: AITrk6
+      movable: true
+      world_translation_lt: &id266
+      - -2144.0
+      - -728.0
+      - -1920.0
+      distance_from_rotation_point_lt: 72.111
+    - source_model_index: 529
+      source_name: RightDoor21
+      movable: true
+      world_translation_lt: &id267
+      - -2112.0
+      - -672.0
+      - -1920.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 88
+      source_name: AITrk5
+      movable: true
+      world_translation_lt: &id268
+      - -2144.0
+      - -728.0
+      - -1832.0
+      distance_from_rotation_point_lt: 113.772
+    - source_model_index: 230
+      source_name: AITrk137
+      movable: true
+      world_translation_lt: &id269
+      - -2144.0
+      - -728.0
+      - -2016.0
+      distance_from_rotation_point_lt: 120.067
+    nearest_movable_world_models_by_position: &id393
+    - source_model_index: 528
+      source_name: LeftDoor21
+      movable: true
+      world_translation_lt: *id265
+      distance_from_position_lt: 32.249
+    - source_model_index: 89
+      source_name: AITrk6
+      movable: true
+      world_translation_lt: *id266
+      distance_from_position_lt: 72.111
+    - source_model_index: 529
+      source_name: RightDoor21
+      movable: true
+      world_translation_lt: *id267
+      distance_from_position_lt: 93.381
+    - source_model_index: 88
+      source_name: AITrk5
+      movable: true
+      world_translation_lt: *id268
+      distance_from_position_lt: 113.772
+    - source_model_index: 230
+      source_name: AITrk137
+      movable: true
+      world_translation_lt: *id269
+      distance_from_position_lt: 120.067
 - object_id: mm9:beethoven:object:804
   source_object_index: 804
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id394
+    - source_model_index: 529
+      source_name: RightDoor21
+      movable: true
+      world_translation_lt: *id267
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 89
+      source_name: AITrk6
+      movable: true
+      world_translation_lt: *id266
+      distance_from_rotation_point_lt: 72.111
+    - source_model_index: 528
+      source_name: LeftDoor21
+      movable: true
+      world_translation_lt: *id265
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 88
+      source_name: AITrk5
+      movable: true
+      world_translation_lt: *id268
+      distance_from_rotation_point_lt: 113.772
+    - source_model_index: 230
+      source_name: AITrk137
+      movable: true
+      world_translation_lt: *id269
+      distance_from_rotation_point_lt: 120.067
+    nearest_movable_world_models_by_position: &id395
+    - source_model_index: 529
+      source_name: RightDoor21
+      movable: true
+      world_translation_lt: *id267
+      distance_from_position_lt: 32.249
+    - source_model_index: 89
+      source_name: AITrk6
+      movable: true
+      world_translation_lt: *id266
+      distance_from_position_lt: 72.111
+    - source_model_index: 528
+      source_name: LeftDoor21
+      movable: true
+      world_translation_lt: *id265
+      distance_from_position_lt: 93.381
+    - source_model_index: 88
+      source_name: AITrk5
+      movable: true
+      world_translation_lt: *id268
+      distance_from_position_lt: 113.772
+    - source_model_index: 230
+      source_name: AITrk137
+      movable: true
+      world_translation_lt: *id269
+      distance_from_position_lt: 120.067
 - object_id: mm9:beethoven:object:805
   source_object_index: 805
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id396
+    - source_model_index: 530
+      source_name: LeftDoor22
+      movable: true
+      world_translation_lt: &id270
+      - -2208.0
+      - -672.0
+      - -2626.0
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 236
+      source_name: AITrk402
+      movable: true
+      world_translation_lt: &id271
+      - -2176.0
+      - -728.0
+      - -2624.0
+      distance_from_rotation_point_lt: 72.139
+    - source_model_index: 531
+      source_name: RightDoor22
+      movable: true
+      world_translation_lt: &id272
+      - -2144.0
+      - -672.0
+      - -2626.0
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 237
+      source_name: AITrk143
+      movable: true
+      world_translation_lt: &id273
+      - -2176.0
+      - -728.0
+      - -2720.0
+      distance_from_rotation_point_lt: 118.474
+    - source_model_index: 235
+      source_name: AITrk140
+      movable: true
+      world_translation_lt: &id274
+      - -2176.0
+      - -728.0
+      - -2528.0
+      distance_from_rotation_point_lt: 121.672
+    nearest_movable_world_models_by_position: &id397
+    - source_model_index: 530
+      source_name: LeftDoor22
+      movable: true
+      world_translation_lt: *id270
+      distance_from_position_lt: 32.249
+    - source_model_index: 236
+      source_name: AITrk402
+      movable: true
+      world_translation_lt: *id271
+      distance_from_position_lt: 72.139
+    - source_model_index: 531
+      source_name: RightDoor22
+      movable: true
+      world_translation_lt: *id272
+      distance_from_position_lt: 93.381
+    - source_model_index: 237
+      source_name: AITrk143
+      movable: true
+      world_translation_lt: *id273
+      distance_from_position_lt: 118.474
+    - source_model_index: 235
+      source_name: AITrk140
+      movable: true
+      world_translation_lt: *id274
+      distance_from_position_lt: 121.672
 - object_id: mm9:beethoven:object:806
   source_object_index: 806
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id398
+    - source_model_index: 531
+      source_name: RightDoor22
+      movable: true
+      world_translation_lt: *id272
+      distance_from_rotation_point_lt: 32.249
+    - source_model_index: 236
+      source_name: AITrk402
+      movable: true
+      world_translation_lt: *id271
+      distance_from_rotation_point_lt: 72.139
+    - source_model_index: 530
+      source_name: LeftDoor22
+      movable: true
+      world_translation_lt: *id270
+      distance_from_rotation_point_lt: 93.381
+    - source_model_index: 237
+      source_name: AITrk143
+      movable: true
+      world_translation_lt: *id273
+      distance_from_rotation_point_lt: 118.474
+    - source_model_index: 235
+      source_name: AITrk140
+      movable: true
+      world_translation_lt: *id274
+      distance_from_rotation_point_lt: 121.672
+    nearest_movable_world_models_by_position: &id399
+    - source_model_index: 531
+      source_name: RightDoor22
+      movable: true
+      world_translation_lt: *id272
+      distance_from_position_lt: 32.249
+    - source_model_index: 236
+      source_name: AITrk402
+      movable: true
+      world_translation_lt: *id271
+      distance_from_position_lt: 72.139
+    - source_model_index: 530
+      source_name: LeftDoor22
+      movable: true
+      world_translation_lt: *id270
+      distance_from_position_lt: 93.381
+    - source_model_index: 237
+      source_name: AITrk143
+      movable: true
+      world_translation_lt: *id273
+      distance_from_position_lt: 118.474
+    - source_model_index: 235
+      source_name: AITrk140
+      movable: true
+      world_translation_lt: *id274
+      distance_from_position_lt: 121.672
 - object_id: mm9:beethoven:object:807
   source_object_index: 807
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id400
+    - source_model_index: 532
+      source_name: SDoor11
+      movable: true
+      world_translation_lt: &id277
+      - -4992.0
+      - -1168.0
+      - -7456.0
+      distance_from_position_lt: 13.714
+    - source_model_index: 533
+      source_name: SDoor12
+      movable: true
+      world_translation_lt: &id275
+      - -4992.0
+      - -1360.0
+      - -7456.0
+      distance_from_position_lt: 205.714
+    - source_model_index: 268
+      source_name: AITrk174
+      movable: true
+      world_translation_lt: &id276
+      - -4992.0
+      - -1384.0
+      - -7440.0
+      distance_from_position_lt: 230.271
+    - source_model_index: 534
+      source_name: Lever5
+      movable: true
+      world_translation_lt: &id278
+      - -5216.0
+      - -1329.0
+      - -7496.0
+      distance_from_position_lt: 286.882
+    - source_model_index: 535
+      source_name: Lever6
+      movable: true
+      world_translation_lt: &id279
+      - -5216.0
+      - -1329.0
+      - -7416.0
+      distance_from_position_lt: 286.882
 - object_id: mm9:beethoven:object:808
   source_object_index: 808
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id401
+    - source_model_index: 533
+      source_name: SDoor12
+      movable: true
+      world_translation_lt: *id275
+      distance_from_position_lt: 4.571
+    - source_model_index: 268
+      source_name: AITrk174
+      movable: true
+      world_translation_lt: *id276
+      distance_from_position_lt: 32.746
+    - source_model_index: 532
+      source_name: SDoor11
+      movable: true
+      world_translation_lt: *id277
+      distance_from_position_lt: 187.429
+    - source_model_index: 534
+      source_name: Lever5
+      movable: true
+      world_translation_lt: *id278
+      distance_from_position_lt: 229.073
+    - source_model_index: 535
+      source_name: Lever6
+      movable: true
+      world_translation_lt: *id279
+      distance_from_position_lt: 229.073
 - object_id: mm9:beethoven:object:809
   source_object_index: 809
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id402
+    - source_model_index: 534
+      source_name: Lever5
+      movable: true
+      world_translation_lt: *id278
+      distance_from_position_lt: 3.742
+    - source_model_index: 535
+      source_name: Lever6
+      movable: true
+      world_translation_lt: *id279
+      distance_from_position_lt: 83.03
+    - source_model_index: 533
+      source_name: SDoor12
+      movable: true
+      world_translation_lt: *id275
+      distance_from_position_lt: 228.107
+    - source_model_index: 268
+      source_name: AITrk174
+      movable: true
+      world_translation_lt: *id276
+      distance_from_position_lt: 235.968
+    - source_model_index: 532
+      source_name: SDoor11
+      movable: true
+      world_translation_lt: *id277
+      distance_from_position_lt: 278.167
 - object_id: mm9:beethoven:object:810
   source_object_index: 810
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id403
+    - source_model_index: 535
+      source_name: Lever6
+      movable: true
+      world_translation_lt: *id279
+      distance_from_position_lt: 3.162
+    - source_model_index: 534
+      source_name: Lever5
+      movable: true
+      world_translation_lt: *id278
+      distance_from_position_lt: 83.006
+    - source_model_index: 533
+      source_name: SDoor12
+      movable: true
+      world_translation_lt: *id275
+      distance_from_position_lt: 230.054
+    - source_model_index: 268
+      source_name: AITrk174
+      movable: true
+      world_translation_lt: *id276
+      distance_from_position_lt: 231.994
+    - source_model_index: 532
+      source_name: SDoor11
+      movable: true
+      world_translation_lt: *id277
+      distance_from_position_lt: 279.766
 - object_id: mm9:beethoven:object:811
   source_object_index: 811
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id404
+    - source_model_index: 536
+      source_name: Ladder1
+      movable: true
+      world_translation_lt:
+      - -5634.0
+      - -963.0
+      - -1104.0
+      distance_from_position_lt: 2.004
+    - source_model_index: 537
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt:
+      - -5632.0
+      - -976.0
+      - -1110.0
+      distance_from_position_lt: 14.201
+    - source_model_index: 155
+      source_name: AITrk67
+      movable: true
+      world_translation_lt: *id280
+      distance_from_position_lt: 257.6
+    - source_model_index: 594
+      source_name: WorldObject62
+      movable: true
+      world_translation_lt: *id281
+      distance_from_position_lt: 271.533
+    - source_model_index: 157
+      source_name: AITrk69
+      movable: true
+      world_translation_lt:
+      - -5808.0
+      - -728.0
+      - -1056.0
+      distance_from_position_lt: 297.6
 - object_id: mm9:beethoven:object:858
   source_object_index: 858
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id405
+    - source_model_index: 538
+      source_name: HedgeDoor1
+      movable: true
+      world_translation_lt: &id282
+      - -6272.0
+      - -1304.0
+      - -9280.0
+      distance_from_rotation_point_lt: 67.882
+    - source_model_index: 317
+      source_name: AITrk223
+      movable: true
+      world_translation_lt: &id283
+      - -6272.0
+      - -1384.0
+      - -9200.0
+      distance_from_rotation_point_lt: 110.851
+    - source_model_index: 316
+      source_name: AITrk222
+      movable: true
+      world_translation_lt: &id284
+      - -6256.0
+      - -1384.0
+      - -9104.0
+      distance_from_rotation_point_lt: 189.989
+    - source_model_index: 328
+      source_name: AITrk235
+      movable: true
+      world_translation_lt: &id285
+      - -6080.0
+      - -1384.0
+      - -9296.0
+      distance_from_rotation_point_lt: 265.812
+    - source_model_index: 332
+      source_name: AITrk239
+      movable: true
+      world_translation_lt: &id286
+      - -6080.0
+      - -1384.0
+      - -9136.0
+      distance_from_rotation_point_lt: 293.285
+    nearest_movable_world_models_by_position: &id406
+    - source_model_index: 538
+      source_name: HedgeDoor1
+      movable: true
+      world_translation_lt: *id282
+      distance_from_position_lt: 64.0
+    - source_model_index: 317
+      source_name: AITrk223
+      movable: true
+      world_translation_lt: *id283
+      distance_from_position_lt: 129.985
+    - source_model_index: 316
+      source_name: AITrk222
+      movable: true
+      world_translation_lt: *id284
+      distance_from_position_lt: 209.227
+    - source_model_index: 328
+      source_name: AITrk235
+      movable: true
+      world_translation_lt: *id285
+      distance_from_position_lt: 268.686
+    - source_model_index: 332
+      source_name: AITrk239
+      movable: true
+      world_translation_lt: *id286
+      distance_from_position_lt: 304.421
 - object_id: mm9:beethoven:object:859
   source_object_index: 859
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id407
+    - source_model_index: 539
+      source_name: HedgeDoor2
+      movable: true
+      world_translation_lt: &id287
+      - -5728.0
+      - -1304.0
+      - -10272.0
+      distance_from_rotation_point_lt: 50.596
+    - source_model_index: 349
+      source_name: AITrk256
+      movable: true
+      world_translation_lt: &id288
+      - -5696.0
+      - -1384.0
+      - -10256.0
+      distance_from_rotation_point_lt: 96.0
+    - source_model_index: 355
+      source_name: AITrk262
+      movable: true
+      world_translation_lt: &id289
+      - -5664.0
+      - -1384.0
+      - -10448.0
+      distance_from_rotation_point_lt: 156.767
+    - source_model_index: 348
+      source_name: AITrk255
+      movable: true
+      world_translation_lt: &id291
+      - -5880.0
+      - -1384.0
+      - -10256.0
+      distance_from_rotation_point_lt: 176.907
+    - source_model_index: 356
+      source_name: AITrk263
+      movable: true
+      world_translation_lt: &id290
+      - -5848.0
+      - -1384.0
+      - -10448.0
+      distance_from_rotation_point_lt: 186.762
+    nearest_movable_world_models_by_position: &id408
+    - source_model_index: 539
+      source_name: HedgeDoor2
+      movable: true
+      world_translation_lt: *id287
+      distance_from_position_lt: 64.0
+    - source_model_index: 349
+      source_name: AITrk256
+      movable: true
+      world_translation_lt: *id288
+      distance_from_position_lt: 117.576
+    - source_model_index: 355
+      source_name: AITrk262
+      movable: true
+      world_translation_lt: *id289
+      distance_from_position_lt: 151.789
+    - source_model_index: 356
+      source_name: AITrk263
+      movable: true
+      world_translation_lt: *id290
+      distance_from_position_lt: 182.603
+    - source_model_index: 348
+      source_name: AITrk255
+      movable: true
+      world_translation_lt: *id291
+      distance_from_position_lt: 189.484
 - object_id: mm9:beethoven:object:860
   source_object_index: 860
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id409
+    - source_model_index: 540
+      source_name: HedgeDoor3
+      movable: true
+      world_translation_lt: &id292
+      - -3776.0
+      - -1304.0
+      - -9664.0
+      distance_from_rotation_point_lt: 67.882
+    - source_model_index: 309
+      source_name: AITrk215
+      movable: true
+      world_translation_lt: &id293
+      - -3776.0
+      - -1384.0
+      - -9552.0
+      distance_from_rotation_point_lt: 131.939
+    - source_model_index: 398
+      source_name: AITrk339
+      movable: true
+      world_translation_lt: &id295
+      - -3968.0
+      - -1384.0
+      - -9552.0
+      distance_from_rotation_point_lt: 172.325
+    - source_model_index: 396
+      source_name: AITrk337
+      movable: true
+      world_translation_lt: &id294
+      - -3968.0
+      - -1384.0
+      - -9776.0
+      distance_from_rotation_point_lt: 192.0
+    - source_model_index: 397
+      source_name: AITrk338
+      movable: true
+      world_translation_lt:
+      - -4128.0
+      - -1384.0
+      - -9776.0
+      distance_from_rotation_point_lt: 321.596
+    nearest_movable_world_models_by_position: &id410
+    - source_model_index: 540
+      source_name: HedgeDoor3
+      movable: true
+      world_translation_lt: *id292
+      distance_from_position_lt: 64.0
+    - source_model_index: 309
+      source_name: AITrk215
+      movable: true
+      world_translation_lt: *id293
+      distance_from_position_lt: 151.789
+    - source_model_index: 396
+      source_name: AITrk337
+      movable: true
+      world_translation_lt: *id294
+      distance_from_position_lt: 187.957
+    - source_model_index: 398
+      source_name: AITrk339
+      movable: true
+      world_translation_lt: *id295
+      distance_from_position_lt: 187.957
+    - source_model_index: 391
+      source_name: AITrk332
+      movable: true
+      world_translation_lt:
+      - -3984.0
+      - -1384.0
+      - -9936.0
+      distance_from_position_lt: 317.994
 - object_id: mm9:beethoven:object:861
   source_object_index: 861
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id411
+    - source_model_index: 541
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: &id298
+      - -6904.0
+      - -1374.0
+      - -7808.0
+      distance_from_position_lt: 23.409
+    - source_model_index: 542
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: &id296
+      - -6716.0
+      - -1378.0
+      - -7808.0
+      distance_from_position_lt: 197.717
+    - source_model_index: 295
+      source_name: AITrk201
+      movable: true
+      world_translation_lt: &id297
+      - -6584.0
+      - -1384.0
+      - -7792.0
+      distance_from_position_lt: 329.945
+    - source_model_index: 296
+      source_name: AITrk202
+      movable: true
+      world_translation_lt: &id299
+      - -6720.0
+      - -1384.0
+      - -7488.0
+      distance_from_position_lt: 374.55
+    - source_model_index: 292
+      source_name: AITrk198
+      movable: true
+      world_translation_lt: &id300
+      - -6712.0
+      - -1384.0
+      - -8336.0
+      distance_from_position_lt: 565.516
 - object_id: mm9:beethoven:object:862
   source_object_index: 862
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id412
+    - source_model_index: 542
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id296
+      distance_from_position_lt: 2.0
+    - source_model_index: 295
+      source_name: AITrk201
+      movable: true
+      world_translation_lt: *id297
+      distance_from_position_lt: 135.085
+    - source_model_index: 541
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id298
+      distance_from_position_lt: 186.043
+    - source_model_index: 296
+      source_name: AITrk202
+      movable: true
+      world_translation_lt: *id299
+      distance_from_position_lt: 320.062
+    - source_model_index: 292
+      source_name: AITrk198
+      movable: true
+      world_translation_lt: *id300
+      distance_from_position_lt: 528.068
 - object_id: mm9:beethoven:object:863
   source_object_index: 863
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id413
+    - source_model_index: 543
+      source_name: BlueWater5
+      movable: true
+      world_translation_lt: &id302
+      - -5056.0
+      - -1374.0
+      - -11896.0
+      distance_from_position_lt: 23.409
+    - source_model_index: 544
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: &id301
+      - -5056.0
+      - -1378.0
+      - -11708.0
+      distance_from_position_lt: 197.716
+    - source_model_index: 282
+      source_name: AITrk188
+      movable: true
+      world_translation_lt: &id303
+      - -5056.0
+      - -1384.0
+      - -11376.0
+      distance_from_position_lt: 528.968
+    - source_model_index: 286
+      source_name: AITrk192
+      movable: true
+      world_translation_lt: &id304
+      - -5584.0
+      - -1384.0
+      - -11392.0
+      distance_from_position_lt: 736.173
+    - source_model_index: 281
+      source_name: AITrk187
+      movable: true
+      world_translation_lt: &id305
+      - -4496.0
+      - -1384.0
+      - -11392.0
+      distance_from_position_lt: 759.452
 - object_id: mm9:beethoven:object:864
   source_object_index: 864
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id414
+    - source_model_index: 544
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: *id301
+      distance_from_position_lt: 1.999
+    - source_model_index: 543
+      source_name: BlueWater5
+      movable: true
+      world_translation_lt: *id302
+      distance_from_position_lt: 186.044
+    - source_model_index: 282
+      source_name: AITrk188
+      movable: true
+      world_translation_lt: *id303
+      distance_from_position_lt: 334.053
+    - source_model_index: 286
+      source_name: AITrk192
+      movable: true
+      world_translation_lt: *id304
+      distance_from_position_lt: 616.395
+    - source_model_index: 281
+      source_name: AITrk187
+      movable: true
+      world_translation_lt: *id305
+      distance_from_position_lt: 644.018
 - object_id: mm9:beethoven:object:1148
   source_object_index: 1148
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1148:volume
     confidence: source_object_volume
-    pos_lt: *id173
+    pos_lt: *id306
     dims_lt: *id095
 - object_id: mm9:beethoven:object:1149
   source_object_index: 1149
@@ -275404,7 +279200,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1149:volume
     confidence: source_object_volume
-    pos_lt: *id174
+    pos_lt: *id307
     dims_lt: *id096
 - object_id: mm9:beethoven:object:1150
   source_object_index: 1150
@@ -275412,7 +279208,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1150:volume
     confidence: source_object_volume
-    pos_lt: *id175
+    pos_lt: *id308
     dims_lt: *id097
 - object_id: mm9:beethoven:object:1151
   source_object_index: 1151
@@ -275420,7 +279216,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1151:volume
     confidence: source_object_volume
-    pos_lt: *id176
+    pos_lt: *id309
     dims_lt: *id098
 - object_id: mm9:beethoven:object:1152
   source_object_index: 1152
@@ -275428,114 +279224,419 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1152:volume
     confidence: source_object_volume
-    pos_lt: *id177
+    pos_lt: *id310
     dims_lt: *id099
 - object_id: mm9:beethoven:object:1153
   source_object_index: 1153
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id415
+    - source_model_index: 255
+      source_name: AITrk161
+      movable: true
+      world_translation_lt: &id312
+      - -576.0
+      - -728.0
+      - -3120.0
+      distance_from_position_lt: 170.094
+    - source_model_index: 254
+      source_name: AITrk160
+      movable: true
+      world_translation_lt: &id314
+      - -896.0
+      - -728.0
+      - -3168.0
+      distance_from_position_lt: 202.396
+    - source_model_index: 252
+      source_name: AITrk158
+      movable: true
+      world_translation_lt: &id313
+      - -880.0
+      - -728.0
+      - -3056.0
+      distance_from_position_lt: 248.91
+    - source_model_index: 251
+      source_name: AITrk157
+      movable: true
+      world_translation_lt:
+      - -976.0
+      - -728.0
+      - -3056.0
+      distance_from_position_lt: 323.981
+    - source_model_index: 249
+      source_name: AITrk155
+      movable: true
+      world_translation_lt:
+      - -1040.0
+      - -728.0
+      - -3168.0
+      distance_from_position_lt: 342.047
 - object_id: mm9:beethoven:object:1155
   source_object_index: 1155
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1155:volume
     confidence: source_object_volume
-    pos_lt: *id178
+    pos_lt: *id311
     dims_lt: *id100
 - object_id: mm9:beethoven:object:1156
   source_object_index: 1156
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id416
+    - source_model_index: 255
+      source_name: AITrk161
+      movable: true
+      world_translation_lt: *id312
+      distance_from_position_lt: 170.094
+    - source_model_index: 256
+      source_name: AITrk162
+      movable: true
+      world_translation_lt:
+      - -512.0
+      - -728.0
+      - -2784.0
+      distance_from_position_lt: 232.972
+    - source_model_index: 252
+      source_name: AITrk158
+      movable: true
+      world_translation_lt: *id313
+      distance_from_position_lt: 434.663
+    - source_model_index: 253
+      source_name: AITrk159
+      movable: true
+      world_translation_lt:
+      - -896.0
+      - -728.0
+      - -2944.0
+      distance_from_position_lt: 452.553
+    - source_model_index: 254
+      source_name: AITrk160
+      movable: true
+      world_translation_lt: *id314
+      distance_from_position_lt: 475.718
 - object_id: mm9:beethoven:object:1158
   source_object_index: 1158
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1158:volume
     confidence: source_object_volume
-    pos_lt: *id179
+    pos_lt: *id315
     dims_lt: *id101
 - object_id: mm9:beethoven:object:1159
   source_object_index: 1159
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id417
+    - source_model_index: 166
+      source_name: AITrk77
+      movable: true
+      world_translation_lt: &id318
+      - -6552.0
+      - -728.0
+      - -1456.0
+      distance_from_position_lt: 104.019
+    - source_model_index: 167
+      source_name: AITrk78
+      movable: true
+      world_translation_lt: &id319
+      - -6528.0
+      - -728.0
+      - -1232.0
+      distance_from_position_lt: 258.0
+    - source_model_index: 168
+      source_name: AITrk79
+      movable: true
+      world_translation_lt: &id317
+      - -6528.0
+      - -728.0
+      - -1680.0
+      distance_from_position_lt: 258.0
+    - source_model_index: 165
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id255
+      distance_from_position_lt: 376.005
+    - source_model_index: 524
+      source_name: LeftDoor14
+      movable: true
+      world_translation_lt: *id254
+      distance_from_position_lt: 405.448
 - object_id: mm9:beethoven:object:1160
   source_object_index: 1160
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1160:volume
     confidence: source_object_volume
-    pos_lt: *id180
+    pos_lt: *id316
     dims_lt: *id102
 - object_id: mm9:beethoven:object:1161
   source_object_index: 1161
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id418
+    - source_model_index: 168
+      source_name: AITrk79
+      movable: true
+      world_translation_lt: *id317
+      distance_from_position_lt: 129.012
+    - source_model_index: 166
+      source_name: AITrk77
+      movable: true
+      world_translation_lt: *id318
+      distance_from_position_lt: 261.572
+    - source_model_index: 165
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id255
+      distance_from_position_lt: 446.072
+    - source_model_index: 524
+      source_name: LeftDoor14
+      movable: true
+      world_translation_lt: *id254
+      distance_from_position_lt: 454.564
+    - source_model_index: 167
+      source_name: AITrk78
+      movable: true
+      world_translation_lt: *id319
+      distance_from_position_lt: 481.336
 - object_id: mm9:beethoven:object:1163
   source_object_index: 1163
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1163:volume
     confidence: source_object_volume
-    pos_lt: *id181
+    pos_lt: *id320
     dims_lt: *id103
 - object_id: mm9:beethoven:object:1164
   source_object_index: 1164
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id419
+    - source_model_index: 167
+      source_name: AITrk78
+      movable: true
+      world_translation_lt: *id319
+      distance_from_position_lt: 129.012
+    - source_model_index: 525
+      source_name: RightDoor14
+      movable: true
+      world_translation_lt: *id256
+      distance_from_position_lt: 259.546
+    - source_model_index: 165
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id255
+      distance_from_position_lt: 268.336
+    - source_model_index: 166
+      source_name: AITrk77
+      movable: true
+      world_translation_lt: *id318
+      distance_from_position_lt: 284.092
+    - source_model_index: 524
+      source_name: LeftDoor14
+      movable: true
+      world_translation_lt: *id254
+      distance_from_position_lt: 313.184
 - object_id: mm9:beethoven:object:1166
   source_object_index: 1166
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1166:volume
     confidence: source_object_volume
-    pos_lt: *id182
+    pos_lt: *id321
     dims_lt: *id104
 - object_id: mm9:beethoven:object:1167
   source_object_index: 1167
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id420
+    - source_model_index: 186
+      source_name: AITrk97
+      movable: true
+      world_translation_lt: &id324
+      - -3264.0
+      - -728.0
+      - 2608.0
+      distance_from_position_lt: 147.526
+    - source_model_index: 183
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: *id263
+      distance_from_position_lt: 307.877
+    - source_model_index: 526
+      source_name: LeftDoor19
+      movable: true
+      world_translation_lt: *id259
+      distance_from_position_lt: 326.399
+    - source_model_index: 184
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: &id323
+      - -3008.0
+      - -728.0
+      - 2624.0
+      distance_from_position_lt: 329.466
+    - source_model_index: 180
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: *id260
+      distance_from_position_lt: 346.139
 - object_id: mm9:beethoven:object:1169
   source_object_index: 1169
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1169:volume
     confidence: source_object_volume
-    pos_lt: *id183
+    pos_lt: *id322
     dims_lt: *id105
 - object_id: mm9:beethoven:object:1170
   source_object_index: 1170
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id421
+    - source_model_index: 184
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id323
+      distance_from_position_lt: 128.016
+    - source_model_index: 185
+      source_name: AITrk96
+      movable: true
+      world_translation_lt: &id326
+      - -2752.0
+      - -728.0
+      - 2608.0
+      distance_from_position_lt: 293.728
+    - source_model_index: 186
+      source_name: AITrk97
+      movable: true
+      world_translation_lt: *id324
+      distance_from_position_lt: 293.728
+    - source_model_index: 180
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: *id260
+      distance_from_position_lt: 480.004
+    - source_model_index: 526
+      source_name: LeftDoor19
+      movable: true
+      world_translation_lt: *id259
+      distance_from_position_lt: 486.531
 - object_id: mm9:beethoven:object:1172
   source_object_index: 1172
   targets:
   - target_kind: trigger_volume
     target_id: mm9:beethoven:object:1172:volume
     confidence: source_object_volume
-    pos_lt: *id184
+    pos_lt: *id325
     dims_lt: *id106
 - object_id: mm9:beethoven:object:1173
   source_object_index: 1173
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id422
+    - source_model_index: 185
+      source_name: AITrk96
+      movable: true
+      world_translation_lt: *id326
+      distance_from_position_lt: 147.526
+    - source_model_index: 182
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id264
+      distance_from_position_lt: 307.877
+    - source_model_index: 527
+      source_name: RightDoor19
+      movable: true
+      world_translation_lt: *id261
+      distance_from_position_lt: 326.399
+    - source_model_index: 184
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id323
+      distance_from_position_lt: 329.466
+    - source_model_index: 180
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: *id260
+      distance_from_position_lt: 346.139
 - object_id: mm9:beethoven:object:1183
   source_object_index: 1183
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id423
+    - source_model_index: 605
+      source_name: InvisibleBrush8
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 0.0
+    - source_model_index: 4
+      source_name: RotatingDoor18
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 248.767
+    - source_model_index: 37
+      source_name: Grates32
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 358.408
+    - source_model_index: 40
+      source_name: Grates35
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 821.971
+    - source_model_index: 38
+      source_name: Grates33
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 827.957
 - object_id: mm9:beethoven:object:1185
   source_object_index: 1185
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id424
+    - source_model_index: 170
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: *id247
+      distance_from_position_lt: 320.624
+    - source_model_index: 171
+      source_name: AITrk82
+      movable: true
+      world_translation_lt: *id248
+      distance_from_position_lt: 382.602
+    - source_model_index: 172
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: *id246
+      distance_from_position_lt: 382.602
+    - source_model_index: 475
+      source_name: AITrk416
+      movable: true
+      world_translation_lt:
+      - -5984.0
+      - -1208.0
+      - -2792.0
+      distance_from_position_lt: 424.848
+    - source_model_index: 474
+      source_name: AITrk415
+      movable: true
+      world_translation_lt:
+      - -5984.0
+      - -1208.0
+      - -2640.0
+      distance_from_position_lt: 429.12
 scripts:
 - script_id: bottlefollow.scr
   source_path: BOTTLEFOLLOW.scr
@@ -275901,341 +280002,507 @@ unresolved:
   source_name: Ladder8
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id327
 - kind: unresolved_binding
   source_object_index: 3
   source_name: Ladder4
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id328
 - kind: unresolved_binding
   source_object_index: 4
   source_name: RotatingDoor18
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id329
+    nearest_movable_world_models_by_position: *id330
 - kind: unresolved_binding
   source_object_index: 231
   source_name: Ladder2
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id331
 - kind: unresolved_binding
   source_object_index: 233
   source_name: Ladder7
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id332
 - kind: unresolved_binding
   source_object_index: 321
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id333
 - kind: unresolved_binding
   source_object_index: 322
   source_name: InvisibleBrush1
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id334
 - kind: unresolved_binding
   source_object_index: 323
   source_name: InvisibleBrush2
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id335
 - kind: unresolved_binding
   source_object_index: 324
   source_name: InvisibleBrush3
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id336
 - kind: unresolved_binding
   source_object_index: 325
   source_name: InvisibleBrush4
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id337
 - kind: unresolved_binding
   source_object_index: 326
   source_name: InvisibleBrush5
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id338
 - kind: unresolved_binding
   source_object_index: 327
   source_name: InvisibleBrush6
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id339
 - kind: unresolved_binding
   source_object_index: 328
   source_name: InvisibleBrush7
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id340
 - kind: unresolved_binding
   source_object_index: 345
   source_name: AIBarrier0
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id341
 - kind: unresolved_binding
   source_object_index: 375
   source_name: AIBarrier1
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id342
 - kind: unresolved_binding
   source_object_index: 376
   source_name: AIBarrier2
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id343
 - kind: unresolved_binding
   source_object_index: 413
   source_name: AIBarrier3
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id344
 - kind: unresolved_binding
   source_object_index: 414
   source_name: AIBarrier4
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id345
 - kind: unresolved_binding
   source_object_index: 775
   source_name: frigidarium water
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id346
 - kind: unresolved_binding
   source_object_index: 779
   source_name: Ladder0
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id347
 - kind: unresolved_binding
   source_object_index: 781
   source_name: LeftDoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id348
+    nearest_movable_world_models_by_position: *id349
 - kind: unresolved_binding
   source_object_index: 782
   source_name: RightDoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id350
+    nearest_movable_world_models_by_position: *id351
 - kind: unresolved_binding
   source_object_index: 783
   source_name: LeftDoor3
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id352
+    nearest_movable_world_models_by_position: *id353
 - kind: unresolved_binding
   source_object_index: 784
   source_name: RightDoor3
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id354
+    nearest_movable_world_models_by_position: *id355
 - kind: unresolved_binding
   source_object_index: 785
   source_name: LeftDoor5
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id356
+    nearest_movable_world_models_by_position: *id357
 - kind: unresolved_binding
   source_object_index: 786
   source_name: RightDoor5
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id358
+    nearest_movable_world_models_by_position: *id359
 - kind: unresolved_binding
   source_object_index: 787
   source_name: LeftDoor10
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id360
+    nearest_movable_world_models_by_position: *id361
 - kind: unresolved_binding
   source_object_index: 788
   source_name: RightDoor10
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id362
+    nearest_movable_world_models_by_position: *id363
 - kind: unresolved_binding
   source_object_index: 789
   source_name: LeftDoor9
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id364
+    nearest_movable_world_models_by_position: *id365
 - kind: unresolved_binding
   source_object_index: 790
   source_name: RightDoor9
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id366
+    nearest_movable_world_models_by_position: *id367
 - kind: unresolved_binding
   source_object_index: 791
   source_name: LeftDoor12
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id368
+    nearest_movable_world_models_by_position: *id369
 - kind: unresolved_binding
   source_object_index: 792
   source_name: RightDoor12
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id370
+    nearest_movable_world_models_by_position: *id371
 - kind: unresolved_binding
   source_object_index: 793
   source_name: LeftDoor15
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id372
+    nearest_movable_world_models_by_position: *id373
 - kind: unresolved_binding
   source_object_index: 794
   source_name: RightDoor15
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id374
+    nearest_movable_world_models_by_position: *id375
 - kind: unresolved_binding
   source_object_index: 795
   source_name: LeftDoor18
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id376
+    nearest_movable_world_models_by_position: *id377
 - kind: unresolved_binding
   source_object_index: 796
   source_name: RightDoor18
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id378
+    nearest_movable_world_models_by_position: *id379
 - kind: unresolved_binding
   source_object_index: 797
   source_name: LeftDoor16
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id380
+    nearest_movable_world_models_by_position: *id381
 - kind: unresolved_binding
   source_object_index: 798
   source_name: RightDoor16
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id382
+    nearest_movable_world_models_by_position: *id383
 - kind: unresolved_binding
   source_object_index: 799
   source_name: LeftDoor14
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id384
+    nearest_movable_world_models_by_position: *id385
 - kind: unresolved_binding
   source_object_index: 800
   source_name: RightDoor14
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id386
+    nearest_movable_world_models_by_position: *id387
 - kind: unresolved_binding
   source_object_index: 801
   source_name: LeftDoor19
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id388
+    nearest_movable_world_models_by_position: *id389
 - kind: unresolved_binding
   source_object_index: 802
   source_name: RightDoor19
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id390
+    nearest_movable_world_models_by_position: *id391
 - kind: unresolved_binding
   source_object_index: 803
   source_name: LeftDoor21
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id392
+    nearest_movable_world_models_by_position: *id393
 - kind: unresolved_binding
   source_object_index: 804
   source_name: RightDoor21
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id394
+    nearest_movable_world_models_by_position: *id395
 - kind: unresolved_binding
   source_object_index: 805
   source_name: LeftDoor22
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id396
+    nearest_movable_world_models_by_position: *id397
 - kind: unresolved_binding
   source_object_index: 806
   source_name: RightDoor22
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id398
+    nearest_movable_world_models_by_position: *id399
 - kind: unresolved_binding
   source_object_index: 807
   source_name: SDoor11
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id400
 - kind: unresolved_binding
   source_object_index: 808
   source_name: SDoor12
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id401
 - kind: unresolved_binding
   source_object_index: 809
   source_name: Lever5
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id402
 - kind: unresolved_binding
   source_object_index: 810
   source_name: Lever6
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id403
 - kind: unresolved_binding
   source_object_index: 811
   source_name: Ladder1
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id404
 - kind: unresolved_binding
   source_object_index: 858
   source_name: HedgeDoor1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id405
+    nearest_movable_world_models_by_position: *id406
 - kind: unresolved_binding
   source_object_index: 859
   source_name: HedgeDoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id407
+    nearest_movable_world_models_by_position: *id408
 - kind: unresolved_binding
   source_object_index: 860
   source_name: HedgeDoor3
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id409
+    nearest_movable_world_models_by_position: *id410
 - kind: unresolved_binding
   source_object_index: 861
   source_name: BlueWater4
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id411
 - kind: unresolved_binding
   source_object_index: 862
   source_name: BlueWater1
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id412
 - kind: unresolved_binding
   source_object_index: 863
   source_name: BlueWater5
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id413
 - kind: unresolved_binding
   source_object_index: 864
   source_name: BlueWater2
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id414
 - kind: unresolved_binding
   source_object_index: 1153
   source_name: CoffinRaised9
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id415
 - kind: unresolved_binding
   source_object_index: 1156
   source_name: CoffinRaised8
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id416
 - kind: unresolved_binding
   source_object_index: 1159
   source_name: CoffinRaised6
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id417
 - kind: unresolved_binding
   source_object_index: 1161
   source_name: CoffinRaised7
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id418
 - kind: unresolved_binding
   source_object_index: 1164
   source_name: CoffinRaised5
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id419
 - kind: unresolved_binding
   source_object_index: 1167
   source_name: CoffinRaised3
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id420
 - kind: unresolved_binding
   source_object_index: 1170
   source_name: CoffinRaised15
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id421
 - kind: unresolved_binding
   source_object_index: 1173
   source_name: CoffinRaised4
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id422
 - kind: unresolved_binding
   source_object_index: 1183
   source_name: InvisibleBrush8
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id423
 - kind: unresolved_binding
   source_object_index: 1185
   source_name: Urn0
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id424
 - kind: unresolved_target_name
   source: trigger
   source_object_index: 1148

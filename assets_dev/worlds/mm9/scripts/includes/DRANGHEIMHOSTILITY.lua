@@ -17,11 +17,11 @@ script.labels["InitDrangheimHostility"] = function(ctx)
     -- DRANGHEIMHOSTILITY.inc:22
     -- set up handlers etc
     mm9.gosub(script, ctx, "BaseInit") -- DRANGHEIMHOSTILITY.inc:25
-    ctx:command("checkpass_bhostile", "= FALSE") -- DRANGHEIMHOSTILITY.inc:27
-    ctx:command("onfoundplayer", "OnFoundPlayer") -- DRANGHEIMHOSTILITY.inc:29
-    ctx:command("ondamage", "OnDamage") -- DRANGHEIMHOSTILITY.inc:30
-    ctx:command("ondeath", "OnDeath") -- DRANGHEIMHOSTILITY.inc:31
-    ctx:command("addfriend", "Player") -- DRANGHEIMHOSTILITY.inc:33
+    ctx:state().checkpass_bHostile = false -- DRANGHEIMHOSTILITY.inc:27
+    ctx:onEvent("OnFoundPlayer", "OnFoundPlayer") -- DRANGHEIMHOSTILITY.inc:29
+    ctx:onEvent("OnDamage", "OnDamage") -- DRANGHEIMHOSTILITY.inc:30
+    ctx:onEvent("OnDeath", "OnDeath") -- DRANGHEIMHOSTILITY.inc:31
+    ctx:self():addFriend("Player") -- DRANGHEIMHOSTILITY.inc:33
     ctx:addTrigger("hostile", "TurnHostilityOn") -- DRANGHEIMHOSTILITY.inc:35
     do return ctx:exit("TRUE") end -- DRANGHEIMHOSTILITY.inc:37
 end
@@ -31,12 +31,12 @@ script.labels["OnFoundPlayer"] = function(ctx)
     -- override baseMelee handlers everywhere
     ctx:hasKey("DP_PASS_FRIENDLY", "checkpass_bIsVisitor") -- DRANGHEIMHOSTILITY.inc:43
     ctx:hasKey("DP_PASS_HOSTILE", "checkpass_bIsFriendly") -- DRANGHEIMHOSTILITY.inc:44
-    ctx:command("checkpass_bisfriendly", "= 1 - checkpass_bIsFriendly") -- DRANGHEIMHOSTILITY.inc:45
-    ctx:command("checkpass_battackok", "= checkpass_bIsVisitor * checkpass_bIsFriendly") -- DRANGHEIMHOSTILITY.inc:47
+    ctx:set("checkpass_bIsFriendly", "1 - checkpass_bIsFriendly") -- DRANGHEIMHOSTILITY.inc:45
+    ctx:set("checkpass_bAttackOk", "checkpass_bIsVisitor * checkpass_bIsFriendly") -- DRANGHEIMHOSTILITY.inc:47
     if ctx:condition("checkpass_bAttackOk==0") then -- DRANGHEIMHOSTILITY.inc:49
-        ctx:command("checkpass_bhostile", "= TRUE") -- DRANGHEIMHOSTILITY.inc:50
-        ctx:command("onfoundplayer", "DoNothing") -- DRANGHEIMHOSTILITY.inc:51
-        ctx:command("getplayerhandle", "g_hTarget") -- DRANGHEIMHOSTILITY.inc:52
+        ctx:state().checkpass_bHostile = true -- DRANGHEIMHOSTILITY.inc:50
+        ctx:onEvent("OnFoundPlayer", "DoNothing") -- DRANGHEIMHOSTILITY.inc:51
+        ctx:state().g_hTarget = ctx:player() -- DRANGHEIMHOSTILITY.inc:52
         mm9.gosub(script, ctx, "SetupTarget") -- DRANGHEIMHOSTILITY.inc:53
         mm9.gosub(script, ctx, "AggressiveStart") -- DRANGHEIMHOSTILITY.inc:54
     end -- DRANGHEIMHOSTILITY.inc:55
@@ -48,7 +48,7 @@ script.labels["OnDamage"] = function(ctx)
     -- override baseMelee handlers everywhere
     if ctx:condition("checkpass_bHostile==FALSE") then -- DRANGHEIMHOSTILITY.inc:63
         ctx:getParam(0, "g_hTarget") -- DRANGHEIMHOSTILITY.inc:64
-        ctx:command("isplayer", "g_hTarget, checkpass_bIsPlayer") -- DRANGHEIMHOSTILITY.inc:65
+        ctx:state().checkpass_bIsPlayer = ctx:object("g_hTarget"):isPlayer() -- DRANGHEIMHOSTILITY.inc:65
         if ctx:condition("checkpass_bIsPlayer==TRUE") then -- DRANGHEIMHOSTILITY.inc:67
             mm9.gosub(script, ctx, "TurnHostilityOn") -- DRANGHEIMHOSTILITY.inc:68
         end -- DRANGHEIMHOSTILITY.inc:69
@@ -62,7 +62,7 @@ script.labels["OnDeath"] = function(ctx)
     -- override baseMelee handlers everywhere
     if ctx:condition("checkpass_bHostile==FALSE") then -- DRANGHEIMHOSTILITY.inc:80
         ctx:getParam(0, "g_hTarget") -- DRANGHEIMHOSTILITY.inc:81
-        ctx:command("isplayer", "g_hTarget, checkpass_bIsPlayer") -- DRANGHEIMHOSTILITY.inc:82
+        ctx:state().checkpass_bIsPlayer = ctx:object("g_hTarget"):isPlayer() -- DRANGHEIMHOSTILITY.inc:82
         if ctx:condition("checkpass_bIsPlayer==TRUE") then -- DRANGHEIMHOSTILITY.inc:84
             mm9.gosub(script, ctx, "TurnHostilityOn") -- DRANGHEIMHOSTILITY.inc:85
         end -- DRANGHEIMHOSTILITY.inc:86
@@ -73,10 +73,10 @@ end
 
 script.labels["TurnHostilityOn"] = function(ctx)
     -- DRANGHEIMHOSTILITY.inc:94
-    ctx:command("addenemy", "Player") -- DRANGHEIMHOSTILITY.inc:96
+    ctx:self():addEnemy("Player") -- DRANGHEIMHOSTILITY.inc:96
     ctx:addTrigger("use", "BlockRude") -- DRANGHEIMHOSTILITY.inc:98
     ctx:giveKey("DP_PASS_HOSTILE") -- DRANGHEIMHOSTILITY.inc:100
-    ctx:command("playsound", "\"sounds\\events\\alarmbell.wav\", DoNothing, 1, 5000, FALSE, 100") -- DRANGHEIMHOSTILITY.inc:102
+    ctx:playSound("sounds\\events\\alarmbell.wav", "DoNothing", 1, 5000, "FALSE", 100) -- DRANGHEIMHOSTILITY.inc:102
     do return ctx:exit("TRUE") end -- DRANGHEIMHOSTILITY.inc:104
 end
 

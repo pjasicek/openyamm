@@ -1,0 +1,845 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: tasaracademy
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: bookofrules.scr
+  source_path: BOOKOFRULES.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: Onuse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 69
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: Haskey
+    arguments_raw: 57 g_ntemp
+  - line: 23
+    command: Haskey
+    arguments_raw: 59 keycheck
+  - line: 26
+    command: givekey
+    arguments_raw: '59'
+  - line: 32
+    command: GiveItem
+    arguments_raw: '391'
+  - line: 33
+    command: giveexp
+    arguments_raw: '5000'
+  - line: 36
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 41
+    command: Haskey
+    arguments_raw: 166 keycheck
+  - line: 44
+    command: givekey
+    arguments_raw: '166'
+  - line: 45
+    command: set
+    arguments_raw: keydata, 166
+  - line: 51
+    command: GiveItem
+    arguments_raw: '391'
+  - line: 52
+    command: giveexp
+    arguments_raw: '5000'
+  - line: 55
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 70
+    command: Haskey
+    arguments_raw: 59 keycheck
+  - line: 73
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 74
+    command: exitscript
+    arguments_raw: ''
+  - line: 78
+    command: Haskey
+    arguments_raw: 166 keycheck
+  - line: 81
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 82
+    command: exitscript
+    arguments_raw: ''
+  command_count: 40
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: proptrigger.scr
+  source_path: PROPTRIGGER.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 24
+    name: OnUse
+  - line: 39
+    name: Init
+  - line: 52
+    name: BreakLink
+  - line: 59
+    name: Main
+  registered_triggers:
+  - line: 64
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges:
+  - line: 33
+    target_expression: g_hobject
+    message_expression: message
+    arguments_raw: g_hobject message
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 44
+    command: CreateObjectLink
+    arguments_raw: g_hobject
+  - line: 45
+    command: OnObjectLinkBroken
+    arguments_raw: BreakLink
+  - line: 46
+    command: set
+    arguments_raw: nLinked, TRUE
+  - line: 55
+    command: set
+    arguments_raw: nLinked, FALSE
+  - line: 65
+    command: OnTouchNotify
+    arguments_raw: OnUse
+  - line: 68
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 69
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 70
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 28
+- script_id: skillbook.scr
+  source_path: SKILLBOOK.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 19
+    name: OnUse
+  - line: 32
+    name: SkillInit
+  - line: 190
+    name: Main
+  registered_triggers:
+  - line: 195
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 24
+    command: GiveItem
+    arguments_raw: Item_Id
+  - line: 26
+    command: RemoveObject
+    arguments_raw: g_hmyobject
+  - line: 63
+    command: GetRandomInt
+    arguments_raw: 285, 306, g_ntemp
+  - line: 64
+    command: Set
+    arguments_raw: Item_ID g_ntemp
+  - line: 69
+    command: GetRandomInt
+    arguments_raw: 285, 306, g_ntemp
+  - line: 70
+    command: Set
+    arguments_raw: Item_ID g_ntemp
+  - line: 76
+    command: Set
+    arguments_raw: Item_Id 285
+  - line: 81
+    command: Set
+    arguments_raw: Item_Id 286
+  - line: 86
+    command: Set
+    arguments_raw: Item_Id 287
+  - line: 91
+    command: Set
+    arguments_raw: Item_Id 288
+  - line: 96
+    command: Set
+    arguments_raw: Item_Id 289
+  - line: 101
+    command: Set
+    arguments_raw: Item_Id 290
+  - line: 106
+    command: Set
+    arguments_raw: Item_Id 291
+  - line: 111
+    command: Set
+    arguments_raw: Item_Id 292
+  - line: 116
+    command: Set
+    arguments_raw: Item_Id 293
+  - line: 121
+    command: Set
+    arguments_raw: Item_Id 294
+  - line: 126
+    command: Set
+    arguments_raw: Item_Id 295
+  - line: 131
+    command: Set
+    arguments_raw: Item_Id 296
+  - line: 136
+    command: Set
+    arguments_raw: Item_Id 297
+  - line: 141
+    command: Set
+    arguments_raw: Item_Id 298
+  - line: 146
+    command: Set
+    arguments_raw: Item_Id 299
+  - line: 151
+    command: Set
+    arguments_raw: Item_Id 300
+  - line: 156
+    command: Set
+    arguments_raw: Item_Id 301
+  - line: 161
+    command: Set
+    arguments_raw: Item_Id 302
+  - line: 166
+    command: Set
+    arguments_raw: Item_Id 303
+  - line: 171
+    command: Set
+    arguments_raw: Item_Id 304
+  - line: 176
+    command: Set
+    arguments_raw: Item_Id 305
+  - line: 181
+    command: Set
+    arguments_raw: Item_Id 306
+  command_count: 107
+- script_id: tasarbook.scr
+  source_path: TASARBOOK.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnUse
+  - line: 52
+    name: Init
+  - line: 71
+    name: PlacedBook
+  - line: 85
+    name: KeyCheck
+  - line: 103
+    name: KeyInit
+  - line: 134
+    name: OnVisible
+  - line: 146
+    name: Main
+  registered_triggers:
+  - line: 138
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  - line: 153
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  - line: 154
+    message: Visible1
+    callback: OnVisible
+    arguments_raw: Visible1 OnVisible
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 41
+    command: Clearflag
+    arguments_raw: g_hobject, visible
+  - line: 42
+    command: Clearflag
+    arguments_raw: g_hobject, solid
+  - line: 43
+    command: Clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 60
+    command: Clearflag
+    arguments_raw: g_hobject, visible
+  - line: 61
+    command: Clearflag
+    arguments_raw: g_hobject, solid
+  - line: 62
+    command: Clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 140
+    command: Setflag
+    arguments_raw: g_hobject, visible
+  - line: 141
+    command: Setflag
+    arguments_raw: g_hobject, solid
+  - line: 142
+    command: Setflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 37
+    command: haskey
+    arguments_raw: 9516 g_ntemp
+  - line: 39
+    command: takekey
+    arguments_raw: Book_Key
+  - line: 44
+    command: removetrigger
+    arguments_raw: Use
+  - line: 45
+    command: giveitem
+    arguments_raw: item_ID
+  - line: 46
+    command: debugout
+    arguments_raw: Item_ID
+  - line: 63
+    command: Set
+    arguments_raw: Invisible 1
+  - line: 64
+    command: RemoveTrigger
+    arguments_raw: use
+  - line: 75
+    command: haskey
+    arguments_raw: Book_Key g_ntemp
+  - line: 78
+    command: bPlacedLastBook
+    arguments_raw: = FALSE
+  - line: 90
+    command: bPlacedLastBook
+    arguments_raw: = TRUE
+  - line: 94
+    command: haskey
+    arguments_raw: nPlacedKey g_ntemp
+  - line: 96
+    command: bPlacedLastBook
+    arguments_raw: = TRUE
+  - line: 108
+    command: Set
+    arguments_raw: Book_Key 9501
+  - line: 109
+    command: nPlacedKey
+    arguments_raw: = 0
+  - line: 114
+    command: Set
+    arguments_raw: Book_Key 9502
+  - line: 115
+    command: nPlacedKey
+    arguments_raw: = 9517
+  - line: 120
+    command: Set
+    arguments_raw: Book_Key 9503
+  - line: 121
+    command: nPlacedKey
+    arguments_raw: = 9518
+  - line: 126
+    command: Set
+    arguments_raw: Book_Key 9504
+  - line: 127
+    command: nPlacedKey
+    arguments_raw: = 9519
+  - line: 149
+    command: traceon
+    arguments_raw: ''
+  - line: 156
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 157
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 158
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 81
+- script_id: tasarchalice.scr
+  source_path: TASARCHALICE.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 13
+    name: OnUse
+  - line: 29
+    name: Main
+  registered_triggers:
+  - line: 35
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: GiveAttribute
+    arguments_raw: 0 10 0 288000
+  - line: 19
+    command: givekey
+    arguments_raw: '9500'
+  command_count: 11
+- script_id: tasarguardduty.scr
+  source_path: TASARGUARDDUTY.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: baseMelee.inc
+  labels:
+  - line: 31
+    name: OnOffDuty
+  - line: 68
+    name: Walk
+  - line: 77
+    name: OffDuty
+  - line: 88
+    name: OnArrive
+  - line: 97
+    name: OnOnDuty
+  - line: 111
+    name: OnDuty
+  - line: 120
+    name: GetPos
+  - line: 129
+    name: Main
+  registered_triggers:
+  - line: 138
+    message: use
+    callback: OnOffDuty
+    arguments_raw: use, OnOffDuty
+  trigger_edges: []
+  movement_commands:
+  - line: 84
+    command: Setpos
+    arguments_raw: g_hobject PosX PosY PosZ
+  - line: 116
+    command: Setpos
+    arguments_raw: g_hobject StartPosX StartPosY StartPosZ
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 38
+    command: Set
+    arguments_raw: Current_Marker L_Marker
+  - line: 39
+    command: Goto
+    arguments_raw: Walk
+  - line: 44
+    command: Set
+    arguments_raw: OffDuty TRUE
+  - line: 45
+    command: Set
+    arguments_raw: Current_Marker L_Marker2
+  - line: 46
+    command: Goto
+    arguments_raw: Walk
+  - line: 52
+    command: Set
+    arguments_raw: Current_Marker Start_Marker
+  - line: 53
+    command: Goto
+    arguments_raw: Walk
+  - line: 59
+    command: FaceObject
+    arguments_raw: g_hobject 32 DoNothing
+  - line: 60
+    command: Set
+    arguments_raw: OffDuty FALSE
+  - line: 73
+    command: walkto
+    arguments_raw: g_hobject 0 OnArrive
+  - line: 92
+    command: add
+    arguments_raw: counter, 1
+  - line: 105
+    command: Goto
+    arguments_raw: OnOffDuty
+  - line: 134
+    command: OnStuck
+    arguments_raw: Walk
+  - line: 145
+    command: unknown
+    arguments_raw: '@m 20 : L_time OnOffDuty OffDuty'
+  - line: 146
+    command: unknown
+    arguments_raw: '@m 6 : L_Time OnOnDuty OnDuty'
+  command_count: 62
+- script_id: tasarstudent.scr
+  source_path: TASARSTUDENT.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: baseMelee.inc
+  - line: 10
+    path: Range.inc
+  labels:
+  - line: 16
+    name: OnHate
+  - line: 24
+    name: Main
+  registered_triggers:
+  - line: 26
+    message: Hate
+    callback: OnHate
+    arguments_raw: Hate, OnHate
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: AddEnemy
+    arguments_raw: L_Enemy
+  - line: 28
+    command: AddFriend
+    arguments_raw: L_Enemy
+  command_count: 8
+- script_id: tasartable.scr
+  source_path: TASARTABLE.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 27
+    name: OnUse
+  - line: 66
+    name: CompleteCheck
+  - line: 94
+    name: CheckAllKeys
+  - line: 120
+    name: ItemInit
+  - line: 158
+    name: Main
+  registered_triggers:
+  - line: 164
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges:
+  - line: 51
+    target_expression: g_hobject
+    message_expression: Visible1
+    arguments_raw: g_hobject Visible1
+  - line: 114
+    target_expression: g_hobject
+    message_expression: unlock
+    arguments_raw: g_hobject unlock
+  - line: 115
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 116
+    target_expression: g_hobject
+    message_expression: lock
+    arguments_raw: g_hobject lock
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 34
+    command: Givekey
+    arguments_raw: Book_key
+  - line: 35
+    command: givekey
+    arguments_raw: nPlacedKey
+  - line: 39
+    command: Set
+    arguments_raw: Counter 0
+  - line: 40
+    command: While
+    arguments_raw: (Counter<4)
+  - line: 43
+    command: debugout
+    arguments_raw: Item_ID
+  - line: 54
+    command: Add
+    arguments_raw: Item_Id 1
+  - line: 55
+    command: Item_Name
+    arguments_raw: = Location + Item_ID
+  - line: 56
+    command: Add
+    arguments_raw: Counter 1
+  - line: 57
+    command: endwhile
+    arguments_raw: ''
+  - line: 59
+    command: set
+    arguments_raw: Item_Id 435
+  - line: 70
+    command: Haskey
+    arguments_raw: 9501 g_ntemp
+  - line: 72
+    command: Arrayput
+    arguments_raw: KeyArray 0, 1
+  - line: 75
+    command: Haskey
+    arguments_raw: 9502 g_ntemp
+  - line: 77
+    command: Arrayput
+    arguments_raw: KeyArray 1, 1
+  - line: 80
+    command: Haskey
+    arguments_raw: 9503 g_ntemp
+  - line: 82
+    command: Arrayput
+    arguments_raw: KeyArray 2, 1
+  - line: 85
+    command: Haskey
+    arguments_raw: 9504 g_ntemp
+  - line: 87
+    command: Arrayput
+    arguments_raw: KeyArray 3, 1
+  - line: 98
+    command: Set
+    arguments_raw: Counter, 0
+  - line: 100
+    command: While
+    arguments_raw: (counter!=4)
+  - line: 101
+    command: ArrayGet
+    arguments_raw: KeyArray, Counter, g_ntemp
+  - line: 106
+    command: add
+    arguments_raw: Counter 1
+  - line: 108
+    command: EndWhile
+    arguments_raw: ''
+  - line: 112
+    command: givekey
+    arguments_raw: '9516'
+  - line: 124
+    command: Item_Name
+    arguments_raw: = Location + Item_ID
+  - line: 127
+    command: Set
+    arguments_raw: Book_Key 9501
+  - line: 128
+    command: Set
+    arguments_raw: Book 435
+  - line: 129
+    command: nPlacedKey
+    arguments_raw: = 9517
+  - line: 134
+    command: Set
+    arguments_raw: Book_Key 9502
+  - line: 135
+    command: Set
+    arguments_raw: Book 436
+  - line: 136
+    command: nPlacedKey
+    arguments_raw: = 9518
+  - line: 141
+    command: Set
+    arguments_raw: Book_Key 9503
+  - line: 142
+    command: set
+    arguments_raw: Book 437
+  - line: 143
+    command: nPlacedKey
+    arguments_raw: = 9519
+  - line: 148
+    command: Set
+    arguments_raw: Book_Key 9504
+  - line: 149
+    command: set
+    arguments_raw: Book 438
+  - line: 150
+    command: nPlacedKey
+    arguments_raw: = 9520
+  command_count: 83
+- script_id: tasarteacher.scr
+  source_path: TASARTEACHER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: baseMelee.inc
+  - line: 9
+    path: range.inc
+  labels:
+  - line: 20
+    name: OnSpawn
+  - line: 29
+    name: OnMonsterSpawn
+  - line: 55
+    name: Main
+  registered_triggers:
+  - line: 64
+    message: Fight
+    callback: OnSpawn
+    arguments_raw: Fight, OnSpawn
+  trigger_edges:
+  - line: 34
+    target_expression: g_Hobject
+    message_expression: Hate
+    arguments_raw: g_Hobject Hate
+  - line: 37
+    target_expression: g_Hobject
+    message_expression: Hate
+    arguments_raw: g_Hobject Hate
+  - line: 40
+    target_expression: g_Hobject
+    message_expression: Hate
+    arguments_raw: g_Hobject Hate
+  - line: 43
+    target_expression: g_Hobject
+    message_expression: Hate
+    arguments_raw: g_Hobject Hate
+  - line: 46
+    target_expression: g_Hobject
+    message_expression: Hate
+    arguments_raw: g_Hobject Hate
+  - line: 49
+    target_expression: g_Hobject
+    message_expression: Hate
+    arguments_raw: g_Hobject Hate
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 24
+    command: Playanim
+    arguments_raw: Hattack2 OnMonsterSpawn
+  unknown_commands: []
+  command_count: 19
+validation:
+  script_count: 11

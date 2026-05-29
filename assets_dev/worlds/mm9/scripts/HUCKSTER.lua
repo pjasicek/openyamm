@@ -47,7 +47,7 @@ end
 script.labels["Guberland"] = function(ctx)
     -- HUCKSTER.scr:58
     -- gives guberland prizes
-    ctx:command("getrandomint", "1, 6 g_ntemp") -- HUCKSTER.scr:62
+    ctx:randomInt(1, 6, "g_ntemp") -- HUCKSTER.scr:62
     ctx:takeKey(1003) -- HUCKSTER.scr:63
     if ctx:condition("g_ntemp==1") then -- HUCKSTER.scr:65
         ctx:giveItem(362) -- HUCKSTER.scr:66
@@ -79,10 +79,10 @@ end
 script.labels["Gamecheck"] = function(ctx)
     -- HUCKSTER.scr:97
     if ctx:hasKey(1001) then -- HUCKSTER.scr:100-101
-        ctx:command("hasgold", "5 g_ntemp") -- HUCKSTER.scr:102
+        ctx:hasGold(5, "g_ntemp") -- HUCKSTER.scr:102
         if ctx:condition("g_ntemp==TRUE") then -- HUCKSTER.scr:103
             ctx:takeKey(1001) -- HUCKSTER.scr:104
-            ctx:command("takegold", "5") -- HUCKSTER.scr:105
+            ctx:takeGold(5) -- HUCKSTER.scr:105
             ctx:giveKey(1002) -- HUCKSTER.scr:106
             ctx:giveItem(557) -- HUCKSTER.scr:107
             do return ctx:exit("") end -- HUCKSTER.scr:108

@@ -32,22 +32,20 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(4, "sStartName") -- 1000T_CIRCLESHOOTER.scr:44
     ctx:getParam(5, "sStopName") -- 1000T_CIRCLESHOOTER.scr:45
     -- OnPostStartWorld InitCircleShooter
-    ctx:command("wait", "0, 5, InitCircleShooter") -- 1000T_CIRCLESHOOTER.scr:48
+    ctx:wait(0, 5, "InitCircleShooter") -- 1000T_CIRCLESHOOTER.scr:48
     do return ctx:exit("TRUE") end -- 1000T_CIRCLESHOOTER.scr:49
 end
 
 script.labels["InitCircleShooter"] = function(ctx)
     -- 1000T_CIRCLESHOOTER.scr:52
     ctx:addTrigger("go", "StartShooting") -- 1000T_CIRCLESHOOTER.scr:54
-    ctx:command("getplayerhandle", "hPlayer") -- 1000T_CIRCLESHOOTER.scr:56
-    ctx:command("getmyhandle", "hMe") -- 1000T_CIRCLESHOOTER.scr:57
     do return ctx:exit("TRUE") end -- 1000T_CIRCLESHOOTER.scr:59
 end
 
 script.labels["StartShooting"] = function(ctx)
     -- 1000T_CIRCLESHOOTER.scr:62
     mm9.gosub(script, ctx, "GetFirstObject") -- 1000T_CIRCLESHOOTER.scr:64
-    ctx:command("target", "hPlayer, TRUE") -- 1000T_CIRCLESHOOTER.scr:65
+    ctx:self():setTarget(ctx:player()) -- 1000T_CIRCLESHOOTER.scr:65
     mm9.gosub(script, ctx, "Fire") -- 1000T_CIRCLESHOOTER.scr:66
     do return ctx:exit("TRUE") end -- 1000T_CIRCLESHOOTER.scr:68
 end
@@ -67,17 +65,16 @@ end
 script.labels["Fire"] = function(ctx)
     -- 1000T_CIRCLESHOOTER.scr:86
     ctx:trigger("hMe", "Off") -- 1000T_CIRCLESHOOTER.scr:88
-    ctx:command("getpos", "LISTOBJECT, xMe,yMe,zMe") -- 1000T_CIRCLESHOOTER.scr:89
-    ctx:command("movetopos", "xMe,yMe,zMe, 500, UpdatePOS") -- 1000T_CIRCLESHOOTER.scr:90
+    ctx:state().xMe, ctx:state().yMe, ctx:state().zMe = ctx:object("LISTOBJECT"):pos() -- 1000T_CIRCLESHOOTER.scr:89
+    ctx:self():moveToPos("xMe", "yMe", "zMe", 500, "UpdatePOS") -- 1000T_CIRCLESHOOTER.scr:90
     do return ctx:exit("TRUE") end -- 1000T_CIRCLESHOOTER.scr:93
 end
 
 script.labels["StopShooting"] = function(ctx)
     -- 1000T_CIRCLESHOOTER.scr:96
-    ctx:command("getobjecthandle", "sStopName, hTrigger") -- 1000T_CIRCLESHOOTER.scr:98
-    ctx:trigger("hTrigger", "trigger") -- 1000T_CIRCLESHOOTER.scr:99
+    ctx:object("sStopName"):trigger("trigger") -- 1000T_CIRCLESHOOTER.scr:98-99
     ctx:trigger("hMe", "Off") -- 1000T_CIRCLESHOOTER.scr:100
-    ctx:command("target", "NULL") -- 1000T_CIRCLESHOOTER.scr:101
+    ctx:self():setTarget(nil) -- 1000T_CIRCLESHOOTER.scr:101
     do return ctx:exit("TRUE") end -- 1000T_CIRCLESHOOTER.scr:103
 end
 

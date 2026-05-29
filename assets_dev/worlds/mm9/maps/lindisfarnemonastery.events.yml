@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/lindisfarnemonastery.lua
+  script_ir: ../events/lindisfarnemonastery.script_ir.yml
 objects:
 - object_id: mm9:lindisfarnemonastery:object:0
   source_object_index: 0
@@ -149362,6 +149363,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: anavedoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id061 []
 - mechanism_id: mm9:lindisfarnemonastery:object:413:mechanism
   object_id: mm9:lindisfarnemonastery:object:413
@@ -149391,6 +149421,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: bnavedoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id062 []
 - mechanism_id: mm9:lindisfarnemonastery:object:414:mechanism
   object_id: mm9:lindisfarnemonastery:object:414
@@ -149420,6 +149479,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id063 []
 - mechanism_id: mm9:lindisfarnemonastery:object:415:mechanism
   object_id: mm9:lindisfarnemonastery:object:415
@@ -149449,6 +149537,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: anavedoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id064 []
 - mechanism_id: mm9:lindisfarnemonastery:object:416:mechanism
   object_id: mm9:lindisfarnemonastery:object:416
@@ -149478,6 +149595,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: bnavedoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id065 []
 - mechanism_id: mm9:lindisfarnemonastery:object:417:mechanism
   object_id: mm9:lindisfarnemonastery:object:417
@@ -149507,6 +149653,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id066 []
 - mechanism_id: mm9:lindisfarnemonastery:object:418:mechanism
   object_id: mm9:lindisfarnemonastery:object:418
@@ -149536,6 +149711,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id067 []
 - mechanism_id: mm9:lindisfarnemonastery:object:419:mechanism
   object_id: mm9:lindisfarnemonastery:object:419
@@ -149565,6 +149769,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id068 []
 - mechanism_id: mm9:lindisfarnemonastery:object:420:mechanism
   object_id: mm9:lindisfarnemonastery:object:420
@@ -149594,6 +149827,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id069 []
 - mechanism_id: mm9:lindisfarnemonastery:object:421:mechanism
   object_id: mm9:lindisfarnemonastery:object:421
@@ -149623,6 +149885,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id070 []
 - mechanism_id: mm9:lindisfarnemonastery:object:422:mechanism
   object_id: mm9:lindisfarnemonastery:object:422
@@ -149634,6 +149925,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id071 []
 - mechanism_id: mm9:lindisfarnemonastery:object:425:mechanism
   object_id: mm9:lindisfarnemonastery:object:425
@@ -149645,6 +149937,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id072 []
 - mechanism_id: mm9:lindisfarnemonastery:object:426:mechanism
   object_id: mm9:lindisfarnemonastery:object:426
@@ -149656,6 +149949,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id073 []
 - mechanism_id: mm9:lindisfarnemonastery:object:428:mechanism
   object_id: mm9:lindisfarnemonastery:object:428
@@ -149667,6 +149961,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id074 []
 - mechanism_id: mm9:lindisfarnemonastery:object:431:mechanism
   object_id: mm9:lindisfarnemonastery:object:431
@@ -149678,6 +149973,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id075 []
 - mechanism_id: mm9:lindisfarnemonastery:object:432:mechanism
   object_id: mm9:lindisfarnemonastery:object:432
@@ -149689,6 +149985,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id076 []
 - mechanism_id: mm9:lindisfarnemonastery:object:435:mechanism
   object_id: mm9:lindisfarnemonastery:object:435
@@ -149700,6 +149997,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id077 []
 - mechanism_id: mm9:lindisfarnemonastery:object:455:mechanism
   object_id: mm9:lindisfarnemonastery:object:455
@@ -149710,6 +150008,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarnemonastery:object:467:mechanism
   object_id: mm9:lindisfarnemonastery:object:467
@@ -149720,6 +150019,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarnemonastery:object:492:mechanism
   object_id: mm9:lindisfarnemonastery:object:492
@@ -149730,6 +150030,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarnemonastery:object:493:mechanism
   object_id: mm9:lindisfarnemonastery:object:493
@@ -149740,6 +150041,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarnemonastery:object:527:mechanism
   object_id: mm9:lindisfarnemonastery:object:527
@@ -149750,6 +150052,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarnemonastery:object:604:mechanism
   object_id: mm9:lindisfarnemonastery:object:604
@@ -149775,6 +150078,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\c#1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id078 []
 - mechanism_id: mm9:lindisfarnemonastery:object:605:mechanism
   object_id: mm9:lindisfarnemonastery:object:605
@@ -149800,6 +150132,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Music\e1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id079 []
 - mechanism_id: mm9:lindisfarnemonastery:object:606:mechanism
   object_id: mm9:lindisfarnemonastery:object:606
@@ -149825,6 +150186,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\a1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id080 []
 - mechanism_id: mm9:lindisfarnemonastery:object:607:mechanism
   object_id: mm9:lindisfarnemonastery:object:607
@@ -149850,6 +150240,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\b1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id081 []
 - mechanism_id: mm9:lindisfarnemonastery:object:608:mechanism
   object_id: mm9:lindisfarnemonastery:object:608
@@ -149875,6 +150294,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\c1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id082 []
 - mechanism_id: mm9:lindisfarnemonastery:object:609:mechanism
   object_id: mm9:lindisfarnemonastery:object:609
@@ -149900,6 +150348,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\d1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id083 []
 - mechanism_id: mm9:lindisfarnemonastery:object:610:mechanism
   object_id: mm9:lindisfarnemonastery:object:610
@@ -149925,6 +150402,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\e2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id084 []
 - mechanism_id: mm9:lindisfarnemonastery:object:611:mechanism
   object_id: mm9:lindisfarnemonastery:object:611
@@ -149950,6 +150456,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\f2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id085 []
 - mechanism_id: mm9:lindisfarnemonastery:object:612:mechanism
   object_id: mm9:lindisfarnemonastery:object:612
@@ -149975,6 +150510,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Music\f1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id086 []
 - mechanism_id: mm9:lindisfarnemonastery:object:613:mechanism
   object_id: mm9:lindisfarnemonastery:object:613
@@ -150000,6 +150564,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\g1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id087 []
 - mechanism_id: mm9:lindisfarnemonastery:object:614:mechanism
   object_id: mm9:lindisfarnemonastery:object:614
@@ -150025,6 +150618,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\g2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id088 []
 - mechanism_id: mm9:lindisfarnemonastery:object:615:mechanism
   object_id: mm9:lindisfarnemonastery:object:615
@@ -150050,6 +150672,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\a2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id089 []
 - mechanism_id: mm9:lindisfarnemonastery:object:616:mechanism
   object_id: mm9:lindisfarnemonastery:object:616
@@ -150075,6 +150726,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\b2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id090 []
 - mechanism_id: mm9:lindisfarnemonastery:object:617:mechanism
   object_id: mm9:lindisfarnemonastery:object:617
@@ -150100,6 +150780,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\c2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id091 []
 - mechanism_id: mm9:lindisfarnemonastery:object:618:mechanism
   object_id: mm9:lindisfarnemonastery:object:618
@@ -150125,6 +150834,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\d2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id092 []
 - mechanism_id: mm9:lindisfarnemonastery:object:619:mechanism
   object_id: mm9:lindisfarnemonastery:object:619
@@ -150150,6 +150888,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\e3.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id093 []
 - mechanism_id: mm9:lindisfarnemonastery:object:620:mechanism
   object_id: mm9:lindisfarnemonastery:object:620
@@ -150175,6 +150942,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\c#2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id094 []
 - mechanism_id: mm9:lindisfarnemonastery:object:621:mechanism
   object_id: mm9:lindisfarnemonastery:object:621
@@ -150200,6 +150996,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\a#2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id095 []
 - mechanism_id: mm9:lindisfarnemonastery:object:622:mechanism
   object_id: mm9:lindisfarnemonastery:object:622
@@ -150225,6 +151050,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\g#2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id096 []
 - mechanism_id: mm9:lindisfarnemonastery:object:623:mechanism
   object_id: mm9:lindisfarnemonastery:object:623
@@ -150250,6 +151104,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\f#2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id097 []
 - mechanism_id: mm9:lindisfarnemonastery:object:624:mechanism
   object_id: mm9:lindisfarnemonastery:object:624
@@ -150275,6 +151158,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\d#1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id098 []
 - mechanism_id: mm9:lindisfarnemonastery:object:625:mechanism
   object_id: mm9:lindisfarnemonastery:object:625
@@ -150300,6 +151212,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\a#1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id099 []
 - mechanism_id: mm9:lindisfarnemonastery:object:626:mechanism
   object_id: mm9:lindisfarnemonastery:object:626
@@ -150325,6 +151266,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\g#1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id100 []
 - mechanism_id: mm9:lindisfarnemonastery:object:627:mechanism
   object_id: mm9:lindisfarnemonastery:object:627
@@ -150350,6 +151320,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\d#2.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id101 []
 - mechanism_id: mm9:lindisfarnemonastery:object:628:mechanism
   object_id: mm9:lindisfarnemonastery:object:628
@@ -150375,6 +151374,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\music\f#1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id102 []
 - mechanism_id: mm9:lindisfarnemonastery:object:630:mechanism
   object_id: mm9:lindisfarnemonastery:object:630
@@ -150386,6 +151414,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id103 []
 - mechanism_id: mm9:lindisfarnemonastery:object:646:mechanism
   object_id: mm9:lindisfarnemonastery:object:646
@@ -150411,6 +151440,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id104
   - phase: open
     slot: 0
@@ -150441,6 +151499,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id105
   - phase: open
     slot: 0
@@ -150471,6 +151558,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id106
   - phase: open
     slot: 0
@@ -150501,6 +151617,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id107
   - phase: open
     slot: 0
@@ -150531,6 +151676,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id108
   - phase: open
     slot: 0
@@ -150546,6 +151720,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarnemonastery:object:767:mechanism
   object_id: mm9:lindisfarnemonastery:object:767
@@ -150557,6 +151732,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: &id109 []
 - mechanism_id: mm9:lindisfarnemonastery:object:768:mechanism
   object_id: mm9:lindisfarnemonastery:object:768
@@ -150567,6 +151743,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarnemonastery:object:769:mechanism
   object_id: mm9:lindisfarnemonastery:object:769
@@ -150577,6 +151754,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers: []
 interactions:
@@ -152696,286 +153874,2406 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id195
+    - source_model_index: 0
+      source_name: bnavedoor1
+      movable: true
+      world_translation_lt: &id110
+      - -176.0
+      - 112.0
+      - 504.0
+      distance_from_rotation_point_lt: 54.406
+    - source_model_index: 1
+      source_name: anavedoor1
+      movable: true
+      world_translation_lt: &id111
+      - -80.0
+      - 112.0
+      - 504.0
+      distance_from_rotation_point_lt: 143.611
+    - source_model_index: 57
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: &id112
+      - -128.0
+      - 8.0
+      - 440.0
+      distance_from_rotation_point_lt: 176.227
+    - source_model_index: 58
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: &id113
+      - -128.0
+      - 8.0
+      - 576.0
+      distance_from_rotation_point_lt: 179.287
+    - source_model_index: 31
+      source_name: AITrk16
+      movable: true
+      world_translation_lt: &id114
+      - -376.0
+      - 8.0
+      - 432.0
+      distance_from_rotation_point_lt: 219.126
+    nearest_movable_world_models_by_position: &id196
+    - source_model_index: 0
+      source_name: bnavedoor1
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 54.406
+    - source_model_index: 1
+      source_name: anavedoor1
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 143.611
+    - source_model_index: 57
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 176.227
+    - source_model_index: 58
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 179.287
+    - source_model_index: 31
+      source_name: AITrk16
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 219.126
 - object_id: mm9:lindisfarnemonastery:object:413
   source_object_index: 413
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id197
+    - source_model_index: 1
+      source_name: anavedoor1
+      movable: true
+      world_translation_lt: *id111
+      distance_from_rotation_point_lt: 54.406
+    - source_model_index: 0
+      source_name: bnavedoor1
+      movable: true
+      world_translation_lt: *id110
+      distance_from_rotation_point_lt: 143.611
+    - source_model_index: 57
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id112
+      distance_from_rotation_point_lt: 176.227
+    - source_model_index: 58
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: *id113
+      distance_from_rotation_point_lt: 179.287
+    - source_model_index: 59
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: &id115
+      - 104.0
+      - 8.0
+      - 576.0
+      distance_from_rotation_point_lt: 208.038
+    nearest_movable_world_models_by_position: &id198
+    - source_model_index: 1
+      source_name: anavedoor1
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 54.406
+    - source_model_index: 0
+      source_name: bnavedoor1
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 143.611
+    - source_model_index: 57
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 176.227
+    - source_model_index: 58
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 179.287
+    - source_model_index: 59
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 208.038
 - object_id: mm9:lindisfarnemonastery:object:414
   source_object_index: 414
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id199
+    - source_model_index: 2
+      source_name: RotatingDoor2
+      movable: true
+      world_translation_lt: &id116
+      - 1016.0
+      - 56.0
+      - 2496.0
+      distance_from_rotation_point_lt: 66.573
+    - source_model_index: 75
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: &id117
+      - 1056.0
+      - 8.0
+      - 2496.0
+      distance_from_rotation_point_lt: 117.098
+    - source_model_index: 119
+      source_name: AITrk103
+      movable: true
+      world_translation_lt: &id118
+      - 1064.0
+      - 8.0
+      - 2384.0
+      distance_from_rotation_point_lt: 137.463
+    - source_model_index: 73
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: &id119
+      - 848.0
+      - 8.0
+      - 2496.0
+      distance_from_rotation_point_lt: 200.838
+    - source_model_index: 72
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: &id120
+      - 848.0
+      - 8.0
+      - 2392.0
+      distance_from_rotation_point_lt: 208.959
+    nearest_movable_world_models_by_position: &id200
+    - source_model_index: 2
+      source_name: RotatingDoor2
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 66.573
+    - source_model_index: 75
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 117.098
+    - source_model_index: 119
+      source_name: AITrk103
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 137.463
+    - source_model_index: 73
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 200.838
+    - source_model_index: 72
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 208.959
 - object_id: mm9:lindisfarnemonastery:object:415
   source_object_index: 415
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id201
+    - source_model_index: 3
+      source_name: bnavedoor2
+      movable: true
+      world_translation_lt: &id121
+      - -176.0
+      - 112.0
+      - 2312.0
+      distance_from_rotation_point_lt: 54.406
+    - source_model_index: 4
+      source_name: anavedoor2
+      movable: true
+      world_translation_lt: &id122
+      - -80.0
+      - 112.0
+      - 2312.0
+      distance_from_rotation_point_lt: 143.611
+    - source_model_index: 67
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: &id123
+      - -128.0
+      - 8.0
+      - 2248.0
+      distance_from_rotation_point_lt: 176.227
+    - source_model_index: 70
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: &id124
+      - -128.0
+      - 8.0
+      - 2400.0
+      distance_from_rotation_point_lt: 186.29
+    - source_model_index: 69
+      source_name: AITrk56
+      movable: true
+      world_translation_lt: &id125
+      - -360.0
+      - 8.0
+      - 2240.0
+      distance_from_rotation_point_lt: 208.038
+    nearest_movable_world_models_by_position: &id202
+    - source_model_index: 3
+      source_name: bnavedoor2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 54.406
+    - source_model_index: 4
+      source_name: anavedoor2
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 143.611
+    - source_model_index: 67
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 176.227
+    - source_model_index: 70
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 186.29
+    - source_model_index: 69
+      source_name: AITrk56
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 208.038
 - object_id: mm9:lindisfarnemonastery:object:416
   source_object_index: 416
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id203
+    - source_model_index: 4
+      source_name: anavedoor2
+      movable: true
+      world_translation_lt: *id122
+      distance_from_rotation_point_lt: 54.406
+    - source_model_index: 3
+      source_name: bnavedoor2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_rotation_point_lt: 143.611
+    - source_model_index: 67
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: *id123
+      distance_from_rotation_point_lt: 176.227
+    - source_model_index: 70
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: *id124
+      distance_from_rotation_point_lt: 186.29
+    - source_model_index: 68
+      source_name: AITrk55
+      movable: true
+      world_translation_lt: &id126
+      - 104.0
+      - 8.0
+      - 2240.0
+      distance_from_rotation_point_lt: 208.038
+    nearest_movable_world_models_by_position: &id204
+    - source_model_index: 4
+      source_name: anavedoor2
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 54.406
+    - source_model_index: 3
+      source_name: bnavedoor2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 143.611
+    - source_model_index: 67
+      source_name: AITrk54
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 176.227
+    - source_model_index: 70
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 186.29
+    - source_model_index: 68
+      source_name: AITrk55
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 208.038
 - object_id: mm9:lindisfarnemonastery:object:417
   source_object_index: 417
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id205
+    - source_model_index: 5
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: &id127
+      - 248.0
+      - 56.0
+      - 688.0
+      distance_from_rotation_point_lt: 71.218
+    - source_model_index: 123
+      source_name: AITrk107
+      movable: true
+      world_translation_lt: &id128
+      - 264.0
+      - 0.0
+      - 688.0
+      distance_from_rotation_point_lt: 121.392
+    - source_model_index: 125
+      source_name: AITrk109
+      movable: true
+      world_translation_lt: &id129
+      - 328.0
+      - -8.0
+      - 576.0
+      distance_from_rotation_point_lt: 159.449
+    - source_model_index: 124
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: &id130
+      - 352.0
+      - -8.0
+      - 688.0
+      distance_from_rotation_point_lt: 164.779
+    - source_model_index: 63
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: &id131
+      - 96.0
+      - 8.0
+      - 688.0
+      distance_from_rotation_point_lt: 189.357
+    nearest_movable_world_models_by_position: &id206
+    - source_model_index: 5
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 71.218
+    - source_model_index: 123
+      source_name: AITrk107
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 121.392
+    - source_model_index: 125
+      source_name: AITrk109
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 159.449
+    - source_model_index: 124
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 164.779
+    - source_model_index: 63
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 189.357
 - object_id: mm9:lindisfarnemonastery:object:418
   source_object_index: 418
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id207
+    - source_model_index: 6
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: &id132
+      - 280.0
+      - 56.0
+      - 320.0
+      distance_from_rotation_point_lt: 71.218
+    - source_model_index: 46
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: &id133
+      - 264.0
+      - 8.0
+      - 320.0
+      distance_from_rotation_point_lt: 114.053
+    - source_model_index: 47
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: &id134
+      - 336.0
+      - 8.0
+      - 320.0
+      distance_from_rotation_point_lt: 126.048
+    - source_model_index: 49
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: &id135
+      - 336.0
+      - 8.0
+      - 200.0
+      distance_from_rotation_point_lt: 140.456
+    - source_model_index: 48
+      source_name: AITrk36
+      movable: true
+      world_translation_lt: &id136
+      - 336.0
+      - 8.0
+      - 424.0
+      distance_from_rotation_point_lt: 189.357
+    nearest_movable_world_models_by_position: &id208
+    - source_model_index: 6
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 71.218
+    - source_model_index: 46
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 114.053
+    - source_model_index: 47
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 126.048
+    - source_model_index: 49
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 140.456
+    - source_model_index: 48
+      source_name: AITrk36
+      movable: true
+      world_translation_lt: *id136
+      distance_from_position_lt: 189.357
 - object_id: mm9:lindisfarnemonastery:object:419
   source_object_index: 419
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id209
+    - source_model_index: 7
+      source_name: RotatingDoor3
+      movable: true
+      world_translation_lt: &id137
+      - -536.0
+      - 56.0
+      - 320.0
+      distance_from_rotation_point_lt: 71.218
+    - source_model_index: 30
+      source_name: AITrk17
+      movable: true
+      world_translation_lt: &id138
+      - -520.0
+      - 8.0
+      - 320.0
+      distance_from_rotation_point_lt: 114.053
+    - source_model_index: 32
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: &id139
+      - -592.0
+      - 8.0
+      - 320.0
+      distance_from_rotation_point_lt: 126.048
+    - source_model_index: 34
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: &id140
+      - -592.0
+      - 8.0
+      - 200.0
+      distance_from_rotation_point_lt: 140.456
+    - source_model_index: 33
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: &id141
+      - -592.0
+      - 8.0
+      - 424.0
+      distance_from_rotation_point_lt: 189.357
+    nearest_movable_world_models_by_position: &id210
+    - source_model_index: 7
+      source_name: RotatingDoor3
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 71.218
+    - source_model_index: 30
+      source_name: AITrk17
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 114.053
+    - source_model_index: 32
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 126.048
+    - source_model_index: 34
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 140.456
+    - source_model_index: 33
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 189.357
 - object_id: mm9:lindisfarnemonastery:object:420
   source_object_index: 420
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id211
+    - source_model_index: 158
+      source_name: AITrk136
+      movable: true
+      world_translation_lt: &id142
+      - 784.0
+      - 168.0
+      - 416.0
+      distance_from_rotation_point_lt: 67.052
+    - source_model_index: 8
+      source_name: RotatingDoor4
+      movable: true
+      world_translation_lt: &id143
+      - 760.0
+      - 56.0
+      - 432.0
+      distance_from_rotation_point_lt: 71.218
+    - source_model_index: 157
+      source_name: AITrk135
+      movable: true
+      world_translation_lt: &id144
+      - 696.0
+      - 152.0
+      - 416.0
+      distance_from_rotation_point_lt: 80.498
+    - source_model_index: 9
+      source_name: RotatingDoor5
+      movable: true
+      world_translation_lt: &id145
+      - 760.0
+      - 208.0
+      - 384.0
+      distance_from_rotation_point_lt: 96.083
+    - source_model_index: 61
+      source_name: AITrk48
+      movable: true
+      world_translation_lt: &id146
+      - 760.0
+      - 8.0
+      - 432.0
+      distance_from_rotation_point_lt: 112.925
+    nearest_movable_world_models_by_position: &id212
+    - source_model_index: 158
+      source_name: AITrk136
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 67.052
+    - source_model_index: 8
+      source_name: RotatingDoor4
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 71.218
+    - source_model_index: 157
+      source_name: AITrk135
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 80.498
+    - source_model_index: 9
+      source_name: RotatingDoor5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 96.083
+    - source_model_index: 61
+      source_name: AITrk48
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 112.925
 - object_id: mm9:lindisfarnemonastery:object:421
   source_object_index: 421
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id213
+    - source_model_index: 9
+      source_name: RotatingDoor5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_rotation_point_lt: 65.115
+    - source_model_index: 159
+      source_name: AITrk137
+      movable: true
+      world_translation_lt: &id147
+      - 800.0
+      - 168.0
+      - 296.0
+      distance_from_rotation_point_lt: 106.207
+    - source_model_index: 158
+      source_name: AITrk136
+      movable: true
+      world_translation_lt: *id142
+      distance_from_rotation_point_lt: 118.727
+    - source_model_index: 157
+      source_name: AITrk135
+      movable: true
+      world_translation_lt: *id144
+      distance_from_rotation_point_lt: 143.833
+    - source_model_index: 144
+      source_name: AITrk30
+      movable: true
+      world_translation_lt: &id148
+      - 696.0
+      - 152.0
+      - 232.0
+      distance_from_rotation_point_lt: 163.021
+    nearest_movable_world_models_by_position: &id214
+    - source_model_index: 9
+      source_name: RotatingDoor5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 65.115
+    - source_model_index: 159
+      source_name: AITrk137
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 106.207
+    - source_model_index: 158
+      source_name: AITrk136
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 118.727
+    - source_model_index: 157
+      source_name: AITrk135
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 143.833
+    - source_model_index: 144
+      source_name: AITrk30
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 163.021
 - object_id: mm9:lindisfarnemonastery:object:422
   source_object_index: 422
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id215
+    - source_model_index: 10
+      source_name: Ladder3
+      movable: true
+      world_translation_lt:
+      - -344.0
+      - 1097.5
+      - 2324.5
+      distance_from_position_lt: 0.071
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt:
+      - -344.0
+      - 1098.5
+      - 2323.5
+      distance_from_position_lt: 1.365
+    - source_model_index: 214
+      source_name: Carpet21
+      movable: true
+      world_translation_lt: &id150
+      - -608.0
+      - 896.5
+      - 2688.0
+      distance_from_position_lt: 492.197
+    - source_model_index: 187
+      source_name: Rope5
+      movable: true
+      world_translation_lt: &id182
+      - -160.0
+      - 1664.0
+      - 2322.0
+      distance_from_position_lt: 595.57
+    - source_model_index: 188
+      source_name: Rope4
+      movable: true
+      world_translation_lt: &id181
+      - -144.0
+      - 1664.0
+      - 2322.0
+      distance_from_position_lt: 600.706
 - object_id: mm9:lindisfarnemonastery:object:425
   source_object_index: 425
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id216
+    - source_model_index: 13
+      source_name: Ladder4
+      movable: true
+      world_translation_lt:
+      - -890.0
+      - 210.0
+      - 3051.5
+      distance_from_position_lt: 0.0
+    - source_model_index: 12
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: &id151
+      - -890.0
+      - 211.0
+      - 3052.5
+      distance_from_position_lt: 1.414
+    - source_model_index: 78
+      source_name: AITrk65
+      movable: true
+      world_translation_lt:
+      - -744.0
+      - 8.0
+      - 2688.0
+      distance_from_position_lt: 440.741
+    - source_model_index: 210
+      source_name: Carpet17
+      movable: true
+      world_translation_lt: &id149
+      - -656.0
+      - 384.5
+      - 2688.0
+      distance_from_position_lt: 466.196
+    - source_model_index: 208
+      source_name: Carpet15
+      movable: true
+      world_translation_lt:
+      - -1104.0
+      - 0.5
+      - 2688.0
+      distance_from_position_lt: 470.976
 - object_id: mm9:lindisfarnemonastery:object:426
   source_object_index: 426
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id217
+    - source_model_index: 14
+      source_name: Ladder1
+      movable: true
+      world_translation_lt:
+      - -818.0
+      - 649.0
+      - 2699.5
+      distance_from_position_lt: 0.036
+    - source_model_index: 15
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt:
+      - -818.0
+      - 650.5
+      - 2700.5
+      distance_from_position_lt: 1.832
+    - source_model_index: 210
+      source_name: Carpet17
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 310.351
+    - source_model_index: 214
+      source_name: Carpet21
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 324.817
+    - source_model_index: 12
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 567.103
 - object_id: mm9:lindisfarnemonastery:object:428
   source_object_index: 428
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id218
+    - source_model_index: 16
+      source_name: Ladder2
+      movable: true
+      world_translation_lt: &id154
+      - 550.0
+      - 649.0
+      - 2699.5
+      distance_from_position_lt: 0.036
+    - source_model_index: 17
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt: &id153
+      - 550.0
+      - 650.5
+      - 2700.5
+      distance_from_position_lt: 1.832
+    - source_model_index: 209
+      source_name: Carpet16
+      movable: true
+      world_translation_lt: &id155
+      - 384.0
+      - 384.5
+      - 2688.0
+      distance_from_position_lt: 312.458
+    - source_model_index: 215
+      source_name: Carpet22
+      movable: true
+      world_translation_lt:
+      - 336.0
+      - 896.5
+      - 2688.0
+      distance_from_position_lt: 327.417
+    - source_model_index: 18
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt: &id152
+      - 630.0
+      - 211.0
+      - 3052.5
+      distance_from_position_lt: 568.174
 - object_id: mm9:lindisfarnemonastery:object:431
   source_object_index: 431
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id219
+    - source_model_index: 18
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 208.807
+    - source_model_index: 19
+      source_name: Ladder5
+      movable: true
+      world_translation_lt:
+      - 630.0
+      - 210.0
+      - 3051.5
+      distance_from_position_lt: 209.822
+    - source_model_index: 17
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 435.404
+    - source_model_index: 16
+      source_name: Ladder2
+      movable: true
+      world_translation_lt: *id154
+      distance_from_position_lt: 435.427
+    - source_model_index: 209
+      source_name: Carpet16
+      movable: true
+      world_translation_lt: *id155
+      distance_from_position_lt: 454.214
 - object_id: mm9:lindisfarnemonastery:object:432
   source_object_index: 432
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id220
+    - source_model_index: 20
+      source_name: Ladder0
+      movable: true
+      world_translation_lt:
+      - -678.0
+      - 401.0
+      - 371.5
+      distance_from_position_lt: 0.04
+    - source_model_index: 21
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt:
+      - -678.0
+      - 402.5
+      - 372.5
+      distance_from_position_lt: 1.769
+    - source_model_index: 140
+      source_name: AITrk28
+      movable: true
+      world_translation_lt:
+      - -728.0
+      - 152.0
+      - 312.0
+      distance_from_position_lt: 260.886
+    - source_model_index: 7
+      source_name: RotatingDoor3
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 376.655
+    - source_model_index: 141
+      source_name: AITrk27
+      movable: true
+      world_translation_lt:
+      - -960.0
+      - 152.0
+      - 312.0
+      distance_from_position_lt: 380.901
 - object_id: mm9:lindisfarnemonastery:object:435
   source_object_index: 435
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id221
+    - source_model_index: 22
+      source_name: WorldObject9
+      movable: true
+      world_translation_lt:
+      - 422.0
+      - 402.5
+      - 372.5
+      distance_from_position_lt: 257.155
+    - source_model_index: 23
+      source_name: Ladder10
+      movable: true
+      world_translation_lt:
+      - 422.0
+      - 401.0
+      - 371.5
+      distance_from_position_lt: 258.666
+    - source_model_index: 145
+      source_name: AITrk29
+      movable: true
+      world_translation_lt:
+      - 472.0
+      - 152.0
+      - 312.0
+      distance_from_position_lt: 512.024
+    - source_model_index: 9
+      source_name: RotatingDoor5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 553.051
+    - source_model_index: 157
+      source_name: AITrk135
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 569.372
 - object_id: mm9:lindisfarnemonastery:object:455
   source_object_index: 455
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id222
+    - source_model_index: 36
+      source_name: AITrk22
+      movable: true
+      world_translation_lt:
+      - -776.0
+      - 80.0
+      - 80.0
+      distance_from_position_lt: 58.241
+    - source_model_index: 43
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - -720.0
+      - 24.0000057220459
+      - 80.0
+      distance_from_position_lt: 72.0
+    - source_model_index: 39
+      source_name: AITrk25
+      movable: true
+      world_translation_lt:
+      - -888.0
+      - 8.0
+      - 72.0
+      distance_from_position_lt: 138.333
+    - source_model_index: 35
+      source_name: AITrk21
+      movable: true
+      world_translation_lt:
+      - -592.0
+      - 8.0
+      - 80.0
+      distance_from_position_lt: 186.762
+    - source_model_index: 37
+      source_name: AITrk23
+      movable: true
+      world_translation_lt:
+      - -704.0
+      - 8.0
+      - 304.0
+      distance_from_position_lt: 191.499
 - object_id: mm9:lindisfarnemonastery:object:467
   source_object_index: 467
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id223
+    - source_model_index: 51
+      source_name: AITrk39
+      movable: true
+      world_translation_lt:
+      - 520.0
+      - 80.00000762939453
+      - 80.0
+      distance_from_position_lt: 58.241
+    - source_model_index: 55
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt:
+      - 464.0
+      - 24.000001907348633
+      - 80.0
+      distance_from_position_lt: 72.0
+    - source_model_index: 54
+      source_name: AITrk42
+      movable: true
+      world_translation_lt:
+      - 632.0
+      - 8.0
+      - 72.0
+      distance_from_position_lt: 138.333
+    - source_model_index: 53
+      source_name: AITrk41
+      movable: true
+      world_translation_lt:
+      - 568.0
+      - 8.0
+      - 256.0
+      distance_from_position_lt: 145.327
+    - source_model_index: 50
+      source_name: AITrk38
+      movable: true
+      world_translation_lt:
+      - 336.0
+      - 8.0
+      - 80.0
+      distance_from_position_lt: 186.762
 - object_id: mm9:lindisfarnemonastery:object:492
   source_object_index: 492
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id224
+    - source_model_index: 94
+      source_name: AITrk79
+      movable: true
+      world_translation_lt:
+      - -492.0
+      - 8.0
+      - 4260.0
+      distance_from_position_lt: 84.475
+    - source_model_index: 87
+      source_name: AITrk72
+      movable: true
+      world_translation_lt:
+      - -656.0
+      - 8.0
+      - 4160.0
+      distance_from_position_lt: 124.708
+    - source_model_index: 86
+      source_name: AITrk71
+      movable: true
+      world_translation_lt:
+      - -408.0
+      - 8.0
+      - 4160.0
+      distance_from_position_lt: 159.599
+    - source_model_index: 93
+      source_name: AITrk78
+      movable: true
+      world_translation_lt:
+      - -344.0
+      - 8.0
+      - 4260.0
+      distance_from_position_lt: 216.333
+    - source_model_index: 88
+      source_name: AITrk73
+      movable: true
+      world_translation_lt:
+      - -656.0
+      - 8.0
+      - 4528.0
+      distance_from_position_lt: 331.3
 - object_id: mm9:lindisfarnemonastery:object:493
   source_object_index: 493
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id225
+    - source_model_index: 91
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: &id188
+      - 252.0
+      - 8.0
+      - 4260.0
+      distance_from_position_lt: 84.475
+    - source_model_index: 84
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: &id186
+      - 408.0
+      - 8.0
+      - 4160.0
+      distance_from_position_lt: 118.119
+    - source_model_index: 83
+      source_name: AITrk68
+      movable: true
+      world_translation_lt: &id189
+      - 168.0
+      - 8.0
+      - 4160.0
+      distance_from_position_lt: 159.599
+    - source_model_index: 90
+      source_name: AITrk75
+      movable: true
+      world_translation_lt:
+      - 104.0
+      - 8.0
+      - 4260.0
+      distance_from_position_lt: 216.333
+    - source_model_index: 85
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: &id187
+      - 408.0
+      - 8.0
+      - 4528.0
+      distance_from_position_lt: 328.877
 - object_id: mm9:lindisfarnemonastery:object:527
   source_object_index: 527
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id226
+    - source_model_index: 114
+      source_name: AITrk99
+      movable: true
+      world_translation_lt:
+      - 1816.0
+      - 80.0
+      - 2768.0
+      distance_from_position_lt: 58.241
+    - source_model_index: 115
+      source_name: InvisibleBrush4
+      movable: true
+      world_translation_lt:
+      - 1760.0
+      - 24.000015258789062
+      - 2768.0
+      distance_from_position_lt: 72.0
+    - source_model_index: 148
+      source_name: AITrk126
+      movable: true
+      world_translation_lt:
+      - 1784.0
+      - 152.0
+      - 2680.0
+      distance_from_position_lt: 113.982
+    - source_model_index: 112
+      source_name: AITrk97
+      movable: true
+      world_translation_lt:
+      - 1696.0
+      - 8.0
+      - 2640.0
+      distance_from_position_lt: 143.332
+    - source_model_index: 113
+      source_name: AITrk98
+      movable: true
+      world_translation_lt:
+      - 1648.0
+      - 8.0
+      - 2768.0
+      distance_from_position_lt: 171.767
 - object_id: mm9:lindisfarnemonastery:object:604
   source_object_index: 604
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id227
+    - source_model_index: 162
+      source_name: C#1
+      movable: true
+      world_translation_lt: &id162
+      - -134.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 3.084
+    - source_model_index: 166
+      source_name: C1
+      movable: true
+      world_translation_lt: &id161
+      - -136.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.653
+    - source_model_index: 167
+      source_name: D1
+      movable: true
+      world_translation_lt: &id163
+      - -132.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.653
+    - source_model_index: 182
+      source_name: D#2
+      movable: true
+      world_translation_lt: &id164
+      - -130.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 5.051
+    - source_model_index: 165
+      source_name: B1
+      movable: true
+      world_translation_lt: &id157
+      - -140.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:605
   source_object_index: 605
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id228
+    - source_model_index: 163
+      source_name: E1
+      movable: true
+      world_translation_lt: &id169
+      - -156.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 2.236
+    - source_model_index: 170
+      source_name: F1
+      movable: true
+      world_translation_lt: &id167
+      - -152.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
+    - source_model_index: 186
+      source_name: F#1
+      movable: true
+      world_translation_lt: &id168
+      - -150.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 6.782
+    - source_model_index: 171
+      source_name: G1
+      movable: true
+      world_translation_lt: &id158
+      - -148.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 8.307
+    - source_model_index: 184
+      source_name: G#1
+      movable: true
+      world_translation_lt: &id156
+      - -146.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 10.488
 - object_id: mm9:lindisfarnemonastery:object:606
   source_object_index: 606
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id229
+    - source_model_index: 164
+      source_name: A1
+      movable: true
+      world_translation_lt: &id160
+      - -144.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 2.236
+    - source_model_index: 183
+      source_name: A#1
+      movable: true
+      world_translation_lt: &id159
+      - -142.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 3.742
+    - source_model_index: 184
+      source_name: G#1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 3.742
+    - source_model_index: 165
+      source_name: B1
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 4.583
+    - source_model_index: 171
+      source_name: G1
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 4.583
 - object_id: mm9:lindisfarnemonastery:object:607
   source_object_index: 607
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id230
+    - source_model_index: 165
+      source_name: B1
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 2.236
+    - source_model_index: 183
+      source_name: A#1
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 3.742
+    - source_model_index: 164
+      source_name: A1
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 4.583
+    - source_model_index: 166
+      source_name: C1
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 4.583
+    - source_model_index: 162
+      source_name: C#1
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 6.782
 - object_id: mm9:lindisfarnemonastery:object:608
   source_object_index: 608
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id231
+    - source_model_index: 166
+      source_name: C1
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 2.236
+    - source_model_index: 162
+      source_name: C#1
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 3.742
+    - source_model_index: 165
+      source_name: B1
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 4.583
+    - source_model_index: 167
+      source_name: D1
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 4.583
+    - source_model_index: 182
+      source_name: D#2
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 6.782
 - object_id: mm9:lindisfarnemonastery:object:609
   source_object_index: 609
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id232
+    - source_model_index: 167
+      source_name: D1
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 2.236
+    - source_model_index: 162
+      source_name: C#1
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 3.742
+    - source_model_index: 182
+      source_name: D#2
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 3.742
+    - source_model_index: 166
+      source_name: C1
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 4.583
+    - source_model_index: 168
+      source_name: E2
+      movable: true
+      world_translation_lt: &id165
+      - -128.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
 - object_id: mm9:lindisfarnemonastery:object:610
   source_object_index: 610
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id233
+    - source_model_index: 168
+      source_name: E2
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 2.236
+    - source_model_index: 182
+      source_name: D#2
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 3.742
+    - source_model_index: 167
+      source_name: D1
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 4.583
+    - source_model_index: 169
+      source_name: F2
+      movable: true
+      world_translation_lt: &id166
+      - -124.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
+    - source_model_index: 162
+      source_name: C#1
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 6.782
 - object_id: mm9:lindisfarnemonastery:object:611
   source_object_index: 611
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id234
+    - source_model_index: 169
+      source_name: F2
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 2.236
+    - source_model_index: 181
+      source_name: F#2
+      movable: true
+      world_translation_lt: &id172
+      - -122.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 3.742
+    - source_model_index: 168
+      source_name: E2
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 4.583
+    - source_model_index: 172
+      source_name: G2
+      movable: true
+      world_translation_lt: &id170
+      - -120.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
+    - source_model_index: 180
+      source_name: G#2
+      movable: true
+      world_translation_lt: &id171
+      - -118.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 6.782
 - object_id: mm9:lindisfarnemonastery:object:612
   source_object_index: 612
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id235
+    - source_model_index: 170
+      source_name: F1
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 2.236
+    - source_model_index: 186
+      source_name: F#1
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 3.742
+    - source_model_index: 163
+      source_name: E1
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 4.583
+    - source_model_index: 171
+      source_name: G1
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 4.583
+    - source_model_index: 184
+      source_name: G#1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 6.782
 - object_id: mm9:lindisfarnemonastery:object:613
   source_object_index: 613
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id236
+    - source_model_index: 171
+      source_name: G1
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 2.236
+    - source_model_index: 184
+      source_name: G#1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 3.742
+    - source_model_index: 186
+      source_name: F#1
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 3.742
+    - source_model_index: 164
+      source_name: A1
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 4.583
+    - source_model_index: 170
+      source_name: F1
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 4.583
 - object_id: mm9:lindisfarnemonastery:object:614
   source_object_index: 614
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id237
+    - source_model_index: 172
+      source_name: G2
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 2.236
+    - source_model_index: 180
+      source_name: G#2
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 3.742
+    - source_model_index: 181
+      source_name: F#2
+      movable: true
+      world_translation_lt: *id172
+      distance_from_position_lt: 3.742
+    - source_model_index: 169
+      source_name: F2
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 4.583
+    - source_model_index: 173
+      source_name: A2
+      movable: true
+      world_translation_lt: &id173
+      - -116.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
 - object_id: mm9:lindisfarnemonastery:object:615
   source_object_index: 615
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id238
+    - source_model_index: 173
+      source_name: A2
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 2.236
+    - source_model_index: 179
+      source_name: A#2
+      movable: true
+      world_translation_lt: &id175
+      - -114.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 3.742
+    - source_model_index: 180
+      source_name: G#2
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 3.742
+    - source_model_index: 172
+      source_name: G2
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 4.583
+    - source_model_index: 174
+      source_name: B2
+      movable: true
+      world_translation_lt: &id174
+      - -112.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
 - object_id: mm9:lindisfarnemonastery:object:616
   source_object_index: 616
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id239
+    - source_model_index: 174
+      source_name: B2
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 2.236
+    - source_model_index: 179
+      source_name: A#2
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 3.742
+    - source_model_index: 173
+      source_name: A2
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 4.583
+    - source_model_index: 175
+      source_name: C2
+      movable: true
+      world_translation_lt: &id176
+      - -108.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
+    - source_model_index: 178
+      source_name: C#2
+      movable: true
+      world_translation_lt: &id177
+      - -106.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 6.782
 - object_id: mm9:lindisfarnemonastery:object:617
   source_object_index: 617
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id240
+    - source_model_index: 175
+      source_name: C2
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 2.236
+    - source_model_index: 178
+      source_name: C#2
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 3.742
+    - source_model_index: 174
+      source_name: B2
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 4.583
+    - source_model_index: 176
+      source_name: D2
+      movable: true
+      world_translation_lt: &id178
+      - -104.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
+    - source_model_index: 179
+      source_name: A#2
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 6.782
 - object_id: mm9:lindisfarnemonastery:object:618
   source_object_index: 618
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id241
+    - source_model_index: 176
+      source_name: D2
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 2.236
+    - source_model_index: 178
+      source_name: C#2
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 3.742
+    - source_model_index: 185
+      source_name: D#1
+      movable: true
+      world_translation_lt: &id180
+      - -102.0
+      - 935.0
+      - 4059.0
+      distance_from_position_lt: 3.742
+    - source_model_index: 175
+      source_name: C2
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 4.583
+    - source_model_index: 177
+      source_name: E3
+      movable: true
+      world_translation_lt: &id179
+      - -100.0
+      - 934.0
+      - 4057.0
+      distance_from_position_lt: 4.583
 - object_id: mm9:lindisfarnemonastery:object:619
   source_object_index: 619
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id242
+    - source_model_index: 177
+      source_name: E3
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 2.236
+    - source_model_index: 185
+      source_name: D#1
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 3.742
+    - source_model_index: 176
+      source_name: D2
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 4.583
+    - source_model_index: 178
+      source_name: C#2
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 6.782
+    - source_model_index: 175
+      source_name: C2
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 8.307
 - object_id: mm9:lindisfarnemonastery:object:620
   source_object_index: 620
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id243
+    - source_model_index: 178
+      source_name: C#2
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 3.084
+    - source_model_index: 175
+      source_name: C2
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 4.653
+    - source_model_index: 176
+      source_name: D2
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 4.653
+    - source_model_index: 185
+      source_name: D#1
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 5.051
+    - source_model_index: 174
+      source_name: B2
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:621
   source_object_index: 621
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id244
+    - source_model_index: 179
+      source_name: A#2
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 3.084
+    - source_model_index: 173
+      source_name: A2
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 4.653
+    - source_model_index: 174
+      source_name: B2
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 4.653
+    - source_model_index: 180
+      source_name: G#2
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 5.051
+    - source_model_index: 172
+      source_name: G2
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:622
   source_object_index: 622
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id245
+    - source_model_index: 180
+      source_name: G#2
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 3.084
+    - source_model_index: 172
+      source_name: G2
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 4.653
+    - source_model_index: 173
+      source_name: A2
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 4.653
+    - source_model_index: 179
+      source_name: A#2
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 5.051
+    - source_model_index: 181
+      source_name: F#2
+      movable: true
+      world_translation_lt: *id172
+      distance_from_position_lt: 5.051
 - object_id: mm9:lindisfarnemonastery:object:623
   source_object_index: 623
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id246
+    - source_model_index: 181
+      source_name: F#2
+      movable: true
+      world_translation_lt: *id172
+      distance_from_position_lt: 3.084
+    - source_model_index: 169
+      source_name: F2
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 4.653
+    - source_model_index: 172
+      source_name: G2
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 4.653
+    - source_model_index: 180
+      source_name: G#2
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 5.051
+    - source_model_index: 168
+      source_name: E2
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:624
   source_object_index: 624
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id247
+    - source_model_index: 182
+      source_name: D#2
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 3.084
+    - source_model_index: 167
+      source_name: D1
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 4.653
+    - source_model_index: 168
+      source_name: E2
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 4.653
+    - source_model_index: 162
+      source_name: C#1
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 5.051
+    - source_model_index: 166
+      source_name: C1
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:625
   source_object_index: 625
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id248
+    - source_model_index: 183
+      source_name: A#1
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 3.084
+    - source_model_index: 164
+      source_name: A1
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 4.653
+    - source_model_index: 165
+      source_name: B1
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 4.653
+    - source_model_index: 184
+      source_name: G#1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 5.051
+    - source_model_index: 166
+      source_name: C1
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:626
   source_object_index: 626
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id249
+    - source_model_index: 184
+      source_name: G#1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 3.084
+    - source_model_index: 164
+      source_name: A1
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 4.653
+    - source_model_index: 171
+      source_name: G1
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 4.653
+    - source_model_index: 183
+      source_name: A#1
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 5.051
+    - source_model_index: 186
+      source_name: F#1
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 5.051
 - object_id: mm9:lindisfarnemonastery:object:627
   source_object_index: 627
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id250
+    - source_model_index: 185
+      source_name: D#1
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 3.084
+    - source_model_index: 176
+      source_name: D2
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 4.653
+    - source_model_index: 177
+      source_name: E3
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 4.653
+    - source_model_index: 178
+      source_name: C#2
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 5.051
+    - source_model_index: 175
+      source_name: C2
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:628
   source_object_index: 628
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id251
+    - source_model_index: 186
+      source_name: F#1
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 3.084
+    - source_model_index: 170
+      source_name: F1
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 4.653
+    - source_model_index: 171
+      source_name: G1
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 4.653
+    - source_model_index: 184
+      source_name: G#1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 5.051
+    - source_model_index: 163
+      source_name: E1
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 7.325
 - object_id: mm9:lindisfarnemonastery:object:630
   source_object_index: 630
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id252
+    - source_model_index: 191
+      source_name: Rope1
+      movable: true
+      world_translation_lt: &id185
+      - -96.0
+      - 1664.0
+      - 2322.0
+      distance_from_position_lt: 549.942
+    - source_model_index: 190
+      source_name: Rope2
+      movable: true
+      world_translation_lt: &id184
+      - -112.0
+      - 1664.0
+      - 2322.0
+      distance_from_position_lt: 550.64
+    - source_model_index: 189
+      source_name: Rope3
+      movable: true
+      world_translation_lt: &id183
+      - -128.0
+      - 1664.0
+      - 2322.0
+      distance_from_position_lt: 551.801
+    - source_model_index: 188
+      source_name: Rope4
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 553.422
+    - source_model_index: 187
+      source_name: Rope5
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 555.5
 - object_id: mm9:lindisfarnemonastery:object:646
   source_object_index: 646
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id253
+    - source_model_index: 187
+      source_name: Rope5
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 0.0
+    - source_model_index: 188
+      source_name: Rope4
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 16.0
+    - source_model_index: 189
+      source_name: Rope3
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 32.0
+    - source_model_index: 190
+      source_name: Rope2
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 48.0
+    - source_model_index: 191
+      source_name: Rope1
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 64.0
 - object_id: mm9:lindisfarnemonastery:object:647
   source_object_index: 647
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id254
+    - source_model_index: 188
+      source_name: Rope4
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 0.0
+    - source_model_index: 187
+      source_name: Rope5
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 16.0
+    - source_model_index: 189
+      source_name: Rope3
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 16.0
+    - source_model_index: 190
+      source_name: Rope2
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 32.0
+    - source_model_index: 191
+      source_name: Rope1
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 48.0
 - object_id: mm9:lindisfarnemonastery:object:648
   source_object_index: 648
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id255
+    - source_model_index: 189
+      source_name: Rope3
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 0.0
+    - source_model_index: 188
+      source_name: Rope4
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 16.0
+    - source_model_index: 190
+      source_name: Rope2
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 16.0
+    - source_model_index: 187
+      source_name: Rope5
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 32.0
+    - source_model_index: 191
+      source_name: Rope1
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 32.0
 - object_id: mm9:lindisfarnemonastery:object:649
   source_object_index: 649
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id256
+    - source_model_index: 190
+      source_name: Rope2
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 0.0
+    - source_model_index: 189
+      source_name: Rope3
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 16.0
+    - source_model_index: 191
+      source_name: Rope1
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 16.0
+    - source_model_index: 188
+      source_name: Rope4
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 32.0
+    - source_model_index: 187
+      source_name: Rope5
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 48.0
 - object_id: mm9:lindisfarnemonastery:object:650
   source_object_index: 650
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id257
+    - source_model_index: 191
+      source_name: Rope1
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 0.0
+    - source_model_index: 190
+      source_name: Rope2
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 16.0
+    - source_model_index: 189
+      source_name: Rope3
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 32.0
+    - source_model_index: 188
+      source_name: Rope4
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 48.0
+    - source_model_index: 187
+      source_name: Rope5
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 64.0
 - object_id: mm9:lindisfarnemonastery:object:651
   source_object_index: 651
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id258
+    - source_model_index: 192
+      source_name: InvisibleBrush5
+      movable: true
+      world_translation_lt: &id192
+      - -128.0
+      - 104.0
+      - -656.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 41
+      source_name: AITrk8
+      movable: true
+      world_translation_lt: &id193
+      - -128.0
+      - 8.0
+      - -256.0
+      distance_from_position_lt: 411.359
+    - source_model_index: 40
+      source_name: AITrk7
+      movable: true
+      world_translation_lt: &id194
+      - -256.0
+      - 8.0
+      - -256.0
+      distance_from_position_lt: 430.813
+    - source_model_index: 42
+      source_name: AITrk9
+      movable: true
+      world_translation_lt: &id191
+      - 0.0
+      - 8.0
+      - -256.0
+      distance_from_position_lt: 430.813
+    - source_model_index: 217
+      source_name: InvisibleBrush6
+      movable: true
+      world_translation_lt: &id190
+      - 296.0
+      - 88.00000762939453
+      - -544.0
+      distance_from_position_lt: 438.835
 - object_id: mm9:lindisfarnemonastery:object:767
   source_object_index: 767
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id259
+    - source_model_index: 84
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 810.57
+    - source_model_index: 85
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 863.333
+    - source_model_index: 91
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 964.705
+    - source_model_index: 92
+      source_name: AITrk77
+      movable: true
+      world_translation_lt:
+      - 252.0
+      - 8.0
+      - 4576.0
+      distance_from_position_lt: 1026.287
+    - source_model_index: 83
+      source_name: AITrk68
+      movable: true
+      world_translation_lt: *id189
+      distance_from_position_lt: 1049.983
 - object_id: mm9:lindisfarnemonastery:object:768
   source_object_index: 768
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id260
+    - source_model_index: 217
+      source_name: InvisibleBrush6
+      movable: true
+      world_translation_lt: *id190
+      distance_from_position_lt: 0.0
+    - source_model_index: 24
+      source_name: AITrk10
+      movable: true
+      world_translation_lt:
+      - 224.0
+      - 8.0
+      - -256.0
+      distance_from_position_lt: 307.454
+    - source_model_index: 42
+      source_name: AITrk9
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 420.666
+    - source_model_index: 192
+      source_name: InvisibleBrush5
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 438.835
+    - source_model_index: 41
+      source_name: AITrk8
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 518.768
 - object_id: mm9:lindisfarnemonastery:object:769
   source_object_index: 769
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id261
+    - source_model_index: 218
+      source_name: InvisibleBrush7
+      movable: true
+      world_translation_lt:
+      - -552.0
+      - 88.00000762939453
+      - -544.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 25
+      source_name: AITrk11
+      movable: true
+      world_translation_lt:
+      - -480.0
+      - 8.0
+      - -256.0
+      distance_from_position_lt: 307.454
+    - source_model_index: 40
+      source_name: AITrk7
+      movable: true
+      world_translation_lt: *id194
+      distance_from_position_lt: 420.666
+    - source_model_index: 192
+      source_name: InvisibleBrush5
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 438.835
+    - source_model_index: 41
+      source_name: AITrk8
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 518.768
 scripts:
 - script_id: book.scr
   source_path: BOOK.scr
@@ -154198,286 +157496,410 @@ unresolved:
   source_name: bnavedoor1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id195
+    nearest_movable_world_models_by_position: *id196
 - kind: unresolved_binding
   source_object_index: 413
   source_name: anavedoor1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id197
+    nearest_movable_world_models_by_position: *id198
 - kind: unresolved_binding
   source_object_index: 414
   source_name: RotatingDoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id199
+    nearest_movable_world_models_by_position: *id200
 - kind: unresolved_binding
   source_object_index: 415
   source_name: bnavedoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id201
+    nearest_movable_world_models_by_position: *id202
 - kind: unresolved_binding
   source_object_index: 416
   source_name: anavedoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id203
+    nearest_movable_world_models_by_position: *id204
 - kind: unresolved_binding
   source_object_index: 417
   source_name: RotatingDoor0
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id205
+    nearest_movable_world_models_by_position: *id206
 - kind: unresolved_binding
   source_object_index: 418
   source_name: RotatingDoor1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id207
+    nearest_movable_world_models_by_position: *id208
 - kind: unresolved_binding
   source_object_index: 419
   source_name: RotatingDoor3
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id209
+    nearest_movable_world_models_by_position: *id210
 - kind: unresolved_binding
   source_object_index: 420
   source_name: RotatingDoor4
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id211
+    nearest_movable_world_models_by_position: *id212
 - kind: unresolved_binding
   source_object_index: 421
   source_name: RotatingDoor5
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id213
+    nearest_movable_world_models_by_position: *id214
 - kind: unresolved_binding
   source_object_index: 422
   source_name: Ladder3
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id215
 - kind: unresolved_binding
   source_object_index: 425
   source_name: Ladder4
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id216
 - kind: unresolved_binding
   source_object_index: 426
   source_name: Ladder1
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id217
 - kind: unresolved_binding
   source_object_index: 428
   source_name: Ladder2
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id218
 - kind: unresolved_binding
   source_object_index: 431
   source_name: Ladder5
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id219
 - kind: unresolved_binding
   source_object_index: 432
   source_name: Ladder0
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id220
 - kind: unresolved_binding
   source_object_index: 435
   source_name: Ladder10
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id221
 - kind: unresolved_binding
   source_object_index: 455
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id222
 - kind: unresolved_binding
   source_object_index: 467
   source_name: InvisibleBrush1
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id223
 - kind: unresolved_binding
   source_object_index: 492
   source_name: InvisibleBrush2
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id224
 - kind: unresolved_binding
   source_object_index: 493
   source_name: InvisibleBrush3
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id225
 - kind: unresolved_binding
   source_object_index: 527
   source_name: InvisibleBrush4
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id226
 - kind: unresolved_binding
   source_object_index: 604
   source_name: C#1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id227
 - kind: unresolved_binding
   source_object_index: 605
   source_name: E1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id228
 - kind: unresolved_binding
   source_object_index: 606
   source_name: A1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id229
 - kind: unresolved_binding
   source_object_index: 607
   source_name: B1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id230
 - kind: unresolved_binding
   source_object_index: 608
   source_name: C1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id231
 - kind: unresolved_binding
   source_object_index: 609
   source_name: D1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id232
 - kind: unresolved_binding
   source_object_index: 610
   source_name: E2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id233
 - kind: unresolved_binding
   source_object_index: 611
   source_name: F2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id234
 - kind: unresolved_binding
   source_object_index: 612
   source_name: F1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id235
 - kind: unresolved_binding
   source_object_index: 613
   source_name: G1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id236
 - kind: unresolved_binding
   source_object_index: 614
   source_name: G2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id237
 - kind: unresolved_binding
   source_object_index: 615
   source_name: A2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id238
 - kind: unresolved_binding
   source_object_index: 616
   source_name: B2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id239
 - kind: unresolved_binding
   source_object_index: 617
   source_name: C2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id240
 - kind: unresolved_binding
   source_object_index: 618
   source_name: D2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id241
 - kind: unresolved_binding
   source_object_index: 619
   source_name: E3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id242
 - kind: unresolved_binding
   source_object_index: 620
   source_name: C#2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id243
 - kind: unresolved_binding
   source_object_index: 621
   source_name: A#2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id244
 - kind: unresolved_binding
   source_object_index: 622
   source_name: G#2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id245
 - kind: unresolved_binding
   source_object_index: 623
   source_name: F#2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id246
 - kind: unresolved_binding
   source_object_index: 624
   source_name: D#2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id247
 - kind: unresolved_binding
   source_object_index: 625
   source_name: A#1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id248
 - kind: unresolved_binding
   source_object_index: 626
   source_name: G#1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id249
 - kind: unresolved_binding
   source_object_index: 627
   source_name: D#1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id250
 - kind: unresolved_binding
   source_object_index: 628
   source_name: F#1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id251
 - kind: unresolved_binding
   source_object_index: 630
   source_name: BellControl
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id252
 - kind: unresolved_binding
   source_object_index: 646
   source_name: Rope5
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id253
 - kind: unresolved_binding
   source_object_index: 647
   source_name: Rope4
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id254
 - kind: unresolved_binding
   source_object_index: 648
   source_name: Rope3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id255
 - kind: unresolved_binding
   source_object_index: 649
   source_name: Rope2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id256
 - kind: unresolved_binding
   source_object_index: 650
   source_name: Rope1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id257
 - kind: unresolved_binding
   source_object_index: 651
   source_name: InvisibleBrush5
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id258
 - kind: unresolved_binding
   source_object_index: 767
   source_name: MONK_HOSTILITY
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id259
 - kind: unresolved_binding
   source_object_index: 768
   source_name: InvisibleBrush6
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id260
 - kind: unresolved_binding
   source_object_index: 769
   source_name: InvisibleBrush7
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id261
 validation:
   raw_object_count: 789
   event_object_count: 789

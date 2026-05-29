@@ -13,8 +13,7 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 script.labels["summonatli"] = function(ctx)
     -- ATLIWAGON.scr:25
     if ctx:hasKey(197) then -- ATLIWAGON.scr:29-30
-        ctx:command("getobjecthandle", "atli g_hobject") -- ATLIWAGON.scr:31
-        ctx:trigger("g_hobject", "summon") -- ATLIWAGON.scr:32
+        ctx:object("atli"):trigger("summon") -- ATLIWAGON.scr:31-32
         ctx:giveKey(126) -- ATLIWAGON.scr:33
         do return ctx:exit("") end -- ATLIWAGON.scr:34
     end -- ATLIWAGON.scr:35
@@ -30,29 +29,27 @@ script.labels["Summonbandit"] = function(ctx)
         do return ctx:exit("") end -- ATLIWAGON.scr:50
     end -- ATLIWAGON.scr:51
     -- spawn bandits at marker
-    ctx:command("set", "SCRIPT \" ScriptName BanditAttack.scr\"") -- ATLIWAGON.scr:55
-    ctx:command("set", "bSpawned, True") -- ATLIWAGON.scr:56
-    ctx:command("smonstera", "= sMonsterA + Script") -- ATLIWAGON.scr:58
-    ctx:command("smonsterb", "= sMonsterB + Script") -- ATLIWAGON.scr:59
-    ctx:command("getobjecthandle", "SpawnMarker g_hobject") -- ATLIWAGON.scr:61
-    ctx:command("getpos", "g_hobject XPos YPos ZPos") -- ATLIWAGON.scr:62
-    ctx:command("spawn", "hMonsterA Xpos YPos ZPos sMonsterA") -- ATLIWAGON.scr:63
-    ctx:command("spawn", "hMonsterA Xpos YPos ZPos sMonsterA") -- ATLIWAGON.scr:64
-    ctx:command("spawn", "hMonsterA Xpos YPos ZPos sMonsterA") -- ATLIWAGON.scr:65
-    ctx:command("spawn", "hMonsterB Xpos YPos ZPos sMonsterB") -- ATLIWAGON.scr:66
-    ctx:command("spawn", "hMonsterB Xpos YPos ZPos sMonsterB") -- ATLIWAGON.scr:67
-    ctx:command("spawn", "hMonsterB Xpos YPos ZPos sMonsterB") -- ATLIWAGON.scr:68
+    ctx:state().SCRIPT = " ScriptName BanditAttack.scr" -- ATLIWAGON.scr:55
+    ctx:state().bSpawned = true -- ATLIWAGON.scr:56
+    ctx:set("sMonsterA", "sMonsterA + Script") -- ATLIWAGON.scr:58
+    ctx:set("sMonsterB", "sMonsterB + Script") -- ATLIWAGON.scr:59
+    ctx:state().XPos, ctx:state().YPos, ctx:state().ZPos = ctx:object("SpawnMarker"):pos() -- ATLIWAGON.scr:61-62
+    ctx:state().hMonsterA = ctx:spawn("Xpos", "YPos", "ZPos", "sMonsterA") -- ATLIWAGON.scr:63
+    ctx:state().hMonsterA = ctx:spawn("Xpos", "YPos", "ZPos", "sMonsterA") -- ATLIWAGON.scr:64
+    ctx:state().hMonsterA = ctx:spawn("Xpos", "YPos", "ZPos", "sMonsterA") -- ATLIWAGON.scr:65
+    ctx:state().hMonsterB = ctx:spawn("Xpos", "YPos", "ZPos", "sMonsterB") -- ATLIWAGON.scr:66
+    ctx:state().hMonsterB = ctx:spawn("Xpos", "YPos", "ZPos", "sMonsterB") -- ATLIWAGON.scr:67
+    ctx:state().hMonsterB = ctx:spawn("Xpos", "YPos", "ZPos", "sMonsterB") -- ATLIWAGON.scr:68
     do return ctx:exit("") end -- ATLIWAGON.scr:69
 end
 
 script.labels["Init"] = function(ctx)
     -- ATLIWAGON.scr:72
     if ctx:hasKey(127) then -- ATLIWAGON.scr:77-78
-        ctx:command("getmyhandle", "G_hmyobject") -- ATLIWAGON.scr:81
-        ctx:command("removeobject", "g_hmyobject") -- ATLIWAGON.scr:82
+        ctx:self():remove() -- ATLIWAGON.scr:82
     else -- ATLIWAGON.scr:85
-        ctx:command("@m", "6 : 00 summonatli summonatli") -- ATLIWAGON.scr:88
-        ctx:command("@m", "3 : 30 Summonbandit summonbandit") -- ATLIWAGON.scr:89
+        ctx:atTime(6, 0, "summonatli", "summonatli") -- ATLIWAGON.scr:88
+        ctx:atTime(3, 30, "Summonbandit", "summonbandit") -- ATLIWAGON.scr:89
     end -- ATLIWAGON.scr:92
     do return ctx:exit("") end -- ATLIWAGON.scr:93
 end
@@ -61,10 +58,10 @@ script.labels["Main"] = function(ctx)
     -- ATLIWAGON.scr:97
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("onpoststartworld", "Init") -- ATLIWAGON.scr:104
-    ctx:command("onpostminisaveload", "Init") -- ATLIWAGON.scr:105
-    ctx:command("onpostsaveload", "Init") -- ATLIWAGON.scr:106
-    ctx:command("wait", "1 .5 Init") -- ATLIWAGON.scr:107
+    ctx:onEvent("OnPostStartWorld", "Init") -- ATLIWAGON.scr:104
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- ATLIWAGON.scr:105
+    ctx:onEvent("OnPostSaveLoad", "Init") -- ATLIWAGON.scr:106
+    ctx:wait(1, .5, "Init") -- ATLIWAGON.scr:107
     do return ctx:exit("") end -- ATLIWAGON.scr:108
 end
 

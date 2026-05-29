@@ -18,25 +18,24 @@ script.labels["Nav1"] = function(ctx)
         do return mm9.gotoLabel(script, ctx, "Attack") end -- DP3FIREELEMENTAL.scr:27
         do return ctx:exit("") end -- DP3FIREELEMENTAL.scr:28
     end -- DP3FIREELEMENTAL.scr:29
-    ctx:command("set", "Aware, true") -- DP3FIREELEMENTAL.scr:32
-    ctx:command("getobjecthandle", "Trigger0, g_hobject") -- DP3FIREELEMENTAL.scr:33
-    ctx:trigger("g_hobject", "off") -- DP3FIREELEMENTAL.scr:34
-    ctx:command("getobjecthandle", "Switch2, g_hobject") -- DP3FIREELEMENTAL.scr:35
-    ctx:command("runto", "g_hobject 32 Fidget1") -- DP3FIREELEMENTAL.scr:36
+    ctx:state().Aware = true -- DP3FIREELEMENTAL.scr:32
+    ctx:object("Trigger0"):trigger("off") -- DP3FIREELEMENTAL.scr:33-34
+    ctx:state().g_hobject = ctx:objectOrNil("Switch2") -- DP3FIREELEMENTAL.scr:35
+    ctx:self():runTo(ctx:object("g_hobject"), 32, "Fidget1") -- DP3FIREELEMENTAL.scr:36
     do return ctx:exit("") end -- DP3FIREELEMENTAL.scr:37
 end
 
 script.labels["Fidget1"] = function(ctx)
     -- DP3FIREELEMENTAL.scr:41
     ctx:trigger("g_hobject", "use") -- DP3FIREELEMENTAL.scr:45
-    ctx:command("wait", "3, OnAware") -- DP3FIREELEMENTAL.scr:46
+    ctx:wait(3, 3, "OnAware") -- DP3FIREELEMENTAL.scr:46
     do return ctx:exit("") end -- DP3FIREELEMENTAL.scr:48
 end
 
 script.labels["OnAware"] = function(ctx)
     -- DP3FIREELEMENTAL.scr:51
-    ctx:command("getobjecthandle", "Trigger0, g_hobject") -- DP3FIREELEMENTAL.scr:56
-    ctx:command("faceobject", "g_hobject, 100, Attack") -- DP3FIREELEMENTAL.scr:57
+    ctx:state().g_hobject = ctx:objectOrNil("Trigger0") -- DP3FIREELEMENTAL.scr:56
+    ctx:self():faceObject(ctx:object("g_hobject"), 100, "Attack") -- DP3FIREELEMENTAL.scr:57
     do return ctx:exit("") end -- DP3FIREELEMENTAL.scr:58
 end
 
@@ -55,10 +54,10 @@ end
 script.labels["Main"] = function(ctx)
     -- DP3FIREELEMENTAL.scr:75
     -- TRACEON
-    ctx:command("onstuck", "Stuck") -- DP3FIREELEMENTAL.scr:81
+    ctx:onEvent("OnStuck", "Stuck") -- DP3FIREELEMENTAL.scr:81
     ctx:addTrigger("Aware", "OnAware") -- DP3FIREELEMENTAL.scr:82
     ctx:addTrigger("Start", "Nav1") -- DP3FIREELEMENTAL.scr:83
-    ctx:command("ondamage", "Nav1") -- DP3FIREELEMENTAL.scr:84
+    ctx:onEvent("OnDamage", "Nav1") -- DP3FIREELEMENTAL.scr:84
     do return ctx:exit("") end -- DP3FIREELEMENTAL.scr:85
 end
 

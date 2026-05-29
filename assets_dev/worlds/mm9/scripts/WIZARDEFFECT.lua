@@ -21,8 +21,7 @@ end
 
 script.labels["InitWizardEffect"] = function(ctx)
     -- WIZARDEFFECT.scr:30
-    ctx:command("getmyhandle", "hMe") -- WIZARDEFFECT.scr:32
-    ctx:command("setflag", "hMe, FLAG_VISIBLE") -- WIZARDEFFECT.scr:33
+    ctx:self():setFlag("FLAG_VISIBLE", true) -- WIZARDEFFECT.scr:33
     ctx:addTrigger("play", "PlayConjureEffect") -- WIZARDEFFECT.scr:35
     ctx:addTrigger("shoot", "PlayShootEffect") -- WIZARDEFFECT.scr:36
     do return ctx:exit("TRUE") end -- WIZARDEFFECT.scr:38
@@ -31,16 +30,16 @@ end
 script.labels["PlayConjureEffect"] = function(ctx)
     -- WIZARDEFFECT.scr:41
     ctx:getParam(0, "hCaster") -- WIZARDEFFECT.scr:43
-    ctx:command("doclientfx", "hCaster, SPELL_SPARKLIES, FALSE, TRUE") -- WIZARDEFFECT.scr:45
-    ctx:command("doclientfx", "hMe, SPELL_GREENDOTS, FALSE, TRUE") -- WIZARDEFFECT.scr:46
-    ctx:command("getobjecthandle", "sLocationName, hLocation") -- WIZARDEFFECT.scr:48
-    ctx:command("faceobject", "hLocation") -- WIZARDEFFECT.scr:49
+    ctx:object("hCaster"):doClientFx("SPELL_SPARKLIES", "FALSE", "TRUE") -- WIZARDEFFECT.scr:45
+    ctx:self():doClientFx("SPELL_GREENDOTS", "FALSE", "TRUE") -- WIZARDEFFECT.scr:46
+    ctx:state().hLocation = ctx:objectOrNil("sLocationName") -- WIZARDEFFECT.scr:48
+    ctx:self():faceObject(ctx:object("hLocation")) -- WIZARDEFFECT.scr:49
     do return ctx:exit("TRUE") end -- WIZARDEFFECT.scr:51
 end
 
 script.labels["PlayShootEffect"] = function(ctx)
     -- WIZARDEFFECT.scr:54
-    ctx:command("doclientfx", "hLocation, SPELL_BUGS, FALSE, TRUE") -- WIZARDEFFECT.scr:56
+    ctx:object("hLocation"):doClientFx("SPELL_BUGS", "FALSE", "TRUE") -- WIZARDEFFECT.scr:56
     do return ctx:exit("FALSE") end -- WIZARDEFFECT.scr:58
 end
 

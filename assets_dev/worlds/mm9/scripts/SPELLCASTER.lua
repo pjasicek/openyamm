@@ -18,9 +18,8 @@ script.labels["Main"] = function(ctx)
     -- SPELLCASTER.scr:17
     -- This routine is automatically run
     -- at script startup...
-    ctx:command("getmyhandle", "g_hMyObject") -- SPELLCASTER.scr:22
     -- Make sure we are setup as a type 2 guy...
-    ctx:command("setstat", "g_hMyObject,RangeAttackType,RANGE_TYPE2") -- SPELLCASTER.scr:27
+    ctx:self():setStat("RangeAttackType", "RANGE_TYPE2") -- SPELLCASTER.scr:27
     mm9.gosub(script, ctx, "BaseInit") -- SPELLCASTER.scr:29
     mm9.gosub(script, ctx, "RangeInit") -- SPELLCASTER.scr:30
     do return ctx:exit("") end -- SPELLCASTER.scr:32

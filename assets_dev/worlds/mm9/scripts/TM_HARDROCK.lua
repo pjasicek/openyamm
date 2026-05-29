@@ -25,15 +25,14 @@ script.labels["OneDown"] = function(ctx)
     -- Callback to "OneDown" trigger which counts the amount of
     -- Destructable brushes destroyed until it gets to
     -- nHardRockPieces upon which quest is complete
-    ctx:command("count", "= count + 1") -- TM_HARDROCK.scr:36
+    ctx:set("count", "count + 1") -- TM_HARDROCK.scr:36
     if ctx:condition("count == nHardRockPieces") then -- TM_HARDROCK.scr:37
         ctx:giveKey("nHardRockKey") -- TM_HARDROCK.scr:38
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240000, FALSE, 100") -- TM_HARDROCK.scr:39
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240000, "FALSE", 100) -- TM_HARDROCK.scr:39
         if ctx:condition("nHardRockKey==36") then -- TM_HARDROCK.scr:42
             -- LDG ebora addition
             -- send a message to ebora
-            ctx:command("getobjecthandle", "Ebora, g_hMyObject") -- TM_HARDROCK.scr:45
-            ctx:trigger("g_hMyObject", "FreeAtLast") -- TM_HARDROCK.scr:46
+            ctx:object("Ebora"):trigger("FreeAtLast") -- TM_HARDROCK.scr:45-46
         end -- TM_HARDROCK.scr:47
         if ctx:condition("nExperience!=0") then -- TM_HARDROCK.scr:49
             ctx:giveExp("nExperience") -- TM_HARDROCK.scr:50

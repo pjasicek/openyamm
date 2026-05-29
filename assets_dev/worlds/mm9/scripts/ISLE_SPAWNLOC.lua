@@ -18,7 +18,7 @@ script.labels = {}
 -- "Focus" = change location
 script.labels["Main"] = function(ctx)
     -- ISLE_SPAWNLOC.scr:17
-    ctx:command("onpoststartworld", "InitSpawnLoc") -- ISLE_SPAWNLOC.scr:19
+    ctx:onEvent("OnPostStartWorld", "InitSpawnLoc") -- ISLE_SPAWNLOC.scr:19
     do return ctx:exit(1) end -- ISLE_SPAWNLOC.scr:21
 end
 
@@ -26,7 +26,7 @@ script.labels["InitSpawnLoc"] = function(ctx)
     -- ISLE_SPAWNLOC.scr:24
     ctx:addTrigger("On", "TurnOn") -- ISLE_SPAWNLOC.scr:26
     mm9.gosub(script, ctx, "TurnOn") -- ISLE_SPAWNLOC.scr:27
-    ctx:command("getobjecthandle", "SpawnMgr, hSpawnMgr") -- ISLE_SPAWNLOC.scr:28
+    ctx:state().hSpawnMgr = ctx:objectOrNil("SpawnMgr") -- ISLE_SPAWNLOC.scr:28
     do return ctx:exit(1) end -- ISLE_SPAWNLOC.scr:29
 end
 
@@ -57,9 +57,9 @@ end
 script.labels["TurnOff"] = function(ctx)
     -- ISLE_SPAWNLOC.scr:56
     -- disable all messages except On
-    ctx:command("removetrigger", "spawn") -- ISLE_SPAWNLOC.scr:59
-    ctx:command("removetrigger", "focus") -- ISLE_SPAWNLOC.scr:60
-    ctx:command("removetrigger", "off") -- ISLE_SPAWNLOC.scr:61
+    ctx:removeTrigger("spawn") -- ISLE_SPAWNLOC.scr:59
+    ctx:removeTrigger("focus") -- ISLE_SPAWNLOC.scr:60
+    ctx:removeTrigger("off") -- ISLE_SPAWNLOC.scr:61
     do return ctx:exit(1) end -- ISLE_SPAWNLOC.scr:62
 end
 

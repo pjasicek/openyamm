@@ -23,9 +23,9 @@ script.labels["Maypole"] = function(ctx)
     -- maypole Quest
     if not ctx:hasKey(268) then -- NPC190.scr:29-30
         if ctx:hasKey(267) then -- NPC190.scr:31-32
-            ctx:command("hasgold", "500 g_ntemp") -- NPC190.scr:33
+            ctx:hasGold(500, "g_ntemp") -- NPC190.scr:33
             if ctx:condition("g_ntemp==1") then -- NPC190.scr:34
-                ctx:command("takegold", "500") -- NPC190.scr:35
+                ctx:takeGold(500) -- NPC190.scr:35
                 ctx:giveKey(268) -- NPC190.scr:36
                 do return ctx:exit("") end -- NPC190.scr:37
             else -- NPC190.scr:38
@@ -42,7 +42,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC190.scr:58
-    ctx:command("playsound", "voices\\NPC\\NPC_190.wav, DoNothing, 100, 240, FALSE, 100") -- NPC190.scr:61
+    ctx:playSound("voices\\NPC\\NPC_190.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC190.scr:61
     do return ctx:exit("") end -- NPC190.scr:62
 end
 
@@ -51,8 +51,8 @@ script.labels["Init"] = function(ctx)
     if not ctx:hasKey(268) then -- NPC190.scr:68-69
         do return ctx:exit("") end -- NPC190.scr:70
     end -- NPC190.scr:71
-    ctx:command("getobjecthandle", "Prop0 g_hobject") -- NPC190.scr:73
-    ctx:command("setmodelfilenames", "model_name Model_skin") -- NPC190.scr:74
+    ctx:state().g_hobject = ctx:objectOrNil("Prop0") -- NPC190.scr:73
+    ctx:self():setModelFilenames("model_name", "Model_skin") -- NPC190.scr:74
     do return ctx:exit("") end -- NPC190.scr:76
 end
 
@@ -62,7 +62,7 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC190.scr:86
     ctx:addTrigger("Use", "OnUse") -- NPC190.scr:88
-    ctx:command("wait", "1 1 Init") -- NPC190.scr:89
+    ctx:wait(1, 1, "Init") -- NPC190.scr:89
     do return ctx:exit("") end -- NPC190.scr:90
 end
 

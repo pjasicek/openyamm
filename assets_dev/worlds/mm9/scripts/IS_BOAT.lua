@@ -18,19 +18,16 @@ script.includes[#script.includes + 1] = { line = 15, path = "globals.inc" }
 -- flag variables
 script.labels["OnMove"] = function(ctx)
     -- IS_BOAT.scr:34
-    ctx:command("getmyhandle", "g_hMyobject") -- IS_BOAT.scr:37
-    ctx:command("setflag", "g_hmyobject, visible") -- IS_BOAT.scr:38
-    ctx:command("getpos", "g_hMyobject MyX MyY MyZ") -- IS_BOAT.scr:39
-    ctx:command("getobjecthandle", "BoatMarker g_hobject") -- IS_BOAT.scr:40
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- IS_BOAT.scr:41
-    ctx:command("movetopos", "xpos MyY Zpos 100 DoNothing") -- IS_BOAT.scr:42
+    ctx:self():setFlag("visible", true) -- IS_BOAT.scr:38
+    ctx:state().MyX, ctx:state().MyY, ctx:state().MyZ = ctx:self():pos() -- IS_BOAT.scr:39
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("BoatMarker"):pos() -- IS_BOAT.scr:40-41
+    ctx:self():moveToPos("xpos", "MyY", "Zpos", 100, "DoNothing") -- IS_BOAT.scr:42
     do return ctx:exit("") end -- IS_BOAT.scr:44
 end
 
 script.labels["placed2"] = function(ctx)
     -- IS_BOAT.scr:46
-    ctx:command("getmyhandle", "g_hmyobject") -- IS_BOAT.scr:49
-    ctx:command("clearflag", "g_hmyobject, visible") -- IS_BOAT.scr:50
+    ctx:self():setFlag("visible", false) -- IS_BOAT.scr:50
     do return ctx:exit("") end -- IS_BOAT.scr:51
 end
 

@@ -21,6 +21,7 @@
 #include "game/debug/DebugConsole.h"
 #include "game/debug/GameImGuiBgfxRenderer.h"
 #include "game/maps/SaveGame.h"
+#include "game/mm9/Mm9DialoguePackage.h"
 #include "game/scene/IMapSceneRuntime.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
 
@@ -66,6 +67,7 @@ private:
     {
         int mapId = 0;
         std::optional<DebugMapJumpStart> start;
+        bool nativeMm9Dat = false;
     };
 
     struct GameplayTraceMovementSnapshot
@@ -148,6 +150,7 @@ private:
     void updateDeferredMainMenuChildWarmup();
     void shutdownApplication();
     bool initializeSelectedMapRuntime(bool initializeView);
+    bool ensureMm9DialoguePackageLoaded(std::string &errorMessage);
     bool initializeRenderer();
     bool initializeDebugConsoleRenderer();
     void shutdownDebugConsoleRenderer();
@@ -157,6 +160,7 @@ private:
     void beginDebugConsoleFrame();
     void renderDebugConsoleFrame(int width, int height);
     bool processPendingDebugMapJump();
+    bool initializeNativeMm9DatSceneRuntime(const MapAssetInfo &selectedMap, std::string &errorMessage);
     void shutdownRenderer();
     Party &ensureSessionPartyState();
     void bindPartyDependencies(Party &party) const;
@@ -255,6 +259,7 @@ private:
     IndoorRenderer m_indoorRenderer;
     IndoorGameView m_indoorGameView;
     OutdoorGameView m_outdoorGameView;
+    std::optional<Mm9DialoguePackage> m_mm9DialoguePackage;
     ScreenManager m_screenManager;
     GameSettings m_settings = GameSettings::createDefault();
     GameplayController m_gameplayController;

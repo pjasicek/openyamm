@@ -22,21 +22,21 @@ script.labels["PromoteHealer"] = function(ctx)
     -- NPC128.scr:44
     -- Player has already completed the quest
     -- just check to see who gets promoted
-    ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC128.scr:50
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC128.scr:50
     if ctx:hasKey(437) then -- NPC128.scr:51-52
-        ctx:command("givepromo", "Healer Char1") -- NPC128.scr:53
+        ctx:givePromo("Healer", "Char1") -- NPC128.scr:53
         ctx:takeKey(437) -- NPC128.scr:54
     end -- NPC128.scr:55
     if ctx:hasKey(438) then -- NPC128.scr:57-58
-        ctx:command("givepromo", "Healer Char2") -- NPC128.scr:59
+        ctx:givePromo("Healer", "Char2") -- NPC128.scr:59
         ctx:takeKey(438) -- NPC128.scr:60
     end -- NPC128.scr:61
     if ctx:hasKey(439) then -- NPC128.scr:63-64
-        ctx:command("givepromo", "Healer Char3") -- NPC128.scr:65
+        ctx:givePromo("Healer", "Char3") -- NPC128.scr:65
         ctx:takeKey(439) -- NPC128.scr:66
     end -- NPC128.scr:67
     if ctx:hasKey(440) then -- NPC128.scr:69-70
-        ctx:command("givepromo", "Healer Char4") -- NPC128.scr:71
+        ctx:givePromo("Healer", "Char4") -- NPC128.scr:71
         ctx:takeKey(440) -- NPC128.scr:72
     end -- NPC128.scr:73
     do return ctx:exit("") end -- NPC128.scr:74
@@ -73,7 +73,7 @@ script.labels["Nurtigan"] = function(ctx)
             ctx:giveKey(213) -- NPC128.scr:121
             ctx:giveExp(24500) -- NPC128.scr:122
             ctx:giveGold(1000) -- NPC128.scr:123
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC128.scr:124
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC128.scr:124
             mm9.gosub(script, ctx, "PromoteHealer") -- NPC128.scr:125
             do return ctx:exit("") end -- NPC128.scr:126
         end -- NPC128.scr:127
@@ -84,7 +84,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC128.scr:138
-    ctx:command("playsound", "voices\\NPC\\NPC_128.wav, Onexit, 100, 240, FALSE, 100") -- NPC128.scr:142
+    ctx:playSound("voices\\NPC\\NPC_128.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC128.scr:142
     do return ctx:exit("") end -- NPC128.scr:143
 end
 

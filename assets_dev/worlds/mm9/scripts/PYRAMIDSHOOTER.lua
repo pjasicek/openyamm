@@ -13,8 +13,7 @@ script.labels = {}
 -- doesn't work, hence- script
 script.labels["Main"] = function(ctx)
     -- PYRAMIDSHOOTER.scr:13
-    ctx:command("getmyhandle", "hMe") -- PYRAMIDSHOOTER.scr:15
-    ctx:setPropNumber("ShootInterval", 3000) -- PYRAMIDSHOOTER.scr:17
+    ctx:self():setNumberProperty("ShootInterval", 3000) -- PYRAMIDSHOOTER.scr:17
     ctx:addTrigger("shoot", "ShootPlayer") -- PYRAMIDSHOOTER.scr:19
     do return ctx:exit(1) end -- PYRAMIDSHOOTER.scr:21
 end
@@ -22,19 +21,18 @@ end
 script.labels["ShootPlayer"] = function(ctx)
     -- PYRAMIDSHOOTER.scr:24
     if ctx:condition("hPlayer==0") then -- PYRAMIDSHOOTER.scr:26
-        ctx:command("getplayerhandle", "hPlayer") -- PYRAMIDSHOOTER.scr:27
         if ctx:condition("hPlayer==0") then -- PYRAMIDSHOOTER.scr:28
             do return ctx:exit(1) end -- PYRAMIDSHOOTER.scr:29
         end -- PYRAMIDSHOOTER.scr:30
     end -- PYRAMIDSHOOTER.scr:31
-    ctx:command("faceobject", "hPlayer, 1440, TurnOn") -- PYRAMIDSHOOTER.scr:33
+    ctx:self():faceObject(ctx:player(), 1440, "TurnOn") -- PYRAMIDSHOOTER.scr:33
     do return ctx:exit(1) end -- PYRAMIDSHOOTER.scr:35
 end
 
 script.labels["TurnOn"] = function(ctx)
     -- PYRAMIDSHOOTER.scr:38
     ctx:trigger("hMe", "on") -- PYRAMIDSHOOTER.scr:40
-    ctx:command("wait", "0, 1, TurnOff") -- PYRAMIDSHOOTER.scr:41
+    ctx:wait(0, 1, "TurnOff") -- PYRAMIDSHOOTER.scr:41
     do return ctx:exit(1) end -- PYRAMIDSHOOTER.scr:42
 end
 

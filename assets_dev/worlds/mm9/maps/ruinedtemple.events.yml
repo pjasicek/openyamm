@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/ruinedtemple.lua
+  script_ir: ../events/ruinedtemple.script_ir.yml
 objects:
 - object_id: mm9:ruinedtemple:object:0
   source_object_index: 0
@@ -81495,7 +81496,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger0
-    Pos: &id100
+    Pos: &id166
     - 0.0
     - -608.0
     - -680.0
@@ -81875,7 +81876,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger1
-    Pos: &id101
+    Pos: &id167
     - 0.0
     - -608.0
     - -528.0
@@ -86859,7 +86860,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerHostile0
-    Pos: &id102
+    Pos: &id171
     - 192.4173126220703
     - -1777.9000244140625
     - 2202.68212890625
@@ -87790,7 +87791,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: DBEffectsTrigger0
-    Pos: &id103
+    Pos: &id172
     - 32.0
     - -544.0
     - 1984.0
@@ -88647,7 +88648,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: DBEffectsTrigger1
-    Pos: &id104
+    Pos: &id173
     - -256.0
     - -336.0
     - 1300.0
@@ -89718,7 +89719,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerCaveIn0
-    Pos: &id105
+    Pos: &id174
     - -864.0
     - -872.0
     - 1632.0
@@ -93325,7 +93326,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerCaveIn1
-    Pos: &id106
+    Pos: &id182
     - 732.0
     - -840.0
     - 760.0
@@ -94003,7 +94004,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: DBEffectsTrigger2
-    Pos: &id107
+    Pos: &id183
     - 544.0
     - -608.0
     - 868.0
@@ -105962,10 +105963,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 352.0
     - -832.0
@@ -106370,10 +106373,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 456.0
     - -832.0
@@ -106778,10 +106783,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 552.0
     - -832.0
@@ -107493,6 +107500,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id037 []
 - mechanism_id: mm9:ruinedtemple:object:7:mechanism
   object_id: mm9:ruinedtemple:object:7
@@ -107503,6 +107511,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id038 []
 - mechanism_id: mm9:ruinedtemple:object:12:mechanism
   object_id: mm9:ruinedtemple:object:12
@@ -107528,6 +107537,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id039
   - phase: open
     slot: 0
@@ -107578,6 +107616,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: SunButton4
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id040
   - phase: open
     slot: 0
@@ -107608,6 +107675,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: SunButton3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id041
   - phase: open
     slot: 0
@@ -107653,6 +107749,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: AltarDoorRight
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\doorslideopen.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\doorslideclosed.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id042 []
 - mechanism_id: mm9:ruinedtemple:object:16:mechanism
   object_id: mm9:ruinedtemple:object:16
@@ -107678,6 +107803,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: AltarDoorLeft
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\doorslideopen.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\doorslideclosed.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id043 []
 - mechanism_id: mm9:ruinedtemple:object:17:mechanism
   object_id: mm9:ruinedtemple:object:17
@@ -107703,6 +107857,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id044
   - phase: close
     slot: 0
@@ -107748,6 +107931,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: Sunbutton2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id045
   - phase: open
     slot: 0
@@ -107793,6 +108005,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: SunButton
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id046
   - phase: open
     slot: 0
@@ -107823,6 +108064,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id047
   - phase: open
     slot: 0
@@ -107858,6 +108128,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id048
   - phase: open
     slot: 0
@@ -107893,6 +108192,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id049
   - phase: open
     slot: 0
@@ -107938,6 +108266,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id050
   - phase: open
     slot: 0
@@ -107973,6 +108330,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id051
   - phase: open
     slot: 0
@@ -108018,6 +108404,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id052
   - phase: open
     slot: 0
@@ -108053,6 +108468,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id053
   - phase: open
     slot: 0
@@ -108083,6 +108527,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id054 []
 - mechanism_id: mm9:ruinedtemple:object:29:mechanism
   object_id: mm9:ruinedtemple:object:29
@@ -108108,6 +108581,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id055
   - phase: open
     slot: 0
@@ -108138,6 +108640,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id056
   - phase: open
     slot: 0
@@ -108168,6 +108699,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id057
   - phase: close
     slot: 0
@@ -108203,6 +108763,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id058 []
 - mechanism_id: mm9:ruinedtemple:object:33:mechanism
   object_id: mm9:ruinedtemple:object:33
@@ -108228,6 +108817,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id059 []
 - mechanism_id: mm9:ruinedtemple:object:34:mechanism
   object_id: mm9:ruinedtemple:object:34
@@ -108253,6 +108871,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id060 []
 - mechanism_id: mm9:ruinedtemple:object:35:mechanism
   object_id: mm9:ruinedtemple:object:35
@@ -108264,6 +108911,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:36:mechanism
   object_id: mm9:ruinedtemple:object:36
@@ -108289,6 +108937,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PrisonDoor
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id061 []
 - mechanism_id: mm9:ruinedtemple:object:37:mechanism
   object_id: mm9:ruinedtemple:object:37
@@ -108314,6 +108991,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PrisonBars
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id062 []
 - mechanism_id: mm9:ruinedtemple:object:38:mechanism
   object_id: mm9:ruinedtemple:object:38
@@ -108339,6 +109045,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id063
   - phase: open
     slot: 0
@@ -108374,6 +109109,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id064
   - phase: open
     slot: 0
@@ -108390,6 +109154,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id065 []
 - mechanism_id: mm9:ruinedtemple:object:204:mechanism
   object_id: mm9:ruinedtemple:object:204
@@ -108401,6 +109166,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:268:mechanism
   object_id: mm9:ruinedtemple:object:268
@@ -108411,6 +109177,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:303:mechanism
   object_id: mm9:ruinedtemple:object:303
@@ -108422,6 +109189,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:313:mechanism
   object_id: mm9:ruinedtemple:object:313
@@ -108432,6 +109200,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:314:mechanism
   object_id: mm9:ruinedtemple:object:314
@@ -108442,6 +109211,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:315:mechanism
   object_id: mm9:ruinedtemple:object:315
@@ -108452,6 +109222,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:316:mechanism
   object_id: mm9:ruinedtemple:object:316
@@ -108462,6 +109233,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:317:mechanism
   object_id: mm9:ruinedtemple:object:317
@@ -108472,6 +109244,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:318:mechanism
   object_id: mm9:ruinedtemple:object:318
@@ -108482,6 +109255,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:319:mechanism
   object_id: mm9:ruinedtemple:object:319
@@ -108492,6 +109266,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:320:mechanism
   object_id: mm9:ruinedtemple:object:320
@@ -108502,6 +109277,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:321:mechanism
   object_id: mm9:ruinedtemple:object:321
@@ -108512,6 +109288,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:322:mechanism
   object_id: mm9:ruinedtemple:object:322
@@ -108522,6 +109299,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:323:mechanism
   object_id: mm9:ruinedtemple:object:323
@@ -108532,6 +109310,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:ruinedtemple:object:325:mechanism
   object_id: mm9:ruinedtemple:object:325
@@ -108542,6 +109321,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id066 []
 - mechanism_id: mm9:ruinedtemple:object:326:mechanism
   object_id: mm9:ruinedtemple:object:326
@@ -108552,6 +109332,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id067 []
 - mechanism_id: mm9:ruinedtemple:object:327:mechanism
   object_id: mm9:ruinedtemple:object:327
@@ -108562,6 +109343,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id068 []
 - mechanism_id: mm9:ruinedtemple:object:328:mechanism
   object_id: mm9:ruinedtemple:object:328
@@ -108572,6 +109354,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id069 []
 - mechanism_id: mm9:ruinedtemple:object:329:mechanism
   object_id: mm9:ruinedtemple:object:329
@@ -108582,6 +109365,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id070 []
 - mechanism_id: mm9:ruinedtemple:object:330:mechanism
   object_id: mm9:ruinedtemple:object:330
@@ -108592,6 +109376,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id071 []
 - mechanism_id: mm9:ruinedtemple:object:331:mechanism
   object_id: mm9:ruinedtemple:object:331
@@ -108602,6 +109387,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id072 []
 - mechanism_id: mm9:ruinedtemple:object:332:mechanism
   object_id: mm9:ruinedtemple:object:332
@@ -108612,6 +109398,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id073 []
 - mechanism_id: mm9:ruinedtemple:object:333:mechanism
   object_id: mm9:ruinedtemple:object:333
@@ -108622,6 +109409,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id074 []
 - mechanism_id: mm9:ruinedtemple:object:339:mechanism
   object_id: mm9:ruinedtemple:object:339
@@ -108632,6 +109420,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id077 []
 - mechanism_id: mm9:ruinedtemple:object:340:mechanism
   object_id: mm9:ruinedtemple:object:340
@@ -108642,6 +109431,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id078 []
 - mechanism_id: mm9:ruinedtemple:object:341:mechanism
   object_id: mm9:ruinedtemple:object:341
@@ -108652,6 +109442,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id079 []
 - mechanism_id: mm9:ruinedtemple:object:342:mechanism
   object_id: mm9:ruinedtemple:object:342
@@ -108662,6 +109453,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id080 []
 - mechanism_id: mm9:ruinedtemple:object:343:mechanism
   object_id: mm9:ruinedtemple:object:343
@@ -108672,6 +109464,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id081 []
 - mechanism_id: mm9:ruinedtemple:object:344:mechanism
   object_id: mm9:ruinedtemple:object:344
@@ -108682,6 +109475,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id082 []
 - mechanism_id: mm9:ruinedtemple:object:345:mechanism
   object_id: mm9:ruinedtemple:object:345
@@ -108692,6 +109486,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id083 []
 - mechanism_id: mm9:ruinedtemple:object:351:mechanism
   object_id: mm9:ruinedtemple:object:351
@@ -108717,6 +109512,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id085
   - phase: open
     slot: 0
@@ -108742,6 +109566,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id089 []
 - mechanism_id: mm9:ruinedtemple:object:363:mechanism
   object_id: mm9:ruinedtemple:object:363
@@ -108752,6 +109577,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id090 []
 - mechanism_id: mm9:ruinedtemple:object:368:mechanism
   object_id: mm9:ruinedtemple:object:368
@@ -108762,6 +109588,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id091 []
 - mechanism_id: mm9:ruinedtemple:object:369:mechanism
   object_id: mm9:ruinedtemple:object:369
@@ -108772,6 +109599,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id092 []
 - mechanism_id: mm9:ruinedtemple:object:379:mechanism
   object_id: mm9:ruinedtemple:object:379
@@ -108782,6 +109610,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id095 []
 - mechanism_id: mm9:ruinedtemple:object:380:mechanism
   object_id: mm9:ruinedtemple:object:380
@@ -108792,6 +109621,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id096 []
 - mechanism_id: mm9:ruinedtemple:object:381:mechanism
   object_id: mm9:ruinedtemple:object:381
@@ -108802,6 +109632,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id097 []
 - mechanism_id: mm9:ruinedtemple:object:383:mechanism
   object_id: mm9:ruinedtemple:object:383
@@ -108812,6 +109643,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id098 []
 - mechanism_id: mm9:ruinedtemple:object:385:mechanism
   object_id: mm9:ruinedtemple:object:385
@@ -108837,6 +109669,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id099
   - phase: open
     slot: 0
@@ -108857,6 +109718,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:ruinedtemple:object:334:trigger
@@ -110462,273 +111324,1957 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id197
+    - source_model_index: 153
+      source_name: AITrk110
+      movable: true
+      world_translation_lt: &id128
+      - 664.0
+      - -880.0
+      - 1116.0
+      distance_from_position_lt: 46.13
+    - source_model_index: 21
+      source_name: HiddenButton
+      movable: true
+      world_translation_lt: &id127
+      - 664.0
+      - -840.0
+      - 1202.0
+      distance_from_position_lt: 54.882
+    - source_model_index: 152
+      source_name: AITrk109
+      movable: true
+      world_translation_lt: &id102
+      - 592.0
+      - -880.0
+      - 1100.0
+      distance_from_position_lt: 80.1
+    - source_model_index: 155
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: &id100
+      - 592.0
+      - -880.0
+      - 1208.0
+      distance_from_position_lt: 82.753
+    - source_model_index: 23
+      source_name: HiddenDoor3
+      movable: true
+      world_translation_lt: &id101
+      - 592.0
+      - -840.0
+      - 1224.0
+      distance_from_position_lt: 92.607
 - object_id: mm9:ruinedtemple:object:7
   source_object_index: 7
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id198
+    - source_model_index: 154
+      source_name: AITrk111
+      movable: true
+      world_translation_lt: &id188
+      - 488.0
+      - -880.0
+      - 1116.0
+      distance_from_position_lt: 60.745
+    - source_model_index: 155
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 135.713
+    - source_model_index: 23
+      source_name: HiddenDoor3
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 142.274
+    - source_model_index: 152
+      source_name: AITrk109
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 147.167
+    - source_model_index: 206
+      source_name: DB_CeilingLeft
+      movable: true
+      world_translation_lt: &id184
+      - 508.0
+      - -774.0
+      - 1016.0
+      distance_from_position_lt: 183.123
 - object_id: mm9:ruinedtemple:object:12
   source_object_index: 12
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id199
+    - source_model_index: 4
+      source_name: HiddenDoor2
+      movable: true
+      world_translation_lt: &id104
+      - 704.0
+      - -624.0
+      - 656.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 178
+      source_name: PerceptionBrush10
+      movable: true
+      world_translation_lt: &id105
+      - 704.0
+      - -624.0
+      - 656.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 5
+      source_name: SunButton3
+      movable: true
+      world_translation_lt: &id103
+      - 704.0
+      - -624.0
+      - 668.0
+      distance_from_position_lt: 12.0
+    - source_model_index: 6
+      source_name: SunButton4
+      movable: true
+      world_translation_lt: &id106
+      - 704.0
+      - -624.0
+      - 644.0
+      distance_from_position_lt: 12.0
+    - source_model_index: 81
+      source_name: AITrk98
+      movable: true
+      world_translation_lt: &id107
+      - 704.0
+      - -664.0
+      - 588.0
+      distance_from_position_lt: 78.892
 - object_id: mm9:ruinedtemple:object:13
   source_object_index: 13
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id200
+    - source_model_index: 5
+      source_name: SunButton3
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 0.5
+    - source_model_index: 4
+      source_name: HiddenDoor2
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 12.5
+    - source_model_index: 178
+      source_name: PerceptionBrush10
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 12.5
+    - source_model_index: 6
+      source_name: SunButton4
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 24.5
+    - source_model_index: 81
+      source_name: AITrk98
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 89.89
 - object_id: mm9:ruinedtemple:object:14
   source_object_index: 14
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id201
+    - source_model_index: 6
+      source_name: SunButton4
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 0.5
+    - source_model_index: 4
+      source_name: HiddenDoor2
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 12.5
+    - source_model_index: 178
+      source_name: PerceptionBrush10
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 12.5
+    - source_model_index: 5
+      source_name: SunButton3
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 24.5
+    - source_model_index: 81
+      source_name: AITrk98
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 68.412
 - object_id: mm9:ruinedtemple:object:15
   source_object_index: 15
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id202
+    - source_model_index: 7
+      source_name: AltarDoorLeft
+      movable: true
+      world_translation_lt: &id111
+      - -32.0
+      - -840.0
+      - -112.0
+      distance_from_position_lt: 32.985
+    - source_model_index: 106
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: &id110
+      - -4.0
+      - -888.0
+      - -128.0
+      distance_from_position_lt: 83.618
+    - source_model_index: 8
+      source_name: AltarDoorRight
+      movable: true
+      world_translation_lt: &id109
+      - 24.999988555908203
+      - -840.0
+      - -112.0
+      distance_from_position_lt: 89.359
+    - source_model_index: 160
+      source_name: AIBarrier1
+      movable: true
+      world_translation_lt: &id108
+      - 40.0
+      - -832.0
+      - -112.0
+      distance_from_position_lt: 104.0
+    - source_model_index: 115
+      source_name: AITrk46
+      movable: true
+      world_translation_lt:
+      - -112.0
+      - -888.0
+      - 16.0
+      distance_from_position_lt: 147.729
 - object_id: mm9:ruinedtemple:object:16
   source_object_index: 16
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id203
+    - source_model_index: 160
+      source_name: AIBarrier1
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 24.0
+    - source_model_index: 8
+      source_name: AltarDoorRight
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 39.812
+    - source_model_index: 106
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 89.532
+    - source_model_index: 7
+      source_name: AltarDoorLeft
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 96.333
+    - source_model_index: 108
+      source_name: AITrk39
+      movable: true
+      world_translation_lt:
+      - 112.0
+      - -888.0
+      - 16.0
+      distance_from_position_lt: 147.729
 - object_id: mm9:ruinedtemple:object:17
   source_object_index: 17
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id204
+    - source_model_index: 9
+      source_name: HiddenDoor
+      movable: true
+      world_translation_lt: &id113
+      - -864.0
+      - -848.0
+      - 1648.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 168
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: &id114
+      - -864.0
+      - -848.0
+      - 1648.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 10
+      source_name: SunButton
+      movable: true
+      world_translation_lt: &id112
+      - -864.0
+      - -848.0
+      - 1636.0
+      distance_from_position_lt: 12.0
+    - source_model_index: 11
+      source_name: SunButton2
+      movable: true
+      world_translation_lt: &id115
+      - -864.0
+      - -848.0
+      - 1660.0
+      distance_from_position_lt: 12.0
+    - source_model_index: 140
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: &id116
+      - -864.0
+      - -896.0
+      - 1632.0
+      distance_from_position_lt: 50.596
 - object_id: mm9:ruinedtemple:object:18
   source_object_index: 18
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id205
+    - source_model_index: 10
+      source_name: SunButton
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 0.0
+    - source_model_index: 9
+      source_name: HiddenDoor
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 12.0
+    - source_model_index: 168
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 12.0
+    - source_model_index: 11
+      source_name: SunButton2
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 24.0
+    - source_model_index: 140
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 48.166
 - object_id: mm9:ruinedtemple:object:19
   source_object_index: 19
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id206
+    - source_model_index: 11
+      source_name: SunButton2
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 0.5
+    - source_model_index: 9
+      source_name: HiddenDoor
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 12.5
+    - source_model_index: 168
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 12.5
+    - source_model_index: 10
+      source_name: SunButton
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 24.5
+    - source_model_index: 140
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 55.823
 - object_id: mm9:ruinedtemple:object:20
   source_object_index: 20
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id207
+    - source_model_index: 12
+      source_name: MoonButton1
+      movable: true
+      world_translation_lt: &id118
+      - -1004.0
+      - -835.9999389648438
+      - 1836.0
+      distance_from_position_lt: 4.0
+    - source_model_index: 13
+      source_name: DiamondButton1
+      movable: true
+      world_translation_lt: &id117
+      - -1004.0
+      - -836.0
+      - 1808.0
+      distance_from_position_lt: 28.284
+    - source_model_index: 14
+      source_name: StarButton1
+      movable: true
+      world_translation_lt: &id119
+      - -1004.0
+      - -836.0000610351562
+      - 1780.0
+      distance_from_position_lt: 56.143
+    - source_model_index: 143
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: &id120
+      - -960.0
+      - -896.0
+      - 1864.0
+      distance_from_position_lt: 81.78
+    - source_model_index: 169
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: &id121
+      - -886.0
+      - -868.0
+      - 1812.0
+      distance_from_position_lt: 128.39
 - object_id: mm9:ruinedtemple:object:21
   source_object_index: 21
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id208
+    - source_model_index: 13
+      source_name: DiamondButton1
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 4.0
+    - source_model_index: 12
+      source_name: MoonButton1
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 28.284
+    - source_model_index: 14
+      source_name: StarButton1
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 28.284
+    - source_model_index: 143
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 95.079
+    - source_model_index: 169
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 126.19
 - object_id: mm9:ruinedtemple:object:22
   source_object_index: 22
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id209
+    - source_model_index: 14
+      source_name: StarButton1
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 4.0
+    - source_model_index: 13
+      source_name: DiamondButton1
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 28.284
+    - source_model_index: 12
+      source_name: MoonButton1
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 56.143
+    - source_model_index: 143
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 113.842
+    - source_model_index: 169
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 130.123
 - object_id: mm9:ruinedtemple:object:23
   source_object_index: 23
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id210
+    - source_model_index: 15
+      source_name: MoonButton2
+      movable: true
+      world_translation_lt: &id123
+      - -756.0
+      - -835.9999389648438
+      - 1836.0
+      distance_from_position_lt: 4.0
+    - source_model_index: 16
+      source_name: DiamondButton2
+      movable: true
+      world_translation_lt: &id122
+      - -756.0
+      - -836.0
+      - 1808.0
+      distance_from_position_lt: 28.284
+    - source_model_index: 17
+      source_name: StarButton2
+      movable: true
+      world_translation_lt: &id124
+      - -756.0
+      - -836.0000610351562
+      - 1780.0
+      distance_from_position_lt: 56.143
+    - source_model_index: 142
+      source_name: AITrk72
+      movable: true
+      world_translation_lt: &id125
+      - -784.0
+      - -896.0
+      - 1864.0
+      distance_from_position_lt: 70.427
+    - source_model_index: 177
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: &id126
+      - -873.0
+      - -868.0
+      - 1812.0
+      distance_from_position_lt: 119.871
 - object_id: mm9:ruinedtemple:object:24
   source_object_index: 24
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id211
+    - source_model_index: 16
+      source_name: DiamondButton2
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 4.0
+    - source_model_index: 15
+      source_name: MoonButton2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 28.284
+    - source_model_index: 17
+      source_name: StarButton2
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 28.284
+    - source_model_index: 142
+      source_name: AITrk72
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 85.51
+    - source_model_index: 177
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 117.512
 - object_id: mm9:ruinedtemple:object:25
   source_object_index: 25
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id212
+    - source_model_index: 17
+      source_name: StarButton2
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 4.0
+    - source_model_index: 16
+      source_name: DiamondButton2
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 28.284
+    - source_model_index: 15
+      source_name: MoonButton2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 56.143
+    - source_model_index: 142
+      source_name: AITrk72
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 105.981
+    - source_model_index: 177
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 121.725
 - object_id: mm9:ruinedtemple:object:26
   source_object_index: 26
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id213
+    - source_model_index: 18
+      source_name: SecondButton
+      movable: true
+      world_translation_lt:
+      - -768.0
+      - -1072.0
+      - 1882.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 19
+      source_name: MainElevator
+      movable: true
+      world_translation_lt:
+      - -880.0
+      - -984.0
+      - 1808.0
+      distance_from_position_lt: 160.512
+    - source_model_index: 142
+      source_name: AITrk72
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 177.64
+    - source_model_index: 141
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: &id137
+      - -864.0
+      - -896.0
+      - 1864.0
+      distance_from_position_lt: 201.286
+    - source_model_index: 167
+      source_name: AITrk123
+      movable: true
+      world_translation_lt: &id130
+      - -544.0
+      - -1112.0
+      - 1808.0
+      distance_from_position_lt: 239.274
 - object_id: mm9:ruinedtemple:object:28
   source_object_index: 28
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id214
+    - source_model_index: 20
+      source_name: UpDoor
+      movable: true
+      world_translation_lt:
+      - -268.0
+      - -896.0
+      - -672.0
+      distance_from_position_lt: 40.2
+    - source_model_index: 94
+      source_name: AITrk25
+      movable: true
+      world_translation_lt:
+      - -188.0
+      - -936.0
+      - -672.0
+      distance_from_position_lt: 84.0
+    - source_model_index: 100
+      source_name: AITrk31
+      movable: true
+      world_translation_lt:
+      - -208.0
+      - -936.0
+      - -768.0
+      distance_from_position_lt: 115.378
+    - source_model_index: 101
+      source_name: AITrk32
+      movable: true
+      world_translation_lt:
+      - -396.0
+      - -936.0
+      - -648.0
+      distance_from_position_lt: 126.301
+    - source_model_index: 102
+      source_name: AITrk33
+      movable: true
+      world_translation_lt:
+      - -396.0
+      - -936.0
+      - -768.0
+      distance_from_position_lt: 156.818
 - object_id: mm9:ruinedtemple:object:29
   source_object_index: 29
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id215
+    - source_model_index: 21
+      source_name: HiddenButton
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 0.0
+    - source_model_index: 22
+      source_name: HiddenButton2
+      movable: true
+      world_translation_lt: &id129
+      - 634.0
+      - -840.0
+      - 1248.0
+      distance_from_position_lt: 54.918
+    - source_model_index: 23
+      source_name: HiddenDoor3
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 75.286
+    - source_model_index: 155
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 82.583
+    - source_model_index: 153
+      source_name: AITrk110
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 94.847
 - object_id: mm9:ruinedtemple:object:30
   source_object_index: 30
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id216
+    - source_model_index: 22
+      source_name: HiddenButton2
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 0.0
+    - source_model_index: 23
+      source_name: HiddenDoor3
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 48.374
+    - source_model_index: 21
+      source_name: HiddenButton
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 54.918
+    - source_model_index: 155
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 70.456
+    - source_model_index: 153
+      source_name: AITrk110
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 141.152
 - object_id: mm9:ruinedtemple:object:31
   source_object_index: 31
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id217
+    - source_model_index: 23
+      source_name: HiddenDoor3
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 0.0
+    - source_model_index: 155
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 43.081
+    - source_model_index: 22
+      source_name: HiddenButton2
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 48.374
+    - source_model_index: 21
+      source_name: HiddenButton
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 75.286
+    - source_model_index: 152
+      source_name: AITrk109
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 130.292
 - object_id: mm9:ruinedtemple:object:32
   source_object_index: 32
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id218
+    - source_model_index: 24
+      source_name: LeftDoor
+      movable: true
+      world_translation_lt:
+      - 396.0
+      - -624.0
+      - 488.0
+      distance_from_position_lt: 40.988
+    - source_model_index: 70
+      source_name: AITrk87
+      movable: true
+      world_translation_lt:
+      - 448.0
+      - -664.0
+      - 488.0
+      distance_from_position_lt: 56.569
+    - source_model_index: 75
+      source_name: AITrk92
+      movable: true
+      world_translation_lt:
+      - 332.0
+      - -664.0
+      - 492.0
+      distance_from_position_lt: 61.188
+    - source_model_index: 69
+      source_name: AITrk86
+      movable: true
+      world_translation_lt:
+      - 332.0
+      - -664.0
+      - 588.0
+      distance_from_position_lt: 123.548
+    - source_model_index: 76
+      source_name: AITrk93
+      movable: true
+      world_translation_lt:
+      - 584.0
+      - -664.0
+      - 488.0
+      distance_from_position_lt: 192.167
 - object_id: mm9:ruinedtemple:object:33
   source_object_index: 33
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id219
+    - source_model_index: 25
+      source_name: PrisonEntrance2
+      movable: true
+      world_translation_lt: &id141
+      - 208.0
+      - -840.0
+      - 1720.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 159
+      source_name: AITrk116
+      movable: true
+      world_translation_lt: &id140
+      - 208.0
+      - -880.0
+      - 1748.0
+      distance_from_position_lt: 48.826
+    - source_model_index: 37
+      source_name: WorldObject10
+      movable: true
+      world_translation_lt: &id142
+      - 224.0
+      - -818.0
+      - 1940.0
+      distance_from_position_lt: 221.675
+    - source_model_index: 33
+      source_name: WorldObject9
+      movable: true
+      world_translation_lt: &id139
+      - 392.0
+      - -1004.0
+      - 1746.0
+      distance_from_position_lt: 247.847
+    - source_model_index: 32
+      source_name: Ladder
+      movable: true
+      world_translation_lt: &id138
+      - 392.0
+      - -1004.0
+      - 1760.0
+      distance_from_position_lt: 249.704
 - object_id: mm9:ruinedtemple:object:34
   source_object_index: 34
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id220
+    - source_model_index: 26
+      source_name: PrisonEntrance
+      movable: true
+      world_translation_lt:
+      - -264.0
+      - -1072.0
+      - 1808.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 166
+      source_name: AITrk122
+      movable: true
+      world_translation_lt:
+      - -256.0
+      - -1112.0
+      - 1808.0
+      distance_from_position_lt: 40.792
+    - source_model_index: 165
+      source_name: AITrk121
+      movable: true
+      world_translation_lt:
+      - -96.0
+      - -1112.0
+      - 1800.0
+      distance_from_position_lt: 172.881
+    - source_model_index: 167
+      source_name: AITrk123
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 282.843
+    - source_model_index: 164
+      source_name: AITrk120
+      movable: true
+      world_translation_lt: &id144
+      - -96.0
+      - -1112.0
+      - 2048.0
+      distance_from_position_lt: 295.675
 - object_id: mm9:ruinedtemple:object:35
   source_object_index: 35
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id221
+    - source_model_index: 27
+      source_name: RopeWheel
+      movable: true
+      world_translation_lt: &id136
+      - 96.0
+      - -928.0
+      - 2224.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 29
+      source_name: PrisonDoor
+      movable: true
+      world_translation_lt: &id132
+      - 95.99998474121094
+      - -1024.0
+      - 2248.0
+      distance_from_position_lt: 98.955
+    - source_model_index: 28
+      source_name: PrisonBars
+      movable: true
+      world_translation_lt: &id131
+      - 96.0
+      - -1072.0
+      - 2252.0
+      distance_from_position_lt: 146.697
+    - source_model_index: 30
+      source_name: PrisonButton2
+      movable: true
+      world_translation_lt: &id134
+      - 176.0
+      - -1072.0
+      - 2202.0
+      distance_from_position_lt: 166.193
+    - source_model_index: 163
+      source_name: AITrk119
+      movable: true
+      world_translation_lt: &id133
+      - 96.0
+      - -1112.0
+      - 2296.0
+      distance_from_position_lt: 197.585
 - object_id: mm9:ruinedtemple:object:36
   source_object_index: 36
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id222
+    - source_model_index: 28
+      source_name: PrisonBars
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 4.0
+    - source_model_index: 29
+      source_name: PrisonDoor
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 48.0
+    - source_model_index: 163
+      source_name: AITrk119
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 62.482
+    - source_model_index: 30
+      source_name: PrisonButton2
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 92.282
+    - source_model_index: 209
+      source_name: DoorCryptEscape0
+      movable: true
+      world_translation_lt: &id135
+      - 96.0
+      - -1076.0
+      - 2356.0
+      distance_from_position_lt: 108.074
 - object_id: mm9:ruinedtemple:object:37
   source_object_index: 37
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id223
+    - source_model_index: 29
+      source_name: PrisonDoor
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 16.0
+    - source_model_index: 28
+      source_name: PrisonBars
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 32.249
+    - source_model_index: 163
+      source_name: AITrk119
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 86.533
+    - source_model_index: 30
+      source_name: PrisonButton2
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 97.673
+    - source_model_index: 209
+      source_name: DoorCryptEscape0
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 113.842
 - object_id: mm9:ruinedtemple:object:38
   source_object_index: 38
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id224
+    - source_model_index: 30
+      source_name: PrisonButton2
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 0.0
+    - source_model_index: 28
+      source_name: PrisonBars
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 94.34
+    - source_model_index: 29
+      source_name: PrisonDoor
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 104.019
+    - source_model_index: 163
+      source_name: AITrk119
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 129.754
+    - source_model_index: 27
+      source_name: RopeWheel
+      movable: true
+      world_translation_lt: *id136
+      distance_from_position_lt: 166.193
 - object_id: mm9:ruinedtemple:object:39
   source_object_index: 39
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id225
+    - source_model_index: 31
+      source_name: MainButton
+      movable: true
+      world_translation_lt: &id143
+      - -880.0
+      - -845.0
+      - 1812.0
+      distance_from_position_lt: 3.0
+    - source_model_index: 169
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 20.881
+    - source_model_index: 177
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 21.19
+    - source_model_index: 141
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 72.553
+    - source_model_index: 143
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 106.808
 - object_id: mm9:ruinedtemple:object:40
   source_object_index: 40
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id226
+    - source_model_index: 32
+      source_name: Ladder
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 113.737
+    - source_model_index: 33
+      source_name: WorldObject9
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 116.022
+    - source_model_index: 159
+      source_name: AITrk116
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 180.902
+    - source_model_index: 25
+      source_name: PrisonEntrance2
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 193.178
+    - source_model_index: 37
+      source_name: WorldObject10
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 245.367
 - object_id: mm9:ruinedtemple:object:204
   source_object_index: 204
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id227
+    - source_model_index: 181
+      source_name: glass6
+      movable: true
+      world_translation_lt: &id158
+      - 0.0
+      - -606.0
+      - -632.0
+      distance_from_position_lt: 40.05
+    - source_model_index: 179
+      source_name: DestructableBrush6
+      movable: true
+      world_translation_lt: &id156
+      - 0.0
+      - -632.0
+      - -632.0
+      distance_from_position_lt: 46.648
+    - source_model_index: 61
+      source_name: AIBarrier0
+      movable: true
+      world_translation_lt: &id157
+      - 0.0
+      - -640.0
+      - -632.0
+      distance_from_position_lt: 51.225
+    - source_model_index: 184
+      source_name: glass4
+      movable: true
+      world_translation_lt: &id161
+      - -50.0000114440918
+      - -636.0
+      - -538.0
+      distance_from_position_lt: 78.74
+    - source_model_index: 186
+      source_name: glass5
+      movable: true
+      world_translation_lt: &id162
+      - 50.00000762939453
+      - -636.0
+      - -538.0
+      distance_from_position_lt: 78.74
 - object_id: mm9:ruinedtemple:object:268
   source_object_index: 268
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id228
+    - source_model_index: 237
+      source_name: WorldObject40
+      movable: true
+      world_translation_lt: &id196
+      - 51.029541015625
+      - -808.1180419921875
+      - 994.730712890625
+      distance_from_position_lt: 62.743
+    - source_model_index: 240
+      source_name: WorldObject43
+      movable: true
+      world_translation_lt:
+      - -19.50732421875
+      - -828.8043212890625
+      - 1170.730712890625
+      distance_from_position_lt: 162.232
+    - source_model_index: 125
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: &id194
+      - 68.0
+      - -844.0
+      - 888.0
+      distance_from_position_lt: 168.665
+    - source_model_index: 210
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: &id193
+      - 68.0
+      - -844.0
+      - 872.0
+      distance_from_position_lt: 183.913
+    - source_model_index: 122
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: &id195
+      - 0.0
+      - -888.0
+      - 904.0
+      distance_from_position_lt: 190.662
 - object_id: mm9:ruinedtemple:object:303
   source_object_index: 303
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id229
+    - source_model_index: 160
+      source_name: AIBarrier1
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 49.315
+    - source_model_index: 8
+      source_name: AltarDoorRight
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 57.0
+    - source_model_index: 7
+      source_name: AltarDoorLeft
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 85.417
+    - source_model_index: 106
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 110.345
+    - source_model_index: 73
+      source_name: AITrk90
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - -664.0
+      - -76.0
+      distance_from_position_lt: 131.757
 - object_id: mm9:ruinedtemple:object:313
   source_object_index: 313
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id230
+    - source_model_index: 10
+      source_name: SunButton
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 22.978
+    - source_model_index: 9
+      source_name: HiddenDoor
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 27.713
+    - source_model_index: 168
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 27.713
+    - source_model_index: 11
+      source_name: SunButton2
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 36.0
+    - source_model_index: 140
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 65.97
 - object_id: mm9:ruinedtemple:object:314
   source_object_index: 314
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id231
+    - source_model_index: 169
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 11.705
+    - source_model_index: 177
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 15.1
+    - source_model_index: 31
+      source_name: MainButton
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 17.263
+    - source_model_index: 141
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 59.942
+    - source_model_index: 143
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 95.713
 - object_id: mm9:ruinedtemple:object:315
   source_object_index: 315
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id232
+    - source_model_index: 195
+      source_name: WO_CounterBalance
+      movable: true
+      world_translation_lt:
+      - 49.99999237060547
+      - -831.5
+      - 2002.0
+      distance_from_position_lt: 26.538
+    - source_model_index: 170
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt:
+      - 50.0
+      - -842.0
+      - 2002.0
+      distance_from_position_lt: 31.177
+    - source_model_index: 38
+      source_name: WorldObject8
+      movable: true
+      world_translation_lt:
+      - -32.0
+      - -818.0
+      - 1940.0
+      distance_from_position_lt: 102.626
+    - source_model_index: 37
+      source_name: WorldObject10
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 208.087
+    - source_model_index: 27
+      source_name: RopeWheel
+      movable: true
+      world_translation_lt: *id136
+      distance_from_position_lt: 237.756
 - object_id: mm9:ruinedtemple:object:316
   source_object_index: 316
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id233
+    - source_model_index: 171
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: &id147
+      - 88.0
+      - -1149.5
+      - 2048.0
+      distance_from_position_lt: 100.271
+    - source_model_index: 188
+      source_name: DestructableBrush0
+      movable: true
+      world_translation_lt: &id146
+      - 88.0
+      - -1184.0
+      - 2048.0
+      distance_from_position_lt: 105.224
+    - source_model_index: 194
+      source_name: DB_Crypt0
+      movable: true
+      world_translation_lt: &id169
+      - 79.99998474121094
+      - -1088.0
+      - 2063.5
+      distance_from_position_lt: 107.481
+    - source_model_index: 164
+      source_name: AITrk120
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 114.543
+    - source_model_index: 172
+      source_name: PerceptionBrush5
+      movable: true
+      world_translation_lt: &id145
+      - 88.0
+      - -1229.5
+      - 2048.0
+      distance_from_position_lt: 126.705
 - object_id: mm9:ruinedtemple:object:317
   source_object_index: 317
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id234
+    - source_model_index: 172
+      source_name: PerceptionBrush5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 100.271
+    - source_model_index: 189
+      source_name: DestructableBrush1
+      movable: true
+      world_translation_lt: &id149
+      - 88.0
+      - -1264.0
+      - 2048.0
+      distance_from_position_lt: 105.224
+    - source_model_index: 188
+      source_name: DestructableBrush0
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 111.14
+    - source_model_index: 173
+      source_name: PerceptionBrush6
+      movable: true
+      world_translation_lt: &id148
+      - 88.0
+      - -1309.5
+      - 2048.0
+      distance_from_position_lt: 126.705
+    - source_model_index: 171
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 129.824
 - object_id: mm9:ruinedtemple:object:318
   source_object_index: 318
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id235
+    - source_model_index: 173
+      source_name: PerceptionBrush6
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 100.271
+    - source_model_index: 190
+      source_name: DestructableBrush2
+      movable: true
+      world_translation_lt: &id151
+      - 88.0
+      - -1344.0
+      - 2048.0
+      distance_from_position_lt: 105.224
+    - source_model_index: 189
+      source_name: DestructableBrush1
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 111.14
+    - source_model_index: 174
+      source_name: PerceptionBrush7
+      movable: true
+      world_translation_lt: &id150
+      - 88.0
+      - -1389.5
+      - 2048.0
+      distance_from_position_lt: 126.705
+    - source_model_index: 172
+      source_name: PerceptionBrush5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 129.824
 - object_id: mm9:ruinedtemple:object:319
   source_object_index: 319
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id236
+    - source_model_index: 174
+      source_name: PerceptionBrush7
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 100.271
+    - source_model_index: 191
+      source_name: DestructableBrush3
+      movable: true
+      world_translation_lt: &id153
+      - 88.0
+      - -1424.0
+      - 2048.0
+      distance_from_position_lt: 105.224
+    - source_model_index: 190
+      source_name: DestructableBrush2
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 111.14
+    - source_model_index: 175
+      source_name: PerceptionBrush8
+      movable: true
+      world_translation_lt: &id152
+      - 88.0
+      - -1469.5
+      - 2048.0
+      distance_from_position_lt: 126.705
+    - source_model_index: 173
+      source_name: PerceptionBrush6
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 129.824
 - object_id: mm9:ruinedtemple:object:320
   source_object_index: 320
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id237
+    - source_model_index: 175
+      source_name: PerceptionBrush8
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 100.271
+    - source_model_index: 192
+      source_name: DestructableBrush4
+      movable: true
+      world_translation_lt: &id155
+      - 88.0
+      - -1504.0
+      - 2048.0
+      distance_from_position_lt: 105.224
+    - source_model_index: 191
+      source_name: DestructableBrush3
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 111.14
+    - source_model_index: 176
+      source_name: PerceptionBrush9
+      movable: true
+      world_translation_lt: &id154
+      - 88.0
+      - -1549.5
+      - 2048.0
+      distance_from_position_lt: 126.705
+    - source_model_index: 174
+      source_name: PerceptionBrush7
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 129.824
 - object_id: mm9:ruinedtemple:object:321
   source_object_index: 321
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id238
+    - source_model_index: 176
+      source_name: PerceptionBrush9
+      movable: true
+      world_translation_lt: *id154
+      distance_from_position_lt: 100.271
+    - source_model_index: 193
+      source_name: DestructableBrush5
+      movable: true
+      world_translation_lt: &id168
+      - 88.0
+      - -1584.0
+      - 2048.0
+      distance_from_position_lt: 105.224
+    - source_model_index: 192
+      source_name: DestructableBrush4
+      movable: true
+      world_translation_lt: *id155
+      distance_from_position_lt: 111.14
+    - source_model_index: 175
+      source_name: PerceptionBrush8
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 129.824
+    - source_model_index: 191
+      source_name: DestructableBrush3
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 162.579
 - object_id: mm9:ruinedtemple:object:322
   source_object_index: 322
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id239
+    - source_model_index: 177
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 10.677
+    - source_model_index: 31
+      source_name: MainButton
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 19.849
+    - source_model_index: 169
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 20.322
+    - source_model_index: 141
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 59.338
+    - source_model_index: 142
+      source_name: AITrk72
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 102.767
 - object_id: mm9:ruinedtemple:object:323
   source_object_index: 323
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id240
+    - source_model_index: 6
+      source_name: SunButton4
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 22.978
+    - source_model_index: 4
+      source_name: HiddenDoor2
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 27.713
+    - source_model_index: 178
+      source_name: PerceptionBrush10
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 27.713
+    - source_model_index: 5
+      source_name: SunButton3
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 36.0
+    - source_model_index: 81
+      source_name: AITrk98
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 78.077
 - object_id: mm9:ruinedtemple:object:325
   source_object_index: 325
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id241
+    - source_model_index: 179
+      source_name: DestructableBrush6
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 24.0
+    - source_model_index: 61
+      source_name: AIBarrier0
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 25.298
+    - source_model_index: 181
+      source_name: glass6
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 35.384
+    - source_model_index: 182
+      source_name: glass2
+      movable: true
+      world_translation_lt: &id160
+      - -74.0
+      - -636.0
+      - -708.0
+      distance_from_position_lt: 90.532
+    - source_model_index: 183
+      source_name: glass3
+      movable: true
+      world_translation_lt: &id159
+      - 73.99999237060547
+      - -636.0
+      - -708.0
+      distance_from_position_lt: 90.532
 - object_id: mm9:ruinedtemple:object:326
   source_object_index: 326
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id242
+    - source_model_index: 180
+      source_name: glass1
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - -636.0
+      - -794.0
+      distance_from_position_lt: 43.296
+    - source_model_index: 41
+      source_name: AITrk0
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - -664.0
+      - -880.0
+      distance_from_position_lt: 89.121
+    - source_model_index: 183
+      source_name: glass3
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 136.52
+    - source_model_index: 182
+      source_name: glass2
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 138.244
+    - source_model_index: 42
+      source_name: AITrk2
+      movable: true
+      world_translation_lt:
+      - 168.0
+      - -664.0
+      - -768.0
+      distance_from_position_lt: 185.162
 - object_id: mm9:ruinedtemple:object:327
   source_object_index: 327
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id243
+    - source_model_index: 181
+      source_name: glass6
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 2.0
+    - source_model_index: 179
+      source_name: DestructableBrush6
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 28.0
+    - source_model_index: 61
+      source_name: AIBarrier0
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 36.0
+    - source_model_index: 182
+      source_name: glass2
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 110.797
+    - source_model_index: 183
+      source_name: glass3
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 110.797
 - object_id: mm9:ruinedtemple:object:328
   source_object_index: 328
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id244
+    - source_model_index: 181
+      source_name: glass6
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 57.306
+    - source_model_index: 179
+      source_name: DestructableBrush6
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 62.097
+    - source_model_index: 61
+      source_name: AIBarrier0
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 65.605
+    - source_model_index: 182
+      source_name: glass2
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 72.139
+    - source_model_index: 184
+      source_name: glass4
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 109.8
 - object_id: mm9:ruinedtemple:object:329
   source_object_index: 329
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id245
+    - source_model_index: 183
+      source_name: glass3
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 72.139
+    - source_model_index: 181
+      source_name: glass6
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 92.801
+    - source_model_index: 44
+      source_name: AITrk3
+      movable: true
+      world_translation_lt:
+      - 168.0
+      - -664.0
+      - -632.0
+      distance_from_position_lt: 95.163
+    - source_model_index: 179
+      source_name: DestructableBrush6
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 95.833
+    - source_model_index: 61
+      source_name: AIBarrier0
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 98.143
 - object_id: mm9:ruinedtemple:object:330
   source_object_index: 330
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id246
+    - source_model_index: 184
+      source_name: glass4
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 14.142
+    - source_model_index: 185
+      source_name: glass7
+      movable: true
+      world_translation_lt: &id163
+      - -14.000008583068848
+      - -636.0
+      - -466.0
+      distance_from_position_lt: 86.023
+    - source_model_index: 50
+      source_name: AITrk9
+      movable: true
+      world_translation_lt:
+      - -152.0
+      - -664.0
+      - -492.0
+      distance_from_position_lt: 102.294
+    - source_model_index: 187
+      source_name: glass8
+      movable: true
+      world_translation_lt: &id164
+      - 14.000007629394531
+      - -636.0
+      - -466.0
+      distance_from_position_lt: 104.805
+    - source_model_index: 186
+      source_name: glass5
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 114.018
 - object_id: mm9:ruinedtemple:object:331
   source_object_index: 331
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id247
+    - source_model_index: 185
+      source_name: glass7
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 6.325
+    - source_model_index: 187
+      source_name: glass8
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 26.683
+    - source_model_index: 184
+      source_name: glass4
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 76.158
+    - source_model_index: 186
+      source_name: glass5
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 90.554
+    - source_model_index: 52
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: &id165
+      - 0.0
+      - -664.0
+      - -356.0
+      distance_from_position_lt: 119.933
 - object_id: mm9:ruinedtemple:object:332
   source_object_index: 332
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id248
+    - source_model_index: 186
+      source_name: glass5
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 14.142
+    - source_model_index: 187
+      source_name: glass8
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 86.023
+    - source_model_index: 45
+      source_name: AITrk4
+      movable: true
+      world_translation_lt:
+      - 152.0
+      - -664.0
+      - -492.0
+      distance_from_position_lt: 102.294
+    - source_model_index: 185
+      source_name: glass7
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 104.805
+    - source_model_index: 184
+      source_name: glass4
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 114.018
 - object_id: mm9:ruinedtemple:object:333
   source_object_index: 333
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id249
+    - source_model_index: 187
+      source_name: glass8
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 6.325
+    - source_model_index: 185
+      source_name: glass7
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 26.683
+    - source_model_index: 186
+      source_name: glass5
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 76.158
+    - source_model_index: 184
+      source_name: glass4
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 90.554
+    - source_model_index: 52
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 119.933
 - object_id: mm9:ruinedtemple:object:334
   source_object_index: 334
   targets:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:334:volume
     confidence: source_object_volume
-    pos_lt: *id100
+    pos_lt: *id166
     dims_lt: *id029
 - object_id: mm9:ruinedtemple:object:335
   source_object_index: 335
@@ -110736,63 +113282,277 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:335:volume
     confidence: source_object_volume
-    pos_lt: *id101
+    pos_lt: *id167
     dims_lt: *id030
 - object_id: mm9:ruinedtemple:object:339
   source_object_index: 339
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id250
+    - source_model_index: 188
+      source_name: DestructableBrush0
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 0.0
+    - source_model_index: 171
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 34.5
+    - source_model_index: 172
+      source_name: PerceptionBrush5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 45.5
+    - source_model_index: 189
+      source_name: DestructableBrush1
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 80.0
+    - source_model_index: 161
+      source_name: AITrk117
+      movable: true
+      world_translation_lt: &id170
+      - 96.0
+      - -1112.0
+      - 1992.0
+      distance_from_position_lt: 91.564
 - object_id: mm9:ruinedtemple:object:340
   source_object_index: 340
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id251
+    - source_model_index: 189
+      source_name: DestructableBrush1
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 0.0
+    - source_model_index: 172
+      source_name: PerceptionBrush5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 34.5
+    - source_model_index: 173
+      source_name: PerceptionBrush6
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 45.5
+    - source_model_index: 188
+      source_name: DestructableBrush0
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 80.0
+    - source_model_index: 190
+      source_name: DestructableBrush2
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 80.0
 - object_id: mm9:ruinedtemple:object:341
   source_object_index: 341
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id252
+    - source_model_index: 190
+      source_name: DestructableBrush2
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 0.0
+    - source_model_index: 173
+      source_name: PerceptionBrush6
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 34.5
+    - source_model_index: 174
+      source_name: PerceptionBrush7
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 45.5
+    - source_model_index: 189
+      source_name: DestructableBrush1
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 80.0
+    - source_model_index: 191
+      source_name: DestructableBrush3
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 80.0
 - object_id: mm9:ruinedtemple:object:342
   source_object_index: 342
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id253
+    - source_model_index: 191
+      source_name: DestructableBrush3
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 0.0
+    - source_model_index: 174
+      source_name: PerceptionBrush7
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 34.5
+    - source_model_index: 175
+      source_name: PerceptionBrush8
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 45.5
+    - source_model_index: 190
+      source_name: DestructableBrush2
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 80.0
+    - source_model_index: 192
+      source_name: DestructableBrush4
+      movable: true
+      world_translation_lt: *id155
+      distance_from_position_lt: 80.0
 - object_id: mm9:ruinedtemple:object:343
   source_object_index: 343
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id254
+    - source_model_index: 192
+      source_name: DestructableBrush4
+      movable: true
+      world_translation_lt: *id155
+      distance_from_position_lt: 0.0
+    - source_model_index: 175
+      source_name: PerceptionBrush8
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 34.5
+    - source_model_index: 176
+      source_name: PerceptionBrush9
+      movable: true
+      world_translation_lt: *id154
+      distance_from_position_lt: 45.5
+    - source_model_index: 191
+      source_name: DestructableBrush3
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 80.0
+    - source_model_index: 193
+      source_name: DestructableBrush5
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 80.0
 - object_id: mm9:ruinedtemple:object:344
   source_object_index: 344
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id255
+    - source_model_index: 193
+      source_name: DestructableBrush5
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 2.0
+    - source_model_index: 176
+      source_name: PerceptionBrush9
+      movable: true
+      world_translation_lt: *id154
+      distance_from_position_lt: 34.558
+    - source_model_index: 192
+      source_name: DestructableBrush4
+      movable: true
+      world_translation_lt: *id155
+      distance_from_position_lt: 80.025
+    - source_model_index: 175
+      source_name: PerceptionBrush8
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 114.517
+    - source_model_index: 191
+      source_name: DestructableBrush3
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 160.012
 - object_id: mm9:ruinedtemple:object:345
   source_object_index: 345
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id256
+    - source_model_index: 194
+      source_name: DB_Crypt0
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 19.416
+    - source_model_index: 171
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 72.523
+    - source_model_index: 161
+      source_name: AITrk117
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 84.39
+    - source_model_index: 188
+      source_name: DestructableBrush0
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 104.735
+    - source_model_index: 172
+      source_name: PerceptionBrush5
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 148.794
 - object_id: mm9:ruinedtemple:object:350
   source_object_index: 350
   targets:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:350:volume
     confidence: source_object_volume
-    pos_lt: *id102
+    pos_lt: *id171
     dims_lt: *id031
 - object_id: mm9:ruinedtemple:object:351
   source_object_index: 351
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id257
+    - source_model_index: 196
+      source_name: PrisonButton3
+      movable: true
+      world_translation_lt: &id192
+      - 0.0
+      - -1088.0
+      - 2358.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 209
+      source_name: DoorCryptEscape0
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 96.768
+    - source_model_index: 163
+      source_name: AITrk119
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 116.773
+    - source_model_index: 28
+      source_name: PrisonBars
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 143.903
+    - source_model_index: 29
+      source_name: PrisonDoor
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 159.411
 - object_id: mm9:ruinedtemple:object:352
   source_object_index: 352
   targets:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:352:volume
     confidence: source_object_volume
-    pos_lt: *id103
+    pos_lt: *id172
     dims_lt: *id032
 - object_id: mm9:ruinedtemple:object:356
   source_object_index: 356
@@ -110800,7 +113560,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:356:volume
     confidence: source_object_volume
-    pos_lt: *id104
+    pos_lt: *id173
     dims_lt: *id033
 - object_id: mm9:ruinedtemple:object:361
   source_object_index: 361
@@ -110808,35 +113568,163 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:361:volume
     confidence: source_object_volume
-    pos_lt: *id105
+    pos_lt: *id174
     dims_lt: *id034
 - object_id: mm9:ruinedtemple:object:362
   source_object_index: 362
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id258
+    - source_model_index: 199
+      source_name: DB_RailRight
+      movable: true
+      world_translation_lt: &id178
+      - -151.49998474121094
+      - -791.0
+      - 1248.5
+      distance_from_position_lt: 0.0
+    - source_model_index: 197
+      source_name: CaveInRight
+      movable: true
+      world_translation_lt: &id181
+      - -208.0
+      - -719.0
+      - 1274.0
+      distance_from_position_lt: 95.008
+    - source_model_index: 198
+      source_name: CaveInLeft
+      movable: true
+      world_translation_lt: &id176
+      - -184.0
+      - -735.0
+      - 1343.0
+      distance_from_position_lt: 114.553
+    - source_model_index: 124
+      source_name: AITrk55
+      movable: true
+      world_translation_lt: &id177
+      - -168.0
+      - -888.0
+      - 1312.0
+      distance_from_position_lt: 117.105
+    - source_model_index: 200
+      source_name: DB_RailLeft
+      movable: true
+      world_translation_lt: &id175
+      - -87.99998474121094
+      - -791.0
+      - 1375.5
+      distance_from_position_lt: 141.99
 - object_id: mm9:ruinedtemple:object:363
   source_object_index: 363
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id259
+    - source_model_index: 200
+      source_name: DB_RailLeft
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 0.0
+    - source_model_index: 198
+      source_name: CaveInLeft
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 115.794
+    - source_model_index: 238
+      source_name: WorldObject41
+      movable: true
+      world_translation_lt:
+      - 7.716064453125
+      - -828.8043212890625
+      - 1314.730712890625
+      distance_from_position_lt: 119.514
+    - source_model_index: 124
+      source_name: AITrk55
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 140.859
+    - source_model_index: 199
+      source_name: DB_RailRight
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 141.99
 - object_id: mm9:ruinedtemple:object:368
   source_object_index: 368
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id260
+    - source_model_index: 201
+      source_name: DBFloor1
+      movable: true
+      world_translation_lt: &id180
+      - -212.00059509277344
+      - -900.0
+      - 1344.0
+      distance_from_position_lt: 33.106
+    - source_model_index: 124
+      source_name: AITrk55
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 59.262
+    - source_model_index: 202
+      source_name: DBFloor2
+      movable: true
+      world_translation_lt: &id179
+      - -332.0000915527344
+      - -900.0
+      - 1236.0
+      distance_from_position_lt: 131.606
+    - source_model_index: 199
+      source_name: DB_RailRight
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 147.382
+    - source_model_index: 198
+      source_name: CaveInLeft
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 172.714
 - object_id: mm9:ruinedtemple:object:369
   source_object_index: 369
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id261
+    - source_model_index: 202
+      source_name: DBFloor2
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 62.448
+    - source_model_index: 201
+      source_name: DBFloor1
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 122.871
+    - source_model_index: 124
+      source_name: AITrk55
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 159.058
+    - source_model_index: 199
+      source_name: DB_RailRight
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 211.654
+    - source_model_index: 197
+      source_name: CaveInRight
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 217.414
 - object_id: mm9:ruinedtemple:object:375
   source_object_index: 375
   targets:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:375:volume
     confidence: source_object_volume
-    pos_lt: *id106
+    pos_lt: *id182
     dims_lt: *id035
 - object_id: mm9:ruinedtemple:object:377
   source_object_index: 377
@@ -110844,38 +113732,218 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:ruinedtemple:object:377:volume
     confidence: source_object_volume
-    pos_lt: *id107
+    pos_lt: *id183
     dims_lt: *id036
 - object_id: mm9:ruinedtemple:object:379
   source_object_index: 379
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id262
+    - source_model_index: 205
+      source_name: DB_CeilingRight
+      movable: true
+      world_translation_lt: &id186
+      - 578.0
+      - -768.0
+      - 1016.0
+      distance_from_position_lt: 18.974
+    - source_model_index: 203
+      source_name: CaveInRightB
+      movable: true
+      world_translation_lt: &id185
+      - 560.0
+      - -738.0
+      - 1016.0
+      distance_from_position_lt: 36.0
+    - source_model_index: 206
+      source_name: DB_CeilingLeft
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 52.0
+    - source_model_index: 204
+      source_name: CaveInLeftB
+      movable: true
+      world_translation_lt: &id187
+      - 553.5
+      - -720.0
+      - 1012.0
+      distance_from_position_lt: 54.537
+    - source_model_index: 152
+      source_name: AITrk109
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 138.982
 - object_id: mm9:ruinedtemple:object:380
   source_object_index: 380
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id263
+    - source_model_index: 206
+      source_name: DB_CeilingLeft
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 0.0
+    - source_model_index: 203
+      source_name: CaveInRightB
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 63.246
+    - source_model_index: 205
+      source_name: DB_CeilingRight
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 70.257
+    - source_model_index: 204
+      source_name: CaveInLeftB
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 70.727
+    - source_model_index: 154
+      source_name: AITrk111
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 147.092
 - object_id: mm9:ruinedtemple:object:381
   source_object_index: 381
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id264
+    - source_model_index: 207
+      source_name: DBFloor
+      movable: true
+      world_translation_lt: &id190
+      - 560.0
+      - -890.0
+      - 920.0
+      distance_from_position_lt: 44.181
+    - source_model_index: 151
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: &id191
+      - 560.0
+      - -880.0
+      - 920.0
+      distance_from_position_lt: 45.299
+    - source_model_index: 208
+      source_name: DBFloor0
+      movable: true
+      world_translation_lt: &id189
+      - 604.0001220703125
+      - -890.0
+      - 891.9998779296875
+      distance_from_position_lt: 82.365
+    - source_model_index: 205
+      source_name: DB_CeilingRight
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 133.357
+    - source_model_index: 206
+      source_name: DB_CeilingLeft
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 138.91
 - object_id: mm9:ruinedtemple:object:383
   source_object_index: 383
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id265
+    - source_model_index: 208
+      source_name: DBFloor0
+      movable: true
+      world_translation_lt: *id189
+      distance_from_position_lt: 22.628
+    - source_model_index: 207
+      source_name: DBFloor
+      movable: true
+      world_translation_lt: *id190
+      distance_from_position_lt: 30.463
+    - source_model_index: 151
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 32.062
+    - source_model_index: 150
+      source_name: AITrk107
+      movable: true
+      world_translation_lt:
+      - 608.0
+      - -880.0
+      - 760.0
+      distance_from_position_lt: 149.68
+    - source_model_index: 205
+      source_name: DB_CeilingRight
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 163.242
 - object_id: mm9:ruinedtemple:object:385
   source_object_index: 385
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id266
+    - source_model_index: 209
+      source_name: DoorCryptEscape0
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 4.0
+    - source_model_index: 163
+      source_name: AITrk119
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 68.0
+    - source_model_index: 196
+      source_name: PrisonButton3
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 96.354
+    - source_model_index: 28
+      source_name: PrisonBars
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 104.307
+    - source_model_index: 29
+      source_name: PrisonDoor
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 121.655
 - object_id: mm9:ruinedtemple:object:386
   source_object_index: 386
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id267
+    - source_model_index: 210
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 0.0
+    - source_model_index: 125
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id194
+      distance_from_position_lt: 16.0
+    - source_model_index: 122
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: *id195
+      distance_from_position_lt: 87.086
+    - source_model_index: 239
+      source_name: WorldObject42
+      movable: true
+      world_translation_lt:
+      - -24.283935546875
+      - -828.8043212890625
+      - 850.730712890625
+      distance_from_position_lt: 95.915
+    - source_model_index: 237
+      source_name: WorldObject40
+      movable: true
+      world_translation_lt: *id196
+      distance_from_position_lt: 128.99
 scripts:
 - script_id: bookletter.scr
   source_path: BOOKLETTER.scr
@@ -111374,356 +114442,498 @@ unresolved:
   source_name: Crate2
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id197
 - kind: unresolved_binding
   source_object_index: 7
   source_name: Barrel3
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id198
 - kind: unresolved_binding
   source_object_index: 12
   source_name: HiddenDoor2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id199
 - kind: unresolved_binding
   source_object_index: 13
   source_name: SunButton3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id200
 - kind: unresolved_binding
   source_object_index: 14
   source_name: SunButton4
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id201
 - kind: unresolved_binding
   source_object_index: 15
   source_name: AltarDoorLeft
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id202
 - kind: unresolved_binding
   source_object_index: 16
   source_name: AltarDoorRight
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id203
 - kind: unresolved_binding
   source_object_index: 17
   source_name: HiddenDoor
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id204
 - kind: unresolved_binding
   source_object_index: 18
   source_name: SunButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id205
 - kind: unresolved_binding
   source_object_index: 19
   source_name: SunButton2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id206
 - kind: unresolved_binding
   source_object_index: 20
   source_name: MoonButton1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id207
 - kind: unresolved_binding
   source_object_index: 21
   source_name: DiamondButton1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id208
 - kind: unresolved_binding
   source_object_index: 22
   source_name: StarButton1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id209
 - kind: unresolved_binding
   source_object_index: 23
   source_name: MoonButton2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id210
 - kind: unresolved_binding
   source_object_index: 24
   source_name: DiamondButton2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id211
 - kind: unresolved_binding
   source_object_index: 25
   source_name: StarButton2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id212
 - kind: unresolved_binding
   source_object_index: 26
   source_name: SecondButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id213
 - kind: unresolved_binding
   source_object_index: 28
   source_name: UpDoor
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id214
 - kind: unresolved_binding
   source_object_index: 29
   source_name: HiddenButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id215
 - kind: unresolved_binding
   source_object_index: 30
   source_name: HiddenButton2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id216
 - kind: unresolved_binding
   source_object_index: 31
   source_name: HiddenDoor3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id217
 - kind: unresolved_binding
   source_object_index: 32
   source_name: LeftDoor
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id218
 - kind: unresolved_binding
   source_object_index: 33
   source_name: PrisonEntrance2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id219
 - kind: unresolved_binding
   source_object_index: 34
   source_name: PrisonEntrance
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id220
 - kind: unresolved_binding
   source_object_index: 35
   source_name: RopeWheel
   source_class: RotatingBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id221
 - kind: unresolved_binding
   source_object_index: 36
   source_name: PrisonBars
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id222
 - kind: unresolved_binding
   source_object_index: 37
   source_name: PrisonDoor
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id223
 - kind: unresolved_binding
   source_object_index: 38
   source_name: PrisonButton2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id224
 - kind: unresolved_binding
   source_object_index: 39
   source_name: MainButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id225
 - kind: unresolved_binding
   source_object_index: 40
   source_name: Ladder
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id226
 - kind: unresolved_binding
   source_object_index: 204
   source_name: AIBarrier0
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id227
 - kind: unresolved_binding
   source_object_index: 268
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id228
 - kind: unresolved_binding
   source_object_index: 303
   source_name: AIBarrier1
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id229
 - kind: unresolved_binding
   source_object_index: 313
   source_name: PerceptionBrush0
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id230
 - kind: unresolved_binding
   source_object_index: 314
   source_name: PerceptionBrush2
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id231
 - kind: unresolved_binding
   source_object_index: 315
   source_name: PerceptionBrush3
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id232
 - kind: unresolved_binding
   source_object_index: 316
   source_name: PerceptionBrush4
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id233
 - kind: unresolved_binding
   source_object_index: 317
   source_name: PerceptionBrush5
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id234
 - kind: unresolved_binding
   source_object_index: 318
   source_name: PerceptionBrush6
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id235
 - kind: unresolved_binding
   source_object_index: 319
   source_name: PerceptionBrush7
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id236
 - kind: unresolved_binding
   source_object_index: 320
   source_name: PerceptionBrush8
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id237
 - kind: unresolved_binding
   source_object_index: 321
   source_name: PerceptionBrush9
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id238
 - kind: unresolved_binding
   source_object_index: 322
   source_name: PerceptionBrush1
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id239
 - kind: unresolved_binding
   source_object_index: 323
   source_name: PerceptionBrush10
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id240
 - kind: unresolved_binding
   source_object_index: 325
   source_name: DestructableBrush6
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id241
 - kind: unresolved_binding
   source_object_index: 326
   source_name: glass1
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id242
 - kind: unresolved_binding
   source_object_index: 327
   source_name: glass6
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id243
 - kind: unresolved_binding
   source_object_index: 328
   source_name: glass2
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id244
 - kind: unresolved_binding
   source_object_index: 329
   source_name: glass3
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id245
 - kind: unresolved_binding
   source_object_index: 330
   source_name: glass4
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id246
 - kind: unresolved_binding
   source_object_index: 331
   source_name: glass7
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id247
 - kind: unresolved_binding
   source_object_index: 332
   source_name: glass5
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id248
 - kind: unresolved_binding
   source_object_index: 333
   source_name: glass8
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id249
 - kind: unresolved_binding
   source_object_index: 339
   source_name: DestructableBrush0
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id250
 - kind: unresolved_binding
   source_object_index: 340
   source_name: DestructableBrush1
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id251
 - kind: unresolved_binding
   source_object_index: 341
   source_name: DestructableBrush2
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id252
 - kind: unresolved_binding
   source_object_index: 342
   source_name: DestructableBrush3
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id253
 - kind: unresolved_binding
   source_object_index: 343
   source_name: DestructableBrush4
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id254
 - kind: unresolved_binding
   source_object_index: 344
   source_name: DestructableBrush5
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id255
 - kind: unresolved_binding
   source_object_index: 345
   source_name: DB_Crypt0
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id256
 - kind: unresolved_binding
   source_object_index: 351
   source_name: PrisonButton3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id257
 - kind: unresolved_binding
   source_object_index: 362
   source_name: DB_RailRight
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id258
 - kind: unresolved_binding
   source_object_index: 363
   source_name: DB_RailLeft
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id259
 - kind: unresolved_binding
   source_object_index: 368
   source_name: DBFloor1
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id260
 - kind: unresolved_binding
   source_object_index: 369
   source_name: DBFloor2
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id261
 - kind: unresolved_binding
   source_object_index: 379
   source_name: DB_CeilingRight
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id262
 - kind: unresolved_binding
   source_object_index: 380
   source_name: DB_CeilingLeft
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id263
 - kind: unresolved_binding
   source_object_index: 381
   source_name: DBFloor
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id264
 - kind: unresolved_binding
   source_object_index: 383
   source_name: DBFloor0
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id265
 - kind: unresolved_binding
   source_object_index: 385
   source_name: DoorCryptEscape0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id266
 - kind: unresolved_binding
   source_object_index: 386
   source_name: InvisibleBrush1
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id267
 - kind: unresolved_target_name
   source: mechanism
   source_object_index: 18

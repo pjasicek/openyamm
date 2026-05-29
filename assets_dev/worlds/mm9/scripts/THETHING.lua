@@ -16,7 +16,7 @@ script.includes[#script.includes + 1] = { line = 9, path = "TheThing.inc" }
 script.labels["Main"] = function(ctx)
     -- THETHING.scr:12
     -- OnPostStartWorld InitTheThing
-    ctx:command("wait", "0, 5, InitTheThing") -- THETHING.scr:15
+    ctx:wait(0, 5, "InitTheThing") -- THETHING.scr:15
     do return ctx:exit(1) end -- THETHING.scr:17
 end
 

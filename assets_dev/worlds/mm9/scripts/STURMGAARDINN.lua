@@ -20,11 +20,11 @@ script.labels["OnExit"] = function(ctx)
     if ctx:condition("keycheck==1") then -- STURMGAARDINN.scr:28
         ctx:hasKey(5001, "keycheck") -- STURMGAARDINN.scr:29
         if ctx:condition("keycheck==1") then -- STURMGAARDINN.scr:30
-            ctx:command("hasgold", "500 g_ntemp") -- STURMGAARDINN.scr:31
+            ctx:hasGold(500, "g_ntemp") -- STURMGAARDINN.scr:31
             if ctx:condition("g_ntemp==FALSE") then -- STURMGAARDINN.scr:32
                 mm9.gosub(script, ctx, "nogold") -- STURMGAARDINN.scr:33
             else -- STURMGAARDINN.scr:34
-                ctx:command("takegold", "500") -- STURMGAARDINN.scr:35
+                ctx:takeGold(500) -- STURMGAARDINN.scr:35
                 ctx:takeKey(5000) -- STURMGAARDINN.scr:36
                 ctx:takeKey(5001) -- STURMGAARDINN.scr:37
                 do return ctx:exit("") end -- STURMGAARDINN.scr:38
@@ -48,7 +48,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- STURMGAARDINN.scr:59
-    ctx:command("playsound", "voices\\NPC\\NPC_057.wav, Off, 100, 240, FALSE, 100") -- STURMGAARDINN.scr:62
+    ctx:playSound("voices\\NPC\\NPC_057.wav", "Off", 100, 240, "FALSE", 100) -- STURMGAARDINN.scr:62
     do return ctx:exit("") end -- STURMGAARDINN.scr:63
 end
 
@@ -58,12 +58,12 @@ script.labels["Main"] = function(ctx)
     ctx:addTrigger("break", "Onbreak") -- STURMGAARDINN.scr:71
     ctx:addTrigger("use", "Onuse") -- STURMGAARDINN.scr:72
     ctx:onRudeExit("Onexit", script.labels["Onexit"]) -- STURMGAARDINN.scr:73
-    ctx:command("cachesound", "voices\\NPC\\NPC_057.wav") -- STURMGAARDINN.scr:74
+    ctx:cacheSound("voices\\NPC\\NPC_057.wav") -- STURMGAARDINN.scr:74
     -- barkeeper animation stuff
     mm9.gosub(script, ctx, "voiceinit") -- STURMGAARDINN.scr:77
     ctx:getParam(0, "Params") -- STURMGAARDINN.scr:78
     ctx:getParam(1, "g_ntemp") -- STURMGAARDINN.scr:79
-    ctx:command("loopanim", "Params,g_ntemp Off") -- STURMGAARDINN.scr:80
+    ctx:self():loopAnimation("Params", "g_ntemp", "Off") -- STURMGAARDINN.scr:80
     -- ExitScript
     do return ctx:exit("") end -- STURMGAARDINN.scr:83
     do return ctx:exit("") end -- STURMGAARDINN.scr:86

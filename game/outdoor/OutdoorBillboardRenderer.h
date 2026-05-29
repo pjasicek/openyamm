@@ -31,11 +31,6 @@ public:
         OutdoorGameView &view,
         const std::string &textureName,
         int16_t paletteId);
-    static const OutdoorGameView::BillboardTextureHandle *ensureMm9ScriptedBillboardTexture(
-        OutdoorGameView &view,
-        const Mm9ScriptedBillboardFrame &frame);
-    static const OutdoorGameView::BillboardTextureHandle *ensureMm9MissingScriptedBillboardTexture(
-        OutdoorGameView &view);
     static void invalidateRenderAssets(OutdoorGameView &view);
     static void destroyRenderAssets(OutdoorGameView &view);
     static void renderDecorationBillboards(
@@ -108,10 +103,6 @@ private:
         float x,
         float y,
         float z);
-    static std::string resolveMm9ScriptedBillboardAngleName(
-        const Mm9ScriptedBillboardVisual &visual,
-        const OutdoorGameView::Mm9ScriptedBillboardInstance &instance,
-        const bx::Vec3 &cameraPosition);
     static std::optional<OutdoorGameView::InspectHit> resolveHoveredOutlineInspectHit(
         OutdoorGameView &view,
         const float *pViewMatrix);

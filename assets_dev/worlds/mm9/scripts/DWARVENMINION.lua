@@ -29,100 +29,100 @@ script.labels["InitDwarvenMinion"] = function(ctx)
     -- DWARVENMINION.scr:56
     ctx:addTrigger("FreakOut", "OnPanic") -- DWARVENMINION.scr:58
     ctx:addTrigger("NextSite", "OnNextSite") -- DWARVENMINION.scr:59
-    ctx:command("getobjecthandle", "sForemanName, hForeman") -- DWARVENMINION.scr:61
-    ctx:command("setcallback", "0, SetSite0") -- DWARVENMINION.scr:63
-    ctx:command("setcallback", "1, SetSite1") -- DWARVENMINION.scr:64
+    ctx:state().hForeman = ctx:objectOrNil("sForemanName") -- DWARVENMINION.scr:61
+    ctx:setCallback(0, "SetSite0") -- DWARVENMINION.scr:63
+    ctx:setCallback(1, "SetSite1") -- DWARVENMINION.scr:64
     mm9.gosub(script, ctx, "StartMiningRaw") -- DWARVENMINION.scr:68
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:69
 end
 
 script.labels["StartMiningRaw"] = function(ctx)
     -- DWARVENMINION.scr:73
-    ctx:command("getobjecthandle", "sSite0Name, hMineSite") -- DWARVENMINION.scr:76
-    ctx:command("wait", "0, .1, GotoWaypoint4") -- DWARVENMINION.scr:77
+    ctx:state().hMineSite = ctx:objectOrNil("sSite0Name") -- DWARVENMINION.scr:76
+    ctx:wait(0, .1, "GotoWaypoint4") -- DWARVENMINION.scr:77
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:79
 end
 
 script.labels["StartMining"] = function(ctx)
     -- DWARVENMINION.scr:82
-    ctx:command("wait", "0, .1, GotoWaypoint0") -- DWARVENMINION.scr:85
+    ctx:wait(0, .1, "GotoWaypoint0") -- DWARVENMINION.scr:85
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:87
 end
 
 script.labels["GotoWaypoint0"] = function(ctx)
     -- DWARVENMINION.scr:90
-    ctx:command("ncurindex", "= 0") -- DWARVENMINION.scr:92
-    ctx:command("stop", "") -- DWARVENMINION.scr:93
-    ctx:command("getobjecthandle", "sWayPoint0Name, hWayPoint") -- DWARVENMINION.scr:94
-    ctx:command("walkto", "hWayPoint, 10, GotoWayPoint1") -- DWARVENMINION.scr:95
+    ctx:state().nCurIndex = 0 -- DWARVENMINION.scr:92
+    ctx:self():stop() -- DWARVENMINION.scr:93
+    ctx:state().hWayPoint = ctx:objectOrNil("sWayPoint0Name") -- DWARVENMINION.scr:94
+    ctx:self():walkTo(ctx:object("hWayPoint"), 10, "GotoWayPoint1") -- DWARVENMINION.scr:95
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:96
 end
 
 script.labels["GotoWaypoint1"] = function(ctx)
     -- DWARVENMINION.scr:99
-    ctx:command("ncurindex", "= 1") -- DWARVENMINION.scr:101
-    ctx:command("stop", "") -- DWARVENMINION.scr:102
-    ctx:command("getobjecthandle", "sWayPoint1Name, hWayPoint") -- DWARVENMINION.scr:103
-    ctx:command("walkto", "hWayPoint, 10, GotoWayPoint2") -- DWARVENMINION.scr:104
+    ctx:state().nCurIndex = 1 -- DWARVENMINION.scr:101
+    ctx:self():stop() -- DWARVENMINION.scr:102
+    ctx:state().hWayPoint = ctx:objectOrNil("sWayPoint1Name") -- DWARVENMINION.scr:103
+    ctx:self():walkTo(ctx:object("hWayPoint"), 10, "GotoWayPoint2") -- DWARVENMINION.scr:104
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:105
 end
 
 script.labels["GotoWaypoint2"] = function(ctx)
     -- DWARVENMINION.scr:108
-    ctx:command("ncurindex", "= 2") -- DWARVENMINION.scr:110
-    ctx:command("stop", "") -- DWARVENMINION.scr:111
-    ctx:command("getobjecthandle", "sWayPoint2Name, hWayPoint") -- DWARVENMINION.scr:112
-    ctx:command("walkto", "hWayPoint, 10, GotoWayPoint3") -- DWARVENMINION.scr:113
+    ctx:state().nCurIndex = 2 -- DWARVENMINION.scr:110
+    ctx:self():stop() -- DWARVENMINION.scr:111
+    ctx:state().hWayPoint = ctx:objectOrNil("sWayPoint2Name") -- DWARVENMINION.scr:112
+    ctx:self():walkTo(ctx:object("hWayPoint"), 10, "GotoWayPoint3") -- DWARVENMINION.scr:113
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:114
 end
 
 script.labels["GotoWaypoint3"] = function(ctx)
     -- DWARVENMINION.scr:117
-    ctx:command("ncurindex", "= 3") -- DWARVENMINION.scr:119
-    ctx:command("stop", "") -- DWARVENMINION.scr:120
-    ctx:command("getobjecthandle", "sWayPoint3Name, hWayPoint") -- DWARVENMINION.scr:121
-    ctx:command("walkto", "hWayPoint, 10, GotoWayPoint4") -- DWARVENMINION.scr:122
+    ctx:state().nCurIndex = 3 -- DWARVENMINION.scr:119
+    ctx:self():stop() -- DWARVENMINION.scr:120
+    ctx:state().hWayPoint = ctx:objectOrNil("sWayPoint3Name") -- DWARVENMINION.scr:121
+    ctx:self():walkTo(ctx:object("hWayPoint"), 10, "GotoWayPoint4") -- DWARVENMINION.scr:122
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:123
 end
 
 script.labels["GotoWaypoint4"] = function(ctx)
     -- DWARVENMINION.scr:126
-    ctx:command("ncurindex", "= 4") -- DWARVENMINION.scr:128
-    ctx:command("stop", "") -- DWARVENMINION.scr:129
-    ctx:command("getobjecthandle", "sWayPoint4Name, hWayPoint") -- DWARVENMINION.scr:130
-    ctx:command("walkto", "hWayPoint, 10, GotoWayPoint5") -- DWARVENMINION.scr:131
+    ctx:state().nCurIndex = 4 -- DWARVENMINION.scr:128
+    ctx:self():stop() -- DWARVENMINION.scr:129
+    ctx:state().hWayPoint = ctx:objectOrNil("sWayPoint4Name") -- DWARVENMINION.scr:130
+    ctx:self():walkTo(ctx:object("hWayPoint"), 10, "GotoWayPoint5") -- DWARVENMINION.scr:131
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:132
 end
 
 script.labels["GotoWaypoint5"] = function(ctx)
     -- DWARVENMINION.scr:135
-    ctx:command("ncurindex", "= 5") -- DWARVENMINION.scr:137
-    ctx:command("stop", "") -- DWARVENMINION.scr:138
-    ctx:command("getobjecthandle", "sWayPoint5Name, hWayPoint") -- DWARVENMINION.scr:139
-    ctx:command("walkto", "hWayPoint, 10, GotoWayPoint6") -- DWARVENMINION.scr:140
+    ctx:state().nCurIndex = 5 -- DWARVENMINION.scr:137
+    ctx:self():stop() -- DWARVENMINION.scr:138
+    ctx:state().hWayPoint = ctx:objectOrNil("sWayPoint5Name") -- DWARVENMINION.scr:139
+    ctx:self():walkTo(ctx:object("hWayPoint"), 10, "GotoWayPoint6") -- DWARVENMINION.scr:140
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:141
 end
 
 script.labels["GotoWaypoint6"] = function(ctx)
     -- DWARVENMINION.scr:144
-    ctx:command("ncurindex", "= 6") -- DWARVENMINION.scr:146
-    ctx:command("stop", "") -- DWARVENMINION.scr:147
-    ctx:command("getobjecthandle", "sWayPoint6Name, hWayPoint") -- DWARVENMINION.scr:148
-    ctx:command("walkto", "hWayPoint, 10, GotoMiningSpot") -- DWARVENMINION.scr:149
+    ctx:state().nCurIndex = 6 -- DWARVENMINION.scr:146
+    ctx:self():stop() -- DWARVENMINION.scr:147
+    ctx:state().hWayPoint = ctx:objectOrNil("sWayPoint6Name") -- DWARVENMINION.scr:148
+    ctx:self():walkTo(ctx:object("hWayPoint"), 10, "GotoMiningSpot") -- DWARVENMINION.scr:149
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:150
 end
 
 script.labels["GotoMiningSpot"] = function(ctx)
     -- DWARVENMINION.scr:153
-    ctx:command("stop", "") -- DWARVENMINION.scr:155
-    ctx:command("walkto", "hMineSite, 10, DoMining") -- DWARVENMINION.scr:156
+    ctx:self():stop() -- DWARVENMINION.scr:155
+    ctx:self():walkTo(ctx:object("hMineSite"), 10, "DoMining") -- DWARVENMINION.scr:156
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:157
 end
 
 script.labels["DoMining"] = function(ctx)
     -- DWARVENMINION.scr:160
-    ctx:command("stop", "") -- DWARVENMINION.scr:162
-    ctx:command("faceobject", "hMineSite, 180, PlayMiningAnim") -- DWARVENMINION.scr:163
+    ctx:self():stop() -- DWARVENMINION.scr:162
+    ctx:self():faceObject(ctx:object("hMineSite"), 180, "PlayMiningAnim") -- DWARVENMINION.scr:163
     -- Wait 0, 1, PlayMiningAnim
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:165
 end
@@ -130,22 +130,22 @@ end
 script.labels["PlayMiningAnim"] = function(ctx)
     -- DWARVENMINION.scr:168
     mm9.gosub(script, ctx, "PlayRandomSound") -- DWARVENMINION.scr:171
-    ctx:command("playanim", "HAttack1, DoNothing") -- DWARVENMINION.scr:172
-    ctx:command("wait", "0, 1, PlayMiningAnim") -- DWARVENMINION.scr:173
+    ctx:self():playAnimation("HAttack1", "DoNothing") -- DWARVENMINION.scr:172
+    ctx:wait(0, 1, "PlayMiningAnim") -- DWARVENMINION.scr:173
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:174
 end
 
 script.labels["OnNextSite"] = function(ctx)
     -- DWARVENMINION.scr:177
-    ctx:command("stop", "") -- DWARVENMINION.scr:179
-    ctx:command("wait", "1, 3, Lookup") -- DWARVENMINION.scr:181
+    ctx:self():stop() -- DWARVENMINION.scr:179
+    ctx:wait(1, 3, "Lookup") -- DWARVENMINION.scr:181
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:182
 end
 
 script.labels["Lookup"] = function(ctx)
     -- DWARVENMINION.scr:185
-    ctx:command("faceobject", "hForeman, 180, DoNothing") -- DWARVENMINION.scr:188
-    ctx:command("wait", "0, 2, ChangeSite") -- DWARVENMINION.scr:189
+    ctx:self():faceObject(ctx:object("hForeman"), 180, "DoNothing") -- DWARVENMINION.scr:188
+    ctx:wait(0, 2, "ChangeSite") -- DWARVENMINION.scr:189
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:190
 end
 
@@ -156,22 +156,22 @@ end
 
 script.labels["ChangeSite"] = function(ctx)
     -- DWARVENMINION.scr:198
-    ctx:command("ncursite", "= nCurSite + 1") -- DWARVENMINION.scr:200
-    ctx:command("mod", "nCurSite, MAXSites") -- DWARVENMINION.scr:201
-    ctx:command("docallback", "nCurSite") -- DWARVENMINION.scr:202
+    ctx:set("nCurSite", "nCurSite + 1") -- DWARVENMINION.scr:200
+    ctx:mod("nCurSite", "MAXSites") -- DWARVENMINION.scr:201
+    ctx:doCallback("nCurSite") -- DWARVENMINION.scr:202
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:203
 end
 
 script.labels["SetSite0"] = function(ctx)
     -- DWARVENMINION.scr:206
-    ctx:command("getobjecthandle", "sSite0Name, hMineSite") -- DWARVENMINION.scr:208
+    ctx:state().hMineSite = ctx:objectOrNil("sSite0Name") -- DWARVENMINION.scr:208
     mm9.gosub(script, ctx, "ReverseWaypoints") -- DWARVENMINION.scr:209
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:210
 end
 
 script.labels["SetSite1"] = function(ctx)
     -- DWARVENMINION.scr:213
-    ctx:command("getobjecthandle", "sSite1Name, hMineSite") -- DWARVENMINION.scr:215
+    ctx:state().hMineSite = ctx:objectOrNil("sSite1Name") -- DWARVENMINION.scr:215
     mm9.gosub(script, ctx, "ReverseWaypoints") -- DWARVENMINION.scr:216
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:217
 end
@@ -180,22 +180,22 @@ script.labels["ReverseWaypoints"] = function(ctx)
     -- DWARVENMINION.scr:221
     -- Reverse path 0123456789=9876543210
     -- so we can go back after
-    ctx:command("stemp", "= sWayPoint0Name") -- DWARVENMINION.scr:226
-    ctx:command("swaypoint0name", "= sWayPoint6Name") -- DWARVENMINION.scr:227
-    ctx:command("swaypoint6name", "= sTemp") -- DWARVENMINION.scr:228
-    ctx:command("stemp", "= sWayPoint1Name") -- DWARVENMINION.scr:230
-    ctx:command("swaypoint1name", "= sWayPoint5Name") -- DWARVENMINION.scr:231
-    ctx:command("swaypoint5name", "= sTemp") -- DWARVENMINION.scr:232
-    ctx:command("stemp", "= sWayPoint2Name") -- DWARVENMINION.scr:234
-    ctx:command("swaypoint2name", "= sWayPoint4Name") -- DWARVENMINION.scr:235
-    ctx:command("swaypoint4name", "= sTemp") -- DWARVENMINION.scr:236
+    ctx:set("sTemp", "sWayPoint0Name") -- DWARVENMINION.scr:226
+    ctx:set("sWayPoint0Name", "sWayPoint6Name") -- DWARVENMINION.scr:227
+    ctx:set("sWayPoint6Name", "sTemp") -- DWARVENMINION.scr:228
+    ctx:set("sTemp", "sWayPoint1Name") -- DWARVENMINION.scr:230
+    ctx:set("sWayPoint1Name", "sWayPoint5Name") -- DWARVENMINION.scr:231
+    ctx:set("sWayPoint5Name", "sTemp") -- DWARVENMINION.scr:232
+    ctx:set("sTemp", "sWayPoint2Name") -- DWARVENMINION.scr:234
+    ctx:set("sWayPoint2Name", "sWayPoint4Name") -- DWARVENMINION.scr:235
+    ctx:set("sWayPoint4Name", "sTemp") -- DWARVENMINION.scr:236
     mm9.gosub(script, ctx, "StartMining") -- DWARVENMINION.scr:238
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:240
 end
 
 script.labels["KeepGoing"] = function(ctx)
     -- DWARVENMINION.scr:242
-    ctx:command("stop", "") -- DWARVENMINION.scr:244
+    ctx:self():stop() -- DWARVENMINION.scr:244
     if ctx:condition("nCurIndex==0") then -- DWARVENMINION.scr:246
         mm9.gosub(script, ctx, "GoToWaypoint0") -- DWARVENMINION.scr:247
         do return ctx:exit("TRUE") end -- DWARVENMINION.scr:248
@@ -233,32 +233,32 @@ end
 
 script.labels["PlayRandomSound"] = function(ctx)
     -- DWARVENMINION.scr:282
-    ctx:command("getrandomint", "0, 2, ranim") -- DWARVENMINION.scr:284
+    ctx:randomInt(0, 2, "ranim") -- DWARVENMINION.scr:284
     if ctx:condition("ranim==0") then -- DWARVENMINION.scr:285
-        ctx:command("playsound", "sounds\\animsounds\\dwarfwattack1.wav, OnSoundDone, hSound, 5000, FALSE, 100") -- DWARVENMINION.scr:286
+        ctx:playSound("sounds\\animsounds\\dwarfwattack1.wav", "OnSoundDone", "hSound", 5000, "FALSE", 100) -- DWARVENMINION.scr:286
     end -- DWARVENMINION.scr:287
     if ctx:condition("ranim==1") then -- DWARVENMINION.scr:288
-        ctx:command("playsound", "sounds\\animsounds\\dwarfwattack2.wav, OnSoundDone, hSound, 5000, FALSE, 100") -- DWARVENMINION.scr:289
+        ctx:playSound("sounds\\animsounds\\dwarfwattack2.wav", "OnSoundDone", "hSound", 5000, "FALSE", 100) -- DWARVENMINION.scr:289
     end -- DWARVENMINION.scr:290
     if ctx:condition("ranim==2") then -- DWARVENMINION.scr:291
-        ctx:command("playsound", "sounds\\animsounds\\dwarfwince1.wav, OnSoundDone, hSound, 5000, FALSE, 100") -- DWARVENMINION.scr:292
+        ctx:playSound("sounds\\animsounds\\dwarfwince1.wav", "OnSoundDone", "hSound", 5000, "FALSE", 100) -- DWARVENMINION.scr:292
     end -- DWARVENMINION.scr:293
-    ctx:command("getrandomint", "0, 2, ranim") -- DWARVENMINION.scr:294
+    ctx:randomInt(0, 2, "ranim") -- DWARVENMINION.scr:294
     if ctx:condition("ranim==0") then -- DWARVENMINION.scr:295
-        ctx:command("playsound", "sounds\\weapons\\bigswordclang.wav, OnSoundDone, hSound, 5000, FALSE, 100") -- DWARVENMINION.scr:296
+        ctx:playSound("sounds\\weapons\\bigswordclang.wav", "OnSoundDone", "hSound", 5000, "FALSE", 100) -- DWARVENMINION.scr:296
     end -- DWARVENMINION.scr:297
     if ctx:condition("ranim==1") then -- DWARVENMINION.scr:298
-        ctx:command("playsound", "sounds\\weapons\\battleaxethump.wav, OnSoundDone, hSound, 5000, FALSE, 100") -- DWARVENMINION.scr:299
+        ctx:playSound("sounds\\weapons\\battleaxethump.wav", "OnSoundDone", "hSound", 5000, "FALSE", 100) -- DWARVENMINION.scr:299
     end -- DWARVENMINION.scr:300
     if ctx:condition("ranim==2") then -- DWARVENMINION.scr:301
-        ctx:command("playsound", "sounds\\weapons\\carmorchain.wav, OnSoundDone, hSound, 5000, FALSE, 100") -- DWARVENMINION.scr:302
+        ctx:playSound("sounds\\weapons\\carmorchain.wav", "OnSoundDone", "hSound", 5000, "FALSE", 100) -- DWARVENMINION.scr:302
     end -- DWARVENMINION.scr:303
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:304
 end
 
 script.labels["OnSoundDone"] = function(ctx)
     -- DWARVENMINION.scr:307
-    ctx:command("killsound", "hSound") -- DWARVENMINION.scr:309
+    ctx:killSound("hSound") -- DWARVENMINION.scr:309
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:310
 end
 
@@ -276,10 +276,10 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(8, "sWayPoint6Name") -- DWARVENMINION.scr:325
     ctx:getParam(9, "sBunkerName") -- DWARVENMINION.scr:326
     ctx:getParam(10, "sForemanName") -- DWARVENMINION.scr:327
-    ctx:command("cachesound", "sounds\\pickupitems\\metal.wav") -- DWARVENMINION.scr:330
-    ctx:command("cachesound", "sounds\\animsounds\\dwarfaware.wav") -- DWARVENMINION.scr:331
-    ctx:command("cachesound", "sounds\\animsounds\\dwarfwattack1.wav") -- DWARVENMINION.scr:332
-    ctx:command("wait", "0, .1, InitDwarvenMinion") -- DWARVENMINION.scr:334
+    ctx:cacheSound("sounds\\pickupitems\\metal.wav") -- DWARVENMINION.scr:330
+    ctx:cacheSound("sounds\\animsounds\\dwarfaware.wav") -- DWARVENMINION.scr:331
+    ctx:cacheSound("sounds\\animsounds\\dwarfwattack1.wav") -- DWARVENMINION.scr:332
+    ctx:wait(0, .1, "InitDwarvenMinion") -- DWARVENMINION.scr:334
     do return ctx:exit("TRUE") end -- DWARVENMINION.scr:335
 end
 

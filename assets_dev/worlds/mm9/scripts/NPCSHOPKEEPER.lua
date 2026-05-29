@@ -17,7 +17,7 @@ script.includes[#script.includes + 1] = { line = 8, path = "BaseWander.inc" }
 -- P2  # of times animation runs
 script.labels["OnUse"] = function(ctx)
     -- NPCSHOPKEEPER.scr:22
-    ctx:command("playsound", "sound, Onexit, 100, 240, FALSE, 100") -- NPCSHOPKEEPER.scr:25
+    ctx:playSound("sound", "Onexit", 100, 240, "FALSE", 100) -- NPCSHOPKEEPER.scr:25
     do return ctx:exit("") end -- NPCSHOPKEEPER.scr:26
 end
 
@@ -33,7 +33,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "sound") -- NPCSHOPKEEPER.scr:41
     ctx:getParam(1, "Params") -- NPCSHOPKEEPER.scr:42
     ctx:getParam(2, "g_ntemp") -- NPCSHOPKEEPER.scr:43
-    ctx:command("loopanim", "Params,g_ntemp DoNothing") -- NPCSHOPKEEPER.scr:44
+    ctx:self():loopAnimation("Params", "g_ntemp", "DoNothing") -- NPCSHOPKEEPER.scr:44
     ctx:addTrigger("Use", "OnUse") -- NPCSHOPKEEPER.scr:47
     -- jsl-->Wander if we're setup to..
     mm9.gosub(script, ctx, "BaseWanderInit") -- NPCSHOPKEEPER.scr:50

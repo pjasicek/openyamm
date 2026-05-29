@@ -4159,158 +4159,10 @@ int HeadlessGameplayDiagnostics::runMm9BillboardSmoke(
     const std::string &mapFileName
 ) const
 {
-    Engine::AssetFileSystem assetFileSystem;
-
-    if (!assetFileSystem.initialize(
-            basePath,
-            m_config.assetRoot,
-            m_config.assetScaleTier,
-            m_config.assetScaleProfile,
-            m_config.activeWorldId))
-    {
-        std::cerr << "MM9 billboard smoke failed: could not initialize asset file system\n";
-        return 1;
-    }
-
-    GameDataLoader gameDataLoader;
-
-    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem)
-        || !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
-    {
-        std::cerr << "MM9 billboard smoke failed: could not load map \"" << mapFileName << "\"\n";
-        return 1;
-    }
-
-    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
-    if (!selectedMap || !selectedMap->outdoorSceneData)
-    {
-        std::cerr << "MM9 billboard smoke failed: selected map has no outdoor scene data\n";
-        return 1;
-    }
-
-    Mm9ScriptedBillboardVisualSet visualSet = {};
-    std::string errorMessage;
-    if (!visualSet.loadFromAssetFileSystem(assetFileSystem, errorMessage))
-    {
-        std::cerr << "MM9 billboard smoke failed: could not load billboard visuals: "
-                  << errorMessage << '\n';
-        return 1;
-    }
-
-    const std::string mapId = normalizeMapFileStem(selectedMap->map.fileName);
-    Mm9ScriptedObjectRuntime runtime = {};
-    runtime.initialize(
-        mapId,
-        *selectedMap->outdoorSceneData,
-        visualSet,
-        selectedMap->mm9EventsData ? &*selectedMap->mm9EventsData : nullptr);
-
-    size_t visibleObjectCount = 0;
-    size_t decodedFrameCount = 0;
-    size_t nonblankFrameCount = 0;
-    size_t missingFrameCount = 0;
-    size_t blankFrameCount = 0;
-    size_t collisionVolumeCount = 0;
-    size_t collisionDebugVertexCount = 0;
-    size_t projectileTargetCount = 0;
-    size_t movementBlockerCount = 0;
-
-    for (const Mm9ScriptedObject &object : runtime.objects())
-    {
-        if (!object.visible || object.missingVisual)
-        {
-            continue;
-        }
-
-        const Mm9ScriptedBillboardVisual *pVisual = visualSet.findVisual(object.visualId);
-        if (pVisual == nullptr)
-        {
-            ++missingFrameCount;
-            continue;
-        }
-
-        const Mm9ScriptedBillboardFrame *pFrame =
-            visualSet.resolveFrame(*pVisual, object.currentClip, "idle", "front", 0);
-        if (pFrame == nullptr || pFrame->path.empty())
-        {
-            ++missingFrameCount;
-            continue;
-        }
-
-        const std::string virtualPath = std::string(Mm9ScriptedBillboardVisualRoot) + "/" + pFrame->path;
-        const std::optional<std::vector<uint8_t>> imageBytes = assetFileSystem.readBinaryFile(virtualPath);
-        if (!imageBytes)
-        {
-            ++missingFrameCount;
-            continue;
-        }
-
-        const std::optional<Engine::ImagePixelsBgra> image =
-            Engine::decodeImagePixelsBgra(*imageBytes, virtualPath);
-        if (!image || image->width <= 0 || image->height <= 0 || image->pixels.empty())
-        {
-            ++missingFrameCount;
-            continue;
-        }
-
-        ++visibleObjectCount;
-        ++decodedFrameCount;
-        if (object.radius > 0.0f && object.height > 0.0f)
-        {
-            ++collisionVolumeCount;
-            collisionDebugVertexCount += 30;
-            if (object.solid)
-            {
-                ++projectileTargetCount;
-                ++movementBlockerCount;
-            }
-        }
-
-        const DecodedBillboardFrameStats frameStats = analyzeDecodedBillboardFrame(*image);
-        if (frameStats.visiblePixelCount > 0 && frameStats.hasDifferentVisiblePixel)
-        {
-            ++nonblankFrameCount;
-        }
-        else
-        {
-            ++blankFrameCount;
-            std::cerr << "MM9 billboard smoke blank frame"
-                      << " object_id=" << object.objectId
-                      << " visual_id=" << object.visualId
-                      << " frame=" << virtualPath
-                      << " visible_pixels=" << frameStats.visiblePixelCount
-                      << '\n';
-        }
-    }
-
-    std::cout << "MM9 billboard smoke: map=" << mapFileName
-              << " runtime_objects=" << runtime.objects().size()
-              << " visible_objects=" << visibleObjectCount
-              << " decoded_frames=" << decodedFrameCount
-              << " nonblank_frames=" << nonblankFrameCount
-              << " missing_frames=" << missingFrameCount
-              << " blank_frames=" << blankFrameCount
-              << " collision_volumes=" << collisionVolumeCount
-              << " collision_debug_vertices=" << collisionDebugVertexCount
-              << " projectile_targets=" << projectileTargetCount
-              << " movement_blockers=" << movementBlockerCount
-              << '\n';
-
-    if (runtime.objects().empty()
-        || visibleObjectCount == 0
-        || decodedFrameCount == 0
-        || nonblankFrameCount != decodedFrameCount
-        || collisionVolumeCount != visibleObjectCount
-        || collisionDebugVertexCount != visibleObjectCount * 30
-        || projectileTargetCount == 0
-        || movementBlockerCount == 0
-        || missingFrameCount != 0
-        || blankFrameCount != 0)
-    {
-        return 1;
-    }
-
-    return 0;
+    (void)basePath;
+    (void)mapFileName;
+    std::cerr << "MM9 billboard smoke is retired; MM9 uses model/native DAT presentation.\n";
+    return 1;
 }
 
 int HeadlessGameplayDiagnostics::runMm9DialogueSmoke(
@@ -4347,15 +4199,6 @@ int HeadlessGameplayDiagnostics::runMm9DialogueSmoke(
         return 1;
     }
 
-    Mm9ScriptedBillboardVisualSet visualSet = {};
-    std::string errorMessage;
-    if (!visualSet.loadFromAssetFileSystem(assetFileSystem, errorMessage))
-    {
-        std::cerr << "MM9 dialogue smoke failed: could not load billboard visuals: "
-                  << errorMessage << '\n';
-        return 1;
-    }
-
     Mm9DialoguePackage package = {};
     if (!loadMm9DialoguePackage(assetFileSystem, package))
     {
@@ -4376,7 +4219,6 @@ int HeadlessGameplayDiagnostics::runMm9DialogueSmoke(
     objectRuntime.initialize(
         mapId,
         *selectedMap->outdoorSceneData,
-        visualSet,
         selectedMap->mm9EventsData ? &*selectedMap->mm9EventsData : nullptr);
 
     Party party = {};

@@ -16,9 +16,9 @@ script.includes[#script.includes + 1] = { line = 11, path = "globals.inc" }
 script.labels["HandleStar1"] = function(ctx)
     -- SUNTEMPLEBUTTONS.scr:22
     if ctx:condition("StarBut1==TRUE") then -- SUNTEMPLEBUTTONS.scr:25
-        ctx:command("set", "StarBut1, FALSE") -- SUNTEMPLEBUTTONS.scr:26
+        ctx:state().StarBut1 = false -- SUNTEMPLEBUTTONS.scr:26
     else -- SUNTEMPLEBUTTONS.scr:27
-        ctx:command("set", "StarBut1, TRUE") -- SUNTEMPLEBUTTONS.scr:28
+        ctx:state().StarBut1 = true -- SUNTEMPLEBUTTONS.scr:28
     end -- SUNTEMPLEBUTTONS.scr:29
     do return ctx:exit("") end -- SUNTEMPLEBUTTONS.scr:31
 end
@@ -26,9 +26,9 @@ end
 script.labels["HandleStar2"] = function(ctx)
     -- SUNTEMPLEBUTTONS.scr:34
     if ctx:condition("StarBut2==TRUE") then -- SUNTEMPLEBUTTONS.scr:37
-        ctx:command("set", "StarBut2, FALSE") -- SUNTEMPLEBUTTONS.scr:38
+        ctx:state().StarBut2 = false -- SUNTEMPLEBUTTONS.scr:38
     else -- SUNTEMPLEBUTTONS.scr:39
-        ctx:command("set", "StarBut2, TRUE") -- SUNTEMPLEBUTTONS.scr:40
+        ctx:state().StarBut2 = true -- SUNTEMPLEBUTTONS.scr:40
     end -- SUNTEMPLEBUTTONS.scr:41
     do return ctx:exit("") end -- SUNTEMPLEBUTTONS.scr:43
 end
@@ -36,9 +36,9 @@ end
 script.labels["HandleDiamond1"] = function(ctx)
     -- SUNTEMPLEBUTTONS.scr:46
     if ctx:condition("DiamondBut1==TRUE") then -- SUNTEMPLEBUTTONS.scr:49
-        ctx:command("set", "DiamondBut1, FALSE") -- SUNTEMPLEBUTTONS.scr:50
+        ctx:state().DiamondBut1 = false -- SUNTEMPLEBUTTONS.scr:50
     else -- SUNTEMPLEBUTTONS.scr:51
-        ctx:command("set", "DiamondBut1, TRUE") -- SUNTEMPLEBUTTONS.scr:52
+        ctx:state().DiamondBut1 = true -- SUNTEMPLEBUTTONS.scr:52
     end -- SUNTEMPLEBUTTONS.scr:53
     do return ctx:exit("") end -- SUNTEMPLEBUTTONS.scr:55
 end
@@ -46,9 +46,9 @@ end
 script.labels["HandleDiamond2"] = function(ctx)
     -- SUNTEMPLEBUTTONS.scr:58
     if ctx:condition("DiamondBut2==TRUE") then -- SUNTEMPLEBUTTONS.scr:61
-        ctx:command("set", "DiamondBut2, FALSE") -- SUNTEMPLEBUTTONS.scr:62
+        ctx:state().DiamondBut2 = false -- SUNTEMPLEBUTTONS.scr:62
     else -- SUNTEMPLEBUTTONS.scr:63
-        ctx:command("set", "DiamondBut2, TRUE") -- SUNTEMPLEBUTTONS.scr:64
+        ctx:state().DiamondBut2 = true -- SUNTEMPLEBUTTONS.scr:64
     end -- SUNTEMPLEBUTTONS.scr:65
     do return ctx:exit("") end -- SUNTEMPLEBUTTONS.scr:67
 end
@@ -56,9 +56,9 @@ end
 script.labels["HandleMoon1"] = function(ctx)
     -- SUNTEMPLEBUTTONS.scr:70
     if ctx:condition("MoonBut1==TRUE") then -- SUNTEMPLEBUTTONS.scr:73
-        ctx:command("set", "MoonBut1, FALSE") -- SUNTEMPLEBUTTONS.scr:74
+        ctx:state().MoonBut1 = false -- SUNTEMPLEBUTTONS.scr:74
     else -- SUNTEMPLEBUTTONS.scr:75
-        ctx:command("set", "MoonBut1, TRUE") -- SUNTEMPLEBUTTONS.scr:76
+        ctx:state().MoonBut1 = true -- SUNTEMPLEBUTTONS.scr:76
     end -- SUNTEMPLEBUTTONS.scr:77
     do return ctx:exit("") end -- SUNTEMPLEBUTTONS.scr:79
 end
@@ -66,9 +66,9 @@ end
 script.labels["HandleMoon2"] = function(ctx)
     -- SUNTEMPLEBUTTONS.scr:82
     if ctx:condition("MoonBut2==TRUE") then -- SUNTEMPLEBUTTONS.scr:85
-        ctx:command("set", "MoonBut2, FALSE") -- SUNTEMPLEBUTTONS.scr:86
+        ctx:state().MoonBut2 = false -- SUNTEMPLEBUTTONS.scr:86
     else -- SUNTEMPLEBUTTONS.scr:87
-        ctx:command("set", "MoonBut2, TRUE") -- SUNTEMPLEBUTTONS.scr:88
+        ctx:state().MoonBut2 = true -- SUNTEMPLEBUTTONS.scr:88
     end -- SUNTEMPLEBUTTONS.scr:89
     do return ctx:exit("") end -- SUNTEMPLEBUTTONS.scr:91
 end
@@ -94,8 +94,7 @@ end
 script.labels["HandleElevator"] = function(ctx)
     -- SUNTEMPLEBUTTONS.scr:114
     -- make elevator descend
-    ctx:command("getobjecthandle", "MainElevator, g_hobject") -- SUNTEMPLEBUTTONS.scr:118
-    ctx:trigger("g_hobject", "open") -- SUNTEMPLEBUTTONS.scr:119
+    ctx:object("MainElevator"):trigger("open") -- SUNTEMPLEBUTTONS.scr:118-119
     do return ctx:exit("") end -- SUNTEMPLEBUTTONS.scr:121
 end
 

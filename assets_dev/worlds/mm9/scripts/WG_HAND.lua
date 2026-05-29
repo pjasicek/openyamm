@@ -18,28 +18,24 @@ script.includes[#script.includes + 1] = { line = 13, path = "globals.inc" }
 -- flag variables
 script.labels["Init"] = function(ctx)
     -- WG_HAND.scr:25
-    ctx:command("getmyhandle", "g_hmyobject") -- WG_HAND.scr:28
-    ctx:command("clearflag", "g_hmyobject Visible") -- WG_HAND.scr:29
-    ctx:command("clearflag", "g_hmyobject Gravity") -- WG_HAND.scr:30
-    ctx:command("clearflag", "g_hmyobject Solid") -- WG_HAND.scr:31
+    ctx:self():setFlag("Visible", false) -- WG_HAND.scr:29
+    ctx:self():setFlag("Gravity", false) -- WG_HAND.scr:30
+    ctx:self():setFlag("Solid", false) -- WG_HAND.scr:31
     do return ctx:exit("") end -- WG_HAND.scr:32
 end
 
 script.labels["OnPlay"] = function(ctx)
     -- WG_HAND.scr:35
-    ctx:command("getmyhandle", "g_hmyobject") -- WG_HAND.scr:38
     -- SetFlag g_hmyobject Visible
-    ctx:command("playanim", "SC07_Shot1 DoNothing") -- WG_HAND.scr:40
-    ctx:command("wait", "1 1 OnDone") -- WG_HAND.scr:41
+    ctx:self():playAnimation("SC07_Shot1", "DoNothing") -- WG_HAND.scr:40
+    ctx:wait(1, 1, "OnDone") -- WG_HAND.scr:41
     do return ctx:exit("") end -- WG_HAND.scr:42
 end
 
 script.labels["OnDone"] = function(ctx)
     -- WG_HAND.scr:45
-    ctx:command("getobjecthandle", "WinMan g_hobject") -- WG_HAND.scr:48
-    ctx:trigger("g_hobject", "HandDone") -- WG_HAND.scr:49
-    ctx:command("getmyhandle", "g_hmyobject") -- WG_HAND.scr:50
-    ctx:command("clearflag", "g_hmyobject Visible") -- WG_HAND.scr:51
+    ctx:object("WinMan"):trigger("HandDone") -- WG_HAND.scr:48-49
+    ctx:self():setFlag("Visible", false) -- WG_HAND.scr:51
     do return ctx:exit("") end -- WG_HAND.scr:52
 end
 

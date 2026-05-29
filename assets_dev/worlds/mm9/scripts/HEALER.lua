@@ -21,11 +21,11 @@ script.labels["Main"] = function(ctx)
     mm9.gosub(script, ctx, "HealerInit") -- HEALER.scr:25
     ctx:getParam(0, "g_nTemp") -- HEALER.scr:27
     if ctx:condition("g_nTemp!=0") then -- HEALER.scr:29
-        ctx:command("set", "g_nHealAmt, g_nTemp") -- HEALER.scr:30
+        ctx:set("g_nHealAmt", "g_nTemp") -- HEALER.scr:30
     end -- HEALER.scr:31
     ctx:getParam(1, "g_nTemp") -- HEALER.scr:33
     if ctx:condition("g_nTemp!=0") then -- HEALER.scr:35
-        ctx:command("set", "g_nHealCount, g_nTemp") -- HEALER.scr:36
+        ctx:set("g_nHealCount", "g_nTemp") -- HEALER.scr:36
     end -- HEALER.scr:37
     do return ctx:exit("") end -- HEALER.scr:39
 end

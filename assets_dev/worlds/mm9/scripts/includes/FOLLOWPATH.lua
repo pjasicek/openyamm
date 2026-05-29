@@ -30,10 +30,10 @@ script.includes[#script.includes + 1] = { line = 25, path = "globals.inc" }
 script.labels["FollowPathInit"] = function(ctx)
     -- FOLLOWPATH.inc:50
     -- Default to NOT doing any callbacks
-    ctx:command("set", "g_nFollowPathCallback, -1") -- FOLLOWPATH.inc:54
-    ctx:command("set", "g_nFollowPathDoneCallback, -1") -- FOLLOWPATH.inc:55
-    ctx:command("set", "g_nFollowPathLoops, 1") -- FOLLOWPATH.inc:58
-    ctx:command("onplayerinterrupt", "FollowPathPlayerInterrupt") -- FOLLOWPATH.inc:60
+    ctx:state().g_nFollowPathCallback = -1 -- FOLLOWPATH.inc:54
+    ctx:state().g_nFollowPathDoneCallback = -1 -- FOLLOWPATH.inc:55
+    ctx:state().g_nFollowPathLoops = 1 -- FOLLOWPATH.inc:58
+    ctx:onEvent("OnPlayerInterrupt", "FollowPathPlayerInterrupt") -- FOLLOWPATH.inc:60
     do return ctx:exit("") end -- FOLLOWPATH.inc:62
 end
 
@@ -43,8 +43,8 @@ script.labels["FollowPath"] = function(ctx)
     -- global variables:
     -- g_sFollowPathName		-> name of path to follow
     -- g_nFollowPathSpeed		-> Speed object should follow path
-    ctx:command("set", "g_nFollowPathNbr, 0") -- FOLLOWPATH.inc:75
-    ctx:command("set", "nFollowPathCount, 0") -- FOLLOWPATH.inc:76
+    ctx:state().g_nFollowPathNbr = 0 -- FOLLOWPATH.inc:75
+    ctx:state().nFollowPathCount = 0 -- FOLLOWPATH.inc:76
     mm9.gosub(script, ctx, "FollowPathGetPathCount") -- FOLLOWPATH.inc:78
     if ctx:condition("nFollowPathCount==0") then -- FOLLOWPATH.inc:80
         do return ctx:exit(0) end -- FOLLOWPATH.inc:81
@@ -56,16 +56,16 @@ end
 script.labels["FollowPathGetCurrHandle"] = function(ctx)
     -- FOLLOWPATH.inc:89
     -- Gets handle to current path marker...
-    ctx:command("set", "sFollowPathTemp, g_sFollowPathName") -- FOLLOWPATH.inc:93
-    ctx:command("add", "sFollowPathTemp, g_nFollowPathNbr") -- FOLLOWPATH.inc:94
-    ctx:command("getobjecthandle", "sFollowPathTemp, hFollowPathObject") -- FOLLOWPATH.inc:96
+    ctx:set("sFollowPathTemp", "g_sFollowPathName") -- FOLLOWPATH.inc:93
+    ctx:add("sFollowPathTemp", "g_nFollowPathNbr") -- FOLLOWPATH.inc:94
+    ctx:state().hFollowPathObject = ctx:objectOrNil("sFollowPathTemp") -- FOLLOWPATH.inc:96
     do return ctx:exit("") end -- FOLLOWPATH.inc:98
 end
 
 script.labels["FollowPathFirst"] = function(ctx)
     -- FOLLOWPATH.inc:101
-    ctx:command("set", "g_nFollowPathNbr, 0") -- FOLLOWPATH.inc:104
-    ctx:command("set", "nFollowPathLoopCount, 0") -- FOLLOWPATH.inc:105
+    ctx:state().g_nFollowPathNbr = 0 -- FOLLOWPATH.inc:104
+    ctx:state().nFollowPathLoopCount = 0 -- FOLLOWPATH.inc:105
     mm9.gosub(script, ctx, "FollowPathGetCurrHandle") -- FOLLOWPATH.inc:106
     mm9.gosub(script, ctx, "FollowPathMove") -- FOLLOWPATH.inc:107
     do return ctx:exit("") end -- FOLLOWPATH.inc:109
@@ -76,13 +76,13 @@ script.labels["FollowPathNext"] = function(ctx)
     -- Finds next path name and follows it
     -- Let the path object know were here
     ctx:trigger("hFollowPathObject", "Trigger") -- FOLLOWPATH.inc:117
-    ctx:command("add", "g_nFollowPathNbr, 1") -- FOLLOWPATH.inc:119
+    ctx:state().g_nFollowPathNbr = (tonumber(ctx:state().g_nFollowPathNbr) or 0) + 1 -- FOLLOWPATH.inc:119
     -- DebugOut ---Follow Path Number----
     -- DebugOut g_nFollowPathNbr
     -- DebugOut ---Follow Path Count---
     -- DebugOut nFollowPathCount
     if ctx:condition("g_nFollowPathNbr >= nFollowPathCount") then -- FOLLOWPATH.inc:127
-        ctx:command("add", "nFollowPathLoopCount, 1") -- FOLLOWPATH.inc:128
+        ctx:state().nFollowPathLoopCount = (tonumber(ctx:state().nFollowPathLoopCount) or 0) + 1 -- FOLLOWPATH.inc:128
         if ctx:condition("nFollowPathLoopCount >= g_nFollowPathLoops") then -- FOLLOWPATH.inc:130
             -- we're done!
             -- DebugOut ---Follow Path Number----
@@ -90,16 +90,16 @@ script.labels["FollowPathNext"] = function(ctx)
             -- DebugOut ---Follow Path Count---
             -- DebugOut nFollowPathCount
             -- DebugOut calling done callback...
-            ctx:command("docallback", "g_nFollowPathDoneCallback") -- FOLLOWPATH.inc:140
+            ctx:doCallback("g_nFollowPathDoneCallback") -- FOLLOWPATH.inc:140
             do return ctx:exit("") end -- FOLLOWPATH.inc:141
         end -- FOLLOWPATH.inc:142
         -- Loop back to First one...
-        ctx:command("set", "g_nFollowPathNbr, 0") -- FOLLOWPATH.inc:145
+        ctx:state().g_nFollowPathNbr = 0 -- FOLLOWPATH.inc:145
     else -- FOLLOWPATH.inc:146
         -- Call our callback (with g_nFollowPathNbr set to the marker we're currently at!)
-        ctx:command("sub", "g_nFollowPathNbr, 1") -- FOLLOWPATH.inc:148
-        ctx:command("docallback", "g_nFollowPathCallback") -- FOLLOWPATH.inc:149
-        ctx:command("add", "g_nFollowPathNbr, 1") -- FOLLOWPATH.inc:150
+        ctx:state().g_nFollowPathNbr = (tonumber(ctx:state().g_nFollowPathNbr) or 0) - 1 -- FOLLOWPATH.inc:148
+        ctx:doCallback("g_nFollowPathCallback") -- FOLLOWPATH.inc:149
+        ctx:state().g_nFollowPathNbr = (tonumber(ctx:state().g_nFollowPathNbr) or 0) + 1 -- FOLLOWPATH.inc:150
     end -- FOLLOWPATH.inc:151
     -- Go to next marker...
     mm9.gosub(script, ctx, "FollowPathGetCurrHandle") -- FOLLOWPATH.inc:155
@@ -111,27 +111,27 @@ end
 script.labels["FollowPathMove"] = function(ctx)
     -- FOLLOWPATH.inc:163
     -- Do the calculations and get us moving...
-    ctx:command("getpos", "hFollowPathObject, g_posX, g_posY, g_posZ") -- FOLLOWPATH.inc:168
-    ctx:command("getrotation", "hFollowPathObject, g_rotX, g_rotY, g_rotZ, g_rotSpin") -- FOLLOWPATH.inc:169
-    ctx:command("calcrotationrate", "hFollowPathObject,g_nFollowPathSpeed, nFollowPathRate") -- FOLLOWPATH.inc:171
-    ctx:command("setrotation", "g_rotX,g_rotY,g_rotZ,g_rotSpin,nFollowPathRate") -- FOLLOWPATH.inc:173
-    ctx:command("movetopos", "g_posX,g_posY,g_posZ,g_nFollowPathSpeed, FollowPathNext") -- FOLLOWPATH.inc:174
+    ctx:state().g_posX, ctx:state().g_posY, ctx:state().g_posZ = ctx:object("hFollowPathObject"):pos() -- FOLLOWPATH.inc:168
+    ctx:getRotation(ctx:object("hFollowPathObject"), "g_rotX", "g_rotY", "g_rotZ", "g_rotSpin") -- FOLLOWPATH.inc:169
+    ctx:calcRotationRate(ctx:object("hFollowPathObject"), "g_nFollowPathSpeed", "nFollowPathRate") -- FOLLOWPATH.inc:171
+    ctx:setRotation("g_rotX", "g_rotY", "g_rotZ", "g_rotSpin", "nFollowPathRate") -- FOLLOWPATH.inc:173
+    ctx:self():moveToPos("g_posX", "g_posY", "g_posZ", "g_nFollowPathSpeed", "FollowPathNext") -- FOLLOWPATH.inc:174
     do return ctx:exit("") end -- FOLLOWPATH.inc:176
 end
 
 script.labels["FollowPathGetPathCount"] = function(ctx)
     -- FOLLOWPATH.inc:179
-    ctx:command("set", "nFollowPathCount,0") -- FOLLOWPATH.inc:182
-    ctx:command("set", "g_bTemp, TRUE") -- FOLLOWPATH.inc:183
+    ctx:state().nFollowPathCount = 0 -- FOLLOWPATH.inc:182
+    ctx:state().g_bTemp = true -- FOLLOWPATH.inc:183
     while ctx:condition("g_bTemp==TRUE") do -- FOLLOWPATH.inc:185
-        ctx:command("set", "sFollowPathTemp,g_sFollowPathName") -- FOLLOWPATH.inc:186
-        ctx:command("add", "sFollowPathTemp,nFollowPathCount") -- FOLLOWPATH.inc:187
-        ctx:command("getobjecthandle", "sFollowPathTemp, hFollowPathObject") -- FOLLOWPATH.inc:189
+        ctx:set("sFollowPathTemp", "g_sFollowPathName") -- FOLLOWPATH.inc:186
+        ctx:add("sFollowPathTemp", "nFollowPathCount") -- FOLLOWPATH.inc:187
+        ctx:state().hFollowPathObject = ctx:objectOrNil("sFollowPathTemp") -- FOLLOWPATH.inc:189
         if ctx:condition("hFollowPathObject==0") then -- FOLLOWPATH.inc:191
             -- we've counted them all!
-            ctx:command("set", "g_bTemp, FALSE") -- FOLLOWPATH.inc:193
+            ctx:state().g_bTemp = false -- FOLLOWPATH.inc:193
         else -- FOLLOWPATH.inc:194
-            ctx:command("add", "nFollowPathCount, 1") -- FOLLOWPATH.inc:195
+            ctx:state().nFollowPathCount = (tonumber(ctx:state().nFollowPathCount) or 0) + 1 -- FOLLOWPATH.inc:195
         end -- FOLLOWPATH.inc:196
     end -- FOLLOWPATH.inc:197
     do return ctx:exit("") end -- FOLLOWPATH.inc:199
@@ -139,7 +139,7 @@ end
 
 script.labels["FollowPathStop"] = function(ctx)
     -- FOLLOWPATH.inc:203
-    ctx:command("stop", "") -- FOLLOWPATH.inc:205
+    ctx:self():stop() -- FOLLOWPATH.inc:205
     do return ctx:exit("") end -- FOLLOWPATH.inc:207
 end
 
@@ -147,7 +147,6 @@ script.labels["FollowPathPlayerInterrupt"] = function(ctx)
     -- FOLLOWPATH.inc:210
     -- Player pressed the USE key during camera playback.
     -- By default, we'll abort the script and turn off the camera...
-    ctx:command("getmyhandle", "g_hMyObject") -- FOLLOWPATH.inc:218
     mm9.gosub(script, ctx, "FollowPathStop") -- FOLLOWPATH.inc:219
     ctx:trigger("g_hMyObject", "OFF") -- FOLLOWPATH.inc:220
     do return ctx:exit("TRUE") end -- FOLLOWPATH.inc:222

@@ -17,12 +17,12 @@ script.labels["OnUse"] = function(ctx)
     end -- STRENGTHTEST.scr:22
     ctx:takeKey(1002) -- STRENGTHTEST.scr:24
     ctx:takeItem(557) -- STRENGTHTEST.scr:25
-    ctx:command("getrandomint", "80, 125, dingbell") -- STRENGTHTEST.scr:27
-    ctx:command("getrandomint", "1, 100, TimingVal") -- STRENGTHTEST.scr:28
-    ctx:command("getattribute", "0, Player_Strength") -- STRENGTHTEST.scr:29
-    ctx:command("add", "TimingVal, Player_Strength") -- STRENGTHTEST.scr:31
+    ctx:randomInt(80, 125, "dingbell") -- STRENGTHTEST.scr:27
+    ctx:randomInt(1, 100, "TimingVal") -- STRENGTHTEST.scr:28
+    ctx:getAttribute(0, "Player_Strength") -- STRENGTHTEST.scr:29
+    ctx:add("TimingVal", "Player_Strength") -- STRENGTHTEST.scr:31
     -- delete this
-    ctx:command("add", "TimingVal, 50") -- STRENGTHTEST.scr:35
+    ctx:state().TimingVal = (tonumber(ctx:state().TimingVal) or 0) + 50 -- STRENGTHTEST.scr:35
     if ctx:condition("timingVal>=dingbell") then -- STRENGTHTEST.scr:38
         if not ctx:hasKey(94) then -- STRENGTHTEST.scr:40-41
             ctx:giveItem(395) -- STRENGTHTEST.scr:42
@@ -38,11 +38,11 @@ end
 script.labels["OnRing"] = function(ctx)
     -- STRENGTHTEST.scr:56
     if ctx:condition("timingVal>=dingbell") then -- STRENGTHTEST.scr:58
-        ctx:command("playsound", "Sounds\\Events\\dingbell.wav, Onexit, 100, 2400, FALSE, 100") -- STRENGTHTEST.scr:59
-        ctx:command("rollovertext", "6 1 3 2") -- STRENGTHTEST.scr:60
+        ctx:playSound("Sounds\\Events\\dingbell.wav", "Onexit", 100, 2400, "FALSE", 100) -- STRENGTHTEST.scr:59
+        ctx:rolloverText(6, 1, 3, 2) -- STRENGTHTEST.scr:60
         do return ctx:exit("") end -- STRENGTHTEST.scr:61
     end -- STRENGTHTEST.scr:62
-    ctx:command("rollovertext", "7 1 3 2") -- STRENGTHTEST.scr:63
+    ctx:rolloverText(7, 1, 3, 2) -- STRENGTHTEST.scr:63
     do return ctx:exit("") end -- STRENGTHTEST.scr:64
 end
 

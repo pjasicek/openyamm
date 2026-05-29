@@ -13,15 +13,15 @@ script.labels = {}
 -- p0  amount of damage
 script.labels["DamageOn"] = function(ctx)
     -- DP2WATERDAMAGE.scr:15
-    ctx:command("setpropstring", "Damagetype, DT_BURN") -- DP2WATERDAMAGE.scr:18
-    ctx:setPropNumber("Damage", "Damage_Amount") -- DP2WATERDAMAGE.scr:19
+    ctx:self():setStringProperty("Damagetype", "DT_BURN") -- DP2WATERDAMAGE.scr:18
+    ctx:self():setNumberProperty("Damage", "Damage_Amount") -- DP2WATERDAMAGE.scr:19
     do return ctx:exit("") end -- DP2WATERDAMAGE.scr:20
 end
 
 script.labels["DamageOff"] = function(ctx)
     -- DP2WATERDAMAGE.scr:24
-    ctx:command("setpropstring", "Damagetype, DT_UNSPECIFIED") -- DP2WATERDAMAGE.scr:27
-    ctx:setPropNumber("Damage", 0) -- DP2WATERDAMAGE.scr:28
+    ctx:self():setStringProperty("Damagetype", "DT_UNSPECIFIED") -- DP2WATERDAMAGE.scr:27
+    ctx:self():setNumberProperty("Damage", 0) -- DP2WATERDAMAGE.scr:28
     do return ctx:exit("") end -- DP2WATERDAMAGE.scr:30
 end
 

@@ -24,43 +24,42 @@ end
 
 script.labels["DoNothing"] = function(ctx)
     -- DP_PRISONER.scr:38
-    ctx:command("setidle", "") -- DP_PRISONER.scr:40
+    ctx:self():setIdle() -- DP_PRISONER.scr:40
     do return ctx:exit(1) end -- DP_PRISONER.scr:42
 end
 
 script.labels["GetInCell"] = function(ctx)
     -- DP_PRISONER.scr:45
-    ctx:command("setidle", "") -- DP_PRISONER.scr:48
-    ctx:command("target", "NULL 0") -- DP_PRISONER.scr:49
-    ctx:command("getobjecthandle", "sCellMarker hMarker") -- DP_PRISONER.scr:50
-    ctx:command("walkto", "hMarker 30 dn") -- DP_PRISONER.scr:51
+    ctx:self():setIdle() -- DP_PRISONER.scr:48
+    ctx:self():setTarget(nil) -- DP_PRISONER.scr:49
+    ctx:state().hMarker = ctx:objectOrNil("sCellMarker") -- DP_PRISONER.scr:50
+    ctx:self():walkTo(ctx:object("hMarker"), 30, "dn") -- DP_PRISONER.scr:51
     do return ctx:exit(1) end -- DP_PRISONER.scr:53
 end
 
 script.labels["Follow"] = function(ctx)
     -- DP_PRISONER.scr:57
-    ctx:command("walkto", "hGuard 50 dn") -- DP_PRISONER.scr:60
-    ctx:command("ontargetbeyonddist", "50 Follow") -- DP_PRISONER.scr:61
+    ctx:self():walkTo(ctx:object("hGuard"), 50, "dn") -- DP_PRISONER.scr:60
+    ctx:onEvent("OnTargetBeyondDist", 50, "Follow") -- DP_PRISONER.scr:61
     do return ctx:exit(1) end -- DP_PRISONER.scr:64
 end
 
 script.labels["ExitCell"] = function(ctx)
     -- DP_PRISONER.scr:68
-    ctx:command("nmarker", "= nPrisonerNum * 3 + 3") -- DP_PRISONER.scr:71
-    ctx:command("smarker", "= sMarkerNameRoot + nMarker") -- DP_PRISONER.scr:72
-    ctx:command("getobjecthandle", "sMarker hMarker") -- DP_PRISONER.scr:73
-    ctx:command("sguard", "= sGuardNameRoot + 1") -- DP_PRISONER.scr:74
-    ctx:command("getobjecthandle", "sGuard hGuard") -- DP_PRISONER.scr:75
-    ctx:trigger("hGuard", "WalkToIR") -- DP_PRISONER.scr:76
-    ctx:command("target", "hGuard 1") -- DP_PRISONER.scr:77
+    ctx:set("nMarker", "nPrisonerNum * 3 + 3") -- DP_PRISONER.scr:71
+    ctx:set("sMarker", "sMarkerNameRoot + nMarker") -- DP_PRISONER.scr:72
+    ctx:state().hMarker = ctx:objectOrNil("sMarker") -- DP_PRISONER.scr:73
+    ctx:set("sGuard", "sGuardNameRoot + 1") -- DP_PRISONER.scr:74
+    ctx:object("sGuard"):trigger("WalkToIR") -- DP_PRISONER.scr:75-76
+    ctx:self():setTarget(ctx:object("hGuard")) -- DP_PRISONER.scr:77
     do return ctx:exit(1) end -- DP_PRISONER.scr:79
 end
 
 script.labels["Main2"] = function(ctx)
     -- DP_PRISONER.scr:82
-    ctx:command("sguard", "= sGuardNameRoot + 1") -- DP_PRISONER.scr:85
-    ctx:command("getobjecthandle", "sGuard hGuard") -- DP_PRISONER.scr:86
-    ctx:command("target", "hGuard 1") -- DP_PRISONER.scr:87
+    ctx:set("sGuard", "sGuardNameRoot + 1") -- DP_PRISONER.scr:85
+    ctx:state().hGuard = ctx:objectOrNil("sGuard") -- DP_PRISONER.scr:86
+    ctx:self():setTarget(ctx:object("hGuard")) -- DP_PRISONER.scr:87
     mm9.gosub(script, ctx, "Follow") -- DP_PRISONER.scr:88
     do return ctx:exit(1) end -- DP_PRISONER.scr:90
 end
@@ -74,7 +73,7 @@ script.labels["Main"] = function(ctx)
     ctx:addTrigger("ExitCell", "ExitCell") -- DP_PRISONER.scr:103
     ctx:addTrigger("Follow", "Follow") -- DP_PRISONER.scr:104
     ctx:addTrigger("GetInCell", "GetInCell") -- DP_PRISONER.scr:105
-    ctx:command("wait", "0 .1 main2") -- DP_PRISONER.scr:106
+    ctx:wait(0, .1, "main2") -- DP_PRISONER.scr:106
     do return ctx:exit(1) end -- DP_PRISONER.scr:109
 end
 

@@ -4,6 +4,7 @@ map_id: darkpassageway
 display_name: Dark Passageway
 source:
   dat: ../source/worlds/DARKPASSAGEWAY.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/DARKPASSAGEWAY.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: darkpassageway.raw_objects.yml
   materials: darkpassageway.material_aliases.yml
   events: darkpassageway.events.yml
-  scene_compat: darkpassageway.scene.yml
+  scene_compat: null
   source_metadata_compat: darkpassageway.mm9.yml
-  bsp_compat: darkpassageway.bsp.yml
-  geometry_compat: darkpassageway.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: darkpassageway.blv
+  blv_compat: null
 scripts:
   level: ../events/darkpassageway.lua
   script_ir: ../events/darkpassageway.script_ir.yml

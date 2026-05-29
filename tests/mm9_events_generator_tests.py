@@ -70,7 +70,7 @@ Exit
                             {
                                 "object_index": 0,
                                 "name": "Door",
-                                "property_count": 8,
+                                "property_count": 10,
                                 "data_length": 0,
                                 "properties": [
                                     prop("Name", '"DoorA"'),
@@ -78,6 +78,8 @@ Exit
                                     prop("MoveDir", "[0.0, -1.0, 0.0]", 1),
                                     prop("MoveDist", "160.0", 3),
                                     prop("Speed", "40.0", 3),
+                                    prop("OpenSoundName", '"sounds\\\\door_open.wav"'),
+                                    prop("CloseSoundName", '""'),
                                     prop("ScriptName", '"scripts\\\\DOORLOCK.scr"'),
                                     prop("OpenTriggerTarget0", '"TriggerA"'),
                                     prop("OpenTrigger0", '"Go"'),
@@ -108,9 +110,17 @@ Exit
             self.assertEqual(event_data["generated"]["script_ir"], "../events/test.script_ir.yml")
             self.assertEqual(event_data["validation"]["raw_object_count"], 2)
             self.assertEqual(event_data["validation"]["event_object_count"], 2)
-            self.assertEqual(len(event_data["objects"][0]["raw_properties"]), 8)
+            self.assertEqual(len(event_data["objects"][0]["raw_properties"]), 10)
             self.assertEqual(event_data["objects"][0]["normalized_properties"]["MoveDist"], 160.0)
+            self.assertEqual(
+                event_data["objects"][0]["normalized_properties"]["OpenSoundName"],
+                "sounds\\door_open.wav",
+            )
             self.assertEqual(event_data["mechanisms"][0]["mechanism"]["kind"], "linear_door")
+            self.assertEqual(event_data["mechanisms"][0]["sounds"][0]["phase"], "open")
+            self.assertEqual(event_data["mechanisms"][0]["sounds"][0]["sound_name"], "sounds\\door_open.wav")
+            self.assertEqual(event_data["mechanisms"][0]["sounds"][1]["phase"], "close")
+            self.assertEqual(event_data["mechanisms"][0]["sounds"][1]["sound_name"], "")
             self.assertEqual(event_data["mechanisms"][0]["trigger_outputs"][0]["target_name"], "TriggerA")
             self.assertEqual(event_data["mechanisms"][0]["trigger_outputs"][0]["resolution"], "resolved")
             self.assertEqual(event_data["triggers"][0]["outputs"][0]["target_name"], "MissingTarget")

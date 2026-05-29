@@ -1,0 +1,836 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: yorwick
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: battlecam1.scr
+  source_path: BATTLECAM1.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnPlay
+  - line: 35
+    name: OnArrive
+  - line: 42
+    name: Main
+  registered_triggers:
+  - line: 47
+    message: Play
+    callback: OnPlay
+    arguments_raw: Play OnPlay
+  trigger_edges:
+  - line: 39
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  movement_commands:
+  - line: 31
+    command: MoveToPos
+    arguments_raw: xpos Ypos Zpos nSpeed OnArrive
+  state_commands: []
+  presentation_commands: []
+  unknown_commands: []
+  command_count: 11
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: foradworld.scr
+  source_path: FORADWORLD.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 23
+    name: TakeKey
+  - line: 39
+    name: Init
+  - line: 106
+    name: Close
+  - line: 114
+    name: Open
+  - line: 123
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: takekey
+    arguments_raw: '1024'
+  - line: 27
+    command: takekey
+    arguments_raw: '1025'
+  - line: 28
+    command: takekey
+    arguments_raw: '1026'
+  - line: 29
+    command: takekey
+    arguments_raw: '1027'
+  - line: 30
+    command: takekey
+    arguments_raw: '1028'
+  - line: 31
+    command: takekey
+    arguments_raw: '1029'
+  - line: 32
+    command: takekey
+    arguments_raw: '1030'
+  - line: 33
+    command: takekey
+    arguments_raw: '1031'
+  - line: 34
+    command: takekey
+    arguments_raw: '1032'
+  - line: 35
+    command: takekey
+    arguments_raw: '1033'
+  - line: 42
+    command: takekey
+    arguments_raw: '1024'
+  - line: 43
+    command: takekey
+    arguments_raw: '1025'
+  - line: 44
+    command: takekey
+    arguments_raw: '1026'
+  - line: 45
+    command: takekey
+    arguments_raw: '1027'
+  - line: 46
+    command: takekey
+    arguments_raw: '1028'
+  - line: 47
+    command: takekey
+    arguments_raw: '1029'
+  - line: 48
+    command: takekey
+    arguments_raw: '1030'
+  - line: 49
+    command: takekey
+    arguments_raw: '1031'
+  - line: 50
+    command: takekey
+    arguments_raw: '1032'
+  - line: 51
+    command: takekey
+    arguments_raw: '1033'
+  - line: 54
+    command: givekey
+    arguments_raw: '1024'
+  - line: 59
+    command: givekey
+    arguments_raw: '1025'
+  - line: 64
+    command: givekey
+    arguments_raw: '1026'
+  - line: 69
+    command: givekey
+    arguments_raw: '1027'
+  - line: 74
+    command: givekey
+    arguments_raw: '1028'
+  - line: 79
+    command: givekey
+    arguments_raw: '1029'
+  - line: 84
+    command: givekey
+    arguments_raw: '1030'
+  - line: 89
+    command: givekey
+    arguments_raw: '1031'
+  - line: 94
+    command: givekey
+    arguments_raw: '1032'
+  - line: 98
+    command: givekey
+    arguments_raw: '1033'
+  - line: 110
+    command: givekey
+    arguments_raw: '5017'
+  - line: 118
+    command: takekey
+    arguments_raw: '5017'
+  - line: 129
+    command: unknown
+    arguments_raw: '@m 20 : 00 Close Close'
+  - line: 130
+    command: unknown
+    arguments_raw: '@m 6 : 00 Open Open'
+  - line: 132
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 133
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 134
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 135
+    command: OnWorldSwitch
+    arguments_raw: TakeKey
+  command_count: 72
+- script_id: hidemodel.scr
+  source_path: HIDEMODEL.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: pledge.inc
+  labels:
+  - line: 26
+    name: Init
+  - line: 37
+    name: Hide
+  - line: 55
+    name: Unhide
+  - line: 73
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 43
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 44
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 45
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 48
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 49
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 50
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 61
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 62
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 63
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 66
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 67
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 68
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 40
+    command: haskey
+    arguments_raw: nKey g_ntemp
+  - line: 58
+    command: haskey
+    arguments_raw: nKey g_ntemp
+  - line: 82
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 83
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 84
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 39
+- script_id: marysheep.scr
+  source_path: MARYSHEEP.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: followplayer.inc
+  - line: 9
+    path: basewander.inc
+  labels:
+  - line: 14
+    name: OnUse
+  - line: 28
+    name: OnRun
+  - line: 38
+    name: OnArrive
+  - line: 45
+    name: Main
+  registered_triggers:
+  - line: 52
+    message: RuntoMe
+    callback: OnRun
+    arguments_raw: RuntoMe OnRun
+  - line: 53
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges:
+  - line: 23
+    target_expression: g_hobject
+    message_expression: Target
+    arguments_raw: g_hobject Target
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: FaceObject
+    arguments_raw: g_htarget 200 DoNothing
+  - line: 32
+    command: stop
+    arguments_raw: ''
+  - line: 34
+    command: runto
+    arguments_raw: g_htarget 16 OnArrive
+  - line: 41
+    command: runscript
+    arguments_raw: Cat.scr
+  command_count: 17
+- script_id: npc312.scr
+  source_path: NPC312.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 12
+    name: OnRude
+  - line: 39
+    name: ONTarget
+  - line: 48
+    name: RuntoMe
+  - line: 57
+    name: OnUse
+  - line: 66
+    name: OnLost
+  - line: 73
+    name: Main
+  registered_triggers:
+  - line: 81
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 82
+    message: Target
+    callback: ONTarget
+    arguments_raw: Target ONTarget
+  trigger_edges:
+  - line: 51
+    target_expression: g_htarget
+    message_expression: RuntoMe
+    arguments_raw: g_htarget RuntoMe
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 16
+    command: target
+    arguments_raw: g_htarget
+  - line: 17
+    command: OnTargetwithinDist
+    arguments_raw: 512 RuntoMe
+  - line: 21
+    command: haskey
+    arguments_raw: 468 g_ntemp
+  - line: 27
+    command: haskey
+    arguments_raw: 467 g_ntemp
+  - line: 29
+    command: givegold
+    arguments_raw: '2'
+  - line: 30
+    command: giveexp
+    arguments_raw: '20000'
+  - line: 32
+    command: givekey
+    arguments_raw: '468'
+  - line: 41
+    command: set
+    arguments_raw: nTarget TRUE
+  - line: 43
+    command: target
+    arguments_raw: g_htarget
+  - line: 44
+    command: OnTargetwithinDist
+    arguments_raw: 512 RuntoMe
+  - line: 52
+    command: givekey
+    arguments_raw: '466'
+  - line: 53
+    command: set
+    arguments_raw: nTarget, False
+  - line: 60
+    command: OnTargetWithinDist
+    arguments_raw: 512 DoNothing
+  - line: 79
+    command: OnLostTarget
+    arguments_raw: OnLost
+  - line: 80
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 36
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: shopkeeper.scr
+  source_path: SHOPKEEPER.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  - line: 11
+    path: BaseWander.inc
+  labels:
+  - line: 25
+    name: OnUse
+  - line: 32
+    name: OnExit
+  - line: 38
+    name: Main
+  - line: 58
+    name: BaseWanderInit
+  registered_triggers:
+  - line: 50
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands:
+  - line: 70
+    command: SetPos
+    arguments_raw: g_hMyObject -6415 544 4768
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 63
+    command: GetObjectName
+    arguments_raw: g_hMyObject g_sPad1
+  - line: 66
+    command: OnPostSaveLoad
+    arguments_raw: BaseWanderInit
+  - line: 67
+    command: OnPostMiniSaveLoad
+    arguments_raw: BaseWanderInit
+  - line: 68
+    command: set
+    arguments_raw: g_nPad2 1
+  - line: 74
+    command: goto
+    arguments_raw: BaseWanderInit 1
+  command_count: 22
+- script_id: svenspeech.scr
+  source_path: SVENSPEECH.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: SvenShowtake.inc
+  labels:
+  - line: 31
+    name: OnSven01
+  - line: 40
+    name: OnSven02
+  - line: 48
+    name: OnSven03
+  - line: 56
+    name: OnSven04
+  - line: 65
+    name: PlaySpeech
+  - line: 72
+    name: OnStart
+  - line: 100
+    name: FadeIn
+  - line: 113
+    name: Cam2
+  - line: 125
+    name: Cam3
+  - line: 137
+    name: Cam5
+  - line: 150
+    name: OnCam6
+  - line: 163
+    name: OnCam7
+  - line: 175
+    name: OnCam8
+  - line: 187
+    name: Award
+  - line: 205
+    name: Init
+  - line: 236
+    name: OnDead
+  - line: 243
+    name: OnDone
+  - line: 265
+    name: OnFadeOut
+  - line: 272
+    name: FadeOut
+  - line: 279
+    name: FadeOut2
+  - line: 305
+    name: Main
+  registered_triggers:
+  - line: 312
+    message: Done
+    callback: OnDone
+    arguments_raw: Done OnDone
+  - line: 313
+    message: Start
+    callback: OnStart
+    arguments_raw: Start, OnStart
+  trigger_edges:
+  - line: 76
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 78
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 80
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 82
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 84
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 86
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 88
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 90
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 106
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 107
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 117
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 120
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 121
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 129
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 132
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 133
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 141
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 144
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 154
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 157
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 167
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 170
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 179
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 182
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 282
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 284
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 286
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 288
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 290
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 292
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 294
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 296
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 300
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 68
+    command: PlayAnim
+    arguments_raw: Sven_scene06 ONDead
+  - line: 228
+    command: Loopanim
+    arguments_raw: static_model 0 DoNothing
+  - line: 239
+    command: Loopanim
+    arguments_raw: static_model 0 DoNothing
+  unknown_commands:
+  - line: 92
+    command: set
+    arguments_raw: ShowAll, TRUE
+  - line: 94
+    command: screenfadeout
+    arguments_raw: '1'
+  - line: 104
+    command: letterbox
+    arguments_raw: 'true'
+  - line: 108
+    command: screenfadein
+    arguments_raw: '1'
+  - line: 115
+    command: screenfadein
+    arguments_raw: '1'
+  - line: 127
+    command: screenfadein
+    arguments_raw: '1'
+  - line: 139
+    command: screenfadein
+    arguments_raw: '.5'
+  - line: 192
+    command: haskey
+    arguments_raw: 97 g_ntemp
+  - line: 194
+    command: Haskey
+    arguments_raw: 95 g_ntemp
+  - line: 197
+    command: givekey
+    arguments_raw: '97'
+  - line: 198
+    command: giveexp
+    arguments_raw: '114000'
+  - line: 210
+    command: haskey
+    arguments_raw: 95 g_ntemp
+  - line: 212
+    command: set
+    arguments_raw: ShowAll, FALSE
+  - line: 218
+    command: haskey
+    arguments_raw: 97 g_ntemp
+  - line: 220
+    command: set
+    arguments_raw: ShowAll, FALSE
+  - line: 226
+    command: Set
+    arguments_raw: ShowAll, True
+  - line: 246
+    command: nCamCount
+    arguments_raw: = nCamCount + 1
+  - line: 274
+    command: screenFadeout
+    arguments_raw: '1'
+  - line: 298
+    command: letterbox
+    arguments_raw: 'false'
+  - line: 301
+    command: screenFadeIn
+    arguments_raw: '1'
+  - line: 314
+    command: AddModelKey
+    arguments_raw: Sven01 OnSven01
+  - line: 315
+    command: AddModelKey
+    arguments_raw: Sven02 OnSven02
+  - line: 316
+    command: AddModelKey
+    arguments_raw: Sven03 OnSven03
+  - line: 317
+    command: AddModelKey
+    arguments_raw: Sven04 OnSven04
+  - line: 318
+    command: AddModelKey
+    arguments_raw: Camera6 OnCam6
+  - line: 319
+    command: AddModelKey
+    arguments_raw: Camera7 OnCam7
+  - line: 320
+    command: AddModelKey
+    arguments_raw: Camera8 OnCam8
+  - line: 321
+    command: AddModelKey
+    arguments_raw: FadeOut OnFadeOut
+  - line: 322
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 323
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 324
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 159
+validation:
+  script_count: 9

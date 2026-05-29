@@ -122,6 +122,49 @@ bool parseFloat4Node(
         && readScalarNode(node, "w", value[3], errorMessage);
 }
 
+bool parseUint8TripletNode(
+    const YAML::Node &node,
+    std::array<uint8_t, 3> &value,
+    const char *pName,
+    std::string &errorMessage)
+{
+    if (!node || !node.IsSequence() || node.size() != value.size())
+    {
+        errorMessage = std::string(pName) + " must be a 3-item sequence";
+        return false;
+    }
+
+    for (size_t index = 0; index < value.size(); ++index)
+    {
+        if (!node[index].IsScalar())
+        {
+            errorMessage = std::string(pName) + " item must be a scalar";
+            return false;
+        }
+
+        int channel = 0;
+        try
+        {
+            channel = node[index].as<int>();
+        }
+        catch (const std::exception &exception)
+        {
+            errorMessage = std::string("could not parse ") + pName + ": " + exception.what();
+            return false;
+        }
+
+        if (channel < 0 || channel > 255)
+        {
+            errorMessage = std::string(pName) + " item is outside 0..255";
+            return false;
+        }
+
+        value[index] = static_cast<uint8_t>(channel);
+    }
+
+    return true;
+}
+
 bool readOptionalBoolFlag(
     const YAML::Node &flagsNode,
     const char *key,
@@ -392,6 +435,132 @@ bool parseOutdoorModelInstance(
             errorMessage)
         && parseFloat3Node(modelInstanceNode["scale"], modelInstance.scale, "scale", errorMessage)
         && readScalarNode(modelInstanceNode, "collision", modelInstance.collisionMode, errorMessage);
+}
+
+bool parseOutdoorSceneLight(
+    const YAML::Node &lightNode,
+    OutdoorSceneLight &light,
+    std::string &errorMessage)
+{
+    if (!lightNode.IsMap())
+    {
+        errorMessage = "light entry must be a map";
+        return false;
+    }
+
+    return readScalarNode(lightNode, "source_object_index", light.sourceObjectIndex, errorMessage)
+        && readScalarNode(lightNode, "source_class", light.sourceClass, errorMessage)
+        && readScalarNode(lightNode, "source_name", light.sourceName, errorMessage)
+        && parsePositionNode(lightNode["position"], light.x, light.y, light.z, errorMessage)
+        && readScalarNode(lightNode, "radius", light.radius, errorMessage)
+        && parseUint8TripletNode(lightNode["color"], light.color, "color", errorMessage)
+        && parseUint8TripletNode(lightNode["effective_color"], light.effectiveColor, "effective_color", errorMessage)
+        && readScalarNode(lightNode, "type", light.type, errorMessage)
+        && readScalarNode(lightNode, "light_objects", light.lightObjects, errorMessage)
+        && readScalarNode(lightNode, "fast_light_objects", light.fastLightObjects, errorMessage)
+        && readScalarNode(
+            lightNode,
+            "static_object_light_eligible",
+            light.staticObjectLightEligible,
+            errorMessage);
+}
+
+bool parseOutdoorSceneMechanism(
+    const YAML::Node &mechanismNode,
+    OutdoorSceneMechanism &mechanism,
+    std::string &errorMessage)
+{
+    if (!mechanismNode.IsMap())
+    {
+        errorMessage = "mechanism entry must be a map";
+        return false;
+    }
+
+    if (!readScalarNode(mechanismNode, "mechanism_id", mechanism.mechanismId, errorMessage)
+        || !readScalarNode(
+            mechanismNode,
+            "source_object_index",
+            mechanism.sourceObjectIndex,
+            errorMessage,
+            false)
+        || !readScalarNode(mechanismNode, "source_class", mechanism.sourceClass, errorMessage, false)
+        || !readScalarNode(mechanismNode, "source_name", mechanism.sourceName, errorMessage, false)
+        || !readScalarNode(mechanismNode, "kind", mechanism.kind, errorMessage, false))
+    {
+        return false;
+    }
+
+    const YAML::Node bindingNode = mechanismNode["binding"];
+    if (bindingNode && bindingNode.IsMap())
+    {
+        if (!readScalarNode(bindingNode, "target_kind", mechanism.binding.targetKind, errorMessage, false)
+            || !readScalarNode(bindingNode, "bmodel_index", mechanism.binding.bmodelIndex, errorMessage, false)
+            || !readScalarNode(bindingNode, "bmodel_name", mechanism.binding.bmodelName, errorMessage, false)
+            || !readScalarNode(bindingNode, "confidence", mechanism.binding.confidence, errorMessage, false))
+        {
+            return false;
+        }
+    }
+
+    const YAML::Node motionNode = mechanismNode["motion"];
+    if (motionNode && motionNode.IsMap())
+    {
+        const YAML::Node linearNode = motionNode["linear"];
+        if (linearNode && linearNode.IsMap())
+        {
+            const YAML::Node deltaNode = linearNode["delta_openyamm"];
+            if (deltaNode)
+            {
+                if (!parsePositionNode(deltaNode, mechanism.motion.dx, mechanism.motion.dy, mechanism.motion.dz, errorMessage))
+                {
+                    return false;
+                }
+                mechanism.motion.hasLinear = true;
+            }
+        }
+
+        const YAML::Node rotationNode = motionNode["rotation"];
+        if (rotationNode && rotationNode.IsMap())
+        {
+            std::array<float, 3> pivot = {};
+            std::array<float, 3> angles = {};
+            if (rotationNode["pivot_openyamm"]
+                && !parseFloat3Node(rotationNode["pivot_openyamm"], pivot, "pivot_openyamm", errorMessage))
+            {
+                return false;
+            }
+            if (rotationNode["rotation_angles_openyamm_deg"]
+                && !parseFloat3Node(
+                    rotationNode["rotation_angles_openyamm_deg"],
+                    angles,
+                    "rotation_angles_openyamm_deg",
+                    errorMessage))
+            {
+                return false;
+            }
+            mechanism.motion.hasRotation = rotationNode["pivot_openyamm"] && rotationNode["rotation_angles_openyamm_deg"];
+            mechanism.motion.rotationPivotX = pivot[0];
+            mechanism.motion.rotationPivotY = pivot[1];
+            mechanism.motion.rotationPivotZ = pivot[2];
+            mechanism.motion.rotationDegreesX = angles[0];
+            mechanism.motion.rotationDegreesY = angles[1];
+            mechanism.motion.rotationDegreesZ = angles[2];
+        }
+
+        readScalarNode(motionNode, "move_time_ms", mechanism.motion.moveTimeMs, errorMessage, false);
+    }
+
+    const YAML::Node activationNode = mechanismNode["activation"];
+    if (activationNode && activationNode.IsMap())
+    {
+        if (!readScalarNode(activationNode, "start_open", mechanism.activation.startOpen, errorMessage, false)
+            || !readScalarNode(activationNode, "locked", mechanism.activation.locked, errorMessage, false))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool applyOptionalActorCoordinateOverride(
@@ -1210,6 +1379,31 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
         sceneData.spawns.push_back(std::move(spawn));
     }
 
+    const YAML::Node lightsNode = rootNode["lights"];
+
+    if (lightsNode)
+    {
+        if (!lightsNode.IsSequence())
+        {
+            errorMessage = "lights must be a sequence";
+            return std::nullopt;
+        }
+
+        sceneData.lights.reserve(lightsNode.size());
+
+        for (const YAML::Node &lightNode : lightsNode)
+        {
+            OutdoorSceneLight light = {};
+
+            if (!parseOutdoorSceneLight(lightNode, light, errorMessage))
+            {
+                return std::nullopt;
+            }
+
+            sceneData.lights.push_back(std::move(light));
+        }
+    }
+
     const YAML::Node modelInstancesNode = rootNode["model_instances"];
 
     if (modelInstancesNode)
@@ -1232,6 +1426,31 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
             }
 
             sceneData.modelInstances.push_back(std::move(modelInstance));
+        }
+    }
+
+    const YAML::Node mechanismsNode = rootNode["mechanisms"];
+
+    if (mechanismsNode)
+    {
+        if (!mechanismsNode.IsSequence())
+        {
+            errorMessage = "mechanisms must be a sequence";
+            return std::nullopt;
+        }
+
+        sceneData.mechanisms.reserve(mechanismsNode.size());
+
+        for (const YAML::Node &mechanismNode : mechanismsNode)
+        {
+            OutdoorSceneMechanism mechanism = {};
+
+            if (!parseOutdoorSceneMechanism(mechanismNode, mechanism, errorMessage))
+            {
+                return std::nullopt;
+            }
+
+            sceneData.mechanisms.push_back(std::move(mechanism));
         }
     }
 

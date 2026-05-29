@@ -16,7 +16,7 @@ script.labels["OnUse"] = function(ctx)
     if ctx:condition("g_bIsTipping == TRUE") then -- COW.scr:29
         do return ctx:exit("") end -- COW.scr:30
     end -- COW.scr:31
-    ctx:command("getstat", "g_hMyObject, IsDead, g_bTemp") -- COW.scr:33
+    ctx:state().g_bTemp = ctx:self():getStat("IsDead") -- COW.scr:33
     if ctx:condition("g_bTemp==TRUE") then -- COW.scr:35
         do return ctx:exit("") end -- COW.scr:36
     end -- COW.scr:37
@@ -24,62 +24,61 @@ script.labels["OnUse"] = function(ctx)
         do return ctx:exit("") end -- COW.scr:40
     end -- COW.scr:41
     mm9.gosub(script, ctx, "DisableWandering") -- COW.scr:43
-    ctx:command("set", "g_bIsTipping, TRUE") -- COW.scr:45
+    ctx:state().g_bIsTipping = true -- COW.scr:45
     ctx:getParam(0, "g_hUsedBy") -- COW.scr:47
-    ctx:command("getpos", "g_hUsedBy, g_nPlayerX, g_nPlayerY, g_nPlayerZ") -- COW.scr:48
+    ctx:state().g_nPlayerX, ctx:state().g_nPlayerY, ctx:state().g_nPlayerZ = ctx:object("g_hUsedBy"):pos() -- COW.scr:48
     -- Gets the angle between the player and the cow
-    ctx:command("getangletopos", "g_nPlayerX, g_nPlayerY, g_nPlayerZ, g_nAngle") -- COW.scr:51
+    ctx:getAngleToPos("g_nPlayerX", "g_nPlayerY", "g_nPlayerZ", "g_nAngle") -- COW.scr:51
     -- Angle determines which way cow should fall
     if ctx:condition("g_nAngle >= 0") then -- COW.scr:54
-        ctx:command("playanim", "TipOver1, OnTipOver1Done") -- COW.scr:55
+        ctx:self():playAnimation("TipOver1", "OnTipOver1Done") -- COW.scr:55
     else -- COW.scr:56
-        ctx:command("playanim", "TipOver2, OnTipOver2Done") -- COW.scr:57
+        ctx:self():playAnimation("TipOver2", "OnTipOver2Done") -- COW.scr:57
     end -- COW.scr:58
     -- Make sure we don't get another wait statement interrupting us
-    ctx:command("wait", "0, 0, DoNothing") -- COW.scr:61
+    ctx:wait(0, 0, "DoNothing") -- COW.scr:61
     do return ctx:exit("") end -- COW.scr:63
 end
 
 script.labels["OnTipOver1Done"] = function(ctx)
     -- COW.scr:66
-    ctx:command("playanim", "StandUp1, OnStandUpDone") -- COW.scr:68
+    ctx:self():playAnimation("StandUp1", "OnStandUpDone") -- COW.scr:68
     do return ctx:exit("") end -- COW.scr:70
 end
 
 script.labels["OnTipOver2Done"] = function(ctx)
     -- COW.scr:73
-    ctx:command("playanim", "StandUp2, OnStandUpDone") -- COW.scr:75
+    ctx:self():playAnimation("StandUp2", "OnStandUpDone") -- COW.scr:75
     do return ctx:exit("") end -- COW.scr:77
 end
 
 script.labels["OnStandUpDone"] = function(ctx)
     -- COW.scr:80
     mm9.gosub(script, ctx, "EnableWandering") -- COW.scr:82
-    ctx:command("set", "g_bIsTipping, FALSE") -- COW.scr:83
+    ctx:state().g_bIsTipping = false -- COW.scr:83
     do return ctx:exit("") end -- COW.scr:85
 end
 
 script.labels["OnWalk"] = function(ctx)
     -- COW.scr:88
-    ctx:command("walk", "") -- COW.scr:91
+    ctx:self():walk() -- COW.scr:91
     do return ctx:exit("") end -- COW.scr:92
 end
 
 script.labels["OnTurnLeft"] = function(ctx)
     -- COW.scr:95
-    ctx:command("rotate", "0,1,0,90,180") -- COW.scr:97
+    ctx:self():rotate(0, 1, 0, 90, 180) -- COW.scr:97
     do return ctx:exit("") end -- COW.scr:98
 end
 
 script.labels["OnTurnRight"] = function(ctx)
     -- COW.scr:101
-    ctx:command("rotate", "0,1,0,-90,180") -- COW.scr:103
+    ctx:self():rotate(0, 1, 0, -90, 180) -- COW.scr:103
     do return ctx:exit("") end -- COW.scr:104
 end
 
 script.labels["InitCow"] = function(ctx)
     -- COW.scr:107
-    ctx:command("getmyhandle", "g_hMyObject") -- COW.scr:109
     do return ctx:exit("") end -- COW.scr:111
 end
 

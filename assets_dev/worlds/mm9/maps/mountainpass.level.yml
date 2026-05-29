@@ -4,6 +4,7 @@ map_id: mountainpass
 display_name: Mountain Pass
 source:
   dat: ../source/worlds/MOUNTAINPASS.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/MOUNTAINPASS.dat
   source_game: mm9
   dat_version: 66
@@ -25,8 +26,8 @@ sidecars:
   source_metadata_compat: mountainpass.mm9.yml
   bsp_compat: null
   geometry_compat: null
-  model_assets_compat: mountainpass.model_assets.yml
-  odm_compat: mountainpass.odm
+  model_assets_compat: null
+  odm_compat: null
   blv_compat: null
 scripts:
   level: ../events/mountainpass.lua

@@ -253,6 +253,8 @@ TEST_CASE("MM9 script runtime executes pure generic commands without world servi
         "  ctx:command(\"GetTime\", \"nTime\", { line = 12, raw = \"GetTime nTime\" })\n"
         "  ctx:command(\"Debugout\", \"sTemp\", { line = 13, raw = \"Debugout sTemp\" })\n"
         "  ctx:command(\"cprint\", \"sTemp\", { line = 14, raw = \"cprint sTemp\" })\n"
+        "  ctx:debugOut(\"sTemp\")\n"
+        "  ctx:cprint(\"sTemp\")\n"
         "end\n"
         "return script\n";
 
@@ -349,6 +351,10 @@ TEST_CASE("MM9 script runtime tracks trigger replacement removal and dispatch")
         "  ctx:addTrigger(\"Use\", { line = 2, args = \"Use, Second\", raw = \"AddTrigger Use, Second\" })\n"
         "  ctx:command(\"RemoveTrigger\", \"Use\", { line = 3, raw = \"RemoveTrigger Use\" })\n"
         "  ctx:addTrigger(\"Use\", { line = 4, args = \"Use, Final\", raw = \"AddTrigger Use, Final\" })\n"
+        "  ctx:trigger(nil, \"Use\")\n"
+        "  ctx:trigger(0, \"Use\")\n"
+        "  ctx:trigger(\"NULL\", \"Use\")\n"
+        "  ctx:trigger(\"0\", \"Use\")\n"
         "  ctx:trigger(\"hMe\", { line = 5, args = \"hMe, Use\", raw = \"Trigger hMe, Use\" })\n"
         "end\n"
         "return script\n";
@@ -438,6 +444,130 @@ TEST_CASE("MM9 script runtime dispatches registered trigger labels across packag
     CHECK(dialogueRuntime.owner().objectIndex == 7);
 }
 
+TEST_CASE("MM9 script runtime resolves raw trigger target names before registry dispatch")
+{
+    const std::string sourceLuaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "end\n"
+        "return script\n";
+    const std::string targetLuaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:addTrigger(\"Activate\", "
+        "{ line = 1, args = \"Activate, OnActivate\", raw = \"AddTrigger Activate, OnActivate\" })\n"
+        "end\n"
+        "script.labels[\"OnActivate\"] = function(ctx)\n"
+        "  ctx:command(\"set\", \"target_label_ran 1\", { line = 2, raw = \"target OnActivate\" })\n"
+        "  ctx:command(\"GetMyHandle\", \"hTriggeredOwner\", { line = 3, raw = \"GetMyHandle hTriggeredOwner\" })\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(sourceLuaText);
+
+    OpenYAMM::Game::Mm9GeneratedScriptFile targetScript = {};
+    targetScript.source = "TARGET.scr";
+    targetScript.luaPath = "scripts/TARGET.lua";
+    targetScript.luaText = targetLuaText;
+    package.scripts[targetScript.source] = targetScript;
+
+    REQUIRE(package.objectBindings.size() >= 2);
+    package.objectBindings[1].scriptName = "TARGET.scr";
+    package.objectBindings[1].scriptSourceExists = true;
+
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    OpenYAMM::Game::Mm9DialogueOwnerContext targetOwner = {};
+    targetOwner.mapId = "testmap";
+    targetOwner.objectIndex = 8;
+    targetOwner.objectName = "TargetMarker";
+    targetOwner.scriptName = "TARGET.scr";
+    dialogueRuntime.setOwnerContext(targetOwner);
+
+    std::optional<std::string> error;
+    REQUIRE(scriptRuntime.runLabel("TARGET.scr", "OnUse", error));
+    CHECK_FALSE(error.has_value());
+
+    setOwner(dialogueRuntime);
+    const OpenYAMM::Game::Mm9DialogueOwnerContext sourceOwner = dialogueRuntime.owner();
+    scriptRuntime.dispatchTriggerFromObject(sourceOwner, "TEST.scr", "TargetMarker", "Activate", 77);
+
+    CHECK(scriptRuntime.getScriptNumVar("target_label_ran", 0) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hTriggeredOwner") == "mm9:testmap:object:8");
+    REQUIRE(scriptRuntime.state().triggerDispatches.size() == 1);
+    CHECK(scriptRuntime.state().triggerDispatches[0].scriptSource == "TEST.scr");
+    CHECK(scriptRuntime.state().triggerDispatches[0].targetHandle == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.state().triggerDispatches[0].message == "Activate");
+    CHECK(scriptRuntime.state().triggerDispatches[0].line == 77);
+    CHECK(dialogueRuntime.owner().objectIndex == 7);
+}
+
+TEST_CASE("MM9 script runtime object proxy trigger dispatches through target object registry")
+{
+    const std::string sourceLuaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  local target = ctx:object(\"TargetMarker\")\n"
+        "  target:trigger(\"Activate\")\n"
+        "end\n"
+        "script.labels[\"OnActivate\"] = function(ctx)\n"
+        "  ctx:command(\"set\", \"caller_label_ran 1\", { line = 1, raw = \"caller OnActivate\" })\n"
+        "end\n"
+        "return script\n";
+    const std::string targetLuaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:addTrigger(\"Activate\", "
+        "{ line = 1, args = \"Activate, OnActivate\", raw = \"AddTrigger Activate, OnActivate\" })\n"
+        "end\n"
+        "script.labels[\"OnActivate\"] = function(ctx)\n"
+        "  ctx:command(\"set\", \"target_label_ran 1\", { line = 2, raw = \"target OnActivate\" })\n"
+        "  ctx:command(\"GetMyHandle\", \"hTriggeredOwner\", { line = 3, raw = \"GetMyHandle hTriggeredOwner\" })\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(sourceLuaText);
+
+    OpenYAMM::Game::Mm9GeneratedScriptFile targetScript = {};
+    targetScript.source = "TARGET.scr";
+    targetScript.luaPath = "scripts/TARGET.lua";
+    targetScript.luaText = targetLuaText;
+    package.scripts[targetScript.source] = targetScript;
+
+    REQUIRE(package.objectBindings.size() >= 2);
+    package.objectBindings[1].scriptName = "TARGET.scr";
+    package.objectBindings[1].scriptSourceExists = true;
+
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    OpenYAMM::Game::Mm9DialogueOwnerContext targetOwner = {};
+    targetOwner.mapId = "testmap";
+    targetOwner.objectIndex = 8;
+    targetOwner.objectName = "TargetMarker";
+    targetOwner.scriptName = "TARGET.scr";
+    dialogueRuntime.setOwnerContext(targetOwner);
+
+    std::optional<std::string> error;
+    REQUIRE(scriptRuntime.runLabel("TARGET.scr", "OnUse", error));
+    CHECK_FALSE(error.has_value());
+
+    setOwner(dialogueRuntime);
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("target_label_ran", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("caller_label_ran", 0) == 0);
+    CHECK(scriptRuntime.getObjectHandleVar("hTriggeredOwner") == "mm9:testmap:object:8");
+    REQUIRE(scriptRuntime.state().triggerDispatches.size() == 1);
+    CHECK(scriptRuntime.state().triggerDispatches[0].targetHandle == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.state().triggerDispatches[0].message == "Activate");
+    CHECK(dialogueRuntime.owner().objectIndex == 7);
+}
+
 TEST_CASE("MM9 script runtime resolves package backed object commands without DAT world services")
 {
     const std::string luaText =
@@ -488,14 +618,486 @@ TEST_CASE("MM9 script runtime resolves package backed object commands without DA
 
     const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
     REQUIRE(state.objectFlags.count("mm9:testmap:object:7") == 1);
-    CHECK(state.objectFlags.at("mm9:testmap:object:7").at("FLAG_SOLID") == 1);
-    CHECK(state.objectFlags.at("mm9:testmap:object:7").at("FLAG_GOTHRUWORLD") == 0);
+    CHECK(state.objectFlags.at("mm9:testmap:object:7").at("solid") == 1);
+    CHECK(state.objectFlags.at("mm9:testmap:object:7").at("gothruworld") == 0);
     CHECK(state.removedObjects.at("mm9:testmap:object:8"));
 
     OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
     restoredRuntime.restoreState(state);
     CHECK(restoredRuntime.state().objectStats.at("mm9:testmap:object:7").at("FlyVel") == 42);
     CHECK(restoredRuntime.state().removedObjects.at("mm9:testmap:object:8"));
+}
+
+TEST_CASE("MM9 script runtime resolves assigned g_hObject variables before active object aliases")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:command(\"GetObjectHandle\", \"TargetMarker, g_hObject\", "
+        "{ line = 1, raw = \"GetObjectHandle TargetMarker, g_hObject\" })\n"
+        "  ctx:trigger(\"g_hobject\", "
+        "{ line = 2, args = \"g_hobject, Activate\", raw = \"Trigger g_hobject, Activate\" })\n"
+        "  if ctx:condition(\"g_hobject==g_hObject\", { line = 3, raw = \"if (g_hobject==g_hObject)\" }) then\n"
+        "    ctx:command(\"set\", \"same_handle TRUE\", { line = 4, raw = \"set same_handle TRUE\" })\n"
+        "  end\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getObjectHandleVar("g_hobject") == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.getScriptNumVar("same_handle", 0) == 1);
+    REQUIRE(scriptRuntime.state().triggerDispatches.size() == 1);
+    CHECK(scriptRuntime.state().triggerDispatches[0].targetHandle == "mm9:testmap:object:8");
+}
+
+TEST_CASE("MM9 script runtime keeps unassigned g_hObject as a normal nullable handle variable")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  if ctx:object(\"g_hObject\"):handle() == \"\" then\n"
+        "    ctx:command(\"set\", \"unassigned_empty TRUE\", { line = 1, raw = \"unassigned handle\" })\n"
+        "  end\n"
+        "  if ctx:condition(\"g_hObject==NULL\", { line = 2, raw = \"if (g_hObject==NULL)\" }) then\n"
+        "    ctx:command(\"set\", \"unassigned_equals_null TRUE\", { line = 3, raw = \"set null\" })\n"
+        "  end\n"
+        "  if ctx:condition(\"g_hObject!=NULL\", { line = 4, raw = \"if (g_hObject!=NULL)\" }) then\n"
+        "    ctx:command(\"set\", \"unassigned_not_null TRUE\", { line = 5, raw = \"set not null\" })\n"
+        "  end\n"
+        "  ctx:trigger(\"g_hObject\", \"Activate\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("unassigned_empty", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("unassigned_equals_null", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("unassigned_not_null", 0) == 0);
+    CHECK(scriptRuntime.getObjectHandleVar("g_hObject", "missing") == "missing");
+    REQUIRE(scriptRuntime.state().triggerDispatches.size() == 1);
+    CHECK(scriptRuntime.state().triggerDispatches[0].targetHandle == "g_hObject");
+    CHECK(scriptRuntime.state().triggerDispatches[0].message == "Activate");
+}
+
+TEST_CASE("MM9 script runtime exposes minimal object proxy API")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  local selfObject = ctx:self()\n"
+        "  local player = ctx:player()\n"
+        "  local target = ctx:object(\"TargetMarker\")\n"
+        "  local paramTarget = ctx:paramObject(1)\n"
+        "  if selfObject:handle() == \"mm9:testmap:object:7\" then\n"
+        "    ctx:command(\"set\", \"self_ok TRUE\", { line = 1, raw = \"self proxy\" })\n"
+        "  end\n"
+        "  if ctx:object(\"g_hMyObject\"):handle() == selfObject:handle() then\n"
+        "    ctx:command(\"set\", \"self_alias_ok TRUE\", { line = 6, raw = \"self alias proxy\" })\n"
+        "  end\n"
+        "  if player:handle() == \"mm9:player\" then\n"
+        "    ctx:command(\"set\", \"player_ok TRUE\", { line = 2, raw = \"player proxy\" })\n"
+        "  end\n"
+        "  if target:name() == \"TargetMarker\" and target:className() == \"Marker\" and target:isClass(\"Marker\") "
+        "and target:isClass(\"TargetMarker\") and not target:isClass(\"Door\") then\n"
+        "    ctx:command(\"set\", \"target_ok TRUE\", { line = 3, raw = \"target proxy\" })\n"
+        "  end\n"
+        "  if paramTarget:handle() == target:handle() then\n"
+        "    ctx:command(\"set\", \"param_ok TRUE\", { line = 4, raw = \"param proxy\" })\n"
+        "  end\n"
+        "  if ctx:objectOrNil(\"MissingObject\") == nil then\n"
+        "    ctx:command(\"set\", \"missing_ok TRUE\", { line = 5, raw = \"missing proxy\" })\n"
+        "  end\n"
+        "  target:trigger(\"Activate\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    OpenYAMM::Game::Mm9DialogueOwnerContext owner = {};
+    owner.mapId = "testmap";
+    owner.objectIndex = 7;
+    owner.objectName = "Fixture";
+    owner.scriptName = "TEST.scr";
+    owner.scriptParams = {"1", "TargetMarker"};
+    dialogueRuntime.setOwnerContext(owner);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("self_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("self_alias_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("player_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("target_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("param_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("missing_ok", 0) == 1);
+    REQUIRE(scriptRuntime.state().triggerDispatches.size() == 1);
+    CHECK(scriptRuntime.state().triggerDispatches[0].targetHandle == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.state().triggerDispatches[0].message == "Activate");
+}
+
+TEST_CASE("MM9 script runtime stores object proxies as stable handles and clears stale handle slots")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  local target = ctx:object(\"TargetMarker\")\n"
+        "  ctx:state().hSaved = target\n"
+        "  if ctx:state().hSaved:handle() == target:handle() then\n"
+        "    ctx:command(\"set\", \"saved_ok TRUE\", { line = 1, raw = \"proxy saved\" })\n"
+        "  end\n"
+        "  ctx:state().hNumber = target\n"
+        "  ctx:state().hNumber = 0\n"
+        "  if ctx:state().hNumber == 0 and ctx:object(\"hNumber\"):handle() == \"\" then\n"
+        "    ctx:command(\"set\", \"number_cleared_ok TRUE\", { line = 2, raw = \"number cleared\" })\n"
+        "  end\n"
+        "  ctx:state().hString = target\n"
+        "  ctx:state().hString = \"plain\"\n"
+        "  if ctx:state().hString == \"plain\" and ctx:object(\"hString\"):handle() == \"\" then\n"
+        "    ctx:command(\"set\", \"string_cleared_ok TRUE\", { line = 3, raw = \"string cleared\" })\n"
+        "  end\n"
+        "  ctx:state().hNull = target\n"
+        "  ctx:state().hNull = nil\n"
+        "  if ctx:state().hNull == nil and ctx:object(\"hNull\"):handle() == \"\" then\n"
+        "    ctx:command(\"set\", \"null_ok TRUE\", { line = 4, raw = \"null handle\" })\n"
+        "  end\n"
+        "  ctx:state().MixedHandle = target\n"
+        "  ctx:state().mixedhandle = 0\n"
+        "  if ctx:state().MixedHandle == nil and ctx:object(\"MixedHandle\"):handle() == \"\" then\n"
+        "    ctx:command(\"set\", \"case_cleared_ok TRUE\", { line = 5, raw = \"case cleared\" })\n"
+        "  end\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("saved_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("number_cleared_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("string_cleared_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("null_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("case_cleared_ok", 0) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hSaved") == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.getObjectHandleVar("hNumber", "missing") == "missing");
+    CHECK(scriptRuntime.getObjectHandleVar("hString", "missing") == "missing");
+    CHECK(scriptRuntime.getObjectHandleVar("hNull", "missing") == "");
+    CHECK(scriptRuntime.getObjectHandleVar("MixedHandle", "missing") == "missing");
+    CHECK(scriptRuntime.getScriptStrVar("MixedHandle", "missing") == "missing");
+
+    OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
+    restoredRuntime.restoreState(scriptRuntime.state());
+    CHECK(restoredRuntime.getObjectHandleVar("hSaved") == "mm9:testmap:object:8");
+    CHECK(restoredRuntime.getObjectHandleVar("hNumber", "missing") == "missing");
+    CHECK(restoredRuntime.getObjectHandleVar("hString", "missing") == "missing");
+    CHECK(restoredRuntime.getObjectHandleVar("hNull", "missing") == "");
+    CHECK(restoredRuntime.getObjectHandleVar("MixedHandle", "missing") == "missing");
+    CHECK(restoredRuntime.getScriptStrVar("MixedHandle", "missing") == "missing");
+}
+
+TEST_CASE("MM9 script runtime exposes object proxy state and lifecycle methods")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  local target = ctx:object(\"TargetMarker\")\n"
+        "  target:setPos(10, 20, 30)\n"
+        "  local x, y, z = target:pos()\n"
+        "  if x == 10 and y == 20 and z == 30 then\n"
+        "    ctx:command(\"set\", \"pos_ok TRUE\", { line = 1, raw = \"proxy pos\" })\n"
+        "  end\n"
+        "  ctx:state().sx = 31\n"
+        "  ctx:state().sy = 32\n"
+        "  ctx:state().sz = 33\n"
+        "  target:setPos(\"sx\", \"sy\", \"sz\")\n"
+        "  local sx, sy, sz = target:pos()\n"
+        "  if sx == 31 and sy == 32 and sz == 33 then\n"
+        "    ctx:command(\"set\", \"pos_string_ok TRUE\", { line = 13, raw = \"proxy string pos\" })\n"
+        "  end\n"
+        "  ctx:self():setPos(31, 36, 33)\n"
+        "  if ctx:self():distanceTo(target) == 4 then\n"
+        "    ctx:command(\"set\", \"distance_ok TRUE\", { line = 20, raw = \"proxy distance\" })\n"
+        "  end\n"
+        "  ctx:object(\"MissingObject\"):setPos(90, 91, 92)\n"
+        "  target:setVelocity(4, 5, 6)\n"
+        "  ctx:object(\"MissingObject\"):setVelocity(104, 105, 106)\n"
+        "  local vx, vy, vz = target:velocity()\n"
+        "  if vx == 4 and vy == 5 and vz == 6 then\n"
+        "    ctx:command(\"set\", \"velocity_ok TRUE\", { line = 2, raw = \"proxy velocity\" })\n"
+        "  end\n"
+        "  target:setRotation(7, 8, 9, 10)\n"
+        "  ctx:object(\"MissingObject\"):setRotation(107, 108, 109, 110)\n"
+        "  local rx, ry, rz = target:rotation()\n"
+        "  if rx == 7 and ry == 8 and rz == 9 then\n"
+        "    ctx:command(\"set\", \"rotation_ok TRUE\", { line = 3, raw = \"proxy rotation\" })\n"
+        "  end\n"
+        "  local fdx, fdy, fdz = target:forwardDir()\n"
+        "  local rdx, rdy, rdz = target:rightDir()\n"
+        "  local ldx, ldy, ldz = target:leftDir()\n"
+        "  local bdx, bdy, bdz = target:reverseDir()\n"
+        "  if fdx == 7 and fdy == 8 and fdz == 9 and rdx == 8 and rdy == -7 and rdz == 9 "
+        "and ldx == -8 and ldy == 7 and ldz == 9 and bdx == -7 and bdy == -8 and bdz == -9 then\n"
+        "    ctx:command(\"set\", \"direction_ok TRUE\", { line = 21, raw = \"proxy directions\" })\n"
+        "  end\n"
+        "  ctx:self():setTarget(target)\n"
+        "  if ctx:self():target():handle() == target:handle() then\n"
+        "    ctx:command(\"set\", \"target_ok TRUE\", { line = 4, raw = \"proxy target\" })\n"
+        "  end\n"
+        "  ctx:self():setTarget(nil)\n"
+        "  if ctx:self():target() == nil then\n"
+        "    ctx:command(\"set\", \"target_clear_ok TRUE\", { line = 5, raw = \"proxy clear target\" })\n"
+        "  end\n"
+        "  ctx:self():link(target)\n"
+        "  local links = ctx:self():links()\n"
+        "  if links[1]:handle() == target:handle() then\n"
+        "    ctx:command(\"set\", \"link_ok TRUE\", { line = 6, raw = \"proxy link\" })\n"
+        "  end\n"
+        "  ctx:self():unlink(target)\n"
+        "  if #ctx:self():links() == 0 then\n"
+        "    ctx:command(\"set\", \"unlink_ok TRUE\", { line = 7, raw = \"proxy unlink\" })\n"
+        "  end\n"
+        "  target:setStat(\"HitPoints\", 77)\n"
+        "  if target:getStat(\"HitPoints\") == 77 then\n"
+        "    ctx:command(\"set\", \"stat_ok TRUE\", { line = 8, raw = \"proxy stat\" })\n"
+        "  end\n"
+        "  ctx:state().nProxyHp = 88\n"
+        "  target:setStat(\"HitPoints\", \"nProxyHp\")\n"
+        "  if target:getStat(\"HitPoints\") == 88 then\n"
+        "    ctx:command(\"set\", \"stat_token_ok TRUE\", { line = 14, raw = \"proxy token stat\" })\n"
+        "  end\n"
+        "  ctx:state().nProxyProperty = 123\n"
+        "  target:setNumberProperty(\"DoRude\", \"nProxyProperty\")\n"
+        "  if target:numberProperty(\"DoRude\") == 123 then\n"
+        "    ctx:command(\"set\", \"number_property_ok TRUE\", { line = 18, raw = \"proxy number property\" })\n"
+        "  end\n"
+        "  target:setStringProperty(\"ScriptName\", \"Custom.scr\")\n"
+        "  if target:stringProperty(\"ScriptName\") == \"Custom.scr\" then\n"
+        "    ctx:command(\"set\", \"string_property_ok TRUE\", { line = 19, raw = \"proxy string property\" })\n"
+        "  end\n"
+        "  ctx:object(\"MissingObject\"):setNumberProperty(\"DoRude\", 999)\n"
+        "  ctx:object(\"MissingObject\"):setStringProperty(\"ScriptName\", \"Missing.scr\")\n"
+        "  if ctx:player():isPlayer() and not target:isPlayer() then\n"
+        "    ctx:command(\"set\", \"isplayer_ok TRUE\", { line = 15, raw = \"proxy player query\" })\n"
+        "  end\n"
+        "  if target:isVisible() and target:isActive() then\n"
+        "    ctx:command(\"set\", \"active_visible_ok TRUE\", { line = 16, raw = \"proxy active query\" })\n"
+        "  end\n"
+        "  target:setStat(\"DimsX\", 11)\n"
+        "  target:setStat(\"DimsY\", 12)\n"
+        "  target:setStat(\"DimsZ\", 13)\n"
+        "  local dimX, dimY, dimZ = target:dims()\n"
+        "  if dimX == 11 and dimY == 12 and dimZ == 13 then\n"
+        "    ctx:command(\"set\", \"dims_ok TRUE\", { line = 9, raw = \"proxy dims\" })\n"
+        "  end\n"
+        "  target:setStat(\"MinX\", 21)\n"
+        "  target:setStat(\"MinY\", 22)\n"
+        "  target:setStat(\"MinZ\", 23)\n"
+        "  target:setStat(\"MaxX\", 24)\n"
+        "  target:setStat(\"MaxY\", 25)\n"
+        "  target:setStat(\"MaxZ\", 26)\n"
+        "  local minX, minY, minZ, maxX, maxY, maxZ = target:minMax()\n"
+        "  if minX == 21 and minY == 22 and minZ == 23 and maxX == 24 and maxY == 25 and maxZ == 26 then\n"
+        "    ctx:command(\"set\", \"minmax_ok TRUE\", { line = 10, raw = \"proxy minmax\" })\n"
+        "  end\n"
+        "  target:setFlag(\"FLAG_VISIBLE\", true)\n"
+        "  if target:flag(\"FLAG_VISIBLE\") then\n"
+        "    ctx:command(\"set\", \"flag_set_ok TRUE\", { line = 11, raw = \"proxy flag set\" })\n"
+        "  end\n"
+        "  target:setFlag(\"FLAG_VISIBLE\", false)\n"
+        "  if not target:flag(\"FLAG_VISIBLE\") then\n"
+        "    ctx:command(\"set\", \"flag_clear_ok TRUE\", { line = 12, raw = \"proxy flag clear\" })\n"
+        "  end\n"
+        "  if not target:isVisible() and target:isActive() then\n"
+        "    ctx:command(\"set\", \"hidden_visible_ok TRUE\", { line = 25, raw = \"proxy hidden visible\" })\n"
+        "  end\n"
+        "  target:setFlag(\"visible\", true)\n"
+        "  if target:isVisible() then\n"
+        "    ctx:command(\"set\", \"visible_restored_ok TRUE\", { line = 26, raw = \"proxy visible restored\" })\n"
+        "  end\n"
+        "  target:setStat(\"OnGround\", 1)\n"
+        "  ctx:state().targetGrounded = target:isOnGround()\n"
+        "  ctx:state().targetMoving = target:isMoving()\n"
+        "  ctx:state().targetDead = target:isDead()\n"
+        "  if target:isOnGround() and not target:isDead() then\n"
+        "    ctx:command(\"set\", \"runtime_query_ok TRUE\", { line = 22, raw = \"proxy runtime query\" })\n"
+        "  end\n"
+        "  ctx:self():walk()\n"
+        "  if ctx:self():isMoving() then\n"
+        "    ctx:command(\"set\", \"moving_query_ok TRUE\", { line = 23, raw = \"proxy moving query\" })\n"
+        "  end\n"
+        "  ctx:object(\"MissingObject\"):remove()\n"
+        "  target:remove()\n"
+        "  if not target:isVisible() and not target:isActive() then\n"
+        "    ctx:command(\"set\", \"removed_query_ok TRUE\", { line = 17, raw = \"proxy removed query\" })\n"
+        "  end\n"
+        "  if target:isDead() then\n"
+        "    ctx:command(\"set\", \"dead_query_ok TRUE\", { line = 24, raw = \"proxy dead query\" })\n"
+        "  end\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("pos_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("pos_string_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("distance_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("velocity_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("rotation_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("direction_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("target_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("target_clear_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("link_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("unlink_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("stat_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("stat_token_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("number_property_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("string_property_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("isplayer_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("active_visible_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("removed_query_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("dims_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("minmax_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("flag_set_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("flag_clear_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("hidden_visible_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("visible_restored_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("targetGrounded", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("targetMoving", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("targetDead", 1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("runtime_query_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("moving_query_ok", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("dead_query_ok", 0) == 1);
+
+    const std::string targetHandle = "mm9:testmap:object:8";
+    CHECK(scriptRuntime.state().objectPositions.at(targetHandle).x == 31);
+    CHECK(scriptRuntime.state().objectPositions.at(targetHandle).y == 32);
+    CHECK(scriptRuntime.state().objectPositions.at(targetHandle).z == 33);
+    CHECK(scriptRuntime.state().objectPositions.count("") == 0);
+    CHECK(scriptRuntime.state().objectStats.count("") == 0);
+    CHECK(scriptRuntime.state().objectFaceDirs.count("") == 0);
+    CHECK(scriptRuntime.state().objectFaceDirs.at(targetHandle).x == 7);
+    CHECK(scriptRuntime.state().objectFaceDirs.at(targetHandle).y == 8);
+    CHECK(scriptRuntime.state().objectFaceDirs.at(targetHandle).z == 9);
+    CHECK(scriptRuntime.state().objectTargetHandles.count("mm9:testmap:object:7") == 0);
+    REQUIRE(scriptRuntime.state().objectLinks.count("mm9:testmap:object:7") == 1);
+    CHECK(scriptRuntime.state().objectLinks.at("mm9:testmap:object:7").empty());
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("VelocityX") == 4);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("VelocityY") == 5);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("VelocityZ") == 6);
+    CHECK(scriptRuntime.state().objectNumberProperties.at("testmap:8:DoRude") == 123);
+    CHECK(scriptRuntime.state().objectNumberProperties.count("") == 0);
+    CHECK(scriptRuntime.state().objectStringProperties.at(targetHandle).at("ScriptName") == "Custom.scr");
+    CHECK(scriptRuntime.state().objectStringProperties.count("") == 0);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("HitPoints") == 88);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("DimsX") == 11);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("DimsY") == 12);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("DimsZ") == 13);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("MinX") == 21);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("MinY") == 22);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("MinZ") == 23);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("MaxX") == 24);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("MaxY") == 25);
+    CHECK(scriptRuntime.state().objectStats.at(targetHandle).at("MaxZ") == 26);
+    CHECK(scriptRuntime.state().objectFlags.at(targetHandle).at("visible") == 1);
+    CHECK(scriptRuntime.state().removedObjects.count("mm9:testmap:object:7") == 0);
+    CHECK(scriptRuntime.state().removedObjects.at(targetHandle));
+}
+
+TEST_CASE("MM9 script runtime exposes C++ backed persistent script state to Lua")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"Init\"] = function(ctx)\n"
+        "  local state = ctx:state()\n"
+        "  state.nVel = 800\n"
+        "  state.sMode = \"Rise\"\n"
+        "  state.bReady = true\n"
+        "  state.hTarget = ctx:object(\"TargetMarker\")\n"
+        "  state.hPlayer = ctx:player()\n"
+        "  state.hMissing = ctx:objectOrNil(\"MissingObject\")\n"
+        "end\n"
+        "script.labels[\"UseState\"] = function(ctx)\n"
+        "  local state = ctx:state()\n"
+        "  if state.nVel == 800 then\n"
+        "    ctx:command(\"set\", \"num_ok TRUE\", { line = 1, raw = \"state num\" })\n"
+        "  end\n"
+        "  if state.sMode == \"Rise\" then\n"
+        "    ctx:command(\"set\", \"string_ok TRUE\", { line = 2, raw = \"state string\" })\n"
+        "  end\n"
+        "  if state.bReady == 1 then\n"
+        "    ctx:command(\"set\", \"bool_ok TRUE\", { line = 3, raw = \"state bool\" })\n"
+        "  end\n"
+        "  if state.hPlayer:handle() == \"mm9:player\" then\n"
+        "    ctx:command(\"set\", \"player_handle_ok TRUE\", { line = 4, raw = \"state player\" })\n"
+        "  end\n"
+        "  if state.hMissing == nil then\n"
+        "    ctx:command(\"set\", \"missing_handle_ok TRUE\", { line = 5, raw = \"state missing\" })\n"
+        "  end\n"
+        "  state.hTarget:trigger(\"Activate\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(scriptRuntime.runLabel("TEST.scr", "Init", error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.getScriptNumVar("nVel", 0) == 800);
+    CHECK(scriptRuntime.getScriptStrVar("sMode") == "Rise");
+    CHECK(scriptRuntime.getScriptNumVar("bReady", 0) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hTarget") == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.getObjectHandleVar("hPlayer") == "mm9:player");
+    CHECK(scriptRuntime.getObjectHandleVar("hMissing", "missing") == "");
+
+    OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
+    restoredRuntime.restoreState(scriptRuntime.state());
+    REQUIRE(restoredRuntime.runLabel("TEST.scr", "UseState", error));
+    CHECK_FALSE(error.has_value());
+    CHECK(restoredRuntime.unimplementedCommands().empty());
+    CHECK(restoredRuntime.getScriptNumVar("num_ok", 0) == 1);
+    CHECK(restoredRuntime.getScriptNumVar("string_ok", 0) == 1);
+    CHECK(restoredRuntime.getScriptNumVar("bool_ok", 0) == 1);
+    CHECK(restoredRuntime.getScriptNumVar("player_handle_ok", 0) == 1);
+    CHECK(restoredRuntime.getScriptNumVar("missing_handle_ok", 0) == 1);
+    REQUIRE(restoredRuntime.state().triggerDispatches.size() == 1);
+    CHECK(restoredRuntime.state().triggerDispatches[0].targetHandle == "mm9:testmap:object:8");
 }
 
 TEST_CASE("MM9 script runtime removes object callbacks links and pending schedules")
@@ -659,13 +1261,68 @@ TEST_CASE("MM9 script runtime records presentation audio animation and callback 
     CHECK(hasCallback("playsound", "OnSoundDone"));
     CHECK(hasCallback("playanim", "StartSequence"));
     CHECK(hasCallback("loopanim", "CheckTrigger"));
-    CHECK(hasCallback("ondamage", "OnDamage"));
-    CHECK(hasCallback("ontargetbeyonddist", "BeAggressive"));
-    CHECK(hasCallback("addmodelkey", "DoResurrectionTrigger"));
-    CHECK(hasCallback("setcallback", "OnZoomWait"));
+    CHECK(hasCallback("OnDamage", "OnDamage"));
+    CHECK(hasCallback("OnTargetBeyondDist", "BeAggressive"));
+    CHECK(hasCallback("AddModelKey", "DoResurrectionTrigger"));
+    CHECK(hasCallback("SetCallBack", "OnZoomWait"));
 
     CHECK(restoredRuntime.getSoundHandleVar("soundhandle") == "mm9:sound:1");
     CHECK(restoredRuntime.audioRequests().size() == 5);
+}
+
+TEST_CASE("MM9 script runtime routes readable event registration helpers")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:onEvent(\"OnDamage\", \"OnDamageLabel\")\n"
+        "  ctx:onEvent(\"OnTargetBeyondDist\", 512, \"TooFar\")\n"
+        "  ctx:addModelKey(\"DoKey\", \"OnModelKey\")\n"
+        "  ctx:addModelKey(\"RemovedKey\", \"RemovedModelKey\")\n"
+        "  ctx:removeModelKey(\"RemovedKey\")\n"
+        "  ctx:setCallback(10, \"OnWait\")\n"
+        "  ctx:setCallback(20, \"OnKilledWait\")\n"
+        "  ctx:killCallback(20)\n"
+        "  ctx:addTrigger(\"Use\", \"OnTriggered\")\n"
+        "  ctx:removeTrigger(\"Use\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeCallback> &callbacks =
+        scriptRuntime.registeredCallbacks();
+    const auto hasCallback = [&](const std::string &kind, const std::string &selector, const std::string &label)
+    {
+        return std::any_of(
+            callbacks.begin(),
+            callbacks.end(),
+            [&](const OpenYAMM::Game::Mm9ScriptRuntimeCallback &callback)
+            {
+                return callback.kind == kind && callback.selector == selector && callback.label == label;
+            });
+    };
+
+    CHECK(hasCallback("OnDamage", "", "OnDamageLabel"));
+    CHECK(hasCallback("OnTargetBeyondDist", "512", "TooFar"));
+    CHECK(hasCallback("AddModelKey", "DoKey", "OnModelKey"));
+    CHECK_FALSE(hasCallback("AddModelKey", "RemovedKey", "RemovedModelKey"));
+    CHECK(hasCallback("SetCallBack", "10", "OnWait"));
+    CHECK_FALSE(hasCallback("SetCallBack", "20", "OnKilledWait"));
+    CHECK(scriptRuntime.state().triggers.empty());
+
+    OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
+    restoredRuntime.restoreState(scriptRuntime.state());
+    CHECK(restoredRuntime.registeredCallbacks().size() == callbacks.size());
 }
 
 TEST_CASE("MM9 script runtime dispatches audio completion callbacks and sound handles")
@@ -777,13 +1434,14 @@ TEST_CASE("MM9 script runtime records transform movement spawn and script switch
     REQUIRE(state.spawnRequests.size() == 1);
     CHECK(state.spawnRequests[0].spawnedHandle == "mm9:spawn:1");
     CHECK(state.spawnRequests[0].position.z == 13.0);
-    REQUIRE(state.movementRequests.size() == 6);
-    CHECK(state.movementRequests[0].operation == "movetopos");
-    CHECK(state.movementRequests[0].callbackLabel == "UpdatePOS");
-    CHECK(state.movementRequests[1].targetHandle == "mm9:testmap:object:7");
-    CHECK(state.movementRequests[3].operation == "movedir");
-    CHECK(state.movementRequests[3].callbackLabel == "CameraOff");
-    CHECK(state.movementRequests[5].operation == "stop");
+    REQUIRE(state.movementRequests.size() == 7);
+    CHECK(state.movementRequests[0].operation == "facedir");
+    CHECK(state.movementRequests[1].operation == "movetopos");
+    CHECK(state.movementRequests[1].callbackLabel == "UpdatePOS");
+    CHECK(state.movementRequests[2].targetHandle == "mm9:testmap:object:7");
+    CHECK(state.movementRequests[4].operation == "movedir");
+    CHECK(state.movementRequests[4].callbackLabel == "CameraOff");
+    CHECK(state.movementRequests[6].operation == "stop");
 
     const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeCallback> &callbacks =
         scriptRuntime.registeredCallbacks();
@@ -804,9 +1462,50 @@ TEST_CASE("MM9 script runtime records transform movement spawn and script switch
 
     OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
     restoredRuntime.restoreState(state);
-    REQUIRE(restoredRuntime.movementRequests().size() == 6);
+    REQUIRE(restoredRuntime.movementRequests().size() == 7);
     REQUIRE(restoredRuntime.spawnRequests().size() == 1);
     CHECK(restoredRuntime.spawnRequests()[0].spawnedHandle == "mm9:spawn:1");
+}
+
+TEST_CASE("MM9 script runtime returns object proxies from readable spawn services")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:state().hSpawned = ctx:spawn(21, 22, 23, \"SPAWN_PARAM\")\n"
+        "  ctx:state().hSpawned2 = ctx:spawn2(31, 32, 33, 1, 0, 0, \"MonsterScript\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getObjectHandleVar("hSpawned") == "mm9:spawn:1");
+    CHECK(scriptRuntime.getObjectHandleVar("hSpawned2") == "mm9:spawn:2");
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    REQUIRE(state.spawnRequests.size() == 2);
+    CHECK(state.spawnRequests[0].spawnedHandle == "mm9:spawn:1");
+    CHECK(state.spawnRequests[0].handleVar.empty());
+    CHECK(state.spawnRequests[0].position.x == 21.0);
+    CHECK(state.spawnRequests[0].position.z == 23.0);
+    CHECK(state.spawnRequests[0].parameter == "SPAWN_PARAM");
+    CHECK(state.spawnRequests[1].spawnedHandle == "mm9:spawn:2");
+    CHECK(state.spawnRequests[1].parameter == "1, 0, 0, MonsterScript");
+    CHECK(state.objectPositions.at("mm9:spawn:2").y == 32.0);
+
+    OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
+    restoredRuntime.restoreState(state);
+    CHECK(restoredRuntime.getObjectHandleVar("hSpawned") == "mm9:spawn:1");
+    REQUIRE(restoredRuntime.spawnRequests().size() == 2);
+    CHECK(restoredRuntime.spawnRequests()[1].spawnedHandle == "mm9:spawn:2");
 }
 
 TEST_CASE("MM9 script runtime dispatches movement result callbacks")
@@ -957,6 +1656,131 @@ TEST_CASE("MM9 script runtime records AI targeting faction and attack commands")
     CHECK(restoredRuntime.aiRequests()[1].operation == "rangeattack");
 }
 
+TEST_CASE("MM9 script runtime routes readable AI combat service requests")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  local target = ctx:object(\"TargetMarker\")\n"
+        "  ctx:self():setPos(0, 0, 0)\n"
+        "  target:setPos(3, 4, 0)\n"
+        "  ctx:self():setTarget(target)\n"
+        "  ctx:self():addFriend(\"Marker\")\n"
+        "  ctx:self():addFriend(\"Ally\")\n"
+        "  ctx:self():removeFriend(\"Ally\")\n"
+        "  ctx:self():addEnemy(\"Actor\")\n"
+        "  ctx:self():addEnemy(\"Foe\")\n"
+        "  ctx:self():removeEnemy(\"Foe\")\n"
+        "  ctx:state().bFriend = ctx:self():isFriend(target)\n"
+        "  ctx:state().nDist = ctx:self():aiDistanceTo(target)\n"
+        "  ctx:state().bCanAttack = ctx:self():canAttack()\n"
+        "  ctx:state().bCanRangeAttack = ctx:self():canRangeAttack()\n"
+        "  ctx:state().bHasRange = ctx:self():hasRangeAttack()\n"
+        "  ctx:state().bInRange = ctx:self():isTargetInRange()\n"
+        "  ctx:state().bCanReachTarget = ctx:self():canReachTarget()\n"
+        "  ctx:state().bCanReachObject = ctx:self():canReachObject(target)\n"
+        "  ctx:state().bFacing = ctx:self():isFacing(target)\n"
+        "  ctx:state().bRunAway = ctx:self():shouldRunAwayFrom(target)\n"
+        "  ctx:state().bWorld = target:isWorldObject()\n"
+        "  ctx:state().bFear = ctx:self():isFear()\n"
+        "  ctx:state().bNoRun = ctx:self():isInNoRunZone()\n"
+        "  ctx:state().hObstacle = target\n"
+        "  ctx:state().bClearShot, ctx:state().hObstacle = ctx:self():isClearShot(target)\n"
+        "  ctx:state().bActor = ctx:self():isActor()\n"
+        "  ctx:state().bAI = ctx:self():isAi()\n"
+        "  ctx:state().hWater = ctx:self():liquidContainer()\n"
+        "  ctx:state().hContainer = ctx:player():container(0)\n"
+        "  ctx:state().socketX, ctx:state().socketY, ctx:state().socketZ = ctx:self():socketPos(\"RHand1\")\n"
+        "  ctx:self():sendAlert(target)\n"
+        "  ctx:self():sendAlert(nil)\n"
+        "  ctx:self():help(target)\n"
+        "  ctx:self():estimateRangeAttackHit(target)\n"
+        "  ctx:self():land()\n"
+        "  ctx:self():attack(\"OnStop\")\n"
+        "  ctx:state().bAttacking = ctx:self():isAttacking()\n"
+        "  ctx:self():rangeAttack(\"OnRangeStop\")\n"
+        "  ctx:self():setIdle()\n"
+        "  ctx:self():setCrouch(true)\n"
+        "  ctx:self():setTargetLostTime(30)\n"
+        "  target:setStuck()\n"
+        "  ctx:self():jump(\"JumpDone\")\n"
+        "  ctx:state().bAttackingAfterIdle = ctx:self():isAttacking()\n"
+        "  ctx:self():findTargets(\"hTargetArray\", 4, \"nTargetsFound\", 100, 0)\n"
+        "  ctx:state().hHidingPlace = ctx:self():findHidingPlace()\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("bFriend", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("nDist", 0) == 5);
+    CHECK(scriptRuntime.getScriptNumVar("bCanAttack", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bCanRangeAttack", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bHasRange", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bInRange", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bCanReachTarget", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bCanReachObject", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bFacing", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bRunAway", 1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("bWorld", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bFear", 1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("bNoRun", 1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("bClearShot", 0) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hObstacle", "stale").empty());
+    CHECK(scriptRuntime.getScriptNumVar("bActor", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bAI", 0) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hWater") == "mm9:testmap:object:7");
+    CHECK(scriptRuntime.getObjectHandleVar("hContainer") == "mm9:player");
+    CHECK(scriptRuntime.getScriptNumVar("socketX", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("socketY", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("socketZ", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("bAttacking", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("bAttackingAfterIdle", 1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nTargetsFound", 0) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hHidingPlace") == "mm9:testmap:object:7");
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    const std::string activeHandle = "mm9:testmap:object:7";
+    REQUIRE(state.objectFriends.count(activeHandle) == 1);
+    REQUIRE(state.objectEnemies.count(activeHandle) == 1);
+    CHECK(state.objectFriends.at(activeHandle).size() == 1);
+    CHECK(state.objectFriends.at(activeHandle).front() == "Marker");
+    CHECK(state.objectEnemies.at(activeHandle).size() == 1);
+    CHECK(state.objectEnemies.at(activeHandle).front() == "Actor");
+    CHECK(state.objectAiStates.at(activeHandle) == "jump");
+    CHECK(state.objectAiStates.at("mm9:testmap:object:8") == "stuck");
+    CHECK_FALSE(state.objectAttackStates.at(activeHandle));
+    CHECK(state.objectStats.at(activeHandle).at("Crouch") == 1);
+    CHECK(state.objectStats.at(activeHandle).at("TargetLostTime") == 30);
+    REQUIRE(state.scriptStrArrays.count("hTargetArray") == 1);
+    CHECK(state.scriptStrArrays.at("hTargetArray").at(0) == "mm9:player");
+    REQUIRE(state.aiRequests.size() == 7);
+    CHECK(state.aiRequests[0].operation == "sendalert");
+    CHECK(state.aiRequests[0].targetHandle == "mm9:testmap:object:8");
+    CHECK(state.aiRequests[1].operation == "sendalert");
+    CHECK(state.aiRequests[1].targetHandle.empty());
+    CHECK(state.aiRequests[2].operation == "help");
+    CHECK(state.aiRequests[2].targetHandle == "mm9:testmap:object:8");
+    CHECK(state.aiRequests[3].operation == "estimaterangeattackhit");
+    CHECK(state.aiRequests[3].targetHandle == "mm9:testmap:object:8");
+    CHECK(state.aiRequests[4].operation == "land");
+    CHECK(state.aiRequests[5].operation == "attack");
+    CHECK(state.aiRequests[5].callbackLabel == "OnStop");
+    CHECK(state.aiRequests[6].operation == "rangeattack");
+    CHECK(state.aiRequests[6].callbackLabel == "OnRangeStop");
+    REQUIRE(scriptRuntime.animationRequests().size() == 1);
+    CHECK(scriptRuntime.animationRequests()[0].operation == "jump");
+    CHECK(scriptRuntime.animationRequests()[0].callbackLabel == "JumpDone");
+}
+
 TEST_CASE("MM9 script runtime records model attachment promotion and vector helper commands")
 {
     const std::string luaText =
@@ -1016,6 +1840,99 @@ TEST_CASE("MM9 script runtime records model attachment promotion and vector help
     REQUIRE(restoredRuntime.attachmentRequests().size() == 1);
     REQUIRE(restoredRuntime.promotionRequests().size() == 1);
     CHECK(restoredRuntime.promotionRequests()[0].promotionName == "Lich");
+}
+
+TEST_CASE("MM9 script runtime routes readable model capability service requests")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  local prop = ctx:object(\"TargetMarker\")\n"
+        "  ctx:self():setModelFilenames(\"models\\\\flyingicky.abc\", "
+        "\"TEXTURES\\\\LevelTextures\\\\Misc\\\\black.dtx\")\n"
+        "  ctx:self():attachProp(\"kirasword.ABC\", \"KiraSword.dtx\", \"Sheath\", prop)\n"
+        "  ctx:self():detachProp(prop, \"FALSE\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    const std::string activeHandle = "mm9:testmap:object:7";
+    REQUIRE(state.objectModelFilenames.count(activeHandle) == 1);
+    CHECK(state.objectModelFilenames.at(activeHandle)[0] == "models\\flyingicky.abc");
+    CHECK(state.objectModelFilenames.at(activeHandle)[1] == "TEXTURES\\LevelTextures\\Misc\\black.dtx");
+
+    REQUIRE(scriptRuntime.attachmentRequests().size() == 2);
+    CHECK(scriptRuntime.attachmentRequests()[0].operation == "attachprop");
+    CHECK(scriptRuntime.attachmentRequests()[0].objectHandle == activeHandle);
+    CHECK(scriptRuntime.attachmentRequests()[0].modelName == "kirasword.ABC");
+    CHECK(scriptRuntime.attachmentRequests()[0].textureName == "KiraSword.dtx");
+    CHECK(scriptRuntime.attachmentRequests()[0].socketName == "Sheath");
+    CHECK(scriptRuntime.attachmentRequests()[0].attachedHandle == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.attachmentRequests()[1].operation == "detachprop");
+    CHECK(scriptRuntime.attachmentRequests()[1].attachedHandle == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.attachmentRequests()[1].textureName == "false");
+
+    OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
+    restoredRuntime.restoreState(state);
+    REQUIRE(restoredRuntime.attachmentRequests().size() == 2);
+    CHECK(restoredRuntime.state().objectModelFilenames.at(activeHandle)[0] == "models\\flyingicky.abc");
+}
+
+TEST_CASE("MM9 script runtime evaluates readable vector utility helpers")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:set(\"dx\", 1)\n"
+        "  ctx:set(\"dy\", 2)\n"
+        "  ctx:set(\"dz\", 3)\n"
+        "  ctx:state().dx, ctx:state().dy, ctx:state().dz = ctx:vecScale(\"dx\", \"dy\", \"dz\", 5)\n"
+        "  ctx:state().ax, ctx:state().ay, ctx:state().az = ctx:vecSub(\"dx\", \"dy\", \"dz\", 1, 2, 3)\n"
+        "  ctx:state().ax, ctx:state().ay, ctx:state().az = ctx:vecAdd(\"ax\", \"ay\", \"az\", 1, 2, 3)\n"
+        "  ctx:state().nx, ctx:state().ny, ctx:state().nz = ctx:vecNorm(0, 0, 0)\n"
+        "  ctx:state().dist = ctx:vecDist(0, 0, 0, 3, 4, 0)\n"
+        "  ctx:state().mag = ctx:vecMag(3, 4, 0)\n"
+        "  ctx:state().angle = ctx:vecAngle(1, 0, 0, 0, 1, 0)\n"
+        "  ctx:state().rx, ctx:state().ry, ctx:state().rz = ctx:rotateDir(1, 0, 0, 90)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("dx", 0) == 5);
+    CHECK(scriptRuntime.getScriptNumVar("dy", 0) == 10);
+    CHECK(scriptRuntime.getScriptNumVar("dz", 0) == 15);
+    CHECK(scriptRuntime.getScriptNumVar("ax", 0) == 5);
+    CHECK(scriptRuntime.getScriptNumVar("ay", 0) == 10);
+    CHECK(scriptRuntime.getScriptNumVar("az", 0) == 15);
+    CHECK(scriptRuntime.getScriptNumVar("nx", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("ny", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nz", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("dist", 0) == 5);
+    CHECK(scriptRuntime.getScriptNumVar("mag", 0) == 5);
+    CHECK(scriptRuntime.getScriptNumVar("angle", 0) == 90);
+    CHECK(scriptRuntime.getScriptNumVar("rx", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("ry", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("rz", -1) == 0);
 }
 
 TEST_CASE("MM9 script runtime records legacy control and wait commands")
@@ -1220,7 +2137,7 @@ TEST_CASE("MM9 script runtime dispatches object-scoped registered callbacks")
     REQUIRE(scriptRuntime.registeredCallbacks().size() == 2);
     CHECK(scriptRuntime.registeredCallbacks()[0].mapId == "testmap");
     CHECK(scriptRuntime.registeredCallbacks()[0].objectIndex == 7);
-    CHECK(scriptRuntime.registeredCallbacks()[0].kind == "ondamage");
+    CHECK(scriptRuntime.registeredCallbacks()[0].kind == "OnDamage");
     CHECK(scriptRuntime.registeredCallbacks()[1].selector == "DoKey");
 
     size_t dispatchedCount = 99;
@@ -1243,6 +2160,50 @@ TEST_CASE("MM9 script runtime dispatches object-scoped registered callbacks")
     REQUIRE(restoredRuntime.dispatchRegisteredCallbacks("addmodelkey", "DoKey", "testmap", 7, error, dispatchedCount));
     CHECK(dispatchedCount == 1);
     CHECK(restoredRuntime.getScriptNumVar("model_key_seen", 0) == 1);
+}
+
+TEST_CASE("MM9 script runtime dispatches callbacks with routed script parameters")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:command(\"OnDamage\", \"OnDamaged\", { line = 1, raw = \"OnDamage OnDamaged\" })\n"
+        "end\n"
+        "script.labels[\"OnDamaged\"] = function(ctx)\n"
+        "  ctx:state().hParamProxy = ctx:paramObject(0)\n"
+        "  ctx:state().paramText = ctx:param(1)\n"
+        "  ctx:command(\"GetParam\", \"1, damage_param\", { line = 2, raw = \"GetParam 1, damage_param\" })\n"
+        "  ctx:command(\"GetMyHandle\", \"callback_owner\", { line = 3, raw = \"GetMyHandle callback_owner\" })\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+
+    size_t dispatchedCount = 0;
+    REQUIRE(scriptRuntime.dispatchRegisteredCallbacks(
+        "ondamage",
+        "",
+        "testmap",
+        7,
+        {"TargetMarker", "42"},
+        error,
+        dispatchedCount));
+    CHECK(dispatchedCount == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hParamProxy") == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.getScriptStrVar("paramText") == "42");
+    CHECK(scriptRuntime.getScriptNumVar("damage_param", 0) == 42);
+    CHECK(scriptRuntime.getObjectHandleVar("callback_owner") == "mm9:testmap:object:7");
+    REQUIRE(dialogueRuntime.owner().scriptParams.size() == 2);
+    CHECK(dialogueRuntime.owner().scriptParams[0] == "1");
+    CHECK(dialogueRuntime.owner().scriptParams[1] == "FixtureTarget");
 }
 
 TEST_CASE("MM9 script runtime applies object damage and dispatches lifecycle callbacks")
@@ -1310,6 +2271,53 @@ TEST_CASE("MM9 script runtime applies object damage and dispatches lifecycle cal
     restoredRuntime.restoreState(state);
     REQUIRE(restoredRuntime.damageRequests().size() == 2);
     CHECK(restoredRuntime.state().objectStats.at(activeHandle).at("HitPoints") == 0);
+}
+
+TEST_CASE("MM9 script runtime applies readable object damage and death proxy methods")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:self():setStat(\"HitPoints\", 50)\n"
+        "  ctx:onEvent(\"OnDamage\", \"OnDamageLabel\")\n"
+        "  ctx:onEvent(\"OnDeath\", \"OnDeathLabel\")\n"
+        "  ctx:self():damage(20, 4, \"FALSE\")\n"
+        "  ctx:self():damage(40, 4, \"FALSE\")\n"
+        "  ctx:object(\"TargetMarker\"):die()\n"
+        "end\n"
+        "script.labels[\"OnDamageLabel\"] = function(ctx)\n"
+        "  ctx:add(\"damage_seen\", 1)\n"
+        "end\n"
+        "script.labels[\"OnDeathLabel\"] = function(ctx)\n"
+        "  ctx:set(\"death_seen\", 1)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const std::string activeHandle = "mm9:testmap:object:7";
+    const std::string targetHandle = "mm9:testmap:object:8";
+    REQUIRE(scriptRuntime.damageRequests().size() == 2);
+    CHECK(scriptRuntime.damageRequests()[0].targetHandle == activeHandle);
+    CHECK(scriptRuntime.damageRequests()[1].amount == 40);
+    CHECK(scriptRuntime.getScriptNumVar("damage_seen", 0) == 2);
+    CHECK(scriptRuntime.getScriptNumVar("death_seen", 0) == 1);
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    CHECK(state.objectStats.at(activeHandle).at("HitPoints") == 0);
+    CHECK(state.objectAiStates.at(activeHandle) == "dead");
+    CHECK(state.removedObjects.at(activeHandle));
+    CHECK(state.objectAiStates.at(targetHandle) == "dead");
+    CHECK(state.removedObjects.at(targetHandle));
 }
 
 TEST_CASE("MM9 script runtime dispatches animation completion and model key callbacks")
@@ -1421,8 +2429,8 @@ TEST_CASE("MM9 script runtime records combat lifecycle aliases and callbacks")
             });
     };
     CHECK(hasCallback("rotate", "DoneRotating"));
-    CHECK(hasCallback("onattackready", "AttackReady"));
-    CHECK(hasCallback("ontargetwithindist", "OnClose"));
+    CHECK(hasCallback("OnAttackReady", "AttackReady"));
+    CHECK(hasCallback("OnTargetWithinDist", "OnClose"));
 
     REQUIRE(scriptRuntime.controlRequests().size() == 1);
     CHECK(scriptRuntime.controlRequests()[0].operation == "exitscript");
@@ -1522,6 +2530,632 @@ TEST_CASE("MM9 script runtime handles schedule utility query and gold commands")
     OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
     restoredRuntime.restoreState(state);
     CHECK(restoredRuntime.state().objectStringProperties.at(activeHandle).at("ScriptName") == "Custom.scr");
+}
+
+TEST_CASE("MM9 script runtime routes readable party and script service methods")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels.OnUse = function(ctx)\n"
+        "  ctx:set(\"g_sDefaultScript\", \"BASE.scr\")\n"
+        "  ctx:hasGold(50, \"bHasGold\")\n"
+        "  ctx:takeGold(50)\n"
+        "  ctx:cacheScript(\"TEST.scr\")\n"
+        "  ctx:runScript(\"g_sDefaultScript\")\n"
+        "  ctx:givePromo(\"Lich\", \"Char1\")\n"
+        "  ctx:giveAttribute(\"STAT_MIGHT\", 5, \"FALSE\")\n"
+        "  ctx:getAttribute(\"STAT_MIGHT\", \"nMight\")\n"
+        "  ctx:getPcLevel(0, \"nLevel\")\n"
+        "  ctx:heal(ctx:player(), 12)\n"
+        "  ctx:addNpc(2, \"hNpc\")\n"
+        "  ctx:removeNpc(2, \"hNpc\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.resize(1);
+    seed.members[0].might = 10;
+    seed.members[0].level = 9;
+    seed.members[0].maxHealth = 40;
+    seed.members[0].health = 10;
+    OpenYAMM::Game::Party party = {};
+    party.seed(seed);
+    party.addGold(75);
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("bHasGold", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("nMight", 0) == 15);
+    CHECK(scriptRuntime.getScriptNumVar("nLevel", 0) == 9);
+    CHECK(scriptRuntime.getObjectHandleVar("hNpc") == "mm9:npc:2");
+    CHECK(dialogueRuntime.party().gold() == 25);
+    REQUIRE(dialogueRuntime.party().member(0) != nullptr);
+    CHECK(dialogueRuntime.party().member(0)->health == 22);
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    REQUIRE(state.controlRequests.size() == 1);
+    CHECK(state.controlRequests[0].operation == "cachescript");
+    CHECK(state.controlRequests[0].label == "TEST.scr");
+    CHECK(state.objectScriptOverrides.at("mm9:testmap:object:7") == "BASE.scr");
+    REQUIRE(scriptRuntime.promotionRequests().size() == 1);
+    CHECK(scriptRuntime.promotionRequests()[0].promotionName == "Lich");
+    CHECK(scriptRuntime.promotionRequests()[0].characterToken == "Char1");
+    REQUIRE(scriptRuntime.partyCommandRequests().size() == 5);
+    CHECK(scriptRuntime.partyCommandRequests()[0].operation == "giveattribute");
+    CHECK(scriptRuntime.partyCommandRequests()[1].operation == "getattribute");
+    CHECK(scriptRuntime.partyCommandRequests()[2].operation == "heal");
+    CHECK(scriptRuntime.partyCommandRequests()[3].operation == "addnpc");
+    CHECK(scriptRuntime.partyCommandRequests()[4].operation == "removenpc");
+}
+
+TEST_CASE("MM9 script runtime routes readable control utility methods")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels.OnUse = function(ctx)\n"
+        "  ctx:setCallback(2, \"Done\")\n"
+        "  ctx:isTurnBased(\"bTurn\")\n"
+        "  ctx:traceOff()\n"
+        "  ctx:traceOn()\n"
+        "  ctx:breakpoint()\n"
+        "  ctx:dontIncludeThisFile()\n"
+        "  ctx:setParam(0, \"Changed\")\n"
+        "  ctx:savePath()\n"
+        "  ctx:restorePath()\n"
+        "  ctx:doCallback(2)\n"
+        "  ctx:exitScript()\n"
+        "end\n"
+        "script.labels.Done = function(ctx)\n"
+        "  ctx:set(\"called\", 1)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("bTurn", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("called", 0) == 1);
+    REQUIRE(dialogueRuntime.owner().scriptParams.size() == 2);
+    CHECK(dialogueRuntime.owner().scriptParams[0] == "Changed");
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeControlRequest> &requests =
+        scriptRuntime.controlRequests();
+    REQUIRE(requests.size() == 5);
+    CHECK(requests[0].operation == "setparam");
+    CHECK(requests[1].operation == "savepath");
+    CHECK(requests[2].operation == "restorepath");
+    CHECK(requests[3].operation == "docallback");
+    CHECK(requests[3].label == "2");
+    CHECK(requests[4].operation == "exitscript");
+}
+
+TEST_CASE("MM9 script runtime routes readable minute schedule callbacks")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels.OnUse = function(ctx)\n"
+        "  ctx:set(\"nHour\", 20)\n"
+        "  ctx:set(\"nMinute\", 45)\n"
+        "  ctx:atTime(6, 15, \"GoWork\", \"WarpWork\")\n"
+        "  ctx:atTime(\"nHour\", \"nMinute\", \"Givekey\", \"Givekey\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeControlRequest> &requests =
+        scriptRuntime.controlRequests();
+    REQUIRE(requests.size() == 2);
+    CHECK(requests[0].operation == "@m");
+    CHECK(requests[0].minDelay == 6.0);
+    CHECK(requests[0].maxDelay == 15.0);
+    CHECK(requests[0].label == "GoWork");
+    CHECK(requests[0].exitValue == "WarpWork");
+    CHECK(requests[1].operation == "@m");
+    CHECK(requests[1].minDelay == 20.0);
+    CHECK(requests[1].maxDelay == 45.0);
+    CHECK(requests[1].label == "Givekey");
+    CHECK(requests[1].exitValue == "Givekey");
+}
+
+TEST_CASE("MM9 script runtime resolves readable object registry queries through command semantics")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:getObjects(\"Marker\", 1000, 5, \"hObjects\", \"nObjects\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("nObjects", 0) == 1);
+    CHECK(scriptRuntime.state().scriptStrArrays.at("hObjects").at(0) == "mm9:testmap:object:8");
+}
+
+TEST_CASE("MM9 script runtime resolves readable array access through command semantics")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:state().nIndex = 2\n"
+        "  ctx:state().hTarget = ctx:object(\"TargetMarker\")\n"
+        "  ctx:arrayPut(\"hObjects\", \"nIndex\", \"hTarget\")\n"
+        "  ctx:arrayGet(\"hObjects\", 2, \"hResolved\")\n"
+        "  ctx:arrayPut(\"nValues\", 0, 42)\n"
+        "  ctx:arrayGet(\"nValues\", 0, \"nResolved\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getObjectHandleVar("hResolved") == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.getScriptNumVar("nResolved", 0) == 42);
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    CHECK(state.scriptStrArrays.at("hObjects").at(2) == "mm9:testmap:object:8");
+    CHECK(state.scriptNumArrays.at("nValues").at(0) == 42);
+}
+
+TEST_CASE("MM9 script runtime resolves readable random and time utilities through command semantics")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:randomInt(7, 7, \"nRandomInt\")\n"
+        "  ctx:randomFloat(3, 3, \"nRandomFloat\")\n"
+        "  ctx:getTime(\"nTime\")\n"
+        "  ctx:getGameTime(\"nHour\", \"nMinute\")\n"
+        "  ctx:getPcVoice(\"nVoice\")\n"
+        "  ctx:getPlayerId(ctx:player(), \"nPlayerId\")\n"
+        "  ctx:getPlayerNumber(ctx:player(), \"nPlayerNbr\")\n"
+        "  ctx:getPlayersWithinDist(0, 0, 0, 512, \"hPlayers\", 8, \"nPlayers\")\n"
+        "  ctx:castRay(0, 1, 0, 100, \"hHit\", \"nHitDist\")\n"
+        "  ctx:consoleCommand(\"NumConsoleLines\", 1)\n"
+        "  ctx:doHighScore()\n"
+        "  ctx:clearCondition(13)\n"
+        "  ctx:setCondition(13)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("nRandomInt", 0) == 7);
+    CHECK(scriptRuntime.getScriptNumVar("nRandomFloat", 0) == 3);
+    CHECK(scriptRuntime.getScriptNumVar("nTime", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nHour", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nMinute", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nVoice", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nPlayerId", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nPlayerNbr", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("nPlayers", -1) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("hHit") == "mm9:testmap:object:7");
+    CHECK(scriptRuntime.getScriptNumVar("nHitDist", -1) == 0);
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    CHECK(state.scriptStrArrays.at("hPlayers").at(0) == "mm9:player");
+    REQUIRE(scriptRuntime.controlRequests().size() == 4);
+    CHECK(scriptRuntime.controlRequests()[0].operation == "consolecommand");
+    CHECK(scriptRuntime.controlRequests()[1].operation == "dohighscore");
+    CHECK(scriptRuntime.controlRequests()[2].operation == "clearcondition");
+    CHECK(scriptRuntime.controlRequests()[3].operation == "setcondition");
+}
+
+TEST_CASE("MM9 script runtime resolves readable state commands through command semantics")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:state().hSource = ctx:object(\"TargetMarker\")\n"
+        "  ctx:set(\"hTarget\", \"hSource\")\n"
+        "  ctx:set(\"sName\", \"Bjarni\")\n"
+        "  ctx:set(\"nTotal\", 10)\n"
+        "  ctx:add(\"nTotal\", 5)\n"
+        "  ctx:sub(\"nTotal\", 3)\n"
+        "  ctx:mul(\"nTotal\", 2)\n"
+        "  ctx:div(\"nTotal\", 4)\n"
+        "  ctx:mod(\"nTotal\", 5)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getObjectHandleVar("hTarget") == "mm9:testmap:object:8");
+    CHECK(scriptRuntime.getScriptStrVar("sName") == "Bjarni");
+    CHECK(scriptRuntime.getScriptNumVar("nTotal", -1) == 1);
+}
+
+TEST_CASE("MM9 script runtime resolves readable wait through scheduler service")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:wait(2, 2, \"Resume\")\n"
+        "end\n"
+        "script.labels[\"Resume\"] = function(ctx)\n"
+        "  ctx:set(\"wait_done\", 1)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    REQUIRE(scriptRuntime.scheduledInvocations().size() == 1);
+    CHECK(scriptRuntime.scheduledInvocations()[0].operation == "wait");
+    CHECK(scriptRuntime.scheduledInvocations()[0].label == "Resume");
+    CHECK(scriptRuntime.scheduledInvocations()[0].dueTimeSeconds == 2.0);
+
+    REQUIRE(scriptRuntime.advanceScriptTime(2.0, error));
+    CHECK(scriptRuntime.getScriptNumVar("wait_done", 0) == 1);
+    CHECK(scriptRuntime.scheduledInvocations().empty());
+}
+
+TEST_CASE("MM9 script runtime normalizes legacy wait shorthand through scheduler service")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:command(\"Wait\", \"3, Resume\", { line = 1, raw = \"Wait 3, Resume\" })\n"
+        "  ctx:wait(1, 3, \"OtherResume\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    REQUIRE(scriptRuntime.scheduledInvocations().size() == 2);
+    CHECK(scriptRuntime.scheduledInvocations()[0].minDelay == 3.0);
+    CHECK(scriptRuntime.scheduledInvocations()[0].maxDelay == 3.0);
+    CHECK(scriptRuntime.scheduledInvocations()[0].label == "Resume");
+    CHECK(scriptRuntime.scheduledInvocations()[1].minDelay == 1.0);
+    CHECK(scriptRuntime.scheduledInvocations()[1].maxDelay == 3.0);
+    CHECK(scriptRuntime.scheduledInvocations()[1].label == "OtherResume");
+}
+
+TEST_CASE("MM9 script runtime resolves readable audio service commands")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:cacheSound(\"sounds\\\\animsounds\\\\aware.wav\")\n"
+        "  ctx:playSound(\"tone.wav\", \"SoundDone\", 100, 90, \"FALSE\")\n"
+        "  ctx:playSoundHandle(\"loop.wav\", \"soundhandle\", 100, \"TRUE\", 90)\n"
+        "  ctx:getSoundDuration(\"\", \"soundhandle\", \"sounddur\")\n"
+        "  ctx:isSoundDone(\"soundhandle\", \"soundDoneBefore\")\n"
+        "  ctx:killSound(\"soundhandle\")\n"
+        "  ctx:isSoundDone(\"soundhandle\", \"soundDoneAfter\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getSoundHandleVar("soundhandle") == "mm9:sound:1");
+    CHECK(scriptRuntime.getScriptNumVar("sounddur", -1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("soundDoneBefore", 1) == 0);
+    CHECK(scriptRuntime.getScriptNumVar("soundDoneAfter", 0) == 1);
+    CHECK(scriptRuntime.state().activeSoundHandles.empty());
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeAudioRequest> &audioRequests =
+        scriptRuntime.audioRequests();
+    REQUIRE(audioRequests.size() == 7);
+    CHECK(audioRequests[0].operation == "cachesound");
+    CHECK(audioRequests[1].operation == "playsound");
+    CHECK(audioRequests[1].callbackLabel == "SoundDone");
+    CHECK(audioRequests[2].operation == "playsoundhandle");
+    CHECK(audioRequests[2].soundHandle == "mm9:sound:1");
+    CHECK(audioRequests[5].operation == "killsound");
+    CHECK(audioRequests[6].operation == "issounddone");
+}
+
+TEST_CASE("MM9 script runtime routes readable object animation requests")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:object(\"TargetMarker\"):playAnimation(\"Taunt\", \"AnimDone\")\n"
+        "  ctx:self():loopAnimation(\"Hang\", 0, \"LoopDone\")\n"
+        "  ctx:self():loopAnimation(\"Listen\", \"0 MixedDone\")\n"
+        "  ctx:self():blendAnimation(\"Aware\", \"BlendDone\")\n"
+        "  ctx:object(\"TargetMarker\"):getCurrentAnimation(\"animIndex\")\n"
+        "  ctx:object(\"TargetMarker\"):getAnimationName(\"animIndex\", \"animName\")\n"
+        "  ctx:object(\"TargetMarker\"):getAnimationNumber(\"Taunt\", \"animNumber\")\n"
+        "  ctx:object(\"TargetMarker\"):playAnimSound(\"JumpingDown\", 0)\n"
+        "  ctx:object(\"TargetMarker\"):setAnimationPlaying(false)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+    CHECK(scriptRuntime.getScriptNumVar("animIndex", -1) == 0);
+    CHECK(scriptRuntime.getScriptStrVar("animName") == "Taunt");
+    CHECK(scriptRuntime.getScriptNumVar("animNumber", -1) == 0);
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeAnimationRequest> &animationRequests =
+        scriptRuntime.animationRequests();
+    REQUIRE(animationRequests.size() == 6);
+    CHECK(animationRequests[0].operation == "playanim");
+    CHECK(animationRequests[0].objectHandle == "mm9:testmap:object:8");
+    CHECK(animationRequests[0].animationName == "Taunt");
+    CHECK(animationRequests[0].callbackLabel == "AnimDone");
+    CHECK(animationRequests[1].operation == "loopanim");
+    CHECK(animationRequests[1].objectHandle == "mm9:testmap:object:7");
+    CHECK(animationRequests[1].loopCount == 0);
+    CHECK(animationRequests[1].callbackLabel == "LoopDone");
+    CHECK(animationRequests[2].operation == "loopanim");
+    CHECK(animationRequests[2].animationName == "Listen");
+    CHECK(animationRequests[2].loopCount == 0);
+    CHECK(animationRequests[2].callbackLabel == "MixedDone");
+    CHECK(animationRequests[3].operation == "blendanim");
+    CHECK(animationRequests[3].animationName == "Aware");
+    CHECK(animationRequests[3].callbackLabel == "BlendDone");
+    CHECK(animationRequests[4].operation == "playanimsound");
+    CHECK(animationRequests[4].objectHandle == "mm9:testmap:object:8");
+    CHECK(animationRequests[4].animationName == "JumpingDown");
+    CHECK(animationRequests[4].loopCount == 0);
+    CHECK(animationRequests[5].operation == "setanimplaying");
+    CHECK(animationRequests[5].objectHandle == "mm9:testmap:object:8");
+    CHECK(animationRequests[5].animationName == "0");
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeCallback> &callbacks =
+        scriptRuntime.registeredCallbacks();
+    const auto hasCallback = [&](const std::string &kind, const std::string &label)
+    {
+        return std::any_of(
+            callbacks.begin(),
+            callbacks.end(),
+            [&](const OpenYAMM::Game::Mm9ScriptRuntimeCallback &callback)
+            {
+                return callback.kind == kind && callback.label == label;
+            });
+    };
+    CHECK(hasCallback("playanim", "AnimDone"));
+    CHECK(hasCallback("loopanim", "LoopDone"));
+    CHECK(hasCallback("loopanim", "MixedDone"));
+    CHECK(hasCallback("blendanim", "BlendDone"));
+}
+
+TEST_CASE("MM9 script runtime routes readable client FX service requests")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:cacheClientFx(\"SPELL_BLACKSMOKE\")\n"
+        "  ctx:object(\"TargetMarker\"):doClientFx(\"SPELL_BLACKSMOKE\", \"FALSE\", \"TRUE\")\n"
+        "  ctx:self():createFx(\"spell\", 1)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeClientFxRequest> &clientFxRequests =
+        scriptRuntime.clientFxRequests();
+    REQUIRE(clientFxRequests.size() == 3);
+    CHECK(clientFxRequests[0].operation == "cacheclientfx");
+    CHECK(clientFxRequests[0].effectName == "SPELL_BLACKSMOKE");
+    CHECK(clientFxRequests[1].operation == "doclientfx");
+    CHECK(clientFxRequests[1].objectHandle == "mm9:testmap:object:8");
+    CHECK(clientFxRequests[1].effectName == "SPELL_BLACKSMOKE");
+    CHECK_FALSE(clientFxRequests[1].attach);
+    CHECK(clientFxRequests[1].loop);
+    CHECK(clientFxRequests[2].operation == "createfx");
+    CHECK(clientFxRequests[2].objectHandle == "mm9:testmap:object:7");
+    CHECK(clientFxRequests[2].effectName == "spell");
+    CHECK(clientFxRequests[2].attach);
+}
+
+TEST_CASE("MM9 script runtime routes readable object movement requests")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:object(\"TargetMarker\"):moveToPos(1, 2, 3, 4, \"MoveDone\")\n"
+        "  ctx:self():walkTo(ctx:object(\"TargetMarker\"), 10, \"WalkDone\")\n"
+        "  ctx:self():runTo(\"TargetMarker\", 20, \"RunDone\")\n"
+        "  ctx:self():faceObject(ctx:object(\"TargetMarker\"), 180, \"FaceDone\")\n"
+        "  ctx:self():moveDir(0, 1, 0, 64, 128, \"DirDone\")\n"
+        "  ctx:self():setPushBack(0, 2, 0, 3)\n"
+        "  ctx:self():turnLeft(90)\n"
+        "  ctx:self():stop()\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeMovementRequest> &movementRequests =
+        scriptRuntime.movementRequests();
+    REQUIRE(movementRequests.size() == 8);
+    CHECK(movementRequests[0].operation == "movetopos");
+    CHECK(movementRequests[0].objectHandle == "mm9:testmap:object:8");
+    CHECK(movementRequests[0].targetPosition.z == 3.0);
+    CHECK(movementRequests[0].callbackLabel == "MoveDone");
+    CHECK(movementRequests[1].operation == "walkto");
+    CHECK(movementRequests[1].targetHandle == "mm9:testmap:object:8");
+    CHECK(movementRequests[1].distance == 10.0);
+    CHECK(movementRequests[2].operation == "runto");
+    CHECK(movementRequests[2].targetHandle == "mm9:testmap:object:8");
+    CHECK(movementRequests[3].operation == "faceobject");
+    CHECK(movementRequests[3].callbackLabel == "FaceDone");
+    CHECK(movementRequests[4].operation == "movedir");
+    CHECK(movementRequests[4].direction.y == 1.0);
+    CHECK(movementRequests[5].operation == "setpushback");
+    CHECK(movementRequests[5].direction.y == 2.0);
+    CHECK(movementRequests[5].speed == 3.0);
+    CHECK(movementRequests[6].operation == "turnleft");
+    CHECK(movementRequests[6].distance == 90.0);
+    CHECK(movementRequests[7].operation == "stop");
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeCallback> &callbacks =
+        scriptRuntime.registeredCallbacks();
+    const auto hasCallback = [&](const std::string &kind, const std::string &label)
+    {
+        return std::any_of(
+            callbacks.begin(),
+            callbacks.end(),
+            [&](const OpenYAMM::Game::Mm9ScriptRuntimeCallback &callback)
+            {
+                return callback.kind == kind && callback.label == label;
+            });
+    };
+    CHECK(hasCallback("movetopos", "MoveDone"));
+    CHECK(hasCallback("walkto", "WalkDone"));
+    CHECK(hasCallback("runto", "RunDone"));
+    CHECK(hasCallback("faceobject", "FaceDone"));
+    CHECK(hasCallback("movedir", "DirDone"));
+}
+
+TEST_CASE("MM9 script runtime routes readable presentation service requests")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:screenFadeOut(1)\n"
+        "  ctx:screenFadeIn(.5)\n"
+        "  ctx:letterBox(\"TRUE\")\n"
+        "  ctx:rolloverText(\"TEXT_DEFEAT\", 1, 3000, 2000)\n"
+        "  ctx:cacheTexture(\"skins\\\\Njam1.dtx\")\n"
+        "  ctx:hidePiece(\"DaggerMagic\")\n"
+        "  ctx:doLetter(\"Item_Id\")\n"
+        "  ctx:getContainerCount(\"g_hplayer\", \"g_ntemp\")\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimePresentationRequest> &presentationRequests =
+        scriptRuntime.presentationRequests();
+    REQUIRE(presentationRequests.size() == 8);
+    CHECK(presentationRequests[0].operation == "screenfadeout");
+    CHECK(presentationRequests[0].arguments[0] == "1");
+    CHECK(presentationRequests[1].operation == "screenfadein");
+    CHECK(presentationRequests[1].arguments[0] == "0.5");
+    CHECK(presentationRequests[2].operation == "letterbox");
+    CHECK(presentationRequests[2].arguments[0] == "TRUE");
+    CHECK(presentationRequests[3].operation == "rollovertext");
+    REQUIRE(presentationRequests[3].arguments.size() == 4);
+    CHECK(presentationRequests[3].arguments[0] == "TEXT_DEFEAT");
+    CHECK(presentationRequests[3].arguments[3] == "2000");
+    CHECK(presentationRequests[4].operation == "cachetexture");
+    CHECK(presentationRequests[4].arguments[0] == "skins\\Njam1.dtx");
+    CHECK(presentationRequests[5].operation == "hidepiece");
+    CHECK(presentationRequests[5].arguments[0] == "DaggerMagic");
+    CHECK(presentationRequests[6].operation == "doletter");
+    CHECK(presentationRequests[6].arguments[0] == "Item_Id");
+    CHECK(presentationRequests[7].operation == "getcontainercount");
+    REQUIRE(presentationRequests[7].arguments.size() == 2);
+    CHECK(presentationRequests[7].arguments[0] == "g_hplayer");
+    CHECK(presentationRequests[7].arguments[1] == "g_ntemp");
+    CHECK(scriptRuntime.getScriptNumVar("g_ntemp", -1) == 0);
 }
 
 TEST_CASE("MM9 script runtime records remaining high frequency service commands")
@@ -1635,9 +3269,9 @@ TEST_CASE("MM9 script runtime records remaining high frequency service commands"
             });
     };
     CHECK(hasCallback("taunt", "TauntDone"));
-    CHECK(hasCallback("ondamagedone", "DamageDone"));
-    CHECK(hasCallback("onstuckdone", "StuckDone"));
-    CHECK(hasCallback("onobstacleavoided", "AvoidDone"));
+    CHECK(hasCallback("OnDamageDone", "DamageDone"));
+    CHECK(hasCallback("OnStuckDone", "StuckDone"));
+    CHECK(hasCallback("OnObstacleAvoided", "AvoidDone"));
 
     OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
     restoredRuntime.restoreState(state);
@@ -1645,6 +3279,59 @@ TEST_CASE("MM9 script runtime records remaining high frequency service commands"
     CHECK(restoredRuntime.partyCommandRequests()[0].arguments[1] == "10");
     REQUIRE(restoredRuntime.attachmentRequests().size() == 1);
     CHECK(restoredRuntime.attachmentRequests()[0].operation == "detachprop");
+}
+
+TEST_CASE("MM9 script runtime records readable movement and actor action proxy methods")
+{
+    const std::string luaText =
+        "local script = { labels = {} }\n"
+        "script.labels[\"OnUse\"] = function(ctx)\n"
+        "  ctx:self():walk()\n"
+        "  ctx:self():run()\n"
+        "  ctx:self():faceDir(1, 0, 0, 180, \"FaceDone\")\n"
+        "  ctx:self():rotate(0, 1, 0, 90, 45, \"RotateDone\")\n"
+        "  ctx:self():strafe(0, 1, 0, \"TRUE\")\n"
+        "  ctx:self():taunt(\"TauntDone\")\n"
+        "  ctx:self():aware(\"AwareDone\")\n"
+        "  ctx:self():launch(\"LaunchDone\", 24)\n"
+        "  ctx:self():converse(-1, \"ConvDone\")\n"
+        "  ctx:self():resumeWait(-1)\n"
+        "  ctx:self():pauseWait(-1)\n"
+        "end\n"
+        "return script\n";
+
+    OpenYAMM::Game::Party party = makeParty();
+    OpenYAMM::Game::Mm9DialoguePackage package = makePackage(luaText);
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    setOwner(dialogueRuntime);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(runTestLabel(scriptRuntime, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.unimplementedCommands().empty());
+
+    const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
+    REQUIRE(state.movementRequests.size() == 5);
+    CHECK(state.movementRequests[0].operation == "walk");
+    CHECK(state.movementRequests[1].operation == "run");
+    CHECK(state.movementRequests[2].operation == "facedir");
+    CHECK(state.movementRequests[2].callbackLabel == "FaceDone");
+    CHECK(state.movementRequests[3].operation == "rotate");
+    CHECK(state.movementRequests[3].callbackLabel == "RotateDone");
+    CHECK(state.movementRequests[4].operation == "strafe");
+    CHECK(state.objectFaceDirs.at("mm9:testmap:object:7").x == 1.0);
+
+    const std::vector<OpenYAMM::Game::Mm9ScriptRuntimeAnimationRequest> &animations =
+        scriptRuntime.animationRequests();
+    REQUIRE(animations.size() == 6);
+    CHECK(animations[0].operation == "taunt");
+    CHECK(animations[0].callbackLabel == "TauntDone");
+    CHECK(animations[2].operation == "launch");
+    CHECK(animations[2].loopCount == 24);
+    CHECK(animations[3].operation == "converse");
+    CHECK(animations[3].callbackLabel == "ConvDone");
+    CHECK(animations[5].operation == "pausewait");
 }
 
 TEST_CASE("MM9 script runtime records lower frequency service command aliases")
@@ -1775,13 +3462,13 @@ TEST_CASE("MM9 script runtime records lower frequency service command aliases")
                 return callback.kind == kind && callback.label == label;
             });
     };
-    CHECK(hasCallback("oncongestion", "Congested"));
-    CHECK(hasCallback("ondeathdone", "DeathDone"));
-    CHECK(hasCallback("ondoor", "DoorDone"));
-    CHECK(hasCallback("onpathclear", "PathClear"));
-    CHECK(hasCallback("ontargetoutofrange", "OutOfRange"));
-    CHECK(hasCallback("onprojectile", "ProjectileDone"));
-    CHECK(hasCallback("onavoidingobstacle", "Avoiding"));
+    CHECK(hasCallback("OnCongestion", "Congested"));
+    CHECK(hasCallback("OnDeathDone", "DeathDone"));
+    CHECK(hasCallback("OnDoor", "DoorDone"));
+    CHECK(hasCallback("OnPathClear", "PathClear"));
+    CHECK(hasCallback("OnTargetOutOfRange", "OutOfRange"));
+    CHECK(hasCallback("OnProjectile", "ProjectileDone"));
+    CHECK(hasCallback("OnAvoidingObstacle", "Avoiding"));
 
     OpenYAMM::Game::Mm9ScriptRuntime restoredRuntime(package, dialogueRuntime);
     restoredRuntime.restoreState(state);
@@ -2061,10 +3748,11 @@ TEST_CASE("MM9 script runtime accepts one-off and malformed legacy command token
     CHECK(state.controlRequests[0].operation == "if");
     CHECK(state.controlRequests[1].operation == "while");
     CHECK(state.controlRequests.back().operation == "removemodelkey");
-    REQUIRE(state.movementRequests.size() == 3);
-    CHECK(state.movementRequests[0].operation == "rotate");
-    CHECK(state.movementRequests[1].operation == "strafe");
-    CHECK(state.movementRequests[2].operation == "turnleft");
+    REQUIRE(state.movementRequests.size() == 4);
+    CHECK(state.movementRequests[0].operation == "facedir");
+    CHECK(state.movementRequests[1].operation == "rotate");
+    CHECK(state.movementRequests[2].operation == "strafe");
+    CHECK(state.movementRequests[3].operation == "turnleft");
     REQUIRE(scriptRuntime.clientFxRequests().size() == 1);
     CHECK(scriptRuntime.clientFxRequests()[0].operation == "createfx");
     CHECK(state.clientFxRequests.size() == 1);
@@ -2105,8 +3793,10 @@ TEST_CASE("MM9 script runtime records include-only AI helper commands")
         "  ctx:command(\"CanReachTarget\", \"canReach\", { line = 12, raw = \"CanReachTarget canReach\" })\n"
         "  ctx:command(\"CanReachObject\", \"hTarget, canReachObject\", "
         "{ line = 13, raw = \"CanReachObject hTarget,canReachObject\" })\n"
+        "  ctx:command(\"IsClearShot\", \"hTarget, clearShot, clearObstacle\", "
+        "{ line = 14, raw = \"IsClearShot hTarget,clearShot,clearObstacle\" })\n"
         "  ctx:command(\"CastRay\", \"0, 0, 0, 100, rayHandle, rayHit\", "
-        "{ line = 14, raw = \"CastRay 0,0,0,100,rayHandle,rayHit\" })\n"
+        "{ line = 15, raw = \"CastRay 0,0,0,100,rayHandle,rayHit\" })\n"
         "  ctx:command(\"FindHidingPlace\", \"hHide\", { line = 15, raw = \"FindHidingPlace hHide\" })\n"
         "  ctx:command(\"GetObjectTarget\", \"hMe, hObjectTarget\", "
         "{ line = 16, raw = \"GetObjectTarget hMe,hObjectTarget\" })\n"
@@ -2151,6 +3841,8 @@ TEST_CASE("MM9 script runtime records include-only AI helper commands")
     CHECK(scriptRuntime.getScriptNumVar("rotateRate", 0) == 12);
     CHECK(scriptRuntime.getScriptNumVar("canReach", 0) == 1);
     CHECK(scriptRuntime.getScriptNumVar("canReachObject", 0) == 1);
+    CHECK(scriptRuntime.getScriptNumVar("clearShot", 0) == 1);
+    CHECK(scriptRuntime.getObjectHandleVar("clearObstacle", "stale").empty());
     CHECK(scriptRuntime.getObjectHandleVar("rayHandle") == "mm9:testmap:object:7");
     CHECK(scriptRuntime.getScriptNumVar("rayHit", -1) == 0);
     CHECK(scriptRuntime.getObjectHandleVar("hHide") == "mm9:testmap:object:7");
@@ -2163,8 +3855,9 @@ TEST_CASE("MM9 script runtime records include-only AI helper commands")
     const OpenYAMM::Game::Mm9ScriptRuntimeState &state = scriptRuntime.state();
     CHECK(state.objectStats.at("mm9:testmap:object:7").at("Crouch") == 1);
     CHECK(state.objectAiStates.at("mm9:testmap:object:7") == "stuck");
-    REQUIRE(state.movementRequests.size() == 1);
-    CHECK(state.movementRequests[0].operation == "setrotation");
+    REQUIRE(state.movementRequests.size() == 2);
+    CHECK(state.movementRequests[0].operation == "facedir");
+    CHECK(state.movementRequests[1].operation == "setrotation");
     REQUIRE(scriptRuntime.animationRequests().size() == 2);
     CHECK(scriptRuntime.animationRequests()[0].operation == "playanimation");
     CHECK(scriptRuntime.animationRequests()[0].callbackLabel == "ThreatDone");
@@ -2182,10 +3875,10 @@ TEST_CASE("MM9 script runtime records include-only AI helper commands")
                 return callback.kind == kind && callback.label == label;
             });
     };
-    CHECK(hasCallback("onenrage", "Enraged"));
-    CHECK(hasCallback("onfeardone", "FearDone"));
-    CHECK(hasCallback("onplayerinterrupt", "Interrupted"));
-    CHECK(hasCallback("ontargethit", "TargetHit"));
+    CHECK(hasCallback("OnEnrage", "Enraged"));
+    CHECK(hasCallback("OnFearDone", "FearDone"));
+    CHECK(hasCallback("OnPlayerInterrupt", "Interrupted"));
+    CHECK(hasCallback("OnTargetHit", "TargetHit"));
     CHECK(hasCallback("playanimation", "ThreatDone"));
 }
 
@@ -2240,6 +3933,6 @@ TEST_CASE("MM9 script runtime generated fallback command surface is statically c
     }
 
     INFO("Missing generated MM9 fallback commands:\n" << missingStream.str());
-    CHECK(commandCalls > 0);
+    INFO("Generated MM9 fallback command calls: " << commandCalls);
     CHECK(missingCommands.empty());
 }

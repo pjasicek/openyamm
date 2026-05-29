@@ -4,6 +4,7 @@ map_id: anskramkeep
 display_name: Anskram Keep
 source:
   dat: ../source/worlds/ANSKRAMKEEP.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/ANSKRAMKEEP.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: anskramkeep.raw_objects.yml
   materials: anskramkeep.material_aliases.yml
   events: anskramkeep.events.yml
-  scene_compat: anskramkeep.scene.yml
+  scene_compat: null
   source_metadata_compat: anskramkeep.mm9.yml
-  bsp_compat: anskramkeep.bsp.yml
-  geometry_compat: anskramkeep.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: anskramkeep.blv
+  blv_compat: null
 scripts:
   level: ../events/anskramkeep.lua
   script_ir: ../events/anskramkeep.script_ir.yml

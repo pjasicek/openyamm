@@ -1,0 +1,1079 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: darkpassageway
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: darkp_bridgepuzzle.scr
+  source_path: DARKP_BRIDGEPUZZLE.scr
+  parse_status: parsed
+  includes:
+  - line: 15
+    path: DarkP_initMyStuff.inc
+  labels:
+  - line: 36
+    name: MoveStuff
+  - line: 81
+    name: HitA
+  - line: 89
+    name: HitB
+  - line: 97
+    name: HitC
+  - line: 105
+    name: HitD
+  - line: 113
+    name: Reset
+  - line: 120
+    name: main2
+  - line: 128
+    name: main
+  registered_triggers:
+  - line: 133
+    message: HitA
+    callback: HitA
+    arguments_raw: HitA HitA
+  - line: 134
+    message: HitB
+    callback: HitB
+    arguments_raw: HitB HitB
+  - line: 135
+    message: HitC
+    callback: HitC
+    arguments_raw: HitC HitC
+  - line: 136
+    message: HitD
+    callback: HitD
+    arguments_raw: HitD HitD
+  - line: 137
+    message: Reset
+    callback: Reset
+    arguments_raw: Reset Reset
+  trigger_edges:
+  - line: 55
+    target_expression: hName
+    message_expression: Move
+    arguments_raw: hName Move
+  - line: 68
+    target_expression: hDoor
+    message_expression: Unlock
+    arguments_raw: hDoor Unlock
+  - line: 69
+    target_expression: hDoor
+    message_expression: Use
+    arguments_raw: hDoor Use
+  - line: 74
+    target_expression: hName
+    message_expression: Stop
+    arguments_raw: hName, Stop
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 39
+    command: nTemp1
+    arguments_raw: = nGroup
+  - line: 40
+    command: nBridgeNumber
+    arguments_raw: = 5
+  - line: 41
+    command: While
+    arguments_raw: ( nBridgeNumber > 0 )
+  - line: 42
+    command: nBridgeNumber
+    arguments_raw: = nBridgeNumber - 1
+  - line: 43
+    command: nTemp2
+    arguments_raw: = nTemp1
+  - line: 45
+    command: Mod
+    arguments_raw: nTemp2 nTwo
+  - line: 48
+    command: nTemp1
+    arguments_raw: = nTemp1 - nTemp2 / 2
+  - line: 50
+    command: ArrayGet
+    arguments_raw: aBridges nBridgeNumber nPos
+  - line: 52
+    command: ArrayPut
+    arguments_raw: aBridges nBridgeNumber nTemp2
+  - line: 53
+    command: sName
+    arguments_raw: = sNameRoot + nBridgeNumber
+  - line: 58
+    command: endwhile
+    arguments_raw: ''
+  - line: 61
+    command: RemoveTrigger
+    arguments_raw: HitA
+  - line: 62
+    command: RemoveTrigger
+    arguments_raw: HitB
+  - line: 63
+    command: RemoveTrigger
+    arguments_raw: HitC
+  - line: 64
+    command: RemoveTrigger
+    arguments_raw: HitD
+  - line: 65
+    command: RemoveTrigger
+    arguments_raw: Reset
+  - line: 70
+    command: nTemp1
+    arguments_raw: = 0
+  - line: 71
+    command: While
+    arguments_raw: (nTemp1 < 6)
+  - line: 72
+    command: sName
+    arguments_raw: = sCreatureSwitch + nTemp1
+  - line: 75
+    command: nTemp1
+    arguments_raw: = nTemp1 + 1
+  - line: 76
+    command: EndWhile
+    arguments_raw: ''
+  - line: 83
+    command: ArrayGet
+    arguments_raw: aA nGroup nGroup
+  - line: 91
+    command: ArrayGet
+    arguments_raw: aB nGroup nGroup
+  - line: 99
+    command: ArrayGet
+    arguments_raw: aC nGroup nGroup
+  - line: 107
+    command: ArrayGet
+    arguments_raw: aD nGroup nGroup
+  - line: 115
+    command: nGroup
+    arguments_raw: = 14
+  command_count: 59
+- script_id: darkp_bridgereset.scr
+  source_path: DARKP_BRIDGERESET.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: Globals.inc
+  labels:
+  - line: 16
+    name: StopHere
+  - line: 21
+    name: TurnSwitchOff
+  - line: 26
+    name: TriggerScrObj
+  - line: 31
+    name: MoveMe
+  - line: 38
+    name: Main2
+  - line: 48
+    name: Main
+  registered_triggers:
+  - line: 41
+    message: Use
+    callback: MoveMe
+    arguments_raw: Use, MoveMe
+  - line: 42
+    message: Stop
+    callback: TurnSwitchOff
+    arguments_raw: Stop, TurnSwitchOff
+  trigger_edges:
+  - line: 28
+    target_expression: hPuzzleManager
+    message_expression: Reset
+    arguments_raw: hPuzzleManager, Reset
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 34
+    command: PlayAnim
+    arguments_raw: fidget1, TriggerScrObj
+  - line: 44
+    command: PlayAnim
+    arguments_raw: fidget1, StopHere
+  unknown_commands:
+  - line: 23
+    command: RemoveTrigger
+    arguments_raw: Use
+  command_count: 16
+- script_id: darkp_canyonswitch.scr
+  source_path: DARKP_CANYONSWITCH.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: Globals.inc
+  labels:
+  - line: 18
+    name: CanyonDoors
+  - line: 27
+    name: Stop
+  - line: 40
+    name: OnUse
+  - line: 46
+    name: AnimateA
+  - line: 59
+    name: AnimateB
+  - line: 71
+    name: AnimateC
+  - line: 83
+    name: Main2
+  - line: 90
+    name: Main
+  registered_triggers:
+  - line: 86
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges:
+  - line: 22
+    target_expression: hBansheeObjectA
+    message_expression: Unlock
+    arguments_raw: hBansheeObjectA, Unlock
+  - line: 23
+    target_expression: hBansheeObjectB
+    message_expression: Unlock
+    arguments_raw: hBansheeObjectB, Unlock
+  - line: 24
+    target_expression: hBansheeObjectA
+    message_expression: Use
+    arguments_raw: hBansheeObjectA, Use
+  - line: 31
+    target_expression: hBansheeObjectA
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectA, On
+  - line: 32
+    target_expression: hBansheeObjectB
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectB, On
+  - line: 50
+    target_expression: hBansheeObjectA
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectA, On
+  - line: 51
+    target_expression: hBansheeObjectB
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectB, On
+  - line: 63
+    target_expression: hBansheeObjectA
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectA, On
+  - line: 64
+    target_expression: hBansheeObjectB
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectB, On
+  - line: 75
+    target_expression: hBansheeObjectA
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectA, On
+  - line: 76
+    target_expression: hBansheeObjectB
+    message_expression: 'On'
+    arguments_raw: hBansheeObjectB, On
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 43
+    command: PlayAnim
+    arguments_raw: Hattack2, AnimateA
+  - line: 55
+    command: PlayAnim
+    arguments_raw: Taunt, AnimateB
+  - line: 68
+    command: PlayAnim
+    arguments_raw: Rattack1, AnimateC
+  - line: 80
+    command: PlayAnim
+    arguments_raw: Fidget1, Stop
+  - line: 87
+    command: PlayAnim
+    arguments_raw: CastSpell, DoNothing
+  unknown_commands:
+  - line: 33
+    command: Cprint
+    arguments_raw: hBansheeObjectA
+  - line: 34
+    command: Cprint
+    arguments_raw: hBansheeObjectB
+  - line: 35
+    command: Stop
+    arguments_raw: ''
+  - line: 36
+    command: RemoveTrigger
+    arguments_raw: Use
+  - line: 52
+    command: Cprint
+    arguments_raw: hBansheeObjectA
+  - line: 53
+    command: Cprint
+    arguments_raw: hBansheeObjectB
+  - line: 65
+    command: Cprint
+    arguments_raw: hBansheeObjectA
+  - line: 66
+    command: Cprint
+    arguments_raw: hBansheeObjectB
+  - line: 77
+    command: Cprint
+    arguments_raw: hBansheeObjectA
+  - line: 78
+    command: Cprint
+    arguments_raw: hBansheeObjectB
+  command_count: 51
+- script_id: darkp_npcdie.scr
+  source_path: DARKP_NPCDIE.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: Globals.inc
+  labels:
+  - line: 15
+    name: Stop
+  - line: 19
+    name: TakeHit
+  - line: 24
+    name: AnimateA
+  - line: 29
+    name: Main2
+  - line: 40
+    name: Die
+  - line: 45
+    name: Main
+  registered_triggers:
+  - line: 31
+    message: Wince
+    callback: TakeHit
+    arguments_raw: Wince, TakeHit
+  - line: 32
+    message: destroy
+    callback: Die
+    arguments_raw: destroy, Die
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 36
+    command: SetStat
+    arguments_raw: hMe, GaveTreasure, TRUE
+  presentation_commands:
+  - line: 21
+    command: PlayAnim
+    arguments_raw: Wince1, AnimateA
+  - line: 26
+    command: PlayAnim
+    arguments_raw: Wince2, Stop
+  unknown_commands:
+  - line: 42
+    command: Die
+    arguments_raw: ''
+  command_count: 14
+- script_id: darkp_raisingbridge.scr
+  source_path: DARKP_RAISINGBRIDGE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: Globals.inc
+  - line: 10
+    path: Flags.inc
+  labels:
+  - line: 24
+    name: StopHere
+  - line: 29
+    name: DownMarker
+  - line: 38
+    name: UpMarker
+  - line: 47
+    name: MoveMe
+  - line: 57
+    name: Main2
+  - line: 64
+    name: Main
+  registered_triggers:
+  - line: 61
+    message: Move
+    callback: MoveMe
+    arguments_raw: Move, MoveMe
+  trigger_edges: []
+  movement_commands:
+  - line: 35
+    command: MoveToPos
+    arguments_raw: nVarX, nVarY, nVarZ, 180, StopHere
+  - line: 44
+    command: MoveToPos
+    arguments_raw: nVarX, nVarY, nVarZ, 180, StopHere
+  state_commands:
+  - line: 60
+    command: SetFlag
+    arguments_raw: hMe, FLAG_GOTHRUWORLD
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: hMarker
+    arguments_raw: = NULL
+  - line: 31
+    command: nDown
+    arguments_raw: = 1
+  - line: 40
+    command: nDown
+    arguments_raw: = 0
+  command_count: 29
+- script_id: darkp_raisingswitch.scr
+  source_path: DARKP_RAISINGSWITCH.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: Globals.inc
+  labels:
+  - line: 18
+    name: StopHere
+  - line: 23
+    name: TurnSwitchOff
+  - line: 28
+    name: TriggerScrObj
+  - line: 33
+    name: MoveMe
+  - line: 45
+    name: Main2
+  - line: 58
+    name: Main
+  registered_triggers:
+  - line: 48
+    message: Use
+    callback: MoveMe
+    arguments_raw: Use, MoveMe
+  - line: 49
+    message: Stop
+    callback: TurnSwitchOff
+    arguments_raw: Stop, TurnSwitchOff
+  trigger_edges:
+  - line: 30
+    target_expression: hPuzzleManager
+    message_expression: sMessage
+    arguments_raw: hPuzzleManager, sMessage
+  movement_commands: []
+  state_commands:
+  - line: 67
+    command: ClearFlag
+    arguments_raw: g_hObject,8388608
+  presentation_commands:
+  - line: 36
+    command: PlayAnim
+    arguments_raw: FidgetAir1, TriggerScrObj
+  - line: 39
+    command: PlayAnim
+    arguments_raw: fidget1, TriggerScrObj
+  - line: 52
+    command: PlayAnim
+    arguments_raw: awareAir, StopHere
+  - line: 54
+    command: PlayAnim
+    arguments_raw: fidget1, StopHere
+  unknown_commands:
+  - line: 25
+    command: RemoveTrigger
+    arguments_raw: Use
+  command_count: 29
+- script_id: darkp_warrior.scr
+  source_path: DARKP_WARRIOR.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: BaseMelee.inc
+  labels:
+  - line: 18
+    name: Stop
+  - line: 26
+    name: BeginSequence
+  - line: 31
+    name: AnimateC
+  - line: 37
+    name: Main2
+  - line: 43
+    name: Main
+  registered_triggers:
+  - line: 40
+    message: HitNpc
+    callback: BeginSequence
+    arguments_raw: HitNpc, BeginSequence
+  trigger_edges:
+  - line: 20
+    target_expression: hNpc
+    message_expression: Destroy
+    arguments_raw: hNpc, Destroy
+  - line: 33
+    target_expression: hNpc
+    message_expression: Wince
+    arguments_raw: hNpc, Wince
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 28
+    command: PlayAnim
+    arguments_raw: Hattack1, AnimateC
+  - line: 34
+    command: PlayAnim
+    arguments_raw: Hattack2, Stop
+  unknown_commands:
+  - line: 21
+    command: GetPlayerHandle
+    arguments_raw: hPlayer, 3000
+  - line: 22
+    command: RunTo
+    arguments_raw: hPlayer, 50, BaseInit
+  command_count: 15
+- script_id: dp_cagemonster.scr
+  source_path: DP_CAGEMONSTER.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: baseMelee.inc
+  labels:
+  - line: 14
+    name: Main
+  - line: 23
+    name: InitCageMonster
+  - line: 35
+    name: OpenCage
+  - line: 47
+    name: LeaveCage
+  - line: 57
+    name: TurnOn
+  - line: 64
+    name: TurnOff
+  registered_triggers:
+  - line: 25
+    message: 'on'
+    callback: TurnOn
+    arguments_raw: on, TurnOn
+  - line: 26
+    message: 'off'
+    callback: TurnOff
+    arguments_raw: off,TurnOff
+  - line: 28
+    message: go
+    callback: OpenCage
+    arguments_raw: go, OpenCage
+  - line: 59
+    message: go
+    callback: OpenCage
+    arguments_raw: go, OpenCage
+  trigger_edges:
+  - line: 37
+    target_expression: hDoor
+    message_expression: unlock
+    arguments_raw: hDoor, unlock
+  - line: 38
+    target_expression: hDoor
+    message_expression: use
+    arguments_raw: hDoor, use
+  movement_commands: []
+  state_commands:
+  - line: 40
+    command: GetStat
+    arguments_raw: hDoor, DoorOpenTime, WAIT_TIME
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: OnPostStartWorld
+    arguments_raw: InitCageMonster
+  - line: 50
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  - line: 66
+    command: RemoveTrigger
+    arguments_raw: go
+  command_count: 22
+- script_id: givetake.scr
+  source_path: GIVETAKE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnUse
+  - line: 47
+    name: Init
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 70
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: giveitem
+    arguments_raw: item_ID
+  - line: 34
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 38
+    command: giveitem
+    arguments_raw: Item_ID
+  - line: 40
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 59
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 30
+- script_id: magiccarpet.scr
+  source_path: MAGICCARPET.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: BaseGlobals.inc
+  labels:
+  - line: 24
+    name: Main
+  - line: 35
+    name: InitMagicCarpet
+  - line: 50
+    name: StartRising
+  - line: 59
+    name: RiseLoop
+  - line: 82
+    name: CheckPOS
+  - line: 102
+    name: ResetLift
+  registered_triggers:
+  - line: 37
+    message: Use
+    callback: StartRising
+    arguments_raw: Use, StartRising
+  - line: 107
+    message: Use
+    callback: StartRising
+    arguments_raw: Use, StartRising
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 29
+    command: OnPostStartWorld
+    arguments_raw: InitMagicCarpet
+  - line: 30
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitMagicCarpet
+  - line: 39
+    command: GetPlayerHandle
+    arguments_raw: hPlayer
+  - line: 52
+    command: RemoveTrigger
+    arguments_raw: Use
+  - line: 53
+    command: nVel
+    arguments_raw: = 800
+  - line: 54
+    command: nVely
+    arguments_raw: = 500
+  - line: 62
+    command: unknown
+    arguments_raw: if( nVel>0 )
+  - line: 65
+    command: GetFaceDir
+    arguments_raw: hPlayer, nVelx,nTemp,nVelz
+  - line: 66
+    command: VecNorm
+    arguments_raw: nVelx,nTemp,nVelz
+  - line: 67
+    command: VecScale
+    arguments_raw: nVelx,nTemp,nVelz, nVel
+  - line: 68
+    command: SetVelocity
+    arguments_raw: hMe, nVelx,nVely,nVelz
+  - line: 90
+    command: CalcDist
+    arguments_raw: xNow,yNow,zNow, xPrev,yPrev,zPrev, dist
+  - line: 92
+    command: unknown
+    arguments_raw: if( dist<4 )
+  - line: 96
+    command: VecScale
+    arguments_raw: xPrev,yPrev,zPrev, 0
+  - line: 97
+    command: VecAdd
+    arguments_raw: xPrev,yPrev,zPrev, xNow,yNow,zNow
+  - line: 105
+    command: nVely
+    arguments_raw: = -4096
+  - line: 106
+    command: nVel
+    arguments_raw: = 0
+  command_count: 40
+- script_id: npc338.scr
+  source_path: NPC338.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 19
+    name: OnRude
+  - line: 28
+    name: darkpass
+  - line: 70
+    name: activate
+  - line: 82
+    name: OnUse
+  - line: 89
+    name: OnExit
+  - line: 95
+    name: Main
+  registered_triggers:
+  - line: 104
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges:
+  - line: 74
+    target_expression: g_hobject
+    message_expression: open
+    arguments_raw: g_hobject open
+  - line: 76
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 34
+    command: haskey
+    arguments_raw: 476 g_ntemp
+  - line: 40
+    command: haskey
+    arguments_raw: 188 g_ntemp
+  - line: 44
+    command: givekey
+    arguments_raw: '188'
+  - line: 45
+    command: GiveExp
+    arguments_raw: '146000'
+  - line: 51
+    command: haskey
+    arguments_raw: 187 g_ntemp
+  - line: 53
+    command: givekey
+    arguments_raw: '476'
+  - line: 54
+    command: givekey
+    arguments_raw: '187'
+  - line: 55
+    command: giveEXP
+    arguments_raw: '92000'
+  - line: 102
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 35
+- script_id: passagegemstone.scr
+  source_path: PASSAGEGEMSTONE.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: BaseGlobals.inc
+  - line: 9
+    path: ListMaker.inc
+  labels:
+  - line: 16
+    name: Main
+  - line: 28
+    name: CacheFiles
+  - line: 36
+    name: InitPassageGemstone
+  - line: 47
+    name: ReleaseMonsters
+  - line: 67
+    name: SoundCallback
+  - line: 74
+    name: ShineLight
+  - line: 91
+    name: RemoveInterface
+  - line: 98
+    name: RestoreInterface
+  registered_triggers:
+  - line: 38
+    message: use
+    callback: ShineLight
+    arguments_raw: use, ShineLight
+  - line: 39
+    message: trigger
+    callback: ReleaseMonsters
+    arguments_raw: trigger, ReleaseMonsters
+  - line: 100
+    message: use
+    callback: ShineLight
+    arguments_raw: use, ShineLight
+  trigger_edges:
+  - line: 55
+    target_expression: LISTOBJECT
+    message_expression: go
+    arguments_raw: LISTOBJECT, go
+  - line: 58
+    target_expression: LISTOBJECT
+    message_expression: go
+    arguments_raw: LISTOBJECT, go
+  - line: 61
+    target_expression: LISTOBJECT
+    message_expression: unlock
+    arguments_raw: LISTOBJECT, unlock
+  - line: 62
+    target_expression: LISTOBJECT
+    message_expression: open
+    arguments_raw: LISTOBJECT, open
+  - line: 79
+    target_expression: hLaser
+    message_expression: shoot
+    arguments_raw: hLaser, shoot
+  - line: 83
+    target_expression: hMirror
+    message_expression: trigger
+    arguments_raw: hMirror, trigger
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 22
+    command: OnPostStartWorld
+    arguments_raw: InitPassageGemstone
+  - line: 23
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 30
+    command: CacheSound
+    arguments_raw: '"sounds\spells\enchantitem.wav"'
+  - line: 31
+    command: CacheSound
+    arguments_raw: '"sounds\door\doorslidestone.wav"'
+  - line: 49
+    command: RemoveTrigger
+    arguments_raw: release
+  - line: 54
+    command: unknown
+    arguments_raw: while( LISTINDEX<LISTLAST )
+  - line: 57
+    command: endwhile
+    arguments_raw: ''
+  - line: 93
+    command: RemoveTrigger
+    arguments_raw: use
+  command_count: 41
+- script_id: passagelaser.scr
+  source_path: PASSAGELASER.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 17
+    name: Main
+  - line: 25
+    name: InitPassageLaser
+  - line: 34
+    name: Rotate
+  - line: 43
+    name: Shoot
+  - line: 52
+    name: Reset
+  registered_triggers:
+  - line: 29
+    message: rotate
+    callback: Rotate
+    arguments_raw: rotate, Rotate
+  trigger_edges:
+  - line: 45
+    target_expression: hMe
+    message_expression: shoot
+    arguments_raw: hMe, shoot
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 37
+    command: GetFaceDir
+    arguments_raw: hMirror, dx,dy,dz
+  - line: 38
+    command: FaceDir
+    arguments_raw: dx,0,dz, 720, Shoot
+  - line: 56
+    command: FaceDir
+    arguments_raw: 0,-1,0, 720
+  command_count: 14
+- script_id: passagemirror.scr
+  source_path: PASSAGEMIRROR.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: BaseGlobals.inc
+  labels:
+  - line: 30
+    name: Main
+  - line: 43
+    name: CacheFiles
+  - line: 48
+    name: InitPassageMirror
+  - line: 66
+    name: Rotate
+  - line: 80
+    name: TakeFocus
+  - line: 89
+    name: GiveFocus
+  registered_triggers:
+  - line: 53
+    message: use
+    callback: Rotate
+    arguments_raw: use, Rotate
+  - line: 54
+    message: 'off'
+    callback: TakeFocus
+    arguments_raw: off, TakeFocus
+  - line: 55
+    message: trigger
+    callback: GiveFocus
+    arguments_raw: trigger, GiveFocus
+  trigger_edges:
+  - line: 61
+    target_expression: hLight
+    message_expression: 'on'
+    arguments_raw: hLight, on
+  - line: 74
+    target_expression: hMirror
+    message_expression: 'off'
+    arguments_raw: hMirror, off
+  - line: 84
+    target_expression: hMirror
+    message_expression: 'off'
+    arguments_raw: hMirror, off
+  - line: 97
+    target_expression: hLight
+    message_expression: rotate
+    arguments_raw: hLight, rotate
+  - line: 101
+    target_expression: hMirror
+    message_expression: trigger
+    arguments_raw: hMirror, trigger
+  movement_commands:
+  - line: 71
+    command: Rotate
+    arguments_raw: 0,1,0, dA, 180, DoNothing
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 37
+    command: OnPostStartWorld
+    arguments_raw: InitPassageMirror
+  - line: 38
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 50
+    command: nTargetAngle
+    arguments_raw: = nTargetAngle / dA
+  - line: 51
+    command: nMod
+    arguments_raw: = 360 / dA
+  - line: 68
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 69
+    command: Mod
+    arguments_raw: nCounter, nMod
+  - line: 82
+    command: bOff
+    arguments_raw: = TRUE
+  - line: 91
+    command: unknown
+    arguments_raw: if( nCounter<30 )
+  - line: 92
+    command: unknown
+    arguments_raw: if( nCounter>6 )
+  - line: 100
+    command: bOff
+    arguments_raw: = FALSE
+  command_count: 38
+- script_id: spawnnjamcameo.scr
+  source_path: SPAWNNJAMCAMEO.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 30
+    name: DeleteAllNjams
+  - line: 37
+    name: Onspawn
+  - line: 46
+    name: Onspawn2
+  - line: 55
+    name: BreakLink
+  - line: 61
+    name: Appear
+  - line: 76
+    name: Vanish2
+  - line: 90
+    name: Vanish2b
+  - line: 100
+    name: Vanish2c
+  - line: 109
+    name: Init
+  - line: 117
+    name: Main
+  registered_triggers:
+  - line: 122
+    message: Spawn
+    callback: Onspawn
+    arguments_raw: Spawn Onspawn
+  - line: 123
+    message: KillNjam
+    callback: Vanish2c
+    arguments_raw: KillNjam Vanish2c
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 93
+    command: clearflag
+    arguments_raw: hNjam visible
+  presentation_commands: []
+  unknown_commands:
+  - line: 49
+    command: DoClientFX
+    arguments_raw: g_hMyObject,GreaterDemon
+  - line: 58
+    command: set
+    arguments_raw: nLinked, FALSE
+  - line: 67
+    command: Spawn
+    arguments_raw: hNjam Xpos YPos ZPos sNjam
+  - line: 68
+    command: CreateObjectLink
+    arguments_raw: hNjam
+  - line: 69
+    command: OnObjectLinkBroken
+    arguments_raw: BreakLink
+  - line: 70
+    command: set
+    arguments_raw: nLinked, TRUE
+  - line: 71
+    command: getrandomint
+    arguments_raw: 10 20 g_ntemp
+  - line: 84
+    command: DoClientFX
+    arguments_raw: hNjam,GreaterDemon
+  - line: 104
+    command: removeobject
+    arguments_raw: hNjam
+  - line: 124
+    command: sNjam
+    arguments_raw: = sNjam + Script
+  - line: 125
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 126
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 127
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 44
+validation:
+  script_count: 15

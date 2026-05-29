@@ -12,7 +12,7 @@ script.includes[#script.includes + 1] = { line = 9, path = "wanderair.inc" }
 script.labels["Main"] = function(ctx)
     -- PIGEON.scr:13
     mm9.gosub(script, ctx, "WanderAirInit") -- PIGEON.scr:18
-    ctx:command("setidle", "") -- PIGEON.scr:20
+    ctx:self():setIdle() -- PIGEON.scr:20
     do return ctx:exit("") end -- PIGEON.scr:22
 end
 

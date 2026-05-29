@@ -4,6 +4,7 @@ map_id: lindisfarnemonastery
 display_name: Lindisfarne Monastery
 source:
   dat: ../source/worlds/LINDISFARNEMONASTERY.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/LINDISFARNEMONASTERY.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: lindisfarnemonastery.raw_objects.yml
   materials: lindisfarnemonastery.material_aliases.yml
   events: lindisfarnemonastery.events.yml
-  scene_compat: lindisfarnemonastery.scene.yml
+  scene_compat: null
   source_metadata_compat: lindisfarnemonastery.mm9.yml
-  bsp_compat: lindisfarnemonastery.bsp.yml
-  geometry_compat: lindisfarnemonastery.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: lindisfarnemonastery.blv
+  blv_compat: null
 scripts:
   level: ../events/lindisfarnemonastery.lua
   script_ir: ../events/lindisfarnemonastery.script_ir.yml

@@ -14,13 +14,13 @@ script.includes[#script.includes + 1] = { line = 7, path = "HonkHostility.inc" }
 script.labels["InitHonkFirstCeremony"] = function(ctx)
     -- HONKFIRSTCEREMONY.inc:12
     if ctx:condition("first_hHONK_CEREMONY==0") then -- HONKFIRSTCEREMONY.inc:14
-        ctx:command("getobjecthandle", "HONK_CEREMONY, first_hHONK_CEREMONY") -- HONKFIRSTCEREMONY.inc:15
+        ctx:state().first_hHONK_CEREMONY = ctx:objectOrNil("HONK_CEREMONY") -- HONKFIRSTCEREMONY.inc:15
         if ctx:condition("first_hHONK_CEREMONY==0") then -- HONKFIRSTCEREMONY.inc:16
-            ctx:command("wait", "0, 1, InitHonkFirstCeremony") -- HONKFIRSTCEREMONY.inc:17
+            ctx:wait(0, 1, "InitHonkFirstCeremony") -- HONKFIRSTCEREMONY.inc:17
         end -- HONKFIRSTCEREMONY.inc:18
     end -- HONKFIRSTCEREMONY.inc:19
-    ctx:command("createobjectlink", "first_hHONK_CEREMONY") -- HONKFIRSTCEREMONY.inc:21
-    ctx:command("onobjectlinkbroken", "first_CheckObject") -- HONKFIRSTCEREMONY.inc:22
+    ctx:self():link(ctx:object("first_hHONK_CEREMONY")) -- HONKFIRSTCEREMONY.inc:21
+    ctx:onEvent("OnObjectLinkBroken", "first_CheckObject") -- HONKFIRSTCEREMONY.inc:22
     do return ctx:exit(1) end -- HONKFIRSTCEREMONY.inc:24
 end
 

@@ -21,71 +21,71 @@ end
 
 script.labels["GotoBed"] = function(ctx)
     -- NPC67.scr:27
-    ctx:command("set", "callback, onexit") -- NPC67.scr:31
-    ctx:command("set", "sleepy, 1") -- NPC67.scr:32
-    ctx:command("getobjecthandle", "NPC67M3 G_hobject") -- NPC67.scr:33
-    ctx:command("walkto", "g_hobject g_ntemp, Onexit") -- NPC67.scr:34
+    ctx:set("callback", "onexit") -- NPC67.scr:31
+    ctx:state().sleepy = 1 -- NPC67.scr:32
+    ctx:state().G_hobject = ctx:objectOrNil("NPC67M3") -- NPC67.scr:33
+    ctx:self():walkTo(ctx:object("g_hobject"), "g_ntemp", "Onexit") -- NPC67.scr:34
     do return ctx:exit("") end -- NPC67.scr:36
 end
 
 script.labels["GotoBar"] = function(ctx)
     -- NPC67.scr:39
-    ctx:command("set", "callback, bartender") -- NPC67.scr:42
-    ctx:command("getobjecthandle", "NPC67M1 G_hobject") -- NPC67.scr:43
-    ctx:command("walkto", "g_hobject g_ntemp, Onexit") -- NPC67.scr:44
+    ctx:set("callback", "bartender") -- NPC67.scr:42
+    ctx:state().G_hobject = ctx:objectOrNil("NPC67M1") -- NPC67.scr:43
+    ctx:self():walkTo(ctx:object("g_hobject"), "g_ntemp", "Onexit") -- NPC67.scr:44
     do return ctx:exit("") end -- NPC67.scr:46
 end
 
 script.labels["bartender"] = function(ctx)
     -- NPC67.scr:49
-    ctx:command("getobjecthandle", "Bartender G_hobject") -- NPC67.scr:52
-    ctx:command("faceobject", "g_hobject 160 Onexit") -- NPC67.scr:53
+    ctx:state().G_hobject = ctx:objectOrNil("Bartender") -- NPC67.scr:52
+    ctx:self():faceObject(ctx:object("g_hobject"), 160, "Onexit") -- NPC67.scr:53
     do return ctx:exit("") end -- NPC67.scr:54
 end
 
 script.labels["Gotowork"] = function(ctx)
     -- NPC67.scr:58
-    ctx:command("set", "callback, onexit") -- NPC67.scr:61
-    ctx:command("set", "sleepy, 0") -- NPC67.scr:62
-    ctx:command("getobjecthandle", "NPC67M2 G_hobject") -- NPC67.scr:64
-    ctx:command("walkto", "g_hobject g_ntemp, Onexit") -- NPC67.scr:65
+    ctx:set("callback", "onexit") -- NPC67.scr:61
+    ctx:state().sleepy = 0 -- NPC67.scr:62
+    ctx:state().G_hobject = ctx:objectOrNil("NPC67M2") -- NPC67.scr:64
+    ctx:self():walkTo(ctx:object("g_hobject"), "g_ntemp", "Onexit") -- NPC67.scr:65
     do return ctx:exit("") end -- NPC67.scr:67
 end
 
 script.labels["Obstacle"] = function(ctx)
     -- NPC67.scr:72
     if ctx:condition("callback==bartender") then -- NPC67.scr:75
-        ctx:command("walkto", "g_hobject g_ntemp, Bartender") -- NPC67.scr:76
+        ctx:self():walkTo(ctx:object("g_hobject"), "g_ntemp", "Bartender") -- NPC67.scr:76
         do return ctx:exit("") end -- NPC67.scr:77
     end -- NPC67.scr:78
-    ctx:command("walkto", "g_hobject g_ntemp, Onexit") -- NPC67.scr:80
+    ctx:self():walkTo(ctx:object("g_hobject"), "g_ntemp", "Onexit") -- NPC67.scr:80
     do return ctx:exit("") end -- NPC67.scr:81
 end
 
 script.labels["MissedBed"] = function(ctx)
     -- NPC67.scr:84
-    ctx:command("getobjecthandle", "Marker2 G_hobject") -- NPC67.scr:87
-    ctx:command("getpos", "g_hobject PosX PosY PosZ") -- NPC67.scr:88
-    ctx:command("getmyhandle", "g_hobject") -- NPC67.scr:89
-    ctx:command("setpos", "g_hobject PosX PosY PosZ") -- NPC67.scr:90
+    ctx:state().G_hobject = ctx:objectOrNil("Marker2") -- NPC67.scr:87
+    ctx:state().PosX, ctx:state().PosY, ctx:state().PosZ = ctx:object("g_hobject"):pos() -- NPC67.scr:88
+    ctx:state().g_hobject = ctx:self() -- NPC67.scr:89
+    ctx:self():setPos("PosX", "PosY", "PosZ") -- NPC67.scr:90
     do return ctx:exit("") end -- NPC67.scr:91
 end
 
 script.labels["MissedBar"] = function(ctx)
     -- NPC67.scr:94
-    ctx:command("getobjecthandle", "Marker0 G_hobject") -- NPC67.scr:97
-    ctx:command("getpos", "g_hobject PosX PosY PosZ") -- NPC67.scr:98
-    ctx:command("getmyhandle", "g_hobject") -- NPC67.scr:99
-    ctx:command("setpos", "g_hobject PosX PosY PosZ") -- NPC67.scr:100
+    ctx:state().G_hobject = ctx:objectOrNil("Marker0") -- NPC67.scr:97
+    ctx:state().PosX, ctx:state().PosY, ctx:state().PosZ = ctx:object("g_hobject"):pos() -- NPC67.scr:98
+    ctx:state().g_hobject = ctx:self() -- NPC67.scr:99
+    ctx:self():setPos("PosX", "PosY", "PosZ") -- NPC67.scr:100
     do return ctx:exit("") end -- NPC67.scr:102
 end
 
 script.labels["MissedWork"] = function(ctx)
     -- NPC67.scr:105
-    ctx:command("getobjecthandle", "Marker3 G_hobject") -- NPC67.scr:108
-    ctx:command("getpos", "g_hobject PosX PosY PosZ") -- NPC67.scr:109
-    ctx:command("getmyhandle", "g_hobject") -- NPC67.scr:110
-    ctx:command("setpos", "g_hobject PosX PosY PosZ") -- NPC67.scr:111
+    ctx:state().G_hobject = ctx:objectOrNil("Marker3") -- NPC67.scr:108
+    ctx:state().PosX, ctx:state().PosY, ctx:state().PosZ = ctx:object("g_hobject"):pos() -- NPC67.scr:109
+    ctx:state().g_hobject = ctx:self() -- NPC67.scr:110
+    ctx:self():setPos("PosX", "PosY", "PosZ") -- NPC67.scr:111
     do return ctx:exit("") end -- NPC67.scr:112
 end
 
@@ -96,14 +96,14 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "params") -- NPC67.scr:121
     ctx:getParam(1, "times") -- NPC67.scr:122
     ctx:getParam(2, "g_ntemp") -- NPC67.scr:123
-    ctx:command("loopanim", "Params, times Onexit") -- NPC67.scr:124
-    ctx:command("@m", "00 : 45 GotoBed Missedbed") -- NPC67.scr:125
-    ctx:command("@m", "00 : 15 GoToBar Missedbar") -- NPC67.scr:126
-    ctx:command("@m", "01 : 00 Gotowork Missedwork") -- NPC67.scr:127
+    ctx:self():loopAnimation("Params", "times", "Onexit") -- NPC67.scr:124
+    ctx:atTime(0, 45, "GotoBed", "Missedbed") -- NPC67.scr:125
+    ctx:atTime(0, 15, "GoToBar", "Missedbar") -- NPC67.scr:126
+    ctx:atTime(1, 0, "Gotowork", "Missedwork") -- NPC67.scr:127
     -- @M 20 : 15 GotoBed Missedbed
     -- @M 15 : 00 GoToBar Missedbar
     -- @M 06 : 00 Gotowork Missedwork
-    ctx:command("onobstacle", "obstacle") -- NPC67.scr:135
+    ctx:onEvent("OnObstacle", "obstacle") -- NPC67.scr:135
     -- Temp test triggers-----------
     ctx:addTrigger("Missbed", "Missedbed") -- NPC67.scr:140
     ctx:addTrigger("Missbar", "Missedbar") -- NPC67.scr:141

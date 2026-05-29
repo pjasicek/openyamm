@@ -24,28 +24,26 @@ end
 
 script.labels["CloseCellDoor"] = function(ctx)
     -- DP_GUARD0.scr:36
-    ctx:command("playsound", "Sounds\\wahoo.wav dn 0 1000 0 100") -- DP_GUARD0.scr:39
-    ctx:command("sswitch", "= sSwitchNameRoot") -- DP_GUARD0.scr:41
-    ctx:command("getobjecthandle", "sSwitch hSwitch") -- DP_GUARD0.scr:43
-    ctx:trigger("hSwitch", "close") -- DP_GUARD0.scr:44
-    ctx:command("ncount", "= nCount + 1") -- DP_GUARD0.scr:45
+    ctx:playSound("Sounds\\wahoo.wav", "dn", 0, 1000, 0, 100) -- DP_GUARD0.scr:39
+    ctx:set("sSwitch", "sSwitchNameRoot") -- DP_GUARD0.scr:41
+    ctx:object("sSwitch"):trigger("close") -- DP_GUARD0.scr:43-44
+    ctx:set("nCount", "nCount + 1") -- DP_GUARD0.scr:45
     do return ctx:exit(1) end -- DP_GUARD0.scr:48
 end
 
 script.labels["OpenCellDoor"] = function(ctx)
     -- DP_GUARD0.scr:51
-    ctx:command("playsound", "Sounds\\wahoo.wav dn 0 1000 0 100") -- DP_GUARD0.scr:53
-    ctx:command("sswitch", "= sSwitchNameRoot + nCount") -- DP_GUARD0.scr:55
-    ctx:command("getobjecthandle", "sSwitch hSwitch") -- DP_GUARD0.scr:56
-    ctx:trigger("hSwitch", "Use") -- DP_GUARD0.scr:57
+    ctx:playSound("Sounds\\wahoo.wav", "dn", 0, 1000, 0, 100) -- DP_GUARD0.scr:53
+    ctx:set("sSwitch", "sSwitchNameRoot + nCount") -- DP_GUARD0.scr:55
+    ctx:object("sSwitch"):trigger("Use") -- DP_GUARD0.scr:56-57
     do return ctx:exit(1) end -- DP_GUARD0.scr:60
 end
 
 script.labels["Main2"] = function(ctx)
     -- DP_GUARD0.scr:63
-    ctx:command("sguard", "= sGuardNameRoot + 1") -- DP_GUARD0.scr:66
-    ctx:command("getobjecthandle", "sGuard hGuard") -- DP_GUARD0.scr:67
-    ctx:command("target", "hGuard 1") -- DP_GUARD0.scr:68
+    ctx:set("sGuard", "sGuardNameRoot + 1") -- DP_GUARD0.scr:66
+    ctx:state().hGuard = ctx:objectOrNil("sGuard") -- DP_GUARD0.scr:67
+    ctx:self():setTarget(ctx:object("hGuard")) -- DP_GUARD0.scr:68
     do return ctx:exit(1) end -- DP_GUARD0.scr:70
 end
 
@@ -55,7 +53,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(1, "sSwitchNameRoot") -- DP_GUARD0.scr:77
     ctx:addTrigger("OpenCellDoor", "OpenCellDoor") -- DP_GUARD0.scr:79
     ctx:addTrigger("CloseCellDoor", "CloseCellDoor") -- DP_GUARD0.scr:80
-    ctx:command("wait", "0 .1 main2") -- DP_GUARD0.scr:82
+    ctx:wait(0, .1, "main2") -- DP_GUARD0.scr:82
     do return ctx:exit(1) end -- DP_GUARD0.scr:85
 end
 

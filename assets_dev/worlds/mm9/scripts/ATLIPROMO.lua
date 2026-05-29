@@ -20,8 +20,8 @@ script.labels["OnLeave"] = function(ctx)
     if ctx:hasKey(376) then -- ATLIPROMO.scr:25-26
         if ctx:hasKey(125) then -- ATLIPROMO.scr:27-28
             ctx:giveKey(197) -- ATLIPROMO.scr:29
-            ctx:command("getobjecthandle", "AtliMarker g_hobject") -- ATLIPROMO.scr:30
-            ctx:command("walkto", "g_hobject 64 DoNothing") -- ATLIPROMO.scr:31
+            ctx:state().g_hobject = ctx:objectOrNil("AtliMarker") -- ATLIPROMO.scr:30
+            ctx:self():walkTo(ctx:object("g_hobject"), 64, "DoNothing") -- ATLIPROMO.scr:31
             do return ctx:exit("") end -- ATLIPROMO.scr:32
         end -- ATLIPROMO.scr:33
     end -- ATLIPROMO.scr:35
@@ -30,10 +30,9 @@ end
 
 script.labels["Init"] = function(ctx)
     -- ATLIPROMO.scr:39
-    ctx:command("onfoundplayer", "OnLeave") -- ATLIPROMO.scr:42
+    ctx:onEvent("OnFoundPlayer", "OnLeave") -- ATLIPROMO.scr:42
     if ctx:hasKey(197) then -- ATLIPROMO.scr:44-45
-        ctx:command("getmyhandle", "G_hmyobject") -- ATLIPROMO.scr:46
-        ctx:command("removeobject", "g_hmyobject") -- ATLIPROMO.scr:47
+        ctx:self():remove() -- ATLIPROMO.scr:47
         do return ctx:exit("") end -- ATLIPROMO.scr:48
     end -- ATLIPROMO.scr:49
     do return ctx:exit("") end -- ATLIPROMO.scr:50
@@ -53,8 +52,8 @@ end
 
 script.labels["OnReturn"] = function(ctx)
     -- ATLIPROMO.scr:66
-    ctx:command("getobjecthandle", "Atlimarker0 g_hobject") -- ATLIPROMO.scr:69
-    ctx:command("walkto", "g_hobject 256 DoNothing") -- ATLIPROMO.scr:70
+    ctx:state().g_hobject = ctx:objectOrNil("Atlimarker0") -- ATLIPROMO.scr:69
+    ctx:self():walkTo(ctx:object("g_hobject"), 256, "DoNothing") -- ATLIPROMO.scr:70
     do return ctx:exit("") end -- ATLIPROMO.scr:71
 end
 
@@ -62,12 +61,12 @@ script.labels["Main"] = function(ctx)
     -- ATLIPROMO.scr:75
     -- TraceOn ;DELETE ME!!
     ctx:addTrigger("Return", "OnReturn") -- ATLIPROMO.scr:81
-    ctx:command("onpoststartworld", "Init") -- ATLIPROMO.scr:82
-    ctx:command("onpostminisaveload", "Init") -- ATLIPROMO.scr:83
-    ctx:command("onpostsaveload", "Init") -- ATLIPROMO.scr:84
-    ctx:command("wait", "1 .5 Init") -- ATLIPROMO.scr:85
-    ctx:command("@m", "2 : 45 givekey givekey") -- ATLIPROMO.scr:86
-    ctx:command("@m", "3 : 15 takekey takekey") -- ATLIPROMO.scr:87
+    ctx:onEvent("OnPostStartWorld", "Init") -- ATLIPROMO.scr:82
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- ATLIPROMO.scr:83
+    ctx:onEvent("OnPostSaveLoad", "Init") -- ATLIPROMO.scr:84
+    ctx:wait(1, .5, "Init") -- ATLIPROMO.scr:85
+    ctx:atTime(2, 45, "givekey", "givekey") -- ATLIPROMO.scr:86
+    ctx:atTime(3, 15, "takekey", "takekey") -- ATLIPROMO.scr:87
     do return ctx:exit("") end -- ATLIPROMO.scr:88
 end
 

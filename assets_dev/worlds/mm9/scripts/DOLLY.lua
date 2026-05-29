@@ -23,8 +23,7 @@ script.labels["OnUse"] = function(ctx)
             -- checks to see if player has already done this
             ctx:giveKey(132) -- DOLLY.scr:34
             ctx:giveItem(370) -- DOLLY.scr:35
-            ctx:command("getmyhandle", "g_hmyobject") -- DOLLY.scr:36
-            ctx:command("removeobject", "g_hmyobject") -- DOLLY.scr:37
+            ctx:self():remove() -- DOLLY.scr:37
             -- gives dolly key.
             do return ctx:exit("") end -- DOLLY.scr:39
         end -- DOLLY.scr:40
@@ -35,19 +34,18 @@ end
 script.labels["Init"] = function(ctx)
     -- DOLLY.scr:46
     if ctx:hasKey(128) then -- DOLLY.scr:49-50
-        ctx:command("getmyhandle", "g_hobject") -- DOLLY.scr:51
-        ctx:command("setflag", "g_hobject, visible") -- DOLLY.scr:52
-        ctx:command("setflag", "g_hobject, solid") -- DOLLY.scr:53
-        ctx:command("setflag", "g_hobject, gravity") -- DOLLY.scr:54
+        ctx:state().g_hobject = ctx:self() -- DOLLY.scr:51
+        ctx:self():setFlag("visible", true) -- DOLLY.scr:52
+        ctx:self():setFlag("solid", true) -- DOLLY.scr:53
+        ctx:self():setFlag("gravity", true) -- DOLLY.scr:54
     else -- DOLLY.scr:55
-        ctx:command("getmyhandle", "g_hobject") -- DOLLY.scr:56
-        ctx:command("clearflag", "g_hobject, visible") -- DOLLY.scr:57
-        ctx:command("clearflag", "g_hobject, solid") -- DOLLY.scr:58
-        ctx:command("clearflag", "g_hobject, gravity") -- DOLLY.scr:59
+        ctx:state().g_hobject = ctx:self() -- DOLLY.scr:56
+        ctx:self():setFlag("visible", false) -- DOLLY.scr:57
+        ctx:self():setFlag("solid", false) -- DOLLY.scr:58
+        ctx:self():setFlag("gravity", false) -- DOLLY.scr:59
     end -- DOLLY.scr:60
     if ctx:hasKey(132) then -- DOLLY.scr:62-63
-        ctx:command("getmyhandle", "g_hmyobject") -- DOLLY.scr:64
-        ctx:command("removeobject", "g_hmyobject") -- DOLLY.scr:65
+        ctx:self():remove() -- DOLLY.scr:65
         do return ctx:exit("") end -- DOLLY.scr:66
     end -- DOLLY.scr:67
     do return ctx:exit("") end -- DOLLY.scr:68

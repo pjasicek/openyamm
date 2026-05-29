@@ -13,23 +13,22 @@ script.includes[#script.includes + 1] = { line = 9, path = "globals.inc" }
 -- 1/2/02
 script.labels["OnStart"] = function(ctx)
     -- ICECAM1.scr:18
-    ctx:command("wait", "1 1 OnPan") -- ICECAM1.scr:21
+    ctx:wait(1, 1, "OnPan") -- ICECAM1.scr:21
     do return ctx:exit("") end -- ICECAM1.scr:22
 end
 
 script.labels["OnPan"] = function(ctx)
     -- ICECAM1.scr:25
-    ctx:command("getobjecthandle", "IceMarker1 g_hobject") -- ICECAM1.scr:28
-    ctx:command("target", "g_hobject") -- ICECAM1.scr:29
+    ctx:state().g_hobject = ctx:objectOrNil("IceMarker1") -- ICECAM1.scr:28
+    ctx:self():setTarget(ctx:object("g_hobject")) -- ICECAM1.scr:29
     do return ctx:exit("") end -- ICECAM1.scr:30
 end
 
 script.labels["OnMove"] = function(ctx)
     -- ICECAM1.scr:33
     ctx:getParam(0, "g_hTarget") -- ICECAM1.scr:36
-    ctx:command("getobjecthandle", "IceMarker2 g_hobject") -- ICECAM1.scr:37
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- ICECAM1.scr:38
-    ctx:command("movetopos", "xpos Ypos Zpos 150 OnArrive") -- ICECAM1.scr:39
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("IceMarker2"):pos() -- ICECAM1.scr:37-38
+    ctx:self():moveToPos("xpos", "Ypos", "Zpos", 150, "OnArrive") -- ICECAM1.scr:39
     do return ctx:exit("") end -- ICECAM1.scr:40
 end
 

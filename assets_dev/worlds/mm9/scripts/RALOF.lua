@@ -15,75 +15,72 @@ script.includes[#script.includes + 1] = { line = 9, path = "globals.inc" }
 -- P0 Item number of item to give
 script.labels["OnStart"] = function(ctx)
     -- RALOF.scr:26
-    ctx:setPropNumber("DoRude", "False") -- RALOF.scr:28
-    ctx:command("getobjecthandle", "Ralof1 g_hobject") -- RALOF.scr:29
-    ctx:command("walkto", "g_hobject 1 OnArrive") -- RALOF.scr:30
+    ctx:self():setNumberProperty("DoRude", "False") -- RALOF.scr:28
+    ctx:state().g_hobject = ctx:objectOrNil("Ralof1") -- RALOF.scr:29
+    ctx:self():walkTo(ctx:object("g_hobject"), 1, "OnArrive") -- RALOF.scr:30
     do return ctx:exit("") end -- RALOF.scr:31
 end
 
 script.labels["OnArrive"] = function(ctx)
     -- RALOF.scr:34
-    ctx:command("getobjecthandle", "Wilam g_hobject") -- RALOF.scr:38
-    ctx:command("target", "g_hobject") -- RALOF.scr:39
+    ctx:state().g_hobject = ctx:objectOrNil("Wilam") -- RALOF.scr:38
+    ctx:self():setTarget(ctx:object("g_hobject")) -- RALOF.scr:39
     do return ctx:exit("") end -- RALOF.scr:40
 end
 
 script.labels["OnSpeak11"] = function(ctx)
     -- RALOF.scr:43
     -- start speaking
-    ctx:command("loopanim", "conv1 0 DoNothing") -- RALOF.scr:47
-    ctx:command("playsound", "voices\\cinema\\guberlandplay\\11.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:48
-    ctx:command("wait", "2 9.3 Trigger12") -- RALOF.scr:49
+    ctx:self():loopAnimation("conv1", 0, "DoNothing") -- RALOF.scr:47
+    ctx:playSound("voices\\cinema\\guberlandplay\\11.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:48
+    ctx:wait(2, 9.3, "Trigger12") -- RALOF.scr:49
     do return ctx:exit("") end -- RALOF.scr:50
 end
 
 script.labels["Trigger12"] = function(ctx)
     -- RALOF.scr:53
-    ctx:command("stop", "") -- RALOF.scr:56
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:57
-    ctx:command("getobjecthandle", "Leffery g_hobject") -- RALOF.scr:58
-    ctx:trigger("g_hobject", "Speak12") -- RALOF.scr:59
+    ctx:self():stop() -- RALOF.scr:56
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:57
+    ctx:object("Leffery"):trigger("Speak12") -- RALOF.scr:58-59
     do return ctx:exit("") end -- RALOF.scr:60
 end
 
 script.labels["OnSpeak13"] = function(ctx)
     -- RALOF.scr:63
     -- start speaking
-    ctx:command("getobjecthandle", "leffery g_hobject") -- RALOF.scr:67
-    ctx:command("target", "g_hobject") -- RALOF.scr:68
-    ctx:command("loopanim", "conv1 0 DoNothing") -- RALOF.scr:69
-    ctx:command("playsound", "voices\\cinema\\guberlandplay\\13b.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:70
-    ctx:command("wait", "1 5 FaceWilam") -- RALOF.scr:71
-    ctx:command("wait", "2 20 Trigger14") -- RALOF.scr:72
+    ctx:state().g_hobject = ctx:objectOrNil("leffery") -- RALOF.scr:67
+    ctx:self():setTarget(ctx:object("g_hobject")) -- RALOF.scr:68
+    ctx:self():loopAnimation("conv1", 0, "DoNothing") -- RALOF.scr:69
+    ctx:playSound("voices\\cinema\\guberlandplay\\13b.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:70
+    ctx:wait(1, 5, "FaceWilam") -- RALOF.scr:71
+    ctx:wait(2, 20, "Trigger14") -- RALOF.scr:72
     do return ctx:exit("") end -- RALOF.scr:73
 end
 
 script.labels["FaceWilam"] = function(ctx)
     -- RALOF.scr:76
-    ctx:command("stop", "") -- RALOF.scr:79
-    ctx:command("getobjecthandle", "Wilam g_hobject") -- RALOF.scr:80
-    ctx:command("target", "g_hobject") -- RALOF.scr:81
-    ctx:command("wait", "1 .1 converse") -- RALOF.scr:82
+    ctx:self():stop() -- RALOF.scr:79
+    ctx:state().g_hobject = ctx:objectOrNil("Wilam") -- RALOF.scr:80
+    ctx:self():setTarget(ctx:object("g_hobject")) -- RALOF.scr:81
+    ctx:wait(1, .1, "converse") -- RALOF.scr:82
     do return ctx:exit("") end -- RALOF.scr:83
 end
 
 script.labels["converse"] = function(ctx)
     -- RALOF.scr:86
-    ctx:command("loopanim", "conv2 0 DoNothing") -- RALOF.scr:88
+    ctx:self():loopAnimation("conv2", 0, "DoNothing") -- RALOF.scr:88
     do return ctx:exit("") end -- RALOF.scr:89
 end
 
 script.labels["Trigger14"] = function(ctx)
     -- RALOF.scr:92
-    ctx:command("stop", "") -- RALOF.scr:95
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:96
-    ctx:command("getobjecthandle", "Leffery g_hobject") -- RALOF.scr:97
-    ctx:trigger("g_hobject", "Speak14") -- RALOF.scr:98
-    ctx:command("getobjecthandle", "abriel g_hobject") -- RALOF.scr:99
-    ctx:command("target", "g_hobject") -- RALOF.scr:100
+    ctx:self():stop() -- RALOF.scr:95
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:96
+    ctx:object("Leffery"):trigger("Speak14") -- RALOF.scr:97-98
+    ctx:state().g_hobject = ctx:objectOrNil("abriel") -- RALOF.scr:99
+    ctx:self():setTarget(ctx:object("g_hobject")) -- RALOF.scr:100
     ctx:trigger("g_hobject", "Speak14") -- RALOF.scr:101
-    ctx:command("getobjecthandle", "wilam g_hobject") -- RALOF.scr:102
-    ctx:trigger("g_hobject", "attention") -- RALOF.scr:103
+    ctx:object("wilam"):trigger("attention") -- RALOF.scr:102-103
     do return ctx:exit("") end -- RALOF.scr:104
 end
 
@@ -91,17 +88,16 @@ script.labels["OnSpeak16"] = function(ctx)
     -- RALOF.scr:107
     -- start speaking
     -- LoopAnim conv1 0 DoNothing
-    ctx:command("playsound", "voices\\cinema\\guberlandplay\\16.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:112
-    ctx:command("wait", "2 1.5 Trigger17") -- RALOF.scr:113
+    ctx:playSound("voices\\cinema\\guberlandplay\\16.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:112
+    ctx:wait(2, 1.5, "Trigger17") -- RALOF.scr:113
     do return ctx:exit("") end -- RALOF.scr:114
 end
 
 script.labels["Trigger17"] = function(ctx)
     -- RALOF.scr:117
-    ctx:command("stop", "") -- RALOF.scr:120
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:121
-    ctx:command("getobjecthandle", "Abriel g_hobject") -- RALOF.scr:122
-    ctx:trigger("g_hobject", "Speak17") -- RALOF.scr:123
+    ctx:self():stop() -- RALOF.scr:120
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:121
+    ctx:object("Abriel"):trigger("Speak17") -- RALOF.scr:122-123
     do return ctx:exit("") end -- RALOF.scr:124
 end
 
@@ -109,143 +105,138 @@ script.labels["OnSpeak18"] = function(ctx)
     -- RALOF.scr:128
     -- start speaking
     -- LoopAnim conv1 0 DoNothing
-    ctx:command("playsound", "voices\\cinema\\guberlandplay\\18.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:133
-    ctx:command("wait", "2 1.5 Trigger19") -- RALOF.scr:134
+    ctx:playSound("voices\\cinema\\guberlandplay\\18.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:133
+    ctx:wait(2, 1.5, "Trigger19") -- RALOF.scr:134
     do return ctx:exit("") end -- RALOF.scr:135
 end
 
 script.labels["Trigger19"] = function(ctx)
     -- RALOF.scr:138
-    ctx:command("stop", "") -- RALOF.scr:141
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:142
-    ctx:command("getobjecthandle", "Abriel g_hobject") -- RALOF.scr:143
-    ctx:trigger("g_hobject", "Speak19") -- RALOF.scr:144
+    ctx:self():stop() -- RALOF.scr:141
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:142
+    ctx:object("Abriel"):trigger("Speak19") -- RALOF.scr:143-144
     do return ctx:exit("") end -- RALOF.scr:145
 end
 
 script.labels["OnSpeak20"] = function(ctx)
     -- RALOF.scr:148
     -- start speaking
-    ctx:command("loopanim", "conv1 0 DoNothing") -- RALOF.scr:152
-    ctx:command("playsound", "voices\\cinema\\guberlandplay\\20.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:153
-    ctx:command("wait", "2 3.5 Trigger21") -- RALOF.scr:154
+    ctx:self():loopAnimation("conv1", 0, "DoNothing") -- RALOF.scr:152
+    ctx:playSound("voices\\cinema\\guberlandplay\\20.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:153
+    ctx:wait(2, 3.5, "Trigger21") -- RALOF.scr:154
     do return ctx:exit("") end -- RALOF.scr:155
 end
 
 script.labels["Trigger21"] = function(ctx)
     -- RALOF.scr:158
-    ctx:command("stop", "") -- RALOF.scr:161
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:162
-    ctx:command("getobjecthandle", "Narrator g_hobject") -- RALOF.scr:163
-    ctx:trigger("g_hobject", "Speak21") -- RALOF.scr:164
+    ctx:self():stop() -- RALOF.scr:161
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:162
+    ctx:object("Narrator"):trigger("Speak21") -- RALOF.scr:163-164
     do return ctx:exit("") end -- RALOF.scr:165
 end
 
 script.labels["OnExit"] = function(ctx)
     -- RALOF.scr:168
-    ctx:setPropNumber("DoRude", "TRUE") -- RALOF.scr:170
-    ctx:command("target", "NULL") -- RALOF.scr:171
-    ctx:command("getobjecthandle", "Ralof2 g_hobject") -- RALOF.scr:172
-    ctx:command("walkto", "g_hobject 1 FaceStage") -- RALOF.scr:173
+    ctx:self():setNumberProperty("DoRude", "TRUE") -- RALOF.scr:170
+    ctx:self():setTarget(nil) -- RALOF.scr:171
+    ctx:state().g_hobject = ctx:objectOrNil("Ralof2") -- RALOF.scr:172
+    ctx:self():walkTo(ctx:object("g_hobject"), 1, "FaceStage") -- RALOF.scr:173
     do return ctx:exit("") end -- RALOF.scr:174
 end
 
 script.labels["FaceStage"] = function(ctx)
     -- RALOF.scr:178
-    ctx:command("getobjecthandle", "trislan g_hobject") -- RALOF.scr:181
-    ctx:command("target", "g_hobject") -- RALOF.scr:182
+    ctx:state().g_hobject = ctx:objectOrNil("trislan") -- RALOF.scr:181
+    ctx:self():setTarget(ctx:object("g_hobject")) -- RALOF.scr:182
     do return ctx:exit("") end -- RALOF.scr:183
 end
 
 script.labels["OnWalk2"] = function(ctx)
     -- RALOF.scr:187
-    ctx:command("getobjecthandle", "trislan g_hobject") -- RALOF.scr:189
-    ctx:command("target", "g_hobject") -- RALOF.scr:190
-    ctx:command("walkto", "g_hobject 1 Trigger23") -- RALOF.scr:191
+    ctx:state().g_hobject = ctx:objectOrNil("trislan") -- RALOF.scr:189
+    ctx:self():setTarget(ctx:object("g_hobject")) -- RALOF.scr:190
+    ctx:self():walkTo(ctx:object("g_hobject"), 1, "Trigger23") -- RALOF.scr:191
     do return ctx:exit("") end -- RALOF.scr:192
 end
 
 script.labels["Trigger23"] = function(ctx)
     -- RALOF.scr:195
-    ctx:command("stop", "") -- RALOF.scr:198
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:199
-    ctx:command("getobjecthandle", "Trislan g_hobject") -- RALOF.scr:200
-    ctx:trigger("g_hobject", "Speak23") -- RALOF.scr:201
+    ctx:self():stop() -- RALOF.scr:198
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:199
+    ctx:object("Trislan"):trigger("Speak23") -- RALOF.scr:200-201
     do return ctx:exit("") end -- RALOF.scr:202
 end
 
 script.labels["OnSpeak24"] = function(ctx)
     -- RALOF.scr:206
     -- start speaking
-    ctx:command("loopanim", "conv4 0 DoNothing") -- RALOF.scr:210
-    ctx:command("playsound", "voices\\cinema\\guberlandplay\\24.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:211
-    ctx:command("wait", "2 5.4 Trigger25") -- RALOF.scr:212
+    ctx:self():loopAnimation("conv4", 0, "DoNothing") -- RALOF.scr:210
+    ctx:playSound("voices\\cinema\\guberlandplay\\24.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:211
+    ctx:wait(2, 5.4, "Trigger25") -- RALOF.scr:212
     do return ctx:exit("") end -- RALOF.scr:213
 end
 
 script.labels["Trigger25"] = function(ctx)
     -- RALOF.scr:216
-    ctx:command("stop", "") -- RALOF.scr:219
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:220
-    ctx:command("getobjecthandle", "Trislan g_hobject") -- RALOF.scr:221
-    ctx:trigger("g_hobject", "Speak25") -- RALOF.scr:222
+    ctx:self():stop() -- RALOF.scr:219
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:220
+    ctx:object("Trislan"):trigger("Speak25") -- RALOF.scr:221-222
     do return ctx:exit("") end -- RALOF.scr:223
 end
 
 script.labels["OnSpeak26"] = function(ctx)
     -- RALOF.scr:226
     -- start speaking
-    ctx:command("loopanim", "conv3 0 DoNothing") -- RALOF.scr:230
-    ctx:command("playsound", "voices\\cinema\\guberlandplay\\26.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:231
-    ctx:command("wait", "2 3.4 Attack") -- RALOF.scr:232
+    ctx:self():loopAnimation("conv3", 0, "DoNothing") -- RALOF.scr:230
+    ctx:playSound("voices\\cinema\\guberlandplay\\26.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:231
+    ctx:wait(2, 3.4, "Attack") -- RALOF.scr:232
     do return ctx:exit("") end -- RALOF.scr:233
 end
 
 script.labels["Attack"] = function(ctx)
     -- RALOF.scr:236
-    ctx:command("attack", "OnStop") -- RALOF.scr:239
-    ctx:command("wait", "1 .75 Slapsound") -- RALOF.scr:240
+    ctx:self():attack("OnStop") -- RALOF.scr:239
+    ctx:wait(1, .75, "Slapsound") -- RALOF.scr:240
     do return ctx:exit("") end -- RALOF.scr:242
 end
 
 script.labels["Slapsound"] = function(ctx)
     -- RALOF.scr:245
-    ctx:command("playsound", "Sounds\\Weapons\\FleshHit04.wav, DoNothing, 100, 512, FALSE, 100") -- RALOF.scr:248
+    ctx:playSound("Sounds\\Weapons\\FleshHit04.wav", "DoNothing", 100, 512, "FALSE", 100) -- RALOF.scr:248
     do return ctx:exit("") end -- RALOF.scr:249
 end
 
 script.labels["OnStop"] = function(ctx)
     -- RALOF.scr:252
-    ctx:command("stop", "") -- RALOF.scr:255
-    ctx:command("loopanim", "stand 0 Donothing") -- RALOF.scr:256
-    ctx:command("getobjecthandle", "Trislan g_hobject") -- RALOF.scr:257
-    ctx:trigger("g_hobject", "Die") -- RALOF.scr:258
+    ctx:self():stop() -- RALOF.scr:255
+    ctx:self():loopAnimation("stand", 0, "Donothing") -- RALOF.scr:256
+    ctx:object("Trislan"):trigger("Die") -- RALOF.scr:257-258
     do return ctx:exit("") end -- RALOF.scr:259
 end
 
 script.labels["OnCastCall"] = function(ctx)
     -- RALOF.scr:262
-    ctx:command("getobjecthandle", "Ralof3 g_hobject") -- RALOF.scr:265
-    ctx:command("walkto", "g_hobject 1 FaceDoor") -- RALOF.scr:266
+    ctx:state().g_hobject = ctx:objectOrNil("Ralof3") -- RALOF.scr:265
+    ctx:self():walkTo(ctx:object("g_hobject"), 1, "FaceDoor") -- RALOF.scr:266
     do return ctx:exit("") end -- RALOF.scr:267
 end
 
 script.labels["FaceDoor"] = function(ctx)
     -- RALOF.scr:270
-    ctx:command("getobjecthandle", "peasant2 g_hobject") -- RALOF.scr:273
-    ctx:command("target", "g_hobject") -- RALOF.scr:274
+    ctx:state().g_hobject = ctx:objectOrNil("peasant2") -- RALOF.scr:273
+    ctx:self():setTarget(ctx:object("g_hobject")) -- RALOF.scr:274
     do return ctx:exit("") end -- RALOF.scr:275
 end
 
 script.labels["OnBow"] = function(ctx)
     -- RALOF.scr:278
-    ctx:command("playanim", "Bow DoNothing") -- RALOF.scr:281
+    ctx:self():playAnimation("Bow", "DoNothing") -- RALOF.scr:281
     do return ctx:exit("") end -- RALOF.scr:282
 end
 
 script.labels["OnWince"] = function(ctx)
     -- RALOF.scr:285
-    ctx:command("playanim", "Wince1 DoNothing") -- RALOF.scr:288
+    ctx:self():playAnimation("Wince1", "DoNothing") -- RALOF.scr:288
     do return ctx:exit("") end -- RALOF.scr:289
 end
 

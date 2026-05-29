@@ -705,6 +705,8 @@ void GameSession::updateGameplay(
         recordDiagnostics(m_gameplayUpdatePerformanceDiagnostics.sharedInputNanoseconds, sharedInputBeginTickCount);
 
         GameplayInputFrame worldInput = input;
+        worldInput.modernControls =
+            m_gameplayScreenRuntime.settingsSnapshot().controlScheme == ControlScheme::Modern;
         const bool gameplayHudAttackPointerActive =
             m_overlayInteractionState.gameplayHudClickLatch
             && m_overlayInteractionState.gameplayHudPressedTarget.type == GameplayHudPointerTargetType::AttackButton;
@@ -1126,6 +1128,11 @@ void GameSession::applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState)
 }
 
 const Mm9ScriptRuntimeState &GameSession::mm9ScriptState() const
+{
+    return m_mm9ScriptState;
+}
+
+Mm9ScriptRuntimeState &GameSession::mm9ScriptState()
 {
     return m_mm9ScriptState;
 }

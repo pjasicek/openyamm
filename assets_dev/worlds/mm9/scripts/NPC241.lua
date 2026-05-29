@@ -26,7 +26,7 @@ script.labels["BlackOrb"] = function(ctx)
             ctx:giveKey(315) -- NPC241.scr:31
             ctx:giveExp(50000) -- NPC241.scr:32
             ctx:giveGold(10000) -- NPC241.scr:33
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC241.scr:34
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC241.scr:34
             ctx:takeItem(250) -- NPC241.scr:35
             do return ctx:exit("") end -- NPC241.scr:36
         end -- NPC241.scr:37
@@ -38,7 +38,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC241.scr:49
-    ctx:command("playsound", "voices\\NPC\\NPC_241.wav, Onexit, 100, 240, FALSE, 100") -- NPC241.scr:52
+    ctx:playSound("voices\\NPC\\NPC_241.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC241.scr:52
     do return ctx:exit("") end -- NPC241.scr:53
 end
 

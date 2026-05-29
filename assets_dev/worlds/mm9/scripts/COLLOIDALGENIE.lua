@@ -14,26 +14,25 @@ script.includes[#script.includes + 1] = { line = 7, path = "BaseGlobals.inc" }
 script.labels["Main"] = function(ctx)
     -- COLLOIDALGENIE.scr:24
     ctx:getParam(0, "sAppearName") -- COLLOIDALGENIE.scr:26
-    ctx:command("oncachefiles", "CacheFiles") -- COLLOIDALGENIE.scr:28
+    ctx:onEvent("OnCacheFiles", "CacheFiles") -- COLLOIDALGENIE.scr:28
     mm9.gosub(script, ctx, "InitColloidalGenie") -- COLLOIDALGENIE.scr:30
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:32
 end
 
 script.labels["CacheFiles"] = function(ctx)
     -- COLLOIDALGENIE.scr:35
-    ctx:command("cacheclientfx", "SPELL_MIST") -- COLLOIDALGENIE.scr:37
-    ctx:command("cacheclientfx", "SPELL_BLACKSMOKE") -- COLLOIDALGENIE.scr:38
-    ctx:command("cachesound", "\"sounds\\animsounds\\dragon\\fidget1.wav\"") -- COLLOIDALGENIE.scr:40
-    ctx:command("cachesound", "\"sounds\\animsounds\\zombie\\ressurect2.wav\"") -- COLLOIDALGENIE.scr:41
+    ctx:cacheClientFx("SPELL_MIST") -- COLLOIDALGENIE.scr:37
+    ctx:cacheClientFx("SPELL_BLACKSMOKE") -- COLLOIDALGENIE.scr:38
+    ctx:cacheSound("sounds\\animsounds\\dragon\\fidget1.wav") -- COLLOIDALGENIE.scr:40
+    ctx:cacheSound("sounds\\animsounds\\zombie\\ressurect2.wav") -- COLLOIDALGENIE.scr:41
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:43
 end
 
 script.labels["InitColloidalGenie"] = function(ctx)
     -- COLLOIDALGENIE.scr:46
-    ctx:command("setmodelfilenames", "\"models\\ColloidalWarrior.abc\", \"skins\\spells\\Shockwave.dtx\"") -- COLLOIDALGENIE.scr:48
-    ctx:command("getmyhandle", "hMe") -- COLLOIDALGENIE.scr:50
-    ctx:command("addenemy", "AIBase") -- COLLOIDALGENIE.scr:52
-    ctx:command("addfriend", "Player") -- COLLOIDALGENIE.scr:53
+    ctx:self():setModelFilenames("models\\ColloidalWarrior.abc", "skins\\spells\\Shockwave.dtx") -- COLLOIDALGENIE.scr:48
+    ctx:self():addEnemy("AIBase") -- COLLOIDALGENIE.scr:52
+    ctx:self():addFriend("Player") -- COLLOIDALGENIE.scr:53
     ctx:addTrigger("appear", "AppearWait") -- COLLOIDALGENIE.scr:55
     ctx:onRudeExit("GrantWish", script.labels["GrantWish"]) -- COLLOIDALGENIE.scr:57
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:59
@@ -41,29 +40,29 @@ end
 
 script.labels["AppearWait"] = function(ctx)
     -- COLLOIDALGENIE.scr:62
-    ctx:command("getobjecthandle", "sAppearName, hAppear") -- COLLOIDALGENIE.scr:64
-    ctx:command("getpos", "hAppear, x,y,z") -- COLLOIDALGENIE.scr:65
-    ctx:command("y", "= y + 36") -- COLLOIDALGENIE.scr:66
+    ctx:state().hAppear = ctx:objectOrNil("sAppearName") -- COLLOIDALGENIE.scr:64
+    ctx:state().x, ctx:state().y, ctx:state().z = ctx:object("hAppear"):pos() -- COLLOIDALGENIE.scr:65
+    ctx:set("y", "y + 36") -- COLLOIDALGENIE.scr:66
     if ctx:condition("hAppear!=0") then -- COLLOIDALGENIE.scr:68
-        ctx:command("doclientfx", "hAppear, SPELL_BLACKSMOKE, FALSE, TRUE") -- COLLOIDALGENIE.scr:69
-        ctx:command("wait", "0, 2, Appear") -- COLLOIDALGENIE.scr:70
+        ctx:object("hAppear"):doClientFx("SPELL_BLACKSMOKE", "FALSE", "TRUE") -- COLLOIDALGENIE.scr:69
+        ctx:wait(0, 2, "Appear") -- COLLOIDALGENIE.scr:70
     end -- COLLOIDALGENIE.scr:71
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:73
 end
 
 script.labels["Appear"] = function(ctx)
     -- COLLOIDALGENIE.scr:76
-    ctx:command("doclientfx", "hAppear, SPELL_MIST, FALSE, TRUE") -- COLLOIDALGENIE.scr:78
-    ctx:command("setpos", "hMe, x,y,z") -- COLLOIDALGENIE.scr:80
-    ctx:command("playsound", "\"sounds\\animsounds\\dragon\\fidget1.wav\", DoNothing, 1, 1000, FALSE, 100") -- COLLOIDALGENIE.scr:82
-    ctx:command("playsound", "\"sounds\\animsounds\\zombie\\ressurect2.wav\", DoNothing, 1, 1000, FALSE, 100") -- COLLOIDALGENIE.scr:83
-    ctx:command("wait", "0, 3, OfferWish") -- COLLOIDALGENIE.scr:85
+    ctx:object("hAppear"):doClientFx("SPELL_MIST", "FALSE", "TRUE") -- COLLOIDALGENIE.scr:78
+    ctx:self():setPos("x", "y", "z") -- COLLOIDALGENIE.scr:80
+    ctx:playSound("sounds\\animsounds\\dragon\\fidget1.wav", "DoNothing", 1, 1000, "FALSE", 100) -- COLLOIDALGENIE.scr:82
+    ctx:playSound("sounds\\animsounds\\zombie\\ressurect2.wav", "DoNothing", 1, 1000, "FALSE", 100) -- COLLOIDALGENIE.scr:83
+    ctx:wait(0, 3, "OfferWish") -- COLLOIDALGENIE.scr:85
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:87
 end
 
 script.labels["OfferWish"] = function(ctx)
     -- COLLOIDALGENIE.scr:90
-    ctx:command("removetrigger", "use") -- COLLOIDALGENIE.scr:92
+    ctx:removeTrigger("use") -- COLLOIDALGENIE.scr:92
     ctx:doRude(435) -- COLLOIDALGENIE.scr:93
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:95
 end
@@ -82,25 +81,25 @@ script.labels["GrantWish"] = function(ctx)
         else -- COLLOIDALGENIE.scr:110
             ctx:hasKey(5024, "bHasKey") -- COLLOIDALGENIE.scr:111
             if ctx:condition("bHasKey==TRUE") then -- COLLOIDALGENIE.scr:112
-                ctx:command("getrandomint", "234, 238, x") -- COLLOIDALGENIE.scr:113
+                ctx:randomInt(234, 238, "x") -- COLLOIDALGENIE.scr:113
                 ctx:giveItem("x") -- COLLOIDALGENIE.scr:114
             else -- COLLOIDALGENIE.scr:115
                 ctx:hasKey(5025, "bHasKey") -- COLLOIDALGENIE.scr:116
                 if ctx:condition("bHasKey==TRUE") then -- COLLOIDALGENIE.scr:117
-                    ctx:command("giveattribute", "0, 10, TRUE, 0") -- COLLOIDALGENIE.scr:118
+                    ctx:giveAttribute(0, 10, "TRUE", 0) -- COLLOIDALGENIE.scr:118
                 end -- COLLOIDALGENIE.scr:119
             end -- COLLOIDALGENIE.scr:120
         end -- COLLOIDALGENIE.scr:121
     end -- COLLOIDALGENIE.scr:122
-    ctx:command("wait", "0, 3, Disappear") -- COLLOIDALGENIE.scr:124
+    ctx:wait(0, 3, "Disappear") -- COLLOIDALGENIE.scr:124
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:126
 end
 
 script.labels["Disappear"] = function(ctx)
     -- COLLOIDALGENIE.scr:129
-    ctx:command("doclientfx", "hAppear, SPELL_MIST, FALSE, TRUE") -- COLLOIDALGENIE.scr:131
-    ctx:command("doclientfx", "hAppear, SPELL_BLACKSMOKE, FALSE, TRUE") -- COLLOIDALGENIE.scr:132
-    ctx:command("removeobject", "hMe") -- COLLOIDALGENIE.scr:134
+    ctx:object("hAppear"):doClientFx("SPELL_MIST", "FALSE", "TRUE") -- COLLOIDALGENIE.scr:131
+    ctx:object("hAppear"):doClientFx("SPELL_BLACKSMOKE", "FALSE", "TRUE") -- COLLOIDALGENIE.scr:132
+    ctx:self():remove() -- COLLOIDALGENIE.scr:134
     do return ctx:exit("TRUE") end -- COLLOIDALGENIE.scr:136
 end
 

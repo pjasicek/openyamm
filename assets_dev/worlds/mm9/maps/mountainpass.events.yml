@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/mountainpass.lua
+  script_ir: ../events/mountainpass.script_ir.yml
 objects:
 - object_id: mm9:mountainpass:object:0
   source_object_index: 0
@@ -36061,7 +36062,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger0
-    Pos: &id006
+    Pos: &id008
     - 5440.0
     - 128.0
     - -704.0
@@ -37330,10 +37331,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -1600.0
     - 1102.0
@@ -72449,7 +72452,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger1
-    Pos: &id007
+    Pos: &id120
     - -5504.0
     - 256.0
     - 6400.0
@@ -73901,6 +73904,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id004 []
 - mechanism_id: mm9:mountainpass:object:121:mechanism
   object_id: mm9:mountainpass:object:121
@@ -73911,6 +73915,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:mountainpass:object:123:mechanism
   object_id: mm9:mountainpass:object:123
@@ -73921,6 +73926,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:mountainpass:object:259:mechanism
   object_id: mm9:mountainpass:object:259
@@ -73931,6 +73937,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:mountainpass:object:269:mechanism
   object_id: mm9:mountainpass:object:269
@@ -73941,6 +73948,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:mountainpass:object:119:trigger
@@ -74349,6 +74357,76 @@ interactions:
   script_id: ''
   sends: *id005
 bindings:
+- object_id: mm9:mountainpass:object:0
+  source_object_index: 0
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id010
+      source_model_index: 0
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id006
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id011
+      source_model_index: 0
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id006
+- object_id: mm9:mountainpass:object:2
+  source_object_index: 2
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id012
+      source_model_index: 1
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id007
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id013
+      source_model_index: 1
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id007
 - object_id: mm9:mountainpass:object:42
   source_object_index: 42
   targets:
@@ -74817,23 +74895,365 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:mountainpass:object:119:volume
     confidence: source_object_volume
-    pos_lt: *id006
+    pos_lt: *id008
     dims_lt: *id001
 - object_id: mm9:mountainpass:object:120
   source_object_index: 120
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id122
+    - source_model_index: 2
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - 8512.0
+      - 256.0
+      - 6496.0
+      distance_from_position_lt: 369.042
+      claimed_by_exact_bindings:
+      - source_object_index: 121
+        source_name: InvisibleBrush0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 8512.0
+        - 256.0
+        - 6496.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id016
+          source_model_index: 2
+          source_model_name: InvisibleBrush0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id009
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 121
+        source_name: InvisibleBrush0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 8512.0
+        - 256.0
+        - 6496.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id017
+          source_model_index: 2
+          source_model_name: InvisibleBrush0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id009
+    - source_model_index: 0
+      source_name: TOD_Sky0
+      movable: true
+      world_translation_lt:
+      - 10752.0
+      - -1216.000244140625
+      - 1937.9998779296875
+      distance_from_position_lt: 5438.995
+      claimed_by_exact_bindings:
+      - source_object_index: 0
+        source_name: TOD_Sky0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 10752.0
+        - -1264.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:0
+        bmodel_index: 0
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id010
+      - source_object_index: 0
+        source_name: TOD_Sky0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 10752.0
+        - -1264.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:0
+        bmodel_index: 0
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id011
+    - source_model_index: 1
+      source_name: SkyBox0
+      movable: true
+      world_translation_lt:
+      - 10752.0
+      - -1216.000244140625
+      - 1937.9998779296875
+      distance_from_position_lt: 5438.995
+      claimed_by_exact_bindings:
+      - source_object_index: 2
+        source_name: SkyBox0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 10752.0
+        - -1216.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id012
+      - source_object_index: 2
+        source_name: SkyBox0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 10752.0
+        - -1216.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id013
+    - source_model_index: 62
+      source_name: AITrk56
+      movable: true
+      world_translation_lt:
+      - -2152.0
+      - 128.0
+      - 7200.0
+      distance_from_position_lt: 10800.204
+      claimed_by_exact_bindings:
+      - source_object_index: 217
+        source_name: AITrk56
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -2152.0
+        - 256.0
+        - 7200.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:62
+        bmodel_index: 62
+        bmodel_name: AITrk56
+        source_model_name: AITrk56
+        source_polygon_group: &id078
+          source_model_index: 62
+          source_model_name: AITrk56
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id014
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 217
+        source_name: AITrk56
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -2152.0
+        - 256.0
+        - 7200.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:62
+        bmodel_index: 62
+        bmodel_name: AITrk56
+        source_model_name: AITrk56
+        source_polygon_group: &id079
+          source_model_index: 62
+          source_model_name: AITrk56
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id014
+    - source_model_index: 61
+      source_name: AITrk55
+      movable: true
+      world_translation_lt:
+      - -2224.0
+      - 128.0
+      - 7440.0
+      distance_from_position_lt: 10883.976
+      claimed_by_exact_bindings:
+      - source_object_index: 216
+        source_name: AITrk55
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -2224.0
+        - 256.0
+        - 7440.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:61
+        bmodel_index: 61
+        bmodel_name: AITrk55
+        source_model_name: AITrk55
+        source_polygon_group: &id076
+          source_model_index: 61
+          source_model_name: AITrk55
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id015
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 216
+        source_name: AITrk55
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -2224.0
+        - 256.0
+        - 7440.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:61
+        bmodel_index: 61
+        bmodel_name: AITrk55
+        source_model_name: AITrk55
+        source_polygon_group: &id077
+          source_model_index: 61
+          source_model_name: AITrk55
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id015
 - object_id: mm9:mountainpass:object:121
   source_object_index: 121
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id016
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id017
 - object_id: mm9:mountainpass:object:123
   source_object_index: 123
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id018
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id018
+- object_id: mm9:mountainpass:object:126
+  source_object_index: 126
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: PathTerrain1
+    source_model_name: PathTerrain1
+    source_polygon_group:
+      source_model_index: 4
+      source_model_name: PathTerrain1
+      source_poly_count: 1845
+      source_surface_count: 1186
+      roles: &id019
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: PathTerrain1
+    source_model_name: PathTerrain1
+    source_polygon_group:
+      source_model_index: 4
+      source_model_name: PathTerrain1
+      source_poly_count: 1845
+      source_surface_count: 1186
+      roles: *id019
+- object_id: mm9:mountainpass:object:127
+  source_object_index: 127
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: CliffsTerrain0
+    source_model_name: CliffsTerrain0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: CliffsTerrain0
+      source_poly_count: 20662
+      source_surface_count: 20657
+      roles: &id020
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: CliffsTerrain0
+    source_model_name: CliffsTerrain0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: CliffsTerrain0
+      source_poly_count: 20662
+      source_surface_count: 20657
+      roles: *id020
 - object_id: mm9:mountainpass:object:128
   source_object_index: 128
   targets:
@@ -75032,11 +75452,3365 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:mountainpass:object:160
     confidence: exact_source_object_index
+- object_id: mm9:mountainpass:object:161
+  source_object_index: 161
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_source_model_name
+    bmodel_index: 6
+    bmodel_name: AITrk0
+    source_model_name: AITrk0
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: AITrk0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id021
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_bmodel_name
+    bmodel_index: 6
+    bmodel_name: AITrk0
+    source_model_name: AITrk0
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: AITrk0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id021
+- object_id: mm9:mountainpass:object:162
+  source_object_index: 162
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_source_model_name
+    bmodel_index: 7
+    bmodel_name: AITrk3
+    source_model_name: AITrk3
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: AITrk3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id022
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_bmodel_name
+    bmodel_index: 7
+    bmodel_name: AITrk3
+    source_model_name: AITrk3
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: AITrk3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id022
+- object_id: mm9:mountainpass:object:163
+  source_object_index: 163
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_source_model_name
+    bmodel_index: 8
+    bmodel_name: AITrk2
+    source_model_name: AITrk2
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: AITrk2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id023
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_bmodel_name
+    bmodel_index: 8
+    bmodel_name: AITrk2
+    source_model_name: AITrk2
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: AITrk2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id023
+- object_id: mm9:mountainpass:object:164
+  source_object_index: 164
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_source_model_name
+    bmodel_index: 9
+    bmodel_name: AITrk1
+    source_model_name: AITrk1
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: AITrk1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id024
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_bmodel_name
+    bmodel_index: 9
+    bmodel_name: AITrk1
+    source_model_name: AITrk1
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: AITrk1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id024
+- object_id: mm9:mountainpass:object:165
+  source_object_index: 165
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_source_model_name
+    bmodel_index: 10
+    bmodel_name: AITrk4
+    source_model_name: AITrk4
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: AITrk4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id025
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_bmodel_name
+    bmodel_index: 10
+    bmodel_name: AITrk4
+    source_model_name: AITrk4
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: AITrk4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id025
+- object_id: mm9:mountainpass:object:166
+  source_object_index: 166
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_source_model_name
+    bmodel_index: 11
+    bmodel_name: AITrk5
+    source_model_name: AITrk5
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: AITrk5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id026
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_bmodel_name
+    bmodel_index: 11
+    bmodel_name: AITrk5
+    source_model_name: AITrk5
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: AITrk5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id026
+- object_id: mm9:mountainpass:object:167
+  source_object_index: 167
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_source_model_name
+    bmodel_index: 12
+    bmodel_name: AITrk6
+    source_model_name: AITrk6
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: AITrk6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id027
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_bmodel_name
+    bmodel_index: 12
+    bmodel_name: AITrk6
+    source_model_name: AITrk6
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: AITrk6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id027
+- object_id: mm9:mountainpass:object:168
+  source_object_index: 168
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_source_model_name
+    bmodel_index: 13
+    bmodel_name: AITrk7
+    source_model_name: AITrk7
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: AITrk7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id028
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_bmodel_name
+    bmodel_index: 13
+    bmodel_name: AITrk7
+    source_model_name: AITrk7
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: AITrk7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id028
+- object_id: mm9:mountainpass:object:169
+  source_object_index: 169
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_source_model_name
+    bmodel_index: 14
+    bmodel_name: AITrk8
+    source_model_name: AITrk8
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: AITrk8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id029
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_bmodel_name
+    bmodel_index: 14
+    bmodel_name: AITrk8
+    source_model_name: AITrk8
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: AITrk8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id029
+- object_id: mm9:mountainpass:object:170
+  source_object_index: 170
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_source_model_name
+    bmodel_index: 15
+    bmodel_name: AITrk9
+    source_model_name: AITrk9
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: AITrk9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id030
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_bmodel_name
+    bmodel_index: 15
+    bmodel_name: AITrk9
+    source_model_name: AITrk9
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: AITrk9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id030
+- object_id: mm9:mountainpass:object:171
+  source_object_index: 171
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_source_model_name
+    bmodel_index: 16
+    bmodel_name: AITrk10
+    source_model_name: AITrk10
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: AITrk10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id031
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_bmodel_name
+    bmodel_index: 16
+    bmodel_name: AITrk10
+    source_model_name: AITrk10
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: AITrk10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id031
+- object_id: mm9:mountainpass:object:172
+  source_object_index: 172
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_source_model_name
+    bmodel_index: 17
+    bmodel_name: AITrk11
+    source_model_name: AITrk11
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: AITrk11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id032
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_bmodel_name
+    bmodel_index: 17
+    bmodel_name: AITrk11
+    source_model_name: AITrk11
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: AITrk11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id032
+- object_id: mm9:mountainpass:object:173
+  source_object_index: 173
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_source_model_name
+    bmodel_index: 18
+    bmodel_name: AITrk12
+    source_model_name: AITrk12
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: AITrk12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id033
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_bmodel_name
+    bmodel_index: 18
+    bmodel_name: AITrk12
+    source_model_name: AITrk12
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: AITrk12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id033
+- object_id: mm9:mountainpass:object:174
+  source_object_index: 174
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_source_model_name
+    bmodel_index: 19
+    bmodel_name: AITrk13
+    source_model_name: AITrk13
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: AITrk13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id034
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_bmodel_name
+    bmodel_index: 19
+    bmodel_name: AITrk13
+    source_model_name: AITrk13
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: AITrk13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id034
+- object_id: mm9:mountainpass:object:175
+  source_object_index: 175
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_source_model_name
+    bmodel_index: 20
+    bmodel_name: AITrk14
+    source_model_name: AITrk14
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: AITrk14
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id035
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_bmodel_name
+    bmodel_index: 20
+    bmodel_name: AITrk14
+    source_model_name: AITrk14
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: AITrk14
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id035
+- object_id: mm9:mountainpass:object:176
+  source_object_index: 176
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_source_model_name
+    bmodel_index: 21
+    bmodel_name: AITrk15
+    source_model_name: AITrk15
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: AITrk15
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id036
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_bmodel_name
+    bmodel_index: 21
+    bmodel_name: AITrk15
+    source_model_name: AITrk15
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: AITrk15
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id036
+- object_id: mm9:mountainpass:object:177
+  source_object_index: 177
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_source_model_name
+    bmodel_index: 22
+    bmodel_name: AITrk16
+    source_model_name: AITrk16
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: AITrk16
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id037
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_bmodel_name
+    bmodel_index: 22
+    bmodel_name: AITrk16
+    source_model_name: AITrk16
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: AITrk16
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id037
+- object_id: mm9:mountainpass:object:178
+  source_object_index: 178
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_source_model_name
+    bmodel_index: 23
+    bmodel_name: AITrk17
+    source_model_name: AITrk17
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: AITrk17
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id038
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_bmodel_name
+    bmodel_index: 23
+    bmodel_name: AITrk17
+    source_model_name: AITrk17
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: AITrk17
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id038
+- object_id: mm9:mountainpass:object:179
+  source_object_index: 179
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_source_model_name
+    bmodel_index: 24
+    bmodel_name: AITrk18
+    source_model_name: AITrk18
+    source_polygon_group:
+      source_model_index: 24
+      source_model_name: AITrk18
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id039
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_bmodel_name
+    bmodel_index: 24
+    bmodel_name: AITrk18
+    source_model_name: AITrk18
+    source_polygon_group:
+      source_model_index: 24
+      source_model_name: AITrk18
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id039
+- object_id: mm9:mountainpass:object:180
+  source_object_index: 180
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_source_model_name
+    bmodel_index: 25
+    bmodel_name: AITrk19
+    source_model_name: AITrk19
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: AITrk19
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id040
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_bmodel_name
+    bmodel_index: 25
+    bmodel_name: AITrk19
+    source_model_name: AITrk19
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: AITrk19
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id040
+- object_id: mm9:mountainpass:object:181
+  source_object_index: 181
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_source_model_name
+    bmodel_index: 26
+    bmodel_name: AITrk20
+    source_model_name: AITrk20
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: AITrk20
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id041
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_bmodel_name
+    bmodel_index: 26
+    bmodel_name: AITrk20
+    source_model_name: AITrk20
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: AITrk20
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id041
+- object_id: mm9:mountainpass:object:182
+  source_object_index: 182
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_source_model_name
+    bmodel_index: 27
+    bmodel_name: AITrk21
+    source_model_name: AITrk21
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: AITrk21
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id042
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_bmodel_name
+    bmodel_index: 27
+    bmodel_name: AITrk21
+    source_model_name: AITrk21
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: AITrk21
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id042
+- object_id: mm9:mountainpass:object:183
+  source_object_index: 183
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_source_model_name
+    bmodel_index: 28
+    bmodel_name: AITrk22
+    source_model_name: AITrk22
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: AITrk22
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id043
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_bmodel_name
+    bmodel_index: 28
+    bmodel_name: AITrk22
+    source_model_name: AITrk22
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: AITrk22
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id043
+- object_id: mm9:mountainpass:object:184
+  source_object_index: 184
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_source_model_name
+    bmodel_index: 29
+    bmodel_name: AITrk23
+    source_model_name: AITrk23
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: AITrk23
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id044
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_bmodel_name
+    bmodel_index: 29
+    bmodel_name: AITrk23
+    source_model_name: AITrk23
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: AITrk23
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id044
+- object_id: mm9:mountainpass:object:185
+  source_object_index: 185
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_source_model_name
+    bmodel_index: 30
+    bmodel_name: AITrk24
+    source_model_name: AITrk24
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: AITrk24
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id045
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_bmodel_name
+    bmodel_index: 30
+    bmodel_name: AITrk24
+    source_model_name: AITrk24
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: AITrk24
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id045
+- object_id: mm9:mountainpass:object:186
+  source_object_index: 186
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_source_model_name
+    bmodel_index: 31
+    bmodel_name: AITrk25
+    source_model_name: AITrk25
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: AITrk25
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id046
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_bmodel_name
+    bmodel_index: 31
+    bmodel_name: AITrk25
+    source_model_name: AITrk25
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: AITrk25
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id046
+- object_id: mm9:mountainpass:object:187
+  source_object_index: 187
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_source_model_name
+    bmodel_index: 32
+    bmodel_name: AITrk26
+    source_model_name: AITrk26
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: AITrk26
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id047
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_bmodel_name
+    bmodel_index: 32
+    bmodel_name: AITrk26
+    source_model_name: AITrk26
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: AITrk26
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id047
+- object_id: mm9:mountainpass:object:188
+  source_object_index: 188
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_source_model_name
+    bmodel_index: 33
+    bmodel_name: AITrk27
+    source_model_name: AITrk27
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: AITrk27
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id048
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_bmodel_name
+    bmodel_index: 33
+    bmodel_name: AITrk27
+    source_model_name: AITrk27
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: AITrk27
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id048
+- object_id: mm9:mountainpass:object:189
+  source_object_index: 189
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_source_model_name
+    bmodel_index: 34
+    bmodel_name: AITrk28
+    source_model_name: AITrk28
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: AITrk28
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id049
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_bmodel_name
+    bmodel_index: 34
+    bmodel_name: AITrk28
+    source_model_name: AITrk28
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: AITrk28
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id049
+- object_id: mm9:mountainpass:object:190
+  source_object_index: 190
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_source_model_name
+    bmodel_index: 35
+    bmodel_name: AITrk29
+    source_model_name: AITrk29
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: AITrk29
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id050
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_bmodel_name
+    bmodel_index: 35
+    bmodel_name: AITrk29
+    source_model_name: AITrk29
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: AITrk29
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id050
+- object_id: mm9:mountainpass:object:191
+  source_object_index: 191
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_source_model_name
+    bmodel_index: 36
+    bmodel_name: AITrk30
+    source_model_name: AITrk30
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: AITrk30
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id051
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_bmodel_name
+    bmodel_index: 36
+    bmodel_name: AITrk30
+    source_model_name: AITrk30
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: AITrk30
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id051
+- object_id: mm9:mountainpass:object:192
+  source_object_index: 192
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_source_model_name
+    bmodel_index: 37
+    bmodel_name: AITrk31
+    source_model_name: AITrk31
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: AITrk31
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id052
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_bmodel_name
+    bmodel_index: 37
+    bmodel_name: AITrk31
+    source_model_name: AITrk31
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: AITrk31
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id052
+- object_id: mm9:mountainpass:object:193
+  source_object_index: 193
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_source_model_name
+    bmodel_index: 38
+    bmodel_name: AITrk32
+    source_model_name: AITrk32
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: AITrk32
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id053
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_bmodel_name
+    bmodel_index: 38
+    bmodel_name: AITrk32
+    source_model_name: AITrk32
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: AITrk32
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id053
+- object_id: mm9:mountainpass:object:194
+  source_object_index: 194
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_source_model_name
+    bmodel_index: 39
+    bmodel_name: AITrk33
+    source_model_name: AITrk33
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: AITrk33
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id054
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_bmodel_name
+    bmodel_index: 39
+    bmodel_name: AITrk33
+    source_model_name: AITrk33
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: AITrk33
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id054
+- object_id: mm9:mountainpass:object:195
+  source_object_index: 195
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_source_model_name
+    bmodel_index: 40
+    bmodel_name: AITrk34
+    source_model_name: AITrk34
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: AITrk34
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id055
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_bmodel_name
+    bmodel_index: 40
+    bmodel_name: AITrk34
+    source_model_name: AITrk34
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: AITrk34
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id055
+- object_id: mm9:mountainpass:object:196
+  source_object_index: 196
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_source_model_name
+    bmodel_index: 41
+    bmodel_name: AITrk35
+    source_model_name: AITrk35
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: AITrk35
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id056
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_bmodel_name
+    bmodel_index: 41
+    bmodel_name: AITrk35
+    source_model_name: AITrk35
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: AITrk35
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id056
+- object_id: mm9:mountainpass:object:197
+  source_object_index: 197
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_source_model_name
+    bmodel_index: 42
+    bmodel_name: AITrk36
+    source_model_name: AITrk36
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: AITrk36
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id057
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_bmodel_name
+    bmodel_index: 42
+    bmodel_name: AITrk36
+    source_model_name: AITrk36
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: AITrk36
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id057
+- object_id: mm9:mountainpass:object:198
+  source_object_index: 198
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_source_model_name
+    bmodel_index: 43
+    bmodel_name: AITrk37
+    source_model_name: AITrk37
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: AITrk37
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id058
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_bmodel_name
+    bmodel_index: 43
+    bmodel_name: AITrk37
+    source_model_name: AITrk37
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: AITrk37
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id058
+- object_id: mm9:mountainpass:object:199
+  source_object_index: 199
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_source_model_name
+    bmodel_index: 44
+    bmodel_name: AITrk38
+    source_model_name: AITrk38
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: AITrk38
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id059
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_bmodel_name
+    bmodel_index: 44
+    bmodel_name: AITrk38
+    source_model_name: AITrk38
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: AITrk38
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id059
+- object_id: mm9:mountainpass:object:200
+  source_object_index: 200
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_source_model_name
+    bmodel_index: 45
+    bmodel_name: AITrk39
+    source_model_name: AITrk39
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: AITrk39
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id060
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_bmodel_name
+    bmodel_index: 45
+    bmodel_name: AITrk39
+    source_model_name: AITrk39
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: AITrk39
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id060
+- object_id: mm9:mountainpass:object:201
+  source_object_index: 201
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_source_model_name
+    bmodel_index: 46
+    bmodel_name: AITrk40
+    source_model_name: AITrk40
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: AITrk40
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id061
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_bmodel_name
+    bmodel_index: 46
+    bmodel_name: AITrk40
+    source_model_name: AITrk40
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: AITrk40
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id061
+- object_id: mm9:mountainpass:object:202
+  source_object_index: 202
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_source_model_name
+    bmodel_index: 47
+    bmodel_name: AITrk41
+    source_model_name: AITrk41
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: AITrk41
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id062
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_bmodel_name
+    bmodel_index: 47
+    bmodel_name: AITrk41
+    source_model_name: AITrk41
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: AITrk41
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id062
+- object_id: mm9:mountainpass:object:203
+  source_object_index: 203
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_source_model_name
+    bmodel_index: 48
+    bmodel_name: AITrk42
+    source_model_name: AITrk42
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: AITrk42
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id063
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_bmodel_name
+    bmodel_index: 48
+    bmodel_name: AITrk42
+    source_model_name: AITrk42
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: AITrk42
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id063
+- object_id: mm9:mountainpass:object:204
+  source_object_index: 204
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_source_model_name
+    bmodel_index: 49
+    bmodel_name: AITrk43
+    source_model_name: AITrk43
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: AITrk43
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id064
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_bmodel_name
+    bmodel_index: 49
+    bmodel_name: AITrk43
+    source_model_name: AITrk43
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: AITrk43
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id064
+- object_id: mm9:mountainpass:object:205
+  source_object_index: 205
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_source_model_name
+    bmodel_index: 50
+    bmodel_name: AITrk44
+    source_model_name: AITrk44
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: AITrk44
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id065
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_bmodel_name
+    bmodel_index: 50
+    bmodel_name: AITrk44
+    source_model_name: AITrk44
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: AITrk44
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id065
+- object_id: mm9:mountainpass:object:206
+  source_object_index: 206
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_source_model_name
+    bmodel_index: 51
+    bmodel_name: AITrk45
+    source_model_name: AITrk45
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: AITrk45
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id066
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_bmodel_name
+    bmodel_index: 51
+    bmodel_name: AITrk45
+    source_model_name: AITrk45
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: AITrk45
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id066
+- object_id: mm9:mountainpass:object:207
+  source_object_index: 207
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_source_model_name
+    bmodel_index: 52
+    bmodel_name: AITrk46
+    source_model_name: AITrk46
+    source_polygon_group:
+      source_model_index: 52
+      source_model_name: AITrk46
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id067
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_bmodel_name
+    bmodel_index: 52
+    bmodel_name: AITrk46
+    source_model_name: AITrk46
+    source_polygon_group:
+      source_model_index: 52
+      source_model_name: AITrk46
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id067
+- object_id: mm9:mountainpass:object:208
+  source_object_index: 208
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_source_model_name
+    bmodel_index: 53
+    bmodel_name: AITrk47
+    source_model_name: AITrk47
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: AITrk47
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id068
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_bmodel_name
+    bmodel_index: 53
+    bmodel_name: AITrk47
+    source_model_name: AITrk47
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: AITrk47
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id068
+- object_id: mm9:mountainpass:object:209
+  source_object_index: 209
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_source_model_name
+    bmodel_index: 54
+    bmodel_name: AITrk48
+    source_model_name: AITrk48
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: AITrk48
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id069
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_bmodel_name
+    bmodel_index: 54
+    bmodel_name: AITrk48
+    source_model_name: AITrk48
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: AITrk48
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id069
+- object_id: mm9:mountainpass:object:210
+  source_object_index: 210
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:55
+    confidence: exact_source_model_name
+    bmodel_index: 55
+    bmodel_name: AITrk49
+    source_model_name: AITrk49
+    source_polygon_group:
+      source_model_index: 55
+      source_model_name: AITrk49
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id070
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:55
+    confidence: exact_bmodel_name
+    bmodel_index: 55
+    bmodel_name: AITrk49
+    source_model_name: AITrk49
+    source_polygon_group:
+      source_model_index: 55
+      source_model_name: AITrk49
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id070
+- object_id: mm9:mountainpass:object:211
+  source_object_index: 211
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:56
+    confidence: exact_source_model_name
+    bmodel_index: 56
+    bmodel_name: AITrk50
+    source_model_name: AITrk50
+    source_polygon_group:
+      source_model_index: 56
+      source_model_name: AITrk50
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id071
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:56
+    confidence: exact_bmodel_name
+    bmodel_index: 56
+    bmodel_name: AITrk50
+    source_model_name: AITrk50
+    source_polygon_group:
+      source_model_index: 56
+      source_model_name: AITrk50
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id071
+- object_id: mm9:mountainpass:object:212
+  source_object_index: 212
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:57
+    confidence: exact_source_model_name
+    bmodel_index: 57
+    bmodel_name: AITrk51
+    source_model_name: AITrk51
+    source_polygon_group:
+      source_model_index: 57
+      source_model_name: AITrk51
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id072
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:57
+    confidence: exact_bmodel_name
+    bmodel_index: 57
+    bmodel_name: AITrk51
+    source_model_name: AITrk51
+    source_polygon_group:
+      source_model_index: 57
+      source_model_name: AITrk51
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id072
+- object_id: mm9:mountainpass:object:213
+  source_object_index: 213
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:58
+    confidence: exact_source_model_name
+    bmodel_index: 58
+    bmodel_name: AITrk52
+    source_model_name: AITrk52
+    source_polygon_group:
+      source_model_index: 58
+      source_model_name: AITrk52
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id073
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:58
+    confidence: exact_bmodel_name
+    bmodel_index: 58
+    bmodel_name: AITrk52
+    source_model_name: AITrk52
+    source_polygon_group:
+      source_model_index: 58
+      source_model_name: AITrk52
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id073
+- object_id: mm9:mountainpass:object:214
+  source_object_index: 214
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:59
+    confidence: exact_source_model_name
+    bmodel_index: 59
+    bmodel_name: AITrk53
+    source_model_name: AITrk53
+    source_polygon_group:
+      source_model_index: 59
+      source_model_name: AITrk53
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id074
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:59
+    confidence: exact_bmodel_name
+    bmodel_index: 59
+    bmodel_name: AITrk53
+    source_model_name: AITrk53
+    source_polygon_group:
+      source_model_index: 59
+      source_model_name: AITrk53
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id074
+- object_id: mm9:mountainpass:object:215
+  source_object_index: 215
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:60
+    confidence: exact_source_model_name
+    bmodel_index: 60
+    bmodel_name: AITrk54
+    source_model_name: AITrk54
+    source_polygon_group:
+      source_model_index: 60
+      source_model_name: AITrk54
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id075
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:60
+    confidence: exact_bmodel_name
+    bmodel_index: 60
+    bmodel_name: AITrk54
+    source_model_name: AITrk54
+    source_polygon_group:
+      source_model_index: 60
+      source_model_name: AITrk54
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id075
+- object_id: mm9:mountainpass:object:216
+  source_object_index: 216
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:61
+    confidence: exact_source_model_name
+    bmodel_index: 61
+    bmodel_name: AITrk55
+    source_model_name: AITrk55
+    source_polygon_group: *id076
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:61
+    confidence: exact_bmodel_name
+    bmodel_index: 61
+    bmodel_name: AITrk55
+    source_model_name: AITrk55
+    source_polygon_group: *id077
+- object_id: mm9:mountainpass:object:217
+  source_object_index: 217
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:62
+    confidence: exact_source_model_name
+    bmodel_index: 62
+    bmodel_name: AITrk56
+    source_model_name: AITrk56
+    source_polygon_group: *id078
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:62
+    confidence: exact_bmodel_name
+    bmodel_index: 62
+    bmodel_name: AITrk56
+    source_model_name: AITrk56
+    source_polygon_group: *id079
+- object_id: mm9:mountainpass:object:218
+  source_object_index: 218
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:63
+    confidence: exact_source_model_name
+    bmodel_index: 63
+    bmodel_name: AITrk57
+    source_model_name: AITrk57
+    source_polygon_group:
+      source_model_index: 63
+      source_model_name: AITrk57
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id080
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:63
+    confidence: exact_bmodel_name
+    bmodel_index: 63
+    bmodel_name: AITrk57
+    source_model_name: AITrk57
+    source_polygon_group:
+      source_model_index: 63
+      source_model_name: AITrk57
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id080
+- object_id: mm9:mountainpass:object:219
+  source_object_index: 219
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:64
+    confidence: exact_source_model_name
+    bmodel_index: 64
+    bmodel_name: AITrk58
+    source_model_name: AITrk58
+    source_polygon_group:
+      source_model_index: 64
+      source_model_name: AITrk58
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id081
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:64
+    confidence: exact_bmodel_name
+    bmodel_index: 64
+    bmodel_name: AITrk58
+    source_model_name: AITrk58
+    source_polygon_group:
+      source_model_index: 64
+      source_model_name: AITrk58
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id081
+- object_id: mm9:mountainpass:object:220
+  source_object_index: 220
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:65
+    confidence: exact_source_model_name
+    bmodel_index: 65
+    bmodel_name: AITrk59
+    source_model_name: AITrk59
+    source_polygon_group:
+      source_model_index: 65
+      source_model_name: AITrk59
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id082
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:65
+    confidence: exact_bmodel_name
+    bmodel_index: 65
+    bmodel_name: AITrk59
+    source_model_name: AITrk59
+    source_polygon_group:
+      source_model_index: 65
+      source_model_name: AITrk59
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id082
+- object_id: mm9:mountainpass:object:221
+  source_object_index: 221
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:66
+    confidence: exact_source_model_name
+    bmodel_index: 66
+    bmodel_name: AITrk60
+    source_model_name: AITrk60
+    source_polygon_group:
+      source_model_index: 66
+      source_model_name: AITrk60
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id083
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:66
+    confidence: exact_bmodel_name
+    bmodel_index: 66
+    bmodel_name: AITrk60
+    source_model_name: AITrk60
+    source_polygon_group:
+      source_model_index: 66
+      source_model_name: AITrk60
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id083
+- object_id: mm9:mountainpass:object:222
+  source_object_index: 222
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:67
+    confidence: exact_source_model_name
+    bmodel_index: 67
+    bmodel_name: AITrk61
+    source_model_name: AITrk61
+    source_polygon_group:
+      source_model_index: 67
+      source_model_name: AITrk61
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id084
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:67
+    confidence: exact_bmodel_name
+    bmodel_index: 67
+    bmodel_name: AITrk61
+    source_model_name: AITrk61
+    source_polygon_group:
+      source_model_index: 67
+      source_model_name: AITrk61
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id084
+- object_id: mm9:mountainpass:object:223
+  source_object_index: 223
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:68
+    confidence: exact_source_model_name
+    bmodel_index: 68
+    bmodel_name: AITrk62
+    source_model_name: AITrk62
+    source_polygon_group:
+      source_model_index: 68
+      source_model_name: AITrk62
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id085
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:68
+    confidence: exact_bmodel_name
+    bmodel_index: 68
+    bmodel_name: AITrk62
+    source_model_name: AITrk62
+    source_polygon_group:
+      source_model_index: 68
+      source_model_name: AITrk62
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id085
+- object_id: mm9:mountainpass:object:224
+  source_object_index: 224
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:69
+    confidence: exact_source_model_name
+    bmodel_index: 69
+    bmodel_name: AITrk63
+    source_model_name: AITrk63
+    source_polygon_group:
+      source_model_index: 69
+      source_model_name: AITrk63
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id086
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:69
+    confidence: exact_bmodel_name
+    bmodel_index: 69
+    bmodel_name: AITrk63
+    source_model_name: AITrk63
+    source_polygon_group:
+      source_model_index: 69
+      source_model_name: AITrk63
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id086
+- object_id: mm9:mountainpass:object:225
+  source_object_index: 225
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:70
+    confidence: exact_source_model_name
+    bmodel_index: 70
+    bmodel_name: AITrk64
+    source_model_name: AITrk64
+    source_polygon_group:
+      source_model_index: 70
+      source_model_name: AITrk64
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id087
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:70
+    confidence: exact_bmodel_name
+    bmodel_index: 70
+    bmodel_name: AITrk64
+    source_model_name: AITrk64
+    source_polygon_group:
+      source_model_index: 70
+      source_model_name: AITrk64
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id087
+- object_id: mm9:mountainpass:object:226
+  source_object_index: 226
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:71
+    confidence: exact_source_model_name
+    bmodel_index: 71
+    bmodel_name: AITrk65
+    source_model_name: AITrk65
+    source_polygon_group:
+      source_model_index: 71
+      source_model_name: AITrk65
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id088
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:71
+    confidence: exact_bmodel_name
+    bmodel_index: 71
+    bmodel_name: AITrk65
+    source_model_name: AITrk65
+    source_polygon_group:
+      source_model_index: 71
+      source_model_name: AITrk65
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id088
+- object_id: mm9:mountainpass:object:227
+  source_object_index: 227
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:72
+    confidence: exact_source_model_name
+    bmodel_index: 72
+    bmodel_name: AITrk66
+    source_model_name: AITrk66
+    source_polygon_group:
+      source_model_index: 72
+      source_model_name: AITrk66
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id089
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:72
+    confidence: exact_bmodel_name
+    bmodel_index: 72
+    bmodel_name: AITrk66
+    source_model_name: AITrk66
+    source_polygon_group:
+      source_model_index: 72
+      source_model_name: AITrk66
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id089
+- object_id: mm9:mountainpass:object:228
+  source_object_index: 228
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:73
+    confidence: exact_source_model_name
+    bmodel_index: 73
+    bmodel_name: AITrk67
+    source_model_name: AITrk67
+    source_polygon_group:
+      source_model_index: 73
+      source_model_name: AITrk67
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id090
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:73
+    confidence: exact_bmodel_name
+    bmodel_index: 73
+    bmodel_name: AITrk67
+    source_model_name: AITrk67
+    source_polygon_group:
+      source_model_index: 73
+      source_model_name: AITrk67
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id090
+- object_id: mm9:mountainpass:object:229
+  source_object_index: 229
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:74
+    confidence: exact_source_model_name
+    bmodel_index: 74
+    bmodel_name: AITrk68
+    source_model_name: AITrk68
+    source_polygon_group:
+      source_model_index: 74
+      source_model_name: AITrk68
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id091
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:74
+    confidence: exact_bmodel_name
+    bmodel_index: 74
+    bmodel_name: AITrk68
+    source_model_name: AITrk68
+    source_polygon_group:
+      source_model_index: 74
+      source_model_name: AITrk68
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id091
+- object_id: mm9:mountainpass:object:230
+  source_object_index: 230
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:75
+    confidence: exact_source_model_name
+    bmodel_index: 75
+    bmodel_name: AITrk69
+    source_model_name: AITrk69
+    source_polygon_group:
+      source_model_index: 75
+      source_model_name: AITrk69
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id092
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:75
+    confidence: exact_bmodel_name
+    bmodel_index: 75
+    bmodel_name: AITrk69
+    source_model_name: AITrk69
+    source_polygon_group:
+      source_model_index: 75
+      source_model_name: AITrk69
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id092
+- object_id: mm9:mountainpass:object:231
+  source_object_index: 231
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:76
+    confidence: exact_source_model_name
+    bmodel_index: 76
+    bmodel_name: AITrk70
+    source_model_name: AITrk70
+    source_polygon_group:
+      source_model_index: 76
+      source_model_name: AITrk70
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id093
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:76
+    confidence: exact_bmodel_name
+    bmodel_index: 76
+    bmodel_name: AITrk70
+    source_model_name: AITrk70
+    source_polygon_group:
+      source_model_index: 76
+      source_model_name: AITrk70
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id093
+- object_id: mm9:mountainpass:object:232
+  source_object_index: 232
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:77
+    confidence: exact_source_model_name
+    bmodel_index: 77
+    bmodel_name: AITrk71
+    source_model_name: AITrk71
+    source_polygon_group:
+      source_model_index: 77
+      source_model_name: AITrk71
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id094
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:77
+    confidence: exact_bmodel_name
+    bmodel_index: 77
+    bmodel_name: AITrk71
+    source_model_name: AITrk71
+    source_polygon_group:
+      source_model_index: 77
+      source_model_name: AITrk71
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id094
+- object_id: mm9:mountainpass:object:233
+  source_object_index: 233
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:78
+    confidence: exact_source_model_name
+    bmodel_index: 78
+    bmodel_name: AITrk72
+    source_model_name: AITrk72
+    source_polygon_group:
+      source_model_index: 78
+      source_model_name: AITrk72
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id095
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:78
+    confidence: exact_bmodel_name
+    bmodel_index: 78
+    bmodel_name: AITrk72
+    source_model_name: AITrk72
+    source_polygon_group:
+      source_model_index: 78
+      source_model_name: AITrk72
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id095
+- object_id: mm9:mountainpass:object:234
+  source_object_index: 234
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:79
+    confidence: exact_source_model_name
+    bmodel_index: 79
+    bmodel_name: AITrk73
+    source_model_name: AITrk73
+    source_polygon_group:
+      source_model_index: 79
+      source_model_name: AITrk73
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id096
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:79
+    confidence: exact_bmodel_name
+    bmodel_index: 79
+    bmodel_name: AITrk73
+    source_model_name: AITrk73
+    source_polygon_group:
+      source_model_index: 79
+      source_model_name: AITrk73
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id096
+- object_id: mm9:mountainpass:object:235
+  source_object_index: 235
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:80
+    confidence: exact_source_model_name
+    bmodel_index: 80
+    bmodel_name: AITrk74
+    source_model_name: AITrk74
+    source_polygon_group:
+      source_model_index: 80
+      source_model_name: AITrk74
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id097
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:80
+    confidence: exact_bmodel_name
+    bmodel_index: 80
+    bmodel_name: AITrk74
+    source_model_name: AITrk74
+    source_polygon_group:
+      source_model_index: 80
+      source_model_name: AITrk74
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id097
+- object_id: mm9:mountainpass:object:236
+  source_object_index: 236
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:81
+    confidence: exact_source_model_name
+    bmodel_index: 81
+    bmodel_name: AITrk75
+    source_model_name: AITrk75
+    source_polygon_group:
+      source_model_index: 81
+      source_model_name: AITrk75
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id098
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:81
+    confidence: exact_bmodel_name
+    bmodel_index: 81
+    bmodel_name: AITrk75
+    source_model_name: AITrk75
+    source_polygon_group:
+      source_model_index: 81
+      source_model_name: AITrk75
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id098
+- object_id: mm9:mountainpass:object:237
+  source_object_index: 237
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:82
+    confidence: exact_source_model_name
+    bmodel_index: 82
+    bmodel_name: AITrk76
+    source_model_name: AITrk76
+    source_polygon_group:
+      source_model_index: 82
+      source_model_name: AITrk76
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id099
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:82
+    confidence: exact_bmodel_name
+    bmodel_index: 82
+    bmodel_name: AITrk76
+    source_model_name: AITrk76
+    source_polygon_group:
+      source_model_index: 82
+      source_model_name: AITrk76
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id099
+- object_id: mm9:mountainpass:object:238
+  source_object_index: 238
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:83
+    confidence: exact_source_model_name
+    bmodel_index: 83
+    bmodel_name: AITrk77
+    source_model_name: AITrk77
+    source_polygon_group:
+      source_model_index: 83
+      source_model_name: AITrk77
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id100
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:83
+    confidence: exact_bmodel_name
+    bmodel_index: 83
+    bmodel_name: AITrk77
+    source_model_name: AITrk77
+    source_polygon_group:
+      source_model_index: 83
+      source_model_name: AITrk77
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id100
+- object_id: mm9:mountainpass:object:239
+  source_object_index: 239
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:84
+    confidence: exact_source_model_name
+    bmodel_index: 84
+    bmodel_name: AITrk78
+    source_model_name: AITrk78
+    source_polygon_group:
+      source_model_index: 84
+      source_model_name: AITrk78
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id101
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:84
+    confidence: exact_bmodel_name
+    bmodel_index: 84
+    bmodel_name: AITrk78
+    source_model_name: AITrk78
+    source_polygon_group:
+      source_model_index: 84
+      source_model_name: AITrk78
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id101
+- object_id: mm9:mountainpass:object:240
+  source_object_index: 240
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:85
+    confidence: exact_source_model_name
+    bmodel_index: 85
+    bmodel_name: AITrk79
+    source_model_name: AITrk79
+    source_polygon_group:
+      source_model_index: 85
+      source_model_name: AITrk79
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id102
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:85
+    confidence: exact_bmodel_name
+    bmodel_index: 85
+    bmodel_name: AITrk79
+    source_model_name: AITrk79
+    source_polygon_group:
+      source_model_index: 85
+      source_model_name: AITrk79
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id102
+- object_id: mm9:mountainpass:object:241
+  source_object_index: 241
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:86
+    confidence: exact_source_model_name
+    bmodel_index: 86
+    bmodel_name: AITrk80
+    source_model_name: AITrk80
+    source_polygon_group:
+      source_model_index: 86
+      source_model_name: AITrk80
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id103
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:86
+    confidence: exact_bmodel_name
+    bmodel_index: 86
+    bmodel_name: AITrk80
+    source_model_name: AITrk80
+    source_polygon_group:
+      source_model_index: 86
+      source_model_name: AITrk80
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id103
+- object_id: mm9:mountainpass:object:242
+  source_object_index: 242
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:87
+    confidence: exact_source_model_name
+    bmodel_index: 87
+    bmodel_name: AITrk81
+    source_model_name: AITrk81
+    source_polygon_group:
+      source_model_index: 87
+      source_model_name: AITrk81
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id104
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:87
+    confidence: exact_bmodel_name
+    bmodel_index: 87
+    bmodel_name: AITrk81
+    source_model_name: AITrk81
+    source_polygon_group:
+      source_model_index: 87
+      source_model_name: AITrk81
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id104
+- object_id: mm9:mountainpass:object:243
+  source_object_index: 243
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:88
+    confidence: exact_source_model_name
+    bmodel_index: 88
+    bmodel_name: AITrk82
+    source_model_name: AITrk82
+    source_polygon_group:
+      source_model_index: 88
+      source_model_name: AITrk82
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id105
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:88
+    confidence: exact_bmodel_name
+    bmodel_index: 88
+    bmodel_name: AITrk82
+    source_model_name: AITrk82
+    source_polygon_group:
+      source_model_index: 88
+      source_model_name: AITrk82
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id105
+- object_id: mm9:mountainpass:object:244
+  source_object_index: 244
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:89
+    confidence: exact_source_model_name
+    bmodel_index: 89
+    bmodel_name: AITrk83
+    source_model_name: AITrk83
+    source_polygon_group:
+      source_model_index: 89
+      source_model_name: AITrk83
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id106
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:89
+    confidence: exact_bmodel_name
+    bmodel_index: 89
+    bmodel_name: AITrk83
+    source_model_name: AITrk83
+    source_polygon_group:
+      source_model_index: 89
+      source_model_name: AITrk83
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id106
+- object_id: mm9:mountainpass:object:245
+  source_object_index: 245
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:90
+    confidence: exact_source_model_name
+    bmodel_index: 90
+    bmodel_name: AITrk84
+    source_model_name: AITrk84
+    source_polygon_group:
+      source_model_index: 90
+      source_model_name: AITrk84
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id107
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:90
+    confidence: exact_bmodel_name
+    bmodel_index: 90
+    bmodel_name: AITrk84
+    source_model_name: AITrk84
+    source_polygon_group:
+      source_model_index: 90
+      source_model_name: AITrk84
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id107
+- object_id: mm9:mountainpass:object:246
+  source_object_index: 246
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:91
+    confidence: exact_source_model_name
+    bmodel_index: 91
+    bmodel_name: AITrk85
+    source_model_name: AITrk85
+    source_polygon_group:
+      source_model_index: 91
+      source_model_name: AITrk85
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id108
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:91
+    confidence: exact_bmodel_name
+    bmodel_index: 91
+    bmodel_name: AITrk85
+    source_model_name: AITrk85
+    source_polygon_group:
+      source_model_index: 91
+      source_model_name: AITrk85
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id108
+- object_id: mm9:mountainpass:object:247
+  source_object_index: 247
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:92
+    confidence: exact_source_model_name
+    bmodel_index: 92
+    bmodel_name: AITrk86
+    source_model_name: AITrk86
+    source_polygon_group:
+      source_model_index: 92
+      source_model_name: AITrk86
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id109
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:92
+    confidence: exact_bmodel_name
+    bmodel_index: 92
+    bmodel_name: AITrk86
+    source_model_name: AITrk86
+    source_polygon_group:
+      source_model_index: 92
+      source_model_name: AITrk86
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id109
+- object_id: mm9:mountainpass:object:248
+  source_object_index: 248
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:93
+    confidence: exact_source_model_name
+    bmodel_index: 93
+    bmodel_name: AITrk87
+    source_model_name: AITrk87
+    source_polygon_group:
+      source_model_index: 93
+      source_model_name: AITrk87
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id110
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:93
+    confidence: exact_bmodel_name
+    bmodel_index: 93
+    bmodel_name: AITrk87
+    source_model_name: AITrk87
+    source_polygon_group:
+      source_model_index: 93
+      source_model_name: AITrk87
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id110
+- object_id: mm9:mountainpass:object:249
+  source_object_index: 249
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:94
+    confidence: exact_source_model_name
+    bmodel_index: 94
+    bmodel_name: AITrk88
+    source_model_name: AITrk88
+    source_polygon_group:
+      source_model_index: 94
+      source_model_name: AITrk88
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id111
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:94
+    confidence: exact_bmodel_name
+    bmodel_index: 94
+    bmodel_name: AITrk88
+    source_model_name: AITrk88
+    source_polygon_group:
+      source_model_index: 94
+      source_model_name: AITrk88
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id111
+- object_id: mm9:mountainpass:object:250
+  source_object_index: 250
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:95
+    confidence: exact_source_model_name
+    bmodel_index: 95
+    bmodel_name: AITrk89
+    source_model_name: AITrk89
+    source_polygon_group:
+      source_model_index: 95
+      source_model_name: AITrk89
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id112
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:95
+    confidence: exact_bmodel_name
+    bmodel_index: 95
+    bmodel_name: AITrk89
+    source_model_name: AITrk89
+    source_polygon_group:
+      source_model_index: 95
+      source_model_name: AITrk89
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id112
+- object_id: mm9:mountainpass:object:251
+  source_object_index: 251
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:96
+    confidence: exact_source_model_name
+    bmodel_index: 96
+    bmodel_name: AITrk90
+    source_model_name: AITrk90
+    source_polygon_group:
+      source_model_index: 96
+      source_model_name: AITrk90
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id113
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:96
+    confidence: exact_bmodel_name
+    bmodel_index: 96
+    bmodel_name: AITrk90
+    source_model_name: AITrk90
+    source_polygon_group:
+      source_model_index: 96
+      source_model_name: AITrk90
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id113
+- object_id: mm9:mountainpass:object:252
+  source_object_index: 252
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:97
+    confidence: exact_source_model_name
+    bmodel_index: 97
+    bmodel_name: AITrk91
+    source_model_name: AITrk91
+    source_polygon_group:
+      source_model_index: 97
+      source_model_name: AITrk91
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id114
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:97
+    confidence: exact_bmodel_name
+    bmodel_index: 97
+    bmodel_name: AITrk91
+    source_model_name: AITrk91
+    source_polygon_group:
+      source_model_index: 97
+      source_model_name: AITrk91
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id114
+- object_id: mm9:mountainpass:object:253
+  source_object_index: 253
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:98
+    confidence: exact_source_model_name
+    bmodel_index: 98
+    bmodel_name: AITrk92
+    source_model_name: AITrk92
+    source_polygon_group:
+      source_model_index: 98
+      source_model_name: AITrk92
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id115
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:98
+    confidence: exact_bmodel_name
+    bmodel_index: 98
+    bmodel_name: AITrk92
+    source_model_name: AITrk92
+    source_polygon_group:
+      source_model_index: 98
+      source_model_name: AITrk92
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id115
+- object_id: mm9:mountainpass:object:254
+  source_object_index: 254
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:99
+    confidence: exact_source_model_name
+    bmodel_index: 99
+    bmodel_name: AITrk93
+    source_model_name: AITrk93
+    source_polygon_group:
+      source_model_index: 99
+      source_model_name: AITrk93
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id116
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:99
+    confidence: exact_bmodel_name
+    bmodel_index: 99
+    bmodel_name: AITrk93
+    source_model_name: AITrk93
+    source_polygon_group:
+      source_model_index: 99
+      source_model_name: AITrk93
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id116
+- object_id: mm9:mountainpass:object:255
+  source_object_index: 255
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:100
+    confidence: exact_source_model_name
+    bmodel_index: 100
+    bmodel_name: AITrk94
+    source_model_name: AITrk94
+    source_polygon_group:
+      source_model_index: 100
+      source_model_name: AITrk94
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id117
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:100
+    confidence: exact_bmodel_name
+    bmodel_index: 100
+    bmodel_name: AITrk94
+    source_model_name: AITrk94
+    source_polygon_group:
+      source_model_index: 100
+      source_model_name: AITrk94
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id117
+- object_id: mm9:mountainpass:object:256
+  source_object_index: 256
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:101
+    confidence: exact_source_model_name
+    bmodel_index: 101
+    bmodel_name: AITrk95
+    source_model_name: AITrk95
+    source_polygon_group:
+      source_model_index: 101
+      source_model_name: AITrk95
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id118
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:101
+    confidence: exact_bmodel_name
+    bmodel_index: 101
+    bmodel_name: AITrk95
+    source_model_name: AITrk95
+    source_polygon_group:
+      source_model_index: 101
+      source_model_name: AITrk95
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id118
 - object_id: mm9:mountainpass:object:259
   source_object_index: 259
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:102
+    confidence: exact_source_model_name
+    bmodel_index: 102
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 102
+      source_model_name: InvisibleBrush2
+      source_poly_count: 7
+      source_surface_count: 7
+      roles: &id119
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:102
+    confidence: exact_bmodel_name
+    bmodel_index: 102
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 102
+      source_model_name: InvisibleBrush2
+      source_poly_count: 7
+      source_surface_count: 7
+      roles: *id119
 - object_id: mm9:mountainpass:object:260
   source_object_index: 260
   targets:
@@ -75091,13 +78865,43 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:mountainpass:object:268:volume
     confidence: source_object_volume
-    pos_lt: *id007
+    pos_lt: *id120
     dims_lt: *id002
 - object_id: mm9:mountainpass:object:269
   source_object_index: 269
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:103
+    confidence: exact_source_model_name
+    bmodel_index: 103
+    bmodel_name: InvisibleBrush3
+    source_model_name: InvisibleBrush3
+    source_polygon_group:
+      source_model_index: 103
+      source_model_name: InvisibleBrush3
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: &id121
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:103
+    confidence: exact_bmodel_name
+    bmodel_index: 103
+    bmodel_name: InvisibleBrush3
+    source_model_name: InvisibleBrush3
+    source_polygon_group:
+      source_model_index: 103
+      source_model_name: InvisibleBrush3
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: *id121
 scripts:
 - script_id: mountainpass.scr
   source_path: MOUNTAINPASS.scr
@@ -75195,26 +78999,8 @@ unresolved:
   source_name: Mountain
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 121
-  source_name: InvisibleBrush0
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 123
-  source_name: InvisibleBrush1
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 259
-  source_name: InvisibleBrush2
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 269
-  source_name: InvisibleBrush3
-  source_class: InvisibleBrush
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id122
 validation:
   raw_object_count: 279
   event_object_count: 279
@@ -75255,4 +79041,4 @@ validation:
   trigger_count: 2
   interaction_count: 37
   script_count: 2
-  unresolved_count: 5
+  unresolved_count: 1

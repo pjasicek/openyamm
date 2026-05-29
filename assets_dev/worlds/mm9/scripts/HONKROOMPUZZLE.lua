@@ -18,15 +18,15 @@ script.includes[#script.includes + 1] = { line = 15, path = "BaseGlobals.inc" }
 -- to 'use'
 script.labels["Main"] = function(ctx)
     -- HONKROOMPUZZLE.scr:22
-    ctx:command("wait", "0, .1, InitHonkRoomPuzzle") -- HONKROOMPUZZLE.scr:24
+    ctx:wait(0, .1, "InitHonkRoomPuzzle") -- HONKROOMPUZZLE.scr:24
     do return ctx:exit("TRUE") end -- HONKROOMPUZZLE.scr:25
 end
 
 script.labels["InitHonkRoomPuzzle"] = function(ctx)
     -- HONKROOMPUZZLE.scr:28
-    ctx:command("getobjecthandle", "Brazier23, hLamp1") -- HONKROOMPUZZLE.scr:30
-    ctx:command("getobjecthandle", "Brazier25, hLamp2") -- HONKROOMPUZZLE.scr:31
-    ctx:command("getobjecthandle", "SecretDoor ,hSecretDoor") -- HONKROOMPUZZLE.scr:32
+    ctx:state().hLamp1 = ctx:objectOrNil("Brazier23") -- HONKROOMPUZZLE.scr:30
+    ctx:state().hLamp2 = ctx:objectOrNil("Brazier25") -- HONKROOMPUZZLE.scr:31
+    ctx:state().hSecretDoor = ctx:objectOrNil("SecretDoor") -- HONKROOMPUZZLE.scr:32
     ctx:addTrigger("On", "TurnOn") -- HONKROOMPUZZLE.scr:34
     ctx:addTrigger("Off", "TurnOff") -- HONKROOMPUZZLE.scr:35
     do return ctx:exit("TRUE") end -- HONKROOMPUZZLE.scr:37
@@ -44,7 +44,7 @@ script.labels["TurnOff"] = function(ctx)
     -- HONKROOMPUZZLE.scr:48
     ctx:trigger("hLamp1", "Off") -- HONKROOMPUZZLE.scr:50
     ctx:trigger("hLamp2", "Off") -- HONKROOMPUZZLE.scr:51
-    ctx:command("wait", "1, 5, OpenSecretDoor") -- HONKROOMPUZZLE.scr:52
+    ctx:wait(1, 5, "OpenSecretDoor") -- HONKROOMPUZZLE.scr:52
     do return ctx:exit("TRUE") end -- HONKROOMPUZZLE.scr:53
 end
 

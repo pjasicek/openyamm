@@ -11,14 +11,14 @@ script.labels = {}
 -- #hObject		hSign
 script.labels["Done"] = function(ctx)
     -- FURNACEWARNING.scr:12
-    ctx:command("letterbox", "FALSE") -- FURNACEWARNING.scr:15
+    ctx:letterBox("FALSE") -- FURNACEWARNING.scr:15
     do return ctx:exit("TRUE") end -- FURNACEWARNING.scr:17
 end
 
 script.labels["OnUse"] = function(ctx)
     -- FURNACEWARNING.scr:21
     -- Letterbox TRUE
-    ctx:command("rollovertext", ", 1, 0, 3000, 2000") -- FURNACEWARNING.scr:25
+    ctx:rolloverText("", 1, 0, 3000, 2000) -- FURNACEWARNING.scr:25
     -- Wait 0 1.5 Done
     do return ctx:exit("TRUE") end -- FURNACEWARNING.scr:27
 end

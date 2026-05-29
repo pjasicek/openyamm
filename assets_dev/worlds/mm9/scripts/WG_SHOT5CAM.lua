@@ -18,17 +18,16 @@ script.includes[#script.includes + 1] = { line = 13, path = "globals.inc" }
 -- flag variables
 script.labels["OnPlay"] = function(ctx)
     -- WG_SHOT5CAM.scr:30
-    ctx:command("getobjecthandle", "Njam g_hobject") -- WG_SHOT5CAM.scr:34
+    ctx:state().g_hobject = ctx:objectOrNil("Njam") -- WG_SHOT5CAM.scr:34
     -- target g_hobject
-    ctx:command("wait", "1 .5, OnBackUp") -- WG_SHOT5CAM.scr:36
+    ctx:wait(1, .5, "OnBackUp") -- WG_SHOT5CAM.scr:36
     do return ctx:exit("") end -- WG_SHOT5CAM.scr:37
 end
 
 script.labels["OnBackUp"] = function(ctx)
     -- WG_SHOT5CAM.scr:40
-    ctx:command("getobjecthandle", "Shot5Mk g_hobject") -- WG_SHOT5CAM.scr:43
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- WG_SHOT5CAM.scr:44
-    ctx:command("movetopos", "xpos Ypos Zpos 100 OnPanUp") -- WG_SHOT5CAM.scr:45
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("Shot5Mk"):pos() -- WG_SHOT5CAM.scr:43-44
+    ctx:self():moveToPos("xpos", "Ypos", "Zpos", 100, "OnPanUp") -- WG_SHOT5CAM.scr:45
     do return ctx:exit("") end -- WG_SHOT5CAM.scr:46
 end
 
@@ -39,8 +38,7 @@ end
 
 script.labels["OnPanUp"] = function(ctx)
     -- WG_SHOT5CAM.scr:55
-    ctx:command("getobjecthandle", "winman g_hobject") -- WG_SHOT5CAM.scr:59
-    ctx:trigger("g_hobject", "PanUp") -- WG_SHOT5CAM.scr:60
+    ctx:object("winman"):trigger("PanUp") -- WG_SHOT5CAM.scr:59-60
     do return ctx:exit("") end -- WG_SHOT5CAM.scr:62
 end
 

@@ -1,5 +1,6 @@
 #include "editor/document/Mm9DatLevelMetadata.h"
 
+#include "engine/ImageAssetLoader.h"
 #include "game/mm9/Mm9DtxTexture.h"
 
 #include <yaml-cpp/yaml.h>
@@ -111,6 +112,23 @@ ValueType optionalScalarValue(const YAML::Node &node, const char *key, const Val
     }
 
     return valueNode.as<ValueType>(defaultValue);
+}
+
+bool isHexString(const std::string &text)
+{
+    for (const char value : text)
+    {
+        if ((value >= '0' && value <= '9')
+            || (value >= 'a' && value <= 'f')
+            || (value >= 'A' && value <= 'F'))
+        {
+            continue;
+        }
+
+        return false;
+    }
+
+    return true;
 }
 
 std::filesystem::path developmentFallbackPath(const std::filesystem::path &path)
@@ -1827,6 +1845,20 @@ bool isMm9RawObjectAssetReferenceRequired(
     return true;
 }
 
+bool isMm9WorldPropertiesBuiltinSkyTextureReference(
+    const EditorMm9RawObjectAssetReferenceStatus &status)
+{
+    if (toLowerAscii(status.sourceClass) != "worldproperties" || status.sourceFamily != "textures")
+    {
+        return false;
+    }
+
+    const std::string lowerProperty = toLowerAscii(status.propertyName);
+    return lowerProperty == "environmentmap"
+        || lowerProperty == "softsky"
+        || lowerProperty == "panskytexture";
+}
+
 std::unordered_map<std::string, std::vector<std::filesystem::path>> buildMm9SourceFamilyIndex(
     const std::filesystem::path &sourceRoot,
     const std::string &sourceFamily)
@@ -2111,6 +2143,79 @@ bool mm9SourceAssetAliasMatches(
     }
 
     return true;
+}
+
+bool mm9SourceAssetAliasMapScopeMatches(
+    const Mm9SourceAssetAliasOverride &alias,
+    const EditorMm9DatLevelMetadata *pMetadata)
+{
+    if (alias.mapIds.empty())
+    {
+        return true;
+    }
+
+    if (pMetadata == nullptr)
+    {
+        return false;
+    }
+
+    const auto mapId = std::find(alias.mapIds.begin(), alias.mapIds.end(), pMetadata->mapId);
+    return mapId != alias.mapIds.end();
+}
+
+bool mm9MaterialSourceAssetAliasMatches(
+    const Mm9SourceAssetAliasOverride &alias,
+    const EditorMm9DatLevelMetadata *pMetadata,
+    const std::string &sourceDtxKey)
+{
+    if (alias.sourceFamily != "textures"
+        || alias.requestedKey != normalizedMm9SourceAssetKey("textures", sourceDtxKey))
+    {
+        return false;
+    }
+
+    if (!mm9SourceAssetAliasMapScopeMatches(alias, pMetadata))
+    {
+        return false;
+    }
+
+    return alias.objectIndexes.empty() && alias.properties.empty();
+}
+
+bool isMm9DefaultMaterialTextureKey(const std::string &textureKey)
+{
+    return textureKey == "default";
+}
+
+bool mm9DatWorldModelRendersInDefaultView(const EditorMm9DatWorldModelSummary &model)
+{
+    const bool visualCandidate =
+        model.roles.visible
+        || model.roles.terrain
+        || model.roles.sky
+        || model.roles.water
+        || model.roles.physicsBsp
+        || model.roles.movable;
+    const bool hiddenHelper =
+        model.roles.visBsp
+        || model.roles.triggerOrVolume;
+
+    return visualCandidate && !hiddenHelper;
+}
+
+std::string mm9DtxSourceKeyFromTextureAliasTarget(const std::string &targetKey)
+{
+    if (targetKey.empty())
+    {
+        return {};
+    }
+
+    if (targetKey.rfind("textures/", 0) == 0)
+    {
+        return targetKey;
+    }
+
+    return "textures/" + targetKey;
 }
 
 std::unordered_map<std::string, std::vector<std::filesystem::path>> buildMm9SourceDtxIndex(
@@ -2500,6 +2605,7 @@ std::optional<EditorMm9DatLevelMetadata> loadMm9DatLevelMetadataFromText(
     }
 
     if (!readRequiredString(sourceNode, "dat", metadata.source.dat, errorMessage)
+        || !readRequiredString(sourceNode, "manifest", metadata.source.manifest, errorMessage)
         || !readRequiredString(sourceNode, "original_dat", metadata.source.originalDat, errorMessage)
         || !readRequiredString(sourceNode, "source_game", metadata.source.sourceGame, errorMessage)
         || !readRequiredString(sourceNode, "content_hash", metadata.source.contentHash, errorMessage))
@@ -2909,12 +3015,21 @@ std::optional<EditorMm9MaterialAliasesSidecar> loadMm9MaterialAliasesSidecarFrom
         }
 
         EditorMm9MaterialTexture texture = {};
+        const YAML::Node aliasNode = textureNode["alias"];
+        const YAML::Node sourceTextureNode = textureNode["source_texture"];
+        const YAML::Node emittedBitmapNode = textureNode["emitted_bitmap"];
+        const YAML::Node emittedBitmapModeNode = textureNode["emitted_bitmap_mode"];
+
         texture.alias = optionalScalarValue<std::string>(textureNode, "alias", std::string());
         texture.sourceTexture = optionalScalarValue<std::string>(textureNode, "source_texture", std::string());
         texture.physicalPath = optionalScalarValue<std::string>(textureNode, "physical_path", std::string());
         texture.emittedBitmap = optionalScalarValue<std::string>(textureNode, "emitted_bitmap", std::string());
         texture.emittedBitmapMode =
             optionalScalarValue<std::string>(textureNode, "emitted_bitmap_mode", std::string());
+        texture.aliasFieldPresent = aliasNode && aliasNode.IsScalar();
+        texture.sourceTextureFieldPresent = sourceTextureNode && sourceTextureNode.IsScalar();
+        texture.emittedBitmapFieldPresent = emittedBitmapNode && emittedBitmapNode.IsScalar();
+        texture.emittedBitmapModeFieldPresent = emittedBitmapModeNode && emittedBitmapModeNode.IsScalar();
         texture.width = optionalScalarValue<int>(textureNode, "width", 0);
         texture.height = optionalScalarValue<int>(textureNode, "height", 0);
         texture.dtxSurfaceFlag = optionalScalarValue<int>(textureNode, "dtx_surface_flag", 0);
@@ -3412,6 +3527,13 @@ std::filesystem::path resolveMm9SourceAssetManifestPath(const std::filesystem::p
         (levelPhysicalPath.parent_path() / "../source/manifest.yml").lexically_normal());
 }
 
+std::filesystem::path resolveMm9SourceAssetManifestPath(
+    const std::filesystem::path &levelPhysicalPath,
+    const EditorMm9DatLevelMetadata &metadata)
+{
+    return existingPathOrDevelopmentFallback(resolveMm9DatLevelRelativePath(levelPhysicalPath, metadata.source.manifest));
+}
+
 std::vector<std::string> validateMm9DatLevelMetadataFiles(
     const std::filesystem::path &levelPhysicalPath,
     const EditorMm9DatLevelMetadata &metadata)
@@ -3429,6 +3551,7 @@ std::vector<std::string> validateMm9DatLevelMetadataFiles(
     }
 
     addMissingPathIssue(issues, "source DAT", levelPhysicalPath, metadata.source.dat);
+    addMissingPathIssue(issues, "source asset manifest", levelPhysicalPath, metadata.source.manifest);
     addMissingPathIssue(issues, "DAT world sidecar", levelPhysicalPath, metadata.sidecars.datWorld);
     addMissingPathIssue(issues, "raw objects sidecar", levelPhysicalPath, metadata.sidecars.rawObjects);
     addMissingPathIssue(issues, "material aliases sidecar", levelPhysicalPath, metadata.sidecars.materials);
@@ -3443,6 +3566,13 @@ std::vector<std::string> validateMm9DatLevelMetadataFiles(
     }
     addMissingPathIssue(issues, "level Lua script", levelPhysicalPath, metadata.scripts.level);
     addSourceDatHashIssue(issues, levelPhysicalPath, metadata);
+
+    addSidecarKindIssue(
+        issues,
+        "source asset manifest",
+        levelPhysicalPath,
+        metadata.source.manifest,
+        "mm9_source_asset_manifest");
 
     addSidecarKindIssue(
         issues,
@@ -3791,13 +3921,100 @@ std::optional<EditorMm9DtxHeader> readMm9DtxHeader(
     return header;
 }
 
+bool isMm9DecodedMaterialCacheMode(const std::string &mode)
+{
+    return mode == "dxt1"
+        || mode == "dxt3"
+        || mode == "dxt5"
+        || mode == "bgra32"
+        || mode == "bgra8p";
+}
+
+void inspectMm9DecodedMaterialCacheDeterminism(
+    EditorMm9MaterialTextureStatus &status,
+    const std::filesystem::path &sourcePath,
+    const std::filesystem::path &cachePath)
+{
+    if (!isMm9DecodedMaterialCacheMode(status.emittedBitmapMode)
+        || !status.sourceDtxResolved
+        || !status.sourcePathExists
+        || !status.cachePathExists)
+    {
+        return;
+    }
+
+    status.cacheDeterminismChecked = true;
+
+    std::string dtxErrorMessage;
+    const std::optional<Game::Mm9DtxTexture> sourceTexture =
+        Game::loadMm9DtxTexture(sourcePath, dtxErrorMessage);
+
+    if (!sourceTexture)
+    {
+        status.cacheDeterminismMessage = "source DTX decode failed: " + dtxErrorMessage;
+        return;
+    }
+
+    status.sourceDtxDecodedForCache = true;
+
+    if (sourceTexture->decodeMode != status.emittedBitmapMode)
+    {
+        status.cacheDeterminismMessage =
+            "source DTX decode mode " + sourceTexture->decodeMode
+            + " differs from emitted bitmap mode " + status.emittedBitmapMode;
+        return;
+    }
+
+    std::vector<uint8_t> cacheBytes;
+
+    if (!readBinaryFile(cachePath, cacheBytes))
+    {
+        status.cacheDeterminismMessage = "generated cache could not be read: " + cachePath.generic_string();
+        return;
+    }
+
+    const std::optional<Engine::ImagePixelsBgra> cacheImage =
+        Engine::decodeImagePixelsBgra(cacheBytes, cachePath.generic_string());
+
+    if (!cacheImage)
+    {
+        status.cacheDeterminismMessage = "generated cache image could not be decoded: " + cachePath.generic_string();
+        return;
+    }
+
+    status.cacheImageDecoded = true;
+
+    if (cacheImage->width != static_cast<int>(sourceTexture->width)
+        || cacheImage->height != static_cast<int>(sourceTexture->height))
+    {
+        status.cacheDeterminismMessage =
+            "generated cache dimensions differ from decoded source DTX: cache="
+            + std::to_string(cacheImage->width) + "x" + std::to_string(cacheImage->height)
+            + " source=" + std::to_string(sourceTexture->width) + "x" + std::to_string(sourceTexture->height);
+        return;
+    }
+
+    if (cacheImage->pixels != sourceTexture->pixelsBgra)
+    {
+        status.cacheDeterminismMessage =
+            "generated cache pixels differ from decoded source DTX: " + status.sourceTexture;
+        return;
+    }
+
+    status.cacheMatchesDecodedSource = true;
+    status.cacheDeterminismMessage = "generated cache matches decoded source DTX";
+}
+
 std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
     const std::filesystem::path &levelPhysicalPath,
     const EditorMm9DatWorldSidecar &datWorld,
     const EditorMm9MaterialAliasesSidecar &materialAliases,
-    EditorMm9MaterialInspectionCache *pCache)
+    EditorMm9MaterialInspectionCache *pCache,
+    const EditorMm9DatLevelMetadata *pMetadata)
 {
     std::unordered_map<std::string, size_t> datReferenceCountByTexture;
+    std::unordered_map<std::string, size_t> defaultRenderableDatReferenceCountByTexture;
+    std::unordered_map<std::string, size_t> helperOnlyDatReferenceCountByTexture;
     std::unordered_map<std::string, size_t> materialAliasCountByTexture;
     const std::filesystem::path sourceRoot =
         existingPathOrDevelopmentFallback((levelPhysicalPath.parent_path() / "../source").lexically_normal());
@@ -3806,12 +4023,26 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
         mm9SourceDtxIndex(sourceRoot, pCache, scratchSourceDtxIndex);
     const std::unordered_map<std::string, std::vector<std::filesystem::path>> sourceSpriteIndex =
         buildMm9SourceSpriteIndex(sourceRoot);
+    const std::vector<Mm9SourceAssetAliasOverride> sourceAssetAliases =
+        loadMm9SourceAssetAliasOverrides(levelPhysicalPath, pMetadata);
 
     for (const EditorMm9DatWorldModelSummary &model : datWorld.worldModels)
     {
+        const bool defaultRenderable = mm9DatWorldModelRendersInDefaultView(model);
+
         for (const EditorMm9DatWorldModelTexture &texture : model.textures)
         {
-            ++datReferenceCountByTexture[normalizedTextureKey(texture.sourceTexture)];
+            const std::string textureKey = normalizedTextureKey(texture.sourceTexture);
+            ++datReferenceCountByTexture[textureKey];
+
+            if (defaultRenderable)
+            {
+                ++defaultRenderableDatReferenceCountByTexture[textureKey];
+            }
+            else
+            {
+                ++helperOnlyDatReferenceCountByTexture[textureKey];
+            }
         }
     }
 
@@ -3847,9 +4078,29 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
         status.emittedBitmap = texture.emittedBitmap;
         status.resolvedCachePath = cachePath.generic_string();
         status.emittedBitmapMode = texture.emittedBitmapMode;
+        status.materialAliasEntry = true;
+        status.aliasFieldPresent = texture.aliasFieldPresent;
+        status.sourceTextureFieldPresent = texture.sourceTextureFieldPresent;
+        status.emittedBitmapFieldPresent = texture.emittedBitmapFieldPresent;
+        status.emittedBitmapModeFieldPresent = texture.emittedBitmapModeFieldPresent;
         status.datReferenceCount = datReferenceCountByTexture[textureKey];
+        status.defaultRenderableDatReferenceCount = defaultRenderableDatReferenceCountByTexture[textureKey];
+        status.helperOnlyDatReferenceCount = helperOnlyDatReferenceCountByTexture[textureKey];
         status.materialAliasCountForSource = materialAliasCountByTexture[textureKey];
         status.placeholderMissingSource = texture.emittedBitmapMode == "placeholder_missing_source";
+        status.defaultHelperMaterial =
+            status.placeholderMissingSource
+            && isMm9DefaultMaterialTextureKey(textureKey)
+            && status.datReferenceCount > 0
+            && status.defaultRenderableDatReferenceCount == 0;
+
+        if (status.defaultHelperMaterial)
+        {
+            status.sourceAssetFamily = "builtin";
+            status.resolutionSource = "lithtech_default_helper_material";
+            status.resolvedSourcePath.clear();
+        }
+
         status.cachePathExists = !cachePath.empty() && pathExists(cachePath);
 
         if (status.cachePathExists)
@@ -3859,6 +4110,12 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
             status.cacheSizeBytes = cacheInspection.sizeBytes;
             status.cacheHashLoaded = cacheInspection.hashLoaded;
             status.cacheSha256 = cacheInspection.sha256;
+        }
+
+        if (status.defaultHelperMaterial)
+        {
+            statuses.push_back(std::move(status));
+            continue;
         }
 
         if (spriteReference)
@@ -3928,6 +4185,26 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
             const std::vector<std::filesystem::path> *pSourceDtxCandidates =
                 findMm9DtxSourceCandidates(sourceDtxIndex, sourceDtxKey);
 
+            if (pSourceDtxCandidates == nullptr)
+            {
+                for (const Mm9SourceAssetAliasOverride &alias : sourceAssetAliases)
+                {
+                    if (!mm9MaterialSourceAssetAliasMatches(alias, pMetadata, sourceDtxKey))
+                    {
+                        continue;
+                    }
+
+                    status.aliasApplied = true;
+                    status.aliasTargetKey = alias.targetKey;
+                    status.resolutionSource = "source_asset_alias";
+                    pSourceDtxCandidates =
+                        findMm9DtxSourceCandidates(
+                            sourceDtxIndex,
+                            mm9DtxSourceKeyFromTextureAliasTarget(alias.targetKey));
+                    break;
+                }
+            }
+
             if (pSourceDtxCandidates != nullptr)
             {
                 status.sourceDtxCandidateCount = pSourceDtxCandidates->size();
@@ -3942,6 +4219,11 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
                 if (status.sourceDtxResolved)
                 {
                     status.resolvedSourcePath = pSourceDtxCandidates->front().generic_string();
+                }
+
+                if (status.resolutionSource.empty())
+                {
+                    status.resolutionSource = "source_index";
                 }
             }
         }
@@ -3986,6 +4268,8 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
                     && header.detailAngle == texture.dtxDetailAngle
                     && header.commandString == texture.dtxCommandString;
             }
+
+            inspectMm9DecodedMaterialCacheDeterminism(status, resolvedSourcePath, cachePath);
         }
 
         statuses.push_back(std::move(status));
@@ -4002,11 +4286,45 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
         status.textureIndex = statuses.size();
         status.sourceTexture = datReference.first;
         status.datReferenceCount = datReference.second;
+        status.defaultRenderableDatReferenceCount = defaultRenderableDatReferenceCountByTexture[datReference.first];
+        status.helperOnlyDatReferenceCount = helperOnlyDatReferenceCountByTexture[datReference.first];
         status.materialAliasCountForSource = 0;
+        status.defaultHelperMaterial =
+            isMm9DefaultMaterialTextureKey(datReference.first)
+            && status.datReferenceCount > 0
+            && status.defaultRenderableDatReferenceCount == 0;
+
+        if (status.defaultHelperMaterial)
+        {
+            status.sourceAssetFamily = "builtin";
+            status.resolutionSource = "lithtech_default_helper_material";
+            statuses.push_back(std::move(status));
+            continue;
+        }
 
         const std::string sourceDtxKey = mm9DtxSourceKeyFromReference(datReference.first);
         const std::vector<std::filesystem::path> *pSourceDtxCandidates =
             findMm9DtxSourceCandidates(sourceDtxIndex, sourceDtxKey);
+
+        if (pSourceDtxCandidates == nullptr)
+        {
+            for (const Mm9SourceAssetAliasOverride &alias : sourceAssetAliases)
+            {
+                if (!mm9MaterialSourceAssetAliasMatches(alias, pMetadata, sourceDtxKey))
+                {
+                    continue;
+                }
+
+                status.aliasApplied = true;
+                status.aliasTargetKey = alias.targetKey;
+                status.resolutionSource = "source_asset_alias";
+                pSourceDtxCandidates =
+                    findMm9DtxSourceCandidates(
+                        sourceDtxIndex,
+                        mm9DtxSourceKeyFromTextureAliasTarget(alias.targetKey));
+                break;
+            }
+        }
 
         if (pSourceDtxCandidates != nullptr)
         {
@@ -4023,6 +4341,11 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
             {
                 status.resolvedSourcePath = pSourceDtxCandidates->front().generic_string();
                 status.sourcePathExists = pathExists(pSourceDtxCandidates->front());
+
+                if (status.resolutionSource.empty())
+                {
+                    status.resolutionSource = "source_index";
+                }
 
                 if (status.sourcePathExists)
                 {
@@ -4048,6 +4371,31 @@ std::vector<std::string> validateMm9MaterialTextureReferences(
 
     for (const EditorMm9MaterialTextureStatus &status : statuses)
     {
+        if (status.materialAliasEntry && (!status.aliasFieldPresent || status.alias.empty()))
+        {
+            issues.push_back(
+                "MM9 material alias is missing DAT texture alias at row "
+                + std::to_string(status.textureIndex));
+        }
+
+        if (status.materialAliasEntry && (!status.sourceTextureFieldPresent || status.sourceTexture.empty()))
+        {
+            issues.push_back(
+                "MM9 material alias is missing source_texture: alias=" + status.alias);
+        }
+
+        if (status.materialAliasEntry && (!status.emittedBitmapFieldPresent || status.emittedBitmap.empty()))
+        {
+            issues.push_back(
+                "MM9 material alias is missing emitted_bitmap: alias=" + status.alias);
+        }
+
+        if (status.materialAliasEntry && (!status.emittedBitmapModeFieldPresent || status.emittedBitmapMode.empty()))
+        {
+            issues.push_back(
+                "MM9 material alias is missing emitted_bitmap_mode: alias=" + status.alias);
+        }
+
         if (status.datReferenceCount > 0 && status.materialAliasCountForSource == 0)
         {
             issues.push_back(
@@ -4058,6 +4406,11 @@ std::vector<std::string> validateMm9MaterialTextureReferences(
         {
             issues.push_back(
                 "MM9 DAT texture reference has ambiguous material aliases: " + status.sourceTexture);
+        }
+
+        if (status.defaultHelperMaterial)
+        {
+            continue;
         }
 
         if (status.sourceAssetFamily == "sprites")
@@ -4182,6 +4535,13 @@ std::vector<std::string> validateMm9MaterialTextureReferences(
             issues.push_back(
                 "MM9 DAT texture source DTX header differs from material sidecar: " + status.sourceTexture);
         }
+
+        if (status.cacheDeterminismChecked && !status.cacheMatchesDecodedSource)
+        {
+            issues.push_back(
+                "MM9 DAT texture generated cache is not deterministic from decoded source DTX: "
+                + status.sourceTexture + " reason=" + status.cacheDeterminismMessage);
+        }
     }
 
     return issues;
@@ -4220,13 +4580,32 @@ std::vector<std::string> validateMm9RawObjectsSidecarReferences(const EditorMm9R
                 + " actual=" + std::to_string(object.properties.size()));
         }
 
+        size_t consumedObjectPayloadBytes = 0;
+
         for (size_t propertyIndex = 0; propertyIndex < object.properties.size(); ++propertyIndex)
         {
             const EditorMm9RawObjectProperty &property = object.properties[propertyIndex];
+            consumedObjectPayloadBytes += property.consumedDataLength;
 
             if (!property.decoded)
             {
                 ++unknownPropertyCount;
+            }
+
+            if ((property.rawHex.size() % 2) != 0)
+            {
+                issues.push_back(
+                    "MM9 raw object " + std::to_string(object.objectIndex)
+                    + " property " + std::to_string(propertyIndex)
+                    + " raw hex has an odd number of characters.");
+            }
+
+            if (!isHexString(property.rawHex))
+            {
+                issues.push_back(
+                    "MM9 raw object " + std::to_string(object.objectIndex)
+                    + " property " + std::to_string(propertyIndex)
+                    + " raw hex contains non-hex characters.");
             }
 
             if (property.rawHex.size() != property.consumedDataLength * 2)
@@ -4251,6 +4630,23 @@ std::vector<std::string> validateMm9RawObjectsSidecarReferences(const EditorMm9R
             issues.push_back(
                 "MM9 raw object " + std::to_string(object.objectIndex)
                 + " trailing hex has an odd number of characters.");
+        }
+
+        if (!isHexString(object.trailingHex))
+        {
+            issues.push_back(
+                "MM9 raw object " + std::to_string(object.objectIndex)
+                + " trailing hex contains non-hex characters.");
+        }
+
+        consumedObjectPayloadBytes += object.trailingHex.size() / 2;
+
+        if (consumedObjectPayloadBytes > object.dataLength)
+        {
+            issues.push_back(
+                "MM9 raw object " + std::to_string(object.objectIndex)
+                + " decoded payload exceeds data_length: stored=" + std::to_string(object.dataLength)
+                + " payload=" + std::to_string(consumedObjectPayloadBytes));
         }
     }
 
@@ -4352,6 +4748,15 @@ std::vector<EditorMm9RawObjectAssetReferenceStatus> inspectMm9RawObjectAssetRefe
                         pCandidates = findMm9SourceFamilyCandidates(familyIndex, sourceFamily, alias.targetKey);
                         break;
                     }
+                }
+
+                if (pCandidates == nullptr && isMm9WorldPropertiesBuiltinSkyTextureReference(status))
+                {
+                    status.resolved = true;
+                    status.builtinReference = true;
+                    status.resolutionSource = "lithtech_world_properties_sky_builtin";
+                    statuses.push_back(std::move(status));
+                    continue;
                 }
 
                 if (pCandidates != nullptr)
@@ -4527,11 +4932,32 @@ void addAssetDependency(
     }
 }
 
+void addAssetSourceInventory(
+    EditorMm9AssetDependencySummary &summary,
+    const EditorMm9SourceAssetFamilyStatus &status)
+{
+    if (!status.declared || status.actualFileCount == 0)
+    {
+        return;
+    }
+
+    EditorMm9AssetDependencyFamilySummary &familySummary =
+        findOrCreateAssetDependencyFamily(summary, status.id);
+    const size_t referencedSourceCount = std::min(familySummary.total, status.actualFileCount);
+    const size_t unusedSourceCount = status.actualFileCount - referencedSourceCount;
+
+    summary.sourceOnly += status.actualFileCount;
+    familySummary.sourceOnly += status.actualFileCount;
+    summary.unusedSource += unusedSourceCount;
+    familySummary.unusedSource += unusedSourceCount;
+}
+
 EditorMm9AssetDependencySummary summarizeMm9AssetDependencies(
     const std::filesystem::path &levelPhysicalPath,
     const EditorMm9DatLevelMetadata &metadata,
     const std::vector<EditorMm9MaterialTextureStatus> &materialStatuses,
-    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectAssetStatuses)
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectAssetStatuses,
+    const std::vector<EditorMm9SourceAssetFamilyStatus> &sourceFamilyStatuses)
 {
     EditorMm9AssetDependencySummary summary = {};
 
@@ -4572,8 +4998,41 @@ EditorMm9AssetDependencySummary summarizeMm9AssetDependencies(
         addAssetDependency(summary, script.first, pathExists(scriptPath), false, false);
     }
 
+    const std::filesystem::path sourceRoot =
+        resolveMm9SourceAssetManifestPath(levelPhysicalPath, metadata).parent_path();
+    const std::array<std::pair<const char *, const char *>, 2> sourceTableFamilies = {{
+        {"data", "data"},
+        {"rude", "rude"}
+    }};
+
+    for (const std::pair<const char *, const char *> &sourceFamily : sourceTableFamilies)
+    {
+        addAssetDependency(
+            summary,
+            sourceFamily.first,
+            directoryExists(sourceRoot / sourceFamily.second),
+            false,
+            false);
+    }
+
     for (const EditorMm9MaterialTextureStatus &status : materialStatuses)
     {
+        if (status.defaultHelperMaterial)
+        {
+            if (!status.emittedBitmap.empty())
+            {
+                addAssetDependency(
+                    summary,
+                    "generated_caches",
+                    status.cachePathExists,
+                    false,
+                    false,
+                    false);
+            }
+
+            continue;
+        }
+
         const bool requiredSource = status.datReferenceCount > 0 || !status.sourceTexture.empty();
         if (requiredSource)
         {
@@ -4635,6 +5094,11 @@ EditorMm9AssetDependencySummary summarizeMm9AssetDependencies(
             status.required);
     }
 
+    for (const EditorMm9SourceAssetFamilyStatus &status : sourceFamilyStatuses)
+    {
+        addAssetSourceInventory(summary, status);
+    }
+
     std::sort(
         summary.families.begin(),
         summary.families.end(),
@@ -4677,7 +5141,7 @@ std::vector<EditorMm9DocumentPathStatus> inspectMm9DatLevelDocumentPaths(
         makeMm9DocumentAbsolutePathStatus(
             "source_manifest",
             "read_only_source",
-            resolveMm9SourceAssetManifestPath(levelPhysicalPath),
+            resolveMm9SourceAssetManifestPath(levelPhysicalPath, metadata),
             true,
             false,
             false,
@@ -4857,6 +5321,63 @@ const std::vector<EditorMm9DiagnosticSeverityRule> &mm9DiagnosticSeverityRules()
     return rules;
 }
 
+const std::vector<std::filesystem::path> *findMm9EventScriptSourceCandidates(
+    const std::unordered_map<std::string, std::vector<std::filesystem::path>> &scriptIndex,
+    const std::string &sourcePath)
+{
+    const std::string normalizedKey = normalizedMm9SourceAssetKey("scripts", sourcePath);
+
+    if (normalizedKey.empty())
+    {
+        return nullptr;
+    }
+
+    return findMm9SourceFamilyCandidates(scriptIndex, "scripts", normalizedKey);
+}
+
+std::unordered_map<std::string, std::vector<std::filesystem::path>> buildMm9EventScriptSourceIndex(
+    const std::filesystem::path &levelPhysicalPath)
+{
+    const std::filesystem::path sourceRoot =
+        existingPathOrDevelopmentFallback((levelPhysicalPath.parent_path() / "../source").lexically_normal());
+    return buildMm9SourceFamilyIndex(sourceRoot, "scripts");
+}
+
+EditorMm9ScriptIncludeResolutionSummary summarizeMm9EventScriptIncludeResolution(
+    const std::filesystem::path &levelPhysicalPath,
+    const Game::Mm9EventsData &events)
+{
+    EditorMm9ScriptIncludeResolutionSummary summary = {};
+    const std::unordered_map<std::string, std::vector<std::filesystem::path>> scriptIndex =
+        buildMm9EventScriptSourceIndex(levelPhysicalPath);
+
+    for (const Game::Mm9EventScript &script : events.scripts)
+    {
+        for (const Game::Mm9EventScript::Include &include : script.includes)
+        {
+            ++summary.references;
+
+            const std::vector<std::filesystem::path> *pCandidates =
+                findMm9EventScriptSourceCandidates(scriptIndex, include.path);
+
+            if (pCandidates == nullptr || pCandidates->empty())
+            {
+                ++summary.unresolved;
+            }
+            else if (pCandidates->size() > 1)
+            {
+                ++summary.ambiguous;
+            }
+            else
+            {
+                ++summary.resolved;
+            }
+        }
+    }
+
+    return summary;
+}
+
 std::vector<std::string> validateMm9EventsReferences(
     const std::filesystem::path &levelPhysicalPath,
     const EditorMm9DatLevelMetadata &metadata,
@@ -4866,6 +5387,8 @@ std::vector<std::string> validateMm9EventsReferences(
 {
     std::vector<std::string> issues;
     std::unordered_map<std::string, int> sourceObjectIndexByObjectId;
+    const std::unordered_map<std::string, std::vector<std::filesystem::path>> scriptIndex =
+        buildMm9EventScriptSourceIndex(levelPhysicalPath);
 
     if (events.generatedLua.empty())
     {
@@ -5050,6 +5573,29 @@ std::vector<std::string> validateMm9EventsReferences(
         if (!pathExists(scriptPath))
         {
             issues.push_back("MM9 event source script is missing: " + scriptPath.generic_string());
+        }
+
+        for (const Game::Mm9EventScript::Include &include : script.includes)
+        {
+            const std::vector<std::filesystem::path> *pCandidates =
+                findMm9EventScriptSourceCandidates(scriptIndex, include.path);
+
+            if (pCandidates == nullptr || pCandidates->empty())
+            {
+                issues.push_back(
+                    "MM9 event script include is missing: script="
+                    + script.scriptId
+                    + " line=" + std::to_string(include.line)
+                    + " include=" + include.path);
+            }
+            else if (pCandidates->size() > 1)
+            {
+                issues.push_back(
+                    "MM9 event script include is ambiguous: script="
+                    + script.scriptId
+                    + " line=" + std::to_string(include.line)
+                    + " include=" + include.path);
+            }
         }
     }
 

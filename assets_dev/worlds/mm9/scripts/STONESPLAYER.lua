@@ -16,11 +16,10 @@ script.labels["Main"] = function(ctx)
     -- STONESPLAYER.scr:16
     ctx:getParam(0, "LISTNAME") -- STONESPLAYER.scr:18
     ctx:getParam(1, "nTemp") -- STONESPLAYER.scr:19
-    ctx:command("getmyhandle", "hMe") -- STONESPLAYER.scr:21
-    ctx:command("getobjectname", "hMe, sMyName") -- STONESPLAYER.scr:22
+    ctx:state().sMyName = ctx:self():name() -- STONESPLAYER.scr:22
     ctx:setConsoleStrVar("STONES_PLAYER", "sMyName") -- STONESPLAYER.scr:23
-    ctx:command("listfirst", "= 0") -- STONESPLAYER.scr:25
-    ctx:command("listlast", "= nTemp * nTemp - 1") -- STONESPLAYER.scr:26
+    ctx:state().LISTFIRST = 0 -- STONESPLAYER.scr:25
+    ctx:set("LISTLAST", "nTemp * nTemp - 1") -- STONESPLAYER.scr:26
     ctx:addTrigger("play", "PlacePiece") -- STONESPLAYER.scr:28
     ctx:addTrigger("use", "OnRudeEnter") -- STONESPLAYER.scr:30
     ctx:onRudeExit("OnRudeExit", script.labels["OnRudeExit"]) -- STONESPLAYER.scr:31
@@ -43,7 +42,7 @@ end
 script.labels["PlacePiece"] = function(ctx)
     -- STONESPLAYER.scr:52
     -- try a random square
-    ctx:command("getrandomint", "LISTFIRST, LISTLAST, LISTINDEX") -- STONESPLAYER.scr:55
+    ctx:randomInt("LISTFIRST", "LISTLAST", "LISTINDEX") -- STONESPLAYER.scr:55
     mm9.gosub(script, ctx, "GetCurrentObject") -- STONESPLAYER.scr:56
     ctx:trigger("LISTOBJECT", "use") -- STONESPLAYER.scr:58
     do return ctx:exit("TRUE") end -- STONESPLAYER.scr:60

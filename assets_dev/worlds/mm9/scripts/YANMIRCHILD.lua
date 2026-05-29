@@ -16,16 +16,16 @@ script.labels["Main"] = function(ctx)
     -- YANMIRCHILD.scr:18
     ctx:getParam(0, "sEscapeName") -- YANMIRCHILD.scr:20
     ctx:setConsoleNumVar("YANMIR_CHILD_HELP", 0) -- YANMIRCHILD.scr:22
-    ctx:command("onpoststartworld", "InitYanmirChild") -- YANMIRCHILD.scr:24
-    ctx:command("onpostminisaveload", "InitYanmirChild") -- YANMIRCHILD.scr:25
+    ctx:onEvent("OnPostStartWorld", "InitYanmirChild") -- YANMIRCHILD.scr:24
+    ctx:onEvent("OnPostMiniSaveLoad", "InitYanmirChild") -- YANMIRCHILD.scr:25
     do return ctx:exit("TRUE") end -- YANMIRCHILD.scr:27
 end
 
 script.labels["InitYanmirChild"] = function(ctx)
     -- YANMIRCHILD.scr:30
     ctx:addTrigger("use", "OnUse") -- YANMIRCHILD.scr:32
-    ctx:command("onfoundplayer", "ShoutForHelp") -- YANMIRCHILD.scr:34
-    ctx:command("setidle", "") -- YANMIRCHILD.scr:36
+    ctx:onEvent("OnFoundPlayer", "ShoutForHelp") -- YANMIRCHILD.scr:34
+    ctx:self():setIdle() -- YANMIRCHILD.scr:36
     do return ctx:exit("TRUE") end -- YANMIRCHILD.scr:38
 end
 
@@ -37,7 +37,7 @@ script.labels["OnUse"] = function(ctx)
         mm9.gosub(script, ctx, "BaseDoorInit") -- YANMIRCHILD.scr:46
         mm9.gosub(script, ctx, "FollowInit") -- YANMIRCHILD.scr:47
         mm9.gosub(script, ctx, "FollowStart") -- YANMIRCHILD.scr:48
-        ctx:command("onstuckdone", "FollowStart") -- YANMIRCHILD.scr:49
+        ctx:onEvent("OnStuckDone", "FollowStart") -- YANMIRCHILD.scr:49
     else -- YANMIRCHILD.scr:50
         -- RolloverText 200, 1, 4000, 3000
     end -- YANMIRCHILD.scr:52
@@ -52,9 +52,9 @@ script.labels["ShoutForHelp"] = function(ctx)
         ctx:setConsoleNumVar("YANMIR_CHILD_HELP", 1) -- YANMIRCHILD.scr:62
         ctx:hasKey(7001, "nTemp") -- YANMIRCHILD.scr:63
         if ctx:condition("nTemp==TRUE") then -- YANMIRCHILD.scr:64
-            ctx:command("rollovertext", "201 0") -- YANMIRCHILD.scr:65
+            ctx:rolloverText(201, 0) -- YANMIRCHILD.scr:65
         else -- YANMIRCHILD.scr:66
-            ctx:command("rollovertext", "200 0") -- YANMIRCHILD.scr:67
+            ctx:rolloverText(200, 0) -- YANMIRCHILD.scr:67
         end -- YANMIRCHILD.scr:68
     end -- YANMIRCHILD.scr:69
     do return ctx:exit("TRUE") end -- YANMIRCHILD.scr:71
@@ -64,10 +64,10 @@ script.labels["OnFollowDone"] = function(ctx)
     -- YANMIRCHILD.scr:74
     -- check to see if near escape point
     -- if( hEscape==0 )
-    ctx:command("getobjecthandle", "sEscapeName, hEscape") -- YANMIRCHILD.scr:78
+    ctx:state().hEscape = ctx:objectOrNil("sEscapeName") -- YANMIRCHILD.scr:78
     -- endif
     if ctx:condition("hEscape!=0") then -- YANMIRCHILD.scr:81
-        ctx:command("aigetdistance", "hEscape, nTemp") -- YANMIRCHILD.scr:82
+        ctx:state().nTemp = ctx:self():aiDistanceTo(ctx:object("hEscape")) -- YANMIRCHILD.scr:82
         if ctx:condition("nTemp<ESCAPE_RADIUS") then -- YANMIRCHILD.scr:83
             mm9.gosub(script, ctx, "EscapeLevel") -- YANMIRCHILD.scr:84
         end -- YANMIRCHILD.scr:85
@@ -79,8 +79,8 @@ script.labels["EscapeLevel"] = function(ctx)
     -- YANMIRCHILD.scr:91
     -- run to teleporter
     -- if( hEscape!=0 )
-    ctx:command("runtopos", "6528 71 279 0 Escape") -- YANMIRCHILD.scr:95
-    ctx:command("onobstacle", "Escape") -- YANMIRCHILD.scr:96
+    ctx:self():runToPos(6528, 71, 279, 0, "Escape") -- YANMIRCHILD.scr:95
+    ctx:onEvent("OnObstacle", "Escape") -- YANMIRCHILD.scr:96
     -- endif
     do return ctx:exit("TRUE") end -- YANMIRCHILD.scr:99
 end
@@ -88,10 +88,10 @@ end
 script.labels["Escape"] = function(ctx)
     -- YANMIRCHILD.scr:102
     -- disappear
-    ctx:command("stop", "") -- YANMIRCHILD.scr:105
-    ctx:command("hescape", "= NULL") -- YANMIRCHILD.scr:106
-    ctx:command("getmyhandle", "hEscape") -- YANMIRCHILD.scr:107
-    ctx:command("removeobject", "hEscape") -- YANMIRCHILD.scr:108
+    ctx:self():stop() -- YANMIRCHILD.scr:105
+    ctx:state().hEscape = nil -- YANMIRCHILD.scr:106
+    ctx:state().hEscape = ctx:self() -- YANMIRCHILD.scr:107
+    ctx:object("hEscape"):remove() -- YANMIRCHILD.scr:108
     do return ctx:exit("TRUE") end -- YANMIRCHILD.scr:110
 end
 

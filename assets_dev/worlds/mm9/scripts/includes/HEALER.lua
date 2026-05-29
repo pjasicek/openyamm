@@ -23,28 +23,28 @@ script.labels["HealerOnUse"] = function(ctx)
     if ctx:condition("g_hObject==NULL") then -- HEALER.inc:35
         do return ctx:exit("FALSE") end -- HEALER.inc:36
     end -- HEALER.inc:37
-    ctx:command("getplayerid", "g_hObject, g_nPlayerId") -- HEALER.inc:39
-    ctx:command("getplayernbr", "g_hObject, g_nPlayerNbr") -- HEALER.inc:40
+    ctx:getPlayerId(ctx:object("g_hObject"), "g_nPlayerId") -- HEALER.inc:39
+    ctx:getPlayerNumber(ctx:object("g_hObject"), "g_nPlayerNbr") -- HEALER.inc:40
     if ctx:condition("g_nPlayerNbr==-1") then -- HEALER.inc:42
         -- Not a player!
         do return ctx:exit("FALSE") end -- HEALER.inc:44
     end -- HEALER.inc:45
-    ctx:command("arrayget", "g_nPlayerHealedArray, g_nPlayerNbr, g_nTemp") -- HEALER.inc:47
+    ctx:arrayGet("g_nPlayerHealedArray", "g_nPlayerNbr", "g_nTemp") -- HEALER.inc:47
     if ctx:condition("g_nTemp==g_nPlayerId") then -- HEALER.inc:49
-        ctx:command("arrayget", "g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp") -- HEALER.inc:50
+        ctx:arrayGet("g_nPlayerHealedCountArray", "g_nPlayerNbr", "g_nTemp") -- HEALER.inc:50
         if ctx:condition("g_nTemp>=g_nHealCount") then -- HEALER.inc:51
             -- they've already Used this item...
             -- Don't let them do it again...
             do return ctx:exit("FALSE") end -- HEALER.inc:55
         end -- HEALER.inc:56
     else -- HEALER.inc:57
-        ctx:command("arrayput", "g_nPlayerHealedCountArray, g_nPlayerNbr, 0") -- HEALER.inc:58
+        ctx:arrayPut("g_nPlayerHealedCountArray", "g_nPlayerNbr", 0) -- HEALER.inc:58
     end -- HEALER.inc:60
-    ctx:command("arrayget", "g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp") -- HEALER.inc:62
-    ctx:command("add", "g_nTemp, 1") -- HEALER.inc:63
-    ctx:command("arrayput", "g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp") -- HEALER.inc:64
-    ctx:command("arrayput", "g_nPlayerHealedArray, g_nPlayerNbr, g_nPlayerId") -- HEALER.inc:65
-    ctx:command("heal", "g_hObject, g_nHealAmt") -- HEALER.inc:67
+    ctx:arrayGet("g_nPlayerHealedCountArray", "g_nPlayerNbr", "g_nTemp") -- HEALER.inc:62
+    ctx:state().g_nTemp = (tonumber(ctx:state().g_nTemp) or 0) + 1 -- HEALER.inc:63
+    ctx:arrayPut("g_nPlayerHealedCountArray", "g_nPlayerNbr", "g_nTemp") -- HEALER.inc:64
+    ctx:arrayPut("g_nPlayerHealedArray", "g_nPlayerNbr", "g_nPlayerId") -- HEALER.inc:65
+    ctx:heal(ctx:object("g_hObject"), "g_nHealAmt") -- HEALER.inc:67
     do return ctx:exit("") end -- HEALER.inc:69
 end
 

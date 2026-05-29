@@ -1,0 +1,921 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: greatgate
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: fateman.scr
+  source_path: FATEMAN.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 23
+    name: OnLose
+  - line: 40
+    name: OnStart
+  - line: 50
+    name: OnCam2
+  - line: 63
+    name: OnCam3
+  - line: 78
+    name: Scene4
+  - line: 88
+    name: Speak9
+  - line: 97
+    name: Close
+  - line: 107
+    name: FadeOut
+  - line: 117
+    name: ExitIN
+  - line: 128
+    name: OnPC1
+  - line: 136
+    name: Trigger10
+  - line: 145
+    name: OnPC2
+  - line: 153
+    name: Trigger11
+  - line: 161
+    name: OnPC3
+  - line: 169
+    name: Trigger12
+  - line: 177
+    name: OnPC4
+  - line: 185
+    name: Trigger13
+  - line: 193
+    name: OnPC5
+  - line: 203
+    name: OnPC6
+  - line: 211
+    name: Trigger15
+  - line: 219
+    name: OnDone
+  - line: 256
+    name: Init
+  - line: 447
+    name: Main
+  registered_triggers:
+  - line: 452
+    message: Lose
+    callback: OnLose
+    arguments_raw: Lose, OnLose
+  - line: 453
+    message: Cam2
+    callback: OnCam2
+    arguments_raw: Cam2 OnCam2
+  - line: 454
+    message: cam3
+    callback: OnCam3
+    arguments_raw: cam3 OnCam3
+  - line: 455
+    message: FadeOut
+    callback: Close
+    arguments_raw: FadeOut Close
+  - line: 456
+    message: Done
+    callback: OnDone
+    arguments_raw: Done OnDone
+  trigger_edges:
+  - line: 45
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 56
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 59
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 69
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 72
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  - line: 82
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 92
+    target_expression: g_hobject
+    message_expression: speak9
+    arguments_raw: g_hobject speak9
+  - line: 101
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 122
+    target_expression: g_hobject
+    message_expression: trigger
+    arguments_raw: g_hobject trigger
+  - line: 140
+    target_expression: g_hobject
+    message_expression: Speak10
+    arguments_raw: g_hobject Speak10
+  - line: 157
+    target_expression: g_hobject
+    message_expression: Speak11
+    arguments_raw: g_hobject Speak11
+  - line: 173
+    target_expression: g_hobject
+    message_expression: Speak12
+    arguments_raw: g_hobject Speak12
+  - line: 189
+    target_expression: g_hobject
+    message_expression: Speak13
+    arguments_raw: g_hobject Speak13
+  - line: 215
+    target_expression: g_hobject
+    message_expression: Speak15
+    arguments_raw: g_hobject Speak15
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 28
+    command: haskey
+    arguments_raw: 98 g_ntemp
+  - line: 33
+    command: givekey
+    arguments_raw: '98'
+  - line: 35
+    command: ScreenFadeOut
+    arguments_raw: '1'
+  - line: 54
+    command: ScreenFadeOut
+    arguments_raw: '.5'
+  - line: 67
+    command: ScreenFadeOut
+    arguments_raw: '.5'
+  - line: 73
+    command: ScreenFadein
+    arguments_raw: '.5'
+  - line: 110
+    command: ScreenFadeOut
+    arguments_raw: '1'
+  - line: 111
+    command: letterbox
+    arguments_raw: 'False'
+  - line: 120
+    command: screenfadein
+    arguments_raw: '2'
+  - line: 123
+    command: GiveExp
+    arguments_raw: '46000'
+  - line: 222
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 225
+    command: goto
+    arguments_raw: OnPC1
+  - line: 230
+    command: goto
+    arguments_raw: OnPC2
+  - line: 235
+    command: goto
+    arguments_raw: OnPC3
+  - line: 240
+    command: goto
+    arguments_raw: OnPC4
+  - line: 245
+    command: goto
+    arguments_raw: OnPC6
+  - line: 250
+    command: goto
+    arguments_raw: OnPC6
+  - line: 261
+    command: getPCVoice
+    arguments_raw: g_ntemp
+  - line: 265
+    command: set
+    arguments_raw: sVoice1 voices\cinema\AngryFemale\AngryFText01a.wav
+  - line: 266
+    command: set
+    arguments_raw: sVoice2 voices\cinema\AngryFemale\AngryFText02a.wav
+  - line: 267
+    command: set
+    arguments_raw: sVoice3 voices\cinema\AngryFemale\AngryFText03a.wav
+  - line: 268
+    command: set
+    arguments_raw: sVoice4 voices\cinema\AngryFemale\AngryFText04a.wav
+  - line: 269
+    command: set
+    arguments_raw: sVoice5 voices\cinema\AngryFemale\AngryFText05a.wav
+  - line: 270
+    command: set
+    arguments_raw: sVoice6 voices\cinema\AngryFemale\AngryFText06a.wav
+  - line: 275
+    command: set
+    arguments_raw: sVoice1 voices\cinema\ArrogantFemale\ArrogantFText01a.wav
+  - line: 276
+    command: set
+    arguments_raw: sVoice2 voices\cinema\ArrogantFemale\ArrogantFText02b.wav
+  - line: 277
+    command: set
+    arguments_raw: sVoice3 voices\cinema\ArrogantFemale\ArrogantFText03a.wav
+  - line: 278
+    command: set
+    arguments_raw: sVoice4 voices\cinema\ArrogantFemale\ArrogantFText04a.wav
+  - line: 279
+    command: set
+    arguments_raw: sVoice5 voices\cinema\ArrogantFemale\ArrogantFText05a.wav
+  - line: 280
+    command: set
+    arguments_raw: sVoice6 voices\cinema\ArrogantFemale\ArrogantFText06a.wav
+  - line: 285
+    command: set
+    arguments_raw: sVoice1 voices\cinema\AssertiveFemale\AssertiveFText01.wav
+  - line: 286
+    command: set
+    arguments_raw: sVoice2 voices\cinema\AssertiveFemale\AssertiveFText02.wav
+  - line: 287
+    command: set
+    arguments_raw: sVoice3 voices\cinema\AssertiveFemale\AssertiveFText03.wav
+  - line: 288
+    command: set
+    arguments_raw: sVoice4 voices\cinema\AssertiveFemale\AssertiveFText04.wav
+  - line: 289
+    command: set
+    arguments_raw: sVoice5 voices\cinema\AssertiveFemale\AssertiveFText05.wav
+  - line: 290
+    command: set
+    arguments_raw: sVoice6 voices\cinema\AssertiveFemale\AssertiveFText06.wav
+  - line: 295
+    command: set
+    arguments_raw: sVoice1 voices\cinema\CowardlyFemale\CowardlyFText01b.wav
+  - line: 296
+    command: set
+    arguments_raw: sVoice2 voices\cinema\CowardlyFemale\CowardlyFText02.wav
+  - line: 297
+    command: set
+    arguments_raw: sVoice3 voices\cinema\CowardlyFemale\CowardlyFText03.wav
+  - line: 298
+    command: set
+    arguments_raw: sVoice4 voices\cinema\CowardlyFemale\CowardlyFText04b.wav
+  - line: 299
+    command: set
+    arguments_raw: sVoice5 voices\cinema\CowardlyFemale\CowardlyFText05.wav
+  - line: 300
+    command: set
+    arguments_raw: sVoice6 voices\cinema\CowardlyFemale\CowardlyFText06.wav
+  - line: 305
+    command: set
+    arguments_raw: sVoice1 voices\cinema\DimFemale\DimFText01.wav
+  - line: 306
+    command: set
+    arguments_raw: sVoice2 voices\cinema\DimFemale\DimFText02.wav
+  - line: 307
+    command: set
+    arguments_raw: sVoice3 voices\cinema\DimFemale\DimFText03.wav
+  - line: 308
+    command: set
+    arguments_raw: sVoice4 voices\cinema\DimFemale\DimFText04.wav
+  - line: 309
+    command: set
+    arguments_raw: sVoice5 voices\cinema\DimFemale\DimFText05.wav
+  - line: 310
+    command: set
+    arguments_raw: sVoice6 voices\cinema\DimFemale\DimFText06.wav
+  - line: 315
+    command: set
+    arguments_raw: sVoice1 voices\cinema\HappyFemale\HappyFText01.wav
+  - line: 316
+    command: set
+    arguments_raw: sVoice2 voices\cinema\HappyFemale\HappyFText02.wav
+  - line: 317
+    command: set
+    arguments_raw: sVoice3 voices\cinema\HappyFemale\HappyFText03.wav
+  - line: 318
+    command: set
+    arguments_raw: sVoice4 voices\cinema\HappyFemale\HappyFText04.wav
+  - line: 319
+    command: set
+    arguments_raw: sVoice5 voices\cinema\HappyFemale\HappyFText05.wav
+  - line: 320
+    command: set
+    arguments_raw: sVoice6 voices\cinema\HappyFemale\HappyFText06.wav
+  - line: 325
+    command: set
+    arguments_raw: sVoice1 voices\cinema\SarcasticFemale\SarcasticFText01.wav
+  - line: 326
+    command: set
+    arguments_raw: sVoice2 voices\cinema\SarcasticFemale\SarcasticFText02.wav
+  - line: 327
+    command: set
+    arguments_raw: sVoice3 voices\cinema\SarcasticFemale\SarcasticFText03.wav
+  - line: 328
+    command: set
+    arguments_raw: sVoice4 voices\cinema\SarcasticFemale\SarcasticFText04.wav
+  - line: 329
+    command: set
+    arguments_raw: sVoice5 voices\cinema\SarcasticFemale\SarcasticFText05.wav
+  - line: 330
+    command: set
+    arguments_raw: sVoice6 voices\cinema\SarcasticFemale\SarcasticFText06.wav
+  - line: 335
+    command: set
+    arguments_raw: sVoice1 voices\cinema\LichFemale\LichFText01.wav
+  - line: 336
+    command: set
+    arguments_raw: sVoice2 voices\cinema\LichFemale\LichFText02.wav
+  - line: 337
+    command: set
+    arguments_raw: sVoice3 voices\cinema\LichFemale\LichFText03.wav
+  - line: 338
+    command: set
+    arguments_raw: sVoice4 voices\cinema\LichFemale\LichFText04.wav
+  - line: 339
+    command: set
+    arguments_raw: sVoice5 voices\cinema\LichFemale\LichFText05.wav
+  - line: 340
+    command: set
+    arguments_raw: sVoice6 voices\cinema\LichFemale\LichFText06.wav
+  - line: 345
+    command: set
+    arguments_raw: sVoice1 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText01.wav
+  - line: 346
+    command: set
+    arguments_raw: sVoice2 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText02.wav
+  - line: 347
+    command: set
+    arguments_raw: sVoice3 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText03.wav
+  - line: 348
+    command: set
+    arguments_raw: sVoice4 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText04.wav
+  - line: 349
+    command: set
+    arguments_raw: sVoice5 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText05.wav
+  - line: 350
+    command: set
+    arguments_raw: sVoice6 voices\cinema\HalfOrcLichFemale\HalfOrcLichFText06.wav
+  - line: 355
+    command: set
+    arguments_raw: sVoice1 voices\cinema\Angrymale\AngryText01a.wav
+  - line: 356
+    command: set
+    arguments_raw: sVoice2 voices\cinema\Angrymale\AngryText02.wav
+  - line: 357
+    command: set
+    arguments_raw: sVoice3 voices\cinema\Angrymale\AngryText03.wav
+  - line: 358
+    command: set
+    arguments_raw: sVoice4 voices\cinema\Angrymale\AngryText04.wav
+  - line: 359
+    command: set
+    arguments_raw: sVoice5 voices\cinema\Angrymale\AngryText05.wav
+  - line: 360
+    command: set
+    arguments_raw: sVoice6 voices\cinema\Angrymale\AngryText06a.wav
+  - line: 365
+    command: set
+    arguments_raw: sVoice1 voices\cinema\ArrogantMale\ArrogantMText01.wav
+  - line: 366
+    command: set
+    arguments_raw: sVoice2 voices\cinema\ArrogantMale\ArrogantMText02.wav
+  - line: 367
+    command: set
+    arguments_raw: sVoice3 voices\cinema\ArrogantMale\ArrogantMText03.wav
+  - line: 368
+    command: set
+    arguments_raw: sVoice4 voices\cinema\ArrogantMale\ArrogantMText04.wav
+  - line: 369
+    command: set
+    arguments_raw: sVoice5 voices\cinema\ArrogantMale\ArrogantMText05.wav
+  - line: 370
+    command: set
+    arguments_raw: sVoice6 voices\cinema\ArrogantMale\ArrogantMText06.wav
+  - line: 375
+    command: set
+    arguments_raw: sVoice1 voices\cinema\AssertiveMale\AssertiveMText01.wav
+  - line: 376
+    command: set
+    arguments_raw: sVoice2 voices\cinema\AssertiveMale\AssertiveMText02a.wav
+  - line: 377
+    command: set
+    arguments_raw: sVoice3 voices\cinema\AssertiveMale\AssertiveMText03.wav
+  - line: 378
+    command: set
+    arguments_raw: sVoice4 voices\cinema\AssertiveMale\AssertiveMText04.wav
+  - line: 379
+    command: set
+    arguments_raw: sVoice5 voices\cinema\AssertiveMale\AssertiveMText05.wav
+  - line: 380
+    command: set
+    arguments_raw: sVoice6 voices\cinema\AssertiveMale\AssertiveMText06.wav
+  - line: 385
+    command: set
+    arguments_raw: sVoice1 voices\cinema\CowardlyMale\CowardlyMText01.wav
+  - line: 386
+    command: set
+    arguments_raw: sVoice2 voices\cinema\CowardlyMale\CowardlyMText02.wav
+  - line: 387
+    command: set
+    arguments_raw: sVoice3 voices\cinema\CowardlyMale\CowardlyMText03.wav
+  - line: 388
+    command: set
+    arguments_raw: sVoice4 voices\cinema\CowardlyMale\CowardlyMText04.wav
+  - line: 389
+    command: set
+    arguments_raw: sVoice5 voices\cinema\CowardlyMale\CowardlyMText05.wav
+  - line: 390
+    command: set
+    arguments_raw: sVoice6 voices\cinema\CowardlyMale\CowardlyMText06.wav
+  - line: 395
+    command: set
+    arguments_raw: sVoice1 voices\cinema\DimMale\DimMText01.wav
+  - line: 396
+    command: set
+    arguments_raw: sVoice2 voices\cinema\DimMale\DimMText02.wav
+  - line: 397
+    command: set
+    arguments_raw: sVoice3 voices\cinema\DimMale\DimMText03.wav
+  - line: 398
+    command: set
+    arguments_raw: sVoice4 voices\cinema\DimMale\DimMText04.wav
+  - line: 399
+    command: set
+    arguments_raw: sVoice5 voices\cinema\DimMale\DimMText05.wav
+  - line: 400
+    command: set
+    arguments_raw: sVoice6 voices\cinema\DimMale\DimMText06.wav
+  - line: 405
+    command: set
+    arguments_raw: sVoice1 voices\cinema\HappyMale\HappyMText01.wav
+  - line: 406
+    command: set
+    arguments_raw: sVoice2 voices\cinema\HappyMale\HappyMText02.wav
+  - line: 407
+    command: set
+    arguments_raw: sVoice3 voices\cinema\HappyMale\HappyMText03.wav
+  - line: 408
+    command: set
+    arguments_raw: sVoice4 voices\cinema\HappyMale\HappyMText04.wav
+  - line: 409
+    command: set
+    arguments_raw: sVoice5 voices\cinema\HappyMale\HappyMText05.wav
+  - line: 410
+    command: set
+    arguments_raw: sVoice6 voices\cinema\HappyMale\HappyMText06.wav
+  - line: 415
+    command: set
+    arguments_raw: sVoice1 voices\cinema\SarcasticMale\SarcasticMText01.wav
+  - line: 416
+    command: set
+    arguments_raw: sVoice2 voices\cinema\SarcasticMale\SarcasticMText02.wav
+  - line: 417
+    command: set
+    arguments_raw: sVoice3 voices\cinema\SarcasticMale\SarcasticMText03.wav
+  - line: 418
+    command: set
+    arguments_raw: sVoice4 voices\cinema\SarcasticMale\SarcasticMText04.wav
+  - line: 419
+    command: set
+    arguments_raw: sVoice5 voices\cinema\SarcasticMale\SarcasticMText05.wav
+  - line: 420
+    command: set
+    arguments_raw: sVoice6 voices\cinema\SarcasticMale\SarcasticMText06.wav
+  - line: 425
+    command: set
+    arguments_raw: sVoice1 voices\cinema\LichMale\LichMText01.wav
+  - line: 426
+    command: set
+    arguments_raw: sVoice2 voices\cinema\LichMale\LichMText02.wav
+  - line: 427
+    command: set
+    arguments_raw: sVoice3 voices\cinema\LichMale\LichMText03.wav
+  - line: 428
+    command: set
+    arguments_raw: sVoice4 voices\cinema\LichMale\LichMText04.wav
+  - line: 429
+    command: set
+    arguments_raw: sVoice5 voices\cinema\LichMale\LichMText05.wav
+  - line: 430
+    command: set
+    arguments_raw: sVoice6 voices\cinema\LichMale\LichMText06.wav
+  - line: 435
+    command: set
+    arguments_raw: sVoice1 voices\cinema\HalfOrcLichMale\HalfOrcLichMText01.wav
+  - line: 436
+    command: set
+    arguments_raw: sVoice2 voices\cinema\HalfOrcLichMale\HalfOrcLichMText02.wav
+  - line: 437
+    command: set
+    arguments_raw: sVoice3 voices\cinema\HalfOrcLichMale\HalfOrcLichMText03.wav
+  - line: 438
+    command: set
+    arguments_raw: sVoice4 voices\cinema\HalfOrcLichMale\HalfOrcLichMText04.wav
+  - line: 439
+    command: set
+    arguments_raw: sVoice5 voices\cinema\HalfOrcLichMale\HalfOrcLichMText05.wav
+  - line: 440
+    command: set
+    arguments_raw: sVoice6 voices\cinema\HalfOrcLichMale\HalfOrcLichMText06.wav
+  - line: 459
+    command: OnPostStartWorld
+    arguments_raw: OnLose
+  - line: 460
+    command: OnPostMiniSaveLoad
+    arguments_raw: OnLose
+  - line: 461
+    command: OnPostSaveLoad
+    arguments_raw: OnLose
+  command_count: 276
+- script_id: hanndl.scr
+  source_path: HANNDL.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: Speak1
+  - line: 27
+    name: Voice1
+  - line: 34
+    name: Speak2
+  - line: 41
+    name: OnSpeak9
+  - line: 52
+    name: OnSpeak10
+  - line: 63
+    name: OnSpeak11
+  - line: 74
+    name: OnSpeak12
+  - line: 85
+    name: OnSpeak13
+  - line: 96
+    name: OnSpeak14
+  - line: 106
+    name: OnSpeak15
+  - line: 117
+    name: OnSpeak16
+  - line: 127
+    name: OnSpeak17
+  - line: 137
+    name: Voice2
+  - line: 144
+    name: OnVoice9
+  - line: 152
+    name: OnVoice10
+  - line: 160
+    name: OnVoice11
+  - line: 168
+    name: OnVoice12
+  - line: 176
+    name: OnVoice13
+  - line: 184
+    name: OnVoice14
+  - line: 192
+    name: OnVoice15
+  - line: 200
+    name: OnVoice16
+  - line: 208
+    name: OnVoice17
+  - line: 216
+    name: Close
+  - line: 224
+    name: Done
+  - line: 233
+    name: Main
+  registered_triggers:
+  - line: 238
+    message: Speak
+    callback: Speak1
+    arguments_raw: Speak, Speak1
+  - line: 239
+    message: Speak9
+    callback: OnSpeak9
+    arguments_raw: Speak9 OnSpeak9
+  - line: 240
+    message: Speak10
+    callback: OnSpeak10
+    arguments_raw: Speak10 OnSpeak10
+  - line: 241
+    message: Speak11
+    callback: OnSpeak11
+    arguments_raw: Speak11 OnSpeak11
+  - line: 242
+    message: Speak12
+    callback: OnSpeak12
+    arguments_raw: Speak12 OnSpeak12
+  - line: 243
+    message: Speak13
+    callback: OnSpeak13
+    arguments_raw: Speak13 OnSpeak13
+  - line: 244
+    message: Speak14
+    callback: OnSpeak14
+    arguments_raw: Speak14 OnSpeak14
+  - line: 245
+    message: Speak15
+    callback: OnSpeak15
+    arguments_raw: Speak15 OnSpeak15
+  - line: 246
+    message: Speak16
+    callback: OnSpeak16
+    arguments_raw: Speak16 OnSpeak16
+  - line: 247
+    message: Speak17
+    callback: OnSpeak17
+    arguments_raw: Speak17 OnSpeak17
+  trigger_edges:
+  - line: 220
+    target_expression: hTriggeredMe
+    message_expression: FadeOut
+    arguments_raw: hTriggeredMe FadeOut
+  - line: 228
+    target_expression: hTriggeredMe
+    message_expression: Done
+    arguments_raw: hTriggeredMe Done
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 21
+    command: playanim
+    arguments_raw: Sc3_hanndl07 Speak2
+  - line: 37
+    command: playanim
+    arguments_raw: Sc3_hanndl08 Close
+  - line: 46
+    command: playanim
+    arguments_raw: Sc4_hanndl09 Done
+  - line: 57
+    command: playanim
+    arguments_raw: Sc4_hanndl10 Done
+  - line: 68
+    command: playanim
+    arguments_raw: Sc4_hanndl11 Done
+  - line: 79
+    command: playanim
+    arguments_raw: Sc4_hanndl12 Done
+  - line: 90
+    command: playanim
+    arguments_raw: Sc4_hanndl13 OnSpeak14
+  - line: 101
+    command: playanim
+    arguments_raw: Sc4_hanndl14 DoNothing
+  - line: 112
+    command: playanim
+    arguments_raw: Sc4_hanndl15 close
+  - line: 122
+    command: playanim
+    arguments_raw: sc5_Hanndl16 DoNothing
+  - line: 132
+    command: playanim
+    arguments_raw: sc5_Hanndl17 DoNothing
+  unknown_commands:
+  - line: 248
+    command: AddModelKey
+    arguments_raw: Speak1 Voice1
+  - line: 249
+    command: AddModelKey
+    arguments_raw: Speak2 Voice2
+  - line: 250
+    command: AddModelKey
+    arguments_raw: Speak9 OnVoice9
+  - line: 251
+    command: AddModelKey
+    arguments_raw: speak10 OnVoice10
+  - line: 252
+    command: AddModelKey
+    arguments_raw: speak11 OnVoice11
+  - line: 253
+    command: AddModelKey
+    arguments_raw: speak12 OnVoice12
+  - line: 254
+    command: AddModelKey
+    arguments_raw: Speak13 OnVoice13
+  - line: 255
+    command: AddModelKey
+    arguments_raw: Speak14 OnVoice14
+  - line: 256
+    command: AddModelKey
+    arguments_raw: Speak15 OnVoice15
+  - line: 257
+    command: AddModelKey
+    arguments_raw: Speak16 OnVoice16
+  - line: 258
+    command: AddModelKey
+    arguments_raw: Speak17 OnVoice17
+  - line: 259
+    command: AddModelKey
+    arguments_raw: Done Done
+  - line: 260
+    command: AddModelKey
+    arguments_raw: Close Close
+  command_count: 81
+- script_id: losecam1.scr
+  source_path: LOSECAM1.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 24
+    name: OnPlay
+  - line: 43
+    name: OnPan
+  - line: 52
+    name: OnArrive1
+  - line: 61
+    name: Reset
+  - line: 68
+    name: Main
+  registered_triggers:
+  - line: 73
+    message: Play
+    callback: OnPlay
+    arguments_raw: Play OnPlay
+  trigger_edges:
+  - line: 34
+    target_expression: g_hmyobject
+    message_expression: 'On'
+    arguments_raw: g_hmyobject On
+  - line: 56
+    target_expression: hTriggeredMe
+    message_expression: Cam2
+    arguments_raw: hTriggeredMe Cam2
+  movement_commands:
+  - line: 48
+    command: MoveToPos
+    arguments_raw: xpos Ypos Zpos 100 OnArrive1
+  - line: 64
+    command: SetPos
+    arguments_raw: g_hmyobject MyX MyY MyZ DoNothing
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: LetterBox
+    arguments_raw: 'True'
+  - line: 35
+    command: ScreenFadeIn
+    arguments_raw: '1'
+  - line: 37
+    command: Target
+    arguments_raw: g_htarget
+  command_count: 22
+- script_id: losecam2.scr
+  source_path: LOSECAM2.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 23
+    name: OnPlay
+  - line: 40
+    name: OnPan
+  - line: 49
+    name: OnArrive1
+  - line: 58
+    name: Reset
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 70
+    message: Play
+    callback: OnPlay
+    arguments_raw: Play OnPlay
+  trigger_edges:
+  - line: 32
+    target_expression: g_hmyobject
+    message_expression: 'On'
+    arguments_raw: g_hmyobject On
+  - line: 53
+    target_expression: hTriggeredMe
+    message_expression: Cam3
+    arguments_raw: hTriggeredMe Cam3
+  movement_commands:
+  - line: 45
+    command: MoveToPos
+    arguments_raw: xpos Ypos Zpos 150 OnArrive1
+  - line: 61
+    command: SetPos
+    arguments_raw: g_hmyobject MyX MyY MyZ DoNothing
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 33
+    command: ScreenFadeIn
+    arguments_raw: '1'
+  - line: 35
+    command: Target
+    arguments_raw: g_htarget
+  command_count: 21
+- script_id: loseman.scr
+  source_path: LOSEMAN.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 14
+    name: OnLose
+  - line: 22
+    name: OnStart
+  - line: 32
+    name: OnCam2
+  - line: 45
+    name: OnCam3
+  - line: 60
+    name: Scene3
+  - line: 70
+    name: Speak1
+  - line: 80
+    name: Close
+  - line: 90
+    name: FadeOut
+  - line: 98
+    name: FadeIn
+  - line: 108
+    name: Main
+  registered_triggers:
+  - line: 113
+    message: Lose
+    callback: OnLose
+    arguments_raw: Lose, OnLose
+  - line: 114
+    message: Cam2
+    callback: OnCam2
+    arguments_raw: Cam2 OnCam2
+  - line: 115
+    message: cam3
+    callback: OnCam3
+    arguments_raw: cam3 OnCam3
+  - line: 116
+    message: FadeOut
+    callback: Close
+    arguments_raw: FadeOut Close
+  trigger_edges:
+  - line: 27
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 38
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 41
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 51
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  - line: 54
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  - line: 64
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 74
+    target_expression: g_hobject
+    message_expression: speak
+    arguments_raw: g_hobject speak
+  - line: 84
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 103
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 17
+    command: ScreenFadeOut
+    arguments_raw: '1'
+  - line: 36
+    command: ScreenFadeOut
+    arguments_raw: '.5'
+  - line: 49
+    command: ScreenFadeOut
+    arguments_raw: '.5'
+  - line: 55
+    command: ScreenFadein
+    arguments_raw: '.5'
+  - line: 93
+    command: ScreenFadeOut
+    arguments_raw: '1'
+  - line: 101
+    command: letterbox
+    arguments_raw: 'False'
+  - line: 104
+    command: screenfadein
+    arguments_raw: '1'
+  command_count: 46
+validation:
+  script_count: 5

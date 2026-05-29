@@ -1,0 +1,809 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: verhoffinruins
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: capstone.scr
+  source_path: CAPSTONE.scr
+  parse_status: parsed
+  includes:
+  - line: 18
+    path: globals.inc
+  labels:
+  - line: 30
+    name: Onuse
+  - line: 37
+    name: firsttime
+  - line: 68
+    name: OnPlace
+  - line: 89
+    name: placed
+  - line: 109
+    name: Init
+  - line: 129
+    name: Main
+  - line: 147
+    name: placed
+  registered_triggers:
+  - line: 135
+    message: place
+    callback: OnPlace
+    arguments_raw: place, OnPlace
+  trigger_edges:
+  - line: 80
+    target_expression: g_hobject
+    message_expression: init
+    arguments_raw: g_hobject init
+  movement_commands: []
+  state_commands:
+  - line: 76
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 95
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 101
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 159
+    command: SetStat
+    arguments_raw: g_hobject2 Locked FALSE
+  presentation_commands: []
+  unknown_commands:
+  - line: 40
+    command: haskey
+    arguments_raw: 98 g_ntemp
+  - line: 42
+    command: giveitem
+    arguments_raw: '396'
+  - line: 44
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 48
+    command: Haskey
+    arguments_raw: 188 keycheck
+  - line: 51
+    command: givekey
+    arguments_raw: '188'
+  - line: 56
+    command: GiveItem
+    arguments_raw: '396'
+  - line: 57
+    command: GiveExp
+    arguments_raw: '146000'
+  - line: 60
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 71
+    command: haskey
+    arguments_raw: 99 g_ntemp
+  - line: 73
+    command: givekey
+    arguments_raw: '99'
+  - line: 74
+    command: giveEXP
+    arguments_raw: '154000'
+  - line: 92
+    command: Haskey
+    arguments_raw: 99 g_ntemp
+  - line: 113
+    command: Haskey
+    arguments_raw: 188 keycheck
+  - line: 116
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 117
+    command: exitscript
+    arguments_raw: ''
+  - line: 137
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 138
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 139
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 155
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 164
+    command: goto
+    arguments_raw: placed 1
+  command_count: 72
+- script_id: doorlock.scr
+  source_path: DOORLOCK.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 22
+    name: OnUse
+  - line: 52
+    name: Main
+  registered_triggers:
+  - line: 57
+    message: use
+    callback: OnUse
+    arguments_raw: use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 28
+    command: SetStat
+    arguments_raw: g_hmyobject,Locked,FALSE
+  - line: 38
+    command: SetStat
+    arguments_raw: g_hmyobject,Locked,TRUE
+  presentation_commands: []
+  unknown_commands: []
+  command_count: 19
+- script_id: drainwater.scr
+  source_path: DRAINWATER.scr
+  parse_status: parsed
+  includes:
+  - line: 15
+    path: BaseGlobals.inc
+  labels:
+  - line: 35
+    name: Main
+  - line: 48
+    name: InitDrainSwitch
+  - line: 63
+    name: FillWater
+  - line: 75
+    name: DrainWater
+  - line: 87
+    name: OnFillWater
+  - line: 94
+    name: OnDrainWater
+  registered_triggers:
+  - line: 50
+    message: drain
+    callback: DrainWater
+    arguments_raw: "drain,\tDrainWater"
+  - line: 51
+    message: fill
+    callback: FillWater
+    arguments_raw: "fill,\tFillWater"
+  - line: 66
+    message: drain
+    callback: DrainWater
+    arguments_raw: "drain,\tDrainWater"
+  - line: 78
+    message: fill
+    callback: FillWater
+    arguments_raw: "fill,\tFillWater"
+  trigger_edges:
+  - line: 65
+    target_expression: hFillTrigger
+    message_expression: trigger
+    arguments_raw: hFillTrigger, trigger
+  - line: 77
+    target_expression: hDrainTrigger
+    message_expression: trigger
+    arguments_raw: hDrainTrigger, trigger
+  movement_commands:
+  - line: 70
+    command: MoveToPOS
+    arguments_raw: xMe,yMe,zMe, 10, OnFillWater
+  - line: 82
+    command: MoveToPOS
+    arguments_raw: xMe,yMe,zMe, 10, OnDrainWater
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 42
+    command: OnPostStartWorld
+    arguments_raw: InitDrainSwitch
+  - line: 43
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDrainSwitch
+  - line: 67
+    command: RemoveTrigger
+    arguments_raw: fill
+  - line: 79
+    command: RemoveTrigger
+    arguments_raw: drain
+  - line: 89
+    command: Stop
+    arguments_raw: ''
+  - line: 96
+    command: Stop
+    arguments_raw: ''
+  command_count: 34
+- script_id: fakebook.scr
+  source_path: FAKEBOOK.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: Onuse
+  - line: 31
+    name: haskey
+  - line: 46
+    name: deletecheck
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 70
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 33
+    command: haskey
+    arguments_raw: 281 g_ntemp
+  - line: 35
+    command: givekey
+    arguments_raw: '281'
+  - line: 36
+    command: givekey
+    arguments_raw: '290'
+  - line: 37
+    command: giveitem
+    arguments_raw: '242'
+  - line: 39
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 49
+    command: haskey
+    arguments_raw: 282 g_ntemp
+  - line: 52
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 56
+    command: haskey
+    arguments_raw: 281 g_ntemp
+  - line: 59
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 27
+- script_id: givetake.scr
+  source_path: GIVETAKE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnUse
+  - line: 47
+    name: Init
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 70
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: giveitem
+    arguments_raw: item_ID
+  - line: 34
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 38
+    command: giveitem
+    arguments_raw: Item_ID
+  - line: 40
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 59
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 30
+- script_id: kingkong.scr
+  source_path: KINGKONG.scr
+  parse_status: parsed
+  includes:
+  - line: 19
+    path: baseMelee.inc
+  labels:
+  - line: 27
+    name: Main
+  - line: 37
+    name: InitKingKong
+  - line: 52
+    name: RushCage
+  - line: 62
+    name: BreakCage
+  - line: 77
+    name: FallThrough
+  - line: 90
+    name: TurnOff
+  registered_triggers:
+  - line: 41
+    message: ForceBreak
+    callback: RushCage
+    arguments_raw: ForceBreak, RushCage
+  - line: 42
+    message: ForceFall
+    callback: FallThrough
+    arguments_raw: ForceFall, FallThrough
+  - line: 43
+    message: ForceAttack
+    callback: TurnOff
+    arguments_raw: ForceAttack, TurnOff
+  trigger_edges:
+  - line: 67
+    target_expression: hCage
+    message_expression: destroy
+    arguments_raw: hCage, destroy
+  - line: 82
+    target_expression: hCage
+    message_expression: destroy
+    arguments_raw: hCage, destroy
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 46
+    command: LoopAnim
+    arguments_raw: ANIM_NAME, 0
+  - line: 70
+    command: PlayAnim
+    arguments_raw: hattack1, turnoff
+  unknown_commands:
+  - line: 32
+    command: OnPostStartWorld
+    arguments_raw: InitKingKong
+  - line: 93
+    command: RemoveTrigger
+    arguments_raw: ForceBreak
+  - line: 94
+    command: RemoveTrigger
+    arguments_raw: ForceFall
+  - line: 95
+    command: RemoveTrigger
+    arguments_raw: ForceAttack
+  - line: 98
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  command_count: 36
+- script_id: pentagrampuzzle.scr
+  source_path: PENTAGRAMPUZZLE.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: BaseGlobals.inc
+  labels:
+  - line: 26
+    name: Main
+  - line: 36
+    name: InitPentagramPuzzle
+  - line: 66
+    name: StartPuzzle
+  - line: 81
+    name: FirstStep
+  - line: 92
+    name: SecondStep
+  - line: 103
+    name: ThirdStep
+  - line: 114
+    name: FourthStep
+  - line: 125
+    name: FifthStep
+  - line: 136
+    name: OnSuccess
+  - line: 143
+    name: OnFailure
+  - line: 153
+    name: UnlockDoor
+  - line: 170
+    name: InitPentagramPuzzle
+  - line: 178
+    name: StopMoving
+  - line: 202
+    name: UnlockDoor
+  registered_triggers:
+  - line: 49
+    message: start
+    callback: StartPuzzle
+    arguments_raw: start, StartPuzzle
+  - line: 72
+    message: first
+    callback: FirstStep
+    arguments_raw: first, FirstStep
+  - line: 73
+    message: second
+    callback: SecondStep
+    arguments_raw: second, SecondStep
+  - line: 74
+    message: third
+    callback: ThirdStep
+    arguments_raw: third, ThirdStep
+  - line: 75
+    message: fourth
+    callback: FourthStep
+    arguments_raw: fourth, FourthStep
+  - line: 76
+    message: fifth
+    callback: FifthStep
+    arguments_raw: fifth, FifthStep
+  trigger_edges:
+  - line: 43
+    target_expression: hDoorR
+    message_expression: close
+    arguments_raw: hDoorR, close
+  - line: 44
+    target_expression: hDoorL
+    message_expression: close
+    arguments_raw: hDoorL, close
+  - line: 46
+    target_expression: hDoorR
+    message_expression: lock
+    arguments_raw: hDoorR, lock
+  - line: 47
+    target_expression: hDoorL
+    message_expression: lock
+    arguments_raw: hDoorL, lock
+  - line: 69
+    target_expression: hTriggerOn
+    message_expression: trigger
+    arguments_raw: hTriggerOn, trigger
+  - line: 146
+    target_expression: hTriggerOn
+    message_expression: trigger
+    arguments_raw: hTriggerOn, trigger
+  - line: 156
+    target_expression: hTriggerOff
+    message_expression: trigger
+    arguments_raw: hTriggerOff, trigger
+  - line: 159
+    target_expression: hDoorR
+    message_expression: unlock
+    arguments_raw: hDoorR, unlock
+  - line: 160
+    target_expression: 'NULL'
+    message_expression: open
+    arguments_raw: NULL, open
+  - line: 163
+    target_expression: hDoorL
+    message_expression: unlock
+    arguments_raw: hDoorL, unlock
+  - line: 164
+    target_expression: hDoorL
+    message_expression: open
+    arguments_raw: hDoorL, open
+  - line: 191
+    target_expression: hDoorR
+    message_expression: close
+    arguments_raw: hDoorR close
+  - line: 192
+    target_expression: hDoorL
+    message_expression: close
+    arguments_raw: hDoorL close
+  - line: 207
+    target_expression: hTriggerOff
+    message_expression: trigger
+    arguments_raw: hTriggerOff trigger
+  - line: 218
+    target_expression: hDoorL
+    message_expression: open
+    arguments_raw: hDoorL, open
+  movement_commands: []
+  state_commands:
+  - line: 194
+    command: SetStat
+    arguments_raw: hDoorR Locked TRUE
+  - line: 195
+    command: SetStat
+    arguments_raw: hDoorL Locked TRUE
+  - line: 212
+    command: SetStat
+    arguments_raw: hDoorR Locked FALSE
+  - line: 217
+    command: SetStat
+    arguments_raw: hDoorL Locked FALSE
+  presentation_commands: []
+  unknown_commands:
+  - line: 31
+    command: OnPostStartWorld
+    arguments_raw: InitPentagramPuzzle
+  - line: 51
+    command: ArrayPut
+    arguments_raw: spFlames, 0, PentaFire1
+  - line: 52
+    command: ArrayPut
+    arguments_raw: spFlames, 1, PentaFire2
+  - line: 53
+    command: ArrayPut
+    arguments_raw: spFlames, 2, PentaFire3
+  - line: 54
+    command: ArrayPut
+    arguments_raw: spFlames, 3, PentaFire4
+  - line: 55
+    command: ArrayPut
+    arguments_raw: spFlames, 4, PentaFire5
+  - line: 57
+    command: ArrayPut
+    arguments_raw: spPoints, 0, TriggerPentagram1
+  - line: 58
+    command: ArrayPut
+    arguments_raw: spPoints, 1, TriggerPentagram2
+  - line: 59
+    command: ArrayPut
+    arguments_raw: spPoints, 2, TriggerPentagram3
+  - line: 60
+    command: ArrayPut
+    arguments_raw: spPoints, 3, TriggerPentagram4
+  - line: 61
+    command: ArrayPut
+    arguments_raw: spPoints, 4, TriggerPentagram5
+  - line: 87
+    command: nProgress
+    arguments_raw: = 1
+  - line: 98
+    command: nProgress
+    arguments_raw: = 2
+  - line: 109
+    command: nProgress
+    arguments_raw: = 3
+  - line: 120
+    command: nProgress
+    arguments_raw: = 4
+  - line: 148
+    command: nProgress
+    arguments_raw: = 0
+  - line: 173
+    command: OnPostSaveLoad
+    arguments_raw: StopMoving
+  - line: 174
+    command: OnPostMiniSaveLoad
+    arguments_raw: StopMoving
+  - line: 175
+    command: goto
+    arguments_raw: InitPentagramPuzzle 1
+  - line: 221
+    command: set
+    arguments_raw: FALSE 1
+  command_count: 120
+- script_id: placecapstone.scr
+  source_path: PLACECAPSTONE.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 16
+    name: Onuse
+  - line: 24
+    name: Use1
+  - line: 44
+    name: Main
+  registered_triggers:
+  - line: 48
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges:
+  - line: 36
+    target_expression: g_hobject
+    message_expression: place
+    arguments_raw: g_hobject place
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 29
+    command: haskey
+    arguments_raw: 98 g_ntemp
+  command_count: 14
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: writ.scr
+  source_path: WRIT.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 23
+    name: Onuse
+  - line: 42
+    name: Init
+  - line: 65
+    name: OnInit
+  - line: 76
+    name: Main
+  - line: 90
+    name: Init
+  registered_triggers:
+  - line: 71
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  - line: 81
+    message: init
+    callback: OnInit
+    arguments_raw: init, OnInit
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 58
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 59
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 60
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 68
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 69
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 70
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: haskey
+    arguments_raw: 100 g_ntemp
+  - line: 28
+    command: haskey
+    arguments_raw: 99 g_ntemp
+  - line: 30
+    command: giveitem
+    arguments_raw: '392'
+  - line: 31
+    command: giveexp
+    arguments_raw: '162000'
+  - line: 32
+    command: givekey
+    arguments_raw: '100'
+  - line: 35
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 45
+    command: Haskey
+    arguments_raw: 100 keycheck
+  - line: 48
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 49
+    command: exitscript
+    arguments_raw: ''
+  - line: 55
+    command: Haskey
+    arguments_raw: 99 keycheck
+  - line: 82
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 83
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 84
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 95
+    command: GetObjectName
+    arguments_raw: g_hMyObject g_sTemp
+  - line: 97
+    command: SetPropString
+    arguments_raw: DoubleDoorName DoorTeleportRight
+  - line: 101
+    command: goto
+    arguments_raw: Init 1
+  command_count: 48
+validation:
+  script_count: 11

@@ -101,13 +101,13 @@ script.labels["Main"] = function(ctx)
     -- FORADWORLD.scr:123
     -- traceon
     ctx:getParam(0, "sWorld") -- FORADWORLD.scr:128
-    ctx:command("@m", "20 : 00 Close Close") -- FORADWORLD.scr:129
-    ctx:command("@m", "6 : 00 Open Open") -- FORADWORLD.scr:130
-    ctx:command("wait", "1 1 Init") -- FORADWORLD.scr:131
-    ctx:command("onpoststartworld", "Init") -- FORADWORLD.scr:132
-    ctx:command("onpostminisaveload", "Init") -- FORADWORLD.scr:133
-    ctx:command("onpostsaveload", "Init") -- FORADWORLD.scr:134
-    ctx:command("onworldswitch", "TakeKey") -- FORADWORLD.scr:135
+    ctx:atTime(20, 0, "Close", "Close") -- FORADWORLD.scr:129
+    ctx:atTime(6, 0, "Open", "Open") -- FORADWORLD.scr:130
+    ctx:wait(1, 1, "Init") -- FORADWORLD.scr:131
+    ctx:onEvent("OnPostStartWorld", "Init") -- FORADWORLD.scr:132
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- FORADWORLD.scr:133
+    ctx:onEvent("OnPostSaveLoad", "Init") -- FORADWORLD.scr:134
+    ctx:onEvent("OnWorldSwitch", "TakeKey") -- FORADWORLD.scr:135
     do return ctx:exit("") end -- FORADWORLD.scr:136
 end
 

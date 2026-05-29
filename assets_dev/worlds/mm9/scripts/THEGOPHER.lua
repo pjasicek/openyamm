@@ -15,32 +15,32 @@ script.includes[#script.includes + 1] = { line = 9, path = "aiglobals.inc" }
 -- Passed in Parameter to get Wander distance
 script.labels["OnSpecial"] = function(ctx)
     -- THEGOPHER.scr:18
-    ctx:command("getrandomint", "0, 10, g_nRandom") -- THEGOPHER.scr:20
+    ctx:randomInt(0, 10, "g_nRandom") -- THEGOPHER.scr:20
     if ctx:condition("g_nRandom < 6") then -- THEGOPHER.scr:21
-        ctx:command("playanim", "up, GopherUpDone") -- THEGOPHER.scr:22
+        ctx:self():playAnimation("up", "GopherUpDone") -- THEGOPHER.scr:22
     else -- THEGOPHER.scr:23
         -- We put the gopher down here so we can peek out
-        ctx:command("playanim", "down, GopherDownDone") -- THEGOPHER.scr:25
+        ctx:self():playAnimation("down", "GopherDownDone") -- THEGOPHER.scr:25
     end -- THEGOPHER.scr:26
-    ctx:command("wait", "0, 2, WanderTick") -- THEGOPHER.scr:28
+    ctx:wait(0, 2, "WanderTick") -- THEGOPHER.scr:28
     do return ctx:exit("") end -- THEGOPHER.scr:30
 end
 
 script.labels["GopherUpDone"] = function(ctx)
     -- THEGOPHER.scr:33
-    ctx:command("wait", "0, 2 ,WanderTick") -- THEGOPHER.scr:35
+    ctx:wait(0, 2, "WanderTick") -- THEGOPHER.scr:35
     do return ctx:exit("") end -- THEGOPHER.scr:37
 end
 
 script.labels["GopherDownDone"] = function(ctx)
     -- THEGOPHER.scr:40
-    ctx:command("wait", "0, 4, GopherPeek") -- THEGOPHER.scr:42
+    ctx:wait(0, 4, "GopherPeek") -- THEGOPHER.scr:42
     do return ctx:exit("") end -- THEGOPHER.scr:44
 end
 
 script.labels["GopherPeek"] = function(ctx)
     -- THEGOPHER.scr:47
-    ctx:command("playanim", "peek") -- THEGOPHER.scr:49
+    ctx:self():playAnimation("peek") -- THEGOPHER.scr:49
     do return ctx:exit("") end -- THEGOPHER.scr:51
 end
 
@@ -55,17 +55,17 @@ script.labels["InitTheGopher"] = function(ctx)
     -- Set wander distance
     ctx:getParam(1, "g_nDistance") -- THEGOPHER.scr:64
     if ctx:condition("g_nDistance != 0") then -- THEGOPHER.scr:66
-        ctx:command("set", "MAX_DIST_FROM_STARTPOINT, g_nDistance") -- THEGOPHER.scr:67
+        ctx:set("MAX_DIST_FROM_STARTPOINT", "g_nDistance") -- THEGOPHER.scr:67
     else -- THEGOPHER.scr:68
-        ctx:command("set", "MAX_DIST_FROM_STARTPOINT, 350") -- THEGOPHER.scr:69
+        ctx:state().MAX_DIST_FROM_STARTPOINT = 350 -- THEGOPHER.scr:69
     end -- THEGOPHER.scr:70
     -- Set how often we idle 1 equals 10% valid numbers are 1 to 10
-    ctx:command("set", "g_IdleFrequency, 10") -- THEGOPHER.scr:73
+    ctx:state().g_IdleFrequency = 10 -- THEGOPHER.scr:73
     -- Set max time in seconds before idle check
-    ctx:command("set", "g_IdleCheckMin, 10") -- THEGOPHER.scr:76
-    ctx:command("set", "g_IdleCheckMax, 10") -- THEGOPHER.scr:77
+    ctx:state().g_IdleCheckMin = 10 -- THEGOPHER.scr:76
+    ctx:state().g_IdleCheckMax = 10 -- THEGOPHER.scr:77
     -- Set how often special anim is played valid numbers are 1 to 10
-    ctx:command("set", "g_SpecialAnimFrequency, 7") -- THEGOPHER.scr:80
+    ctx:state().g_SpecialAnimFrequency = 7 -- THEGOPHER.scr:80
     do return ctx:exit("") end -- THEGOPHER.scr:82
 end
 

@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/arslegardcity.lua
+  script_ir: ../events/arslegardcity.script_ir.yml
 objects:
 - object_id: mm9:arslegardcity:object:0
   source_object_index: 0
@@ -49661,7 +49662,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger0
-    Pos: &id131
+    Pos: &id192
     - 3027.010986328125
     - -98.29986572265625
     - -11337.9794921875
@@ -169951,6 +169952,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id090 []
 - mechanism_id: mm9:arslegardcity:object:21:mechanism
   object_id: mm9:arslegardcity:object:21
@@ -169962,6 +169964,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id091 []
 - mechanism_id: mm9:arslegardcity:object:23:mechanism
   object_id: mm9:arslegardcity:object:23
@@ -169991,6 +169994,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TavernDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id092 []
 - mechanism_id: mm9:arslegardcity:object:24:mechanism
   object_id: mm9:arslegardcity:object:24
@@ -170020,6 +170052,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TavernDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id093 []
 - mechanism_id: mm9:arslegardcity:object:25:mechanism
   object_id: mm9:arslegardcity:object:25
@@ -170049,6 +170110,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: BankDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id094 []
 - mechanism_id: mm9:arslegardcity:object:26:mechanism
   object_id: mm9:arslegardcity:object:26
@@ -170078,6 +170168,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: BankDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id095 []
 - mechanism_id: mm9:arslegardcity:object:27:mechanism
   object_id: mm9:arslegardcity:object:27
@@ -170107,6 +170226,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: WeaponDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id096 []
 - mechanism_id: mm9:arslegardcity:object:28:mechanism
   object_id: mm9:arslegardcity:object:28
@@ -170136,6 +170284,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: WeaponDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id097 []
 - mechanism_id: mm9:arslegardcity:object:29:mechanism
   object_id: mm9:arslegardcity:object:29
@@ -170165,6 +170342,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ArmorDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id098 []
 - mechanism_id: mm9:arslegardcity:object:30:mechanism
   object_id: mm9:arslegardcity:object:30
@@ -170194,6 +170400,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ArmorDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id099 []
 - mechanism_id: mm9:arslegardcity:object:31:mechanism
   object_id: mm9:arslegardcity:object:31
@@ -170223,6 +170458,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LibraryDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id100 []
 - mechanism_id: mm9:arslegardcity:object:32:mechanism
   object_id: mm9:arslegardcity:object:32
@@ -170252,6 +170516,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: LibraryDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id101 []
 - mechanism_id: mm9:arslegardcity:object:33:mechanism
   object_id: mm9:arslegardcity:object:33
@@ -170281,6 +170574,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: NjamDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door02.wav
+    authored: true
   trigger_outputs: &id102 []
 - mechanism_id: mm9:arslegardcity:object:34:mechanism
   object_id: mm9:arslegardcity:object:34
@@ -170310,6 +170632,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: NjamDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door02.wav
+    authored: true
   trigger_outputs: &id103 []
 - mechanism_id: mm9:arslegardcity:object:35:mechanism
   object_id: mm9:arslegardcity:object:35
@@ -170339,6 +170690,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door02.wav
+    authored: true
   trigger_outputs: &id104 []
 - mechanism_id: mm9:arslegardcity:object:36:mechanism
   object_id: mm9:arslegardcity:object:36
@@ -170368,6 +170748,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: MagicDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id105 []
 - mechanism_id: mm9:arslegardcity:object:37:mechanism
   object_id: mm9:arslegardcity:object:37
@@ -170397,6 +170806,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: MagicDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id106 []
 - mechanism_id: mm9:arslegardcity:object:51:mechanism
   object_id: mm9:arslegardcity:object:51
@@ -170426,6 +170864,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TrainingDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id107 []
 - mechanism_id: mm9:arslegardcity:object:52:mechanism
   object_id: mm9:arslegardcity:object:52
@@ -170455,6 +170922,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TrainingDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id108 []
 - mechanism_id: mm9:arslegardcity:object:53:mechanism
   object_id: mm9:arslegardcity:object:53
@@ -170484,6 +170980,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TempleDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id109 []
 - mechanism_id: mm9:arslegardcity:object:54:mechanism
   object_id: mm9:arslegardcity:object:54
@@ -170513,6 +171038,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TempleDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id110 []
 - mechanism_id: mm9:arslegardcity:object:57:mechanism
   object_id: mm9:arslegardcity:object:57
@@ -170542,6 +171096,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id111 []
 - mechanism_id: mm9:arslegardcity:object:85:mechanism
   object_id: mm9:arslegardcity:object:85
@@ -170571,6 +171154,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: GeneralDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id112 []
 - mechanism_id: mm9:arslegardcity:object:86:mechanism
   object_id: mm9:arslegardcity:object:86
@@ -170600,6 +171212,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: GeneralDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id113 []
 - mechanism_id: mm9:arslegardcity:object:87:mechanism
   object_id: mm9:arslegardcity:object:87
@@ -170611,6 +171252,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id114 []
 - mechanism_id: mm9:arslegardcity:object:88:mechanism
   object_id: mm9:arslegardcity:object:88
@@ -170622,6 +171264,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id115 []
 - mechanism_id: mm9:arslegardcity:object:90:mechanism
   object_id: mm9:arslegardcity:object:90
@@ -170633,6 +171276,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id116 []
 - mechanism_id: mm9:arslegardcity:object:91:mechanism
   object_id: mm9:arslegardcity:object:91
@@ -170644,6 +171288,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id117 []
 - mechanism_id: mm9:arslegardcity:object:98:mechanism
   object_id: mm9:arslegardcity:object:98
@@ -170673,6 +171318,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ClankDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id118 []
 - mechanism_id: mm9:arslegardcity:object:99:mechanism
   object_id: mm9:arslegardcity:object:99
@@ -170702,6 +171376,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ClankDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id119 []
 - mechanism_id: mm9:arslegardcity:object:102:mechanism
   object_id: mm9:arslegardcity:object:102
@@ -170731,6 +171434,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: GeneralDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id120 []
 - mechanism_id: mm9:arslegardcity:object:103:mechanism
   object_id: mm9:arslegardcity:object:103
@@ -170760,6 +171492,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: GeneralDoor3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id121 []
 - mechanism_id: mm9:arslegardcity:object:138:mechanism
   object_id: mm9:arslegardcity:object:138
@@ -170771,6 +171532,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id122 []
 - mechanism_id: mm9:arslegardcity:object:139:mechanism
   object_id: mm9:arslegardcity:object:139
@@ -170782,6 +171544,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id123 []
 - mechanism_id: mm9:arslegardcity:object:141:mechanism
   object_id: mm9:arslegardcity:object:141
@@ -170793,6 +171556,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id124 []
 - mechanism_id: mm9:arslegardcity:object:146:mechanism
   object_id: mm9:arslegardcity:object:146
@@ -170804,6 +171568,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id125 []
 - mechanism_id: mm9:arslegardcity:object:431:mechanism
   object_id: mm9:arslegardcity:object:431
@@ -170833,6 +171598,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door02.wav
+    authored: true
   trigger_outputs: &id127 []
 - mechanism_id: mm9:arslegardcity:object:641:mechanism
   object_id: mm9:arslegardcity:object:641
@@ -170844,6 +171638,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:arslegardcity:object:642:mechanism
   object_id: mm9:arslegardcity:object:642
@@ -170855,6 +171650,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:arslegardcity:object:643:mechanism
   object_id: mm9:arslegardcity:object:643
@@ -170866,6 +171662,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:arslegardcity:object:644:mechanism
   object_id: mm9:arslegardcity:object:644
@@ -170877,6 +171674,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:arslegardcity:object:649:mechanism
   object_id: mm9:arslegardcity:object:649
@@ -170906,6 +171704,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: RotatingDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id128
   - phase: close
     slot: 0
@@ -170944,6 +171771,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: RotatingDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id129
   - phase: close
     slot: 0
@@ -170974,6 +171830,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id130 []
 triggers:
 - trigger_id: mm9:arslegardcity:object:153:trigger
@@ -175636,88 +176521,703 @@ bindings:
 - object_id: mm9:arslegardcity:object:19
   source_object_index: 19
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: Ladder6
+    source_model_name: Ladder6
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Ladder6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id131
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: Ladder6
+    source_model_name: Ladder6
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Ladder6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id131
+- object_id: mm9:arslegardcity:object:20
+  source_object_index: 20
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: WorldObject11
+    source_model_name: WorldObject11
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: WorldObject11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id132
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: WorldObject11
+    source_model_name: WorldObject11
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: WorldObject11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id132
 - object_id: mm9:arslegardcity:object:21
   source_object_index: 21
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: Ladder7
+    source_model_name: Ladder7
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: Ladder7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id133
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: Ladder7
+    source_model_name: Ladder7
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: Ladder7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id133
+- object_id: mm9:arslegardcity:object:22
+  source_object_index: 22
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: WorldObject12
+    source_model_name: WorldObject12
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: WorldObject12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id134
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: WorldObject12
+    source_model_name: WorldObject12
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: WorldObject12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id134
 - object_id: mm9:arslegardcity:object:23
   source_object_index: 23
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: TavernDoor0
+    source_model_name: TavernDoor0
+    source_polygon_group: &id178
+      source_model_index: 4
+      source_model_name: TavernDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id135
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: TavernDoor0
+    source_model_name: TavernDoor0
+    source_polygon_group: &id179
+      source_model_index: 4
+      source_model_name: TavernDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id135
 - object_id: mm9:arslegardcity:object:24
   source_object_index: 24
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: TavernDoor1
+    source_model_name: TavernDoor1
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: TavernDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id136
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: TavernDoor1
+    source_model_name: TavernDoor1
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: TavernDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id136
 - object_id: mm9:arslegardcity:object:25
   source_object_index: 25
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_source_model_name
+    bmodel_index: 6
+    bmodel_name: BankDoor0
+    source_model_name: BankDoor0
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: BankDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id137
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_bmodel_name
+    bmodel_index: 6
+    bmodel_name: BankDoor0
+    source_model_name: BankDoor0
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: BankDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id137
 - object_id: mm9:arslegardcity:object:26
   source_object_index: 26
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_source_model_name
+    bmodel_index: 7
+    bmodel_name: BankDoor1
+    source_model_name: BankDoor1
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: BankDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id138
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_bmodel_name
+    bmodel_index: 7
+    bmodel_name: BankDoor1
+    source_model_name: BankDoor1
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: BankDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id138
 - object_id: mm9:arslegardcity:object:27
   source_object_index: 27
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_source_model_name
+    bmodel_index: 8
+    bmodel_name: WeaponDoor0
+    source_model_name: WeaponDoor0
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: WeaponDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id139
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_bmodel_name
+    bmodel_index: 8
+    bmodel_name: WeaponDoor0
+    source_model_name: WeaponDoor0
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: WeaponDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id139
 - object_id: mm9:arslegardcity:object:28
   source_object_index: 28
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_source_model_name
+    bmodel_index: 9
+    bmodel_name: WeaponDoor1
+    source_model_name: WeaponDoor1
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: WeaponDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id140
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_bmodel_name
+    bmodel_index: 9
+    bmodel_name: WeaponDoor1
+    source_model_name: WeaponDoor1
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: WeaponDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id140
 - object_id: mm9:arslegardcity:object:29
   source_object_index: 29
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_source_model_name
+    bmodel_index: 10
+    bmodel_name: ArmorDoor0
+    source_model_name: ArmorDoor0
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: ArmorDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id141
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_bmodel_name
+    bmodel_index: 10
+    bmodel_name: ArmorDoor0
+    source_model_name: ArmorDoor0
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: ArmorDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id141
 - object_id: mm9:arslegardcity:object:30
   source_object_index: 30
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_source_model_name
+    bmodel_index: 11
+    bmodel_name: ArmorDoor1
+    source_model_name: ArmorDoor1
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: ArmorDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id142
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_bmodel_name
+    bmodel_index: 11
+    bmodel_name: ArmorDoor1
+    source_model_name: ArmorDoor1
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: ArmorDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id142
 - object_id: mm9:arslegardcity:object:31
   source_object_index: 31
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_source_model_name
+    bmodel_index: 12
+    bmodel_name: LibraryDoor1
+    source_model_name: LibraryDoor1
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: LibraryDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id143
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_bmodel_name
+    bmodel_index: 12
+    bmodel_name: LibraryDoor1
+    source_model_name: LibraryDoor1
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: LibraryDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id143
 - object_id: mm9:arslegardcity:object:32
   source_object_index: 32
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_source_model_name
+    bmodel_index: 13
+    bmodel_name: LibraryDoor0
+    source_model_name: LibraryDoor0
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: LibraryDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id144
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_bmodel_name
+    bmodel_index: 13
+    bmodel_name: LibraryDoor0
+    source_model_name: LibraryDoor0
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: LibraryDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id144
 - object_id: mm9:arslegardcity:object:33
   source_object_index: 33
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_source_model_name
+    bmodel_index: 14
+    bmodel_name: NjamDoor0
+    source_model_name: NjamDoor0
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: NjamDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id145
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_bmodel_name
+    bmodel_index: 14
+    bmodel_name: NjamDoor0
+    source_model_name: NjamDoor0
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: NjamDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id145
 - object_id: mm9:arslegardcity:object:34
   source_object_index: 34
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_source_model_name
+    bmodel_index: 15
+    bmodel_name: NjamDoor1
+    source_model_name: NjamDoor1
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: NjamDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id146
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_bmodel_name
+    bmodel_index: 15
+    bmodel_name: NjamDoor1
+    source_model_name: NjamDoor1
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: NjamDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id146
 - object_id: mm9:arslegardcity:object:35
   source_object_index: 35
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_source_model_name
+    bmodel_index: 16
+    bmodel_name: NjamBackDoor0
+    source_model_name: NjamBackDoor0
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: NjamBackDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id147
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_bmodel_name
+    bmodel_index: 16
+    bmodel_name: NjamBackDoor0
+    source_model_name: NjamBackDoor0
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: NjamBackDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id147
 - object_id: mm9:arslegardcity:object:36
   source_object_index: 36
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_source_model_name
+    bmodel_index: 17
+    bmodel_name: MagicDoor0
+    source_model_name: MagicDoor0
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: MagicDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id148
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_bmodel_name
+    bmodel_index: 17
+    bmodel_name: MagicDoor0
+    source_model_name: MagicDoor0
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: MagicDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id148
 - object_id: mm9:arslegardcity:object:37
   source_object_index: 37
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_source_model_name
+    bmodel_index: 18
+    bmodel_name: MagicDoor1
+    source_model_name: MagicDoor1
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: MagicDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id149
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_bmodel_name
+    bmodel_index: 18
+    bmodel_name: MagicDoor1
+    source_model_name: MagicDoor1
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: MagicDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id149
+- object_id: mm9:arslegardcity:object:38
+  source_object_index: 38
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_source_model_name
+    bmodel_index: 19
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: Terrain0
+      source_poly_count: 680
+      source_surface_count: 546
+      roles: &id150
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_bmodel_name
+    bmodel_index: 19
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: Terrain0
+      source_poly_count: 680
+      source_surface_count: 546
+      roles: *id150
 - object_id: mm9:arslegardcity:object:39
   source_object_index: 39
   targets:
@@ -175760,31 +177260,321 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:47
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:48
+  source_object_index: 48
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_source_model_name
+    bmodel_index: 20
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: WorldObject0
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: &id151
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_bmodel_name
+    bmodel_index: 20
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: WorldObject0
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: *id151
+- object_id: mm9:arslegardcity:object:49
+  source_object_index: 49
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_source_model_name
+    bmodel_index: 21
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: WorldObject1
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: &id152
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_bmodel_name
+    bmodel_index: 21
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: WorldObject1
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: *id152
+- object_id: mm9:arslegardcity:object:50
+  source_object_index: 50
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_source_model_name
+    bmodel_index: 22
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: WorldObject2
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: &id153
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_bmodel_name
+    bmodel_index: 22
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: WorldObject2
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: *id153
 - object_id: mm9:arslegardcity:object:51
   source_object_index: 51
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_source_model_name
+    bmodel_index: 23
+    bmodel_name: TrainingDoor0
+    source_model_name: TrainingDoor0
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: TrainingDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id154
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_bmodel_name
+    bmodel_index: 23
+    bmodel_name: TrainingDoor0
+    source_model_name: TrainingDoor0
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: TrainingDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id154
 - object_id: mm9:arslegardcity:object:52
   source_object_index: 52
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_source_model_name
+    bmodel_index: 24
+    bmodel_name: TrainingDoor1
+    source_model_name: TrainingDoor1
+    source_polygon_group:
+      source_model_index: 24
+      source_model_name: TrainingDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id155
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_bmodel_name
+    bmodel_index: 24
+    bmodel_name: TrainingDoor1
+    source_model_name: TrainingDoor1
+    source_polygon_group:
+      source_model_index: 24
+      source_model_name: TrainingDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id155
 - object_id: mm9:arslegardcity:object:53
   source_object_index: 53
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_source_model_name
+    bmodel_index: 25
+    bmodel_name: TempleDoor1
+    source_model_name: TempleDoor1
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: TempleDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id156
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_bmodel_name
+    bmodel_index: 25
+    bmodel_name: TempleDoor1
+    source_model_name: TempleDoor1
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: TempleDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id156
 - object_id: mm9:arslegardcity:object:54
   source_object_index: 54
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_source_model_name
+    bmodel_index: 26
+    bmodel_name: TempleDoor0
+    source_model_name: TempleDoor0
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: TempleDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id157
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_bmodel_name
+    bmodel_index: 26
+    bmodel_name: TempleDoor0
+    source_model_name: TempleDoor0
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: TempleDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id157
+- object_id: mm9:arslegardcity:object:56
+  source_object_index: 56
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_source_model_name
+    bmodel_index: 27
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: WorldObject3
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: &id158
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_bmodel_name
+    bmodel_index: 27
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: WorldObject3
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: *id158
 - object_id: mm9:arslegardcity:object:57
   source_object_index: 57
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_source_model_name
+    bmodel_index: 28
+    bmodel_name: CounterDoor
+    source_model_name: CounterDoor
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: CounterDoor
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id159
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_bmodel_name
+    bmodel_index: 28
+    bmodel_name: CounterDoor
+    source_model_name: CounterDoor
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: CounterDoor
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id159
 - object_id: mm9:arslegardcity:object:58
   source_object_index: 58
   targets:
@@ -175839,6 +177629,41 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:66
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:67
+  source_object_index: 67
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_source_model_name
+    bmodel_index: 29
+    bmodel_name: WorldObject4
+    source_model_name: WorldObject4
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: WorldObject4
+      source_poly_count: 132
+      source_surface_count: 132
+      roles: &id160
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_bmodel_name
+    bmodel_index: 29
+    bmodel_name: WorldObject4
+    source_model_name: WorldObject4
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: WorldObject4
+      source_poly_count: 132
+      source_surface_count: 132
+      roles: *id160
 - object_id: mm9:arslegardcity:object:68
   source_object_index: 68
   targets:
@@ -175935,56 +177760,496 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:83
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:84
+  source_object_index: 84
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_source_model_name
+    bmodel_index: 30
+    bmodel_name: WorldObject5
+    source_model_name: WorldObject5
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: WorldObject5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id161
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_bmodel_name
+    bmodel_index: 30
+    bmodel_name: WorldObject5
+    source_model_name: WorldObject5
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: WorldObject5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id161
 - object_id: mm9:arslegardcity:object:85
   source_object_index: 85
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_source_model_name
+    bmodel_index: 31
+    bmodel_name: GeneralDoor0
+    source_model_name: GeneralDoor0
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: GeneralDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id162
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_bmodel_name
+    bmodel_index: 31
+    bmodel_name: GeneralDoor0
+    source_model_name: GeneralDoor0
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: GeneralDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id162
 - object_id: mm9:arslegardcity:object:86
   source_object_index: 86
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_source_model_name
+    bmodel_index: 32
+    bmodel_name: GeneralDoor1
+    source_model_name: GeneralDoor1
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: GeneralDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id163
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_bmodel_name
+    bmodel_index: 32
+    bmodel_name: GeneralDoor1
+    source_model_name: GeneralDoor1
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: GeneralDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id163
 - object_id: mm9:arslegardcity:object:87
   source_object_index: 87
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_source_model_name
+    bmodel_index: 33
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: BlueWater0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id164
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_bmodel_name
+    bmodel_index: 33
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: BlueWater0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id164
 - object_id: mm9:arslegardcity:object:88
   source_object_index: 88
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_source_model_name
+    bmodel_index: 34
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id165
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_bmodel_name
+    bmodel_index: 34
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id165
+- object_id: mm9:arslegardcity:object:89
+  source_object_index: 89
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_source_model_name
+    bmodel_index: 35
+    bmodel_name: WorldObject8
+    source_model_name: WorldObject8
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: WorldObject8
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id166
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_bmodel_name
+    bmodel_index: 35
+    bmodel_name: WorldObject8
+    source_model_name: WorldObject8
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: WorldObject8
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id166
 - object_id: mm9:arslegardcity:object:90
   source_object_index: 90
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_source_model_name
+    bmodel_index: 36
+    bmodel_name: BlueWater2
+    source_model_name: BlueWater2
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: BlueWater2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id167
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_bmodel_name
+    bmodel_index: 36
+    bmodel_name: BlueWater2
+    source_model_name: BlueWater2
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: BlueWater2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id167
 - object_id: mm9:arslegardcity:object:91
   source_object_index: 91
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_source_model_name
+    bmodel_index: 37
+    bmodel_name: BlueWater3
+    source_model_name: BlueWater3
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: BlueWater3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id168
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_bmodel_name
+    bmodel_index: 37
+    bmodel_name: BlueWater3
+    source_model_name: BlueWater3
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: BlueWater3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id168
+- object_id: mm9:arslegardcity:object:92
+  source_object_index: 92
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_source_model_name
+    bmodel_index: 38
+    bmodel_name: WorldObject7
+    source_model_name: WorldObject7
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: WorldObject7
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id169
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_bmodel_name
+    bmodel_index: 38
+    bmodel_name: WorldObject7
+    source_model_name: WorldObject7
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: WorldObject7
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id169
+- object_id: mm9:arslegardcity:object:96
+  source_object_index: 96
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_source_model_name
+    bmodel_index: 39
+    bmodel_name: WorldObject6
+    source_model_name: WorldObject6
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: WorldObject6
+      source_poly_count: 9
+      source_surface_count: 9
+      roles: &id170
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_bmodel_name
+    bmodel_index: 39
+    bmodel_name: WorldObject6
+    source_model_name: WorldObject6
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: WorldObject6
+      source_poly_count: 9
+      source_surface_count: 9
+      roles: *id170
 - object_id: mm9:arslegardcity:object:98
   source_object_index: 98
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_source_model_name
+    bmodel_index: 40
+    bmodel_name: ClankDoor1
+    source_model_name: ClankDoor1
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: ClankDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id171
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_bmodel_name
+    bmodel_index: 40
+    bmodel_name: ClankDoor1
+    source_model_name: ClankDoor1
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: ClankDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id171
 - object_id: mm9:arslegardcity:object:99
   source_object_index: 99
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_source_model_name
+    bmodel_index: 41
+    bmodel_name: ClankDoor2
+    source_model_name: ClankDoor2
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: ClankDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id172
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_bmodel_name
+    bmodel_index: 41
+    bmodel_name: ClankDoor2
+    source_model_name: ClankDoor2
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: ClankDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id172
 - object_id: mm9:arslegardcity:object:102
   source_object_index: 102
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_source_model_name
+    bmodel_index: 42
+    bmodel_name: GeneralDoor3
+    source_model_name: GeneralDoor3
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: GeneralDoor3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id173
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_bmodel_name
+    bmodel_index: 42
+    bmodel_name: GeneralDoor3
+    source_model_name: GeneralDoor3
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: GeneralDoor3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id173
 - object_id: mm9:arslegardcity:object:103
   source_object_index: 103
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_source_model_name
+    bmodel_index: 43
+    bmodel_name: GeneralDoor2
+    source_model_name: GeneralDoor2
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: GeneralDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id174
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_bmodel_name
+    bmodel_index: 43
+    bmodel_name: GeneralDoor2
+    source_model_name: GeneralDoor2
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: GeneralDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id174
 - object_id: mm9:arslegardcity:object:104
   source_object_index: 104
   targets:
@@ -176188,21 +178453,409 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id236
+    - source_model_index: 81
+      source_name: Door0
+      movable: true
+      world_translation_lt: &id181
+      - 5656.0
+      - -126.0
+      - -6454.0
+      distance_from_position_lt: 55.929
+      claimed_by_exact_bindings: &id182
+      - source_object_index: 651
+        source_name: Door0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5664.0
+        - -126.0
+        - -6456.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:81
+        bmodel_index: 81
+        bmodel_name: Door0
+        source_model_name: Door0
+        source_polygon_group: &id234
+          source_model_index: 81
+          source_model_name: Door0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id175
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 651
+        source_name: Door0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5664.0
+        - -126.0
+        - -6456.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:81
+        bmodel_index: 81
+        bmodel_name: Door0
+        source_model_name: Door0
+        source_polygon_group: &id235
+          source_model_index: 81
+          source_model_name: Door0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id175
+    - source_model_index: 80
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: &id185
+      - 5560.0
+      - 88.00006103515625
+      - -6456.0
+      distance_from_position_lt: 199.439
+      claimed_by_exact_bindings: &id186
+      - source_object_index: 650
+        source_name: RotatingDoor0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5488.0
+        - 96.0
+        - -6448.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:80
+        bmodel_index: 80
+        bmodel_name: RotatingDoor0
+        source_model_name: RotatingDoor0
+        source_polygon_group: &id232
+          source_model_index: 80
+          source_model_name: RotatingDoor0
+          source_poly_count: 8
+          source_surface_count: 8
+          roles: &id176
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 650
+        source_name: RotatingDoor0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5488.0
+        - 96.0
+        - -6448.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:80
+        bmodel_index: 80
+        bmodel_name: RotatingDoor0
+        source_model_name: RotatingDoor0
+        source_polygon_group: &id233
+          source_model_index: 80
+          source_model_name: RotatingDoor0
+          source_poly_count: 8
+          source_surface_count: 8
+          roles: *id176
+    - source_model_index: 79
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: &id183
+      - 5704.0
+      - 88.0001220703125
+      - -6456.0
+      distance_from_position_lt: 202.307
+      claimed_by_exact_bindings: &id184
+      - source_object_index: 649
+        source_name: RotatingDoor1
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5776.0
+        - 96.0
+        - -6448.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:79
+        bmodel_index: 79
+        bmodel_name: RotatingDoor1
+        source_model_name: RotatingDoor1
+        source_polygon_group: &id230
+          source_model_index: 79
+          source_model_name: RotatingDoor1
+          source_poly_count: 36
+          source_surface_count: 36
+          roles: &id177
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 649
+        source_name: RotatingDoor1
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5776.0
+        - 96.0
+        - -6448.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:79
+        bmodel_index: 79
+        bmodel_name: RotatingDoor1
+        source_model_name: RotatingDoor1
+        source_polygon_group: &id231
+          source_model_index: 79
+          source_model_name: RotatingDoor1
+          source_poly_count: 36
+          source_surface_count: 36
+          roles: *id177
+    - source_model_index: 4
+      source_name: TavernDoor0
+      movable: true
+      world_translation_lt: &id187
+      - 5368.0
+      - -136.0
+      - -7936.0
+      distance_from_position_lt: 1467.766
+      claimed_by_exact_bindings: &id188
+      - source_object_index: 23
+        source_name: TavernDoor0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5368.0
+        - -136.0
+        - -7908.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: TavernDoor0
+        source_model_name: TavernDoor0
+        source_polygon_group: *id178
+      - source_object_index: 23
+        source_name: TavernDoor0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5368.0
+        - -136.0
+        - -7908.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: TavernDoor0
+        source_model_name: TavernDoor0
+        source_polygon_group: *id179
+    - source_model_index: 73
+      source_name: WorldObject53
+      movable: true
+      world_translation_lt: &id189
+      - 5304.0
+      - -12.0
+      - -7967.0
+      distance_from_position_lt: 1512.5
+      claimed_by_exact_bindings: &id190
+      - source_object_index: 637
+        source_name: WorldObject53
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5304.0
+        - -12.0
+        - -7967.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:73
+        bmodel_index: 73
+        bmodel_name: WorldObject53
+        source_model_name: WorldObject53
+        source_polygon_group: &id222
+          source_model_index: 73
+          source_model_name: WorldObject53
+          source_poly_count: 12
+          source_surface_count: 12
+          roles: &id180
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 637
+        source_name: WorldObject53
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5304.0
+        - -12.0
+        - -7967.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:73
+        bmodel_index: 73
+        bmodel_name: WorldObject53
+        source_model_name: WorldObject53
+        source_polygon_group: &id223
+          source_model_index: 73
+          source_model_name: WorldObject53
+          source_poly_count: 12
+          source_surface_count: 12
+          roles: *id180
 - object_id: mm9:arslegardcity:object:139
   source_object_index: 139
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id237
+    - source_model_index: 81
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 60.332
+      claimed_by_exact_bindings: *id182
+    - source_model_index: 79
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 187.872
+      claimed_by_exact_bindings: *id184
+    - source_model_index: 80
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 229.295
+      claimed_by_exact_bindings: *id186
+    - source_model_index: 4
+      source_name: TavernDoor0
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 1480.443
+      claimed_by_exact_bindings: *id188
+    - source_model_index: 73
+      source_name: WorldObject53
+      movable: true
+      world_translation_lt: *id189
+      distance_from_position_lt: 1527.49
+      claimed_by_exact_bindings: *id190
 - object_id: mm9:arslegardcity:object:141
   source_object_index: 141
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id238
+    - source_model_index: 81
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 1342.323
+      claimed_by_exact_bindings: *id182
+    - source_model_index: 79
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 1429.361
+      claimed_by_exact_bindings: *id184
+    - source_model_index: 80
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 1429.361
+      claimed_by_exact_bindings: *id186
+    - source_model_index: 78
+      source_name: SkyBox0
+      movable: true
+      world_translation_lt:
+      - 3520.0
+      - -704.0
+      - -5088.0
+      distance_from_position_lt: 2119.079
+      claimed_by_exact_bindings:
+      - source_object_index: 646
+        source_name: SkyBox0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 3520.0
+        - -704.0
+        - -5088.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:78
+        bmodel_index: 78
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: &id228
+          source_model_index: 78
+          source_model_name: SkyBox0
+          source_poly_count: 12
+          source_surface_count: 12
+          roles: &id191
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: true
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 646
+        source_name: SkyBox0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 3520.0
+        - -704.0
+        - -5088.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:78
+        bmodel_index: 78
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: &id229
+          source_model_index: 78
+          source_model_name: SkyBox0
+          source_poly_count: 12
+          source_surface_count: 12
+          roles: *id191
+    - source_model_index: 4
+      source_name: TavernDoor0
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 2796.958
+      claimed_by_exact_bindings: *id188
 - object_id: mm9:arslegardcity:object:146
   source_object_index: 146
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id239
+    - source_model_index: 81
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 51.614
+      claimed_by_exact_bindings: *id182
+    - source_model_index: 79
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 194.319
+      claimed_by_exact_bindings: *id184
+    - source_model_index: 80
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 211.358
+      claimed_by_exact_bindings: *id186
+    - source_model_index: 4
+      source_name: TavernDoor0
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 1469.062
+      claimed_by_exact_bindings: *id188
+    - source_model_index: 73
+      source_name: WorldObject53
+      movable: true
+      world_translation_lt: *id189
+      distance_from_position_lt: 1514.86
+      claimed_by_exact_bindings: *id190
 - object_id: mm9:arslegardcity:object:152
   source_object_index: 152
   targets:
@@ -176215,7 +178868,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:arslegardcity:object:153:volume
     confidence: source_object_volume
-    pos_lt: *id131
+    pos_lt: *id192
     dims_lt: *id089
 - object_id: mm9:arslegardcity:object:154
   source_object_index: 154
@@ -176355,6 +179008,111 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:176
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:177
+  source_object_index: 177
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_source_model_name
+    bmodel_index: 44
+    bmodel_name: Carpet10
+    source_model_name: Carpet10
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: Carpet10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id193
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_bmodel_name
+    bmodel_index: 44
+    bmodel_name: Carpet10
+    source_model_name: Carpet10
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: Carpet10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id193
+- object_id: mm9:arslegardcity:object:178
+  source_object_index: 178
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_source_model_name
+    bmodel_index: 45
+    bmodel_name: Carpet11
+    source_model_name: Carpet11
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: Carpet11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id194
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_bmodel_name
+    bmodel_index: 45
+    bmodel_name: Carpet11
+    source_model_name: Carpet11
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: Carpet11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id194
+- object_id: mm9:arslegardcity:object:179
+  source_object_index: 179
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_source_model_name
+    bmodel_index: 46
+    bmodel_name: Carpet12
+    source_model_name: Carpet12
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: Carpet12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id195
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_bmodel_name
+    bmodel_index: 46
+    bmodel_name: Carpet12
+    source_model_name: Carpet12
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: Carpet12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id195
 - object_id: mm9:arslegardcity:object:180
   source_object_index: 180
   targets:
@@ -177864,14 +180622,79 @@ bindings:
 - object_id: mm9:arslegardcity:object:431
   source_object_index: 431
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_source_model_name
+    bmodel_index: 47
+    bmodel_name: Njamdoor
+    source_model_name: Njamdoor
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: Njamdoor
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id196
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_bmodel_name
+    bmodel_index: 47
+    bmodel_name: Njamdoor
+    source_model_name: Njamdoor
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: Njamdoor
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id196
 - object_id: mm9:arslegardcity:object:432
   source_object_index: 432
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:432
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:433
+  source_object_index: 433
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_source_model_name
+    bmodel_index: 48
+    bmodel_name: Carpet13
+    source_model_name: Carpet13
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: Carpet13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id197
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_bmodel_name
+    bmodel_index: 48
+    bmodel_name: Carpet13
+    source_model_name: Carpet13
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: Carpet13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id197
 - object_id: mm9:arslegardcity:object:434
   source_object_index: 434
   targets:
@@ -178346,42 +181169,287 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:519
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:521
+  source_object_index: 521
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_source_model_name
+    bmodel_index: 49
+    bmodel_name: WorldObject13
+    source_model_name: WorldObject13
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: WorldObject13
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id198
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_bmodel_name
+    bmodel_index: 49
+    bmodel_name: WorldObject13
+    source_model_name: WorldObject13
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: WorldObject13
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id198
 - object_id: mm9:arslegardcity:object:522
   source_object_index: 522
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:522
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:524
+  source_object_index: 524
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_source_model_name
+    bmodel_index: 50
+    bmodel_name: WorldObject14
+    source_model_name: WorldObject14
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: WorldObject14
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id199
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_bmodel_name
+    bmodel_index: 50
+    bmodel_name: WorldObject14
+    source_model_name: WorldObject14
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: WorldObject14
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id199
 - object_id: mm9:arslegardcity:object:525
   source_object_index: 525
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:525
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:527
+  source_object_index: 527
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_source_model_name
+    bmodel_index: 51
+    bmodel_name: WorldObject15
+    source_model_name: WorldObject15
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: WorldObject15
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id200
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_bmodel_name
+    bmodel_index: 51
+    bmodel_name: WorldObject15
+    source_model_name: WorldObject15
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: WorldObject15
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id200
 - object_id: mm9:arslegardcity:object:528
   source_object_index: 528
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:528
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:530
+  source_object_index: 530
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_source_model_name
+    bmodel_index: 52
+    bmodel_name: WorldObject16
+    source_model_name: WorldObject16
+    source_polygon_group:
+      source_model_index: 52
+      source_model_name: WorldObject16
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id201
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_bmodel_name
+    bmodel_index: 52
+    bmodel_name: WorldObject16
+    source_model_name: WorldObject16
+    source_polygon_group:
+      source_model_index: 52
+      source_model_name: WorldObject16
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id201
 - object_id: mm9:arslegardcity:object:531
   source_object_index: 531
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:531
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:533
+  source_object_index: 533
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_source_model_name
+    bmodel_index: 53
+    bmodel_name: WorldObject17
+    source_model_name: WorldObject17
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: WorldObject17
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id202
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_bmodel_name
+    bmodel_index: 53
+    bmodel_name: WorldObject17
+    source_model_name: WorldObject17
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: WorldObject17
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id202
 - object_id: mm9:arslegardcity:object:534
   source_object_index: 534
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:534
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:536
+  source_object_index: 536
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_source_model_name
+    bmodel_index: 54
+    bmodel_name: WorldObject18
+    source_model_name: WorldObject18
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: WorldObject18
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id203
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_bmodel_name
+    bmodel_index: 54
+    bmodel_name: WorldObject18
+    source_model_name: WorldObject18
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: WorldObject18
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id203
 - object_id: mm9:arslegardcity:object:537
   source_object_index: 537
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:537
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:539
+  source_object_index: 539
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:55
+    confidence: exact_source_model_name
+    bmodel_index: 55
+    bmodel_name: WorldObject19
+    source_model_name: WorldObject19
+    source_polygon_group:
+      source_model_index: 55
+      source_model_name: WorldObject19
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id204
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:55
+    confidence: exact_bmodel_name
+    bmodel_index: 55
+    bmodel_name: WorldObject19
+    source_model_name: WorldObject19
+    source_polygon_group:
+      source_model_index: 55
+      source_model_name: WorldObject19
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id204
 - object_id: mm9:arslegardcity:object:542
   source_object_index: 542
   targets:
@@ -178400,36 +181468,246 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:546
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:548
+  source_object_index: 548
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:56
+    confidence: exact_source_model_name
+    bmodel_index: 56
+    bmodel_name: WorldObject20
+    source_model_name: WorldObject20
+    source_polygon_group:
+      source_model_index: 56
+      source_model_name: WorldObject20
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id205
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:56
+    confidence: exact_bmodel_name
+    bmodel_index: 56
+    bmodel_name: WorldObject20
+    source_model_name: WorldObject20
+    source_polygon_group:
+      source_model_index: 56
+      source_model_name: WorldObject20
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id205
 - object_id: mm9:arslegardcity:object:549
   source_object_index: 549
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:549
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:551
+  source_object_index: 551
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:57
+    confidence: exact_source_model_name
+    bmodel_index: 57
+    bmodel_name: WorldObject21
+    source_model_name: WorldObject21
+    source_polygon_group:
+      source_model_index: 57
+      source_model_name: WorldObject21
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id206
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:57
+    confidence: exact_bmodel_name
+    bmodel_index: 57
+    bmodel_name: WorldObject21
+    source_model_name: WorldObject21
+    source_polygon_group:
+      source_model_index: 57
+      source_model_name: WorldObject21
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id206
 - object_id: mm9:arslegardcity:object:552
   source_object_index: 552
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:552
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:554
+  source_object_index: 554
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:58
+    confidence: exact_source_model_name
+    bmodel_index: 58
+    bmodel_name: WorldObject22
+    source_model_name: WorldObject22
+    source_polygon_group:
+      source_model_index: 58
+      source_model_name: WorldObject22
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id207
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:58
+    confidence: exact_bmodel_name
+    bmodel_index: 58
+    bmodel_name: WorldObject22
+    source_model_name: WorldObject22
+    source_polygon_group:
+      source_model_index: 58
+      source_model_name: WorldObject22
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id207
 - object_id: mm9:arslegardcity:object:555
   source_object_index: 555
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:555
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:557
+  source_object_index: 557
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:59
+    confidence: exact_source_model_name
+    bmodel_index: 59
+    bmodel_name: WorldObject23
+    source_model_name: WorldObject23
+    source_polygon_group:
+      source_model_index: 59
+      source_model_name: WorldObject23
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id208
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:59
+    confidence: exact_bmodel_name
+    bmodel_index: 59
+    bmodel_name: WorldObject23
+    source_model_name: WorldObject23
+    source_polygon_group:
+      source_model_index: 59
+      source_model_name: WorldObject23
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id208
 - object_id: mm9:arslegardcity:object:558
   source_object_index: 558
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:558
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:560
+  source_object_index: 560
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:60
+    confidence: exact_source_model_name
+    bmodel_index: 60
+    bmodel_name: WorldObject24
+    source_model_name: WorldObject24
+    source_polygon_group:
+      source_model_index: 60
+      source_model_name: WorldObject24
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id209
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:60
+    confidence: exact_bmodel_name
+    bmodel_index: 60
+    bmodel_name: WorldObject24
+    source_model_name: WorldObject24
+    source_polygon_group:
+      source_model_index: 60
+      source_model_name: WorldObject24
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id209
 - object_id: mm9:arslegardcity:object:561
   source_object_index: 561
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:561
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:563
+  source_object_index: 563
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:61
+    confidence: exact_source_model_name
+    bmodel_index: 61
+    bmodel_name: WorldObject25
+    source_model_name: WorldObject25
+    source_polygon_group:
+      source_model_index: 61
+      source_model_name: WorldObject25
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id210
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:61
+    confidence: exact_bmodel_name
+    bmodel_index: 61
+    bmodel_name: WorldObject25
+    source_model_name: WorldObject25
+    source_polygon_group:
+      source_model_index: 61
+      source_model_name: WorldObject25
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id210
 - object_id: mm9:arslegardcity:object:564
   source_object_index: 564
   targets:
@@ -178448,24 +181726,164 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:570
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:572
+  source_object_index: 572
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:62
+    confidence: exact_source_model_name
+    bmodel_index: 62
+    bmodel_name: WorldObject26
+    source_model_name: WorldObject26
+    source_polygon_group:
+      source_model_index: 62
+      source_model_name: WorldObject26
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id211
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:62
+    confidence: exact_bmodel_name
+    bmodel_index: 62
+    bmodel_name: WorldObject26
+    source_model_name: WorldObject26
+    source_polygon_group:
+      source_model_index: 62
+      source_model_name: WorldObject26
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id211
 - object_id: mm9:arslegardcity:object:573
   source_object_index: 573
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:573
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:575
+  source_object_index: 575
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:63
+    confidence: exact_source_model_name
+    bmodel_index: 63
+    bmodel_name: WorldObject27
+    source_model_name: WorldObject27
+    source_polygon_group:
+      source_model_index: 63
+      source_model_name: WorldObject27
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id212
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:63
+    confidence: exact_bmodel_name
+    bmodel_index: 63
+    bmodel_name: WorldObject27
+    source_model_name: WorldObject27
+    source_polygon_group:
+      source_model_index: 63
+      source_model_name: WorldObject27
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id212
 - object_id: mm9:arslegardcity:object:576
   source_object_index: 576
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:576
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:578
+  source_object_index: 578
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:64
+    confidence: exact_source_model_name
+    bmodel_index: 64
+    bmodel_name: WorldObject28
+    source_model_name: WorldObject28
+    source_polygon_group:
+      source_model_index: 64
+      source_model_name: WorldObject28
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id213
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:64
+    confidence: exact_bmodel_name
+    bmodel_index: 64
+    bmodel_name: WorldObject28
+    source_model_name: WorldObject28
+    source_polygon_group:
+      source_model_index: 64
+      source_model_name: WorldObject28
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id213
 - object_id: mm9:arslegardcity:object:579
   source_object_index: 579
   targets:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:579
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:581
+  source_object_index: 581
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:65
+    confidence: exact_source_model_name
+    bmodel_index: 65
+    bmodel_name: WorldObject29
+    source_model_name: WorldObject29
+    source_polygon_group:
+      source_model_index: 65
+      source_model_name: WorldObject29
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id214
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:65
+    confidence: exact_bmodel_name
+    bmodel_index: 65
+    bmodel_name: WorldObject29
+    source_model_name: WorldObject29
+    source_polygon_group:
+      source_model_index: 65
+      source_model_name: WorldObject29
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id214
 - object_id: mm9:arslegardcity:object:584
   source_object_index: 584
   targets:
@@ -178502,6 +181920,268 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:arslegardcity:object:597
     confidence: exact_source_object_index
+- object_id: mm9:arslegardcity:object:630
+  source_object_index: 630
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:66
+    confidence: exact_source_model_name
+    bmodel_index: 66
+    bmodel_name: WorldObject62
+    source_model_name: WorldObject62
+    source_polygon_group:
+      source_model_index: 66
+      source_model_name: WorldObject62
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id215
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:66
+    confidence: exact_bmodel_name
+    bmodel_index: 66
+    bmodel_name: WorldObject62
+    source_model_name: WorldObject62
+    source_polygon_group:
+      source_model_index: 66
+      source_model_name: WorldObject62
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id215
+- object_id: mm9:arslegardcity:object:631
+  source_object_index: 631
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:67
+    confidence: exact_source_model_name
+    bmodel_index: 67
+    bmodel_name: WorldObject61
+    source_model_name: WorldObject61
+    source_polygon_group:
+      source_model_index: 67
+      source_model_name: WorldObject61
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id216
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:67
+    confidence: exact_bmodel_name
+    bmodel_index: 67
+    bmodel_name: WorldObject61
+    source_model_name: WorldObject61
+    source_polygon_group:
+      source_model_index: 67
+      source_model_name: WorldObject61
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id216
+- object_id: mm9:arslegardcity:object:632
+  source_object_index: 632
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:68
+    confidence: exact_source_model_name
+    bmodel_index: 68
+    bmodel_name: WorldObject60
+    source_model_name: WorldObject60
+    source_polygon_group:
+      source_model_index: 68
+      source_model_name: WorldObject60
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id217
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:68
+    confidence: exact_bmodel_name
+    bmodel_index: 68
+    bmodel_name: WorldObject60
+    source_model_name: WorldObject60
+    source_polygon_group:
+      source_model_index: 68
+      source_model_name: WorldObject60
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id217
+- object_id: mm9:arslegardcity:object:633
+  source_object_index: 633
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:69
+    confidence: exact_source_model_name
+    bmodel_index: 69
+    bmodel_name: WorldObject59
+    source_model_name: WorldObject59
+    source_polygon_group:
+      source_model_index: 69
+      source_model_name: WorldObject59
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id218
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:69
+    confidence: exact_bmodel_name
+    bmodel_index: 69
+    bmodel_name: WorldObject59
+    source_model_name: WorldObject59
+    source_polygon_group:
+      source_model_index: 69
+      source_model_name: WorldObject59
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id218
+- object_id: mm9:arslegardcity:object:634
+  source_object_index: 634
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:70
+    confidence: exact_source_model_name
+    bmodel_index: 70
+    bmodel_name: WorldObject58
+    source_model_name: WorldObject58
+    source_polygon_group:
+      source_model_index: 70
+      source_model_name: WorldObject58
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id219
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:70
+    confidence: exact_bmodel_name
+    bmodel_index: 70
+    bmodel_name: WorldObject58
+    source_model_name: WorldObject58
+    source_polygon_group:
+      source_model_index: 70
+      source_model_name: WorldObject58
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id219
+- object_id: mm9:arslegardcity:object:635
+  source_object_index: 635
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:71
+    confidence: exact_source_model_name
+    bmodel_index: 71
+    bmodel_name: WorldObject57
+    source_model_name: WorldObject57
+    source_polygon_group:
+      source_model_index: 71
+      source_model_name: WorldObject57
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id220
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:71
+    confidence: exact_bmodel_name
+    bmodel_index: 71
+    bmodel_name: WorldObject57
+    source_model_name: WorldObject57
+    source_polygon_group:
+      source_model_index: 71
+      source_model_name: WorldObject57
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id220
+- object_id: mm9:arslegardcity:object:636
+  source_object_index: 636
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:72
+    confidence: exact_source_model_name
+    bmodel_index: 72
+    bmodel_name: WorldObject55
+    source_model_name: WorldObject55
+    source_polygon_group:
+      source_model_index: 72
+      source_model_name: WorldObject55
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id221
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:72
+    confidence: exact_bmodel_name
+    bmodel_index: 72
+    bmodel_name: WorldObject55
+    source_model_name: WorldObject55
+    source_polygon_group:
+      source_model_index: 72
+      source_model_name: WorldObject55
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id221
+- object_id: mm9:arslegardcity:object:637
+  source_object_index: 637
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:73
+    confidence: exact_source_model_name
+    bmodel_index: 73
+    bmodel_name: WorldObject53
+    source_model_name: WorldObject53
+    source_polygon_group: *id222
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:73
+    confidence: exact_bmodel_name
+    bmodel_index: 73
+    bmodel_name: WorldObject53
+    source_model_name: WorldObject53
+    source_polygon_group: *id223
 - object_id: mm9:arslegardcity:object:639
   source_object_index: 639
   targets:
@@ -178511,38 +182191,211 @@ bindings:
 - object_id: mm9:arslegardcity:object:641
   source_object_index: 641
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:74
+    confidence: exact_source_model_name
+    bmodel_index: 74
+    bmodel_name: AIBarrier0
+    source_model_name: AIBarrier0
+    source_polygon_group:
+      source_model_index: 74
+      source_model_name: AIBarrier0
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id224
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:74
+    confidence: exact_bmodel_name
+    bmodel_index: 74
+    bmodel_name: AIBarrier0
+    source_model_name: AIBarrier0
+    source_polygon_group:
+      source_model_index: 74
+      source_model_name: AIBarrier0
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id224
 - object_id: mm9:arslegardcity:object:642
   source_object_index: 642
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:75
+    confidence: exact_source_model_name
+    bmodel_index: 75
+    bmodel_name: AIBarrier1
+    source_model_name: AIBarrier1
+    source_polygon_group:
+      source_model_index: 75
+      source_model_name: AIBarrier1
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id225
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:75
+    confidence: exact_bmodel_name
+    bmodel_index: 75
+    bmodel_name: AIBarrier1
+    source_model_name: AIBarrier1
+    source_polygon_group:
+      source_model_index: 75
+      source_model_name: AIBarrier1
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id225
 - object_id: mm9:arslegardcity:object:643
   source_object_index: 643
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:76
+    confidence: exact_source_model_name
+    bmodel_index: 76
+    bmodel_name: AIBarrier2
+    source_model_name: AIBarrier2
+    source_polygon_group:
+      source_model_index: 76
+      source_model_name: AIBarrier2
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id226
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:76
+    confidence: exact_bmodel_name
+    bmodel_index: 76
+    bmodel_name: AIBarrier2
+    source_model_name: AIBarrier2
+    source_polygon_group:
+      source_model_index: 76
+      source_model_name: AIBarrier2
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id226
 - object_id: mm9:arslegardcity:object:644
   source_object_index: 644
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:77
+    confidence: exact_source_model_name
+    bmodel_index: 77
+    bmodel_name: AIBarrier3
+    source_model_name: AIBarrier3
+    source_polygon_group:
+      source_model_index: 77
+      source_model_name: AIBarrier3
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id227
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:77
+    confidence: exact_bmodel_name
+    bmodel_index: 77
+    bmodel_name: AIBarrier3
+    source_model_name: AIBarrier3
+    source_polygon_group:
+      source_model_index: 77
+      source_model_name: AIBarrier3
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id227
+- object_id: mm9:arslegardcity:object:646
+  source_object_index: 646
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:78
+    confidence: exact_source_model_name
+    bmodel_index: 78
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: *id228
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:78
+    confidence: exact_bmodel_name
+    bmodel_index: 78
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: *id229
 - object_id: mm9:arslegardcity:object:649
   source_object_index: 649
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:79
+    confidence: exact_source_model_name
+    bmodel_index: 79
+    bmodel_name: RotatingDoor1
+    source_model_name: RotatingDoor1
+    source_polygon_group: *id230
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:79
+    confidence: exact_bmodel_name
+    bmodel_index: 79
+    bmodel_name: RotatingDoor1
+    source_model_name: RotatingDoor1
+    source_polygon_group: *id231
 - object_id: mm9:arslegardcity:object:650
   source_object_index: 650
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:80
+    confidence: exact_source_model_name
+    bmodel_index: 80
+    bmodel_name: RotatingDoor0
+    source_model_name: RotatingDoor0
+    source_polygon_group: *id232
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:80
+    confidence: exact_bmodel_name
+    bmodel_index: 80
+    bmodel_name: RotatingDoor0
+    source_model_name: RotatingDoor0
+    source_polygon_group: *id233
 - object_id: mm9:arslegardcity:object:651
   source_object_index: 651
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:81
+    confidence: exact_source_model_name
+    bmodel_index: 81
+    bmodel_name: Door0
+    source_model_name: Door0
+    source_polygon_group: *id234
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:81
+    confidence: exact_bmodel_name
+    bmodel_index: 81
+    bmodel_name: Door0
+    source_model_name: Door0
+    source_polygon_group: *id235
 scripts:
 - script_id: book.scr
   source_path: BOOK.scr
@@ -180243,225 +184096,33 @@ scripts:
   command_count: 163
 unresolved:
 - kind: unresolved_binding
-  source_object_index: 19
-  source_name: Ladder6
-  source_class: Ladder
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 21
-  source_name: Ladder7
-  source_class: Ladder
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 23
-  source_name: TavernDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 24
-  source_name: TavernDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 25
-  source_name: BankDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 26
-  source_name: BankDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 27
-  source_name: WeaponDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 28
-  source_name: WeaponDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 29
-  source_name: ArmorDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 30
-  source_name: ArmorDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 31
-  source_name: LibraryDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 32
-  source_name: LibraryDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 33
-  source_name: NjamDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 34
-  source_name: NjamDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 35
-  source_name: NjamBackDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 36
-  source_name: MagicDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 37
-  source_name: MagicDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 51
-  source_name: TrainingDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 52
-  source_name: TrainingDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 53
-  source_name: TempleDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 54
-  source_name: TempleDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 57
-  source_name: CounterDoor
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 85
-  source_name: GeneralDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 86
-  source_name: GeneralDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 87
-  source_name: BlueWater0
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 88
-  source_name: BlueWater1
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 90
-  source_name: BlueWater2
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 91
-  source_name: BlueWater3
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 98
-  source_name: ClankDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 99
-  source_name: ClankDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 102
-  source_name: GeneralDoor3
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 103
-  source_name: GeneralDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
   source_object_index: 138
   source_name: Fateman
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id236
 - kind: unresolved_binding
   source_object_index: 139
   source_name: Loseman
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id237
 - kind: unresolved_binding
   source_object_index: 141
   source_name: Fateman0
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id238
 - kind: unresolved_binding
   source_object_index: 146
   source_name: Writman
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 431
-  source_name: Njamdoor
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 641
-  source_name: AIBarrier0
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 642
-  source_name: AIBarrier1
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 643
-  source_name: AIBarrier2
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 644
-  source_name: AIBarrier3
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 649
-  source_name: RotatingDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 650
-  source_name: RotatingDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 651
-  source_name: Door0
-  source_class: Door
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id239
 - kind: unresolved_target_name
   source: mechanism
   source_object_index: 649
@@ -180540,4 +184201,4 @@ validation:
   trigger_count: 1
   interaction_count: 456
   script_count: 15
-  unresolved_count: 48
+  unresolved_count: 8

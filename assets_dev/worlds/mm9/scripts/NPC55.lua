@@ -22,12 +22,12 @@ script.labels["BlackOrb"] = function(ctx)
     -- BlackOrb Quest
     if not ctx:hasKey(313) then -- NPC55.scr:26-27
         if ctx:hasKey(312) then -- NPC55.scr:28-29
-            ctx:command("hasgold", "2000 g_ntemp") -- NPC55.scr:30
+            ctx:hasGold(2000, "g_ntemp") -- NPC55.scr:30
             if ctx:condition("g_ntemp==1") then -- NPC55.scr:31
-                ctx:command("takegold", "2000") -- NPC55.scr:32
+                ctx:takeGold(2000) -- NPC55.scr:32
                 ctx:giveKey(313) -- NPC55.scr:33
                 ctx:giveItem(250) -- NPC55.scr:34
-                ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC55.scr:35
+                ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC55.scr:35
                 do return ctx:exit("") end -- NPC55.scr:36
             else -- NPC55.scr:37
                 ctx:takeKey(312) -- NPC55.scr:38
@@ -44,7 +44,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC55.scr:58
-    ctx:command("playsound", "voices\\NPC\\NPC_055.wav, Onexit, 100, 240, FALSE, 100") -- NPC55.scr:61
+    ctx:playSound("voices\\NPC\\NPC_055.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC55.scr:61
     ctx:doRude(55) -- NPC55.scr:62
     do return ctx:exit("") end -- NPC55.scr:63
 end

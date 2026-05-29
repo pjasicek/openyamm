@@ -31,8 +31,7 @@ script.labels["haskey"] = function(ctx)
         ctx:giveKey(281) -- FAKEBOOK.scr:35
         ctx:giveKey(290) -- FAKEBOOK.scr:36
         ctx:giveItem(242) -- FAKEBOOK.scr:37
-        ctx:command("getmyhandle", "g_hmyobject") -- FAKEBOOK.scr:38
-        ctx:command("removeobject", "g_hmyobject") -- FAKEBOOK.scr:39
+        ctx:self():remove() -- FAKEBOOK.scr:39
         do return ctx:exit("") end -- FAKEBOOK.scr:40
     end -- FAKEBOOK.scr:41
     do return ctx:exit("") end -- FAKEBOOK.scr:42
@@ -41,13 +40,11 @@ end
 script.labels["deletecheck"] = function(ctx)
     -- FAKEBOOK.scr:46
     if ctx:hasKey(282) then -- FAKEBOOK.scr:49-50
-        ctx:command("getmyhandle", "g_hmyobject") -- FAKEBOOK.scr:51
-        ctx:command("removeobject", "g_hmyobject") -- FAKEBOOK.scr:52
+        ctx:self():remove() -- FAKEBOOK.scr:52
         do return ctx:exit("") end -- FAKEBOOK.scr:53
     end -- FAKEBOOK.scr:54
     if ctx:hasKey(281) then -- FAKEBOOK.scr:56-57
-        ctx:command("getmyhandle", "g_hmyobject") -- FAKEBOOK.scr:58
-        ctx:command("removeobject", "g_hmyobject") -- FAKEBOOK.scr:59
+        ctx:self():remove() -- FAKEBOOK.scr:59
         do return ctx:exit("") end -- FAKEBOOK.scr:60
     end -- FAKEBOOK.scr:61
     do return ctx:exit("") end -- FAKEBOOK.scr:62

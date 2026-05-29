@@ -22,22 +22,20 @@ script.labels["Onuse"] = function(ctx)
         if ctx:condition("keycheck==0") then -- LUDWIGSMANUSCRIPT.scr:24
             -- gives player finished quest key
             ctx:giveKey("", 16) -- LUDWIGSMANUSCRIPT.scr:26
-            ctx:command("set", "keydata, 16") -- LUDWIGSMANUSCRIPT.scr:27
+            ctx:state().keydata = 16 -- LUDWIGSMANUSCRIPT.scr:27
             ctx:giveItem(248) -- LUDWIGSMANUSCRIPT.scr:28
-            ctx:command("getmyhandle", "g_hmyobject") -- LUDWIGSMANUSCRIPT.scr:29
-            ctx:command("removeobject", "g_hmyobject") -- LUDWIGSMANUSCRIPT.scr:30
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- LUDWIGSMANUSCRIPT.scr:31
+            ctx:self():remove() -- LUDWIGSMANUSCRIPT.scr:30
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- LUDWIGSMANUSCRIPT.scr:31
             do return ctx:exit("") end -- LUDWIGSMANUSCRIPT.scr:32
         end -- LUDWIGSMANUSCRIPT.scr:33
     end -- LUDWIGSMANUSCRIPT.scr:34
     ctx:hasKey(110, "keycheck") -- LUDWIGSMANUSCRIPT.scr:35
     if ctx:condition("keycheck==0") then -- LUDWIGSMANUSCRIPT.scr:36
         ctx:giveKey("", 110) -- LUDWIGSMANUSCRIPT.scr:38
-        ctx:command("set", "keydata, 110") -- LUDWIGSMANUSCRIPT.scr:39
+        ctx:state().keydata = 110 -- LUDWIGSMANUSCRIPT.scr:39
         ctx:giveItem(248) -- LUDWIGSMANUSCRIPT.scr:40
-        ctx:command("getmyhandle", "g_hmyobject") -- LUDWIGSMANUSCRIPT.scr:41
-        ctx:command("removeobject", "g_hmyobject") -- LUDWIGSMANUSCRIPT.scr:42
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- LUDWIGSMANUSCRIPT.scr:43
+        ctx:self():remove() -- LUDWIGSMANUSCRIPT.scr:42
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- LUDWIGSMANUSCRIPT.scr:43
     end -- LUDWIGSMANUSCRIPT.scr:44
     do return ctx:exit("") end -- LUDWIGSMANUSCRIPT.scr:45
 end
@@ -55,8 +53,7 @@ end
 
 script.labels["Delete"] = function(ctx)
     -- LUDWIGSMANUSCRIPT.scr:66
-    ctx:command("getmyhandle", "g_hmyobject") -- LUDWIGSMANUSCRIPT.scr:69
-    ctx:command("removeobject", "g_hmyobject") -- LUDWIGSMANUSCRIPT.scr:70
+    ctx:self():remove() -- LUDWIGSMANUSCRIPT.scr:70
     do return ctx:exit("") end -- LUDWIGSMANUSCRIPT.scr:71
 end
 
@@ -64,10 +61,10 @@ script.labels["Main"] = function(ctx)
     -- LUDWIGSMANUSCRIPT.scr:74
     -- TraceOn ;DELETE ME!!
     ctx:addTrigger("Use", "Onuse") -- LUDWIGSMANUSCRIPT.scr:78
-    ctx:command("onpoststartworld", "Init") -- LUDWIGSMANUSCRIPT.scr:79
-    ctx:command("onpostminisaveload", "Init") -- LUDWIGSMANUSCRIPT.scr:80
-    ctx:command("onpostsaveload", "Init") -- LUDWIGSMANUSCRIPT.scr:81
-    ctx:command("wait", "1 .1 Init") -- LUDWIGSMANUSCRIPT.scr:82
+    ctx:onEvent("OnPostStartWorld", "Init") -- LUDWIGSMANUSCRIPT.scr:79
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- LUDWIGSMANUSCRIPT.scr:80
+    ctx:onEvent("OnPostSaveLoad", "Init") -- LUDWIGSMANUSCRIPT.scr:81
+    ctx:wait(1, .1, "Init") -- LUDWIGSMANUSCRIPT.scr:82
     do return ctx:exit("") end -- LUDWIGSMANUSCRIPT.scr:83
 end
 

@@ -20,11 +20,11 @@ script.labels["OnExit"] = function(ctx)
     if ctx:condition("keycheck==1") then -- BEATHAG.scr:26
         ctx:hasKey(5003, "keycheck") -- BEATHAG.scr:27
         if ctx:condition("keycheck==1") then -- BEATHAG.scr:28
-            ctx:command("hasgold", "700 g_ntemp") -- BEATHAG.scr:29
+            ctx:hasGold(700, "g_ntemp") -- BEATHAG.scr:29
             if ctx:condition("g_ntemp==FALSE") then -- BEATHAG.scr:30
                 mm9.gosub(script, ctx, "nogold") -- BEATHAG.scr:31
             else -- BEATHAG.scr:32
-                ctx:command("takegold", "700") -- BEATHAG.scr:33
+                ctx:takeGold(700) -- BEATHAG.scr:33
                 ctx:takeKey(5002) -- BEATHAG.scr:34
                 ctx:takeKey(5003) -- BEATHAG.scr:35
                 do return ctx:exit("") end -- BEATHAG.scr:36
@@ -48,7 +48,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- BEATHAG.scr:57
-    ctx:command("playsound", "voices\\NPC\\NPC_058.wav, Off, 100, 240, FALSE, 100") -- BEATHAG.scr:60
+    ctx:playSound("voices\\NPC\\NPC_058.wav", "Off", 100, 240, "FALSE", 100) -- BEATHAG.scr:60
     do return ctx:exit("") end -- BEATHAG.scr:61
 end
 
@@ -58,11 +58,11 @@ script.labels["Main"] = function(ctx)
     ctx:addTrigger("break", "Onbreak") -- BEATHAG.scr:69
     ctx:addTrigger("use", "Onuse") -- BEATHAG.scr:70
     ctx:onRudeExit("Onexit", script.labels["Onexit"]) -- BEATHAG.scr:71
-    ctx:command("cachesound", "voices\\NPC\\NPC_058.wav") -- BEATHAG.scr:72
+    ctx:cacheSound("voices\\NPC\\NPC_058.wav") -- BEATHAG.scr:72
     -- barkeeper animation stuff
     ctx:getParam(0, "Params") -- BEATHAG.scr:76
     ctx:getParam(1, "g_ntemp") -- BEATHAG.scr:77
-    ctx:command("loopanim", "Params,g_ntemp Off") -- BEATHAG.scr:78
+    ctx:self():loopAnimation("Params", "g_ntemp", "Off") -- BEATHAG.scr:78
     mm9.gosub(script, ctx, "voiceinit") -- BEATHAG.scr:79
     -- ExitScript
     do return ctx:exit("") end -- BEATHAG.scr:81

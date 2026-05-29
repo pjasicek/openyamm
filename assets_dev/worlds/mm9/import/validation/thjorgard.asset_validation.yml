@@ -23,13 +23,14 @@ source_integrity:
   level_load_issue_details: []
   source_manifest_issue_details: []
 document_paths:
-  total: 77
+  total: 76
   missing: 0
   missing_required: 0
   source_read_only: 2
-  generated: 74
+  generated: 73
   authored: 2
-  compatibility_derived: 4
+  authored_overrides: 1
+  compatibility_derived: 3
   source_read_only_files:
     - label: "source_dat"
       role: "read_only_source"
@@ -103,11 +104,6 @@ document_paths:
       role: "derived_compatibility_artifact"
       relative_path: "thjorgard.mm9.yml"
       resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgard.mm9.yml"
-      exists: true
-    - label: "model_assets_compat"
-      role: "derived_compatibility_artifact"
-      relative_path: "thjorgard.model_assets.yml"
-      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgard.model_assets.yml"
       exists: true
     - label: "odm_compat"
       role: "derived_compatibility_artifact"
@@ -440,11 +436,6 @@ document_paths:
       relative_path: "thjorgard.mm9.yml"
       resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgard.mm9.yml"
       exists: true
-    - label: "model_assets_compat"
-      role: "derived_compatibility_artifact"
-      relative_path: "thjorgard.model_assets.yml"
-      resolved_path: "/home/pjasicek/github/OpenYAMM/assets_editor_dev/worlds/mm9/maps/thjorgard.model_assets.yml"
-      exists: true
     - label: "odm_compat"
       role: "derived_compatibility_artifact"
       relative_path: "thjorgard.odm"
@@ -468,16 +459,32 @@ summary:
   native_mesh_source_polies: 27112
   viewport_native_renderable_triangles: 31418
   viewport_native_renderable_physics_triangles: 8984
-  viewport_native_textured_triangles: 31416
-  viewport_native_missing_material_triangles: 2
-  viewport_native_placeholder_material_triangles: 2
+  viewport_native_textured_triangles: 31418
+  viewport_native_missing_material_triangles: 0
+  viewport_native_placeholder_material_triangles: 0
   viewport_native_unresolved_material_triangles: 0
+  native_filter_visual: 22537
+  native_filter_invisible: 2926
+  native_filter_water: 99
+  native_filter_visible_water: 13
+  native_filter_water_volume: 86
+  native_filter_rail: 2460
+  native_filter_helper: 15338
+  native_filter_physics: 10850
+  native_filter_visibility: 644
+  native_filter_portals: 0
   world_model_overlay_vertices: 7608
   world_model_overlay_pick_candidates: 317
   selected_polygon_overlay_vertices: 9
   selected_surface_overlay_vertices: 3
   viewport_model_instance_drawable_geometry: 232
   viewport_model_instance_decoded_skin_textures: 325
+  script_includes: 38
+  script_labels: 167
+  script_include_references: 38
+  script_resolved_includes: 38
+  script_unresolved_includes: 0
+  script_ambiguous_includes: 0
   script_registered_triggers: 44
   script_trigger_edges: 29
   script_movement_commands: 11
@@ -489,6 +496,7 @@ summary:
   unresolved_event_rotation_candidates: 0
   unresolved_event_position_candidates: 20
   raw_objects: 704
+  raw_object_sidecar_issues: 0
   object_source_transforms: 704
   object_bounds_evidence: 273
   object_trigger_volumes: 12
@@ -496,7 +504,7 @@ summary:
   object_overlay_pick_candidates: 41
   light_objects: 30
   light_overlay_vertices: 1080
-  static_render_lights: 30
+  static_render_lights: 0
   light_diagnostics: 0
   sound_objects: 69
   sound_overlay_vertices: 564
@@ -521,21 +529,42 @@ summary:
   actor_variant_unresolved: 0
   actor_variant_actor_rows: 53
   actor_variant_gameplay_identity_rows: 53
+  actor_variant_foot_sound_fields: 43
+  actor_variant_resolved_foot_sounds: 43
+  actor_variant_unresolved_foot_sounds: 0
+  actor_variant_source_sound_references: 0
+  actor_variant_resolved_source_sound_references: 0
+  actor_variant_unresolved_source_sound_references: 0
+  actor_variant_source_voice_references: 1
+  actor_variant_resolved_source_voice_references: 1
+  actor_variant_unresolved_source_voice_references: 0
   scripted_objects: 62
   scripted_objects_with_collision_visuals: 0
-  missing_scripted_object_collision_visuals: 62
+  scripted_objects_with_model_collision_volumes: 62
+  scripted_objects_requiring_billboard_collision_visuals: 0
+  missing_scripted_object_collision_visuals: 0
   mechanism_preview_candidates: 12
   mechanism_preview_changed_bounds: 12
   material_textures: 63
-  resolved_dtx: 58
+  resolved_dtx: 59
   ambiguous_dtx: 0
-  dtx_headers: 58
+  source_dtx_paths: 59
+  default_helper_materials: 1
+  placeholder_missing_source_materials: 7
+  dtx_headers: 59
   dtx_headers_matching_sidecar: 56
-  dtx_mip_payloads: 232
-  dtx_decoded_preview_mips: 232
+  dtx_user_flag_records: 59
+  dtx_extra_byte_records: 708
+  dtx_mip_payloads: 236
+  dtx_decoded_preview_mips: 236
   dtx_section_metadata_records: 0
   dtx_section_payloads_available: 0
   dtx_command_strings: 12
+  decoded_cache_determinism_checked: 55
+  decoded_cache_source_decoded: 55
+  decoded_cache_image_decoded: 55
+  decoded_cache_matches_source: 55
+  decoded_cache_mismatches: 0
   sprite_materials: 3
   resolved_sprite_materials: 3
   sprite_frame_textures: 59
@@ -546,9 +575,9 @@ summary:
   required_raw_object_asset_refs: 683
   optional_raw_object_asset_refs: 3
   unresolved_required_raw_object_asset_refs: 0
-  unresolved_optional_raw_object_asset_refs: 2
-  asset_issue_marker_source_objects: 1
-  asset_issue_marker_candidates: 1
+  unresolved_optional_raw_object_asset_refs: 0
+  asset_issue_marker_source_objects: 0
+  asset_issue_marker_candidates: 0
   asset_issue_marker_unpositioned: 0
   asset_issue_marker_required_candidates: 0
   asset_issue_marker_required_unpositioned: 0
@@ -556,6 +585,28 @@ summary:
   mechanism_target_marker_candidates: 124
   mechanism_target_marker_vertices: 3968
   mechanism_target_marker_source_links: 124
+  mechanism_gizmo_candidates: 190
+  mechanism_circle_gizmo_candidates: 66
+  mechanism_target_gizmo_candidates: 124
+  mechanism_motion_path_markers: 12
+  mechanism_los_checked_candidates: 124
+  mechanism_los_blocked_candidates: 20
+actor_variants:
+  candidates: 53
+  resolved: 53
+  unresolved: 0
+  actor_rows: 53
+  gameplay_identity_rows: 53
+  foot_sound_fields: 43
+  resolved_foot_sounds: 43
+  unresolved_foot_sounds: 0
+  source_sound_references: 0
+  resolved_source_sound_references: 0
+  unresolved_source_sound_references: 0
+  source_voice_references: 1
+  resolved_source_voice_references: 1
+  unresolved_source_voice_references: 0
+  missing_variants: []
 dat_world_reference_validation:
   issues: 0
   invalid_leaf_reference_count: 0
@@ -566,6 +617,9 @@ dat_world_reference_validation:
   invalid_poly_vertex_refs: 0
   invalid_node_poly_refs: 0
   invalid_root_node_refs: 0
+  issue_details: []
+raw_object_sidecar_validation:
+  issues: 0
   issue_details: []
 unresolved_events:
   total: 4
@@ -614,6 +668,24 @@ mechanisms:
   model_instance_targets: 0
   with_linear_motion: 6
   with_rotation_motion: 3
+  with_sound_evidence: 6
+  sound_slots: 42
+  authored_sound_references: 3
+  empty_sound_references: 39
+  previewable_mechanisms: 6
+  inert_mechanisms: 60
+  inert_preview_entries: 60
+  without_preview_motion: 60
+  without_preview_target: 4
+  activation_start_open_fields: 6
+  activation_locked_fields: 6
+  activation_push_open_fields: 6
+  activation_touch_to_open_fields: 6
+  activation_lock_on_close_fields: 0
+  activation_reopen_on_contact_fields: 6
+  rotation_open_away_fields: 3
+  timing_move_delay_fields: 6
+  timing_open_wait_fields: 6
   trigger_outputs: 6
   unresolved_trigger_outputs: 0
   incomplete_linear_motion: 0
@@ -656,21 +728,580 @@ mechanisms:
       required: false
   non_movable_world_model_targets: []
   polygon_group_target_issues: []
+  inert_preview_mechanisms:
+    - source_object_index: 50
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush1"
+      mechanism_id: "mm9:thjorgard:object:50:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 51
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush2"
+      mechanism_id: "mm9:thjorgard:object:51:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 52
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush3"
+      mechanism_id: "mm9:thjorgard:object:52:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 53
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush0"
+      mechanism_id: "mm9:thjorgard:object:53:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 54
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush4"
+      mechanism_id: "mm9:thjorgard:object:54:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 55
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush5"
+      mechanism_id: "mm9:thjorgard:object:55:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 56
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush6"
+      mechanism_id: "mm9:thjorgard:object:56:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 57
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush7"
+      mechanism_id: "mm9:thjorgard:object:57:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 58
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush8"
+      mechanism_id: "mm9:thjorgard:object:58:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 59
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush9"
+      mechanism_id: "mm9:thjorgard:object:59:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 60
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush10"
+      mechanism_id: "mm9:thjorgard:object:60:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 61
+      source_class: "PerceptionBrush"
+      source_name: "PerceptionBrush11"
+      mechanism_id: "mm9:thjorgard:object:61:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 105
+      source_class: "BlueWater"
+      source_name: "BlueWater0"
+      mechanism_id: "mm9:thjorgard:object:105:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 106
+      source_class: "BlueWater"
+      source_name: "BlueWater1"
+      mechanism_id: "mm9:thjorgard:object:106:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 107
+      source_class: "BlueWater"
+      source_name: "BlueWater3"
+      mechanism_id: "mm9:thjorgard:object:107:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 118
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush0"
+      mechanism_id: "mm9:thjorgard:object:118:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 119
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush1"
+      mechanism_id: "mm9:thjorgard:object:119:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 120
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush3"
+      mechanism_id: "mm9:thjorgard:object:120:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 125
+      source_class: "ScriptObject"
+      source_name: "ScriptObject0"
+      mechanism_id: "mm9:thjorgard:object:125:mechanism"
+      reason: "missing_preview_motion_and_world_model_target"
+      has_preview_motion: false
+      has_preview_world_model_target: false
+      has_binding: true
+      required_target: false
+    - source_object_index: 165
+      source_class: "AIBarrier"
+      source_name: "AIBarrier0"
+      mechanism_id: "mm9:thjorgard:object:165:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 166
+      source_class: "AIBarrier"
+      source_name: "AIBarrier1"
+      mechanism_id: "mm9:thjorgard:object:166:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 167
+      source_class: "AIBarrier"
+      source_name: "AIBarrier5"
+      mechanism_id: "mm9:thjorgard:object:167:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 168
+      source_class: "AIBarrier"
+      source_name: "AIBarrier6"
+      mechanism_id: "mm9:thjorgard:object:168:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 170
+      source_class: "AIBarrier"
+      source_name: "AIBarrier2"
+      mechanism_id: "mm9:thjorgard:object:170:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 171
+      source_class: "AIBarrier"
+      source_name: "AIBarrier3"
+      mechanism_id: "mm9:thjorgard:object:171:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 172
+      source_class: "AIBarrier"
+      source_name: "AIBarrier4"
+      mechanism_id: "mm9:thjorgard:object:172:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 173
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush4"
+      mechanism_id: "mm9:thjorgard:object:173:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 180
+      source_class: "AIBarrier"
+      source_name: "AIBarrier7"
+      mechanism_id: "mm9:thjorgard:object:180:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 181
+      source_class: "AIBarrier"
+      source_name: "AIBarrier8"
+      mechanism_id: "mm9:thjorgard:object:181:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 239
+      source_class: "AIBarrier"
+      source_name: "AIBarrier9"
+      mechanism_id: "mm9:thjorgard:object:239:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 240
+      source_class: "AIBarrier"
+      source_name: "AIBarrier10"
+      mechanism_id: "mm9:thjorgard:object:240:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 241
+      source_class: "AIBarrier"
+      source_name: "AIBarrier11"
+      mechanism_id: "mm9:thjorgard:object:241:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 242
+      source_class: "AIBarrier"
+      source_name: "AIBarrier12"
+      mechanism_id: "mm9:thjorgard:object:242:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 243
+      source_class: "AIBarrier"
+      source_name: "AIBarrier14"
+      mechanism_id: "mm9:thjorgard:object:243:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 244
+      source_class: "AIBarrier"
+      source_name: "AIBarrier15"
+      mechanism_id: "mm9:thjorgard:object:244:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 245
+      source_class: "AIBarrier"
+      source_name: "AIBarrier16"
+      mechanism_id: "mm9:thjorgard:object:245:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 246
+      source_class: "AIBarrier"
+      source_name: "AIBarrier17"
+      mechanism_id: "mm9:thjorgard:object:246:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 247
+      source_class: "AIBarrier"
+      source_name: "AIBarrier18"
+      mechanism_id: "mm9:thjorgard:object:247:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 248
+      source_class: "AIBarrier"
+      source_name: "AIBarrier19"
+      mechanism_id: "mm9:thjorgard:object:248:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 249
+      source_class: "AIBarrier"
+      source_name: "AIBarrier20"
+      mechanism_id: "mm9:thjorgard:object:249:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 340
+      source_class: "AIBarrier"
+      source_name: "AIBarrier13"
+      mechanism_id: "mm9:thjorgard:object:340:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 386
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush5"
+      mechanism_id: "mm9:thjorgard:object:386:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 478
+      source_class: "BlueWater"
+      source_name: "BlueWater2"
+      mechanism_id: "mm9:thjorgard:object:478:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 479
+      source_class: "DestructableBrush"
+      source_name: "DestructableBrush7"
+      mechanism_id: "mm9:thjorgard:object:479:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 480
+      source_class: "DestructableBrush"
+      source_name: "DestructableBrush8"
+      mechanism_id: "mm9:thjorgard:object:480:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 481
+      source_class: "DestructableBrush"
+      source_name: "DestructableBrush9"
+      mechanism_id: "mm9:thjorgard:object:481:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 482
+      source_class: "DestructableBrush"
+      source_name: "DestructableBrush10"
+      mechanism_id: "mm9:thjorgard:object:482:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 483
+      source_class: "DestructableBrush"
+      source_name: "DestructableBrush11"
+      mechanism_id: "mm9:thjorgard:object:483:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 484
+      source_class: "DestructableBrush"
+      source_name: "DestructableBrush12"
+      mechanism_id: "mm9:thjorgard:object:484:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 485
+      source_class: "DestructableBrush"
+      source_name: "DestructableBrush13"
+      mechanism_id: "mm9:thjorgard:object:485:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 488
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush2"
+      mechanism_id: "mm9:thjorgard:object:488:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 551
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush10"
+      mechanism_id: "mm9:thjorgard:object:551:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 552
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush6"
+      mechanism_id: "mm9:thjorgard:object:552:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 553
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush7"
+      mechanism_id: "mm9:thjorgard:object:553:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 554
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush8"
+      mechanism_id: "mm9:thjorgard:object:554:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 555
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush9"
+      mechanism_id: "mm9:thjorgard:object:555:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 592
+      source_class: "ScriptObject"
+      source_name: "TronMgr"
+      mechanism_id: "mm9:thjorgard:object:592:mechanism"
+      reason: "missing_preview_motion_and_world_model_target"
+      has_preview_motion: false
+      has_preview_world_model_target: false
+      has_binding: true
+      required_target: false
+    - source_object_index: 646
+      source_class: "ScriptObject"
+      source_name: "Mastermind"
+      mechanism_id: "mm9:thjorgard:object:646:mechanism"
+      reason: "missing_preview_motion_and_world_model_target"
+      has_preview_motion: false
+      has_preview_world_model_target: false
+      has_binding: true
+      required_target: false
+    - source_object_index: 702
+      source_class: "InvisibleBrush"
+      source_name: "InvisibleBrush11"
+      mechanism_id: "mm9:thjorgard:object:702:mechanism"
+      reason: "missing_preview_motion"
+      has_preview_motion: false
+      has_preview_world_model_target: true
+      has_binding: true
+      required_target: true
+    - source_object_index: 703
+      source_class: "ScriptObject"
+      source_name: "ScriptObject1"
+      mechanism_id: "mm9:thjorgard:object:703:mechanism"
+      reason: "missing_preview_motion_and_world_model_target"
+      has_preview_motion: false
+      has_preview_world_model_target: false
+      has_binding: true
+      required_target: false
 asset_graph:
-  total: 820
-  resolved: 816
-  unresolved: 4
+  total: 821
+  resolved: 821
+  unresolved: 0
   ambiguous: 0
   stale: 0
-  required_total: 747
-  required_resolved: 747
+  required_total: 749
+  required_resolved: 749
   required_unresolved: 0
   required_ambiguous: 0
-  optional_total: 73
-  optional_resolved: 69
-  optional_unresolved: 4
+  optional_total: 72
+  optional_resolved: 72
+  optional_unresolved: 0
   optional_ambiguous: 0
+  source_only: 12646
+  unused_source: 11895
   families:
+    - family: "art"
+      total: 0
+      resolved: 0
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 0
+      required_resolved: 0
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+      source_only: 2696
+      unused_source: 2696
     - family: "authored_overrides"
       total: 1
       resolved: 1
@@ -685,6 +1316,40 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 0
+      unused_source: 0
+    - family: "clientfx"
+      total: 0
+      resolved: 0
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 0
+      required_resolved: 0
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+      source_only: 2
+      unused_source: 2
+    - family: "data"
+      total: 1
+      resolved: 1
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 1
+      required_resolved: 1
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+      source_only: 57
+      unused_source: 56
     - family: "generated_caches"
       total: 63
       resolved: 63
@@ -699,6 +1364,8 @@ asset_graph:
       optional_resolved: 63
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 0
+      unused_source: 0
     - family: "generated_events"
       total: 2
       resolved: 2
@@ -713,6 +1380,24 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 0
+      unused_source: 0
+    - family: "localart"
+      total: 0
+      resolved: 0
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 0
+      required_resolved: 0
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+      source_only: 84
+      unused_source: 84
     - family: "models"
       total: 232
       resolved: 232
@@ -727,6 +1412,24 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 859
+      unused_source: 627
+    - family: "rude"
+      total: 1
+      resolved: 1
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 1
+      required_resolved: 1
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+      source_only: 441
+      unused_source: 440
     - family: "scripts"
       total: 129
       resolved: 129
@@ -741,6 +1444,8 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 804
+      unused_source: 675
     - family: "sidecars"
       total: 4
       resolved: 4
@@ -755,6 +1460,8 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 0
+      unused_source: 0
     - family: "skins"
       total: 243
       resolved: 243
@@ -769,6 +1476,8 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 910
+      unused_source: 667
     - family: "sounds"
       total: 72
       resolved: 72
@@ -783,6 +1492,24 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 2014
+      unused_source: 1942
+    - family: "sprite_textures"
+      total: 0
+      resolved: 0
+      unresolved: 0
+      ambiguous: 0
+      stale: 0
+      required_total: 0
+      required_resolved: 0
+      required_unresolved: 0
+      required_ambiguous: 0
+      optional_total: 0
+      optional_resolved: 0
+      optional_unresolved: 0
+      optional_ambiguous: 0
+      source_only: 879
+      unused_source: 879
     - family: "sprites"
       total: 7
       resolved: 7
@@ -797,20 +1524,24 @@ asset_graph:
       optional_resolved: 3
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 141
+      unused_source: 134
     - family: "textures"
-      total: 65
-      resolved: 61
-      unresolved: 4
+      total: 64
+      resolved: 64
+      unresolved: 0
       ambiguous: 0
       stale: 0
       required_total: 58
       required_resolved: 58
       required_unresolved: 0
       required_ambiguous: 0
-      optional_total: 7
-      optional_resolved: 3
-      optional_unresolved: 4
+      optional_total: 6
+      optional_resolved: 6
+      optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 1886
+      unused_source: 1822
     - family: "voices"
       total: 1
       resolved: 1
@@ -825,6 +1556,8 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 1819
+      unused_source: 1818
     - family: "worlds"
       total: 1
       resolved: 1
@@ -839,69 +1572,22 @@ asset_graph:
       optional_resolved: 0
       optional_unresolved: 0
       optional_ambiguous: 0
+      source_only: 54
+      unused_source: 53
 viewport_missing_material_triangles:
-  entries:
-    - triangle_index: 21106
-      source_model_index: 2
-      source_poly_index: 1
-      source_surface_index: 1
-      source_texture_index: 1
-      source_texture: "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx"
-      filter_flags: 517
-      assigned: true
-      ambiguous: false
-      material_candidate_count: 1
-      alias: "MTNDOWN"
-      source_dtx_resolved: false
-      placeholder_missing_source: true
-    - triangle_index: 21107
-      source_model_index: 2
-      source_poly_index: 1
-      source_surface_index: 1
-      source_texture_index: 1
-      source_texture: "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx"
-      filter_flags: 517
-      assigned: true
-      ambiguous: false
-      material_candidate_count: 1
-      alias: "MTNDOWN"
-      source_dtx_resolved: false
-      placeholder_missing_source: true
+  entries: []
 material_textures:
   invalid_or_unresolved: []
   stale_caches: []
+  nondeterministic_decoded_caches: []
 raw_object_asset_references:
   unresolved_required: []
-  unresolved_optional:
-    - source_object_index: 35
-      source_class: "WorldProperties"
-      object_name: "WorldProperties0"
-      property_index: 20
-      property_name: "SoftSky"
-      source_family: "textures"
-      source_value: "textures\\environmentmaps\\clouds\\clouds.dtx"
-      normalized_key: "environmentmaps/clouds/clouds.dtx"
-      required: false
-      resolved: false
-      ambiguous: false
-      alias_applied: false
-    - source_object_index: 35
-      source_class: "WorldProperties"
-      object_name: "WorldProperties0"
-      property_index: 25
-      property_name: "PanSkyTexture"
-      source_family: "textures"
-      source_value: "Textures\\SkyPan.dtx"
-      normalized_key: "skypan.dtx"
-      required: false
-      resolved: false
-      ambiguous: false
-      alias_applied: false
+  unresolved_optional: []
 diagnostics:
-  total: 14
+  total: 19
   errors: 0
-  warnings: 14
-  info: 0
+  warnings: 18
+  info: 1
   severity_policy:
     - severity: "error"
       category: "parse failure, invalid source index/reference, unresolved required asset or target, ambiguous required asset or target, generated sidecar data loss/cross-link drift, stale hash/cache mismatch, source mutation"
@@ -917,75 +1603,103 @@ diagnostics:
       suggested_owner: "sidecar generator/authored override"
   entries:
     - severity: "warning"
-      source_file: "Default"
-      source_index_path: "material_textures/8"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_material_texture_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/art"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "DAT material alias still renders from a placeholder cache: Default dat_refs=13"
+      message: "source family has unused entries for the loaded map: family=art unused_source=2696 source_only=2696 graph_refs=0"
     - severity: "warning"
-      source_file: "TEXTURES\\LevelTextures\\Invisible.dtx"
-      source_index_path: "material_textures/12"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_material_texture_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/clientfx"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "DAT material alias still renders from a placeholder cache: TEXTURES\\LevelTextures\\Invisible.dtx dat_refs=1"
+      message: "source family has unused entries for the loaded map: family=clientfx unused_source=2 source_only=2 graph_refs=0"
     - severity: "warning"
-      source_file: "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx"
-      source_index_path: "material_textures/15"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_material_texture_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/data"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "DAT material alias still renders from a placeholder cache: TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx dat_refs=1"
+      message: "source family has unused entries for the loaded map: family=data unused_source=56 source_only=57 graph_refs=1"
     - severity: "warning"
-      source_file: "Sprites\\Water\\Ocean4.spr"
-      source_index_path: "material_textures/16"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_material_texture_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/localart"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "DAT material alias still renders from a placeholder cache: Sprites\\Water\\Ocean4.spr dat_refs=3"
+      message: "source family has unused entries for the loaded map: family=localart unused_source=84 source_only=84 graph_refs=0"
     - severity: "warning"
-      source_file: "Sprites\\Perception2.spr"
-      source_index_path: "material_textures/17"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_material_texture_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/models"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "DAT material alias still renders from a placeholder cache: Sprites\\Perception2.spr dat_refs=3"
+      message: "source family has unused entries for the loaded map: family=models unused_source=627 source_only=859 graph_refs=232"
     - severity: "warning"
-      source_file: "Sprites\\Perception.spr"
-      source_index_path: "material_textures/18"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_material_texture_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/rude"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "DAT material alias still renders from a placeholder cache: Sprites\\Perception.spr dat_refs=9"
+      message: "source family has unused entries for the loaded map: family=rude unused_source=440 source_only=441 graph_refs=1"
     - severity: "warning"
-      source_file: "Skins\\Props\\Rope.dtx"
-      source_index_path: "material_textures/21"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_material_texture_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/scripts"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "DAT material alias still renders from a placeholder cache: Skins\\Props\\Rope.dtx dat_refs=4"
+      message: "source family has unused entries for the loaded map: family=scripts unused_source=675 source_only=804 graph_refs=129"
     - severity: "warning"
-      source_file: "../source/worlds/THJORGARD.dat"
-      source_index_path: "raw_objects/35/properties/20"
-      sidecar_path: "thjorgard.raw_objects.yml"
-      resolver: "mm9_raw_object_asset_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/skins"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "optional raw object asset reference is unresolved or ambiguous: textures textures\\environmentmaps\\clouds\\clouds.dtx"
+      message: "source family has unused entries for the loaded map: family=skins unused_source=667 source_only=910 graph_refs=243"
     - severity: "warning"
-      source_file: "../source/worlds/THJORGARD.dat"
-      source_index_path: "raw_objects/35/properties/25"
-      sidecar_path: "thjorgard.raw_objects.yml"
-      resolver: "mm9_raw_object_asset_resolver"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/sounds"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
       suggested_owner: "source asset mirror"
-      message: "optional raw object asset reference is unresolved or ambiguous: textures Textures\\SkyPan.dtx"
+      message: "source family has unused entries for the loaded map: family=sounds unused_source=1942 source_only=2014 graph_refs=72"
     - severity: "warning"
-      source_file: "../source/worlds/THJORGARD.dat"
-      source_index_path: "model_instances"
-      sidecar_path: "thjorgard.material_aliases.yml"
-      resolver: "mm9_scripted_billboard_visual_resolver"
-      suggested_owner: "sidecar generator"
-      message: "scripted object billboard collision visuals are not generated for 62 of 62 scripted/model-backed objects"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/sprite_textures"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
+      suggested_owner: "source asset mirror"
+      message: "source family has unused entries for the loaded map: family=sprite_textures unused_source=879 source_only=879 graph_refs=0"
+    - severity: "warning"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/sprites"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
+      suggested_owner: "source asset mirror"
+      message: "source family has unused entries for the loaded map: family=sprites unused_source=134 source_only=141 graph_refs=7"
+    - severity: "warning"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/textures"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
+      suggested_owner: "source asset mirror"
+      message: "source family has unused entries for the loaded map: family=textures unused_source=1822 source_only=1886 graph_refs=64"
+    - severity: "warning"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/voices"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
+      suggested_owner: "source asset mirror"
+      message: "source family has unused entries for the loaded map: family=voices unused_source=1818 source_only=1819 graph_refs=1"
+    - severity: "warning"
+      source_file: "../source/manifest.yml"
+      source_index_path: "asset_graph/families/worlds"
+      sidecar_path: "../source/manifest.yml"
+      resolver: "mm9_asset_graph_source_inventory"
+      suggested_owner: "source asset mirror"
+      message: "source family has unused entries for the loaded map: family=worlds unused_source=53 source_only=54 graph_refs=1"
     - severity: "warning"
       source_file: "../source/worlds/THJORGARD.dat"
       source_index_path: "raw_objects/125"
@@ -1014,3 +1728,10 @@ diagnostics:
       resolver: "mm9_mechanism_target_resolver"
       suggested_owner: "sidecar generator"
       message: "mechanism target is unresolved: ScriptObject1 target_kind=unresolved confidence=unresolved"
+    - severity: "info"
+      source_file: "../source/worlds/THJORGARD.dat"
+      source_index_path: "mechanisms/inert_preview_mechanisms"
+      sidecar_path: "thjorgard.events.yml"
+      resolver: "mm9_mechanism_preview_state_resolver"
+      suggested_owner: "sidecar generator"
+      message: "mechanisms without editor movement preview are listed with source-object reasons: inert=60 missing_motion=60 missing_world_model_target=4"

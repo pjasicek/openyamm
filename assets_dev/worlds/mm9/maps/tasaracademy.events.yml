@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/tasaracademy.lua
+  script_ir: ../events/tasaracademy.script_ir.yml
 objects:
 - object_id: mm9:tasaracademy:object:0
   source_object_index: 0
@@ -162013,7 +162014,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: PitDoorTrigger1
-    Pos: &id110
+    Pos: &id207
     - 496.0
     - 0.0
     - -2000.0
@@ -186966,7 +186967,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger0
-    Pos: &id111
+    Pos: &id210
     - 1528.0
     - 61.098052978515625
     - -832.0
@@ -187346,7 +187347,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger1
-    Pos: &id112
+    Pos: &id211
     - 1540.0
     - 61.098052978515625
     - -1342.0
@@ -187726,7 +187727,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger2
-    Pos: &id113
+    Pos: &id212
     - 712.0
     - 61.098052978515625
     - -1344.0
@@ -188106,7 +188107,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger3
-    Pos: &id114
+    Pos: &id213
     - 708.0
     - 61.098052978515625
     - -834.0
@@ -190995,10 +190996,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 2752.0
     - 176.0
@@ -191403,10 +191406,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 2752.0
     - 176.0
@@ -203936,10 +203941,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 2992.0
     - 160.0
@@ -204344,10 +204351,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest3
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 2992.0
     - 160.0
@@ -204722,7 +204731,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger4
-    Pos: &id115
+    Pos: &id223
     - 2912.0
     - 32.0
     - -192.0
@@ -208825,6 +208834,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id057 []
 - mechanism_id: mm9:tasaracademy:object:389:mechanism
   object_id: mm9:tasaracademy:object:389
@@ -208835,6 +208873,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:tasaracademy:object:390:mechanism
   object_id: mm9:tasaracademy:object:390
@@ -208845,6 +208884,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:tasaracademy:object:598:mechanism
   object_id: mm9:tasaracademy:object:598
@@ -208870,6 +208910,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslideopen.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\doorslideclosed.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id058
   - phase: close
     slot: 0
@@ -208885,6 +208954,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id059 []
 - mechanism_id: mm9:tasaracademy:object:600:mechanism
   object_id: mm9:tasaracademy:object:600
@@ -208895,6 +208965,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id060 []
 - mechanism_id: mm9:tasaracademy:object:601:mechanism
   object_id: mm9:tasaracademy:object:601
@@ -208920,6 +208991,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslideopen.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\doorslideclosed.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id061
   - phase: close
     slot: 0
@@ -208950,6 +209050,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR11
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslideopen.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\doorslideclosed.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id062 []
 - mechanism_id: mm9:tasaracademy:object:603:mechanism
   object_id: mm9:tasaracademy:object:603
@@ -208975,6 +209104,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL11
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslideopen.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\doorslideclosed.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id063 []
 - mechanism_id: mm9:tasaracademy:object:604:mechanism
   object_id: mm9:tasaracademy:object:604
@@ -209000,6 +209158,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door33
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id064 []
 - mechanism_id: mm9:tasaracademy:object:605:mechanism
   object_id: mm9:tasaracademy:object:605
@@ -209025,6 +209212,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door32
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id065 []
 - mechanism_id: mm9:tasaracademy:object:606:mechanism
   object_id: mm9:tasaracademy:object:606
@@ -209050,6 +209266,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door31
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id066 []
 - mechanism_id: mm9:tasaracademy:object:607:mechanism
   object_id: mm9:tasaracademy:object:607
@@ -209075,6 +209320,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door30
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id067 []
 - mechanism_id: mm9:tasaracademy:object:608:mechanism
   object_id: mm9:tasaracademy:object:608
@@ -209100,6 +209374,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door29
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id068 []
 - mechanism_id: mm9:tasaracademy:object:609:mechanism
   object_id: mm9:tasaracademy:object:609
@@ -209125,6 +209428,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door28
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id069 []
 - mechanism_id: mm9:tasaracademy:object:610:mechanism
   object_id: mm9:tasaracademy:object:610
@@ -209150,6 +209482,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door27
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id070 []
 - mechanism_id: mm9:tasaracademy:object:611:mechanism
   object_id: mm9:tasaracademy:object:611
@@ -209175,6 +209536,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door26
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id071 []
 - mechanism_id: mm9:tasaracademy:object:612:mechanism
   object_id: mm9:tasaracademy:object:612
@@ -209200,6 +209590,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door25
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id072 []
 - mechanism_id: mm9:tasaracademy:object:613:mechanism
   object_id: mm9:tasaracademy:object:613
@@ -209225,6 +209644,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door24
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id073 []
 - mechanism_id: mm9:tasaracademy:object:614:mechanism
   object_id: mm9:tasaracademy:object:614
@@ -209250,6 +209698,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door23
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id074 []
 - mechanism_id: mm9:tasaracademy:object:615:mechanism
   object_id: mm9:tasaracademy:object:615
@@ -209275,6 +209752,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door22
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id075 []
 - mechanism_id: mm9:tasaracademy:object:616:mechanism
   object_id: mm9:tasaracademy:object:616
@@ -209300,6 +209806,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door21
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id076 []
 - mechanism_id: mm9:tasaracademy:object:617:mechanism
   object_id: mm9:tasaracademy:object:617
@@ -209325,6 +209860,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door20
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id077 []
 - mechanism_id: mm9:tasaracademy:object:618:mechanism
   object_id: mm9:tasaracademy:object:618
@@ -209350,6 +209914,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door19
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id078 []
 - mechanism_id: mm9:tasaracademy:object:619:mechanism
   object_id: mm9:tasaracademy:object:619
@@ -209375,6 +209968,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door18
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id079 []
 - mechanism_id: mm9:tasaracademy:object:620:mechanism
   object_id: mm9:tasaracademy:object:620
@@ -209400,6 +210022,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door17
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id080 []
 - mechanism_id: mm9:tasaracademy:object:621:mechanism
   object_id: mm9:tasaracademy:object:621
@@ -209425,6 +210076,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door16
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id081 []
 - mechanism_id: mm9:tasaracademy:object:622:mechanism
   object_id: mm9:tasaracademy:object:622
@@ -209450,6 +210130,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door15
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id082 []
 - mechanism_id: mm9:tasaracademy:object:623:mechanism
   object_id: mm9:tasaracademy:object:623
@@ -209475,6 +210184,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door14
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id083 []
 - mechanism_id: mm9:tasaracademy:object:624:mechanism
   object_id: mm9:tasaracademy:object:624
@@ -209500,6 +210238,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door13
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id084 []
 - mechanism_id: mm9:tasaracademy:object:625:mechanism
   object_id: mm9:tasaracademy:object:625
@@ -209525,6 +210292,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door10
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id085 []
 - mechanism_id: mm9:tasaracademy:object:626:mechanism
   object_id: mm9:tasaracademy:object:626
@@ -209550,6 +210346,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door9
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id086 []
 - mechanism_id: mm9:tasaracademy:object:627:mechanism
   object_id: mm9:tasaracademy:object:627
@@ -209575,6 +210400,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door8
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id087 []
 - mechanism_id: mm9:tasaracademy:object:628:mechanism
   object_id: mm9:tasaracademy:object:628
@@ -209600,6 +210454,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door7
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id088 []
 - mechanism_id: mm9:tasaracademy:object:629:mechanism
   object_id: mm9:tasaracademy:object:629
@@ -209625,6 +210508,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door6
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id089 []
 - mechanism_id: mm9:tasaracademy:object:630:mechanism
   object_id: mm9:tasaracademy:object:630
@@ -209650,6 +210562,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id090 []
 - mechanism_id: mm9:tasaracademy:object:631:mechanism
   object_id: mm9:tasaracademy:object:631
@@ -209675,6 +210616,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door4
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id091 []
 - mechanism_id: mm9:tasaracademy:object:632:mechanism
   object_id: mm9:tasaracademy:object:632
@@ -209700,6 +210670,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id092 []
 - mechanism_id: mm9:tasaracademy:object:633:mechanism
   object_id: mm9:tasaracademy:object:633
@@ -209725,6 +210724,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id093 []
 - mechanism_id: mm9:tasaracademy:object:634:mechanism
   object_id: mm9:tasaracademy:object:634
@@ -209750,6 +210778,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id094 []
 - mechanism_id: mm9:tasaracademy:object:635:mechanism
   object_id: mm9:tasaracademy:object:635
@@ -209775,6 +210832,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal03.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id095 []
 - mechanism_id: mm9:tasaracademy:object:638:mechanism
   object_id: mm9:tasaracademy:object:638
@@ -209800,6 +210886,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: BookButtonBack1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id096
   - phase: open
     slot: 0
@@ -209844,6 +210959,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id097
   - phase: open
     slot: 0
@@ -209899,6 +211043,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: BookButtonFront1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id098 []
 - mechanism_id: mm9:tasaracademy:object:642:mechanism
   object_id: mm9:tasaracademy:object:642
@@ -209928,6 +211101,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PitDoorRight1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\trapdooropen.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Events\slam.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id099 []
 - mechanism_id: mm9:tasaracademy:object:643:mechanism
   object_id: mm9:tasaracademy:object:643
@@ -209957,6 +211159,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PitDoorLeft1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\trapdooropen.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Events\slam.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id100
   - phase: close
     slot: 0
@@ -209978,6 +211209,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id102 []
 - mechanism_id: mm9:tasaracademy:object:648:mechanism
   object_id: mm9:tasaracademy:object:648
@@ -209989,6 +211221,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id103 []
 - mechanism_id: mm9:tasaracademy:object:751:mechanism
   object_id: mm9:tasaracademy:object:751
@@ -209999,6 +211232,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:tasaracademy:object:752:mechanism
   object_id: mm9:tasaracademy:object:752
@@ -210009,6 +211243,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:tasaracademy:object:753:mechanism
   object_id: mm9:tasaracademy:object:753
@@ -210019,6 +211254,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:tasaracademy:object:754:mechanism
   object_id: mm9:tasaracademy:object:754
@@ -210029,6 +211265,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:tasaracademy:object:755:mechanism
   object_id: mm9:tasaracademy:object:755
@@ -210039,6 +211276,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:tasaracademy:object:806:mechanism
   object_id: mm9:tasaracademy:object:806
@@ -210049,6 +211287,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id108 []
 - mechanism_id: mm9:tasaracademy:object:823:mechanism
   object_id: mm9:tasaracademy:object:823
@@ -210059,6 +211298,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:tasaracademy:object:644:trigger
@@ -213325,256 +214565,1992 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id229
+    - source_model_index: 0
+      source_name: LibraryDoor
+      movable: true
+      world_translation_lt: &id110
+      - 496.0
+      - 496.0
+      - -3368.0
+      distance_from_rotation_point_lt: 93.638
+    - source_model_index: 158
+      source_name: AITrk153
+      movable: true
+      world_translation_lt: &id111
+      - 496.0
+      - 72.00001525878906
+      - -3496.0
+      distance_from_rotation_point_lt: 367.478
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: &id112
+      - 496.0
+      - 328.0
+      - -2990.0
+      distance_from_rotation_point_lt: 398.803
+    - source_model_index: 307
+      source_name: Ladder1
+      movable: true
+      world_translation_lt: &id113
+      - 496.0
+      - 328.0
+      - -2972.0
+      distance_from_rotation_point_lt: 416.25
+    - source_model_index: 159
+      source_name: AITrk154
+      movable: true
+      world_translation_lt: &id114
+      - 496.0
+      - 136.0
+      - -3696.0
+      distance_from_rotation_point_lt: 427.907
+    nearest_movable_world_models_by_position: &id230
+    - source_model_index: 0
+      source_name: LibraryDoor
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 93.638
+    - source_model_index: 158
+      source_name: AITrk153
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 367.478
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 398.803
+    - source_model_index: 307
+      source_name: Ladder1
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 416.25
+    - source_model_index: 159
+      source_name: AITrk154
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 427.907
 - object_id: mm9:tasaracademy:object:389
   source_object_index: 389
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id231
+    - source_model_index: 73
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - 2336.0
+      - 151.5
+      - -3888.0
+      distance_from_position_lt: 116.414
+    - source_model_index: 72
+      source_name: AITrk69
+      movable: true
+      world_translation_lt:
+      - 2340.0
+      - 144.0
+      - -3752.0
+      distance_from_position_lt: 119.067
+    - source_model_index: 85
+      source_name: AITrk80
+      movable: true
+      world_translation_lt:
+      - 2596.0
+      - 144.0
+      - -3888.0
+      distance_from_position_lt: 177.542
+    - source_model_index: 86
+      source_name: AITrk81
+      movable: true
+      world_translation_lt:
+      - 2596.0
+      - 144.0
+      - -3756.0
+      distance_from_position_lt: 179.022
+    - source_model_index: 82
+      source_name: AITrk77
+      movable: true
+      world_translation_lt:
+      - 2476.0
+      - 144.0
+      - -4000.0
+      distance_from_position_lt: 182.869
 - object_id: mm9:tasaracademy:object:390
   source_object_index: 390
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id232
+    - source_model_index: 74
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt:
+      - 2336.0
+      - 151.5
+      - -4112.0
+      distance_from_position_lt: 116.414
+    - source_model_index: 78
+      source_name: AITrk73
+      movable: true
+      world_translation_lt:
+      - 2340.0
+      - 144.0
+      - -4248.0
+      distance_from_position_lt: 125.352
+    - source_model_index: 76
+      source_name: AITrk71
+      movable: true
+      world_translation_lt:
+      - 2080.0
+      - 144.0
+      - -4112.0
+      distance_from_position_lt: 173.853
+    - source_model_index: 77
+      source_name: AITrk72
+      movable: true
+      world_translation_lt:
+      - 2080.0
+      - 144.0
+      - -4248.0
+      distance_from_position_lt: 176.955
+    - source_model_index: 83
+      source_name: AITrk78
+      movable: true
+      world_translation_lt:
+      - 2200.0
+      - 144.0
+      - -4000.0
+      distance_from_position_lt: 181.948
 - object_id: mm9:tasaracademy:object:598
   source_object_index: 598
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id233
+    - source_model_index: 87
+      source_name: AITrk82
+      movable: true
+      world_translation_lt: &id221
+      - 2656.0
+      - 144.0
+      - -4088.0
+      distance_from_position_lt: 25.612
+    - source_model_index: 259
+      source_name: SecretDoor1
+      movable: true
+      world_translation_lt: &id219
+      - 2660.0
+      - 184.0
+      - -4064.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 311
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: &id218
+      - 2653.0
+      - 184.0
+      - -4064.0
+      distance_from_position_lt: 48.508
+    - source_model_index: 88
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: &id222
+      - 2736.0
+      - 144.0
+      - -4064.0
+      distance_from_position_lt: 76.42
+    - source_model_index: 81
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: &id220
+      - 2596.0
+      - 144.0
+      - -4000.0
+      distance_from_position_lt: 90.863
 - object_id: mm9:tasaracademy:object:599
   source_object_index: 599
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id234
+    - source_model_index: 260
+      source_name: door crack
+      movable: true
+      world_translation_lt: &id116
+      - 100.0
+      - 64.0000228881836
+      - -2912.0
+      distance_from_position_lt: 32.249
+    - source_model_index: 313
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: &id115
+      - 103.0
+      - 64.00001525878906
+      - -2912.0
+      distance_from_position_lt: 32.757
+    - source_model_index: 261
+      source_name: door crack 2
+      movable: true
+      world_translation_lt: &id117
+      - 108.0
+      - 64.0000228881836
+      - -2912.0
+      distance_from_position_lt: 34.176
+    - source_model_index: 141
+      source_name: AITrk136
+      movable: true
+      world_translation_lt: &id118
+      - 112.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 66.453
+    - source_model_index: 152
+      source_name: AITrk146
+      movable: true
+      world_translation_lt: &id119
+      - 32.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 90.863
 - object_id: mm9:tasaracademy:object:600
   source_object_index: 600
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id235
+    - source_model_index: 313
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 32.016
+    - source_model_index: 260
+      source_name: door crack
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 32.249
+    - source_model_index: 261
+      source_name: door crack 2
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 32.249
+    - source_model_index: 141
+      source_name: AITrk136
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 64.992
+    - source_model_index: 152
+      source_name: AITrk146
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 96.664
 - object_id: mm9:tasaracademy:object:601
   source_object_index: 601
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id236
+    - source_model_index: 310
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: &id215
+      - 2039.0
+      - 48.0
+      - -552.0
+      distance_from_position_lt: 50.289
+    - source_model_index: 29
+      source_name: AITrk26
+      movable: true
+      world_translation_lt: &id217
+      - 2144.0
+      - 8.0
+      - -552.0
+      distance_from_position_lt: 90.355
+    - source_model_index: 262
+      source_name: SecretDoor0
+      movable: true
+      world_translation_lt: &id214
+      - 2056.0
+      - 96.0
+      - -552.0
+      distance_from_position_lt: 96.021
+    - source_model_index: 298
+      source_name: Switch1
+      movable: true
+      world_translation_lt: &id153
+      - 2035.0
+      - 42.5
+      - -428.0
+      distance_from_position_lt: 132.451
+    - source_model_index: 24
+      source_name: AITrk21
+      movable: true
+      world_translation_lt: &id216
+      - 1920.0
+      - 8.0
+      - -552.0
+      distance_from_position_lt: 134.239
 - object_id: mm9:tasaracademy:object:602
   source_object_index: 602
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id237
+    - source_model_index: 263
+      source_name: DoubleDoorL11
+      movable: true
+      world_translation_lt: &id121
+      - 1624.0
+      - 176.0
+      - -4480.0
+      distance_from_position_lt: 21.541
+    - source_model_index: 264
+      source_name: DoubleDoorR11
+      movable: true
+      world_translation_lt: &id120
+      - 1624.0
+      - 176.0
+      - -4528.0
+      distance_from_position_lt: 68.469
+    - source_model_index: 173
+      source_name: AITrk169
+      movable: true
+      world_translation_lt: &id122
+      - 1648.0
+      - 136.0
+      - -4504.0
+      distance_from_position_lt: 69.397
+    - source_model_index: 172
+      source_name: AITrk168
+      movable: true
+      world_translation_lt: &id123
+      - 1552.0
+      - 136.0
+      - -4520.0
+      distance_from_position_lt: 105.3
+    - source_model_index: 174
+      source_name: AITrk170
+      movable: true
+      world_translation_lt: &id124
+      - 1712.0
+      - 136.0
+      - -4504.0
+      distance_from_position_lt: 109.471
 - object_id: mm9:tasaracademy:object:603
   source_object_index: 603
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id238
+    - source_model_index: 264
+      source_name: DoubleDoorR11
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 21.541
+    - source_model_index: 263
+      source_name: DoubleDoorL11
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 68.469
+    - source_model_index: 173
+      source_name: AITrk169
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 69.397
+    - source_model_index: 172
+      source_name: AITrk168
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 90.951
+    - source_model_index: 174
+      source_name: AITrk170
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 109.471
 - object_id: mm9:tasaracademy:object:604
   source_object_index: 604
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id239
+    - source_model_index: 265
+      source_name: Door32
+      movable: true
+      world_translation_lt: &id126
+      - 520.0
+      - 84.0
+      - -2448.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 266
+      source_name: Door33
+      movable: true
+      world_translation_lt: &id125
+      - 472.0
+      - 84.0
+      - -2448.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 146
+      source_name: AITrk141
+      movable: true
+      world_translation_lt: &id127
+      - 496.0
+      - 8.0
+      - -2464.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 156
+      source_name: AITrk151
+      movable: true
+      world_translation_lt: &id128
+      - 496.0
+      - 8.0
+      - -2312.0
+      distance_from_position_lt: 157.632
+    - source_model_index: 148
+      source_name: AITrk143
+      movable: true
+      world_translation_lt:
+      - 576.0
+      - 8.0
+      - -2640.0
+      distance_from_position_lt: 213.953
 - object_id: mm9:tasaracademy:object:605
   source_object_index: 605
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id240
+    - source_model_index: 266
+      source_name: Door33
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 0.0
+    - source_model_index: 265
+      source_name: Door32
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 48.0
+    - source_model_index: 146
+      source_name: AITrk141
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 81.29
+    - source_model_index: 156
+      source_name: AITrk151
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 157.632
+    - source_model_index: 149
+      source_name: AITrk144
+      movable: true
+      world_translation_lt:
+      - 416.0
+      - 8.0
+      - -2640.0
+      distance_from_position_lt: 213.953
 - object_id: mm9:tasaracademy:object:606
   source_object_index: 606
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id241
+    - source_model_index: 267
+      source_name: Door30
+      movable: true
+      world_translation_lt: &id130
+      - 896.0
+      - 84.0
+      - -2888.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 268
+      source_name: Door31
+      movable: true
+      world_translation_lt: &id129
+      - 896.0
+      - 84.0
+      - -2936.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 130
+      source_name: AITrk125
+      movable: true
+      world_translation_lt: &id131
+      - 880.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 131
+      source_name: AITrk126
+      movable: true
+      world_translation_lt: &id132
+      - 736.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 178.751
+    - source_model_index: 132
+      source_name: AITrk127
+      movable: true
+      world_translation_lt:
+      - 744.0
+      - 8.0
+      - -2832.0
+      distance_from_position_lt: 178.93
 - object_id: mm9:tasaracademy:object:607
   source_object_index: 607
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id242
+    - source_model_index: 268
+      source_name: Door31
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 0.0
+    - source_model_index: 267
+      source_name: Door30
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 48.0
+    - source_model_index: 130
+      source_name: AITrk125
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 81.29
+    - source_model_index: 134
+      source_name: AITrk129
+      movable: true
+      world_translation_lt:
+      - 752.0
+      - 8.0
+      - -2992.0
+      distance_from_position_lt: 172.186
+    - source_model_index: 131
+      source_name: AITrk126
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 178.751
 - object_id: mm9:tasaracademy:object:608
   source_object_index: 608
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id243
+    - source_model_index: 269
+      source_name: Door28
+      movable: true
+      world_translation_lt: &id134
+      - 1536.0
+      - 84.0
+      - -2888.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 270
+      source_name: Door29
+      movable: true
+      world_translation_lt: &id133
+      - 1536.0
+      - 84.0
+      - -2936.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 64
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: &id135
+      - 1552.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 66
+      source_name: AITrk63
+      movable: true
+      world_translation_lt: &id137
+      - 1736.0
+      - 8.0
+      - -2824.0
+      distance_from_position_lt: 223.32
+    - source_model_index: 65
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: &id136
+      - 1752.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 230.235
 - object_id: mm9:tasaracademy:object:609
   source_object_index: 609
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id244
+    - source_model_index: 270
+      source_name: Door29
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 0.0
+    - source_model_index: 269
+      source_name: Door28
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 48.0
+    - source_model_index: 64
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 81.29
+    - source_model_index: 65
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id136
+      distance_from_position_lt: 230.235
+    - source_model_index: 66
+      source_name: AITrk63
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 241.495
 - object_id: mm9:tasaracademy:object:610
   source_object_index: 610
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id245
+    - source_model_index: 271
+      source_name: Door26
+      movable: true
+      world_translation_lt: &id139
+      - 1408.0
+      - 84.0
+      - 8.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 272
+      source_name: Door27
+      movable: true
+      world_translation_lt: &id138
+      - 1408.0
+      - 84.0
+      - -40.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 16
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: &id140
+      - 1424.0
+      - 8.0
+      - -16.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 6
+      source_name: AITrk2
+      movable: true
+      world_translation_lt: &id141
+      - 1248.0
+      - 8.0
+      - -16.0
+      distance_from_position_lt: 178.751
+    - source_model_index: 17
+      source_name: AITrk13
+      movable: true
+      world_translation_lt: &id142
+      - 1664.0
+      - 8.0
+      - -16.0
+      distance_from_position_lt: 268.119
 - object_id: mm9:tasaracademy:object:611
   source_object_index: 611
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id246
+    - source_model_index: 272
+      source_name: Door27
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 0.0
+    - source_model_index: 271
+      source_name: Door26
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 48.0
+    - source_model_index: 16
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 81.29
+    - source_model_index: 6
+      source_name: AITrk2
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 178.751
+    - source_model_index: 17
+      source_name: AITrk13
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 268.119
 - object_id: mm9:tasaracademy:object:612
   source_object_index: 612
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id247
+    - source_model_index: 273
+      source_name: Door24
+      movable: true
+      world_translation_lt: &id144
+      - 640.0
+      - 84.0
+      - 8.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 274
+      source_name: Door25
+      movable: true
+      world_translation_lt: &id143
+      - 640.0
+      - 84.0
+      - -40.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 8
+      source_name: AITrk4
+      movable: true
+      world_translation_lt: &id145
+      - 624.0
+      - 8.0
+      - -16.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 7
+      source_name: AITrk3
+      movable: true
+      world_translation_lt: &id146
+      - 800.0
+      - 8.0
+      - -16.0
+      distance_from_position_lt: 178.751
+    - source_model_index: 9
+      source_name: AITrk5
+      movable: true
+      world_translation_lt: &id147
+      - 480.0
+      - 8.0
+      - -16.0
+      distance_from_position_lt: 178.751
 - object_id: mm9:tasaracademy:object:613
   source_object_index: 613
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id248
+    - source_model_index: 274
+      source_name: Door25
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 0.0
+    - source_model_index: 273
+      source_name: Door24
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 48.0
+    - source_model_index: 8
+      source_name: AITrk4
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 81.29
+    - source_model_index: 7
+      source_name: AITrk3
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 178.751
+    - source_model_index: 9
+      source_name: AITrk5
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 178.751
 - object_id: mm9:tasaracademy:object:614
   source_object_index: 614
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id249
+    - source_model_index: 275
+      source_name: Door22
+      movable: true
+      world_translation_lt: &id149
+      - 344.0
+      - 84.0
+      - -384.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 276
+      source_name: Door23
+      movable: true
+      world_translation_lt: &id148
+      - 296.0
+      - 84.0
+      - -384.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 14
+      source_name: AITrk10
+      movable: true
+      world_translation_lt: &id150
+      - 320.0
+      - 8.0
+      - -368.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 223
+      source_name: AITrk219
+      movable: true
+      world_translation_lt: &id151
+      - 320.0
+      - 8.0
+      - -536.0
+      distance_from_position_lt: 171.628
+    - source_model_index: 13
+      source_name: AITrk9
+      movable: true
+      world_translation_lt: &id152
+      - 320.0
+      - 8.0
+      - -200.0
+      distance_from_position_lt: 200.519
 - object_id: mm9:tasaracademy:object:615
   source_object_index: 615
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id250
+    - source_model_index: 276
+      source_name: Door23
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 0.0
+    - source_model_index: 275
+      source_name: Door22
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 48.0
+    - source_model_index: 14
+      source_name: AITrk10
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 81.29
+    - source_model_index: 223
+      source_name: AITrk219
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 171.628
+    - source_model_index: 13
+      source_name: AITrk9
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 200.519
 - object_id: mm9:tasaracademy:object:616
   source_object_index: 616
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id251
+    - source_model_index: 277
+      source_name: Door20
+      movable: true
+      world_translation_lt: &id155
+      - 1944.0
+      - 84.0
+      - -384.0
+      distance_from_position_lt: 4.0
+    - source_model_index: 278
+      source_name: Door21
+      movable: true
+      world_translation_lt: &id154
+      - 1896.0
+      - 84.0
+      - -384.0
+      distance_from_position_lt: 52.0
+    - source_model_index: 21
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: &id156
+      - 1920.0
+      - 8.0
+      - -368.0
+      distance_from_position_lt: 82.559
+    - source_model_index: 298
+      source_name: Switch1
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 105.959
+    - source_model_index: 23
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: &id157
+      - 1920.0
+      - 8.0
+      - -456.0
+      distance_from_position_lt: 108.37
 - object_id: mm9:tasaracademy:object:617
   source_object_index: 617
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id252
+    - source_model_index: 278
+      source_name: Door21
+      movable: true
+      world_translation_lt: *id154
+      distance_from_position_lt: 4.0
+    - source_model_index: 277
+      source_name: Door20
+      movable: true
+      world_translation_lt: *id155
+      distance_from_position_lt: 44.0
+    - source_model_index: 21
+      source_name: AITrk18
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 80.2
+    - source_model_index: 23
+      source_name: AITrk20
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 106.583
+    - source_model_index: 298
+      source_name: Switch1
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 147.93
 - object_id: mm9:tasaracademy:object:618
   source_object_index: 618
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id253
+    - source_model_index: 279
+      source_name: Door18
+      movable: true
+      world_translation_lt: &id159
+      - 1536.0
+      - 84.0
+      - -2536.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 280
+      source_name: Door19
+      movable: true
+      world_translation_lt: &id158
+      - 1536.0
+      - 84.0
+      - -2584.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 54
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: &id160
+      - 1552.0
+      - 8.0
+      - -2560.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 53
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: &id161
+      - 1432.0
+      - 8.0
+      - -2560.0
+      distance_from_position_lt: 131.027
+    - source_model_index: 55
+      source_name: AITrk52
+      movable: true
+      world_translation_lt:
+      - 1752.0
+      - 8.0
+      - -2552.0
+      distance_from_position_lt: 229.539
 - object_id: mm9:tasaracademy:object:619
   source_object_index: 619
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id254
+    - source_model_index: 280
+      source_name: Door19
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 0.0
+    - source_model_index: 279
+      source_name: Door18
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 48.0
+    - source_model_index: 54
+      source_name: AITrk51
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 81.29
+    - source_model_index: 53
+      source_name: AITrk50
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 131.027
+    - source_model_index: 56
+      source_name: AITrk53
+      movable: true
+      world_translation_lt:
+      - 1736.0
+      - 8.0
+      - -2648.0
+      distance_from_position_lt: 223.32
 - object_id: mm9:tasaracademy:object:620
   source_object_index: 620
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id255
+    - source_model_index: 281
+      source_name: Door16
+      movable: true
+      world_translation_lt: &id163
+      - -232.0
+      - 84.0
+      - -1088.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 282
+      source_name: Door17
+      movable: true
+      world_translation_lt: &id162
+      - -280.0
+      - 84.0
+      - -1088.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 232
+      source_name: AITrk227
+      movable: true
+      world_translation_lt: &id164
+      - -256.0
+      - 8.0
+      - -1088.0
+      distance_from_position_lt: 79.699
+    - source_model_index: 225
+      source_name: AITrk221
+      movable: true
+      world_translation_lt: &id165
+      - -256.0
+      - 8.0
+      - -976.0
+      distance_from_position_lt: 137.463
+    - source_model_index: 224
+      source_name: AITrk220
+      movable: true
+      world_translation_lt: &id166
+      - -104.0
+      - 8.0
+      - -976.0
+      distance_from_position_lt: 186.29
 - object_id: mm9:tasaracademy:object:621
   source_object_index: 621
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id256
+    - source_model_index: 282
+      source_name: Door17
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 0.0
+    - source_model_index: 281
+      source_name: Door16
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 48.0
+    - source_model_index: 232
+      source_name: AITrk227
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 79.699
+    - source_model_index: 225
+      source_name: AITrk221
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 137.463
+    - source_model_index: 224
+      source_name: AITrk220
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 222.027
 - object_id: mm9:tasaracademy:object:622
   source_object_index: 622
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id257
+    - source_model_index: 283
+      source_name: Door14
+      movable: true
+      world_translation_lt: &id168
+      - -232.0
+      - 84.0
+      - -864.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 284
+      source_name: Door15
+      movable: true
+      world_translation_lt: &id167
+      - -280.0
+      - 84.0
+      - -864.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 229
+      source_name: AITrk16
+      movable: true
+      world_translation_lt: &id169
+      - -256.0
+      - 8.0
+      - -864.0
+      distance_from_position_lt: 79.699
+    - source_model_index: 225
+      source_name: AITrk221
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 137.463
+    - source_model_index: 224
+      source_name: AITrk220
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 186.29
 - object_id: mm9:tasaracademy:object:623
   source_object_index: 623
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id258
+    - source_model_index: 284
+      source_name: Door15
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 0.0
+    - source_model_index: 283
+      source_name: Door14
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 48.0
+    - source_model_index: 229
+      source_name: AITrk16
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 79.699
+    - source_model_index: 225
+      source_name: AITrk221
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 137.463
+    - source_model_index: 224
+      source_name: AITrk220
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 222.027
 - object_id: mm9:tasaracademy:object:624
   source_object_index: 624
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id259
+    - source_model_index: 285
+      source_name: Door10
+      movable: true
+      world_translation_lt: &id171
+      - -872.0
+      - 84.0
+      - -1088.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 286
+      source_name: Door13
+      movable: true
+      world_translation_lt: &id170
+      - -920.0
+      - 84.0
+      - -1088.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 231
+      source_name: AITrk226
+      movable: true
+      world_translation_lt: &id172
+      - -896.0
+      - 8.0
+      - -1088.0
+      distance_from_position_lt: 79.699
+    - source_model_index: 236
+      source_name: AITrk231
+      movable: true
+      world_translation_lt: &id173
+      - -896.0
+      - 8.0
+      - -1160.0
+      distance_from_position_lt: 107.406
+    - source_model_index: 227
+      source_name: AITrk223
+      movable: true
+      world_translation_lt: &id174
+      - -896.0
+      - 8.0
+      - -976.0
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:625
   source_object_index: 625
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id260
+    - source_model_index: 286
+      source_name: Door13
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 0.0
+    - source_model_index: 285
+      source_name: Door10
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 48.0
+    - source_model_index: 231
+      source_name: AITrk226
+      movable: true
+      world_translation_lt: *id172
+      distance_from_position_lt: 79.699
+    - source_model_index: 236
+      source_name: AITrk231
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 107.406
+    - source_model_index: 227
+      source_name: AITrk223
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:626
   source_object_index: 626
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id261
+    - source_model_index: 287
+      source_name: Door8
+      movable: true
+      world_translation_lt: &id176
+      - -872.0
+      - 84.0
+      - -864.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 288
+      source_name: Door9
+      movable: true
+      world_translation_lt: &id175
+      - -920.0
+      - 84.0
+      - -864.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 230
+      source_name: AITrk225
+      movable: true
+      world_translation_lt: &id177
+      - -896.0
+      - 8.0
+      - -864.0
+      distance_from_position_lt: 79.699
+    - source_model_index: 248
+      source_name: AITrk245
+      movable: true
+      world_translation_lt: &id178
+      - -896.0
+      - 9.0
+      - -792.0
+      distance_from_position_lt: 106.701
+    - source_model_index: 227
+      source_name: AITrk223
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:627
   source_object_index: 627
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id262
+    - source_model_index: 288
+      source_name: Door9
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 0.0
+    - source_model_index: 287
+      source_name: Door8
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 48.0
+    - source_model_index: 230
+      source_name: AITrk225
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 79.699
+    - source_model_index: 248
+      source_name: AITrk245
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 106.701
+    - source_model_index: 227
+      source_name: AITrk223
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:628
   source_object_index: 628
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id263
+    - source_model_index: 289
+      source_name: Door6
+      movable: true
+      world_translation_lt: &id180
+      - 3168.0
+      - 84.0
+      - -1456.0
+      distance_from_position_lt: 8.0
+    - source_model_index: 290
+      source_name: Door7
+      movable: true
+      world_translation_lt: &id179
+      - 3120.0
+      - 84.0
+      - -1456.0
+      distance_from_position_lt: 56.0
+    - source_model_index: 100
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: &id181
+      - 3144.0
+      - 8.0
+      - -1440.0
+      distance_from_position_lt: 84.0
+    - source_model_index: 101
+      source_name: AITrk96
+      movable: true
+      world_translation_lt: &id182
+      - 3144.0
+      - 8.0
+      - -1368.0
+      distance_from_position_lt: 120.599
+    - source_model_index: 46
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: &id183
+      - 3144.0
+      - 8.0
+      - -1568.0
+      distance_from_position_lt: 139.083
 - object_id: mm9:tasaracademy:object:629
   source_object_index: 629
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id264
+    - source_model_index: 290
+      source_name: Door7
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 8.0
+    - source_model_index: 289
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 40.0
+    - source_model_index: 100
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 79.297
+    - source_model_index: 101
+      source_name: AITrk96
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 117.371
+    - source_model_index: 46
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 136.294
 - object_id: mm9:tasaracademy:object:630
   source_object_index: 630
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id265
+    - source_model_index: 291
+      source_name: Door4
+      movable: true
+      world_translation_lt: &id185
+      - 2608.0
+      - 84.0
+      - -1456.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 292
+      source_name: Door5
+      movable: true
+      world_translation_lt: &id184
+      - 2560.0
+      - 84.0
+      - -1456.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 89
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: &id186
+      - 2584.0
+      - 8.0
+      - -1440.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 90
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: &id187
+      - 2584.0
+      - 8.0
+      - -1368.0
+      distance_from_position_lt: 118.727
+    - source_model_index: 44
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: &id188
+      - 2584.0
+      - 8.0
+      - -1568.0
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:631
   source_object_index: 631
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id266
+    - source_model_index: 292
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 0.0
+    - source_model_index: 291
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 48.0
+    - source_model_index: 89
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 81.29
+    - source_model_index: 90
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 118.727
+    - source_model_index: 44
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:632
   source_object_index: 632
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id267
+    - source_model_index: 293
+      source_name: Door2
+      movable: true
+      world_translation_lt: &id190
+      - 3168.0
+      - 84.0
+      - -1680.0
+      distance_from_position_lt: 8.0
+    - source_model_index: 294
+      source_name: Door3
+      movable: true
+      world_translation_lt: &id189
+      - 3120.0
+      - 84.0
+      - -1680.0
+      distance_from_position_lt: 56.0
+    - source_model_index: 110
+      source_name: AITrk105
+      movable: true
+      world_translation_lt: &id191
+      - 3144.0
+      - 8.0
+      - -1696.0
+      distance_from_position_lt: 84.0
+    - source_model_index: 111
+      source_name: AITrk106
+      movable: true
+      world_translation_lt: &id192
+      - 3144.0
+      - 8.0
+      - -1768.0
+      distance_from_position_lt: 120.599
+    - source_model_index: 46
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 139.083
 - object_id: mm9:tasaracademy:object:633
   source_object_index: 633
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id268
+    - source_model_index: 294
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id189
+      distance_from_position_lt: 8.0
+    - source_model_index: 293
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id190
+      distance_from_position_lt: 40.0
+    - source_model_index: 110
+      source_name: AITrk105
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 79.297
+    - source_model_index: 111
+      source_name: AITrk106
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 117.371
+    - source_model_index: 46
+      source_name: AITrk43
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 136.294
 - object_id: mm9:tasaracademy:object:634
   source_object_index: 634
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id269
+    - source_model_index: 295
+      source_name: Door0
+      movable: true
+      world_translation_lt: &id194
+      - 2608.0
+      - 84.0
+      - -1680.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 296
+      source_name: Door1
+      movable: true
+      world_translation_lt: &id193
+      - 2560.0
+      - 84.0
+      - -1680.0
+      distance_from_position_lt: 48.0
+    - source_model_index: 120
+      source_name: AITrk115
+      movable: true
+      world_translation_lt: &id195
+      - 2584.0
+      - 8.0
+      - -1696.0
+      distance_from_position_lt: 81.29
+    - source_model_index: 121
+      source_name: AITrk116
+      movable: true
+      world_translation_lt: &id196
+      - 2584.0
+      - 8.0
+      - -1768.0
+      distance_from_position_lt: 118.727
+    - source_model_index: 44
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:635
   source_object_index: 635
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id270
+    - source_model_index: 296
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 0.0
+    - source_model_index: 295
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id194
+      distance_from_position_lt: 48.0
+    - source_model_index: 120
+      source_name: AITrk115
+      movable: true
+      world_translation_lt: *id195
+      distance_from_position_lt: 81.29
+    - source_model_index: 121
+      source_name: AITrk116
+      movable: true
+      world_translation_lt: *id196
+      distance_from_position_lt: 118.727
+    - source_model_index: 44
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:638
   source_object_index: 638
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id271
+    - source_model_index: 299
+      source_name: BookButtonFront1
+      movable: true
+      world_translation_lt: &id200
+      - -6.0
+      - 201.0
+      - -3654.0
+      distance_from_position_lt: 1.0
+    - source_model_index: 300
+      source_name: RotatingBookcase1
+      movable: true
+      world_translation_lt: &id199
+      - -15.999992370605469
+      - 184.0
+      - -3696.0
+      distance_from_position_lt: 46.043
+    - source_model_index: 314
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: &id197
+      - -15.999992370605469
+      - 141.0
+      - -3696.0
+      distance_from_position_lt: 73.11
+    - source_model_index: 161
+      source_name: AITrk156
+      movable: true
+      world_translation_lt: &id198
+      - -16.0
+      - 136.0
+      - -3696.0
+      distance_from_position_lt: 77.201
+    - source_model_index: 301
+      source_name: BookButtonBack1
+      movable: true
+      world_translation_lt: &id201
+      - -26.0
+      - 201.0
+      - -3738.0
+      distance_from_position_lt: 86.354
 - object_id: mm9:tasaracademy:object:639
   source_object_index: 639
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id272
+    - source_model_index: 314
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: *id197
+      distance_from_rotation_point_lt: 19.0
+    - source_model_index: 161
+      source_name: AITrk156
+      movable: true
+      world_translation_lt: *id198
+      distance_from_rotation_point_lt: 24.0
+    - source_model_index: 300
+      source_name: RotatingBookcase1
+      movable: true
+      world_translation_lt: *id199
+      distance_from_rotation_point_lt: 24.0
+    - source_model_index: 299
+      source_name: BookButtonFront1
+      movable: true
+      world_translation_lt: *id200
+      distance_from_rotation_point_lt: 59.54
+    - source_model_index: 301
+      source_name: BookButtonBack1
+      movable: true
+      world_translation_lt: *id201
+      distance_from_rotation_point_lt: 59.54
+    nearest_movable_world_models_by_position: &id273
+    - source_model_index: 314
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: *id197
+      distance_from_position_lt: 19.0
+    - source_model_index: 161
+      source_name: AITrk156
+      movable: true
+      world_translation_lt: *id198
+      distance_from_position_lt: 24.0
+    - source_model_index: 300
+      source_name: RotatingBookcase1
+      movable: true
+      world_translation_lt: *id199
+      distance_from_position_lt: 24.0
+    - source_model_index: 299
+      source_name: BookButtonFront1
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 59.54
+    - source_model_index: 301
+      source_name: BookButtonBack1
+      movable: true
+      world_translation_lt: *id201
+      distance_from_position_lt: 59.54
 - object_id: mm9:tasaracademy:object:640
   source_object_index: 640
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id274
+    - source_model_index: 301
+      source_name: BookButtonBack1
+      movable: true
+      world_translation_lt: *id201
+      distance_from_position_lt: 1.0
+    - source_model_index: 300
+      source_name: RotatingBookcase1
+      movable: true
+      world_translation_lt: *id199
+      distance_from_position_lt: 46.043
+    - source_model_index: 314
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: *id197
+      distance_from_position_lt: 73.11
+    - source_model_index: 161
+      source_name: AITrk156
+      movable: true
+      world_translation_lt: *id198
+      distance_from_position_lt: 77.201
+    - source_model_index: 299
+      source_name: BookButtonFront1
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 86.354
 - object_id: mm9:tasaracademy:object:642
   source_object_index: 642
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id275
+    - source_model_index: 302
+      source_name: PitDoorLeft1
+      movable: true
+      world_translation_lt: &id202
+      - 496.0
+      - -4.5
+      - -1968.0
+      distance_from_rotation_point_lt: 32.191
+    - source_model_index: 312
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: &id203
+      - 496.0
+      - 4.5
+      - -2000.0
+      distance_from_rotation_point_lt: 65.209
+    - source_model_index: 157
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: &id204
+      - 496.0
+      - 8.0
+      - -2000.0
+      distance_from_rotation_point_lt: 65.97
+    - source_model_index: 303
+      source_name: PitDoorRight1
+      movable: true
+      world_translation_lt: &id205
+      - 496.0
+      - -4.5
+      - -2032.0
+      distance_from_rotation_point_lt: 96.064
+    - source_model_index: 153
+      source_name: AITrk150
+      movable: true
+      world_translation_lt: &id206
+      - 496.0
+      - -248.0
+      - -2000.0
+      distance_from_rotation_point_lt: 248.387
+    nearest_movable_world_models_by_position: &id276
+    - source_model_index: 302
+      source_name: PitDoorLeft1
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 32.191
+    - source_model_index: 312
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id203
+      distance_from_position_lt: 65.209
+    - source_model_index: 157
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: *id204
+      distance_from_position_lt: 65.97
+    - source_model_index: 303
+      source_name: PitDoorRight1
+      movable: true
+      world_translation_lt: *id205
+      distance_from_position_lt: 96.064
+    - source_model_index: 153
+      source_name: AITrk150
+      movable: true
+      world_translation_lt: *id206
+      distance_from_position_lt: 248.387
 - object_id: mm9:tasaracademy:object:643
   source_object_index: 643
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id277
+    - source_model_index: 303
+      source_name: PitDoorRight1
+      movable: true
+      world_translation_lt: *id205
+      distance_from_rotation_point_lt: 32.191
+    - source_model_index: 312
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id203
+      distance_from_rotation_point_lt: 65.209
+    - source_model_index: 157
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: *id204
+      distance_from_rotation_point_lt: 65.97
+    - source_model_index: 302
+      source_name: PitDoorLeft1
+      movable: true
+      world_translation_lt: *id202
+      distance_from_rotation_point_lt: 96.064
+    - source_model_index: 153
+      source_name: AITrk150
+      movable: true
+      world_translation_lt: *id206
+      distance_from_rotation_point_lt: 248.387
+    nearest_movable_world_models_by_position: &id278
+    - source_model_index: 303
+      source_name: PitDoorRight1
+      movable: true
+      world_translation_lt: *id205
+      distance_from_position_lt: 32.191
+    - source_model_index: 312
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id203
+      distance_from_position_lt: 65.209
+    - source_model_index: 157
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: *id204
+      distance_from_position_lt: 65.97
+    - source_model_index: 302
+      source_name: PitDoorLeft1
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 96.064
+    - source_model_index: 153
+      source_name: AITrk150
+      movable: true
+      world_translation_lt: *id206
+      distance_from_position_lt: 248.387
 - object_id: mm9:tasaracademy:object:644
   source_object_index: 644
   targets:
   - target_kind: trigger_volume
     target_id: mm9:tasaracademy:object:644:volume
     confidence: source_object_volume
-    pos_lt: *id110
+    pos_lt: *id207
     dims_lt: *id051
 - object_id: mm9:tasaracademy:object:647
   source_object_index: 647
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id279
+    - source_model_index: 306
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: &id209
+      - 496.0
+      - 120.0
+      - -2852.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 3
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt:
+      - 496.0
+      - 120.0
+      - -2834.0
+      distance_from_position_lt: 18.0
+    - source_model_index: 305
+      source_name: Rails0
+      movable: true
+      world_translation_lt: &id208
+      - 496.0
+      - 228.0
+      - -2912.0
+      distance_from_position_lt: 123.548
+    - source_model_index: 145
+      source_name: AITrk140
+      movable: true
+      world_translation_lt:
+      - 496.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 127.059
+    - source_model_index: 143
+      source_name: AITrk138
+      movable: true
+      world_translation_lt:
+      - 400.0
+      - 8.0
+      - -2912.0
+      distance_from_position_lt: 159.248
 - object_id: mm9:tasaracademy:object:648
   source_object_index: 648
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id280
+    - source_model_index: 307
+      source_name: Ladder1
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 0.0
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 18.0
+    - source_model_index: 305
+      source_name: Rails0
+      movable: true
+      world_translation_lt: *id208
+      distance_from_position_lt: 116.619
+    - source_model_index: 304
+      source_name: Rails
+      movable: true
+      world_translation_lt:
+      - 496.0
+      - 436.0
+      - -2912.0
+      distance_from_position_lt: 123.548
+    - source_model_index: 306
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id209
+      distance_from_position_lt: 240.133
 - object_id: mm9:tasaracademy:object:745
   source_object_index: 745
   targets:
   - target_kind: trigger_volume
     target_id: mm9:tasaracademy:object:745:volume
     confidence: source_object_volume
-    pos_lt: *id111
+    pos_lt: *id210
     dims_lt: *id052
 - object_id: mm9:tasaracademy:object:746
   source_object_index: 746
@@ -213582,7 +216558,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:tasaracademy:object:746:volume
     confidence: source_object_volume
-    pos_lt: *id112
+    pos_lt: *id211
     dims_lt: *id053
 - object_id: mm9:tasaracademy:object:747
   source_object_index: 747
@@ -213590,7 +216566,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:tasaracademy:object:747:volume
     confidence: source_object_volume
-    pos_lt: *id113
+    pos_lt: *id212
     dims_lt: *id054
 - object_id: mm9:tasaracademy:object:748
   source_object_index: 748
@@ -213598,51 +216574,248 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:tasaracademy:object:748:volume
     confidence: source_object_volume
-    pos_lt: *id114
+    pos_lt: *id213
     dims_lt: *id055
 - object_id: mm9:tasaracademy:object:751
   source_object_index: 751
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id281
+    - source_model_index: 262
+      source_name: SecretDoor0
+      movable: true
+      world_translation_lt: *id214
+      distance_from_position_lt: 46.648
+    - source_model_index: 310
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id215
+      distance_from_position_lt: 62.873
+    - source_model_index: 298
+      source_name: Switch1
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 99.636
+    - source_model_index: 24
+      source_name: AITrk21
+      movable: true
+      world_translation_lt: *id216
+      distance_from_position_lt: 147.946
+    - source_model_index: 29
+      source_name: AITrk26
+      movable: true
+      world_translation_lt: *id217
+      distance_from_position_lt: 147.946
 - object_id: mm9:tasaracademy:object:752
   source_object_index: 752
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id282
+    - source_model_index: 311
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id218
+      distance_from_position_lt: 80.006
+    - source_model_index: 259
+      source_name: SecretDoor1
+      movable: true
+      world_translation_lt: *id219
+      distance_from_position_lt: 80.399
+    - source_model_index: 81
+      source_name: AITrk76
+      movable: true
+      world_translation_lt: *id220
+      distance_from_position_lt: 104.307
+    - source_model_index: 87
+      source_name: AITrk82
+      movable: true
+      world_translation_lt: *id221
+      distance_from_position_lt: 124.515
+    - source_model_index: 88
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: *id222
+      distance_from_position_lt: 137.463
 - object_id: mm9:tasaracademy:object:753
   source_object_index: 753
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id283
+    - source_model_index: 302
+      source_name: PitDoorLeft1
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 72.638
+    - source_model_index: 157
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: *id204
+      distance_from_position_lt: 90.51
+    - source_model_index: 312
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id203
+      distance_from_position_lt: 90.577
+    - source_model_index: 303
+      source_name: PitDoorRight1
+      movable: true
+      world_translation_lt: *id205
+      distance_from_position_lt: 116.053
+    - source_model_index: 153
+      source_name: AITrk150
+      movable: true
+      world_translation_lt: *id206
+      distance_from_position_lt: 271.529
 - object_id: mm9:tasaracademy:object:754
   source_object_index: 754
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id284
+    - source_model_index: 261
+      source_name: door crack 2
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 80.025
+    - source_model_index: 313
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 80.306
+    - source_model_index: 260
+      source_name: door crack
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 80.623
+    - source_model_index: 141
+      source_name: AITrk136
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 129.259
+    - source_model_index: 152
+      source_name: AITrk146
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 150.957
 - object_id: mm9:tasaracademy:object:755
   source_object_index: 755
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id285
+    - source_model_index: 314
+      source_name: PerceptionBrush4
+      movable: true
+      world_translation_lt: *id197
+      distance_from_position_lt: 32.14
+    - source_model_index: 161
+      source_name: AITrk156
+      movable: true
+      world_translation_lt: *id198
+      distance_from_position_lt: 32.985
+    - source_model_index: 300
+      source_name: RotatingBookcase1
+      movable: true
+      world_translation_lt: *id199
+      distance_from_position_lt: 51.225
+    - source_model_index: 299
+      source_name: BookButtonFront1
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 58.728
+    - source_model_index: 301
+      source_name: BookButtonBack1
+      movable: true
+      world_translation_lt: *id201
+      distance_from_position_lt: 93.941
 - object_id: mm9:tasaracademy:object:806
   source_object_index: 806
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id286
+    - source_model_index: 35
+      source_name: AITrk32
+      movable: true
+      world_translation_lt: &id226
+      - 2816.0
+      - 8.0
+      - -276.0
+      distance_from_position_lt: 160.649
+    - source_model_index: 36
+      source_name: AITrk33
+      movable: true
+      world_translation_lt: &id228
+      - 2816.0
+      - 8.0
+      - -384.0
+      distance_from_position_lt: 204.431
+    - source_model_index: 37
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: &id225
+      - 2816.0
+      - 8.0
+      - -84.0
+      distance_from_position_lt: 234.504
+    - source_model_index: 316
+      source_name: InvisibleBrush2
+      movable: true
+      world_translation_lt: &id224
+      - 2754.0
+      - 96.0
+      - 48.0
+      distance_from_position_lt: 373.914
+    - source_model_index: 34
+      source_name: AITrk31
+      movable: true
+      world_translation_lt: &id227
+      - 2544.0
+      - 8.0
+      - -276.0
+      distance_from_position_lt: 427.177
 - object_id: mm9:tasaracademy:object:810
   source_object_index: 810
   targets:
   - target_kind: trigger_volume
     target_id: mm9:tasaracademy:object:810:volume
     confidence: source_object_volume
-    pos_lt: *id115
+    pos_lt: *id223
     dims_lt: *id056
 - object_id: mm9:tasaracademy:object:823
   source_object_index: 823
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id287
+    - source_model_index: 316
+      source_name: InvisibleBrush2
+      movable: true
+      world_translation_lt: *id224
+      distance_from_position_lt: 0.0
+    - source_model_index: 37
+      source_name: AITrk34
+      movable: true
+      world_translation_lt: *id225
+      distance_from_position_lt: 170.329
+    - source_model_index: 35
+      source_name: AITrk32
+      movable: true
+      world_translation_lt: *id226
+      distance_from_position_lt: 341.415
+    - source_model_index: 34
+      source_name: AITrk31
+      movable: true
+      world_translation_lt: *id227
+      distance_from_position_lt: 396.005
+    - source_model_index: 36
+      source_name: AITrk33
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 445.21
 scripts:
 - script_id: bookletter.scr
   source_path: BOOKLETTER.scr
@@ -214487,276 +217660,390 @@ unresolved:
   source_name: LibraryDoor
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id229
+    nearest_movable_world_models_by_position: *id230
 - kind: unresolved_binding
   source_object_index: 389
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id231
 - kind: unresolved_binding
   source_object_index: 390
   source_name: InvisibleBrush1
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id232
 - kind: unresolved_binding
   source_object_index: 598
   source_name: SecretDoor1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id233
 - kind: unresolved_binding
   source_object_index: 599
   source_name: door crack
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id234
 - kind: unresolved_binding
   source_object_index: 600
   source_name: door crack 2
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id235
 - kind: unresolved_binding
   source_object_index: 601
   source_name: SecretDoor0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id236
 - kind: unresolved_binding
   source_object_index: 602
   source_name: DoubleDoorL11
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id237
 - kind: unresolved_binding
   source_object_index: 603
   source_name: DoubleDoorR11
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id238
 - kind: unresolved_binding
   source_object_index: 604
   source_name: Door32
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id239
 - kind: unresolved_binding
   source_object_index: 605
   source_name: Door33
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id240
 - kind: unresolved_binding
   source_object_index: 606
   source_name: Door30
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id241
 - kind: unresolved_binding
   source_object_index: 607
   source_name: Door31
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id242
 - kind: unresolved_binding
   source_object_index: 608
   source_name: Door28
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id243
 - kind: unresolved_binding
   source_object_index: 609
   source_name: Door29
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id244
 - kind: unresolved_binding
   source_object_index: 610
   source_name: Door26
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id245
 - kind: unresolved_binding
   source_object_index: 611
   source_name: Door27
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id246
 - kind: unresolved_binding
   source_object_index: 612
   source_name: Door24
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id247
 - kind: unresolved_binding
   source_object_index: 613
   source_name: Door25
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id248
 - kind: unresolved_binding
   source_object_index: 614
   source_name: Door22
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id249
 - kind: unresolved_binding
   source_object_index: 615
   source_name: Door23
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id250
 - kind: unresolved_binding
   source_object_index: 616
   source_name: Door20
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id251
 - kind: unresolved_binding
   source_object_index: 617
   source_name: Door21
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id252
 - kind: unresolved_binding
   source_object_index: 618
   source_name: Door18
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id253
 - kind: unresolved_binding
   source_object_index: 619
   source_name: Door19
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id254
 - kind: unresolved_binding
   source_object_index: 620
   source_name: Door16
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id255
 - kind: unresolved_binding
   source_object_index: 621
   source_name: Door17
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id256
 - kind: unresolved_binding
   source_object_index: 622
   source_name: Door14
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id257
 - kind: unresolved_binding
   source_object_index: 623
   source_name: Door15
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id258
 - kind: unresolved_binding
   source_object_index: 624
   source_name: Door10
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id259
 - kind: unresolved_binding
   source_object_index: 625
   source_name: Door13
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id260
 - kind: unresolved_binding
   source_object_index: 626
   source_name: Door8
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id261
 - kind: unresolved_binding
   source_object_index: 627
   source_name: Door9
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id262
 - kind: unresolved_binding
   source_object_index: 628
   source_name: Door6
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id263
 - kind: unresolved_binding
   source_object_index: 629
   source_name: Door7
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id264
 - kind: unresolved_binding
   source_object_index: 630
   source_name: Door4
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id265
 - kind: unresolved_binding
   source_object_index: 631
   source_name: Door5
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id266
 - kind: unresolved_binding
   source_object_index: 632
   source_name: Door2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id267
 - kind: unresolved_binding
   source_object_index: 633
   source_name: Door3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id268
 - kind: unresolved_binding
   source_object_index: 634
   source_name: Door0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id269
 - kind: unresolved_binding
   source_object_index: 635
   source_name: Door1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id270
 - kind: unresolved_binding
   source_object_index: 638
   source_name: BookButtonFront1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id271
 - kind: unresolved_binding
   source_object_index: 639
   source_name: RotatingBookcase1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id272
+    nearest_movable_world_models_by_position: *id273
 - kind: unresolved_binding
   source_object_index: 640
   source_name: BookButtonBack1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id274
 - kind: unresolved_binding
   source_object_index: 642
   source_name: PitDoorLeft1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id275
+    nearest_movable_world_models_by_position: *id276
 - kind: unresolved_binding
   source_object_index: 643
   source_name: PitDoorRight1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id277
+    nearest_movable_world_models_by_position: *id278
 - kind: unresolved_binding
   source_object_index: 647
   source_name: Ladder0
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id279
 - kind: unresolved_binding
   source_object_index: 648
   source_name: Ladder1
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id280
 - kind: unresolved_binding
   source_object_index: 751
   source_name: PerceptionBrush0
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id281
 - kind: unresolved_binding
   source_object_index: 752
   source_name: PerceptionBrush1
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id282
 - kind: unresolved_binding
   source_object_index: 753
   source_name: PerceptionBrush2
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id283
 - kind: unresolved_binding
   source_object_index: 754
   source_name: PerceptionBrush3
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id284
 - kind: unresolved_binding
   source_object_index: 755
   source_name: PerceptionBrush4
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id285
 - kind: unresolved_binding
   source_object_index: 806
   source_name: DestructableProp0
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id286
 - kind: unresolved_binding
   source_object_index: 823
   source_name: InvisibleBrush2
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id287
 validation:
   raw_object_count: 828
   event_object_count: 828

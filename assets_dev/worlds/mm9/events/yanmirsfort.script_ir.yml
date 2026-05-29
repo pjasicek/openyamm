@@ -1,0 +1,1111 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: yanmirsfort
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: writ.scr
+  source_path: WRIT.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 23
+    name: Onuse
+  - line: 42
+    name: Init
+  - line: 65
+    name: OnInit
+  - line: 76
+    name: Main
+  - line: 90
+    name: Init
+  registered_triggers:
+  - line: 71
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  - line: 81
+    message: init
+    callback: OnInit
+    arguments_raw: init, OnInit
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 58
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 59
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 60
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 68
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 69
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 70
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: haskey
+    arguments_raw: 100 g_ntemp
+  - line: 28
+    command: haskey
+    arguments_raw: 99 g_ntemp
+  - line: 30
+    command: giveitem
+    arguments_raw: '392'
+  - line: 31
+    command: giveexp
+    arguments_raw: '162000'
+  - line: 32
+    command: givekey
+    arguments_raw: '100'
+  - line: 35
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 45
+    command: Haskey
+    arguments_raw: 100 keycheck
+  - line: 48
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 49
+    command: exitscript
+    arguments_raw: ''
+  - line: 55
+    command: Haskey
+    arguments_raw: 99 keycheck
+  - line: 82
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 83
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 84
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 95
+    command: GetObjectName
+    arguments_raw: g_hMyObject g_sTemp
+  - line: 97
+    command: SetPropString
+    arguments_raw: DoubleDoorName DoorTeleportRight
+  - line: 101
+    command: goto
+    arguments_raw: Init 1
+  command_count: 48
+- script_id: yanmir.scr
+  source_path: YANMIR.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: GiveEeps
+  - line: 47
+    name: Main
+  registered_triggers:
+  - line: 51
+    message: Use
+    callback: DoNothing
+    arguments_raw: Use, DoNothing
+  - line: 52
+    message: Trigger
+    callback: DoNothing
+    arguments_raw: Trigger, DoNothing
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: haskey
+    arguments_raw: 69 g_ntemp
+  - line: 23
+    command: Haskey
+    arguments_raw: 68 keycheck
+  - line: 26
+    command: givekey
+    arguments_raw: '69'
+  - line: 27
+    command: GiveEXP
+    arguments_raw: '8000'
+  - line: 33
+    command: Haskey
+    arguments_raw: 173 keycheck
+  - line: 36
+    command: givekey
+    arguments_raw: '173'
+  - line: 37
+    command: GiveEXP
+    arguments_raw: '8000'
+  command_count: 21
+- script_id: yanmir_camera.scr
+  source_path: YANMIR_CAMERA.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 16
+    name: TurnOn
+  - line: 29
+    name: TurnOff
+  - line: 39
+    name: OnLinkBroken
+  - line: 54
+    name: OnTurnOff
+  - line: 61
+    name: Main
+  registered_triggers:
+  - line: 63
+    message: 'ON'
+    callback: TurnOn
+    arguments_raw: ON,TurnOn
+  - line: 64
+    message: 'OFF'
+    callback: OnTurnOff
+    arguments_raw: OFF,OnTurnOff
+  trigger_edges:
+  - line: 34
+    target_expression: hMe
+    message_expression: 'OFF'
+    arguments_raw: hMe,OFF
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: LetterBox
+    arguments_raw: '1'
+  - line: 23
+    command: Target
+    arguments_raw: hYanmir
+  - line: 24
+    command: CreateObjectLink
+    arguments_raw: hYanmir
+  - line: 45
+    command: Target
+    arguments_raw: 'NULL'
+  - line: 46
+    command: hYanmir
+    arguments_raw: = NULL
+  - line: 56
+    command: LetterBox
+    arguments_raw: '0'
+  - line: 65
+    command: OnObjectLinkBroken
+    arguments_raw: OnLinkBroken
+  command_count: 21
+- script_id: yanmir_endofworld.scr
+  source_path: YANMIR_ENDOFWORLD.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 12
+    name: HandlePlayer
+  - line: 28
+    name: HandleYanmir
+  - line: 39
+    name: HandleOther
+  - line: 51
+    name: OnOutOfWorld
+  - line: 73
+    name: Main
+  registered_triggers:
+  - line: 76
+    message: OutOfWorld
+    callback: OnOutOfWorld
+    arguments_raw: OutOfWorld,OnOutOfWorld
+  trigger_edges:
+  - line: 22
+    target_expression: g_hObject
+    message_expression: 'On'
+    arguments_raw: g_hObject,On
+  - line: 23
+    target_expression: g_hObject
+    message_expression: Trigger
+    arguments_raw: g_hObject,Trigger
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 33
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 42
+    command: IsClass
+    arguments_raw: g_hObject,Actor,g_bTemp
+  - line: 45
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 56
+    command: IsPlayer
+    arguments_raw: g_hObject,g_bTemp
+  - line: 59
+    command: goto
+    arguments_raw: HandlePlayer
+  - line: 62
+    command: GetObjectName
+    arguments_raw: g_hObject,g_sTemp
+  - line: 65
+    command: goto
+    arguments_raw: HandleYanmir
+  - line: 68
+    command: goto
+    arguments_raw: HandleOther
+  command_count: 24
+- script_id: yanmirbase.scr
+  source_path: YANMIRBASE.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: BaseCrawl.inc
+  - line: 13
+    path: Range.inc
+  labels:
+  - line: 23
+    name: LookForBugsStart
+  - line: 29
+    name: LookForBugsTick
+  - line: 72
+    name: AttackDone
+  - line: 87
+    name: ClearTarget
+  - line: 96
+    name: SetupTarget
+  - line: 112
+    name: LookForBugsStop
+  - line: 119
+    name: TargetPlayer
+  - line: 133
+    name: OnStuck
+  - line: 139
+    name: OpenDoor
+  - line: 151
+    name: TurnDustOff
+  - line: 157
+    name: KickDoorDone
+  - line: 165
+    name: KickDoor
+  - line: 174
+    name: BD_OnDoor
+  - line: 196
+    name: SpeedThrottleStart
+  - line: 203
+    name: DoFall
+  - line: 211
+    name: FallDown
+  - line: 238
+    name: Begin
+  - line: 249
+    name: Wipe
+  - line: 257
+    name: WipeDone
+  - line: 277
+    name: BaseCrawlGetHim
+  - line: 297
+    name: ShouldRunAfter
+  - line: 309
+    name: DoWipe
+  - line: 322
+    name: OnTargetDead
+  - line: 336
+    name: OnAlert
+  - line: 344
+    name: FollowPath
+  - line: 353
+    name: OnPlayerRanAway
+  - line: 379
+    name: DoCamera
+  - line: 417
+    name: DestroyFloor
+  - line: 437
+    name: OnTimeToDie
+  - line: 484
+    name: GiveEeps
+  - line: 513
+    name: Main
+  - line: 539
+    name: OnDeath
+  - line: 549
+    name: Reset
+  registered_triggers:
+  - line: 526
+    message: Squish
+    callback: Begin
+    arguments_raw: Squish, Begin
+  - line: 527
+    message: PlayerRanAway
+    callback: OnPlayerRanAway
+    arguments_raw: PlayerRanAway,OnPlayerRanAway
+  - line: 528
+    message: TimeToDie
+    callback: OnTimeToDie
+    arguments_raw: TimeToDie,OnTimeToDie
+  - line: 529
+    message: DestroyFloor
+    callback: DestroyFloor
+    arguments_raw: DestroyFloor,DestroyFloor
+  trigger_edges:
+  - line: 145
+    target_expression: hDust
+    message_expression: 'ON'
+    arguments_raw: hDust,ON
+  - line: 147
+    target_expression: g_hDoor
+    message_expression: Use
+    arguments_raw: g_hDoor,Use
+  - line: 153
+    target_expression: hDust
+    message_expression: 'Off'
+    arguments_raw: hDust, Off
+  - line: 412
+    target_expression: g_hObject
+    message_expression: 'ON'
+    arguments_raw: g_hObject,ON
+  - line: 421
+    target_expression: g_hObject
+    message_expression: Destroy
+    arguments_raw: g_hObject,Destroy
+  - line: 424
+    target_expression: g_hObject
+    message_expression: Disappear
+    arguments_raw: g_hObject,Disappear
+  - line: 451
+    target_expression: g_hObject
+    message_expression: 'On'
+    arguments_raw: g_hObject,On
+  - line: 454
+    target_expression: g_hObject
+    message_expression: 'On'
+    arguments_raw: g_hObject,On
+  - line: 457
+    target_expression: g_hObject
+    message_expression: 'On'
+    arguments_raw: g_hObject,On
+  movement_commands:
+  - line: 144
+    command: SetPos
+    arguments_raw: hDust,g_posX,g_posY,g_posZ
+  state_commands:
+  - line: 179
+    command: GetStat
+    arguments_raw: g_hDoor,IsClosed,g_bTemp
+  - line: 403
+    command: GetStat
+    arguments_raw: g_hObject2,UserData,g_nTemp
+  presentation_commands:
+  - line: 169
+    command: PlayAnim
+    arguments_raw: KickDoor, KickDoorDone
+  - line: 205
+    command: LoopAnim
+    arguments_raw: Fall,0
+  - line: 233
+    command: PlayAnim
+    arguments_raw: startDie,DoFall
+  - line: 254
+    command: PlayAnim
+    arguments_raw: Wipe, WipeDone
+  unknown_commands:
+  - line: 34
+    command: GetRandomFloat
+    arguments_raw: 0.5,2,g_nRandom
+  - line: 37
+    command: GetTarget
+    arguments_raw: g_hObject
+  - line: 43
+    command: GetObjects
+    arguments_raw: IceLobbercicle,500,20,bugArray,bugCount
+  - line: 49
+    command: Sub
+    arguments_raw: bugCount,1
+  - line: 50
+    command: GetRandomInt
+    arguments_raw: 0,bugCount,g_nRandom
+  - line: 52
+    command: ArrayGet
+    arguments_raw: bugArray,g_nRandom,g_hTarget
+  - line: 54
+    command: IsVisible
+    arguments_raw: g_hTarget,g_bTemp
+  - line: 57
+    command: g_hTarget
+    arguments_raw: = NULL
+  - line: 61
+    command: Stop
+    arguments_raw: ''
+  - line: 63
+    command: markerSave
+    arguments_raw: = nCurrentMarker
+  - line: 65
+    command: nBugAttempts
+    arguments_raw: = 0
+  - line: 77
+    command: Add
+    arguments_raw: nBugAttempts,1
+  - line: 99
+    command: IsPlayer
+    arguments_raw: g_hTarget,bPlayerTargeted
+  - line: 102
+    command: MAX_CHASE_TIME
+    arguments_raw: = 45
+  - line: 104
+    command: MAX_CHASE_TIME
+    arguments_raw: = 15
+  - line: 107
+    command: goto
+    arguments_raw: SetupTarget,2
+  - line: 121
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  - line: 143
+    command: GetSocketPos
+    arguments_raw: Rfoot,g_posX,g_posY,g_posZ
+  - line: 188
+    command: SavePath
+    arguments_raw: ''
+  - line: 190
+    command: g_bDoorOpening
+    arguments_raw: = TRUE
+  - line: 219
+    command: Stop
+    arguments_raw: ''
+  - line: 225
+    command: OnFoundTarget
+    arguments_raw: ''
+  - line: 226
+    command: OnDamage
+    arguments_raw: ''
+  - line: 227
+    command: OnAlert
+    arguments_raw: ''
+  - line: 228
+    command: OnDamageDone
+    arguments_raw: ''
+  - line: 229
+    command: OnProjectile
+    arguments_raw: ''
+  - line: 240
+    command: RemoveTrigger
+    arguments_raw: Squish
+  - line: 258
+    command: Stop
+    arguments_raw: ''
+  - line: 260
+    command: nCurrentMarker
+    arguments_raw: = markerSave
+  - line: 264
+    command: Sub
+    arguments_raw: nCurrentMarker,1
+  - line: 267
+    command: nCurrentMarker
+    arguments_raw: = nWanderPathCount - 1
+  - line: 279
+    command: AIGetDistance
+    arguments_raw: g_hTarget,g_nDist
+  - line: 282
+    command: AIGetDistance
+    arguments_raw: g_hObject,g_nDist
+  - line: 284
+    command: GetDistance
+    arguments_raw: g_hTarget,g_hObject,g_nDist
+  - line: 286
+    command: Stop
+    arguments_raw: ''
+  - line: 315
+    command: Stop
+    arguments_raw: ''
+  - line: 347
+    command: nCurrentMarker
+    arguments_raw: = 18
+  - line: 367
+    command: Stop
+    arguments_raw: ''
+  - line: 371
+    command: g_hTarget
+    arguments_raw: = g_hObject
+  - line: 372
+    command: Target
+    arguments_raw: g_hObject,TRUE
+  - line: 374
+    command: RunTo
+    arguments_raw: g_hObject, 0, FollowPath
+  - line: 392
+    command: GetPlayerHandle
+    arguments_raw: g_hObject
+  - line: 394
+    command: GetContainer
+    arguments_raw: g_hObject,0,g_hObject2
+  - line: 396
+    command: g_bTemp
+    arguments_raw: = TRUE
+  - line: 406
+    command: cprint
+    arguments_raw: Player is within a viewable camera!!!
+  - line: 446
+    command: RemoveTrigger
+    arguments_raw: TimeToDie
+  - line: 465
+    command: Target
+    arguments_raw: 'NULL'
+  - line: 466
+    command: OnFoundTarget
+    arguments_raw: ''
+  - line: 467
+    command: g_hTarget
+    arguments_raw: = NULL
+  - line: 472
+    command: cprint
+    arguments_raw: Where is YanmirPathA4???
+  - line: 474
+    command: RunTo
+    arguments_raw: g_hObject,0,FallDown
+  - line: 478
+    command: set
+    arguments_raw: g_nPad2 8000
+  - line: 488
+    command: haskey
+    arguments_raw: 69 g_ntemp
+  - line: 491
+    command: Haskey
+    arguments_raw: 68 g_ntemp
+  - line: 493
+    command: givekey
+    arguments_raw: '69'
+  - line: 494
+    command: GiveEXP
+    arguments_raw: g_nPad2
+  - line: 502
+    command: Haskey
+    arguments_raw: 173 g_ntemp
+  - line: 504
+    command: givekey
+    arguments_raw: '173'
+  - line: 505
+    command: GiveEXP
+    arguments_raw: g_nPad2
+  - line: 519
+    command: AddModelKey
+    arguments_raw: OpenDoor,OpenDoor
+  - line: 520
+    command: AddModelKey
+    arguments_raw: DestroyFloor,DestroyFloor
+  - line: 522
+    command: OnStuck
+    arguments_raw: OnStuck
+  - line: 523
+    command: OnLostTarget
+    arguments_raw: GiveupOnTarget
+  - line: 531
+    command: OnPostMiniSaveLoad
+    arguments_raw: Reset
+  - line: 532
+    command: OnPostSaveLoad
+    arguments_raw: Reset
+  - line: 543
+    command: set
+    arguments_raw: g_nPad2 5000
+  - line: 553
+    command: SetPropNumber
+    arguments_raw: CanDamage FALSE
+  command_count: 245
+- script_id: yanmirchild.scr
+  source_path: YANMIRCHILD.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: FollowPlayer.inc
+  - line: 9
+    path: baseDoor.inc
+  labels:
+  - line: 18
+    name: Main
+  - line: 30
+    name: InitYanmirChild
+  - line: 41
+    name: OnUse
+  - line: 57
+    name: ShoutForHelp
+  - line: 74
+    name: OnFollowDone
+  - line: 91
+    name: EscapeLevel
+  - line: 102
+    name: Escape
+  registered_triggers:
+  - line: 32
+    message: use
+    callback: OnUse
+    arguments_raw: use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 22
+    command: SetConsoleNumVar
+    arguments_raw: YANMIR_CHILD_HELP, 0
+  - line: 24
+    command: OnPostStartWorld
+    arguments_raw: InitYanmirChild
+  - line: 25
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitYanmirChild
+  - line: 34
+    command: OnFoundPlayer
+    arguments_raw: ShoutForHelp
+  - line: 36
+    command: SetIdle
+    arguments_raw: ''
+  - line: 44
+    command: HasKey
+    arguments_raw: 7001, nTemp
+  - line: 49
+    command: OnStuckDone
+    arguments_raw: FollowStart
+  - line: 60
+    command: GetConsoleNumVar
+    arguments_raw: YANMIR_CHILD_HELP, nTemp
+  - line: 62
+    command: SetConsoleNumVar
+    arguments_raw: YANMIR_CHILD_HELP, 1
+  - line: 63
+    command: HasKey
+    arguments_raw: 7001, nTemp
+  - line: 82
+    command: AIGetDistance
+    arguments_raw: hEscape, nTemp
+  - line: 83
+    command: unknown
+    arguments_raw: if( nTemp<ESCAPE_RADIUS )
+  - line: 95
+    command: RunToPos
+    arguments_raw: 6528 71 279 0 Escape
+  - line: 96
+    command: OnObstacle
+    arguments_raw: Escape
+  - line: 105
+    command: Stop
+    arguments_raw: ''
+  - line: 106
+    command: hEscape
+    arguments_raw: = NULL
+  - line: 108
+    command: RemoveObject
+    arguments_raw: hEscape
+  command_count: 45
+- script_id: yanmirfort_bugspawn.scr
+  source_path: YANMIRFORT_BUGSPAWN.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 26
+    name: DoSpawn
+  - line: 57
+    name: OnRespawnMe
+  - line: 74
+    name: Main
+  registered_triggers:
+  - line: 87
+    message: RespawnMe
+    callback: OnRespawnMe
+    arguments_raw: RespawnMe,OnRespawnMe
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 37
+    command: GetPlayerHandle
+    arguments_raw: hPlayer
+  - line: 39
+    command: IsVisible
+    arguments_raw: hPlayer,bVisible
+  - line: 42
+    command: nReWaitNbr
+    arguments_raw: = nReWaitNbr + 1
+  - line: 44
+    command: nReWaitNbr
+    arguments_raw: = 16
+  - line: 52
+    command: Spawn
+    arguments_raw: hSpawn,x,y,z,sCmd
+  - line: 60
+    command: nWaitNbr
+    arguments_raw: = nWaitNbr + 1
+  - line: 63
+    command: nWaitNbr
+    arguments_raw: = 0
+  - line: 66
+    command: GetRandomFloat
+    arguments_raw: MIN_SPAWN_TIME,MAX_SPAWN_TIME,nRandom
+  - line: 78
+    command: GetObjectName
+    arguments_raw: hMyObject,sMyName
+  - line: 80
+    command: Set
+    arguments_raw: sCmd,IceLobbercicle DeathTriggerMessage RespawnMe
+  - line: 82
+    command: sCmd
+    arguments_raw: = sCmd + SPACE + sMyName
+  - line: 84
+    command: debugOut
+    arguments_raw: spawnCmd=
+  - line: 85
+    command: debugOut
+    arguments_raw: sCmd
+  command_count: 28
+- script_id: yanmirhidden.scr
+  source_path: YANMIRHIDDEN.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: BaseGlobals.inc
+  - line: 7
+    path: flags.inc
+  labels:
+  - line: 15
+    name: Main
+  - line: 25
+    name: InitYanmirHidden
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 31
+    command: SetFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  - line: 32
+    command: SetFlag
+    arguments_raw: hMe, FLAG_SOLID
+  - line: 36
+    command: ClearFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  - line: 37
+    command: ClearFlag
+    arguments_raw: hMe, FLAG_SOLID
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: OnPostStartWorld
+    arguments_raw: InitYanmirHidden
+  - line: 20
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitYanmirHidden
+  - line: 34
+    command: RunScript
+    arguments_raw: '"titan.scr"'
+  command_count: 15
+- script_id: yanmirkey.scr
+  source_path: YANMIRKEY.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 16
+    name: Main
+  - line: 29
+    name: CheckForKey
+  - line: 40
+    name: GiveKeyToPlayer
+  - line: 53
+    name: UnlockCages
+  - line: 80
+    name: RemoveMe
+  registered_triggers:
+  - line: 21
+    message: use
+    callback: GiveKeyToPlayer
+    arguments_raw: use, GiveKeyToPlayer
+  trigger_edges:
+  - line: 57
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 59
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 63
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 65
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 67
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 69
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 71
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 73
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  - line: 75
+    target_expression: hObject
+    message_expression: unlock
+    arguments_raw: hObject, unlock
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 23
+    command: OnPostStartWorld
+    arguments_raw: CheckForKey
+  - line: 24
+    command: OnPostMiniSaveLoad
+    arguments_raw: CheckForKey
+  - line: 31
+    command: HasKey
+    arguments_raw: 7001, bHasKey
+  - line: 42
+    command: RemoveTrigger
+    arguments_raw: use
+  - line: 44
+    command: GiveItem
+    arguments_raw: '570'
+  - line: 45
+    command: GiveKey
+    arguments_raw: '7001'
+  - line: 83
+    command: RemoveObject
+    arguments_raw: hObject
+  command_count: 40
+- script_id: yanmirtrap.scr
+  source_path: YANMIRTRAP.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 20
+    name: Main
+  - line: 29
+    name: CheckCount
+  - line: 49
+    name: Init
+  registered_triggers:
+  - line: 24
+    message: SupportBroken
+    callback: CheckCount
+    arguments_raw: SupportBroken, CheckCount
+  trigger_edges:
+  - line: 37
+    target_expression: hTitanTrap
+    message_expression: 'on'
+    arguments_raw: hTitanTrap, on
+  - line: 94
+    target_expression: hTitanTrap
+    message_expression: 'on'
+    arguments_raw: hTitanTrap on
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 31
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 33
+    command: RemoveTrigger
+    arguments_raw: SupportBroken
+  - line: 41
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 42
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 56
+    command: RemoveObject
+    arguments_raw: hTitanTrap
+  - line: 62
+    command: RemoveObject
+    arguments_raw: hTitanTrap
+  - line: 68
+    command: RemoveObject
+    arguments_raw: hTitanTrap
+  - line: 74
+    command: RemoveObject
+    arguments_raw: hTitanTrap
+  - line: 80
+    command: RemoveObject
+    arguments_raw: hTitanTrap
+  - line: 86
+    command: RemoveObject
+    arguments_raw: hTitanTrap
+  command_count: 51
+- script_id: yf_explodingfloor.scr
+  source_path: YF_EXPLODINGFLOOR.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: Globals.inc
+  - line: 13
+    path: Flags.inc
+  labels:
+  - line: 19
+    name: dn
+  - line: 23
+    name: StopHere
+  - line: 28
+    name: MoveToMarker
+  - line: 35
+    name: DelayAction
+  - line: 44
+    name: Main2
+  - line: 51
+    name: Main
+  registered_triggers:
+  - line: 48
+    message: Fall
+    callback: DelayAction
+    arguments_raw: Fall, DelayAction
+  trigger_edges:
+  - line: 32
+    target_expression: hMe
+    message_expression: Destroy
+    arguments_raw: hMe, Destroy
+  movement_commands: []
+  state_commands:
+  - line: 37
+    command: SetFlag
+    arguments_raw: hMe,FLAG_GOTHRUWORLD
+  - line: 38
+    command: ClearFlag
+    arguments_raw: hMe,FLAG_SOLID
+  presentation_commands: []
+  unknown_commands:
+  - line: 31
+    command: cprint
+    arguments_raw: '"MoveToMarker"'
+  - line: 40
+    command: cprint
+    arguments_raw: '"DelayAction"'
+  command_count: 15
+- script_id: yf_fallingfloor.scr
+  source_path: YF_FALLINGFLOOR.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: Globals.inc
+  - line: 13
+    path: flags.inc
+  labels:
+  - line: 26
+    name: dn
+  - line: 31
+    name: RemoveMe
+  - line: 40
+    name: OnTouchNotify
+  - line: 58
+    name: StopHere
+  - line: 73
+    name: GoAway
+  - line: 79
+    name: DelayAction
+  - line: 89
+    name: Main2
+  - line: 99
+    name: Main
+  registered_triggers:
+  - line: 95
+    message: Disappear
+    callback: DelayAction
+    arguments_raw: Disappear, DelayAction
+  trigger_edges:
+  - line: 64
+    target_expression: hObject
+    message_expression: destroy
+    arguments_raw: hObject,destroy
+  - line: 67
+    target_expression: g_hObject
+    message_expression: destroy
+    arguments_raw: g_hObject,destroy
+  movement_commands:
+  - line: 75
+    command: MoveToPos
+    arguments_raw: nVarX, nVarY, nVarZ, 1000, StopHere
+  state_commands:
+  - line: 82
+    command: SetFlag
+    arguments_raw: hMe,FLAG_GOTHRUWORLD
+  presentation_commands: []
+  unknown_commands:
+  - line: 34
+    command: RemoveObject
+    arguments_raw: hMe
+  - line: 47
+    command: GetObjectName
+    arguments_raw: hObject,name
+  - line: 50
+    command: OnTouchNotify
+    arguments_raw: ''
+  - line: 83
+    command: goto
+    arguments_raw: GoAway
+  - line: 96
+    command: OnTouchNotify
+    arguments_raw: OnTouchNotify
+  command_count: 30
+validation:
+  script_count: 13

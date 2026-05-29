@@ -18,8 +18,7 @@ script.labels["Onuse"] = function(ctx)
         if ctx:hasKey(214) then -- KIRASHIELD.scr:20-21
             ctx:giveKey(216) -- KIRASHIELD.scr:22
             ctx:giveItem(375) -- KIRASHIELD.scr:23
-            ctx:command("getmyhandle", "g_hmyobject") -- KIRASHIELD.scr:24
-            ctx:command("removeobject", "g_hmyobject") -- KIRASHIELD.scr:25
+            ctx:self():remove() -- KIRASHIELD.scr:25
             do return ctx:exit("") end -- KIRASHIELD.scr:26
         end -- KIRASHIELD.scr:27
     end -- KIRASHIELD.scr:28
@@ -29,8 +28,7 @@ end
 script.labels["OnDelete"] = function(ctx)
     -- KIRASHIELD.scr:33
     if ctx:hasKey(216) then -- KIRASHIELD.scr:36-37
-        ctx:command("getmyhandle", "g_hmyobject") -- KIRASHIELD.scr:38
-        ctx:command("removeobject", "g_hmyobject") -- KIRASHIELD.scr:39
+        ctx:self():remove() -- KIRASHIELD.scr:39
         do return ctx:exit("") end -- KIRASHIELD.scr:40
     end -- KIRASHIELD.scr:41
     do return ctx:exit("") end -- KIRASHIELD.scr:42

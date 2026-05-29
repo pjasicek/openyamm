@@ -19,8 +19,8 @@ script.labels = {}
 script.labels["Main"] = function(ctx)
     -- SPAWNLOC.scr:18
     ctx:getParam(0, "sCreatureName") -- SPAWNLOC.scr:20
-    ctx:command("onpoststartworld", "InitSpawnLoc") -- SPAWNLOC.scr:22
-    ctx:command("onpostminisaveload", "InitSpawnLoc") -- SPAWNLOC.scr:23
+    ctx:onEvent("OnPostStartWorld", "InitSpawnLoc") -- SPAWNLOC.scr:22
+    ctx:onEvent("OnPostMiniSaveLoad", "InitSpawnLoc") -- SPAWNLOC.scr:23
     do return ctx:exit(1) end -- SPAWNLOC.scr:25
 end
 
@@ -28,7 +28,7 @@ script.labels["InitSpawnLoc"] = function(ctx)
     -- SPAWNLOC.scr:28
     ctx:addTrigger("On", "TurnOn") -- SPAWNLOC.scr:30
     mm9.gosub(script, ctx, "TurnOn") -- SPAWNLOC.scr:31
-    ctx:command("getobjecthandle", "SpawnMgr, hSpawnMgr") -- SPAWNLOC.scr:33
+    ctx:state().hSpawnMgr = ctx:objectOrNil("SpawnMgr") -- SPAWNLOC.scr:33
     if ctx:condition("hSpawnMgr==0") then -- SPAWNLOC.scr:34
         do return ctx:exit(1) end -- SPAWNLOC.scr:35
     end -- SPAWNLOC.scr:36
@@ -64,9 +64,9 @@ end
 script.labels["TurnOff"] = function(ctx)
     -- SPAWNLOC.scr:67
     -- disable all messages except On
-    ctx:command("removetrigger", "spawn") -- SPAWNLOC.scr:70
-    ctx:command("removetrigger", "focus") -- SPAWNLOC.scr:71
-    ctx:command("removetrigger", "off") -- SPAWNLOC.scr:72
+    ctx:removeTrigger("spawn") -- SPAWNLOC.scr:70
+    ctx:removeTrigger("focus") -- SPAWNLOC.scr:71
+    ctx:removeTrigger("off") -- SPAWNLOC.scr:72
     do return ctx:exit(1) end -- SPAWNLOC.scr:73
 end
 

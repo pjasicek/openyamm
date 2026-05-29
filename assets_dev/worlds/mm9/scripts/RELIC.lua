@@ -17,18 +17,16 @@ script.labels["Onuse"] = function(ctx)
         if not ctx:hasKey(340) then -- RELIC.scr:16-17
             ctx:giveItem(368) -- RELIC.scr:18
             ctx:giveKey(340) -- RELIC.scr:19
-            ctx:command("getmyhandle", "g_hmyobject") -- RELIC.scr:20
-            ctx:command("removeobject", "g_hmyobject") -- RELIC.scr:21
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 50000, FALSE, 100") -- RELIC.scr:22
+            ctx:self():remove() -- RELIC.scr:21
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 50000, "FALSE", 100) -- RELIC.scr:22
             do return ctx:exit("") end -- RELIC.scr:23
         end -- RELIC.scr:24
     else -- RELIC.scr:25
         if not ctx:hasKey(339) then -- RELIC.scr:26-27
             ctx:giveItem(368) -- RELIC.scr:28
             ctx:giveKey(339) -- RELIC.scr:29
-            ctx:command("getmyhandle", "g_hmyobject") -- RELIC.scr:30
-            ctx:command("removeobject", "g_hmyobject") -- RELIC.scr:31
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 50000, FALSE, 100") -- RELIC.scr:32
+            ctx:self():remove() -- RELIC.scr:31
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 50000, "FALSE", 100) -- RELIC.scr:32
             do return ctx:exit("") end -- RELIC.scr:33
         end -- RELIC.scr:34
     end -- RELIC.scr:35
@@ -38,13 +36,11 @@ end
 script.labels["DeleteCheck"] = function(ctx)
     -- RELIC.scr:40
     if ctx:hasKey(340) then -- RELIC.scr:43-44
-        ctx:command("getmyhandle", "g_hmyobject") -- RELIC.scr:45
-        ctx:command("removeobject", "g_hmyobject") -- RELIC.scr:46
+        ctx:self():remove() -- RELIC.scr:46
         do return ctx:exit("") end -- RELIC.scr:47
     end -- RELIC.scr:48
     if ctx:hasKey(339) then -- RELIC.scr:50-51
-        ctx:command("getmyhandle", "g_hmyobject") -- RELIC.scr:52
-        ctx:command("removeobject", "g_hmyobject") -- RELIC.scr:53
+        ctx:self():remove() -- RELIC.scr:53
         do return ctx:exit("") end -- RELIC.scr:54
     end -- RELIC.scr:55
     do return ctx:exit("") end -- RELIC.scr:56

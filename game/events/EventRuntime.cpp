@@ -1261,6 +1261,30 @@ void queuePendingSound(
     runtimeState.pendingSounds.push_back(std::move(request));
 }
 
+void queuePendingSoundByName(
+    EventRuntimeState &runtimeState,
+    const std::string &soundName,
+    int32_t x,
+    int32_t y,
+    int32_t z,
+    bool positional)
+{
+    if (soundName.empty())
+    {
+        return;
+    }
+
+    EventRuntimeState::PendingSound request = {};
+    request.soundScope = SoundScope::World;
+    request.soundName = soundName;
+    request.x = x;
+    request.y = y;
+    request.z = z;
+    request.positional = positional;
+    request.hasExplicitZ = positional;
+    runtimeState.pendingSounds.push_back(std::move(request));
+}
+
 std::optional<std::string> skillNameForCheckSkillArgument(uint32_t rawSkillId)
 {
     switch (rawSkillId)
@@ -5578,6 +5602,22 @@ int luaPlaySound(lua_State *pLuaState)
     return 0;
 }
 
+int luaPlaySoundName(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
+    const std::string soundName = sanitizeEventString(luaL_checkstring(pLuaState, 1));
+    const int32_t x = static_cast<int32_t>(luaL_optinteger(pLuaState, 2, 0));
+    const int32_t y = static_cast<int32_t>(luaL_optinteger(pLuaState, 3, 0));
+    const int32_t z = static_cast<int32_t>(luaL_optinteger(pLuaState, 4, 0));
+    queuePendingSoundByName(*pRuntimeState, soundName, x, y, z, x != 0 || y != 0 || z != 0);
+    return 0;
+}
+
 int luaMoveNpc(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -7732,6 +7772,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetHookHouseTopics", luaSetHookHouseTopics);
     registerLuaFunction(pLuaState, "EnterHouse", luaEnterHouse);
     registerLuaFunction(pLuaState, "PlaySound", luaPlaySound);
+    registerLuaFunction(pLuaState, "PlaySoundName", luaPlaySoundName);
     registerLuaFunction(pLuaState, "MoveToMap", luaMoveToMap);
     registerLuaFunction(pLuaState, "OpenChest", luaOpenChest);
     registerLuaFunction(pLuaState, "FaceExpression", luaFaceExpression);

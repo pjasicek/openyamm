@@ -12,7 +12,7 @@ script.includes[#script.includes + 1] = { line = 8, path = "globals.inc" }
 -- jeffs fun test
 script.labels["main"] = function(ctx)
     -- CAMERA.scr:11
-    ctx:command("getmyhandle", "g_hThisObject") -- CAMERA.scr:14
+    ctx:state().g_hThisObject = ctx:self() -- CAMERA.scr:14
     ctx:addTrigger("on", "OnCall") -- CAMERA.scr:15
     do return ctx:exit("") end -- CAMERA.scr:16
 end
@@ -20,10 +20,10 @@ end
 script.labels["OnCall"] = function(ctx)
     -- CAMERA.scr:20
     mm9.gosub(script, ctx, "FollowPathinit") -- CAMERA.scr:22
-    ctx:command("set", "g_sFollowPathName, Marker") -- CAMERA.scr:23
-    ctx:command("set", "g_nFollowPathSpeed, 120") -- CAMERA.scr:24
+    ctx:set("g_sFollowPathName", "Marker") -- CAMERA.scr:23
+    ctx:state().g_nFollowPathSpeed = 120 -- CAMERA.scr:24
     -- Set g_nFollowPathCallback, < Callback # to use when we reach a marker>
-    ctx:command("set", "g_nFollowPathDoneCallback, Pathdone") -- CAMERA.scr:26
+    ctx:set("g_nFollowPathDoneCallback", "Pathdone") -- CAMERA.scr:26
     -- Set g_nFollowPathLoops, 1
     -- SetCallback g_nFollowPath
     mm9.gosub(script, ctx, "FollowPath") -- CAMERA.scr:29

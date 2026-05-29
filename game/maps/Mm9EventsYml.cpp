@@ -217,7 +217,15 @@ bool readOptionalBoolNode(const YAML::Node &parentNode, const char *key, bool &v
     }
     catch (const std::exception &)
     {
-        present = false;
+        try
+        {
+            value = childNode.as<int>() != 0;
+            present = true;
+        }
+        catch (const std::exception &)
+        {
+            present = false;
+        }
     }
     return true;
 }
@@ -491,6 +499,46 @@ bool parseMechanismTriggerOutputs(
     return true;
 }
 
+bool parseMechanismSounds(
+    const YAML::Node &mechanismNode,
+    Mm9EventMechanism &mechanism,
+    std::string &errorMessage)
+{
+    const YAML::Node soundsNode = mechanismNode["sounds"];
+    if (!soundsNode)
+    {
+        return true;
+    }
+    if (!soundsNode.IsSequence())
+    {
+        errorMessage = "mechanism sounds must be a sequence";
+        return false;
+    }
+
+    mechanism.sounds.reserve(soundsNode.size());
+    for (const YAML::Node &soundNode : soundsNode)
+    {
+        if (!soundNode.IsMap())
+        {
+            errorMessage = "mechanism sounds entry must be a map";
+            return false;
+        }
+
+        Mm9EventMechanismSound sound = {};
+        if (!readScalarNode(soundNode, "phase", sound.phase, errorMessage, false)
+            || !readScalarNode(soundNode, "source_property", sound.sourceProperty, errorMessage, false)
+            || !readScalarNode(soundNode, "sound_name", sound.soundName, errorMessage, false)
+            || !readScalarNode(soundNode, "authored", sound.authored, errorMessage, false))
+        {
+            return false;
+        }
+
+        mechanism.sounds.push_back(std::move(sound));
+    }
+
+    return true;
+}
+
 bool parseMechanisms(
     const YAML::Node &rootNode,
     Mm9EventsData &eventsData,
@@ -578,6 +626,27 @@ bool parseMechanisms(
                 {
                     return false;
                 }
+
+                readOptionalBoolNode(
+                    rotationNode,
+                    "open_away",
+                    mechanism.rotation.openAway,
+                    mechanism.rotation.hasOpenAway);
+            }
+
+            const YAML::Node timingNode = motionNode["timing"];
+            if (timingNode && timingNode.IsMap())
+            {
+                readOptionalFloatNode(
+                    timingNode,
+                    "move_delay_seconds_source",
+                    mechanism.timing.moveDelaySecondsSource,
+                    mechanism.timing.hasMoveDelaySecondsSource);
+                readOptionalFloatNode(
+                    timingNode,
+                    "open_wait_seconds_source",
+                    mechanism.timing.openWaitSecondsSource,
+                    mechanism.timing.hasOpenWaitSecondsSource);
             }
         }
 
@@ -590,9 +659,30 @@ bool parseMechanisms(
                 mechanism.activation.startOpen,
                 mechanism.activation.hasStartOpen);
             readOptionalBoolNode(activationNode, "locked", mechanism.activation.locked, mechanism.activation.hasLocked);
+            readOptionalBoolNode(
+                activationNode,
+                "push_open",
+                mechanism.activation.pushOpen,
+                mechanism.activation.hasPushOpen);
+            readOptionalBoolNode(
+                activationNode,
+                "touch_to_open",
+                mechanism.activation.touchToOpen,
+                mechanism.activation.hasTouchToOpen);
+            readOptionalBoolNode(
+                activationNode,
+                "lock_on_close",
+                mechanism.activation.lockOnClose,
+                mechanism.activation.hasLockOnClose);
+            readOptionalBoolNode(
+                activationNode,
+                "reopen_on_contact",
+                mechanism.activation.reopenOnContact,
+                mechanism.activation.hasReopenOnContact);
         }
 
-        if (!parseMechanismTriggerOutputs(mechanismNode, mechanism, errorMessage))
+        if (!parseMechanismSounds(mechanismNode, mechanism, errorMessage)
+            || !parseMechanismTriggerOutputs(mechanismNode, mechanism, errorMessage))
         {
             return false;
         }
@@ -733,6 +823,82 @@ bool parseScriptCommandList(
     return true;
 }
 
+bool parseScriptIncludeList(
+    const YAML::Node &scriptNode,
+    std::vector<Mm9EventScript::Include> &includes,
+    std::string &errorMessage)
+{
+    const YAML::Node includesNode = scriptNode["includes"];
+    if (!includesNode)
+    {
+        return true;
+    }
+    if (!includesNode.IsSequence())
+    {
+        errorMessage = "script includes must be a sequence";
+        return false;
+    }
+
+    includes.reserve(includesNode.size());
+    for (const YAML::Node &includeNode : includesNode)
+    {
+        if (!includeNode.IsMap())
+        {
+            errorMessage = "script includes entry must be a map";
+            return false;
+        }
+
+        Mm9EventScript::Include include = {};
+        if (!readScalarNode(includeNode, "line", include.line, errorMessage, false)
+            || !readScalarNode(includeNode, "path", include.path, errorMessage, false))
+        {
+            return false;
+        }
+
+        includes.push_back(std::move(include));
+    }
+
+    return true;
+}
+
+bool parseScriptLabelList(
+    const YAML::Node &scriptNode,
+    std::vector<Mm9EventScript::Label> &labels,
+    std::string &errorMessage)
+{
+    const YAML::Node labelsNode = scriptNode["labels"];
+    if (!labelsNode)
+    {
+        return true;
+    }
+    if (!labelsNode.IsSequence())
+    {
+        errorMessage = "script labels must be a sequence";
+        return false;
+    }
+
+    labels.reserve(labelsNode.size());
+    for (const YAML::Node &labelNode : labelsNode)
+    {
+        if (!labelNode.IsMap())
+        {
+            errorMessage = "script labels entry must be a map";
+            return false;
+        }
+
+        Mm9EventScript::Label label = {};
+        if (!readScalarNode(labelNode, "line", label.line, errorMessage, false)
+            || !readScalarNode(labelNode, "name", label.name, errorMessage, false))
+        {
+            return false;
+        }
+
+        labels.push_back(std::move(label));
+    }
+
+    return true;
+}
+
 bool parseScripts(
     const YAML::Node &rootNode,
     Mm9EventsData &eventsData,
@@ -762,6 +928,12 @@ bool parseScripts(
         if (!readScalarNode(scriptNode, "script_id", script.scriptId, errorMessage)
             || !readScalarNode(scriptNode, "source_path", script.sourcePath, errorMessage)
             || !readScalarNode(scriptNode, "command_count", script.commandCount, errorMessage, false))
+        {
+            return false;
+        }
+
+        if (!parseScriptIncludeList(scriptNode, script.includes, errorMessage)
+            || !parseScriptLabelList(scriptNode, script.labels, errorMessage))
         {
             return false;
         }

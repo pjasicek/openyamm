@@ -4,6 +4,7 @@ map_id: thronheim
 display_name: Thronheim
 source:
   dat: ../source/worlds/THRONHEIM.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/THRONHEIM.dat
   source_game: mm9
   dat_version: 66
@@ -25,8 +26,8 @@ sidecars:
   source_metadata_compat: thronheim.mm9.yml
   bsp_compat: null
   geometry_compat: null
-  model_assets_compat: thronheim.model_assets.yml
-  odm_compat: thronheim.odm
+  model_assets_compat: null
+  odm_compat: null
   blv_compat: null
 scripts:
   level: ../events/thronheim.lua

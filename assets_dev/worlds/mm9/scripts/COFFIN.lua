@@ -18,15 +18,15 @@ script.labels["OnUse"] = function(ctx)
     if ctx:condition("bOpened == TRUE") then -- COFFIN.scr:21
         do return ctx:exit("") end -- COFFIN.scr:22
     end -- COFFIN.scr:23
-    ctx:command("set", "bOpening, TRUE") -- COFFIN.scr:25
-    ctx:command("playanim", "Open, OnOpenDone") -- COFFIN.scr:26
+    ctx:state().bOpening = true -- COFFIN.scr:25
+    ctx:self():playAnimation("Open", "OnOpenDone") -- COFFIN.scr:26
     do return ctx:exit("") end -- COFFIN.scr:28
 end
 
 script.labels["OnOpenDone"] = function(ctx)
     -- COFFIN.scr:32
-    ctx:command("set", "bOpening, FALSE") -- COFFIN.scr:34
-    ctx:command("set", "bOpened, TRUE") -- COFFIN.scr:35
+    ctx:state().bOpening = false -- COFFIN.scr:34
+    ctx:state().bOpened = true -- COFFIN.scr:35
     do return ctx:exit("") end -- COFFIN.scr:37
 end
 

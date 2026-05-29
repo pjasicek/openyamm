@@ -4,6 +4,7 @@ map_id: arslegardcity
 display_name: Arslegard City
 source:
   dat: ../source/worlds/ARSLEGARDCITY.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/ARSLEGARDCITY.dat
   source_game: mm9
   dat_version: 66
@@ -25,8 +26,8 @@ sidecars:
   source_metadata_compat: arslegardcity.mm9.yml
   bsp_compat: null
   geometry_compat: null
-  model_assets_compat: arslegardcity.model_assets.yml
-  odm_compat: arslegardcity.odm
+  model_assets_compat: null
+  odm_compat: null
   blv_compat: null
 scripts:
   level: ../events/arslegardcity.lua

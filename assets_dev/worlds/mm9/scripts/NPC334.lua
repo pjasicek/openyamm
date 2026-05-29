@@ -28,7 +28,7 @@ script.labels["Gungnir"] = function(ctx)
             ctx:takeItem(189) -- NPC334.scr:40
             ctx:giveKey(357) -- NPC334.scr:41
             ctx:giveGold(40000) -- NPC334.scr:42
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC334.scr:43
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC334.scr:43
             ctx:giveExp(5000) -- NPC334.scr:44
             do return ctx:exit("") end -- NPC334.scr:45
         end -- NPC334.scr:46
@@ -44,7 +44,7 @@ script.labels["OnUse"] = function(ctx)
             ctx:giveKey(354) -- NPC334.scr:64
         end -- NPC334.scr:66
     end -- NPC334.scr:67
-    ctx:command("playsound", "voices\\NPC\\NPC_334.wav, Onexit, 100, 240, FALSE, 100") -- NPC334.scr:68
+    ctx:playSound("voices\\NPC\\NPC_334.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC334.scr:68
     do return ctx:exit("") end -- NPC334.scr:70
 end
 

@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/connectingtunnels.lua
+  script_ir: ../events/connectingtunnels.script_ir.yml
 objects:
 - object_id: mm9:connectingtunnels:object:0
   source_object_index: 0
@@ -135540,10 +135541,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\BlackChest.ABC
     Locked: 1
     MoveToFloor: 0
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 6272.0
     - -340.0
@@ -152968,10 +152971,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 11008.0
     - 32.0
@@ -152998,6 +153003,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id007 []
 - mechanism_id: mm9:connectingtunnels:object:571:mechanism
   object_id: mm9:connectingtunnels:object:571
@@ -153027,6 +153033,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: coffin door right
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id008 []
 - mechanism_id: mm9:connectingtunnels:object:572:mechanism
   object_id: mm9:connectingtunnels:object:572
@@ -153056,6 +153091,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: coffin door left
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id009
   - phase: open
     slot: 0
@@ -153076,6 +153140,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id010 []
 triggers: []
 interactions:
@@ -153915,21 +153980,210 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id020
+    - source_model_index: 0
+      source_name: DestructableBrush0
+      movable: true
+      world_translation_lt: &id018
+      - 2544.0
+      - -103.99999237060547
+      - -888.0
+      distance_from_position_lt: 29.933
+    - source_model_index: 83
+      source_name: AITrack82
+      movable: true
+      world_translation_lt: &id019
+      - 2544.0
+      - -168.0
+      - -760.0
+      distance_from_position_lt: 127.499
+    - source_model_index: 349
+      source_name: DestructableBrush1
+      movable: true
+      world_translation_lt: &id016
+      - 2529.0
+      - -128.0
+      - -1020.0
+      distance_from_position_lt: 140.004
+    - source_model_index: 84
+      source_name: AITrack83
+      movable: true
+      world_translation_lt: &id017
+      - 2496.0
+      - -204.0
+      - -1056.0
+      distance_from_position_lt: 194.36
+    - source_model_index: 82
+      source_name: AITrack81
+      movable: true
+      world_translation_lt:
+      - 2520.0
+      - -136.0
+      - -592.0
+      distance_from_position_lt: 288.222
 - object_id: mm9:connectingtunnels:object:571
   source_object_index: 571
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id021
+    - source_model_index: 347
+      source_name: coffin door left
+      movable: true
+      world_translation_lt: &id011
+      - 6258.0
+      - -322.0
+      - -5184.0
+      distance_from_rotation_point_lt: 24.166
+    - source_model_index: 348
+      source_name: coffin door right
+      movable: true
+      world_translation_lt: &id012
+      - 6286.0
+      - -322.0
+      - -5184.0
+      distance_from_rotation_point_lt: 43.909
+    - source_model_index: 324
+      source_name: AITrack324
+      movable: true
+      world_translation_lt: &id013
+      - 6312.0
+      - -740.0
+      - -5136.0
+      distance_from_rotation_point_lt: 404.0
+    - source_model_index: 323
+      source_name: AITrack323
+      movable: true
+      world_translation_lt: &id014
+      - 5980.0
+      - -704.0
+      - -5112.0
+      distance_from_rotation_point_lt: 454.542
+    - source_model_index: 325
+      source_name: AITrack325
+      movable: true
+      world_translation_lt: &id015
+      - 6624.0
+      - -724.0
+      - -5136.0
+      distance_from_rotation_point_lt: 536.731
+    nearest_movable_world_models_by_position: &id022
+    - source_model_index: 347
+      source_name: coffin door left
+      movable: true
+      world_translation_lt: *id011
+      distance_from_position_lt: 24.166
+    - source_model_index: 348
+      source_name: coffin door right
+      movable: true
+      world_translation_lt: *id012
+      distance_from_position_lt: 43.909
+    - source_model_index: 324
+      source_name: AITrack324
+      movable: true
+      world_translation_lt: *id013
+      distance_from_position_lt: 404.0
+    - source_model_index: 323
+      source_name: AITrack323
+      movable: true
+      world_translation_lt: *id014
+      distance_from_position_lt: 454.542
+    - source_model_index: 325
+      source_name: AITrack325
+      movable: true
+      world_translation_lt: *id015
+      distance_from_position_lt: 536.731
 - object_id: mm9:connectingtunnels:object:572
   source_object_index: 572
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id023
+    - source_model_index: 348
+      source_name: coffin door right
+      movable: true
+      world_translation_lt: *id012
+      distance_from_rotation_point_lt: 24.166
+    - source_model_index: 347
+      source_name: coffin door left
+      movable: true
+      world_translation_lt: *id011
+      distance_from_rotation_point_lt: 43.909
+    - source_model_index: 324
+      source_name: AITrack324
+      movable: true
+      world_translation_lt: *id013
+      distance_from_rotation_point_lt: 399.219
+    - source_model_index: 323
+      source_name: AITrack323
+      movable: true
+      world_translation_lt: *id014
+      distance_from_rotation_point_lt: 484.397
+    - source_model_index: 325
+      source_name: AITrack325
+      movable: true
+      world_translation_lt: *id015
+      distance_from_rotation_point_lt: 504.27
+    nearest_movable_world_models_by_position: &id024
+    - source_model_index: 348
+      source_name: coffin door right
+      movable: true
+      world_translation_lt: *id012
+      distance_from_position_lt: 24.166
+    - source_model_index: 347
+      source_name: coffin door left
+      movable: true
+      world_translation_lt: *id011
+      distance_from_position_lt: 43.909
+    - source_model_index: 324
+      source_name: AITrack324
+      movable: true
+      world_translation_lt: *id013
+      distance_from_position_lt: 399.219
+    - source_model_index: 323
+      source_name: AITrack323
+      movable: true
+      world_translation_lt: *id014
+      distance_from_position_lt: 484.397
+    - source_model_index: 325
+      source_name: AITrack325
+      movable: true
+      world_translation_lt: *id015
+      distance_from_position_lt: 504.27
 - object_id: mm9:connectingtunnels:object:669
   source_object_index: 669
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id025
+    - source_model_index: 349
+      source_name: DestructableBrush1
+      movable: true
+      world_translation_lt: *id016
+      distance_from_position_lt: 0.0
+    - source_model_index: 84
+      source_name: AITrack83
+      movable: true
+      world_translation_lt: *id017
+      distance_from_position_lt: 90.338
+    - source_model_index: 0
+      source_name: DestructableBrush0
+      movable: true
+      world_translation_lt: *id018
+      distance_from_position_lt: 135.0
+    - source_model_index: 83
+      source_name: AITrack82
+      movable: true
+      world_translation_lt: *id019
+      distance_from_position_lt: 263.486
+    - source_model_index: 127
+      source_name: AITrack126
+      movable: true
+      world_translation_lt:
+      - 2736.0
+      - -224.0
+      - -1368.0
+      distance_from_position_lt: 416.136
 scripts: []
 unresolved:
 - kind: unresolved_binding
@@ -153937,21 +154191,31 @@ unresolved:
   source_name: DestructableBrush0
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id020
 - kind: unresolved_binding
   source_object_index: 571
   source_name: coffin door left
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id021
+    nearest_movable_world_models_by_position: *id022
 - kind: unresolved_binding
   source_object_index: 572
   source_name: coffin door right
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id023
+    nearest_movable_world_models_by_position: *id024
 - kind: unresolved_binding
   source_object_index: 669
   source_name: DestructableBrush1
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id025
 validation:
   raw_object_count: 671
   event_object_count: 671

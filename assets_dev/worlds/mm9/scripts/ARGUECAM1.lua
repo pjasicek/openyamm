@@ -13,11 +13,10 @@ script.includes[#script.includes + 1] = { line = 9, path = "globals.inc" }
 -- does battlefield camera
 script.labels["OnPlay"] = function(ctx)
     -- ARGUECAM1.scr:27
-    ctx:command("getobjecthandle", "kira g_hobject") -- ARGUECAM1.scr:30
-    ctx:command("target", "g_hobject") -- ARGUECAM1.scr:31
-    ctx:command("getobjecthandle", "sMarker g_hobject") -- ARGUECAM1.scr:33
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- ARGUECAM1.scr:34
-    ctx:command("movetopos", "xpos Ypos Zpos nSpeed OnArrive") -- ARGUECAM1.scr:35
+    ctx:state().g_hobject = ctx:objectOrNil("kira") -- ARGUECAM1.scr:30
+    ctx:self():setTarget(ctx:object("g_hobject")) -- ARGUECAM1.scr:31
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("sMarker"):pos() -- ARGUECAM1.scr:33-34
+    ctx:self():moveToPos("xpos", "Ypos", "Zpos", "nSpeed", "OnArrive") -- ARGUECAM1.scr:35
     do return ctx:exit("") end -- ARGUECAM1.scr:36
 end
 
@@ -26,8 +25,7 @@ script.labels["OnArrive"] = function(ctx)
     if ctx:condition("nBook==1") then -- ARGUECAM1.scr:42
         do return ctx:exit("") end -- ARGUECAM1.scr:43
     end -- ARGUECAM1.scr:44
-    ctx:command("getobjecthandle", "Argueman g_hobject") -- ARGUECAM1.scr:46
-    ctx:trigger("g_hobject", "Done") -- ARGUECAM1.scr:47
+    ctx:object("Argueman"):trigger("Done") -- ARGUECAM1.scr:46-47
     do return ctx:exit("") end -- ARGUECAM1.scr:48
 end
 

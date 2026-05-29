@@ -11,10 +11,10 @@ script.includes[#script.includes + 1] = { line = 8, path = "globals.inc" }
 -- Jeff Leggett
 script.labels["Output"] = function(ctx)
     -- SCRIPTOBJECTTEST.scr:12
-    ctx:command("set", "g_sOut, g_nTemp") -- SCRIPTOBJECTTEST.scr:15
-    ctx:command("set", "g_sTemp, Param--->") -- SCRIPTOBJECTTEST.scr:16
-    ctx:command("add", "g_sTemp, g_sOut") -- SCRIPTOBJECTTEST.scr:17
-    ctx:command("debugout", "g_sTemp") -- SCRIPTOBJECTTEST.scr:19
+    ctx:set("g_sOut", "g_nTemp") -- SCRIPTOBJECTTEST.scr:15
+    ctx:set("g_sTemp", "Param--->") -- SCRIPTOBJECTTEST.scr:16
+    ctx:add("g_sTemp", "g_sOut") -- SCRIPTOBJECTTEST.scr:17
+    ctx:debugOut("g_sTemp") -- SCRIPTOBJECTTEST.scr:19
     do return ctx:exit("") end -- SCRIPTOBJECTTEST.scr:21
 end
 

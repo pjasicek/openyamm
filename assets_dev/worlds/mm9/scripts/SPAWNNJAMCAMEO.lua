@@ -20,36 +20,35 @@ end
 script.labels["Onspawn"] = function(ctx)
     -- SPAWNNJAMCAMEO.scr:37
     mm9.gosub(script, ctx, "DeleteAllNjams") -- SPAWNNJAMCAMEO.scr:40
-    ctx:command("wait", "1 1 OnSpawn2") -- SPAWNNJAMCAMEO.scr:41
+    ctx:wait(1, 1, "OnSpawn2") -- SPAWNNJAMCAMEO.scr:41
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:42
 end
 
 script.labels["Onspawn2"] = function(ctx)
     -- SPAWNNJAMCAMEO.scr:46
-    ctx:command("getmyhandle", "g_hmyobject") -- SPAWNNJAMCAMEO.scr:48
-    ctx:command("doclientfx", "g_hMyObject,GreaterDemon") -- SPAWNNJAMCAMEO.scr:49
-    ctx:command("playsound", "\\Sounds\\magic\\Windup10.wav, DoNothing, 100, 24000, FALSE, 100") -- SPAWNNJAMCAMEO.scr:50
-    ctx:command("wait", "1 2 Appear") -- SPAWNNJAMCAMEO.scr:51
+    ctx:self():doClientFx("GreaterDemon") -- SPAWNNJAMCAMEO.scr:49
+    ctx:playSound("\\Sounds\\magic\\Windup10.wav", "DoNothing", 100, 24000, "FALSE", 100) -- SPAWNNJAMCAMEO.scr:50
+    ctx:wait(1, 2, "Appear") -- SPAWNNJAMCAMEO.scr:51
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:52
 end
 
 script.labels["BreakLink"] = function(ctx)
     -- SPAWNNJAMCAMEO.scr:55
-    ctx:command("set", "nLinked, FALSE") -- SPAWNNJAMCAMEO.scr:58
+    ctx:state().nLinked = false -- SPAWNNJAMCAMEO.scr:58
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:59
 end
 
 script.labels["Appear"] = function(ctx)
     -- SPAWNNJAMCAMEO.scr:61
     -- play appear effect here
-    ctx:command("playsound", "\\Sounds\\spells\\TownPortal.wav, DoNothing, 100, 24000, FALSE, 100") -- SPAWNNJAMCAMEO.scr:65
-    ctx:command("getpos", "g_hmyobject XPos YPos ZPos") -- SPAWNNJAMCAMEO.scr:66
-    ctx:command("spawn", "hNjam Xpos YPos ZPos sNjam") -- SPAWNNJAMCAMEO.scr:67
-    ctx:command("createobjectlink", "hNjam") -- SPAWNNJAMCAMEO.scr:68
-    ctx:command("onobjectlinkbroken", "BreakLink") -- SPAWNNJAMCAMEO.scr:69
-    ctx:command("set", "nLinked, TRUE") -- SPAWNNJAMCAMEO.scr:70
-    ctx:command("getrandomint", "10 20 g_ntemp") -- SPAWNNJAMCAMEO.scr:71
-    ctx:command("wait", "2 g_ntemp Vanish2") -- SPAWNNJAMCAMEO.scr:72
+    ctx:playSound("\\Sounds\\spells\\TownPortal.wav", "DoNothing", 100, 24000, "FALSE", 100) -- SPAWNNJAMCAMEO.scr:65
+    ctx:state().XPos, ctx:state().YPos, ctx:state().ZPos = ctx:self():pos() -- SPAWNNJAMCAMEO.scr:66
+    ctx:state().hNjam = ctx:spawn("Xpos", "YPos", "ZPos", "sNjam") -- SPAWNNJAMCAMEO.scr:67
+    ctx:self():link(ctx:object("hNjam")) -- SPAWNNJAMCAMEO.scr:68
+    ctx:onEvent("OnObjectLinkBroken", "BreakLink") -- SPAWNNJAMCAMEO.scr:69
+    ctx:state().nLinked = true -- SPAWNNJAMCAMEO.scr:70
+    ctx:randomInt(10, 20, "g_ntemp") -- SPAWNNJAMCAMEO.scr:71
+    ctx:wait(2, "g_ntemp", "Vanish2") -- SPAWNNJAMCAMEO.scr:72
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:73
 end
 
@@ -59,24 +58,24 @@ script.labels["Vanish2"] = function(ctx)
         do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:80
     end -- SPAWNNJAMCAMEO.scr:81
     -- play vanish effect here
-    ctx:command("doclientfx", "hNjam,GreaterDemon") -- SPAWNNJAMCAMEO.scr:84
-    ctx:command("playsound", "\\Sounds\\magic\\Windup10.wav, DoNothing, 100, 24000, FALSE, 100") -- SPAWNNJAMCAMEO.scr:85
-    ctx:command("wait", "1 1 Vanish2b") -- SPAWNNJAMCAMEO.scr:86
+    ctx:object("hNjam"):doClientFx("GreaterDemon") -- SPAWNNJAMCAMEO.scr:84
+    ctx:playSound("\\Sounds\\magic\\Windup10.wav", "DoNothing", 100, 24000, "FALSE", 100) -- SPAWNNJAMCAMEO.scr:85
+    ctx:wait(1, 1, "Vanish2b") -- SPAWNNJAMCAMEO.scr:86
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:87
 end
 
 script.labels["Vanish2b"] = function(ctx)
     -- SPAWNNJAMCAMEO.scr:90
-    ctx:command("clearflag", "hNjam visible") -- SPAWNNJAMCAMEO.scr:93
-    ctx:command("playsound", "\\Sounds\\magic\\teleport.wav, DoNothing, 100, 24000, FALSE, 100") -- SPAWNNJAMCAMEO.scr:94
-    ctx:command("wait", "1 1 Vanish2c") -- SPAWNNJAMCAMEO.scr:95
+    ctx:object("hNjam"):setFlag("visible", false) -- SPAWNNJAMCAMEO.scr:93
+    ctx:playSound("\\Sounds\\magic\\teleport.wav", "DoNothing", 100, 24000, "FALSE", 100) -- SPAWNNJAMCAMEO.scr:94
+    ctx:wait(1, 1, "Vanish2c") -- SPAWNNJAMCAMEO.scr:95
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:96
 end
 
 script.labels["Vanish2c"] = function(ctx)
     -- SPAWNNJAMCAMEO.scr:100
     if ctx:condition("nLinked==TRUE") then -- SPAWNNJAMCAMEO.scr:103
-        ctx:command("removeobject", "hNjam") -- SPAWNNJAMCAMEO.scr:104
+        ctx:object("hNjam"):remove() -- SPAWNNJAMCAMEO.scr:104
     end -- SPAWNNJAMCAMEO.scr:105
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:106
 end
@@ -92,11 +91,11 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:addTrigger("Spawn", "Onspawn") -- SPAWNNJAMCAMEO.scr:122
     ctx:addTrigger("KillNjam", "Vanish2c") -- SPAWNNJAMCAMEO.scr:123
-    ctx:command("snjam", "= sNjam + Script") -- SPAWNNJAMCAMEO.scr:124
-    ctx:command("onpoststartworld", "Init") -- SPAWNNJAMCAMEO.scr:125
-    ctx:command("onpostminisaveload", "Init") -- SPAWNNJAMCAMEO.scr:126
-    ctx:command("onpostsaveload", "Init") -- SPAWNNJAMCAMEO.scr:127
-    ctx:command("wait", "1 .1 Init") -- SPAWNNJAMCAMEO.scr:128
+    ctx:set("sNjam", "sNjam + Script") -- SPAWNNJAMCAMEO.scr:124
+    ctx:onEvent("OnPostStartWorld", "Init") -- SPAWNNJAMCAMEO.scr:125
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- SPAWNNJAMCAMEO.scr:126
+    ctx:onEvent("OnPostSaveLoad", "Init") -- SPAWNNJAMCAMEO.scr:127
+    ctx:wait(1, .1, "Init") -- SPAWNNJAMCAMEO.scr:128
     do return ctx:exit("") end -- SPAWNNJAMCAMEO.scr:129
 end
 

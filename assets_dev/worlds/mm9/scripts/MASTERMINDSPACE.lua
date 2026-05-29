@@ -18,8 +18,8 @@ script.includes[#script.includes + 1] = { line = 11, path = "BaseGlobals.inc" }
 script.labels["Main"] = function(ctx)
     -- MASTERMINDSPACE.scr:22
     ctx:getParam(0, "nIndex") -- MASTERMINDSPACE.scr:24
-    ctx:command("onpoststartworld", "InitMastermindSpace") -- MASTERMINDSPACE.scr:26
-    ctx:command("onpostminisaveload", "InitMastermindSpace") -- MASTERMINDSPACE.scr:27
+    ctx:onEvent("OnPostStartWorld", "InitMastermindSpace") -- MASTERMINDSPACE.scr:26
+    ctx:onEvent("OnPostMiniSaveLoad", "InitMastermindSpace") -- MASTERMINDSPACE.scr:27
     do return ctx:exit("TRUE") end -- MASTERMINDSPACE.scr:29
 end
 
@@ -28,7 +28,7 @@ script.labels["InitMastermindSpace"] = function(ctx)
     mm9.gosub(script, ctx, "InitColors") -- MASTERMINDSPACE.scr:34
     ctx:addTrigger("use", "UpdateColor") -- MASTERMINDSPACE.scr:36
     ctx:getConsoleStrVar("MASTERMIND_NAME", "sMastermindName") -- MASTERMINDSPACE.scr:38
-    ctx:command("getobjecthandle", "sMastermindName, hMastermind") -- MASTERMINDSPACE.scr:39
+    ctx:state().hMastermind = ctx:objectOrNil("sMastermindName") -- MASTERMINDSPACE.scr:39
     do return ctx:exit("TRUE") end -- MASTERMINDSPACE.scr:41
 end
 
@@ -46,19 +46,19 @@ end
 script.labels["ChangeColor"] = function(ctx)
     -- MASTERMINDSPACE.scr:58
     -- change our color
-    ctx:command("playsound", "\"sounds\\door\\doorlatch01.wav\", DoNothing, 1, 500, FALSE, 100") -- MASTERMINDSPACE.scr:61
-    ctx:command("arrayget", "spSkins, nColor, sSkin") -- MASTERMINDSPACE.scr:63
-    ctx:command("setmodelfilenames", "\"models\\gibs\\stone.abc\", sSkin") -- MASTERMINDSPACE.scr:64
+    ctx:playSound("sounds\\door\\doorlatch01.wav", "DoNothing", 1, 500, "FALSE", 100) -- MASTERMINDSPACE.scr:61
+    ctx:arrayGet("spSkins", "nColor", "sSkin") -- MASTERMINDSPACE.scr:63
+    ctx:self():setModelFilenames("models\\gibs\\stone.abc", "sSkin") -- MASTERMINDSPACE.scr:64
     do return ctx:exit("TRUE") end -- MASTERMINDSPACE.scr:66
 end
 
 script.labels["InitColors"] = function(ctx)
     -- MASTERMINDSPACE.scr:69
-    ctx:command("arrayput", "spSkins, 0, \"skins\\gibs\\red.dtx\"") -- MASTERMINDSPACE.scr:71
-    ctx:command("arrayput", "spSkins, 1, \"skins\\gibs\\blue.dtx\"") -- MASTERMINDSPACE.scr:72
-    ctx:command("arrayput", "spSkins, 2, \"skins\\gibs\\yellow.dtx\"") -- MASTERMINDSPACE.scr:73
-    ctx:command("arrayput", "spSkins, 3, \"skins\\gibs\\orange.dtx\"") -- MASTERMINDSPACE.scr:74
-    ctx:command("arrayput", "spSkins, 4, \"skins\\gibs\\green.dtx\"") -- MASTERMINDSPACE.scr:75
+    ctx:arrayPut("spSkins", 0, "skins\\gibs\\red.dtx") -- MASTERMINDSPACE.scr:71
+    ctx:arrayPut("spSkins", 1, "skins\\gibs\\blue.dtx") -- MASTERMINDSPACE.scr:72
+    ctx:arrayPut("spSkins", 2, "skins\\gibs\\yellow.dtx") -- MASTERMINDSPACE.scr:73
+    ctx:arrayPut("spSkins", 3, "skins\\gibs\\orange.dtx") -- MASTERMINDSPACE.scr:74
+    ctx:arrayPut("spSkins", 4, "skins\\gibs\\green.dtx") -- MASTERMINDSPACE.scr:75
     do return ctx:exit("TRUE") end -- MASTERMINDSPACE.scr:77
 end
 

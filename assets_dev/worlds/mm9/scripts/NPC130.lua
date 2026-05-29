@@ -30,7 +30,7 @@ script.labels["Trivia"] = function(ctx)
             -- checks to see if they've Beat Ivan the Smart
             ctx:giveKey(164) -- NPC130.scr:40
             ctx:giveExp(5000) -- NPC130.scr:41
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC130.scr:42
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC130.scr:42
             ctx:giveItem(400) -- NPC130.scr:43
             -- gives reward
             do return ctx:exit("") end -- NPC130.scr:46
@@ -43,7 +43,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC130.scr:62
-    ctx:command("playsound", "voices\\NPC\\NPC_130.wav, Onexit, 100, 240, FALSE, 100") -- NPC130.scr:65
+    ctx:playSound("voices\\NPC\\NPC_130.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC130.scr:65
     do return ctx:exit("") end -- NPC130.scr:66
 end
 

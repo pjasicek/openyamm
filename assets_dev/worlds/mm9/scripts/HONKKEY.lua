@@ -22,23 +22,22 @@ script.labels["Main"] = function(ctx)
     -- HONKKEY.scr:27
     ctx:getParam(0, "sDoorName") -- HONKKEY.scr:29
     ctx:getParam(1, "sAcctName") -- HONKKEY.scr:30
-    ctx:command("onpoststartworld", "InitHonkKey") -- HONKKEY.scr:32
-    ctx:command("onpostminisaveload", "InitHonkKey") -- HONKKEY.scr:33
+    ctx:onEvent("OnPostStartWorld", "InitHonkKey") -- HONKKEY.scr:32
+    ctx:onEvent("OnPostMiniSaveLoad", "InitHonkKey") -- HONKKEY.scr:33
     do return ctx:exit("TRUE") end -- HONKKEY.scr:35
 end
 
 script.labels["InitHonkKey"] = function(ctx)
     -- HONKKEY.scr:38
-    ctx:command("getmyhandle", "hMe") -- HONKKEY.scr:40
-    ctx:command("getobjecthandle", "sDoorName, hDoor") -- HONKKEY.scr:41
-    ctx:command("getobjecthandle", "sAcctName, hAcct") -- HONKKEY.scr:42
+    ctx:state().hDoor = ctx:objectOrNil("sDoorName") -- HONKKEY.scr:41
+    ctx:state().hAcct = ctx:objectOrNil("sAcctName") -- HONKKEY.scr:42
     if ctx:condition("hAcct!=0") then -- HONKKEY.scr:43
-        ctx:command("createobjectlink", "hAcct") -- HONKKEY.scr:44
-        ctx:command("onobjectlinkbroken", "OnObjectLinkBroken") -- HONKKEY.scr:45
+        ctx:self():link(ctx:object("hAcct")) -- HONKKEY.scr:44
+        ctx:onEvent("OnObjectLinkBroken", "OnObjectLinkBroken") -- HONKKEY.scr:45
     end -- HONKKEY.scr:46
     ctx:hasKey("KEY_HONKKEY", "bKeyGone") -- HONKKEY.scr:48
     if ctx:condition("bKeyGone==TRUE") then -- HONKKEY.scr:49
-        ctx:command("removeobject", "hMe") -- HONKKEY.scr:50
+        ctx:self():remove() -- HONKKEY.scr:50
         do return ctx:exit("TRUE") end -- HONKKEY.scr:51
     end -- HONKKEY.scr:52
     ctx:addTrigger("use", "GivePlayerKey") -- HONKKEY.scr:54
@@ -49,7 +48,7 @@ end
 
 script.labels["OnObjectLinkBroken"] = function(ctx)
     -- HONKKEY.scr:61
-    ctx:command("hacct", "= NULL") -- HONKKEY.scr:63
+    ctx:state().hAcct = nil -- HONKKEY.scr:63
     do return ctx:exit("TRUE") end -- HONKKEY.scr:65
 end
 
@@ -59,25 +58,25 @@ script.labels["GivePlayerKey"] = function(ctx)
     ctx:giveItem("ITEM_HONKKEY") -- HONKKEY.scr:71
     ctx:trigger("hDoor", "unlockbuttons") -- HONKKEY.scr:72
     if ctx:condition("hAcct!=0") then -- HONKKEY.scr:74
-        ctx:command("getdistance", "hMe, hAcct, bKeyGone") -- HONKKEY.scr:75
+        ctx:state().bKeyGone = ctx:self():distanceTo(ctx:object("hAcct")) -- HONKKEY.scr:75
         if ctx:condition("bKeyGone<200") then -- HONKKEY.scr:76
             ctx:trigger("hAcct", "stolen") -- HONKKEY.scr:77
         end -- HONKKEY.scr:78
     end -- HONKKEY.scr:79
-    ctx:command("removeobject", "hMe") -- HONKKEY.scr:81
+    ctx:self():remove() -- HONKKEY.scr:81
     do return ctx:exit("TRUE") end -- HONKKEY.scr:83
 end
 
 script.labels["RemoveKey"] = function(ctx)
     -- HONKKEY.scr:86
-    ctx:command("clearflag", "hMe, FLAG_VISIBLE") -- HONKKEY.scr:88
-    ctx:command("removetrigger", "use") -- HONKKEY.scr:89
+    ctx:self():setFlag("FLAG_VISIBLE", false) -- HONKKEY.scr:88
+    ctx:removeTrigger("use") -- HONKKEY.scr:89
     do return ctx:exit("TRUE") end -- HONKKEY.scr:91
 end
 
 script.labels["ReplaceKey"] = function(ctx)
     -- HONKKEY.scr:94
-    ctx:command("setflag", "hMe, FLAG_VISIBLE") -- HONKKEY.scr:96
+    ctx:self():setFlag("FLAG_VISIBLE", true) -- HONKKEY.scr:96
     ctx:addTrigger("use", "GivePlayerKey") -- HONKKEY.scr:97
     do return ctx:exit("TRUE") end -- HONKKEY.scr:99
 end

@@ -61,10 +61,27 @@ mechanisms:
       rotation:
         rotation_point_lt: [184.0, 80.0, 1632.0]
         rotation_angles_deg: [0.0, 90.0, 0.0]
+        open_away: 1
+      timing:
+        move_delay_seconds_source: 1.25
+        open_wait_seconds_source: 3.5
       source_units: lithtech_mm9
     activation:
-      start_open: false
-      locked: true
+      start_open: 0
+      locked: 1
+      push_open: 1
+      touch_to_open: 0
+      lock_on_close: 1
+      reopen_on_contact: 1
+    sounds:
+      - phase: open
+        source_property: OpenSoundName
+        sound_name: sounds\door_open.wav
+        authored: true
+      - phase: close
+        source_property: CloseSoundName
+        sound_name: ''
+        authored: true
     trigger_outputs:
       - phase: open
         slot: 0
@@ -118,6 +135,12 @@ bindings:
 scripts:
   - script_id: doorlock.scr
     source_path: DOORLOCK.scr
+    includes:
+      - line: 3
+        path: BaseDoor.inc
+    labels:
+      - line: 8
+        name: Main
     registered_triggers:
       - line: 10
         message: use
@@ -193,6 +216,27 @@ unresolved:
     CHECK(eventsData->mechanisms[0].rotation.hasRotationAngles);
     REQUIRE(eventsData->mechanisms[0].rotation.rotationAnglesDeg.size() == 3);
     CHECK(eventsData->mechanisms[0].rotation.rotationAnglesDeg[1] == doctest::Approx(90.0f));
+    CHECK(eventsData->mechanisms[0].rotation.hasOpenAway);
+    CHECK(eventsData->mechanisms[0].rotation.openAway);
+    CHECK(eventsData->mechanisms[0].timing.hasMoveDelaySecondsSource);
+    CHECK(eventsData->mechanisms[0].timing.moveDelaySecondsSource == doctest::Approx(1.25f));
+    CHECK(eventsData->mechanisms[0].timing.hasOpenWaitSecondsSource);
+    CHECK(eventsData->mechanisms[0].timing.openWaitSecondsSource == doctest::Approx(3.5f));
+    CHECK(eventsData->mechanisms[0].activation.hasPushOpen);
+    CHECK(eventsData->mechanisms[0].activation.pushOpen);
+    CHECK(eventsData->mechanisms[0].activation.hasTouchToOpen);
+    CHECK(!eventsData->mechanisms[0].activation.touchToOpen);
+    CHECK(eventsData->mechanisms[0].activation.hasLockOnClose);
+    CHECK(eventsData->mechanisms[0].activation.lockOnClose);
+    CHECK(eventsData->mechanisms[0].activation.hasReopenOnContact);
+    CHECK(eventsData->mechanisms[0].activation.reopenOnContact);
+    REQUIRE(eventsData->mechanisms[0].sounds.size() == 2);
+    CHECK(eventsData->mechanisms[0].sounds[0].phase == "open");
+    CHECK(eventsData->mechanisms[0].sounds[0].sourceProperty == "OpenSoundName");
+    CHECK(eventsData->mechanisms[0].sounds[0].soundName == "sounds\\door_open.wav");
+    CHECK(eventsData->mechanisms[0].sounds[0].authored);
+    CHECK(eventsData->mechanisms[0].sounds[1].phase == "close");
+    CHECK(eventsData->mechanisms[0].sounds[1].soundName.empty());
     REQUIRE(eventsData->mechanisms[0].triggerOutputs.size() == 2);
     CHECK(eventsData->mechanisms[0].triggerOutputs[0].phase == "open");
     CHECK(eventsData->mechanisms[0].triggerOutputs[0].slot == 0);
@@ -275,6 +319,12 @@ unresolved:
     REQUIRE(eventsData->scripts.size() == 1);
     CHECK(eventsData->scripts[0].scriptId == "doorlock.scr");
     CHECK(eventsData->scripts[0].commandCount == 7);
+    REQUIRE(eventsData->scripts[0].includes.size() == 1);
+    CHECK(eventsData->scripts[0].includes[0].line == 3);
+    CHECK(eventsData->scripts[0].includes[0].path == "BaseDoor.inc");
+    REQUIRE(eventsData->scripts[0].labels.size() == 1);
+    CHECK(eventsData->scripts[0].labels[0].line == 8);
+    CHECK(eventsData->scripts[0].labels[0].name == "Main");
     CHECK(eventsData->scripts[0].registeredTriggerCount == 1);
     REQUIRE(eventsData->scripts[0].registeredTriggers.size() == 1);
     CHECK(eventsData->scripts[0].registeredTriggers[0].line == 10);

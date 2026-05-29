@@ -10,6 +10,18 @@ namespace OpenYAMM::Game
 {
 struct Mm9EventScript
 {
+    struct Include
+    {
+        int line = 0;
+        std::string path;
+    };
+
+    struct Label
+    {
+        int line = 0;
+        std::string name;
+    };
+
     struct RegisteredTrigger
     {
         int line = 0;
@@ -39,6 +51,8 @@ struct Mm9EventScript
     size_t movementCommandCount = 0;
     size_t unknownCommandCount = 0;
     size_t commandCount = 0;
+    std::vector<Include> includes;
+    std::vector<Label> labels;
     std::vector<RegisteredTrigger> registeredTriggers;
     std::vector<TriggerEdge> triggerEdges;
     std::vector<ScriptCommand> movementCommands;
@@ -123,6 +137,14 @@ struct Mm9EventActivation
     bool hasStartOpen = false;
     bool locked = false;
     bool hasLocked = false;
+    bool pushOpen = false;
+    bool hasPushOpen = false;
+    bool touchToOpen = false;
+    bool hasTouchToOpen = false;
+    bool lockOnClose = false;
+    bool hasLockOnClose = false;
+    bool reopenOnContact = false;
+    bool hasReopenOnContact = false;
 };
 
 struct Mm9EventLinearMotion
@@ -141,8 +163,18 @@ struct Mm9EventRotationMotion
 {
     std::vector<float> rotationPointLt;
     std::vector<float> rotationAnglesDeg;
+    bool openAway = false;
     bool hasRotationPoint = false;
     bool hasRotationAngles = false;
+    bool hasOpenAway = false;
+};
+
+struct Mm9EventMechanismTiming
+{
+    float moveDelaySecondsSource = 0.0f;
+    float openWaitSecondsSource = 0.0f;
+    bool hasMoveDelaySecondsSource = false;
+    bool hasOpenWaitSecondsSource = false;
 };
 
 struct Mm9EventTriggerOutput
@@ -152,6 +184,14 @@ struct Mm9EventTriggerOutput
     std::string targetName;
     std::string messageName;
     std::string resolution;
+};
+
+struct Mm9EventMechanismSound
+{
+    std::string phase;
+    std::string sourceProperty;
+    std::string soundName;
+    bool authored = false;
 };
 
 struct Mm9EventMechanism
@@ -165,6 +205,8 @@ struct Mm9EventMechanism
     Mm9EventActivation activation;
     Mm9EventLinearMotion linear;
     Mm9EventRotationMotion rotation;
+    Mm9EventMechanismTiming timing;
+    std::vector<Mm9EventMechanismSound> sounds;
     std::vector<Mm9EventTriggerOutput> triggerOutputs;
 };
 

@@ -19,27 +19,25 @@ end
 
 script.labels["MoveToMarker"] = function(ctx)
     -- TM_FALLINGTORCH.scr:26
-    ctx:command("getobjecthandle", "TorchHolder0, hBlocker") -- TM_FALLINGTORCH.scr:28
-    ctx:trigger("hBlocker", "Destroy") -- TM_FALLINGTORCH.scr:29
+    ctx:object("TorchHolder0"):trigger("Destroy") -- TM_FALLINGTORCH.scr:28-29
     ctx:trigger("hFire", "Fall") -- TM_FALLINGTORCH.scr:30
-    ctx:command("rotate", "0, 0, 1, -90, 90, DoNothing") -- TM_FALLINGTORCH.scr:31
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 180, StopHere") -- TM_FALLINGTORCH.scr:32
+    ctx:self():rotate(0, 0, 1, -90, 90, "DoNothing") -- TM_FALLINGTORCH.scr:31
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 180, "StopHere") -- TM_FALLINGTORCH.scr:32
     do return ctx:exit("") end -- TM_FALLINGTORCH.scr:33
 end
 
 script.labels["Main2"] = function(ctx)
     -- TM_FALLINGTORCH.scr:35
-    ctx:command("getobjecthandle", "FallingTorchFire0, hFire") -- TM_FALLINGTORCH.scr:37
-    ctx:command("getobjecthandle", "FallingTorchMarker0, hFTMarker") -- TM_FALLINGTORCH.scr:38
-    ctx:command("getpos", "hFTMarker, nVarX, nVarY, nVarZ") -- TM_FALLINGTORCH.scr:39
-    ctx:command("ondamage", "MoveToMarker") -- TM_FALLINGTORCH.scr:40
+    ctx:state().hFire = ctx:objectOrNil("FallingTorchFire0") -- TM_FALLINGTORCH.scr:37
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("FallingTorchMarker0"):pos() -- TM_FALLINGTORCH.scr:38-39
+    ctx:onEvent("OnDamage", "MoveToMarker") -- TM_FALLINGTORCH.scr:40
     do return ctx:exit("TRUE") end -- TM_FALLINGTORCH.scr:41
 end
 
 script.labels["Main"] = function(ctx)
     -- TM_FALLINGTORCH.scr:43
     ctx:addTrigger("Hit", "MoveToMarker") -- TM_FALLINGTORCH.scr:45
-    ctx:command("wait", "0 .1 main2") -- TM_FALLINGTORCH.scr:46
+    ctx:wait(0, .1, "main2") -- TM_FALLINGTORCH.scr:46
     do return ctx:exit("TRUE") end -- TM_FALLINGTORCH.scr:47
 end
 

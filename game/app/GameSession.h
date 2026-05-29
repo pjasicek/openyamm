@@ -140,6 +140,7 @@ public:
     void clearNamedGlobalVar(const std::string &name);
     void mergeNamedGlobalVarsFromRuntime(const EventRuntimeState &runtimeState);
     void applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState) const;
+    Mm9ScriptRuntimeState &mm9ScriptState();
     const Mm9ScriptRuntimeState &mm9ScriptState() const;
     void initializeMm9ScriptState(const Mm9DialoguePackage &package);
     void setMm9ScriptState(const Mm9ScriptRuntimeState &state);

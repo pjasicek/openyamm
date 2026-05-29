@@ -9,7 +9,7 @@ script.includes[#script.includes + 1] = { line = 2, path = "newbase.inc" }
 
 script.labels["Main"] = function(ctx)
     -- BASE2.scr:4
-    ctx:command("getplayerhandle", "g_hObject") -- BASE2.scr:6
+    ctx:state().g_hObject = ctx:player() -- BASE2.scr:6
     mm9.gosub(script, ctx, "BaseInit") -- BASE2.scr:7
     do return ctx:exit("") end -- BASE2.scr:9
 end

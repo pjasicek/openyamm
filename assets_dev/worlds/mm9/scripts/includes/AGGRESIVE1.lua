@@ -16,7 +16,7 @@ end
 
 script.labels["Aggresive1Start"] = function(ctx)
     -- AGGRESIVE1.inc:22
-    ctx:command("wait", "AGGRESIVE_WAIT, AGGRESIVE_TICK, Aggresive1Tick") -- AGGRESIVE1.inc:25
+    ctx:wait("AGGRESIVE_WAIT", "AGGRESIVE_TICK", "Aggresive1Tick") -- AGGRESIVE1.inc:25
     do return ctx:exit("") end -- AGGRESIVE1.inc:27
 end
 

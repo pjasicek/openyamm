@@ -19,25 +19,19 @@ end
 -- p3	- Fill Rate
 script.labels["DoneSinking"] = function(ctx)
     -- DRAGONPHARAOH2WATER.scr:20
-    ctx:command("getobjecthandle", "WallTorch0, g_hObject") -- DRAGONPHARAOH2WATER.scr:25
-    ctx:trigger("g_hObject", "Enable") -- DRAGONPHARAOH2WATER.scr:26
-    ctx:command("getobjecthandle", "WallTorch1, g_hObject") -- DRAGONPHARAOH2WATER.scr:27
-    ctx:trigger("g_hObject", "Enable") -- DRAGONPHARAOH2WATER.scr:28
-    ctx:command("getobjecthandle", "WallTorch2, g_hObject") -- DRAGONPHARAOH2WATER.scr:29
-    ctx:trigger("g_hObject", "Enable") -- DRAGONPHARAOH2WATER.scr:30
-    ctx:command("getobjecthandle", "WallTorch3, g_hObject") -- DRAGONPHARAOH2WATER.scr:31
-    ctx:trigger("g_hObject", "Enable") -- DRAGONPHARAOH2WATER.scr:32
-    ctx:command("getobjecthandle", "WallTorch4, g_hObject") -- DRAGONPHARAOH2WATER.scr:33
-    ctx:trigger("g_hObject", "Enable") -- DRAGONPHARAOH2WATER.scr:34
-    ctx:command("getobjecthandle", "WallTorch5, g_hObject") -- DRAGONPHARAOH2WATER.scr:35
-    ctx:trigger("g_hObject", "Enable") -- DRAGONPHARAOH2WATER.scr:36
+    ctx:object("WallTorch0"):trigger("Enable") -- DRAGONPHARAOH2WATER.scr:25-26
+    ctx:object("WallTorch1"):trigger("Enable") -- DRAGONPHARAOH2WATER.scr:27-28
+    ctx:object("WallTorch2"):trigger("Enable") -- DRAGONPHARAOH2WATER.scr:29-30
+    ctx:object("WallTorch3"):trigger("Enable") -- DRAGONPHARAOH2WATER.scr:31-32
+    ctx:object("WallTorch4"):trigger("Enable") -- DRAGONPHARAOH2WATER.scr:33-34
+    ctx:object("WallTorch5"):trigger("Enable") -- DRAGONPHARAOH2WATER.scr:35-36
     do return ctx:exit("") end -- DRAGONPHARAOH2WATER.scr:38
 end
 
 script.labels["main"] = function(ctx)
     -- DRAGONPHARAOH2WATER.scr:43
     mm9.gosub(script, ctx, "waterinit") -- DRAGONPHARAOH2WATER.scr:49
-    ctx:command("setcallback", "1, DoneSinking") -- DRAGONPHARAOH2WATER.scr:50
+    ctx:setCallback(1, "DoneSinking") -- DRAGONPHARAOH2WATER.scr:50
     do return ctx:exit("") end -- DRAGONPHARAOH2WATER.scr:52
 end
 

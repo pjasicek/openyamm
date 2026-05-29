@@ -19,14 +19,14 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 script.labels["IsTargetMoving"] = function(ctx)
     -- AIGLOBALS.inc:49
     -- Returns TRUE or FALSE in g_bTemp
-    ctx:command("g_btemp", "= FALSE") -- AIGLOBALS.inc:54
+    ctx:state().g_bTemp = false -- AIGLOBALS.inc:54
     if ctx:condition("g_hTarget==NULL") then -- AIGLOBALS.inc:56
         do return ctx:exit("") end -- AIGLOBALS.inc:57
     end -- AIGLOBALS.inc:58
-    ctx:command("getvelocity", "g_hTarget, g_velX, g_velY, g_velZ") -- AIGLOBALS.inc:60
-    ctx:command("vecmag", "g_velX, 0, g_velZ, g_nTemp") -- AIGLOBALS.inc:62
+    ctx:state().g_velX, ctx:state().g_velY, ctx:state().g_velZ = ctx:object("g_hTarget"):velocity() -- AIGLOBALS.inc:60
+    ctx:state().g_nTemp = ctx:vecMag("g_velX", 0, "g_velZ") -- AIGLOBALS.inc:62
     if ctx:condition("g_nTemp > 20") then -- AIGLOBALS.inc:64
-        ctx:command("g_btemp", "= TRUE") -- AIGLOBALS.inc:65
+        ctx:state().g_bTemp = true -- AIGLOBALS.inc:65
     end -- AIGLOBALS.inc:66
     do return ctx:exit("") end -- AIGLOBALS.inc:68
 end

@@ -15,150 +15,124 @@ script.includes[#script.includes + 1] = { line = 9, path = "flags.inc" }
 -- restore them later.
 script.labels["RemoveCreatures"] = function(ctx)
     -- LICHSCENETRANSITIONS.inc:14
-    ctx:command("getobjecthandle", "LichKing1, hCreature") -- LICHSCENETRANSITIONS.inc:16
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:17
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:18
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:19
-    ctx:command("getobjecthandle", "LichKing2, hCreature") -- LICHSCENETRANSITIONS.inc:21
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:22
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:23
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:24
-    ctx:command("getobjecthandle", "LichKing3, hCreature") -- LICHSCENETRANSITIONS.inc:26
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:27
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:28
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:29
-    ctx:command("getobjecthandle", "Oculus0, hCreature") -- LICHSCENETRANSITIONS.inc:31
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:32
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:33
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:34
-    ctx:command("getobjecthandle", "Oculus1, hCreature") -- LICHSCENETRANSITIONS.inc:36
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:37
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:38
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:39
-    ctx:command("getobjecthandle", "Oculus2, hCreature") -- LICHSCENETRANSITIONS.inc:41
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:42
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:43
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:44
-    ctx:command("getobjecthandle", "Oculus3, hCreature") -- LICHSCENETRANSITIONS.inc:46
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:47
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:48
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:49
-    ctx:command("getobjecthandle", "Oculus4, hCreature") -- LICHSCENETRANSITIONS.inc:51
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:52
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:53
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:54
-    ctx:command("getobjecthandle", "SkeletonMaster0, hCreature") -- LICHSCENETRANSITIONS.inc:56
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:57
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:58
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:59
-    ctx:command("getobjecthandle", "SkeletonMaster1, hCreature") -- LICHSCENETRANSITIONS.inc:61
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:62
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:63
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:64
-    ctx:command("getobjecthandle", "SkeletonMaster4, hCreature") -- LICHSCENETRANSITIONS.inc:66
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:67
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:68
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:69
-    ctx:command("getobjecthandle", "SkeletonMaster5, hCreature") -- LICHSCENETRANSITIONS.inc:71
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:72
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:73
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:74
-    ctx:command("getobjecthandle", "SkeletonMaster6, hCreature") -- LICHSCENETRANSITIONS.inc:76
-    ctx:command("setstat", "hCreature, gravity, FALSE") -- LICHSCENETRANSITIONS.inc:77
-    ctx:command("clearflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:78
-    ctx:command("clearflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:79
+    ctx:object("LichKing1"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:16-17
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:18
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:19
+    ctx:object("LichKing2"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:21-22
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:23
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:24
+    ctx:object("LichKing3"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:26-27
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:28
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:29
+    ctx:object("Oculus0"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:31-32
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:33
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:34
+    ctx:object("Oculus1"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:36-37
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:38
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:39
+    ctx:object("Oculus2"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:41-42
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:43
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:44
+    ctx:object("Oculus3"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:46-47
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:48
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:49
+    ctx:object("Oculus4"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:51-52
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:53
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:54
+    ctx:object("SkeletonMaster0"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:56-57
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:58
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:59
+    ctx:object("SkeletonMaster1"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:61-62
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:63
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:64
+    ctx:object("SkeletonMaster4"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:66-67
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:68
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:69
+    ctx:object("SkeletonMaster5"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:71-72
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:73
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:74
+    ctx:object("SkeletonMaster6"):setStat("gravity", false) -- LICHSCENETRANSITIONS.inc:76-77
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", false) -- LICHSCENETRANSITIONS.inc:78
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", false) -- LICHSCENETRANSITIONS.inc:79
     do return ctx:exit("TRUE") end -- LICHSCENETRANSITIONS.inc:81
 end
 
 script.labels["ReplaceCreatures"] = function(ctx)
     -- LICHSCENETRANSITIONS.inc:84
-    ctx:command("getobjecthandle", "LichKing1, hCreature") -- LICHSCENETRANSITIONS.inc:86
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:87
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:88
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:89
-    ctx:command("getobjecthandle", "LichKing2, hCreature") -- LICHSCENETRANSITIONS.inc:91
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:92
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:93
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:94
-    ctx:command("getobjecthandle", "LichKing3, hCreature") -- LICHSCENETRANSITIONS.inc:96
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:97
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:98
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:99
-    ctx:command("getobjecthandle", "Oculus0, hCreature") -- LICHSCENETRANSITIONS.inc:101
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:102
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:103
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:104
-    ctx:command("getobjecthandle", "Oculus1, hCreature") -- LICHSCENETRANSITIONS.inc:106
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:107
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:108
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:109
-    ctx:command("getobjecthandle", "Oculus2, hCreature") -- LICHSCENETRANSITIONS.inc:111
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:112
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:113
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:114
-    ctx:command("getobjecthandle", "Oculus3, hCreature") -- LICHSCENETRANSITIONS.inc:116
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:117
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:118
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:119
-    ctx:command("getobjecthandle", "Oculus4, hCreature") -- LICHSCENETRANSITIONS.inc:121
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:122
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:123
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:124
-    ctx:command("getobjecthandle", "SkeletonMaster0, hCreature") -- LICHSCENETRANSITIONS.inc:126
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:127
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:128
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:129
-    ctx:command("getobjecthandle", "SkeletonMaster1, hCreature") -- LICHSCENETRANSITIONS.inc:131
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:132
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:133
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:134
-    ctx:command("getobjecthandle", "SkeletonMaster4, hCreature") -- LICHSCENETRANSITIONS.inc:136
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:137
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:138
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:139
-    ctx:command("getobjecthandle", "SkeletonMaster5, hCreature") -- LICHSCENETRANSITIONS.inc:141
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:142
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:143
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:144
-    ctx:command("getobjecthandle", "SkeletonMaster6, hCreature") -- LICHSCENETRANSITIONS.inc:146
-    ctx:command("setstat", "hCreature, gravity, TRUE") -- LICHSCENETRANSITIONS.inc:147
-    ctx:command("setflag", "hCreature, FLAG_SOLID") -- LICHSCENETRANSITIONS.inc:148
-    ctx:command("setflag", "hCreature, FLAG_VISIBLE") -- LICHSCENETRANSITIONS.inc:149
+    ctx:object("LichKing1"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:86-87
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:88
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:89
+    ctx:object("LichKing2"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:91-92
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:93
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:94
+    ctx:object("LichKing3"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:96-97
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:98
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:99
+    ctx:object("Oculus0"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:101-102
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:103
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:104
+    ctx:object("Oculus1"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:106-107
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:108
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:109
+    ctx:object("Oculus2"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:111-112
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:113
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:114
+    ctx:object("Oculus3"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:116-117
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:118
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:119
+    ctx:object("Oculus4"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:121-122
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:123
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:124
+    ctx:object("SkeletonMaster0"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:126-127
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:128
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:129
+    ctx:object("SkeletonMaster1"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:131-132
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:133
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:134
+    ctx:object("SkeletonMaster4"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:136-137
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:138
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:139
+    ctx:object("SkeletonMaster5"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:141-142
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:143
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:144
+    ctx:object("SkeletonMaster6"):setStat("gravity", true) -- LICHSCENETRANSITIONS.inc:146-147
+    ctx:object("hCreature"):setFlag("FLAG_SOLID", true) -- LICHSCENETRANSITIONS.inc:148
+    ctx:object("hCreature"):setFlag("FLAG_VISIBLE", true) -- LICHSCENETRANSITIONS.inc:149
     do return ctx:exit("TRUE") end -- LICHSCENETRANSITIONS.inc:151
 end
 
 script.labels["RemoveActors"] = function(ctx)
     -- LICHSCENETRANSITIONS.inc:154
-    ctx:command("getobjecthandle", "LichSorcerer, hCreature") -- LICHSCENETRANSITIONS.inc:156
+    ctx:state().hCreature = ctx:objectOrNil("LichSorcerer") -- LICHSCENETRANSITIONS.inc:156
     if ctx:condition("hCreature!=0") then -- LICHSCENETRANSITIONS.inc:157
-        ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:158
+        ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:158
     end -- LICHSCENETRANSITIONS.inc:159
-    ctx:command("getobjecthandle", "LichSorcererNew, hCreature") -- LICHSCENETRANSITIONS.inc:161
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:162
-    ctx:command("getobjecthandle", "EscortLich0, hCreature") -- LICHSCENETRANSITIONS.inc:164
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:165
-    ctx:command("getobjecthandle", "EscortLich1, hCreature") -- LICHSCENETRANSITIONS.inc:167
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:168
-    ctx:command("getobjecthandle", "EscortLich2, hCreature") -- LICHSCENETRANSITIONS.inc:170
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:171
-    ctx:command("getobjecthandle", "EscortLich3, hCreature") -- LICHSCENETRANSITIONS.inc:173
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:174
-    ctx:command("getobjecthandle", "KiddieSacrifice0, hCreature") -- LICHSCENETRANSITIONS.inc:176
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:177
-    ctx:command("getobjecthandle", "KiddieSacrifice1, hCreature") -- LICHSCENETRANSITIONS.inc:179
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:180
-    ctx:command("getobjecthandle", "KiddieSacrifice2, hCreature") -- LICHSCENETRANSITIONS.inc:182
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:183
-    ctx:command("getobjecthandle", "KiddieSacrifice3, hCreature") -- LICHSCENETRANSITIONS.inc:185
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:186
-    ctx:command("getobjecthandle", "KiddieSacrifice4, hCreature") -- LICHSCENETRANSITIONS.inc:188
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:189
-    ctx:command("getobjecthandle", "KiddieSacrifice5, hCreature") -- LICHSCENETRANSITIONS.inc:191
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:192
-    ctx:command("getobjecthandle", "KiddieSacrifice6, hCreature") -- LICHSCENETRANSITIONS.inc:194
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:195
-    ctx:command("getobjecthandle", "KiddieSacrifice7, hCreature") -- LICHSCENETRANSITIONS.inc:197
-    ctx:command("removeobject", "hCreature") -- LICHSCENETRANSITIONS.inc:198
+    ctx:state().hCreature = ctx:objectOrNil("LichSorcererNew") -- LICHSCENETRANSITIONS.inc:161
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:162
+    ctx:state().hCreature = ctx:objectOrNil("EscortLich0") -- LICHSCENETRANSITIONS.inc:164
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:165
+    ctx:state().hCreature = ctx:objectOrNil("EscortLich1") -- LICHSCENETRANSITIONS.inc:167
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:168
+    ctx:state().hCreature = ctx:objectOrNil("EscortLich2") -- LICHSCENETRANSITIONS.inc:170
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:171
+    ctx:state().hCreature = ctx:objectOrNil("EscortLich3") -- LICHSCENETRANSITIONS.inc:173
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:174
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice0") -- LICHSCENETRANSITIONS.inc:176
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:177
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice1") -- LICHSCENETRANSITIONS.inc:179
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:180
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice2") -- LICHSCENETRANSITIONS.inc:182
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:183
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice3") -- LICHSCENETRANSITIONS.inc:185
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:186
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice4") -- LICHSCENETRANSITIONS.inc:188
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:189
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice5") -- LICHSCENETRANSITIONS.inc:191
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:192
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice6") -- LICHSCENETRANSITIONS.inc:194
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:195
+    ctx:state().hCreature = ctx:objectOrNil("KiddieSacrifice7") -- LICHSCENETRANSITIONS.inc:197
+    ctx:object("hCreature"):remove() -- LICHSCENETRANSITIONS.inc:198
     do return ctx:exit("TRUE") end -- LICHSCENETRANSITIONS.inc:200
 end
 

@@ -24,7 +24,7 @@ script.labels["CheckGameTicket"] = function(ctx)
     -- checks for ticket key
     ctx:hasItem("TICKET_ITEM", "THJORGARD_RESULT") -- THJORGARDGAMESCOMMON.inc:64
     if ctx:condition("THJORGARD_RESULT==0") then -- THJORGARDGAMESCOMMON.inc:65
-        ctx:command("rollovertext", "TEXT_NEEDTICKET, 1, 3000, 2000") -- THJORGARDGAMESCOMMON.inc:66
+        ctx:rolloverText("TEXT_NEEDTICKET", 1, 3000, 2000) -- THJORGARDGAMESCOMMON.inc:66
     end -- THJORGARDGAMESCOMMON.inc:67
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:69
 end
@@ -32,11 +32,11 @@ end
 script.labels["SellGameTicket"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:72
     -- take gold, give ticket and rules
-    ctx:command("hasgold", "TICKET_COST, thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:75
+    ctx:hasGold("TICKET_COST", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:75
     if ctx:condition("thjorgard_nTemp==1") then -- THJORGARDGAMESCOMMON.inc:76
-        ctx:command("playsound", "\"sounds\\events\\gold01.wav\", DoNothing, 1, 500, 0, 100") -- THJORGARDGAMESCOMMON.inc:77
-        ctx:command("rollovertext", "TEXT_BOUGHTTICKET, 1, 3000, 2000") -- THJORGARDGAMESCOMMON.inc:78
-        ctx:command("takegold", "TICKET_COST") -- THJORGARDGAMESCOMMON.inc:79
+        ctx:playSound("sounds\\events\\gold01.wav", "DoNothing", 1, 500, 0, 100) -- THJORGARDGAMESCOMMON.inc:77
+        ctx:rolloverText("TEXT_BOUGHTTICKET", 1, 3000, 2000) -- THJORGARDGAMESCOMMON.inc:78
+        ctx:takeGold("TICKET_COST") -- THJORGARDGAMESCOMMON.inc:79
         ctx:giveItem("TICKET_ITEM") -- THJORGARDGAMESCOMMON.inc:80
         -- give them the rules
         ctx:hasItem("RULEBOOK_ITEM", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:83
@@ -52,15 +52,15 @@ end
 script.labels["SellBatchTickets"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:94
     -- take gold, give 10 tickets and rules
-    ctx:command("hasgold", "TICKET_BATCH_COST, thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:97
+    ctx:hasGold("TICKET_BATCH_COST", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:97
     if ctx:condition("thjorgard_nTemp==1") then -- THJORGARDGAMESCOMMON.inc:98
-        ctx:command("playsound", "\"sounds\\events\\gold01.wav\", DoNothing, 1, 500, 0, 100") -- THJORGARDGAMESCOMMON.inc:99
-        ctx:command("rollovertext", "TEXT_BOUGHTBATCH, 1, 3000, 2000") -- THJORGARDGAMESCOMMON.inc:100
+        ctx:playSound("sounds\\events\\gold01.wav", "DoNothing", 1, 500, 0, 100) -- THJORGARDGAMESCOMMON.inc:99
+        ctx:rolloverText("TEXT_BOUGHTBATCH", 1, 3000, 2000) -- THJORGARDGAMESCOMMON.inc:100
         ctx:hasItem("RULEBOOK_ITEM", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:101
         if ctx:condition("thjorgard_nTemp==0") then -- THJORGARDGAMESCOMMON.inc:102
             ctx:giveItem("RULEBOOK_ITEM") -- THJORGARDGAMESCOMMON.inc:103
         end -- THJORGARDGAMESCOMMON.inc:104
-        ctx:command("takegold", "TICKET_BATCH_COST") -- THJORGARDGAMESCOMMON.inc:105
+        ctx:takeGold("TICKET_BATCH_COST") -- THJORGARDGAMESCOMMON.inc:105
         ctx:giveItem("TICKET_ITEM") -- THJORGARDGAMESCOMMON.inc:107
         ctx:giveItem("TICKET_ITEM") -- THJORGARDGAMESCOMMON.inc:108
         ctx:giveItem("TICKET_ITEM") -- THJORGARDGAMESCOMMON.inc:109
@@ -83,7 +83,7 @@ script.labels["TakeGameTicket"] = function(ctx)
     ctx:hasItem("TICKET_ITEM", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:128
     if ctx:condition("thjorgard_nTemp==1") then -- THJORGARDGAMESCOMMON.inc:129
         ctx:takeItem("TICKET_ITEM") -- THJORGARDGAMESCOMMON.inc:130
-        ctx:command("rollovertext", "TEXT_USEDTICKET, 1, 3000, 2000") -- THJORGARDGAMESCOMMON.inc:131
+        ctx:rolloverText("TEXT_USEDTICKET", 1, 3000, 2000) -- THJORGARDGAMESCOMMON.inc:131
     end -- THJORGARDGAMESCOMMON.inc:132
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:134
 end
@@ -92,8 +92,8 @@ script.labels["GiveThjorgardPrize"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:137
     -- completed quest- give prize, key, exp
     ctx:giveKey("THJORGARD_ALL") -- THJORGARDGAMESCOMMON.inc:140
-    ctx:command("rollovertext", "TEXT_STUFFEDDRAGON, 1, 3000, 2000") -- THJORGARDGAMESCOMMON.inc:142
-    ctx:command("playsound", "\"sounds\\events\\quest.wav\", DoNothing, 1, 1000, 0, 100") -- THJORGARDGAMESCOMMON.inc:143
+    ctx:rolloverText("TEXT_STUFFEDDRAGON", 1, 3000, 2000) -- THJORGARDGAMESCOMMON.inc:142
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 1, 1000, 0, 100) -- THJORGARDGAMESCOMMON.inc:143
     ctx:giveExp("PRIZE_THJORGARD_EXP") -- THJORGARDGAMESCOMMON.inc:145
     ctx:giveItem("PRIZE_STUFFED_DRAGON") -- THJORGARDGAMESCOMMON.inc:146
     ctx:giveKey("YRSAS_QUEST_COMPLETED") -- THJORGARDGAMESCOMMON.inc:147
@@ -104,7 +104,7 @@ script.labels["GiveGuberlandPrize"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:152
     -- just give random prize each time
     ctx:giveKey("GUBERLAND_ALL") -- THJORGARDGAMESCOMMON.inc:155
-    ctx:command("getrandomint", "PRIZE_GUBER_MIN, PRIZE_GUBER_MAX, thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:157
+    ctx:randomInt("PRIZE_GUBER_MIN", "PRIZE_GUBER_MAX", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:157
     ctx:giveItem("thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:158
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:160
 end
@@ -112,7 +112,7 @@ end
 script.labels["CheckThjorgardWins"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:163
     -- checks to see if all games won
-    ctx:command("rollovertext", "TEXT_VICTORY, 1, 3000, 2000") -- THJORGARDGAMESCOMMON.inc:166
+    ctx:rolloverText("TEXT_VICTORY", 1, 3000, 2000) -- THJORGARDGAMESCOMMON.inc:166
     ctx:hasKey("THJORGARD_ALL", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:168
     if ctx:condition("thjorgard_nTemp==1") then -- THJORGARDGAMESCOMMON.inc:169
         do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:170
@@ -132,7 +132,7 @@ script.labels["CheckThjorgardWins"] = function(ctx)
                             -- if player won all games AND on Yrsa's quest
                             ctx:hasKey("YRSAS_QUEST_PENDING", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:187
                             if ctx:condition("thjorgard_nTemp==1") then -- THJORGARDGAMESCOMMON.inc:188
-                                ctx:command("wait", "17, 2, GiveThjorgardPrize") -- THJORGARDGAMESCOMMON.inc:189
+                                ctx:wait(17, 2, "GiveThjorgardPrize") -- THJORGARDGAMESCOMMON.inc:189
                             end -- THJORGARDGAMESCOMMON.inc:190
                         end -- THJORGARDGAMESCOMMON.inc:192
                     end -- THJORGARDGAMESCOMMON.inc:193
@@ -145,7 +145,7 @@ end
 
 script.labels["CheckGuberlandWins"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:202
-    ctx:command("rollovertext", "TEXT_VICTORY, 1, 3000, 2000") -- THJORGARDGAMESCOMMON.inc:204
+    ctx:rolloverText("TEXT_VICTORY", 1, 3000, 2000) -- THJORGARDGAMESCOMMON.inc:204
     ctx:hasKey("GUBERLAND_ALL", "thjorgard_nTemp") -- THJORGARDGAMESCOMMON.inc:206
     if ctx:condition("thjorgard_nTemp==1") then -- THJORGARDGAMESCOMMON.inc:207
         -- dont exit, no quest prize given
@@ -234,47 +234,47 @@ end
 
 script.labels["Countdown5"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:300
-    ctx:command("playsound", "\"sounds\\door\\doorlock01.wav\", DoNothing, 1, 500, 0, 100") -- THJORGARDGAMESCOMMON.inc:302
-    ctx:command("rollovertext", "235, 1, 2000, 1000") -- THJORGARDGAMESCOMMON.inc:303
-    ctx:command("wait", "5, 1, Countdown4") -- THJORGARDGAMESCOMMON.inc:304
+    ctx:playSound("sounds\\door\\doorlock01.wav", "DoNothing", 1, 500, 0, 100) -- THJORGARDGAMESCOMMON.inc:302
+    ctx:rolloverText(235, 1, 2000, 1000) -- THJORGARDGAMESCOMMON.inc:303
+    ctx:wait(5, 1, "Countdown4") -- THJORGARDGAMESCOMMON.inc:304
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:306
 end
 
 script.labels["Countdown4"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:308
-    ctx:command("playsound", "\"sounds\\door\\doorlock01.wav\", DoNothing, 1, 5000, 0, 100") -- THJORGARDGAMESCOMMON.inc:310
-    ctx:command("rollovertext", "236, 1, 2000, 1000") -- THJORGARDGAMESCOMMON.inc:311
-    ctx:command("wait", "4, 1, Countdown3") -- THJORGARDGAMESCOMMON.inc:312
+    ctx:playSound("sounds\\door\\doorlock01.wav", "DoNothing", 1, 5000, 0, 100) -- THJORGARDGAMESCOMMON.inc:310
+    ctx:rolloverText(236, 1, 2000, 1000) -- THJORGARDGAMESCOMMON.inc:311
+    ctx:wait(4, 1, "Countdown3") -- THJORGARDGAMESCOMMON.inc:312
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:314
 end
 
 script.labels["Countdown3"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:316
-    ctx:command("playsound", "\"sounds\\door\\doorlock01.wav\", DoNothing, 1, 5000, 0, 100") -- THJORGARDGAMESCOMMON.inc:318
-    ctx:command("rollovertext", "237, 1, 2000, 1000") -- THJORGARDGAMESCOMMON.inc:319
-    ctx:command("wait", "3, 1, Countdown2") -- THJORGARDGAMESCOMMON.inc:320
+    ctx:playSound("sounds\\door\\doorlock01.wav", "DoNothing", 1, 5000, 0, 100) -- THJORGARDGAMESCOMMON.inc:318
+    ctx:rolloverText(237, 1, 2000, 1000) -- THJORGARDGAMESCOMMON.inc:319
+    ctx:wait(3, 1, "Countdown2") -- THJORGARDGAMESCOMMON.inc:320
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:322
 end
 
 script.labels["Countdown2"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:324
-    ctx:command("playsound", "\"sounds\\door\\doorlock01.wav\", DoNothing, 1, 5000, 0, 100") -- THJORGARDGAMESCOMMON.inc:326
-    ctx:command("rollovertext", "238, 1, 2000, 1000") -- THJORGARDGAMESCOMMON.inc:327
-    ctx:command("wait", "2, 1, Countdown1") -- THJORGARDGAMESCOMMON.inc:328
+    ctx:playSound("sounds\\door\\doorlock01.wav", "DoNothing", 1, 5000, 0, 100) -- THJORGARDGAMESCOMMON.inc:326
+    ctx:rolloverText(238, 1, 2000, 1000) -- THJORGARDGAMESCOMMON.inc:327
+    ctx:wait(2, 1, "Countdown1") -- THJORGARDGAMESCOMMON.inc:328
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:330
 end
 
 script.labels["Countdown1"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:332
-    ctx:command("playsound", "\"sounds\\door\\doorlock01.wav\", DoNothing, 1, 5000, 0, 100") -- THJORGARDGAMESCOMMON.inc:334
-    ctx:command("rollovertext", "239, 1, 2000, 1000") -- THJORGARDGAMESCOMMON.inc:335
-    ctx:command("wait", "1, 1, Countdown0") -- THJORGARDGAMESCOMMON.inc:336
+    ctx:playSound("sounds\\door\\doorlock01.wav", "DoNothing", 1, 5000, 0, 100) -- THJORGARDGAMESCOMMON.inc:334
+    ctx:rolloverText(239, 1, 2000, 1000) -- THJORGARDGAMESCOMMON.inc:335
+    ctx:wait(1, 1, "Countdown0") -- THJORGARDGAMESCOMMON.inc:336
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:338
 end
 
 script.labels["Countdown0"] = function(ctx)
     -- THJORGARDGAMESCOMMON.inc:340
-    ctx:command("playsound", "\"sounds\\events\\dingbell.wav\", DoNothing, 1, 5000, 0, 100") -- THJORGARDGAMESCOMMON.inc:342
+    ctx:playSound("sounds\\events\\dingbell.wav", "DoNothing", 1, 5000, 0, 100) -- THJORGARDGAMESCOMMON.inc:342
     do return ctx:exit(1) end -- THJORGARDGAMESCOMMON.inc:344
 end
 

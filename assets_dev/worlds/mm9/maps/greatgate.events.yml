@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/greatgate.lua
+  script_ir: ../events/greatgate.script_ir.yml
 objects:
 - object_id: mm9:greatgate:object:0
   source_object_index: 0
@@ -2782,6 +2783,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id002 []
 - mechanism_id: mm9:greatgate:object:14:mechanism
   object_id: mm9:greatgate:object:14
@@ -2793,6 +2823,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id003 []
 - mechanism_id: mm9:greatgate:object:15:mechanism
   object_id: mm9:greatgate:object:15
@@ -2804,6 +2835,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id004 []
 triggers: []
 interactions:
@@ -2888,6 +2920,76 @@ interactions:
   script_id: losecam1.scr
   sends: []
 bindings:
+- object_id: mm9:greatgate:object:3
+  source_object_index: 3
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id010
+      source_model_index: 0
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id005
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id011
+      source_model_index: 0
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id005
+- object_id: mm9:greatgate:object:5
+  source_object_index: 5
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id012
+      source_model_index: 1
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id006
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id013
+      source_model_index: 1
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id006
 - object_id: mm9:greatgate:object:6
   source_object_index: 6
   targets:
@@ -2897,18 +2999,173 @@ bindings:
 - object_id: mm9:greatgate:object:13
   source_object_index: 13
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: Door0
+    source_model_name: Door0
+    source_polygon_group: &id008
+      source_model_index: 2
+      source_model_name: Door0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id007
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: Door0
+    source_model_name: Door0
+    source_polygon_group: &id009
+      source_model_index: 2
+      source_model_name: Door0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id007
 - object_id: mm9:greatgate:object:14
   source_object_index: 14
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id020
+    - source_model_index: 2
+      source_name: Door0
+      movable: true
+      world_translation_lt: &id014
+      - 24.0
+      - 386.0
+      - 1270.0
+      distance_from_position_lt: 553.021
+      claimed_by_exact_bindings: &id015
+      - source_object_index: 13
+        source_name: Door0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 32.0
+        - 386.0
+        - 1272.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: Door0
+        source_model_name: Door0
+        source_polygon_group: *id008
+      - source_object_index: 13
+        source_name: Door0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 32.0
+        - 386.0
+        - 1272.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: Door0
+        source_model_name: Door0
+        source_polygon_group: *id009
+    - source_model_index: 0
+      source_name: TOD_Sky0
+      movable: true
+      world_translation_lt: &id016
+      - -1344.0
+      - -192.0
+      - -96.0
+      distance_from_position_lt: 2262.063
+      claimed_by_exact_bindings: &id017
+      - source_object_index: 3
+        source_name: TOD_Sky0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1344.0
+        - -240.0
+        - -96.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:0
+        bmodel_index: 0
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id010
+      - source_object_index: 3
+        source_name: TOD_Sky0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1344.0
+        - -240.0
+        - -96.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:0
+        bmodel_index: 0
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id011
+    - source_model_index: 1
+      source_name: SkyBox0
+      movable: true
+      world_translation_lt: &id018
+      - -1344.0
+      - -192.0
+      - -96.00001525878906
+      distance_from_position_lt: 2262.063
+      claimed_by_exact_bindings: &id019
+      - source_object_index: 5
+        source_name: SkyBox0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1344.0
+        - -192.0
+        - -96.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id012
+      - source_object_index: 5
+        source_name: SkyBox0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1344.0
+        - -192.0
+        - -96.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id013
 - object_id: mm9:greatgate:object:15
   source_object_index: 15
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id021
+    - source_model_index: 2
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id014
+      distance_from_position_lt: 552.094
+      claimed_by_exact_bindings: *id015
+    - source_model_index: 0
+      source_name: TOD_Sky0
+      movable: true
+      world_translation_lt: *id016
+      distance_from_position_lt: 2222.791
+      claimed_by_exact_bindings: *id017
+    - source_model_index: 1
+      source_name: SkyBox0
+      movable: true
+      world_translation_lt: *id018
+      distance_from_position_lt: 2222.791
+      claimed_by_exact_bindings: *id019
 scripts:
 - script_id: fateman.scr
   source_path: FATEMAN.scr
@@ -3825,20 +4082,19 @@ scripts:
   command_count: 46
 unresolved:
 - kind: unresolved_binding
-  source_object_index: 13
-  source_name: Door0
-  source_class: Door
-  severity: warning
-- kind: unresolved_binding
   source_object_index: 14
   source_name: Loseman
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id020
 - kind: unresolved_binding
   source_object_index: 15
   source_name: Fateman
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id021
 validation:
   raw_object_count: 17
   event_object_count: 17
@@ -3858,4 +4114,4 @@ validation:
   trigger_count: 0
   interaction_count: 8
   script_count: 5
-  unresolved_count: 3
+  unresolved_count: 2

@@ -4,6 +4,7 @@ map_id: chasmofthedead
 display_name: Chasm of the Dead
 source:
   dat: ../source/worlds/CHASMOFTHEDEAD.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/CHASMOFTHEDEAD.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: chasmofthedead.raw_objects.yml
   materials: chasmofthedead.material_aliases.yml
   events: chasmofthedead.events.yml
-  scene_compat: chasmofthedead.scene.yml
+  scene_compat: null
   source_metadata_compat: chasmofthedead.mm9.yml
-  bsp_compat: chasmofthedead.bsp.yml
-  geometry_compat: chasmofthedead.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: chasmofthedead.blv
+  blv_compat: null
 scripts:
   level: ../events/chasmofthedead.lua
   script_ir: ../events/chasmofthedead.script_ir.yml

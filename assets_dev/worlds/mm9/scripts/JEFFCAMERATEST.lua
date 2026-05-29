@@ -10,7 +10,7 @@ script.includes[#script.includes + 1] = { line = 1, path = "globals.inc" }
 script.labels["WatchMe"] = function(ctx)
     -- JEFFCAMERATEST.scr:4
     ctx:getParam(0, "g_hObject") -- JEFFCAMERATEST.scr:5
-    ctx:command("faceobject", "g_hObject,0") -- JEFFCAMERATEST.scr:6
+    ctx:self():faceObject(ctx:object("g_hObject"), 0) -- JEFFCAMERATEST.scr:6
     do return ctx:exit("") end -- JEFFCAMERATEST.scr:7
 end
 

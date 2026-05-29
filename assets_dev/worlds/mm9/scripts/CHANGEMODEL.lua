@@ -20,8 +20,8 @@ script.labels["Init"] = function(ctx)
     if not ctx:hasKey("nKey") then -- CHANGEMODEL.scr:24-25
         do return ctx:exit("") end -- CHANGEMODEL.scr:26
     end -- CHANGEMODEL.scr:27
-    ctx:command("getobjecthandle", "Prop0 g_hobject") -- CHANGEMODEL.scr:29
-    ctx:command("setmodelfilenames", "model_name Model_skin") -- CHANGEMODEL.scr:30
+    ctx:state().g_hobject = ctx:objectOrNil("Prop0") -- CHANGEMODEL.scr:29
+    ctx:self():setModelFilenames("model_name", "Model_skin") -- CHANGEMODEL.scr:30
     do return ctx:exit("") end -- CHANGEMODEL.scr:32
 end
 
@@ -33,7 +33,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(1, "Model_Name") -- CHANGEMODEL.scr:42
     ctx:getParam(2, "Model_Skin") -- CHANGEMODEL.scr:43
     -- Addtrigger Use, OnUse
-    ctx:command("wait", "1 1 Init") -- CHANGEMODEL.scr:45
+    ctx:wait(1, 1, "Init") -- CHANGEMODEL.scr:45
     do return ctx:exit("") end -- CHANGEMODEL.scr:46
 end
 

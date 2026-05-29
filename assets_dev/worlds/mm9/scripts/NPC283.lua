@@ -24,7 +24,7 @@ script.labels["MissingRelic"] = function(ctx)
             ctx:takeItem(368) -- NPC283.scr:28
             ctx:giveGold(3000) -- NPC283.scr:29
             ctx:giveExp(80000) -- NPC283.scr:30
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- NPC283.scr:31
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- NPC283.scr:31
             ctx:giveKey(342) -- NPC283.scr:32
             do return ctx:exit("") end -- NPC283.scr:33
         end -- NPC283.scr:34
@@ -40,8 +40,7 @@ script.labels["GiveKey"] = function(ctx)
     if not ctx:hasKey(254) then -- NPC283.scr:47-48
         if ctx:hasKey(253) then -- NPC283.scr:49-50
             ctx:giveKey(254) -- NPC283.scr:51
-            ctx:command("getobjecthandle", "CommonerHuman2MaleA1 g_hobject") -- NPC283.scr:52
-            ctx:trigger("g_hobject", "Appear") -- NPC283.scr:53
+            ctx:object("CommonerHuman2MaleA1"):trigger("Appear") -- NPC283.scr:52-53
             do return ctx:exit("") end -- NPC283.scr:54
         end -- NPC283.scr:55
     end -- NPC283.scr:56
@@ -51,16 +50,16 @@ end
 script.labels["OnUse"] = function(ctx)
     -- NPC283.scr:61
     ctx:getParam(0, "g_hobject") -- NPC283.scr:64
-    ctx:command("faceobject", "g_hobject 240 DoNothing") -- NPC283.scr:65
+    ctx:self():faceObject(ctx:object("g_hobject"), 240, "DoNothing") -- NPC283.scr:65
     ctx:doRude(283) -- NPC283.scr:66
-    ctx:command("playsound", "voices\\NPC\\NPC_283.wav, DoNothing, 100, 240, FALSE, 100") -- NPC283.scr:67
+    ctx:playSound("voices\\NPC\\NPC_283.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC283.scr:67
     do return ctx:exit("") end -- NPC283.scr:68
 end
 
 script.labels["Init"] = function(ctx)
     -- NPC283.scr:71
     mm9.gosub(script, ctx, "InitMonkHostility") -- NPC283.scr:74
-    ctx:command("@m", "5 : 00 Givekey Givekey") -- NPC283.scr:75
+    ctx:atTime(5, 0, "Givekey", "Givekey") -- NPC283.scr:75
     do return ctx:exit("") end -- NPC283.scr:76
 end
 
@@ -70,10 +69,10 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC283.scr:85
     ctx:addTrigger("Use", "OnUse") -- NPC283.scr:86
-    ctx:command("onpoststartworld", "Init") -- NPC283.scr:89
-    ctx:command("onpostminisaveload", "Init") -- NPC283.scr:90
-    ctx:command("onpostsaveload", "Init") -- NPC283.scr:91
-    ctx:command("wait", "1 .1 Init") -- NPC283.scr:92
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC283.scr:89
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC283.scr:90
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC283.scr:91
+    ctx:wait(1, .1, "Init") -- NPC283.scr:92
     do return ctx:exit("") end -- NPC283.scr:93
 end
 

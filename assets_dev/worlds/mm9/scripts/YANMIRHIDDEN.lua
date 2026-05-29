@@ -14,22 +14,21 @@ script.includes[#script.includes + 1] = { line = 7, path = "flags.inc" }
 script.labels["Main"] = function(ctx)
     -- YANMIRHIDDEN.scr:15
     ctx:getParam(0, "sYanmirName") -- YANMIRHIDDEN.scr:17
-    ctx:command("onpoststartworld", "InitYanmirHidden") -- YANMIRHIDDEN.scr:19
-    ctx:command("onpostminisaveload", "InitYanmirHidden") -- YANMIRHIDDEN.scr:20
+    ctx:onEvent("OnPostStartWorld", "InitYanmirHidden") -- YANMIRHIDDEN.scr:19
+    ctx:onEvent("OnPostMiniSaveLoad", "InitYanmirHidden") -- YANMIRHIDDEN.scr:20
     do return ctx:exit("TRUE") end -- YANMIRHIDDEN.scr:22
 end
 
 script.labels["InitYanmirHidden"] = function(ctx)
     -- YANMIRHIDDEN.scr:25
-    ctx:command("getmyhandle", "hMe") -- YANMIRHIDDEN.scr:27
-    ctx:command("getobjecthandle", "sYanmirName, hYanmir") -- YANMIRHIDDEN.scr:29
+    ctx:state().hYanmir = ctx:objectOrNil("sYanmirName") -- YANMIRHIDDEN.scr:29
     if ctx:condition("hYanmir==0") then -- YANMIRHIDDEN.scr:30
-        ctx:command("setflag", "hMe, FLAG_VISIBLE") -- YANMIRHIDDEN.scr:31
-        ctx:command("setflag", "hMe, FLAG_SOLID") -- YANMIRHIDDEN.scr:32
-        ctx:command("runscript", "\"titan.scr\"") -- YANMIRHIDDEN.scr:34
+        ctx:self():setFlag("FLAG_VISIBLE", true) -- YANMIRHIDDEN.scr:31
+        ctx:self():setFlag("FLAG_SOLID", true) -- YANMIRHIDDEN.scr:32
+        ctx:runScript("titan.scr") -- YANMIRHIDDEN.scr:34
     else -- YANMIRHIDDEN.scr:35
-        ctx:command("clearflag", "hMe, FLAG_VISIBLE") -- YANMIRHIDDEN.scr:36
-        ctx:command("clearflag", "hMe, FLAG_SOLID") -- YANMIRHIDDEN.scr:37
+        ctx:self():setFlag("FLAG_VISIBLE", false) -- YANMIRHIDDEN.scr:36
+        ctx:self():setFlag("FLAG_SOLID", false) -- YANMIRHIDDEN.scr:37
     end -- YANMIRHIDDEN.scr:38
     do return ctx:exit("TRUE") end -- YANMIRHIDDEN.scr:40
 end

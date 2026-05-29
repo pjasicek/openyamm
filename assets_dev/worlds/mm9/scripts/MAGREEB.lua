@@ -19,11 +19,11 @@ script.labels["OnFoundTarget"] = function(ctx)
         do return ctx:exit("") end -- MAGREEB.scr:23
     end -- MAGREEB.scr:24
     ctx:getParam(0, "g_hObject") -- MAGREEB.scr:27
-    ctx:command("isplayer", "g_hobject g_ntemp") -- MAGREEB.scr:29
+    ctx:state().g_ntemp = ctx:object("g_hobject"):isPlayer() -- MAGREEB.scr:29
     if ctx:condition("g_ntemp==TRUE") then -- MAGREEB.scr:30
         if ctx:hasKey(201) then -- MAGREEB.scr:31-32
             ctx:giveKey(202) -- MAGREEB.scr:33
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- MAGREEB.scr:34
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- MAGREEB.scr:34
         end -- MAGREEB.scr:35
     end -- MAGREEB.scr:36
     mm9.gosub(script, ctx, "OnFoundTarget") -- MAGREEB.scr:38

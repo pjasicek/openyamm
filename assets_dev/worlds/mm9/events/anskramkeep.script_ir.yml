@@ -1,0 +1,735 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: anskramkeep
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: ak_giantimp.scr
+  source_path: AK_GIANTIMP.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: baseMelee.inc
+  - line: 7
+    path: flags.inc
+  labels:
+  - line: 12
+    name: Main
+  - line: 29
+    name: CacheFiles
+  - line: 37
+    name: Appear
+  - line: 44
+    name: StartScene
+  - line: 60
+    name: IncreaseStats
+  registered_triggers:
+  - line: 22
+    message: appear
+    callback: Appear
+    arguments_raw: appear, Appear
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 18
+    command: SetStat
+    arguments_raw: g_hMyObject, gravity, FALSE
+  - line: 19
+    command: ClearFlag
+    arguments_raw: g_hMyObject, FLAG_SOLID
+  - line: 20
+    command: ClearFlag
+    arguments_raw: g_hMyObject, FLAG_VISIBLE
+  - line: 48
+    command: SetFlag
+    arguments_raw: g_hMyObject, FLAG_SOLID
+  - line: 49
+    command: SetFlag
+    arguments_raw: g_hMyObject, FLAG_VISIBLE
+  - line: 50
+    command: SetStat
+    arguments_raw: g_hMyObject, Gravity, TRUE
+  - line: 62
+    command: SetStat
+    arguments_raw: g_hMyObject, HitPoints, 100
+  - line: 63
+    command: SetStat
+    arguments_raw: g_hMyObject, AC, 15
+  presentation_commands: []
+  unknown_commands:
+  - line: 14
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 31
+    command: CacheClientFX
+    arguments_raw: SPELL_BLACKSMOKE
+  - line: 32
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\gezzampt\aware.wav"'
+  - line: 46
+    command: DoClientFX
+    arguments_raw: g_hMyObject, SPELL_BLACKSMOKE, TRUE, TRUE
+  - line: 53
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  command_count: 25
+- script_id: ak_giantimpguard.scr
+  source_path: AK_GIANTIMPGUARD.scr
+  parse_status: parsed
+  includes:
+  - line: 6
+    path: baseMelee.inc
+  - line: 7
+    path: flags.inc
+  labels:
+  - line: 10
+    name: Main
+  - line: 26
+    name: Appear
+  - line: 44
+    name: OnDamage
+  registered_triggers:
+  - line: 21
+    message: appear
+    callback: Appear
+    arguments_raw: appear, Appear
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 17
+    command: SetStat
+    arguments_raw: g_hMyObject, gravity, FALSE
+  - line: 18
+    command: ClearFlag
+    arguments_raw: g_hMyObject, FLAG_SOLID
+  - line: 19
+    command: ClearFlag
+    arguments_raw: g_hMyObject, FLAG_VISIBLE
+  - line: 31
+    command: SetFlag
+    arguments_raw: g_hMyObject, FLAG_SOLID
+  - line: 32
+    command: SetFlag
+    arguments_raw: g_hMyObject, FLAG_VISIBLE
+  - line: 33
+    command: SetStat
+    arguments_raw: g_hMyObject, gravity, TRUE
+  presentation_commands: []
+  unknown_commands:
+  - line: 12
+    command: AddFriend
+    arguments_raw: Player
+  - line: 13
+    command: AddEnemy
+    arguments_raw: Imp
+  - line: 39
+    command: OnDamage
+    arguments_raw: OnDamage
+  - line: 47
+    command: Die
+    arguments_raw: ''
+  command_count: 20
+- script_id: ak_impgate.scr
+  source_path: AK_IMPGATE.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: BaseGlobals.inc
+  - line: 14
+    path: globals.inc
+  labels:
+  - line: 39
+    name: Main
+  - line: 54
+    name: InitKey
+  - line: 100
+    name: ConsoleCheck
+  - line: 151
+    name: InitImpGate
+  - line: 185
+    name: Respawn
+  - line: 195
+    name: Spawn
+  - line: 215
+    name: Terminate
+  - line: 248
+    name: RemoveObject
+  registered_triggers:
+  - line: 179
+    message: spawn
+    callback: Spawn
+    arguments_raw: spawn, Spawn
+  trigger_edges:
+  - line: 228
+    target_expression: hCreature
+    message_expression: use
+    arguments_raw: hCreature, use
+  - line: 230
+    target_expression: hCreature
+    message_expression: 'on'
+    arguments_raw: hCreature, on
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 46
+    command: OnPostStartWorld
+    arguments_raw: InitImpGate
+  - line: 47
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitImpGate
+  - line: 58
+    command: nKey
+    arguments_raw: = 510
+  - line: 63
+    command: nKey
+    arguments_raw: = 511
+  - line: 68
+    command: nKey
+    arguments_raw: = 512
+  - line: 73
+    command: nKey
+    arguments_raw: = 513
+  - line: 78
+    command: nKey
+    arguments_raw: = 514
+  - line: 83
+    command: nKey
+    arguments_raw: = 515
+  - line: 88
+    command: nKey
+    arguments_raw: = 516
+  - line: 93
+    command: nKey
+    arguments_raw: = 517
+  - line: 103
+    command: set
+    arguments_raw: g_nCounter, 0
+  - line: 105
+    command: haskey
+    arguments_raw: 510 g_ntemp
+  - line: 107
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 110
+    command: haskey
+    arguments_raw: 511 g_ntemp
+  - line: 112
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 115
+    command: haskey
+    arguments_raw: 512 g_ntemp
+  - line: 117
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 120
+    command: haskey
+    arguments_raw: 513 g_ntemp
+  - line: 122
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 125
+    command: haskey
+    arguments_raw: 514 g_ntemp
+  - line: 127
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 130
+    command: haskey
+    arguments_raw: 515 g_ntemp
+  - line: 132
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 135
+    command: haskey
+    arguments_raw: 516 g_ntemp
+  - line: 137
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 140
+    command: haskey
+    arguments_raw: 517 g_ntemp
+  - line: 142
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 145
+    command: SetConsoleNumVar
+    arguments_raw: AK_IMP_TOTAL, g_nCounter
+  - line: 156
+    command: HasKey
+    arguments_raw: nKey, bHasKey
+  - line: 160
+    command: RemoveObject
+    arguments_raw: hMe
+  - line: 165
+    command: unknown
+    arguments_raw: if( nQuantity>5 )
+  - line: 166
+    command: nQuantity
+    arguments_raw: = 5
+  - line: 168
+    command: unknown
+    arguments_raw: if( nQuantity<1 )
+  - line: 169
+    command: nQuantity
+    arguments_raw: = 1
+  - line: 180
+    command: OnTargetDead
+    arguments_raw: Respawn
+  - line: 188
+    command: Target
+    arguments_raw: 'NULL'
+  - line: 189
+    command: hCreature
+    arguments_raw: = NULL
+  - line: 203
+    command: nQuantity
+    arguments_raw: = nQuantity - 1
+  - line: 204
+    command: SPAWN_PARAM
+    arguments_raw: = sCreatureName + sScriptName
+  - line: 205
+    command: Spawn
+    arguments_raw: hCreature, xMe, yMe, zMe, SPAWN_PARAM
+  - line: 208
+    command: DoClientFX
+    arguments_raw: hCreature, SPELL_BLUEFIRE, FALSE, TRUE
+  - line: 209
+    command: Target
+    arguments_raw: hCreature
+  - line: 219
+    command: givekey
+    arguments_raw: nKey
+  - line: 221
+    command: GetConsoleNumVar
+    arguments_raw: AK_IMP_TOTAL, xMe
+  - line: 222
+    command: xMe
+    arguments_raw: = xMe + 1
+  - line: 223
+    command: hCreature
+    arguments_raw: = NULL
+  - line: 224
+    command: Target
+    arguments_raw: 'NULL'
+  - line: 231
+    command: hCreature
+    arguments_raw: = NULL
+  - line: 233
+    command: SetConsoleNumVar
+    arguments_raw: AK_IMP_TOTAL, xMe
+  - line: 238
+    command: RemoveObject
+    arguments_raw: hCreature
+  - line: 241
+    command: RemoveTrigger
+    arguments_raw: spawn
+  - line: 242
+    command: OnTargetDead
+    arguments_raw: DoNothing
+  - line: 250
+    command: RemoveObject
+    arguments_raw: hMe
+  command_count: 137
+- script_id: anskrammainline.scr
+  source_path: ANSKRAMMAINLINE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: Onuse
+  - line: 33
+    name: Main
+  registered_triggers:
+  - line: 37
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: haskey
+    arguments_raw: 39 g_ntemp
+  - line: 23
+    command: givekey
+    arguments_raw: '39'
+  command_count: 9
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: dungeonjukebox.scr
+  source_path: DUNGEONJUKEBOX.scr
+  parse_status: parsed
+  includes:
+  - line: 17
+    path: BaseGlobals.inc
+  labels:
+  - line: 43
+    name: Main
+  - line: 53
+    name: InitDungeonJukebox
+  - line: 72
+    name: StartPlayLoop
+  - line: 80
+    name: PlayLoop
+  - line: 90
+    name: PlaySound
+  - line: 102
+    name: UpdatePOS
+  - line: 114
+    name: TurnOn
+  - line: 120
+    name: TurnOff
+  - line: 126
+    name: TurnRandomOn
+  - line: 132
+    name: TurnRandomOff
+  - line: 138
+    name: InitStrings
+  - line: 153
+    name: CacheAllSounds
+  registered_triggers:
+  - line: 61
+    message: Play
+    callback: PlaySound
+    arguments_raw: Play, PlaySound
+  - line: 62
+    message: RandomOff
+    callback: TurnRandomOff
+    arguments_raw: RandomOff, TurnRandomOff
+  - line: 63
+    message: RandomOn
+    callback: TurnRandomOn
+    arguments_raw: RandomOn, TurnRandomOn
+  - line: 64
+    message: 'On'
+    callback: TurnOn
+    arguments_raw: On, TurnOn
+  - line: 65
+    message: 'Off'
+    callback: TurnOff
+    arguments_raw: Off, TurnOff
+  trigger_edges: []
+  movement_commands:
+  - line: 110
+    command: SetPOS
+    arguments_raw: hMe, x,y,z
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 55
+    command: bActive
+    arguments_raw: = TRUE
+  - line: 56
+    command: bRandom
+    arguments_raw: = TRUE
+  - line: 59
+    command: GetPlayerHandle
+    arguments_raw: hPlayer
+  - line: 74
+    command: GetRandomInt
+    arguments_raw: 2, 8, dt
+  - line: 75
+    command: dt
+    arguments_raw: = dt * 60
+  - line: 96
+    command: GetRandomInt
+    arguments_raw: 0, nCounter, nRandom
+  - line: 97
+    command: ArrayGet
+    arguments_raw: spSoundArray, nRandom, sFilename
+  - line: 104
+    command: GetFaceDir
+    arguments_raw: hPlayer, dx,dy,dz
+  - line: 105
+    command: NormalizeVector
+    arguments_raw: dx,dy,dz
+  - line: 107
+    command: x
+    arguments_raw: = x - dx
+  - line: 108
+    command: y
+    arguments_raw: = y - dy
+  - line: 109
+    command: z
+    arguments_raw: = z - dz
+  - line: 116
+    command: bActive
+    arguments_raw: = TRUE
+  - line: 122
+    command: bActive
+    arguments_raw: = FALSE
+  - line: 128
+    command: bRandom
+    arguments_raw: = TRUE
+  - line: 134
+    command: bRandom
+    arguments_raw: = FALSE
+  - line: 140
+    command: ArrayPut
+    arguments_raw: spSoundArray, 0, sounds\Door\Doorcreak02.wav
+  - line: 141
+    command: ArrayPut
+    arguments_raw: spSoundArray, 1, sounds\Ambient\Owl02.wav
+  - line: 142
+    command: ArrayPut
+    arguments_raw: spSoundArray, 2, sounds\Ambient\Thunderdistant02.wav
+  - line: 143
+    command: ArrayPut
+    arguments_raw: spSoundArray, 3, sounds\Events\rockscrumblingloop.wav
+  - line: 144
+    command: ArrayPut
+    arguments_raw: spSoundArray, 4, sounds\Events\WoodCreak1.wav
+  - line: 145
+    command: ArrayPut
+    arguments_raw: spSoundArray, 5, sounds\AnimSounds\lichkingTaunt.wav
+  - line: 146
+    command: ArrayPut
+    arguments_raw: spSoundArray, 6, sounds\Ambient\cricket.wav
+  - line: 147
+    command: ArrayPut
+    arguments_raw: spSoundArray, 7, sounds\AnimSounds\gopherwince.wav
+  - line: 148
+    command: ArrayPut
+    arguments_raw: spSoundArray, 8, sounds\PickupItems\Shield\Metal01.wav
+  - line: 149
+    command: ArrayPut
+    arguments_raw: spSoundArray, 9, sounds\Events\WoodCreak1.wav
+  - line: 155
+    command: nCounter
+    arguments_raw: = 0
+  - line: 156
+    command: unknown
+    arguments_raw: while( nCounter<NUMSOUNDS )
+  - line: 157
+    command: ArrayGet
+    arguments_raw: spSoundArray, nCounter, sFileName
+  - line: 158
+    command: CacheSound
+    arguments_raw: sFileName
+  - line: 159
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 160
+    command: endwhile
+    arguments_raw: ''
+  - line: 161
+    command: nCounter
+    arguments_raw: = nCounter - 1
+  command_count: 68
+- script_id: kingkong.scr
+  source_path: KINGKONG.scr
+  parse_status: parsed
+  includes:
+  - line: 19
+    path: baseMelee.inc
+  labels:
+  - line: 27
+    name: Main
+  - line: 37
+    name: InitKingKong
+  - line: 52
+    name: RushCage
+  - line: 62
+    name: BreakCage
+  - line: 77
+    name: FallThrough
+  - line: 90
+    name: TurnOff
+  registered_triggers:
+  - line: 41
+    message: ForceBreak
+    callback: RushCage
+    arguments_raw: ForceBreak, RushCage
+  - line: 42
+    message: ForceFall
+    callback: FallThrough
+    arguments_raw: ForceFall, FallThrough
+  - line: 43
+    message: ForceAttack
+    callback: TurnOff
+    arguments_raw: ForceAttack, TurnOff
+  trigger_edges:
+  - line: 67
+    target_expression: hCage
+    message_expression: destroy
+    arguments_raw: hCage, destroy
+  - line: 82
+    target_expression: hCage
+    message_expression: destroy
+    arguments_raw: hCage, destroy
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 46
+    command: LoopAnim
+    arguments_raw: ANIM_NAME, 0
+  - line: 70
+    command: PlayAnim
+    arguments_raw: hattack1, turnoff
+  unknown_commands:
+  - line: 32
+    command: OnPostStartWorld
+    arguments_raw: InitKingKong
+  - line: 93
+    command: RemoveTrigger
+    arguments_raw: ForceBreak
+  - line: 94
+    command: RemoveTrigger
+    arguments_raw: ForceFall
+  - line: 95
+    command: RemoveTrigger
+    arguments_raw: ForceAttack
+  - line: 98
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  command_count: 36
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: spawncreature.scr
+  source_path: SPAWNCREATURE.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: baseMelee.inc
+  labels:
+  - line: 16
+    name: Main
+  - line: 23
+    name: InitSpawnCreature
+  - line: 47
+    name: OnDeath
+  registered_triggers: []
+  trigger_edges:
+  - line: 51
+    target_expression: hSpawnMgr
+    message_expression: Respawn
+    arguments_raw: hSpawnMgr, Respawn
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 25
+    command: SetPropNumber
+    arguments_raw: CheckForAIBarriers, TRUE
+  - line: 26
+    command: SetPropNumber
+    arguments_raw: CheckForCliffs, TRUE
+  - line: 34
+    command: OnDeath
+    arguments_raw: OnDeath
+  - line: 37
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  - line: 41
+    command: RunTo
+    arguments_raw: hRally, 10, DoNothing
+  command_count: 20
+validation:
+  script_count: 9

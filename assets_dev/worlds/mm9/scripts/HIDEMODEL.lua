@@ -28,15 +28,15 @@ end
 script.labels["Hide"] = function(ctx)
     -- HIDEMODEL.scr:37
     if ctx:hasKey("nKey") then -- HIDEMODEL.scr:40-41
-        ctx:command("getmyhandle", "g_hobject") -- HIDEMODEL.scr:42
-        ctx:command("clearflag", "g_hobject, visible") -- HIDEMODEL.scr:43
-        ctx:command("clearflag", "g_hobject, solid") -- HIDEMODEL.scr:44
-        ctx:command("clearflag", "g_hobject, gravity") -- HIDEMODEL.scr:45
+        ctx:state().g_hobject = ctx:self() -- HIDEMODEL.scr:42
+        ctx:self():setFlag("visible", false) -- HIDEMODEL.scr:43
+        ctx:self():setFlag("solid", false) -- HIDEMODEL.scr:44
+        ctx:self():setFlag("gravity", false) -- HIDEMODEL.scr:45
     else -- HIDEMODEL.scr:46
-        ctx:command("getmyhandle", "g_hobject") -- HIDEMODEL.scr:47
-        ctx:command("setflag", "g_hobject, visible") -- HIDEMODEL.scr:48
-        ctx:command("setflag", "g_hobject, solid") -- HIDEMODEL.scr:49
-        ctx:command("setflag", "g_hobject, gravity") -- HIDEMODEL.scr:50
+        ctx:state().g_hobject = ctx:self() -- HIDEMODEL.scr:47
+        ctx:self():setFlag("visible", true) -- HIDEMODEL.scr:48
+        ctx:self():setFlag("solid", true) -- HIDEMODEL.scr:49
+        ctx:self():setFlag("gravity", true) -- HIDEMODEL.scr:50
     end -- HIDEMODEL.scr:51
     do return ctx:exit("") end -- HIDEMODEL.scr:52
 end
@@ -44,15 +44,15 @@ end
 script.labels["Unhide"] = function(ctx)
     -- HIDEMODEL.scr:55
     if ctx:hasKey("nKey") then -- HIDEMODEL.scr:58-59
-        ctx:command("getmyhandle", "g_hobject") -- HIDEMODEL.scr:60
-        ctx:command("setflag", "g_hobject, visible") -- HIDEMODEL.scr:61
-        ctx:command("setflag", "g_hobject, solid") -- HIDEMODEL.scr:62
-        ctx:command("setflag", "g_hobject, gravity") -- HIDEMODEL.scr:63
+        ctx:state().g_hobject = ctx:self() -- HIDEMODEL.scr:60
+        ctx:self():setFlag("visible", true) -- HIDEMODEL.scr:61
+        ctx:self():setFlag("solid", true) -- HIDEMODEL.scr:62
+        ctx:self():setFlag("gravity", true) -- HIDEMODEL.scr:63
     else -- HIDEMODEL.scr:64
-        ctx:command("getmyhandle", "g_hobject") -- HIDEMODEL.scr:65
-        ctx:command("clearflag", "g_hobject, visible") -- HIDEMODEL.scr:66
-        ctx:command("clearflag", "g_hobject, solid") -- HIDEMODEL.scr:67
-        ctx:command("clearflag", "g_hobject, gravity") -- HIDEMODEL.scr:68
+        ctx:state().g_hobject = ctx:self() -- HIDEMODEL.scr:65
+        ctx:self():setFlag("visible", false) -- HIDEMODEL.scr:66
+        ctx:self():setFlag("solid", false) -- HIDEMODEL.scr:67
+        ctx:self():setFlag("gravity", false) -- HIDEMODEL.scr:68
     end -- HIDEMODEL.scr:69
     do return ctx:exit("") end -- HIDEMODEL.scr:70
 end
@@ -63,10 +63,10 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:getParam(0, "nKey") -- HIDEMODEL.scr:79
     ctx:getParam(1, "sHideStatus") -- HIDEMODEL.scr:80
-    ctx:command("wait", "1 1 Init") -- HIDEMODEL.scr:81
-    ctx:command("onpoststartworld", "Init") -- HIDEMODEL.scr:82
-    ctx:command("onpostminisaveload", "Init") -- HIDEMODEL.scr:83
-    ctx:command("onpostsaveload", "Init") -- HIDEMODEL.scr:84
+    ctx:wait(1, 1, "Init") -- HIDEMODEL.scr:81
+    ctx:onEvent("OnPostStartWorld", "Init") -- HIDEMODEL.scr:82
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- HIDEMODEL.scr:83
+    ctx:onEvent("OnPostSaveLoad", "Init") -- HIDEMODEL.scr:84
     do return ctx:exit("") end -- HIDEMODEL.scr:85
 end
 

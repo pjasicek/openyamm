@@ -17,8 +17,8 @@ script.includes[#script.includes + 1] = { line = 11, path = "DrangheimHostility.
 script.labels["Main"] = function(ctx)
     -- DRANGHEIMDOORMAN.scr:17
     ctx:getParam(0, "sDoorName") -- DRANGHEIMDOORMAN.scr:19
-    ctx:command("onpoststartworld", "InitDoorman") -- DRANGHEIMDOORMAN.scr:21
-    ctx:command("onpostminisaveload", "InitDoorman") -- DRANGHEIMDOORMAN.scr:22
+    ctx:onEvent("OnPostStartWorld", "InitDoorman") -- DRANGHEIMDOORMAN.scr:21
+    ctx:onEvent("OnPostMiniSaveLoad", "InitDoorman") -- DRANGHEIMDOORMAN.scr:22
     do return ctx:exit("TRUE") end -- DRANGHEIMDOORMAN.scr:24
 end
 
@@ -27,7 +27,7 @@ script.labels["InitDoorman"] = function(ctx)
     mm9.gosub(script, ctx, "InitDrangheimHostility") -- DRANGHEIMDOORMAN.scr:29
     ctx:addTrigger("open", "OpenRoom") -- DRANGHEIMDOORMAN.scr:31
     ctx:addTrigger("close", "CloseRoom") -- DRANGHEIMDOORMAN.scr:32
-    ctx:command("getobjecthandle", "sDoorName, hDoor") -- DRANGHEIMDOORMAN.scr:34
+    ctx:state().hDoor = ctx:objectOrNil("sDoorName") -- DRANGHEIMDOORMAN.scr:34
     mm9.gosub(script, ctx, "CloseRoom") -- DRANGHEIMDOORMAN.scr:36
     do return ctx:exit("TRUE") end -- DRANGHEIMDOORMAN.scr:38
 end

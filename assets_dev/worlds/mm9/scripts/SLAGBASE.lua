@@ -14,8 +14,7 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 script.labels["OnUse"] = function(ctx)
     -- SLAGBASE.scr:16
     if ctx:hasItem(399) then -- SLAGBASE.scr:22-23
-        ctx:command("getobjecthandle", "slag g_hobject") -- SLAGBASE.scr:24
-        ctx:trigger("g_hobject", "Show") -- SLAGBASE.scr:25
+        ctx:object("slag"):trigger("Show") -- SLAGBASE.scr:24-25
         do return ctx:exit("") end -- SLAGBASE.scr:26
     end -- SLAGBASE.scr:27
     do return ctx:exit("") end -- SLAGBASE.scr:28

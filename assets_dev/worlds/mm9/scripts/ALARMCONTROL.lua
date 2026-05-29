@@ -17,12 +17,9 @@ script.labels["OnAlarm"] = function(ctx)
     if not ctx:hasKey(5006) then -- ALARMCONTROL.scr:18-19
         ctx:giveKey(5006) -- ALARMCONTROL.scr:20
     end -- ALARMCONTROL.scr:21
-    ctx:command("getobjecthandle", "guard0 g_hobject") -- ALARMCONTROL.scr:23
-    ctx:trigger("g_hobject", "Alarm") -- ALARMCONTROL.scr:24
-    ctx:command("getobjecthandle", "guard1 g_hobject") -- ALARMCONTROL.scr:26
-    ctx:trigger("g_hobject", "Alarm") -- ALARMCONTROL.scr:27
-    ctx:command("getobjecthandle", "guard2 g_hobject") -- ALARMCONTROL.scr:29
-    ctx:trigger("g_hobject", "Alarm") -- ALARMCONTROL.scr:30
+    ctx:object("guard0"):trigger("Alarm") -- ALARMCONTROL.scr:23-24
+    ctx:object("guard1"):trigger("Alarm") -- ALARMCONTROL.scr:26-27
+    ctx:object("guard2"):trigger("Alarm") -- ALARMCONTROL.scr:29-30
     do return ctx:exit("") end -- ALARMCONTROL.scr:31
 end
 

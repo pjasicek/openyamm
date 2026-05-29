@@ -17,7 +17,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(1, "sFloorName") -- CHESSBISHOP.scr:13
     ctx:getParam(2, "BOARDSIZE") -- CHESSBISHOP.scr:14
     ctx:getParam(3, "nLocation") -- CHESSBISHOP.scr:15
-    ctx:command("onpoststartworld", "InitChessBase") -- CHESSBISHOP.scr:17
+    ctx:onEvent("OnPostStartWorld", "InitChessBase") -- CHESSBISHOP.scr:17
     do return ctx:exit("TRUE") end -- CHESSBISHOP.scr:19
 end
 
@@ -31,12 +31,12 @@ script.labels["CheckPath"] = function(ctx)
     -- CHESSBISHOP.scr:35
     -- check the (0,0)->(N,N) direction
     -- check the (0,N)->(N,0) direction
-    ctx:command("battacked", "= FALSE") -- CHESSBISHOP.scr:39
+    ctx:state().bAttacked = false -- CHESSBISHOP.scr:39
     ctx:getParam(0, "hTrigger") -- CHESSBISHOP.scr:40
-    ctx:command("diag_dir", "= 1") -- CHESSBISHOP.scr:42
+    ctx:state().DIAG_DIR = 1 -- CHESSBISHOP.scr:42
     mm9.gosub(script, ctx, "CheckDiagonal") -- CHESSBISHOP.scr:43
     if ctx:condition("bAttacked==FALSE") then -- CHESSBISHOP.scr:45
-        ctx:command("diag_dir", "= -1") -- CHESSBISHOP.scr:46
+        ctx:state().DIAG_DIR = -1 -- CHESSBISHOP.scr:46
         mm9.gosub(script, ctx, "CheckDiagonal") -- CHESSBISHOP.scr:47
     end -- CHESSBISHOP.scr:48
     do return ctx:exit("TRUE") end -- CHESSBISHOP.scr:50
@@ -49,20 +49,20 @@ script.labels["CheckDiagonal"] = function(ctx)
     -- diagonal from there
     mm9.gosub(script, ctx, "NormalizeDiagonal") -- CHESSBISHOP.scr:58
     -- diagonal boardlength adjusted for direction
-    ctx:command("diag_size", "= BOARDSIZE * DIAG_DIR + 1") -- CHESSBISHOP.scr:61
-    ctx:command("listindex", "= zTemp * BOARDSIZE + xTemp") -- CHESSBISHOP.scr:62
+    ctx:set("DIAG_SIZE", "BOARDSIZE * DIAG_DIR + 1") -- CHESSBISHOP.scr:61
+    ctx:set("LISTINDEX", "zTemp * BOARDSIZE + xTemp") -- CHESSBISHOP.scr:62
     while ctx:condition("nSquares>0") do -- CHESSBISHOP.scr:64
-        ctx:command("nsquares", "= nSquares - 1") -- CHESSBISHOP.scr:65
+        ctx:set("nSquares", "nSquares - 1") -- CHESSBISHOP.scr:65
         if ctx:condition("LISTINDEX!=nLocation") then -- CHESSBISHOP.scr:67
             mm9.gosub(script, ctx, "GetCurrentObject") -- CHESSBISHOP.scr:68
             if ctx:condition("LISTOBJECT==hTrigger") then -- CHESSBISHOP.scr:69
                 mm9.gosub(script, ctx, "PreAttackRoutine") -- CHESSBISHOP.scr:70
-                ctx:command("battacked", "= TRUE") -- CHESSBISHOP.scr:71
+                ctx:state().bAttacked = true -- CHESSBISHOP.scr:71
                 do return ctx:exit("TRUE") end -- CHESSBISHOP.scr:72
             end -- CHESSBISHOP.scr:73
         end -- CHESSBISHOP.scr:74
         -- shift to next diagonal
-        ctx:command("listindex", "= LISTINDEX + DIAG_SIZE") -- CHESSBISHOP.scr:77
+        ctx:set("LISTINDEX", "LISTINDEX + DIAG_SIZE") -- CHESSBISHOP.scr:77
     end -- CHESSBISHOP.scr:78
     do return ctx:exit("TRUE") end -- CHESSBISHOP.scr:80
 end
@@ -71,48 +71,48 @@ script.labels["NormalizeDiagonal"] = function(ctx)
     -- CHESSBISHOP.scr:83
     -- shifts the pos of the piece
     -- to the sides of the board
-    ctx:command("xtemp", "= xMe") -- CHESSBISHOP.scr:87
-    ctx:command("ztemp", "= zMe") -- CHESSBISHOP.scr:88
+    ctx:set("xTemp", "xMe") -- CHESSBISHOP.scr:87
+    ctx:set("zTemp", "zMe") -- CHESSBISHOP.scr:88
     if ctx:condition("DIAG_DIR>0") then -- CHESSBISHOP.scr:90
         if ctx:condition("xTemp==zTemp") then -- CHESSBISHOP.scr:91
-            ctx:command("xtemp", "= 0") -- CHESSBISHOP.scr:92
-            ctx:command("ztemp", "= 0") -- CHESSBISHOP.scr:93
+            ctx:state().xTemp = 0 -- CHESSBISHOP.scr:92
+            ctx:state().zTemp = 0 -- CHESSBISHOP.scr:93
         end -- CHESSBISHOP.scr:94
         if ctx:condition("xTemp>zTemp") then -- CHESSBISHOP.scr:95
-            ctx:command("xtemp", "= xTemp - zTemp") -- CHESSBISHOP.scr:96
-            ctx:command("ztemp", "= 0") -- CHESSBISHOP.scr:97
+            ctx:set("xTemp", "xTemp - zTemp") -- CHESSBISHOP.scr:96
+            ctx:state().zTemp = 0 -- CHESSBISHOP.scr:97
         end -- CHESSBISHOP.scr:98
         if ctx:condition("xTemp<zTemp") then -- CHESSBISHOP.scr:99
-            ctx:command("ztemp", "= zTemp - xTemp") -- CHESSBISHOP.scr:100
-            ctx:command("xtemp", "= 0") -- CHESSBISHOP.scr:101
+            ctx:set("zTemp", "zTemp - xTemp") -- CHESSBISHOP.scr:100
+            ctx:state().xTemp = 0 -- CHESSBISHOP.scr:101
         end -- CHESSBISHOP.scr:102
     end -- CHESSBISHOP.scr:103
     if ctx:condition("DIAG_DIR<0") then -- CHESSBISHOP.scr:104
-        ctx:command("ntemp", "=\tSIZEINDEX - xTemp - zTemp") -- CHESSBISHOP.scr:105
+        ctx:set("nTemp", "SIZEINDEX - xTemp - zTemp") -- CHESSBISHOP.scr:105
         if ctx:condition("nTemp == 0") then -- CHESSBISHOP.scr:106
-            ctx:command("xtemp", "= 0") -- CHESSBISHOP.scr:107
-            ctx:command("ztemp", "= SIZEINDEX") -- CHESSBISHOP.scr:108
+            ctx:state().xTemp = 0 -- CHESSBISHOP.scr:107
+            ctx:set("zTemp", "SIZEINDEX") -- CHESSBISHOP.scr:108
         end -- CHESSBISHOP.scr:109
         if ctx:condition("nTemp<0") then -- CHESSBISHOP.scr:110
-            ctx:command("xtemp", "= xTemp - BOARDSIZE + zTemp + 1") -- CHESSBISHOP.scr:111
-            ctx:command("ztemp", "= SIZEINDEX") -- CHESSBISHOP.scr:112
+            ctx:set("xTemp", "xTemp - BOARDSIZE + zTemp + 1") -- CHESSBISHOP.scr:111
+            ctx:set("zTemp", "SIZEINDEX") -- CHESSBISHOP.scr:112
         end -- CHESSBISHOP.scr:113
         if ctx:condition("nTemp>0") then -- CHESSBISHOP.scr:114
-            ctx:command("ztemp", "= xTemp + zTemp") -- CHESSBISHOP.scr:115
+            ctx:set("zTemp", "xTemp + zTemp") -- CHESSBISHOP.scr:115
             if ctx:condition("zTemp<0") then -- CHESSBISHOP.scr:116
-                ctx:command("ztemp", "= zTemp * -1") -- CHESSBISHOP.scr:117
+                ctx:set("zTemp", "zTemp * -1") -- CHESSBISHOP.scr:117
             end -- CHESSBISHOP.scr:118
-            ctx:command("xtemp", "= 0") -- CHESSBISHOP.scr:119
+            ctx:state().xTemp = 0 -- CHESSBISHOP.scr:119
         end -- CHESSBISHOP.scr:120
     end -- CHESSBISHOP.scr:121
     if ctx:condition("xTemp==0") then -- CHESSBISHOP.scr:122
-        ctx:command("nsquares", "= BOARDSIZE - zTemp") -- CHESSBISHOP.scr:123
+        ctx:set("nSquares", "BOARDSIZE - zTemp") -- CHESSBISHOP.scr:123
     end -- CHESSBISHOP.scr:124
     if ctx:condition("zTemp==0") then -- CHESSBISHOP.scr:125
-        ctx:command("nsquares", "= BOARDSIZE - xTemp") -- CHESSBISHOP.scr:126
+        ctx:set("nSquares", "BOARDSIZE - xTemp") -- CHESSBISHOP.scr:126
     end -- CHESSBISHOP.scr:127
     if ctx:condition("zTemp==SIZEINDEX") then -- CHESSBISHOP.scr:128
-        ctx:command("nsquares", "= BOARDSIZE - xTemp") -- CHESSBISHOP.scr:129
+        ctx:set("nSquares", "BOARDSIZE - xTemp") -- CHESSBISHOP.scr:129
     end -- CHESSBISHOP.scr:130
     do return ctx:exit("TRUE") end -- CHESSBISHOP.scr:132
 end

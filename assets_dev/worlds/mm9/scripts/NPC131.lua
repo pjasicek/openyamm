@@ -26,8 +26,8 @@ script.labels["Healed"] = function(ctx)
     if ctx:hasKey(211) then -- NPC131.scr:31-32
         if ctx:hasItem(558) then -- NPC131.scr:33-34
             ctx:takeItem(558) -- NPC131.scr:35
-            ctx:command("getobjecthandle", "Marker0 g_hobject") -- NPC131.scr:36
-            ctx:command("walkto", "g_hobject 16 OnWander") -- NPC131.scr:37
+            ctx:state().g_hobject = ctx:objectOrNil("Marker0") -- NPC131.scr:36
+            ctx:self():walkTo(ctx:object("g_hobject"), 16, "OnWander") -- NPC131.scr:37
             do return ctx:exit("") end -- NPC131.scr:38
         end -- NPC131.scr:39
     end -- NPC131.scr:40
@@ -42,18 +42,18 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC131.scr:51
-    ctx:command("playsound", "voices\\NPC\\NPC_131.wav, DoNothing, 100, 240, FALSE, 100") -- NPC131.scr:54
+    ctx:playSound("voices\\NPC\\NPC_131.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC131.scr:54
     do return ctx:exit("") end -- NPC131.scr:55
 end
 
 script.labels["Init"] = function(ctx)
     -- NPC131.scr:58
     if ctx:hasKey(211) then -- NPC131.scr:61-62
-        ctx:command("getobjecthandle", "RotatingDoor3 g_hobject") -- NPC131.scr:63
-        ctx:trigger("g_hobject", "Unlock") -- NPC131.scr:64
-        ctx:trigger("g_hobject", "Open") -- NPC131.scr:65
-        ctx:command("getobjecthandle", "Marker0 g_hobject") -- NPC131.scr:66
-        ctx:command("walkto", "g_hobject 16 OnWander") -- NPC131.scr:67
+        local object = ctx:object("RotatingDoor3") -- NPC131.scr:63
+        object:trigger("Unlock") -- NPC131.scr:64
+        object:trigger("Open") -- NPC131.scr:65
+        ctx:state().g_hobject = ctx:objectOrNil("Marker0") -- NPC131.scr:66
+        ctx:self():walkTo(ctx:object("g_hobject"), 16, "OnWander") -- NPC131.scr:67
         do return ctx:exit("") end -- NPC131.scr:68
     end -- NPC131.scr:69
     do return ctx:exit("") end -- NPC131.scr:71

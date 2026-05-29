@@ -14,12 +14,12 @@ end
 
 script.labels["OnMessage"] = function(ctx)
     -- TRIGGERTEST.scr:6
-    ctx:command("getobjecthandle", "TriggerB, h") -- TRIGGERTEST.scr:7
-    ctx:command("cprint", "Real TriggerB =") -- TRIGGERTEST.scr:8
-    ctx:command("cprint", "h") -- TRIGGERTEST.scr:9
+    ctx:state().h = ctx:objectOrNil("TriggerB") -- TRIGGERTEST.scr:7
+    ctx:cprint("Real", "TriggerB", "=") -- TRIGGERTEST.scr:8
+    ctx:cprint("h") -- TRIGGERTEST.scr:9
     ctx:getParam(0, "h") -- TRIGGERTEST.scr:10
-    ctx:command("cprint", "GetParam =") -- TRIGGERTEST.scr:11
-    ctx:command("cprint", "h") -- TRIGGERTEST.scr:12
+    ctx:cprint("GetParam", "=") -- TRIGGERTEST.scr:11
+    ctx:cprint("h") -- TRIGGERTEST.scr:12
     do return ctx:exit(1) end -- TRIGGERTEST.scr:13
 end
 

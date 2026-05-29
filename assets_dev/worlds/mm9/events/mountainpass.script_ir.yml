@@ -1,0 +1,98 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: mountainpass
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: mountainpass.scr
+  source_path: MOUNTAINPASS.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: OnAward
+  - line: 45
+    name: OnStep
+  - line: 56
+    name: Main
+  registered_triggers:
+  - line: 61
+    message: Use
+    callback: OnStep
+    arguments_raw: Use, OnStep
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: haskey
+    arguments_raw: 80 g_ntemp
+  - line: 23
+    command: Haskey
+    arguments_raw: 79 keycheck
+  - line: 26
+    command: givekey
+    arguments_raw: '80'
+  - line: 27
+    command: GiveEXP
+    arguments_raw: '14000'
+  - line: 33
+    command: Haskey
+    arguments_raw: 176 keycheck
+  - line: 36
+    command: givekey
+    arguments_raw: '176'
+  - line: 37
+    command: GiveEXP
+    arguments_raw: '14000'
+  - line: 48
+    command: g_ncounter
+    arguments_raw: = g_ncounter + 1
+  - line: 62
+    command: g_ncounter
+    arguments_raw: = 0
+  command_count: 26
+- script_id: mp_imp.scr
+  source_path: MP_IMP.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  - line: 11
+    path: basemelee.scr
+  labels:
+  - line: 15
+    name: OnStart
+  - line: 25
+    name: TargetFound
+  - line: 37
+    name: StartAttack
+  - line: 46
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 31
+    command: playanim
+    arguments_raw: wince1 DoNothing
+  unknown_commands:
+  - line: 19
+    command: OnFoundTarget
+    arguments_raw: TargetFound
+  - line: 21
+    command: walkto
+    arguments_raw: g_hobject 8 DoNothing
+  - line: 33
+    command: Runto
+    arguments_raw: g_hobject 32 StartAttack
+  - line: 41
+    command: help
+    arguments_raw: g_htarget
+  command_count: 14
+validation:
+  script_count: 2

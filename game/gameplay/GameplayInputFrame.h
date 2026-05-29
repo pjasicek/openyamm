@@ -28,6 +28,7 @@ struct GameplayInputFrame
     std::string textInput;
     bool mobileJoystickActive = false;
     bool turnBasedMovementStep = false;
+    bool modernControls = true;
     float mobileJoystickBaseX = 0.0f;
     float mobileJoystickBaseY = 0.0f;
     float mobileJoystickKnobX = 0.0f;

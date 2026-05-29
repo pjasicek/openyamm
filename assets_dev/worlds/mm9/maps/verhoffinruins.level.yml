@@ -4,6 +4,7 @@ map_id: verhoffinruins
 display_name: Verhoffin Ruins
 source:
   dat: ../source/worlds/VERHOFFINRUINS.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/VERHOFFINRUINS.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: verhoffinruins.raw_objects.yml
   materials: verhoffinruins.material_aliases.yml
   events: verhoffinruins.events.yml
-  scene_compat: verhoffinruins.scene.yml
+  scene_compat: null
   source_metadata_compat: verhoffinruins.mm9.yml
-  bsp_compat: verhoffinruins.bsp.yml
-  geometry_compat: verhoffinruins.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: verhoffinruins.blv
+  blv_compat: null
 scripts:
   level: ../events/verhoffinruins.lua
   script_ir: ../events/verhoffinruins.script_ir.yml

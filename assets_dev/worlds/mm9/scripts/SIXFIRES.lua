@@ -20,7 +20,7 @@ script.labels["Onuse"] = function(ctx)
         -- ^^don't forget to add that back in...checks to make sure you're on the quest
         ctx:giveKey(102) -- SIXFIRES.scr:23
         ctx:giveExp(5000) -- SIXFIRES.scr:24
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- SIXFIRES.scr:25
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- SIXFIRES.scr:25
         do return ctx:exit("") end -- SIXFIRES.scr:26
         -- endif
     end -- SIXFIRES.scr:28

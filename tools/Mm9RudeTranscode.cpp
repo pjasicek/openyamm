@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iterator>
 #include <map>
+#include <ostream>
 #include <set>
 #include <sstream>
 #include <system_error>
@@ -179,6 +180,8 @@ std::vector<std::string> splitScriptArguments(const std::string &argumentsText)
     arguments.push_back(trimCopy(current));
     return arguments;
 }
+
+std::vector<std::string> normalizedServiceArguments(const std::vector<std::string> &arguments);
 
 std::optional<uint32_t> npcNumberFromFileName(const std::filesystem::path &path)
 {
@@ -354,6 +357,160 @@ std::string luaValueForScriptToken(const std::string &token)
     return number ? std::to_string(*number) : luaString(token);
 }
 
+bool isSimpleLuaNumberLiteral(const std::string &token)
+{
+    const std::string trimmed = trimCopy(token);
+    if (trimmed.empty())
+    {
+        return false;
+    }
+
+    size_t index = 0;
+    if (trimmed[index] == '-')
+    {
+        ++index;
+    }
+
+    bool sawDigit = false;
+    bool sawDot = false;
+    for (; index < trimmed.size(); ++index)
+    {
+        const char ch = trimmed[index];
+        if (ch >= '0' && ch <= '9')
+        {
+            sawDigit = true;
+            continue;
+        }
+
+        if (ch == '.' && !sawDot)
+        {
+            sawDot = true;
+            continue;
+        }
+
+        return false;
+    }
+
+    return sawDigit;
+}
+
+std::string luaRuntimeArgumentForScriptToken(const std::string &token)
+{
+    const std::string trimmed = trimCopy(token);
+    if (isSimpleLuaNumberLiteral(trimmed))
+    {
+        return trimmed;
+    }
+
+    if (trimmed.size() >= 2 && trimmed.front() == '"' && trimmed.back() == '"')
+    {
+        return luaString(trimmed.substr(1, trimmed.size() - 2));
+    }
+
+    return luaString(trimmed);
+}
+
+std::string luaTriggerTargetArgumentForScriptToken(const std::string &token)
+{
+    const std::string trimmed = trimCopy(token);
+    const std::string lowered = lowerCopy(trimmed);
+    if (lowered == "null" || lowered == "nil" || lowered == "0")
+    {
+        return "nil";
+    }
+
+    return luaValueForScriptToken(trimmed);
+}
+
+std::string luaRuntimeArgumentForScheduleToken(const std::string &token)
+{
+    const std::string trimmed = trimCopy(token);
+    const std::optional<int32_t> number = parseMm9RudeInt(trimmed);
+    if (number)
+    {
+        return std::to_string(*number);
+    }
+
+    return luaRuntimeArgumentForScriptToken(trimmed);
+}
+
+std::string unquotedScriptToken(const std::string &token)
+{
+    const std::string trimmed = trimCopy(token);
+    if (trimmed.size() >= 2 && trimmed.front() == '"' && trimmed.back() == '"')
+    {
+        return trimmed.substr(1, trimmed.size() - 2);
+    }
+
+    return trimmed;
+}
+
+bool isLuaIdentifier(const std::string &text)
+{
+    if (text.empty())
+    {
+        return false;
+    }
+
+    const unsigned char first = static_cast<unsigned char>(text.front());
+    if (std::isalpha(first) == 0 && text.front() != '_')
+    {
+        return false;
+    }
+
+    for (size_t index = 1; index < text.size(); ++index)
+    {
+        const unsigned char ch = static_cast<unsigned char>(text[index]);
+        if (std::isalnum(ch) == 0 && text[index] != '_')
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::string luaStateField(const std::string &name)
+{
+    return "ctx:state()." + name;
+}
+
+std::optional<std::string> luaLiteralForSimpleScriptExpression(const std::string &expression)
+{
+    const std::string trimmed = trimCopy(expression);
+    if (trimmed.empty())
+    {
+        return std::nullopt;
+    }
+
+    const std::string lowered = lowerCopy(trimmed);
+    if (lowered == "true")
+    {
+        return "true";
+    }
+    if (lowered == "false")
+    {
+        return "false";
+    }
+    if (lowered == "null")
+    {
+        return "nil";
+    }
+
+    const std::optional<int32_t> number = parseMm9RudeInt(trimmed);
+    if (number)
+    {
+        return std::to_string(*number);
+    }
+
+    if (trimmed.size() >= 2 && trimmed.front() == '"' && trimmed.back() == '"')
+    {
+        return luaString(trimmed.substr(1, trimmed.size() - 2));
+    }
+
+    return std::nullopt;
+}
+
 std::optional<std::string> meaningfulLuaCommentFromMm9Comment(const std::string &commentText)
 {
     std::string comment = trimCopy(commentText);
@@ -411,6 +568,34 @@ std::string luaContextMethodForCommand(const std::string &normalizedCommand)
     {
         return "onRudeExit";
     }
+    if (normalizedCommand == "docallback")
+    {
+        return "doCallback";
+    }
+    if (normalizedCommand == "exitscript")
+    {
+        return "exitScript";
+    }
+    if (normalizedCommand == "isturnbased")
+    {
+        return "isTurnBased";
+    }
+    if (normalizedCommand == "traceoff")
+    {
+        return "traceOff";
+    }
+    if (normalizedCommand == "traceon")
+    {
+        return "traceOn";
+    }
+    if (normalizedCommand == "breakpoint")
+    {
+        return "breakpoint";
+    }
+    if (normalizedCommand == "dont_include_this_file")
+    {
+        return "dontIncludeThisFile";
+    }
     if (normalizedCommand == "givekey")
     {
         return "giveKey";
@@ -439,9 +624,37 @@ std::string luaContextMethodForCommand(const std::string &normalizedCommand)
     {
         return "giveGold";
     }
+    if (normalizedCommand == "hasgold")
+    {
+        return "hasGold";
+    }
+    if (normalizedCommand == "takegold")
+    {
+        return "takeGold";
+    }
     if (normalizedCommand == "giveexp")
     {
         return "giveExp";
+    }
+    if (normalizedCommand == "givepromo")
+    {
+        return "givePromo";
+    }
+    if (normalizedCommand == "getattribute")
+    {
+        return "getAttribute";
+    }
+    if (normalizedCommand == "giveattribute")
+    {
+        return "giveAttribute";
+    }
+    if (normalizedCommand == "cachescript")
+    {
+        return "cacheScript";
+    }
+    if (normalizedCommand == "runscript")
+    {
+        return "runScript";
     }
     if (normalizedCommand == "setconsolenumvar")
     {
@@ -463,10 +676,6 @@ std::string luaContextMethodForCommand(const std::string &normalizedCommand)
     {
         return "getParam";
     }
-    if (normalizedCommand == "setpropnumber")
-    {
-        return "setPropNumber";
-    }
     if (normalizedCommand == "getobjecthandlebyrudeid")
     {
         return "getObjectHandleByRudeId";
@@ -480,6 +689,61 @@ std::string luaContextMethodForCommand(const std::string &normalizedCommand)
         return "trigger";
     }
     return {};
+}
+
+std::string readableLuaCommandName(const Mm9ScriptLine &line)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    static const std::map<std::string, std::string> readableNames = {
+        {"addmodelkey", "AddModelKey"},
+        {"removeattrigger", "RemoveATrigger"},
+        {"removemodelkey", "RemoveModelKey"},
+        {"removetrigger", "RemoveTrigger"},
+        {"onalert", "OnAlert"},
+        {"onattackready", "OnAttackReady"},
+        {"onavoidingobstacle", "OnAvoidingObstacle"},
+        {"oncachefiles", "OnCacheFiles"},
+        {"oncongestion", "OnCongestion"},
+        {"ondamage", "OnDamage"},
+        {"ondamagedone", "OnDamageDone"},
+        {"ondeath", "OnDeath"},
+        {"ondeathdone", "OnDeathDone"},
+        {"ondoor", "OnDoor"},
+        {"onenrage", "OnEnrage"},
+        {"onenragedone", "OnEnrageDone"},
+        {"onfear", "OnFear"},
+        {"onfeardone", "OnFearDone"},
+        {"onfoundplayer", "OnFoundPlayer"},
+        {"onfoundtarget", "OnFoundTarget"},
+        {"onhelp", "OnHelp"},
+        {"onlosttarget", "OnLostTarget"},
+        {"onobjectlinkbroken", "OnObjectLinkBroken"},
+        {"onobstacle", "OnObstacle"},
+        {"onobstacleavoided", "OnObstacleAvoided"},
+        {"onpathclear", "OnPathClear"},
+        {"onplayerinterrupt", "OnPlayerInterrupt"},
+        {"onpostminisaveload", "OnPostMiniSaveLoad"},
+        {"onpostsaveload", "OnPostSaveLoad"},
+        {"onpoststartworld", "OnPostStartWorld"},
+        {"onprojectile", "OnProjectile"},
+        {"onstuck", "OnStuck"},
+        {"onstuckdone", "OnStuckDone"},
+        {"ontargetbeyonddist", "OnTargetBeyondDist"},
+        {"ontargetdead", "OnTargetDead"},
+        {"ontargethit", "OnTargetHit"},
+        {"ontargetoutofrange", "OnTargetOutOfRange"},
+        {"ontargetwithindist", "OnTargetWithinDist"},
+        {"ontouchnotify", "OnTouchNotify"},
+        {"onworldswitch", "OnWorldSwitch"},
+    };
+
+    const auto readableIterator = readableNames.find(normalizedCommand);
+    if (readableIterator != readableNames.end())
+    {
+        return readableIterator->second;
+    }
+
+    return normalizedCommand;
 }
 
 std::string mm9RudeServiceName(int32_t opcode)
@@ -727,9 +991,10 @@ std::string luaArgumentList(const std::string &argumentsText)
 
 std::string readableControlConditionText(const Mm9ScriptLine &line)
 {
+    const std::string rawCommand = lowerCopy(trimCopy(line.name));
     const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
-    if ((normalizedCommand.rfind("if(", 0) == 0 || normalizedCommand.rfind("while(", 0) == 0)
-        && normalizedCommand.size() > 3)
+    const bool compactParenCommand = rawCommand.rfind("if(", 0) == 0 || rawCommand.rfind("while(", 0) == 0;
+    if (compactParenCommand && rawCommand.size() > 3)
     {
         const size_t openParen = line.name.find('(');
         const size_t closeParen = line.name.rfind(')');
@@ -743,8 +1008,7 @@ std::string readableControlConditionText(const Mm9ScriptLine &line)
     {
         condition.pop_back();
     }
-    if ((normalizedCommand.rfind("if(", 0) == 0 || normalizedCommand.rfind("while(", 0) == 0)
-        && !condition.empty() && condition.back() == ')')
+    if (compactParenCommand && !condition.empty() && condition.back() == ')')
     {
         condition.pop_back();
     }
@@ -912,7 +1176,2991 @@ void emitCollapsedPredicateIf(
         << '-' << conditionLine.lineNumber << '\n';
 }
 
-void emitLuaCommandCall(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+std::optional<std::pair<std::string, std::string>> simpleSetAssignment(const std::string &argumentsText)
+{
+    const std::vector<std::string> commaArguments = splitScriptArguments(argumentsText);
+    if (hasTopLevelComma(argumentsText))
+    {
+        if (commaArguments.size() < 2)
+        {
+            return std::nullopt;
+        }
+        return std::make_pair(trimCopy(commaArguments[0]), trimCopy(commaArguments[1]));
+    }
+
+    const std::string target = firstArgumentToken(argumentsText);
+    if (target.empty())
+    {
+        return std::nullopt;
+    }
+
+    return std::make_pair(target, trimCopy(restAfterFirstToken(argumentsText)));
+}
+
+bool emitNativeStateMutationIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::string trimmedArguments = trimCopy(line.argumentsText);
+    const std::string indent = luaIndent(indentDepth);
+
+    if (!trimmedArguments.empty() && trimmedArguments.front() == '=')
+    {
+        const std::string target = trimCopy(line.name);
+        if (!isLuaIdentifier(target))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> expression =
+            luaLiteralForSimpleScriptExpression(trimCopy(trimmedArguments.substr(1)));
+        if (!expression)
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(target) << " = " << *expression
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "set")
+    {
+        const std::optional<std::pair<std::string, std::string>> assignment =
+            simpleSetAssignment(line.argumentsText);
+        if (!assignment || !isLuaIdentifier(assignment->first))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> expression = luaLiteralForSimpleScriptExpression(assignment->second);
+        if (!expression)
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(assignment->first) << " = " << *expression
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setint")
+    {
+        const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+        if (arguments.size() < 2 || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:setInt(" << luaString(trimCopy(arguments[0])) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "add" || normalizedCommand == "sub" || normalizedCommand == "subtract"
+        || normalizedCommand == "mul" || normalizedCommand == "multiply"
+        || normalizedCommand == "div" || normalizedCommand == "divide")
+    {
+        const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+        if (arguments.size() < 2 || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        const std::optional<int32_t> operand = parseMm9RudeInt(trimCopy(arguments[1]));
+        if (!operand)
+        {
+            return false;
+        }
+
+        const std::string target = trimCopy(arguments[0]);
+        if ((normalizedCommand == "div" || normalizedCommand == "divide") && *operand == 0)
+        {
+            lua << indent << luaStateField(target) << " = 0"
+                << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+            return true;
+        }
+
+        std::string op;
+        if (normalizedCommand == "add")
+        {
+            op = "+";
+        }
+        else if (normalizedCommand == "sub" || normalizedCommand == "subtract")
+        {
+            op = "-";
+        }
+        else if (normalizedCommand == "mul" || normalizedCommand == "multiply")
+        {
+            op = "*";
+        }
+        else
+        {
+            op = "/";
+        }
+
+        lua << indent << luaStateField(target) << " = (tonumber(" << luaStateField(target) << ") or 0) "
+            << op << ' ' << *operand
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    return false;
+}
+
+bool emitNativeHandleAssignmentIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getmyhandle" && normalizedCommand != "getplayerhandle")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    size_t destinationIndex = 0;
+    if (arguments.size() >= 2 && trimCopy(arguments[0]).empty())
+    {
+        destinationIndex = 1;
+    }
+    if (arguments.size() <= destinationIndex || !isLuaIdentifier(trimCopy(arguments[destinationIndex])))
+    {
+        return false;
+    }
+
+    const std::string targetName = trimCopy(arguments[destinationIndex]);
+    const std::string loweredTargetName = lowerCopy(targetName);
+    if (normalizedCommand == "getmyhandle" && (loweredTargetName == "hme" || loweredTargetName == "g_hmyobject"))
+    {
+        return true;
+    }
+    if (normalizedCommand == "getplayerhandle" && (loweredTargetName == "hplayer" || loweredTargetName == "player"))
+    {
+        return true;
+    }
+
+    const std::string method = normalizedCommand == "getmyhandle" ? "self" : "player";
+    const std::string indent = luaIndent(indentDepth);
+    lua << indent << luaStateField(targetName) << " = ctx:" << method << "()"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+struct Mm9LuaGenerationState
+{
+    std::map<std::string, std::string> handleAliases;
+    struct AliasFrame
+    {
+        std::map<std::string, std::string> entryAliases;
+        std::map<std::string, std::string> thenAliases;
+        bool sawElse = false;
+        bool restoreOnElse = false;
+    };
+    std::vector<AliasFrame> aliasFrames;
+};
+
+std::string handleAliasKey(const std::string &token)
+{
+    return lowerCopy(trimCopy(token));
+}
+
+void clearHandleAlias(Mm9LuaGenerationState &state, const std::string &token)
+{
+    state.handleAliases.erase(handleAliasKey(token));
+}
+
+std::map<std::string, std::string> intersectHandleAliases(
+    const std::map<std::string, std::string> &first,
+    const std::map<std::string, std::string> &second)
+{
+    std::map<std::string, std::string> result;
+    for (const std::pair<const std::string, std::string> &alias : first)
+    {
+        const auto iterator = second.find(alias.first);
+        if (iterator != second.end() && iterator->second == alias.second)
+        {
+            result[alias.first] = alias.second;
+        }
+    }
+    return result;
+}
+
+void applyHandleAliasMutationForCommand(Mm9LuaGenerationState &state, const Mm9ScriptLine &line)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    const std::string trimmedArguments = trimCopy(line.argumentsText);
+    if (!trimmedArguments.empty() && trimmedArguments.front() == '=')
+    {
+        clearHandleAlias(state, line.name);
+        return;
+    }
+
+    if (normalizedCommand == "getmyhandle" || normalizedCommand == "getplayerhandle")
+    {
+        size_t destinationIndex = 0;
+        if (arguments.size() >= 2 && trimCopy(arguments[0]).empty())
+        {
+            destinationIndex = 1;
+        }
+        if (arguments.size() > destinationIndex && isLuaIdentifier(trimCopy(arguments[destinationIndex])))
+        {
+            state.handleAliases[handleAliasKey(arguments[destinationIndex])] =
+                normalizedCommand == "getmyhandle" ? "self" : "player";
+            return;
+        }
+    }
+
+    if (normalizedCommand == "getobjecthandle" && arguments.size() >= 2)
+    {
+        const size_t destinationIndex = trimCopy(arguments[0]).empty() && arguments.size() >= 3 ? 2 : 1;
+        clearHandleAlias(state, arguments[destinationIndex]);
+        return;
+    }
+
+    if ((normalizedCommand == "set" || normalizedCommand == "add" || normalizedCommand == "sub"
+        || normalizedCommand == "subtract" || normalizedCommand == "mul" || normalizedCommand == "multiply"
+        || normalizedCommand == "div" || normalizedCommand == "divide") && !arguments.empty())
+    {
+        clearHandleAlias(state, arguments[0]);
+    }
+}
+
+std::optional<std::string> luaHandleAliasExpression(
+    const Mm9LuaGenerationState *pState,
+    const std::string &token)
+{
+    if (pState == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const auto aliasIterator = pState->handleAliases.find(handleAliasKey(token));
+    if (aliasIterator == pState->handleAliases.end())
+    {
+        return std::nullopt;
+    }
+    if (aliasIterator->second == "self")
+    {
+        return "ctx:self()";
+    }
+    if (aliasIterator->second == "player")
+    {
+        return "ctx:player()";
+    }
+
+    return std::nullopt;
+}
+
+bool emitNativeObjectHandleLookupIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    if (normalizeMm9ScriptCommandName(line.name) != "getobjecthandle")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    const size_t sourceIndex = arguments.size() >= 3 && trimCopy(arguments[0]).empty() ? 1 : 0;
+    const size_t destinationIndex = sourceIndex + 1;
+    if (arguments.size() <= destinationIndex || trimCopy(arguments[sourceIndex]).empty()
+        || !isLuaIdentifier(trimCopy(arguments[destinationIndex])))
+    {
+        return false;
+    }
+
+    const std::string indent = luaIndent(indentDepth);
+    lua << indent << luaStateField(trimCopy(arguments[destinationIndex])) << " = ctx:objectOrNil("
+        << luaString(trimCopy(arguments[sourceIndex])) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+std::optional<std::string> luaObjectTargetExpression(
+    const std::string &token,
+    const Mm9LuaGenerationState *pState = nullptr)
+{
+    const std::string trimmed = trimCopy(token);
+    if (trimmed.empty())
+    {
+        return std::nullopt;
+    }
+
+    const std::string lowered = lowerCopy(trimmed);
+    if (lowered == "null" || lowered == "nil" || lowered == "0")
+    {
+        return "nil";
+    }
+    if (lowered == "hme" || lowered == "g_hmyobject")
+    {
+        return "ctx:self()";
+    }
+    if (lowered == "hplayer" || lowered == "g_hplayer" || lowered == "player")
+    {
+        return "ctx:player()";
+    }
+    const std::optional<std::string> aliasExpression = luaHandleAliasExpression(pState, trimmed);
+    if (aliasExpression)
+    {
+        return aliasExpression;
+    }
+
+    return "ctx:object(" + luaString(trimmed) + ")";
+}
+
+bool emitNativeObjectIdentityIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getobjectname" && normalizedCommand != "getclassname"
+        && normalizedCommand != "isclass")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    const std::string indent = luaIndent(indentDepth);
+    if (normalizedCommand == "getobjectname" || normalizedCommand == "getclassname")
+    {
+        if (arguments.size() < 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        const std::string method = normalizedCommand == "getobjectname" ? "name" : "className";
+        lua << indent << luaStateField(trimCopy(arguments[1])) << " = "
+            << *objectExpression << ':' << method << "()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (arguments.size() < 3 || trimCopy(arguments[1]).empty() || !isLuaIdentifier(trimCopy(arguments[2])))
+    {
+        return false;
+    }
+
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    lua << indent << luaStateField(trimCopy(arguments[2])) << " = "
+        << *objectExpression << ":isClass(" << luaString(unquotedScriptToken(arguments[1])) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectQueryIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "isplayer" && normalizedCommand != "isactor" && normalizedCommand != "isai"
+        && normalizedCommand != "isvisible" && normalizedCommand != "isobjectactive")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.size() != 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+    {
+        return false;
+    }
+
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    std::string method = "isPlayer";
+    if (normalizedCommand == "isactor")
+    {
+        method = "isActor";
+    }
+    else if (normalizedCommand == "isai")
+    {
+        method = "isAi";
+    }
+    else if (normalizedCommand == "isvisible")
+    {
+        method = "isVisible";
+    }
+    else if (normalizedCommand == "isobjectactive")
+    {
+        method = "isActive";
+    }
+
+    lua << luaIndent(indentDepth) << luaStateField(trimCopy(arguments[1])) << " = ";
+    if (normalizedCommand == "isactor" || normalizedCommand == "isai")
+    {
+        lua << '(' << *objectExpression << ':' << method << "() and 1 or 0)";
+    }
+    else
+    {
+        lua << *objectExpression << ':' << method << "()";
+    }
+    lua << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectBoundsIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getdims" && normalizedCommand != "getobjectminmax")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    const size_t expectedArgumentCount = normalizedCommand == "getdims" ? 4 : 7;
+    if (arguments.size() < expectedArgumentCount)
+    {
+        return false;
+    }
+
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    for (size_t index = 1; index < expectedArgumentCount; ++index)
+    {
+        if (!isLuaIdentifier(trimCopy(arguments[index])))
+        {
+            return false;
+        }
+    }
+
+    const std::string method = normalizedCommand == "getdims" ? "dims" : "minMax";
+    lua << luaIndent(indentDepth);
+    for (size_t index = 1; index < expectedArgumentCount; ++index)
+    {
+        if (index != 1)
+        {
+            lua << ", ";
+        }
+        lua << luaStateField(trimCopy(arguments[index]));
+    }
+    lua << " = " << *objectExpression << ':' << method << "()"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectFlagIfSupported(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &line,
+    size_t indentDepth,
+    const Mm9LuaGenerationState &generationState)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "setflag" && normalizedCommand != "clearflag")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.size() < 2 || trimCopy(arguments[1]).empty())
+    {
+        return false;
+    }
+
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0], &generationState);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << *objectExpression << ":setFlag("
+        << luaString(trimCopy(arguments[1])) << ", "
+        << (normalizedCommand == "setflag" ? "true" : "false") << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectPositionIfSupported(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &line,
+    size_t indentDepth,
+    const Mm9LuaGenerationState &generationState)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getpos" && normalizedCommand != "setpos")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if (arguments.size() < 4)
+    {
+        return false;
+    }
+
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0], &generationState);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    const std::string indent = luaIndent(indentDepth);
+    if (normalizedCommand == "getpos")
+    {
+        for (size_t index = 1; index <= 3; ++index)
+        {
+            if (!isLuaIdentifier(trimCopy(arguments[index])))
+            {
+                return false;
+            }
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[1])) << ", "
+            << luaStateField(trimCopy(arguments[2])) << ", "
+            << luaStateField(trimCopy(arguments[3])) << " = "
+            << *objectExpression << ":pos()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (trimCopy(arguments[1]).empty() || trimCopy(arguments[2]).empty() || trimCopy(arguments[3]).empty())
+    {
+        return false;
+    }
+
+    lua << indent << *objectExpression << ":setPos("
+        << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[2]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[3]) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectStatIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getstat" && normalizedCommand != "setstat")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.size() != 3 || trimCopy(arguments[1]).empty())
+    {
+        return false;
+    }
+
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    const std::string indent = luaIndent(indentDepth);
+    if (normalizedCommand == "getstat")
+    {
+        if (!isLuaIdentifier(trimCopy(arguments[2])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[2])) << " = "
+            << *objectExpression << ":getStat(" << luaString(trimCopy(arguments[1])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (trimCopy(arguments[2]).empty())
+    {
+        return false;
+    }
+
+    lua << indent << *objectExpression << ":setStat("
+        << luaString(trimCopy(arguments[1])) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[2]) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectDistanceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    if (normalizeMm9ScriptCommandName(line.name) != "getdistance")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments =
+        normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if ((arguments.size() != 2 && arguments.size() != 3)
+        || !isLuaIdentifier(trimCopy(arguments.back())))
+    {
+        return false;
+    }
+
+    const bool implicitSource = arguments.size() == 2;
+    const std::optional<std::string> sourceExpression = implicitSource
+        ? std::optional<std::string>("ctx:self()")
+        : luaObjectTargetExpression(arguments[0]);
+    const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[implicitSource ? 0 : 1]);
+    if (!sourceExpression || !targetExpression || *sourceExpression == "nil" || *targetExpression == "nil")
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << luaStateField(trimCopy(arguments.back())) << " = "
+        << *sourceExpression << ":distanceTo(" << *targetExpression << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectPropertyIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "setpropnumber" && normalizedCommand != "setpropstring"
+        && normalizedCommand != "getstatstr")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    const std::string indent = luaIndent(indentDepth);
+    if (normalizedCommand == "setpropnumber" || normalizedCommand == "setpropstring")
+    {
+        if (arguments.size() != 2 || trimCopy(arguments[0]).empty() || trimCopy(arguments[1]).empty())
+        {
+            return false;
+        }
+
+        const std::string method = normalizedCommand == "setpropnumber"
+            ? "setNumberProperty"
+            : "setStringProperty";
+        lua << indent << "ctx:self():" << method << '('
+            << luaString(trimCopy(arguments[0])) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (arguments.size() != 3 || trimCopy(arguments[1]).empty() || !isLuaIdentifier(trimCopy(arguments[2])))
+    {
+        return false;
+    }
+
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    lua << indent << luaStateField(trimCopy(arguments[2])) << " = "
+        << *objectExpression << ":stringProperty(" << luaString(trimCopy(arguments[1])) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool looksLikeScriptHandleToken(const std::string &token)
+{
+    const std::string lowered = lowerCopy(trimCopy(token));
+    return lowered == "hme" || lowered == "hplayer" || lowered == "g_hobject" ||
+        lowered.rfind("g_h", 0) == 0 || lowered.rfind("h", 0) == 0;
+}
+
+bool emitNativeObjectMotionIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getvelocity" && normalizedCommand != "setvelocity"
+        && normalizedCommand != "getfacedir" && normalizedCommand != "facedir"
+        && normalizedCommand != "getforwarddir" && normalizedCommand != "getreversedir"
+        && normalizedCommand != "getrightdir" && normalizedCommand != "getleftdir")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    const std::string indent = luaIndent(indentDepth);
+    if (normalizedCommand == "getforwarddir" || normalizedCommand == "getreversedir"
+        || normalizedCommand == "getrightdir" || normalizedCommand == "getleftdir")
+    {
+        if (arguments.size() != 3 && arguments.size() != 4)
+        {
+            return false;
+        }
+
+        const size_t destinationOffset = arguments.size() == 4 ? 1 : 0;
+        const std::optional<std::string> objectExpression = arguments.size() == 4
+            ? luaObjectTargetExpression(arguments[0])
+            : std::optional<std::string>("ctx:self()");
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        for (size_t index = destinationOffset; index < arguments.size(); ++index)
+        {
+            if (!isLuaIdentifier(trimCopy(arguments[index])))
+            {
+                return false;
+            }
+        }
+
+        std::string method = "forwardDir";
+        if (normalizedCommand == "getreversedir")
+        {
+            method = "reverseDir";
+        }
+        else if (normalizedCommand == "getrightdir")
+        {
+            method = "rightDir";
+        }
+        else if (normalizedCommand == "getleftdir")
+        {
+            method = "leftDir";
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[destinationOffset])) << ", "
+            << luaStateField(trimCopy(arguments[destinationOffset + 1])) << ", "
+            << luaStateField(trimCopy(arguments[destinationOffset + 2])) << " = "
+            << *objectExpression << ':' << method << "()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getvelocity" || normalizedCommand == "getfacedir")
+    {
+        if (arguments.size() < 4)
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        for (size_t index = 1; index < arguments.size(); ++index)
+        {
+            if (!isLuaIdentifier(trimCopy(arguments[index])))
+            {
+                return false;
+            }
+        }
+
+        const std::string method = normalizedCommand == "getvelocity" ? "velocity" : "rotation";
+        lua << indent << luaStateField(trimCopy(arguments[1])) << ", "
+            << luaStateField(trimCopy(arguments[2])) << ", "
+            << luaStateField(trimCopy(arguments[3])) << " = "
+            << *objectExpression << ':' << method << "()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setvelocity")
+    {
+        if (arguments.size() != 4)
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << indent << *objectExpression << ":setVelocity("
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[2]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[3]) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (arguments.size() < 3 || arguments.size() > 5)
+    {
+        return false;
+    }
+
+    if (arguments.size() >= 4 && looksLikeScriptHandleToken(arguments[0]))
+    {
+        return false;
+    }
+
+    lua << indent << "ctx:self():faceDir("
+        << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[2]);
+    for (size_t index = 3; index < arguments.size(); ++index)
+    {
+        lua << ", " << luaRuntimeArgumentForScriptToken(arguments[index]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectTargetIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "target" && normalizedCommand != "gettarget" && normalizedCommand != "getobjecttarget")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    const std::string indent = luaIndent(indentDepth);
+    if (normalizedCommand == "target")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression)
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():setTarget(" << *targetExpression << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "gettarget")
+    {
+        if (arguments.empty() || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[0])) << " = ctx:self():target()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (arguments.size() < 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+    {
+        return false;
+    }
+
+    const std::optional<std::string> sourceExpression = luaObjectTargetExpression(arguments[0]);
+    if (!sourceExpression || *sourceExpression == "nil")
+    {
+        return false;
+    }
+
+    lua << indent << luaStateField(trimCopy(arguments[1])) << " = "
+        << *sourceExpression << ":target()"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectLinkIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "createobjectlink" && normalizedCommand != "breakobjectlink")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.empty())
+    {
+        return false;
+    }
+
+    const std::optional<std::string> linkedExpression = luaObjectTargetExpression(arguments[0]);
+    if (!linkedExpression)
+    {
+        return false;
+    }
+
+    const std::string method = normalizedCommand == "createobjectlink" ? "link" : "unlink";
+    lua << luaIndent(indentDepth) << "ctx:self():" << method << '(' << *linkedExpression << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectLifetimeIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    if (normalizeMm9ScriptCommandName(line.name) != "removeobject")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    std::string objectExpression = "ctx:self()";
+    if (!arguments.empty())
+    {
+        const std::optional<std::string> candidate = luaObjectTargetExpression(arguments[0]);
+        if (!candidate || *candidate == "nil")
+        {
+            return false;
+        }
+        objectExpression = *candidate;
+    }
+
+    lua << luaIndent(indentDepth) << objectExpression << ":remove()"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeObjectRegistryQueryIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getobjects" && normalizedCommand != "getliquidcontainer"
+        && normalizedCommand != "getcontainer")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if (normalizedCommand == "getliquidcontainer")
+    {
+        if (arguments.size() < 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << luaStateField(trimCopy(arguments[1])) << " = "
+            << *objectExpression << ":liquidContainer()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getcontainer")
+    {
+        if (arguments.size() < 3 || !isLuaIdentifier(trimCopy(arguments[2])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << luaStateField(trimCopy(arguments[2])) << " = "
+            << *objectExpression << ":container(" << luaRuntimeArgumentForScriptToken(arguments[1]) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (arguments.size() != 5 || trimCopy(arguments[0]).empty() || trimCopy(arguments[1]).empty()
+        || trimCopy(arguments[2]).empty() || !isLuaIdentifier(trimCopy(arguments[3]))
+        || !isLuaIdentifier(trimCopy(arguments[4])))
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:getObjects("
+        << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[2]) << ", "
+        << luaString(trimCopy(arguments[3])) << ", "
+        << luaString(trimCopy(arguments[4])) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeArrayAccessIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "arrayput" && normalizedCommand != "arrayget")
+    {
+        return false;
+    }
+
+    std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.size() == 2)
+    {
+        const std::string arrayName = firstArgumentToken(arguments[0]);
+        const std::string indexExpression = trimCopy(restAfterFirstToken(arguments[0]));
+        if (!arrayName.empty() && !indexExpression.empty())
+        {
+            arguments = { arrayName, indexExpression, arguments[1] };
+        }
+    }
+
+    if (arguments.size() != 3 || trimCopy(arguments[0]).empty() || trimCopy(arguments[1]).empty())
+    {
+        return false;
+    }
+
+    const std::string method = normalizedCommand == "arrayput" ? "arrayPut" : "arrayGet";
+    if (normalizedCommand == "arrayget" && !isLuaIdentifier(trimCopy(arguments[2])))
+    {
+        return false;
+    }
+    if (normalizedCommand == "arrayput" && trimCopy(arguments[2]).empty())
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:" << method << '('
+        << luaString(trimCopy(arguments[0])) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[1]) << ", ";
+    if (normalizedCommand == "arrayget")
+    {
+        lua << luaString(trimCopy(arguments[2]));
+    }
+    else
+    {
+        lua << luaRuntimeArgumentForScriptToken(arguments[2]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeRuntimeUtilityIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "getrandomint" && normalizedCommand != "getrandomfloat" && normalizedCommand != "gettime"
+        && normalizedCommand != "debugout" && normalizedCommand != "cprint" && normalizedCommand != "getpcvoice"
+        && normalizedCommand != "getgametime" && normalizedCommand != "setparam" && normalizedCommand != "savepath"
+        && normalizedCommand != "restorepath" && normalizedCommand != "castray"
+        && normalizedCommand != "getplayerid" && normalizedCommand != "getplayernbr"
+        && normalizedCommand != "getplayerswithindist" && normalizedCommand != "consolecommand"
+        && normalizedCommand != "dohighscore" && normalizedCommand != "clearcondition"
+        && normalizedCommand != "setcondition" && normalizedCommand != "sin" && normalizedCommand != "cos"
+        && normalizedCommand != "getangletopos" && normalizedCommand != "getrotation"
+        && normalizedCommand != "setrotation" && normalizedCommand != "calcrotationrate"
+        && normalizedCommand != "checkworldcollision")
+    {
+        return false;
+    }
+
+    std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if (normalizedCommand == "debugout" || normalizedCommand == "cprint")
+    {
+        lua << luaIndent(indentDepth) << "ctx:" << (normalizedCommand == "debugout" ? "debugOut" : "cprint") << '(';
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "consolecommand" || normalizedCommand == "dohighscore"
+        || normalizedCommand == "clearcondition" || normalizedCommand == "setcondition")
+    {
+        std::string method;
+        if (normalizedCommand == "consolecommand")
+        {
+            method = "consoleCommand";
+        }
+        else if (normalizedCommand == "dohighscore")
+        {
+            method = "doHighScore";
+        }
+        else if (normalizedCommand == "clearcondition")
+        {
+            method = "clearCondition";
+        }
+        else
+        {
+            method = "setCondition";
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:" << method << '(';
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "sin" || normalizedCommand == "cos")
+    {
+        if (arguments.size() != 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:" << normalizedCommand << '('
+            << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+            << luaString(trimCopy(arguments[1])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getangletopos")
+    {
+        if (arguments.size() != 4 || !isLuaIdentifier(trimCopy(arguments[3])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:getAngleToPos("
+            << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[2]) << ", "
+            << luaString(trimCopy(arguments[3])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getrotation")
+    {
+        if (arguments.size() != 5 || !isLuaIdentifier(trimCopy(arguments[1]))
+            || !isLuaIdentifier(trimCopy(arguments[2])) || !isLuaIdentifier(trimCopy(arguments[3]))
+            || !isLuaIdentifier(trimCopy(arguments[4])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:getRotation(" << *objectExpression << ", "
+            << luaString(trimCopy(arguments[1])) << ", " << luaString(trimCopy(arguments[2])) << ", "
+            << luaString(trimCopy(arguments[3])) << ", " << luaString(trimCopy(arguments[4])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setrotation")
+    {
+        if (arguments.size() < 3)
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:setRotation(";
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+
+            const std::optional<std::string> objectExpression = index == 0 && looksLikeScriptHandleToken(arguments[0])
+                ? luaObjectTargetExpression(arguments[0])
+                : std::nullopt;
+            lua << (objectExpression && *objectExpression != "nil"
+                ? *objectExpression
+                : luaRuntimeArgumentForScriptToken(arguments[index]));
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "calcrotationrate")
+    {
+        if (arguments.size() != 3 || !isLuaIdentifier(trimCopy(arguments[2])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:calcRotationRate(" << *objectExpression << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ", " << luaString(trimCopy(arguments[2])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "checkworldcollision")
+    {
+        if (arguments.size() != 8 || !isLuaIdentifier(trimCopy(arguments[3]))
+            || !isLuaIdentifier(trimCopy(arguments[4])) || !isLuaIdentifier(trimCopy(arguments[5]))
+            || !isLuaIdentifier(trimCopy(arguments[6])) || !isLuaIdentifier(trimCopy(arguments[7])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:checkWorldCollision(";
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            if (index >= 3)
+            {
+                lua << luaString(trimCopy(arguments[index]));
+            }
+            else
+            {
+                lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+            }
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "restorepath")
+    {
+        lua << luaIndent(indentDepth) << "ctx:restorePath()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "savepath")
+    {
+        lua << luaIndent(indentDepth) << "ctx:savePath()"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "castray")
+    {
+        if (arguments.size() < 6 || !isLuaIdentifier(trimCopy(arguments[4]))
+            || !isLuaIdentifier(trimCopy(arguments[5])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:castRay(";
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            if (index >= 4)
+            {
+                lua << luaString(trimCopy(arguments[index]));
+            }
+            else
+            {
+                lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+            }
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getplayerid" || normalizedCommand == "getplayernbr")
+    {
+        if (arguments.size() != 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[0]);
+        if (!objectExpression || *objectExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:"
+            << (normalizedCommand == "getplayerid" ? "getPlayerId" : "getPlayerNumber")
+            << '(' << *objectExpression << ", " << luaString(trimCopy(arguments[1])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getplayerswithindist")
+    {
+        if (arguments.size() != 7 || !isLuaIdentifier(trimCopy(arguments[4]))
+            || !isLuaIdentifier(trimCopy(arguments[6])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:getPlayersWithinDist(";
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            if (index == 4 || index == 6)
+            {
+                lua << luaString(trimCopy(arguments[index]));
+            }
+            else
+            {
+                lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+            }
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if ((normalizedCommand == "getrandomint" || normalizedCommand == "getrandomfloat") && arguments.size() == 2)
+    {
+        const std::string maxExpression = firstArgumentToken(arguments[1]);
+        const std::string destinationName = trimCopy(restAfterFirstToken(arguments[1]));
+        if (!maxExpression.empty() && !destinationName.empty())
+        {
+            arguments = { arguments[0], maxExpression, destinationName };
+        }
+    }
+
+    if (normalizedCommand == "gettime")
+    {
+        if (arguments.size() != 1 || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:getTime(" << luaString(trimCopy(arguments[0])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getpcvoice")
+    {
+        if (arguments.size() != 1 || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:getPcVoice(" << luaString(trimCopy(arguments[0])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "getgametime")
+    {
+        if (arguments.size() != 2 || !isLuaIdentifier(trimCopy(arguments[0]))
+            || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:getGameTime("
+            << luaString(trimCopy(arguments[0])) << ", " << luaString(trimCopy(arguments[1])) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setparam")
+    {
+        if (arguments.size() < 2)
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:setParam(";
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (arguments.size() != 3 || trimCopy(arguments[0]).empty() || trimCopy(arguments[1]).empty()
+        || !isLuaIdentifier(trimCopy(arguments[2])))
+    {
+        return false;
+    }
+
+    const std::string method = normalizedCommand == "getrandomint" ? "randomInt" : "randomFloat";
+    lua << luaIndent(indentDepth) << "ctx:" << method << '('
+        << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+        << luaString(trimCopy(arguments[2])) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativePartyScriptServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    std::string method;
+    if (normalizedCommand == "hasgold")
+    {
+        method = "hasGold";
+    }
+    else if (normalizedCommand == "takegold")
+    {
+        method = "takeGold";
+    }
+    else if (normalizedCommand == "givepromo")
+    {
+        method = "givePromo";
+    }
+    else if (normalizedCommand == "getattribute")
+    {
+        method = "getAttribute";
+    }
+    else if (normalizedCommand == "getpclevel")
+    {
+        method = "getPcLevel";
+    }
+    else if (normalizedCommand == "heal")
+    {
+        method = "heal";
+    }
+    else if (normalizedCommand == "addnpc")
+    {
+        method = "addNpc";
+    }
+    else if (normalizedCommand == "removenpc")
+    {
+        method = "removeNpc";
+    }
+    else if (normalizedCommand == "giveattribute")
+    {
+        method = "giveAttribute";
+    }
+    else if (normalizedCommand == "cachescript")
+    {
+        method = "cacheScript";
+    }
+    else if (normalizedCommand == "runscript")
+    {
+        method = "runScript";
+    }
+    else
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if ((normalizedCommand == "takegold" || normalizedCommand == "cachescript" || normalizedCommand == "runscript")
+        && arguments.empty())
+    {
+        return false;
+    }
+    if ((normalizedCommand == "addnpc" || normalizedCommand == "removenpc") && arguments.empty())
+    {
+        return false;
+    }
+    if ((normalizedCommand == "hasgold" || normalizedCommand == "givepromo" || normalizedCommand == "getattribute")
+        && arguments.size() < 2)
+    {
+        return false;
+    }
+    if (normalizedCommand == "getpclevel" && arguments.size() < 2)
+    {
+        return false;
+    }
+    if (normalizedCommand == "heal")
+    {
+        if (arguments.size() < 2)
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:heal(" << *targetExpression;
+        for (size_t index = 1; index < arguments.size(); ++index)
+        {
+            lua << ", " << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+    if (normalizedCommand == "giveattribute" && arguments.size() < 3)
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:" << method << '(';
+    for (size_t index = 0; index < arguments.size(); ++index)
+    {
+        if (index != 0)
+        {
+            lua << ", ";
+        }
+        lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeStateCommandIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::string trimmedArguments = trimCopy(line.argumentsText);
+    if (!trimmedArguments.empty() && trimmedArguments.front() == '=')
+    {
+        const std::string target = trimCopy(line.name);
+        const std::string expression = trimCopy(trimmedArguments.substr(1));
+        if (!isLuaIdentifier(target) || expression.empty())
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:set("
+            << luaString(target) << ", "
+            << luaRuntimeArgumentForScriptToken(expression) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "set")
+    {
+        const std::optional<std::pair<std::string, std::string>> assignment =
+            simpleSetAssignment(line.argumentsText);
+        if (!assignment || trimCopy(assignment->first).empty() || trimCopy(assignment->second).empty())
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:set("
+            << luaString(trimCopy(assignment->first)) << ", "
+            << luaRuntimeArgumentForScriptToken(assignment->second) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand != "add" && normalizedCommand != "sub" && normalizedCommand != "subtract"
+        && normalizedCommand != "mul" && normalizedCommand != "multiply" && normalizedCommand != "div"
+        && normalizedCommand != "divide" && normalizedCommand != "mod")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.size() != 2 || trimCopy(arguments[0]).empty() || trimCopy(arguments[1]).empty())
+    {
+        return false;
+    }
+
+    std::string method = normalizedCommand;
+    if (method == "subtract")
+    {
+        method = "sub";
+    }
+    else if (method == "multiply")
+    {
+        method = "mul";
+    }
+    else if (method == "divide")
+    {
+        method = "div";
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:" << method << '('
+        << luaString(trimCopy(arguments[0])) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[1]) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeWaitIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    if (normalizeMm9ScriptCommandName(line.name) != "wait")
+    {
+        return false;
+    }
+
+    std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.size() == 2)
+    {
+        const std::vector<std::string> firstArguments = splitWhitespaceScriptArguments(arguments[0]);
+        if (firstArguments.size() == 2)
+        {
+            arguments = { firstArguments[0], firstArguments[1], arguments[1] };
+        }
+        else
+        {
+            const std::vector<std::string> secondArguments = splitWhitespaceScriptArguments(arguments[1]);
+            if (secondArguments.size() == 2)
+            {
+                arguments = { arguments[0], secondArguments[0], secondArguments[1] };
+            }
+            else
+            {
+                arguments = { arguments[0], arguments[0], arguments[1] };
+            }
+        }
+    }
+
+    if (arguments.size() != 3 || trimCopy(arguments[0]).empty() || trimCopy(arguments[1]).empty()
+        || trimCopy(arguments[2]).empty())
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:wait("
+        << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+        << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+        << luaString(trimCopy(arguments[2])) << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+struct Mm9LuaAtTimeArguments
+{
+    bool valid = false;
+    std::string hour;
+    std::string minute;
+    std::vector<std::string> labels;
+};
+
+Mm9LuaAtTimeArguments parseLuaAtTimeArguments(const std::string &argumentsText)
+{
+    const std::vector<std::string> arguments = splitScriptArguments(argumentsText);
+    Mm9LuaAtTimeArguments result = {};
+    if (arguments.empty())
+    {
+        return result;
+    }
+
+    size_t labelOffset = 0;
+    bool labelsStartInFirstArgument = false;
+    if (arguments.size() >= 3 && trimCopy(arguments[1]) == ":")
+    {
+        result.hour = trimCopy(arguments[0]);
+        result.minute = trimCopy(arguments[2]);
+        labelOffset = 3;
+        result.valid = true;
+    }
+    else
+    {
+        const std::vector<std::string> firstTokens = splitWhitespaceScriptArguments(arguments[0]);
+        const size_t colon = arguments[0].find(':');
+        if (firstTokens.size() >= 3 && firstTokens[1] == ":")
+        {
+            result.hour = trimCopy(firstTokens[0]);
+            result.minute = trimCopy(firstTokens[2]);
+            labelOffset = 3;
+            labelsStartInFirstArgument = true;
+            result.valid = true;
+        }
+        else if (colon != std::string::npos)
+        {
+            result.hour = trimCopy(arguments[0].substr(0, colon));
+            result.minute = trimCopy(arguments[0].substr(colon + 1));
+            labelOffset = 1;
+            labelsStartInFirstArgument = true;
+            result.valid = true;
+        }
+        else if (firstTokens.size() >= 2 && !firstTokens[1].empty() && firstTokens[1].front() == ':')
+        {
+            result.hour = trimCopy(firstTokens[0]);
+            result.minute = trimCopy(firstTokens[1].substr(1));
+            labelOffset = 2;
+            labelsStartInFirstArgument = true;
+            result.valid = true;
+        }
+    }
+
+    result.valid = result.valid && !result.hour.empty() && !result.minute.empty();
+    if (!result.valid)
+    {
+        return result;
+    }
+
+    if (labelsStartInFirstArgument)
+    {
+        const std::vector<std::string> firstTokens = splitWhitespaceScriptArguments(arguments[0]);
+        if (labelOffset < firstTokens.size())
+        {
+            result.labels.insert(result.labels.end(), firstTokens.begin() + static_cast<ptrdiff_t>(labelOffset),
+                firstTokens.end());
+        }
+    }
+
+    const size_t firstLabelArgument = labelsStartInFirstArgument ? 1 : labelOffset;
+    for (size_t index = firstLabelArgument; index < arguments.size(); ++index)
+    {
+        const std::vector<std::string> tokens = splitWhitespaceScriptArguments(arguments[index]);
+        result.labels.insert(result.labels.end(), tokens.begin(), tokens.end());
+    }
+    return result;
+}
+
+bool emitNativeAtTimeIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    if (normalizeMm9ScriptCommandName(line.name) != "@m")
+    {
+        return false;
+    }
+
+    const Mm9LuaAtTimeArguments arguments = parseLuaAtTimeArguments(line.argumentsText);
+    if (!arguments.valid)
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:atTime("
+        << luaRuntimeArgumentForScheduleToken(arguments.hour) << ", "
+        << luaRuntimeArgumentForScheduleToken(arguments.minute);
+    for (const std::string &label : arguments.labels)
+    {
+        lua << ", " << luaString(unquotedScriptToken(label));
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeAudioServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    std::string method;
+    if (normalizedCommand == "cachesound")
+    {
+        method = "cacheSound";
+    }
+    else if (normalizedCommand == "playsound")
+    {
+        method = "playSound";
+    }
+    else if (normalizedCommand == "playsoundhandle")
+    {
+        method = "playSoundHandle";
+    }
+    else if (normalizedCommand == "killsound")
+    {
+        method = "killSound";
+    }
+    else if (normalizedCommand == "getsoundduration")
+    {
+        method = "getSoundDuration";
+    }
+    else if (normalizedCommand == "issounddone")
+    {
+        method = "isSoundDone";
+    }
+    else if (normalizedCommand == "speak")
+    {
+        method = "speak";
+    }
+    else
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (arguments.empty())
+    {
+        return false;
+    }
+    if ((normalizedCommand == "playsoundhandle" || normalizedCommand == "issounddone") && arguments.size() < 2)
+    {
+        return false;
+    }
+    if (normalizedCommand == "getsoundduration" && arguments.size() < 3)
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:" << method << '(';
+    for (size_t index = 0; index < arguments.size(); ++index)
+    {
+        if (index != 0)
+        {
+            lua << ", ";
+        }
+        lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeAnimationServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    std::string method;
+    if (normalizedCommand == "playanim")
+    {
+        method = "playAnimation";
+    }
+    else if (normalizedCommand == "playanimation")
+    {
+        method = "playAnimationCommand";
+    }
+    else if (normalizedCommand == "loopanim")
+    {
+        method = "loopAnimation";
+    }
+    else if (normalizedCommand == "blendanim")
+    {
+        method = "blendAnimation";
+    }
+    else if (normalizedCommand == "getcurranim")
+    {
+        method = "getCurrentAnimation";
+    }
+    else if (normalizedCommand == "getanimname")
+    {
+        method = "getAnimationName";
+    }
+    else if (normalizedCommand == "getanimnbr")
+    {
+        method = "getAnimationNumber";
+    }
+    else if (normalizedCommand == "playanimsound")
+    {
+        method = "playAnimSound";
+    }
+    else if (normalizedCommand == "setanimplaying")
+    {
+        method = "setAnimationPlaying";
+    }
+    else
+    {
+        return false;
+    }
+
+    std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if (normalizedCommand == "loopanim" && arguments.size() == 2)
+    {
+        const std::vector<std::string> secondArguments = splitWhitespaceScriptArguments(arguments[1]);
+        if (secondArguments.size() == 2)
+        {
+            arguments = { arguments[0], secondArguments[0], secondArguments[1] };
+        }
+    }
+    if (arguments.empty())
+    {
+        return false;
+    }
+
+    std::string objectExpression = "ctx:self()";
+    if (normalizedCommand == "getcurranim" || normalizedCommand == "getanimname" || normalizedCommand == "getanimnbr")
+    {
+        const size_t minimumArguments = normalizedCommand == "getcurranim" ? 2 : 3;
+        if (arguments.size() < minimumArguments)
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+        objectExpression = *targetExpression;
+        arguments.erase(arguments.begin());
+    }
+
+    lua << luaIndent(indentDepth) << objectExpression << ':' << method << '(';
+    for (size_t index = 0; index < arguments.size(); ++index)
+    {
+        if (index != 0)
+        {
+            lua << ", ";
+        }
+        lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeClientFxServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (normalizedCommand == "cacheclientfx")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << luaIndent(indentDepth) << "ctx:cacheClientFx("
+            << luaRuntimeArgumentForScriptToken(arguments[0]) << ")"
+            << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+        return true;
+    }
+
+    if (normalizedCommand != "doclientfx" && normalizedCommand != "createfx")
+    {
+        return false;
+    }
+    if (arguments.size() < 2)
+    {
+        return false;
+    }
+
+    const size_t objectArgumentIndex = normalizedCommand == "createfx" ? 1 : 0;
+    const size_t effectArgumentIndex = normalizedCommand == "createfx" ? 0 : 1;
+    const std::optional<std::string> objectExpression = luaObjectTargetExpression(arguments[objectArgumentIndex]);
+    if (!objectExpression || *objectExpression == "nil")
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << *objectExpression
+        << (normalizedCommand == "createfx" ? ":createFx(" : ":doClientFx(")
+        << luaRuntimeArgumentForScriptToken(arguments[effectArgumentIndex]);
+    for (size_t index = 2; index < arguments.size(); ++index)
+    {
+        lua << ", " << luaRuntimeArgumentForScriptToken(arguments[index]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+std::vector<std::string> normalizedServiceArguments(const std::vector<std::string> &arguments);
+
+bool emitNativeModelCapabilityServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    const std::string indent = luaIndent(indentDepth);
+    const std::string sourceComment =
+        " -- " + line.sourcePath.filename().string() + ':' + std::to_string(line.lineNumber);
+
+    if (normalizedCommand == "getsocketpos")
+    {
+        if (arguments.size() != 4 || !isLuaIdentifier(trimCopy(arguments[1]))
+            || !isLuaIdentifier(trimCopy(arguments[2])) || !isLuaIdentifier(trimCopy(arguments[3])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[1])) << ", "
+            << luaStateField(trimCopy(arguments[2])) << ", "
+            << luaStateField(trimCopy(arguments[3])) << " = ctx:self():socketPos("
+            << luaRuntimeArgumentForScriptToken(arguments[0]) << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setmodelfilenames")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():setModelFilenames(";
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "attachprop")
+    {
+        if (arguments.size() < 4)
+        {
+            return false;
+        }
+
+        const std::optional<std::string> attachedExpression = luaObjectTargetExpression(arguments[3]);
+        if (!attachedExpression || *attachedExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():attachProp("
+            << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[2]) << ", "
+            << *attachedExpression << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "detachprop")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        const std::optional<std::string> attachedExpression = luaObjectTargetExpression(arguments[0]);
+        if (!attachedExpression || *attachedExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():detachProp(" << *attachedExpression;
+        for (size_t index = 1; index < arguments.size(); ++index)
+        {
+            lua << ", " << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    return false;
+}
+
+std::vector<std::string> normalizedServiceArguments(const std::vector<std::string> &arguments)
+{
+    std::vector<std::string> result;
+    for (const std::string &argument : arguments)
+    {
+        const std::vector<std::string> parts = splitWhitespaceScriptArguments(argument);
+        if (parts.empty())
+        {
+            const std::string trimmed = trimCopy(argument);
+            if (!trimmed.empty() && trimmed != ")")
+            {
+                result.push_back(trimmed);
+            }
+            continue;
+        }
+
+        for (const std::string &part : parts)
+        {
+            if (trimCopy(part) != ")")
+            {
+                result.push_back(part);
+            }
+        }
+    }
+    return result;
+}
+
+void emitLuaStateTuple(std::ostringstream &lua, const std::vector<std::string> &arguments, size_t count)
+{
+    for (size_t index = 0; index < count; ++index)
+    {
+        if (index != 0)
+        {
+            lua << ", ";
+        }
+        lua << luaStateField(trimCopy(arguments[index]));
+    }
+}
+
+bool emitNativeVectorUtilityIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    const std::string indent = luaIndent(indentDepth);
+    const std::string sourceComment =
+        " -- " + line.sourcePath.filename().string() + ':' + std::to_string(line.lineNumber);
+
+    auto allIdentifiers = [&](size_t offset, size_t count)
+    {
+        for (size_t index = offset; index < offset + count; ++index)
+        {
+            if (index >= arguments.size() || !isLuaIdentifier(trimCopy(arguments[index])))
+            {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    std::string method;
+    size_t inputCount = 0;
+    if (normalizedCommand == "vecscale")
+    {
+        method = "vecScale";
+        inputCount = 4;
+    }
+    else if (normalizedCommand == "vecnorm" || normalizedCommand == "normalizevector")
+    {
+        method = "vecNorm";
+        inputCount = 3;
+    }
+    else if (normalizedCommand == "rotatedir")
+    {
+        method = "rotateDir";
+        inputCount = 4;
+    }
+    else if (normalizedCommand == "vecadd")
+    {
+        method = "vecAdd";
+        inputCount = 6;
+    }
+    else if (normalizedCommand == "vecsub")
+    {
+        method = "vecSub";
+        inputCount = 6;
+    }
+    if (!method.empty())
+    {
+        if (arguments.size() < inputCount || !allIdentifiers(0, 3))
+        {
+            return false;
+        }
+
+        lua << indent;
+        emitLuaStateTuple(lua, arguments, 3);
+        lua << " = ctx:" << method << '(';
+        for (size_t index = 0; index < inputCount; ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "veccross" || normalizedCommand == "getcrossproduct")
+    {
+        if (arguments.size() < 9 || !isLuaIdentifier(trimCopy(arguments[6]))
+            || !isLuaIdentifier(trimCopy(arguments[7])) || !isLuaIdentifier(trimCopy(arguments[8])))
+        {
+            return false;
+        }
+
+        lua << indent;
+        emitLuaStateTuple(lua, std::vector<std::string>{ arguments[6], arguments[7], arguments[8] }, 3);
+        lua << " = ctx:vecCross(";
+        for (size_t index = 0; index < 6; ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "calcdist" || normalizedCommand == "vecdist"
+        || normalizedCommand == "vecangle")
+    {
+        if (arguments.size() < 7 || !isLuaIdentifier(trimCopy(arguments[6])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[6])) << " = ctx:"
+            << (normalizedCommand == "vecangle" ? "vecAngle" : "vecDist") << '(';
+        for (size_t index = 0; index < 6; ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "vecmag")
+    {
+        if (arguments.size() < 4 || !isLuaIdentifier(trimCopy(arguments[3])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[3])) << " = ctx:vecMag("
+            << luaRuntimeArgumentForScriptToken(arguments[0]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[2]) << ")"
+            << sourceComment << '\n';
+        return true;
+    }
+
+    return false;
+}
+
+bool emitNativeMovementServiceIfSupported(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &line,
+    size_t indentDepth,
+    const Mm9LuaGenerationState &generationState)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    std::string method;
+    if (normalizedCommand == "movetopos")
+    {
+        method = "moveToPos";
+    }
+    else if (normalizedCommand == "runtopos")
+    {
+        method = "runToPos";
+    }
+    else if (normalizedCommand == "walktopos")
+    {
+        method = "walkToPos";
+    }
+    else if (normalizedCommand == "walkto")
+    {
+        method = "walkTo";
+    }
+    else if (normalizedCommand == "runto")
+    {
+        method = "runTo";
+    }
+    else if (normalizedCommand == "movedir")
+    {
+        method = "moveDir";
+    }
+    else if (normalizedCommand == "faceobject")
+    {
+        method = "faceObject";
+    }
+    else if (normalizedCommand == "facepos")
+    {
+        method = "facePos";
+    }
+    else if (normalizedCommand == "stop")
+    {
+        method = "stop";
+    }
+    else if (normalizedCommand == "walk")
+    {
+        method = "walk";
+    }
+    else if (normalizedCommand == "run")
+    {
+        method = "run";
+    }
+    else if (normalizedCommand == "rotate")
+    {
+        method = "rotate";
+    }
+    else if (normalizedCommand == "facedir")
+    {
+        method = "faceDir";
+    }
+    else if (normalizedCommand == "strafe")
+    {
+        method = "strafe";
+    }
+    else if (normalizedCommand == "setpushback")
+    {
+        method = "setPushBack";
+    }
+    else if (normalizedCommand == "turnleft")
+    {
+        method = "turnLeft";
+    }
+    else
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if (normalizedCommand != "stop" && normalizedCommand != "walk" && normalizedCommand != "run"
+        && arguments.empty())
+    {
+        return false;
+    }
+    if (normalizedCommand == "facedir" && arguments.size() >= 4 && looksLikeScriptHandleToken(arguments[0]))
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << "ctx:self():" << method << '(';
+    if (normalizedCommand == "walkto" || normalizedCommand == "runto" || normalizedCommand == "faceobject")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0], &generationState);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+        lua << *targetExpression;
+        for (size_t index = 1; index < arguments.size(); ++index)
+        {
+            lua << ", " << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+    }
+    else if (normalizedCommand == "stop" || normalizedCommand == "walk" || normalizedCommand == "run")
+    {
+    }
+    else
+    {
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativePresentationServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    std::string method;
+    if (normalizedCommand == "screenfadeout")
+    {
+        method = "screenFadeOut";
+    }
+    else if (normalizedCommand == "screenfadein")
+    {
+        method = "screenFadeIn";
+    }
+    else if (normalizedCommand == "letterbox")
+    {
+        method = "letterBox";
+    }
+    else if (normalizedCommand == "rollovertext")
+    {
+        method = "rolloverText";
+    }
+    else if (normalizedCommand == "cachetexture")
+    {
+        method = "cacheTexture";
+    }
+    else if (normalizedCommand == "hidepiece")
+    {
+        method = "hidePiece";
+    }
+    else if (normalizedCommand == "doletter")
+    {
+        method = "doLetter";
+    }
+    else if (normalizedCommand == "getcontainercount")
+    {
+        method = "getContainerCount";
+    }
+    else
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    if (normalizedCommand == "getcontainercount" && arguments.size() < 2)
+    {
+        return false;
+    }
+    lua << luaIndent(indentDepth) << "ctx:" << method << '(';
+    for (size_t index = 0; index < arguments.size(); ++index)
+    {
+        if (index != 0)
+        {
+            lua << ", ";
+        }
+        lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeSpawnServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    if (normalizedCommand != "spawn" && normalizedCommand != "spawn2")
+    {
+        return false;
+    }
+
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    if (arguments.size() < 5)
+    {
+        return false;
+    }
+
+    const std::string handleVar = trimCopy(arguments[0]);
+    const std::string loweredHandleVar = lowerCopy(handleVar);
+    if (!isLuaIdentifier(handleVar) || loweredHandleVar == "null" || loweredHandleVar == "nil" || handleVar == "0")
+    {
+        return false;
+    }
+
+    lua << luaIndent(indentDepth) << luaStateField(handleVar) << " = ctx:"
+        << (normalizedCommand == "spawn2" ? "spawn2" : "spawn") << '(';
+    for (size_t index = 1; index < arguments.size(); ++index)
+    {
+        if (index != 1)
+        {
+            lua << ", ";
+        }
+        lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+    }
+    lua << ")"
+        << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+    return true;
+}
+
+bool emitNativeAiCombatServiceIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::vector<std::string> arguments = normalizedServiceArguments(splitScriptArguments(line.argumentsText));
+    const std::string indent = luaIndent(indentDepth);
+    const std::string sourceComment =
+        " -- " + line.sourcePath.filename().string() + ':' + std::to_string(line.lineNumber);
+
+    if (normalizedCommand == "setidle")
+    {
+        lua << indent << "ctx:self():setIdle()" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setstuck")
+    {
+        lua << indent << "ctx:self():setStuck()" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setcrouch" || normalizedCommand == "settargetlosttime")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():"
+            << (normalizedCommand == "setcrouch" ? "setCrouch" : "setTargetLostTime")
+            << '(' << luaRuntimeArgumentForScriptToken(arguments[0]) << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "die")
+    {
+        if (!arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():die()" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "damage")
+    {
+        if (arguments.size() < 3)
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << indent << *targetExpression << ":damage("
+            << luaRuntimeArgumentForScriptToken(arguments[1]) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[2]);
+        for (size_t index = 3; index < arguments.size(); ++index)
+        {
+            lua << ", " << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    std::string relationMethod;
+    if (normalizedCommand == "addfriend")
+    {
+        relationMethod = "addFriend";
+    }
+    else if (normalizedCommand == "addenemy")
+    {
+        relationMethod = "addEnemy";
+    }
+    else if (normalizedCommand == "removefriend")
+    {
+        relationMethod = "removeFriend";
+    }
+    else if (normalizedCommand == "removeenemy")
+    {
+        relationMethod = "removeEnemy";
+    }
+    if (!relationMethod.empty())
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():" << relationMethod << '('
+            << luaString(unquotedScriptToken(arguments[0])) << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "isfriend" || normalizedCommand == "aigetdistance")
+    {
+        if (arguments.size() < 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+
+        const std::string method = normalizedCommand == "isfriend" ? "isFriend" : "aiDistanceTo";
+        lua << indent << luaStateField(trimCopy(arguments[1])) << " = ctx:self():"
+            << method << '(' << *targetExpression << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "sendalert")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression)
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():sendAlert(" << *targetExpression << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "help" || normalizedCommand == "estimaterangeattackhit")
+    {
+        if (arguments.size() != 1)
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+
+        const std::string method = normalizedCommand == "help" ? "help" : "estimateRangeAttackHit";
+        lua << indent << "ctx:self():" << method << '(' << *targetExpression << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "land")
+    {
+        if (!arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():land()" << sourceComment << '\n';
+        return true;
+    }
+
+    std::string requestMethod;
+    if (normalizedCommand == "attack")
+    {
+        requestMethod = "attack";
+    }
+    else if (normalizedCommand == "rangeattack")
+    {
+        requestMethod = "rangeAttack";
+    }
+    if (!requestMethod.empty())
+    {
+        lua << indent << "ctx:self():" << requestMethod << '(';
+        if (!arguments.empty())
+        {
+            lua << luaString(trimCopy(arguments[0]));
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "findtargets")
+    {
+        if (arguments.size() < 3)
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:self():findTargets(";
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "findhidingplace")
+    {
+        if (arguments.size() != 1 || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[0]))
+            << " = ctx:self():findHidingPlace()" << sourceComment << '\n';
+        return true;
+    }
+
+    std::string actorActionMethod;
+    if (normalizedCommand == "taunt")
+    {
+        actorActionMethod = "taunt";
+    }
+    else if (normalizedCommand == "aware")
+    {
+        actorActionMethod = "aware";
+    }
+    else if (normalizedCommand == "launch")
+    {
+        actorActionMethod = "launch";
+    }
+    else if (normalizedCommand == "converse")
+    {
+        actorActionMethod = "converse";
+    }
+    else if (normalizedCommand == "resumewait")
+    {
+        actorActionMethod = "resumeWait";
+    }
+    else if (normalizedCommand == "pausewait")
+    {
+        actorActionMethod = "pauseWait";
+    }
+    else if (normalizedCommand == "jump")
+    {
+        actorActionMethod = "jump";
+    }
+    if (!actorActionMethod.empty())
+    {
+        lua << indent << "ctx:self():" << actorActionMethod << '(';
+        for (size_t index = 0; index < arguments.size(); ++index)
+        {
+            if (index != 0)
+            {
+                lua << ", ";
+            }
+            lua << luaRuntimeArgumentForScriptToken(arguments[index]);
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    std::string queryMethod;
+    if (normalizedCommand == "canattack")
+    {
+        queryMethod = "canAttack";
+    }
+    else if (normalizedCommand == "canrangeattack")
+    {
+        queryMethod = "canRangeAttack";
+    }
+    else if (normalizedCommand == "hasrangeattack")
+    {
+        queryMethod = "hasRangeAttack";
+    }
+    else if (normalizedCommand == "istargetinrange")
+    {
+        queryMethod = "isTargetInRange";
+    }
+    else if (normalizedCommand == "isattacking")
+    {
+        queryMethod = "isAttacking";
+    }
+    if (!queryMethod.empty())
+    {
+        if (arguments.empty() || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[0])) << " = ctx:self():"
+            << queryMethod << "()" << sourceComment << '\n';
+        return true;
+    }
+
+    std::string runtimeQueryMethod;
+    if (normalizedCommand == "ismoving")
+    {
+        runtimeQueryMethod = "isMoving";
+    }
+    else if (normalizedCommand == "isonground")
+    {
+        runtimeQueryMethod = "isOnGround";
+    }
+    if (!runtimeQueryMethod.empty())
+    {
+        if (arguments.size() != 1 || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[0])) << " = ctx:self():"
+            << runtimeQueryMethod << "()" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "isdead")
+    {
+        if (arguments.size() != 2 || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[1])) << " = "
+            << *targetExpression << ":isDead()" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "canreachtarget" || normalizedCommand == "isfear"
+        || normalizedCommand == "isinnorunzone")
+    {
+        if (arguments.size() != 1 || !isLuaIdentifier(trimCopy(arguments[0])))
+        {
+            return false;
+        }
+
+        std::string method = "canReachTarget";
+        if (normalizedCommand == "isfear")
+        {
+            method = "isFear";
+        }
+        else if (normalizedCommand == "isinnorunzone")
+        {
+            method = "isInNoRunZone";
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[0])) << " = ctx:self():"
+            << method << "()" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "canreachobject" || normalizedCommand == "isfacing"
+        || normalizedCommand == "shouldrunaway" || normalizedCommand == "isworldobject"
+        || normalizedCommand == "isclearshot")
+    {
+        const bool supportedArgumentCount = normalizedCommand == "isclearshot"
+            ? (arguments.size() == 2 || arguments.size() == 3)
+            : arguments.size() == 2;
+        if (!supportedArgumentCount || !isLuaIdentifier(trimCopy(arguments[1])))
+        {
+            return false;
+        }
+        if (arguments.size() == 3 && !isLuaIdentifier(trimCopy(arguments[2])))
+        {
+            return false;
+        }
+
+        const std::optional<std::string> targetExpression = luaObjectTargetExpression(arguments[0]);
+        if (!targetExpression || *targetExpression == "nil")
+        {
+            return false;
+        }
+
+        if (normalizedCommand == "isworldobject")
+        {
+            lua << indent << luaStateField(trimCopy(arguments[1])) << " = "
+                << *targetExpression << ":isWorldObject()" << sourceComment << '\n';
+            return true;
+        }
+        if (normalizedCommand == "isclearshot")
+        {
+            lua << indent << luaStateField(trimCopy(arguments[1]));
+            if (arguments.size() == 3)
+            {
+                lua << ", " << luaStateField(trimCopy(arguments[2]));
+            }
+            lua << " = ctx:self():isClearShot(" << *targetExpression << ")" << sourceComment << '\n';
+            return true;
+        }
+
+        std::string method = "canReachObject";
+        if (normalizedCommand == "isfacing")
+        {
+            method = "isFacing";
+        }
+        else if (normalizedCommand == "shouldrunaway")
+        {
+            method = "shouldRunAwayFrom";
+        }
+
+        lua << indent << luaStateField(trimCopy(arguments[1])) << " = ctx:self():"
+            << method << '(' << *targetExpression << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    return false;
+}
+
+bool isMm9SimpleEventRegistrationCommand(const std::string &normalizedCommand)
+{
+    return normalizedCommand == "ondamage" || normalizedCommand == "onpoststartworld"
+        || normalizedCommand == "onpostminisaveload" || normalizedCommand == "onpostsaveload"
+        || normalizedCommand == "onfoundplayer" || normalizedCommand == "onfoundtarget"
+        || normalizedCommand == "ontargetdead" || normalizedCommand == "ontouchnotify"
+        || normalizedCommand == "onlosttarget" || normalizedCommand == "onobjectlinkbroken"
+        || normalizedCommand == "onobstacle" || normalizedCommand == "onalert"
+        || normalizedCommand == "onstuck" || normalizedCommand == "ondeath"
+        || normalizedCommand == "onattackready" || normalizedCommand == "ondamagedone"
+        || normalizedCommand == "onstuckdone" || normalizedCommand == "ondeathdone"
+        || normalizedCommand == "oncongestion" || normalizedCommand == "ondoor"
+        || normalizedCommand == "onpathclear" || normalizedCommand == "ontargetoutofrange"
+        || normalizedCommand == "onprojectile" || normalizedCommand == "onavoidingobstacle"
+        || normalizedCommand == "onobstacleavoided" || normalizedCommand == "onhelp"
+        || normalizedCommand == "onworldswitch" || normalizedCommand == "oncachefiles"
+        || normalizedCommand == "onenrage" || normalizedCommand == "onenragedone"
+        || normalizedCommand == "onfear" || normalizedCommand == "onfeardone"
+        || normalizedCommand == "onplayerinterrupt" || normalizedCommand == "ontargethit";
+}
+
+bool emitNativeEventRegistrationIfSupported(std::ostringstream &lua, const Mm9ScriptLine &line, size_t indentDepth)
+{
+    const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+    const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+    const std::string indent = luaIndent(indentDepth);
+    const std::string sourceComment =
+        " -- " + line.sourcePath.filename().string() + ':' + std::to_string(line.lineNumber);
+
+    if (isMm9SimpleEventRegistrationCommand(normalizedCommand))
+    {
+        lua << indent << "ctx:onEvent(" << luaString(readableLuaCommandName(line));
+        if (!arguments.empty())
+        {
+            lua << ", " << luaString(trimCopy(arguments[0]));
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "ontargetbeyonddist" || normalizedCommand == "ontargetwithindist")
+    {
+        if (arguments.empty())
+        {
+            lua << indent << "ctx:onEvent(" << luaString(readableLuaCommandName(line)) << ")"
+                << sourceComment << '\n';
+            return true;
+        }
+
+        lua << indent << "ctx:onEvent(" << luaString(readableLuaCommandName(line)) << ", "
+            << luaRuntimeArgumentForScriptToken(arguments[0]);
+        if (arguments.size() >= 2)
+        {
+            lua << ", " << luaString(trimCopy(arguments[1]));
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "addmodelkey")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:addModelKey(" << luaRuntimeArgumentForScriptToken(arguments[0]);
+        if (arguments.size() >= 2)
+        {
+            lua << ", " << luaString(trimCopy(arguments[1]));
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "removemodelkey")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:removeModelKey(" << luaRuntimeArgumentForScriptToken(arguments[0])
+            << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "setcallback")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:setCallback(" << luaRuntimeArgumentForScriptToken(arguments[0]);
+        if (arguments.size() >= 2)
+        {
+            lua << ", " << luaString(trimCopy(arguments[1]));
+        }
+        lua << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "killcallback")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:killCallback(" << luaRuntimeArgumentForScriptToken(arguments[0])
+            << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    if (normalizedCommand == "removetrigger")
+    {
+        if (arguments.empty())
+        {
+            return false;
+        }
+
+        lua << indent << "ctx:removeTrigger(" << luaRuntimeArgumentForScriptToken(arguments[0])
+            << ")" << sourceComment << '\n';
+        return true;
+    }
+
+    return false;
+}
+
+void emitLuaCommandCall(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &line,
+    size_t indentDepth,
+    Mm9LuaGenerationState &generationState)
 {
     const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
     const std::string method = luaContextMethodForCommand(normalizedCommand);
@@ -927,6 +4175,20 @@ void emitLuaCommandCall(std::ostringstream &lua, const Mm9ScriptLine &line, size
 
     if (isMm9ControlOpenCommand(normalizedCommand))
     {
+        if (normalizedCommand.rfind("while", 0) == 0)
+        {
+            Mm9LuaGenerationState::AliasFrame frame = {};
+            frame.restoreOnElse = false;
+            generationState.aliasFrames.push_back(std::move(frame));
+            generationState.handleAliases.clear();
+        }
+        else
+        {
+            Mm9LuaGenerationState::AliasFrame frame = {};
+            frame.entryAliases = generationState.handleAliases;
+            frame.restoreOnElse = true;
+            generationState.aliasFrames.push_back(std::move(frame));
+        }
         const std::string keyword = normalizedCommand.rfind("while", 0) == 0 ? "while" : "if";
         lua << indent << keyword << " ctx:condition(" << luaString(readableControlConditionText(line))
             << ") " << (keyword == "while" ? "do" : "then")
@@ -935,14 +4197,40 @@ void emitLuaCommandCall(std::ostringstream &lua, const Mm9ScriptLine &line, size
     }
     if (normalizedCommand == "else")
     {
+        if (!generationState.aliasFrames.empty() && generationState.aliasFrames.back().restoreOnElse)
+        {
+            generationState.aliasFrames.back().thenAliases = generationState.handleAliases;
+            generationState.aliasFrames.back().sawElse = true;
+            generationState.handleAliases = generationState.aliasFrames.back().entryAliases;
+        }
+        else
+        {
+            generationState.handleAliases.clear();
+        }
         lua << indent << "else -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
         return;
     }
     if (isMm9ControlCloseCommand(normalizedCommand))
     {
+        std::map<std::string, std::string> joinedAliases;
+        if (!generationState.aliasFrames.empty())
+        {
+            const Mm9LuaGenerationState::AliasFrame frame = generationState.aliasFrames.back();
+            generationState.aliasFrames.pop_back();
+            if (frame.restoreOnElse)
+            {
+                joinedAliases = frame.sawElse
+                    ? intersectHandleAliases(frame.thenAliases, generationState.handleAliases)
+                    : intersectHandleAliases(frame.entryAliases, generationState.handleAliases);
+            }
+        }
+        generationState.handleAliases = std::move(joinedAliases);
         lua << indent << "end -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
         return;
     }
+
+    applyHandleAliasMutationForCommand(generationState, line);
+
     if (normalizedCommand == "exit")
     {
         lua << indent << "do return ctx:exit(" << luaValueForScriptToken(firstArg)
@@ -961,6 +4249,134 @@ void emitLuaCommandCall(std::ostringstream &lua, const Mm9ScriptLine &line, size
             << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
         return;
     }
+    if (emitNativeStateMutationIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeHandleAssignmentIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectHandleLookupIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectIdentityIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectQueryIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectBoundsIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectFlagIfSupported(lua, line, indentDepth, generationState))
+    {
+        return;
+    }
+    if (emitNativeObjectPositionIfSupported(lua, line, indentDepth, generationState))
+    {
+        return;
+    }
+    if (emitNativeObjectStatIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectDistanceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectPropertyIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectMotionIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectTargetIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectLinkIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectLifetimeIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeObjectRegistryQueryIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeArrayAccessIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeRuntimeUtilityIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativePartyScriptServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeStateCommandIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeVectorUtilityIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeWaitIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeAtTimeIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeAudioServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeAnimationServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeClientFxServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeModelCapabilityServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeMovementServiceIfSupported(lua, line, indentDepth, generationState))
+    {
+        return;
+    }
+    if (emitNativePresentationServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeSpawnServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeAiCombatServiceIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
+    if (emitNativeEventRegistrationIfSupported(lua, line, indentDepth))
+    {
+        return;
+    }
 
     if (!method.empty())
     {
@@ -971,15 +4387,577 @@ void emitLuaCommandCall(std::ostringstream &lua, const Mm9ScriptLine &line, size
         }
         else
         {
-            lua << indent << "ctx:" << method << '(' << luaArgumentList(line.argumentsText) << ")";
+            if (normalizedCommand == "trigger")
+            {
+                const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+                if (arguments.size() == 2)
+                {
+                    lua << indent << "ctx:trigger(" << luaTriggerTargetArgumentForScriptToken(arguments[0]) << ", "
+                        << luaValueForScriptToken(arguments[1]) << ")";
+                }
+                else
+                {
+                    lua << indent << "ctx:" << method << '(' << luaArgumentList(line.argumentsText) << ")";
+                }
+            }
+            else
+            {
+                lua << indent << "ctx:" << method << '(' << luaArgumentList(line.argumentsText) << ")";
+            }
         }
     }
     else
     {
-        lua << indent << "ctx:command(" << luaString(normalizedCommand) << ", "
+        generationState.handleAliases.clear();
+        lua << indent << "ctx:command(" << luaString(readableLuaCommandName(line)) << ", "
             << luaString(line.argumentsText) << ")";
     }
     lua << " -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
+}
+
+struct Mm9LuaObjectTriggerCollapse
+{
+    bool valid = false;
+    std::string objectName;
+    std::string handleVar;
+    std::vector<Mm9ScriptLine> triggerLines;
+};
+
+struct Mm9LuaObjectFlagAction
+{
+    Mm9ScriptLine line;
+    std::string flag;
+    bool enabled = false;
+};
+
+struct Mm9LuaObjectFlagCollapse
+{
+    bool valid = false;
+    std::string objectName;
+    std::string handleVar;
+    std::vector<Mm9LuaObjectFlagAction> actions;
+};
+
+struct Mm9LuaObjectStatAction
+{
+    Mm9ScriptLine line;
+    std::string statName;
+    std::string destinationName;
+    std::string valueExpression;
+    bool getter = false;
+};
+
+struct Mm9LuaObjectStatCollapse
+{
+    bool valid = false;
+    std::string objectName;
+    std::string handleVar;
+    std::vector<Mm9LuaObjectStatAction> actions;
+};
+
+struct Mm9LuaObjectPositionAction
+{
+    Mm9ScriptLine line;
+    bool getter = false;
+    std::vector<std::string> values;
+};
+
+struct Mm9LuaObjectPositionCollapse
+{
+    bool valid = false;
+    std::string objectName;
+    std::string handleVar;
+    std::vector<Mm9LuaObjectPositionAction> actions;
+};
+
+bool textHasCaseInsensitiveToken(const std::string &text, const std::string &token)
+{
+    const std::string loweredToken = lowerCopy(token);
+    std::string current;
+    for (const char ch : text)
+    {
+        const unsigned char byte = static_cast<unsigned char>(ch);
+        if (std::isalnum(byte) != 0 || ch == '_')
+        {
+            current.push_back(static_cast<char>(std::tolower(byte)));
+            continue;
+        }
+
+        if (current == loweredToken)
+        {
+            return true;
+        }
+        current.clear();
+    }
+
+    return current == loweredToken;
+}
+
+bool scriptHandleIsReferencedBeforeReassignment(
+    const Mm9ScriptFile &file,
+    size_t startLineIndex,
+    const std::string &handleVar)
+{
+    for (size_t index = startLineIndex; index < file.lines.size(); ++index)
+    {
+        const Mm9ScriptLine &line = file.lines[index];
+        if (line.kind != Mm9ScriptLineKind::Command)
+        {
+            continue;
+        }
+
+        if (normalizeMm9ScriptCommandName(line.name) == "getobjecthandle")
+        {
+            const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+            if (arguments.size() == 2 && lowerCopy(trimCopy(arguments[1])) == lowerCopy(handleVar))
+            {
+                return false;
+            }
+        }
+
+        if (textHasCaseInsensitiveToken(line.codeText, handleVar))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+Mm9LuaObjectTriggerCollapse objectTriggerCollapseAtLine(const Mm9ScriptFile &file, size_t lineIndex)
+{
+    Mm9LuaObjectTriggerCollapse collapse = {};
+    if (lineIndex >= file.lines.size())
+    {
+        return collapse;
+    }
+
+    const Mm9ScriptLine &handleLine = file.lines[lineIndex];
+    if (handleLine.kind != Mm9ScriptLineKind::Command ||
+        normalizeMm9ScriptCommandName(handleLine.name) != "getobjecthandle")
+    {
+        return collapse;
+    }
+
+    const std::vector<std::string> handleArguments = splitScriptArguments(handleLine.argumentsText);
+    if (handleArguments.size() != 2)
+    {
+        return collapse;
+    }
+
+    const std::string objectName = trimCopy(handleArguments[0]);
+    const std::string handleVar = trimCopy(handleArguments[1]);
+    if (objectName.empty() || handleVar.empty())
+    {
+        return collapse;
+    }
+
+    for (size_t index = lineIndex + 1; index < file.lines.size(); ++index)
+    {
+        const Mm9ScriptLine &line = file.lines[index];
+        if (line.kind != Mm9ScriptLineKind::Command || normalizeMm9ScriptCommandName(line.name) != "trigger")
+        {
+            break;
+        }
+
+        const std::vector<std::string> triggerArguments = splitScriptArguments(line.argumentsText);
+        if (triggerArguments.size() != 2 || lowerCopy(trimCopy(triggerArguments[0])) != lowerCopy(handleVar))
+        {
+            break;
+        }
+
+        collapse.triggerLines.push_back(line);
+    }
+
+    collapse.valid = !collapse.triggerLines.empty();
+    collapse.objectName = objectName;
+    collapse.handleVar = handleVar;
+    return collapse;
+}
+
+Mm9LuaObjectFlagCollapse objectFlagCollapseAtLine(const Mm9ScriptFile &file, size_t lineIndex)
+{
+    Mm9LuaObjectFlagCollapse collapse = {};
+    if (lineIndex >= file.lines.size())
+    {
+        return collapse;
+    }
+
+    const Mm9ScriptLine &handleLine = file.lines[lineIndex];
+    if (handleLine.kind != Mm9ScriptLineKind::Command ||
+        normalizeMm9ScriptCommandName(handleLine.name) != "getobjecthandle")
+    {
+        return collapse;
+    }
+
+    const std::vector<std::string> handleArguments = splitScriptArguments(handleLine.argumentsText);
+    if (handleArguments.size() != 2)
+    {
+        return collapse;
+    }
+
+    const std::string objectName = trimCopy(handleArguments[0]);
+    const std::string handleVar = trimCopy(handleArguments[1]);
+    if (objectName.empty() || handleVar.empty())
+    {
+        return collapse;
+    }
+
+    for (size_t index = lineIndex + 1; index < file.lines.size(); ++index)
+    {
+        const Mm9ScriptLine &line = file.lines[index];
+        const std::string normalizedCommand =
+            line.kind == Mm9ScriptLineKind::Command ? normalizeMm9ScriptCommandName(line.name) : "";
+        if (normalizedCommand != "setflag" && normalizedCommand != "clearflag")
+        {
+            break;
+        }
+
+        const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+        if (arguments.size() != 2 || lowerCopy(trimCopy(arguments[0])) != lowerCopy(handleVar))
+        {
+            break;
+        }
+
+        Mm9LuaObjectFlagAction action = {};
+        action.line = line;
+        action.flag = trimCopy(arguments[1]);
+        action.enabled = normalizedCommand == "setflag";
+        collapse.actions.push_back(action);
+    }
+
+    collapse.valid = !collapse.actions.empty();
+    collapse.objectName = objectName;
+    collapse.handleVar = handleVar;
+    return collapse;
+}
+
+Mm9LuaObjectStatCollapse objectStatCollapseAtLine(const Mm9ScriptFile &file, size_t lineIndex)
+{
+    Mm9LuaObjectStatCollapse collapse = {};
+    if (lineIndex >= file.lines.size())
+    {
+        return collapse;
+    }
+
+    const Mm9ScriptLine &handleLine = file.lines[lineIndex];
+    if (handleLine.kind != Mm9ScriptLineKind::Command ||
+        normalizeMm9ScriptCommandName(handleLine.name) != "getobjecthandle")
+    {
+        return collapse;
+    }
+
+    const std::vector<std::string> handleArguments = splitScriptArguments(handleLine.argumentsText);
+    if (handleArguments.size() != 2)
+    {
+        return collapse;
+    }
+
+    const std::string objectName = trimCopy(handleArguments[0]);
+    const std::string handleVar = trimCopy(handleArguments[1]);
+    if (objectName.empty() || handleVar.empty())
+    {
+        return collapse;
+    }
+
+    for (size_t index = lineIndex + 1; index < file.lines.size(); ++index)
+    {
+        const Mm9ScriptLine &line = file.lines[index];
+        const std::string normalizedCommand =
+            line.kind == Mm9ScriptLineKind::Command ? normalizeMm9ScriptCommandName(line.name) : "";
+        if (normalizedCommand != "getstat" && normalizedCommand != "setstat")
+        {
+            break;
+        }
+
+        const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+        if (arguments.size() != 3 || lowerCopy(trimCopy(arguments[0])) != lowerCopy(handleVar)
+            || trimCopy(arguments[1]).empty())
+        {
+            break;
+        }
+
+        Mm9LuaObjectStatAction action = {};
+        action.line = line;
+        action.statName = trimCopy(arguments[1]);
+        action.getter = normalizedCommand == "getstat";
+        if (action.getter)
+        {
+            action.destinationName = trimCopy(arguments[2]);
+            if (!isLuaIdentifier(action.destinationName))
+            {
+                break;
+            }
+        }
+        else
+        {
+            const std::optional<std::string> expression = luaLiteralForSimpleScriptExpression(arguments[2]);
+            if (!expression)
+            {
+                break;
+            }
+            action.valueExpression = *expression;
+        }
+
+        collapse.actions.push_back(action);
+    }
+
+    collapse.valid = !collapse.actions.empty();
+    collapse.objectName = objectName;
+    collapse.handleVar = handleVar;
+    return collapse;
+}
+
+Mm9LuaObjectPositionCollapse objectPositionCollapseAtLine(const Mm9ScriptFile &file, size_t lineIndex)
+{
+    Mm9LuaObjectPositionCollapse collapse = {};
+    if (lineIndex >= file.lines.size())
+    {
+        return collapse;
+    }
+
+    const Mm9ScriptLine &handleLine = file.lines[lineIndex];
+    if (handleLine.kind != Mm9ScriptLineKind::Command ||
+        normalizeMm9ScriptCommandName(handleLine.name) != "getobjecthandle")
+    {
+        return collapse;
+    }
+
+    const std::vector<std::string> handleArguments = splitScriptArguments(handleLine.argumentsText);
+    if (handleArguments.size() != 2)
+    {
+        return collapse;
+    }
+
+    const std::string objectName = trimCopy(handleArguments[0]);
+    const std::string handleVar = trimCopy(handleArguments[1]);
+    if (objectName.empty() || handleVar.empty())
+    {
+        return collapse;
+    }
+
+    size_t nextLineIndex = lineIndex + 1;
+    for (; nextLineIndex < file.lines.size(); ++nextLineIndex)
+    {
+        const Mm9ScriptLine &line = file.lines[nextLineIndex];
+        const std::string normalizedCommand =
+            line.kind == Mm9ScriptLineKind::Command ? normalizeMm9ScriptCommandName(line.name) : "";
+        if (normalizedCommand != "getpos" && normalizedCommand != "setpos")
+        {
+            break;
+        }
+
+        const std::vector<std::string> arguments = splitScriptArguments(line.argumentsText);
+        if (arguments.size() != 4 || lowerCopy(trimCopy(arguments[0])) != lowerCopy(handleVar))
+        {
+            return {};
+        }
+
+        Mm9LuaObjectPositionAction action = {};
+        action.line = line;
+        action.getter = normalizedCommand == "getpos";
+        for (size_t argumentIndex = 1; argumentIndex < arguments.size(); ++argumentIndex)
+        {
+            const std::string value = trimCopy(arguments[argumentIndex]);
+            if (action.getter)
+            {
+                if (!isLuaIdentifier(value))
+                {
+                    return {};
+                }
+                action.values.push_back(value);
+                continue;
+            }
+
+            const std::optional<int32_t> numericValue = parseMm9RudeInt(value);
+            if (!numericValue)
+            {
+                return {};
+            }
+            action.values.push_back(std::to_string(*numericValue));
+        }
+
+        collapse.actions.push_back(action);
+    }
+
+    if (collapse.actions.empty() || scriptHandleIsReferencedBeforeReassignment(file, nextLineIndex, handleVar))
+    {
+        return {};
+    }
+
+    collapse.valid = true;
+    collapse.objectName = objectName;
+    collapse.handleVar = handleVar;
+    return collapse;
+}
+
+void emitObjectTriggerCollapse(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &handleLine,
+    const Mm9LuaObjectTriggerCollapse &collapse,
+    size_t indentDepth)
+{
+    const std::string indent = luaIndent(indentDepth);
+    if (collapse.triggerLines.size() == 1)
+    {
+        const Mm9ScriptLine &triggerLine = collapse.triggerLines.front();
+        const std::vector<std::string> triggerArguments = splitScriptArguments(triggerLine.argumentsText);
+        lua << indent << "ctx:object(" << luaString(collapse.objectName) << "):trigger("
+            << luaString(trimCopy(triggerArguments[1])) << ") -- "
+            << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber
+            << '-' << triggerLine.lineNumber << '\n';
+        return;
+    }
+
+    lua << indent << "local object = ctx:object(" << luaString(collapse.objectName) << ") -- "
+        << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber << '\n';
+    for (const Mm9ScriptLine &triggerLine : collapse.triggerLines)
+    {
+        const std::vector<std::string> triggerArguments = splitScriptArguments(triggerLine.argumentsText);
+        lua << indent << "object:trigger(" << luaString(trimCopy(triggerArguments[1])) << ") -- "
+            << triggerLine.sourcePath.filename().string() << ':' << triggerLine.lineNumber << '\n';
+    }
+}
+
+void emitObjectStatAction(
+    std::ostringstream &lua,
+    const std::string &indent,
+    const std::string &objectExpression,
+    const Mm9LuaObjectStatAction &action)
+{
+    if (action.getter)
+    {
+        lua << indent << luaStateField(action.destinationName) << " = "
+            << objectExpression << ":getStat(" << luaString(action.statName) << ") -- "
+            << action.line.sourcePath.filename().string() << ':' << action.line.lineNumber << '\n';
+        return;
+    }
+
+    lua << indent << objectExpression << ":setStat(" << luaString(action.statName) << ", "
+        << action.valueExpression << ") -- "
+        << action.line.sourcePath.filename().string() << ':' << action.line.lineNumber << '\n';
+}
+
+void emitObjectStatCollapse(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &handleLine,
+    const Mm9LuaObjectStatCollapse &collapse,
+    size_t indentDepth)
+{
+    const std::string indent = luaIndent(indentDepth);
+    if (collapse.actions.size() == 1)
+    {
+        const Mm9LuaObjectStatAction &action = collapse.actions.front();
+        const std::string objectExpression = "ctx:object(" + luaString(collapse.objectName) + ")";
+        if (action.getter)
+        {
+            lua << indent << luaStateField(action.destinationName) << " = "
+                << objectExpression << ":getStat(" << luaString(action.statName) << ") -- "
+                << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber
+                << '-' << action.line.lineNumber << '\n';
+        }
+        else
+        {
+            lua << indent << objectExpression << ":setStat(" << luaString(action.statName) << ", "
+                << action.valueExpression << ") -- "
+                << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber
+                << '-' << action.line.lineNumber << '\n';
+        }
+        return;
+    }
+
+    lua << indent << "local object = ctx:object(" << luaString(collapse.objectName) << ") -- "
+        << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber << '\n';
+    for (const Mm9LuaObjectStatAction &action : collapse.actions)
+    {
+        emitObjectStatAction(lua, indent, "object", action);
+    }
+}
+
+void emitObjectPositionAction(
+    std::ostringstream &lua,
+    const std::string &indent,
+    const std::string &objectExpression,
+    const Mm9LuaObjectPositionAction &action)
+{
+    if (action.getter)
+    {
+        lua << indent << luaStateField(action.values[0]) << ", "
+            << luaStateField(action.values[1]) << ", "
+            << luaStateField(action.values[2]) << " = "
+            << objectExpression << ":pos() -- "
+            << action.line.sourcePath.filename().string() << ':' << action.line.lineNumber << '\n';
+        return;
+    }
+
+    lua << indent << objectExpression << ":setPos("
+        << action.values[0] << ", " << action.values[1] << ", " << action.values[2] << ") -- "
+        << action.line.sourcePath.filename().string() << ':' << action.line.lineNumber << '\n';
+}
+
+void emitObjectPositionCollapse(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &handleLine,
+    const Mm9LuaObjectPositionCollapse &collapse,
+    size_t indentDepth)
+{
+    const std::string indent = luaIndent(indentDepth);
+    if (collapse.actions.size() == 1)
+    {
+        const Mm9LuaObjectPositionAction &action = collapse.actions.front();
+        const std::string objectExpression = "ctx:object(" + luaString(collapse.objectName) + ")";
+        if (action.getter)
+        {
+            lua << indent << luaStateField(action.values[0]) << ", "
+                << luaStateField(action.values[1]) << ", "
+                << luaStateField(action.values[2]) << " = "
+                << objectExpression << ":pos() -- "
+                << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber
+                << '-' << action.line.lineNumber << '\n';
+        }
+        else
+        {
+            lua << indent << objectExpression << ":setPos("
+                << action.values[0] << ", " << action.values[1] << ", " << action.values[2] << ") -- "
+                << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber
+                << '-' << action.line.lineNumber << '\n';
+        }
+        return;
+    }
+
+    lua << indent << "local object = ctx:object(" << luaString(collapse.objectName) << ") -- "
+        << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber << '\n';
+    for (const Mm9LuaObjectPositionAction &action : collapse.actions)
+    {
+        emitObjectPositionAction(lua, indent, "object", action);
+    }
+}
+
+void emitObjectFlagCollapse(
+    std::ostringstream &lua,
+    const Mm9ScriptLine &handleLine,
+    const Mm9LuaObjectFlagCollapse &collapse,
+    size_t indentDepth)
+{
+    const std::string indent = luaIndent(indentDepth);
+    if (collapse.actions.size() == 1)
+    {
+        const Mm9LuaObjectFlagAction &action = collapse.actions.front();
+        lua << indent << "ctx:object(" << luaString(collapse.objectName) << "):setFlag("
+            << luaString(action.flag) << ", " << (action.enabled ? "true" : "false") << ") -- "
+            << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber
+            << '-' << action.line.lineNumber << '\n';
+        return;
+    }
+
+    lua << indent << "local object = ctx:object(" << luaString(collapse.objectName) << ") -- "
+        << handleLine.sourcePath.filename().string() << ':' << handleLine.lineNumber << '\n';
+    for (const Mm9LuaObjectFlagAction &action : collapse.actions)
+    {
+        lua << indent << "object:setFlag(" << luaString(action.flag) << ", "
+            << (action.enabled ? "true" : "false") << ") -- "
+            << action.line.sourcePath.filename().string() << ':' << action.line.lineNumber << '\n';
+    }
 }
 
 void appendInventoryError(
@@ -1925,7 +5903,13 @@ Mm9ScriptSourceInventory scanMm9ScriptSourceInventory(const std::filesystem::pat
 
 std::string normalizeMm9ScriptCommandName(const std::string &name)
 {
-    return lowerCopy(trimCopy(name));
+    std::string normalized = lowerCopy(trimCopy(name));
+    while (!normalized.empty() && normalized.back() == '(')
+    {
+        normalized.pop_back();
+        normalized = trimCopy(normalized);
+    }
+    return normalized;
 }
 
 Mm9KeyRegistry buildMm9KeyRegistry(const std::filesystem::path &extractedRoot)
@@ -2282,6 +6266,7 @@ std::string generateMm9ScriptLua(const Mm9ScriptFile &file)
     bool inLabel = false;
     size_t indentDepth = 0;
     std::vector<std::string> pendingComments;
+    Mm9LuaGenerationState generationState;
     for (size_t lineIndex = 0; lineIndex < file.lines.size(); ++lineIndex)
     {
         const Mm9ScriptLine &line = file.lines[lineIndex];
@@ -2317,6 +6302,8 @@ std::string generateMm9ScriptLua(const Mm9ScriptFile &file)
             lua << "script.labels[" << luaString(line.name) << "] = function(ctx)\n";
             lua << "    -- " << line.sourcePath.filename().string() << ':' << line.lineNumber << '\n';
             indentDepth = 0;
+            generationState.handleAliases.clear();
+            generationState.aliasFrames.clear();
             const std::optional<std::string> labelComment = meaningfulLuaCommentFromMm9Comment(line.commentText);
             if (labelComment)
             {
@@ -2336,6 +6323,36 @@ std::string generateMm9ScriptLua(const Mm9ScriptFile &file)
             }
             emitPendingLuaComments(lua, pendingComments, luaIndent(indentDepth));
             const std::string normalizedCommand = normalizeMm9ScriptCommandName(line.name);
+            applyHandleAliasMutationForCommand(generationState, line);
+            const Mm9LuaObjectTriggerCollapse objectTriggerCollapse = objectTriggerCollapseAtLine(file, lineIndex);
+            if (objectTriggerCollapse.valid)
+            {
+                emitObjectTriggerCollapse(lua, line, objectTriggerCollapse, indentDepth);
+                lineIndex += objectTriggerCollapse.triggerLines.size();
+                continue;
+            }
+            const Mm9LuaObjectFlagCollapse objectFlagCollapse = objectFlagCollapseAtLine(file, lineIndex);
+            if (objectFlagCollapse.valid)
+            {
+                emitObjectFlagCollapse(lua, line, objectFlagCollapse, indentDepth);
+                lineIndex += objectFlagCollapse.actions.size();
+                continue;
+            }
+            const Mm9LuaObjectStatCollapse objectStatCollapse = objectStatCollapseAtLine(file, lineIndex);
+            if (objectStatCollapse.valid)
+            {
+                emitObjectStatCollapse(lua, line, objectStatCollapse, indentDepth);
+                lineIndex += objectStatCollapse.actions.size();
+                continue;
+            }
+            const Mm9LuaObjectPositionCollapse objectPositionCollapse = objectPositionCollapseAtLine(file, lineIndex);
+            if (objectPositionCollapse.valid)
+            {
+                emitObjectPositionCollapse(lua, line, objectPositionCollapse, indentDepth);
+                lineIndex += objectPositionCollapse.actions.size();
+                continue;
+            }
+
             if (lineIndex + 1 < file.lines.size() && file.lines[lineIndex + 1].kind == Mm9ScriptLineKind::Command)
             {
                 const Mm9ScriptLine &conditionLine = file.lines[lineIndex + 1];
@@ -2360,7 +6377,7 @@ std::string generateMm9ScriptLua(const Mm9ScriptFile &file)
             {
                 --indentDepth;
             }
-            emitLuaCommandCall(lua, line, indentDepth);
+            emitLuaCommandCall(lua, line, indentDepth, generationState);
             if (isMm9ControlOpenCommand(normalizedCommand) || normalizedCommand == "else")
             {
                 ++indentDepth;
@@ -2405,17 +6422,29 @@ std::string generateMm9ScriptLua(const Mm9ScriptFile &file)
 Mm9ObjectDialogueBindingIndex scanMm9ObjectDialogueBindings(
     const std::filesystem::path &mapsDirectory,
     const std::filesystem::path &scriptsDirectory,
-    const std::set<int32_t> &knownRudeIds)
+    const std::set<int32_t> &knownRudeIds,
+    std::ostream *pDebugStream)
 {
     Mm9ObjectDialogueBindingIndex index = {};
     const std::set<std::string> scriptSourceNames = collectScriptSourceNames(scriptsDirectory);
     const std::vector<std::filesystem::path> mapFiles = listFilesWithExtension(mapsDirectory, ".yml");
-
+    std::vector<std::filesystem::path> rawObjectMapFiles;
     for (const std::filesystem::path &path : mapFiles)
     {
-        if (path.filename().string().find(".raw_objects.yml") == std::string::npos)
+        if (path.filename().string().find(".raw_objects.yml") != std::string::npos)
         {
-            continue;
+            rawObjectMapFiles.push_back(path);
+        }
+    }
+
+    for (size_t mapIndex = 0; mapIndex < rawObjectMapFiles.size(); ++mapIndex)
+    {
+        const std::filesystem::path &path = rawObjectMapFiles[mapIndex];
+        if (pDebugStream != nullptr)
+        {
+            *pDebugStream << "mm9_dialogue_pipeline: map raw objects "
+                          << (mapIndex + 1) << "/" << rawObjectMapFiles.size()
+                          << " " << path.filename().string() << '\n';
         }
 
         ++index.mapFileCount;
@@ -2570,6 +6599,16 @@ void addWriteError(
     error.sourcePath = path;
     error.message = message;
     result.errors.push_back(std::move(error));
+}
+
+void writePipelineDebug(std::ostream *pDebugStream, const std::string &message)
+{
+    if (pDebugStream == nullptr)
+    {
+        return;
+    }
+
+    *pDebugStream << "mm9_dialogue_pipeline: " << message << '\n';
 }
 
 bool isSafeGeneratedRelativePath(const std::filesystem::path &path)
@@ -2858,21 +6897,29 @@ bool writeWholeTextFile(const std::filesystem::path &path, const std::string &co
 
 Mm9DialoguePipelineResult generateMm9DialoguePipelineFiles(
     const std::filesystem::path &extractedRoot,
-    const std::filesystem::path &mapsDirectory)
+    const std::filesystem::path &mapsDirectory,
+    std::ostream *pDebugStream)
 {
     Mm9DialoguePipelineResult result = {};
     std::set<std::filesystem::path> generatedPaths;
     const std::filesystem::path rudeDirectory = extractedRoot / "RUDE/RUDE";
     const std::filesystem::path scriptsDirectory = extractedRoot / "SCRIPTS/SCRIPTS";
 
+    writePipelineDebug(pDebugStream, "scan source inventories");
     const Mm9RudeSourceInventory rudeInventory = scanMm9RudeSourceInventory(extractedRoot);
     result.errors.insert(result.errors.end(), rudeInventory.errors.begin(), rudeInventory.errors.end());
     const Mm9ScriptSourceInventory scriptInventory = scanMm9ScriptSourceInventory(extractedRoot);
     result.errors.insert(result.errors.end(), scriptInventory.errors.begin(), scriptInventory.errors.end());
 
     const std::vector<std::filesystem::path> rudeFiles = listFilesWithExtension(rudeDirectory, ".rude");
-    for (const std::filesystem::path &path : rudeFiles)
+    writePipelineDebug(pDebugStream, "parse RUDE files " + std::to_string(rudeFiles.size()));
+    for (size_t index = 0; index < rudeFiles.size(); ++index)
     {
+        const std::filesystem::path &path = rudeFiles[index];
+        writePipelineDebug(
+            pDebugStream,
+            "RUDE " + std::to_string(index + 1) + "/" + std::to_string(rudeFiles.size()) +
+                " " + path.filename().string());
         const Mm9RudeFile file = parseMm9RudeFile(path);
         result.errors.insert(result.errors.end(), file.errors.begin(), file.errors.end());
         if (!file.errors.empty())
@@ -2937,6 +6984,7 @@ Mm9DialoguePipelineResult generateMm9DialoguePipelineFiles(
         "dialogue/services.yml",
         generateMm9RudeServicesYaml(rudeDirectory));
 
+    writePipelineDebug(pDebugStream, "build key registry");
     const Mm9KeyRegistry keyRegistry = buildMm9KeyRegistry(extractedRoot);
     addGeneratedFile(result, generatedPaths, "state/keys.yml", generateMm9KeyRegistryYaml(keyRegistry));
     addGeneratedFile(result, generatedPaths, "state/defaults.yml", generateMm9StateDefaultsYaml());
@@ -2947,8 +6995,14 @@ Mm9DialoguePipelineResult generateMm9DialoguePipelineFiles(
         generateMm9ScriptRuntimeLua());
 
     const std::vector<std::filesystem::path> scriptFiles = listScriptFiles(scriptsDirectory);
-    for (const std::filesystem::path &path : scriptFiles)
+    writePipelineDebug(pDebugStream, "generate script Lua files " + std::to_string(scriptFiles.size()));
+    for (size_t index = 0; index < scriptFiles.size(); ++index)
     {
+        const std::filesystem::path &path = scriptFiles[index];
+        writePipelineDebug(
+            pDebugStream,
+            "script " + std::to_string(index + 1) + "/" + std::to_string(scriptFiles.size()) +
+                " " + path.filename().string());
         const Mm9ScriptFile file = parseMm9ScriptFile(path);
         result.errors.insert(result.errors.end(), file.errors.begin(), file.errors.end());
         if (!file.errors.empty())
@@ -2964,9 +7018,10 @@ Mm9DialoguePipelineResult generateMm9DialoguePipelineFiles(
 
     addGeneratedFile(result, generatedPaths, "scripts/script_index.yml", generateMm9ScriptIndexYaml(scriptsDirectory));
 
+    writePipelineDebug(pDebugStream, "scan object dialogue bindings");
     const std::set<int32_t> knownRudeIds = collectKnownRudeIds(rudeDirectory);
     const Mm9ObjectDialogueBindingIndex objectBindings =
-        scanMm9ObjectDialogueBindings(mapsDirectory, scriptsDirectory, knownRudeIds);
+        scanMm9ObjectDialogueBindings(mapsDirectory, scriptsDirectory, knownRudeIds, pDebugStream);
     result.errors.insert(result.errors.end(), objectBindings.errors.begin(), objectBindings.errors.end());
     addGeneratedFile(
         result,
@@ -2974,6 +7029,7 @@ Mm9DialoguePipelineResult generateMm9DialoguePipelineFiles(
         "maps/dialogue_bindings.yml",
         generateMm9ObjectDialogueBindingsYaml(objectBindings));
 
+    writePipelineDebug(pDebugStream, "sort generated outputs " + std::to_string(result.files.size()));
     std::sort(
         result.files.begin(),
         result.files.end(),
@@ -2982,20 +7038,31 @@ Mm9DialoguePipelineResult generateMm9DialoguePipelineFiles(
             return left.relativePath.generic_string() < right.relativePath.generic_string();
         });
 
+    writePipelineDebug(pDebugStream, "generation complete");
     return result;
 }
 
 Mm9DialoguePipelineWriteResult writeMm9DialoguePipelineFiles(
     const std::filesystem::path &outputRoot,
     const std::vector<Mm9DialoguePipelineGeneratedFile> &files,
-    bool checkOnly)
+    bool checkOnly,
+    std::ostream *pDebugStream)
 {
     Mm9DialoguePipelineWriteResult result = {};
-    for (const Mm9DialoguePipelineGeneratedFile &file : files)
+    writePipelineDebug(
+        pDebugStream,
+        std::string(checkOnly ? "check " : "write ") + std::to_string(files.size()) +
+            " generated files to " + outputRoot.generic_string());
+    for (size_t index = 0; index < files.size(); ++index)
     {
+        const Mm9DialoguePipelineGeneratedFile &file = files[index];
+        const std::string progress =
+            std::to_string(index + 1) + "/" + std::to_string(files.size()) + " " +
+            file.relativePath.generic_string();
         if (!isSafeGeneratedRelativePath(file.relativePath))
         {
             addWriteError(result, file.relativePath, "generated path is not a safe relative path");
+            writePipelineDebug(pDebugStream, "error unsafe path " + progress);
             continue;
         }
 
@@ -3004,6 +7071,7 @@ Mm9DialoguePipelineWriteResult writeMm9DialoguePipelineFiles(
         if (readWholeTextFile(outputPath, existingContents) && existingContents == file.contents)
         {
             ++result.unchangedFileCount;
+            writePipelineDebug(pDebugStream, "unchanged " + progress);
             continue;
         }
 
@@ -3011,18 +7079,22 @@ Mm9DialoguePipelineWriteResult writeMm9DialoguePipelineFiles(
         {
             ++result.staleFileCount;
             addWriteError(result, outputPath, "generated file is missing or stale");
+            writePipelineDebug(pDebugStream, "stale " + progress);
             continue;
         }
 
         if (!writeWholeTextFile(outputPath, file.contents))
         {
             addWriteError(result, outputPath, "could not write generated file");
+            writePipelineDebug(pDebugStream, "error write failed " + progress);
             continue;
         }
 
         ++result.writtenFileCount;
+        writePipelineDebug(pDebugStream, "written " + progress);
     }
 
+    writePipelineDebug(pDebugStream, "write/check complete");
     return result;
 }
 }

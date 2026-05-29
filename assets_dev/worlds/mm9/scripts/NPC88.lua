@@ -25,21 +25,21 @@ script.labels["PromoteAssassin"] = function(ctx)
     -- NPC88.scr:51
     -- Player has already completed the quest
     -- just check to see who gets promoted
-    ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC88.scr:57
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC88.scr:57
     if ctx:hasKey(405) then -- NPC88.scr:59-60
-        ctx:command("givepromo", "Assassin Char1") -- NPC88.scr:61
+        ctx:givePromo("Assassin", "Char1") -- NPC88.scr:61
         ctx:takeKey(405) -- NPC88.scr:62
     end -- NPC88.scr:63
     if ctx:hasKey(406) then -- NPC88.scr:65-66
-        ctx:command("givepromo", "Assassin Char2") -- NPC88.scr:67
+        ctx:givePromo("Assassin", "Char2") -- NPC88.scr:67
         ctx:takeKey(406) -- NPC88.scr:68
     end -- NPC88.scr:69
     if ctx:hasKey(407) then -- NPC88.scr:71-72
-        ctx:command("givepromo", "Assassin Char3") -- NPC88.scr:73
+        ctx:givePromo("Assassin", "Char3") -- NPC88.scr:73
         ctx:takeKey(407) -- NPC88.scr:74
     end -- NPC88.scr:75
     if ctx:hasKey(408) then -- NPC88.scr:77-78
-        ctx:command("givepromo", "Assassin Char4") -- NPC88.scr:79
+        ctx:givePromo("Assassin", "Char4") -- NPC88.scr:79
         ctx:takeKey(408) -- NPC88.scr:80
     end -- NPC88.scr:81
     do return ctx:exit("") end -- NPC88.scr:82
@@ -55,7 +55,7 @@ script.labels["promo"] = function(ctx)
             -- checks to see if they've rescued Ivsar
             ctx:giveKey(227) -- NPC88.scr:96
             ctx:giveExp(63000) -- NPC88.scr:97
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC88.scr:98
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC88.scr:98
             ctx:giveGold(5000) -- NPC88.scr:99
             -- gives reward
             mm9.gosub(script, ctx, "PromoteAssassin") -- NPC88.scr:101
@@ -68,7 +68,7 @@ end
 -- End Mercenary to assassin promo quest
 script.labels["OnUse"] = function(ctx)
     -- NPC88.scr:112
-    ctx:command("playsound", "voices\\NPC\\NPC_088.wav, Onexit, 100, 240, FALSE, 100") -- NPC88.scr:115
+    ctx:playSound("voices\\NPC\\NPC_088.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC88.scr:115
     do return ctx:exit("") end -- NPC88.scr:116
 end
 

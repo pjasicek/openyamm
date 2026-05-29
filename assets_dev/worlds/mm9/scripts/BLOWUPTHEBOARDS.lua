@@ -14,13 +14,13 @@ script.labels = {}
 script.labels["DoTheDamage"] = function(ctx)
     -- BLOWUPTHEBOARDS.scr:16
     if ctx:condition("hBlocker==0") then -- BLOWUPTHEBOARDS.scr:18
-        ctx:command("getobjecthandle", "sBlocker, hBlocker") -- BLOWUPTHEBOARDS.scr:19
+        ctx:state().hBlocker = ctx:objectOrNil("sBlocker") -- BLOWUPTHEBOARDS.scr:19
         if ctx:condition("hBlocker==0") then -- BLOWUPTHEBOARDS.scr:20
             do return ctx:exit(1) end -- BLOWUPTHEBOARDS.scr:21
         end -- BLOWUPTHEBOARDS.scr:22
     end -- BLOWUPTHEBOARDS.scr:23
-    ctx:command("playsound", "Sounds\\Weapons\\EQHammerImpact.wav DoNothing 500 2000 0 100") -- BLOWUPTHEBOARDS.scr:25
-    ctx:command("playsound", "Sounds\\Events\\crate_smash.wav DoNothing 500 2000 0 100") -- BLOWUPTHEBOARDS.scr:26
+    ctx:playSound("Sounds\\Weapons\\EQHammerImpact.wav", "DoNothing", 500, 2000, 0, 100) -- BLOWUPTHEBOARDS.scr:25
+    ctx:playSound("Sounds\\Events\\crate_smash.wav", "DoNothing", 500, 2000, 0, 100) -- BLOWUPTHEBOARDS.scr:26
     ctx:trigger("hBlocker", "destroy") -- BLOWUPTHEBOARDS.scr:28
     do return ctx:exit(1) end -- BLOWUPTHEBOARDS.scr:30
 end

@@ -17,18 +17,17 @@ script.labels["OnUse"] = function(ctx)
     if ctx:condition("Stopped==false") then -- ILSSHOOTINGBOOK.scr:22
         if ctx:condition("Done==false") then -- ILSSHOOTINGBOOK.scr:24
             if ctx:condition("open==false") then -- ILSSHOOTINGBOOK.scr:26
-                ctx:command("playanim", "OpenBook") -- ILSSHOOTINGBOOK.scr:27
-                ctx:command("getobjecthandle", "Params, g_hobject") -- ILSSHOOTINGBOOK.scr:28
-                ctx:trigger("g_hobject", "On") -- ILSSHOOTINGBOOK.scr:29
-                ctx:command("set", "open, true") -- ILSSHOOTINGBOOK.scr:30
+                ctx:self():playAnimation("OpenBook") -- ILSSHOOTINGBOOK.scr:27
+                ctx:object("Params"):trigger("On") -- ILSSHOOTINGBOOK.scr:28-29
+                ctx:state().open = true -- ILSSHOOTINGBOOK.scr:30
                 do return ctx:exit("") end -- ILSSHOOTINGBOOK.scr:31
             end -- ILSSHOOTINGBOOK.scr:32
             ctx:trigger("g_hobject", "Off") -- ILSSHOOTINGBOOK.scr:35
             ctx:trigger("g_hobject", "On") -- ILSSHOOTINGBOOK.scr:36
             do return ctx:exit("") end -- ILSSHOOTINGBOOK.scr:37
         end -- ILSSHOOTINGBOOK.scr:38
-        ctx:command("playanim", "CloseBook") -- ILSSHOOTINGBOOK.scr:41
-        ctx:command("set", "Stopped, True") -- ILSSHOOTINGBOOK.scr:42
+        ctx:self():playAnimation("CloseBook") -- ILSSHOOTINGBOOK.scr:41
+        ctx:state().Stopped = true -- ILSSHOOTINGBOOK.scr:42
     end -- ILSSHOOTINGBOOK.scr:44
     do return ctx:exit("") end -- ILSSHOOTINGBOOK.scr:46
 end
@@ -36,7 +35,7 @@ end
 script.labels["OnDone"] = function(ctx)
     -- ILSSHOOTINGBOOK.scr:50
     if ctx:condition("open==true") then -- ILSSHOOTINGBOOK.scr:53
-        ctx:command("set", "Done, true") -- ILSSHOOTINGBOOK.scr:54
+        ctx:state().Done = true -- ILSSHOOTINGBOOK.scr:54
         do return ctx:exit("") end -- ILSSHOOTINGBOOK.scr:55
     end -- ILSSHOOTINGBOOK.scr:56
 end
@@ -44,7 +43,7 @@ end
 script.labels["Main"] = function(ctx)
     -- ILSSHOOTINGBOOK.scr:62
     ctx:getParam(0, "Params") -- ILSSHOOTINGBOOK.scr:67
-    ctx:command("set", "open, false") -- ILSSHOOTINGBOOK.scr:68
+    ctx:state().open = false -- ILSSHOOTINGBOOK.scr:68
     ctx:addTrigger("Use", "OnUse") -- ILSSHOOTINGBOOK.scr:69
     ctx:addTrigger("Done", "OnDone") -- ILSSHOOTINGBOOK.scr:70
     do return ctx:exit("") end -- ILSSHOOTINGBOOK.scr:72

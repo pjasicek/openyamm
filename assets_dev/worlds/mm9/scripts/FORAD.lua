@@ -18,15 +18,15 @@ script.labels["OnUse"] = function(ctx)
     if not ctx:hasKey(480) then -- FORAD.scr:26-27
         ctx:giveKey(480) -- FORAD.scr:28
         ctx:giveExp(800) -- FORAD.scr:29
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- FORAD.scr:30
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- FORAD.scr:30
     end -- FORAD.scr:31
-    ctx:command("set", "bTalking, TRUE") -- FORAD.scr:33
-    ctx:command("stop", "") -- FORAD.scr:34
+    ctx:state().bTalking = true -- FORAD.scr:33
+    ctx:self():stop() -- FORAD.scr:34
     mm9.gosub(script, ctx, "BasewanderStop") -- FORAD.scr:35
     ctx:getParam(0, "g_hobject") -- FORAD.scr:36
-    ctx:command("faceobject", "g_hobject 200 DoNothing") -- FORAD.scr:37
+    ctx:self():faceObject(ctx:object("g_hobject"), 200, "DoNothing") -- FORAD.scr:37
     -- DoRude 2
-    ctx:command("playanim", "bow DoNothing") -- FORAD.scr:39
+    ctx:self():playAnimation("bow", "DoNothing") -- FORAD.scr:39
     -- Playsound voices\NPC\NPC_002.wav, Onexit, 100, 24000, FALSE, 100
     do return ctx:exit("") end -- FORAD.scr:41
 end
@@ -34,9 +34,9 @@ end
 script.labels["OnRude"] = function(ctx)
     -- FORAD.scr:46
     if ctx:hasKey(104) then -- FORAD.scr:50-51
-        ctx:command("onfoundplayer", "") -- FORAD.scr:52
+        ctx:onEvent("OnFoundPlayer") -- FORAD.scr:52
         mm9.gosub(script, ctx, "BaseInit") -- FORAD.scr:53
-        ctx:command("set", "bHostile, TRUE") -- FORAD.scr:54
+        ctx:state().bHostile = true -- FORAD.scr:54
         do return ctx:exit("") end -- FORAD.scr:55
     end -- FORAD.scr:56
     mm9.gosub(script, ctx, "Forad") -- FORAD.scr:57
@@ -49,14 +49,13 @@ script.labels["Forad"] = function(ctx)
     -- XP
     if not ctx:hasKey(368) then -- FORAD.scr:69-70
         ctx:giveExp(4000) -- FORAD.scr:71
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- FORAD.scr:72
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- FORAD.scr:72
         ctx:giveKey(368) -- FORAD.scr:73
     end -- FORAD.scr:74
-    ctx:command("set", "bTalking, false") -- FORAD.scr:77
+    ctx:state().bTalking = false -- FORAD.scr:77
     if ctx:hasKey(29) then -- FORAD.scr:78-79
         -- Playsound voices\NPC\NPC_002.wav, Onexit, 100, 24000, FALSE, 100
-        ctx:command("getmyhandle", "g_hmyobject") -- FORAD.scr:81
-        ctx:command("removeobject", "g_hmyobject") -- FORAD.scr:82
+        ctx:self():remove() -- FORAD.scr:82
         do return ctx:exit("") end -- FORAD.scr:83
     end -- FORAD.scr:84
     do return ctx:exit("") end -- FORAD.scr:86
@@ -70,8 +69,7 @@ end
 script.labels["DeleteCheck"] = function(ctx)
     -- FORAD.scr:96
     if ctx:hasKey(29) then -- FORAD.scr:101-102
-        ctx:command("getmyhandle", "g_hmyobject") -- FORAD.scr:103
-        ctx:command("removeobject", "g_hmyobject") -- FORAD.scr:104
+        ctx:self():remove() -- FORAD.scr:104
         do return ctx:exit("") end -- FORAD.scr:105
     end -- FORAD.scr:106
     do return ctx:exit("") end -- FORAD.scr:108
@@ -79,20 +77,20 @@ end
 
 script.labels["Vanish"] = function(ctx)
     -- FORAD.scr:111
-    ctx:command("getmyhandle", "g_hobject") -- FORAD.scr:114
-    ctx:command("clearflag", "g_hobject, visible") -- FORAD.scr:115
-    ctx:command("clearflag", "g_hobject, solid") -- FORAD.scr:116
-    ctx:command("clearflag", "g_hobject, gravity") -- FORAD.scr:117
+    ctx:state().g_hobject = ctx:self() -- FORAD.scr:114
+    ctx:self():setFlag("visible", false) -- FORAD.scr:115
+    ctx:self():setFlag("solid", false) -- FORAD.scr:116
+    ctx:self():setFlag("gravity", false) -- FORAD.scr:117
     do return ctx:exit("") end -- FORAD.scr:118
 end
 
 script.labels["OnAppear"] = function(ctx)
     -- FORAD.scr:121
-    ctx:command("getmyhandle", "g_hobject") -- FORAD.scr:124
-    ctx:command("setflag", "g_hobject, visible") -- FORAD.scr:125
-    ctx:command("setflag", "g_hobject, solid") -- FORAD.scr:126
-    ctx:command("setflag", "g_hobject, gravity") -- FORAD.scr:127
-    ctx:command("onfoundplayer", "OnTarget 256") -- FORAD.scr:128
+    ctx:state().g_hobject = ctx:self() -- FORAD.scr:124
+    ctx:self():setFlag("visible", true) -- FORAD.scr:125
+    ctx:self():setFlag("solid", true) -- FORAD.scr:126
+    ctx:self():setFlag("gravity", true) -- FORAD.scr:127
+    ctx:onEvent("OnFoundPlayer", "OnTarget") -- FORAD.scr:128
     do return ctx:exit("") end -- FORAD.scr:129
 end
 
@@ -102,8 +100,8 @@ script.labels["OnTarget"] = function(ctx)
         do return ctx:exit("") end -- FORAD.scr:136
     end -- FORAD.scr:137
     ctx:getParam(0, "g_hplayer") -- FORAD.scr:139
-    ctx:command("target", "g_hplayer") -- FORAD.scr:140
-    ctx:command("ontargetwithindist", "16 Talk") -- FORAD.scr:141
+    ctx:self():setTarget(ctx:player()) -- FORAD.scr:140
+    ctx:onEvent("OnTargetWithinDist", 16, "Talk") -- FORAD.scr:141
     do return ctx:exit("") end -- FORAD.scr:142
 end
 
@@ -113,7 +111,7 @@ script.labels["OnDeath"] = function(ctx)
         do return ctx:exit("") end -- FORAD.scr:151
     end -- FORAD.scr:152
     ctx:giveExp(194000) -- FORAD.scr:154
-    ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- FORAD.scr:155
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- FORAD.scr:155
     mm9.gosub(script, ctx, "OnDeath") -- FORAD.scr:156
     ctx:giveKey(494) -- FORAD.scr:157
     do return ctx:exit("") end -- FORAD.scr:158
@@ -121,8 +119,8 @@ end
 
 script.labels["Talk"] = function(ctx)
     -- FORAD.scr:161
-    ctx:command("stop", "") -- FORAD.scr:164
-    ctx:command("set", "bTalking, TRUE") -- FORAD.scr:165
+    ctx:self():stop() -- FORAD.scr:164
+    ctx:state().bTalking = true -- FORAD.scr:165
     ctx:doRude(2) -- FORAD.scr:166
     do return ctx:exit("") end -- FORAD.scr:167
 end

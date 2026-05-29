@@ -573,6 +573,13 @@ TEST_CASE("MM9 DAT mechanism preview transforms target model without mutating so
     CHECK(preview.previewMesh.triangles[0].sourcePolyIndex == mesh.triangles[0].sourcePolyIndex);
     CHECK(preview.previewMesh.triangles[0].vertices[0].x == doctest::Approx(6.0f));
     CHECK(preview.previewMesh.triangles[1].vertices[0].x == doctest::Approx(mesh.triangles[1].vertices[0].x));
+
+    const OpenYAMM::Game::Mm9DatRenderTriangle transformedTriangle =
+        OpenYAMM::Game::transformMm9DatMechanismPreviewTriangle(mesh.triangles[0], motion, 1.0f);
+    CHECK(transformedTriangle.sourceModelIndex == mesh.triangles[0].sourceModelIndex);
+    CHECK(transformedTriangle.sourcePolyIndex == mesh.triangles[0].sourcePolyIndex);
+    CHECK(transformedTriangle.vertices[0].x == doctest::Approx(6.0f));
+    CHECK(mesh.triangles[0].vertices[0].x == doctest::Approx(0.0f));
 }
 
 TEST_CASE("MM9 DAT surface flag constants match LithTech references")

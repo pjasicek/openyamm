@@ -4,6 +4,7 @@ map_id: dragonstadium
 display_name: Dragon's Lair
 source:
   dat: ../source/worlds/DRAGONSTADIUM.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/DRAGONSTADIUM.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: dragonstadium.raw_objects.yml
   materials: dragonstadium.material_aliases.yml
   events: dragonstadium.events.yml
-  scene_compat: dragonstadium.scene.yml
+  scene_compat: null
   source_metadata_compat: dragonstadium.mm9.yml
-  bsp_compat: dragonstadium.bsp.yml
-  geometry_compat: dragonstadium.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: dragonstadium.blv
+  blv_compat: null
 scripts:
   level: ../events/dragonstadium.lua
   script_ir: ../events/dragonstadium.script_ir.yml

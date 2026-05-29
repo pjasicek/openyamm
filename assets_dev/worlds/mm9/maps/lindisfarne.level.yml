@@ -4,6 +4,7 @@ map_id: lindisfarne
 display_name: Lindisfarne
 source:
   dat: ../source/worlds/LINDISFARNE.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/LINDISFARNE.dat
   source_game: mm9
   dat_version: 66
@@ -25,8 +26,8 @@ sidecars:
   source_metadata_compat: lindisfarne.mm9.yml
   bsp_compat: null
   geometry_compat: null
-  model_assets_compat: lindisfarne.model_assets.yml
-  odm_compat: lindisfarne.odm
+  model_assets_compat: null
+  odm_compat: null
   blv_compat: null
 scripts:
   level: ../events/lindisfarne.lua

@@ -17,25 +17,24 @@ script.includes[#script.includes + 1] = { line = 12, path = "basemelee.inc" }
 -- flag variables
 script.labels["OnAppear"] = function(ctx)
     -- ARG_YRSA.scr:25
-    ctx:command("wait", "1 5 Appear2") -- ARG_YRSA.scr:28
+    ctx:wait(1, 5, "Appear2") -- ARG_YRSA.scr:28
     do return ctx:exit("") end -- ARG_YRSA.scr:29
 end
 
 script.labels["Appear2"] = function(ctx)
     -- ARG_YRSA.scr:32
-    ctx:command("getmyhandle", "g_hmyobject") -- ARG_YRSA.scr:34
-    ctx:command("doclientfx", "g_hMyObject,GreaterDemon") -- ARG_YRSA.scr:35
-    ctx:command("playsound", "\\Sounds\\magic\\Windup10.wav, DoNothing, 100, 24000, FALSE, 100") -- ARG_YRSA.scr:36
-    ctx:command("wait", "1 2 Appear2b") -- ARG_YRSA.scr:37
+    ctx:self():doClientFx("GreaterDemon") -- ARG_YRSA.scr:35
+    ctx:playSound("\\Sounds\\magic\\Windup10.wav", "DoNothing", 100, 24000, "FALSE", 100) -- ARG_YRSA.scr:36
+    ctx:wait(1, 2, "Appear2b") -- ARG_YRSA.scr:37
     do return ctx:exit("") end -- ARG_YRSA.scr:38
 end
 
 script.labels["Appear2b"] = function(ctx)
     -- ARG_YRSA.scr:41
     -- play appear effect here
-    ctx:command("playsound", "\\Sounds\\spells\\TownPortal.wav, DoNothing, 100, 24000, FALSE, 100") -- ARG_YRSA.scr:45
-    ctx:command("setflag", "g_hmyobject visible") -- ARG_YRSA.scr:46
-    ctx:command("playanim", "fidget1 DoRude") -- ARG_YRSA.scr:47
+    ctx:playSound("\\Sounds\\spells\\TownPortal.wav", "DoNothing", 100, 24000, "FALSE", 100) -- ARG_YRSA.scr:45
+    ctx:self():setFlag("visible", true) -- ARG_YRSA.scr:46
+    ctx:self():playAnimation("fidget1", "DoRude") -- ARG_YRSA.scr:47
     do return ctx:exit("") end -- ARG_YRSA.scr:48
 end
 
@@ -43,9 +42,9 @@ script.labels["DoRude"] = function(ctx)
     -- ARG_YRSA.scr:51
     -- shouldn't be needed
     ctx:giveKey(93) -- ARG_YRSA.scr:55
-    ctx:command("getplayerhandle", "g_hplayer") -- ARG_YRSA.scr:57
-    ctx:command("target", "g_hplayer") -- ARG_YRSA.scr:58
-    ctx:command("playsound", "voices\\NPC\\NPC_001.wav, DoNothing, 100, 24000, FALSE, 100") -- ARG_YRSA.scr:59
+    ctx:state().g_hplayer = ctx:player() -- ARG_YRSA.scr:57
+    ctx:self():setTarget(ctx:player()) -- ARG_YRSA.scr:58
+    ctx:playSound("voices\\NPC\\NPC_001.wav", "DoNothing", 100, 24000, "FALSE", 100) -- ARG_YRSA.scr:59
     ctx:doRude(1) -- ARG_YRSA.scr:60
     do return ctx:exit("") end -- ARG_YRSA.scr:61
 end
@@ -57,9 +56,9 @@ script.labels["OnRude"] = function(ctx)
         if ctx:hasKey(93) then -- ARG_YRSA.scr:70-71
             -- this is where Forad is removed from the party
             -- GiveExp 16000
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- ARG_YRSA.scr:74
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- ARG_YRSA.scr:74
             ctx:giveKey(185) -- ARG_YRSA.scr:75
-            ctx:command("wait", "1 1 Vanish") -- ARG_YRSA.scr:76
+            ctx:wait(1, 1, "Vanish") -- ARG_YRSA.scr:76
             do return ctx:exit("") end -- ARG_YRSA.scr:77
         end -- ARG_YRSA.scr:78
     end -- ARG_YRSA.scr:79
@@ -69,25 +68,24 @@ end
 
 script.labels["Vanish"] = function(ctx)
     -- ARG_YRSA.scr:87
-    ctx:command("getmyhandle", "g_hmyobject") -- ARG_YRSA.scr:89
     -- play vanish effect here
-    ctx:command("doclientfx", "g_hmyObject,GreaterDemon") -- ARG_YRSA.scr:92
-    ctx:command("playsound", "\\Sounds\\magic\\Windup10.wav, DoNothing, 100, 24000, FALSE, 100") -- ARG_YRSA.scr:93
-    ctx:command("wait", "1 1 Vanish2b") -- ARG_YRSA.scr:94
+    ctx:self():doClientFx("GreaterDemon") -- ARG_YRSA.scr:92
+    ctx:playSound("\\Sounds\\magic\\Windup10.wav", "DoNothing", 100, 24000, "FALSE", 100) -- ARG_YRSA.scr:93
+    ctx:wait(1, 1, "Vanish2b") -- ARG_YRSA.scr:94
     do return ctx:exit("") end -- ARG_YRSA.scr:95
 end
 
 script.labels["Vanish2b"] = function(ctx)
     -- ARG_YRSA.scr:98
-    ctx:command("clearflag", "g_hmyobject visible") -- ARG_YRSA.scr:101
-    ctx:command("playsound", "\\Sounds\\magic\\teleport.wav, DoNothing, 100, 24000, FALSE, 100") -- ARG_YRSA.scr:102
-    ctx:command("wait", "1 1 Vanish2c") -- ARG_YRSA.scr:103
+    ctx:self():setFlag("visible", false) -- ARG_YRSA.scr:101
+    ctx:playSound("\\Sounds\\magic\\teleport.wav", "DoNothing", 100, 24000, "FALSE", 100) -- ARG_YRSA.scr:102
+    ctx:wait(1, 1, "Vanish2c") -- ARG_YRSA.scr:103
     do return ctx:exit("") end -- ARG_YRSA.scr:104
 end
 
 script.labels["Vanish2c"] = function(ctx)
     -- ARG_YRSA.scr:108
-    ctx:command("removeobject", "g_hmyobject") -- ARG_YRSA.scr:110
+    ctx:self():remove() -- ARG_YRSA.scr:110
     do return ctx:exit("") end -- ARG_YRSA.scr:111
 end
 

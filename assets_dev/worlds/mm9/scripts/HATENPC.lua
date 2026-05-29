@@ -15,9 +15,9 @@ script.labels["Main"] = function(ctx)
     -- HATENPC.scr:12
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("addenemy", "NPC") -- HATENPC.scr:17
-    ctx:command("addenemy", "ClanSoldier") -- HATENPC.scr:18
-    ctx:command("addenemy", "KiratheCold") -- HATENPC.scr:19
+    ctx:self():addEnemy("NPC") -- HATENPC.scr:17
+    ctx:self():addEnemy("ClanSoldier") -- HATENPC.scr:18
+    ctx:self():addEnemy("KiratheCold") -- HATENPC.scr:19
     mm9.gosub(script, ctx, "BaseInit") -- HATENPC.scr:20
     do return ctx:exit("") end -- HATENPC.scr:21
 end

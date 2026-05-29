@@ -14,9 +14,9 @@ script.labels = {}
 script.labels["Main"] = function(ctx)
     -- DEADCRITTER.scr:10
     -- make sure we don't fade or bury
-    ctx:setPropNumber("FadeOnDeath", 0) -- DEADCRITTER.scr:13
-    ctx:setPropNumber("BuryOnDeath", 0) -- DEADCRITTER.scr:14
-    ctx:command("die", "") -- DEADCRITTER.scr:16
+    ctx:self():setNumberProperty("FadeOnDeath", 0) -- DEADCRITTER.scr:13
+    ctx:self():setNumberProperty("BuryOnDeath", 0) -- DEADCRITTER.scr:14
+    ctx:self():die() -- DEADCRITTER.scr:16
     do return ctx:exit(1) end -- DEADCRITTER.scr:18
 end
 

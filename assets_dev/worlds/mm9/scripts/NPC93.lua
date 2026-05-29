@@ -32,7 +32,7 @@ script.labels["dolly"] = function(ctx)
             ctx:takeItem(370) -- NPC93.scr:44
             ctx:giveExp(2000) -- NPC93.scr:45
             ctx:giveGold(500) -- NPC93.scr:46
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC93.scr:47
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC93.scr:47
             ctx:giveKey(199) -- NPC93.scr:48
             do return ctx:exit("") end -- NPC93.scr:49
         end -- NPC93.scr:50
@@ -42,22 +42,22 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC93.scr:55
-    ctx:command("playsound", "voices\\NPC\\NPC_093.wav, DoNothing, 100, 240, FALSE, 100") -- NPC93.scr:58
+    ctx:playSound("voices\\NPC\\NPC_093.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC93.scr:58
     do return ctx:exit("") end -- NPC93.scr:59
 end
 
 script.labels["Init"] = function(ctx)
     -- NPC93.scr:62
     if ctx:hasKey(128) then -- NPC93.scr:64-65
-        ctx:command("getmyhandle", "g_hobject") -- NPC93.scr:66
-        ctx:command("setflag", "g_hobject, visible") -- NPC93.scr:67
-        ctx:command("setflag", "g_hobject, solid") -- NPC93.scr:68
-        ctx:command("setflag", "g_hobject, gravity") -- NPC93.scr:69
+        ctx:state().g_hobject = ctx:self() -- NPC93.scr:66
+        ctx:self():setFlag("visible", true) -- NPC93.scr:67
+        ctx:self():setFlag("solid", true) -- NPC93.scr:68
+        ctx:self():setFlag("gravity", true) -- NPC93.scr:69
     else -- NPC93.scr:70
-        ctx:command("getmyhandle", "g_hobject") -- NPC93.scr:71
-        ctx:command("clearflag", "g_hobject, visible") -- NPC93.scr:72
-        ctx:command("clearflag", "g_hobject, solid") -- NPC93.scr:73
-        ctx:command("clearflag", "g_hobject, gravity") -- NPC93.scr:74
+        ctx:state().g_hobject = ctx:self() -- NPC93.scr:71
+        ctx:self():setFlag("visible", false) -- NPC93.scr:72
+        ctx:self():setFlag("solid", false) -- NPC93.scr:73
+        ctx:self():setFlag("gravity", false) -- NPC93.scr:74
     end -- NPC93.scr:75
     do return ctx:exit("") end -- NPC93.scr:77
 end
@@ -67,10 +67,10 @@ script.labels["Main"] = function(ctx)
     -- TraceOn ;DELETE ME!!
     ctx:addTrigger("Use", "Onuse") -- NPC93.scr:87
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC93.scr:88
-    ctx:command("onpoststartworld", "Init") -- NPC93.scr:89
-    ctx:command("onpostminisaveload", "Init") -- NPC93.scr:90
-    ctx:command("onpostsaveload", "Init") -- NPC93.scr:91
-    ctx:command("wait", "1 .1 Init") -- NPC93.scr:92
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC93.scr:89
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC93.scr:90
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC93.scr:91
+    ctx:wait(1, .1, "Init") -- NPC93.scr:92
     do return ctx:exit("") end -- NPC93.scr:93
 end
 

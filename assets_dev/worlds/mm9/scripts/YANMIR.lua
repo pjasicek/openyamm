@@ -23,7 +23,7 @@ script.labels["GiveEeps"] = function(ctx)
             -- gives player finished quest key
             ctx:giveKey("", 69) -- YANMIR.scr:26
             ctx:giveExp(8000) -- YANMIR.scr:27
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- YANMIR.scr:28
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- YANMIR.scr:28
             do return ctx:exit("") end -- YANMIR.scr:29
         end -- YANMIR.scr:30
     end -- YANMIR.scr:31
@@ -33,7 +33,7 @@ script.labels["GiveEeps"] = function(ctx)
         -- gives player finished quest key
         ctx:giveKey("", 173) -- YANMIR.scr:36
         ctx:giveExp(8000) -- YANMIR.scr:37
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- YANMIR.scr:38
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- YANMIR.scr:38
         do return ctx:exit("") end -- YANMIR.scr:39
     end -- YANMIR.scr:40
     do return ctx:exit("") end -- YANMIR.scr:41

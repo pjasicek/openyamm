@@ -30,13 +30,12 @@ script.labels["StopTamur"] = function(ctx)
             -- checks to see if they've spoken to Krohn
             ctx:giveKey(190) -- NPC309.scr:46
             ctx:giveExp(412000) -- NPC309.scr:47
-            ctx:command("addnpc", "309 g_hobject") -- NPC309.scr:48
-            ctx:command("getmyhandle", "g_hmyobject") -- NPC309.scr:49
-            ctx:command("clearflag", "g_hobject visible") -- NPC309.scr:50
-            ctx:command("clearflag", "g_hobject Solid") -- NPC309.scr:51
-            ctx:command("clearflag", "g_hobject gravity") -- NPC309.scr:52
-            ctx:command("wait", "1 1 Delete") -- NPC309.scr:53
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC309.scr:54
+            ctx:addNpc(309, "g_hobject") -- NPC309.scr:48
+            ctx:object("g_hobject"):setFlag("visible", false) -- NPC309.scr:50
+            ctx:object("g_hobject"):setFlag("Solid", false) -- NPC309.scr:51
+            ctx:object("g_hobject"):setFlag("gravity", false) -- NPC309.scr:52
+            ctx:wait(1, 1, "Delete") -- NPC309.scr:53
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC309.scr:54
             -- gives reward
             do return ctx:exit("") end -- NPC309.scr:57
         end -- NPC309.scr:58
@@ -48,27 +47,26 @@ end
 
 script.labels["Delete"] = function(ctx)
     -- NPC309.scr:69
-    ctx:command("getobjecthandle", "Thorolf2 g_hobject") -- NPC309.scr:71
-    ctx:trigger("g_hobject", "appear") -- NPC309.scr:72
-    ctx:command("removeobject", "g_hmyobject") -- NPC309.scr:73
+    ctx:object("Thorolf2"):trigger("appear") -- NPC309.scr:71-72
+    ctx:self():remove() -- NPC309.scr:73
     do return ctx:exit("") end -- NPC309.scr:74
 end
 
 script.labels["Vanish"] = function(ctx)
     -- NPC309.scr:77
-    ctx:command("getmyhandle", "g_hobject") -- NPC309.scr:80
-    ctx:command("clearflag", "g_hobject, visible") -- NPC309.scr:81
-    ctx:command("clearflag", "g_hobject, solid") -- NPC309.scr:82
-    ctx:command("clearflag", "g_hobject, gravity") -- NPC309.scr:83
+    ctx:state().g_hobject = ctx:self() -- NPC309.scr:80
+    ctx:self():setFlag("visible", false) -- NPC309.scr:81
+    ctx:self():setFlag("solid", false) -- NPC309.scr:82
+    ctx:self():setFlag("gravity", false) -- NPC309.scr:83
     do return ctx:exit("") end -- NPC309.scr:84
 end
 
 script.labels["OnAppear"] = function(ctx)
     -- NPC309.scr:87
-    ctx:command("getmyhandle", "g_hobject") -- NPC309.scr:90
-    ctx:command("setflag", "g_hobject, visible") -- NPC309.scr:91
-    ctx:command("setflag", "g_hobject, solid") -- NPC309.scr:92
-    ctx:command("setflag", "g_hobject, gravity") -- NPC309.scr:93
+    ctx:state().g_hobject = ctx:self() -- NPC309.scr:90
+    ctx:self():setFlag("visible", true) -- NPC309.scr:91
+    ctx:self():setFlag("solid", true) -- NPC309.scr:92
+    ctx:self():setFlag("gravity", true) -- NPC309.scr:93
     do return ctx:exit("") end -- NPC309.scr:95
 end
 

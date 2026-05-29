@@ -28,7 +28,7 @@ end
 script.labels["ShouldRunAfter"] = function(ctx)
     -- EVILSORCERER.scr:26
     -- we never run after our targets...
-    ctx:command("g_btemp", "= FALSE") -- EVILSORCERER.scr:31
+    ctx:state().g_bTemp = false -- EVILSORCERER.scr:31
     do return ctx:exit("") end -- EVILSORCERER.scr:33
 end
 
@@ -36,7 +36,7 @@ script.labels["Main"] = function(ctx)
     -- EVILSORCERER.scr:36
     mm9.gosub(script, ctx, "BaseInit") -- EVILSORCERER.scr:40
     mm9.gosub(script, ctx, "RangeInit") -- EVILSORCERER.scr:41
-    ctx:command("g_rangeattacktype", "= RANGE_TYPE2") -- EVILSORCERER.scr:43
+    ctx:set("g_rangeAttackType", "RANGE_TYPE2") -- EVILSORCERER.scr:43
     mm9.gosub(script, ctx, "SetupRangeAttackType") -- EVILSORCERER.scr:44
     do return ctx:exit("") end -- EVILSORCERER.scr:46
 end

@@ -18,8 +18,7 @@ script.labels["OnUse"] = function(ctx)
     if not ctx:hasKey(296) then -- LICHINSTRUCTIONS.scr:19-20
         ctx:giveKey(296) -- LICHINSTRUCTIONS.scr:21
         ctx:giveItem(447) -- LICHINSTRUCTIONS.scr:22
-        ctx:command("getmyhandle", "g_hmyobject") -- LICHINSTRUCTIONS.scr:23
-        ctx:command("removeobject", "g_hmyobject") -- LICHINSTRUCTIONS.scr:24
+        ctx:self():remove() -- LICHINSTRUCTIONS.scr:24
         do return ctx:exit("") end -- LICHINSTRUCTIONS.scr:25
     end -- LICHINSTRUCTIONS.scr:26
     do return ctx:exit("") end -- LICHINSTRUCTIONS.scr:27
@@ -28,8 +27,7 @@ end
 script.labels["Init"] = function(ctx)
     -- LICHINSTRUCTIONS.scr:29
     if ctx:hasKey(296) then -- LICHINSTRUCTIONS.scr:32-33
-        ctx:command("getmyhandle", "g_hmyobject") -- LICHINSTRUCTIONS.scr:34
-        ctx:command("removeobject", "g_hmyobject") -- LICHINSTRUCTIONS.scr:35
+        ctx:self():remove() -- LICHINSTRUCTIONS.scr:35
         do return ctx:exit("") end -- LICHINSTRUCTIONS.scr:36
     end -- LICHINSTRUCTIONS.scr:37
     do return ctx:exit("") end -- LICHINSTRUCTIONS.scr:38
@@ -40,10 +38,10 @@ script.labels["Main"] = function(ctx)
     -- LICHINSTRUCTIONS.scr:42
     -- TraceOn ;DELETE ME!!
     ctx:addTrigger("Use", "Onuse") -- LICHINSTRUCTIONS.scr:46
-    ctx:command("wait", "1 .1 Init") -- LICHINSTRUCTIONS.scr:47
-    ctx:command("onpoststartworld", "Init") -- LICHINSTRUCTIONS.scr:48
-    ctx:command("onpostminisaveload", "Init") -- LICHINSTRUCTIONS.scr:49
-    ctx:command("onpostsaveload", "Init") -- LICHINSTRUCTIONS.scr:50
+    ctx:wait(1, .1, "Init") -- LICHINSTRUCTIONS.scr:47
+    ctx:onEvent("OnPostStartWorld", "Init") -- LICHINSTRUCTIONS.scr:48
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- LICHINSTRUCTIONS.scr:49
+    ctx:onEvent("OnPostSaveLoad", "Init") -- LICHINSTRUCTIONS.scr:50
     do return ctx:exit("") end -- LICHINSTRUCTIONS.scr:51
 end
 

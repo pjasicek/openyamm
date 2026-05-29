@@ -10,12 +10,12 @@ script.includes[#script.includes + 1] = { line = 2, path = "globals.inc" }
 
 script.labels["OnZoom"] = function(ctx)
     -- C0TEST.scr:8
-    ctx:command("setcallback", "0, OnZoomWait") -- C0TEST.scr:11
+    ctx:setCallback(0, "OnZoomWait") -- C0TEST.scr:11
     ctx:trigger("g_hMyObject", "ON") -- C0TEST.scr:13
-    ctx:command("set", "g_sFollowPathName\t\t\tMarker") -- C0TEST.scr:15
-    ctx:command("set", "g_nFollowPathSpeed\t\t\t96") -- C0TEST.scr:16
-    ctx:command("set", "g_nFollowPathDoneCallback\t0") -- C0TEST.scr:17
-    ctx:command("set", "g_nFollowPathLoops\t\t\t1") -- C0TEST.scr:18
+    ctx:set("g_sFollowPathName", "Marker") -- C0TEST.scr:15
+    ctx:state().g_nFollowPathSpeed = 96 -- C0TEST.scr:16
+    ctx:state().g_nFollowPathDoneCallback = 0 -- C0TEST.scr:17
+    ctx:state().g_nFollowPathLoops = 1 -- C0TEST.scr:18
     mm9.gosub(script, ctx, "FollowPath") -- C0TEST.scr:19
     ctx:addTrigger("Zoom", "DoNothing") -- C0TEST.scr:21
     do return ctx:exit("") end -- C0TEST.scr:23
@@ -35,7 +35,7 @@ end
 script.labels["OnZoomWait"] = function(ctx)
     -- C0TEST.scr:41
     -- Wait 10,OnZoomDone
-    ctx:command("getobjecthandle", "Goblin0, hGoblin0") -- C0TEST.scr:44
+    ctx:state().hGoblin0 = ctx:objectOrNil("Goblin0") -- C0TEST.scr:44
     ctx:trigger("hGoblin0", "Speak") -- C0TEST.scr:46
     do return ctx:exit("") end -- C0TEST.scr:48
 end
@@ -45,7 +45,6 @@ script.labels["Main"] = function(ctx)
     -- This routine is automatically run
     -- at script startup...
     -- TraceOn
-    ctx:command("getmyhandle", "g_hMyObject") -- C0TEST.scr:58
     ctx:addTrigger("Zoom", "OnZoom") -- C0TEST.scr:60
     ctx:addTrigger("ZoomDone", "OnZoomDone") -- C0TEST.scr:61
     do return ctx:exit("") end -- C0TEST.scr:63

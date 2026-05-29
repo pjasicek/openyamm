@@ -18,12 +18,11 @@ script.includes[#script.includes + 1] = { line = 13, path = "globals.inc" }
 -- flag variables
 script.labels["OnPlay"] = function(ctx)
     -- IA_CAMERA2.scr:30
-    ctx:command("getobjecthandle", "Camera3 g_hobject") -- IA_CAMERA2.scr:33
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- IA_CAMERA2.scr:34
-    ctx:command("movetopos", "xpos Xpos Zpos 100 DoNothing") -- IA_CAMERA2.scr:35
-    ctx:command("getobjecthandle", "Boat g_hobject") -- IA_CAMERA2.scr:36
-    ctx:command("faceobject", "g_hobject 20 DoNothing") -- IA_CAMERA2.scr:37
-    ctx:command("wait", "1 3.5 CraneShot") -- IA_CAMERA2.scr:38
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("Camera3"):pos() -- IA_CAMERA2.scr:33-34
+    ctx:self():moveToPos("xpos", "Xpos", "Zpos", 100, "DoNothing") -- IA_CAMERA2.scr:35
+    ctx:state().g_hobject = ctx:objectOrNil("Boat") -- IA_CAMERA2.scr:36
+    ctx:self():faceObject(ctx:object("g_hobject"), 20, "DoNothing") -- IA_CAMERA2.scr:37
+    ctx:wait(1, 3.5, "CraneShot") -- IA_CAMERA2.scr:38
     -- Target g_hobject
     do return ctx:exit("") end -- IA_CAMERA2.scr:40
 end
@@ -32,8 +31,7 @@ script.labels["CraneShot"] = function(ctx)
     -- IA_CAMERA2.scr:43
     -- target g_hobject
     -- exit
-    ctx:command("getobjecthandle", "Book g_hobject") -- IA_CAMERA2.scr:47
-    ctx:trigger("g_hobject", "Crane") -- IA_CAMERA2.scr:48
+    ctx:object("Book"):trigger("Crane") -- IA_CAMERA2.scr:47-48
     do return ctx:exit("") end -- IA_CAMERA2.scr:49
 end
 

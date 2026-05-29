@@ -28,7 +28,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "SpawnCycle") -- ISLE_SPAWNMGR.scr:47
     ctx:getParam(1, "SpawnSize") -- ISLE_SPAWNMGR.scr:48
     ctx:getParam(2, "NAME") -- ISLE_SPAWNMGR.scr:49
-    ctx:command("onpoststartworld", "InitSpawnMgr") -- ISLE_SPAWNMGR.scr:51
+    ctx:onEvent("OnPostStartWorld", "InitSpawnMgr") -- ISLE_SPAWNMGR.scr:51
     do return ctx:exit("TRUE") end -- ISLE_SPAWNMGR.scr:53
 end
 
@@ -39,7 +39,7 @@ script.labels["InitSpawnMgr"] = function(ctx)
     ctx:addTrigger("forcespawn", "SpawnCreature") -- ISLE_SPAWNMGR.scr:60
     ctx:addTrigger("off", "TurnOff") -- ISLE_SPAWNMGR.scr:61
     ctx:addTrigger("on", "TurnOn") -- ISLE_SPAWNMGR.scr:62
-    ctx:command("screaturename", "= NAME + SCRIPT") -- ISLE_SPAWNMGR.scr:64
+    ctx:set("sCreatureName", "NAME + SCRIPT") -- ISLE_SPAWNMGR.scr:64
     do return ctx:exit("TRUE") end -- ISLE_SPAWNMGR.scr:66
 end
 
@@ -48,12 +48,12 @@ script.labels["OnCreatureDied"] = function(ctx)
     -- when creature dies, check
     -- if can respawn, then do it
     if ctx:condition("NumKilled>=9") then -- ISLE_SPAWNMGR.scr:73
-        ctx:command("removetrigger", "respawn") -- ISLE_SPAWNMGR.scr:74
-        ctx:command("removetrigger", "forcespawn") -- ISLE_SPAWNMGR.scr:75
+        ctx:removeTrigger("respawn") -- ISLE_SPAWNMGR.scr:74
+        ctx:removeTrigger("forcespawn") -- ISLE_SPAWNMGR.scr:75
     end -- ISLE_SPAWNMGR.scr:76
     mm9.gosub(script, ctx, "AdjustTotals") -- ISLE_SPAWNMGR.scr:78
-    ctx:command("isnotdivisible", "= NumKilled") -- ISLE_SPAWNMGR.scr:79
-    ctx:command("mod", "IsNotDivisible, SpawnCycle") -- ISLE_SPAWNMGR.scr:80
+    ctx:set("IsNotDivisible", "NumKilled") -- ISLE_SPAWNMGR.scr:79
+    ctx:mod("IsNotDivisible", "SpawnCycle") -- ISLE_SPAWNMGR.scr:80
     -- only spawn every time X are killed
     if ctx:condition("IsNotDivisible==0") then -- ISLE_SPAWNMGR.scr:82
         mm9.gosub(script, ctx, "SpawnCreature") -- ISLE_SPAWNMGR.scr:83
@@ -70,12 +70,12 @@ script.labels["SpawnCreature"] = function(ctx)
         do return ctx:exit("TRUE") end -- ISLE_SPAWNMGR.scr:94
     end -- ISLE_SPAWNMGR.scr:95
     -- add these guys to total
-    ctx:command("numonscreen", "= NumOnScreen + SpawnSize") -- ISLE_SPAWNMGR.scr:98
-    ctx:command("ntemp", "= SpawnSize") -- ISLE_SPAWNMGR.scr:99
+    ctx:set("NumOnScreen", "NumOnScreen + SpawnSize") -- ISLE_SPAWNMGR.scr:98
+    ctx:set("nTemp", "SpawnSize") -- ISLE_SPAWNMGR.scr:99
     -- loop spawning to spawn whole batch
     while ctx:condition("nTemp>0") do -- ISLE_SPAWNMGR.scr:101
-        ctx:command("spawn", "hDummy, Spawnx,Spawny,Spawnz, sCreatureName") -- ISLE_SPAWNMGR.scr:102
-        ctx:command("ntemp", "= nTemp - 1") -- ISLE_SPAWNMGR.scr:103
+        ctx:state().hDummy = ctx:spawn("Spawnx", "Spawny", "Spawnz", "sCreatureName") -- ISLE_SPAWNMGR.scr:102
+        ctx:set("nTemp", "nTemp - 1") -- ISLE_SPAWNMGR.scr:103
     end -- ISLE_SPAWNMGR.scr:104
     do return ctx:exit("TRUE") end -- ISLE_SPAWNMGR.scr:105
 end
@@ -83,15 +83,15 @@ end
 script.labels["AdjustTotals"] = function(ctx)
     -- ISLE_SPAWNMGR.scr:108
     -- keep track of deaths
-    ctx:command("numkilled", "= NumKilled + 1") -- ISLE_SPAWNMGR.scr:111
-    ctx:command("numonscreen", "= NumOnScreen - 1") -- ISLE_SPAWNMGR.scr:112
+    ctx:set("NumKilled", "NumKilled + 1") -- ISLE_SPAWNMGR.scr:111
+    ctx:set("NumOnScreen", "NumOnScreen - 1") -- ISLE_SPAWNMGR.scr:112
     do return ctx:exit("TRUE") end -- ISLE_SPAWNMGR.scr:113
 end
 
 script.labels["TurnOn"] = function(ctx)
     -- ISLE_SPAWNMGR.scr:116
     -- enable OnDeath respawning
-    ctx:command("removetrigger", "Respawn") -- ISLE_SPAWNMGR.scr:119
+    ctx:removeTrigger("Respawn") -- ISLE_SPAWNMGR.scr:119
     ctx:addTrigger("Respawn", "OnCreatureDied") -- ISLE_SPAWNMGR.scr:120
     do return ctx:exit("TRUE") end -- ISLE_SPAWNMGR.scr:121
 end
@@ -100,7 +100,7 @@ script.labels["TurnOff"] = function(ctx)
     -- ISLE_SPAWNMGR.scr:124
     -- disable OnDeath respawning
     -- can still forcespawn though
-    ctx:command("removetrigger", "Respawn") -- ISLE_SPAWNMGR.scr:128
+    ctx:removeTrigger("Respawn") -- ISLE_SPAWNMGR.scr:128
     -- keep track of deaths to avoid
     -- going over the cap
     ctx:addTrigger("Respawn", "AdjustTotals") -- ISLE_SPAWNMGR.scr:131
@@ -111,7 +111,7 @@ script.labels["SetLocation"] = function(ctx)
     -- ISLE_SPAWNMGR.scr:135
     -- set spawn location to triggerer
     ctx:getParam(0, "hSpawnMarker") -- ISLE_SPAWNMGR.scr:138
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- ISLE_SPAWNMGR.scr:139
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("hSpawnMarker"):pos() -- ISLE_SPAWNMGR.scr:139
     do return ctx:exit("TRUE") end -- ISLE_SPAWNMGR.scr:140
 end
 

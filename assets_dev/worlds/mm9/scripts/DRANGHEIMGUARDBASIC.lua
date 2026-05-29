@@ -13,8 +13,8 @@ script.includes[#script.includes + 1] = { line = 7, path = "DrangheimHostility.i
 -- checking for visitor pass
 script.labels["Main"] = function(ctx)
     -- DRANGHEIMGUARDBASIC.scr:10
-    ctx:command("onpoststartworld", "InitDrangheimGuardBasic") -- DRANGHEIMGUARDBASIC.scr:12
-    ctx:command("onpostminisaveload", "InitDrangheimGuardBasic") -- DRANGHEIMGUARDBASIC.scr:13
+    ctx:onEvent("OnPostStartWorld", "InitDrangheimGuardBasic") -- DRANGHEIMGUARDBASIC.scr:12
+    ctx:onEvent("OnPostMiniSaveLoad", "InitDrangheimGuardBasic") -- DRANGHEIMGUARDBASIC.scr:13
     do return ctx:exit("TRUE") end -- DRANGHEIMGUARDBASIC.scr:15
 end
 

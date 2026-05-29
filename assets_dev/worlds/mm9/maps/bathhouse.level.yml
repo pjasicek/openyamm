@@ -4,6 +4,7 @@ map_id: bathhouse
 display_name: The Bathhouse
 source:
   dat: ../source/worlds/BATHHOUSE.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/BATHHOUSE.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: bathhouse.raw_objects.yml
   materials: bathhouse.material_aliases.yml
   events: bathhouse.events.yml
-  scene_compat: bathhouse.scene.yml
+  scene_compat: null
   source_metadata_compat: bathhouse.mm9.yml
-  bsp_compat: bathhouse.bsp.yml
-  geometry_compat: bathhouse.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: bathhouse.blv
+  blv_compat: null
 scripts:
   level: ../events/bathhouse.lua
   script_ir: ../events/bathhouse.script_ir.yml

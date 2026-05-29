@@ -5,16 +5,81 @@ report_count: 2
 clean: true
 clean_reports: 2
 dirty_reports: 0
+level_load_diagnostics: 0
+source_mutation_snapshot_verified_reports: 2
+source_mutation_snapshot_files: 686
+source_dat_hash_diagnostics: 0
+source_dat_hash_verified_reports: 2
+source_manifest_diagnostics: 0
+source_manifest_expected_files: 25292
+source_manifest_actual_files: 25292
+source_manifest_count_drift_families: 0
+source_manifest_missing_directories: 0
+document_paths_total: 228
+document_paths_missing: 0
+document_paths_missing_required: 0
+readonly_source_paths: 4
+generated_paths: 222
+authored_paths: 4
+authored_override_paths: 2
+compatibility_paths: 6
 dat_world_reference_issues: 0
+dat_world_invalid_leaf_references: 0
+dat_world_invalid_surface_texture_refs: 0
+dat_world_invalid_poly_surface_refs: 0
+dat_world_invalid_poly_plane_refs: 0
+dat_world_invalid_poly_vertex_refs: 0
+dat_world_invalid_node_poly_refs: 0
+dat_world_invalid_root_node_refs: 0
+asset_graph_total: 3050
+asset_graph_resolved: 3050
+asset_graph_unresolved: 0
+asset_graph_ambiguous: 0
+asset_graph_stale: 0
+asset_graph_required_total: 2831
+asset_graph_required_resolved: 2831
 asset_graph_required_unresolved: 0
 asset_graph_required_ambiguous: 0
+asset_graph_optional_total: 219
+asset_graph_optional_resolved: 219
+asset_graph_optional_unresolved: 0
+asset_graph_optional_ambiguous: 0
+asset_graph_source_only: 25292
+asset_graph_unused_source: 22458
+raw_object_asset_refs: 2628
+required_raw_object_asset_refs: 2622
+optional_raw_object_asset_refs: 6
 unresolved_required_raw_object_asset_refs: 0
+unresolved_optional_raw_object_asset_refs: 0
 stale_caches: 0
 mechanism_unresolved_required_targets: 0
 mechanism_incomplete_linear_motion: 0
 mechanism_incomplete_rotation_motion: 0
+mechanism_sound_slots: 1064
+mechanism_authored_sound_references: 304
+mechanism_empty_sound_references: 760
+mechanism_previewable_mechanisms: 83
+mechanism_inert_mechanisms: 189
+mechanism_inert_preview_entries: 189
+mechanism_without_preview_motion: 189
+mechanism_without_preview_target: 7
+mechanism_activation_start_open_fields: 152
+mechanism_activation_locked_fields: 152
+mechanism_activation_push_open_fields: 152
+mechanism_activation_touch_to_open_fields: 152
+mechanism_activation_lock_on_close_fields: 0
+mechanism_activation_reopen_on_contact_fields: 152
+mechanism_rotation_open_away_fields: 80
+mechanism_timing_move_delay_fields: 152
+mechanism_timing_open_wait_fields: 152
 mechanism_trigger_outputs: 6
 mechanism_unresolved_trigger_outputs: 0
+script_includes: 60
+script_labels: 275
+script_include_references: 60
+script_resolved_includes: 60
+script_unresolved_includes: 0
+script_ambiguous_includes: 0
 script_registered_triggers: 64
 script_trigger_edges: 30
 script_movement_commands: 16
@@ -25,18 +90,32 @@ mechanism_world_model_targets_missing_model: 0
 mechanism_world_model_targets_missing_polygon_group: 0
 mechanism_world_model_targets_mismatched_polygon_group: 0
 native_renderable_triangles: 82815
+viewport_native_missing_material_triangles: 0
+viewport_native_placeholder_material_triangles: 0
 viewport_native_unresolved_material_triangles: 0
+native_filter_visual: 28533
+native_filter_invisible: 8992
+native_filter_water: 147
+native_filter_visible_water: 13
+native_filter_water_volume: 134
+native_filter_rail: 8164
+native_filter_helper: 88250
+native_filter_physics: 59147
+native_filter_visibility: 15791
+native_filter_portals: 35
 world_model_overlay_vertices: 26520
 world_model_overlay_pick_candidates: 1105
 selected_polygon_overlay_vertices: 27
 selected_surface_overlay_vertices: 9
+raw_objects: 2475
+raw_object_sidecar_issues: 0
 object_source_transforms: 2475
 object_bounds_evidence: 1069
 object_trigger_volumes: 15
 object_overlay_vertices: 1128
 object_overlay_pick_candidates: 47
-asset_issue_marker_source_objects: 2
-asset_issue_marker_candidates: 2
+asset_issue_marker_source_objects: 0
+asset_issue_marker_candidates: 0
 asset_issue_marker_unpositioned: 0
 asset_issue_marker_required_candidates: 0
 asset_issue_marker_required_unpositioned: 0
@@ -44,9 +123,15 @@ mechanism_target_marker_groups: 529
 mechanism_target_marker_candidates: 529
 mechanism_target_marker_vertices: 16928
 mechanism_target_marker_source_links: 529
+mechanism_gizmo_candidates: 801
+mechanism_circle_gizmo_candidates: 272
+mechanism_target_gizmo_candidates: 529
+mechanism_motion_path_markers: 165
+mechanism_los_checked_candidates: 529
+mechanism_los_blocked_candidates: 94
 light_objects: 195
 light_overlay_vertices: 7020
-static_render_lights: 195
+static_render_lights: 164
 light_diagnostics: 0
 sound_objects: 271
 sound_overlay_vertices: 6336
@@ -62,45 +147,163 @@ missing_model_instance_assets: 0
 missing_drawable_model_instance_geometry: 0
 actor_variant_candidates: 113
 actor_variant_gameplay_identity_rows: 113
+actor_variant_foot_sound_fields: 103
+actor_variant_resolved_foot_sounds: 103
+actor_variant_unresolved_foot_sounds: 0
+actor_variant_source_sound_references: 0
+actor_variant_resolved_source_sound_references: 0
+actor_variant_unresolved_source_sound_references: 0
+actor_variant_source_voice_references: 29
+actor_variant_resolved_source_voice_references: 29
+actor_variant_unresolved_source_voice_references: 0
 actor_variant_unresolved: 0
-missing_scripted_object_collision_visuals: 269
+scripted_objects_with_model_collision_volumes: 269
+scripted_objects_requiring_billboard_collision_visuals: 0
+missing_scripted_object_collision_visuals: 0
 mechanism_preview_candidates: 165
 mechanism_preview_changed_bounds: 165
+material_textures: 202
+resolved_dtx: 194
+ambiguous_dtx: 0
+source_dtx_paths: 194
+default_helper_materials: 2
+placeholder_missing_source_materials: 13
+dtx_headers: 194
+dtx_headers_matching_sidecar: 189
+dtx_user_flag_records: 194
+dtx_extra_byte_records: 2328
+dtx_mip_payloads: 775
+dtx_decoded_preview_mips: 775
+dtx_section_metadata_records: 0
+dtx_section_payloads_available: 0
+dtx_command_strings: 17
+decoded_cache_determinism_checked: 187
+decoded_cache_source_decoded: 187
+decoded_cache_image_decoded: 187
+decoded_cache_matches_source: 187
+decoded_cache_mismatches: 0
+sprite_materials: 6
+resolved_sprite_materials: 6
+sprite_frame_textures: 109
+resolved_sprite_frame_textures: 109
+unresolved_sprite_frame_textures: 0
+ambiguous_sprite_frame_textures: 0
 diagnostic_errors: 0
-diagnostic_warnings: 25
-diagnostic_info: 0
+diagnostic_warnings: 33
+diagnostic_info: 2
 reports:
   - map_id: "thjorgard"
     display_name: "Thjorgard"
     level_file: "thjorgard.level.yml"
     report_file: "thjorgard.asset_validation.yml"
     clean: true
+    level_load_diagnostics: 0
+    source_mutation_snapshot_verified: true
+    source_mutation_snapshot_files: 243
+    source_dat_hash_diagnostics: 0
+    source_dat_hash_verified: true
+    source_manifest_diagnostics: 0
+    source_manifest_expected_files: 12646
+    source_manifest_actual_files: 12646
+    source_manifest_count_drift_families: 0
+    source_manifest_missing_directories: 0
+    document_paths_total: 76
+    document_paths_missing: 0
+    document_paths_missing_required: 0
+    readonly_source_paths: 2
+    generated_paths: 73
+    authored_paths: 2
+    authored_override_paths: 1
+    compatibility_paths: 3
     dat_world_reference_issues: 0
+    dat_world_invalid_leaf_references: 0
+    dat_world_invalid_surface_texture_refs: 0
+    dat_world_invalid_poly_surface_refs: 0
+    dat_world_invalid_poly_plane_refs: 0
+    dat_world_invalid_poly_vertex_refs: 0
+    dat_world_invalid_node_poly_refs: 0
+    dat_world_invalid_root_node_refs: 0
+    asset_graph_total: 821
+    asset_graph_resolved: 821
+    asset_graph_unresolved: 0
+    asset_graph_ambiguous: 0
+    asset_graph_stale: 0
+    asset_graph_required_total: 749
+    asset_graph_required_resolved: 749
     asset_graph_required_unresolved: 0
     asset_graph_required_ambiguous: 0
+    asset_graph_optional_total: 72
+    asset_graph_optional_resolved: 72
+    asset_graph_optional_unresolved: 0
+    asset_graph_optional_ambiguous: 0
+    asset_graph_source_only: 12646
+    asset_graph_unused_source: 11895
+    raw_object_asset_refs: 686
+    required_raw_object_asset_refs: 683
+    optional_raw_object_asset_refs: 3
     unresolved_required_raw_object_asset_refs: 0
+    unresolved_optional_raw_object_asset_refs: 0
     stale_caches: 0
     mechanism_unresolved_required_targets: 0
     mechanism_incomplete_linear_motion: 0
     mechanism_incomplete_rotation_motion: 0
+    mechanism_sound_slots: 42
+    mechanism_authored_sound_references: 3
+    mechanism_empty_sound_references: 39
+    mechanism_previewable_mechanisms: 6
+    mechanism_inert_mechanisms: 60
+    mechanism_inert_preview_entries: 60
+    mechanism_without_preview_motion: 60
+    mechanism_without_preview_target: 4
+    mechanism_activation_start_open_fields: 6
+    mechanism_activation_locked_fields: 6
+    mechanism_activation_push_open_fields: 6
+    mechanism_activation_touch_to_open_fields: 6
+    mechanism_activation_lock_on_close_fields: 0
+    mechanism_activation_reopen_on_contact_fields: 6
+    mechanism_rotation_open_away_fields: 3
+    mechanism_timing_move_delay_fields: 6
+    mechanism_timing_open_wait_fields: 6
     mechanism_trigger_outputs: 6
     mechanism_unresolved_trigger_outputs: 0
+    script_includes: 38
+    script_labels: 167
+    script_include_references: 38
+    script_resolved_includes: 38
+    script_unresolved_includes: 0
+    script_ambiguous_includes: 0
     script_registered_triggers: 44
     script_trigger_edges: 29
     script_movement_commands: 11
     script_unknown_commands: 465
     script_command_count: 1417
+    native_renderable_triangles: 31418
+    viewport_native_missing_material_triangles: 0
+    viewport_native_placeholder_material_triangles: 0
+    viewport_native_unresolved_material_triangles: 0
+    native_filter_visual: 22537
+    native_filter_invisible: 2926
+    native_filter_water: 99
+    native_filter_visible_water: 13
+    native_filter_water_volume: 86
+    native_filter_rail: 2460
+    native_filter_helper: 15338
+    native_filter_physics: 10850
+    native_filter_visibility: 644
+    native_filter_portals: 0
     world_model_overlay_vertices: 7608
     world_model_overlay_pick_candidates: 317
     selected_polygon_overlay_vertices: 9
     selected_surface_overlay_vertices: 3
+    raw_objects: 704
+    raw_object_sidecar_issues: 0
     object_source_transforms: 704
     object_bounds_evidence: 273
     object_trigger_volumes: 12
     object_overlay_vertices: 984
     object_overlay_pick_candidates: 41
-    asset_issue_marker_source_objects: 1
-    asset_issue_marker_candidates: 1
+    asset_issue_marker_source_objects: 0
+    asset_issue_marker_candidates: 0
     asset_issue_marker_unpositioned: 0
     asset_issue_marker_required_candidates: 0
     asset_issue_marker_required_unpositioned: 0
@@ -108,9 +311,15 @@ reports:
     mechanism_target_marker_candidates: 124
     mechanism_target_marker_vertices: 3968
     mechanism_target_marker_source_links: 124
+    mechanism_gizmo_candidates: 190
+    mechanism_circle_gizmo_candidates: 66
+    mechanism_target_gizmo_candidates: 124
+    mechanism_motion_path_markers: 12
+    mechanism_los_checked_candidates: 124
+    mechanism_los_blocked_candidates: 20
     light_objects: 30
     light_overlay_vertices: 1080
-    static_render_lights: 30
+    static_render_lights: 0
     light_diagnostics: 0
     sound_objects: 69
     sound_overlay_vertices: 564
@@ -128,44 +337,162 @@ reports:
     mechanism_world_model_targets_mismatched_polygon_group: 0
     actor_variant_candidates: 53
     actor_variant_gameplay_identity_rows: 53
+    actor_variant_foot_sound_fields: 43
+    actor_variant_resolved_foot_sounds: 43
+    actor_variant_unresolved_foot_sounds: 0
+    actor_variant_source_sound_references: 0
+    actor_variant_resolved_source_sound_references: 0
+    actor_variant_unresolved_source_sound_references: 0
+    actor_variant_source_voice_references: 1
+    actor_variant_resolved_source_voice_references: 1
+    actor_variant_unresolved_source_voice_references: 0
     actor_variant_unresolved: 0
-    missing_scripted_object_collision_visuals: 62
+    scripted_objects_with_model_collision_volumes: 62
+    scripted_objects_requiring_billboard_collision_visuals: 0
+    missing_scripted_object_collision_visuals: 0
     mechanism_preview_candidates: 12
     mechanism_preview_changed_bounds: 12
+    material_textures: 63
+    resolved_dtx: 59
+    ambiguous_dtx: 0
+    source_dtx_paths: 59
+    default_helper_materials: 1
+    placeholder_missing_source_materials: 7
+    dtx_headers: 59
+    dtx_headers_matching_sidecar: 56
+    dtx_user_flag_records: 59
+    dtx_extra_byte_records: 708
+    dtx_mip_payloads: 236
+    dtx_decoded_preview_mips: 236
+    dtx_section_metadata_records: 0
+    dtx_section_payloads_available: 0
+    dtx_command_strings: 12
+    decoded_cache_determinism_checked: 55
+    decoded_cache_source_decoded: 55
+    decoded_cache_image_decoded: 55
+    decoded_cache_matches_source: 55
+    decoded_cache_mismatches: 0
+    sprite_materials: 3
+    resolved_sprite_materials: 3
+    sprite_frame_textures: 59
+    resolved_sprite_frame_textures: 59
+    unresolved_sprite_frame_textures: 0
+    ambiguous_sprite_frame_textures: 0
     diagnostic_errors: 0
-    diagnostic_warnings: 14
-    diagnostic_info: 0
+    diagnostic_warnings: 18
+    diagnostic_info: 1
   - map_id: "thjorgardcity"
     display_name: "Thjorgard City"
     level_file: "thjorgardcity.level.yml"
     report_file: "thjorgardcity.asset_validation.yml"
     clean: true
+    level_load_diagnostics: 0
+    source_mutation_snapshot_verified: true
+    source_mutation_snapshot_files: 443
+    source_dat_hash_diagnostics: 0
+    source_dat_hash_verified: true
+    source_manifest_diagnostics: 0
+    source_manifest_expected_files: 12646
+    source_manifest_actual_files: 12646
+    source_manifest_count_drift_families: 0
+    source_manifest_missing_directories: 0
+    document_paths_total: 152
+    document_paths_missing: 0
+    document_paths_missing_required: 0
+    readonly_source_paths: 2
+    generated_paths: 149
+    authored_paths: 2
+    authored_override_paths: 1
+    compatibility_paths: 3
     dat_world_reference_issues: 0
+    dat_world_invalid_leaf_references: 0
+    dat_world_invalid_surface_texture_refs: 0
+    dat_world_invalid_poly_surface_refs: 0
+    dat_world_invalid_poly_plane_refs: 0
+    dat_world_invalid_poly_vertex_refs: 0
+    dat_world_invalid_node_poly_refs: 0
+    dat_world_invalid_root_node_refs: 0
+    asset_graph_total: 2229
+    asset_graph_resolved: 2229
+    asset_graph_unresolved: 0
+    asset_graph_ambiguous: 0
+    asset_graph_stale: 0
+    asset_graph_required_total: 2082
+    asset_graph_required_resolved: 2082
     asset_graph_required_unresolved: 0
     asset_graph_required_ambiguous: 0
+    asset_graph_optional_total: 147
+    asset_graph_optional_resolved: 147
+    asset_graph_optional_unresolved: 0
+    asset_graph_optional_ambiguous: 0
+    asset_graph_source_only: 12646
+    asset_graph_unused_source: 10563
+    raw_object_asset_refs: 1942
+    required_raw_object_asset_refs: 1939
+    optional_raw_object_asset_refs: 3
     unresolved_required_raw_object_asset_refs: 0
+    unresolved_optional_raw_object_asset_refs: 0
     stale_caches: 0
     mechanism_unresolved_required_targets: 0
     mechanism_incomplete_linear_motion: 0
     mechanism_incomplete_rotation_motion: 0
+    mechanism_sound_slots: 1022
+    mechanism_authored_sound_references: 301
+    mechanism_empty_sound_references: 721
+    mechanism_previewable_mechanisms: 77
+    mechanism_inert_mechanisms: 129
+    mechanism_inert_preview_entries: 129
+    mechanism_without_preview_motion: 129
+    mechanism_without_preview_target: 3
+    mechanism_activation_start_open_fields: 146
+    mechanism_activation_locked_fields: 146
+    mechanism_activation_push_open_fields: 146
+    mechanism_activation_touch_to_open_fields: 146
+    mechanism_activation_lock_on_close_fields: 0
+    mechanism_activation_reopen_on_contact_fields: 146
+    mechanism_rotation_open_away_fields: 77
+    mechanism_timing_move_delay_fields: 146
+    mechanism_timing_open_wait_fields: 146
     mechanism_trigger_outputs: 0
     mechanism_unresolved_trigger_outputs: 0
+    script_includes: 22
+    script_labels: 108
+    script_include_references: 22
+    script_resolved_includes: 22
+    script_unresolved_includes: 0
+    script_ambiguous_includes: 0
     script_registered_triggers: 20
     script_trigger_edges: 1
     script_movement_commands: 5
     script_unknown_commands: 372
     script_command_count: 1140
+    native_renderable_triangles: 51397
+    viewport_native_missing_material_triangles: 0
+    viewport_native_placeholder_material_triangles: 0
+    viewport_native_unresolved_material_triangles: 0
+    native_filter_visual: 5996
+    native_filter_invisible: 6066
+    native_filter_water: 48
+    native_filter_visible_water: 0
+    native_filter_water_volume: 48
+    native_filter_rail: 5704
+    native_filter_helper: 72912
+    native_filter_physics: 48297
+    native_filter_visibility: 15147
+    native_filter_portals: 35
     world_model_overlay_vertices: 18912
     world_model_overlay_pick_candidates: 788
     selected_polygon_overlay_vertices: 18
     selected_surface_overlay_vertices: 6
+    raw_objects: 1771
+    raw_object_sidecar_issues: 0
     object_source_transforms: 1771
     object_bounds_evidence: 796
     object_trigger_volumes: 3
     object_overlay_vertices: 144
     object_overlay_pick_candidates: 6
-    asset_issue_marker_source_objects: 1
-    asset_issue_marker_candidates: 1
+    asset_issue_marker_source_objects: 0
+    asset_issue_marker_candidates: 0
     asset_issue_marker_unpositioned: 0
     asset_issue_marker_required_candidates: 0
     asset_issue_marker_required_unpositioned: 0
@@ -173,9 +500,15 @@ reports:
     mechanism_target_marker_candidates: 405
     mechanism_target_marker_vertices: 12960
     mechanism_target_marker_source_links: 405
+    mechanism_gizmo_candidates: 611
+    mechanism_circle_gizmo_candidates: 206
+    mechanism_target_gizmo_candidates: 405
+    mechanism_motion_path_markers: 153
+    mechanism_los_checked_candidates: 405
+    mechanism_los_blocked_candidates: 74
     light_objects: 165
     light_overlay_vertices: 5940
-    static_render_lights: 165
+    static_render_lights: 164
     light_diagnostics: 0
     sound_objects: 202
     sound_overlay_vertices: 5772
@@ -193,10 +526,47 @@ reports:
     mechanism_world_model_targets_mismatched_polygon_group: 0
     actor_variant_candidates: 60
     actor_variant_gameplay_identity_rows: 60
+    actor_variant_foot_sound_fields: 60
+    actor_variant_resolved_foot_sounds: 60
+    actor_variant_unresolved_foot_sounds: 0
+    actor_variant_source_sound_references: 0
+    actor_variant_resolved_source_sound_references: 0
+    actor_variant_unresolved_source_sound_references: 0
+    actor_variant_source_voice_references: 28
+    actor_variant_resolved_source_voice_references: 28
+    actor_variant_unresolved_source_voice_references: 0
     actor_variant_unresolved: 0
-    missing_scripted_object_collision_visuals: 207
+    scripted_objects_with_model_collision_volumes: 207
+    scripted_objects_requiring_billboard_collision_visuals: 0
+    missing_scripted_object_collision_visuals: 0
     mechanism_preview_candidates: 153
     mechanism_preview_changed_bounds: 153
+    material_textures: 139
+    resolved_dtx: 135
+    ambiguous_dtx: 0
+    source_dtx_paths: 135
+    default_helper_materials: 1
+    placeholder_missing_source_materials: 6
+    dtx_headers: 135
+    dtx_headers_matching_sidecar: 133
+    dtx_user_flag_records: 135
+    dtx_extra_byte_records: 1620
+    dtx_mip_payloads: 539
+    dtx_decoded_preview_mips: 539
+    dtx_section_metadata_records: 0
+    dtx_section_payloads_available: 0
+    dtx_command_strings: 5
+    decoded_cache_determinism_checked: 132
+    decoded_cache_source_decoded: 132
+    decoded_cache_image_decoded: 132
+    decoded_cache_matches_source: 132
+    decoded_cache_mismatches: 0
+    sprite_materials: 3
+    resolved_sprite_materials: 3
+    sprite_frame_textures: 50
+    resolved_sprite_frame_textures: 50
+    unresolved_sprite_frame_textures: 0
+    ambiguous_sprite_frame_textures: 0
     diagnostic_errors: 0
-    diagnostic_warnings: 11
-    diagnostic_info: 0
+    diagnostic_warnings: 15
+    diagnostic_info: 1

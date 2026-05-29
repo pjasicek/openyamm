@@ -19,7 +19,7 @@ script.labels["Onuse"] = function(ctx)
     if ctx:condition("g_ntemp==0") then -- FORTSTENINGMAINLINE.scr:21
         -- gives player finished quest key
         ctx:giveKey("", 47) -- FORTSTENINGMAINLINE.scr:23
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- FORTSTENINGMAINLINE.scr:24
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- FORTSTENINGMAINLINE.scr:24
         do return ctx:exit("") end -- FORTSTENINGMAINLINE.scr:25
     end -- FORTSTENINGMAINLINE.scr:26
     -- unmatched endif at FORTSTENINGMAINLINE.scr:27

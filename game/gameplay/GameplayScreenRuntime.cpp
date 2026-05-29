@@ -2581,7 +2581,14 @@ void GameplayScreenRuntime::consumePendingEventRuntimeAudioRequests()
             continue;
         }
 
-        m_pAudioSystem->playSound(SoundRef{request.soundScope, request.soundId}, group, position);
+        if (!request.soundName.empty())
+        {
+            m_pAudioSystem->playSoundByName(request.soundName, group, request.soundScope, position);
+        }
+        else
+        {
+            m_pAudioSystem->playSound(SoundRef{request.soundScope, request.soundId}, group, position);
+        }
     }
 
     pEventRuntimeState->pendingSounds.clear();

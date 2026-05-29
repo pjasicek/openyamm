@@ -17,10 +17,8 @@ script.labels["Onuse"] = function(ctx)
     if not ctx:hasKey(256) then -- TREEOFLIFE.scr:19-20
         ctx:giveItem(241) -- TREEOFLIFE.scr:21
         ctx:giveKey(256) -- TREEOFLIFE.scr:22
-        ctx:command("getmyhandle", "g_hmyobject") -- TREEOFLIFE.scr:23
-        ctx:command("removeobject", "g_hmyobject") -- TREEOFLIFE.scr:24
-        ctx:command("getobjecthandle", "TriggerCaveIn1 g_hobject") -- TREEOFLIFE.scr:25
-        ctx:trigger("g_hobject", "on") -- TREEOFLIFE.scr:26
+        ctx:self():remove() -- TREEOFLIFE.scr:24
+        ctx:object("TriggerCaveIn1"):trigger("on") -- TREEOFLIFE.scr:25-26
         do return ctx:exit("") end -- TREEOFLIFE.scr:27
     end -- TREEOFLIFE.scr:28
 end
@@ -30,14 +28,12 @@ script.labels["Main"] = function(ctx)
     -- TraceOn ;DELETE ME!!
     ctx:addTrigger("Use", "Onuse") -- TREEOFLIFE.scr:38
     -- SJR
-    ctx:command("getobjecthandle", "TriggerCaveIn1 g_hobject") -- TREEOFLIFE.scr:41
-    ctx:trigger("g_hobject", "off") -- TREEOFLIFE.scr:42
+    ctx:object("TriggerCaveIn1"):trigger("off") -- TREEOFLIFE.scr:41-42
     -- endSJR
     ctx:hasKey(256, "keycheck") -- TREEOFLIFE.scr:45
     if ctx:condition("g_ntemp==1") then -- TREEOFLIFE.scr:46
-        ctx:command("getmyhandle", "g_hmyobject") -- TREEOFLIFE.scr:47
-        ctx:command("removeobject", "g_hmyobject") -- TREEOFLIFE.scr:48
-        ctx:command("exitscript", "") -- TREEOFLIFE.scr:49
+        ctx:self():remove() -- TREEOFLIFE.scr:48
+        ctx:exitScript() -- TREEOFLIFE.scr:49
         do return ctx:exit("") end -- TREEOFLIFE.scr:50
     end -- TREEOFLIFE.scr:51
     do return ctx:exit("") end -- TREEOFLIFE.scr:53

@@ -16,7 +16,6 @@
 #include "game/mm9/Mm9ObjectLayer.h"
 #include "game/mm9/Mm9SoundLayer.h"
 #include "game/mm9/Mm9SpawnLayer.h"
-#include "game/mm9/Mm9ScriptedBillboardVisuals.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
 
@@ -39,7 +38,6 @@
 #include <limits>
 #include <set>
 #include <unordered_map>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -1648,42 +1646,190 @@ bool buildMm9ViewportPreviewMotion(
     return motion.hasLinearMotion || motion.hasRotationMotion;
 }
 
-Game::Mm9DatRenderMesh buildMm9ViewportPreviewMesh(
-    const Game::Mm9DatRenderMesh &sourceMesh,
-    const Game::Mm9EventsData &events,
+std::vector<Game::Mm9DatMechanismPreviewMotion> buildMm9ViewportPreviewMotions(
+    const std::vector<EditorOutdoorViewport::Mm9MechanismPreviewCacheEntry> &mechanismPreviewCache,
     const std::unordered_map<size_t, float> &previewProgressByMechanismIndex)
 {
-    Game::Mm9DatRenderMesh previewMesh = sourceMesh;
+    std::vector<size_t> mechanismIndices;
+    mechanismIndices.reserve(previewProgressByMechanismIndex.size());
 
     for (const std::pair<const size_t, float> &previewEntry : previewProgressByMechanismIndex)
     {
-        if (previewEntry.first >= events.mechanisms.size())
+        if (previewEntry.first < mechanismPreviewCache.size())
         {
-            continue;
+            mechanismIndices.push_back(previewEntry.first);
         }
+    }
 
-        const Game::Mm9EventMechanism &mechanism = events.mechanisms[previewEntry.first];
-        const Game::Mm9EventBinding *pBinding =
-            findMm9ViewportEventBindingForObject(events, mechanism.objectId);
+    std::sort(mechanismIndices.begin(), mechanismIndices.end());
 
-        if (pBinding == nullptr)
+    std::vector<Game::Mm9DatMechanismPreviewMotion> motions;
+
+    for (size_t mechanismIndex : mechanismIndices)
+    {
+        const EditorOutdoorViewport::Mm9MechanismPreviewCacheEntry &cacheEntry =
+            mechanismPreviewCache[mechanismIndex];
+        const float progress = previewProgressByMechanismIndex.at(mechanismIndex);
+
+        for (const EditorOutdoorViewport::Mm9MechanismPreviewTargetCache &target : cacheEntry.targets)
         {
-            continue;
-        }
-
-        for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
-        {
-            Game::Mm9DatMechanismPreviewMotion motion = {};
-            if (!buildMm9ViewportPreviewMotion(mechanism, target, previewEntry.second, motion))
+            if (!target.previewable)
             {
                 continue;
             }
 
-            previewMesh = Game::buildMm9DatMechanismPreviewMesh(previewMesh, motion).previewMesh;
+            Game::Mm9DatMechanismPreviewMotion motion = target.openMotion;
+            motion.progress = std::clamp(progress, 0.0f, 1.0f);
+            motions.push_back(motion);
         }
     }
 
-    return previewMesh;
+    return motions;
+}
+
+Game::Mm9DatVec3 mm9LtToOpenYammViewportPoint(const Game::Mm9DatVec3 &value)
+{
+    return {value.x, value.z, value.y};
+}
+
+Game::Mm9DatVec3 mm9OpenYammToLtViewportPoint(const Game::Mm9DatVec3 &value)
+{
+    return {value.x, value.z, value.y};
+}
+
+Game::Mm9DatVec3 transformMm9ViewportPoint(
+    const Game::Mm9DatVec3 &openYammPosition,
+    const Game::Mm9DatMechanismPreviewMotion &motion)
+{
+    constexpr float Pi = 3.14159265358979323846f;
+    Game::Mm9DatVec3 sourcePositionLt = mm9OpenYammToLtViewportPoint(openYammPosition);
+
+    if (motion.hasLinearMotion && std::fabs(motion.moveDistLt) > 0.0001f)
+    {
+        sourcePositionLt.x += motion.moveDirLt.x * motion.moveDistLt * motion.progress;
+        sourcePositionLt.y += motion.moveDirLt.y * motion.moveDistLt * motion.progress;
+        sourcePositionLt.z += motion.moveDirLt.z * motion.moveDistLt * motion.progress;
+    }
+
+    if (motion.hasRotationMotion)
+    {
+        const Game::Mm9DatVec3 angles = {
+            motion.rotationAnglesDeg.x * motion.progress * Pi / 180.0f,
+            motion.rotationAnglesDeg.y * motion.progress * Pi / 180.0f,
+            motion.rotationAnglesDeg.z * motion.progress * Pi / 180.0f,
+        };
+        Game::Mm9DatVec3 relative = {
+            sourcePositionLt.x - motion.rotationPointLt.x,
+            sourcePositionLt.y - motion.rotationPointLt.y,
+            sourcePositionLt.z - motion.rotationPointLt.z,
+        };
+
+        if (std::fabs(angles.x) > 0.0001f)
+        {
+            const float angleSin = std::sin(angles.x);
+            const float angleCos = std::cos(angles.x);
+            relative = {
+                relative.x,
+                relative.y * angleCos - relative.z * angleSin,
+                relative.y * angleSin + relative.z * angleCos,
+            };
+        }
+
+        if (std::fabs(angles.y) > 0.0001f)
+        {
+            const float angleSin = std::sin(angles.y);
+            const float angleCos = std::cos(angles.y);
+            relative = {
+                relative.x * angleCos + relative.z * angleSin,
+                relative.y,
+                -relative.x * angleSin + relative.z * angleCos,
+            };
+        }
+
+        if (std::fabs(angles.z) > 0.0001f)
+        {
+            const float angleSin = std::sin(angles.z);
+            const float angleCos = std::cos(angles.z);
+            relative = {
+                relative.x * angleCos - relative.y * angleSin,
+                relative.x * angleSin + relative.y * angleCos,
+                relative.z,
+            };
+        }
+
+        sourcePositionLt = {
+            motion.rotationPointLt.x + relative.x,
+            motion.rotationPointLt.y + relative.y,
+            motion.rotationPointLt.z + relative.z,
+        };
+    }
+
+    return mm9LtToOpenYammViewportPoint(sourcePositionLt);
+}
+
+std::array<float, 16> mm9ViewportPreviewTransformForMotions(
+    const std::vector<Game::Mm9DatMechanismPreviewMotion> &motions)
+{
+    const auto transformPoint =
+        [&motions](const Game::Mm9DatVec3 &point) -> Game::Mm9DatVec3
+    {
+        Game::Mm9DatVec3 transformedPoint = point;
+
+        for (const Game::Mm9DatMechanismPreviewMotion &motion : motions)
+        {
+            transformedPoint = transformMm9ViewportPoint(transformedPoint, motion);
+        }
+
+        return transformedPoint;
+    };
+
+    const Game::Mm9DatVec3 origin = transformPoint({0.0f, 0.0f, 0.0f});
+    const Game::Mm9DatVec3 xAxis = transformPoint({1.0f, 0.0f, 0.0f});
+    const Game::Mm9DatVec3 yAxis = transformPoint({0.0f, 1.0f, 0.0f});
+    const Game::Mm9DatVec3 zAxis = transformPoint({0.0f, 0.0f, 1.0f});
+
+    return {
+        xAxis.x - origin.x, xAxis.y - origin.y, xAxis.z - origin.z, 0.0f,
+        yAxis.x - origin.x, yAxis.y - origin.y, yAxis.z - origin.z, 0.0f,
+        zAxis.x - origin.x, zAxis.y - origin.y, zAxis.z - origin.z, 0.0f,
+        origin.x, origin.y, origin.z, 1.0f,
+    };
+}
+
+std::unordered_map<size_t, std::array<float, 16>> mm9ViewportPreviewTransformsBySourceModelIndex(
+    const std::vector<Game::Mm9DatMechanismPreviewMotion> &motions)
+{
+    std::unordered_map<size_t, std::vector<Game::Mm9DatMechanismPreviewMotion>> motionsBySourceModelIndex;
+
+    for (const Game::Mm9DatMechanismPreviewMotion &motion : motions)
+    {
+        motionsBySourceModelIndex[motion.sourceModelIndex].push_back(motion);
+    }
+
+    std::unordered_map<size_t, std::array<float, 16>> transformsBySourceModelIndex;
+
+    for (const auto &[sourceModelIndex, sourceModelMotions] : motionsBySourceModelIndex)
+    {
+        transformsBySourceModelIndex.emplace(
+            sourceModelIndex,
+            mm9ViewportPreviewTransformForMotions(sourceModelMotions));
+    }
+
+    return transformsBySourceModelIndex;
+}
+
+bx::Vec3 transformPointByMatrix(const float *pTransform, const bx::Vec3 &point)
+{
+    if (pTransform == nullptr)
+    {
+        return point;
+    }
+
+    return {
+        point.x * pTransform[0] + point.y * pTransform[4] + point.z * pTransform[8] + pTransform[12],
+        point.x * pTransform[1] + point.y * pTransform[5] + point.z * pTransform[9] + pTransform[13],
+        point.x * pTransform[2] + point.y * pTransform[6] + point.z * pTransform[10] + pTransform[14],
+    };
 }
 
 bx::Vec3 mm9DatTriangleNormal(const Game::Mm9DatRenderTriangle &triangle)
@@ -4995,6 +5141,64 @@ void appendLine(
     vertices.push_back({end.x, end.y, end.z, color});
 }
 
+void appendCircleMarker(
+    std::vector<EditorOutdoorViewport::PreviewVertex> &vertices,
+    const bx::Vec3 &center,
+    float radius,
+    uint32_t color)
+{
+    constexpr int SegmentCount = 32;
+
+    for (int segment = 0; segment < SegmentCount; ++segment)
+    {
+        const float angle0 = static_cast<float>(segment) * bx::kPi * 2.0f / static_cast<float>(SegmentCount);
+        const float angle1 = static_cast<float>(segment + 1) * bx::kPi * 2.0f / static_cast<float>(SegmentCount);
+        const bx::Vec3 point0 = {
+            center.x + std::cos(angle0) * radius,
+            center.y + std::sin(angle0) * radius,
+            center.z
+        };
+        const bx::Vec3 point1 = {
+            center.x + std::cos(angle1) * radius,
+            center.y + std::sin(angle1) * radius,
+            center.z
+        };
+        appendLine(vertices, point0, point1, color);
+    }
+}
+
+void appendArrowHead(
+    std::vector<EditorOutdoorViewport::PreviewVertex> &vertices,
+    const bx::Vec3 &start,
+    const bx::Vec3 &end,
+    float size,
+    uint32_t color)
+{
+    const bx::Vec3 direction = vecSubtract(end, start);
+    const float length = vecLength(direction);
+
+    if (length <= 0.001f)
+    {
+        return;
+    }
+
+    const bx::Vec3 forward = vecScale(direction, 1.0f / length);
+    bx::Vec3 side = vecCross(forward, {0.0f, 0.0f, 1.0f});
+
+    if (vecLength(side) <= 0.001f)
+    {
+        side = vecCross(forward, {0.0f, 1.0f, 0.0f});
+    }
+
+    side = vecNormalize(side);
+    const bx::Vec3 base = vecSubtract(end, vecScale(forward, size));
+    const bx::Vec3 left = vecAdd(base, vecScale(side, size * 0.45f));
+    const bx::Vec3 right = vecSubtract(base, vecScale(side, size * 0.45f));
+
+    appendLine(vertices, end, left, color);
+    appendLine(vertices, end, right, color);
+}
+
 void appendBoxMarker(
     std::vector<EditorOutdoorViewport::PreviewVertex> &vertices,
     const bx::Vec3 &center,
@@ -5051,6 +5255,135 @@ void appendBoxMarker(
     appendLine(vertices, p111, p101, color);
     appendLine(vertices, p111, p110, color);
     appendLine(vertices, p111, p011, color);
+}
+
+bool intersectRayAabbDistance(
+    const bx::Vec3 &origin,
+    const bx::Vec3 &direction,
+    const bx::Vec3 &minPoint,
+    const bx::Vec3 &maxPoint,
+    float &distance)
+{
+    float tMin = 0.0f;
+    float tMax = FLT_MAX;
+
+    const float originValues[3] = {origin.x, origin.y, origin.z};
+    const float directionValues[3] = {direction.x, direction.y, direction.z};
+    const float minValues[3] = {minPoint.x, minPoint.y, minPoint.z};
+    const float maxValues[3] = {maxPoint.x, maxPoint.y, maxPoint.z};
+
+    for (size_t axis = 0; axis < 3; ++axis)
+    {
+        if (std::fabs(directionValues[axis]) <= 0.00001f)
+        {
+            if (originValues[axis] < minValues[axis] || originValues[axis] > maxValues[axis])
+            {
+                return false;
+            }
+
+            continue;
+        }
+
+        const float inverseDirection = 1.0f / directionValues[axis];
+        float t0 = (minValues[axis] - originValues[axis]) * inverseDirection;
+        float t1 = (maxValues[axis] - originValues[axis]) * inverseDirection;
+
+        if (t0 > t1)
+        {
+            std::swap(t0, t1);
+        }
+
+        tMin = std::max(tMin, t0);
+        tMax = std::min(tMax, t1);
+
+        if (tMin > tMax)
+        {
+            return false;
+        }
+    }
+
+    distance = tMin;
+    return true;
+}
+
+bool pointInsideAabb(
+    const bx::Vec3 &point,
+    const bx::Vec3 &minPoint,
+    const bx::Vec3 &maxPoint)
+{
+    return point.x >= minPoint.x && point.x <= maxPoint.x
+        && point.y >= minPoint.y && point.y <= maxPoint.y
+        && point.z >= minPoint.z && point.z <= maxPoint.z;
+}
+
+bool mm9DatMarkerHasLineOfSight(
+    const EditorMm9DatWorldSidecar &datWorld,
+    const bx::Vec3 &cameraPosition,
+    const bx::Vec3 &target)
+{
+    const bx::Vec3 toTarget = vecSubtract(target, cameraPosition);
+    const float targetDistance = vecLength(toTarget);
+
+    if (targetDistance <= 1.0f)
+    {
+        return true;
+    }
+
+    const bx::Vec3 direction = vecScale(toTarget, 1.0f / targetDistance);
+    constexpr float StartSlack = 8.0f;
+    constexpr float EndSlack = 16.0f;
+
+    for (const EditorMm9DatWorldModelSummary &model : datWorld.worldModels)
+    {
+        if ((!model.roles.visible && !model.roles.terrain && !model.roles.movable)
+            || model.roles.sky
+            || model.roles.visBsp
+            || model.roles.triggerOrVolume)
+        {
+            continue;
+        }
+
+        const bx::Vec3 rawMinPoint = {
+            model.boundsMinLt.x * Game::Mm9DatToOpenYammScale,
+            model.boundsMinLt.z * Game::Mm9DatToOpenYammScale,
+            model.boundsMinLt.y * Game::Mm9DatToOpenYammScale
+        };
+        const bx::Vec3 rawMaxPoint = {
+            model.boundsMaxLt.x * Game::Mm9DatToOpenYammScale,
+            model.boundsMaxLt.z * Game::Mm9DatToOpenYammScale,
+            model.boundsMaxLt.y * Game::Mm9DatToOpenYammScale
+        };
+        constexpr float BoundsSlack = 4.0f;
+        const bx::Vec3 minPoint = {
+            std::min(rawMinPoint.x, rawMaxPoint.x) - BoundsSlack,
+            std::min(rawMinPoint.y, rawMaxPoint.y) - BoundsSlack,
+            std::min(rawMinPoint.z, rawMaxPoint.z) - BoundsSlack
+        };
+        const bx::Vec3 maxPoint = {
+            std::max(rawMinPoint.x, rawMaxPoint.x) + BoundsSlack,
+            std::max(rawMinPoint.y, rawMaxPoint.y) + BoundsSlack,
+            std::max(rawMinPoint.z, rawMaxPoint.z) + BoundsSlack
+        };
+
+        if (pointInsideAabb(target, minPoint, maxPoint))
+        {
+            continue;
+        }
+
+        float distance = 0.0f;
+
+        if (!intersectRayAabbDistance(cameraPosition, direction, minPoint, maxPoint, distance))
+        {
+            continue;
+        }
+
+        if (distance > StartSlack && distance < targetDistance - EndSlack)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bx::Vec3 mm9LtToOpenYamm(const EditorMm9Vec3 &value)
@@ -6615,7 +6948,8 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
                     || kind == EditorSelectionKind::Actor
                     || kind == EditorSelectionKind::SpriteObject
                     || kind == EditorSelectionKind::ModelInstance
-                    || kind == EditorSelectionKind::Mm9ScriptedObject;
+                    || kind == EditorSelectionKind::Mm9ScriptedObject
+                    || kind == EditorSelectionKind::Mm9Mechanism;
             }
 
             return false;
@@ -6762,6 +7096,11 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
                 alpha = static_cast<uint8_t>(std::max(48, static_cast<int>(alpha) * 55 / 100));
             }
 
+            if (candidate.blockedByLineOfSight && !selected)
+            {
+                alpha = static_cast<uint8_t>(std::min(static_cast<int>(alpha), 96));
+            }
+
             if (selected)
             {
                 scale = std::max(scale, 1.0f);
@@ -6804,6 +7143,16 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
             if (candidate.selectionKind == EditorSelectionKind::Mm9ScriptedObject)
             {
                 drawProjectedHandle(candidate.worldPosition, IM_COL32(32, 238, 220, alpha), selected, false, scale);
+                continue;
+            }
+
+            if (candidate.selectionKind == EditorSelectionKind::Mm9Mechanism)
+            {
+                const ImU32 mechanismHandleColor =
+                    candidate.mm9MechanismPreviewable
+                        ? IM_COL32(72, 255, 72, alpha)
+                        : IM_COL32(214, 236, 72, alpha);
+                drawProjectedHandle(candidate.worldPosition, mechanismHandleColor, selected, false, scale);
                 continue;
             }
 
@@ -7666,8 +8015,17 @@ void EditorOutdoorViewport::setMm9MechanismPreviewProgress(
         return;
     }
 
-    m_mm9MechanismPreviewProgressByIndex[mechanismIndex] = std::clamp(progress, 0.0f, 1.0f);
-    invalidateMm9MechanismPreview();
+    const float clampedProgress = std::clamp(progress, 0.0f, 1.0f);
+    const std::unordered_map<size_t, float>::const_iterator previewIt =
+        m_mm9MechanismPreviewProgressByIndex.find(mechanismIndex);
+
+    if (previewIt != m_mm9MechanismPreviewProgressByIndex.end()
+        && std::fabs(previewIt->second - clampedProgress) <= 0.0001f)
+    {
+        return;
+    }
+
+    m_mm9MechanismPreviewProgressByIndex[mechanismIndex] = clampedProgress;
 }
 
 void EditorOutdoorViewport::clearMm9MechanismPreview(const EditorDocument &document)
@@ -7685,7 +8043,6 @@ void EditorOutdoorViewport::clearMm9MechanismPreview(const EditorDocument &docum
     }
 
     m_mm9MechanismPreviewProgressByIndex.clear();
-    invalidateMm9MechanismPreview();
 }
 
 bool EditorOutdoorViewport::tryGetMm9MechanismPreviewProgress(
@@ -7839,6 +8196,83 @@ void EditorOutdoorViewport::ensureMm9MechanismPreviewDocument(const EditorDocume
 
     m_mm9MechanismPreviewDocumentKey = documentKey;
     m_mm9MechanismPreviewProgressByIndex.clear();
+    m_mm9MechanismPreviewCacheKey.clear();
+    m_mm9MechanismPreviewCache.clear();
+}
+
+const std::vector<EditorOutdoorViewport::Mm9MechanismPreviewCacheEntry> &
+EditorOutdoorViewport::mm9MechanismPreviewCache(const EditorDocument &document) const
+{
+    static const std::vector<Mm9MechanismPreviewCacheEntry> emptyCache;
+
+    if (document.kind() != EditorDocument::Kind::Mm9Dat || !document.hasMm9DatLoadedSidecars())
+    {
+        m_mm9MechanismPreviewCacheKey.clear();
+        m_mm9MechanismPreviewCache.clear();
+        return emptyCache;
+    }
+
+    const std::string cacheKey = documentGeometryKey(document);
+    if (cacheKey == m_mm9MechanismPreviewCacheKey)
+    {
+        return m_mm9MechanismPreviewCache;
+    }
+
+    const EditorMm9DatWorldSidecar &datWorld = document.mm9DatLoadedSidecars().datWorld;
+    const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
+    m_mm9MechanismPreviewCache.clear();
+    m_mm9MechanismPreviewCache.resize(events.mechanisms.size());
+
+    for (size_t mechanismIndex = 0; mechanismIndex < events.mechanisms.size(); ++mechanismIndex)
+    {
+        const Game::Mm9EventMechanism &mechanism = events.mechanisms[mechanismIndex];
+        Mm9MechanismPreviewCacheEntry &cacheEntry = m_mm9MechanismPreviewCache[mechanismIndex];
+
+        if (mechanism.sourceObjectIndex >= 0)
+        {
+            cacheEntry.sourceMarkerPosition =
+                mm9SourceObjectMarkerPosition(document, static_cast<size_t>(mechanism.sourceObjectIndex));
+        }
+
+        const Game::Mm9EventBinding *pBinding =
+            findMm9ViewportEventBindingForObject(events, mechanism.objectId);
+        if (pBinding == nullptr)
+        {
+            continue;
+        }
+
+        cacheEntry.targets.reserve(pBinding->targets.size());
+
+        for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
+        {
+            if (target.targetKind != "odm_bmodel" || !target.bmodelIndex.has_value())
+            {
+                continue;
+            }
+
+            Game::Mm9DatMechanismPreviewMotion motion = {};
+            const bool targetPreviewable = buildMm9ViewportPreviewMotion(mechanism, target, 1.0f, motion);
+            cacheEntry.previewable = cacheEntry.previewable || targetPreviewable;
+
+            bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 halfExtents = {0.0f, 0.0f, 0.0f};
+            if (!mm9DatWorldModelBounds(datWorld, *target.bmodelIndex, center, halfExtents))
+            {
+                continue;
+            }
+
+            Mm9MechanismPreviewTargetCache targetCache = {};
+            targetCache.sourceModelIndex = *target.bmodelIndex;
+            targetCache.center = center;
+            targetCache.halfExtents = halfExtents;
+            targetCache.previewable = targetPreviewable;
+            targetCache.openMotion = motion;
+            cacheEntry.targets.push_back(targetCache);
+        }
+    }
+
+    m_mm9MechanismPreviewCacheKey = cacheKey;
+    return m_mm9MechanismPreviewCache;
 }
 
 void EditorOutdoorViewport::advanceIndoorMechanismPreview(const EditorDocument &document, float deltaSeconds)
@@ -7910,12 +8344,6 @@ void EditorOutdoorViewport::invalidateIndoorMechanismPreview()
     m_indoorActorFloorSnapKey.clear();
     m_indoorActorFloorSnapZByKey.clear();
     m_indoorPreviewGeometryBuffersDirty = true;
-}
-
-void EditorOutdoorViewport::invalidateMm9MechanismPreview()
-{
-    ++m_mm9MechanismPreviewRevision;
-    m_geometryKey.clear();
 }
 
 const std::vector<Game::IndoorVertex> &EditorOutdoorViewport::indoorRenderVertices(const EditorDocument &document) const
@@ -8503,7 +8931,6 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
     if (document.kind() == EditorDocument::Kind::Mm9Dat)
     {
         ensureMm9MechanismPreviewDocument(document);
-        geometryKey += "|mm9preview=" + std::to_string(m_mm9MechanismPreviewRevision);
     }
 
     if (geometryKey == m_geometryKey)
@@ -8522,21 +8949,7 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
             return;
         }
 
-        Game::Mm9DatRenderMesh previewRenderMesh;
-        const Game::Mm9DatRenderMesh *pRenderMesh = &document.mm9DatRenderMesh();
-
-        if (!m_mm9MechanismPreviewProgressByIndex.empty()
-            && document.hasMm9DatLoadedSidecars())
-        {
-            previewRenderMesh =
-                buildMm9ViewportPreviewMesh(
-                    document.mm9DatRenderMesh(),
-                    document.mm9DatLoadedSidecars().events,
-                    m_mm9MechanismPreviewProgressByIndex);
-            pRenderMesh = &previewRenderMesh;
-        }
-
-        const Game::Mm9DatRenderMesh &renderMesh = *pRenderMesh;
+        const Game::Mm9DatRenderMesh &renderMesh = document.mm9DatRenderMesh();
         if (renderMesh.triangles.empty())
         {
             return;
@@ -8564,7 +8977,9 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
             }
         }
 
-        std::vector<const Game::Mm9DatRenderMaterialAssignment *> assignmentsByTriangle(renderMesh.triangles.size(), nullptr);
+        std::vector<const Game::Mm9DatRenderMaterialAssignment *> assignmentsByTriangle(
+            renderMesh.triangles.size(),
+            nullptr);
 
         for (const Game::Mm9DatRenderMaterialAssignment &assignment : document.mm9DatRenderMaterialAssignments())
         {
@@ -8592,10 +9007,11 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
                 sourcePathKey,
                 Game::loadMm9DtxTexture(sourcePath, errorMessage)).first->second;
         };
-        std::unordered_map<std::string, std::vector<TexturedPreviewVertex>> texturedVerticesByPath;
-        std::vector<ProceduralPreviewVertex> allVisualVertices;
-        std::vector<ProceduralPreviewVertex> missingMaterialVertices;
-        allVisualVertices.reserve(renderMesh.triangles.size() * 3);
+        std::unordered_map<std::string, std::vector<TexturedPreviewVertex>> texturedVerticesByBatchKey;
+        std::unordered_map<std::string, std::string> sourceTexturePathByBatchKey;
+        std::unordered_map<std::string, size_t> sourceModelIndexByTexturedBatchKey;
+        std::unordered_map<size_t, std::vector<ProceduralPreviewVertex>> allVisualVerticesBySourceModel;
+        std::unordered_map<size_t, std::vector<ProceduralPreviewVertex>> missingMaterialVerticesBySourceModel;
 
         for (size_t triangleIndex = 0; triangleIndex < renderMesh.triangles.size(); ++triangleIndex)
         {
@@ -8609,7 +9025,10 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
             }
 
             const Game::Mm9DatRenderTriangle &triangle = renderMesh.triangles[triangleIndex];
-            appendMm9DatProceduralTriangleVertices(triangle, allVisualVertices);
+
+            appendMm9DatProceduralTriangleVertices(
+                triangle,
+                allVisualVerticesBySourceModel[triangle.sourceModelIndex]);
 
             const Game::Mm9DatRenderMaterialAssignment *pAssignment = assignmentsByTriangle[triangleIndex];
             if (pAssignment == nullptr
@@ -8617,7 +9036,9 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
                 || !pAssignment->sourceDtxResolved
                 || pAssignment->resolvedSourcePath.empty())
             {
-                appendMm9DatProceduralTriangleVertices(triangle, missingMaterialVertices);
+                appendMm9DatProceduralTriangleVertices(
+                    triangle,
+                    missingMaterialVerticesBySourceModel[triangle.sourceModelIndex]);
                 continue;
             }
 
@@ -8632,27 +9053,39 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
                 || sourceTexture->height == 0
                 || sourceTexture->pixelsBgra.empty())
             {
-                appendMm9DatProceduralTriangleVertices(triangle, missingMaterialVertices);
+                appendMm9DatProceduralTriangleVertices(
+                    triangle,
+                    missingMaterialVerticesBySourceModel[triangle.sourceModelIndex]);
                 continue;
             }
 
+            const std::string texturedBatchKey =
+                sourcePathKey + "|source_model=" + std::to_string(triangle.sourceModelIndex);
+            sourceTexturePathByBatchKey.emplace(texturedBatchKey, sourcePathKey);
+            sourceModelIndexByTexturedBatchKey.emplace(texturedBatchKey, triangle.sourceModelIndex);
             appendMm9DatTexturedTriangleVertices(
                 triangle,
                 sourceTexture->width,
                 sourceTexture->height,
-                texturedVerticesByPath[sourcePathKey]);
+                texturedVerticesByBatchKey[texturedBatchKey]);
         }
 
-        if (!allVisualVertices.empty())
+        for (const auto &[sourceModelIndex, vertices] : allVisualVerticesBySourceModel)
         {
+            if (vertices.empty())
+            {
+                continue;
+            }
+
             ProceduralBatch batch = {};
             batch.vertexBufferHandle = bgfx::createVertexBuffer(
                 bgfx::copy(
-                    allVisualVertices.data(),
-                    static_cast<uint32_t>(allVisualVertices.size() * sizeof(ProceduralPreviewVertex))),
+                    vertices.data(),
+                    static_cast<uint32_t>(vertices.size() * sizeof(ProceduralPreviewVertex))),
                 ProceduralPreviewVertex::ms_layout);
-            batch.vertexCount = static_cast<uint32_t>(allVisualVertices.size());
-            batch.key = "mm9_dat_visual";
+            batch.vertexCount = static_cast<uint32_t>(vertices.size());
+            batch.bmodelIndex = sourceModelIndex;
+            batch.key = "mm9_dat_visual_" + std::to_string(sourceModelIndex);
 
             if (bgfx::isValid(batch.vertexBufferHandle))
             {
@@ -8660,40 +9093,60 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
             }
         }
 
-        for (const auto &[sourcePathKey, vertices] : texturedVerticesByPath)
+        for (const auto &[texturedBatchKey, vertices] : texturedVerticesByBatchKey)
         {
-            const std::optional<Game::Mm9DtxTexture> &sourceTexture =
-                loadSourceDtxTexture(sourcePathKey);
+            const auto sourceModelIt = sourceModelIndexByTexturedBatchKey.find(texturedBatchKey);
+            const size_t sourceModelIndex =
+                sourceModelIt != sourceModelIndexByTexturedBatchKey.end()
+                    ? sourceModelIt->second
+                    : std::numeric_limits<size_t>::max();
+            const auto sourcePathIt = sourceTexturePathByBatchKey.find(texturedBatchKey);
+            const std::string sourcePathKey =
+                sourcePathIt != sourceTexturePathByBatchKey.end()
+                    ? sourcePathIt->second
+                    : std::string();
+            const std::optional<Game::Mm9DtxTexture> *pSourceTexture = nullptr;
 
-            if (!sourceTexture
-                || sourceTexture->width == 0
-                || sourceTexture->height == 0
-                || sourceTexture->pixelsBgra.empty()
+            if (!sourcePathKey.empty())
+            {
+                pSourceTexture = &loadSourceDtxTexture(sourcePathKey);
+            }
+
+            if (pSourceTexture == nullptr
+                || !*pSourceTexture
+                || (*pSourceTexture)->width == 0
+                || (*pSourceTexture)->height == 0
+                || (*pSourceTexture)->pixelsBgra.empty()
                 || vertices.empty())
             {
-                appendTexturedVerticesAsMissingProcedural(vertices, missingMaterialVertices);
+                appendTexturedVerticesAsMissingProcedural(
+                    vertices,
+                    missingMaterialVerticesBySourceModel[sourceModelIndex]);
                 continue;
             }
+
+            const Game::Mm9DtxTexture &sourceTexture = **pSourceTexture;
 
             TexturedBatch batch = {};
             batch.vertexBufferHandle = bgfx::createVertexBuffer(
                 bgfx::copy(vertices.data(), static_cast<uint32_t>(vertices.size() * sizeof(TexturedPreviewVertex))),
                 TexturedPreviewVertex::ms_layout);
             batch.textureHandle = bgfx::createTexture2D(
-                static_cast<uint16_t>(sourceTexture->width),
-                static_cast<uint16_t>(sourceTexture->height),
+                static_cast<uint16_t>(sourceTexture.width),
+                static_cast<uint16_t>(sourceTexture.height),
                 false,
                 1,
                 bgfx::TextureFormat::BGRA8,
                 BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT,
                 bgfx::copy(
-                    sourceTexture->pixelsBgra.data(),
-                    static_cast<uint32_t>(sourceTexture->pixelsBgra.size())));
+                    sourceTexture.pixelsBgra.data(),
+                    static_cast<uint32_t>(sourceTexture.pixelsBgra.size())));
             batch.vertexCount = static_cast<uint32_t>(vertices.size());
+            batch.bmodelIndex = sourceModelIndex;
             batch.key = sourcePathKey;
-            batch.textureWidth = static_cast<int>(sourceTexture->width);
-            batch.textureHeight = static_cast<int>(sourceTexture->height);
-            batch.hasTransparentPixels = hasTransparentPixels(sourceTexture->pixelsBgra);
+            batch.textureWidth = static_cast<int>(sourceTexture.width);
+            batch.textureHeight = static_cast<int>(sourceTexture.height);
+            batch.hasTransparentPixels = hasTransparentPixels(sourceTexture.pixelsBgra);
 
             if (bgfx::isValid(batch.vertexBufferHandle) && bgfx::isValid(batch.textureHandle))
             {
@@ -8711,20 +9164,28 @@ void EditorOutdoorViewport::ensureGeometryBuffers(EditorSession &session)
                     bgfx::destroy(batch.textureHandle);
                 }
 
-                appendTexturedVerticesAsMissingProcedural(vertices, missingMaterialVertices);
+                appendTexturedVerticesAsMissingProcedural(
+                    vertices,
+                    missingMaterialVerticesBySourceModel[sourceModelIndex]);
             }
         }
 
-        if (!missingMaterialVertices.empty())
+        for (const auto &[sourceModelIndex, vertices] : missingMaterialVerticesBySourceModel)
         {
+            if (vertices.empty())
+            {
+                continue;
+            }
+
             ProceduralBatch batch = {};
             batch.vertexBufferHandle = bgfx::createVertexBuffer(
                 bgfx::copy(
-                    missingMaterialVertices.data(),
-                    static_cast<uint32_t>(missingMaterialVertices.size() * sizeof(ProceduralPreviewVertex))),
+                    vertices.data(),
+                    static_cast<uint32_t>(vertices.size() * sizeof(ProceduralPreviewVertex))),
                 ProceduralPreviewVertex::ms_layout);
-            batch.vertexCount = static_cast<uint32_t>(missingMaterialVertices.size());
-            batch.key = "mm9_dat_missing_material";
+            batch.vertexCount = static_cast<uint32_t>(vertices.size());
+            batch.bmodelIndex = sourceModelIndex;
+            batch.key = "mm9_dat_missing_material_" + std::to_string(sourceModelIndex);
 
             if (bgfx::isValid(batch.vertexBufferHandle))
             {
@@ -12842,7 +13303,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
             const ClayPreviewSettings &settings,
             bool depthEqual,
             bool blendAlpha = false,
-            bool writeDepth = true) -> void
+            bool writeDepth = true,
+            const float *pBatchTransform = nullptr) -> void
     {
         if (!bgfx::isValid(vertexBufferHandle)
             || vertexCount == 0
@@ -12851,6 +13313,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
             return;
         }
 
+        const float *pTransform = pBatchTransform != nullptr ? pBatchTransform : transform;
+        const bx::Vec3 transformedObjectOrigin = transformPointByMatrix(pBatchTransform, objectOrigin);
         const std::array<float, 4> params0 = {
             settings.slopeAccentStrength,
             settings.shadowStrength,
@@ -12858,12 +13322,17 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
             0.0f
         };
         const std::array<float, 4> params1 = {0.0f, 0.0f, 0.0f, 0.0f};
-        const std::array<float, 4> previewOrigin = {objectOrigin.x, objectOrigin.y, objectOrigin.z, 0.0f};
+        const std::array<float, 4> previewOrigin = {
+            transformedObjectOrigin.x,
+            transformedObjectOrigin.y,
+            transformedObjectOrigin.z,
+            0.0f
+        };
         bgfx::setUniform(m_previewColorAHandle, settings.baseColor.data());
         bgfx::setUniform(m_previewParams0Handle, params0.data());
         bgfx::setUniform(m_previewParams1Handle, params1.data());
         bgfx::setUniform(m_previewObjectOriginHandle, previewOrigin.data());
-        bgfx::setTransform(transform);
+        bgfx::setTransform(pTransform);
         bgfx::setVertexBuffer(0, vertexBufferHandle);
         uint64_t state =
             BGFX_STATE_WRITE_RGB
@@ -12892,7 +13361,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
             const bx::Vec3 &objectOrigin,
             const GridPreviewSettings &settings,
             float materialMode,
-            bool depthEqual) -> void
+            bool depthEqual,
+            const float *pBatchTransform = nullptr) -> void
     {
         if (!bgfx::isValid(vertexBufferHandle)
             || vertexCount == 0
@@ -12901,6 +13371,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
             return;
         }
 
+        const float *pTransform = pBatchTransform != nullptr ? pBatchTransform : transform;
+        const bx::Vec3 transformedObjectOrigin = transformPointByMatrix(pBatchTransform, objectOrigin);
         const std::array<float, 4> params0 = {
             settings.cellSize,
             settings.majorInterval,
@@ -12908,7 +13380,12 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
             settings.majorLineThickness
         };
         const std::array<float, 4> params1 = {materialMode, 0.0f, 0.0f, 0.0f};
-        const std::array<float, 4> previewOrigin = {objectOrigin.x, objectOrigin.y, objectOrigin.z, 0.0f};
+        const std::array<float, 4> previewOrigin = {
+            transformedObjectOrigin.x,
+            transformedObjectOrigin.y,
+            transformedObjectOrigin.z,
+            0.0f
+        };
         bgfx::setUniform(m_previewColorAHandle, settings.baseColorA.data());
         bgfx::setUniform(m_previewColorBHandle, settings.baseColorB.data());
         bgfx::setUniform(m_previewColorCHandle, settings.minorLineColor.data());
@@ -12916,7 +13393,7 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
         bgfx::setUniform(m_previewParams0Handle, params0.data());
         bgfx::setUniform(m_previewParams1Handle, params1.data());
         bgfx::setUniform(m_previewObjectOriginHandle, previewOrigin.data());
-        bgfx::setTransform(transform);
+        bgfx::setTransform(pTransform);
         bgfx::setVertexBuffer(0, vertexBufferHandle);
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
@@ -13025,6 +13502,30 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
     if (session.document().kind() == EditorDocument::Kind::Mm9Dat)
     {
         const bool showDatWorld = m_showTerrainFill || m_showBModels;
+        std::unordered_map<size_t, std::array<float, 16>> previewTransformsBySourceModelIndex;
+
+        if (session.document().hasMm9DatLoadedSidecars())
+        {
+            const std::vector<Mm9MechanismPreviewCacheEntry> &mechanismPreviewCache =
+                mm9MechanismPreviewCache(session.document());
+            previewTransformsBySourceModelIndex =
+                mm9ViewportPreviewTransformsBySourceModelIndex(
+                    buildMm9ViewportPreviewMotions(
+                        mechanismPreviewCache,
+                        m_mm9MechanismPreviewProgressByIndex));
+        }
+
+        const auto previewTransformForMm9Batch =
+            [&previewTransformsBySourceModelIndex](size_t bmodelIndex) -> const float *
+        {
+            if (bmodelIndex == std::numeric_limits<size_t>::max())
+            {
+                return nullptr;
+            }
+
+            const auto transformIt = previewTransformsBySourceModelIndex.find(bmodelIndex);
+            return transformIt != previewTransformsBySourceModelIndex.end() ? transformIt->second.data() : nullptr;
+        };
 
         if (!showDatWorld
             && m_modelInstanceBatches.empty()
@@ -13051,7 +13552,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
                     continue;
                 }
 
-                bgfx::setTransform(transform);
+                const float *pBatchTransform = previewTransformForMm9Batch(batch.bmodelIndex);
+                bgfx::setTransform(pBatchTransform != nullptr ? pBatchTransform : transform);
                 bgfx::setVertexBuffer(0, batch.vertexBufferHandle);
                 bgfx::setTexture(0, m_textureSamplerHandle, batch.textureHandle);
                 uint64_t state =
@@ -13088,7 +13590,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
                     batch.objectOrigin,
                     m_errorPreviewSettings,
                     2.0f,
-                    true);
+                    true,
+                    previewTransformForMm9Batch(batch.bmodelIndex));
                 ++m_lastRenderSubmissionStats.datWorldMissingMaterialSubmissions;
                 m_lastRenderSubmissionStats.datWorldSubmittedVertices += batch.vertexCount;
             }
@@ -13104,6 +13607,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
                     continue;
                 }
 
+                const float *pBatchTransform = previewTransformForMm9Batch(batch.bmodelIndex);
+
                 if (m_previewMaterialMode == PreviewMaterialMode::Grid)
                 {
                     submitGridBatch(
@@ -13112,7 +13617,8 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
                         batch.objectOrigin,
                         m_gridPreviewSettings,
                         1.0f,
-                        false);
+                        false,
+                        pBatchTransform);
                 }
                 else
                 {
@@ -13121,7 +13627,10 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
                         batch.vertexCount,
                         batch.objectOrigin,
                         m_clayPreviewSettings,
-                        false);
+                        false,
+                        false,
+                        true,
+                        pBatchTransform);
                 }
 
                 ++m_lastRenderSubmissionStats.datWorldProceduralSubmissions;
@@ -15208,22 +15717,44 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         pAssetFileSystem != nullptr
             ? cachedMm9ModelInstanceActorSourceLookup(*pAssetFileSystem)
             : nullptr;
-    std::optional<Game::Mm9ScriptedBillboardVisualSet> mm9BillboardVisualSet;
 
-    if (mm9OutdoorDocument && pAssetFileSystem != nullptr)
+    std::unordered_map<std::string, bool> mm9DatMarkerLineOfSightBlockedByKey;
+    const auto applyMm9DatMarkerVisibility =
+        [&](MarkerCandidate &candidate)
     {
-        Game::Mm9ScriptedBillboardVisualSet visualSet = {};
-        std::string errorMessage;
-
-        if (visualSet.loadFromAssetFileSystem(
-                *pAssetFileSystem,
-                errorMessage,
-                Game::Mm9ScriptedBillboardVisualRoot,
-                false))
+        if (!mm9DatDocument || !document.hasMm9DatLoadedSidecars())
         {
-            mm9BillboardVisualSet = std::move(visualSet);
+            return;
         }
-    }
+
+        char centerKeyBuffer[160] = {};
+        std::snprintf(
+            centerKeyBuffer,
+            sizeof(centerKeyBuffer),
+            "%.2f,%.2f,%.2f|%.2f,%.2f,%.2f",
+            m_cameraPosition.x,
+            m_cameraPosition.y,
+            m_cameraPosition.z,
+            candidate.worldPosition.x,
+            candidate.worldPosition.y,
+            candidate.worldPosition.z);
+        const std::string centerKey = centerKeyBuffer;
+        const auto cachedIterator = mm9DatMarkerLineOfSightBlockedByKey.find(centerKey);
+
+        if (cachedIterator != mm9DatMarkerLineOfSightBlockedByKey.end())
+        {
+            candidate.blockedByLineOfSight = cachedIterator->second;
+            return;
+        }
+
+        const bool blocked =
+            !mm9DatMarkerHasLineOfSight(
+                document.mm9DatLoadedSidecars().datWorld,
+                m_cameraPosition,
+                candidate.worldPosition);
+        mm9DatMarkerLineOfSightBlockedByKey.emplace(centerKey, blocked);
+        candidate.blockedByLineOfSight = blocked;
+    };
 
     if (mm9DatDocument)
     {
@@ -15257,6 +15788,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 candidate.billboardWorldHeight = billboardWorldHeight;
             }
 
+            applyMm9DatMarkerVisibility(candidate);
             m_markerCandidates.push_back(candidate);
         };
         const auto chooseMm9SourceMarkerTarget =
@@ -15299,6 +15831,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 candidate.billboardWorldWidth =
                     std::max({std::abs(maxPoint.x - minPoint.x), std::abs(maxPoint.y - minPoint.y), 64.0f});
                 candidate.billboardWorldHeight = std::max(std::abs(maxPoint.z - minPoint.z), 64.0f);
+                applyMm9DatMarkerVisibility(candidate);
                 m_markerCandidates.push_back(candidate);
             }
         }
@@ -15481,72 +16014,139 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
         if (m_showEventMarkers)
         {
-            const EditorMm9DatWorldSidecar &datWorld = document.mm9DatLoadedSidecars().datWorld;
             const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
-            const uint32_t mechanismTargetColor = makeAbgr(96, 255, 180);
-            const uint32_t mechanismSourceColor = makeAbgr(255, 220, 96);
+            const std::vector<Mm9MechanismPreviewCacheEntry> &mechanismPreviewCache =
+                mm9MechanismPreviewCache(document);
+            const uint32_t previewableMechanismTargetColor = makeAbgr(96, 255, 180);
+            const uint32_t previewableMechanismCircleColor = makeAbgr(96, 255, 120);
+            const uint32_t inertMechanismTargetColor = makeAbgr(192, 224, 72);
+            const uint32_t inertMechanismCircleColor = makeAbgr(216, 236, 80);
+            const uint32_t mechanismMotionColor = makeAbgr(255, 96, 72);
             const uint32_t selectedMechanismColor = makeAbgr(255, 255, 255);
+            const float mechanismCircleRadius = 112.0f;
 
             for (size_t mechanismIndex = 0; mechanismIndex < events.mechanisms.size(); ++mechanismIndex)
             {
-                const Game::Mm9EventMechanism &mechanism = events.mechanisms[mechanismIndex];
-                const Game::Mm9EventBinding *pBinding =
-                    findMm9ViewportEventBindingForObject(events, mechanism.objectId);
-
-                if (pBinding == nullptr)
-                {
-                    continue;
-                }
+                const Mm9MechanismPreviewCacheEntry *pCacheEntry =
+                    mechanismIndex < mechanismPreviewCache.size()
+                        ? &mechanismPreviewCache[mechanismIndex]
+                        : nullptr;
 
                 const bool selectedMechanism =
                     selection.kind == EditorSelectionKind::Mm9Mechanism
                     && selection.index == mechanismIndex;
+                const bool previewableMechanism = pCacheEntry != nullptr && pCacheEntry->previewable;
+
+                const uint32_t mechanismTargetColor =
+                    previewableMechanism ? previewableMechanismTargetColor : inertMechanismTargetColor;
+                const uint32_t mechanismCircleColor =
+                    previewableMechanism ? previewableMechanismCircleColor : inertMechanismCircleColor;
                 std::vector<PreviewVertex> &targetVertices = selectedMechanism ? xrayVertices : vertices;
                 const std::optional<bx::Vec3> sourcePosition =
-                    mechanism.sourceObjectIndex >= 0
-                        ? mm9SourceObjectMarkerPosition(
-                            document,
-                            static_cast<size_t>(mechanism.sourceObjectIndex))
+                    pCacheEntry != nullptr ? pCacheEntry->sourceMarkerPosition : std::nullopt;
+
+                std::optional<bx::Vec3> mechanismMarkerPosition =
+                    sourcePosition
+                        ? std::optional<bx::Vec3>{{sourcePosition->x, sourcePosition->y, sourcePosition->z + 96.0f}}
                         : std::nullopt;
+                const size_t beforeMechanismVertexCount = targetVertices.size();
 
-                for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
+                if (mechanismMarkerPosition)
                 {
-                    if (target.targetKind != "odm_bmodel" || !target.bmodelIndex.has_value())
-                    {
-                        continue;
-                    }
-
-                    bx::Vec3 center = {0.0f, 0.0f, 0.0f};
-                    bx::Vec3 halfExtents = {0.0f, 0.0f, 0.0f};
-                    if (!mm9DatWorldModelBounds(datWorld, *target.bmodelIndex, center, halfExtents))
-                    {
-                        continue;
-                    }
-
-                    const size_t beforeVertexCount = targetVertices.size();
-                    appendBoxMarker(
+                    appendCircleMarker(
                         targetVertices,
-                        center,
-                        halfExtents,
-                        selectedMechanism ? selectedMechanismColor : mechanismTargetColor);
+                        *mechanismMarkerPosition,
+                        mechanismCircleRadius,
+                        selectedMechanism ? selectedMechanismColor : mechanismCircleColor);
+                }
 
-                    if (sourcePosition)
+                if (pCacheEntry != nullptr)
+                {
+                    for (const Mm9MechanismPreviewTargetCache &target : pCacheEntry->targets)
                     {
-                        appendCrossMarker(targetVertices, *sourcePosition, 54.0f, 108.0f, mechanismSourceColor);
-                        appendLine(targetVertices, *sourcePosition, center, mechanismTargetColor);
+                        const bx::Vec3 center = target.center;
+                        const bx::Vec3 halfExtents = target.halfExtents;
+                        const bool targetPreviewable = target.previewable;
+                        const uint32_t targetMechanismColor =
+                            targetPreviewable ? previewableMechanismTargetColor : inertMechanismTargetColor;
+                        const uint32_t targetCircleColor =
+                            targetPreviewable ? previewableMechanismCircleColor : inertMechanismCircleColor;
+
+                        if (!mechanismMarkerPosition)
+                        {
+                            mechanismMarkerPosition = center;
+                            appendCircleMarker(
+                                targetVertices,
+                                {center.x, center.y, center.z + halfExtents.z + 96.0f},
+                                mechanismCircleRadius,
+                                selectedMechanism ? selectedMechanismColor : mechanismCircleColor);
+                        }
+
+                        appendBoxMarker(
+                            targetVertices,
+                            center,
+                            halfExtents,
+                            selectedMechanism ? selectedMechanismColor : targetMechanismColor);
+                        appendCircleMarker(
+                            targetVertices,
+                            center,
+                            mechanismCircleRadius * 0.72f,
+                            selectedMechanism ? selectedMechanismColor : targetCircleColor);
+
+                        MarkerCandidate targetCandidate = {};
+                        targetCandidate.selectionKind = EditorSelectionKind::Mm9Mechanism;
+                        targetCandidate.selectionIndex = mechanismIndex;
+                        targetCandidate.worldPosition = center;
+                        targetCandidate.pickRadiusPixels = selectedMechanism ? 36.0f : 30.0f;
+                        targetCandidate.mm9MechanismPreviewable = targetPreviewable;
+                        applyMm9DatMarkerVisibility(targetCandidate);
+                        m_markerCandidates.push_back(targetCandidate);
+
+                        if (mechanismMarkerPosition)
+                        {
+                            appendLine(targetVertices, *mechanismMarkerPosition, center, targetMechanismColor);
+                        }
+
+                        if (targetPreviewable)
+                        {
+                            const bx::Vec3 pathStart = center;
+                            bx::Vec3 previousPoint = pathStart;
+                            constexpr int MotionPathSegments = 16;
+
+                            for (int segment = 1; segment <= MotionPathSegments; ++segment)
+                            {
+                                Game::Mm9DatMechanismPreviewMotion segmentMotion = target.openMotion;
+                                segmentMotion.progress =
+                                    static_cast<float>(segment) / static_cast<float>(MotionPathSegments);
+                                const Game::Mm9DatVec3 transformedPoint =
+                                    transformMm9ViewportPoint(
+                                        {pathStart.x, pathStart.y, pathStart.z},
+                                        segmentMotion);
+                                const bx::Vec3 currentPoint = {
+                                    transformedPoint.x,
+                                    transformedPoint.y,
+                                    transformedPoint.z
+                                };
+                                appendLine(targetVertices, previousPoint, currentPoint, mechanismMotionColor);
+                                previousPoint = currentPoint;
+                            }
+
+                            appendArrowHead(targetVertices, center, previousPoint, 96.0f, mechanismMotionColor);
+                        }
                     }
+                }
 
-                    mm9DatMechanismTargetMarkerVertexCount += targetVertices.size() - beforeVertexCount;
+                mm9DatMechanismTargetMarkerVertexCount += targetVertices.size() - beforeMechanismVertexCount;
 
+                if (mechanismMarkerPosition)
+                {
                     MarkerCandidate candidate = {};
                     candidate.selectionKind = EditorSelectionKind::Mm9Mechanism;
                     candidate.selectionIndex = mechanismIndex;
-                    candidate.worldPosition = sourcePosition ? *sourcePosition : center;
+                    candidate.worldPosition = *mechanismMarkerPosition;
                     candidate.pickRadiusPixels = 30.0f;
-                    candidate.hasBillboardBounds = true;
-                    candidate.billboardWorldWidth =
-                        std::max({halfExtents.x * 2.0f, halfExtents.y * 2.0f, 64.0f});
-                    candidate.billboardWorldHeight = std::max(halfExtents.z * 2.0f, 64.0f);
+                    candidate.mm9MechanismPreviewable = previewableMechanism;
+                    applyMm9DatMarkerVisibility(candidate);
                     m_markerCandidates.push_back(candidate);
                 }
             }
@@ -15774,6 +16374,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 || selection.kind == EditorSelectionKind::Mm9ScriptedObject)
                 ? 34.0f
                 : 26.0f;
+        applyMm9DatMarkerVisibility(candidate);
         m_markerCandidates.push_back(candidate);
 
         if (scriptedObject)
@@ -15781,21 +16382,6 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             int collisionRadius = 32;
             int collisionHeight = 128;
             int collisionVerticalOffset = 0;
-
-            if (mm9BillboardVisualSet)
-            {
-                const std::optional<std::string> visualId =
-                    mm9BillboardVisualSet->resolveVisualIdForModelInstance(mm9MapId, modelInstance);
-                const Game::Mm9ScriptedBillboardVisual *pVisual =
-                    visualId ? mm9BillboardVisualSet->findVisual(*visualId) : nullptr;
-
-                if (pVisual != nullptr)
-                {
-                    collisionRadius = pVisual->collision.radius;
-                    collisionHeight = pVisual->collision.height;
-                    collisionVerticalOffset = pVisual->collision.verticalOffset;
-                }
-            }
 
             const bool selectedScriptedObject =
                 selection.kind == EditorSelectionKind::Mm9ScriptedObject
@@ -15824,6 +16410,31 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_showEntities)
     {
+        const uint32_t sceneLightColor = makeAbgr(255, 218, 96);
+        const uint32_t sceneLightCenterColor = makeAbgr(255, 255, 210);
+
+        for (const Game::OutdoorSceneLight &light : sceneData.lights)
+        {
+            const bx::Vec3 center = {
+                static_cast<float>(light.x),
+                static_cast<float>(light.y),
+                static_cast<float>(light.z)
+            };
+            appendCrossMarker(vertices, center, 72.0f, 144.0f, sceneLightCenterColor);
+
+            if (light.radius > 0)
+            {
+                const float radius = std::max(static_cast<float>(light.radius), 48.0f);
+                appendCollisionVolumeMarker(
+                    vertices,
+                    center,
+                    radius,
+                    radius * 2.0f,
+                    sceneLightColor,
+                    sceneLightCenterColor);
+            }
+        }
+
         for (size_t entityIndex = 0; entityIndex < sceneData.entities.size(); ++entityIndex)
         {
             const Game::OutdoorSceneEntity &entity = sceneData.entities[entityIndex];

@@ -17,10 +17,10 @@ script.labels["OnTouch"] = function(ctx)
     if not ctx:hasKey(301) then -- TRAININGHALLEXIT.scr:18-19
         do return ctx:exit("") end -- TRAININGHALLEXIT.scr:20
         ctx:giveKey(301) -- TRAININGHALLEXIT.scr:21
-        ctx:command("giveattribute", "0 5 1") -- TRAININGHALLEXIT.scr:22
-        ctx:command("giveattribute", "1 5 1") -- TRAININGHALLEXIT.scr:23
+        ctx:giveAttribute(0, 5, 1) -- TRAININGHALLEXIT.scr:22
+        ctx:giveAttribute(1, 5, 1) -- TRAININGHALLEXIT.scr:23
         ctx:giveExp(20000) -- TRAININGHALLEXIT.scr:24
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- TRAININGHALLEXIT.scr:25
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- TRAININGHALLEXIT.scr:25
         do return ctx:exit("") end -- TRAININGHALLEXIT.scr:26
     end -- TRAININGHALLEXIT.scr:27
     do return ctx:exit("") end -- TRAININGHALLEXIT.scr:28
@@ -35,7 +35,7 @@ script.labels["Main"] = function(ctx)
     -- TRAININGHALLEXIT.scr:37
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("ontouchnotify", "Ontouch") -- TRAININGHALLEXIT.scr:42
+    ctx:onEvent("OnTouchNotify", "Ontouch") -- TRAININGHALLEXIT.scr:42
     do return ctx:exit("") end -- TRAININGHALLEXIT.scr:45
 end
 

@@ -97,6 +97,8 @@ models:
         "Number\tMonster Name\tType/Picture\tLVL\tHP\tAC\tEXP\tSPD\tScriptName\tFootSound\t"
         "IsMonster\tHostility Group\tVoice Radius\n"
         "20\tBandit Captain\tHighwayman C\t7\t45\t12\t300\t9\tBANDIT.scr\tdirt\t1\t3\t1440\n");
+    writeTextFile(assetRoot / "worlds/mm9/source/sounds/ANIMSOUNDS/FOOTSTEPS/DIRT1.wav", "sound");
+    writeTextFile(assetRoot / "worlds/mm9/source/sounds/ANIMSOUNDS/FOOTSTEPS/DIRT2.wav", "sound");
 
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     REQUIRE(assetFileSystem.initialize(
@@ -125,6 +127,9 @@ models:
     CHECK(resolved.actorRow.speed == "9");
     CHECK(resolved.actorRow.scriptName == "BANDIT.scr");
     CHECK(resolved.actorRow.footSound == "dirt");
+    REQUIRE(resolved.actorRow.footSoundReferences.size() == 2);
+    CHECK(resolved.actorRow.footSoundReferences[0].sourcePath == "source/sounds/ANIMSOUNDS/FOOTSTEPS/DIRT1.wav");
+    CHECK(resolved.actorRow.footSoundReferences[1].sourcePath == "source/sounds/ANIMSOUNDS/FOOTSTEPS/DIRT2.wav");
     CHECK(resolved.actorRow.isMonster == "1");
     CHECK(resolved.actorRow.hostilityGroup == "3");
     CHECK(resolved.actorRow.voiceRadius == "1440");

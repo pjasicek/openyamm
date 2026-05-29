@@ -1,0 +1,157 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: frosgard
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: jumper.scr
+  source_path: JUMPER.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: Jumper.Inc
+  labels:
+  - line: 13
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands: []
+  command_count: 2
+- script_id: npc221.scr
+  source_path: NPC221.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: basewander.inc
+  labels:
+  - line: 32
+    name: OnRude
+  - line: 41
+    name: Promo
+  - line: 62
+    name: PromoteDruid
+  - line: 94
+    name: OnUse
+  - line: 101
+    name: OnExit
+  - line: 107
+    name: Main
+  registered_triggers:
+  - line: 116
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 44
+    command: haskey
+    arguments_raw: 280 g_ntemp
+  - line: 46
+    command: haskey
+    arguments_raw: 279 g_ntemp
+  - line: 48
+    command: givekey
+    arguments_raw: '280'
+  - line: 49
+    command: giveexp
+    arguments_raw: '63000'
+  - line: 50
+    command: givegold
+    arguments_raw: '5000'
+  - line: 52
+    command: giveitem
+    arguments_raw: '213'
+  - line: 68
+    command: haskey
+    arguments_raw: 445 g_ntemp
+  - line: 70
+    command: GivePromo
+    arguments_raw: Druid Char1
+  - line: 71
+    command: takekey
+    arguments_raw: '445'
+  - line: 74
+    command: haskey
+    arguments_raw: 446 g_ntemp
+  - line: 76
+    command: GivePromo
+    arguments_raw: Druid Char2
+  - line: 77
+    command: takekey
+    arguments_raw: '446'
+  - line: 80
+    command: haskey
+    arguments_raw: 447 g_ntemp
+  - line: 82
+    command: GivePromo
+    arguments_raw: Druid Char3
+  - line: 83
+    command: takekey
+    arguments_raw: '447'
+  - line: 86
+    command: haskey
+    arguments_raw: 448 g_ntemp
+  - line: 88
+    command: GivePromo
+    arguments_raw: Druid Char4
+  - line: 89
+    command: takekey
+    arguments_raw: '448'
+  - line: 114
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 44
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+validation:
+  script_count: 3

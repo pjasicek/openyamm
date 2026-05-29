@@ -57,7 +57,7 @@ script.labels["Refinery"] = function(ctx)
             ctx:takeItem(398) -- NPC5.scr:74
             ctx:giveItem(399) -- NPC5.scr:75
             ctx:giveKey(9514) -- NPC5.scr:76
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC5.scr:77
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC5.scr:77
             do return ctx:exit("") end -- NPC5.scr:78
         end -- NPC5.scr:79
     end -- NPC5.scr:80
@@ -80,7 +80,7 @@ script.labels["OnUse"] = function(ctx)
         ctx:giveKey(395) -- NPC5.scr:110
         ctx:giveKey(398) -- NPC5.scr:111
     end -- NPC5.scr:112
-    ctx:command("playsound", "voices\\NPC\\NPC_005.wav, DoNothing, 100, 240, FALSE, 100") -- NPC5.scr:114
+    ctx:playSound("voices\\NPC\\NPC_005.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC5.scr:114
     do return ctx:exit("") end -- NPC5.scr:115
 end
 

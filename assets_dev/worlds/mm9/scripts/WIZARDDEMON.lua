@@ -14,15 +14,15 @@ script.includes[#script.includes + 1] = { line = 8, path = "range.inc" }
 -- Purpose:
 script.labels["Main"] = function(ctx)
     -- WIZARDDEMON.scr:11
-    ctx:command("wait", "0, .1, InitWizardDemon") -- WIZARDDEMON.scr:13
+    ctx:wait(0, .1, "InitWizardDemon") -- WIZARDDEMON.scr:13
     do return ctx:exit(1) end -- WIZARDDEMON.scr:15
 end
 
 script.labels["InitWizardDemon"] = function(ctx)
     -- WIZARDDEMON.scr:18
-    ctx:command("addenemy", "EvilGrandSorcerer") -- WIZARDDEMON.scr:20
-    ctx:command("addenemy", "EvilApprentice") -- WIZARDDEMON.scr:21
-    ctx:command("addenemy", "Player") -- WIZARDDEMON.scr:22
+    ctx:self():addEnemy("EvilGrandSorcerer") -- WIZARDDEMON.scr:20
+    ctx:self():addEnemy("EvilApprentice") -- WIZARDDEMON.scr:21
+    ctx:self():addEnemy("Player") -- WIZARDDEMON.scr:22
     mm9.gosub(script, ctx, "PlaySpawnAnim") -- WIZARDDEMON.scr:24
     ctx:addTrigger("finish", "PlayDeathAnims") -- WIZARDDEMON.scr:26
     do return ctx:exit(1) end -- WIZARDDEMON.scr:28
@@ -30,13 +30,13 @@ end
 
 script.labels["PlaySpawnAnim"] = function(ctx)
     -- WIZARDDEMON.scr:31
-    ctx:command("playanim", "spawn, PlayAngryAnim") -- WIZARDDEMON.scr:33
+    ctx:self():playAnimation("spawn", "PlayAngryAnim") -- WIZARDDEMON.scr:33
     do return ctx:exit(1) end -- WIZARDDEMON.scr:35
 end
 
 script.labels["PlayAngryAnim"] = function(ctx)
     -- WIZARDDEMON.scr:38
-    ctx:command("playanim", "fidget1, SwitchScript") -- WIZARDDEMON.scr:40
+    ctx:self():playAnimation("fidget1", "SwitchScript") -- WIZARDDEMON.scr:40
     do return ctx:exit(1) end -- WIZARDDEMON.scr:42
 end
 
@@ -49,8 +49,8 @@ end
 
 script.labels["PlayDeathAnims"] = function(ctx)
     -- WIZARDDEMON.scr:53
-    ctx:command("stop", "") -- WIZARDDEMON.scr:55
-    ctx:command("runscript", "\"WizardDemonDeath.scr\"") -- WIZARDDEMON.scr:57
+    ctx:self():stop() -- WIZARDDEMON.scr:55
+    ctx:runScript("WizardDemonDeath.scr") -- WIZARDDEMON.scr:57
     do return ctx:exit(1) end -- WIZARDDEMON.scr:59
 end
 

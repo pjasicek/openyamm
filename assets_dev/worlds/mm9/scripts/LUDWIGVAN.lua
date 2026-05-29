@@ -24,7 +24,7 @@ script.labels["OnRude"] = function(ctx)
             ctx:giveExp(12000) -- LUDWIGVAN.scr:27
             ctx:giveGold(2000) -- LUDWIGVAN.scr:28
             ctx:takeItem(248) -- LUDWIGVAN.scr:29
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- LUDWIGVAN.scr:30
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- LUDWIGVAN.scr:30
             -- gives reward
             -- *** this is where the manuscript should be removed from inventory***
             do return ctx:exit("") end -- LUDWIGVAN.scr:33
@@ -35,15 +35,15 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- LUDWIGVAN.scr:40
-    ctx:command("stop", "") -- LUDWIGVAN.scr:43
-    ctx:command("playsound", "voices\\NPC\\NPC_047.wav, DoNothing, 100, 240, FALSE, 100") -- LUDWIGVAN.scr:44
-    ctx:command("playanim", "Ludwig_Lookup Donothing") -- LUDWIGVAN.scr:45
+    ctx:self():stop() -- LUDWIGVAN.scr:43
+    ctx:playSound("voices\\NPC\\NPC_047.wav", "DoNothing", 100, 240, "FALSE", 100) -- LUDWIGVAN.scr:44
+    ctx:self():playAnimation("Ludwig_Lookup", "Donothing") -- LUDWIGVAN.scr:45
     do return ctx:exit("") end -- LUDWIGVAN.scr:46
 end
 
 script.labels["Init"] = function(ctx)
     -- LUDWIGVAN.scr:49
-    ctx:command("loopanim", "Ludwig_writting 0 DoNothing") -- LUDWIGVAN.scr:52
+    ctx:self():loopAnimation("Ludwig_writting", 0, "DoNothing") -- LUDWIGVAN.scr:52
     do return ctx:exit("") end -- LUDWIGVAN.scr:54
 end
 
@@ -52,10 +52,10 @@ script.labels["Main"] = function(ctx)
     -- TraceOn ;DELETE ME!!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- LUDWIGVAN.scr:62
     ctx:addTrigger("Use", "OnUse") -- LUDWIGVAN.scr:63
-    ctx:command("onpoststartworld", "Init") -- LUDWIGVAN.scr:64
-    ctx:command("onpostminisaveload", "Init") -- LUDWIGVAN.scr:65
-    ctx:command("onpostsaveload", "Init") -- LUDWIGVAN.scr:66
-    ctx:command("wait", "1 .1 Init") -- LUDWIGVAN.scr:67
+    ctx:onEvent("OnPostStartWorld", "Init") -- LUDWIGVAN.scr:64
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- LUDWIGVAN.scr:65
+    ctx:onEvent("OnPostSaveLoad", "Init") -- LUDWIGVAN.scr:66
+    ctx:wait(1, .1, "Init") -- LUDWIGVAN.scr:67
     do return ctx:exit("") end -- LUDWIGVAN.scr:68
 end
 

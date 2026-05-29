@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -69,6 +70,8 @@ public:
 private:
     std::filesystem::path m_worldRoot;
     std::vector<Mm9AnimatedModelRegistryEntry> m_entries;
+    std::unordered_map<std::string, std::string> m_sourceModelAliases;
+    std::unordered_map<std::string, std::string> m_sourceSkinAliases;
 };
 
 std::string normalizeMm9AnimatedModelSourceModelRef(const std::string &value);

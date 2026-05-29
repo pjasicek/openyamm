@@ -21,8 +21,8 @@ end
 script.labels["FoundPlayer"] = function(ctx)
     -- BAT.scr:22
     mm9.gosub(script, ctx, "InitBase") -- BAT.scr:24
-    ctx:command("target", "g_hTarget, TRUE") -- BAT.scr:26
-    ctx:command("launch", "LaunchDone, 24") -- BAT.scr:27
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- BAT.scr:26
+    ctx:self():launch("LaunchDone", 24) -- BAT.scr:27
     do return ctx:exit("TRUE") end -- BAT.scr:29
 end
 
@@ -35,9 +35,9 @@ script.labels["Main"] = function(ctx)
     -- BAT.scr:37
     -- traceon
     mm9.gosub(script, ctx, "BaseRangeInit") -- BAT.scr:43
-    ctx:command("onfoundplayer", "FoundPlayer") -- BAT.scr:45
-    ctx:command("onalert", "Alert") -- BAT.scr:46
-    ctx:command("loopanim", "Roost, 0") -- BAT.scr:48
+    ctx:onEvent("OnFoundPlayer", "FoundPlayer") -- BAT.scr:45
+    ctx:onEvent("OnAlert", "Alert") -- BAT.scr:46
+    ctx:self():loopAnimation("Roost", 0) -- BAT.scr:48
     do return ctx:exit("") end -- BAT.scr:51
 end
 

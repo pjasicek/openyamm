@@ -15,25 +15,19 @@ script.includes[#script.includes + 1] = { line = 9, path = "range.inc" }
 script.labels["OnSpawn"] = function(ctx)
     -- TASARTEACHER.scr:20
     -- Spawn monster to fight
-    ctx:command("playanim", "Hattack2 OnMonsterSpawn") -- TASARTEACHER.scr:24
+    ctx:self():playAnimation("Hattack2", "OnMonsterSpawn") -- TASARTEACHER.scr:24
     do return ctx:exit(1) end -- TASARTEACHER.scr:25
 end
 
 script.labels["OnMonsterSpawn"] = function(ctx)
     -- TASARTEACHER.scr:29
     -- Spawn monster to fight
-    ctx:command("getobjecthandle", "Student0 g_hobject") -- TASARTEACHER.scr:33
-    ctx:trigger("g_Hobject", "Hate") -- TASARTEACHER.scr:34
-    ctx:command("getobjecthandle", "Student1 g_hobject") -- TASARTEACHER.scr:36
-    ctx:trigger("g_Hobject", "Hate") -- TASARTEACHER.scr:37
-    ctx:command("getobjecthandle", "Student2 g_hobject") -- TASARTEACHER.scr:39
-    ctx:trigger("g_Hobject", "Hate") -- TASARTEACHER.scr:40
-    ctx:command("getobjecthandle", "Student3 g_hobject") -- TASARTEACHER.scr:42
-    ctx:trigger("g_Hobject", "Hate") -- TASARTEACHER.scr:43
-    ctx:command("getobjecthandle", "DooksGuardCaptain0 g_hobject") -- TASARTEACHER.scr:45
-    ctx:trigger("g_Hobject", "Hate") -- TASARTEACHER.scr:46
-    ctx:command("getobjecthandle", "DooksGuardCaptain1 g_hobject") -- TASARTEACHER.scr:48
-    ctx:trigger("g_Hobject", "Hate") -- TASARTEACHER.scr:49
+    ctx:object("Student0"):trigger("Hate") -- TASARTEACHER.scr:33-34
+    ctx:object("Student1"):trigger("Hate") -- TASARTEACHER.scr:36-37
+    ctx:object("Student2"):trigger("Hate") -- TASARTEACHER.scr:39-40
+    ctx:object("Student3"):trigger("Hate") -- TASARTEACHER.scr:42-43
+    ctx:object("DooksGuardCaptain0"):trigger("Hate") -- TASARTEACHER.scr:45-46
+    ctx:object("DooksGuardCaptain1"):trigger("Hate") -- TASARTEACHER.scr:48-49
     do return ctx:exit("") end -- TASARTEACHER.scr:51
 end
 

@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/bathhouse.lua
+  script_ir: ../events/bathhouse.script_ir.yml
 objects:
 - object_id: mm9:bathhouse:object:0
   source_object_index: 0
@@ -33450,7 +33451,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: StepTrigger0
-    Pos: &id093
+    Pos: &id133
     - 1728.0
     - -48.0
     - 656.0
@@ -33830,7 +33831,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: StepTrigger1
-    Pos: &id094
+    Pos: &id134
     - 2456.0
     - -48.0
     - 480.0
@@ -34210,7 +34211,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: StepTrigger2
-    Pos: &id095
+    Pos: &id135
     - 736.0
     - -61.1199951171875
     - 664.0
@@ -34969,7 +34970,7 @@ objects:
     MessageName9: StartScene
     MoveToFloor: 0
     Name: TriggerEffects
-    Pos: &id096
+    Pos: &id136
     - 64.0
     - -704.0
     - 1728.0
@@ -35349,7 +35350,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerFloodTrigger
-    Pos: &id097
+    Pos: &id137
     - -1024.0
     - 0.0
     - 768.0
@@ -35729,7 +35730,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 1
     Name: EboraGossip
-    Pos: &id098
+    Pos: &id138
     - 2600.818603515625
     - 5.51580810546875
     - -1241.0
@@ -44460,10 +44461,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\BlackChest.ABC
     Locked: 0
     MoveToFloor: 1
     Name: BlackBox
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 6320.0
     - -288.0
@@ -44868,10 +44871,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 6320.0
     - -288.0
@@ -45276,10 +45281,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 6320.0
     - -288.0
@@ -45684,10 +45691,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 5616.0
     - -288.0
@@ -67527,6 +67536,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id031 []
 - mechanism_id: mm9:bathhouse:object:3:mechanism
   object_id: mm9:bathhouse:object:3
@@ -67538,6 +67548,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id032 []
 - mechanism_id: mm9:bathhouse:object:4:mechanism
   object_id: mm9:bathhouse:object:4
@@ -67563,6 +67574,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id033
   - phase: open
     slot: 0
@@ -67579,6 +67619,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id034 []
 - mechanism_id: mm9:bathhouse:object:9:mechanism
   object_id: mm9:bathhouse:object:9
@@ -67590,6 +67631,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id035 []
 - mechanism_id: mm9:bathhouse:object:10:mechanism
   object_id: mm9:bathhouse:object:10
@@ -67601,6 +67643,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id036 []
 - mechanism_id: mm9:bathhouse:object:11:mechanism
   object_id: mm9:bathhouse:object:11
@@ -67612,6 +67655,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id037 []
 - mechanism_id: mm9:bathhouse:object:12:mechanism
   object_id: mm9:bathhouse:object:12
@@ -67623,6 +67667,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id038 []
 - mechanism_id: mm9:bathhouse:object:13:mechanism
   object_id: mm9:bathhouse:object:13
@@ -67634,6 +67679,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id039 []
 - mechanism_id: mm9:bathhouse:object:14:mechanism
   object_id: mm9:bathhouse:object:14
@@ -67645,6 +67691,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id040 []
 - mechanism_id: mm9:bathhouse:object:15:mechanism
   object_id: mm9:bathhouse:object:15
@@ -67656,6 +67703,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id041 []
 - mechanism_id: mm9:bathhouse:object:16:mechanism
   object_id: mm9:bathhouse:object:16
@@ -67667,6 +67715,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id042 []
 - mechanism_id: mm9:bathhouse:object:17:mechanism
   object_id: mm9:bathhouse:object:17
@@ -67678,6 +67727,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id043 []
 - mechanism_id: mm9:bathhouse:object:18:mechanism
   object_id: mm9:bathhouse:object:18
@@ -67689,6 +67739,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id044 []
 - mechanism_id: mm9:bathhouse:object:22:mechanism
   object_id: mm9:bathhouse:object:22
@@ -67714,6 +67765,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id045 []
 - mechanism_id: mm9:bathhouse:object:23:mechanism
   object_id: mm9:bathhouse:object:23
@@ -67739,6 +67819,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id046 []
 - mechanism_id: mm9:bathhouse:object:24:mechanism
   object_id: mm9:bathhouse:object:24
@@ -67764,6 +67873,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id047 []
 - mechanism_id: mm9:bathhouse:object:25:mechanism
   object_id: mm9:bathhouse:object:25
@@ -67789,6 +67927,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id048 []
 - mechanism_id: mm9:bathhouse:object:26:mechanism
   object_id: mm9:bathhouse:object:26
@@ -67814,6 +67981,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id049 []
 - mechanism_id: mm9:bathhouse:object:27:mechanism
   object_id: mm9:bathhouse:object:27
@@ -67839,6 +68035,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id050 []
 - mechanism_id: mm9:bathhouse:object:32:mechanism
   object_id: mm9:bathhouse:object:32
@@ -67864,6 +68089,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door9
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id051 []
 - mechanism_id: mm9:bathhouse:object:33:mechanism
   object_id: mm9:bathhouse:object:33
@@ -67889,6 +68143,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: Door8
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id052 []
 - mechanism_id: mm9:bathhouse:object:139:mechanism
   object_id: mm9:bathhouse:object:139
@@ -67918,6 +68201,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\metaldoorslide01.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\metaldoorslide01.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\metaldoorslide01.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\metaldoorslide01.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id053
   - phase: open
     slot: 0
@@ -67978,6 +68290,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: Door7
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id054 []
 - mechanism_id: mm9:bathhouse:object:141:mechanism
   object_id: mm9:bathhouse:object:141
@@ -68003,6 +68344,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: Door6
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id055 []
 - mechanism_id: mm9:bathhouse:object:143:mechanism
   object_id: mm9:bathhouse:object:143
@@ -68032,6 +68402,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Ambient\machinery03.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id056 []
 - mechanism_id: mm9:bathhouse:object:144:mechanism
   object_id: mm9:bathhouse:object:144
@@ -68057,6 +68456,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PistonUp0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id057 []
 - mechanism_id: mm9:bathhouse:object:145:mechanism
   object_id: mm9:bathhouse:object:145
@@ -68082,6 +68510,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PistonDown1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id058
   - phase: close
     slot: 0
@@ -68112,6 +68569,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PistonDown0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id059
   - phase: close
     slot: 0
@@ -68142,6 +68628,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: PistonUp1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id060 []
 - mechanism_id: mm9:bathhouse:object:149:mechanism
   object_id: mm9:bathhouse:object:149
@@ -68171,6 +68686,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Ambient\metalcreak02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Ambient\metalcreak02.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id061 []
 - mechanism_id: mm9:bathhouse:object:155:mechanism
   object_id: mm9:bathhouse:object:155
@@ -68182,6 +68726,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id062 []
 - mechanism_id: mm9:bathhouse:object:180:mechanism
   object_id: mm9:bathhouse:object:180
@@ -68193,6 +68738,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id063 []
 - mechanism_id: mm9:bathhouse:object:184:mechanism
   object_id: mm9:bathhouse:object:184
@@ -68204,6 +68750,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id067 []
 - mechanism_id: mm9:bathhouse:object:185:mechanism
   object_id: mm9:bathhouse:object:185
@@ -68215,6 +68762,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id068 []
 - mechanism_id: mm9:bathhouse:object:224:mechanism
   object_id: mm9:bathhouse:object:224
@@ -68225,6 +68773,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id072 []
 - mechanism_id: mm9:bathhouse:object:225:mechanism
   object_id: mm9:bathhouse:object:225
@@ -68235,6 +68784,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id073 []
 - mechanism_id: mm9:bathhouse:object:226:mechanism
   object_id: mm9:bathhouse:object:226
@@ -68245,6 +68795,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id074 []
 - mechanism_id: mm9:bathhouse:object:227:mechanism
   object_id: mm9:bathhouse:object:227
@@ -68255,6 +68806,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id075 []
 - mechanism_id: mm9:bathhouse:object:228:mechanism
   object_id: mm9:bathhouse:object:228
@@ -68265,6 +68817,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id076 []
 - mechanism_id: mm9:bathhouse:object:229:mechanism
   object_id: mm9:bathhouse:object:229
@@ -68275,6 +68828,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id077 []
 - mechanism_id: mm9:bathhouse:object:230:mechanism
   object_id: mm9:bathhouse:object:230
@@ -68285,6 +68839,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id078 []
 - mechanism_id: mm9:bathhouse:object:231:mechanism
   object_id: mm9:bathhouse:object:231
@@ -68295,6 +68850,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id079 []
 - mechanism_id: mm9:bathhouse:object:232:mechanism
   object_id: mm9:bathhouse:object:232
@@ -68305,6 +68861,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id080 []
 - mechanism_id: mm9:bathhouse:object:233:mechanism
   object_id: mm9:bathhouse:object:233
@@ -68315,6 +68872,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id081 []
 - mechanism_id: mm9:bathhouse:object:234:mechanism
   object_id: mm9:bathhouse:object:234
@@ -68325,6 +68883,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id082 []
 - mechanism_id: mm9:bathhouse:object:235:mechanism
   object_id: mm9:bathhouse:object:235
@@ -68335,6 +68894,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id083 []
 - mechanism_id: mm9:bathhouse:object:236:mechanism
   object_id: mm9:bathhouse:object:236
@@ -68345,6 +68905,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id084 []
 - mechanism_id: mm9:bathhouse:object:237:mechanism
   object_id: mm9:bathhouse:object:237
@@ -68355,6 +68916,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id085 []
 - mechanism_id: mm9:bathhouse:object:238:mechanism
   object_id: mm9:bathhouse:object:238
@@ -68365,6 +68927,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id086 []
 - mechanism_id: mm9:bathhouse:object:239:mechanism
   object_id: mm9:bathhouse:object:239
@@ -68375,6 +68938,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id087 []
 - mechanism_id: mm9:bathhouse:object:240:mechanism
   object_id: mm9:bathhouse:object:240
@@ -68385,6 +68949,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id088 []
 - mechanism_id: mm9:bathhouse:object:241:mechanism
   object_id: mm9:bathhouse:object:241
@@ -68395,6 +68960,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id089 []
 - mechanism_id: mm9:bathhouse:object:242:mechanism
   object_id: mm9:bathhouse:object:242
@@ -68405,6 +68971,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id090 []
 - mechanism_id: mm9:bathhouse:object:243:mechanism
   object_id: mm9:bathhouse:object:243
@@ -68415,6 +68982,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id091 []
 - mechanism_id: mm9:bathhouse:object:244:mechanism
   object_id: mm9:bathhouse:object:244
@@ -68425,6 +68993,7 @@ mechanisms:
     kind: destructible_prop
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id092 []
 - mechanism_id: mm9:bathhouse:object:263:mechanism
   object_id: mm9:bathhouse:object:263
@@ -68435,6 +69004,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:bathhouse:object:181:trigger
@@ -69891,173 +70461,1229 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id139
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: &id099
+      - 3580.0
+      - -453.5
+      - 116.0
+      distance_from_position_lt: 41.788
+    - source_model_index: 22
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt: &id100
+      - 3581.5
+      - -455.5
+      - 116.0
+      distance_from_position_lt: 43.755
+    - source_model_index: 28
+      source_name: Switch0
+      movable: true
+      world_translation_lt: &id101
+      - 3678.0
+      - -373.66033935546875
+      - 68.0
+      distance_from_position_lt: 128.657
+    - source_model_index: 29
+      source_name: WaterProp
+      movable: true
+      world_translation_lt: &id116
+      - 3776.0
+      - -444.0
+      - 98.0
+      distance_from_position_lt: 205.134
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: &id098
+      - 3368.0
+      - -543.5
+      - -197.0
+      distance_from_position_lt: 411.195
 - object_id: mm9:bathhouse:object:3
   source_object_index: 3
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id140
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: &id107
+      - 1643.5
+      - 42.5
+      - -1754.0
+      distance_from_position_lt: 279.392
+    - source_model_index: 9
+      source_name: WaterthatBoilsA
+      movable: true
+      world_translation_lt: &id106
+      - 1862.5
+      - -322.0
+      - -1706.5
+      distance_from_position_lt: 347.26
+    - source_model_index: 20
+      source_name: Door1
+      movable: true
+      world_translation_lt: &id097
+      - 1656.0
+      - 22.5
+      - -1108.0
+      distance_from_position_lt: 425.401
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: &id093
+      - 1241.5
+      - 42.5
+      - -1731.5
+      distance_from_position_lt: 562.728
+    - source_model_index: 36
+      source_name: FurnaceWarning
+      movable: true
+      world_translation_lt: &id108
+      - 1485.0
+      - -4.0
+      - -2019.0
+      distance_from_position_lt: 572.274
 - object_id: mm9:bathhouse:object:4
   source_object_index: 4
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id141
+    - source_model_index: 37
+      source_name: DamageBrush0
+      movable: true
+      world_translation_lt: &id119
+      - 3076.0
+      - -59.0
+      - -1868.0
+      distance_from_position_lt: 1290.72
+    - source_model_index: 34
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: &id118
+      - 3076.0
+      - -56.0
+      - -1772.0
+      distance_from_position_lt: 1296.886
+    - source_model_index: 38
+      source_name: DamageBrush1
+      movable: true
+      world_translation_lt: &id113
+      - 2824.0
+      - -59.0
+      - -2088.0
+      distance_from_position_lt: 1550.137
+    - source_model_index: 39
+      source_name: DamageBrush2
+      movable: true
+      world_translation_lt: &id112
+      - 2720.0
+      - -59.0
+      - -2088.0
+      distance_from_position_lt: 1652.745
+    - source_model_index: 40
+      source_name: DamageBrush3
+      movable: true
+      world_translation_lt: &id111
+      - 2592.0
+      - -59.0
+      - -2088.0
+      distance_from_position_lt: 1779.253
 - object_id: mm9:bathhouse:object:8
   source_object_index: 8
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id142
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: &id105
+      - 1120.0
+      - -116.0
+      - -65.5
+      distance_from_position_lt: 193.169
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: &id104
+      - 992.0
+      - -543.5
+      - -293.0
+      distance_from_position_lt: 457.958
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: &id094
+      - 992.0
+      - -543.5
+      - -885.0
+      distance_from_position_lt: 777.173
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: &id102
+      - 1849.0
+      - -543.5
+      - -293.0
+      distance_from_position_lt: 818.495
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: &id115
+      - 839.0
+      - 14.5
+      - 658.0
+      distance_from_position_lt: 974.882
 - object_id: mm9:bathhouse:object:9
   source_object_index: 9
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id143
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: &id096
+      - 445.5
+      - -85.5
+      - -1594.5
+      distance_from_position_lt: 8.485
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: &id095
+      - 942.5
+      - -309.0
+      - -1490.5
+      distance_from_position_lt: 559.075
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: &id122
+      - 32.0
+      - 22.5
+      - -1108.0
+      distance_from_position_lt: 639.219
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 824.644
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 1004.954
 - object_id: mm9:bathhouse:object:10
   source_object_index: 10
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id144
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 331.325
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 359.135
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 760.993
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 807.617
+    - source_model_index: 20
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 819.039
 - object_id: mm9:bathhouse:object:11
   source_object_index: 11
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id145
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 364.841
+    - source_model_index: 6
+      source_name: BlueWater14
+      movable: true
+      world_translation_lt: &id103
+      - 2568.0
+      - -543.5
+      - -481.0
+      distance_from_position_lt: 661.609
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 738.422
+    - source_model_index: 22
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 739.016
+    - source_model_index: 28
+      source_name: Switch0
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 760.494
 - object_id: mm9:bathhouse:object:12
   source_object_index: 12
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id146
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 0.0
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 520.609
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 554.777
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 651.207
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: &id109
+      - 1436.0
+      - 0.0
+      - -2049.0
+      distance_from_position_lt: 806.812
 - object_id: mm9:bathhouse:object:13
   source_object_index: 13
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id147
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 0.0
+    - source_model_index: 6
+      source_name: BlueWater14
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 743.172
+    - source_model_index: 11
+      source_name: BlueWater8
+      movable: true
+      world_translation_lt: &id114
+      - 1846.0
+      - -543.5
+      - -1047.0
+      distance_from_position_lt: 754.006
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 857.0
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 875.188
 - object_id: mm9:bathhouse:object:14
   source_object_index: 14
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id148
+    - source_model_index: 9
+      source_name: WaterthatBoilsA
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 160.225
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 300.086
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: &id110
+      - 2318.0
+      - -157.5
+      - -1708.0
+      distance_from_position_lt: 461.583
+    - source_model_index: 36
+      source_name: FurnaceWarning
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 514.216
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 569.663
 - object_id: mm9:bathhouse:object:15
   source_object_index: 15
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id149
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 195.37
+    - source_model_index: 40
+      source_name: DamageBrush3
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 292.412
+    - source_model_index: 39
+      source_name: DamageBrush2
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 368.767
+    - source_model_index: 38
+      source_name: DamageBrush1
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 448.481
+    - source_model_index: 16
+      source_name: Door5
+      movable: true
+      world_translation_lt: &id117
+      - 2567.0
+      - 22.5
+      - -1246.5
+      distance_from_position_lt: 607.221
 - object_id: mm9:bathhouse:object:16
   source_object_index: 16
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id150
+    - source_model_index: 9
+      source_name: WaterthatBoilsA
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 314.964
+    - source_model_index: 11
+      source_name: BlueWater8
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 406.685
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 605.666
+    - source_model_index: 20
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 667.504
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 670.72
 - object_id: mm9:bathhouse:object:17
   source_object_index: 17
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id151
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 0.0
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 500.896
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 592.0
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 857.0
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 1113.182
 - object_id: mm9:bathhouse:object:18
   source_object_index: 18
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id152
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 0.0
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 388.604
+    - source_model_index: 22
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 388.967
+    - source_model_index: 28
+      source_name: Switch0
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 441.781
+    - source_model_index: 29
+      source_name: WaterProp
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 513.215
 - object_id: mm9:bathhouse:object:22
   source_object_index: 22
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id153
+    - source_model_index: 16
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 118.522
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 614.858
+    - source_model_index: 34
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 754.711
+    - source_model_index: 37
+      source_name: DamageBrush0
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 826.146
+    - source_model_index: 40
+      source_name: DamageBrush3
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 873.066
 - object_id: mm9:bathhouse:object:23
   source_object_index: 23
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id154
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 151.576
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 739.135
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: &id120
+      - 1619.0
+      - 14.5
+      - 658.0
+      distance_from_position_lt: 781.726
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 1112.862
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 1487.572
 - object_id: mm9:bathhouse:object:24
   source_object_index: 24
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id155
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 151.576
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 807.252
+    - source_model_index: 19
+      source_name: Door2
+      movable: true
+      world_translation_lt: &id121
+      - 2458.0
+      - 22.5
+      - 432.0
+      distance_from_position_lt: 846.313
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 858.277
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 1125.145
 - object_id: mm9:bathhouse:object:25
   source_object_index: 25
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id156
+    - source_model_index: 19
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 120.434
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 859.492
+    - source_model_index: 6
+      source_name: BlueWater14
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 1137.92
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 1147.829
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 1310.388
 - object_id: mm9:bathhouse:object:26
   source_object_index: 26
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id157
+    - source_model_index: 20
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 120.434
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 640.551
+    - source_model_index: 11
+      source_name: BlueWater8
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 719.734
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 731.771
+    - source_model_index: 9
+      source_name: WaterthatBoilsA
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 780.336
 - object_id: mm9:bathhouse:object:27
   source_object_index: 27
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id158
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 118.559
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 673.468
+    - source_model_index: 41
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: &id132
+      - -508.0
+      - 30.5
+      - -346.5
+      distance_from_position_lt: 945.411
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 1087.939
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 1209.061
 - object_id: mm9:bathhouse:object:32
   source_object_index: 32
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id159
+    - source_model_index: 23
+      source_name: Door8
+      movable: true
+      world_translation_lt: &id124
+      - 6030.0
+      - -243.0
+      - -919.0
+      distance_from_position_lt: 94.133
+    - source_model_index: 24
+      source_name: Door9
+      movable: true
+      world_translation_lt: &id123
+      - 5906.0
+      - -243.0
+      - -919.0
+      distance_from_position_lt: 104.139
+    - source_model_index: 27
+      source_name: Door7
+      movable: true
+      world_translation_lt: &id125
+      - 5770.0
+      - -243.0
+      - -163.0
+      distance_from_position_lt: 783.498
+    - source_model_index: 26
+      source_name: Door6
+      movable: true
+      world_translation_lt: &id126
+      - 5770.0
+      - -243.0
+      - -39.0
+      distance_from_position_lt: 903.184
+    - source_model_index: 35
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: &id127
+      - 4732.0
+      - -287.0
+      - -160.0
+      distance_from_position_lt: 1460.206
 - object_id: mm9:bathhouse:object:33
   source_object_index: 33
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id160
+    - source_model_index: 24
+      source_name: Door9
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 459.124
+    - source_model_index: 23
+      source_name: Door8
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 459.995
+    - source_model_index: 27
+      source_name: Door7
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 1222.858
+    - source_model_index: 26
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 1345.194
+    - source_model_index: 35
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 1730.063
 - object_id: mm9:bathhouse:object:139
   source_object_index: 139
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id161
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_rotation_point_lt: 0.0
+    - source_model_index: 36
+      source_name: FurnaceWarning
+      movable: true
+      world_translation_lt: *id108
+      distance_from_rotation_point_lt: 57.593
+    - source_model_index: 31
+      source_name: PistonUp1
+      movable: true
+      world_translation_lt: &id128
+      - 1452.0
+      - 112.0
+      - -2074.0
+      distance_from_rotation_point_lt: 115.866
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: &id129
+      - 1420.0
+      - 112.0
+      - -2074.0
+      distance_from_rotation_point_lt: 115.866
+    - source_model_index: 30
+      source_name: PistonDown0
+      movable: true
+      world_translation_lt: &id130
+      - 1420.0
+      - 102.0
+      - -2108.0
+      distance_from_rotation_point_lt: 118.916
+    nearest_movable_world_models_by_position: &id162
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 0.0
+    - source_model_index: 36
+      source_name: FurnaceWarning
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 57.593
+    - source_model_index: 31
+      source_name: PistonUp1
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 115.866
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 115.866
+    - source_model_index: 30
+      source_name: PistonDown0
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 118.916
 - object_id: mm9:bathhouse:object:140
   source_object_index: 140
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id163
+    - source_model_index: 26
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 94.133
+    - source_model_index: 27
+      source_name: Door7
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 104.139
+    - source_model_index: 24
+      source_name: Door9
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 841.311
+    - source_model_index: 23
+      source_name: Door8
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 870.575
+    - source_model_index: 35
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 1043.209
 - object_id: mm9:bathhouse:object:141
   source_object_index: 141
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id164
+    - source_model_index: 27
+      source_name: Door7
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 88.216
+    - source_model_index: 26
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 111.777
+    - source_model_index: 24
+      source_name: Door9
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 814.478
+    - source_model_index: 23
+      source_name: Door8
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 844.378
+    - source_model_index: 35
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 1043.809
 - object_id: mm9:bathhouse:object:143
   source_object_index: 143
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id165
+    - source_model_index: 29
+      source_name: WaterProp
+      movable: true
+      world_translation_lt: *id116
+      distance_from_rotation_point_lt: 14.0
+    - source_model_index: 28
+      source_name: Switch0
+      movable: true
+      world_translation_lt: *id101
+      distance_from_rotation_point_lt: 121.687
+    - source_model_index: 22
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt: *id100
+      distance_from_rotation_point_lt: 197.45
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id099
+      distance_from_rotation_point_lt: 198.822
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_rotation_point_lt: 505.297
+    nearest_movable_world_models_by_position: &id166
+    - source_model_index: 29
+      source_name: WaterProp
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 14.0
+    - source_model_index: 28
+      source_name: Switch0
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 121.687
+    - source_model_index: 22
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 197.45
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 198.822
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 505.297
 - object_id: mm9:bathhouse:object:144
   source_object_index: 144
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id167
+    - source_model_index: 30
+      source_name: PistonDown0
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 6.0
+    - source_model_index: 33
+      source_name: PistonDown1
+      movable: true
+      world_translation_lt: &id131
+      - 1452.0
+      - 102.0
+      - -2108.0
+      distance_from_position_lt: 32.558
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 34.234
+    - source_model_index: 31
+      source_name: PistonUp1
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 46.861
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 124.101
 - object_id: mm9:bathhouse:object:145
   source_object_index: 145
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id168
+    - source_model_index: 31
+      source_name: PistonUp1
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 4.0
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 32.249
+    - source_model_index: 33
+      source_name: PistonDown1
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 34.525
+    - source_model_index: 30
+      source_name: PistonDown0
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 47.074
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 112.004
 - object_id: mm9:bathhouse:object:146
   source_object_index: 146
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id169
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 4.0
+    - source_model_index: 31
+      source_name: PistonUp1
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 32.249
+    - source_model_index: 30
+      source_name: PistonDown0
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 34.525
+    - source_model_index: 33
+      source_name: PistonDown1
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 47.074
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 112.004
 - object_id: mm9:bathhouse:object:147
   source_object_index: 147
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id170
+    - source_model_index: 33
+      source_name: PistonDown1
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 0.0
+    - source_model_index: 30
+      source_name: PistonDown0
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 32.0
+    - source_model_index: 31
+      source_name: PistonUp1
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 35.44
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 47.749
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 118.916
 - object_id: mm9:bathhouse:object:149
   source_object_index: 149
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id171
+    - source_model_index: 34
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id118
+      distance_from_rotation_point_lt: 30.0
+    - source_model_index: 37
+      source_name: DamageBrush0
+      movable: true
+      world_translation_lt: *id119
+      distance_from_rotation_point_lt: 101.514
+    - source_model_index: 38
+      source_name: DamageBrush1
+      movable: true
+      world_translation_lt: *id113
+      distance_from_rotation_point_lt: 405.523
+    - source_model_index: 39
+      source_name: DamageBrush2
+      movable: true
+      world_translation_lt: *id112
+      distance_from_rotation_point_lt: 477.159
+    - source_model_index: 40
+      source_name: DamageBrush3
+      movable: true
+      world_translation_lt: *id111
+      distance_from_rotation_point_lt: 578.965
+    nearest_movable_world_models_by_position: &id172
+    - source_model_index: 34
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 30.0
+    - source_model_index: 37
+      source_name: DamageBrush0
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 101.514
+    - source_model_index: 38
+      source_name: DamageBrush1
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 405.523
+    - source_model_index: 39
+      source_name: DamageBrush2
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 477.159
+    - source_model_index: 40
+      source_name: DamageBrush3
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 578.965
 - object_id: mm9:bathhouse:object:155
   source_object_index: 155
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id173
+    - source_model_index: 35
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 224.823
+    - source_model_index: 27
+      source_name: Door7
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 853.741
+    - source_model_index: 26
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 861.044
+    - source_model_index: 29
+      source_name: WaterProp
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 1203.905
+    - source_model_index: 24
+      source_name: Door9
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 1251.996
 - object_id: mm9:bathhouse:object:180
   source_object_index: 180
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id174
+    - source_model_index: 41
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 1073.633
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 1996.399
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 2006.679
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 2347.114
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 2353.753
 - object_id: mm9:bathhouse:object:181
   source_object_index: 181
   targets:
   - target_kind: trigger_volume
     target_id: mm9:bathhouse:object:181:volume
     confidence: source_object_volume
-    pos_lt: *id093
+    pos_lt: *id133
     dims_lt: *id025
 - object_id: mm9:bathhouse:object:182
   source_object_index: 182
@@ -70065,7 +71691,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:bathhouse:object:182:volume
     confidence: source_object_volume
-    pos_lt: *id094
+    pos_lt: *id134
     dims_lt: *id026
 - object_id: mm9:bathhouse:object:183
   source_object_index: 183
@@ -70073,25 +71699,77 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:bathhouse:object:183:volume
     confidence: source_object_volume
-    pos_lt: *id095
+    pos_lt: *id135
     dims_lt: *id027
 - object_id: mm9:bathhouse:object:184
   source_object_index: 184
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id175
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 801.381
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 855.433
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 868.889
+    - source_model_index: 41
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 892.959
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 1118.861
 - object_id: mm9:bathhouse:object:185
   source_object_index: 185
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id176
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 580.956
+    - source_model_index: 19
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 604.859
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 791.525
+    - source_model_index: 6
+      source_name: BlueWater14
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 844.879
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 930.894
 - object_id: mm9:bathhouse:object:187
   source_object_index: 187
   targets:
   - target_kind: trigger_volume
     target_id: mm9:bathhouse:object:187:volume
     confidence: source_object_volume
-    pos_lt: *id096
+    pos_lt: *id136
     dims_lt: *id028
 - object_id: mm9:bathhouse:object:188
   source_object_index: 188
@@ -70099,7 +71777,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:bathhouse:object:188:volume
     confidence: source_object_volume
-    pos_lt: *id097
+    pos_lt: *id137
     dims_lt: *id029
 - object_id: mm9:bathhouse:object:189
   source_object_index: 189
@@ -70107,118 +71785,690 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:bathhouse:object:189:volume
     confidence: source_object_volume
-    pos_lt: *id098
+    pos_lt: *id138
     dims_lt: *id030
 - object_id: mm9:bathhouse:object:224
   source_object_index: 224
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id177
+    - source_model_index: 41
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 861.961
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 948.375
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 1266.966
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 1337.272
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 1498.595
 - object_id: mm9:bathhouse:object:225
   source_object_index: 225
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id178
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 206.938
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 637.535
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 851.201
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 923.234
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 1389.104
 - object_id: mm9:bathhouse:object:226
   source_object_index: 226
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id179
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 196.711
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 848.773
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 948.731
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 1225.774
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 1606.166
 - object_id: mm9:bathhouse:object:227
   source_object_index: 227
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id180
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 203.055
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 848.429
+    - source_model_index: 19
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 894.954
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 1050.113
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 1230.724
 - object_id: mm9:bathhouse:object:228
   source_object_index: 228
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id181
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 206.493
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 771.234
+    - source_model_index: 19
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 802.026
+    - source_model_index: 17
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 849.258
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 920.101
 - object_id: mm9:bathhouse:object:229
   source_object_index: 229
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id182
+    - source_model_index: 19
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 409.837
+    - source_model_index: 18
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 881.907
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 1369.075
+    - source_model_index: 22
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 1370.85
+    - source_model_index: 8
+      source_name: BlueWater4
+      movable: true
+      world_translation_lt: *id102
+      distance_from_position_lt: 1376.12
 - object_id: mm9:bathhouse:object:230
   source_object_index: 230
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id183
+    - source_model_index: 19
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 520.951
+    - source_model_index: 6
+      source_name: BlueWater14
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 699.647
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 817.406
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 936.751
+    - source_model_index: 22
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt: *id100
+      distance_from_position_lt: 938.935
 - object_id: mm9:bathhouse:object:231
   source_object_index: 231
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id184
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 255.895
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 611.139
+    - source_model_index: 41
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 1053.976
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 1081.836
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 1263.326
 - object_id: mm9:bathhouse:object:232
   source_object_index: 232
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id185
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 403.508
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 734.44
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 923.663
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 1131.019
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 1333.994
 - object_id: mm9:bathhouse:object:233
   source_object_index: 233
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id186
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 338.412
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 475.388
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 629.217
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 743.266
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 787.427
 - object_id: mm9:bathhouse:object:234
   source_object_index: 234
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id187
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 334.369
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 580.022
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 632.984
+    - source_model_index: 32
+      source_name: PistonUp0
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 830.819
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 832.808
 - object_id: mm9:bathhouse:object:235
   source_object_index: 235
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id188
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 406.225
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 456.01
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 686.857
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 700.064
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 767.923
 - object_id: mm9:bathhouse:object:236
   source_object_index: 236
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id189
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 430.484
+    - source_model_index: 7
+      source_name: WaterthatBoilsB
+      movable: true
+      world_translation_lt: *id095
+      distance_from_position_lt: 461.859
+    - source_model_index: 20
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 503.788
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 637.544
+    - source_model_index: 5
+      source_name: BlueWater10
+      movable: true
+      world_translation_lt: *id094
+      distance_from_position_lt: 739.433
 - object_id: mm9:bathhouse:object:237
   source_object_index: 237
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id190
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 309.397
+    - source_model_index: 20
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 341.635
+    - source_model_index: 9
+      source_name: WaterthatBoilsA
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 471.793
+    - source_model_index: 2
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id093
+      distance_from_position_lt: 529.004
+    - source_model_index: 36
+      source_name: FurnaceWarning
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 607.08
 - object_id: mm9:bathhouse:object:238
   source_object_index: 238
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id191
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 211.013
+    - source_model_index: 36
+      source_name: FurnaceWarning
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 214.443
+    - source_model_index: 25
+      source_name: GasRelease0
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 269.164
+    - source_model_index: 31
+      source_name: PistonUp1
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 274.029
+    - source_model_index: 33
+      source_name: PistonDown1
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 287.228
 - object_id: mm9:bathhouse:object:239
   source_object_index: 239
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id192
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 376.63
+    - source_model_index: 9
+      source_name: WaterthatBoilsA
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 500.316
+    - source_model_index: 16
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 501.004
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 555.344
+    - source_model_index: 20
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id097
+      distance_from_position_lt: 573.699
 - object_id: mm9:bathhouse:object:240
   source_object_index: 240
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id193
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 376.63
+    - source_model_index: 9
+      source_name: WaterthatBoilsA
+      movable: true
+      world_translation_lt: *id106
+      distance_from_position_lt: 501.825
+    - source_model_index: 40
+      source_name: DamageBrush3
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 505.04
+    - source_model_index: 1
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 511.897
+    - source_model_index: 39
+      source_name: DamageBrush2
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 627.956
 - object_id: mm9:bathhouse:object:241
   source_object_index: 241
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id194
+    - source_model_index: 16
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 159.165
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 463.545
+    - source_model_index: 34
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 604.278
+    - source_model_index: 37
+      source_name: DamageBrush0
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 668.079
+    - source_model_index: 40
+      source_name: DamageBrush3
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 694.176
 - object_id: mm9:bathhouse:object:242
   source_object_index: 242
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id195
+    - source_model_index: 16
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 156.274
+    - source_model_index: 10
+      source_name: BlueWater6
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 703.246
+    - source_model_index: 34
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 826.888
+    - source_model_index: 6
+      source_name: BlueWater14
+      movable: true
+      world_translation_lt: *id103
+      distance_from_position_lt: 843.223
+    - source_model_index: 37
+      source_name: DamageBrush0
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 907.353
 - object_id: mm9:bathhouse:object:243
   source_object_index: 243
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id196
+    - source_model_index: 34
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 823.349
+    - source_model_index: 37
+      source_name: DamageBrush0
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 907.943
+    - source_model_index: 16
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 931.902
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 1043.318
+    - source_model_index: 28
+      source_name: Switch0
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 1214.968
 - object_id: mm9:bathhouse:object:244
   source_object_index: 244
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id197
+    - source_model_index: 35
+      source_name: BlueWater2
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 927.043
+    - source_model_index: 28
+      source_name: Switch0
+      movable: true
+      world_translation_lt: *id101
+      distance_from_position_lt: 931.204
+    - source_model_index: 29
+      source_name: WaterProp
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 956.069
+    - source_model_index: 13
+      source_name: BlueWater9
+      movable: true
+      world_translation_lt: *id098
+      distance_from_position_lt: 1011.862
+    - source_model_index: 0
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id099
+      distance_from_position_lt: 1045.814
 - object_id: mm9:bathhouse:object:263
   source_object_index: 263
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id198
+    - source_model_index: 41
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 0.0
+    - source_model_index: 21
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 933.566
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt: *id096
+      distance_from_position_lt: 1574.84
+    - source_model_index: 12
+      source_name: BlueWater7
+      movable: true
+      world_translation_lt: *id104
+      distance_from_position_lt: 1606.966
+    - source_model_index: 3
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt: *id105
+      distance_from_position_lt: 1658.556
 scripts:
 - script_id: bathfurnace.scr
   source_path: BATHFURNACE.scr
@@ -71414,286 +73664,403 @@ unresolved:
   source_name: Ladder0
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id139
 - kind: unresolved_binding
   source_object_index: 3
   source_name: Deathwater2
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id140
 - kind: unresolved_binding
   source_object_index: 4
   source_name: DragonDoor1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id141
 - kind: unresolved_binding
   source_object_index: 8
   source_name: BlueWater0
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id142
 - kind: unresolved_binding
   source_object_index: 9
   source_name: BlueWater1
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id143
 - kind: unresolved_binding
   source_object_index: 10
   source_name: BlueWater10
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id144
 - kind: unresolved_binding
   source_object_index: 11
   source_name: BlueWater14
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id145
 - kind: unresolved_binding
   source_object_index: 12
   source_name: WaterthatBoilsB
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id146
 - kind: unresolved_binding
   source_object_index: 13
   source_name: BlueWater4
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id147
 - kind: unresolved_binding
   source_object_index: 14
   source_name: WaterthatBoilsA
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id148
 - kind: unresolved_binding
   source_object_index: 15
   source_name: BlueWater6
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id149
 - kind: unresolved_binding
   source_object_index: 16
   source_name: BlueWater8
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id150
 - kind: unresolved_binding
   source_object_index: 17
   source_name: BlueWater7
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id151
 - kind: unresolved_binding
   source_object_index: 18
   source_name: BlueWater9
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id152
 - kind: unresolved_binding
   source_object_index: 22
   source_name: Door5
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id153
 - kind: unresolved_binding
   source_object_index: 23
   source_name: Door4
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id154
 - kind: unresolved_binding
   source_object_index: 24
   source_name: Door3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id155
 - kind: unresolved_binding
   source_object_index: 25
   source_name: Door2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id156
 - kind: unresolved_binding
   source_object_index: 26
   source_name: Door1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id157
 - kind: unresolved_binding
   source_object_index: 27
   source_name: Door0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id158
 - kind: unresolved_binding
   source_object_index: 32
   source_name: Door8
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id159
 - kind: unresolved_binding
   source_object_index: 33
   source_name: Door9
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id160
 - kind: unresolved_binding
   source_object_index: 139
   source_name: GasRelease0
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id161
+    nearest_movable_world_models_by_position: *id162
 - kind: unresolved_binding
   source_object_index: 140
   source_name: Door6
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id163
 - kind: unresolved_binding
   source_object_index: 141
   source_name: Door7
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id164
 - kind: unresolved_binding
   source_object_index: 143
   source_name: WaterProp
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id165
+    nearest_movable_world_models_by_position: *id166
 - kind: unresolved_binding
   source_object_index: 144
   source_name: PistonDown0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id167
 - kind: unresolved_binding
   source_object_index: 145
   source_name: PistonUp1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id168
 - kind: unresolved_binding
   source_object_index: 146
   source_name: PistonUp0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id169
 - kind: unresolved_binding
   source_object_index: 147
   source_name: PistonDown1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id170
 - kind: unresolved_binding
   source_object_index: 149
   source_name: RotatingDoor0
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id171
+    nearest_movable_world_models_by_position: *id172
 - kind: unresolved_binding
   source_object_index: 155
   source_name: BlueWater2
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id173
 - kind: unresolved_binding
   source_object_index: 180
   source_name: SpawnMgr
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id174
 - kind: unresolved_binding
   source_object_index: 184
   source_name: SpawnLoc1
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id175
 - kind: unresolved_binding
   source_object_index: 185
   source_name: SpawnLoc0
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id176
 - kind: unresolved_binding
   source_object_index: 224
   source_name: Urn0
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id177
 - kind: unresolved_binding
   source_object_index: 225
   source_name: Urn1
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id178
 - kind: unresolved_binding
   source_object_index: 226
   source_name: Urn2
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id179
 - kind: unresolved_binding
   source_object_index: 227
   source_name: Urn3
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id180
 - kind: unresolved_binding
   source_object_index: 228
   source_name: Urn4
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id181
 - kind: unresolved_binding
   source_object_index: 229
   source_name: Urn5
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id182
 - kind: unresolved_binding
   source_object_index: 230
   source_name: Urn6
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id183
 - kind: unresolved_binding
   source_object_index: 231
   source_name: Urn7
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id184
 - kind: unresolved_binding
   source_object_index: 232
   source_name: Urn8
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id185
 - kind: unresolved_binding
   source_object_index: 233
   source_name: Urn9
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id186
 - kind: unresolved_binding
   source_object_index: 234
   source_name: Urn10
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id187
 - kind: unresolved_binding
   source_object_index: 235
   source_name: Urn11
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id188
 - kind: unresolved_binding
   source_object_index: 236
   source_name: Urn12
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id189
 - kind: unresolved_binding
   source_object_index: 237
   source_name: Urn13
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id190
 - kind: unresolved_binding
   source_object_index: 238
   source_name: Urn14
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id191
 - kind: unresolved_binding
   source_object_index: 239
   source_name: Urn15
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id192
 - kind: unresolved_binding
   source_object_index: 240
   source_name: Urn16
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id193
 - kind: unresolved_binding
   source_object_index: 241
   source_name: Urn17
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id194
 - kind: unresolved_binding
   source_object_index: 242
   source_name: Urn18
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id195
 - kind: unresolved_binding
   source_object_index: 243
   source_name: Urn19
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id196
 - kind: unresolved_binding
   source_object_index: 244
   source_name: Urn20
   source_class: DestructableProp
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id197
 - kind: unresolved_binding
   source_object_index: 263
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id198
 - kind: unresolved_target_name
   source: mechanism
   source_object_index: 4

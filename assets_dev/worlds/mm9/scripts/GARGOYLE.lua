@@ -21,16 +21,16 @@ end
 script.labels["StandupDone"] = function(ctx)
     -- GARGOYLE.scr:23
     mm9.gosub(script, ctx, "InitBase") -- GARGOYLE.scr:25
-    ctx:command("target", "g_hTarget, TRUE") -- GARGOYLE.scr:27
-    ctx:command("launch", "LaunchDone, 24") -- GARGOYLE.scr:28
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- GARGOYLE.scr:27
+    ctx:self():launch("LaunchDone", 24) -- GARGOYLE.scr:28
     do return ctx:exit("TRUE") end -- GARGOYLE.scr:30
 end
 
 script.labels["FoundPlayer"] = function(ctx)
     -- GARGOYLE.scr:33
     ctx:getParam(0, "g_hTarget") -- GARGOYLE.scr:35
-    ctx:command("target", "g_hTarget, FALSE") -- GARGOYLE.scr:36
-    ctx:command("playanim", "StandUp, StandupDone") -- GARGOYLE.scr:38
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- GARGOYLE.scr:36
+    ctx:self():playAnimation("StandUp", "StandupDone") -- GARGOYLE.scr:38
     do return ctx:exit("TRUE") end -- GARGOYLE.scr:40
 end
 
@@ -43,9 +43,9 @@ script.labels["Main"] = function(ctx)
     -- GARGOYLE.scr:48
     -- traceon
     mm9.gosub(script, ctx, "InitBase") -- GARGOYLE.scr:54
-    ctx:command("onfoundplayer", "FoundPlayer") -- GARGOYLE.scr:56
-    ctx:command("onalert", "Alert") -- GARGOYLE.scr:57
-    ctx:command("loopanim", "STATIC_MODEL, 0") -- GARGOYLE.scr:59
+    ctx:onEvent("OnFoundPlayer", "FoundPlayer") -- GARGOYLE.scr:56
+    ctx:onEvent("OnAlert", "Alert") -- GARGOYLE.scr:57
+    ctx:self():loopAnimation("STATIC_MODEL", 0) -- GARGOYLE.scr:59
     do return ctx:exit("") end -- GARGOYLE.scr:62
 end
 

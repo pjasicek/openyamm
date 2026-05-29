@@ -1,0 +1,944 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: traininghall
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: th_jousttrellborg.scr
+  source_path: TH_JOUSTTRELLBORG.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: TrainingHostility.inc
+  - line: 11
+    path: Globals.inc
+  labels:
+  - line: 26
+    name: Start
+  - line: 32
+    name: TurnOff
+  - line: 39
+    name: AnimationA
+  - line: 42
+    name: AnimationB
+  - line: 45
+    name: AnimationC
+  - line: 48
+    name: AnimationD
+  - line: 55
+    name: StartAnimations
+  - line: 64
+    name: Main2
+  - line: 73
+    name: Main
+  registered_triggers:
+  - line: 66
+    message: Go
+    callback: Start
+    arguments_raw: Go, Start
+  - line: 67
+    message: Stop
+    callback: TurnOff
+    arguments_raw: Stop, TurnOff
+  - line: 68
+    message: BackPos
+    callback: StartAnimations
+    arguments_raw: BackPos, StartAnimations
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 40
+    command: PlayAnim
+    arguments_raw: sAnimA, AnimationB
+  - line: 43
+    command: PlayAnim
+    arguments_raw: sAnimB, AnimationC
+  - line: 46
+    command: PlayAnim
+    arguments_raw: sAnimC, AnimationD
+  - line: 49
+    command: PlayAnim
+    arguments_raw: sAnimD, StartAnimations
+  unknown_commands:
+  - line: 28
+    command: bIsJousting
+    arguments_raw: = TRUE
+  - line: 35
+    command: bIsJousting
+    arguments_raw: = FALSE
+  - line: 60
+    command: WalkTo
+    arguments_raw: hMarker, 3, AnimationA
+  - line: 80
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 32
+- script_id: th_lobbyghouls.scr
+  source_path: TH_LOBBYGHOULS.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: Globals.inc
+  - line: 12
+    path: BaseMelee.inc
+  - line: 13
+    path: Flags.inc
+  - line: 14
+    path: range.inc
+  - line: 15
+    path: basedoor.inc
+  labels:
+  - line: 33
+    name: DoNothing
+  - line: 39
+    name: RunUpStairs
+  - line: 45
+    name: MarkerB
+  - line: 49
+    name: MarkerC
+  - line: 53
+    name: MarkerD
+  - line: 61
+    name: Pause
+  - line: 68
+    name: DropGhouls
+  - line: 75
+    name: SetSolid
+  - line: 82
+    name: Main2
+  - line: 94
+    name: Main
+  registered_triggers:
+  - line: 86
+    message: Go
+    callback: RunUpStairs
+    arguments_raw: Go, RunUpStairs
+  - line: 87
+    message: Drop
+    callback: DropGhouls
+    arguments_raw: Drop, DropGhouls
+  trigger_edges: []
+  movement_commands:
+  - line: 57
+    command: SetPos
+    arguments_raw: hMyObject, nNumX, nNumY, nNumZ
+  state_commands:
+  - line: 71
+    command: ClearFlag
+    arguments_raw: hObject, FLAG_SOLID
+  - line: 77
+    command: SetFlag
+    arguments_raw: hObject, FLAG_SOLID
+  presentation_commands: []
+  unknown_commands:
+  - line: 42
+    command: RunTo
+    arguments_raw: hMarker, 10, MarkerB
+  - line: 47
+    command: RunTo
+    arguments_raw: hMarker, 10, MarkerC
+  - line: 51
+    command: RunTo
+    arguments_raw: hMarker, 10, MarkerD
+  - line: 54
+    command: Stop
+    arguments_raw: ''
+  - line: 63
+    command: HMarker
+    arguments_raw: = NULL
+  - line: 64
+    command: Stop
+    arguments_raw: ''
+  - line: 70
+    command: GetPlayerHandle
+    arguments_raw: hPlayer, 3000
+  - line: 88
+    command: OnFoundTarget
+    arguments_raw: BaseInit
+  - line: 89
+    command: OnDamage
+    arguments_raw: BaseInit
+  command_count: 42
+- script_id: th_lookouttrellborg.scr
+  source_path: TH_LOOKOUTTRELLBORG.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: TrainingHostility.inc
+  - line: 11
+    path: Globals.inc
+  labels:
+  - line: 25
+    name: Start
+  - line: 31
+    name: TurnOff
+  - line: 38
+    name: LookAround
+  - line: 42
+    name: AnimationA
+  - line: 45
+    name: AnimationB
+  - line: 52
+    name: WatchVictim
+  - line: 60
+    name: WatchBully
+  - line: 68
+    name: WalkToMarker
+  - line: 86
+    name: Main2
+  - line: 93
+    name: Main
+  registered_triggers:
+  - line: 88
+    message: Go
+    callback: Start
+    arguments_raw: Go, Start
+  - line: 89
+    message: Stop
+    callback: TurnOff
+    arguments_raw: Stop, TurnOff
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 40
+    command: PlayAnim
+    arguments_raw: Stand, AnimationA
+  - line: 43
+    command: PlayAnim
+    arguments_raw: Fidget1, AnimationB
+  - line: 46
+    command: PlayAnim
+    arguments_raw: Stand, WalkToMarker
+  unknown_commands:
+  - line: 27
+    command: bIsJousting
+    arguments_raw: = TRUE
+  - line: 34
+    command: bIsJousting
+    arguments_raw: = FALSE
+  - line: 39
+    command: Stop
+    arguments_raw: ''
+  - line: 54
+    command: Stop
+    arguments_raw: ''
+  - line: 56
+    command: FaceObject
+    arguments_raw: hTarget, 180
+  - line: 62
+    command: Stop
+    arguments_raw: ''
+  - line: 64
+    command: FaceObject
+    arguments_raw: hTarget, 180
+  - line: 75
+    command: bDirection
+    arguments_raw: = 1
+  - line: 77
+    command: WalkTo
+    arguments_raw: hMarker, 5, WatchVictim
+  - line: 79
+    command: bDirection
+    arguments_raw: = 0
+  - line: 81
+    command: WalkTo
+    arguments_raw: hMarker, 5, WatchBully
+  - line: 99
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 46
+- script_id: th_meantrellborg.scr
+  source_path: TH_MEANTRELLBORG.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: TrainingHostility.inc
+  - line: 11
+    path: Globals.inc
+  labels:
+  - line: 23
+    name: CheckStart
+  - line: 31
+    name: Start
+  - line: 37
+    name: TurnOff
+  - line: 44
+    name: AnimationA
+  - line: 48
+    name: AnimationB
+  - line: 51
+    name: AnimationC
+  - line: 54
+    name: AnimationD
+  - line: 57
+    name: LaunchHorse
+  - line: 65
+    name: ResetSwitch
+  - line: 72
+    name: StartAnimations
+  - line: 82
+    name: Main2
+  - line: 93
+    name: Main
+  registered_triggers:
+  - line: 86
+    message: Go
+    callback: Start
+    arguments_raw: Go, Start
+  - line: 87
+    message: Stop
+    callback: TurnOff
+    arguments_raw: Stop, TurnOff
+  - line: 88
+    message: Switch
+    callback: ResetSwitch
+    arguments_raw: Switch, ResetSwitch
+  - line: 89
+    message: Throw
+    callback: CheckStart
+    arguments_raw: Throw, CheckStart
+  trigger_edges:
+  - line: 58
+    target_expression: hSwitch
+    message_expression: Use
+    arguments_raw: hSwitch, Use
+  - line: 68
+    target_expression: hSwitch
+    message_expression: Use
+    arguments_raw: hSwitch, Use
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 46
+    command: PlayAnim
+    arguments_raw: Stand, AnimationB
+  - line: 49
+    command: PlayAnim
+    arguments_raw: Fidget3, AnimationC
+  - line: 52
+    command: PlayAnim
+    arguments_raw: Fidget1, AnimationD
+  - line: 55
+    command: PlayAnim
+    arguments_raw: Taunt, LaunchHorse
+  unknown_commands:
+  - line: 33
+    command: bIsJousting
+    arguments_raw: = TRUE
+  - line: 40
+    command: bIsJousting
+    arguments_raw: = FALSE
+  - line: 45
+    command: Stop
+    arguments_raw: ''
+  - line: 59
+    command: FaceObject
+    arguments_raw: hTrellborg, 180
+  - line: 67
+    command: FaceObject
+    arguments_raw: hSwitch, 180
+  - line: 97
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 43
+- script_id: th_orcsgossip.scr
+  source_path: TH_ORCSGOSSIP.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: TrainingHostility.inc
+  - line: 11
+    path: Globals.inc
+  labels:
+  - line: 25
+    name: Start
+  - line: 32
+    name: TurnOff
+  - line: 39
+    name: DoTheTalk
+  - line: 47
+    name: AnimationB
+  - line: 51
+    name: AnimationC
+  - line: 54
+    name: AnimationD
+  - line: 58
+    name: AnimationE
+  - line: 61
+    name: AnimationF
+  - line: 65
+    name: Main2
+  - line: 72
+    name: Main
+  registered_triggers:
+  - line: 67
+    message: Go
+    callback: Start
+    arguments_raw: Go, Start
+  - line: 68
+    message: Stop
+    callback: TurnOff
+    arguments_raw: Stop, TurnOff
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 44
+    command: PlayAnim
+    arguments_raw: sAnimA, AnimationB
+  - line: 49
+    command: PlayAnim
+    arguments_raw: sAnimB, AnimationC
+  - line: 52
+    command: PlayAnim
+    arguments_raw: sAnimC, AnimationD
+  - line: 56
+    command: PlayAnim
+    arguments_raw: sAnimD, AnimationE
+  - line: 59
+    command: PlayAnim
+    arguments_raw: sAnimE, AnimationF
+  - line: 62
+    command: PlayAnim
+    arguments_raw: sAnimF, DoTheTalk
+  unknown_commands:
+  - line: 27
+    command: cprint
+    arguments_raw: '"TurnOn"'
+  - line: 28
+    command: bIsGossiping
+    arguments_raw: = TRUE
+  - line: 34
+    command: cprint
+    arguments_raw: '"TurnOff"'
+  - line: 36
+    command: bIsGossiping
+    arguments_raw: = FALSE
+  - line: 80
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 36
+- script_id: th_targetmgr.scr
+  source_path: TH_TARGETMGR.scr
+  parse_status: parsed
+  includes:
+  - line: 4
+    path: BaseGlobals.inc
+  - line: 5
+    path: ListMaker.inc
+  labels:
+  - line: 13
+    name: Main
+  - line: 24
+    name: InitTargetMgr
+  - line: 37
+    name: OnTargetHit
+  - line: 57
+    name: LowerTargets
+  - line: 73
+    name: RaiseTargets
+  - line: 89
+    name: GiveGold
+  registered_triggers:
+  - line: 29
+    message: hit
+    callback: OnTargetHit
+    arguments_raw: hit, OnTargetHit
+  - line: 31
+    message: openall
+    callback: RaiseTargets
+    arguments_raw: openall, RaiseTargets
+  - line: 32
+    message: closeall
+    callback: LowerTargets
+    arguments_raw: closeall,LowerTargets
+  trigger_edges:
+  - line: 50
+    target_expression: LISTOBJECT
+    message_expression: open
+    arguments_raw: LISTOBJECT, open
+  - line: 51
+    target_expression: LISTOBJECT
+    message_expression: lock
+    arguments_raw: LISTOBJECT, lock
+  - line: 62
+    target_expression: LISTOBJECT
+    message_expression: open
+    arguments_raw: LISTOBJECT, open
+  - line: 67
+    target_expression: LISTOBJECT
+    message_expression: open
+    arguments_raw: LISTOBJECT, open
+  - line: 78
+    target_expression: LISTOBJECT
+    message_expression: close
+    arguments_raw: LISTOBJECT, close
+  - line: 83
+    target_expression: LISTOBJECT
+    message_expression: close
+    arguments_raw: LISTOBJECT, close
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: SetConsoleNumVar
+    arguments_raw: TARGET_LEVEL, 0
+  - line: 27
+    command: SetConsoleNumVar
+    arguments_raw: TARGET_INDEX, 0
+  - line: 39
+    command: GetConsoleNumVar
+    arguments_raw: TARGET_LEVEL, PRIZE_LEVEL
+  - line: 40
+    command: GetConsoleNumVar
+    arguments_raw: TARGET_INDEX, LISTINDEX
+  - line: 42
+    command: unknown
+    arguments_raw: if( PRIZE_LEVEL>0 )
+  - line: 60
+    command: unknown
+    arguments_raw: while( LISTINDEX<LISTLAST )
+  - line: 65
+    command: endwhile
+    arguments_raw: ''
+  - line: 76
+    command: unknown
+    arguments_raw: while( LISTINDEX<LISTLAST )
+  - line: 81
+    command: endwhile
+    arguments_raw: ''
+  - line: 93
+    command: GiveGold
+    arguments_raw: PRIZE_LEVEL
+  command_count: 49
+- script_id: th_targetring.scr
+  source_path: TH_TARGETRING.scr
+  parse_status: parsed
+  includes:
+  - line: 4
+    path: BaseGlobals.inc
+  labels:
+  - line: 16
+    name: Main
+  - line: 33
+    name: OnDamage
+  - line: 54
+    name: TurnOn
+  - line: 63
+    name: TurnOff
+  registered_triggers:
+  - line: 27
+    message: 'on'
+    callback: TurnOn
+    arguments_raw: on, TurnOn
+  - line: 28
+    message: 'off'
+    callback: TurnOff
+    arguments_raw: off,TurnOff
+  trigger_edges:
+  - line: 48
+    target_expression: hMgr
+    message_expression: hit
+    arguments_raw: hMgr, hit
+  movement_commands: []
+  state_commands:
+  - line: 56
+    command: SetFlag
+    arguments_raw: hMe, 8192
+  - line: 65
+    command: ClearFlag
+    arguments_raw: hMe, 8192
+  presentation_commands: []
+  unknown_commands:
+  - line: 21
+    command: KEY_WON
+    arguments_raw: = KEY_WON + RING_INDEX
+  - line: 25
+    command: OnDamage
+    arguments_raw: OnDamage
+  - line: 35
+    command: HasKey
+    arguments_raw: KEY_WON, bHasKey
+  - line: 37
+    command: SetConsoleNumVar
+    arguments_raw: TARGET_LEVEL, 0
+  - line: 39
+    command: GiveKey
+    arguments_raw: KEY_WON
+  - line: 40
+    command: SetConsoleNumVar
+    arguments_raw: TARGET_LEVEL, PRIZE_LEVEL
+  - line: 43
+    command: SetConsoleNumVar
+    arguments_raw: TARGET_INDEX, RING_INDEX
+  - line: 58
+    command: OnDamage
+    arguments_raw: OnDamage
+  - line: 67
+    command: OnDamage
+    arguments_raw: DoNothing
+  command_count: 27
+- script_id: th_trainingorccommander.scr
+  source_path: TH_TRAININGORCCOMMANDER.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: TrainingHostility.inc
+  - line: 11
+    path: Globals.inc
+  labels:
+  - line: 16
+    name: Start
+  - line: 22
+    name: TurnOff
+  - line: 28
+    name: CommandTwo
+  - line: 34
+    name: Relax
+  - line: 39
+    name: CommandOne
+  - line: 45
+    name: StartTraining
+  - line: 53
+    name: Main2
+  - line: 60
+    name: Main
+  registered_triggers:
+  - line: 55
+    message: Train
+    callback: Start
+    arguments_raw: Train, Start
+  - line: 56
+    message: Stop
+    callback: TurnOff
+    arguments_raw: Stop, TurnOff
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 31
+    command: PlayAnim
+    arguments_raw: Taunt, StartTraining
+  - line: 36
+    command: PlayAnim
+    arguments_raw: Stand, CommandTwo
+  - line: 42
+    command: PlayAnim
+    arguments_raw: Fidget2, Relax
+  - line: 50
+    command: PlayAnim
+    arguments_raw: Stand, CommandOne
+  unknown_commands:
+  - line: 18
+    command: bIsTraining
+    arguments_raw: = TRUE
+  - line: 25
+    command: bIsTraining
+    arguments_raw: = FALSE
+  - line: 62
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 25
+- script_id: th_trainingorcobserver.scr
+  source_path: TH_TRAININGORCOBSERVER.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: TrainingHostility.inc
+  - line: 11
+    path: globals.inc
+  labels:
+  - line: 24
+    name: Start
+  - line: 30
+    name: TurnOff
+  - line: 37
+    name: LookAround
+  - line: 43
+    name: Relax
+  - line: 51
+    name: LookAtTrainees
+  - line: 69
+    name: Main2
+  - line: 76
+    name: Main
+  registered_triggers:
+  - line: 71
+    message: Train
+    callback: Start
+    arguments_raw: Train, Start
+  - line: 72
+    message: Stop
+    callback: TurnOff
+    arguments_raw: Stop, TurnOff
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 40
+    command: PlayAnim
+    arguments_raw: Fidget1, LookAtTrainees
+  unknown_commands:
+  - line: 26
+    command: bIsTraining
+    arguments_raw: = TRUE
+  - line: 33
+    command: bIsTraining
+    arguments_raw: = FALSE
+  - line: 39
+    command: Stop
+    arguments_raw: ''
+  - line: 45
+    command: Stop
+    arguments_raw: ''
+  - line: 47
+    command: FaceObject
+    arguments_raw: hCommander, 180
+  - line: 58
+    command: bDirection
+    arguments_raw: = 1
+  - line: 60
+    command: WalkTo
+    arguments_raw: hMarker, 10, Relax
+  - line: 62
+    command: bDirection
+    arguments_raw: = 0
+  - line: 64
+    command: WalkTo
+    arguments_raw: hMarker, 10, Relax
+  - line: 81
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 36
+- script_id: th_trainingorcs.scr
+  source_path: TH_TRAININGORCS.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: TrainingHostility.inc
+  - line: 11
+    path: Globals.inc
+  labels:
+  - line: 17
+    name: Start
+  - line: 23
+    name: TurnOff
+  - line: 30
+    name: ParadiddleStart
+  - line: 38
+    name: RightA
+  - line: 41
+    name: LeftA
+  - line: 44
+    name: Right1
+  - line: 47
+    name: Right2
+  - line: 51
+    name: LeftB
+  - line: 54
+    name: RightB
+  - line: 57
+    name: Left1
+  - line: 60
+    name: Left2
+  - line: 65
+    name: Main2
+  - line: 72
+    name: Main
+  registered_triggers:
+  - line: 67
+    message: Train
+    callback: Start
+    arguments_raw: Train, Start
+  - line: 68
+    message: Stop
+    callback: TurnOff
+    arguments_raw: Stop, TurnOff
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 35
+    command: PlayAnim
+    arguments_raw: Taunt, RightA
+  - line: 39
+    command: PlayAnim
+    arguments_raw: HAttack1, LeftA
+  - line: 42
+    command: PlayAnim
+    arguments_raw: HAttack2, Right1
+  - line: 45
+    command: PlayAnim
+    arguments_raw: HAttack1, Right2
+  - line: 48
+    command: PlayAnim
+    arguments_raw: HAttack1, LeftB
+  - line: 52
+    command: PlayAnim
+    arguments_raw: HAttack2, RightB
+  - line: 55
+    command: PlayAnim
+    arguments_raw: HAttack1, Left1
+  - line: 58
+    command: PlayAnim
+    arguments_raw: HAttack2, Left2
+  - line: 61
+    command: PlayAnim
+    arguments_raw: HAttack2, ParadiddleStart
+  unknown_commands:
+  - line: 19
+    command: bIsTraining
+    arguments_raw: = TRUE
+  - line: 26
+    command: bIsTraining
+    arguments_raw: = FALSE
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Main2
+  command_count: 33
+- script_id: trainingenter.scr
+  source_path: TRAININGENTER.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: globals.inc
+  labels:
+  - line: 29
+    name: OnBreak
+  - line: 37
+    name: Init
+  - line: 54
+    name: Main
+  - line: 68
+    name: OnBreak
+  - line: 83
+    name: Init
+  registered_triggers:
+  - line: 60
+    message: Break
+    callback: OnBreak
+    arguments_raw: Break OnBreak
+  trigger_edges:
+  - line: 33
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  - line: 44
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  - line: 47
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 40
+    command: haskey
+    arguments_raw: 301 g_ntemp
+  - line: 61
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 62
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 63
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 72
+    command: Haskey
+    arguments_raw: 301 g_ntemp
+  - line: 74
+    command: givekey
+    arguments_raw: '301'
+  - line: 75
+    command: GiveAttribute
+    arguments_raw: 0 5 1
+  - line: 76
+    command: GiveAttribute
+    arguments_raw: 1 5 1
+  - line: 77
+    command: giveexp
+    arguments_raw: '20000'
+  - line: 80
+    command: goto
+    arguments_raw: OnBreak, 1
+  - line: 88
+    command: haskey
+    arguments_raw: 301 g_ntemp
+  - line: 91
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 93
+    command: goto
+    arguments_raw: Init, 1
+  - line: 99
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 105
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 111
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 117
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 123
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 129
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 135
+    command: RemoveObject
+    arguments_raw: g_hObject
+  - line: 138
+    command: goto
+    arguments_raw: Init, 1
+  command_count: 75
+- script_id: traininghallexit.scr
+  source_path: TRAININGHALLEXIT.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 15
+    name: OnTouch
+  - line: 31
+    name: OnExit
+  - line: 37
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: Haskey
+    arguments_raw: 301 g_ntemp
+  - line: 21
+    command: givekey
+    arguments_raw: '301'
+  - line: 22
+    command: GiveAttribute
+    arguments_raw: 0 5 1
+  - line: 23
+    command: GiveAttribute
+    arguments_raw: 1 5 1
+  - line: 24
+    command: giveexp
+    arguments_raw: '20000'
+  - line: 42
+    command: OnTouchNotify
+    arguments_raw: Ontouch
+  command_count: 14
+validation:
+  script_count: 12

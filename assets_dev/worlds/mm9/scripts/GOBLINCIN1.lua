@@ -23,8 +23,8 @@ script.labels["OnSpeak"] = function(ctx)
     if ctx:condition("speaking = 1") then -- GOBLINCIN1.scr:26
         do return ctx:exit("") end -- GOBLINCIN1.scr:27
     end -- GOBLINCIN1.scr:28
-    ctx:command("speak", "cinematic\\blood2.wav, OnSpeakDone") -- GOBLINCIN1.scr:30
-    ctx:command("set", "speaking,1") -- GOBLINCIN1.scr:32
+    ctx:speak("cinematic\\blood2.wav", "OnSpeakDone") -- GOBLINCIN1.scr:30
+    ctx:state().speaking = 1 -- GOBLINCIN1.scr:32
     do return ctx:exit("") end -- GOBLINCIN1.scr:34
 end
 
@@ -39,7 +39,7 @@ end
 script.labels["OnUse"] = function(ctx)
     -- GOBLINCIN1.scr:48
     ctx:getParam(0, "g_hObject") -- GOBLINCIN1.scr:51
-    ctx:command("faceobject", "g_hObject, 180") -- GOBLINCIN1.scr:53
+    ctx:self():faceObject(ctx:object("g_hObject"), 180) -- GOBLINCIN1.scr:53
     do return ctx:exit("") end -- GOBLINCIN1.scr:55
 end
 
@@ -48,7 +48,7 @@ script.labels["Main"] = function(ctx)
     -- This routine is automatically run
     -- at script startup...
     -- TraceOn
-    ctx:command("getobjecthandle", "c0,hCamera0") -- GOBLINCIN1.scr:64
+    ctx:state().hCamera0 = ctx:objectOrNil("c0") -- GOBLINCIN1.scr:64
     mm9.gosub(script, ctx, "InitBase") -- GOBLINCIN1.scr:66
     ctx:addTrigger("Use", "OnUse") -- GOBLINCIN1.scr:68
     ctx:addTrigger("BeginScene", "OnBeginScene") -- GOBLINCIN1.scr:69

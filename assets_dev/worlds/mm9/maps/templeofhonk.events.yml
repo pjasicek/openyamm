@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/templeofhonk.lua
+  script_ir: ../events/templeofhonk.script_ir.yml
 objects:
 - object_id: mm9:templeofhonk:object:0
   source_object_index: 0
@@ -13183,10 +13184,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\AnimSounds\goose\Wince1.wav
     Filename: models\Props\Chest3.ABC
     Locked: 0
     MoveToFloor: 0
     Name: CollectionChest
+    OpenSoundName: Sounds\Ambient\Animals\Goose Honk.wav
     Pos:
     - 192.0
     - 56.0
@@ -20570,7 +20573,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerStartCeremony0
-    Pos: &id138
+    Pos: &id153
     - -256.0
     - 32.0
     - 1728.0
@@ -20950,7 +20953,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerStartCeremony1
-    Pos: &id139
+    Pos: &id154
     - 640.0
     - 32.0
     - 1728.0
@@ -21330,7 +21333,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerStartCeremony2
-    Pos: &id140
+    Pos: &id155
     - 688.0
     - 32.0
     - 928.0
@@ -132567,10 +132570,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\AnimSounds\goose\Wince1.wav
     Filename: models\Props\Chest1.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest3
+    OpenSoundName: Sounds\Ambient\Animals\Goose Honk.wav
     Pos:
     - -1056.0
     - -176.0
@@ -132975,10 +132980,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\AnimSounds\goose\Wince1.wav
     Filename: models\Props\Chest1.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Ambient\Animals\Goose Honk.wav
     Pos:
     - -1296.0
     - -176.0
@@ -133383,10 +133390,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\AnimSounds\goose\Wince1.wav
     Filename: models\Props\Chest1.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Ambient\Animals\Goose Honk.wav
     Pos:
     - 304.0
     - -96.0
@@ -133791,10 +133800,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\AnimSounds\goose\Wince1.wav
     Filename: models\Props\Chest1.abc
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Ambient\Animals\Goose Honk.wav
     Pos:
     - 288.0
     - 32.0
@@ -146822,6 +146833,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id094 []
 - mechanism_id: mm9:templeofhonk:object:66:mechanism
   object_id: mm9:templeofhonk:object:66
@@ -146847,6 +146859,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\stonedoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id095
   - phase: open
     slot: 0
@@ -146887,6 +146928,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\stonedoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id096
   - phase: open
     slot: 0
@@ -146927,6 +146997,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\stonedoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id097
   - phase: open
     slot: 0
@@ -146967,6 +147066,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id098
   - phase: open
     slot: 0
@@ -147002,6 +147130,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id099
   - phase: open
     slot: 0
@@ -147037,6 +147194,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id100
   - phase: open
     slot: 0
@@ -147072,6 +147258,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorlatch02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id101
   - phase: open
     slot: 0
@@ -147107,6 +147322,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\stonedoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id102
   - phase: open
     slot: 0
@@ -147133,6 +147377,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: &id103 []
 - mechanism_id: mm9:templeofhonk:object:75:mechanism
   object_id: mm9:templeofhonk:object:75
@@ -147144,6 +147389,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: &id104 []
 - mechanism_id: mm9:templeofhonk:object:82:mechanism
   object_id: mm9:templeofhonk:object:82
@@ -147173,6 +147419,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR14
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id108 []
 - mechanism_id: mm9:templeofhonk:object:83:mechanism
   object_id: mm9:templeofhonk:object:83
@@ -147202,6 +147477,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL14
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id109 []
 - mechanism_id: mm9:templeofhonk:object:454:mechanism
   object_id: mm9:templeofhonk:object:454
@@ -147213,6 +147517,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id110 []
 - mechanism_id: mm9:templeofhonk:object:455:mechanism
   object_id: mm9:templeofhonk:object:455
@@ -147242,6 +147547,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR12
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id111 []
 - mechanism_id: mm9:templeofhonk:object:456:mechanism
   object_id: mm9:templeofhonk:object:456
@@ -147271,6 +147605,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL12
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id112 []
 - mechanism_id: mm9:templeofhonk:object:457:mechanism
   object_id: mm9:templeofhonk:object:457
@@ -147300,6 +147663,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR11
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id113 []
 - mechanism_id: mm9:templeofhonk:object:458:mechanism
   object_id: mm9:templeofhonk:object:458
@@ -147329,6 +147721,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL11
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id114 []
 - mechanism_id: mm9:templeofhonk:object:459:mechanism
   object_id: mm9:templeofhonk:object:459
@@ -147358,6 +147779,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR10
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id115 []
 - mechanism_id: mm9:templeofhonk:object:460:mechanism
   object_id: mm9:templeofhonk:object:460
@@ -147387,6 +147837,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL10
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id116 []
 - mechanism_id: mm9:templeofhonk:object:461:mechanism
   object_id: mm9:templeofhonk:object:461
@@ -147416,6 +147895,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR9
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id117 []
 - mechanism_id: mm9:templeofhonk:object:462:mechanism
   object_id: mm9:templeofhonk:object:462
@@ -147445,6 +147953,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL9
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id118 []
 - mechanism_id: mm9:templeofhonk:object:463:mechanism
   object_id: mm9:templeofhonk:object:463
@@ -147474,6 +148011,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR7
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id119 []
 - mechanism_id: mm9:templeofhonk:object:464:mechanism
   object_id: mm9:templeofhonk:object:464
@@ -147503,6 +148069,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL7
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id120 []
 - mechanism_id: mm9:templeofhonk:object:465:mechanism
   object_id: mm9:templeofhonk:object:465
@@ -147532,6 +148127,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR6
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id121 []
 - mechanism_id: mm9:templeofhonk:object:466:mechanism
   object_id: mm9:templeofhonk:object:466
@@ -147561,6 +148185,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL6
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id122 []
 - mechanism_id: mm9:templeofhonk:object:467:mechanism
   object_id: mm9:templeofhonk:object:467
@@ -147590,6 +148243,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id123 []
 - mechanism_id: mm9:templeofhonk:object:468:mechanism
   object_id: mm9:templeofhonk:object:468
@@ -147619,6 +148301,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id124 []
 - mechanism_id: mm9:templeofhonk:object:469:mechanism
   object_id: mm9:templeofhonk:object:469
@@ -147648,6 +148359,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR4
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id125 []
 - mechanism_id: mm9:templeofhonk:object:470:mechanism
   object_id: mm9:templeofhonk:object:470
@@ -147677,6 +148417,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL4
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id126 []
 - mechanism_id: mm9:templeofhonk:object:471:mechanism
   object_id: mm9:templeofhonk:object:471
@@ -147706,6 +148475,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id127 []
 - mechanism_id: mm9:templeofhonk:object:472:mechanism
   object_id: mm9:templeofhonk:object:472
@@ -147735,6 +148533,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id128 []
 - mechanism_id: mm9:templeofhonk:object:473:mechanism
   object_id: mm9:templeofhonk:object:473
@@ -147764,6 +148591,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id129 []
 - mechanism_id: mm9:templeofhonk:object:474:mechanism
   object_id: mm9:templeofhonk:object:474
@@ -147793,6 +148649,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id130 []
 - mechanism_id: mm9:templeofhonk:object:475:mechanism
   object_id: mm9:templeofhonk:object:475
@@ -147822,6 +148707,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id131 []
 - mechanism_id: mm9:templeofhonk:object:476:mechanism
   object_id: mm9:templeofhonk:object:476
@@ -147851,6 +148765,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id132 []
 - mechanism_id: mm9:templeofhonk:object:477:mechanism
   object_id: mm9:templeofhonk:object:477
@@ -147880,6 +148823,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR13
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id133 []
 - mechanism_id: mm9:templeofhonk:object:478:mechanism
   object_id: mm9:templeofhonk:object:478
@@ -147909,6 +148881,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL13
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door06open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\trapdoorclose.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id134 []
 - mechanism_id: mm9:templeofhonk:object:479:mechanism
   object_id: mm9:templeofhonk:object:479
@@ -147934,6 +148935,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id135
   - phase: open
     slot: 0
@@ -147964,6 +148994,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id136
   - phase: open
     slot: 0
@@ -147984,6 +149043,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:templeofhonk:object:56:trigger
@@ -149914,63 +150974,415 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id233
+    - source_model_index: 20
+      source_name: AITrk13
+      movable: true
+      world_translation_lt:
+      - -1328.0
+      - -196.0
+      - 2368.0
+      distance_from_position_lt: 20.0
+    - source_model_index: 19
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: &id162
+      - -1288.0
+      - -196.0
+      - 2448.0
+      distance_from_position_lt: 84.38
+    - source_model_index: 21
+      source_name: AITrk14
+      movable: true
+      world_translation_lt: &id147
+      - -1272.0
+      - -196.0
+      - 2272.0
+      distance_from_position_lt: 104.69
+    - source_model_index: 7
+      source_name: KCornerStone
+      movable: true
+      world_translation_lt: &id146
+      - -1232.0
+      - -216.0
+      - 2288.0
+      distance_from_position_lt: 117.576
+    - source_model_index: 4
+      source_name: NButton
+      movable: true
+      world_translation_lt: &id138
+      - -1184.0
+      - -149.0
+      - 2269.0
+      distance_from_position_lt: 165.56
 - object_id: mm9:templeofhonk:object:66
   source_object_index: 66
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id234
+    - source_model_index: 0
+      source_name: NCornerStone
+      movable: true
+      world_translation_lt: &id140
+      - -1120.0
+      - -216.0
+      - 2904.0
+      distance_from_position_lt: 28.0
+    - source_model_index: 2
+      source_name: HCornerStone
+      movable: true
+      world_translation_lt: &id139
+      - -1232.0
+      - -216.0
+      - 2904.0
+      distance_from_position_lt: 115.447
+    - source_model_index: 14
+      source_name: AITrk0
+      movable: true
+      world_translation_lt: &id141
+      - -1176.0
+      - -196.0
+      - 3016.0
+      distance_from_position_lt: 125.475
+    - source_model_index: 16
+      source_name: AITrk2
+      movable: true
+      world_translation_lt:
+      - -1016.0
+      - -196.0
+      - 3000.0
+      distance_from_position_lt: 141.76
+    - source_model_index: 24
+      source_name: AITrk17
+      movable: true
+      world_translation_lt:
+      - -1016.0
+      - -196.0
+      - 2760.0
+      distance_from_position_lt: 177.809
 - object_id: mm9:templeofhonk:object:67
   source_object_index: 67
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id235
+    - source_model_index: 1
+      source_name: OCornerStone
+      movable: true
+      world_translation_lt: &id144
+      - -1120.0
+      - -216.0
+      - 2288.0
+      distance_from_position_lt: 28.0
+    - source_model_index: 28
+      source_name: AITrk23
+      movable: true
+      world_translation_lt:
+      - -1080.0
+      - -196.0
+      - 2272.0
+      distance_from_position_lt: 43.818
+    - source_model_index: 6
+      source_name: HButton
+      movable: true
+      world_translation_lt: &id143
+      - -1168.0
+      - -149.0
+      - 2269.0
+      distance_from_position_lt: 64.699
+    - source_model_index: 3
+      source_name: KButton
+      movable: true
+      world_translation_lt: &id142
+      - -1168.0
+      - -135.0
+      - 2269.0
+      distance_from_position_lt: 73.986
+    - source_model_index: 4
+      source_name: NButton
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 77.318
 - object_id: mm9:templeofhonk:object:68
   source_object_index: 68
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id236
+    - source_model_index: 2
+      source_name: HCornerStone
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 28.0
+    - source_model_index: 0
+      source_name: NCornerStone
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 115.447
+    - source_model_index: 14
+      source_name: AITrk0
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 125.475
+    - source_model_index: 15
+      source_name: AITrk1
+      movable: true
+      world_translation_lt:
+      - -1336.0
+      - -196.0
+      - 3000.0
+      distance_from_position_lt: 141.76
+    - source_model_index: 17
+      source_name: AITrk3
+      movable: true
+      world_translation_lt:
+      - -1336.0
+      - -196.0
+      - 2760.0
+      distance_from_position_lt: 177.809
 - object_id: mm9:templeofhonk:object:69
   source_object_index: 69
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id237
+    - source_model_index: 3
+      source_name: KButton
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 0.0
+    - source_model_index: 6
+      source_name: HButton
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 14.0
+    - source_model_index: 5
+      source_name: OButton
+      movable: true
+      world_translation_lt: &id145
+      - -1184.0
+      - -135.0
+      - 2269.0
+      distance_from_position_lt: 16.0
+    - source_model_index: 4
+      source_name: NButton
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 21.26
+    - source_model_index: 1
+      source_name: OCornerStone
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 96.052
 - object_id: mm9:templeofhonk:object:70
   source_object_index: 70
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id238
+    - source_model_index: 4
+      source_name: NButton
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 0.0
+    - source_model_index: 5
+      source_name: OButton
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 14.0
+    - source_model_index: 6
+      source_name: HButton
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 16.0
+    - source_model_index: 3
+      source_name: KButton
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 21.26
+    - source_model_index: 7
+      source_name: KCornerStone
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 84.581
 - object_id: mm9:templeofhonk:object:71
   source_object_index: 71
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id239
+    - source_model_index: 5
+      source_name: OButton
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 0.0
+    - source_model_index: 4
+      source_name: NButton
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 14.0
+    - source_model_index: 3
+      source_name: KButton
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 16.0
+    - source_model_index: 6
+      source_name: HButton
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 21.26
+    - source_model_index: 7
+      source_name: KCornerStone
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 96.052
 - object_id: mm9:templeofhonk:object:72
   source_object_index: 72
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id240
+    - source_model_index: 6
+      source_name: HButton
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 0.0
+    - source_model_index: 3
+      source_name: KButton
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 14.0
+    - source_model_index: 4
+      source_name: NButton
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 16.0
+    - source_model_index: 5
+      source_name: OButton
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 21.26
+    - source_model_index: 1
+      source_name: OCornerStone
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 84.581
 - object_id: mm9:templeofhonk:object:73
   source_object_index: 73
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id241
+    - source_model_index: 7
+      source_name: KCornerStone
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 28.0
+    - source_model_index: 21
+      source_name: AITrk14
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 43.818
+    - source_model_index: 4
+      source_name: NButton
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 64.699
+    - source_model_index: 5
+      source_name: OButton
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 73.986
+    - source_model_index: 6
+      source_name: HButton
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 77.318
 - object_id: mm9:templeofhonk:object:74
   source_object_index: 74
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id242
+    - source_model_index: 80
+      source_name: AITrk66
+      movable: true
+      world_translation_lt: &id148
+      - -528.0
+      - 24.0
+      - -96.0
+      distance_from_position_lt: 752.723
+    - source_model_index: 81
+      source_name: AITrk67
+      movable: true
+      world_translation_lt: &id149
+      - -256.0
+      - 24.0
+      - -96.0
+      distance_from_position_lt: 811.162
+    - source_model_index: 214
+      source_name: Carpet11
+      movable: true
+      world_translation_lt: &id150
+      - -224.0
+      - 16.5
+      - -96.0
+      distance_from_position_lt: 823.796
+    - source_model_index: 222
+      source_name: Carpet6
+      movable: true
+      world_translation_lt: &id151
+      - -1152.0
+      - 16.5
+      - -96.0
+      distance_from_position_lt: 957.188
+    - source_model_index: 79
+      source_name: AITrk65
+      movable: true
+      world_translation_lt: &id152
+      - -1152.0
+      - 24.0
+      - -88.0
+      distance_from_position_lt: 963.394
 - object_id: mm9:templeofhonk:object:75
   source_object_index: 75
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id243
+    - source_model_index: 80
+      source_name: AITrk66
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 752.723
+    - source_model_index: 81
+      source_name: AITrk67
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 811.162
+    - source_model_index: 214
+      source_name: Carpet11
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 823.796
+    - source_model_index: 222
+      source_name: Carpet6
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 957.188
+    - source_model_index: 79
+      source_name: AITrk65
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 963.394
 - object_id: mm9:templeofhonk:object:76
   source_object_index: 76
   targets:
   - target_kind: trigger_volume
     target_id: mm9:templeofhonk:object:76:volume
     confidence: source_object_volume
-    pos_lt: *id138
+    pos_lt: *id153
     dims_lt: *id090
 - object_id: mm9:templeofhonk:object:77
   source_object_index: 77
@@ -149978,7 +151390,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:templeofhonk:object:77:volume
     confidence: source_object_volume
-    pos_lt: *id139
+    pos_lt: *id154
     dims_lt: *id091
 - object_id: mm9:templeofhonk:object:78
   source_object_index: 78
@@ -149986,158 +151398,1854 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:templeofhonk:object:78:volume
     confidence: source_object_volume
-    pos_lt: *id140
+    pos_lt: *id155
     dims_lt: *id092
 - object_id: mm9:templeofhonk:object:82
   source_object_index: 82
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id244
+    - source_model_index: 11
+      source_name: DoubleDoorL14
+      movable: true
+      world_translation_lt: &id156
+      - -400.0
+      - 64.0
+      - 584.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 85
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: &id157
+      - -400.0
+      - 24.0
+      - 560.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 12
+      source_name: DoubleDoorR14
+      movable: true
+      world_translation_lt: &id158
+      - -400.0
+      - 64.0
+      - 536.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 83
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: &id159
+      - -256.0
+      - 24.0
+      - 560.0
+      distance_from_rotation_point_lt: 155.795
+    - source_model_index: 84
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: &id160
+      - -256.0
+      - 24.0
+      - 696.0
+      distance_from_rotation_point_lt: 175.499
+    nearest_movable_world_models_by_position: &id245
+    - source_model_index: 11
+      source_name: DoubleDoorL14
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 20.0
+    - source_model_index: 85
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 59.464
+    - source_model_index: 12
+      source_name: DoubleDoorR14
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 68.0
+    - source_model_index: 83
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 155.795
+    - source_model_index: 84
+      source_name: AITrk70
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 175.499
 - object_id: mm9:templeofhonk:object:83
   source_object_index: 83
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id246
+    - source_model_index: 12
+      source_name: DoubleDoorR14
+      movable: true
+      world_translation_lt: *id158
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 85
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: *id157
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 11
+      source_name: DoubleDoorL14
+      movable: true
+      world_translation_lt: *id156
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 83
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: *id159
+      distance_from_rotation_point_lt: 155.795
+    - source_model_index: 213
+      source_name: Carpet10
+      movable: true
+      world_translation_lt: &id161
+      - -256.0
+      - 16.5
+      - 384.0
+      distance_from_rotation_point_lt: 201.038
+    nearest_movable_world_models_by_position: &id247
+    - source_model_index: 12
+      source_name: DoubleDoorR14
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 20.0
+    - source_model_index: 85
+      source_name: AITrk71
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 59.464
+    - source_model_index: 11
+      source_name: DoubleDoorL14
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 68.0
+    - source_model_index: 83
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 155.795
+    - source_model_index: 213
+      source_name: Carpet10
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 201.038
 - object_id: mm9:templeofhonk:object:454
   source_object_index: 454
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id248
+    - source_model_index: 184
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt:
+      - -1176.0
+      - -213.0
+      - 2596.0
+      distance_from_position_lt: 4.007
+    - source_model_index: 18
+      source_name: AITrk4
+      movable: true
+      world_translation_lt:
+      - -1304.0
+      - -188.0
+      - 2544.0
+      distance_from_position_lt: 139.656
+    - source_model_index: 25
+      source_name: AITrk18
+      movable: true
+      world_translation_lt:
+      - -1048.0
+      - -188.0
+      - 2544.0
+      distance_from_position_lt: 139.656
+    - source_model_index: 19
+      source_name: AITrk12
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 185.862
+    - source_model_index: 26
+      source_name: AITrk21
+      movable: true
+      world_translation_lt:
+      - -1064.0
+      - -196.0
+      - 2448.0
+      distance_from_position_lt: 185.862
 - object_id: mm9:templeofhonk:object:455
   source_object_index: 455
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id249
+    - source_model_index: 185
+      source_name: DoubleDoorL12
+      movable: true
+      world_translation_lt: &id163
+      - -1944.0
+      - 64.0
+      - 317.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 186
+      source_name: DoubleDoorR12
+      movable: true
+      world_translation_lt: &id164
+      - -1896.0
+      - 64.0
+      - 317.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 74
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: &id165
+      - -1920.0
+      - 24.0
+      - 352.0
+      distance_from_rotation_point_lt: 69.0
+    - source_model_index: 75
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: &id166
+      - -1920.0
+      - 24.0
+      - 208.0
+      distance_from_rotation_point_lt: 124.165
+    - source_model_index: 76
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: &id167
+      - -1872.0
+      - 24.0
+      - 104.0
+      distance_from_rotation_point_lt: 235.442
+    nearest_movable_world_models_by_position: &id250
+    - source_model_index: 185
+      source_name: DoubleDoorL12
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 20.0
+    - source_model_index: 186
+      source_name: DoubleDoorR12
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 68.0
+    - source_model_index: 74
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 69.0
+    - source_model_index: 75
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 124.165
+    - source_model_index: 76
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 235.442
 - object_id: mm9:templeofhonk:object:456
   source_object_index: 456
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id251
+    - source_model_index: 186
+      source_name: DoubleDoorR12
+      movable: true
+      world_translation_lt: *id164
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 185
+      source_name: DoubleDoorL12
+      movable: true
+      world_translation_lt: *id163
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 74
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: *id165
+      distance_from_rotation_point_lt: 69.0
+    - source_model_index: 75
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: *id166
+      distance_from_rotation_point_lt: 124.165
+    - source_model_index: 76
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id167
+      distance_from_rotation_point_lt: 216.76
+    nearest_movable_world_models_by_position: &id252
+    - source_model_index: 186
+      source_name: DoubleDoorR12
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 20.0
+    - source_model_index: 185
+      source_name: DoubleDoorL12
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 68.0
+    - source_model_index: 74
+      source_name: AITrk60
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 69.0
+    - source_model_index: 75
+      source_name: AITrk61
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 124.165
+    - source_model_index: 76
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 216.76
 - object_id: mm9:templeofhonk:object:457
   source_object_index: 457
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id253
+    - source_model_index: 187
+      source_name: DoubleDoorL11
+      movable: true
+      world_translation_lt: &id168
+      - -1112.0
+      - 64.0
+      - 768.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 71
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: &id169
+      - -1088.0
+      - 24.0
+      - 776.0
+      distance_from_rotation_point_lt: 60.0
+    - source_model_index: 188
+      source_name: DoubleDoorR11
+      movable: true
+      world_translation_lt: &id170
+      - -1064.0
+      - 64.0
+      - 768.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 72
+      source_name: AITrk58
+      movable: true
+      world_translation_lt: &id171
+      - -1088.0
+      - 24.0
+      - 464.0
+      distance_from_rotation_point_lt: 309.761
+    - source_model_index: 221
+      source_name: Carpet5
+      movable: true
+      world_translation_lt: &id172
+      - -1216.0
+      - 16.5
+      - 464.0
+      distance_from_rotation_point_lt: 318.949
+    nearest_movable_world_models_by_position: &id254
+    - source_model_index: 187
+      source_name: DoubleDoorL11
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 20.0
+    - source_model_index: 71
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 60.0
+    - source_model_index: 188
+      source_name: DoubleDoorR11
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 68.0
+    - source_model_index: 72
+      source_name: AITrk58
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 309.761
+    - source_model_index: 221
+      source_name: Carpet5
+      movable: true
+      world_translation_lt: *id172
+      distance_from_position_lt: 318.949
 - object_id: mm9:templeofhonk:object:458
   source_object_index: 458
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id255
+    - source_model_index: 188
+      source_name: DoubleDoorR11
+      movable: true
+      world_translation_lt: *id170
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 71
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: *id169
+      distance_from_rotation_point_lt: 60.0
+    - source_model_index: 187
+      source_name: DoubleDoorL11
+      movable: true
+      world_translation_lt: *id168
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 72
+      source_name: AITrk58
+      movable: true
+      world_translation_lt: *id171
+      distance_from_rotation_point_lt: 309.761
+    - source_model_index: 221
+      source_name: Carpet5
+      movable: true
+      world_translation_lt: *id172
+      distance_from_rotation_point_lt: 352.5
+    nearest_movable_world_models_by_position: &id256
+    - source_model_index: 188
+      source_name: DoubleDoorR11
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 20.0
+    - source_model_index: 71
+      source_name: AITrk57
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 60.0
+    - source_model_index: 187
+      source_name: DoubleDoorL11
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 68.0
+    - source_model_index: 72
+      source_name: AITrk58
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 309.761
+    - source_model_index: 221
+      source_name: Carpet5
+      movable: true
+      world_translation_lt: *id172
+      distance_from_position_lt: 352.5
 - object_id: mm9:templeofhonk:object:459
   source_object_index: 459
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id257
+    - source_model_index: 189
+      source_name: DoubleDoorL10
+      movable: true
+      world_translation_lt: &id173
+      - -1816.0
+      - 64.0
+      - 1504.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 52
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: &id174
+      - -1792.0
+      - 24.0
+      - 1504.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 190
+      source_name: DoubleDoorR10
+      movable: true
+      world_translation_lt: &id175
+      - -1768.0
+      - 64.0
+      - 1504.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 53
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: &id176
+      - -1792.0
+      - 24.0
+      - 1360.0
+      distance_from_rotation_point_lt: 155.795
+    - source_model_index: 55
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: &id177
+      - -1952.0
+      - 24.0
+      - 1360.0
+      distance_from_rotation_point_lt: 189.188
+    nearest_movable_world_models_by_position: &id258
+    - source_model_index: 189
+      source_name: DoubleDoorL10
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 20.0
+    - source_model_index: 52
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 59.464
+    - source_model_index: 190
+      source_name: DoubleDoorR10
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 68.0
+    - source_model_index: 53
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 155.795
+    - source_model_index: 55
+      source_name: AITrk41
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 189.188
 - object_id: mm9:templeofhonk:object:460
   source_object_index: 460
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id259
+    - source_model_index: 190
+      source_name: DoubleDoorR10
+      movable: true
+      world_translation_lt: *id175
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 52
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: *id174
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 189
+      source_name: DoubleDoorL10
+      movable: true
+      world_translation_lt: *id173
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 53
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: *id176
+      distance_from_rotation_point_lt: 155.795
+    - source_model_index: 54
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: &id178
+      - -1632.0
+      - 24.0
+      - 1360.0
+      distance_from_rotation_point_lt: 189.188
+    nearest_movable_world_models_by_position: &id260
+    - source_model_index: 190
+      source_name: DoubleDoorR10
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 20.0
+    - source_model_index: 52
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 59.464
+    - source_model_index: 189
+      source_name: DoubleDoorL10
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 68.0
+    - source_model_index: 53
+      source_name: AITrk39
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 155.795
+    - source_model_index: 54
+      source_name: AITrk40
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 189.188
 - object_id: mm9:templeofhonk:object:461
   source_object_index: 461
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id261
+    - source_model_index: 191
+      source_name: DoubleDoorL9
+      movable: true
+      world_translation_lt: &id179
+      - -280.0
+      - 64.0
+      - 1808.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 114
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: &id180
+      - -256.0
+      - 24.0
+      - 1808.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 192
+      source_name: DoubleDoorR9
+      movable: true
+      world_translation_lt: &id181
+      - -232.0
+      - 64.0
+      - 1808.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 49
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: &id182
+      - -256.0
+      - 24.0
+      - 1936.0
+      distance_from_rotation_point_lt: 141.138
+    - source_model_index: 112
+      source_name: AITrk99
+      movable: true
+      world_translation_lt: &id183
+      - -256.0
+      - 24.0
+      - 1632.0
+      distance_from_rotation_point_lt: 185.774
+    nearest_movable_world_models_by_position: &id262
+    - source_model_index: 191
+      source_name: DoubleDoorL9
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 20.0
+    - source_model_index: 114
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 59.464
+    - source_model_index: 192
+      source_name: DoubleDoorR9
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 68.0
+    - source_model_index: 49
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 141.138
+    - source_model_index: 112
+      source_name: AITrk99
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 185.774
 - object_id: mm9:templeofhonk:object:462
   source_object_index: 462
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id263
+    - source_model_index: 192
+      source_name: DoubleDoorR9
+      movable: true
+      world_translation_lt: *id181
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 114
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: *id180
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 191
+      source_name: DoubleDoorL9
+      movable: true
+      world_translation_lt: *id179
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 49
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id182
+      distance_from_rotation_point_lt: 141.138
+    - source_model_index: 112
+      source_name: AITrk99
+      movable: true
+      world_translation_lt: *id183
+      distance_from_rotation_point_lt: 185.774
+    nearest_movable_world_models_by_position: &id264
+    - source_model_index: 192
+      source_name: DoubleDoorR9
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 20.0
+    - source_model_index: 114
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 59.464
+    - source_model_index: 191
+      source_name: DoubleDoorL9
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 68.0
+    - source_model_index: 49
+      source_name: AITrk35
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 141.138
+    - source_model_index: 112
+      source_name: AITrk99
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 185.774
 - object_id: mm9:templeofhonk:object:463
   source_object_index: 463
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id265
+    - source_model_index: 193
+      source_name: DoubleDoorL7
+      movable: true
+      world_translation_lt: &id184
+      - 456.0
+      - 64.0
+      - 2448.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 117
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: &id185
+      - 480.0
+      - 24.0
+      - 2448.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 194
+      source_name: DoubleDoorR7
+      movable: true
+      world_translation_lt: &id186
+      - 504.0
+      - 64.0
+      - 2448.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 118
+      source_name: AITrk113
+      movable: true
+      world_translation_lt: &id187
+      - 480.0
+      - 24.0
+      - 2672.0
+      distance_from_rotation_point_lt: 231.758
+    - source_model_index: 226
+      source_name: Carpet15
+      movable: true
+      world_translation_lt: &id188
+      - 352.0
+      - 16.5
+      - 2672.0
+      distance_from_rotation_point_lt: 243.902
+    nearest_movable_world_models_by_position: &id266
+    - source_model_index: 193
+      source_name: DoubleDoorL7
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 20.0
+    - source_model_index: 117
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 59.464
+    - source_model_index: 194
+      source_name: DoubleDoorR7
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 68.0
+    - source_model_index: 118
+      source_name: AITrk113
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 231.758
+    - source_model_index: 226
+      source_name: Carpet15
+      movable: true
+      world_translation_lt: *id188
+      distance_from_position_lt: 243.902
 - object_id: mm9:templeofhonk:object:464
   source_object_index: 464
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id267
+    - source_model_index: 194
+      source_name: DoubleDoorR7
+      movable: true
+      world_translation_lt: *id186
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 117
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: *id185
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 193
+      source_name: DoubleDoorL7
+      movable: true
+      world_translation_lt: *id184
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 118
+      source_name: AITrk113
+      movable: true
+      world_translation_lt: *id187
+      distance_from_rotation_point_lt: 231.758
+    - source_model_index: 167
+      source_name: AITrk159
+      movable: true
+      world_translation_lt: &id189
+      - 784.0
+      - 40.00000762939453
+      - 2448.0
+      distance_from_rotation_point_lt: 261.105
+    nearest_movable_world_models_by_position: &id268
+    - source_model_index: 194
+      source_name: DoubleDoorR7
+      movable: true
+      world_translation_lt: *id186
+      distance_from_position_lt: 20.0
+    - source_model_index: 117
+      source_name: AITrk112
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 59.464
+    - source_model_index: 193
+      source_name: DoubleDoorL7
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 68.0
+    - source_model_index: 118
+      source_name: AITrk113
+      movable: true
+      world_translation_lt: *id187
+      distance_from_position_lt: 231.758
+    - source_model_index: 167
+      source_name: AITrk159
+      movable: true
+      world_translation_lt: *id189
+      distance_from_position_lt: 261.105
 - object_id: mm9:templeofhonk:object:465
   source_object_index: 465
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id269
+    - source_model_index: 195
+      source_name: DoubleDoorL6
+      movable: true
+      world_translation_lt: &id190
+      - 616.0
+      - 64.0
+      - 1828.0
+      distance_from_rotation_point_lt: 20.396
+    - source_model_index: 123
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: &id191
+      - 640.0
+      - 24.0
+      - 1824.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 196
+      source_name: DoubleDoorR6
+      movable: true
+      world_translation_lt: &id192
+      - 664.0
+      - 64.0
+      - 1828.0
+      distance_from_rotation_point_lt: 68.118
+    - source_model_index: 107
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: &id193
+      - 640.0
+      - 24.0
+      - 1632.0
+      distance_from_rotation_point_lt: 200.998
+    - source_model_index: 106
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: &id194
+      - 416.0
+      - 24.0
+      - 1632.0
+      distance_from_rotation_point_lt: 266.203
+    nearest_movable_world_models_by_position: &id270
+    - source_model_index: 195
+      source_name: DoubleDoorL6
+      movable: true
+      world_translation_lt: *id190
+      distance_from_position_lt: 20.396
+    - source_model_index: 123
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 59.464
+    - source_model_index: 196
+      source_name: DoubleDoorR6
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 68.118
+    - source_model_index: 107
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 200.998
+    - source_model_index: 106
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: *id194
+      distance_from_position_lt: 266.203
 - object_id: mm9:templeofhonk:object:466
   source_object_index: 466
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id271
+    - source_model_index: 196
+      source_name: DoubleDoorR6
+      movable: true
+      world_translation_lt: *id192
+      distance_from_rotation_point_lt: 20.396
+    - source_model_index: 123
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: *id191
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 195
+      source_name: DoubleDoorL6
+      movable: true
+      world_translation_lt: *id190
+      distance_from_rotation_point_lt: 68.118
+    - source_model_index: 107
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id193
+      distance_from_rotation_point_lt: 200.998
+    - source_model_index: 108
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: &id195
+      - 872.0
+      - 24.0
+      - 1632.0
+      distance_from_rotation_point_lt: 271.676
+    nearest_movable_world_models_by_position: &id272
+    - source_model_index: 196
+      source_name: DoubleDoorR6
+      movable: true
+      world_translation_lt: *id192
+      distance_from_position_lt: 20.396
+    - source_model_index: 123
+      source_name: AITrk108
+      movable: true
+      world_translation_lt: *id191
+      distance_from_position_lt: 59.464
+    - source_model_index: 195
+      source_name: DoubleDoorL6
+      movable: true
+      world_translation_lt: *id190
+      distance_from_position_lt: 68.118
+    - source_model_index: 107
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id193
+      distance_from_position_lt: 200.998
+    - source_model_index: 108
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: *id195
+      distance_from_position_lt: 271.676
 - object_id: mm9:templeofhonk:object:467
   source_object_index: 467
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id273
+    - source_model_index: 197
+      source_name: DoubleDoorL5
+      movable: true
+      world_translation_lt: &id196
+      - 664.0
+      - 64.0
+      - 832.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 99
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: &id197
+      - 688.0
+      - 24.0
+      - 832.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 198
+      source_name: DoubleDoorR5
+      movable: true
+      world_translation_lt: &id198
+      - 712.0
+      - 64.0
+      - 832.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 100
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: &id199
+      - 688.0
+      - 24.0
+      - 1008.0
+      distance_from_rotation_point_lt: 185.774
+    - source_model_index: 102
+      source_name: AITrk88
+      movable: true
+      world_translation_lt: &id200
+      - 440.0
+      - 24.0
+      - 1008.0
+      distance_from_rotation_point_lt: 272.382
+    nearest_movable_world_models_by_position: &id274
+    - source_model_index: 197
+      source_name: DoubleDoorL5
+      movable: true
+      world_translation_lt: *id196
+      distance_from_position_lt: 20.0
+    - source_model_index: 99
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: *id197
+      distance_from_position_lt: 59.464
+    - source_model_index: 198
+      source_name: DoubleDoorR5
+      movable: true
+      world_translation_lt: *id198
+      distance_from_position_lt: 68.0
+    - source_model_index: 100
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: *id199
+      distance_from_position_lt: 185.774
+    - source_model_index: 102
+      source_name: AITrk88
+      movable: true
+      world_translation_lt: *id200
+      distance_from_position_lt: 272.382
 - object_id: mm9:templeofhonk:object:468
   source_object_index: 468
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id275
+    - source_model_index: 198
+      source_name: DoubleDoorR5
+      movable: true
+      world_translation_lt: *id198
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 99
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: *id197
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 197
+      source_name: DoubleDoorL5
+      movable: true
+      world_translation_lt: *id196
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 100
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: *id199
+      distance_from_rotation_point_lt: 185.774
+    - source_model_index: 101
+      source_name: AITrk87
+      movable: true
+      world_translation_lt: &id201
+      - 896.0
+      - 24.0
+      - 1008.0
+      distance_from_rotation_point_lt: 243.869
+    nearest_movable_world_models_by_position: &id276
+    - source_model_index: 198
+      source_name: DoubleDoorR5
+      movable: true
+      world_translation_lt: *id198
+      distance_from_position_lt: 20.0
+    - source_model_index: 99
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: *id197
+      distance_from_position_lt: 59.464
+    - source_model_index: 197
+      source_name: DoubleDoorL5
+      movable: true
+      world_translation_lt: *id196
+      distance_from_position_lt: 68.0
+    - source_model_index: 100
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: *id199
+      distance_from_position_lt: 185.774
+    - source_model_index: 101
+      source_name: AITrk87
+      movable: true
+      world_translation_lt: *id201
+      distance_from_position_lt: 243.869
 - object_id: mm9:templeofhonk:object:469
   source_object_index: 469
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id277
+    - source_model_index: 199
+      source_name: DoubleDoorL4
+      movable: true
+      world_translation_lt: &id202
+      - 1400.0
+      - 304.0
+      - 640.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 200
+      source_name: DoubleDoorR4
+      movable: true
+      world_translation_lt: &id203
+      - 1448.0
+      - 304.0
+      - 640.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 139
+      source_name: AITrk125
+      movable: true
+      world_translation_lt: &id204
+      - 1424.0
+      - 264.0
+      - 544.0
+      distance_from_rotation_point_lt: 112.925
+    - source_model_index: 140
+      source_name: AITrk126
+      movable: true
+      world_translation_lt: &id205
+      - 1424.0
+      - 264.0
+      - 752.0
+      distance_from_rotation_point_lt: 126.807
+    - source_model_index: 142
+      source_name: AITrk128
+      movable: true
+      world_translation_lt: &id206
+      - 1264.0
+      - 264.0
+      - 752.0
+      distance_from_rotation_point_lt: 166.132
+    nearest_movable_world_models_by_position: &id278
+    - source_model_index: 199
+      source_name: DoubleDoorL4
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 20.0
+    - source_model_index: 200
+      source_name: DoubleDoorR4
+      movable: true
+      world_translation_lt: *id203
+      distance_from_position_lt: 68.0
+    - source_model_index: 139
+      source_name: AITrk125
+      movable: true
+      world_translation_lt: *id204
+      distance_from_position_lt: 112.925
+    - source_model_index: 140
+      source_name: AITrk126
+      movable: true
+      world_translation_lt: *id205
+      distance_from_position_lt: 126.807
+    - source_model_index: 142
+      source_name: AITrk128
+      movable: true
+      world_translation_lt: *id206
+      distance_from_position_lt: 166.132
 - object_id: mm9:templeofhonk:object:470
   source_object_index: 470
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id279
+    - source_model_index: 200
+      source_name: DoubleDoorR4
+      movable: true
+      world_translation_lt: *id203
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 199
+      source_name: DoubleDoorL4
+      movable: true
+      world_translation_lt: *id202
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 139
+      source_name: AITrk125
+      movable: true
+      world_translation_lt: *id204
+      distance_from_rotation_point_lt: 112.925
+    - source_model_index: 140
+      source_name: AITrk126
+      movable: true
+      world_translation_lt: *id205
+      distance_from_rotation_point_lt: 126.807
+    - source_model_index: 144
+      source_name: AITrk130
+      movable: true
+      world_translation_lt: &id207
+      - 1376.0
+      - 256.0
+      - 840.0
+      distance_from_rotation_point_lt: 225.318
+    nearest_movable_world_models_by_position: &id280
+    - source_model_index: 200
+      source_name: DoubleDoorR4
+      movable: true
+      world_translation_lt: *id203
+      distance_from_position_lt: 20.0
+    - source_model_index: 199
+      source_name: DoubleDoorL4
+      movable: true
+      world_translation_lt: *id202
+      distance_from_position_lt: 68.0
+    - source_model_index: 139
+      source_name: AITrk125
+      movable: true
+      world_translation_lt: *id204
+      distance_from_position_lt: 112.925
+    - source_model_index: 140
+      source_name: AITrk126
+      movable: true
+      world_translation_lt: *id205
+      distance_from_position_lt: 126.807
+    - source_model_index: 144
+      source_name: AITrk130
+      movable: true
+      world_translation_lt: *id207
+      distance_from_position_lt: 225.318
 - object_id: mm9:templeofhonk:object:471
   source_object_index: 471
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id281
+    - source_model_index: 201
+      source_name: DoubleDoorL3
+      movable: true
+      world_translation_lt: &id208
+      - 1400.0
+      - 304.0
+      - 2016.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 202
+      source_name: DoubleDoorR3
+      movable: true
+      world_translation_lt: &id209
+      - 1448.0
+      - 304.0
+      - 2016.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 160
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: &id210
+      - 1424.0
+      - 264.0
+      - 2112.0
+      distance_from_rotation_point_lt: 112.925
+    - source_model_index: 161
+      source_name: AITrk153
+      movable: true
+      world_translation_lt: &id211
+      - 1424.0
+      - 264.0
+      - 1904.0
+      distance_from_rotation_point_lt: 126.807
+    - source_model_index: 163
+      source_name: AITrk155
+      movable: true
+      world_translation_lt: &id212
+      - 1264.0
+      - 264.0
+      - 1904.0
+      distance_from_rotation_point_lt: 166.132
+    nearest_movable_world_models_by_position: &id282
+    - source_model_index: 201
+      source_name: DoubleDoorL3
+      movable: true
+      world_translation_lt: *id208
+      distance_from_position_lt: 20.0
+    - source_model_index: 202
+      source_name: DoubleDoorR3
+      movable: true
+      world_translation_lt: *id209
+      distance_from_position_lt: 68.0
+    - source_model_index: 160
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: *id210
+      distance_from_position_lt: 112.925
+    - source_model_index: 161
+      source_name: AITrk153
+      movable: true
+      world_translation_lt: *id211
+      distance_from_position_lt: 126.807
+    - source_model_index: 163
+      source_name: AITrk155
+      movable: true
+      world_translation_lt: *id212
+      distance_from_position_lt: 166.132
 - object_id: mm9:templeofhonk:object:472
   source_object_index: 472
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id283
+    - source_model_index: 202
+      source_name: DoubleDoorR3
+      movable: true
+      world_translation_lt: *id209
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 201
+      source_name: DoubleDoorL3
+      movable: true
+      world_translation_lt: *id208
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 160
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: *id210
+      distance_from_rotation_point_lt: 112.925
+    - source_model_index: 161
+      source_name: AITrk153
+      movable: true
+      world_translation_lt: *id211
+      distance_from_rotation_point_lt: 126.807
+    - source_model_index: 165
+      source_name: AITrk157
+      movable: true
+      world_translation_lt: &id213
+      - 1376.0
+      - 256.0
+      - 1816.0
+      distance_from_rotation_point_lt: 225.318
+    nearest_movable_world_models_by_position: &id284
+    - source_model_index: 202
+      source_name: DoubleDoorR3
+      movable: true
+      world_translation_lt: *id209
+      distance_from_position_lt: 20.0
+    - source_model_index: 201
+      source_name: DoubleDoorL3
+      movable: true
+      world_translation_lt: *id208
+      distance_from_position_lt: 68.0
+    - source_model_index: 160
+      source_name: AITrk152
+      movable: true
+      world_translation_lt: *id210
+      distance_from_position_lt: 112.925
+    - source_model_index: 161
+      source_name: AITrk153
+      movable: true
+      world_translation_lt: *id211
+      distance_from_position_lt: 126.807
+    - source_model_index: 165
+      source_name: AITrk157
+      movable: true
+      world_translation_lt: *id213
+      distance_from_position_lt: 225.318
 - object_id: mm9:templeofhonk:object:473
   source_object_index: 473
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id285
+    - source_model_index: 203
+      source_name: DoubleDoorL2
+      movable: true
+      world_translation_lt: &id214
+      - 1312.0
+      - 304.0
+      - 2360.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 157
+      source_name: AITrk149
+      movable: true
+      world_translation_lt: &id215
+      - 1312.0
+      - 264.0
+      - 2336.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 204
+      source_name: DoubleDoorR2
+      movable: true
+      world_translation_lt: &id216
+      - 1312.0
+      - 304.0
+      - 2312.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 156
+      source_name: AITrk148
+      movable: true
+      world_translation_lt: &id217
+      - 1424.0
+      - 264.0
+      - 2328.0
+      distance_from_rotation_point_lt: 129.8
+    - source_model_index: 155
+      source_name: AITrk147
+      movable: true
+      world_translation_lt: &id218
+      - 1424.0
+      - 256.0
+      - 2440.0
+      distance_from_rotation_point_lt: 135.823
+    nearest_movable_world_models_by_position: &id286
+    - source_model_index: 203
+      source_name: DoubleDoorL2
+      movable: true
+      world_translation_lt: *id214
+      distance_from_position_lt: 20.0
+    - source_model_index: 157
+      source_name: AITrk149
+      movable: true
+      world_translation_lt: *id215
+      distance_from_position_lt: 59.464
+    - source_model_index: 204
+      source_name: DoubleDoorR2
+      movable: true
+      world_translation_lt: *id216
+      distance_from_position_lt: 68.0
+    - source_model_index: 156
+      source_name: AITrk148
+      movable: true
+      world_translation_lt: *id217
+      distance_from_position_lt: 129.8
+    - source_model_index: 155
+      source_name: AITrk147
+      movable: true
+      world_translation_lt: *id218
+      distance_from_position_lt: 135.823
 - object_id: mm9:templeofhonk:object:474
   source_object_index: 474
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id287
+    - source_model_index: 204
+      source_name: DoubleDoorR2
+      movable: true
+      world_translation_lt: *id216
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 157
+      source_name: AITrk149
+      movable: true
+      world_translation_lt: *id215
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 203
+      source_name: DoubleDoorL2
+      movable: true
+      world_translation_lt: *id214
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 156
+      source_name: AITrk148
+      movable: true
+      world_translation_lt: *id217
+      distance_from_rotation_point_lt: 124.258
+    - source_model_index: 155
+      source_name: AITrk147
+      movable: true
+      world_translation_lt: *id218
+      distance_from_rotation_point_lt: 191.708
+    nearest_movable_world_models_by_position: &id288
+    - source_model_index: 204
+      source_name: DoubleDoorR2
+      movable: true
+      world_translation_lt: *id216
+      distance_from_position_lt: 20.0
+    - source_model_index: 157
+      source_name: AITrk149
+      movable: true
+      world_translation_lt: *id215
+      distance_from_position_lt: 59.464
+    - source_model_index: 203
+      source_name: DoubleDoorL2
+      movable: true
+      world_translation_lt: *id214
+      distance_from_position_lt: 68.0
+    - source_model_index: 156
+      source_name: AITrk148
+      movable: true
+      world_translation_lt: *id217
+      distance_from_position_lt: 124.258
+    - source_model_index: 155
+      source_name: AITrk147
+      movable: true
+      world_translation_lt: *id218
+      distance_from_position_lt: 191.708
 - object_id: mm9:templeofhonk:object:475
   source_object_index: 475
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id289
+    - source_model_index: 205
+      source_name: DoubleDoorL1
+      movable: true
+      world_translation_lt: &id219
+      - 1312.0
+      - 304.0
+      - 344.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 136
+      source_name: AITrk122
+      movable: true
+      world_translation_lt: &id220
+      - 1312.0
+      - 264.0
+      - 320.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 206
+      source_name: DoubleDoorR1
+      movable: true
+      world_translation_lt: &id221
+      - 1312.0
+      - 304.0
+      - 296.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 135
+      source_name: AITrk121
+      movable: true
+      world_translation_lt: &id222
+      - 1424.0
+      - 264.0
+      - 328.0
+      distance_from_rotation_point_lt: 124.258
+    - source_model_index: 134
+      source_name: AITrk120
+      movable: true
+      world_translation_lt: &id223
+      - 1424.0
+      - 256.0
+      - 216.0
+      distance_from_rotation_point_lt: 191.708
+    nearest_movable_world_models_by_position: &id290
+    - source_model_index: 205
+      source_name: DoubleDoorL1
+      movable: true
+      world_translation_lt: *id219
+      distance_from_position_lt: 20.0
+    - source_model_index: 136
+      source_name: AITrk122
+      movable: true
+      world_translation_lt: *id220
+      distance_from_position_lt: 59.464
+    - source_model_index: 206
+      source_name: DoubleDoorR1
+      movable: true
+      world_translation_lt: *id221
+      distance_from_position_lt: 68.0
+    - source_model_index: 135
+      source_name: AITrk121
+      movable: true
+      world_translation_lt: *id222
+      distance_from_position_lt: 124.258
+    - source_model_index: 134
+      source_name: AITrk120
+      movable: true
+      world_translation_lt: *id223
+      distance_from_position_lt: 191.708
 - object_id: mm9:templeofhonk:object:476
   source_object_index: 476
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id291
+    - source_model_index: 206
+      source_name: DoubleDoorR1
+      movable: true
+      world_translation_lt: *id221
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 136
+      source_name: AITrk122
+      movable: true
+      world_translation_lt: *id220
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 205
+      source_name: DoubleDoorL1
+      movable: true
+      world_translation_lt: *id219
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 135
+      source_name: AITrk121
+      movable: true
+      world_translation_lt: *id222
+      distance_from_rotation_point_lt: 129.8
+    - source_model_index: 134
+      source_name: AITrk120
+      movable: true
+      world_translation_lt: *id223
+      distance_from_rotation_point_lt: 135.823
+    nearest_movable_world_models_by_position: &id292
+    - source_model_index: 206
+      source_name: DoubleDoorR1
+      movable: true
+      world_translation_lt: *id221
+      distance_from_position_lt: 20.0
+    - source_model_index: 136
+      source_name: AITrk122
+      movable: true
+      world_translation_lt: *id220
+      distance_from_position_lt: 59.464
+    - source_model_index: 205
+      source_name: DoubleDoorL1
+      movable: true
+      world_translation_lt: *id219
+      distance_from_position_lt: 68.0
+    - source_model_index: 135
+      source_name: AITrk121
+      movable: true
+      world_translation_lt: *id222
+      distance_from_position_lt: 129.8
+    - source_model_index: 134
+      source_name: AITrk120
+      movable: true
+      world_translation_lt: *id223
+      distance_from_position_lt: 135.823
 - object_id: mm9:templeofhonk:object:477
   source_object_index: 477
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id293
+    - source_model_index: 207
+      source_name: DoubleDoorL13
+      movable: true
+      world_translation_lt: &id224
+      - -1200.0
+      - 64.0
+      - 2080.0
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 36
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: &id225
+      - -1176.0
+      - 24.0
+      - 2080.0
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 208
+      source_name: DoubleDoorR13
+      movable: true
+      world_translation_lt: &id226
+      - -1152.0
+      - 64.0
+      - 2080.0
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 35
+      source_name: AITrk10
+      movable: true
+      world_translation_lt: &id227
+      - -1176.0
+      - 24.0
+      - 2208.0
+      distance_from_rotation_point_lt: 141.138
+    - source_model_index: 210
+      source_name: SecretDoorMover
+      movable: true
+      world_translation_lt: &id228
+      - -1144.0
+      - -52.0
+      - 2112.0
+      distance_from_rotation_point_lt: 142.324
+    nearest_movable_world_models_by_position: &id294
+    - source_model_index: 207
+      source_name: DoubleDoorL13
+      movable: true
+      world_translation_lt: *id224
+      distance_from_position_lt: 20.0
+    - source_model_index: 36
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id225
+      distance_from_position_lt: 59.464
+    - source_model_index: 208
+      source_name: DoubleDoorR13
+      movable: true
+      world_translation_lt: *id226
+      distance_from_position_lt: 68.0
+    - source_model_index: 35
+      source_name: AITrk10
+      movable: true
+      world_translation_lt: *id227
+      distance_from_position_lt: 141.138
+    - source_model_index: 210
+      source_name: SecretDoorMover
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 142.324
 - object_id: mm9:templeofhonk:object:478
   source_object_index: 478
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id295
+    - source_model_index: 208
+      source_name: DoubleDoorR13
+      movable: true
+      world_translation_lt: *id226
+      distance_from_rotation_point_lt: 20.0
+    - source_model_index: 36
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id225
+      distance_from_rotation_point_lt: 59.464
+    - source_model_index: 207
+      source_name: DoubleDoorL13
+      movable: true
+      world_translation_lt: *id224
+      distance_from_rotation_point_lt: 68.0
+    - source_model_index: 210
+      source_name: SecretDoorMover
+      movable: true
+      world_translation_lt: *id228
+      distance_from_rotation_point_lt: 120.93
+    - source_model_index: 35
+      source_name: AITrk10
+      movable: true
+      world_translation_lt: *id227
+      distance_from_rotation_point_lt: 141.138
+    nearest_movable_world_models_by_position: &id296
+    - source_model_index: 208
+      source_name: DoubleDoorR13
+      movable: true
+      world_translation_lt: *id226
+      distance_from_position_lt: 20.0
+    - source_model_index: 36
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id225
+      distance_from_position_lt: 59.464
+    - source_model_index: 207
+      source_name: DoubleDoorL13
+      movable: true
+      world_translation_lt: *id224
+      distance_from_position_lt: 68.0
+    - source_model_index: 210
+      source_name: SecretDoorMover
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 120.93
+    - source_model_index: 35
+      source_name: AITrk10
+      movable: true
+      world_translation_lt: *id227
+      distance_from_position_lt: 141.138
 - object_id: mm9:templeofhonk:object:479
   source_object_index: 479
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id297
+    - source_model_index: 209
+      source_name: SecretDoor
+      movable: true
+      world_translation_lt: &id229
+      - -1176.0
+      - -150.0
+      - 2140.0
+      distance_from_position_lt: 67.32
+    - source_model_index: 231
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: &id230
+      - -1176.0
+      - -150.0
+      - 2149.0
+      distance_from_position_lt: 68.447
+    - source_model_index: 210
+      source_name: SecretDoorMover
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 87.727
+    - source_model_index: 30
+      source_name: AITrk27
+      movable: true
+      world_translation_lt: &id231
+      - -1176.0
+      - -196.0
+      - 2128.0
+      distance_from_position_lt: 108.0
+    - source_model_index: 23
+      source_name: AITrk16
+      movable: true
+      world_translation_lt: &id232
+      - -1176.0
+      - -196.0
+      - 2192.0
+      distance_from_position_lt: 121.392
 - object_id: mm9:templeofhonk:object:480
   source_object_index: 480
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id298
+    - source_model_index: 210
+      source_name: SecretDoorMover
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 4.0
+    - source_model_index: 36
+      source_name: AITrk11
+      movable: true
+      world_translation_lt: *id225
+      distance_from_position_lt: 85.041
+    - source_model_index: 209
+      source_name: SecretDoor
+      movable: true
+      world_translation_lt: *id229
+      distance_from_position_lt: 110.508
+    - source_model_index: 231
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id230
+      distance_from_position_lt: 113.124
+    - source_model_index: 208
+      source_name: DoubleDoorR13
+      movable: true
+      world_translation_lt: *id226
+      distance_from_position_lt: 116.756
 - object_id: mm9:templeofhonk:object:591
   source_object_index: 591
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id299
+    - source_model_index: 231
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id230
+      distance_from_position_lt: 67.268
+    - source_model_index: 209
+      source_name: SecretDoor
+      movable: true
+      world_translation_lt: *id229
+      distance_from_position_lt: 68.264
+    - source_model_index: 210
+      source_name: SecretDoorMover
+      movable: true
+      world_translation_lt: *id228
+      distance_from_position_lt: 93.381
+    - source_model_index: 30
+      source_name: AITrk27
+      movable: true
+      world_translation_lt: *id231
+      distance_from_position_lt: 110.345
+    - source_model_index: 23
+      source_name: AITrk16
+      movable: true
+      world_translation_lt: *id232
+      distance_from_position_lt: 114.891
 scripts:
 - script_id: dumbgoose.scr
   source_path: DUMBGOOSE.scr
@@ -151114,206 +154222,314 @@ unresolved:
   source_name: DoorTrigger
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id233
 - kind: unresolved_binding
   source_object_index: 66
   source_name: NCornerStone
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id234
 - kind: unresolved_binding
   source_object_index: 67
   source_name: OCornerStone
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id235
 - kind: unresolved_binding
   source_object_index: 68
   source_name: HCornerStone
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id236
 - kind: unresolved_binding
   source_object_index: 69
   source_name: KButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id237
 - kind: unresolved_binding
   source_object_index: 70
   source_name: NButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id238
 - kind: unresolved_binding
   source_object_index: 71
   source_name: OButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id239
 - kind: unresolved_binding
   source_object_index: 72
   source_name: HButton
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id240
 - kind: unresolved_binding
   source_object_index: 73
   source_name: KCornerStone
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id241
 - kind: unresolved_binding
   source_object_index: 74
   source_name: HONK_CEREMONY
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id242
 - kind: unresolved_binding
   source_object_index: 75
   source_name: HONK_FRIENDLY
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id243
 - kind: unresolved_binding
   source_object_index: 82
   source_name: DoubleDoorL14
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id244
+    nearest_movable_world_models_by_position: *id245
 - kind: unresolved_binding
   source_object_index: 83
   source_name: DoubleDoorR14
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id246
+    nearest_movable_world_models_by_position: *id247
 - kind: unresolved_binding
   source_object_index: 454
   source_name: BlueWater0
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id248
 - kind: unresolved_binding
   source_object_index: 455
   source_name: DoubleDoorL12
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id249
+    nearest_movable_world_models_by_position: *id250
 - kind: unresolved_binding
   source_object_index: 456
   source_name: DoubleDoorR12
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id251
+    nearest_movable_world_models_by_position: *id252
 - kind: unresolved_binding
   source_object_index: 457
   source_name: DoubleDoorL11
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id253
+    nearest_movable_world_models_by_position: *id254
 - kind: unresolved_binding
   source_object_index: 458
   source_name: DoubleDoorR11
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id255
+    nearest_movable_world_models_by_position: *id256
 - kind: unresolved_binding
   source_object_index: 459
   source_name: DoubleDoorL10
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id257
+    nearest_movable_world_models_by_position: *id258
 - kind: unresolved_binding
   source_object_index: 460
   source_name: DoubleDoorR10
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id259
+    nearest_movable_world_models_by_position: *id260
 - kind: unresolved_binding
   source_object_index: 461
   source_name: DoubleDoorL9
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id261
+    nearest_movable_world_models_by_position: *id262
 - kind: unresolved_binding
   source_object_index: 462
   source_name: DoubleDoorR9
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id263
+    nearest_movable_world_models_by_position: *id264
 - kind: unresolved_binding
   source_object_index: 463
   source_name: DoubleDoorL7
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id265
+    nearest_movable_world_models_by_position: *id266
 - kind: unresolved_binding
   source_object_index: 464
   source_name: DoubleDoorR7
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id267
+    nearest_movable_world_models_by_position: *id268
 - kind: unresolved_binding
   source_object_index: 465
   source_name: DoubleDoorL6
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id269
+    nearest_movable_world_models_by_position: *id270
 - kind: unresolved_binding
   source_object_index: 466
   source_name: DoubleDoorR6
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id271
+    nearest_movable_world_models_by_position: *id272
 - kind: unresolved_binding
   source_object_index: 467
   source_name: DoubleDoorL5
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id273
+    nearest_movable_world_models_by_position: *id274
 - kind: unresolved_binding
   source_object_index: 468
   source_name: DoubleDoorR5
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id275
+    nearest_movable_world_models_by_position: *id276
 - kind: unresolved_binding
   source_object_index: 469
   source_name: DoubleDoorL4
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id277
+    nearest_movable_world_models_by_position: *id278
 - kind: unresolved_binding
   source_object_index: 470
   source_name: DoubleDoorR4
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id279
+    nearest_movable_world_models_by_position: *id280
 - kind: unresolved_binding
   source_object_index: 471
   source_name: DoubleDoorL3
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id281
+    nearest_movable_world_models_by_position: *id282
 - kind: unresolved_binding
   source_object_index: 472
   source_name: DoubleDoorR3
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id283
+    nearest_movable_world_models_by_position: *id284
 - kind: unresolved_binding
   source_object_index: 473
   source_name: DoubleDoorL2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id285
+    nearest_movable_world_models_by_position: *id286
 - kind: unresolved_binding
   source_object_index: 474
   source_name: DoubleDoorR2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id287
+    nearest_movable_world_models_by_position: *id288
 - kind: unresolved_binding
   source_object_index: 475
   source_name: DoubleDoorL1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id289
+    nearest_movable_world_models_by_position: *id290
 - kind: unresolved_binding
   source_object_index: 476
   source_name: DoubleDoorR1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id291
+    nearest_movable_world_models_by_position: *id292
 - kind: unresolved_binding
   source_object_index: 477
   source_name: DoubleDoorL13
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id293
+    nearest_movable_world_models_by_position: *id294
 - kind: unresolved_binding
   source_object_index: 478
   source_name: DoubleDoorR13
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id295
+    nearest_movable_world_models_by_position: *id296
 - kind: unresolved_binding
   source_object_index: 479
   source_name: SecretDoor
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id297
 - kind: unresolved_binding
   source_object_index: 480
   source_name: SecretDoorMover
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id298
 - kind: unresolved_binding
   source_object_index: 591
   source_name: PerceptionBrush0
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id299
 - kind: unresolved_target_name
   source: mechanism
   source_object_index: 68

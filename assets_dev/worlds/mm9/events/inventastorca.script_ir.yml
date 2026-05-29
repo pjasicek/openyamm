@@ -1,0 +1,701 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: inventastorca
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: greenparty.scr
+  source_path: GREENPARTY.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: Globals.inc
+  labels:
+  - line: 18
+    name: KillThem
+  - line: 25
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 22
+    command: Die
+    arguments_raw: ''
+  command_count: 5
+- script_id: is_dyingnpc.scr
+  source_path: IS_DYINGNPC.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: Globals.inc
+  labels:
+  - line: 11
+    name: NpcDie
+  - line: 16
+    name: KillNpc
+  - line: 21
+    name: Main2
+  - line: 27
+    name: Main
+  registered_triggers:
+  - line: 24
+    message: Die
+    callback: NpcDie
+    arguments_raw: Die, NpcDie
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 18
+    command: PlayAnim
+    arguments_raw: Wince2, NpcDie
+  unknown_commands:
+  - line: 13
+    command: Stop
+    arguments_raw: ''
+  command_count: 8
+- script_id: is_ficky.scr
+  source_path: IS_FICKY.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 36
+    name: PickMarker
+  - line: 49
+    name: Go
+  - line: 61
+    name: scatter
+  - line: 80
+    name: Main
+  registered_triggers:
+  - line: 89
+    message: Scatter
+    callback: scatter
+    arguments_raw: Scatter scatter
+  trigger_edges:
+  - line: 67
+    target_expression: hBird
+    message_expression: go
+    arguments_raw: hBird go
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 39
+    command: GetRandomInt
+    arguments_raw: 0, nNumMarkers, nMarker
+  - line: 43
+    command: nPrevMarker
+    arguments_raw: = nMarker
+  - line: 53
+    command: sMarker
+    arguments_raw: = sMarkerRoot
+  - line: 54
+    command: Add
+    arguments_raw: sMarker nMarker
+  - line: 56
+    command: walkto
+    arguments_raw: hMarker 30 Go
+  - line: 65
+    command: sBirdName
+    arguments_raw: = sBirdNameRoot + nCount
+  - line: 68
+    command: nCount
+    arguments_raw: = nCount + 1
+  - line: 72
+    command: RemoveTrigger
+    arguments_raw: scatter
+  - line: 88
+    command: nNumMarkers
+    arguments_raw: = nNumMarkers - 1
+  - line: 91
+    command: OnStuck
+    arguments_raw: Go
+  command_count: 32
+- script_id: is_fickyflock.scr
+  source_path: IS_FICKYFLOCK.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 31
+    name: DN
+  - line: 39
+    name: TriggerScatter
+  - line: 49
+    name: Disappear
+  - line: 57
+    name: GoAway
+  - line: 70
+    name: Replay
+  - line: 85
+    name: Go
+  - line: 103
+    name: Main2
+  - line: 114
+    name: Main
+  registered_triggers:
+  - line: 120
+    message: Go
+    callback: Go
+    arguments_raw: Go Go
+  trigger_edges:
+  - line: 43
+    target_expression: hBigBird
+    message_expression: scatter
+    arguments_raw: hBigBird scatter
+  movement_commands: []
+  state_commands:
+  - line: 107
+    command: GetStat
+    arguments_raw: hMe flyvel nSpeed
+  - line: 109
+    command: SetStat
+    arguments_raw: hMe flyvel nSpeed
+  presentation_commands: []
+  unknown_commands:
+  - line: 51
+    command: Die
+    arguments_raw: ''
+  - line: 60
+    command: GetRandomInt
+    arguments_raw: 0, nNumMarkers, nMarker
+  - line: 61
+    command: sMarker
+    arguments_raw: = sMarkerRoot
+  - line: 62
+    command: Add
+    arguments_raw: sMarker nMarker
+  - line: 64
+    command: nPlaySound
+    arguments_raw: = 1
+  - line: 65
+    command: walkto
+    arguments_raw: hMarker 50 Disappear
+  - line: 90
+    command: RemoveTrigger
+    arguments_raw: Go
+  - line: 91
+    command: nMarker
+    arguments_raw: = nNumMarkers + 1
+  - line: 92
+    command: sMarker
+    arguments_raw: = sMarkerRoot
+  - line: 93
+    command: Add
+    arguments_raw: sMarker nMarker
+  - line: 98
+    command: walkto
+    arguments_raw: hMarker 30 GoAway
+  - line: 108
+    command: nSpeed
+    arguments_raw: = nSpeed / 4
+  - line: 119
+    command: nNumMarkers
+    arguments_raw: = nNumMarkers - 1
+  - line: 121
+    command: OnDamage
+    arguments_raw: TriggerScatter TriggerScatter
+  - line: 122
+    command: OnStuck
+    arguments_raw: Go
+  command_count: 38
+- script_id: is_killinglich.scr
+  source_path: IS_KILLINGLICH.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: BaseMelee.inc
+  labels:
+  - line: 13
+    name: Killem
+  - line: 19
+    name: NpcDie
+  - line: 24
+    name: KillNpc
+  - line: 29
+    name: Main2
+  - line: 35
+    name: Main
+  registered_triggers:
+  - line: 32
+    message: Kill
+    callback: KillNpc
+    arguments_raw: Kill, KillNpc
+  trigger_edges:
+  - line: 15
+    target_expression: hNpc
+    message_expression: Destroy
+    arguments_raw: hNpc, Destroy
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 21
+    command: PlayAnim
+    arguments_raw: RAttack1, Killem
+  - line: 26
+    command: PlayAnim
+    arguments_raw: Fidget2, NpcDie
+  unknown_commands: []
+  command_count: 12
+- script_id: kingkong.scr
+  source_path: KINGKONG.scr
+  parse_status: parsed
+  includes:
+  - line: 19
+    path: baseMelee.inc
+  labels:
+  - line: 27
+    name: Main
+  - line: 37
+    name: InitKingKong
+  - line: 52
+    name: RushCage
+  - line: 62
+    name: BreakCage
+  - line: 77
+    name: FallThrough
+  - line: 90
+    name: TurnOff
+  registered_triggers:
+  - line: 41
+    message: ForceBreak
+    callback: RushCage
+    arguments_raw: ForceBreak, RushCage
+  - line: 42
+    message: ForceFall
+    callback: FallThrough
+    arguments_raw: ForceFall, FallThrough
+  - line: 43
+    message: ForceAttack
+    callback: TurnOff
+    arguments_raw: ForceAttack, TurnOff
+  trigger_edges:
+  - line: 67
+    target_expression: hCage
+    message_expression: destroy
+    arguments_raw: hCage, destroy
+  - line: 82
+    target_expression: hCage
+    message_expression: destroy
+    arguments_raw: hCage, destroy
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 46
+    command: LoopAnim
+    arguments_raw: ANIM_NAME, 0
+  - line: 70
+    command: PlayAnim
+    arguments_raw: hattack1, turnoff
+  unknown_commands:
+  - line: 32
+    command: OnPostStartWorld
+    arguments_raw: InitKingKong
+  - line: 93
+    command: RemoveTrigger
+    arguments_raw: ForceBreak
+  - line: 94
+    command: RemoveTrigger
+    arguments_raw: ForceFall
+  - line: 95
+    command: RemoveTrigger
+    arguments_raw: ForceAttack
+  - line: 98
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  command_count: 36
+- script_id: orb.scr
+  source_path: ORB.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 18
+    name: OnUse
+  - line: 32
+    name: Init
+  - line: 43
+    name: Main
+  registered_triggers:
+  - line: 49
+    message: use
+    callback: OnUse
+    arguments_raw: use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 22
+    command: giveitem
+    arguments_raw: '252'
+  - line: 25
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 34
+    command: haskey
+    arguments_raw: 337 g_ntemp
+  - line: 37
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 50
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 51
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 52
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 18
+- script_id: scurrycreature.scr
+  source_path: SCURRYCREATURE.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 22
+    name: Main
+  - line: 32
+    name: InitScurryCreature
+  - line: 45
+    name: GoHide
+  - line: 54
+    name: Turn
+  - line: 65
+    name: Disappear
+  - line: 72
+    name: DoNothing
+  registered_triggers:
+  - line: 38
+    message: Hide
+    callback: GoHide
+    arguments_raw: Hide, GoHide
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 35
+    command: GetStat
+    arguments_raw: hMe, RunVel, v
+  - line: 37
+    command: SetStat
+    arguments_raw: hMe, RunVel, v
+  presentation_commands: []
+  unknown_commands:
+  - line: 36
+    command: v
+    arguments_raw: = v * 6
+  - line: 39
+    command: OnObstacle
+    arguments_raw: Turn
+  - line: 40
+    command: OnStuck
+    arguments_raw: Turn
+  - line: 49
+    command: RunTo
+    arguments_raw: hHide, 100, Disappear
+  - line: 56
+    command: GetFaceDir
+    arguments_raw: hMe, x,y,z
+  - line: 57
+    command: GetRandomInt
+    arguments_raw: -5, 5, v
+  - line: 58
+    command: x
+    arguments_raw: = x * v
+  - line: 59
+    command: z
+    arguments_raw: = z * v
+  - line: 60
+    command: FaceDir
+    arguments_raw: z,y,x, 0, GoHide
+  - line: 67
+    command: RemoveObject
+    arguments_raw: hMe
+  command_count: 24
+- script_id: spook.scr
+  source_path: SPOOK.scr
+  parse_status: parsed
+  includes:
+  - line: 21
+    path: BaseGlobals.inc
+  labels:
+  - line: 45
+    name: Main
+  - line: 55
+    name: InitSpook
+  - line: 75
+    name: StartPlayLoop
+  - line: 90
+    name: PlaySoundHere
+  - line: 106
+    name: PlaySound
+  - line: 118
+    name: UpdatePOS
+  - line: 130
+    name: TurnOn
+  - line: 136
+    name: TurnOff
+  - line: 142
+    name: TurnRandomOn
+  - line: 148
+    name: TurnRandomOff
+  - line: 154
+    name: OnSoundDone
+  - line: 160
+    name: InitStrings
+  - line: 186
+    name: CacheAllSounds
+  registered_triggers:
+  - line: 63
+    message: Play
+    callback: PlaySound
+    arguments_raw: Play, PlaySound
+  - line: 64
+    message: PlayHere
+    callback: PlaySoundHere
+    arguments_raw: PlayHere, PlaySoundHere
+  - line: 65
+    message: RandomOff
+    callback: TurnRandomOff
+    arguments_raw: RandomOff, TurnRandomOff
+  - line: 66
+    message: RandomOn
+    callback: TurnRandomOn
+    arguments_raw: RandomOn, TurnRandomOn
+  - line: 67
+    message: 'On'
+    callback: TurnOn
+    arguments_raw: On, TurnOn
+  - line: 68
+    message: 'Off'
+    callback: TurnOff
+    arguments_raw: Off, TurnOff
+  trigger_edges: []
+  movement_commands:
+  - line: 126
+    command: SetPOS
+    arguments_raw: hMe, x,y,z
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 57
+    command: bActive
+    arguments_raw: = TRUE
+  - line: 58
+    command: bRandom
+    arguments_raw: = TRUE
+  - line: 61
+    command: GetPlayerHandle
+    arguments_raw: hPlayer
+  - line: 84
+    command: GetRandomInt
+    arguments_raw: 2, 8, dt
+  - line: 85
+    command: dt
+    arguments_raw: = dt * 60
+  - line: 99
+    command: GetPlayerHandle
+    arguments_raw: hPlayer
+  - line: 100
+    command: GetRandomInt
+    arguments_raw: 0, 9, nRandom
+  - line: 101
+    command: ArrayGet
+    arguments_raw: spSoundArray, nRandom, sFilename
+  - line: 112
+    command: GetRandomInt
+    arguments_raw: 0, 9, nRandom
+  - line: 113
+    command: ArrayGet
+    arguments_raw: spSoundArray, nRandom, sFilename
+  - line: 120
+    command: GetFaceDir
+    arguments_raw: hPlayer, dx,dy,dz
+  - line: 121
+    command: NormalizeVector
+    arguments_raw: dx,dy,dz
+  - line: 123
+    command: x
+    arguments_raw: = x - dx
+  - line: 124
+    command: y
+    arguments_raw: = y - dy
+  - line: 125
+    command: z
+    arguments_raw: = z - dz
+  - line: 132
+    command: bActive
+    arguments_raw: = TRUE
+  - line: 138
+    command: bActive
+    arguments_raw: = FALSE
+  - line: 144
+    command: bRandom
+    arguments_raw: = TRUE
+  - line: 150
+    command: bRandom
+    arguments_raw: = FALSE
+  - line: 156
+    command: KillSound
+    arguments_raw: hDummy
+  - line: 162
+    command: sFileName
+    arguments_raw: = "sounds\Door\Doorcreak02.wav"
+  - line: 163
+    command: ArrayPut
+    arguments_raw: spSoundArray, 0, sFileName
+  - line: 164
+    command: sFileName
+    arguments_raw: = "sounds\Ambient\Owl02.wav"
+  - line: 165
+    command: ArrayPut
+    arguments_raw: spSoundArray, 1, sFileName
+  - line: 166
+    command: sFileName
+    arguments_raw: = "sounds\Ambient\Thunderdistant02.wav"
+  - line: 167
+    command: ArrayPut
+    arguments_raw: spSoundArray, 2, sFileName
+  - line: 168
+    command: sFileName
+    arguments_raw: = "sounds\Events\rockscrumblingloop.wav"
+  - line: 169
+    command: ArrayPut
+    arguments_raw: spSoundArray, 3, sFileName
+  - line: 170
+    command: sFileName
+    arguments_raw: = "sounds\Events\WoodCreak1.wav"
+  - line: 171
+    command: ArrayPut
+    arguments_raw: spSoundArray, 4, sFileName
+  - line: 172
+    command: sFileName
+    arguments_raw: = "sounds\AnimSounds\lichkingTaunt.wav"
+  - line: 173
+    command: ArrayPut
+    arguments_raw: spSoundArray, 5, sFileName
+  - line: 174
+    command: sFileName
+    arguments_raw: = "sounds\Ambient\cricket.wav"
+  - line: 175
+    command: ArrayPut
+    arguments_raw: spSoundArray, 6, sFileName
+  - line: 176
+    command: sFileName
+    arguments_raw: = "sounds\AnimSounds\gopherwince.wav"
+  - line: 177
+    command: ArrayPut
+    arguments_raw: spSoundArray, 7, sFileName
+  - line: 178
+    command: sFileName
+    arguments_raw: = "sounds\PickupItems\Shield\Metal01.wav"
+  - line: 179
+    command: ArrayPut
+    arguments_raw: spSoundArray, 8, sFileName
+  - line: 180
+    command: sFileName
+    arguments_raw: = "sounds\events\shatterpotterybig02.wav"
+  - line: 181
+    command: ArrayPut
+    arguments_raw: spSoundArray, 9, sFileName
+  - line: 182
+    command: sFileName
+    arguments_raw: = ""
+  - line: 188
+    command: CacheSound
+    arguments_raw: '"sounds\Door\Doorcreak02.wav"'
+  - line: 189
+    command: CacheSound
+    arguments_raw: '"sounds\Ambient\Owl02.wav"'
+  - line: 190
+    command: CacheSound
+    arguments_raw: '"sounds\Ambient\Thunderdistant02.wav"'
+  - line: 191
+    command: CacheSound
+    arguments_raw: '"sounds\Events\rockscrumblingloop.wav"'
+  - line: 192
+    command: CacheSound
+    arguments_raw: '"sounds\Events\WoodCreak1.wav"'
+  - line: 193
+    command: CacheSound
+    arguments_raw: '"sounds\AnimSounds\lichkingTaunt.wav"'
+  - line: 194
+    command: CacheSound
+    arguments_raw: '"sounds\Ambient\cricket.wav"'
+  - line: 195
+    command: CacheSound
+    arguments_raw: '"sounds\AnimSounds\gopherwince.wav"'
+  - line: 196
+    command: CacheSound
+    arguments_raw: '"sounds\PickupItems\Shield\Metal01.wav"'
+  - line: 197
+    command: CacheSound
+    arguments_raw: '"sounds\events\shatterpotterybig02.wav"'
+  command_count: 96
+validation:
+  script_count: 10

@@ -40,7 +40,7 @@ script.labels["Reward"] = function(ctx)
         if ctx:hasKey(307) then -- NPC184.scr:53-54
             ctx:giveKey(308) -- NPC184.scr:55
             ctx:giveExp(20000) -- NPC184.scr:56
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC184.scr:57
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC184.scr:57
             do return ctx:exit("") end -- NPC184.scr:58
         end -- NPC184.scr:59
     end -- NPC184.scr:60
@@ -56,7 +56,7 @@ script.labels["BadReward"] = function(ctx)
         if ctx:hasKey(309) then -- NPC184.scr:78-79
             ctx:giveKey(310) -- NPC184.scr:80
             ctx:giveExp(2000) -- NPC184.scr:81
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC184.scr:82
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC184.scr:82
             ctx:giveGold(200) -- NPC184.scr:83
             ctx:takeItem(249) -- NPC184.scr:84
             do return ctx:exit("") end -- NPC184.scr:85
@@ -69,7 +69,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC184.scr:100
-    ctx:command("playsound", "voices\\NPC\\NPC_184.wav, Onexit, 100, 240, FALSE, 100") -- NPC184.scr:103
+    ctx:playSound("voices\\NPC\\NPC_184.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC184.scr:103
     do return ctx:exit("") end -- NPC184.scr:104
 end
 

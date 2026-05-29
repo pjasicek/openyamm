@@ -25,8 +25,7 @@ script.labels["haskey"] = function(ctx)
             ctx:giveItem(560) -- REALBOOK.scr:32
             ctx:giveKey(283) -- REALBOOK.scr:33
             ctx:giveKey(290) -- REALBOOK.scr:34
-            ctx:command("getmyhandle", "g_hmyobject") -- REALBOOK.scr:35
-            ctx:command("removeobject", "g_hmyobject") -- REALBOOK.scr:36
+            ctx:self():remove() -- REALBOOK.scr:36
             do return ctx:exit("") end -- REALBOOK.scr:37
         end -- REALBOOK.scr:38
     end -- REALBOOK.scr:39
@@ -36,13 +35,11 @@ end
 script.labels["deletecheck"] = function(ctx)
     -- REALBOOK.scr:44
     if ctx:hasKey(284) then -- REALBOOK.scr:47-48
-        ctx:command("getmyhandle", "g_hmyobject") -- REALBOOK.scr:49
-        ctx:command("removeobject", "g_hmyobject") -- REALBOOK.scr:50
+        ctx:self():remove() -- REALBOOK.scr:50
         do return ctx:exit("") end -- REALBOOK.scr:51
     end -- REALBOOK.scr:52
     if ctx:hasKey(283) then -- REALBOOK.scr:54-55
-        ctx:command("getmyhandle", "g_hmyobject") -- REALBOOK.scr:56
-        ctx:command("removeobject", "g_hmyobject") -- REALBOOK.scr:57
+        ctx:self():remove() -- REALBOOK.scr:57
         do return ctx:exit("") end -- REALBOOK.scr:58
     end -- REALBOOK.scr:59
     do return ctx:exit("") end -- REALBOOK.scr:60

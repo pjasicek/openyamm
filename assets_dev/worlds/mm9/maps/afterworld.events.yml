@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/afterworld.lua
+  script_ir: ../events/afterworld.script_ir.yml
 objects:
 - object_id: mm9:afterworld:object:0
   source_object_index: 0
@@ -32873,6 +32874,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id001 []
 - mechanism_id: mm9:afterworld:object:122:mechanism
   object_id: mm9:afterworld:object:122
@@ -32883,6 +32885,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:afterworld:object:123:mechanism
   object_id: mm9:afterworld:object:123
@@ -32893,6 +32896,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers: []
 interactions:
@@ -33767,6 +33771,111 @@ interactions:
   script_id: afterworldcam1.scr
   sends: []
 bindings:
+- object_id: mm9:afterworld:object:3
+  source_object_index: 3
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 6362
+      source_surface_count: 5194
+      roles: &id002
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 6362
+      source_surface_count: 5194
+      roles: *id002
+- object_id: mm9:afterworld:object:4
+  source_object_index: 4
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id005
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id003
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id006
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id003
+- object_id: mm9:afterworld:object:6
+  source_object_index: 6
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id007
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id004
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id008
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id004
 - object_id: mm9:afterworld:object:7
   source_object_index: 7
   targets:
@@ -34276,6 +34385,183 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id015
+    - source_model_index: 1
+      source_name: TOD_Sky0
+      movable: true
+      world_translation_lt:
+      - 10752.0
+      - -192.0001220703125
+      - 1937.9998779296875
+      distance_from_position_lt: 3944.071
+      claimed_by_exact_bindings:
+      - source_object_index: 4
+        source_name: TOD_Sky0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 10752.0
+        - -240.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id005
+      - source_object_index: 4
+        source_name: TOD_Sky0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 10752.0
+        - -240.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id006
+    - source_model_index: 2
+      source_name: SkyBox0
+      movable: true
+      world_translation_lt:
+      - 10752.0
+      - -192.00013732910156
+      - 1937.9998779296875
+      distance_from_position_lt: 3944.071
+      claimed_by_exact_bindings:
+      - source_object_index: 6
+        source_name: SkyBox0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 10752.0
+        - -192.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id007
+      - source_object_index: 6
+        source_name: SkyBox0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 10752.0
+        - -192.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id008
+    - source_model_index: 4
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt:
+      - 1632.0
+      - 704.0
+      - 2528.0
+      distance_from_position_lt: 7105.828
+      claimed_by_exact_bindings:
+      - source_object_index: 123
+        source_name: InvisibleBrush1
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 1344.0
+        - 704.0
+        - 2560.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: InvisibleBrush1
+        source_model_name: InvisibleBrush1
+        source_polygon_group: &id013
+          source_model_index: 4
+          source_model_name: InvisibleBrush1
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id009
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 123
+        source_name: InvisibleBrush1
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 1344.0
+        - 704.0
+        - 2560.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: InvisibleBrush1
+        source_model_name: InvisibleBrush1
+        source_polygon_group: &id014
+          source_model_index: 4
+          source_model_name: InvisibleBrush1
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id009
+    - source_model_index: 3
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - 864.0
+      - 704.0
+      - 6400.0
+      distance_from_position_lt: 7600.143
+      claimed_by_exact_bindings:
+      - source_object_index: 122
+        source_name: InvisibleBrush0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 864.0
+        - 704.0
+        - 6400.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id011
+          source_model_index: 3
+          source_model_name: InvisibleBrush0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id010
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 122
+        source_name: InvisibleBrush0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 864.0
+        - 704.0
+        - 6400.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:3
+        bmodel_index: 3
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id012
+          source_model_index: 3
+          source_model_name: InvisibleBrush0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id010
 - object_id: mm9:afterworld:object:103
   source_object_index: 103
   targets:
@@ -34285,13 +34571,37 @@ bindings:
 - object_id: mm9:afterworld:object:122
   source_object_index: 122
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id011
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id012
 - object_id: mm9:afterworld:object:123
   source_object_index: 123
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group: *id013
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group: *id014
 - object_id: mm9:afterworld:object:124
   source_object_index: 124
   targets:
@@ -34843,16 +35153,8 @@ unresolved:
   source_name: RetributionCounter
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 122
-  source_name: InvisibleBrush0
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 123
-  source_name: InvisibleBrush1
-  source_class: InvisibleBrush
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id015
 validation:
   raw_object_count: 136
   event_object_count: 136
@@ -34886,4 +35188,4 @@ validation:
   trigger_count: 0
   interaction_count: 87
   script_count: 7
-  unresolved_count: 3
+  unresolved_count: 1

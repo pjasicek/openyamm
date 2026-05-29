@@ -14,93 +14,80 @@ script.labels["OnStartPendulumPath"] = function(ctx)
     if ctx:condition("start = 1") then -- E3DUNGEONDIRECTOR.scr:14
         do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:15
     end -- E3DUNGEONDIRECTOR.scr:16
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:18
-    ctx:trigger("hCamera0", "StartPendulum") -- E3DUNGEONDIRECTOR.scr:19
-    ctx:command("set", "start,1") -- E3DUNGEONDIRECTOR.scr:21
+    ctx:object("camera0"):trigger("StartPendulum") -- E3DUNGEONDIRECTOR.scr:18-19
+    ctx:state().start = 1 -- E3DUNGEONDIRECTOR.scr:21
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:23
 end
 
 script.labels["OnStartThronePath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:26
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:28
-    ctx:trigger("hCamera0", "StartThrone") -- E3DUNGEONDIRECTOR.scr:29
+    ctx:object("camera0"):trigger("StartThrone") -- E3DUNGEONDIRECTOR.scr:28-29
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:31
 end
 
 script.labels["OnStartScythePath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:34
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:36
-    ctx:trigger("hCamera0", "StartScythe") -- E3DUNGEONDIRECTOR.scr:37
+    ctx:object("camera0"):trigger("StartScythe") -- E3DUNGEONDIRECTOR.scr:36-37
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:39
 end
 
 script.labels["OnStartSawPath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:42
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:44
-    ctx:trigger("hCamera0", "StartSaw") -- E3DUNGEONDIRECTOR.scr:45
+    ctx:object("camera0"):trigger("StartSaw") -- E3DUNGEONDIRECTOR.scr:44-45
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:47
 end
 
 script.labels["OnStartWardrobePath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:50
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:52
-    ctx:trigger("hCamera0", "StartWardrobe") -- E3DUNGEONDIRECTOR.scr:53
+    ctx:object("camera0"):trigger("StartWardrobe") -- E3DUNGEONDIRECTOR.scr:52-53
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:55
 end
 
 script.labels["OnStartWardrobe2Path"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:58
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:60
-    ctx:trigger("hCamera0", "StartWardrobe2") -- E3DUNGEONDIRECTOR.scr:61
+    ctx:object("camera0"):trigger("StartWardrobe2") -- E3DUNGEONDIRECTOR.scr:60-61
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:63
 end
 
 script.labels["OnStartSconcePath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:66
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:68
-    ctx:trigger("hCamera0", "StartSconce") -- E3DUNGEONDIRECTOR.scr:69
+    ctx:object("camera0"):trigger("StartSconce") -- E3DUNGEONDIRECTOR.scr:68-69
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:71
 end
 
 script.labels["OnStartTreasurePath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:74
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:76
-    ctx:trigger("hCamera0", "StartTreasure") -- E3DUNGEONDIRECTOR.scr:77
+    ctx:object("camera0"):trigger("StartTreasure") -- E3DUNGEONDIRECTOR.scr:76-77
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:79
 end
 
 script.labels["OnStartPitPath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:82
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:84
-    ctx:trigger("hCamera0", "StartPit") -- E3DUNGEONDIRECTOR.scr:85
+    ctx:object("camera0"):trigger("StartPit") -- E3DUNGEONDIRECTOR.scr:84-85
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:87
 end
 
 script.labels["OnStartPit2Path"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:90
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:92
-    ctx:trigger("hCamera0", "StartPit2") -- E3DUNGEONDIRECTOR.scr:93
+    ctx:object("camera0"):trigger("StartPit2") -- E3DUNGEONDIRECTOR.scr:92-93
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:95
 end
 
 script.labels["OnStartTrapDoorPath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:98
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:100
-    ctx:trigger("hCamera0", "StartTrapDoor") -- E3DUNGEONDIRECTOR.scr:101
+    ctx:object("camera0"):trigger("StartTrapDoor") -- E3DUNGEONDIRECTOR.scr:100-101
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:103
 end
 
 script.labels["OnStartChasmPath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:106
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:108
-    ctx:trigger("hCamera0", "StartChasm") -- E3DUNGEONDIRECTOR.scr:109
+    ctx:object("camera0"):trigger("StartChasm") -- E3DUNGEONDIRECTOR.scr:108-109
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:111
 end
 
 script.labels["OnStartLichPath"] = function(ctx)
     -- E3DUNGEONDIRECTOR.scr:114
-    ctx:command("getobjecthandle", "camera0,hCamera0") -- E3DUNGEONDIRECTOR.scr:116
-    ctx:trigger("hCamera0", "StartLich") -- E3DUNGEONDIRECTOR.scr:117
+    ctx:object("camera0"):trigger("StartLich") -- E3DUNGEONDIRECTOR.scr:116-117
     do return ctx:exit("") end -- E3DUNGEONDIRECTOR.scr:119
 end
 

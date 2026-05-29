@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/dragonstadium.lua
+  script_ir: ../events/dragonstadium.script_ir.yml
 objects:
 - object_id: mm9:dragonstadium:object:0
   source_object_index: 0
@@ -9884,7 +9885,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: DragonTrigger
-    Pos: &id024
+    Pos: &id045
     - 712.0
     - 47.0
     - -1830.0
@@ -12589,10 +12590,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\BlackChest.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 576.0
     - 64.0
@@ -12997,10 +13000,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\BlackChest.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 1568.0
     - 64.0
@@ -13885,6 +13890,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id002 []
 - mechanism_id: mm9:dragonstadium:object:2:mechanism
   object_id: mm9:dragonstadium:object:2
@@ -13895,6 +13901,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id003 []
 - mechanism_id: mm9:dragonstadium:object:3:mechanism
   object_id: mm9:dragonstadium:object:3
@@ -13905,6 +13912,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id004 []
 - mechanism_id: mm9:dragonstadium:object:4:mechanism
   object_id: mm9:dragonstadium:object:4
@@ -13915,6 +13923,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id005 []
 - mechanism_id: mm9:dragonstadium:object:5:mechanism
   object_id: mm9:dragonstadium:object:5
@@ -13925,6 +13934,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id006 []
 - mechanism_id: mm9:dragonstadium:object:6:mechanism
   object_id: mm9:dragonstadium:object:6
@@ -13935,6 +13945,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id007 []
 - mechanism_id: mm9:dragonstadium:object:7:mechanism
   object_id: mm9:dragonstadium:object:7
@@ -13945,6 +13956,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id008 []
 - mechanism_id: mm9:dragonstadium:object:8:mechanism
   object_id: mm9:dragonstadium:object:8
@@ -13955,6 +13967,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id009 []
 - mechanism_id: mm9:dragonstadium:object:9:mechanism
   object_id: mm9:dragonstadium:object:9
@@ -13965,6 +13978,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id010 []
 - mechanism_id: mm9:dragonstadium:object:10:mechanism
   object_id: mm9:dragonstadium:object:10
@@ -13975,6 +13989,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id011 []
 - mechanism_id: mm9:dragonstadium:object:11:mechanism
   object_id: mm9:dragonstadium:object:11
@@ -13985,6 +14000,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id012 []
 - mechanism_id: mm9:dragonstadium:object:12:mechanism
   object_id: mm9:dragonstadium:object:12
@@ -13995,6 +14011,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id013 []
 - mechanism_id: mm9:dragonstadium:object:13:mechanism
   object_id: mm9:dragonstadium:object:13
@@ -14005,6 +14022,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id014 []
 - mechanism_id: mm9:dragonstadium:object:14:mechanism
   object_id: mm9:dragonstadium:object:14
@@ -14015,6 +14033,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id015 []
 - mechanism_id: mm9:dragonstadium:object:15:mechanism
   object_id: mm9:dragonstadium:object:15
@@ -14025,6 +14044,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id016 []
 - mechanism_id: mm9:dragonstadium:object:16:mechanism
   object_id: mm9:dragonstadium:object:16
@@ -14035,6 +14055,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id017 []
 - mechanism_id: mm9:dragonstadium:object:17:mechanism
   object_id: mm9:dragonstadium:object:17
@@ -14045,6 +14066,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id018 []
 - mechanism_id: mm9:dragonstadium:object:18:mechanism
   object_id: mm9:dragonstadium:object:18
@@ -14055,6 +14077,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id019 []
 - mechanism_id: mm9:dragonstadium:object:19:mechanism
   object_id: mm9:dragonstadium:object:19
@@ -14065,6 +14088,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id020 []
 - mechanism_id: mm9:dragonstadium:object:20:mechanism
   object_id: mm9:dragonstadium:object:20
@@ -14075,6 +14099,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id021 []
 - mechanism_id: mm9:dragonstadium:object:21:mechanism
   object_id: mm9:dragonstadium:object:21
@@ -14085,6 +14110,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id022 []
 - mechanism_id: mm9:dragonstadium:object:32:mechanism
   object_id: mm9:dragonstadium:object:32
@@ -14095,6 +14121,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:dragonstadium:object:27:trigger
@@ -14356,119 +14383,757 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id046
+    - source_model_index: 0
+      source_name: p1 level 1
+      movable: true
+      world_translation_lt: &id026
+      - 191.99996948242188
+      - 31.999977111816406
+      - -560.0
+      distance_from_position_lt: 35.777
+    - source_model_index: 1
+      source_name: p1 level 2
+      movable: true
+      world_translation_lt: &id024
+      - 223.99998474121094
+      - 287.99993896484375
+      - -560.0
+      distance_from_position_lt: 226.839
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: &id025
+      - 207.99996948242188
+      - 544.0
+      - -544.0
+      distance_from_position_lt: 480.267
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: &id027
+      - 207.99998474121094
+      - 704.0
+      - -560.0
+      distance_from_position_lt: 640.4
+    - source_model_index: 4
+      source_name: p1 level 5
+      movable: true
+      world_translation_lt: &id028
+      - 191.99998474121094
+      - 832.0
+      - -576.0
+      distance_from_position_lt: 768.666
 - object_id: mm9:dragonstadium:object:2
   source_object_index: 2
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id047
+    - source_model_index: 1
+      source_name: p1 level 2
+      movable: true
+      world_translation_lt: *id024
+      distance_from_position_lt: 48.0
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 224.571
+    - source_model_index: 0
+      source_name: p1 level 1
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 288.444
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 384.666
+    - source_model_index: 4
+      source_name: p1 level 5
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 512.999
 - object_id: mm9:dragonstadium:object:3
   source_object_index: 3
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id048
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 35.777
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 129.985
+    - source_model_index: 4
+      source_name: p1 level 5
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 257.992
+    - source_model_index: 1
+      source_name: p1 level 2
+      movable: true
+      world_translation_lt: *id024
+      distance_from_position_lt: 290.214
+    - source_model_index: 5
+      source_name: p1 level 6
+      movable: true
+      world_translation_lt: &id029
+      - 175.99996948242188
+      - 960.0000610351562
+      - -495.99993896484375
+      distance_from_position_lt: 387.319
 - object_id: mm9:dragonstadium:object:4
   source_object_index: 4
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id049
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 22.627
+    - source_model_index: 4
+      source_name: p1 level 5
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 131.939
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 160.798
+    - source_model_index: 5
+      source_name: p1 level 6
+      movable: true
+      world_translation_lt: *id029
+      distance_from_position_lt: 260.952
+    - source_model_index: 1
+      source_name: p1 level 2
+      movable: true
+      world_translation_lt: *id024
+      distance_from_position_lt: 417.536
 - object_id: mm9:dragonstadium:object:5
   source_object_index: 5
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id050
+    - source_model_index: 4
+      source_name: p1 level 5
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 32.0
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 129.985
+    - source_model_index: 5
+      source_name: p1 level 6
+      movable: true
+      world_translation_lt: *id029
+      distance_from_position_lt: 137.637
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 288.444
+    - source_model_index: 6
+      source_name: p1 level 7
+      movable: true
+      world_translation_lt: &id030
+      - 336.0
+      - 1120.0
+      - -416.0000305175781
+      distance_from_position_lt: 346.503
 - object_id: mm9:dragonstadium:object:6
   source_object_index: 6
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id051
+    - source_model_index: 5
+      source_name: p1 level 6
+      movable: true
+      world_translation_lt: *id029
+      distance_from_position_lt: 50.597
+    - source_model_index: 4
+      source_name: p1 level 5
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 131.939
+    - source_model_index: 6
+      source_name: p1 level 7
+      movable: true
+      world_translation_lt: *id030
+      distance_from_position_lt: 250.44
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 256.998
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 416.308
 - object_id: mm9:dragonstadium:object:7
   source_object_index: 7
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id052
+    - source_model_index: 6
+      source_name: p1 level 7
+      movable: true
+      world_translation_lt: *id030
+      distance_from_position_lt: 203.017
+    - source_model_index: 5
+      source_name: p1 level 6
+      movable: true
+      world_translation_lt: *id029
+      distance_from_position_lt: 425.131
+    - source_model_index: 4
+      source_name: p1 level 5
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 519.938
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 592.216
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 715.721
 - object_id: mm9:dragonstadium:object:8
   source_object_index: 8
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id053
+    - source_model_index: 7
+      source_name: p2 level 1
+      movable: true
+      world_translation_lt: &id033
+      - 63.9996337890625
+      - 31.99987030029297
+      - 1328.0003662109375
+      distance_from_position_lt: 35.777
+    - source_model_index: 8
+      source_name: p2 level 2
+      movable: true
+      world_translation_lt: &id031
+      - 80.00004577636719
+      - 287.99993896484375
+      - 1344.0
+      distance_from_position_lt: 288.444
+    - source_model_index: 9
+      source_name: p2 level 3
+      movable: true
+      world_translation_lt: &id032
+      - 48.00000762939453
+      - 544.0
+      - 1328.0
+      distance_from_position_lt: 544.47
+    - source_model_index: 10
+      source_name: p2 level 4
+      movable: true
+      world_translation_lt: &id034
+      - 15.999984741210938
+      - 704.0
+      - 1344.0
+      distance_from_position_lt: 705.634
+    - source_model_index: 11
+      source_name: p2 level 5
+      movable: true
+      world_translation_lt: &id035
+      - 15.999969482421875
+      - 832.0
+      - 1312.0
+      distance_from_position_lt: 833.998
 - object_id: mm9:dragonstadium:object:9
   source_object_index: 9
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id054
+    - source_model_index: 8
+      source_name: p2 level 2
+      movable: true
+      world_translation_lt: *id031
+      distance_from_position_lt: 35.777
+    - source_model_index: 9
+      source_name: p2 level 3
+      movable: true
+      world_translation_lt: *id032
+      distance_from_position_lt: 225.14
+    - source_model_index: 7
+      source_name: p2 level 1
+      movable: true
+      world_translation_lt: *id033
+      distance_from_position_lt: 288.444
+    - source_model_index: 10
+      source_name: p2 level 4
+      movable: true
+      world_translation_lt: *id034
+      distance_from_position_lt: 386.988
+    - source_model_index: 11
+      source_name: p2 level 5
+      movable: true
+      world_translation_lt: *id035
+      distance_from_position_lt: 515.24
 - object_id: mm9:dragonstadium:object:10
   source_object_index: 10
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id055
+    - source_model_index: 9
+      source_name: p2 level 3
+      movable: true
+      world_translation_lt: *id032
+      distance_from_position_lt: 39.192
+    - source_model_index: 10
+      source_name: p2 level 4
+      movable: true
+      world_translation_lt: *id034
+      distance_from_position_lt: 136.704
+    - source_model_index: 11
+      source_name: p2 level 5
+      movable: true
+      world_translation_lt: *id035
+      distance_from_position_lt: 262.42
+    - source_model_index: 8
+      source_name: p2 level 2
+      movable: true
+      world_translation_lt: *id031
+      distance_from_position_lt: 288.444
+    - source_model_index: 12
+      source_name: p2 level 6
+      movable: true
+      world_translation_lt: &id036
+      - 32.0
+      - 960.0
+      - 1343.9998779296875
+      distance_from_position_lt: 385.331
 - object_id: mm9:dragonstadium:object:11
   source_object_index: 11
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id056
+    - source_model_index: 10
+      source_name: p2 level 4
+      movable: true
+      world_translation_lt: *id034
+      distance_from_position_lt: 48.0
+    - source_model_index: 11
+      source_name: p2 level 5
+      movable: true
+      world_translation_lt: *id035
+      distance_from_position_lt: 140.399
+    - source_model_index: 9
+      source_name: p2 level 3
+      movable: true
+      world_translation_lt: *id032
+      distance_from_position_lt: 161.592
+    - source_model_index: 12
+      source_name: p2 level 6
+      movable: true
+      world_translation_lt: *id036
+      distance_from_position_lt: 257.992
+    - source_model_index: 8
+      source_name: p2 level 2
+      movable: true
+      world_translation_lt: *id031
+      distance_from_position_lt: 416.308
 - object_id: mm9:dragonstadium:object:12
   source_object_index: 12
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id057
+    - source_model_index: 11
+      source_name: p2 level 5
+      movable: true
+      world_translation_lt: *id035
+      distance_from_position_lt: 57.689
+    - source_model_index: 12
+      source_name: p2 level 6
+      movable: true
+      world_translation_lt: *id036
+      distance_from_position_lt: 131.939
+    - source_model_index: 10
+      source_name: p2 level 4
+      movable: true
+      world_translation_lt: *id034
+      distance_from_position_lt: 136.704
+    - source_model_index: 9
+      source_name: p2 level 3
+      movable: true
+      world_translation_lt: *id032
+      distance_from_position_lt: 288.888
+    - source_model_index: 13
+      source_name: p2 level 7
+      movable: true
+      world_translation_lt: &id037
+      - 352.0000305175781
+      - 1120.0
+      - 1040.0
+      distance_from_position_lt: 508.236
 - object_id: mm9:dragonstadium:object:13
   source_object_index: 13
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id058
+    - source_model_index: 12
+      source_name: p2 level 6
+      movable: true
+      world_translation_lt: *id036
+      distance_from_position_lt: 32.0
+    - source_model_index: 11
+      source_name: p2 level 5
+      movable: true
+      world_translation_lt: *id035
+      distance_from_position_lt: 140.399
+    - source_model_index: 10
+      source_name: p2 level 4
+      movable: true
+      world_translation_lt: *id034
+      distance_from_position_lt: 260.461
+    - source_model_index: 9
+      source_name: p2 level 3
+      movable: true
+      world_translation_lt: *id032
+      distance_from_position_lt: 416.615
+    - source_model_index: 13
+      source_name: p2 level 7
+      movable: true
+      world_translation_lt: *id037
+      distance_from_position_lt: 448.286
 - object_id: mm9:dragonstadium:object:14
   source_object_index: 14
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id059
+    - source_model_index: 13
+      source_name: p2 level 7
+      movable: true
+      world_translation_lt: *id037
+      distance_from_position_lt: 112.0
+    - source_model_index: 12
+      source_name: p2 level 6
+      movable: true
+      world_translation_lt: *id036
+      distance_from_position_lt: 524.839
+    - source_model_index: 11
+      source_name: p2 level 5
+      movable: true
+      world_translation_lt: *id035
+      distance_from_position_lt: 582.409
+    - source_model_index: 10
+      source_name: p2 level 4
+      movable: true
+      world_translation_lt: *id034
+      distance_from_position_lt: 672.952
+    - source_model_index: 9
+      source_name: p2 level 3
+      movable: true
+      world_translation_lt: *id032
+      distance_from_position_lt: 766.332
 - object_id: mm9:dragonstadium:object:15
   source_object_index: 15
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id060
+    - source_model_index: 14
+      source_name: p3 level 1
+      movable: true
+      world_translation_lt: &id040
+      - 1936.0
+      - 31.99988555908203
+      - 431.9999694824219
+      distance_from_position_lt: 39.192
+    - source_model_index: 15
+      source_name: p3 level 2
+      movable: true
+      world_translation_lt: &id038
+      - 1904.0
+      - 288.0
+      - 431.99993896484375
+      distance_from_position_lt: 225.14
+    - source_model_index: 16
+      source_name: p3 level 3
+      movable: true
+      world_translation_lt: &id039
+      - 1936.0
+      - 544.0
+      - 464.0
+      distance_from_position_lt: 480.533
+    - source_model_index: 17
+      source_name: p3 level 4
+      movable: true
+      world_translation_lt: &id041
+      - 1968.0
+      - 704.0000610351562
+      - 495.9998779296875
+      distance_from_position_lt: 643.59
+    - source_model_index: 19
+      source_name: p3 level 5
+      movable: true
+      world_translation_lt: &id042
+      - 1952.0
+      - 832.0001220703125
+      - 464.0
+      distance_from_position_lt: 768.833
 - object_id: mm9:dragonstadium:object:16
   source_object_index: 16
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id061
+    - source_model_index: 15
+      source_name: p3 level 2
+      movable: true
+      world_translation_lt: *id038
+      distance_from_position_lt: 39.192
+    - source_model_index: 16
+      source_name: p3 level 3
+      movable: true
+      world_translation_lt: *id039
+      distance_from_position_lt: 225.14
+    - source_model_index: 14
+      source_name: p3 level 1
+      movable: true
+      world_translation_lt: *id040
+      distance_from_position_lt: 288.888
+    - source_model_index: 17
+      source_name: p3 level 4
+      movable: true
+      world_translation_lt: *id041
+      distance_from_position_lt: 389.954
+    - source_model_index: 19
+      source_name: p3 level 5
+      movable: true
+      world_translation_lt: *id042
+      distance_from_position_lt: 513.249
 - object_id: mm9:dragonstadium:object:17
   source_object_index: 17
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id062
+    - source_model_index: 16
+      source_name: p3 level 3
+      movable: true
+      world_translation_lt: *id039
+      distance_from_position_lt: 39.192
+    - source_model_index: 17
+      source_name: p3 level 4
+      movable: true
+      world_translation_lt: *id041
+      distance_from_position_lt: 144.886
+    - source_model_index: 19
+      source_name: p3 level 5
+      movable: true
+      world_translation_lt: *id042
+      distance_from_position_lt: 258.488
+    - source_model_index: 15
+      source_name: p3 level 2
+      movable: true
+      world_translation_lt: *id038
+      distance_from_position_lt: 288.888
+    - source_model_index: 18
+      source_name: p3 level 6
+      movable: true
+      world_translation_lt: &id043
+      - 1968.0
+      - 960.0
+      - 399.9999084472656
+      distance_from_position_lt: 389.954
 - object_id: mm9:dragonstadium:object:18
   source_object_index: 18
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id063
+    - source_model_index: 17
+      source_name: p3 level 4
+      movable: true
+      world_translation_lt: *id041
+      distance_from_position_lt: 67.882
+    - source_model_index: 19
+      source_name: p3 level 5
+      movable: true
+      world_translation_lt: *id042
+      distance_from_position_lt: 132.906
+    - source_model_index: 16
+      source_name: p3 level 3
+      movable: true
+      world_translation_lt: *id039
+      distance_from_position_lt: 161.592
+    - source_model_index: 18
+      source_name: p3 level 6
+      movable: true
+      world_translation_lt: *id043
+      distance_from_position_lt: 264.847
+    - source_model_index: 15
+      source_name: p3 level 2
+      movable: true
+      world_translation_lt: *id038
+      distance_from_position_lt: 416.615
 - object_id: mm9:dragonstadium:object:19
   source_object_index: 19
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id064
+    - source_model_index: 18
+      source_name: p3 level 6
+      movable: true
+      world_translation_lt: *id043
+      distance_from_position_lt: 67.882
+    - source_model_index: 19
+      source_name: p3 level 5
+      movable: true
+      world_translation_lt: *id042
+      distance_from_position_lt: 132.906
+    - source_model_index: 17
+      source_name: p3 level 4
+      movable: true
+      world_translation_lt: *id041
+      distance_from_position_lt: 264.847
+    - source_model_index: 20
+      source_name: p3 level 7
+      movable: true
+      world_translation_lt: &id044
+      - 1536.0
+      - 1120.0
+      - 447.9999694824219
+      distance_from_position_lt: 416.0
+    - source_model_index: 16
+      source_name: p3 level 3
+      movable: true
+      world_translation_lt: *id039
+      distance_from_position_lt: 416.615
 - object_id: mm9:dragonstadium:object:20
   source_object_index: 20
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id065
+    - source_model_index: 19
+      source_name: p3 level 5
+      movable: true
+      world_translation_lt: *id042
+      distance_from_position_lt: 35.777
+    - source_model_index: 17
+      source_name: p3 level 4
+      movable: true
+      world_translation_lt: *id041
+      distance_from_position_lt: 144.886
+    - source_model_index: 18
+      source_name: p3 level 6
+      movable: true
+      world_translation_lt: *id043
+      distance_from_position_lt: 144.886
+    - source_model_index: 16
+      source_name: p3 level 3
+      movable: true
+      world_translation_lt: *id039
+      distance_from_position_lt: 288.888
+    - source_model_index: 20
+      source_name: p3 level 7
+      movable: true
+      world_translation_lt: *id044
+      distance_from_position_lt: 480.0
 - object_id: mm9:dragonstadium:object:21
   source_object_index: 21
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id066
+    - source_model_index: 20
+      source_name: p3 level 7
+      movable: true
+      world_translation_lt: *id044
+      distance_from_position_lt: 71.554
+    - source_model_index: 18
+      source_name: p3 level 6
+      movable: true
+      world_translation_lt: *id043
+      distance_from_position_lt: 417.842
+    - source_model_index: 19
+      source_name: p3 level 5
+      movable: true
+      world_translation_lt: *id042
+      distance_from_position_lt: 475.983
+    - source_model_index: 17
+      source_name: p3 level 4
+      movable: true
+      world_translation_lt: *id041
+      distance_from_position_lt: 581.749
+    - source_model_index: 16
+      source_name: p3 level 3
+      movable: true
+      world_translation_lt: *id039
+      distance_from_position_lt: 694.85
 - object_id: mm9:dragonstadium:object:27
   source_object_index: 27
   targets:
   - target_kind: trigger_volume
     target_id: mm9:dragonstadium:object:27:volume
     confidence: source_object_volume
-    pos_lt: *id024
+    pos_lt: *id045
     dims_lt: *id001
 - object_id: mm9:dragonstadium:object:32
   source_object_index: 32
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id067
+    - source_model_index: 23
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - 916.0
+      - 0.0
+      - -2592.0
+      distance_from_position_lt: 7.483
+    - source_model_index: 0
+      source_name: p1 level 1
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 2164.39
+    - source_model_index: 1
+      source_name: p1 level 2
+      movable: true
+      world_translation_lt: *id024
+      distance_from_position_lt: 2173.007
+    - source_model_index: 2
+      source_name: p1 level 3
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 2241.423
+    - source_model_index: 3
+      source_name: p1 level 4
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 2271.304
 scripts: []
 unresolved:
 - kind: unresolved_binding
@@ -14476,111 +15141,155 @@ unresolved:
   source_name: p1 level 1
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id046
 - kind: unresolved_binding
   source_object_index: 2
   source_name: p1 level 2
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id047
 - kind: unresolved_binding
   source_object_index: 3
   source_name: p1 level 3
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id048
 - kind: unresolved_binding
   source_object_index: 4
   source_name: p1 level 4
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id049
 - kind: unresolved_binding
   source_object_index: 5
   source_name: p1 level 5
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id050
 - kind: unresolved_binding
   source_object_index: 6
   source_name: p1 level 6
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id051
 - kind: unresolved_binding
   source_object_index: 7
   source_name: p1 level 7
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id052
 - kind: unresolved_binding
   source_object_index: 8
   source_name: p2 level 1
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id053
 - kind: unresolved_binding
   source_object_index: 9
   source_name: p2 level 2
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id054
 - kind: unresolved_binding
   source_object_index: 10
   source_name: p2 level 3
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id055
 - kind: unresolved_binding
   source_object_index: 11
   source_name: p2 level 4
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id056
 - kind: unresolved_binding
   source_object_index: 12
   source_name: p2 level 5
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id057
 - kind: unresolved_binding
   source_object_index: 13
   source_name: p2 level 6
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id058
 - kind: unresolved_binding
   source_object_index: 14
   source_name: p2 level 7
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id059
 - kind: unresolved_binding
   source_object_index: 15
   source_name: p3 level 1
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id060
 - kind: unresolved_binding
   source_object_index: 16
   source_name: p3 level 2
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id061
 - kind: unresolved_binding
   source_object_index: 17
   source_name: p3 level 3
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id062
 - kind: unresolved_binding
   source_object_index: 18
   source_name: p3 level 4
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id063
 - kind: unresolved_binding
   source_object_index: 19
   source_name: p3 level 6
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id064
 - kind: unresolved_binding
   source_object_index: 20
   source_name: p3 level 5
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id065
 - kind: unresolved_binding
   source_object_index: 21
   source_name: p3 level 7
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id066
 - kind: unresolved_binding
   source_object_index: 32
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id067
 validation:
   raw_object_count: 48
   event_object_count: 48

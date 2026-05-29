@@ -14,13 +14,13 @@ script.labels = {}
 -- P1 Maximum fire scale
 script.labels["FireOn"] = function(ctx)
     -- DP2STEAM.scr:15
-    ctx:setPropNumber("FireScale", "MaxScale") -- DP2STEAM.scr:19
+    ctx:self():setNumberProperty("FireScale", "MaxScale") -- DP2STEAM.scr:19
     do return ctx:exit("") end -- DP2STEAM.scr:20
 end
 
 script.labels["FireOff"] = function(ctx)
     -- DP2STEAM.scr:24
-    ctx:setPropNumber("FireScale", "MinScale") -- DP2STEAM.scr:27
+    ctx:self():setNumberProperty("FireScale", "MinScale") -- DP2STEAM.scr:27
     do return ctx:exit("") end -- DP2STEAM.scr:29
 end
 

@@ -17,25 +17,25 @@ script.includes[#script.includes + 1] = { line = 8, path = "basemelee.inc" }
 -- P2  # of times animation runs
 script.labels["OnAttack"] = function(ctx)
     -- BANDITATTACK.scr:23
-    ctx:command("onfoundplayer", "OnExit") -- BANDITATTACK.scr:26
-    ctx:setPropNumber("TerrainMode", "TRUE") -- BANDITATTACK.scr:28
-    ctx:command("getobjecthandle", "Atlimarker0 g_hobject") -- BANDITATTACK.scr:30
-    ctx:command("runto", "g_hobject 256, Onexit") -- BANDITATTACK.scr:31
+    ctx:onEvent("OnFoundPlayer", "OnExit") -- BANDITATTACK.scr:26
+    ctx:self():setNumberProperty("TerrainMode", "TRUE") -- BANDITATTACK.scr:28
+    ctx:state().g_hobject = ctx:objectOrNil("Atlimarker0") -- BANDITATTACK.scr:30
+    ctx:self():runTo(ctx:object("g_hobject"), 256, "Onexit") -- BANDITATTACK.scr:31
     do return ctx:exit("") end -- BANDITATTACK.scr:32
 end
 
 script.labels["OnExit"] = function(ctx)
     -- BANDITATTACK.scr:35
-    ctx:command("stop", "") -- BANDITATTACK.scr:37
+    ctx:self():stop() -- BANDITATTACK.scr:37
     mm9.gosub(script, ctx, "baseinit") -- BANDITATTACK.scr:38
     do return ctx:exit("") end -- BANDITATTACK.scr:39
 end
 
 script.labels["Obstacle"] = function(ctx)
     -- BANDITATTACK.scr:42
-    ctx:command("onfoundplayer", "OnExit") -- BANDITATTACK.scr:45
-    ctx:command("getobjecthandle", "Atlimarker0 g_hobject") -- BANDITATTACK.scr:47
-    ctx:command("runto", "g_hobject 256, Onexit") -- BANDITATTACK.scr:48
+    ctx:onEvent("OnFoundPlayer", "OnExit") -- BANDITATTACK.scr:45
+    ctx:state().g_hobject = ctx:objectOrNil("Atlimarker0") -- BANDITATTACK.scr:47
+    ctx:self():runTo(ctx:object("g_hobject"), 256, "Onexit") -- BANDITATTACK.scr:48
     do return ctx:exit("") end -- BANDITATTACK.scr:49
 end
 
@@ -43,10 +43,10 @@ script.labels["Main"] = function(ctx)
     -- BANDITATTACK.scr:52
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("wait", "1 1 OnAttack") -- BANDITATTACK.scr:57
-    ctx:command("onpoststartworld", "OnAttack") -- BANDITATTACK.scr:58
-    ctx:command("onpostminisaveload", "OnAttack") -- BANDITATTACK.scr:59
-    ctx:command("onpostsaveload", "OnAttack") -- BANDITATTACK.scr:60
+    ctx:wait(1, 1, "OnAttack") -- BANDITATTACK.scr:57
+    ctx:onEvent("OnPostStartWorld", "OnAttack") -- BANDITATTACK.scr:58
+    ctx:onEvent("OnPostMiniSaveLoad", "OnAttack") -- BANDITATTACK.scr:59
+    ctx:onEvent("OnPostSaveLoad", "OnAttack") -- BANDITATTACK.scr:60
     do return ctx:exit("") end -- BANDITATTACK.scr:63
 end
 

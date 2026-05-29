@@ -21,7 +21,7 @@ script.labels["SendTrigger"] = function(ctx)
     -- GetStat hMessage, IsOpen, bVarA
     -- GetObjectHandle PoolDamageBr0, hMCMarkerA
     -- GetObjectHandle PoolDamageBr1, hMCMarkerB
-    ctx:command("getstat", "hMessageB, IsOpen, bVarB") -- FURNACESWITCH.scr:37
+    ctx:state().bVarB = ctx:object("hMessageB"):getStat("IsOpen") -- FURNACESWITCH.scr:37
     if ctx:condition("bVarB==TRUE") then -- FURNACESWITCH.scr:39
         ctx:trigger("hMCMarkerA", "MoveMe") -- FURNACESWITCH.scr:40
         ctx:trigger("hMCMarkerB", "MoveMe") -- FURNACESWITCH.scr:41
@@ -31,12 +31,12 @@ end
 
 script.labels["Initiate"] = function(ctx)
     -- FURNACESWITCH.scr:48
-    ctx:command("getmyhandle", "hMessageB") -- FURNACESWITCH.scr:50
-    ctx:command("getobjecthandle", "GasRelease0, hMessageA") -- FURNACESWITCH.scr:51
+    ctx:state().hMessageB = ctx:self() -- FURNACESWITCH.scr:50
+    ctx:state().hMessageA = ctx:objectOrNil("GasRelease0") -- FURNACESWITCH.scr:51
     -- GetStat hMessageB, IsOpen, bVarB
     -- GetStat hMessageA, IsOpen, bVarA
-    ctx:command("getobjecthandle", "PoolDamageBr0, hMCMarkerA") -- FURNACESWITCH.scr:56
-    ctx:command("getobjecthandle", "PoolDamageBr1, hMCMarkerB") -- FURNACESWITCH.scr:57
+    ctx:state().hMCMarkerA = ctx:objectOrNil("PoolDamageBr0") -- FURNACESWITCH.scr:56
+    ctx:state().hMCMarkerB = ctx:objectOrNil("PoolDamageBr1") -- FURNACESWITCH.scr:57
     -- GoSub SendTrigger
     do return ctx:exit("") end -- FURNACESWITCH.scr:61
 end

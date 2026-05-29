@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/klusoshouse.lua
+  script_ir: ../events/klusoshouse.script_ir.yml
 objects:
 - object_id: mm9:klusoshouse:object:0
   source_object_index: 0
@@ -58745,7 +58746,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: GuardTrigger
-    Pos: &id107
+    Pos: &id186
     - 480.0
     - 256.0
     - 384.0
@@ -97158,10 +97159,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\BlackChest.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -631.3482055664062
     - 34.100006103515625
@@ -97207,6 +97210,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor9b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id080 []
 - mechanism_id: mm9:klusoshouse:object:4:mechanism
   object_id: mm9:klusoshouse:object:4
@@ -97236,6 +97268,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor9a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id081 []
 - mechanism_id: mm9:klusoshouse:object:5:mechanism
   object_id: mm9:klusoshouse:object:5
@@ -97265,6 +97326,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor10b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id082 []
 - mechanism_id: mm9:klusoshouse:object:6:mechanism
   object_id: mm9:klusoshouse:object:6
@@ -97294,6 +97384,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor10a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id083 []
 - mechanism_id: mm9:klusoshouse:object:7:mechanism
   object_id: mm9:klusoshouse:object:7
@@ -97323,6 +97442,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor12b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id084 []
 - mechanism_id: mm9:klusoshouse:object:8:mechanism
   object_id: mm9:klusoshouse:object:8
@@ -97352,6 +97500,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor12a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id085 []
 - mechanism_id: mm9:klusoshouse:object:9:mechanism
   object_id: mm9:klusoshouse:object:9
@@ -97381,6 +97558,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor13b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id086 []
 - mechanism_id: mm9:klusoshouse:object:10:mechanism
   object_id: mm9:klusoshouse:object:10
@@ -97410,6 +97616,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor13a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id087 []
 - mechanism_id: mm9:klusoshouse:object:11:mechanism
   object_id: mm9:klusoshouse:object:11
@@ -97439,6 +97674,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor14b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id088 []
 - mechanism_id: mm9:klusoshouse:object:12:mechanism
   object_id: mm9:klusoshouse:object:12
@@ -97468,6 +97732,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor14a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id089 []
 - mechanism_id: mm9:klusoshouse:object:13:mechanism
   object_id: mm9:klusoshouse:object:13
@@ -97497,6 +97790,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor15b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id090 []
 - mechanism_id: mm9:klusoshouse:object:14:mechanism
   object_id: mm9:klusoshouse:object:14
@@ -97526,6 +97848,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor15a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id091 []
 - mechanism_id: mm9:klusoshouse:object:15:mechanism
   object_id: mm9:klusoshouse:object:15
@@ -97555,6 +97906,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor16b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id092 []
 - mechanism_id: mm9:klusoshouse:object:16:mechanism
   object_id: mm9:klusoshouse:object:16
@@ -97584,6 +97964,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor16a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id093 []
 - mechanism_id: mm9:klusoshouse:object:17:mechanism
   object_id: mm9:klusoshouse:object:17
@@ -97613,6 +98022,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor11b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id094 []
 - mechanism_id: mm9:klusoshouse:object:18:mechanism
   object_id: mm9:klusoshouse:object:18
@@ -97642,6 +98080,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor11a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id095 []
 - mechanism_id: mm9:klusoshouse:object:19:mechanism
   object_id: mm9:klusoshouse:object:19
@@ -97671,6 +98138,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor8
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id096 []
 - mechanism_id: mm9:klusoshouse:object:20:mechanism
   object_id: mm9:klusoshouse:object:20
@@ -97700,6 +98196,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor7
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id097 []
 - mechanism_id: mm9:klusoshouse:object:21:mechanism
   object_id: mm9:klusoshouse:object:21
@@ -97729,6 +98254,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor0b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id098 []
 - mechanism_id: mm9:klusoshouse:object:22:mechanism
   object_id: mm9:klusoshouse:object:22
@@ -97758,6 +98312,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor0a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id099 []
 - mechanism_id: mm9:klusoshouse:object:23:mechanism
   object_id: mm9:klusoshouse:object:23
@@ -97787,6 +98370,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor6
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id100 []
 - mechanism_id: mm9:klusoshouse:object:24:mechanism
   object_id: mm9:klusoshouse:object:24
@@ -97816,6 +98428,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id101 []
 - mechanism_id: mm9:klusoshouse:object:25:mechanism
   object_id: mm9:klusoshouse:object:25
@@ -97845,6 +98486,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id102 []
 - mechanism_id: mm9:klusoshouse:object:26:mechanism
   object_id: mm9:klusoshouse:object:26
@@ -97874,6 +98544,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RDoor4
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id103 []
 - mechanism_id: mm9:klusoshouse:object:27:mechanism
   object_id: mm9:klusoshouse:object:27
@@ -97903,6 +98602,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor3b
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id104 []
 - mechanism_id: mm9:klusoshouse:object:28:mechanism
   object_id: mm9:klusoshouse:object:28
@@ -97932,6 +98660,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor3a
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door04open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door04close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id105 []
 - mechanism_id: mm9:klusoshouse:object:54:mechanism
   object_id: mm9:klusoshouse:object:54
@@ -97943,6 +98700,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:klusoshouse:object:55:mechanism
   object_id: mm9:klusoshouse:object:55
@@ -97954,6 +98712,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:klusoshouse:object:56:mechanism
   object_id: mm9:klusoshouse:object:56
@@ -97964,6 +98723,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:klusoshouse:object:57:mechanism
   object_id: mm9:klusoshouse:object:57
@@ -97974,6 +98734,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:klusoshouse:object:58:mechanism
   object_id: mm9:klusoshouse:object:58
@@ -97984,6 +98745,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:klusoshouse:object:197:trigger
@@ -99460,163 +100222,1894 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id187
+    - source_model_index: 2
+      source_name: RDoor9a
+      movable: true
+      world_translation_lt: &id107
+      - -612.0
+      - 220.0
+      - -136.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 3
+      source_name: RDoor9b
+      movable: true
+      world_translation_lt: &id108
+      - -572.0
+      - 220.0
+      - -136.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 75
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: &id109
+      - -592.0
+      - 184.0
+      - -144.0
+      distance_from_rotation_point_lt: 68.147
+    - source_model_index: 76
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: &id110
+      - -664.0
+      - 184.0
+      - -64.0
+      distance_from_rotation_point_lt: 97.345
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: &id111
+      - -592.0
+      - 184.0
+      - -64.0
+      distance_from_rotation_point_lt: 98.813
+    nearest_movable_world_models_by_position: &id188
+    - source_model_index: 2
+      source_name: RDoor9a
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 26.907
+    - source_model_index: 3
+      source_name: RDoor9b
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 61.351
+    - source_model_index: 75
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 68.147
+    - source_model_index: 76
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 97.345
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 98.813
 - object_id: mm9:klusoshouse:object:4
   source_object_index: 4
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id189
+    - source_model_index: 3
+      source_name: RDoor9b
+      movable: true
+      world_translation_lt: *id108
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 75
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: *id109
+      distance_from_rotation_point_lt: 52.953
+    - source_model_index: 2
+      source_name: RDoor9a
+      movable: true
+      world_translation_lt: *id107
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id111
+      distance_from_rotation_point_lt: 89.017
+    - source_model_index: 76
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id110
+      distance_from_rotation_point_lt: 136.308
+    nearest_movable_world_models_by_position: &id190
+    - source_model_index: 3
+      source_name: RDoor9b
+      movable: true
+      world_translation_lt: *id108
+      distance_from_position_lt: 18.0
+    - source_model_index: 75
+      source_name: AITrk94
+      movable: true
+      world_translation_lt: *id109
+      distance_from_position_lt: 52.953
+    - source_model_index: 2
+      source_name: RDoor9a
+      movable: true
+      world_translation_lt: *id107
+      distance_from_position_lt: 58.0
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 89.017
+    - source_model_index: 76
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 136.308
 - object_id: mm9:klusoshouse:object:5
   source_object_index: 5
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id191
+    - source_model_index: 4
+      source_name: RDoor10a
+      movable: true
+      world_translation_lt: &id112
+      - 8.0
+      - 220.0
+      - 308.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 5
+      source_name: RDoor10b
+      movable: true
+      world_translation_lt: &id113
+      - 8.0
+      - 220.0
+      - 268.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 46
+      source_name: AITrk65
+      movable: true
+      world_translation_lt: &id114
+      - 8.0
+      - 184.0
+      - 288.0
+      distance_from_rotation_point_lt: 67.676
+    - source_model_index: 44
+      source_name: AITrk63
+      movable: true
+      world_translation_lt: &id115
+      - -64.0
+      - 184.0
+      - 384.0
+      distance_from_rotation_point_lt: 108.093
+    - source_model_index: 45
+      source_name: AITrk64
+      movable: true
+      world_translation_lt: &id116
+      - -88.0
+      - 184.0
+      - 288.0
+      distance_from_rotation_point_lt: 117.456
+    nearest_movable_world_models_by_position: &id192
+    - source_model_index: 4
+      source_name: RDoor10a
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 26.907
+    - source_model_index: 5
+      source_name: RDoor10b
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 61.351
+    - source_model_index: 46
+      source_name: AITrk65
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 67.676
+    - source_model_index: 44
+      source_name: AITrk63
+      movable: true
+      world_translation_lt: *id115
+      distance_from_position_lt: 108.093
+    - source_model_index: 45
+      source_name: AITrk64
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 117.456
 - object_id: mm9:klusoshouse:object:6
   source_object_index: 6
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id193
+    - source_model_index: 5
+      source_name: RDoor10b
+      movable: true
+      world_translation_lt: *id113
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 46
+      source_name: AITrk65
+      movable: true
+      world_translation_lt: *id114
+      distance_from_rotation_point_lt: 52.345
+    - source_model_index: 4
+      source_name: RDoor10a
+      movable: true
+      world_translation_lt: *id112
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 45
+      source_name: AITrk64
+      movable: true
+      world_translation_lt: *id116
+      distance_from_rotation_point_lt: 109.343
+    - source_model_index: 50
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: &id117
+      - -64.0
+      - 184.0
+      - 128.0
+      distance_from_rotation_point_lt: 146.164
+    nearest_movable_world_models_by_position: &id194
+    - source_model_index: 5
+      source_name: RDoor10b
+      movable: true
+      world_translation_lt: *id113
+      distance_from_position_lt: 18.0
+    - source_model_index: 46
+      source_name: AITrk65
+      movable: true
+      world_translation_lt: *id114
+      distance_from_position_lt: 52.345
+    - source_model_index: 4
+      source_name: RDoor10a
+      movable: true
+      world_translation_lt: *id112
+      distance_from_position_lt: 58.0
+    - source_model_index: 45
+      source_name: AITrk64
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 109.343
+    - source_model_index: 50
+      source_name: AITrk69
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 146.164
 - object_id: mm9:klusoshouse:object:7
   source_object_index: 7
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id195
+    - source_model_index: 6
+      source_name: RDoor12a
+      movable: true
+      world_translation_lt: &id118
+      - -244.0
+      - 220.0
+      - 8.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 7
+      source_name: RDoor12b
+      movable: true
+      world_translation_lt: &id119
+      - -204.0
+      - 220.0
+      - 8.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 56
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: &id120
+      - -220.0
+      - 184.0
+      - 8.0
+      distance_from_rotation_point_lt: 70.0
+    - source_model_index: 81
+      source_name: AITrk100
+      movable: true
+      world_translation_lt: &id121
+      - -288.0
+      - 184.0
+      - -40.0
+      distance_from_rotation_point_lt: 78.205
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: &id122
+      - -220.0
+      - 184.0
+      - -88.0
+      distance_from_rotation_point_lt: 118.811
+    nearest_movable_world_models_by_position: &id196
+    - source_model_index: 6
+      source_name: RDoor12a
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 26.907
+    - source_model_index: 7
+      source_name: RDoor12b
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 61.351
+    - source_model_index: 56
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 70.0
+    - source_model_index: 81
+      source_name: AITrk100
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 78.205
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 118.811
 - object_id: mm9:klusoshouse:object:8
   source_object_index: 8
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id197
+    - source_model_index: 7
+      source_name: RDoor12b
+      movable: true
+      world_translation_lt: *id119
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 56
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: *id120
+      distance_from_rotation_point_lt: 49.518
+    - source_model_index: 6
+      source_name: RDoor12a
+      movable: true
+      world_translation_lt: *id118
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 54
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: &id123
+      - -148.0
+      - 184.0
+      - -64.0
+      distance_from_rotation_point_lt: 89.017
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: *id122
+      distance_from_rotation_point_lt: 108.019
+    nearest_movable_world_models_by_position: &id198
+    - source_model_index: 7
+      source_name: RDoor12b
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 18.0
+    - source_model_index: 56
+      source_name: AITrk75
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 49.518
+    - source_model_index: 6
+      source_name: RDoor12a
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 58.0
+    - source_model_index: 54
+      source_name: AITrk73
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 89.017
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 108.019
 - object_id: mm9:klusoshouse:object:9
   source_object_index: 9
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id199
+    - source_model_index: 8
+      source_name: RDoor13a
+      movable: true
+      world_translation_lt: &id124
+      - -612.0
+      - 220.0
+      - 8.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 9
+      source_name: RDoor13b
+      movable: true
+      world_translation_lt: &id125
+      - -572.0
+      - 220.0
+      - 8.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 73
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: &id126
+      - -592.0
+      - 184.0
+      - 16.0
+      distance_from_rotation_point_lt: 68.147
+    - source_model_index: 76
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id110
+      distance_from_rotation_point_lt: 97.345
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id111
+      distance_from_rotation_point_lt: 98.813
+    nearest_movable_world_models_by_position: &id200
+    - source_model_index: 8
+      source_name: RDoor13a
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 26.907
+    - source_model_index: 9
+      source_name: RDoor13b
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 61.351
+    - source_model_index: 73
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 68.147
+    - source_model_index: 76
+      source_name: AITrk95
+      movable: true
+      world_translation_lt: *id110
+      distance_from_position_lt: 97.345
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 98.813
 - object_id: mm9:klusoshouse:object:10
   source_object_index: 10
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id201
+    - source_model_index: 9
+      source_name: RDoor13b
+      movable: true
+      world_translation_lt: *id125
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 73
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: *id126
+      distance_from_rotation_point_lt: 52.953
+    - source_model_index: 8
+      source_name: RDoor13a
+      movable: true
+      world_translation_lt: *id124
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id111
+      distance_from_rotation_point_lt: 89.017
+    - source_model_index: 70
+      source_name: AITrk89
+      movable: true
+      world_translation_lt: &id127
+      - -592.0
+      - 184.0
+      - 96.0
+      distance_from_rotation_point_lt: 102.391
+    nearest_movable_world_models_by_position: &id202
+    - source_model_index: 9
+      source_name: RDoor13b
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 18.0
+    - source_model_index: 73
+      source_name: AITrk92
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 52.953
+    - source_model_index: 8
+      source_name: RDoor13a
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 58.0
+    - source_model_index: 74
+      source_name: AITrk93
+      movable: true
+      world_translation_lt: *id111
+      distance_from_position_lt: 89.017
+    - source_model_index: 70
+      source_name: AITrk89
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 102.391
 - object_id: mm9:klusoshouse:object:11
   source_object_index: 11
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id203
+    - source_model_index: 10
+      source_name: RDoor14a
+      movable: true
+      world_translation_lt: &id128
+      - -612.0
+      - 220.0
+      - 184.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 11
+      source_name: RDoor14b
+      movable: true
+      world_translation_lt: &id129
+      - -572.0
+      - 220.0
+      - 184.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 69
+      source_name: AITrk88
+      movable: true
+      world_translation_lt: &id130
+      - -592.0
+      - 184.0
+      - 192.0
+      distance_from_rotation_point_lt: 68.147
+    - source_model_index: 72
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: &id131
+      - -664.0
+      - 184.0
+      - 96.0
+      distance_from_rotation_point_lt: 109.709
+    - source_model_index: 70
+      source_name: AITrk89
+      movable: true
+      world_translation_lt: *id127
+      distance_from_rotation_point_lt: 111.014
+    nearest_movable_world_models_by_position: &id204
+    - source_model_index: 10
+      source_name: RDoor14a
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 26.907
+    - source_model_index: 11
+      source_name: RDoor14b
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 61.351
+    - source_model_index: 69
+      source_name: AITrk88
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 68.147
+    - source_model_index: 72
+      source_name: AITrk91
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 109.709
+    - source_model_index: 70
+      source_name: AITrk89
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 111.014
 - object_id: mm9:klusoshouse:object:12
   source_object_index: 12
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id205
+    - source_model_index: 11
+      source_name: RDoor14b
+      movable: true
+      world_translation_lt: *id129
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 69
+      source_name: AITrk88
+      movable: true
+      world_translation_lt: *id130
+      distance_from_rotation_point_lt: 52.953
+    - source_model_index: 10
+      source_name: RDoor14a
+      movable: true
+      world_translation_lt: *id128
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 70
+      source_name: AITrk89
+      movable: true
+      world_translation_lt: *id127
+      distance_from_rotation_point_lt: 102.391
+    - source_model_index: 71
+      source_name: AITrk90
+      movable: true
+      world_translation_lt: &id132
+      - -480.0
+      - 184.0
+      - 96.0
+      distance_from_rotation_point_lt: 120.482
+    nearest_movable_world_models_by_position: &id206
+    - source_model_index: 11
+      source_name: RDoor14b
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 18.0
+    - source_model_index: 69
+      source_name: AITrk88
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 52.953
+    - source_model_index: 10
+      source_name: RDoor14a
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 58.0
+    - source_model_index: 70
+      source_name: AITrk89
+      movable: true
+      world_translation_lt: *id127
+      distance_from_position_lt: 102.391
+    - source_model_index: 71
+      source_name: AITrk90
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 120.482
 - object_id: mm9:klusoshouse:object:13
   source_object_index: 13
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id207
+    - source_model_index: 12
+      source_name: RDoor15a
+      movable: true
+      world_translation_lt: &id133
+      - -612.0
+      - 220.0
+      - 440.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 13
+      source_name: RDoor15b
+      movable: true
+      world_translation_lt: &id134
+      - -572.0
+      - 220.0
+      - 440.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 64
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: &id135
+      - -592.0
+      - 184.0
+      - 432.0
+      distance_from_rotation_point_lt: 68.147
+    - source_model_index: 92
+      source_name: AITrk111
+      movable: true
+      world_translation_lt: &id136
+      - -664.0
+      - 184.0
+      - 552.0
+      distance_from_rotation_point_lt: 129.754
+    - source_model_index: 67
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: &id137
+      - -664.0
+      - 184.0
+      - 312.0
+      distance_from_rotation_point_lt: 143.792
+    nearest_movable_world_models_by_position: &id208
+    - source_model_index: 12
+      source_name: RDoor15a
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 26.907
+    - source_model_index: 13
+      source_name: RDoor15b
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 61.351
+    - source_model_index: 64
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 68.147
+    - source_model_index: 92
+      source_name: AITrk111
+      movable: true
+      world_translation_lt: *id136
+      distance_from_position_lt: 129.754
+    - source_model_index: 67
+      source_name: AITrk86
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 143.792
 - object_id: mm9:klusoshouse:object:14
   source_object_index: 14
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id209
+    - source_model_index: 13
+      source_name: RDoor15b
+      movable: true
+      world_translation_lt: *id134
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 64
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: *id135
+      distance_from_rotation_point_lt: 52.953
+    - source_model_index: 12
+      source_name: RDoor15a
+      movable: true
+      world_translation_lt: *id133
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 66
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: &id138
+      - -592.0
+      - 184.0
+      - 312.0
+      distance_from_rotation_point_lt: 138.29
+    - source_model_index: 65
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: &id139
+      - -592.0
+      - 184.0
+      - 576.0
+      distance_from_rotation_point_lt: 145.726
+    nearest_movable_world_models_by_position: &id210
+    - source_model_index: 13
+      source_name: RDoor15b
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 18.0
+    - source_model_index: 64
+      source_name: AITrk83
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 52.953
+    - source_model_index: 12
+      source_name: RDoor15a
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 58.0
+    - source_model_index: 66
+      source_name: AITrk85
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 138.29
+    - source_model_index: 65
+      source_name: AITrk84
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 145.726
 - object_id: mm9:klusoshouse:object:15
   source_object_index: 15
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id211
+    - source_model_index: 14
+      source_name: RDoor16a
+      movable: true
+      world_translation_lt: &id140
+      - -204.0
+      - 220.0
+      - 440.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 15
+      source_name: RDoor16b
+      movable: true
+      world_translation_lt: &id141
+      - -244.0
+      - 220.0
+      - 440.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 61
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: &id142
+      - -224.0
+      - 184.0
+      - 440.0
+      distance_from_rotation_point_lt: 67.676
+    - source_model_index: 43
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: &id143
+      - -152.0
+      - 184.0
+      - 552.0
+      distance_from_rotation_point_lt: 129.754
+    - source_model_index: 60
+      source_name: AITrk79
+      movable: true
+      world_translation_lt: &id144
+      - -200.0
+      - 184.0
+      - 312.0
+      distance_from_rotation_point_lt: 140.414
+    nearest_movable_world_models_by_position: &id212
+    - source_model_index: 14
+      source_name: RDoor16a
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 26.907
+    - source_model_index: 15
+      source_name: RDoor16b
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 61.351
+    - source_model_index: 61
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 67.676
+    - source_model_index: 43
+      source_name: AITrk62
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 129.754
+    - source_model_index: 60
+      source_name: AITrk79
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 140.414
 - object_id: mm9:klusoshouse:object:16
   source_object_index: 16
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id213
+    - source_model_index: 15
+      source_name: RDoor16b
+      movable: true
+      world_translation_lt: *id141
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 61
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: *id142
+      distance_from_rotation_point_lt: 52.345
+    - source_model_index: 14
+      source_name: RDoor16a
+      movable: true
+      world_translation_lt: *id140
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 59
+      source_name: AITrk78
+      movable: true
+      world_translation_lt: &id145
+      - -320.0
+      - 184.0
+      - 336.0
+      distance_from_rotation_point_lt: 124.403
+    - source_model_index: 62
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: &id146
+      - -224.0
+      - 184.0
+      - 576.0
+      distance_from_rotation_point_lt: 145.726
+    nearest_movable_world_models_by_position: &id214
+    - source_model_index: 15
+      source_name: RDoor16b
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 18.0
+    - source_model_index: 61
+      source_name: AITrk80
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 52.345
+    - source_model_index: 14
+      source_name: RDoor16a
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 58.0
+    - source_model_index: 59
+      source_name: AITrk78
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 124.403
+    - source_model_index: 62
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 145.726
 - object_id: mm9:klusoshouse:object:17
   source_object_index: 17
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id215
+    - source_model_index: 16
+      source_name: RDoor11a
+      movable: true
+      world_translation_lt: &id147
+      - -308.0
+      - 220.0
+      - -136.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 17
+      source_name: RDoor11b
+      movable: true
+      world_translation_lt: &id148
+      - -268.0
+      - 220.0
+      - -136.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 82
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: &id149
+      - -288.0
+      - 184.0
+      - -136.0
+      distance_from_rotation_point_lt: 67.676
+    - source_model_index: 81
+      source_name: AITrk100
+      movable: true
+      world_translation_lt: *id121
+      distance_from_rotation_point_lt: 117.456
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: *id122
+      distance_from_rotation_point_lt: 129.136
+    nearest_movable_world_models_by_position: &id216
+    - source_model_index: 16
+      source_name: RDoor11a
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 26.907
+    - source_model_index: 17
+      source_name: RDoor11b
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 61.351
+    - source_model_index: 82
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 67.676
+    - source_model_index: 81
+      source_name: AITrk100
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 117.456
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 129.136
 - object_id: mm9:klusoshouse:object:18
   source_object_index: 18
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id217
+    - source_model_index: 17
+      source_name: RDoor11b
+      movable: true
+      world_translation_lt: *id148
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 82
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: *id149
+      distance_from_rotation_point_lt: 52.345
+    - source_model_index: 16
+      source_name: RDoor11a
+      movable: true
+      world_translation_lt: *id147
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: *id122
+      distance_from_rotation_point_lt: 67.082
+    - source_model_index: 81
+      source_name: AITrk100
+      movable: true
+      world_translation_lt: *id121
+      distance_from_rotation_point_lt: 109.343
+    nearest_movable_world_models_by_position: &id218
+    - source_model_index: 17
+      source_name: RDoor11b
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 18.0
+    - source_model_index: 82
+      source_name: AITrk101
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 52.345
+    - source_model_index: 16
+      source_name: RDoor11a
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 58.0
+    - source_model_index: 55
+      source_name: AITrk74
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 67.082
+    - source_model_index: 81
+      source_name: AITrk100
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 109.343
 - object_id: mm9:klusoshouse:object:19
   source_object_index: 19
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id219
+    - source_model_index: 18
+      source_name: RotatingDoor7
+      movable: true
+      world_translation_lt: &id150
+      - -472.0
+      - 44.0
+      - 376.0
+      distance_from_rotation_point_lt: 29.732
+    - source_model_index: 19
+      source_name: RotatingDoor8
+      movable: true
+      world_translation_lt: &id151
+      - -472.0
+      - 44.0
+      - 328.0
+      distance_from_rotation_point_lt: 72.801
+    - source_model_index: 126
+      source_name: AITrk33
+      movable: true
+      world_translation_lt: &id152
+      - -480.0
+      - 8.0
+      - 352.0
+      distance_from_rotation_point_lt: 72.911
+    - source_model_index: 122
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: &id153
+      - -416.0
+      - 8.0
+      - 520.0
+      distance_from_rotation_point_lt: 145.451
+    - source_model_index: 68
+      source_name: AITrk87
+      movable: true
+      world_translation_lt: &id154
+      - -480.0
+      - 184.0
+      - 312.0
+      distance_from_rotation_point_lt: 147.851
+    nearest_movable_world_models_by_position: &id220
+    - source_model_index: 18
+      source_name: RotatingDoor7
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 29.732
+    - source_model_index: 19
+      source_name: RotatingDoor8
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 72.801
+    - source_model_index: 126
+      source_name: AITrk33
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 72.911
+    - source_model_index: 122
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 145.451
+    - source_model_index: 68
+      source_name: AITrk87
+      movable: true
+      world_translation_lt: *id154
+      distance_from_position_lt: 147.851
 - object_id: mm9:klusoshouse:object:20
   source_object_index: 20
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id221
+    - source_model_index: 19
+      source_name: RotatingDoor8
+      movable: true
+      world_translation_lt: *id151
+      distance_from_rotation_point_lt: 29.732
+    - source_model_index: 18
+      source_name: RotatingDoor7
+      movable: true
+      world_translation_lt: *id150
+      distance_from_rotation_point_lt: 72.801
+    - source_model_index: 126
+      source_name: AITrk33
+      movable: true
+      world_translation_lt: *id152
+      distance_from_rotation_point_lt: 72.911
+    - source_model_index: 68
+      source_name: AITrk87
+      movable: true
+      world_translation_lt: *id154
+      distance_from_rotation_point_lt: 120.416
+    - source_model_index: 117
+      source_name: AITrk24
+      movable: true
+      world_translation_lt: &id155
+      - -420.0
+      - 8.0
+      - 200.0
+      distance_from_rotation_point_lt: 130.675
+    nearest_movable_world_models_by_position: &id222
+    - source_model_index: 19
+      source_name: RotatingDoor8
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 29.732
+    - source_model_index: 18
+      source_name: RotatingDoor7
+      movable: true
+      world_translation_lt: *id150
+      distance_from_position_lt: 72.801
+    - source_model_index: 126
+      source_name: AITrk33
+      movable: true
+      world_translation_lt: *id152
+      distance_from_position_lt: 72.911
+    - source_model_index: 68
+      source_name: AITrk87
+      movable: true
+      world_translation_lt: *id154
+      distance_from_position_lt: 120.416
+    - source_model_index: 117
+      source_name: AITrk24
+      movable: true
+      world_translation_lt: *id155
+      distance_from_position_lt: 130.675
 - object_id: mm9:klusoshouse:object:21
   source_object_index: 21
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id223
+    - source_model_index: 20
+      source_name: RotatingDoor0a
+      movable: true
+      world_translation_lt: &id156
+      - -72.0
+      - 44.0
+      - -204.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 21
+      source_name: RotatingDoor0b
+      movable: true
+      world_translation_lt: &id157
+      - -72.0
+      - 44.0
+      - -244.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 100
+      source_name: AITrk7
+      movable: true
+      world_translation_lt: &id158
+      - -64.0
+      - 8.0
+      - -224.0
+      distance_from_rotation_point_lt: 68.147
+    - source_model_index: 101
+      source_name: AITrk8
+      movable: true
+      world_translation_lt: &id159
+      - -184.0
+      - 8.0
+      - -224.0
+      distance_from_rotation_point_lt: 130.859
+    - source_model_index: 86
+      source_name: AITrk105
+      movable: true
+      world_translation_lt: &id160
+      - -16.0
+      - 184.0
+      - -160.0
+      distance_from_rotation_point_lt: 134.952
+    nearest_movable_world_models_by_position: &id224
+    - source_model_index: 20
+      source_name: RotatingDoor0a
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 26.907
+    - source_model_index: 21
+      source_name: RotatingDoor0b
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 61.351
+    - source_model_index: 100
+      source_name: AITrk7
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 68.147
+    - source_model_index: 101
+      source_name: AITrk8
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 130.859
+    - source_model_index: 86
+      source_name: AITrk105
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 134.952
 - object_id: mm9:klusoshouse:object:22
   source_object_index: 22
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id225
+    - source_model_index: 21
+      source_name: RotatingDoor0b
+      movable: true
+      world_translation_lt: *id157
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 100
+      source_name: AITrk7
+      movable: true
+      world_translation_lt: *id158
+      distance_from_rotation_point_lt: 52.953
+    - source_model_index: 20
+      source_name: RotatingDoor0a
+      movable: true
+      world_translation_lt: *id156
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 101
+      source_name: AITrk8
+      movable: true
+      world_translation_lt: *id159
+      distance_from_rotation_point_lt: 123.628
+    - source_model_index: 102
+      source_name: AITrk9
+      movable: true
+      world_translation_lt: &id161
+      - -184.0
+      - 8.0
+      - -304.0
+      distance_from_rotation_point_lt: 124.916
+    nearest_movable_world_models_by_position: &id226
+    - source_model_index: 21
+      source_name: RotatingDoor0b
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 18.0
+    - source_model_index: 100
+      source_name: AITrk7
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 52.953
+    - source_model_index: 20
+      source_name: RotatingDoor0a
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 58.0
+    - source_model_index: 101
+      source_name: AITrk8
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 123.628
+    - source_model_index: 102
+      source_name: AITrk9
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 124.916
 - object_id: mm9:klusoshouse:object:23
   source_object_index: 23
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id227
+    - source_model_index: 22
+      source_name: RDoor2
+      movable: true
+      world_translation_lt: &id162
+      - -8.0
+      - 44.0
+      - 928.0
+      distance_from_rotation_point_lt: 29.732
+    - source_model_index: 137
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: &id163
+      - -8.0
+      - 8.0
+      - 904.0
+      distance_from_rotation_point_lt: 72.471
+    - source_model_index: 23
+      source_name: RDoor6
+      movable: true
+      world_translation_lt: &id164
+      - -8.0
+      - 44.0
+      - 880.0
+      distance_from_rotation_point_lt: 72.801
+    - source_model_index: 138
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: &id165
+      - 132.0
+      - 8.0
+      - 904.0
+      distance_from_rotation_point_lt: 157.645
+    - source_model_index: 139
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: &id166
+      - 108.0
+      - 8.0
+      - 1048.0
+      distance_from_rotation_point_lt: 161.852
+    nearest_movable_world_models_by_position: &id228
+    - source_model_index: 22
+      source_name: RDoor2
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 29.732
+    - source_model_index: 137
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 72.471
+    - source_model_index: 23
+      source_name: RDoor6
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 72.801
+    - source_model_index: 138
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 157.645
+    - source_model_index: 139
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 161.852
 - object_id: mm9:klusoshouse:object:24
   source_object_index: 24
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id229
+    - source_model_index: 23
+      source_name: RDoor6
+      movable: true
+      world_translation_lt: *id164
+      distance_from_rotation_point_lt: 29.732
+    - source_model_index: 137
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id163
+      distance_from_rotation_point_lt: 72.471
+    - source_model_index: 22
+      source_name: RDoor2
+      movable: true
+      world_translation_lt: *id162
+      distance_from_rotation_point_lt: 72.801
+    - source_model_index: 138
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: *id165
+      distance_from_rotation_point_lt: 157.645
+    - source_model_index: 140
+      source_name: AITrk47
+      movable: true
+      world_translation_lt: &id167
+      - 104.0
+      - 8.0
+      - 752.0
+      distance_from_rotation_point_lt: 164.061
+    nearest_movable_world_models_by_position: &id230
+    - source_model_index: 23
+      source_name: RDoor6
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 29.732
+    - source_model_index: 137
+      source_name: AITrk44
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 72.471
+    - source_model_index: 22
+      source_name: RDoor2
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 72.801
+    - source_model_index: 138
+      source_name: AITrk45
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 157.645
+    - source_model_index: 140
+      source_name: AITrk47
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 164.061
 - object_id: mm9:klusoshouse:object:25
   source_object_index: 25
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id231
+    - source_model_index: 24
+      source_name: RDoor4
+      movable: true
+      world_translation_lt: &id168
+      - -352.0
+      - 44.0
+      - 648.0
+      distance_from_rotation_point_lt: 29.732
+    - source_model_index: 130
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: &id169
+      - -328.0
+      - 8.0
+      - 648.0
+      distance_from_rotation_point_lt: 72.471
+    - source_model_index: 25
+      source_name: RDoor5
+      movable: true
+      world_translation_lt: &id170
+      - -304.0
+      - 44.0
+      - 648.0
+      distance_from_rotation_point_lt: 72.801
+    - source_model_index: 122
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: *id153
+      distance_from_rotation_point_lt: 145.89
+    - source_model_index: 131
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: &id171
+      - -328.0
+      - 8.0
+      - 784.0
+      distance_from_rotation_point_lt: 154.104
+    nearest_movable_world_models_by_position: &id232
+    - source_model_index: 24
+      source_name: RDoor4
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 29.732
+    - source_model_index: 130
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 72.471
+    - source_model_index: 25
+      source_name: RDoor5
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 72.801
+    - source_model_index: 122
+      source_name: AITrk29
+      movable: true
+      world_translation_lt: *id153
+      distance_from_position_lt: 145.89
+    - source_model_index: 131
+      source_name: AITrk38
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 154.104
 - object_id: mm9:klusoshouse:object:26
   source_object_index: 26
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id233
+    - source_model_index: 25
+      source_name: RDoor5
+      movable: true
+      world_translation_lt: *id170
+      distance_from_rotation_point_lt: 29.732
+    - source_model_index: 130
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id169
+      distance_from_rotation_point_lt: 72.471
+    - source_model_index: 24
+      source_name: RDoor4
+      movable: true
+      world_translation_lt: *id168
+      distance_from_rotation_point_lt: 72.801
+    - source_model_index: 120
+      source_name: AITrk27
+      movable: true
+      world_translation_lt: &id172
+      - -256.0
+      - 8.0
+      - 544.0
+      distance_from_rotation_point_lt: 120.946
+    - source_model_index: 62
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: *id146
+      distance_from_rotation_point_lt: 151.486
+    nearest_movable_world_models_by_position: &id234
+    - source_model_index: 25
+      source_name: RDoor5
+      movable: true
+      world_translation_lt: *id170
+      distance_from_position_lt: 29.732
+    - source_model_index: 130
+      source_name: AITrk37
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 72.471
+    - source_model_index: 24
+      source_name: RDoor4
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 72.801
+    - source_model_index: 120
+      source_name: AITrk27
+      movable: true
+      world_translation_lt: *id172
+      distance_from_position_lt: 120.946
+    - source_model_index: 62
+      source_name: AITrk81
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 151.486
 - object_id: mm9:klusoshouse:object:27
   source_object_index: 27
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id235
+    - source_model_index: 26
+      source_name: RotatingDoor3a
+      movable: true
+      world_translation_lt: &id173
+      - -436.0
+      - 44.0
+      - 56.0
+      distance_from_rotation_point_lt: 26.907
+    - source_model_index: 27
+      source_name: RotatingDoor3b
+      movable: true
+      world_translation_lt: &id174
+      - -396.0
+      - 44.0
+      - 56.0
+      distance_from_rotation_point_lt: 61.351
+    - source_model_index: 116
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: &id175
+      - -416.0
+      - 8.0
+      - 56.0
+      distance_from_rotation_point_lt: 67.676
+    - source_model_index: 71
+      source_name: AITrk90
+      movable: true
+      world_translation_lt: *id132
+      distance_from_rotation_point_lt: 129.136
+    - source_model_index: 112
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: &id176
+      - -492.0
+      - 8.0
+      - -64.0
+      distance_from_rotation_point_lt: 137.768
+    nearest_movable_world_models_by_position: &id236
+    - source_model_index: 26
+      source_name: RotatingDoor3a
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 26.907
+    - source_model_index: 27
+      source_name: RotatingDoor3b
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 61.351
+    - source_model_index: 116
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 67.676
+    - source_model_index: 71
+      source_name: AITrk90
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 129.136
+    - source_model_index: 112
+      source_name: AITrk19
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 137.768
 - object_id: mm9:klusoshouse:object:28
   source_object_index: 28
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id237
+    - source_model_index: 27
+      source_name: RotatingDoor3b
+      movable: true
+      world_translation_lt: *id174
+      distance_from_rotation_point_lt: 18.0
+    - source_model_index: 116
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id175
+      distance_from_rotation_point_lt: 52.345
+    - source_model_index: 26
+      source_name: RotatingDoor3a
+      movable: true
+      world_translation_lt: *id173
+      distance_from_rotation_point_lt: 58.0
+    - source_model_index: 114
+      source_name: AITrk21
+      movable: true
+      world_translation_lt: &id177
+      - -412.0
+      - 8.0
+      - -64.0
+      distance_from_rotation_point_lt: 129.815
+    - source_model_index: 124
+      source_name: AITrk31
+      movable: true
+      world_translation_lt: &id178
+      - -332.0
+      - 8.0
+      - 184.0
+      distance_from_rotation_point_lt: 140.698
+    nearest_movable_world_models_by_position: &id238
+    - source_model_index: 27
+      source_name: RotatingDoor3b
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 18.0
+    - source_model_index: 116
+      source_name: AITrk23
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 52.345
+    - source_model_index: 26
+      source_name: RotatingDoor3a
+      movable: true
+      world_translation_lt: *id173
+      distance_from_position_lt: 58.0
+    - source_model_index: 114
+      source_name: AITrk21
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 129.815
+    - source_model_index: 124
+      source_name: AITrk31
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 140.698
 - object_id: mm9:klusoshouse:object:54
   source_object_index: 54
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id239
+    - source_model_index: 29
+      source_name: AIBarrier0
+      movable: true
+      world_translation_lt:
+      - 348.0
+      - 192.0
+      - 784.0
+      distance_from_position_lt: 93.381
+    - source_model_index: 149
+      source_name: WorldObject14
+      movable: true
+      world_translation_lt: &id185
+      - 312.0
+      - 288.0
+      - 984.0
+      distance_from_position_lt: 153.883
+    - source_model_index: 35
+      source_name: AITrk54
+      movable: true
+      world_translation_lt:
+      - 264.0
+      - 184.0
+      - 776.0
+      distance_from_position_lt: 154.091
+    - source_model_index: 34
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: &id184
+      - 268.0
+      - 140.0
+      - 944.0
+      distance_from_position_lt: 164.049
+    - source_model_index: 142
+      source_name: AITrk49
+      movable: true
+      world_translation_lt:
+      - 348.0
+      - 56.0
+      - 848.0
+      distance_from_position_lt: 172.557
 - object_id: mm9:klusoshouse:object:55
   source_object_index: 55
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id240
+    - source_model_index: 40
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: &id181
+      - 104.0
+      - 184.0
+      - 1008.0
+      distance_from_position_lt: 191.666
+    - source_model_index: 31
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: &id179
+      - 220.0
+      - 192.0
+      - 1104.0
+      distance_from_position_lt: 242.949
+    - source_model_index: 139
+      source_name: AITrk46
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 269.904
+    - source_model_index: 32
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: &id180
+      - 220.0
+      - 192.0
+      - 1012.0
+      distance_from_position_lt: 276.261
+    - source_model_index: 22
+      source_name: RDoor2
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 287.472
 - object_id: mm9:klusoshouse:object:56
   source_object_index: 56
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id241
+    - source_model_index: 31
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 43.267
+    - source_model_index: 32
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 133.026
+    - source_model_index: 145
+      source_name: AITrk52
+      movable: true
+      world_translation_lt: &id182
+      - 268.0
+      - 96.0
+      - 1088.0
+      distance_from_position_lt: 135.588
+    - source_model_index: 144
+      source_name: AITrk51
+      movable: true
+      world_translation_lt:
+      - 348.0
+      - 96.0
+      - 1104.0
+      distance_from_position_lt: 177.674
+    - source_model_index: 40
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 177.809
 - object_id: mm9:klusoshouse:object:57
   source_object_index: 57
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id242
+    - source_model_index: 32
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 46.989
+    - source_model_index: 31
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 50.754
+    - source_model_index: 40
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 124.193
+    - source_model_index: 145
+      source_name: AITrk52
+      movable: true
+      world_translation_lt: *id182
+      distance_from_position_lt: 127.562
+    - source_model_index: 33
+      source_name: InvisibleBrush2
+      movable: true
+      world_translation_lt: &id183
+      - 220.0
+      - 192.0
+      - 916.0
+      distance_from_position_lt: 140.968
 - object_id: mm9:klusoshouse:object:58
   source_object_index: 58
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id243
+    - source_model_index: 33
+      source_name: InvisibleBrush2
+      movable: true
+      world_translation_lt: *id183
+      distance_from_position_lt: 46.989
+    - source_model_index: 32
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 54.553
+    - source_model_index: 34
+      source_name: AITrk53
+      movable: true
+      world_translation_lt: *id184
+      distance_from_position_lt: 87.086
+    - source_model_index: 40
+      source_name: AITrk59
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 124.193
+    - source_model_index: 149
+      source_name: WorldObject14
+      movable: true
+      world_translation_lt: *id185
+      distance_from_position_lt: 127.248
 - object_id: mm9:klusoshouse:object:197
   source_object_index: 197
   targets:
   - target_kind: trigger_volume
     target_id: mm9:klusoshouse:object:197:volume
     confidence: source_object_volume
-    pos_lt: *id107
+    pos_lt: *id186
     dims_lt: *id079
 scripts:
 - script_id: blackheart.scr
@@ -99965,156 +102458,244 @@ unresolved:
   source_name: RDoor9a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id187
+    nearest_movable_world_models_by_position: *id188
 - kind: unresolved_binding
   source_object_index: 4
   source_name: RDoor9b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id189
+    nearest_movable_world_models_by_position: *id190
 - kind: unresolved_binding
   source_object_index: 5
   source_name: RDoor10a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id191
+    nearest_movable_world_models_by_position: *id192
 - kind: unresolved_binding
   source_object_index: 6
   source_name: RDoor10b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id193
+    nearest_movable_world_models_by_position: *id194
 - kind: unresolved_binding
   source_object_index: 7
   source_name: RDoor12a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id195
+    nearest_movable_world_models_by_position: *id196
 - kind: unresolved_binding
   source_object_index: 8
   source_name: RDoor12b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id197
+    nearest_movable_world_models_by_position: *id198
 - kind: unresolved_binding
   source_object_index: 9
   source_name: RDoor13a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id199
+    nearest_movable_world_models_by_position: *id200
 - kind: unresolved_binding
   source_object_index: 10
   source_name: RDoor13b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id201
+    nearest_movable_world_models_by_position: *id202
 - kind: unresolved_binding
   source_object_index: 11
   source_name: RDoor14a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id203
+    nearest_movable_world_models_by_position: *id204
 - kind: unresolved_binding
   source_object_index: 12
   source_name: RDoor14b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id205
+    nearest_movable_world_models_by_position: *id206
 - kind: unresolved_binding
   source_object_index: 13
   source_name: RDoor15a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id207
+    nearest_movable_world_models_by_position: *id208
 - kind: unresolved_binding
   source_object_index: 14
   source_name: RDoor15b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id209
+    nearest_movable_world_models_by_position: *id210
 - kind: unresolved_binding
   source_object_index: 15
   source_name: RDoor16a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id211
+    nearest_movable_world_models_by_position: *id212
 - kind: unresolved_binding
   source_object_index: 16
   source_name: RDoor16b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id213
+    nearest_movable_world_models_by_position: *id214
 - kind: unresolved_binding
   source_object_index: 17
   source_name: RDoor11a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id215
+    nearest_movable_world_models_by_position: *id216
 - kind: unresolved_binding
   source_object_index: 18
   source_name: RDoor11b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id217
+    nearest_movable_world_models_by_position: *id218
 - kind: unresolved_binding
   source_object_index: 19
   source_name: RotatingDoor7
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id219
+    nearest_movable_world_models_by_position: *id220
 - kind: unresolved_binding
   source_object_index: 20
   source_name: RotatingDoor8
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id221
+    nearest_movable_world_models_by_position: *id222
 - kind: unresolved_binding
   source_object_index: 21
   source_name: RotatingDoor0a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id223
+    nearest_movable_world_models_by_position: *id224
 - kind: unresolved_binding
   source_object_index: 22
   source_name: RotatingDoor0b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id225
+    nearest_movable_world_models_by_position: *id226
 - kind: unresolved_binding
   source_object_index: 23
   source_name: RDoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id227
+    nearest_movable_world_models_by_position: *id228
 - kind: unresolved_binding
   source_object_index: 24
   source_name: RDoor6
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id229
+    nearest_movable_world_models_by_position: *id230
 - kind: unresolved_binding
   source_object_index: 25
   source_name: RDoor4
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id231
+    nearest_movable_world_models_by_position: *id232
 - kind: unresolved_binding
   source_object_index: 26
   source_name: RDoor5
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id233
+    nearest_movable_world_models_by_position: *id234
 - kind: unresolved_binding
   source_object_index: 27
   source_name: RotatingDoor3a
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id235
+    nearest_movable_world_models_by_position: *id236
 - kind: unresolved_binding
   source_object_index: 28
   source_name: RotatingDoor3b
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id237
+    nearest_movable_world_models_by_position: *id238
 - kind: unresolved_binding
   source_object_index: 54
   source_name: AIBarrier0
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id239
 - kind: unresolved_binding
   source_object_index: 55
   source_name: AIBarrier1
   source_class: AIBarrier
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id240
 - kind: unresolved_binding
   source_object_index: 56
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id241
 - kind: unresolved_binding
   source_object_index: 57
   source_name: InvisibleBrush1
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id242
 - kind: unresolved_binding
   source_object_index: 58
   source_name: InvisibleBrush2
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id243
 - kind: unresolved_target_name
   source: trigger
   source_object_index: 197

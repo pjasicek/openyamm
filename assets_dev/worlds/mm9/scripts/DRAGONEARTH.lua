@@ -13,12 +13,12 @@ script.includes[#script.includes + 1] = { line = 8, path = "base.inc" }
 script.labels["DragonAwake"] = function(ctx)
     -- DRAGONEARTH.scr:13
     -- Now we're awake, go get him...
-    ctx:command("target", "g_hTarget, TRUE") -- DRAGONEARTH.scr:18
-    ctx:command("onfoundplayer", "BaseFoundPlayer") -- DRAGONEARTH.scr:20
-    ctx:command("onattackready", "BaseAttackReady") -- DRAGONEARTH.scr:21
-    ctx:command("ondamage", "BaseDamage") -- DRAGONEARTH.scr:22
-    ctx:command("set", "g_sTemp, g_hTarget") -- DRAGONEARTH.scr:24
-    ctx:command("setparam", "0, g_sTemp") -- DRAGONEARTH.scr:26
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- DRAGONEARTH.scr:18
+    ctx:onEvent("OnFoundPlayer", "BaseFoundPlayer") -- DRAGONEARTH.scr:20
+    ctx:onEvent("OnAttackReady", "BaseAttackReady") -- DRAGONEARTH.scr:21
+    ctx:onEvent("OnDamage", "BaseDamage") -- DRAGONEARTH.scr:22
+    ctx:set("g_sTemp", "g_hTarget") -- DRAGONEARTH.scr:24
+    ctx:setParam(0, "g_sTemp") -- DRAGONEARTH.scr:26
     mm9.gosub(script, ctx, "BaseFoundPlayer") -- DRAGONEARTH.scr:28
     do return ctx:exit("") end -- DRAGONEARTH.scr:30
 end
@@ -30,13 +30,13 @@ script.labels["WakeUp"] = function(ctx)
     if ctx:condition("g_hTarget==NULL") then -- DRAGONEARTH.scr:41
         do return ctx:exit("FALSE") end -- DRAGONEARTH.scr:42
     end -- DRAGONEARTH.scr:43
-    ctx:command("onfoundplayer", "") -- DRAGONEARTH.scr:45
-    ctx:command("onattackready", "") -- DRAGONEARTH.scr:46
-    ctx:command("ondamage", "") -- DRAGONEARTH.scr:47
-    ctx:command("target", "g_hTarget, TRUE") -- DRAGONEARTH.scr:49
-    ctx:command("onattackready", "") -- DRAGONEARTH.scr:51
-    ctx:command("onfoundplayer", "") -- DRAGONEARTH.scr:52
-    ctx:command("playanim", "StandUp, DragonAwake") -- DRAGONEARTH.scr:54
+    ctx:onEvent("OnFoundPlayer") -- DRAGONEARTH.scr:45
+    ctx:onEvent("OnAttackReady") -- DRAGONEARTH.scr:46
+    ctx:onEvent("OnDamage") -- DRAGONEARTH.scr:47
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- DRAGONEARTH.scr:49
+    ctx:onEvent("OnAttackReady") -- DRAGONEARTH.scr:51
+    ctx:onEvent("OnFoundPlayer") -- DRAGONEARTH.scr:52
+    ctx:self():playAnimation("StandUp", "DragonAwake") -- DRAGONEARTH.scr:54
     do return ctx:exit("TRUE") end -- DRAGONEARTH.scr:56
 end
 
@@ -44,11 +44,11 @@ script.labels["SetupSleeping"] = function(ctx)
     -- DRAGONEARTH.scr:59
     -- Setup the dragon as asleep....
     -- Loop our sleeping animation
-    ctx:command("loopanim", "Rest,0") -- DRAGONEARTH.scr:66
+    ctx:self():loopAnimation("Rest", 0) -- DRAGONEARTH.scr:66
     -- When we find the player, we'll need to wake up...
-    ctx:command("onfoundplayer", "WakeUp") -- DRAGONEARTH.scr:69
-    ctx:command("onattackready", "WakeUp") -- DRAGONEARTH.scr:70
-    ctx:command("ondamage", "WakeUp") -- DRAGONEARTH.scr:71
+    ctx:onEvent("OnFoundPlayer", "WakeUp") -- DRAGONEARTH.scr:69
+    ctx:onEvent("OnAttackReady", "WakeUp") -- DRAGONEARTH.scr:70
+    ctx:onEvent("OnDamage", "WakeUp") -- DRAGONEARTH.scr:71
     do return ctx:exit("") end -- DRAGONEARTH.scr:74
 end
 
@@ -68,7 +68,7 @@ script.labels["Main"] = function(ctx)
     if ctx:condition("g_nTemp!=FALSE") then -- DRAGONEARTH.scr:100
         mm9.gosub(script, ctx, "SetupSleeping") -- DRAGONEARTH.scr:101
     end -- DRAGONEARTH.scr:102
-    ctx:command("oncongestion", "OnCongestion") -- DRAGONEARTH.scr:104
+    ctx:onEvent("OnCongestion", "OnCongestion") -- DRAGONEARTH.scr:104
     do return ctx:exit("") end -- DRAGONEARTH.scr:106
 end
 

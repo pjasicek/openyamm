@@ -15,25 +15,25 @@ script.includes[#script.includes + 1] = { line = 10, path = "baseMelee.inc" }
 -- Will run to "SpawnRally" or player if it does not exist
 script.labels["Main"] = function(ctx)
     -- SPAWNCREATURE.scr:16
-    ctx:command("wait", "0, .1, InitSpawnCreature") -- SPAWNCREATURE.scr:18
+    ctx:wait(0, .1, "InitSpawnCreature") -- SPAWNCREATURE.scr:18
     do return ctx:exit("TRUE") end -- SPAWNCREATURE.scr:20
 end
 
 script.labels["InitSpawnCreature"] = function(ctx)
     -- SPAWNCREATURE.scr:23
-    ctx:setPropNumber("CheckForAIBarriers", "TRUE") -- SPAWNCREATURE.scr:25
-    ctx:setPropNumber("CheckForCliffs", "TRUE") -- SPAWNCREATURE.scr:26
-    ctx:command("getobjecthandle", "SpawnMgr, hSpawnMgr") -- SPAWNCREATURE.scr:28
-    ctx:command("getobjecthandle", "SpawnRally, hRally") -- SPAWNCREATURE.scr:29
+    ctx:self():setNumberProperty("CheckForAIBarriers", "TRUE") -- SPAWNCREATURE.scr:25
+    ctx:self():setNumberProperty("CheckForCliffs", "TRUE") -- SPAWNCREATURE.scr:26
+    ctx:state().hSpawnMgr = ctx:objectOrNil("SpawnMgr") -- SPAWNCREATURE.scr:28
+    ctx:state().hRally = ctx:objectOrNil("SpawnRally") -- SPAWNCREATURE.scr:29
     mm9.gosub(script, ctx, "BaseInit") -- SPAWNCREATURE.scr:31
     -- message Mgr when dead
-    ctx:command("ondeath", "OnDeath") -- SPAWNCREATURE.scr:34
+    ctx:onEvent("OnDeath", "OnDeath") -- SPAWNCREATURE.scr:34
     if ctx:condition("hRally==0") then -- SPAWNCREATURE.scr:36
-        ctx:command("getplayerhandle", "g_hTarget") -- SPAWNCREATURE.scr:37
+        ctx:state().g_hTarget = ctx:player() -- SPAWNCREATURE.scr:37
         mm9.gosub(script, ctx, "SetupTarget") -- SPAWNCREATURE.scr:38
         mm9.gosub(script, ctx, "AggressiveStart") -- SPAWNCREATURE.scr:39
     else -- SPAWNCREATURE.scr:40
-        ctx:command("runto", "hRally, 10, DoNothing") -- SPAWNCREATURE.scr:41
+        ctx:self():runTo(ctx:object("hRally"), 10, "DoNothing") -- SPAWNCREATURE.scr:41
     end -- SPAWNCREATURE.scr:42
     do return ctx:exit("TRUE") end -- SPAWNCREATURE.scr:44
 end

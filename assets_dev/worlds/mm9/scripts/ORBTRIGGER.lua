@@ -12,8 +12,7 @@ script.includes[#script.includes + 1] = { line = 9, path = "globals.inc" }
 -- handles checking to see if the party got 6 orbs of linking.
 script.labels["OnUse"] = function(ctx)
     -- ORBTRIGGER.scr:16
-    ctx:command("getobjecthandle", "Orb g_hobject") -- ORBTRIGGER.scr:19
-    ctx:trigger("g_hobject", "Placed") -- ORBTRIGGER.scr:20
+    ctx:object("Orb"):trigger("Placed") -- ORBTRIGGER.scr:19-20
     do return ctx:exit("") end -- ORBTRIGGER.scr:21
 end
 

@@ -23,7 +23,7 @@ script.labels["GoldenHonk"] = function(ctx)
         if ctx:hasKey(346) then -- NPC337.scr:30-31
             ctx:giveGold(10000) -- NPC337.scr:32
             ctx:giveExp(80000) -- NPC337.scr:33
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC337.scr:34
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC337.scr:34
             ctx:takeItem(369) -- NPC337.scr:35
             ctx:giveKey(347) -- NPC337.scr:36
             do return ctx:exit("") end -- NPC337.scr:37
@@ -35,7 +35,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC337.scr:50
-    ctx:command("playsound", "voices\\NPC\\NPC_337.wav, Onexit, 100, 240, FALSE, 100") -- NPC337.scr:53
+    ctx:playSound("voices\\NPC\\NPC_337.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC337.scr:53
     do return ctx:exit("") end -- NPC337.scr:54
 end
 

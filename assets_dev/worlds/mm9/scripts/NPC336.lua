@@ -62,8 +62,7 @@ script.labels["Failure"] = function(ctx)
     ctx:takeKey(390) -- NPC336.scr:90
     ctx:takeKey(391) -- NPC336.scr:91
     ctx:takeKey(392) -- NPC336.scr:92
-    ctx:command("getobjecthandle", "ExitTrigger0 g_hobject") -- NPC336.scr:93
-    ctx:trigger("g_hobject", "trigger") -- NPC336.scr:94
+    ctx:object("ExitTrigger0"):trigger("trigger") -- NPC336.scr:93-94
     do return ctx:exit("") end -- NPC336.scr:96
 end
 
@@ -73,8 +72,7 @@ script.labels["Teleport"] = function(ctx)
         do return ctx:exit("") end -- NPC336.scr:103
     end -- NPC336.scr:104
     if ctx:hasKey(101) then -- NPC336.scr:107-108
-        ctx:command("getobjecthandle", "exittrigger0 g_hobject") -- NPC336.scr:109
-        ctx:trigger("g_hobject", "trigger") -- NPC336.scr:110
+        ctx:object("exittrigger0"):trigger("trigger") -- NPC336.scr:109-110
         ctx:giveKey(379) -- NPC336.scr:111
         do return ctx:exit("") end -- NPC336.scr:112
     end -- NPC336.scr:113
@@ -90,7 +88,7 @@ script.labels["sixfires"] = function(ctx)
             -- checks to see if they've On the six fires
             ctx:giveKey(189) -- NPC336.scr:130
             ctx:giveExp(52000) -- NPC336.scr:131
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC336.scr:132
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC336.scr:132
             -- gives reward
             do return ctx:exit("") end -- NPC336.scr:136
         end -- NPC336.scr:137
@@ -103,9 +101,9 @@ end
 script.labels["DoRude"] = function(ctx)
     -- NPC336.scr:148
     ctx:giveKey(379) -- NPC336.scr:151
-    ctx:command("onfoundplayer", "") -- NPC336.scr:153
+    ctx:onEvent("OnFoundPlayer") -- NPC336.scr:153
     ctx:doRude(336) -- NPC336.scr:154
-    ctx:command("playsound", "\\voices\\npc\\NPC_336.wav, DoNothing, 100, 240, FALSE, 100") -- NPC336.scr:155
+    ctx:playSound("\\voices\\npc\\NPC_336.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC336.scr:155
     do return ctx:exit("") end -- NPC336.scr:156
 end
 
@@ -119,51 +117,50 @@ script.labels["OnUse"] = function(ctx)
         end -- NPC336.scr:170
     end -- NPC336.scr:171
     if ctx:hasKey(382) then -- NPC336.scr:174-175
-        ctx:command("set", "nConfession, 0") -- NPC336.scr:176
+        ctx:state().nConfession = 0 -- NPC336.scr:176
         if ctx:hasKey(501) then -- NPC336.scr:177-178
-            ctx:command("add", "nConfession 1") -- NPC336.scr:179
+            ctx:state().nConfession = (tonumber(ctx:state().nConfession) or 0) + 1 -- NPC336.scr:179
         end -- NPC336.scr:180
         if ctx:hasKey(502) then -- NPC336.scr:182-183
-            ctx:command("add", "nConfession 1") -- NPC336.scr:184
+            ctx:state().nConfession = (tonumber(ctx:state().nConfession) or 0) + 1 -- NPC336.scr:184
         end -- NPC336.scr:185
         if ctx:hasKey(503) then -- NPC336.scr:187-188
-            ctx:command("add", "nConfession 1") -- NPC336.scr:189
+            ctx:state().nConfession = (tonumber(ctx:state().nConfession) or 0) + 1 -- NPC336.scr:189
         end -- NPC336.scr:190
         if ctx:hasKey(504) then -- NPC336.scr:192-193
-            ctx:command("add", "nConfession 1") -- NPC336.scr:194
+            ctx:state().nConfession = (tonumber(ctx:state().nConfession) or 0) + 1 -- NPC336.scr:194
         end -- NPC336.scr:195
         if ctx:hasKey(505) then -- NPC336.scr:197-198
-            ctx:command("add", "nConfession 1") -- NPC336.scr:199
+            ctx:state().nConfession = (tonumber(ctx:state().nConfession) or 0) + 1 -- NPC336.scr:199
         end -- NPC336.scr:200
         if ctx:hasKey(506) then -- NPC336.scr:202-203
-            ctx:command("add", "nConfession 1") -- NPC336.scr:204
+            ctx:state().nConfession = (tonumber(ctx:state().nConfession) or 0) + 1 -- NPC336.scr:204
         end -- NPC336.scr:205
         if ctx:condition("nConfession==6") then -- NPC336.scr:207
             if not ctx:hasKey(383) then -- NPC336.scr:209-210
                 ctx:giveKey(383) -- NPC336.scr:211
-                ctx:command("getobjecthandle", "confessionFire g_hobject") -- NPC336.scr:212
-                ctx:trigger("g_hobject", "On") -- NPC336.scr:213
+                ctx:object("confessionFire"):trigger("On") -- NPC336.scr:212-213
                 ctx:giveExp(52000) -- NPC336.scr:214
-                ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC336.scr:215
+                ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC336.scr:215
             end -- NPC336.scr:216
         end -- NPC336.scr:217
     end -- NPC336.scr:218
     if ctx:hasKey(388) then -- NPC336.scr:220-221
-        ctx:command("set", "nAbsolution, 0") -- NPC336.scr:222
+        ctx:state().nAbsolution = 0 -- NPC336.scr:222
         if ctx:hasItem(563) then -- NPC336.scr:224-225
-            ctx:command("add", "nAbsolution 1") -- NPC336.scr:226
+            ctx:state().nAbsolution = (tonumber(ctx:state().nAbsolution) or 0) + 1 -- NPC336.scr:226
         end -- NPC336.scr:227
         if ctx:hasItem(564) then -- NPC336.scr:229-230
-            ctx:command("add", "nAbsolution 1") -- NPC336.scr:231
+            ctx:state().nAbsolution = (tonumber(ctx:state().nAbsolution) or 0) + 1 -- NPC336.scr:231
         end -- NPC336.scr:232
         if ctx:hasItem(565) then -- NPC336.scr:234-235
-            ctx:command("add", "nAbsolution 1") -- NPC336.scr:236
+            ctx:state().nAbsolution = (tonumber(ctx:state().nAbsolution) or 0) + 1 -- NPC336.scr:236
         end -- NPC336.scr:237
         if ctx:hasItem(566) then -- NPC336.scr:239-240
-            ctx:command("add", "nAbsolution 1") -- NPC336.scr:241
+            ctx:state().nAbsolution = (tonumber(ctx:state().nAbsolution) or 0) + 1 -- NPC336.scr:241
         end -- NPC336.scr:242
         if ctx:hasItem(567) then -- NPC336.scr:244-245
-            ctx:command("add", "nAbsolution 1") -- NPC336.scr:246
+            ctx:state().nAbsolution = (tonumber(ctx:state().nAbsolution) or 0) + 1 -- NPC336.scr:246
         end -- NPC336.scr:247
         if ctx:condition("nAbsolution==5") then -- NPC336.scr:249
             if ctx:hasKey(389) then -- NPC336.scr:251-252
@@ -175,10 +172,9 @@ script.labels["OnUse"] = function(ctx)
             ctx:takeItem(566) -- NPC336.scr:260
             ctx:takeItem(567) -- NPC336.scr:261
             ctx:giveKey(389) -- NPC336.scr:263
-            ctx:command("getobjecthandle", "AbsolutionFire g_hobject") -- NPC336.scr:264
-            ctx:trigger("g_hobject", "On") -- NPC336.scr:265
+            ctx:object("AbsolutionFire"):trigger("On") -- NPC336.scr:264-265
             ctx:giveExp(52000) -- NPC336.scr:266
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC336.scr:267
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC336.scr:267
         end -- NPC336.scr:268
     end -- NPC336.scr:269
     do return ctx:exit("") end -- NPC336.scr:270
@@ -187,7 +183,7 @@ end
 script.labels["Init"] = function(ctx)
     -- NPC336.scr:275
     if ctx:condition("sLocation==Afterworld") then -- NPC336.scr:280
-        ctx:command("onfoundplayer", "DoRude") -- NPC336.scr:281
+        ctx:onEvent("OnFoundPlayer", "DoRude") -- NPC336.scr:281
         do return ctx:exit("") end -- NPC336.scr:282
     end -- NPC336.scr:283
     do return ctx:exit("") end -- NPC336.scr:285
@@ -195,7 +191,7 @@ end
 
 script.labels["OnDone"] = function(ctx)
     -- NPC336.scr:288
-    ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC336.scr:291
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC336.scr:291
     ctx:giveKey(381) -- NPC336.scr:292
     mm9.gosub(script, ctx, "end") -- NPC336.scr:293
     do return ctx:exit("") end -- NPC336.scr:294
@@ -203,12 +199,11 @@ end
 
 script.labels["OnReborn"] = function(ctx)
     -- NPC336.scr:298
-    ctx:command("getobjecthandle", "RebirthFire g_hobject") -- NPC336.scr:301
-    ctx:trigger("g_hobject", "On") -- NPC336.scr:302
+    ctx:object("RebirthFire"):trigger("On") -- NPC336.scr:301-302
     if not ctx:hasKey(391) then -- NPC336.scr:303-304
         ctx:giveExp(52000) -- NPC336.scr:305
     end -- NPC336.scr:306
-    ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC336.scr:307
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC336.scr:307
     ctx:giveKey(391) -- NPC336.scr:308
     ctx:giveKey(102) -- NPC336.scr:309
     do return ctx:exit("") end -- NPC336.scr:310
@@ -221,10 +216,10 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "sLocation") -- NPC336.scr:319
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC336.scr:320
     ctx:addTrigger("use", "OnUse") -- NPC336.scr:321
-    ctx:command("onpoststartworld", "Init") -- NPC336.scr:322
-    ctx:command("onpostminisaveload", "Init") -- NPC336.scr:323
-    ctx:command("onpostsaveload", "Init") -- NPC336.scr:324
-    ctx:command("wait", "1 .1 Init") -- NPC336.scr:325
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC336.scr:322
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC336.scr:323
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC336.scr:324
+    ctx:wait(1, .1, "Init") -- NPC336.scr:325
     ctx:addTrigger("Reborn", "OnReborn") -- NPC336.scr:326
     ctx:addTrigger("Done", "OnDone") -- NPC336.scr:327
     do return ctx:exit("") end -- NPC336.scr:328

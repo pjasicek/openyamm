@@ -20706,10 +20706,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -1120.0
     - 1324.0
@@ -94294,10 +94296,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -8870.0
     - 1754.0
@@ -166309,6 +166313,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:51:mechanism
   object_id: mm9:thjorgard:object:51
@@ -166319,6 +166324,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:52:mechanism
   object_id: mm9:thjorgard:object:52
@@ -166329,6 +166335,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:53:mechanism
   object_id: mm9:thjorgard:object:53
@@ -166339,6 +166346,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:54:mechanism
   object_id: mm9:thjorgard:object:54
@@ -166349,6 +166357,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:55:mechanism
   object_id: mm9:thjorgard:object:55
@@ -166359,6 +166368,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:56:mechanism
   object_id: mm9:thjorgard:object:56
@@ -166369,6 +166379,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:57:mechanism
   object_id: mm9:thjorgard:object:57
@@ -166379,6 +166390,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:58:mechanism
   object_id: mm9:thjorgard:object:58
@@ -166389,6 +166401,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:59:mechanism
   object_id: mm9:thjorgard:object:59
@@ -166399,6 +166412,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:60:mechanism
   object_id: mm9:thjorgard:object:60
@@ -166409,6 +166423,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:61:mechanism
   object_id: mm9:thjorgard:object:61
@@ -166419,6 +166434,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:105:mechanism
   object_id: mm9:thjorgard:object:105
@@ -166430,6 +166446,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id021 []
 - mechanism_id: mm9:thjorgard:object:106:mechanism
   object_id: mm9:thjorgard:object:106
@@ -166441,6 +166458,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id022 []
 - mechanism_id: mm9:thjorgard:object:107:mechanism
   object_id: mm9:thjorgard:object:107
@@ -166452,6 +166470,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id023 []
 - mechanism_id: mm9:thjorgard:object:118:mechanism
   object_id: mm9:thjorgard:object:118
@@ -166462,6 +166481,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:119:mechanism
   object_id: mm9:thjorgard:object:119
@@ -166472,6 +166492,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:120:mechanism
   object_id: mm9:thjorgard:object:120
@@ -166482,6 +166503,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:125:mechanism
   object_id: mm9:thjorgard:object:125
@@ -166493,6 +166515,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id024 []
 - mechanism_id: mm9:thjorgard:object:165:mechanism
   object_id: mm9:thjorgard:object:165
@@ -166504,6 +166527,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:166:mechanism
   object_id: mm9:thjorgard:object:166
@@ -166515,6 +166539,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:167:mechanism
   object_id: mm9:thjorgard:object:167
@@ -166526,6 +166551,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:168:mechanism
   object_id: mm9:thjorgard:object:168
@@ -166537,6 +166563,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:170:mechanism
   object_id: mm9:thjorgard:object:170
@@ -166548,6 +166575,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:171:mechanism
   object_id: mm9:thjorgard:object:171
@@ -166559,6 +166587,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:172:mechanism
   object_id: mm9:thjorgard:object:172
@@ -166570,6 +166599,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:173:mechanism
   object_id: mm9:thjorgard:object:173
@@ -166580,6 +166610,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:180:mechanism
   object_id: mm9:thjorgard:object:180
@@ -166591,6 +166622,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:181:mechanism
   object_id: mm9:thjorgard:object:181
@@ -166602,6 +166634,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:239:mechanism
   object_id: mm9:thjorgard:object:239
@@ -166613,6 +166646,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:240:mechanism
   object_id: mm9:thjorgard:object:240
@@ -166624,6 +166658,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:241:mechanism
   object_id: mm9:thjorgard:object:241
@@ -166635,6 +166670,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:242:mechanism
   object_id: mm9:thjorgard:object:242
@@ -166646,6 +166682,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:243:mechanism
   object_id: mm9:thjorgard:object:243
@@ -166657,6 +166694,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:244:mechanism
   object_id: mm9:thjorgard:object:244
@@ -166668,6 +166706,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:245:mechanism
   object_id: mm9:thjorgard:object:245
@@ -166679,6 +166718,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:246:mechanism
   object_id: mm9:thjorgard:object:246
@@ -166690,6 +166730,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:247:mechanism
   object_id: mm9:thjorgard:object:247
@@ -166701,6 +166742,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:248:mechanism
   object_id: mm9:thjorgard:object:248
@@ -166712,6 +166754,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:249:mechanism
   object_id: mm9:thjorgard:object:249
@@ -166723,6 +166766,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:340:mechanism
   object_id: mm9:thjorgard:object:340
@@ -166734,6 +166778,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:386:mechanism
   object_id: mm9:thjorgard:object:386
@@ -166744,6 +166789,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:391:mechanism
   object_id: mm9:thjorgard:object:391
@@ -166773,6 +166819,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: mine cart door right
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id026 []
 - mechanism_id: mm9:thjorgard:object:392:mechanism
   object_id: mm9:thjorgard:object:392
@@ -166802,6 +166877,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: mine cart door left
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id027 []
 - mechanism_id: mm9:thjorgard:object:399:mechanism
   object_id: mm9:thjorgard:object:399
@@ -166831,6 +166935,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door02open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door02close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id028 []
 - mechanism_id: mm9:thjorgard:object:478:mechanism
   object_id: mm9:thjorgard:object:478
@@ -166842,6 +166975,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id029 []
 - mechanism_id: mm9:thjorgard:object:479:mechanism
   object_id: mm9:thjorgard:object:479
@@ -166852,6 +166986,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id030 []
 - mechanism_id: mm9:thjorgard:object:480:mechanism
   object_id: mm9:thjorgard:object:480
@@ -166862,6 +166997,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id031 []
 - mechanism_id: mm9:thjorgard:object:481:mechanism
   object_id: mm9:thjorgard:object:481
@@ -166872,6 +167008,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id032 []
 - mechanism_id: mm9:thjorgard:object:482:mechanism
   object_id: mm9:thjorgard:object:482
@@ -166882,6 +167019,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id033 []
 - mechanism_id: mm9:thjorgard:object:483:mechanism
   object_id: mm9:thjorgard:object:483
@@ -166892,6 +167030,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id034 []
 - mechanism_id: mm9:thjorgard:object:484:mechanism
   object_id: mm9:thjorgard:object:484
@@ -166902,6 +167041,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id035 []
 - mechanism_id: mm9:thjorgard:object:485:mechanism
   object_id: mm9:thjorgard:object:485
@@ -166912,6 +167052,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id036 []
 - mechanism_id: mm9:thjorgard:object:488:mechanism
   object_id: mm9:thjorgard:object:488
@@ -166922,6 +167063,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:551:mechanism
   object_id: mm9:thjorgard:object:551
@@ -166932,6 +167074,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:552:mechanism
   object_id: mm9:thjorgard:object:552
@@ -166942,6 +167085,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:553:mechanism
   object_id: mm9:thjorgard:object:553
@@ -166952,6 +167096,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:554:mechanism
   object_id: mm9:thjorgard:object:554
@@ -166962,6 +167107,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:555:mechanism
   object_id: mm9:thjorgard:object:555
@@ -166972,6 +167118,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:592:mechanism
   object_id: mm9:thjorgard:object:592
@@ -166983,6 +167130,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id038 []
 - mechanism_id: mm9:thjorgard:object:632:mechanism
   object_id: mm9:thjorgard:object:632
@@ -167008,6 +167156,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id039
   - phase: open
     slot: 0
@@ -167024,6 +167201,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id040 []
 - mechanism_id: mm9:thjorgard:object:670:mechanism
   object_id: mm9:thjorgard:object:670
@@ -167049,6 +167227,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id041
   - phase: open
     slot: 0
@@ -167084,6 +167291,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id042
   - phase: open
     slot: 0
@@ -167109,6 +167345,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thjorgard:object:703:mechanism
   object_id: mm9:thjorgard:object:703
@@ -167120,6 +167357,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id043 []
 triggers:
 - trigger_id: mm9:thjorgard:object:10:trigger

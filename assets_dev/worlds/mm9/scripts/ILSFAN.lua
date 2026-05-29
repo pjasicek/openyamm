@@ -13,25 +13,20 @@ script.includes[#script.includes + 1] = { line = 13, path = "globals.inc" }
 -- Parameters:
 script.labels["OnStart"] = function(ctx)
     -- ILSFAN.scr:18
-    ctx:command("getmyhandle", "g_hobject") -- ILSFAN.scr:21
+    ctx:state().g_hobject = ctx:self() -- ILSFAN.scr:21
     ctx:trigger("g_hobject", "On") -- ILSFAN.scr:22
-    ctx:command("getobjecthandle", "Wind0, g_hobject") -- ILSFAN.scr:23
-    ctx:trigger("g_hobject", "On") -- ILSFAN.scr:24
-    ctx:command("getobjecthandle", "Wind1, g_hobject") -- ILSFAN.scr:25
-    ctx:trigger("g_hobject", "On") -- ILSFAN.scr:26
-    ctx:command("getobjecthandle", "Trigger9, g_hobject") -- ILSFAN.scr:27
-    ctx:trigger("g_hobject", "off") -- ILSFAN.scr:28
+    ctx:object("Wind0"):trigger("On") -- ILSFAN.scr:23-24
+    ctx:object("Wind1"):trigger("On") -- ILSFAN.scr:25-26
+    ctx:object("Trigger9"):trigger("off") -- ILSFAN.scr:27-28
     do return ctx:exit("") end -- ILSFAN.scr:29
 end
 
 script.labels["OnStop"] = function(ctx)
     -- ILSFAN.scr:32
-    ctx:command("getmyhandle", "g_hobject") -- ILSFAN.scr:35
+    ctx:state().g_hobject = ctx:self() -- ILSFAN.scr:35
     ctx:trigger("g_hobject", "Off") -- ILSFAN.scr:36
-    ctx:command("getobjecthandle", "Wind0, g_hobject") -- ILSFAN.scr:37
-    ctx:trigger("g_hobject", "Off") -- ILSFAN.scr:38
-    ctx:command("getobjecthandle", "Wind1, g_hobject") -- ILSFAN.scr:39
-    ctx:trigger("g_hobject", "Off") -- ILSFAN.scr:40
+    ctx:object("Wind0"):trigger("Off") -- ILSFAN.scr:37-38
+    ctx:object("Wind1"):trigger("Off") -- ILSFAN.scr:39-40
     do return ctx:exit("") end -- ILSFAN.scr:42
 end
 

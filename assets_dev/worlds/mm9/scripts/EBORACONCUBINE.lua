@@ -20,49 +20,48 @@ end
 
 script.labels["OnFoundPlayer"] = function(ctx)
     -- EBORACONCUBINE.scr:22
-    ctx:command("onfoundplayer", "DoNothing") -- EBORACONCUBINE.scr:24
+    ctx:onEvent("OnFoundPlayer", "DoNothing") -- EBORACONCUBINE.scr:24
     ctx:getParam(0, "g_hTarget") -- EBORACONCUBINE.scr:26
-    ctx:command("playanim", "launch, OnLaunchDone") -- EBORACONCUBINE.scr:28
+    ctx:self():playAnimation("launch", "OnLaunchDone") -- EBORACONCUBINE.scr:28
     do return ctx:exit("TRUE") end -- EBORACONCUBINE.scr:30
 end
 
 script.labels["OnDeath"] = function(ctx)
     -- EBORACONCUBINE.scr:33
     -- message to ebora of our death
-    ctx:command("getobjecthandle", "Ebora, g_hMyObject") -- EBORACONCUBINE.scr:36
-    ctx:trigger("g_hMyObject", "DeadConcubine") -- EBORACONCUBINE.scr:37
+    ctx:object("Ebora"):trigger("DeadConcubine") -- EBORACONCUBINE.scr:36-37
     mm9.gosub(script, ctx, "OnDeath") -- EBORACONCUBINE.scr:39
     do return ctx:exit("TRUE") end -- EBORACONCUBINE.scr:41
 end
 
 script.labels["InitEboraConcubine"] = function(ctx)
     -- EBORACONCUBINE.scr:44
-    ctx:command("getrandomint", "0, 3, g_nTemp") -- EBORACONCUBINE.scr:46
+    ctx:randomInt(0, 3, "g_nTemp") -- EBORACONCUBINE.scr:46
     if ctx:condition("g_nTemp==0") then -- EBORACONCUBINE.scr:48
-        ctx:command("setmodelfilenames", "\"models\\ebora.abc\", \"skins\\Siren1.dtx\"") -- EBORACONCUBINE.scr:49
+        ctx:self():setModelFilenames("models\\ebora.abc", "skins\\Siren1.dtx") -- EBORACONCUBINE.scr:49
     else -- EBORACONCUBINE.scr:50
         if ctx:condition("g_nTemp==1") then -- EBORACONCUBINE.scr:51
-            ctx:command("setmodelfilenames", "\"models\\ebora.abc\", \"skins\\Siren2.dtx\"") -- EBORACONCUBINE.scr:52
+            ctx:self():setModelFilenames("models\\ebora.abc", "skins\\Siren2.dtx") -- EBORACONCUBINE.scr:52
         else -- EBORACONCUBINE.scr:53
             if ctx:condition("g_nTemp==2") then -- EBORACONCUBINE.scr:54
-                ctx:command("setmodelfilenames", "\"models\\ebora.abc\", \"skins\\Siren3.dtx\"") -- EBORACONCUBINE.scr:55
+                ctx:self():setModelFilenames("models\\ebora.abc", "skins\\Siren3.dtx") -- EBORACONCUBINE.scr:55
             else -- EBORACONCUBINE.scr:56
                 if ctx:condition("g_nTemp==3") then -- EBORACONCUBINE.scr:57
-                    ctx:command("setmodelfilenames", "\"models\\ebora.abc\", \"skins\\Siren4.dtx\"") -- EBORACONCUBINE.scr:58
+                    ctx:self():setModelFilenames("models\\ebora.abc", "skins\\Siren4.dtx") -- EBORACONCUBINE.scr:58
                 end -- EBORACONCUBINE.scr:59
             end -- EBORACONCUBINE.scr:60
         end -- EBORACONCUBINE.scr:61
     end -- EBORACONCUBINE.scr:62
     mm9.gosub(script, ctx, "BaseInit") -- EBORACONCUBINE.scr:64
-    ctx:command("ondeath", "OnDeath") -- EBORACONCUBINE.scr:66
-    ctx:command("onfoundplayer", "OnFoundPlayer") -- EBORACONCUBINE.scr:67
-    ctx:command("setidle", "") -- EBORACONCUBINE.scr:69
+    ctx:onEvent("OnDeath", "OnDeath") -- EBORACONCUBINE.scr:66
+    ctx:onEvent("OnFoundPlayer", "OnFoundPlayer") -- EBORACONCUBINE.scr:67
+    ctx:self():setIdle() -- EBORACONCUBINE.scr:69
     do return ctx:exit("TRUE") end -- EBORACONCUBINE.scr:71
 end
 
 script.labels["Main"] = function(ctx)
     -- EBORACONCUBINE.scr:74
-    ctx:command("onpoststartworld", "InitEboraConcubine") -- EBORACONCUBINE.scr:76
+    ctx:onEvent("OnPostStartWorld", "InitEboraConcubine") -- EBORACONCUBINE.scr:76
     do return ctx:exit("TRUE") end -- EBORACONCUBINE.scr:78
 end
 

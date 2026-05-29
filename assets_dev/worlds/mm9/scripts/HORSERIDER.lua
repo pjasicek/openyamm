@@ -24,17 +24,17 @@ script.labels["InitHorseRider"] = function(ctx)
     -- Set Rooster wander distance
     ctx:getParam(1, "g_nDistance") -- HORSERIDER.scr:33
     if ctx:condition("g_nDistance != 0") then -- HORSERIDER.scr:35
-        ctx:command("set", "MAX_DIST_FROM_STARTPOINT, g_nDistance") -- HORSERIDER.scr:36
+        ctx:set("MAX_DIST_FROM_STARTPOINT", "g_nDistance") -- HORSERIDER.scr:36
     else -- HORSERIDER.scr:37
-        ctx:command("set", "MAX_DIST_FROM_STARTPOINT, 350") -- HORSERIDER.scr:38
+        ctx:state().MAX_DIST_FROM_STARTPOINT = 350 -- HORSERIDER.scr:38
     end -- HORSERIDER.scr:39
     -- Set how often hen is idle 1 equals 10% valid numbers are 1 to 10
-    ctx:command("set", "g_IdleFrequency, 0") -- HORSERIDER.scr:42
+    ctx:state().g_IdleFrequency = 0 -- HORSERIDER.scr:42
     -- Set max time in seconds before idle check
     -- Set g_IdleCheckMin, 5
     -- Set g_IdleCheckMax, 10
     -- Set how often special anim is played valid numbers are 1 to 10
-    ctx:command("set", "g_SpecialAnimFrequency, 3") -- HORSERIDER.scr:49
+    ctx:state().g_SpecialAnimFrequency = 3 -- HORSERIDER.scr:49
     do return ctx:exit("") end -- HORSERIDER.scr:51
 end
 
@@ -43,29 +43,29 @@ script.labels["HorseRiderAttackReady"] = function(ctx)
     -- We are now in attack range (for our
     -- currently selected weapon) and ready
     -- to attack.  So let's do it!
-    ctx:command("getclassname", "g_hTarget, sAlertName") -- HORSERIDER.scr:61
+    ctx:state().sAlertName = ctx:object("g_hTarget"):className() -- HORSERIDER.scr:61
     if ctx:condition("sAlertName == HorseRider") then -- HORSERIDER.scr:62
         do return ctx:exit("") end -- HORSERIDER.scr:63
     end -- HORSERIDER.scr:64
-    ctx:command("set", "g_bFighting, TRUE") -- HORSERIDER.scr:66
-    ctx:command("gettime", "g_nLastAttackTime") -- HORSERIDER.scr:68
-    ctx:command("attack", "") -- HORSERIDER.scr:70
+    ctx:state().g_bFighting = true -- HORSERIDER.scr:66
+    ctx:getTime("g_nLastAttackTime") -- HORSERIDER.scr:68
+    ctx:self():attack() -- HORSERIDER.scr:70
     do return ctx:exit("") end -- HORSERIDER.scr:72
 end
 
 script.labels["HorseRiderAlert"] = function(ctx)
     -- HORSERIDER.scr:75
     ctx:getParam(0, "hAlertedBy") -- HORSERIDER.scr:78
-    ctx:command("getclassname", "hAlertedBy, sAlertName") -- HORSERIDER.scr:79
+    ctx:state().sAlertName = ctx:object("hAlertedBy"):className() -- HORSERIDER.scr:79
     if ctx:condition("g_hTarget == NULL") then -- HORSERIDER.scr:81
         -- Check to see if the alert came from a hen or another rooster
         if ctx:condition("sAlertName == HorseRider") then -- HORSERIDER.scr:83
-            ctx:command("set", "g_bOkAttackType, 1") -- HORSERIDER.scr:84
+            ctx:state().g_bOkAttackType = 1 -- HORSERIDER.scr:84
         end -- HORSERIDER.scr:85
     end -- HORSERIDER.scr:86
     if ctx:condition("g_bOkAttackType == TRUE") then -- HORSERIDER.scr:88
         ctx:getParam(1, "g_hTarget") -- HORSERIDER.scr:89
-        ctx:command("target", "g_hTarget") -- HORSERIDER.scr:90
+        ctx:self():setTarget(ctx:object("g_hTarget")) -- HORSERIDER.scr:90
         mm9.gosub(script, ctx, "BaseGoGetHim") -- HORSERIDER.scr:91
     end -- HORSERIDER.scr:92
     do return ctx:exit("") end -- HORSERIDER.scr:94
@@ -80,10 +80,10 @@ script.labels["Main"] = function(ctx)
     -- Initialize Wander Behavior
     mm9.gosub(script, ctx, "WanderInit") -- HORSERIDER.scr:109
     -- Override these Base Calls
-    ctx:command("onalert", "HorseRiderAlert") -- HORSERIDER.scr:112
-    ctx:command("onattackready", "HorseRiderAttackReady") -- HORSERIDER.scr:113
+    ctx:onEvent("OnAlert", "HorseRiderAlert") -- HORSERIDER.scr:112
+    ctx:onEvent("OnAttackReady", "HorseRiderAttackReady") -- HORSERIDER.scr:113
     -- Monitoring this with no function will keep the AI from looking for players
-    ctx:command("onfoundplayer", "") -- HORSERIDER.scr:116
+    ctx:onEvent("OnFoundPlayer") -- HORSERIDER.scr:116
     do return ctx:exit("") end -- HORSERIDER.scr:120
 end
 

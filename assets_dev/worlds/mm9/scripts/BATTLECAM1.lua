@@ -13,16 +13,14 @@ script.includes[#script.includes + 1] = { line = 9, path = "globals.inc" }
 -- does battlefield camera
 script.labels["OnPlay"] = function(ctx)
     -- BATTLECAM1.scr:26
-    ctx:command("getobjecthandle", "sMarker g_hobject") -- BATTLECAM1.scr:29
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- BATTLECAM1.scr:30
-    ctx:command("movetopos", "xpos Ypos Zpos nSpeed OnArrive") -- BATTLECAM1.scr:31
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("sMarker"):pos() -- BATTLECAM1.scr:29-30
+    ctx:self():moveToPos("xpos", "Ypos", "Zpos", "nSpeed", "OnArrive") -- BATTLECAM1.scr:31
     do return ctx:exit("") end -- BATTLECAM1.scr:32
 end
 
 script.labels["OnArrive"] = function(ctx)
     -- BATTLECAM1.scr:35
-    ctx:command("getobjecthandle", "sven g_hobject") -- BATTLECAM1.scr:38
-    ctx:trigger("g_hobject", "Done") -- BATTLECAM1.scr:39
+    ctx:object("sven"):trigger("Done") -- BATTLECAM1.scr:38-39
     do return ctx:exit("") end -- BATTLECAM1.scr:40
 end
 

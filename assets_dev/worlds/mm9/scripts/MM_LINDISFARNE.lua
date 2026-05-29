@@ -42,26 +42,26 @@ end
 
 script.labels["WarpOn"] = function(ctx)
     -- MM_LINDISFARNE.scr:74
-    ctx:command("bwarp", "= TRUE") -- MM_LINDISFARNE.scr:77
+    ctx:state().bWarp = true -- MM_LINDISFARNE.scr:77
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:79
 end
 
 script.labels["WarpOff"] = function(ctx)
     -- MM_LINDISFARNE.scr:82
-    ctx:command("bwarp", "= FALSE") -- MM_LINDISFARNE.scr:85
+    ctx:state().bWarp = false -- MM_LINDISFARNE.scr:85
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:87
 end
 
 script.labels["CreateMarker"] = function(ctx)
     -- MM_LINDISFARNE.scr:90
     if ctx:condition("goto_location == Work") then -- MM_LINDISFARNE.scr:93
-        ctx:command("goto_marker", "= marker_work + npc_id") -- MM_LINDISFARNE.scr:94
+        ctx:set("goto_marker", "marker_work + npc_id") -- MM_LINDISFARNE.scr:94
     end -- MM_LINDISFARNE.scr:95
     if ctx:condition("goto_location == Home") then -- MM_LINDISFARNE.scr:97
-        ctx:command("goto_marker", "= marker_home + npc_id") -- MM_LINDISFARNE.scr:98
+        ctx:set("goto_marker", "marker_home + npc_id") -- MM_LINDISFARNE.scr:98
     end -- MM_LINDISFARNE.scr:99
     if ctx:condition("goto_location == Misc") then -- MM_LINDISFARNE.scr:101
-        ctx:command("goto_marker", "= marker_misc + npc_id") -- MM_LINDISFARNE.scr:102
+        ctx:set("goto_marker", "marker_misc + npc_id") -- MM_LINDISFARNE.scr:102
     end -- MM_LINDISFARNE.scr:103
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:105
 end
@@ -69,7 +69,7 @@ end
 script.labels["GoToLocation"] = function(ctx)
     -- MM_LINDISFARNE.scr:108
     ctx:getObjectHandleByRudeId("npc_id", "npc_object") -- MM_LINDISFARNE.scr:111
-    ctx:command("setstat", "npc_object, PARAM, goto_marker") -- MM_LINDISFARNE.scr:113
+    ctx:object("npc_object"):setStat("PARAM", "goto_marker") -- MM_LINDISFARNE.scr:113
     if ctx:condition("bWarp == FALSE") then -- MM_LINDISFARNE.scr:115
         ctx:trigger("npc_object", "GoToLoc") -- MM_LINDISFARNE.scr:116
     end -- MM_LINDISFARNE.scr:117
@@ -81,26 +81,26 @@ end
 
 script.labels["LaunchGroup"] = function(ctx)
     -- MM_LINDISFARNE.scr:126
-    ctx:command("index", "= 0") -- MM_LINDISFARNE.scr:129
+    ctx:state().index = 0 -- MM_LINDISFARNE.scr:129
     while ctx:condition("index < 10") do -- MM_LINDISFARNE.scr:131
-        ctx:command("npc_id", "= 0") -- MM_LINDISFARNE.scr:133
+        ctx:state().npc_id = 0 -- MM_LINDISFARNE.scr:133
         if ctx:condition("current_group == Group1") then -- MM_LINDISFARNE.scr:135
-            ctx:command("arrayget", "aGroup1,index,npc_id") -- MM_LINDISFARNE.scr:136
+            ctx:arrayGet("aGroup1", "index", "npc_id") -- MM_LINDISFARNE.scr:136
         end -- MM_LINDISFARNE.scr:137
         if ctx:condition("current_group == Group2") then -- MM_LINDISFARNE.scr:139
-            ctx:command("arrayget", "aGroup2,index,npc_id") -- MM_LINDISFARNE.scr:140
+            ctx:arrayGet("aGroup2", "index", "npc_id") -- MM_LINDISFARNE.scr:140
         end -- MM_LINDISFARNE.scr:141
         if ctx:condition("current_group == Group3") then -- MM_LINDISFARNE.scr:143
-            ctx:command("arrayget", "aGroup3,index,npc_id") -- MM_LINDISFARNE.scr:144
+            ctx:arrayGet("aGroup3", "index", "npc_id") -- MM_LINDISFARNE.scr:144
         end -- MM_LINDISFARNE.scr:145
         if ctx:condition("current_group == Group4") then -- MM_LINDISFARNE.scr:147
-            ctx:command("arrayget", "aGroup4,index,npc_id") -- MM_LINDISFARNE.scr:148
+            ctx:arrayGet("aGroup4", "index", "npc_id") -- MM_LINDISFARNE.scr:148
         end -- MM_LINDISFARNE.scr:149
         if ctx:condition("npc_id != 0") then -- MM_LINDISFARNE.scr:151
             mm9.gosub(script, ctx, "CreateMarker") -- MM_LINDISFARNE.scr:152
             mm9.gosub(script, ctx, "GoToLocation") -- MM_LINDISFARNE.scr:153
         end -- MM_LINDISFARNE.scr:154
-        ctx:command("index", "= index + 1") -- MM_LINDISFARNE.scr:156
+        ctx:set("index", "index + 1") -- MM_LINDISFARNE.scr:156
     end -- MM_LINDISFARNE.scr:157
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:159
 end
@@ -108,8 +108,8 @@ end
 script.labels["Group1_GoWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:166
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:169
-    ctx:command("current_group", "= Group1") -- MM_LINDISFARNE.scr:170
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:171
+    ctx:set("current_group", "Group1") -- MM_LINDISFARNE.scr:170
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:171
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:172
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:174
 end
@@ -117,8 +117,8 @@ end
 script.labels["Group1_WarpWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:177
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:180
-    ctx:command("current_group", "= Group1") -- MM_LINDISFARNE.scr:181
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:182
+    ctx:set("current_group", "Group1") -- MM_LINDISFARNE.scr:181
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:182
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:183
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:185
 end
@@ -126,8 +126,8 @@ end
 script.labels["Group1_GoHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:188
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:191
-    ctx:command("current_group", "= Group1") -- MM_LINDISFARNE.scr:192
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:193
+    ctx:set("current_group", "Group1") -- MM_LINDISFARNE.scr:192
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:193
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:194
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:196
 end
@@ -135,8 +135,8 @@ end
 script.labels["Group1_WarpHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:199
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:202
-    ctx:command("current_group", "= Group1") -- MM_LINDISFARNE.scr:203
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:204
+    ctx:set("current_group", "Group1") -- MM_LINDISFARNE.scr:203
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:204
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:205
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:207
 end
@@ -144,8 +144,8 @@ end
 script.labels["Group1_GoMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:210
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:213
-    ctx:command("current_group", "= Group1") -- MM_LINDISFARNE.scr:214
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:215
+    ctx:set("current_group", "Group1") -- MM_LINDISFARNE.scr:214
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:215
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:216
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:218
 end
@@ -153,8 +153,8 @@ end
 script.labels["Group1_WarpMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:221
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:224
-    ctx:command("current_group", "= Group1") -- MM_LINDISFARNE.scr:225
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:226
+    ctx:set("current_group", "Group1") -- MM_LINDISFARNE.scr:225
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:226
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:227
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:229
 end
@@ -162,8 +162,8 @@ end
 script.labels["Group2_GoWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:233
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:236
-    ctx:command("current_group", "= Group2") -- MM_LINDISFARNE.scr:237
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:238
+    ctx:set("current_group", "Group2") -- MM_LINDISFARNE.scr:237
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:238
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:239
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:241
 end
@@ -171,8 +171,8 @@ end
 script.labels["Group2_WarpWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:244
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:247
-    ctx:command("current_group", "= Group2") -- MM_LINDISFARNE.scr:248
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:249
+    ctx:set("current_group", "Group2") -- MM_LINDISFARNE.scr:248
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:249
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:250
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:252
 end
@@ -180,8 +180,8 @@ end
 script.labels["Group2_GoHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:255
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:258
-    ctx:command("current_group", "= Group2") -- MM_LINDISFARNE.scr:259
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:260
+    ctx:set("current_group", "Group2") -- MM_LINDISFARNE.scr:259
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:260
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:261
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:263
 end
@@ -189,8 +189,8 @@ end
 script.labels["Group2_WarpHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:266
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:269
-    ctx:command("current_group", "= Group2") -- MM_LINDISFARNE.scr:270
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:271
+    ctx:set("current_group", "Group2") -- MM_LINDISFARNE.scr:270
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:271
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:272
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:274
 end
@@ -198,8 +198,8 @@ end
 script.labels["Group2_GoMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:277
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:280
-    ctx:command("current_group", "= Group2") -- MM_LINDISFARNE.scr:281
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:282
+    ctx:set("current_group", "Group2") -- MM_LINDISFARNE.scr:281
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:282
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:283
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:285
 end
@@ -207,8 +207,8 @@ end
 script.labels["Group2_WarpMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:288
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:291
-    ctx:command("current_group", "= Group2") -- MM_LINDISFARNE.scr:292
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:293
+    ctx:set("current_group", "Group2") -- MM_LINDISFARNE.scr:292
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:293
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:294
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:296
 end
@@ -216,8 +216,8 @@ end
 script.labels["Group3_GoWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:299
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:302
-    ctx:command("current_group", "= Group3") -- MM_LINDISFARNE.scr:303
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:304
+    ctx:set("current_group", "Group3") -- MM_LINDISFARNE.scr:303
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:304
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:305
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:307
 end
@@ -225,8 +225,8 @@ end
 script.labels["Group3_WarpWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:310
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:313
-    ctx:command("current_group", "= Group3") -- MM_LINDISFARNE.scr:314
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:315
+    ctx:set("current_group", "Group3") -- MM_LINDISFARNE.scr:314
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:315
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:316
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:318
 end
@@ -234,8 +234,8 @@ end
 script.labels["Group3_GoHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:321
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:324
-    ctx:command("current_group", "= Group3") -- MM_LINDISFARNE.scr:325
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:326
+    ctx:set("current_group", "Group3") -- MM_LINDISFARNE.scr:325
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:326
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:327
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:329
 end
@@ -243,8 +243,8 @@ end
 script.labels["Group3_WarpHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:332
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:335
-    ctx:command("current_group", "= Group3") -- MM_LINDISFARNE.scr:336
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:337
+    ctx:set("current_group", "Group3") -- MM_LINDISFARNE.scr:336
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:337
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:338
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:340
 end
@@ -252,8 +252,8 @@ end
 script.labels["Group3_GoMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:343
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:346
-    ctx:command("current_group", "= Group3") -- MM_LINDISFARNE.scr:347
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:348
+    ctx:set("current_group", "Group3") -- MM_LINDISFARNE.scr:347
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:348
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:349
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:351
 end
@@ -261,8 +261,8 @@ end
 script.labels["Group3_WarpMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:354
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:357
-    ctx:command("current_group", "= Group3") -- MM_LINDISFARNE.scr:358
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:359
+    ctx:set("current_group", "Group3") -- MM_LINDISFARNE.scr:358
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:359
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:360
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:362
 end
@@ -270,8 +270,8 @@ end
 script.labels["Group4_GoWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:365
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:368
-    ctx:command("current_group", "= Group4") -- MM_LINDISFARNE.scr:369
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:370
+    ctx:set("current_group", "Group4") -- MM_LINDISFARNE.scr:369
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:370
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:371
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:373
 end
@@ -279,8 +279,8 @@ end
 script.labels["Group4_WarpWork"] = function(ctx)
     -- MM_LINDISFARNE.scr:376
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:379
-    ctx:command("current_group", "= Group4") -- MM_LINDISFARNE.scr:380
-    ctx:command("goto_location", "= Work") -- MM_LINDISFARNE.scr:381
+    ctx:set("current_group", "Group4") -- MM_LINDISFARNE.scr:380
+    ctx:set("goto_location", "Work") -- MM_LINDISFARNE.scr:381
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:382
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:384
 end
@@ -288,8 +288,8 @@ end
 script.labels["Group4_GoHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:388
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:391
-    ctx:command("current_group", "= Group4") -- MM_LINDISFARNE.scr:392
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:393
+    ctx:set("current_group", "Group4") -- MM_LINDISFARNE.scr:392
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:393
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:394
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:396
 end
@@ -297,8 +297,8 @@ end
 script.labels["Group4_WarpHome"] = function(ctx)
     -- MM_LINDISFARNE.scr:399
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:402
-    ctx:command("current_group", "= Group4") -- MM_LINDISFARNE.scr:403
-    ctx:command("goto_location", "= Home") -- MM_LINDISFARNE.scr:404
+    ctx:set("current_group", "Group4") -- MM_LINDISFARNE.scr:403
+    ctx:set("goto_location", "Home") -- MM_LINDISFARNE.scr:404
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:405
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:407
 end
@@ -306,8 +306,8 @@ end
 script.labels["Group4_GoMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:410
     mm9.gosub(script, ctx, "WarpOff") -- MM_LINDISFARNE.scr:413
-    ctx:command("current_group", "= Group4") -- MM_LINDISFARNE.scr:414
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:415
+    ctx:set("current_group", "Group4") -- MM_LINDISFARNE.scr:414
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:415
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:416
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:418
 end
@@ -315,54 +315,54 @@ end
 script.labels["Group4_WarpMisc"] = function(ctx)
     -- MM_LINDISFARNE.scr:421
     mm9.gosub(script, ctx, "WarpOn") -- MM_LINDISFARNE.scr:424
-    ctx:command("current_group", "= Group4") -- MM_LINDISFARNE.scr:425
-    ctx:command("goto_location", "= Misc") -- MM_LINDISFARNE.scr:426
+    ctx:set("current_group", "Group4") -- MM_LINDISFARNE.scr:425
+    ctx:set("goto_location", "Misc") -- MM_LINDISFARNE.scr:426
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_LINDISFARNE.scr:427
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:429
 end
 
 script.labels["InitWorkSchedule"] = function(ctx)
     -- MM_LINDISFARNE.scr:437
-    ctx:command("@m", "6 : 15 Group1_GoWork Group1_WarpWork") -- MM_LINDISFARNE.scr:440
-    ctx:command("@m", "6 : 30 Group2_GoWork Group2_WarpWork") -- MM_LINDISFARNE.scr:441
-    ctx:command("@m", "6 : 45 Group3_GoWork Group3_WarpWork") -- MM_LINDISFARNE.scr:442
-    ctx:command("@m", "7 : 00 Group4_GoWork Group4_WarpWork") -- MM_LINDISFARNE.scr:443
+    ctx:atTime(6, 15, "Group1_GoWork", "Group1_WarpWork") -- MM_LINDISFARNE.scr:440
+    ctx:atTime(6, 30, "Group2_GoWork", "Group2_WarpWork") -- MM_LINDISFARNE.scr:441
+    ctx:atTime(6, 45, "Group3_GoWork", "Group3_WarpWork") -- MM_LINDISFARNE.scr:442
+    ctx:atTime(7, 0, "Group4_GoWork", "Group4_WarpWork") -- MM_LINDISFARNE.scr:443
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:445
 end
 
 script.labels["InitHomeSchedule"] = function(ctx)
     -- MM_LINDISFARNE.scr:449
-    ctx:command("@m", "18 : 00 Group1_GoHome Group1_WarpHome") -- MM_LINDISFARNE.scr:452
-    ctx:command("@m", "18 : 15 Group2_GoHome Group2_WarpHome") -- MM_LINDISFARNE.scr:453
-    ctx:command("@m", "18 : 30 Group3_GoHome Group3_WarpHome") -- MM_LINDISFARNE.scr:454
-    ctx:command("@m", "18 : 45 Group4_GoHome Group4_WarpHome") -- MM_LINDISFARNE.scr:455
+    ctx:atTime(18, 0, "Group1_GoHome", "Group1_WarpHome") -- MM_LINDISFARNE.scr:452
+    ctx:atTime(18, 15, "Group2_GoHome", "Group2_WarpHome") -- MM_LINDISFARNE.scr:453
+    ctx:atTime(18, 30, "Group3_GoHome", "Group3_WarpHome") -- MM_LINDISFARNE.scr:454
+    ctx:atTime(18, 45, "Group4_GoHome", "Group4_WarpHome") -- MM_LINDISFARNE.scr:455
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:457
 end
 
 script.labels["InitMiscSchedule"] = function(ctx)
     -- MM_LINDISFARNE.scr:460
     -- Go Wander off to somewhere
-    ctx:command("@m", "13 : 00 Group1_GoMisc Group1_WarpMisc") -- MM_LINDISFARNE.scr:464
-    ctx:command("@m", "13 : 15 Group2_GoMisc Group2_WarpMisc") -- MM_LINDISFARNE.scr:465
-    ctx:command("@m", "13 : 30 Group3_GoMisc Group3_WarpMisc") -- MM_LINDISFARNE.scr:466
-    ctx:command("@m", "13 : 45 Group4_GoMisc Group4_WarpMisc") -- MM_LINDISFARNE.scr:467
+    ctx:atTime(13, 0, "Group1_GoMisc", "Group1_WarpMisc") -- MM_LINDISFARNE.scr:464
+    ctx:atTime(13, 15, "Group2_GoMisc", "Group2_WarpMisc") -- MM_LINDISFARNE.scr:465
+    ctx:atTime(13, 30, "Group3_GoMisc", "Group3_WarpMisc") -- MM_LINDISFARNE.scr:466
+    ctx:atTime(13, 45, "Group4_GoMisc", "Group4_WarpMisc") -- MM_LINDISFARNE.scr:467
     -- Go Back to work
-    ctx:command("@m", "15 : 00 Group1_GoWork Group1_WarpWork") -- MM_LINDISFARNE.scr:470
-    ctx:command("@m", "15 : 15 Group2_GoWork Group2_WarpWork") -- MM_LINDISFARNE.scr:471
-    ctx:command("@m", "15 : 30 Group3_GoWork Group3_WarpWork") -- MM_LINDISFARNE.scr:472
-    ctx:command("@m", "15 : 45 Group4_GoWork Group4_WarpWork") -- MM_LINDISFARNE.scr:473
+    ctx:atTime(15, 0, "Group1_GoWork", "Group1_WarpWork") -- MM_LINDISFARNE.scr:470
+    ctx:atTime(15, 15, "Group2_GoWork", "Group2_WarpWork") -- MM_LINDISFARNE.scr:471
+    ctx:atTime(15, 30, "Group3_GoWork", "Group3_WarpWork") -- MM_LINDISFARNE.scr:472
+    ctx:atTime(15, 45, "Group4_GoWork", "Group4_WarpWork") -- MM_LINDISFARNE.scr:473
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:475
 end
 
 script.labels["InitArrays"] = function(ctx)
     -- MM_LINDISFARNE.scr:483
-    ctx:command("index", "= 0") -- MM_LINDISFARNE.scr:486
+    ctx:state().index = 0 -- MM_LINDISFARNE.scr:486
     while ctx:condition("index < 10") do -- MM_LINDISFARNE.scr:487
-        ctx:command("arrayput", "aGroup1, index , 0") -- MM_LINDISFARNE.scr:488
-        ctx:command("arrayput", "aGroup2, index , 0") -- MM_LINDISFARNE.scr:489
-        ctx:command("arrayput", "aGroup3, index , 0") -- MM_LINDISFARNE.scr:490
-        ctx:command("arrayput", "aGroup4, index , 0") -- MM_LINDISFARNE.scr:491
-        ctx:command("index", "= index + 1") -- MM_LINDISFARNE.scr:492
+        ctx:arrayPut("aGroup1", "index", 0) -- MM_LINDISFARNE.scr:488
+        ctx:arrayPut("aGroup2", "index", 0) -- MM_LINDISFARNE.scr:489
+        ctx:arrayPut("aGroup3", "index", 0) -- MM_LINDISFARNE.scr:490
+        ctx:arrayPut("aGroup4", "index", 0) -- MM_LINDISFARNE.scr:491
+        ctx:set("index", "index + 1") -- MM_LINDISFARNE.scr:492
     end -- MM_LINDISFARNE.scr:493
     do return ctx:exit("") end -- MM_LINDISFARNE.scr:495
 end
@@ -370,11 +370,11 @@ end
 script.labels["LoadGroup1"] = function(ctx)
     -- MM_LINDISFARNE.scr:499
     -- Pilgrim Robet			( 379 )
-    ctx:command("arrayput", "aGroup1,0,379") -- MM_LINDISFARNE.scr:503
+    ctx:arrayPut("aGroup1", 0, 379) -- MM_LINDISFARNE.scr:503
     -- Pilgrim Stephe			( 383 )
-    ctx:command("arrayput", "aGroup1,1,383") -- MM_LINDISFARNE.scr:506
+    ctx:arrayPut("aGroup1", 1, 383) -- MM_LINDISFARNE.scr:506
     -- Gymir Lokissen			( 407 )
-    ctx:command("arrayput", "aGroup1,2,407") -- MM_LINDISFARNE.scr:509
+    ctx:arrayPut("aGroup1", 2, 407) -- MM_LINDISFARNE.scr:509
     -- Addis Auger				( 296 )	<<< REMOVED >>>
     -- ArrayPut aGroup1,3,296
     -- Jagr Wilaims			( 300 ) <<< REMOVED >>>
@@ -387,13 +387,13 @@ end
 script.labels["LoadGroup2"] = function(ctx)
     -- MM_LINDISFARNE.scr:523
     -- Aod A'Norta a'leipshi	( 305 )
-    ctx:command("arrayput", "aGroup2,0,305") -- MM_LINDISFARNE.scr:527
+    ctx:arrayPut("aGroup2", 0, 305) -- MM_LINDISFARNE.scr:527
     -- Pilgrim Mikal			( 380 )
-    ctx:command("arrayput", "aGroup2,1,380") -- MM_LINDISFARNE.scr:530
+    ctx:arrayPut("aGroup2", 1, 380) -- MM_LINDISFARNE.scr:530
     -- Gudlaug Eitrissen		( 404 )
-    ctx:command("arrayput", "aGroup2,2,404") -- MM_LINDISFARNE.scr:533
+    ctx:arrayPut("aGroup2", 2, 404) -- MM_LINDISFARNE.scr:533
     -- Delano A'Lanth			( 408 )
-    ctx:command("arrayput", "aGroup2,3,408") -- MM_LINDISFARNE.scr:536
+    ctx:arrayPut("aGroup2", 3, 408) -- MM_LINDISFARNE.scr:536
     -- Aikin Smit				( 297 ) <<< REMOVED >>>
     -- ArrayPut aGroup2,4,297
     -- Bragi Gramson			( 301 ) <<< REMOVED >>>
@@ -404,9 +404,9 @@ end
 script.labels["LoadGroup3"] = function(ctx)
     -- MM_LINDISFARNE.scr:547
     -- Pilgrim Jermay			( 381 )
-    ctx:command("arrayput", "aGroup3,0,381") -- MM_LINDISFARNE.scr:551
+    ctx:arrayPut("aGroup3", 0, 381) -- MM_LINDISFARNE.scr:551
     -- Annabel A'Tryht			( 405 )
-    ctx:command("arrayput", "aGroup3,1,405") -- MM_LINDISFARNE.scr:554
+    ctx:arrayPut("aGroup3", 1, 405) -- MM_LINDISFARNE.scr:554
     -- Horton Heland			( 298 ) <<< REMOVED >>>
     -- ArrayPut aGroup3,2,298
     -- Etzel Thakkradson		( 302 ) <<< REMOVED >>>
@@ -419,9 +419,9 @@ end
 script.labels["LoadGroup4"] = function(ctx)
     -- MM_LINDISFARNE.scr:569
     -- Pilgrim Jann			( 382 )
-    ctx:command("arrayput", "aGroup4,0,382") -- MM_LINDISFARNE.scr:573
+    ctx:arrayPut("aGroup4", 0, 382) -- MM_LINDISFARNE.scr:573
     -- Alanna Etzeldotir		( 406 )
-    ctx:command("arrayput", "aGroup4,1,406") -- MM_LINDISFARNE.scr:576
+    ctx:arrayPut("aGroup4", 1, 406) -- MM_LINDISFARNE.scr:576
 end
 
 script.labels["Isham Forten\t\t\t( 299 ) <<< REMOVED >>>"] = function(ctx)

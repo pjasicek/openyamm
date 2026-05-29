@@ -18,7 +18,7 @@ end
 
 script.labels["TurnSwitchOff"] = function(ctx)
     -- DARKP_BRIDGERESET.scr:21
-    ctx:command("removetrigger", "Use") -- DARKP_BRIDGERESET.scr:23
+    ctx:removeTrigger("Use") -- DARKP_BRIDGERESET.scr:23
     do return ctx:exit("TRUE") end -- DARKP_BRIDGERESET.scr:24
 end
 
@@ -30,24 +30,24 @@ end
 
 script.labels["MoveMe"] = function(ctx)
     -- DARKP_BRIDGERESET.scr:31
-    ctx:command("playanim", "fidget1, TriggerScrObj") -- DARKP_BRIDGERESET.scr:34
-    ctx:command("playsound", "Sounds\\spells\\EnchantItem.wav DoNothing 500 1000 FALSE 100") -- DARKP_BRIDGERESET.scr:35
+    ctx:self():playAnimation("fidget1", "TriggerScrObj") -- DARKP_BRIDGERESET.scr:34
+    ctx:playSound("Sounds\\spells\\EnchantItem.wav", "DoNothing", 500, 1000, "FALSE", 100) -- DARKP_BRIDGERESET.scr:35
     do return ctx:exit("TRUE") end -- DARKP_BRIDGERESET.scr:36
 end
 
 script.labels["Main2"] = function(ctx)
     -- DARKP_BRIDGERESET.scr:38
-    ctx:command("getobjecthandle", "sPuzzleManager, hPuzzleManager") -- DARKP_BRIDGERESET.scr:40
+    ctx:state().hPuzzleManager = ctx:objectOrNil("sPuzzleManager") -- DARKP_BRIDGERESET.scr:40
     ctx:addTrigger("Use", "MoveMe") -- DARKP_BRIDGERESET.scr:41
     ctx:addTrigger("Stop", "TurnSwitchOff") -- DARKP_BRIDGERESET.scr:42
-    ctx:command("playanim", "fidget1, StopHere") -- DARKP_BRIDGERESET.scr:44
+    ctx:self():playAnimation("fidget1", "StopHere") -- DARKP_BRIDGERESET.scr:44
     do return ctx:exit("TRUE") end -- DARKP_BRIDGERESET.scr:46
 end
 
 script.labels["Main"] = function(ctx)
     -- DARKP_BRIDGERESET.scr:48
     ctx:getParam(0, "sPuzzleManager") -- DARKP_BRIDGERESET.scr:50
-    ctx:command("wait", "0 .1 main2") -- DARKP_BRIDGERESET.scr:51
+    ctx:wait(0, .1, "main2") -- DARKP_BRIDGERESET.scr:51
     do return ctx:exit("TRUE") end -- DARKP_BRIDGERESET.scr:52
 end
 

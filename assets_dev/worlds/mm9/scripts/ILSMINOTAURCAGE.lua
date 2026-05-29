@@ -15,23 +15,23 @@ script.includes[#script.includes + 1] = { line = 14, path = "base.inc" }
 -- P0 nav point
 script.labels["OnStart"] = function(ctx)
     -- ILSMINOTAURCAGE.scr:22
-    ctx:command("getobjecthandle", "param0, g_hobject") -- ILSMINOTAURCAGE.scr:26
-    ctx:command("debugout", "g_hobject") -- ILSMINOTAURCAGE.scr:27
-    ctx:command("faceobject", "g_hobject, 80, walk") -- ILSMINOTAURCAGE.scr:28
+    ctx:state().g_hobject = ctx:objectOrNil("param0") -- ILSMINOTAURCAGE.scr:26
+    ctx:debugOut("g_hobject") -- ILSMINOTAURCAGE.scr:27
+    ctx:self():faceObject(ctx:object("g_hobject"), 80, "walk") -- ILSMINOTAURCAGE.scr:28
     do return ctx:exit("") end -- ILSMINOTAURCAGE.scr:29
 end
 
 script.labels["Stuck"] = function(ctx)
     -- ILSMINOTAURCAGE.scr:35
-    ctx:command("getobjecthandle", "param0, g_hobject") -- ILSMINOTAURCAGE.scr:39
-    ctx:command("faceobject", "g_hobject, 30, walk") -- ILSMINOTAURCAGE.scr:41
+    ctx:state().g_hobject = ctx:objectOrNil("param0") -- ILSMINOTAURCAGE.scr:39
+    ctx:self():faceObject(ctx:object("g_hobject"), 30, "walk") -- ILSMINOTAURCAGE.scr:41
     do return ctx:exit("") end -- ILSMINOTAURCAGE.scr:42
 end
 
 script.labels["Walk"] = function(ctx)
     -- ILSMINOTAURCAGE.scr:46
-    ctx:command("getobjecthandle", "param0, g_hobject") -- ILSMINOTAURCAGE.scr:49
-    ctx:command("runto", "g_hobject 16 Alert") -- ILSMINOTAURCAGE.scr:50
+    ctx:state().g_hobject = ctx:objectOrNil("param0") -- ILSMINOTAURCAGE.scr:49
+    ctx:self():runTo(ctx:object("g_hobject"), 16, "Alert") -- ILSMINOTAURCAGE.scr:50
     do return ctx:exit("") end -- ILSMINOTAURCAGE.scr:51
 end
 
@@ -46,7 +46,7 @@ script.labels["Main"] = function(ctx)
     -- TRACEON
     ctx:getParam(0, "param0") -- ILSMINOTAURCAGE.scr:70
     ctx:addTrigger("Start", "Onstart") -- ILSMINOTAURCAGE.scr:71
-    ctx:command("onstuck", ", stuck") -- ILSMINOTAURCAGE.scr:72
+    ctx:onEvent("OnStuck", "") -- ILSMINOTAURCAGE.scr:72
     do return ctx:exit("") end -- ILSMINOTAURCAGE.scr:73
 end
 

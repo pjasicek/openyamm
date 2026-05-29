@@ -20,15 +20,15 @@ script.labels["AdjustHeight"] = function(ctx)
     -- BELLWEIGHT.scr:21
     ctx:getConsoleNumVar("GAME_BELL_HEIGHT", "nTemp") -- BELLWEIGHT.scr:23
     if ctx:condition("nTemp>1") then -- BELLWEIGHT.scr:24
-        ctx:command("ntemp", "= 1") -- BELLWEIGHT.scr:25
+        ctx:state().nTemp = 1 -- BELLWEIGHT.scr:25
     else -- BELLWEIGHT.scr:26
         if ctx:condition("nTemp<0") then -- BELLWEIGHT.scr:27
-            ctx:command("ntemp", "= 0") -- BELLWEIGHT.scr:28
+            ctx:state().nTemp = 0 -- BELLWEIGHT.scr:28
         end -- BELLWEIGHT.scr:29
     end -- BELLWEIGHT.scr:30
     -- scale height
-    ctx:command("nheight", "= MAX_HEIGHT * nTemp") -- BELLWEIGHT.scr:33
-    ctx:setPropNumber("MoveDist", "nHeight") -- BELLWEIGHT.scr:35
+    ctx:set("nHeight", "MAX_HEIGHT * nTemp") -- BELLWEIGHT.scr:33
+    ctx:self():setNumberProperty("MoveDist", "nHeight") -- BELLWEIGHT.scr:35
     do return ctx:exit("FALSE") end -- BELLWEIGHT.scr:37
 end
 

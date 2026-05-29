@@ -16,18 +16,17 @@ script.includes[#script.includes + 1] = { line = 9, path = "globals.inc" }
 -- P1 the trigger message to send
 script.labels["Check"] = function(ctx)
     -- OFFRAILTRIGGER.scr:24
-    ctx:command("target", "null") -- OFFRAILTRIGGER.scr:26
-    ctx:command("getplayerhandle", "g_hPlayer") -- OFFRAILTRIGGER.scr:28
-    ctx:command("getcontainercount", "g_hplayer g_ntemp") -- OFFRAILTRIGGER.scr:29
+    ctx:self():setTarget(nil) -- OFFRAILTRIGGER.scr:26
+    ctx:state().g_hPlayer = ctx:player() -- OFFRAILTRIGGER.scr:28
+    ctx:getContainerCount("g_hplayer", "g_ntemp") -- OFFRAILTRIGGER.scr:29
     if ctx:condition("g_ntemp==0") then -- OFFRAILTRIGGER.scr:30
-        ctx:command("target", "g_hplayer") -- OFFRAILTRIGGER.scr:31
-        ctx:command("getmyhandle", "g_hmyobject") -- OFFRAILTRIGGER.scr:32
+        ctx:self():setTarget(ctx:player()) -- OFFRAILTRIGGER.scr:31
         ctx:trigger("g_hmyobject", "sMessage") -- OFFRAILTRIGGER.scr:33
         do return ctx:exit("") end -- OFFRAILTRIGGER.scr:34
     end -- OFFRAILTRIGGER.scr:35
     -- getmyhandle g_hmyobject
     -- trigger g_hmyobject sMessage2
-    ctx:command("wait", "1 .5 Check") -- OFFRAILTRIGGER.scr:39
+    ctx:wait(1, .5, "Check") -- OFFRAILTRIGGER.scr:39
     do return ctx:exit("") end -- OFFRAILTRIGGER.scr:40
 end
 

@@ -12,8 +12,8 @@ script.includes[#script.includes + 1] = { line = 8, path = "range.inc" }
 -- Handles attatching props to Monsters
 script.labels["Target"] = function(ctx)
     -- ATTATCHTO.scr:12
-    ctx:command("getplayerhandle", "g_hplayer") -- ATTATCHTO.scr:15
-    ctx:command("target", "g_hplayer") -- ATTATCHTO.scr:16
+    ctx:state().g_hplayer = ctx:player() -- ATTATCHTO.scr:15
+    ctx:self():setTarget(ctx:player()) -- ATTATCHTO.scr:16
     do return ctx:exit("") end -- ATTATCHTO.scr:17
 end
 

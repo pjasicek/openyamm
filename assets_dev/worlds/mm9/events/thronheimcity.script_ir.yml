@@ -1,0 +1,4053 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: thronheimcity
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: ake.scr
+  source_path: AKE.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 22
+    name: Onblabber
+  - line: 42
+    name: blabber
+  - line: 100
+    name: OnUse
+  - line: 117
+    name: Onexit
+  - line: 132
+    name: GoPosition1
+  - line: 140
+    name: GoPosition2
+  - line: 148
+    name: GoPosition3
+  - line: 157
+    name: GoPosition4
+  - line: 167
+    name: SetupPosition
+  - line: 197
+    name: PostMiniSaveLoad
+  - line: 204
+    name: Main
+  registered_triggers:
+  - line: 208
+    message: blabber
+    callback: Onblabber
+    arguments_raw: blabber, Onblabber
+  - line: 209
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 210
+    message: shutup
+    callback: onexit
+    arguments_raw: shutup, onexit
+  - line: 227
+    message: GoPosition1
+    callback: GoPosition1
+    arguments_raw: GoPosition1,GoPosition1
+  - line: 228
+    message: GoPosition2
+    callback: GoPosition2
+    arguments_raw: GoPosition2,GoPosition2
+  - line: 229
+    message: GoPosition3
+    callback: GoPosition3
+    arguments_raw: GoPosition3,GoPosition3
+  - line: 230
+    message: GoPosition4
+    callback: GoPosition4
+    arguments_raw: GoPosition4,GoPosition4
+  trigger_edges: []
+  movement_commands:
+  - line: 134
+    command: SetPos
+    arguments_raw: g_hMyObject,3328.0,1344.0,-480.0
+  - line: 142
+    command: SetPos
+    arguments_raw: g_hMyObject,3557,1254,3331
+  - line: 151
+    command: SetPos
+    arguments_raw: g_hMyObject,-720,1246,2166
+  - line: 160
+    command: SetPos
+    arguments_raw: g_hMyObject,-2176,1246,4711
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 27
+    command: target
+    arguments_raw: g_hobject
+  - line: 30
+    command: goto
+    arguments_raw: Onexit
+  - line: 32
+    command: KillSound
+    arguments_raw: soundhandle
+  - line: 33
+    command: GetRandomInt
+    arguments_raw: 5, 10, knutwait
+  - line: 48
+    command: set
+    arguments_raw: sound, 1
+  - line: 50
+    command: converse
+    arguments_raw: -1 DoNothing
+  - line: 51
+    command: Playsoundhandle
+    arguments_raw: voices\cinema\socialism\ake01.wav, soundhandle, 768, FALSE, 100
+  - line: 52
+    command: GetSoundDuration
+    arguments_raw: soundhandle, sounddur
+  - line: 53
+    command: set
+    arguments_raw: g_ntemp, 2
+  - line: 59
+    command: converse
+    arguments_raw: -1 DoNothing
+  - line: 60
+    command: Playsoundhandle
+    arguments_raw: voices\cinema\socialism\ake02.wav, soundhandle, 768, FALSE, 100
+  - line: 61
+    command: GetSoundDuration
+    arguments_raw: soundhandle, sounddur
+  - line: 62
+    command: set
+    arguments_raw: g_ntemp, 3
+  - line: 68
+    command: converse
+    arguments_raw: -1 DoNothing
+  - line: 69
+    command: Playsoundhandle
+    arguments_raw: voices\cinema\socialism\ake03.wav, soundhandle, 768, FALSE, 100
+  - line: 70
+    command: GetSoundDuration
+    arguments_raw: soundhandle, sounddur
+  - line: 71
+    command: set
+    arguments_raw: g_ntemp, 4
+  - line: 77
+    command: converse
+    arguments_raw: -1 DoNothing
+  - line: 78
+    command: Playsoundhandle
+    arguments_raw: voices\cinema\socialism\ake04.wav, soundhandle, 768, FALSE, 100
+  - line: 79
+    command: GetSoundDuration
+    arguments_raw: soundhandle, sounddur
+  - line: 80
+    command: set
+    arguments_raw: g_ntemp, 5
+  - line: 85
+    command: converse
+    arguments_raw: -1 DoNothing
+  - line: 86
+    command: Playsoundhandle
+    arguments_raw: voices\cinema\socialism\ake05.wav, soundhandle, 768, FALSE, 100
+  - line: 87
+    command: GetSoundDuration
+    arguments_raw: soundhandle, sounddur
+  - line: 88
+    command: set
+    arguments_raw: g_ntemp, 1
+  - line: 106
+    command: KillSound
+    arguments_raw: soundhandle
+  - line: 108
+    command: set
+    arguments_raw: sound, 0
+  - line: 109
+    command: set
+    arguments_raw: g_ntemp, 0
+  - line: 122
+    command: set
+    arguments_raw: shutup, 1
+  - line: 123
+    command: IsSoundDone
+    arguments_raw: soundhandle, sounddone
+  - line: 125
+    command: KillSound
+    arguments_raw: soundhandle
+  - line: 135
+    command: FaceDir
+    arguments_raw: 0,0,0,0
+  - line: 143
+    command: FaceDir
+    arguments_raw: -0.62,0,-0.79,0
+  - line: 152
+    command: FaceDir
+    arguments_raw: -0.7,0,-0.7,0
+  - line: 161
+    command: FaceDir
+    arguments_raw: -0.54,0,-0.84,0
+  - line: 172
+    command: Add
+    arguments_raw: nPosition,1
+  - line: 175
+    command: nPosition
+    arguments_raw: = 1
+  - line: 179
+    command: goto
+    arguments_raw: GoPosition1
+  - line: 183
+    command: goto
+    arguments_raw: GoPosition2
+  - line: 187
+    command: goto
+    arguments_raw: GoPosition3
+  - line: 191
+    command: goto
+    arguments_raw: GoPosition4
+  - line: 217
+    command: set
+    arguments_raw: shutup, 0
+  - line: 218
+    command: set
+    arguments_raw: sound, 0
+  - line: 219
+    command: set
+    arguments_raw: g_ntemp, 1
+  - line: 220
+    command: haskey
+    arguments_raw: 114, g_ntemp
+  - line: 222
+    command: set
+    arguments_raw: sound, 1
+  - line: 226
+    command: OnPostMiniSaveLoad
+    arguments_raw: PostMiniSaveLoad
+  command_count: 113
+- script_id: arg_bjarni.scr
+  source_path: ARG_BJARNI.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnAgree
+  - line: 25
+    name: OnSign
+  - line: 32
+    name: OnShake
+  - line: 40
+    name: Init
+  - line: 47
+    name: OnIdle
+  - line: 54
+    name: On1A
+  - line: 61
+    name: Cam3
+  - line: 70
+    name: OnDone
+  - line: 79
+    name: OnSpeak2
+  - line: 87
+    name: OnVoice2
+  - line: 95
+    name: OnSpeak9
+  - line: 103
+    name: OnVoice9
+  - line: 111
+    name: OnSpeak16
+  - line: 123
+    name: OnVoice16
+  - line: 130
+    name: OnApplause
+  - line: 137
+    name: Onclap
+  - line: 179
+    name: Main
+  registered_triggers:
+  - line: 183
+    message: Shot1A
+    callback: On1A
+    arguments_raw: Shot1A On1A
+  - line: 190
+    message: Speak2
+    callback: OnSpeak2
+    arguments_raw: Speak2 OnSpeak2
+  - line: 193
+    message: Speak9
+    callback: OnSpeak9
+    arguments_raw: Speak9 OnSpeak9
+  - line: 195
+    message: Speak16
+    callback: OnSpeak16
+    arguments_raw: Speak16 OnSpeak16
+  - line: 198
+    message: Shake
+    callback: OnShake
+    arguments_raw: Shake OnShake
+  - line: 199
+    message: Clap
+    callback: OnApplause
+    arguments_raw: Clap OnApplause
+  - line: 201
+    message: Agree
+    callback: OnAgree
+    arguments_raw: Agree OnAgree
+  trigger_edges:
+  - line: 66
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  - line: 75
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  - line: 117
+    target_expression: g_hobject
+    message_expression: Move
+    arguments_raw: g_hobject Move
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 21
+    command: PlayAnim
+    arguments_raw: Agree OnIdle
+  - line: 35
+    command: PlayAnim
+    arguments_raw: Sc2_Bjarni1c OnIdle
+  - line: 43
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 50
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 57
+    command: PlayAnim
+    arguments_raw: Sc2_Bjarni1a Init
+  - line: 82
+    command: playanim
+    arguments_raw: Sc2_Bjarni2 OnIdle
+  - line: 98
+    command: playanim
+    arguments_raw: Sc2_Bjarni9 OnIdle
+  - line: 114
+    command: playanim
+    arguments_raw: Sc2_bjarni15 OnIdle
+  - line: 133
+    command: playAnim
+    arguments_raw: Applause OnIdle
+  unknown_commands:
+  - line: 139
+    command: getrandomint
+    arguments_raw: 1, 7 g_ntemp
+  - line: 186
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 187
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 188
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 191
+    command: AddModelKey
+    arguments_raw: Cam3 Cam3
+  - line: 192
+    command: AddModelKey
+    arguments_raw: Voice2 OnVoice2
+  - line: 194
+    command: AddModelKey
+    arguments_raw: Voice9 OnVoice9
+  - line: 196
+    command: AddModelKey
+    arguments_raw: Voice16 OnVoice16
+  - line: 197
+    command: AddModelKey
+    arguments_raw: Done OnDone
+  - line: 200
+    command: AddModelKey
+    arguments_raw: Clap OnClap
+  - line: 202
+    command: AddModelKey
+    arguments_raw: Sign OnSign
+  command_count: 84
+- script_id: arg_forad.scr
+  source_path: ARG_FORAD.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 12
+    name: OnAgree
+  - line: 17
+    name: OnApplause
+  - line: 23
+    name: OnDone
+  - line: 32
+    name: OnSpeak6
+  - line: 40
+    name: OnVoice6
+  - line: 48
+    name: OnSpeak20
+  - line: 56
+    name: OnVoice20
+  - line: 65
+    name: OnIdle
+  - line: 72
+    name: Init
+  - line: 79
+    name: Onclap
+  - line: 121
+    name: Main
+  registered_triggers:
+  - line: 129
+    message: Speak6
+    callback: OnSpeak6
+    arguments_raw: Speak6 OnSpeak6
+  - line: 131
+    message: Speak20
+    callback: OnSpeak20
+    arguments_raw: Speak20 OnSpeak20
+  - line: 134
+    message: Clap
+    callback: OnApplause
+    arguments_raw: Clap OnApplause
+  - line: 136
+    message: Agree
+    callback: OnAgree
+    arguments_raw: Agree OnAgree
+  trigger_edges:
+  - line: 28
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 14
+    command: PlayAnim
+    arguments_raw: Agree Init
+  - line: 20
+    command: playAnim
+    arguments_raw: Applause Init
+  - line: 35
+    command: playanim
+    arguments_raw: Sc2_Forad6 OnIdle
+  - line: 51
+    command: playanim
+    arguments_raw: Sc2_Forad26 OnIdle
+  - line: 68
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 75
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  unknown_commands:
+  - line: 81
+    command: getrandomint
+    arguments_raw: 1, 7 g_ntemp
+  - line: 125
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 126
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 127
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 130
+    command: AddModelKey
+    arguments_raw: Voice6 OnVoice6
+  - line: 132
+    command: AddModelKey
+    arguments_raw: Voice20 OnVoice20
+  - line: 133
+    command: AddModelKey
+    arguments_raw: Done OnDone
+  - line: 135
+    command: AddModelKey
+    arguments_raw: Clap OnCLap
+  command_count: 62
+- script_id: arg_kira.scr
+  source_path: ARG_KIRA.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 23
+    name: OnApplause
+  - line: 29
+    name: OnDone
+  - line: 38
+    name: OnDone2
+  - line: 47
+    name: OnSpeak5
+  - line: 54
+    name: Onclap
+  - line: 96
+    name: OnVoice5
+  - line: 103
+    name: OnSpeak7
+  - line: 110
+    name: OnVoice7
+  - line: 117
+    name: OnSpeak10
+  - line: 124
+    name: OnVoice10
+  - line: 131
+    name: OnSpeak12
+  - line: 138
+    name: OnVoice12
+  - line: 145
+    name: OnSpeak14
+  - line: 152
+    name: OnVoice14
+  - line: 159
+    name: OnSpeak17
+  - line: 167
+    name: OnVoice19
+  - line: 174
+    name: OnSpeak18
+  - line: 182
+    name: OnAgree
+  - line: 188
+    name: OnSpeak19
+  - line: 197
+    name: OnStand
+  - line: 207
+    name: Walk
+  - line: 218
+    name: DrawSword
+  - line: 228
+    name: Attack
+  - line: 235
+    name: WittyRetort
+  - line: 244
+    name: ClapTrigger
+  - line: 260
+    name: OnIdle
+  - line: 266
+    name: Init
+  - line: 273
+    name: OnAttach
+  - line: 284
+    name: OnKillMarkel
+  - line: 292
+    name: OnFootstep
+  - line: 299
+    name: Main
+  registered_triggers:
+  - line: 307
+    message: Clap
+    callback: OnApplause
+    arguments_raw: Clap OnApplause
+  - line: 308
+    message: Speak5
+    callback: OnSpeak5
+    arguments_raw: Speak5 OnSpeak5
+  - line: 310
+    message: Speak7
+    callback: OnSpeak7
+    arguments_raw: Speak7 OnSpeak7
+  - line: 312
+    message: Speak10
+    callback: OnSpeak10
+    arguments_raw: Speak10 OnSpeak10
+  - line: 314
+    message: Speak12
+    callback: OnSpeak12
+    arguments_raw: Speak12 OnSpeak12
+  - line: 316
+    message: Speak14
+    callback: OnSpeak14
+    arguments_raw: Speak14 OnSpeak14
+  - line: 321
+    message: Stand
+    callback: OnStand
+    arguments_raw: Stand OnStand
+  - line: 323
+    message: Speak18
+    callback: OnSpeak18
+    arguments_raw: Speak18 OnSpeak18
+  - line: 324
+    message: Speak19
+    callback: OnSpeak19
+    arguments_raw: Speak19 OnSpeak19
+  - line: 330
+    message: Agree
+    callback: OnAgree
+    arguments_raw: Agree OnAgree
+  trigger_edges:
+  - line: 34
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  - line: 43
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  - line: 252
+    target_expression: hBjarni
+    message_expression: Clap
+    arguments_raw: hBjarni Clap
+  - line: 253
+    target_expression: hSigmund
+    message_expression: Clap
+    arguments_raw: hSigmund Clap
+  - line: 254
+    target_expression: hSven
+    message_expression: Clap
+    arguments_raw: hSven Clap
+  - line: 255
+    target_expression: hForad
+    message_expression: Clap
+    arguments_raw: hForad Clap
+  - line: 256
+    target_expression: htryygva
+    message_expression: clap
+    arguments_raw: htryygva clap
+  - line: 288
+    target_expression: g_hobject
+    message_expression: Kill
+    arguments_raw: g_hobject Kill
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 26
+    command: playAnim
+    arguments_raw: Applause Init
+  - line: 32
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 50
+    command: PlayAnim
+    arguments_raw: Sc2_KIRA5 OnIdle
+  - line: 106
+    command: PlayAnim
+    arguments_raw: Sc2_Kira7 OnIdle
+  - line: 120
+    command: PlayAnim
+    arguments_raw: Sc2_Kira9b OnIdle
+  - line: 134
+    command: PlayAnim
+    arguments_raw: Sc2_KIRA12 OnIdle
+  - line: 148
+    command: PlayAnim
+    arguments_raw: Sc2_KIRA14 OnIdle
+  - line: 184
+    command: PlayAnim
+    arguments_raw: Agree DoNothing
+  - line: 192
+    command: PlayAnim
+    arguments_raw: Sc2_Kira19 DoNothing
+  - line: 202
+    command: PlayAnim
+    arguments_raw: Sc2_KIRA16b Walk
+  - line: 224
+    command: PlayAnim
+    arguments_raw: Sc2_Kira17 Attack
+  - line: 231
+    command: PlayAnim
+    arguments_raw: Sc2_Kira20-23 DoNothing
+  - line: 238
+    command: PlayAnim
+    arguments_raw: Sc2_Kira22 DoNothing
+  - line: 263
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 269
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  unknown_commands:
+  - line: 56
+    command: getrandomint
+    arguments_raw: 1, 7 g_ntemp
+  - line: 201
+    command: AttachProp
+    arguments_raw: kirasword.ABC KiraSword.dtx Sheath g_hobject2
+  - line: 212
+    command: target
+    arguments_raw: g_hobject
+  - line: 214
+    command: walkto
+    arguments_raw: g_hobject 8 DrawSword
+  - line: 276
+    command: DetachProp
+    arguments_raw: g_hobject2, false
+  - line: 277
+    command: removeobject
+    arguments_raw: g_hobject2
+  - line: 278
+    command: AttachProp
+    arguments_raw: kirasword.ABC KiraSword.dtx RHand1 g_hobject3
+  - line: 303
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 304
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 305
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 309
+    command: AddModelKey
+    arguments_raw: Voice5 OnVoice5
+  - line: 311
+    command: AddModelKey
+    arguments_raw: Voice7 OnVoice7
+  - line: 313
+    command: AddModelKey
+    arguments_raw: Voice10 OnVoice10
+  - line: 315
+    command: AddModelKey
+    arguments_raw: Voice12 OnVoice12
+  - line: 317
+    command: AddModelKey
+    arguments_raw: Voice14 OnVoice14
+  - line: 318
+    command: AddModelKey
+    arguments_raw: Done OnDone
+  - line: 319
+    command: AddModelKey
+    arguments_raw: Done2 OnDone2
+  - line: 320
+    command: AddModelKey
+    arguments_raw: Speak17 OnSpeak17
+  - line: 322
+    command: AddModelKey
+    arguments_raw: Attach OnAttach
+  - line: 325
+    command: AddModelKey
+    arguments_raw: voice19 OnVoice19
+  - line: 326
+    command: AddModelKey
+    arguments_raw: Done2 OnDone2
+  - line: 327
+    command: AddModelKey
+    arguments_raw: KillMarkel OnKillMarkel
+  - line: 328
+    command: AddModelKey
+    arguments_raw: Clap OnClap
+  - line: 329
+    command: AddModelKey
+    arguments_raw: Witty WittyRetort
+  - line: 331
+    command: AddModelKey
+    arguments_raw: Footsteps OnFootstep
+  command_count: 139
+- script_id: arg_markel.scr
+  source_path: ARG_MARKEL.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 15
+    name: OnApplause
+  - line: 21
+    name: OnScene2
+  - line: 30
+    name: Book
+  - line: 37
+    name: OnVoice1
+  - line: 44
+    name: OnSpeak4
+  - line: 51
+    name: OnVoice4
+  - line: 58
+    name: OnSpeak8
+  - line: 65
+    name: OnVoice8
+  - line: 72
+    name: OnSpeak11
+  - line: 79
+    name: OnVoice11
+  - line: 86
+    name: OnSpeak13
+  - line: 93
+    name: OnVoice13
+  - line: 100
+    name: OnSpeak15
+  - line: 107
+    name: OnVoice15
+  - line: 114
+    name: OnDone
+  - line: 122
+    name: OnIdle
+  - line: 129
+    name: OnMove
+  - line: 142
+    name: OnAgree
+  - line: 148
+    name: Target
+  - line: 156
+    name: Init
+  - line: 164
+    name: OnKill
+  - line: 171
+    name: OnDie
+  - line: 180
+    name: Dead
+  - line: 188
+    name: Onclap
+  - line: 229
+    name: Main
+  registered_triggers:
+  - line: 237
+    message: Scene2
+    callback: OnScene2
+    arguments_raw: Scene2 OnScene2
+  - line: 239
+    message: Speak4
+    callback: OnSpeak4
+    arguments_raw: Speak4 OnSpeak4
+  - line: 241
+    message: Speak8
+    callback: OnSpeak8
+    arguments_raw: Speak8 OnSpeak8
+  - line: 243
+    message: Speak11
+    callback: OnSpeak11
+    arguments_raw: Speak11 OnSpeak11
+  - line: 245
+    message: Speak13
+    callback: OnSpeak13
+    arguments_raw: Speak13 OnSpeak13
+  - line: 247
+    message: Speak15
+    callback: OnSpeak15
+    arguments_raw: Speak15 OnSpeak15
+  - line: 249
+    message: Move
+    callback: OnMove
+    arguments_raw: Move OnMove
+  - line: 251
+    message: Kill
+    callback: OnKill
+    arguments_raw: Kill OnKill
+  - line: 253
+    message: Clap
+    callback: OnApplause
+    arguments_raw: Clap OnApplause
+  - line: 255
+    message: Agree
+    callback: OnAgree
+    arguments_raw: Agree OnAgree
+  trigger_edges:
+  - line: 34
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 118
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  - line: 134
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  movement_commands: []
+  state_commands:
+  - line: 132
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 133
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands:
+  - line: 18
+    command: playAnim
+    arguments_raw: Applause Init
+  - line: 24
+    command: PlayAnim
+    arguments_raw: Sc2_MARKEL02 OnIdle
+  - line: 47
+    command: PlayAnim
+    arguments_raw: Sc2_MARKEL04 OnIdle
+  - line: 61
+    command: PlayAnim
+    arguments_raw: Sc2_MARKEL08 OnIdle
+  - line: 75
+    command: PlayAnim
+    arguments_raw: Sc2_MARKEL10 OnIdle
+  - line: 89
+    command: PlayAnim
+    arguments_raw: Sc2_MARKEL13 OnIdle
+  - line: 103
+    command: PlayAnim
+    arguments_raw: Sc2_MARKEL15 OnIdle
+  - line: 125
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 144
+    command: PlayAnim
+    arguments_raw: Agree DoNothing
+  - line: 159
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 167
+    command: Playanim
+    arguments_raw: Sc2_markel21 Dead
+  - line: 184
+    command: Loopanim
+    arguments_raw: static_die2 0 DoNothing
+  unknown_commands:
+  - line: 138
+    command: walkto
+    arguments_raw: g_hobject 8 Target
+  - line: 152
+    command: target
+    arguments_raw: g_hobject
+  - line: 190
+    command: getrandomint
+    arguments_raw: 1, 7 g_ntemp
+  - line: 233
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 234
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 235
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 238
+    command: AddModelKey
+    arguments_raw: Voice1 OnVoice1
+  - line: 240
+    command: AddModelKey
+    arguments_raw: Voice4 OnVoice4
+  - line: 242
+    command: AddModelKey
+    arguments_raw: Voice8 OnVoice8
+  - line: 244
+    command: AddModelKey
+    arguments_raw: Voice11 OnVoice11
+  - line: 246
+    command: AddModelKey
+    arguments_raw: Voice13 OnVoice13
+  - line: 248
+    command: AddModelKey
+    arguments_raw: Voice15 OnVoice15
+  - line: 250
+    command: AddModelKey
+    arguments_raw: Done OnDone
+  - line: 252
+    command: AddModelKey
+    arguments_raw: Die OnDie
+  - line: 254
+    command: AddModelKey
+    arguments_raw: Clap OnClap
+  command_count: 112
+- script_id: arg_sigmund.scr
+  source_path: ARG_SIGMUND.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 15
+    name: OnAgree
+  - line: 20
+    name: OnApplause
+  - line: 26
+    name: OnShake
+  - line: 34
+    name: OnSign
+  - line: 41
+    name: OnShot1A
+  - line: 51
+    name: OnDone
+  - line: 60
+    name: OnSpeak3
+  - line: 68
+    name: OnVoice3
+  - line: 76
+    name: OnIdle
+  - line: 83
+    name: Onclap
+  - line: 124
+    name: Init
+  - line: 131
+    name: Main
+  registered_triggers:
+  - line: 135
+    message: Shot1A
+    callback: OnShot1A
+    arguments_raw: Shot1A OnShot1A
+  - line: 141
+    message: Speak3
+    callback: ONSpeak3
+    arguments_raw: Speak3 ONSpeak3
+  - line: 143
+    message: Shake
+    callback: OnShake
+    arguments_raw: Shake OnShake
+  - line: 144
+    message: Clap
+    callback: OnApplause
+    arguments_raw: Clap OnApplause
+  - line: 146
+    message: Agree
+    callback: OnAgree
+    arguments_raw: Agree OnAgree
+  trigger_edges:
+  - line: 45
+    target_expression: g_hobject
+    message_expression: play
+    arguments_raw: g_hobject play
+  - line: 56
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 17
+    command: PlayAnim
+    arguments_raw: Agree Init
+  - line: 23
+    command: playAnim
+    arguments_raw: Applause Init
+  - line: 29
+    command: PlayAnim
+    arguments_raw: Sc2_Sigmund1c OnIdle
+  - line: 47
+    command: PlayAnim
+    arguments_raw: Sc2_Sigmund1b OnIdle
+  - line: 54
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 63
+    command: playanim
+    arguments_raw: Sc2_Sigmund3b OnIdle
+  - line: 79
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  - line: 127
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  unknown_commands:
+  - line: 85
+    command: getrandomint
+    arguments_raw: 1, 7 g_ntemp
+  - line: 136
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 137
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 138
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 140
+    command: AddModelKey
+    arguments_raw: Voice3 ONVoice3
+  - line: 142
+    command: AddModelKey
+    arguments_raw: Done OnDone
+  - line: 145
+    command: AddModelKey
+    arguments_raw: Clap OnClap
+  - line: 147
+    command: AddModelKey
+    arguments_raw: Sign OnSign
+  command_count: 69
+- script_id: arg_sven.scr
+  source_path: ARG_SVEN.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 12
+    name: OnAgree
+  - line: 18
+    name: OnApplause
+  - line: 24
+    name: Init
+  - line: 31
+    name: Onclap
+  - line: 73
+    name: Main
+  registered_triggers:
+  - line: 81
+    message: Clap
+    callback: OnApplause
+    arguments_raw: Clap OnApplause
+  - line: 83
+    message: Agree
+    callback: OnAgree
+    arguments_raw: Agree OnAgree
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 14
+    command: PlayAnim
+    arguments_raw: Agree Init
+  - line: 21
+    command: playAnim
+    arguments_raw: Applause Init
+  - line: 27
+    command: loopanim
+    arguments_raw: Sitting 0 DoNothing
+  unknown_commands:
+  - line: 33
+    command: getrandomint
+    arguments_raw: 1, 7 g_ntemp
+  - line: 77
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 78
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 79
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 82
+    command: AddModelKey
+    arguments_raw: Clap OnClap
+  command_count: 44
+- script_id: arg_tryygva.scr
+  source_path: ARG_TRYYGVA.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 13
+    name: OnAgree
+  - line: 18
+    name: OnApplause
+  - line: 24
+    name: Init
+  - line: 31
+    name: Onclap
+  - line: 73
+    name: Main
+  registered_triggers:
+  - line: 81
+    message: Clap
+    callback: ONApplause
+    arguments_raw: Clap ONApplause
+  - line: 83
+    message: Agree
+    callback: OnAgree
+    arguments_raw: Agree OnAgree
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 15
+    command: PlayAnim
+    arguments_raw: Agree Init
+  - line: 21
+    command: playAnim
+    arguments_raw: Applause Init
+  - line: 27
+    command: loopanim
+    arguments_raw: Sit 0 DoNothing
+  unknown_commands:
+  - line: 33
+    command: getrandomint
+    arguments_raw: 1, 7 g_ntemp
+  - line: 77
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 78
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 79
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 82
+    command: AddModelKey
+    arguments_raw: Clap OnClap
+  command_count: 44
+- script_id: arg_unhide.scr
+  source_path: ARG_UNHIDE.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: pledge.inc
+  labels:
+  - line: 26
+    name: Init
+  - line: 55
+    name: Unhide
+  - line: 87
+    name: Hide
+  - line: 117
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 59
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 62
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 65
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 68
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 71
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 74
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 77
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 80
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 91
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 94
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 97
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 100
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 103
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 106
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 109
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 112
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  presentation_commands: []
+  unknown_commands:
+  - line: 29
+    command: set
+    arguments_raw: g_ncounter, 0
+  - line: 31
+    command: haskey
+    arguments_raw: 94 g_ntemp
+  - line: 37
+    command: haskey
+    arguments_raw: 90 g_ntemp
+  - line: 39
+    command: add
+    arguments_raw: g_ncounter, 1
+  - line: 42
+    command: haskey
+    arguments_raw: 91 g_ntemp
+  - line: 44
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 123
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 124
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 125
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 57
+- script_id: arg_yrsa.scr
+  source_path: ARG_YRSA.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: globals.inc
+  - line: 12
+    path: basemelee.inc
+  labels:
+  - line: 25
+    name: OnAppear
+  - line: 32
+    name: Appear2
+  - line: 41
+    name: Appear2b
+  - line: 51
+    name: DoRude
+  - line: 64
+    name: OnRude
+  - line: 87
+    name: Vanish
+  - line: 98
+    name: Vanish2b
+  - line: 108
+    name: Vanish2c
+  - line: 115
+    name: Main
+  registered_triggers:
+  - line: 119
+    message: Appear
+    callback: OnAppear
+    arguments_raw: Appear OnAppear
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 46
+    command: setflag
+    arguments_raw: g_hmyobject visible
+  - line: 101
+    command: clearflag
+    arguments_raw: g_hmyobject visible
+  presentation_commands:
+  - line: 47
+    command: playanim
+    arguments_raw: fidget1 DoRude
+  unknown_commands:
+  - line: 35
+    command: DoClientFX
+    arguments_raw: g_hMyObject,GreaterDemon
+  - line: 55
+    command: givekey
+    arguments_raw: '93'
+  - line: 57
+    command: getplayerhandle
+    arguments_raw: g_hplayer
+  - line: 58
+    command: target
+    arguments_raw: g_hplayer
+  - line: 60
+    command: DoRude
+    arguments_raw: '1'
+  - line: 68
+    command: Haskey
+    arguments_raw: 185 g_ntemp
+  - line: 70
+    command: Haskey
+    arguments_raw: 93 g_ntemp
+  - line: 75
+    command: givekey
+    arguments_raw: '185'
+  - line: 81
+    command: DoRude
+    arguments_raw: '1'
+  - line: 92
+    command: DoClientFX
+    arguments_raw: g_hmyObject,GreaterDemon
+  - line: 110
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 120
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 43
+- script_id: arguecam1.scr
+  source_path: ARGUECAM1.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 27
+    name: OnPlay
+  - line: 39
+    name: OnArrive
+  - line: 50
+    name: Main
+  registered_triggers:
+  - line: 55
+    message: Play
+    callback: OnPlay
+    arguments_raw: Play OnPlay
+  trigger_edges:
+  - line: 47
+    target_expression: g_hobject
+    message_expression: Done
+    arguments_raw: g_hobject Done
+  movement_commands:
+  - line: 35
+    command: MoveToPos
+    arguments_raw: xpos Ypos Zpos nSpeed OnArrive
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 31
+    command: target
+    arguments_raw: g_hobject
+  command_count: 17
+- script_id: arguetreaty.scr
+  source_path: ARGUETREATY.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 27
+    name: OnPlay
+  - line: 38
+    name: Init
+  - line: 43
+    name: Main
+  registered_triggers:
+  - line: 48
+    message: Play
+    callback: OnPlay
+    arguments_raw: Play OnPlay
+  trigger_edges: []
+  movement_commands:
+  - line: 34
+    command: MoveToPos
+    arguments_raw: xpos Ypos Zpos nSpeed DoNothing
+  state_commands: []
+  presentation_commands:
+  - line: 40
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  unknown_commands:
+  - line: 50
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 51
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 52
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 13
+- script_id: argument.scr
+  source_path: ARGUMENT.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: globals.inc
+  labels:
+  - line: 28
+    name: OnUse
+  - line: 42
+    name: War
+  - line: 66
+    name: OnRude
+  - line: 86
+    name: ForceStart
+  - line: 107
+    name: Init
+  - line: 152
+    name: OnStart
+  - line: 171
+    name: FadeIn
+  - line: 183
+    name: Cam1
+  - line: 191
+    name: Cam2b
+  - line: 209
+    name: Cam2
+  - line: 222
+    name: Cam2c
+  - line: 237
+    name: Cam3
+  - line: 260
+    name: Cam4
+  - line: 275
+    name: OnMarkel
+  - line: 288
+    name: Sigmund3
+  - line: 300
+    name: Markel4
+  - line: 313
+    name: Kira5
+  - line: 328
+    name: Forad6
+  - line: 342
+    name: Kira7
+  - line: 355
+    name: Markel8
+  - line: 369
+    name: Bjarni9
+  - line: 383
+    name: Kira10
+  - line: 397
+    name: Markel11
+  - line: 412
+    name: Kira12
+  - line: 427
+    name: Markel13
+  - line: 440
+    name: Kira14
+  - line: 453
+    name: Markel15
+  - line: 466
+    name: Bjarni16
+  - line: 479
+    name: KiraStand
+  - line: 486
+    name: OnKiraStand
+  - line: 497
+    name: OnKiraStand2
+  - line: 508
+    name: Agree
+  - line: 525
+    name: KiraCam
+  - line: 535
+    name: KiraCam2
+  - line: 546
+    name: Kira19
+  - line: 557
+    name: Forad20
+  - line: 569
+    name: OnDone
+  - line: 731
+    name: End
+  - line: 741
+    name: End2
+  - line: 754
+    name: Main
+  registered_triggers:
+  - line: 759
+    message: Done
+    callback: OnDone
+    arguments_raw: Done, OnDone
+  - line: 760
+    message: ForceStart
+    callback: ForceStart
+    arguments_raw: ForceStart ForceStart
+  - line: 761
+    message: Start
+    callback: Init
+    arguments_raw: Start Init
+  trigger_edges:
+  - line: 176
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 177
+    target_expression: g_hobject
+    message_expression: Play
+    arguments_raw: g_hobject Play
+  - line: 195
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 197
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 201
+    target_expression: g_hobject
+    message_expression: KillMarkel
+    arguments_raw: g_hobject KillMarkel
+  - line: 204
+    target_expression: hBjarni
+    message_expression: Shot1A
+    arguments_raw: hBjarni Shot1A
+  - line: 213
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 215
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 217
+    target_expression: hSigmund
+    message_expression: Shot1A
+    arguments_raw: hSigmund Shot1A
+  - line: 226
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 228
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 241
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 243
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 247
+    target_expression: hBjarni
+    message_expression: Shake
+    arguments_raw: hBjarni Shake
+  - line: 248
+    target_expression: hSigmund
+    message_expression: Shake
+    arguments_raw: hSigmund Shake
+  - line: 249
+    target_expression: hKira
+    message_expression: Clap
+    arguments_raw: hKira Clap
+  - line: 250
+    target_expression: hMarkel
+    message_expression: Clap
+    arguments_raw: hMarkel Clap
+  - line: 251
+    target_expression: hSven
+    message_expression: Clap
+    arguments_raw: hSven Clap
+  - line: 252
+    target_expression: hForad
+    message_expression: Clap
+    arguments_raw: hForad Clap
+  - line: 253
+    target_expression: htryygva
+    message_expression: clap
+    arguments_raw: htryygva clap
+  - line: 264
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 266
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 270
+    target_expression: hBjarni
+    message_expression: Speak2
+    arguments_raw: hBjarni Speak2
+  - line: 280
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 282
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 283
+    target_expression: hMarkel
+    message_expression: Scene2
+    arguments_raw: hMarkel Scene2
+  - line: 292
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 294
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 296
+    target_expression: hSigmund
+    message_expression: Speak3
+    arguments_raw: hSigmund Speak3
+  - line: 305
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 307
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 308
+    target_expression: hMarkel
+    message_expression: Speak4
+    arguments_raw: hMarkel Speak4
+  - line: 318
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 320
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 321
+    target_expression: hKira
+    message_expression: Speak5
+    arguments_raw: hKira Speak5
+  - line: 333
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 335
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 336
+    target_expression: hForad
+    message_expression: Speak6
+    arguments_raw: hForad Speak6
+  - line: 347
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 349
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 350
+    target_expression: hKira
+    message_expression: Speak7
+    arguments_raw: hKira Speak7
+  - line: 360
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 362
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 363
+    target_expression: hMarkel
+    message_expression: Speak8
+    arguments_raw: hMarkel Speak8
+  - line: 374
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 376
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 377
+    target_expression: hBjarni
+    message_expression: Speak9
+    arguments_raw: hBjarni Speak9
+  - line: 391
+    target_expression: hKira
+    message_expression: Speak10
+    arguments_raw: hKira Speak10
+  - line: 402
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 404
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 405
+    target_expression: hMarkel
+    message_expression: Speak11
+    arguments_raw: hMarkel Speak11
+  - line: 417
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 419
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 420
+    target_expression: hKira
+    message_expression: Speak12
+    arguments_raw: hKira Speak12
+  - line: 432
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 434
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 435
+    target_expression: hMarkel
+    message_expression: Speak13
+    arguments_raw: hMarkel Speak13
+  - line: 445
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 447
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 448
+    target_expression: hKira
+    message_expression: Speak14
+    arguments_raw: hKira Speak14
+  - line: 458
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 460
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 461
+    target_expression: hMarkel
+    message_expression: Speak15
+    arguments_raw: hMarkel Speak15
+  - line: 471
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 473
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 474
+    target_expression: hBjarni
+    message_expression: Speak16
+    arguments_raw: hBjarni Speak16
+  - line: 482
+    target_expression: hKira
+    message_expression: Stand
+    arguments_raw: hKira Stand
+  - line: 490
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 492
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 501
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 503
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 512
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 514
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 516
+    target_expression: hsven
+    message_expression: Agree
+    arguments_raw: hsven Agree
+  - line: 517
+    target_expression: hBjarni
+    message_expression: Agree
+    arguments_raw: hBjarni Agree
+  - line: 518
+    target_expression: hsigmund
+    message_expression: Agree
+    arguments_raw: hsigmund Agree
+  - line: 519
+    target_expression: hForad
+    message_expression: Agree
+    arguments_raw: hForad Agree
+  - line: 520
+    target_expression: hTryygva
+    message_expression: Agree
+    arguments_raw: hTryygva Agree
+  - line: 529
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 531
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 539
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 541
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 542
+    target_expression: hKira
+    message_expression: Speak18
+    arguments_raw: hKira Speak18
+  - line: 550
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 552
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 553
+    target_expression: hKira
+    message_expression: Speak19
+    arguments_raw: hKira Speak19
+  - line: 561
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 563
+    target_expression: g_hobject
+    message_expression: 'On'
+    arguments_raw: g_hobject On
+  - line: 564
+    target_expression: hForad
+    message_expression: Speak20
+    arguments_raw: hForad Speak20
+  - line: 746
+    target_expression: g_hobject
+    message_expression: 'Off'
+    arguments_raw: g_hobject Off
+  - line: 748
+    target_expression: g_hobject
+    message_expression: appear
+    arguments_raw: g_hobject appear
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 30
+    command: Haskey
+    arguments_raw: 184 g_ntemp
+  - line: 32
+    command: DoRude
+    arguments_raw: '1'
+  - line: 47
+    command: Haskey
+    arguments_raw: 184 g_ntemp
+  - line: 49
+    command: GiveKey
+    arguments_raw: '184'
+  - line: 50
+    command: GiveKey
+    arguments_raw: '40'
+  - line: 51
+    command: givekey
+    arguments_raw: '85'
+  - line: 52
+    command: GiveExp
+    arguments_raw: '26500'
+  - line: 57
+    command: givekey
+    arguments_raw: '93'
+  - line: 70
+    command: Haskey
+    arguments_raw: 185 g_ntemp
+  - line: 72
+    command: Haskey
+    arguments_raw: 93 g_ntemp
+  - line: 77
+    command: givekey
+    arguments_raw: '185'
+  - line: 110
+    command: haskey
+    arguments_raw: 40 g_ntemp
+  - line: 116
+    command: set
+    arguments_raw: g_ncounter, 0
+  - line: 120
+    command: haskey
+    arguments_raw: 90 g_ntemp
+  - line: 122
+    command: add
+    arguments_raw: g_ncounter, 1
+  - line: 125
+    command: haskey
+    arguments_raw: 91 g_ntemp
+  - line: 127
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 155
+    command: IsTurnBased
+    arguments_raw: g_nTemp
+  - line: 157
+    command: ScreenFadeOut
+    arguments_raw: '1'
+  - line: 163
+    command: set
+    arguments_raw: nStarted, TRUE
+  - line: 164
+    command: removetrigger
+    arguments_raw: start
+  - line: 165
+    command: set
+    arguments_raw: nCamCount, 0
+  - line: 166
+    command: screenfadeout
+    arguments_raw: '1'
+  - line: 174
+    command: letterbox
+    arguments_raw: 'true'
+  - line: 178
+    command: screenfadein
+    arguments_raw: '1'
+  - line: 186
+    command: screenfadeout
+    arguments_raw: '.5'
+  - line: 198
+    command: screenfadein
+    arguments_raw: '.5'
+  - line: 202
+    command: RemoveNPC
+    arguments_raw: 2 g_hobject
+  - line: 572
+    command: nCamCount
+    arguments_raw: = nCamCount + 1
+  - line: 735
+    command: screenfadeout
+    arguments_raw: '1'
+  - line: 749
+    command: letterbox
+    arguments_raw: 'false'
+  - line: 750
+    command: screenfadein
+    arguments_raw: '1'
+  command_count: 383
+- script_id: bankorb.scr
+  source_path: BANKORB.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 28
+    name: OnUse
+  - line: 48
+    name: OnRude
+  - line: 67
+    name: CheckAll
+  - line: 117
+    name: Init
+  - line: 174
+    name: Main
+  registered_triggers:
+  - line: 179
+    message: Use
+    callback: ONUse
+    arguments_raw: Use, ONUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 129
+    command: getstat
+    arguments_raw: g_hmyobject RudeID nRude
+  presentation_commands: []
+  unknown_commands:
+  - line: 31
+    command: haskey
+    arguments_raw: nKey2 g_ntemp
+  - line: 36
+    command: haskey
+    arguments_raw: 322 g_ntemp
+  - line: 43
+    command: givekey
+    arguments_raw: '330'
+  - line: 51
+    command: haskey
+    arguments_raw: 330 g_ntemp
+  - line: 53
+    command: takekey
+    arguments_raw: '330'
+  - line: 54
+    command: haskey
+    arguments_raw: nKey g_ntemp
+  - line: 58
+    command: givekey
+    arguments_raw: nKey2
+  - line: 70
+    command: haskey
+    arguments_raw: 337 g_ntemp
+  - line: 75
+    command: set
+    arguments_raw: g_ncounter, 0
+  - line: 77
+    command: haskey
+    arguments_raw: 331 g_ntemp
+  - line: 79
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 82
+    command: haskey
+    arguments_raw: 332 g_ntemp
+  - line: 84
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 87
+    command: haskey
+    arguments_raw: 333 g_ntemp
+  - line: 89
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 92
+    command: haskey
+    arguments_raw: 334 g_ntemp
+  - line: 94
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 97
+    command: haskey
+    arguments_raw: 335 g_ntemp
+  - line: 99
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 102
+    command: haskey
+    arguments_raw: 336 g_ntemp
+  - line: 104
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 108
+    command: givekey
+    arguments_raw: '337'
+  - line: 109
+    command: giveexp
+    arguments_raw: '20000'
+  - line: 110
+    command: givegold
+    arguments_raw: '15000'
+  - line: 134
+    command: set
+    arguments_raw: nKey 335
+  - line: 135
+    command: set
+    arguments_raw: nKey2 323
+  - line: 140
+    command: set
+    arguments_raw: nKey 336
+  - line: 141
+    command: set
+    arguments_raw: nKey2 324
+  - line: 146
+    command: set
+    arguments_raw: nKey 334
+  - line: 147
+    command: set
+    arguments_raw: nKey2 325
+  - line: 152
+    command: set
+    arguments_raw: nKey 332
+  - line: 153
+    command: set
+    arguments_raw: nKey2 326
+  - line: 158
+    command: set
+    arguments_raw: nKey 333
+  - line: 159
+    command: set
+    arguments_raw: nKey2 327
+  - line: 164
+    command: set
+    arguments_raw: nKey 331
+  - line: 165
+    command: set
+    arguments_raw: nKey2 328
+  - line: 180
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 182
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 183
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 184
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 185
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 103
+- script_id: book.scr
+  source_path: BOOK.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 12
+    name: OnUse
+  - line: 44
+    name: Main
+  registered_triggers:
+  - line: 50
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 17
+    command: Playanim
+    arguments_raw: OpenBook
+  - line: 23
+    command: Playanim
+    arguments_raw: TurnPage
+  - line: 29
+    command: Playanim
+    arguments_raw: TurnBack
+  - line: 35
+    command: Playanim
+    arguments_raw: Closebook
+  unknown_commands:
+  - line: 18
+    command: Add
+    arguments_raw: counter, 1
+  - line: 24
+    command: Add
+    arguments_raw: counter, 1
+  - line: 30
+    command: Add
+    arguments_raw: counter, 1
+  - line: 36
+    command: Set
+    arguments_raw: counter, 0
+  - line: 49
+    command: Set
+    arguments_raw: counter, 0
+  command_count: 23
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: dorude.scr
+  source_path: DORUDE.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: basemelee.inc
+  labels:
+  - line: 22
+    name: OnUse
+  - line: 43
+    name: OnRude
+  - line: 52
+    name: OnDamage
+  - line: 63
+    name: Main
+  registered_triggers:
+  - line: 71
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 27
+    command: Stop
+    arguments_raw: ''
+  - line: 30
+    command: FaceObject
+    arguments_raw: g_hobject 200 DoNothing
+  - line: 31
+    command: DoRude
+    arguments_raw: NPC_ID
+  - line: 57
+    command: Set
+    arguments_raw: Attacked, True
+  - line: 72
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 73
+    command: OnDamage
+    arguments_raw: OnDamage
+  command_count: 29
+- script_id: foradworld.scr
+  source_path: FORADWORLD.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 23
+    name: TakeKey
+  - line: 39
+    name: Init
+  - line: 106
+    name: Close
+  - line: 114
+    name: Open
+  - line: 123
+    name: Main
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: takekey
+    arguments_raw: '1024'
+  - line: 27
+    command: takekey
+    arguments_raw: '1025'
+  - line: 28
+    command: takekey
+    arguments_raw: '1026'
+  - line: 29
+    command: takekey
+    arguments_raw: '1027'
+  - line: 30
+    command: takekey
+    arguments_raw: '1028'
+  - line: 31
+    command: takekey
+    arguments_raw: '1029'
+  - line: 32
+    command: takekey
+    arguments_raw: '1030'
+  - line: 33
+    command: takekey
+    arguments_raw: '1031'
+  - line: 34
+    command: takekey
+    arguments_raw: '1032'
+  - line: 35
+    command: takekey
+    arguments_raw: '1033'
+  - line: 42
+    command: takekey
+    arguments_raw: '1024'
+  - line: 43
+    command: takekey
+    arguments_raw: '1025'
+  - line: 44
+    command: takekey
+    arguments_raw: '1026'
+  - line: 45
+    command: takekey
+    arguments_raw: '1027'
+  - line: 46
+    command: takekey
+    arguments_raw: '1028'
+  - line: 47
+    command: takekey
+    arguments_raw: '1029'
+  - line: 48
+    command: takekey
+    arguments_raw: '1030'
+  - line: 49
+    command: takekey
+    arguments_raw: '1031'
+  - line: 50
+    command: takekey
+    arguments_raw: '1032'
+  - line: 51
+    command: takekey
+    arguments_raw: '1033'
+  - line: 54
+    command: givekey
+    arguments_raw: '1024'
+  - line: 59
+    command: givekey
+    arguments_raw: '1025'
+  - line: 64
+    command: givekey
+    arguments_raw: '1026'
+  - line: 69
+    command: givekey
+    arguments_raw: '1027'
+  - line: 74
+    command: givekey
+    arguments_raw: '1028'
+  - line: 79
+    command: givekey
+    arguments_raw: '1029'
+  - line: 84
+    command: givekey
+    arguments_raw: '1030'
+  - line: 89
+    command: givekey
+    arguments_raw: '1031'
+  - line: 94
+    command: givekey
+    arguments_raw: '1032'
+  - line: 98
+    command: givekey
+    arguments_raw: '1033'
+  - line: 110
+    command: givekey
+    arguments_raw: '5017'
+  - line: 118
+    command: takekey
+    arguments_raw: '5017'
+  - line: 129
+    command: unknown
+    arguments_raw: '@m 20 : 00 Close Close'
+  - line: 130
+    command: unknown
+    arguments_raw: '@m 6 : 00 Open Open'
+  - line: 132
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 133
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 134
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 135
+    command: OnWorldSwitch
+    arguments_raw: TakeKey
+  command_count: 72
+- script_id: honkies.scr
+  source_path: HONKIES.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: basewander.inc
+  labels:
+  - line: 23
+    name: OnRude
+  - line: 58
+    name: Reward
+  - line: 77
+    name: killme
+  - line: 86
+    name: Walk
+  - line: 102
+    name: OnShanghai
+  - line: 110
+    name: OnUse
+  - line: 121
+    name: Init
+  - line: 136
+    name: Main
+  registered_triggers:
+  - line: 145
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: set
+    arguments_raw: g_ncounter, 0
+  - line: 28
+    command: haskey
+    arguments_raw: 145, g_ntemp
+  - line: 31
+    command: Haskey
+    arguments_raw: 142, g_ntemp
+  - line: 34
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 37
+    command: Haskey
+    arguments_raw: 143, g_ntemp
+  - line: 40
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 43
+    command: Haskey
+    arguments_raw: 144, g_ntemp
+  - line: 46
+    command: Add
+    arguments_raw: g_ncounter, 1
+  - line: 64
+    command: haskey
+    arguments_raw: 77 g_ntemp
+  - line: 69
+    command: givekey
+    arguments_raw: '77'
+  - line: 70
+    command: GiveExp
+    arguments_raw: '8000'
+  - line: 72
+    command: set
+    arguments_raw: BeenDone, true
+  - line: 81
+    command: exitscript
+    arguments_raw: ''
+  - line: 91
+    command: stop
+    arguments_raw: ''
+  - line: 94
+    command: runto
+    arguments_raw: g_hobject 16 OnShanghai
+  - line: 95
+    command: Set
+    arguments_raw: walk, 1
+  - line: 105
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 113
+    command: Stop
+    arguments_raw: ''
+  - line: 116
+    command: FaceObject
+    arguments_raw: g_hobject 200 DoNothing
+  - line: 117
+    command: DoRude
+    arguments_raw: nNPC_ID
+  - line: 124
+    command: AttachProp
+    arguments_raw: Prop_Name Skin_Name Socket_Name g_hobject2
+  - line: 126
+    command: haskey
+    arguments_raw: 77 g_ntemp
+  - line: 143
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 147
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 148
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  command_count: 68
+- script_id: kirashield.scr
+  source_path: KIRASHIELD.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: Onuse
+  - line: 33
+    name: OnDelete
+  - line: 45
+    name: Main
+  registered_triggers:
+  - line: 49
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: haskey
+    arguments_raw: 216 g_ntemp
+  - line: 20
+    command: Haskey
+    arguments_raw: 214 g_ntemp
+  - line: 22
+    command: givekey
+    arguments_raw: '216'
+  - line: 23
+    command: giveitem
+    arguments_raw: '375'
+  - line: 25
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 36
+    command: haskey
+    arguments_raw: 216 g_ntemp
+  - line: 39
+    command: removeobject
+    arguments_raw: g_hmyobject
+  command_count: 22
+- script_id: knutspeech.scr
+  source_path: KNUTSPEECH.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  labels:
+  - line: 22
+    name: Onblabber
+  - line: 31
+    name: Speak
+  - line: 50
+    name: Conv
+  - line: 59
+    name: OnUse
+  - line: 75
+    name: shutup
+  - line: 84
+    name: Onexit
+  - line: 97
+    name: GoPosition1
+  - line: 105
+    name: GoPosition2
+  - line: 113
+    name: GoPosition3
+  - line: 122
+    name: GoPosition4
+  - line: 131
+    name: SetupPosition
+  - line: 161
+    name: PostMiniSaveLoad
+  - line: 168
+    name: Main
+  registered_triggers:
+  - line: 172
+    message: blabber
+    callback: Onblabber
+    arguments_raw: blabber, Onblabber
+  - line: 173
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 186
+    message: GoPosition1
+    callback: GoPosition1
+    arguments_raw: GoPosition1,GoPosition1
+  - line: 187
+    message: GoPosition2
+    callback: GoPosition2
+    arguments_raw: GoPosition2,GoPosition2
+  - line: 188
+    message: GoPosition3
+    callback: GoPosition3
+    arguments_raw: GoPosition3,GoPosition3
+  - line: 189
+    message: GoPosition4
+    callback: GoPosition4
+    arguments_raw: GoPosition4,GoPosition4
+  trigger_edges:
+  - line: 42
+    target_expression: g_hobject
+    message_expression: blabber
+    arguments_raw: g_hobject blabber
+  - line: 79
+    target_expression: g_hobject
+    message_expression: shutup
+    arguments_raw: g_hobject shutup
+  movement_commands:
+  - line: 99
+    command: SetPos
+    arguments_raw: g_hMyObject,3424.0 1344.0 -672.0
+  - line: 107
+    command: SetPos
+    arguments_raw: g_hMyObject,3494,1254,3166
+  - line: 116
+    command: SetPos
+    arguments_raw: g_hMyObject,-933,1254,2036
+  - line: 125
+    command: SetPos
+    arguments_raw: g_hMyObject,-2324,1254,4559
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 35
+    command: set
+    arguments_raw: sound, 1
+  - line: 36
+    command: Givekey
+    arguments_raw: '114'
+  - line: 37
+    command: Playsoundhandle
+    arguments_raw: voices\cinema\socialism\KnutFAstmouth01.wav, soundhandle, 768, FALSE, 100
+  - line: 38
+    command: GetSoundDuration
+    arguments_raw: soundhandle, sounddur
+  - line: 43
+    command: subtract
+    arguments_raw: sounddur, 5
+  - line: 56
+    command: converse
+    arguments_raw: -1 conv
+  - line: 65
+    command: KillSound
+    arguments_raw: soundhandle
+  - line: 67
+    command: set
+    arguments_raw: sound, 0
+  - line: 68
+    command: set
+    arguments_raw: g_ntemp, 0
+  - line: 78
+    command: set
+    arguments_raw: nShutup, True
+  - line: 89
+    command: IsSoundDone
+    arguments_raw: soundhandle, sounddone
+  - line: 91
+    command: KillSound
+    arguments_raw: soundhandle
+  - line: 100
+    command: FaceDir
+    arguments_raw: 0,0,0,0
+  - line: 108
+    command: FaceDir
+    arguments_raw: 0.78,0,0.63,0
+  - line: 117
+    command: FaceDir
+    arguments_raw: 0.7,0,0.72,0
+  - line: 126
+    command: FaceDir
+    arguments_raw: 0.75,0,0.67,0
+  - line: 136
+    command: Add
+    arguments_raw: nPosition,1
+  - line: 139
+    command: nPosition
+    arguments_raw: = 1
+  - line: 143
+    command: goto
+    arguments_raw: GoPosition1
+  - line: 147
+    command: goto
+    arguments_raw: GoPosition2
+  - line: 151
+    command: goto
+    arguments_raw: GoPosition3
+  - line: 155
+    command: goto
+    arguments_raw: GoPosition4
+  - line: 174
+    command: Onfoundplayer
+    arguments_raw: OnBlabber
+  - line: 176
+    command: set
+    arguments_raw: sound, 0
+  - line: 177
+    command: set
+    arguments_raw: g_ntemp, 0
+  - line: 178
+    command: haskey
+    arguments_raw: 114, g_ntemp
+  - line: 180
+    command: set
+    arguments_raw: sound, 1
+  - line: 185
+    command: OnPostMiniSaveLoad
+    arguments_raw: PostMiniSaveLoad
+  command_count: 83
+- script_id: npc239.scr
+  source_path: NPC239.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  - line: 11
+    path: United.inc
+  labels:
+  - line: 30
+    name: Init
+  - line: 54
+    name: Vanish
+  - line: 74
+    name: OnRude
+  - line: 86
+    name: treaty
+  - line: 110
+    name: loveletter
+  - line: 136
+    name: honkys
+  - line: 160
+    name: MountainPass
+  - line: 188
+    name: OnUse
+  - line: 198
+    name: OnExit
+  - line: 204
+    name: givekey
+  - line: 218
+    name: OnKillMarkel
+  - line: 230
+    name: Main
+  registered_triggers:
+  - line: 239
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 240
+    message: KillMarkel
+    callback: OnKillMarkel
+    arguments_raw: KillMarkel OnKillMarkel
+  trigger_edges:
+  - line: 222
+    target_expression: g_hobject
+    message_expression: play
+    arguments_raw: g_hobject play
+  movement_commands: []
+  state_commands:
+  - line: 60
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 61
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 62
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 65
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 66
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 67
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 226
+    command: setflag
+    arguments_raw: g_hobject, visible
+  presentation_commands: []
+  unknown_commands:
+  - line: 36
+    command: haskey
+    arguments_raw: 40 g_ntemp
+  - line: 38
+    command: set
+    arguments_raw: bVanish TRUE
+  - line: 41
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 44
+    command: haskey
+    arguments_raw: 108 g_ntemp
+  - line: 46
+    command: set
+    arguments_raw: bVanish False
+  - line: 93
+    command: Haskey
+    arguments_raw: 181, keycheck
+  - line: 95
+    command: Haskey
+    arguments_raw: 89 keycheck
+  - line: 97
+    command: giveKey
+    arguments_raw: '181'
+  - line: 98
+    command: GiveExp
+    arguments_raw: '12000'
+  - line: 100
+    command: GiveItem
+    arguments_raw: '401'
+  - line: 117
+    command: Haskey
+    arguments_raw: 147, keycheck
+  - line: 119
+    command: Haskey
+    arguments_raw: 23 keycheck
+  - line: 122
+    command: giveKey
+    arguments_raw: '147'
+  - line: 123
+    command: GiveExp
+    arguments_raw: '12000'
+  - line: 143
+    command: Haskey
+    arguments_raw: 146 keycheck
+  - line: 145
+    command: Haskey
+    arguments_raw: 78 keycheck
+  - line: 147
+    command: GiveExp
+    arguments_raw: '40000'
+  - line: 148
+    command: Givekey
+    arguments_raw: '146'
+  - line: 149
+    command: Givegold
+    arguments_raw: '7000'
+  - line: 168
+    command: Haskey
+    arguments_raw: 152 keycheck
+  - line: 170
+    command: Haskey
+    arguments_raw: 81 keycheck
+  - line: 172
+    command: GiveExp
+    arguments_raw: '120000'
+  - line: 173
+    command: Givekey
+    arguments_raw: '152'
+  - line: 174
+    command: Givegold
+    arguments_raw: '12000'
+  - line: 206
+    command: Haskey
+    arguments_raw: 180 g_ntemp
+  - line: 208
+    command: Haskey
+    arguments_raw: 88 g_ntemp
+  - line: 210
+    command: givekey
+    arguments_raw: '180'
+  - line: 224
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 236
+    command: unknown
+    arguments_raw: '@M 6 : 00 Givekey Givekey'
+  - line: 237
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 241
+    command: Set
+    arguments_raw: Jarl, Kira
+  - line: 243
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 244
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 245
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 111
+- script_id: npc240.scr
+  source_path: NPC240.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 18
+    name: 'Off'
+  - line: 28
+    name: OnUse
+  - line: 35
+    name: OnExit
+  - line: 41
+    name: Main
+  registered_triggers:
+  - line: 53
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 50
+    command: LoopAnim
+    arguments_raw: Params,g_ntemp Off
+  unknown_commands:
+  - line: 22
+    command: debugout
+    arguments_raw: Done!!
+  command_count: 11
+- script_id: npc241.scr
+  source_path: NPC241.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: NPCBase.Inc
+  labels:
+  - line: 13
+    name: OnRUDEExit
+  - line: 22
+    name: BlackOrb
+  - line: 49
+    name: OnUse
+  - line: 56
+    name: OnExit
+  - line: 62
+    name: Main
+  registered_triggers:
+  - line: 69
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 27
+    command: haskey
+    arguments_raw: 315 g_ntemp
+  - line: 29
+    command: haskey
+    arguments_raw: 314 g_ntemp
+  - line: 31
+    command: givekey
+    arguments_raw: '315'
+  - line: 32
+    command: giveexp
+    arguments_raw: '50000'
+  - line: 33
+    command: givegold
+    arguments_raw: '10000'
+  command_count: 23
+- script_id: npc242.scr
+  source_path: NPC242.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 11
+    name: OnRude
+  - line: 22
+    name: Reward
+  - line: 49
+    name: GiveBadNews
+  - line: 73
+    name: OnUse
+  - line: 80
+    name: OnExit
+  - line: 86
+    name: Main
+  registered_triggers:
+  - line: 95
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 28
+    command: Haskey
+    arguments_raw: 321 g_ntemp
+  - line: 30
+    command: haskey
+    arguments_raw: 320 g_ntemp
+  - line: 32
+    command: givekey
+    arguments_raw: '321'
+  - line: 33
+    command: giveexp
+    arguments_raw: '5000'
+  - line: 34
+    command: givegold
+    arguments_raw: '5000'
+  - line: 55
+    command: Haskey
+    arguments_raw: 317 g_ntemp
+  - line: 57
+    command: haskey
+    arguments_raw: 316 g_ntemp
+  - line: 59
+    command: giveitem
+    arguments_raw: '251'
+  - line: 60
+    command: givekey
+    arguments_raw: '317'
+  - line: 93
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 31
+- script_id: npc246.scr
+  source_path: NPC246.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  labels:
+  - line: 19
+    name: OnRude
+  - line: 32
+    name: TakeBadNews
+  - line: 56
+    name: OnUse
+  - line: 63
+    name: OnExit
+  - line: 69
+    name: Main
+  registered_triggers:
+  - line: 78
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 38
+    command: Haskey
+    arguments_raw: 319 g_ntemp
+  - line: 40
+    command: haskey
+    arguments_raw: 318 g_ntemp
+  - line: 42
+    command: givekey
+    arguments_raw: '319'
+  - line: 76
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 17
+- script_id: npc378.scr
+  source_path: NPC378.scr
+  parse_status: parsed
+  includes:
+  - line: 12
+    path: globals.inc
+  - line: 13
+    path: basedoor.inc
+  labels:
+  - line: 39
+    name: OnRude
+  - line: 67
+    name: OnUse
+  - line: 82
+    name: Init
+  - line: 130
+    name: OnAppear2
+  - line: 149
+    name: OnAppear
+  - line: 170
+    name: OnTeleport
+  - line: 183
+    name: Appear2b
+  - line: 192
+    name: OnFound
+  - line: 220
+    name: Talk
+  - line: 238
+    name: OnLost
+  - line: 245
+    name: Vanish
+  - line: 256
+    name: Vanish2b
+  - line: 266
+    name: Vanish2c
+  - line: 272
+    name: Main
+  registered_triggers:
+  - line: 281
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 282
+    message: Appear
+    callback: OnAppear
+    arguments_raw: Appear OnAppear
+  - line: 283
+    message: Appear2
+    callback: OnAppear2
+    arguments_raw: Appear2 OnAppear2
+  trigger_edges: []
+  movement_commands:
+  - line: 108
+    command: setpos
+    arguments_raw: g_hobject -2806 1240 5040
+  - line: 144
+    command: setpos
+    arguments_raw: g_hmyobject MyX MyY MyZ
+  - line: 165
+    command: setpos
+    arguments_raw: g_hmyobject XPos YPos ZPos
+  state_commands:
+  - line: 89
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 90
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 91
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 101
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 102
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 103
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 116
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 117
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 118
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  - line: 142
+    command: ClearFlag
+    arguments_raw: g_hmyobject Solid
+  - line: 143
+    command: ClearFlag
+    arguments_raw: g_hmyobject gravity
+  - line: 186
+    command: setflag
+    arguments_raw: g_hmyobject visible
+  - line: 259
+    command: clearflag
+    arguments_raw: g_hmyobject visible
+  presentation_commands: []
+  unknown_commands:
+  - line: 42
+    command: Target
+    arguments_raw: 'Null'
+  - line: 43
+    command: set
+    arguments_raw: bTalking FALSE
+  - line: 44
+    command: haskey
+    arguments_raw: 107 g_ntemp
+  - line: 49
+    command: haskey
+    arguments_raw: 106 g_ntemp
+  - line: 51
+    command: DoRude
+    arguments_raw: '378'
+  - line: 54
+    command: haskey
+    arguments_raw: 84 g_ntemp
+  - line: 59
+    command: haskey
+    arguments_raw: 83 g_ntemp
+  - line: 61
+    command: DoRude
+    arguments_raw: '378'
+  - line: 69
+    command: stop
+    arguments_raw: ''
+  - line: 70
+    command: target
+    arguments_raw: 'Null'
+  - line: 74
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 77
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 92
+    command: CPRINT
+    arguments_raw: DELETED ME FIRST...
+  - line: 98
+    command: haskey
+    arguments_raw: 83 g_ntemp
+  - line: 104
+    command: CPRINT
+    arguments_raw: MADE ME VISIBLE TO GIVE STURM AND DRANG MESSAGE
+  - line: 113
+    command: haskey
+    arguments_raw: 84 g_ntemp
+  - line: 119
+    command: CPRINT
+    arguments_raw: DELETED ME BECAUSE WAR IS FIXED.
+  - line: 122
+    command: GetPlayerHandle
+    arguments_raw: g_hPlayer
+  - line: 123
+    command: FaceObject
+    arguments_raw: g_hPlayer
+  - line: 124
+    command: OnFoundPlayer
+    arguments_raw: OnFound
+  - line: 134
+    command: getplayerhandle
+    arguments_raw: g_hPlayer
+  - line: 137
+    command: MyX
+    arguments_raw: = XPos + 256
+  - line: 138
+    command: MyY
+    arguments_raw: = YPos + 20
+  - line: 139
+    command: MyZ
+    arguments_raw: = ZPos + 256
+  - line: 154
+    command: haskey
+    arguments_raw: 106 g_ntemp
+  - line: 177
+    command: DoClientFX
+    arguments_raw: g_hmyObject,Ceffect
+  - line: 199
+    command: haskey
+    arguments_raw: 107 g_ntemp
+  - line: 204
+    command: haskey
+    arguments_raw: 84 g_ntemp
+  - line: 206
+    command: haskey
+    arguments_raw: 106 g_ntemp
+  - line: 212
+    command: getplayerhandle
+    arguments_raw: g_htarget
+  - line: 213
+    command: runto
+    arguments_raw: g_htarget 16 Talk
+  - line: 223
+    command: stop
+    arguments_raw: ''
+  - line: 224
+    command: set
+    arguments_raw: bTalking, TRUE
+  - line: 225
+    command: DoRude
+    arguments_raw: '378'
+  - line: 229
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 232
+    command: removeobject
+    arguments_raw: g_hobject
+  - line: 250
+    command: DoClientFX
+    arguments_raw: g_hmyObject,Ceffect
+  - line: 268
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 279
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 285
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 286
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 287
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 144
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: retainer.scr
+  source_path: RETAINER.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: NPCBase.Inc
+  labels:
+  - line: 21
+    name: OnRude
+  - line: 28
+    name: OnUse
+  - line: 35
+    name: OnExit
+  - line: 41
+    name: Init
+  - line: 61
+    name: Main
+  - line: 78
+    name: Init
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 48
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 49
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 50
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 53
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 54
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 55
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 46
+    command: haskey
+    arguments_raw: nKey g_ntemp
+  - line: 69
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 70
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 71
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  - line: 73
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 84
+    command: GetObjectName
+    arguments_raw: g_hMyObject g_sPad2
+  - line: 85
+    command: set
+    arguments_raw: g_sTemp 238
+  - line: 87
+    command: set
+    arguments_raw: sound voices\npc\NPC_238.wav
+  - line: 88
+    command: set
+    arguments_raw: nKey 460
+  - line: 92
+    command: set
+    arguments_raw: nKey 452
+  - line: 95
+    command: goto
+    arguments_raw: Init 1
+  command_count: 38
+- script_id: shopkeeper.scr
+  source_path: SHOPKEEPER.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  - line: 11
+    path: BaseWander.inc
+  labels:
+  - line: 25
+    name: OnUse
+  - line: 32
+    name: OnExit
+  - line: 38
+    name: Main
+  - line: 58
+    name: BaseWanderInit
+  registered_triggers:
+  - line: 50
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands:
+  - line: 70
+    command: SetPos
+    arguments_raw: g_hMyObject -6415 544 4768
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 63
+    command: GetObjectName
+    arguments_raw: g_hMyObject g_sPad1
+  - line: 66
+    command: OnPostSaveLoad
+    arguments_raw: BaseWanderInit
+  - line: 67
+    command: OnPostMiniSaveLoad
+    arguments_raw: BaseWanderInit
+  - line: 68
+    command: set
+    arguments_raw: g_nPad2 1
+  - line: 74
+    command: goto
+    arguments_raw: BaseWanderInit 1
+  command_count: 22
+- script_id: thronheimcity_actor.scr
+  source_path: THRONHEIMCITY_ACTOR.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: NPCBase.Inc
+  labels:
+  - line: 18
+    name: RunNormalScript
+  - line: 29
+    name: ShmoeDamage
+  - line: 41
+    name: OnHereComesBadAssShmoe
+  - line: 58
+    name: SetupShmoe
+  - line: 70
+    name: BenDamage
+  - line: 76
+    name: YellForHelp
+  - line: 85
+    name: BenAtGuard
+  - line: 95
+    name: RunAwayFromBadAss
+  - line: 117
+    name: BenAtMarker
+  - line: 126
+    name: OnHereComesBadAssBen
+  - line: 147
+    name: SetupBen
+  - line: 162
+    name: Main
+  registered_triggers:
+  - line: 64
+    message: HereComesBadAss
+    callback: OnHereComesBadAssShmoe
+    arguments_raw: HereComesBadAss,OnHereComesBadAssShmoe
+  - line: 153
+    message: RunAwayFromMe
+    callback: RunAwayFromBadAss
+    arguments_raw: RunAwayFromMe,RunAwayFromBadAss
+  - line: 154
+    message: HereComesBadAss
+    callback: OnHereComesBadAssBen
+    arguments_raw: HereComesBadAss,OnHereComesBadAssBen
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 22
+    command: SetStat
+    arguments_raw: g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+  - line: 121
+    command: SetStat
+    arguments_raw: g_hMyObject,WalkRunMode,WALKRUNMODE_FORWARD
+  - line: 137
+    command: SetStat
+    arguments_raw: g_hMyObject,WalkRunMode,WALKRUNMODE_TARGET
+  presentation_commands: []
+  unknown_commands:
+  - line: 20
+    command: Stop
+    arguments_raw: ''
+  - line: 23
+    command: GetStatStr
+    arguments_raw: g_hMyObject,ScriptName,g_sTemp
+  - line: 24
+    command: RunScript
+    arguments_raw: g_sTemp
+  - line: 31
+    command: Die
+    arguments_raw: ''
+  - line: 33
+    command: GetFaceDir
+    arguments_raw: g_hMyObject,g_dirX,g_dirY,g_dirZ
+  - line: 34
+    command: VecScale
+    arguments_raw: g_dirX,g_dirY,g_dirZ,-1
+  - line: 35
+    command: g_dirY
+    arguments_raw: = 0.45
+  - line: 36
+    command: SetPushBack
+    arguments_raw: g_dirX,g_dirY,g_dirZ,1
+  - line: 45
+    command: stop
+    arguments_raw: ''
+  - line: 48
+    command: Target
+    arguments_raw: g_hObject,TRUE
+  - line: 62
+    command: g_bSocializeEnabled
+    arguments_raw: = FALSE
+  - line: 65
+    command: OnDamage
+    arguments_raw: ShmoeDamage
+  - line: 72
+    command: Die
+    arguments_raw: ''
+  - line: 78
+    command: Help
+    arguments_raw: g_hTarget
+  - line: 87
+    command: stop
+    arguments_raw: ''
+  - line: 104
+    command: g_hRunAwayTrigger
+    arguments_raw: = g_hObject
+  - line: 105
+    command: g_hTarget
+    arguments_raw: = g_hObject
+  - line: 109
+    command: Target
+    arguments_raw: g_hTarget, FALSE
+  - line: 111
+    command: RunTo
+    arguments_raw: g_hObject,0,BenAtGuard
+  - line: 119
+    command: Stop
+    arguments_raw: ''
+  - line: 132
+    command: Stop
+    arguments_raw: ''
+  - line: 135
+    command: Target
+    arguments_raw: g_hObject,TRUE
+  - line: 141
+    command: RunTo
+    arguments_raw: g_hObject,0,BenAtMarker
+  - line: 152
+    command: RemoveTrigger
+    arguments_raw: RunAwayFromMe
+  - line: 156
+    command: g_bSocializeEnabled
+    arguments_raw: = FALSE
+  - line: 166
+    command: GetObjectName
+    arguments_raw: g_hMyObject,sMyName
+  - line: 169
+    command: goto
+    arguments_raw: SetupShmoe
+  - line: 173
+    command: goto
+    arguments_raw: SetupBen
+  command_count: 70
+- script_id: thronheimcity_badass.scr
+  source_path: THRONHEIMCITY_BADASS.scr
+  parse_status: parsed
+  includes:
+  - line: 20
+    path: BaseMelee.inc
+  labels:
+  - line: 33
+    name: GetExtraGuard
+  - line: 44
+    name: Taunt3Done
+  - line: 60
+    name: TellBenToRunAway
+  - line: 68
+    name: DoTaunt3
+  - line: 77
+    name: Taunt2Done
+  - line: 85
+    name: DoTaunt2
+  - line: 91
+    name: DoTaunts
+  - line: 102
+    name: OnObstacle
+  - line: 115
+    name: KillShmoeDone
+  - line: 129
+    name: KillShmoe
+  - line: 138
+    name: SendRunAway2
+  - line: 151
+    name: SendRunAway
+  - line: 181
+    name: Taunt1Done
+  - line: 194
+    name: WallBroken
+  - line: 207
+    name: DestroyWall
+  - line: 223
+    name: AttackWall
+  - line: 232
+    name: AtWallMarker
+  - line: 241
+    name: BreakoutCheck
+  - line: 249
+    name: OnBreakOut
+  - line: 272
+    name: OnDamage
+  - line: 294
+    name: OnTest
+  - line: 301
+    name: SetupBadAss
+  - line: 318
+    name: Main
+  registered_triggers:
+  - line: 304
+    message: BreakOut
+    callback: OnBreakOut
+    arguments_raw: BreakOut, OnBreakOut
+  - line: 305
+    message: test
+    callback: OnTest
+    arguments_raw: test,OnTest
+  trigger_edges:
+  - line: 36
+    target_expression: g_hObject
+    message_expression: Default
+    arguments_raw: g_hObject,Default
+  - line: 39
+    target_expression: g_hObject
+    message_expression: OpenEyes
+    arguments_raw: g_hObject,OpenEyes
+  - line: 64
+    target_expression: g_hObject
+    message_expression: RunAwayFromMe
+    arguments_raw: g_hObject,RunAwayFromMe
+  - line: 168
+    target_expression: g_hObject
+    message_expression: RunAwayFromMe
+    arguments_raw: g_hObject,RunAwayFromMe
+  - line: 171
+    target_expression: g_hObject
+    message_expression: RunAwayFromMe
+    arguments_raw: g_hObject,RunAwayFromMe
+  - line: 197
+    target_expression: g_hObject
+    message_expression: HereComesBadAss
+    arguments_raw: g_hObject,HereComesBadAss
+  - line: 200
+    target_expression: g_hObject
+    message_expression: HereComesBadAss
+    arguments_raw: g_hObject,HereComesBadAss
+  - line: 218
+    target_expression: hPrisonWall
+    message_expression: Destroy
+    arguments_raw: hPrisonWall,Destroy
+  movement_commands: []
+  state_commands:
+  - line: 265
+    command: SetStat
+    arguments_raw: g_hMyObject,HitPoints,250
+  - line: 266
+    command: SetStat
+    arguments_raw: g_hMyObject,GaveTreasure,1
+  - line: 280
+    command: GetStat
+    arguments_raw: g_hMyObject,HitPoints,g_nTemp
+  - line: 285
+    command: SetStat
+    arguments_raw: g_hMyObject,HitPoints,g_nTemp
+  - line: 309
+    command: SetStat
+    arguments_raw: g_hMyObject,GaveTreasure,TRUE
+  - line: 310
+    command: SetStat
+    arguments_raw: g_hMyObject,AC,20
+  presentation_commands: []
+  unknown_commands:
+  - line: 48
+    command: Target
+    arguments_raw: g_hObject, TRUE
+  - line: 50
+    command: bWanderEnabled
+    arguments_raw: = TRUE
+  - line: 62
+    command: toldBen
+    arguments_raw: = TRUE
+  - line: 72
+    command: Taunt
+    arguments_raw: Taunt3Done
+  - line: 79
+    command: GetFaceDir
+    arguments_raw: g_hMyObject,g_dirX,g_dirY,g_dirZ
+  - line: 80
+    command: RotateDir
+    arguments_raw: g_dirX,g_dirY,g_dirZ,180
+  - line: 81
+    command: FaceDir
+    arguments_raw: g_dirX,g_dirY,g_dirZ,360,DoTaunt3
+  - line: 87
+    command: Taunt
+    arguments_raw: Taunt2Done
+  - line: 94
+    command: Stop
+    arguments_raw: ''
+  - line: 95
+    command: GetFaceDir
+    arguments_raw: hWallMarker,g_dirX,g_dirY,g_dirZ
+  - line: 96
+    command: RotateDir
+    arguments_raw: g_dirX,g_dirY,g_dirZ,-90
+  - line: 97
+    command: FaceDir
+    arguments_raw: g_dirX,g_dirY,g_dirZ,360,DoTaunt2
+  - line: 105
+    command: stop
+    arguments_raw: ''
+  - line: 107
+    command: OnObstacle
+    arguments_raw: ''
+  - line: 120
+    command: GetFaceDir
+    arguments_raw: hWallMarker,g_dirX,g_dirY,g_dirZ
+  - line: 121
+    command: FaceDir
+    arguments_raw: g_dirX,g_dirY,g_dirZ,360
+  - line: 122
+    command: OnObstacle
+    arguments_raw: OnObstacle
+  - line: 123
+    command: Run
+    arguments_raw: ''
+  - line: 132
+    command: Run
+    arguments_raw: ''
+  - line: 133
+    command: Attack
+    arguments_raw: KillShmoeDone
+  - line: 144
+    command: runAwayDist
+    arguments_raw: = 500
+  - line: 156
+    command: GetObjects
+    arguments_raw: NPC,runAwayDist,20,hRunAway,g_nTemp
+  - line: 158
+    command: counter
+    arguments_raw: = 0
+  - line: 164
+    command: while
+    arguments_raw: ( counter < g_nTemp )
+  - line: 165
+    command: ArrayGet
+    arguments_raw: hRunAway,counter,g_hObject
+  - line: 166
+    command: GetObjectName
+    arguments_raw: g_hObject,g_sTemp
+  - line: 174
+    command: Add
+    arguments_raw: counter,1
+  - line: 175
+    command: endwhile
+    arguments_raw: ''
+  - line: 186
+    command: Target
+    arguments_raw: g_hTarget,TRUE
+  - line: 188
+    command: RunTo
+    arguments_raw: g_hTarget, 75, KillShmoe
+  - line: 202
+    command: Taunt
+    arguments_raw: Taunt1Done
+  - line: 209
+    command: RemoveModelKey
+    arguments_raw: Rattack
+  - line: 214
+    command: DebugOut
+    arguments_raw: ASSERT!! No prison wall?
+  - line: 226
+    command: AddModelKey
+    arguments_raw: Rattack,DestroyWall
+  - line: 227
+    command: Attack
+    arguments_raw: WallBroken
+  - line: 234
+    command: Stop
+    arguments_raw: ''
+  - line: 235
+    command: GetFaceDir
+    arguments_raw: hWallMarker,g_dirX,g_dirY,g_dirZ
+  - line: 236
+    command: FaceDir
+    arguments_raw: g_dirX,g_dirY,g_dirZ,360,AttackWall
+  - line: 252
+    command: RemoveTrigger
+    arguments_raw: BreakOut
+  - line: 257
+    command: DebugOut
+    arguments_raw: ASSERT!! No prison wall?
+  - line: 260
+    command: Stop
+    arguments_raw: ''
+  - line: 263
+    command: WalkTo
+    arguments_raw: hWallMarker,0,AtWallMarker
+  - line: 278
+    command: IsPlayer
+    arguments_raw: g_hObject,g_bTemp
+  - line: 284
+    command: Add
+    arguments_raw: g_nTemp,g_nRandom
+  - line: 306
+    command: RemoveEnemy
+    arguments_raw: NPC
+  - line: 307
+    command: AddFriend
+    arguments_raw: NPC
+  command_count: 127
+- script_id: thronheimcity_guard.scr
+  source_path: THRONHEIMCITY_GUARD.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: PoliceMan.inc
+  labels:
+  - line: 19
+    name: GetBadAss
+  - line: 36
+    name: OnDeath
+  - line: 43
+    name: GotoSleep
+  - line: 50
+    name: OpenEyes
+  - line: 56
+    name: OnDamage
+  - line: 74
+    name: Main
+  registered_triggers:
+  - line: 78
+    message: ComeGetMe
+    callback: GetBadAss
+    arguments_raw: ComeGetMe,GetBadAss
+  - line: 79
+    message: OpenEyes
+    callback: OpenEyes
+    arguments_raw: OpenEyes,OpenEyes
+  trigger_edges:
+  - line: 39
+    target_expression: g_hObject
+    message_expression: Default
+    arguments_raw: g_hObject,Default
+  movement_commands: []
+  state_commands:
+  - line: 83
+    command: SetStat
+    arguments_raw: g_hMyObject,GaveTreasure,TRUE
+  presentation_commands:
+  - line: 45
+    command: LoopAnim
+    arguments_raw: Sleep,0
+  unknown_commands:
+  - line: 28
+    command: g_hTarget
+    arguments_raw: = hBadAss
+  - line: 46
+    command: OnFoundTarget
+    arguments_raw: ''
+  - line: 52
+    command: OnFoundTarget
+    arguments_raw: OnFoundTarget
+  - line: 62
+    command: GetTarget
+    arguments_raw: g_hObject
+  - line: 65
+    command: goto
+    arguments_raw: OnDamage,2
+  - line: 67
+    command: goto
+    arguments_raw: OnDamage,1
+  - line: 81
+    command: AddFriend
+    arguments_raw: Honk
+  - line: 94
+    command: OnDeath
+    arguments_raw: OnDeath
+  - line: 96
+    command: GetObjectName
+    arguments_raw: g_hMyObject,g_sTemp
+  - line: 98
+    command: debugout
+    arguments_raw: g_sTemp
+  command_count: 41
+- script_id: townportal.scr
+  source_path: TOWNPORTAL.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 27
+    name: OnUse
+  - line: 41
+    name: FixCheck
+  - line: 51
+    name: Init
+  - line: 98
+    name: Main
+  registered_triggers:
+  - line: 103
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 36
+    command: SetModelFilenames
+    arguments_raw: models\Props\Portal-Whole.ABC Skins\Props\PortalClean.dtx
+  - line: 45
+    command: SetModelFilenames
+    arguments_raw: models\Props\Portal-Whole.ABC Skins\Props\PortalClean.dtx
+  unknown_commands:
+  - line: 30
+    command: haskey
+    arguments_raw: nKey g_ntemp
+  - line: 35
+    command: givekey
+    arguments_raw: nKey
+  - line: 43
+    command: haskey
+    arguments_raw: nKey g_ntemp
+  - line: 55
+    command: set
+    arguments_raw: nKey 5011
+  - line: 62
+    command: set
+    arguments_raw: nKey 5012
+  - line: 69
+    command: set
+    arguments_raw: nKey 5013
+  - line: 76
+    command: set
+    arguments_raw: nKey 5014
+  - line: 83
+    command: set
+    arguments_raw: nKey 5015
+  - line: 90
+    command: set
+    arguments_raw: nKey 5016
+  - line: 105
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 106
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 107
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 52
+validation:
+  script_count: 34

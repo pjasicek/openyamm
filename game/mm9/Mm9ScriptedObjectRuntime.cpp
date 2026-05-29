@@ -320,47 +320,11 @@ Mm9ScriptedObject populateBaseObject(
     return object;
 }
 
-void applyVisualMetadata(
-    Mm9ScriptedObject &object,
-    const Mm9ScriptedBillboardVisual &visual,
-    const OutdoorSceneModelInstance &modelInstance)
-{
-    object.radius = static_cast<float>(std::max(visual.collision.radius, 1));
-    object.height = static_cast<float>(std::max(visual.collision.height, 1));
-    object.verticalOffset = static_cast<float>(visual.collision.verticalOffset);
-
-    for (const Mm9ScriptedBillboardUse &usedBy : visual.usedBy)
-    {
-        if (usedBy.mapId == object.mapId && usedBy.sourceObjectIndex == modelInstance.sourceObjectIndex)
-        {
-            object.objectId = usedBy.objectId;
-            object.sourceObjectId = usedBy.objectId;
-            if (object.sourceClass.empty() && !usedBy.sourceClass.empty())
-            {
-                object.sourceClass = usedBy.sourceClass;
-            }
-            if (object.sourceName.empty() && !usedBy.sourceName.empty())
-            {
-                object.sourceName = usedBy.sourceName;
-            }
-            if (object.scriptName.empty() && !usedBy.scriptName.empty())
-            {
-                object.scriptName = usedBy.scriptName;
-            }
-            if (object.scriptParams.empty() && !usedBy.scriptParams.empty())
-            {
-                object.scriptParams = usedBy.scriptParams;
-            }
-            break;
-        }
-    }
-}
 }
 
 bool Mm9ScriptedObjectRuntime::initialize(
     const std::string &mapId,
     const OutdoorSceneData &sceneData,
-    const Mm9ScriptedBillboardVisualSet &visualSet,
     const Mm9EventsData *pEventsData)
 {
     m_objects.clear();
@@ -368,9 +332,7 @@ bool Mm9ScriptedObjectRuntime::initialize(
 
     for (const OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
     {
-        const std::optional<std::string> visualId =
-            visualSet.resolveVisualIdForModelInstance(normalizedMapId, modelInstance);
-        if (!visualId && !likelyMm9ScriptedActorObject(modelInstance))
+        if (!likelyMm9ScriptedActorObject(modelInstance))
         {
             continue;
         }
@@ -381,36 +343,7 @@ bool Mm9ScriptedObjectRuntime::initialize(
                 normalizedMapId,
                 modelInstance,
                 pEventObject,
-                visualId.value_or("mm9_missing_visual"));
-
-        if (!visualId)
-        {
-            object.missingVisual = true;
-            object.missingVisualReason = "unresolved_visual";
-            m_objects.push_back(std::move(object));
-            continue;
-        }
-
-        const Mm9ScriptedBillboardVisual *pVisual = visualSet.findVisual(*visualId);
-        if (pVisual == nullptr)
-        {
-            object.missingVisual = true;
-            object.missingVisualReason = "visual_metadata_missing";
-            m_objects.push_back(std::move(object));
-            continue;
-        }
-
-        applyVisualMetadata(object, *pVisual, modelInstance);
-        if (const Mm9ScriptedBillboardClip *pClip = visualSet.findIdleClip(*pVisual))
-        {
-            object.currentClip = pClip->name;
-        }
-
-        if (visualSet.findFirstIdleFrame(*pVisual) == nullptr)
-        {
-            object.missingVisual = true;
-            object.missingVisualReason = "idle_frame_missing";
-        }
+                "");
 
         m_objects.push_back(std::move(object));
     }

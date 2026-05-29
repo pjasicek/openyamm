@@ -35,19 +35,19 @@ end
 script.labels["PostAttack"] = function(ctx)
     -- BASE2.inc:43
     -- overloaded to potentially do a strafe attack...
-    ctx:command("g_bstrafeattack", "= FALSE") -- BASE2.inc:49
+    ctx:state().g_bStrafeAttack = false -- BASE2.inc:49
     mm9.gosub(script, ctx, "PostAttack") -- BASE2.inc:51
     mm9.gosub(script, ctx, "IsTargetMoving") -- BASE2.inc:52
     if ctx:condition("g_bTemp==FALSE") then -- BASE2.inc:54
-        ctx:command("getrandomint", "0, 100, g_nRandom") -- BASE2.inc:56
+        ctx:randomInt(0, 100, "g_nRandom") -- BASE2.inc:56
         if ctx:condition("g_nRandom < g_nStrafeAttackPct") then -- BASE2.inc:58
-            ctx:command("g_bpickdir", "= TRUE") -- BASE2.inc:59
+            ctx:state().g_bPickDir = true -- BASE2.inc:59
             mm9.gosub(script, ctx, "BE_AttackStrafe") -- BASE2.inc:60
-            ctx:command("g_bpickdir", "= TRUE") -- BASE2.inc:61
-            ctx:command("g_bstrafeattack", "= TRUE") -- BASE2.inc:62
+            ctx:state().g_bPickDir = true -- BASE2.inc:61
+            ctx:state().g_bStrafeAttack = true -- BASE2.inc:62
         end -- BASE2.inc:63
     end -- BASE2.inc:64
-    ctx:command("traceoff", "") -- BASE2.inc:66
+    ctx:traceOff() -- BASE2.inc:66
     do return ctx:exit("") end -- BASE2.inc:68
 end
 

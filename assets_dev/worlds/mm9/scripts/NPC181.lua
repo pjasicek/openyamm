@@ -28,7 +28,7 @@ script.labels["Ranger"] = function(ctx)
         if ctx:hasKey(248) then -- NPC181.scr:58-59
             ctx:giveExp(63000) -- NPC181.scr:60
             ctx:giveGold(5000) -- NPC181.scr:61
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC181.scr:62
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC181.scr:62
             ctx:giveKey(249) -- NPC181.scr:63
             mm9.gosub(script, ctx, "PromoteRanger") -- NPC181.scr:64
             do return ctx:exit("") end -- NPC181.scr:65
@@ -43,19 +43,19 @@ script.labels["PromoteRanger"] = function(ctx)
     -- Player has already completed the quest
     -- just check to see who gets promoted
     if ctx:hasKey(417) then -- NPC181.scr:82-83
-        ctx:command("givepromo", "Ranger Char1") -- NPC181.scr:84
+        ctx:givePromo("Ranger", "Char1") -- NPC181.scr:84
         ctx:takeKey(417) -- NPC181.scr:85
     end -- NPC181.scr:86
     if ctx:hasKey(418) then -- NPC181.scr:88-89
-        ctx:command("givepromo", "Ranger Char2") -- NPC181.scr:90
+        ctx:givePromo("Ranger", "Char2") -- NPC181.scr:90
         ctx:takeKey(418) -- NPC181.scr:91
     end -- NPC181.scr:92
     if ctx:hasKey(419) then -- NPC181.scr:94-95
-        ctx:command("givepromo", "Ranger Char3") -- NPC181.scr:96
+        ctx:givePromo("Ranger", "Char3") -- NPC181.scr:96
         ctx:takeKey(419) -- NPC181.scr:97
     end -- NPC181.scr:98
     if ctx:hasKey(420) then -- NPC181.scr:100-101
-        ctx:command("givepromo", "Ranger Char4") -- NPC181.scr:102
+        ctx:givePromo("Ranger", "Char4") -- NPC181.scr:102
         ctx:takeKey(420) -- NPC181.scr:103
     end -- NPC181.scr:104
     do return ctx:exit("") end -- NPC181.scr:105
@@ -66,7 +66,7 @@ script.labels["OnUse"] = function(ctx)
     if ctx:hasItem(184) then -- NPC181.scr:112-113
         ctx:giveKey(241) -- NPC181.scr:114
     end -- NPC181.scr:115
-    ctx:command("playsound", "voices\\NPC\\NPC_181.wav, Onexit, 100, 240, FALSE, 100") -- NPC181.scr:117
+    ctx:playSound("voices\\NPC\\NPC_181.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC181.scr:117
     do return ctx:exit("") end -- NPC181.scr:118
 end
 

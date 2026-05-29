@@ -111,6 +111,22 @@ bool startsWith(const std::string &value, const std::string &prefix)
     return value.rfind(prefix, 0) == 0;
 }
 
+std::string soundKey(std::string value)
+{
+    value = trimWhitespaceCopy(value);
+
+    std::string key;
+    for (const char character : value)
+    {
+        if (std::isalnum(static_cast<unsigned char>(character)))
+        {
+            key.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
+        }
+    }
+
+    return key;
+}
+
 std::string lookupKey(const std::string &sourceModel, const std::string &actorKey)
 {
     return sourceModel + "|" + actorKey;
@@ -507,6 +523,7 @@ void copyActorIdentityFields(
     target.hostilityGroup = source.hostilityGroup;
     target.treasureLevel = source.treasureLevel;
     target.voiceRadius = source.voiceRadius;
+    target.footSoundReferences = source.footSoundReferences;
 }
 
 void enrichActorRowFromIdentityTable(
@@ -853,6 +870,58 @@ std::string normalizeMm9ModelInstanceImagePath(std::string value)
     return value;
 }
 
+bool mm9ActorFootSoundRequiresResolution(const std::string &footSound)
+{
+    const std::string key = soundKey(footSound);
+    return !key.empty() && key != "0" && key != "none";
+}
+
+std::vector<Mm9ResolvedModelInstanceActorSource::ActorSoundReference> resolveMm9ActorFootSoundReferences(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &footSound)
+{
+    std::vector<Mm9ResolvedModelInstanceActorSource::ActorSoundReference> references;
+    const std::string requiredKey = soundKey(footSound);
+    if (!mm9ActorFootSoundRequiresResolution(requiredKey))
+    {
+        return references;
+    }
+
+    const std::string footstepDirectory = "source/sounds/ANIMSOUNDS/FOOTSTEPS";
+    const std::vector<std::string> entries = assetFileSystem.enumerate(footstepDirectory);
+    for (const std::string &entry : entries)
+    {
+        const std::string entryKey = soundKey(std::filesystem::path(entry).stem().string());
+        const bool matches = entryKey == requiredKey || entryKey.rfind(requiredKey, 0) == 0;
+        if (!matches)
+        {
+            continue;
+        }
+
+        const std::string sourcePath =
+            (std::filesystem::path(footstepDirectory) / entry).generic_string();
+        if (!assetFileSystem.resolvePhysicalPath(sourcePath))
+        {
+            continue;
+        }
+
+        Mm9ResolvedModelInstanceActorSource::ActorSoundReference reference = {};
+        reference.sourcePath = sourcePath;
+        references.push_back(std::move(reference));
+    }
+
+    std::sort(
+        references.begin(),
+        references.end(),
+        [](const Mm9ResolvedModelInstanceActorSource::ActorSoundReference &left,
+            const Mm9ResolvedModelInstanceActorSource::ActorSoundReference &right)
+        {
+            return left.sourcePath < right.sourcePath;
+        });
+
+    return references;
+}
+
 std::vector<std::string> splitMm9ModelInstanceSourceSkins(const std::string &sourceSkin)
 {
     std::vector<std::string> skinPaths;
@@ -1052,6 +1121,10 @@ const Mm9ModelInstanceActorSourceLookup *cachedMm9ModelInstanceActorSourceLookup
                 candidate.source.actorRow.typePicture = yamlScalarString(typePictureNode);
                 candidate.source.actorRow.baseName = yamlScalarString(yamlMapValue(actorRowNode, "base_name"));
                 enrichActorRowFromIdentityTable(candidate.source.actorRow, actorIdentityByKey);
+                candidate.source.actorRow.footSoundReferences =
+                    resolveMm9ActorFootSoundReferences(
+                        assetFileSystem,
+                        candidate.source.actorRow.footSound);
 
                 const std::string actorKey = normalizeActorKey(monsterNameNode.as<std::string>());
                 if (!actorKey.empty())

@@ -14,9 +14,9 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 script.labels["OnRude"] = function(ctx)
     -- NPC215.scr:16
     if ctx:hasKey(1022) then -- NPC215.scr:19-20
-        ctx:command("getobjecthandle", "DestructableProp0 g_hobject") -- NPC215.scr:21
-        ctx:command("setflag", "g_hobject, visible") -- NPC215.scr:22
-        ctx:command("setflag", "g_hobject, solid") -- NPC215.scr:23
+        local object = ctx:object("DestructableProp0") -- NPC215.scr:21
+        object:setFlag("visible", true) -- NPC215.scr:22
+        object:setFlag("solid", true) -- NPC215.scr:23
         -- setflag g_hobject, gravity
         do return ctx:exit("") end -- NPC215.scr:25
     end -- NPC215.scr:26
@@ -29,8 +29,7 @@ script.labels["OnFire"] = function(ctx)
         do return ctx:exit("") end -- NPC215.scr:39
     end -- NPC215.scr:40
     if ctx:hasKey(71) then -- NPC215.scr:42-43
-        ctx:command("getobjecthandle", "Shooter6 g_hobject") -- NPC215.scr:44
-        ctx:trigger("g_hobject", "On") -- NPC215.scr:45
+        ctx:object("Shooter6"):trigger("On") -- NPC215.scr:44-45
         do return ctx:exit("") end -- NPC215.scr:46
     end -- NPC215.scr:47
     do return ctx:exit("") end -- NPC215.scr:48
@@ -44,8 +43,7 @@ script.labels["Off"] = function(ctx)
     if not ctx:hasKey(71) then -- NPC215.scr:59-60
         do return ctx:exit("") end -- NPC215.scr:61
     end -- NPC215.scr:62
-    ctx:command("getobjecthandle", "Shooter6 g_hobject") -- NPC215.scr:64
-    ctx:trigger("g_hobject", "Off") -- NPC215.scr:65
+    ctx:object("Shooter6"):trigger("Off") -- NPC215.scr:64-65
     do return ctx:exit("") end -- NPC215.scr:66
 end
 
@@ -54,10 +52,10 @@ script.labels["Init"] = function(ctx)
     if ctx:hasKey(1022) then -- NPC215.scr:74-75
         do return ctx:exit("") end -- NPC215.scr:76
     end -- NPC215.scr:77
-    ctx:command("getobjecthandle", "DestructableProp0 g_hobject") -- NPC215.scr:79
-    ctx:command("clearflag", "g_hobject, visible") -- NPC215.scr:80
-    ctx:command("clearflag", "g_hobject, solid") -- NPC215.scr:81
-    ctx:command("clearflag", "g_hobject, gravity") -- NPC215.scr:82
+    local object = ctx:object("DestructableProp0") -- NPC215.scr:79
+    object:setFlag("visible", false) -- NPC215.scr:80
+    object:setFlag("solid", false) -- NPC215.scr:81
+    object:setFlag("gravity", false) -- NPC215.scr:82
     do return ctx:exit("") end -- NPC215.scr:84
 end
 
@@ -67,9 +65,9 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC215.scr:93
     -- Addtrigger Use, OnUse
-    ctx:command("@m", "22 : 00 OnFire OnFire") -- NPC215.scr:96
-    ctx:command("@m", "4 : 00 Off Off") -- NPC215.scr:97
-    ctx:command("wait", "1 1 Init") -- NPC215.scr:98
+    ctx:atTime(22, 0, "OnFire", "OnFire") -- NPC215.scr:96
+    ctx:atTime(4, 0, "Off", "Off") -- NPC215.scr:97
+    ctx:wait(1, 1, "Init") -- NPC215.scr:98
     do return ctx:exit("") end -- NPC215.scr:99
 end
 

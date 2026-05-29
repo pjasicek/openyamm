@@ -21,10 +21,10 @@ end
 script.labels["OnRun"] = function(ctx)
     -- ILSROTATESHOOTER.scr:24
     if ctx:condition("stop!=true") then -- ILSROTATESHOOTER.scr:29
-        ctx:command("getmyhandle", ", g_hobject") -- ILSROTATESHOOTER.scr:31
+        ctx:state().g_hobject = ctx:self() -- ILSROTATESHOOTER.scr:31
         ctx:trigger("g_hobject", "on") -- ILSROTATESHOOTER.scr:32
-        ctx:command("getrandomint", "Param1, Param2, g_ntemp") -- ILSROTATESHOOTER.scr:33
-        ctx:command("rotate", "0, 1, 0, g_ntemp, 0,") -- ILSROTATESHOOTER.scr:34
+        ctx:randomInt("Param1", "Param2", "g_ntemp") -- ILSROTATESHOOTER.scr:33
+        ctx:self():rotate(0, 1, 0, "g_ntemp", 0) -- ILSROTATESHOOTER.scr:34
         do return mm9.gotoLabel(script, ctx, "wait") end -- ILSROTATESHOOTER.scr:35
     end -- ILSROTATESHOOTER.scr:36
     ctx:trigger("g_hobject", "off") -- ILSROTATESHOOTER.scr:38
@@ -33,20 +33,20 @@ end
 
 script.labels["wait"] = function(ctx)
     -- ILSROTATESHOOTER.scr:44
-    ctx:command("wait", "param0, Onrun") -- ILSROTATESHOOTER.scr:48
+    ctx:wait("param0", "param0", "Onrun") -- ILSROTATESHOOTER.scr:48
     do return ctx:exit("") end -- ILSROTATESHOOTER.scr:50
 end
 
 script.labels["Onstart"] = function(ctx)
     -- ILSROTATESHOOTER.scr:54
-    ctx:command("set", "stop, false") -- ILSROTATESHOOTER.scr:59
+    ctx:state().stop = false -- ILSROTATESHOOTER.scr:59
     do return mm9.gotoLabel(script, ctx, "Onrun") end -- ILSROTATESHOOTER.scr:61
     do return ctx:exit("") end -- ILSROTATESHOOTER.scr:62
 end
 
 script.labels["Onstop"] = function(ctx)
     -- ILSROTATESHOOTER.scr:66
-    ctx:command("set", "stop, true") -- ILSROTATESHOOTER.scr:69
+    ctx:state().stop = true -- ILSROTATESHOOTER.scr:69
     do return ctx:exit("") end -- ILSROTATESHOOTER.scr:71
 end
 

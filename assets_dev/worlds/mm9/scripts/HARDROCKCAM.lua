@@ -13,18 +13,17 @@ end
 
 script.labels["Play"] = function(ctx)
     -- HARDROCKCAM.scr:12
-    ctx:command("getobjecthandle", "dw hplayer") -- HARDROCKCAM.scr:14
-    ctx:command("faceobject", "hplayer 90 dn") -- HARDROCKCAM.scr:15
+    ctx:state().hplayer = ctx:objectOrNil("dw") -- HARDROCKCAM.scr:14
+    ctx:self():faceObject(ctx:player(), 90, "dn") -- HARDROCKCAM.scr:15
     do return ctx:exit(1) end -- HARDROCKCAM.scr:18
 end
 
 script.labels["Used"] = function(ctx)
     -- HARDROCKCAM.scr:21
-    ctx:command("getplayerhandle", "hPlayer 1000") -- HARDROCKCAM.scr:22
-    ctx:command("getpos", "hPlayer nX nY nZ") -- HARDROCKCAM.scr:23
-    ctx:command("movetopos", "nX nY nZ 0 dn") -- HARDROCKCAM.scr:24
-    ctx:command("getfacedir", "hPlayer nX nY nZ") -- HARDROCKCAM.scr:25
-    ctx:command("facedir", "nX nY nZ 1000 play") -- HARDROCKCAM.scr:26
+    ctx:state().nX, ctx:state().nY, ctx:state().nZ = ctx:player():pos() -- HARDROCKCAM.scr:23
+    ctx:self():moveToPos("nX", "nY", "nZ", 0, "dn") -- HARDROCKCAM.scr:24
+    ctx:state().nX, ctx:state().nY, ctx:state().nZ = ctx:player():rotation() -- HARDROCKCAM.scr:25
+    ctx:self():faceDir("nX", "nY", "nZ", 1000, "play") -- HARDROCKCAM.scr:26
     do return ctx:exit(1) end -- HARDROCKCAM.scr:28
 end
 
@@ -35,7 +34,7 @@ end
 
 script.labels["Main"] = function(ctx)
     -- HARDROCKCAM.scr:37
-    ctx:command("getmyhandle", "hMyHandle") -- HARDROCKCAM.scr:38
+    ctx:state().hMyHandle = ctx:self() -- HARDROCKCAM.scr:38
     ctx:addTrigger("use", "Used") -- HARDROCKCAM.scr:39
     do return ctx:exit("") end -- HARDROCKCAM.scr:41
 end

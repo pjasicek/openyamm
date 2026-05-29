@@ -84,22 +84,22 @@ end
 -- keep out! do not screw with these.
 script.labels["list_SuffixMin"] = function(ctx)
     -- LISTMAKER.inc:96
-    ctx:command("listindex", "= LISTFIRST") -- LISTMAKER.inc:97
+    ctx:set("LISTINDEX", "LISTFIRST") -- LISTMAKER.inc:97
     do return ctx:exit(1) end -- LISTMAKER.inc:98
 end
 
 script.labels["list_SuffixMax"] = function(ctx)
     -- LISTMAKER.inc:100
-    ctx:command("listindex", "= LISTLAST") -- LISTMAKER.inc:101
+    ctx:set("LISTINDEX", "LISTLAST") -- LISTMAKER.inc:101
     do return ctx:exit(1) end -- LISTMAKER.inc:102
 end
 
 script.labels["list_SuffixAdd"] = function(ctx)
     -- LISTMAKER.inc:104
     if ctx:condition("LISTINDEX==LISTLAST") then -- LISTMAKER.inc:105
-        ctx:command("listindex", "= LISTFIRST") -- LISTMAKER.inc:106
+        ctx:set("LISTINDEX", "LISTFIRST") -- LISTMAKER.inc:106
     else -- LISTMAKER.inc:107
-        ctx:command("listindex", "= LISTINDEX + 1") -- LISTMAKER.inc:108
+        ctx:set("LISTINDEX", "LISTINDEX + 1") -- LISTMAKER.inc:108
     end -- LISTMAKER.inc:109
     do return ctx:exit(1) end -- LISTMAKER.inc:110
 end
@@ -107,22 +107,22 @@ end
 script.labels["list_SuffixSub"] = function(ctx)
     -- LISTMAKER.inc:112
     if ctx:condition("LISTINDEX == 0") then -- LISTMAKER.inc:113
-        ctx:command("listindex", "= LISTLAST") -- LISTMAKER.inc:114
+        ctx:set("LISTINDEX", "LISTLAST") -- LISTMAKER.inc:114
     else -- LISTMAKER.inc:115
-        ctx:command("listindex", "= LISTINDEX - 1") -- LISTMAKER.inc:116
+        ctx:set("LISTINDEX", "LISTINDEX - 1") -- LISTMAKER.inc:116
     end -- LISTMAKER.inc:117
     do return ctx:exit(1) end -- LISTMAKER.inc:118
 end
 
 script.labels["list_MakeName"] = function(ctx)
     -- LISTMAKER.inc:120
-    ctx:command("finalname", "= LISTNAME + LISTINDEX") -- LISTMAKER.inc:121
+    ctx:set("FINALNAME", "LISTNAME + LISTINDEX") -- LISTMAKER.inc:121
     do return ctx:exit(1) end -- LISTMAKER.inc:122
 end
 
 script.labels["list_MakeObject"] = function(ctx)
     -- LISTMAKER.inc:124
-    ctx:command("getobjecthandle", "FINALNAME, LISTOBJECT") -- LISTMAKER.inc:125
+    ctx:state().LISTOBJECT = ctx:objectOrNil("FINALNAME") -- LISTMAKER.inc:125
     if ctx:condition("LISTOBJECT==0") then -- LISTMAKER.inc:126
         -- cprint "ListMaker.inc retrieved NULL handle for:"
         -- cprint FINALNAME
@@ -132,13 +132,13 @@ end
 
 script.labels["list_CheckPos"] = function(ctx)
     -- LISTMAKER.inc:132
-    ctx:command("arrivedlast", "= 0") -- LISTMAKER.inc:133
-    ctx:command("arrivedfirst", "= 0") -- LISTMAKER.inc:134
+    ctx:state().ARRIVEDLAST = 0 -- LISTMAKER.inc:133
+    ctx:state().ARRIVEDFIRST = 0 -- LISTMAKER.inc:134
     if ctx:condition("LISTINDEX==LISTLAST") then -- LISTMAKER.inc:135
-        ctx:command("arrivedlast", "= 1") -- LISTMAKER.inc:136
+        ctx:state().ARRIVEDLAST = 1 -- LISTMAKER.inc:136
     end -- LISTMAKER.inc:137
     if ctx:condition("LISTINDEX==LISTFIRST") then -- LISTMAKER.inc:138
-        ctx:command("arrivedfirst", "= 1") -- LISTMAKER.inc:139
+        ctx:state().ARRIVEDFIRST = 1 -- LISTMAKER.inc:139
     end -- LISTMAKER.inc:140
     do return ctx:exit(1) end -- LISTMAKER.inc:141
 end

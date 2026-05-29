@@ -37,6 +37,46 @@ def lookup_key(source_model: str, source_skins: list[str]) -> str:
     return source_model + "|" + ";".join(source_skins)
 
 
+def source_skin_to_virtual(value: str) -> str:
+    normalized = normalize_ref(value)
+    marker = "mm9/extracted/skins/skins/"
+    if marker in normalized:
+        return "skins/" + normalized.split(marker, 1)[1]
+    marker = "skins/skins/"
+    if marker in normalized:
+        return "skins/" + normalized.split(marker, 1)[1]
+    if normalized.startswith("skins/"):
+        return normalized
+    return normalized
+
+
+def load_source_asset_aliases(path: Path) -> dict[str, dict[str, str]]:
+    aliases = {
+        "source_models": {},
+        "source_skins": {},
+    }
+    if not path.exists():
+        return aliases
+
+    data = load_yaml(path)
+    for alias in data.get("aliases") or []:
+        if not isinstance(alias, dict):
+            continue
+
+        source_family = str(alias.get("source_family") or "").strip().lower()
+        requested = str(alias.get("requested") or "")
+        resolved = str(alias.get("resolved") or "")
+        if not requested or not resolved:
+            continue
+
+        if source_family == "models":
+            aliases["source_models"][source_path_to_virtual(requested)] = source_path_to_virtual(resolved)
+        elif source_family == "skins":
+            aliases["source_skins"][source_skin_to_virtual(requested)] = source_skin_to_virtual(resolved)
+
+    return aliases
+
+
 def sidecar_model_asset(path: Path, models_root: Path) -> str:
     model_file = load_yaml(path).get("model")
     if isinstance(model_file, str) and model_file:
@@ -71,6 +111,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Generate MM9 model_registry.yml from source-shaped model sidecars.")
     parser.add_argument("--models-root", type=Path, default=Path("assets_dev/worlds/mm9/models"))
     parser.add_argument("--output", type=Path, default=Path("assets_dev/worlds/mm9/models/model_registry.yml"))
+    parser.add_argument(
+        "--source-asset-aliases",
+        type=Path,
+        default=Path("assets_dev/worlds/mm9/import/overrides/mm9_active_slice.source_asset_aliases.yml"),
+    )
     args = parser.parse_args()
 
     sidecar_paths = sorted(
@@ -126,6 +171,7 @@ def main() -> int:
                 if table and number and binding_id:
                     by_actor_table_row[f"{table}:{number}"] = binding_id
 
+    aliases = load_source_asset_aliases(args.source_asset_aliases)
     registry = {
         "schema": "openyamm.mm9.model_registry.v2",
         "world": "mm9",
@@ -136,6 +182,12 @@ def main() -> int:
             "by_actor_table_row": dict(sorted(by_actor_table_row.items())),
         },
     }
+    if aliases["source_models"] or aliases["source_skins"]:
+        registry["aliases"] = {
+            key: dict(sorted(value.items()))
+            for key, value in aliases.items()
+            if value
+        }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(yaml.safe_dump(registry, sort_keys=False), encoding="utf-8")
     print(f"{len(models)} models")

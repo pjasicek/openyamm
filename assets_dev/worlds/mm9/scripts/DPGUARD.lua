@@ -13,12 +13,12 @@ script.includes[#script.includes + 1] = { line = 7, path = "baseMelee.inc" }
 script.labels["OnHelp"] = function(ctx)
     -- DPGUARD.scr:12
     -- traceon
-    ctx:command("getobjecthandle", "CommonerHumanMaleB0 g_hobject") -- DPGUARD.scr:17
-    ctx:command("runto", "g_hobject 16 DoNothing") -- DPGUARD.scr:18
+    ctx:state().g_hobject = ctx:objectOrNil("CommonerHumanMaleB0") -- DPGUARD.scr:17
+    ctx:self():runTo(ctx:object("g_hobject"), 16, "DoNothing") -- DPGUARD.scr:18
     ctx:getParam(0, "g_htarget") -- DPGUARD.scr:19
     -- help g_htarget
-    ctx:command("removeenemy", "Commoner") -- DPGUARD.scr:21
-    ctx:command("traceoff", "") -- DPGUARD.scr:22
+    ctx:self():removeEnemy("Commoner") -- DPGUARD.scr:21
+    ctx:traceOff() -- DPGUARD.scr:22
     do return ctx:exit("") end -- DPGUARD.scr:23
 end
 

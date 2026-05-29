@@ -4588,7 +4588,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
         }
     }
 
-    if (!ignoreActors && view.m_mm9ScriptedBillboardVisuals)
+    if (!ignoreActors && !view.m_mm9ScriptedBillboardInstances.empty())
     {
         for (size_t instanceIndex = 0; instanceIndex < view.m_mm9ScriptedBillboardInstances.size(); ++instanceIndex)
         {

@@ -15,9 +15,8 @@ script.labels["OnPlay"] = function(ctx)
     -- ARGUECAM2.scr:27
     -- getobjecthandle kira g_hobject
     -- target g_hobject
-    ctx:command("getobjecthandle", "sMarker g_hobject") -- ARGUECAM2.scr:33
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- ARGUECAM2.scr:34
-    ctx:command("movetopos", "xpos Ypos Zpos nSpeed OnArrive") -- ARGUECAM2.scr:35
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("sMarker"):pos() -- ARGUECAM2.scr:33-34
+    ctx:self():moveToPos("xpos", "Ypos", "Zpos", "nSpeed", "OnArrive") -- ARGUECAM2.scr:35
     do return ctx:exit("") end -- ARGUECAM2.scr:36
 end
 
@@ -26,8 +25,7 @@ script.labels["OnArrive"] = function(ctx)
     if ctx:condition("nBook==1") then -- ARGUECAM2.scr:42
         do return ctx:exit("") end -- ARGUECAM2.scr:43
     end -- ARGUECAM2.scr:44
-    ctx:command("getobjecthandle", "Argueman g_hobject") -- ARGUECAM2.scr:46
-    ctx:trigger("g_hobject", "Done") -- ARGUECAM2.scr:47
+    ctx:object("Argueman"):trigger("Done") -- ARGUECAM2.scr:46-47
     do return ctx:exit("") end -- ARGUECAM2.scr:48
 end
 

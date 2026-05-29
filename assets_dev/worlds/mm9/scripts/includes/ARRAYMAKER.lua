@@ -20,9 +20,9 @@ script.includes[#script.includes + 1] = { line = 16, path = "ListMaker.inc" }
 -- ARRAYSTRIDE = number of objects in one association
 script.labels["InitArrayMaker"] = function(ctx)
     -- ARRAYMAKER.inc:24
-    ctx:command("listname", "= ARRAYNAME") -- ARRAYMAKER.inc:26
-    ctx:command("listfirst", "= ARRAYFIRST") -- ARRAYMAKER.inc:27
-    ctx:command("listlast", "= ARRAYSIZE * ARRAYSTRIDE") -- ARRAYMAKER.inc:28
+    ctx:set("LISTNAME", "ARRAYNAME") -- ARRAYMAKER.inc:26
+    ctx:set("LISTFIRST", "ARRAYFIRST") -- ARRAYMAKER.inc:27
+    ctx:set("LISTLAST", "ARRAYSIZE * ARRAYSTRIDE") -- ARRAYMAKER.inc:28
     do return ctx:exit(1) end -- ARRAYMAKER.inc:29
 end
 

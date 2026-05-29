@@ -37,7 +37,7 @@ script.labels["darkpass"] = function(ctx)
         ctx:giveKey(187) -- NPC338.scr:54
         ctx:giveExp(92000) -- NPC338.scr:55
         mm9.gosub(script, ctx, "activate") -- NPC338.scr:56
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC338.scr:57
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC338.scr:57
         do return ctx:exit("") end -- NPC338.scr:58
     end -- NPC338.scr:59
     do return ctx:exit("") end -- NPC338.scr:60
@@ -47,10 +47,8 @@ end
 
 script.labels["activate"] = function(ctx)
     -- NPC338.scr:70
-    ctx:command("getobjecthandle", "FlameCage g_hobject") -- NPC338.scr:73
-    ctx:trigger("g_hobject", "open") -- NPC338.scr:74
-    ctx:command("getobjecthandle", "ExitPoint g_hobject") -- NPC338.scr:75
-    ctx:trigger("g_hobject", "on") -- NPC338.scr:76
+    ctx:object("FlameCage"):trigger("open") -- NPC338.scr:73-74
+    ctx:object("ExitPoint"):trigger("on") -- NPC338.scr:75-76
     -- this is where the exit it turned on!!
     do return ctx:exit("") end -- NPC338.scr:78
 end

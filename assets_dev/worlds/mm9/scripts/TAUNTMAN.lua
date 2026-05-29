@@ -22,66 +22,57 @@ script.labels["OnStart"] = function(ctx)
         end -- TAUNTMAN.scr:24
     end -- TAUNTMAN.scr:25
     ctx:giveKey(497) -- TAUNTMAN.scr:27
-    ctx:command("screenfadeout", "1") -- TAUNTMAN.scr:28
-    ctx:command("wait", "1 1 FadeIn") -- TAUNTMAN.scr:29
+    ctx:screenFadeOut(1) -- TAUNTMAN.scr:28
+    ctx:wait(1, 1, "FadeIn") -- TAUNTMAN.scr:29
     do return ctx:exit("") end -- TAUNTMAN.scr:30
 end
 
 script.labels["FadeIn"] = function(ctx)
     -- TAUNTMAN.scr:33
-    ctx:command("letterbox", "True") -- TAUNTMAN.scr:36
-    ctx:command("getobjecthandle", "TauntCam g_hobject") -- TAUNTMAN.scr:37
-    ctx:trigger("g_hobject", "on") -- TAUNTMAN.scr:38
-    ctx:command("screenfadein", "1") -- TAUNTMAN.scr:39
-    ctx:command("getobjecthandle", "Door0 g_hobject") -- TAUNTMAN.scr:40
-    ctx:trigger("g_hobject", "open") -- TAUNTMAN.scr:41
-    ctx:command("wait", "1 1 TriggerNjam") -- TAUNTMAN.scr:42
+    ctx:letterBox("True") -- TAUNTMAN.scr:36
+    ctx:object("TauntCam"):trigger("on") -- TAUNTMAN.scr:37-38
+    ctx:screenFadeIn(1) -- TAUNTMAN.scr:39
+    ctx:object("Door0"):trigger("open") -- TAUNTMAN.scr:40-41
+    ctx:wait(1, 1, "TriggerNjam") -- TAUNTMAN.scr:42
     do return ctx:exit("") end -- TAUNTMAN.scr:43
 end
 
 script.labels["TriggerNjam"] = function(ctx)
     -- TAUNTMAN.scr:46
     -- Time to walk out of the Room
-    ctx:command("getobjecthandle", "NjamtheMeddler0 g_hobject") -- TAUNTMAN.scr:51
-    ctx:trigger("g_hobject", "start") -- TAUNTMAN.scr:52
+    ctx:object("NjamtheMeddler0"):trigger("start") -- TAUNTMAN.scr:51-52
     do return ctx:exit("") end -- TAUNTMAN.scr:53
 end
 
 script.labels["OnCloseUp"] = function(ctx)
     -- TAUNTMAN.scr:57
     -- switches to the Closeup Cam
-    ctx:command("getobjecthandle", "Door0 g_hobject") -- TAUNTMAN.scr:62
-    ctx:trigger("g_hobject", "Close") -- TAUNTMAN.scr:63
-    ctx:command("getobjecthandle", "TauntCam g_hobject") -- TAUNTMAN.scr:64
-    ctx:trigger("g_hobject", "off") -- TAUNTMAN.scr:65
-    ctx:command("getobjecthandle", "TauntCamB g_hobject") -- TAUNTMAN.scr:66
-    ctx:trigger("g_hobject", "on") -- TAUNTMAN.scr:67
+    ctx:object("Door0"):trigger("Close") -- TAUNTMAN.scr:62-63
+    ctx:object("TauntCam"):trigger("off") -- TAUNTMAN.scr:64-65
+    ctx:object("TauntCamB"):trigger("on") -- TAUNTMAN.scr:66-67
     do return ctx:exit("") end -- TAUNTMAN.scr:68
 end
 
 script.labels["OnFarCam"] = function(ctx)
     -- TAUNTMAN.scr:74
     -- switches to the Closeup Cam
-    ctx:command("getobjecthandle", "TauntCamB g_hobject") -- TAUNTMAN.scr:80
-    ctx:trigger("g_hobject", "off") -- TAUNTMAN.scr:81
-    ctx:command("getobjecthandle", "TauntCam g_hobject") -- TAUNTMAN.scr:82
-    ctx:trigger("g_hobject", "on") -- TAUNTMAN.scr:83
+    ctx:object("TauntCamB"):trigger("off") -- TAUNTMAN.scr:80-81
+    ctx:object("TauntCam"):trigger("on") -- TAUNTMAN.scr:82-83
     do return ctx:exit("") end -- TAUNTMAN.scr:84
 end
 
 script.labels["OnFadeOut"] = function(ctx)
     -- TAUNTMAN.scr:87
-    ctx:command("screenfadeout", "1") -- TAUNTMAN.scr:90
-    ctx:command("wait", "1 1 FadeOut2") -- TAUNTMAN.scr:91
+    ctx:screenFadeOut(1) -- TAUNTMAN.scr:90
+    ctx:wait(1, 1, "FadeOut2") -- TAUNTMAN.scr:91
     do return ctx:exit("") end -- TAUNTMAN.scr:92
 end
 
 script.labels["FadeOut2"] = function(ctx)
     -- TAUNTMAN.scr:96
-    ctx:command("letterbox", "False") -- TAUNTMAN.scr:99
-    ctx:command("getobjecthandle", "TauntCam g_hobject") -- TAUNTMAN.scr:100
-    ctx:trigger("g_hobject", "off") -- TAUNTMAN.scr:101
-    ctx:command("screenfadein", "1") -- TAUNTMAN.scr:102
+    ctx:letterBox("False") -- TAUNTMAN.scr:99
+    ctx:object("TauntCam"):trigger("off") -- TAUNTMAN.scr:100-101
+    ctx:screenFadeIn(1) -- TAUNTMAN.scr:102
     do return ctx:exit("") end -- TAUNTMAN.scr:103
 end
 
@@ -106,11 +97,11 @@ script.labels["OnStart"] = function(ctx)
             do return ctx:exit("") end -- TAUNTMAN.scr:130
         end -- TAUNTMAN.scr:131
     end -- TAUNTMAN.scr:132
-    ctx:command("isturnbased", "g_nTemp") -- TAUNTMAN.scr:134
+    ctx:isTurnBased("g_nTemp") -- TAUNTMAN.scr:134
     if ctx:condition("g_nTemp == TRUE") then -- TAUNTMAN.scr:135
-        ctx:command("screenfadeout", "1") -- TAUNTMAN.scr:136
-        ctx:command("rollovertext", "18 0") -- TAUNTMAN.scr:137
-        ctx:command("wait", "0 1 OnStart") -- TAUNTMAN.scr:138
+        ctx:screenFadeOut(1) -- TAUNTMAN.scr:136
+        ctx:rolloverText(18, 0) -- TAUNTMAN.scr:137
+        ctx:wait(0, 1, "OnStart") -- TAUNTMAN.scr:138
         do return ctx:exit("") end -- TAUNTMAN.scr:139
     end -- TAUNTMAN.scr:140
     do return mm9.gotoLabel(script, ctx, "OnStart") end -- TAUNTMAN.scr:142

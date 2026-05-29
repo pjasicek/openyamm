@@ -38,26 +38,26 @@ end
 
 script.labels["WarpOn"] = function(ctx)
     -- MM_THRONHEIM.scr:70
-    ctx:command("bwarp", "= TRUE") -- MM_THRONHEIM.scr:73
+    ctx:state().bWarp = true -- MM_THRONHEIM.scr:73
     do return ctx:exit("") end -- MM_THRONHEIM.scr:75
 end
 
 script.labels["WarpOff"] = function(ctx)
     -- MM_THRONHEIM.scr:78
-    ctx:command("bwarp", "= FALSE") -- MM_THRONHEIM.scr:81
+    ctx:state().bWarp = false -- MM_THRONHEIM.scr:81
     do return ctx:exit("") end -- MM_THRONHEIM.scr:83
 end
 
 script.labels["CreateMarker"] = function(ctx)
     -- MM_THRONHEIM.scr:86
     if ctx:condition("goto_location == Work") then -- MM_THRONHEIM.scr:89
-        ctx:command("goto_marker", "= marker_work + npc_id") -- MM_THRONHEIM.scr:90
+        ctx:set("goto_marker", "marker_work + npc_id") -- MM_THRONHEIM.scr:90
     end -- MM_THRONHEIM.scr:91
     if ctx:condition("goto_location == Home") then -- MM_THRONHEIM.scr:93
-        ctx:command("goto_marker", "= marker_home + npc_id") -- MM_THRONHEIM.scr:94
+        ctx:set("goto_marker", "marker_home + npc_id") -- MM_THRONHEIM.scr:94
     end -- MM_THRONHEIM.scr:95
     if ctx:condition("goto_location == Misc") then -- MM_THRONHEIM.scr:97
-        ctx:command("goto_marker", "= marker_misc + npc_id") -- MM_THRONHEIM.scr:98
+        ctx:set("goto_marker", "marker_misc + npc_id") -- MM_THRONHEIM.scr:98
     end -- MM_THRONHEIM.scr:99
     do return ctx:exit("") end -- MM_THRONHEIM.scr:101
 end
@@ -65,7 +65,7 @@ end
 script.labels["GoToLocation"] = function(ctx)
     -- MM_THRONHEIM.scr:104
     ctx:getObjectHandleByRudeId("npc_id", "npc_object") -- MM_THRONHEIM.scr:107
-    ctx:command("setstat", "npc_object, PARAM, goto_marker") -- MM_THRONHEIM.scr:109
+    ctx:object("npc_object"):setStat("PARAM", "goto_marker") -- MM_THRONHEIM.scr:109
     if ctx:condition("bWarp == FALSE") then -- MM_THRONHEIM.scr:111
         ctx:trigger("npc_object", "GoToLoc") -- MM_THRONHEIM.scr:112
     end -- MM_THRONHEIM.scr:113
@@ -77,26 +77,26 @@ end
 
 script.labels["LaunchGroup"] = function(ctx)
     -- MM_THRONHEIM.scr:122
-    ctx:command("index", "= 0") -- MM_THRONHEIM.scr:125
+    ctx:state().index = 0 -- MM_THRONHEIM.scr:125
     while ctx:condition("index < 10") do -- MM_THRONHEIM.scr:127
-        ctx:command("npc_id", "= 0") -- MM_THRONHEIM.scr:129
+        ctx:state().npc_id = 0 -- MM_THRONHEIM.scr:129
         if ctx:condition("current_group == Group1") then -- MM_THRONHEIM.scr:131
-            ctx:command("arrayget", "aGroup1,index,npc_id") -- MM_THRONHEIM.scr:132
+            ctx:arrayGet("aGroup1", "index", "npc_id") -- MM_THRONHEIM.scr:132
         end -- MM_THRONHEIM.scr:133
         if ctx:condition("current_group == Group2") then -- MM_THRONHEIM.scr:135
-            ctx:command("arrayget", "aGroup2,index,npc_id") -- MM_THRONHEIM.scr:136
+            ctx:arrayGet("aGroup2", "index", "npc_id") -- MM_THRONHEIM.scr:136
         end -- MM_THRONHEIM.scr:137
         if ctx:condition("current_group == Group3") then -- MM_THRONHEIM.scr:139
-            ctx:command("arrayget", "aGroup3,index,npc_id") -- MM_THRONHEIM.scr:140
+            ctx:arrayGet("aGroup3", "index", "npc_id") -- MM_THRONHEIM.scr:140
         end -- MM_THRONHEIM.scr:141
         if ctx:condition("current_group == Group4") then -- MM_THRONHEIM.scr:143
-            ctx:command("arrayget", "aGroup4,index,npc_id") -- MM_THRONHEIM.scr:144
+            ctx:arrayGet("aGroup4", "index", "npc_id") -- MM_THRONHEIM.scr:144
         end -- MM_THRONHEIM.scr:145
         if ctx:condition("npc_id != 0") then -- MM_THRONHEIM.scr:147
             mm9.gosub(script, ctx, "CreateMarker") -- MM_THRONHEIM.scr:148
             mm9.gosub(script, ctx, "GoToLocation") -- MM_THRONHEIM.scr:149
         end -- MM_THRONHEIM.scr:150
-        ctx:command("index", "= index + 1") -- MM_THRONHEIM.scr:152
+        ctx:set("index", "index + 1") -- MM_THRONHEIM.scr:152
     end -- MM_THRONHEIM.scr:153
     do return ctx:exit("") end -- MM_THRONHEIM.scr:155
 end
@@ -104,8 +104,8 @@ end
 script.labels["Group1_GoWork"] = function(ctx)
     -- MM_THRONHEIM.scr:162
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:165
-    ctx:command("current_group", "= Group1") -- MM_THRONHEIM.scr:166
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:167
+    ctx:set("current_group", "Group1") -- MM_THRONHEIM.scr:166
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:167
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:168
     do return ctx:exit("") end -- MM_THRONHEIM.scr:170
 end
@@ -113,8 +113,8 @@ end
 script.labels["Group1_WarpWork"] = function(ctx)
     -- MM_THRONHEIM.scr:173
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:176
-    ctx:command("current_group", "= Group1") -- MM_THRONHEIM.scr:177
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:178
+    ctx:set("current_group", "Group1") -- MM_THRONHEIM.scr:177
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:178
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:179
     do return ctx:exit("") end -- MM_THRONHEIM.scr:181
 end
@@ -122,8 +122,8 @@ end
 script.labels["Group1_GoHome"] = function(ctx)
     -- MM_THRONHEIM.scr:184
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:187
-    ctx:command("current_group", "= Group1") -- MM_THRONHEIM.scr:188
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:189
+    ctx:set("current_group", "Group1") -- MM_THRONHEIM.scr:188
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:189
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:190
     do return ctx:exit("") end -- MM_THRONHEIM.scr:192
 end
@@ -131,8 +131,8 @@ end
 script.labels["Group1_WarpHome"] = function(ctx)
     -- MM_THRONHEIM.scr:195
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:198
-    ctx:command("current_group", "= Group1") -- MM_THRONHEIM.scr:199
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:200
+    ctx:set("current_group", "Group1") -- MM_THRONHEIM.scr:199
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:200
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:201
     do return ctx:exit("") end -- MM_THRONHEIM.scr:203
 end
@@ -140,8 +140,8 @@ end
 script.labels["Group1_GoMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:206
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:209
-    ctx:command("current_group", "= Group1") -- MM_THRONHEIM.scr:210
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:211
+    ctx:set("current_group", "Group1") -- MM_THRONHEIM.scr:210
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:211
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:212
     do return ctx:exit("") end -- MM_THRONHEIM.scr:214
 end
@@ -149,8 +149,8 @@ end
 script.labels["Group1_WarpMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:217
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:220
-    ctx:command("current_group", "= Group1") -- MM_THRONHEIM.scr:221
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:222
+    ctx:set("current_group", "Group1") -- MM_THRONHEIM.scr:221
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:222
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:223
     do return ctx:exit("") end -- MM_THRONHEIM.scr:225
 end
@@ -158,8 +158,8 @@ end
 script.labels["Group2_GoWork"] = function(ctx)
     -- MM_THRONHEIM.scr:229
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:232
-    ctx:command("current_group", "= Group2") -- MM_THRONHEIM.scr:233
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:234
+    ctx:set("current_group", "Group2") -- MM_THRONHEIM.scr:233
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:234
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:235
     do return ctx:exit("") end -- MM_THRONHEIM.scr:237
 end
@@ -167,8 +167,8 @@ end
 script.labels["Group2_WarpWork"] = function(ctx)
     -- MM_THRONHEIM.scr:240
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:243
-    ctx:command("current_group", "= Group2") -- MM_THRONHEIM.scr:244
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:245
+    ctx:set("current_group", "Group2") -- MM_THRONHEIM.scr:244
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:245
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:246
     do return ctx:exit("") end -- MM_THRONHEIM.scr:248
 end
@@ -176,8 +176,8 @@ end
 script.labels["Group2_GoHome"] = function(ctx)
     -- MM_THRONHEIM.scr:251
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:254
-    ctx:command("current_group", "= Group2") -- MM_THRONHEIM.scr:255
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:256
+    ctx:set("current_group", "Group2") -- MM_THRONHEIM.scr:255
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:256
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:257
     do return ctx:exit("") end -- MM_THRONHEIM.scr:259
 end
@@ -185,8 +185,8 @@ end
 script.labels["Group2_WarpHome"] = function(ctx)
     -- MM_THRONHEIM.scr:262
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:265
-    ctx:command("current_group", "= Group2") -- MM_THRONHEIM.scr:266
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:267
+    ctx:set("current_group", "Group2") -- MM_THRONHEIM.scr:266
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:267
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:268
     do return ctx:exit("") end -- MM_THRONHEIM.scr:270
 end
@@ -194,8 +194,8 @@ end
 script.labels["Group2_GoMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:273
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:276
-    ctx:command("current_group", "= Group2") -- MM_THRONHEIM.scr:277
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:278
+    ctx:set("current_group", "Group2") -- MM_THRONHEIM.scr:277
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:278
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:279
     do return ctx:exit("") end -- MM_THRONHEIM.scr:281
 end
@@ -203,8 +203,8 @@ end
 script.labels["Group2_WarpMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:284
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:287
-    ctx:command("current_group", "= Group2") -- MM_THRONHEIM.scr:288
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:289
+    ctx:set("current_group", "Group2") -- MM_THRONHEIM.scr:288
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:289
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:290
     do return ctx:exit("") end -- MM_THRONHEIM.scr:292
 end
@@ -212,8 +212,8 @@ end
 script.labels["Group3_GoWork"] = function(ctx)
     -- MM_THRONHEIM.scr:295
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:298
-    ctx:command("current_group", "= Group3") -- MM_THRONHEIM.scr:299
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:300
+    ctx:set("current_group", "Group3") -- MM_THRONHEIM.scr:299
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:300
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:301
     do return ctx:exit("") end -- MM_THRONHEIM.scr:303
 end
@@ -221,8 +221,8 @@ end
 script.labels["Group3_WarpWork"] = function(ctx)
     -- MM_THRONHEIM.scr:306
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:309
-    ctx:command("current_group", "= Group3") -- MM_THRONHEIM.scr:310
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:311
+    ctx:set("current_group", "Group3") -- MM_THRONHEIM.scr:310
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:311
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:312
     do return ctx:exit("") end -- MM_THRONHEIM.scr:314
 end
@@ -230,8 +230,8 @@ end
 script.labels["Group3_GoHome"] = function(ctx)
     -- MM_THRONHEIM.scr:317
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:320
-    ctx:command("current_group", "= Group3") -- MM_THRONHEIM.scr:321
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:322
+    ctx:set("current_group", "Group3") -- MM_THRONHEIM.scr:321
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:322
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:323
     do return ctx:exit("") end -- MM_THRONHEIM.scr:325
 end
@@ -239,8 +239,8 @@ end
 script.labels["Group3_WarpHome"] = function(ctx)
     -- MM_THRONHEIM.scr:328
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:331
-    ctx:command("current_group", "= Group3") -- MM_THRONHEIM.scr:332
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:333
+    ctx:set("current_group", "Group3") -- MM_THRONHEIM.scr:332
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:333
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:334
     do return ctx:exit("") end -- MM_THRONHEIM.scr:336
 end
@@ -248,8 +248,8 @@ end
 script.labels["Group3_GoMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:339
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:342
-    ctx:command("current_group", "= Group3") -- MM_THRONHEIM.scr:343
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:344
+    ctx:set("current_group", "Group3") -- MM_THRONHEIM.scr:343
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:344
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:345
     do return ctx:exit("") end -- MM_THRONHEIM.scr:347
 end
@@ -257,8 +257,8 @@ end
 script.labels["Group3_WarpMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:350
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:353
-    ctx:command("current_group", "= Group3") -- MM_THRONHEIM.scr:354
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:355
+    ctx:set("current_group", "Group3") -- MM_THRONHEIM.scr:354
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:355
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:356
     do return ctx:exit("") end -- MM_THRONHEIM.scr:358
 end
@@ -266,8 +266,8 @@ end
 script.labels["Group4_GoWork"] = function(ctx)
     -- MM_THRONHEIM.scr:361
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:364
-    ctx:command("current_group", "= Group4") -- MM_THRONHEIM.scr:365
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:366
+    ctx:set("current_group", "Group4") -- MM_THRONHEIM.scr:365
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:366
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:367
     do return ctx:exit("") end -- MM_THRONHEIM.scr:369
 end
@@ -275,8 +275,8 @@ end
 script.labels["Group4_WarpWork"] = function(ctx)
     -- MM_THRONHEIM.scr:372
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:375
-    ctx:command("current_group", "= Group4") -- MM_THRONHEIM.scr:376
-    ctx:command("goto_location", "= Work") -- MM_THRONHEIM.scr:377
+    ctx:set("current_group", "Group4") -- MM_THRONHEIM.scr:376
+    ctx:set("goto_location", "Work") -- MM_THRONHEIM.scr:377
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:378
     do return ctx:exit("") end -- MM_THRONHEIM.scr:380
 end
@@ -284,8 +284,8 @@ end
 script.labels["Group4_GoHome"] = function(ctx)
     -- MM_THRONHEIM.scr:384
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:387
-    ctx:command("current_group", "= Group4") -- MM_THRONHEIM.scr:388
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:389
+    ctx:set("current_group", "Group4") -- MM_THRONHEIM.scr:388
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:389
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:390
     do return ctx:exit("") end -- MM_THRONHEIM.scr:392
 end
@@ -293,8 +293,8 @@ end
 script.labels["Group4_WarpHome"] = function(ctx)
     -- MM_THRONHEIM.scr:395
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:398
-    ctx:command("current_group", "= Group4") -- MM_THRONHEIM.scr:399
-    ctx:command("goto_location", "= Home") -- MM_THRONHEIM.scr:400
+    ctx:set("current_group", "Group4") -- MM_THRONHEIM.scr:399
+    ctx:set("goto_location", "Home") -- MM_THRONHEIM.scr:400
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:401
     do return ctx:exit("") end -- MM_THRONHEIM.scr:403
 end
@@ -302,8 +302,8 @@ end
 script.labels["Group4_GoMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:406
     mm9.gosub(script, ctx, "WarpOff") -- MM_THRONHEIM.scr:409
-    ctx:command("current_group", "= Group4") -- MM_THRONHEIM.scr:410
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:411
+    ctx:set("current_group", "Group4") -- MM_THRONHEIM.scr:410
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:411
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:412
     do return ctx:exit("") end -- MM_THRONHEIM.scr:414
 end
@@ -311,54 +311,54 @@ end
 script.labels["Group4_WarpMisc"] = function(ctx)
     -- MM_THRONHEIM.scr:417
     mm9.gosub(script, ctx, "WarpOn") -- MM_THRONHEIM.scr:420
-    ctx:command("current_group", "= Group4") -- MM_THRONHEIM.scr:421
-    ctx:command("goto_location", "= Misc") -- MM_THRONHEIM.scr:422
+    ctx:set("current_group", "Group4") -- MM_THRONHEIM.scr:421
+    ctx:set("goto_location", "Misc") -- MM_THRONHEIM.scr:422
     mm9.gosub(script, ctx, "LaunchGroup") -- MM_THRONHEIM.scr:423
     do return ctx:exit("") end -- MM_THRONHEIM.scr:425
 end
 
 script.labels["InitWorkSchedule"] = function(ctx)
     -- MM_THRONHEIM.scr:433
-    ctx:command("@m", "6 : 15 Group1_GoWork Group1_WarpWork") -- MM_THRONHEIM.scr:436
-    ctx:command("@m", "6 : 30 Group2_GoWork Group2_WarpWork") -- MM_THRONHEIM.scr:437
-    ctx:command("@m", "6 : 45 Group3_GoWork Group3_WarpWork") -- MM_THRONHEIM.scr:438
-    ctx:command("@m", "7 : 00 Group4_GoWork Group4_WarpWork") -- MM_THRONHEIM.scr:439
+    ctx:atTime(6, 15, "Group1_GoWork", "Group1_WarpWork") -- MM_THRONHEIM.scr:436
+    ctx:atTime(6, 30, "Group2_GoWork", "Group2_WarpWork") -- MM_THRONHEIM.scr:437
+    ctx:atTime(6, 45, "Group3_GoWork", "Group3_WarpWork") -- MM_THRONHEIM.scr:438
+    ctx:atTime(7, 0, "Group4_GoWork", "Group4_WarpWork") -- MM_THRONHEIM.scr:439
     do return ctx:exit("") end -- MM_THRONHEIM.scr:441
 end
 
 script.labels["InitHomeSchedule"] = function(ctx)
     -- MM_THRONHEIM.scr:445
-    ctx:command("@m", "18 : 00 Group1_GoHome Group1_WarpHome") -- MM_THRONHEIM.scr:448
-    ctx:command("@m", "18 : 15 Group2_GoHome Group2_WarpHome") -- MM_THRONHEIM.scr:449
-    ctx:command("@m", "18 : 30 Group3_GoHome Group3_WarpHome") -- MM_THRONHEIM.scr:450
-    ctx:command("@m", "18 : 45 Group4_GoHome Group4_WarpHome") -- MM_THRONHEIM.scr:451
+    ctx:atTime(18, 0, "Group1_GoHome", "Group1_WarpHome") -- MM_THRONHEIM.scr:448
+    ctx:atTime(18, 15, "Group2_GoHome", "Group2_WarpHome") -- MM_THRONHEIM.scr:449
+    ctx:atTime(18, 30, "Group3_GoHome", "Group3_WarpHome") -- MM_THRONHEIM.scr:450
+    ctx:atTime(18, 45, "Group4_GoHome", "Group4_WarpHome") -- MM_THRONHEIM.scr:451
     do return ctx:exit("") end -- MM_THRONHEIM.scr:453
 end
 
 script.labels["InitMiscSchedule"] = function(ctx)
     -- MM_THRONHEIM.scr:456
     -- Go Wander off to somewhere
-    ctx:command("@m", "13 : 00 Group1_GoMisc Group1_WarpMisc") -- MM_THRONHEIM.scr:460
-    ctx:command("@m", "13 : 15 Group2_GoMisc Group2_WarpMisc") -- MM_THRONHEIM.scr:461
-    ctx:command("@m", "13 : 30 Group3_GoMisc Group3_WarpMisc") -- MM_THRONHEIM.scr:462
-    ctx:command("@m", "13 : 45 Group4_GoMisc Group4_WarpMisc") -- MM_THRONHEIM.scr:463
+    ctx:atTime(13, 0, "Group1_GoMisc", "Group1_WarpMisc") -- MM_THRONHEIM.scr:460
+    ctx:atTime(13, 15, "Group2_GoMisc", "Group2_WarpMisc") -- MM_THRONHEIM.scr:461
+    ctx:atTime(13, 30, "Group3_GoMisc", "Group3_WarpMisc") -- MM_THRONHEIM.scr:462
+    ctx:atTime(13, 45, "Group4_GoMisc", "Group4_WarpMisc") -- MM_THRONHEIM.scr:463
     -- Go Back to work
-    ctx:command("@m", "15 : 00 Group1_GoWork Group1_WarpWork") -- MM_THRONHEIM.scr:466
-    ctx:command("@m", "15 : 15 Group2_GoWork Group2_WarpWork") -- MM_THRONHEIM.scr:467
-    ctx:command("@m", "15 : 30 Group3_GoWork Group3_WarpWork") -- MM_THRONHEIM.scr:468
-    ctx:command("@m", "15 : 45 Group4_GoWork Group4_WarpWork") -- MM_THRONHEIM.scr:469
+    ctx:atTime(15, 0, "Group1_GoWork", "Group1_WarpWork") -- MM_THRONHEIM.scr:466
+    ctx:atTime(15, 15, "Group2_GoWork", "Group2_WarpWork") -- MM_THRONHEIM.scr:467
+    ctx:atTime(15, 30, "Group3_GoWork", "Group3_WarpWork") -- MM_THRONHEIM.scr:468
+    ctx:atTime(15, 45, "Group4_GoWork", "Group4_WarpWork") -- MM_THRONHEIM.scr:469
     do return ctx:exit("") end -- MM_THRONHEIM.scr:471
 end
 
 script.labels["InitArrays"] = function(ctx)
     -- MM_THRONHEIM.scr:479
-    ctx:command("index", "= 0") -- MM_THRONHEIM.scr:482
+    ctx:state().index = 0 -- MM_THRONHEIM.scr:482
     while ctx:condition("index < 10") do -- MM_THRONHEIM.scr:483
-        ctx:command("arrayput", "aGroup1, index , 0") -- MM_THRONHEIM.scr:484
-        ctx:command("arrayput", "aGroup2, index , 0") -- MM_THRONHEIM.scr:485
-        ctx:command("arrayput", "aGroup3, index , 0") -- MM_THRONHEIM.scr:486
-        ctx:command("arrayput", "aGroup4, index , 0") -- MM_THRONHEIM.scr:487
-        ctx:command("index", "= index + 1") -- MM_THRONHEIM.scr:488
+        ctx:arrayPut("aGroup1", "index", 0) -- MM_THRONHEIM.scr:484
+        ctx:arrayPut("aGroup2", "index", 0) -- MM_THRONHEIM.scr:485
+        ctx:arrayPut("aGroup3", "index", 0) -- MM_THRONHEIM.scr:486
+        ctx:arrayPut("aGroup4", "index", 0) -- MM_THRONHEIM.scr:487
+        ctx:set("index", "index + 1") -- MM_THRONHEIM.scr:488
     end -- MM_THRONHEIM.scr:489
     do return ctx:exit("") end -- MM_THRONHEIM.scr:491
 end
@@ -366,54 +366,54 @@ end
 script.labels["LoadGroup1"] = function(ctx)
     -- MM_THRONHEIM.scr:495
     -- Olaf Frodessen			( 262 )
-    ctx:command("arrayput", "aGroup1,0,262") -- MM_THRONHEIM.scr:499
+    ctx:arrayPut("aGroup1", 0, 262) -- MM_THRONHEIM.scr:499
     -- Allasan A'Washadi		( 268 )
-    ctx:command("arrayput", "aGroup1,1,268") -- MM_THRONHEIM.scr:502
+    ctx:arrayPut("aGroup1", 1, 268) -- MM_THRONHEIM.scr:502
     -- Comgghan A'Feslo		( 272 )
-    ctx:command("arrayput", "aGroup1,3,272") -- MM_THRONHEIM.scr:505
+    ctx:arrayPut("aGroup1", 3, 272) -- MM_THRONHEIM.scr:505
     -- Bryan Hrutssen			( 273 )
-    ctx:command("arrayput", "aGroup1,4,273") -- MM_THRONHEIM.scr:508
+    ctx:arrayPut("aGroup1", 4, 273) -- MM_THRONHEIM.scr:508
     -- Andvari Egilssen		( 277 )
-    ctx:command("arrayput", "aGroup1,5,277") -- MM_THRONHEIM.scr:511
+    ctx:arrayPut("aGroup1", 5, 277) -- MM_THRONHEIM.scr:511
     do return ctx:exit("") end -- MM_THRONHEIM.scr:513
 end
 
 script.labels["LoadGroup2"] = function(ctx)
     -- MM_THRONHEIM.scr:516
     -- Neda Haki				( 263 )
-    ctx:command("arrayput", "aGroup2,0,263") -- MM_THRONHEIM.scr:520
+    ctx:arrayPut("aGroup2", 0, 263) -- MM_THRONHEIM.scr:520
     -- Eimhir A'Mor			( 269 )
-    ctx:command("arrayput", "aGroup2,1,269") -- MM_THRONHEIM.scr:523
+    ctx:arrayPut("aGroup2", 1, 269) -- MM_THRONHEIM.scr:523
     -- Dain Swordstrong		( 278 )
-    ctx:command("arrayput", "aGroup2,2,278") -- MM_THRONHEIM.scr:526
+    ctx:arrayPut("aGroup2", 2, 278) -- MM_THRONHEIM.scr:526
     -- Dagny Borkdotir			( 274 )
-    ctx:command("arrayput", "aGroup2,3,274") -- MM_THRONHEIM.scr:529
+    ctx:arrayPut("aGroup2", 3, 274) -- MM_THRONHEIM.scr:529
     do return ctx:exit("") end -- MM_THRONHEIM.scr:531
 end
 
 script.labels["LoadGroup3"] = function(ctx)
     -- MM_THRONHEIM.scr:534
     -- Caitir A'Feslo			( 264 )
-    ctx:command("arrayput", "aGroup3,0,264") -- MM_THRONHEIM.scr:538
+    ctx:arrayPut("aGroup3", 0, 264) -- MM_THRONHEIM.scr:538
     -- Fland A'Tryht			( 270 )
-    ctx:command("arrayput", "aGroup3,1,270") -- MM_THRONHEIM.scr:541
+    ctx:arrayPut("aGroup3", 1, 270) -- MM_THRONHEIM.scr:541
     -- Yoltzin Tor				( 279 )
-    ctx:command("arrayput", "aGroup3,2,279") -- MM_THRONHEIM.scr:544
+    ctx:arrayPut("aGroup3", 2, 279) -- MM_THRONHEIM.scr:544
     -- Ran Tryygvadotir		( 275 )
-    ctx:command("arrayput", "aGroup3,3,275") -- MM_THRONHEIM.scr:547
+    ctx:arrayPut("aGroup3", 3, 275) -- MM_THRONHEIM.scr:547
     do return ctx:exit("") end -- MM_THRONHEIM.scr:549
 end
 
 script.labels["LoadGroup4"] = function(ctx)
     -- MM_THRONHEIM.scr:552
     -- Gudlaug Ragnarssen		( 265 )
-    ctx:command("arrayput", "aGroup4,0,265") -- MM_THRONHEIM.scr:556
+    ctx:arrayPut("aGroup4", 0, 265) -- MM_THRONHEIM.scr:556
     -- Muiredach A'Lanth		( 271 )
-    ctx:command("arrayput", "aGroup4,1,271") -- MM_THRONHEIM.scr:559
+    ctx:arrayPut("aGroup4", 1, 271) -- MM_THRONHEIM.scr:559
     -- Ateed Bakari			( 280 )
-    ctx:command("arrayput", "aGroup4,2,280") -- MM_THRONHEIM.scr:562
+    ctx:arrayPut("aGroup4", 2, 280) -- MM_THRONHEIM.scr:562
     -- Fjall Bodilssen			( 276 )
-    ctx:command("arrayput", "aGroup4,3,276") -- MM_THRONHEIM.scr:565
+    ctx:arrayPut("aGroup4", 3, 276) -- MM_THRONHEIM.scr:565
     do return ctx:exit("") end -- MM_THRONHEIM.scr:567
 end
 

@@ -20,74 +20,68 @@ script.labels["OnWalk"] = function(ctx)
     if not ctx:hasKey(230) then -- SVENARENA.scr:30-31
         do return ctx:exit("") end -- SVENARENA.scr:32
     end -- SVENARENA.scr:33
-    ctx:command("getmyhandle", "g_hobject") -- SVENARENA.scr:35
-    ctx:command("setflag", "g_hobject, visible") -- SVENARENA.scr:36
-    ctx:command("setflag", "g_hobject, solid") -- SVENARENA.scr:37
-    ctx:command("setflag", "g_hobject, gravity") -- SVENARENA.scr:38
+    ctx:state().g_hobject = ctx:self() -- SVENARENA.scr:35
+    ctx:self():setFlag("visible", true) -- SVENARENA.scr:36
+    ctx:self():setFlag("solid", true) -- SVENARENA.scr:37
+    ctx:self():setFlag("gravity", true) -- SVENARENA.scr:38
     if ctx:condition("bGuard==FALSE") then -- SVENARENA.scr:40
-        ctx:command("getobjecthandle", "ClanSoldier1 g_hobject") -- SVENARENA.scr:41
-        ctx:trigger("g_hobject", "Guard") -- SVENARENA.scr:42
-        ctx:command("getobjecthandle", "ClanSoldier0 g_hobject") -- SVENARENA.scr:44
-        ctx:trigger("g_hobject", "Guard") -- SVENARENA.scr:45
-        ctx:command("getobjecthandle", "sMarker g_hobject") -- SVENARENA.scr:47
-        ctx:command("walkto", "g_hobject 6 OnArrive") -- SVENARENA.scr:48
-        ctx:command("playsound", "sounds\\events\\Trumpets02.wav, DoNothing, 100, 24000, FALSE, 100") -- SVENARENA.scr:50
+        ctx:object("ClanSoldier1"):trigger("Guard") -- SVENARENA.scr:41-42
+        ctx:object("ClanSoldier0"):trigger("Guard") -- SVENARENA.scr:44-45
+        ctx:state().g_hobject = ctx:objectOrNil("sMarker") -- SVENARENA.scr:47
+        ctx:self():walkTo(ctx:object("g_hobject"), 6, "OnArrive") -- SVENARENA.scr:48
+        ctx:playSound("sounds\\events\\Trumpets02.wav", "DoNothing", 100, 24000, "FALSE", 100) -- SVENARENA.scr:50
     end -- SVENARENA.scr:51
     do return ctx:exit("") end -- SVENARENA.scr:53
 end
 
 script.labels["OnGuard"] = function(ctx)
     -- SVENARENA.scr:56
-    ctx:command("getmyhandle", "g_hobject") -- SVENARENA.scr:60
-    ctx:command("setflag", "g_hobject, visible") -- SVENARENA.scr:61
-    ctx:command("setflag", "g_hobject, solid") -- SVENARENA.scr:62
-    ctx:command("setflag", "g_hobject, gravity") -- SVENARENA.scr:63
-    ctx:command("getobjecthandle", "sMarker g_hobject") -- SVENARENA.scr:64
-    ctx:command("walkto", "g_hobject 6 OnArrive") -- SVENARENA.scr:65
+    ctx:state().g_hobject = ctx:self() -- SVENARENA.scr:60
+    ctx:self():setFlag("visible", true) -- SVENARENA.scr:61
+    ctx:self():setFlag("solid", true) -- SVENARENA.scr:62
+    ctx:self():setFlag("gravity", true) -- SVENARENA.scr:63
+    ctx:state().g_hobject = ctx:objectOrNil("sMarker") -- SVENARENA.scr:64
+    ctx:self():walkTo(ctx:object("g_hobject"), 6, "OnArrive") -- SVENARENA.scr:65
     do return ctx:exit("") end -- SVENARENA.scr:66
 end
 
 script.labels["OnArrive"] = function(ctx)
     -- SVENARENA.scr:68
-    ctx:command("wait", "1 2 OnWave") -- SVENARENA.scr:72
+    ctx:wait(1, 2, "OnWave") -- SVENARENA.scr:72
     do return ctx:exit("") end -- SVENARENA.scr:73
 end
 
 script.labels["OnWave"] = function(ctx)
     -- SVENARENA.scr:76
     if ctx:condition("bGuard==FALSE") then -- SVENARENA.scr:79
-        ctx:command("getobjecthandle", "WinCheerTrigger0 g_hobject") -- SVENARENA.scr:80
-        ctx:trigger("g_hobject", "trigger") -- SVENARENA.scr:81
+        ctx:object("WinCheerTrigger0"):trigger("trigger") -- SVENARENA.scr:80-81
     end -- SVENARENA.scr:82
-    ctx:command("playanim", "Bless DoNothing") -- SVENARENA.scr:84
-    ctx:command("wait", "1 2 OnStart") -- SVENARENA.scr:85
+    ctx:self():playAnimation("Bless", "DoNothing") -- SVENARENA.scr:84
+    ctx:wait(1, 2, "OnStart") -- SVENARENA.scr:85
     do return ctx:exit("") end -- SVENARENA.scr:86
 end
 
 script.labels["Init"] = function(ctx)
     -- SVENARENA.scr:91
-    ctx:command("getmyhandle", "g_hobject") -- SVENARENA.scr:95
-    ctx:command("clearflag", "g_hobject, visible") -- SVENARENA.scr:96
-    ctx:command("clearflag", "g_hobject, solid") -- SVENARENA.scr:97
-    ctx:command("clearflag", "g_hobject, gravity") -- SVENARENA.scr:98
+    ctx:state().g_hobject = ctx:self() -- SVENARENA.scr:95
+    ctx:self():setFlag("visible", false) -- SVENARENA.scr:96
+    ctx:self():setFlag("solid", false) -- SVENARENA.scr:97
+    ctx:self():setFlag("gravity", false) -- SVENARENA.scr:98
     do return ctx:exit("") end -- SVENARENA.scr:99
 end
 
 script.labels["OnStart"] = function(ctx)
     -- SVENARENA.scr:103
-    ctx:command("getobjecthandle", "RotatingDoor4 g_hobject") -- SVENARENA.scr:106
-    ctx:trigger("g_hobject", "use") -- SVENARENA.scr:107
-    ctx:command("getobjecthandle", "CommonerHuman2MaleB0 g_hobject") -- SVENARENA.scr:108
-    ctx:trigger("g_hobject", "enter") -- SVENARENA.scr:109
-    ctx:command("wait", "1 1 Boo") -- SVENARENA.scr:110
+    ctx:object("RotatingDoor4"):trigger("use") -- SVENARENA.scr:106-107
+    ctx:object("CommonerHuman2MaleB0"):trigger("enter") -- SVENARENA.scr:108-109
+    ctx:wait(1, 1, "Boo") -- SVENARENA.scr:110
     do return ctx:exit("") end -- SVENARENA.scr:112
 end
 
 script.labels["Boo"] = function(ctx)
     -- SVENARENA.scr:115
     if ctx:condition("bGuard==FALSE") then -- SVENARENA.scr:118
-        ctx:command("getobjecthandle", "LooseBooTrigger0 g_hobject") -- SVENARENA.scr:119
-        ctx:trigger("g_hobject", "trigger") -- SVENARENA.scr:120
+        ctx:object("LooseBooTrigger0"):trigger("trigger") -- SVENARENA.scr:119-120
     end -- SVENARENA.scr:121
     do return ctx:exit("") end -- SVENARENA.scr:123
 end

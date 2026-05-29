@@ -44,7 +44,7 @@ script.labels["Gladiator"] = function(ctx)
             ctx:giveKey(221) -- NPC61.scr:84
             ctx:giveExp(63000) -- NPC61.scr:85
             ctx:giveGold(5000) -- NPC61.scr:86
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC61.scr:87
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC61.scr:87
             -- gives reward
             mm9.gosub(script, ctx, "PromoteGladiator") -- NPC61.scr:89
             do return ctx:exit("") end -- NPC61.scr:91
@@ -59,19 +59,19 @@ script.labels["PromoteGladiator"] = function(ctx)
     -- Player has already completed the quest
     -- just check to see who gets promoted
     if ctx:hasKey(409) then -- NPC61.scr:110-111
-        ctx:command("givepromo", "Gladiator Char1") -- NPC61.scr:112
+        ctx:givePromo("Gladiator", "Char1") -- NPC61.scr:112
         ctx:takeKey(409) -- NPC61.scr:113
     end -- NPC61.scr:114
     if ctx:hasKey(410) then -- NPC61.scr:116-117
-        ctx:command("givepromo", "Gladiator Char2") -- NPC61.scr:118
+        ctx:givePromo("Gladiator", "Char2") -- NPC61.scr:118
         ctx:takeKey(410) -- NPC61.scr:119
     end -- NPC61.scr:120
     if ctx:hasKey(411) then -- NPC61.scr:122-123
-        ctx:command("givepromo", "Gladiator Char3") -- NPC61.scr:124
+        ctx:givePromo("Gladiator", "Char3") -- NPC61.scr:124
         ctx:takeKey(411) -- NPC61.scr:125
     end -- NPC61.scr:126
     if ctx:hasKey(412) then -- NPC61.scr:128-129
-        ctx:command("givepromo", "Gladiator Char4") -- NPC61.scr:130
+        ctx:givePromo("Gladiator", "Char4") -- NPC61.scr:130
         ctx:takeKey(412) -- NPC61.scr:131
     end -- NPC61.scr:132
     do return ctx:exit("") end -- NPC61.scr:133

@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/sturmford.lua
+  script_ir: ../events/sturmford.script_ir.yml
 objects:
 - object_id: mm9:sturmford:object:0
   source_object_index: 0
@@ -23761,10 +23762,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest3
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 6784.0
     - 608.0
@@ -36317,10 +36320,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -6720.0
     - 384.0
@@ -36725,10 +36730,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -7936.0
     - 384.0
@@ -37133,10 +37140,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -7936.0
     - 384.0
@@ -61097,7 +61106,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: SoundTrigger0
-    Pos: &id052
+    Pos: &id084
     - 2016.0
     - 512.0
     - 4336.0
@@ -84324,6 +84333,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:28:mechanism
   object_id: mm9:sturmford:object:28
@@ -84335,6 +84345,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id031 []
 - mechanism_id: mm9:sturmford:object:29:mechanism
   object_id: mm9:sturmford:object:29
@@ -84346,6 +84357,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id032 []
 - mechanism_id: mm9:sturmford:object:93:mechanism
   object_id: mm9:sturmford:object:93
@@ -84356,6 +84368,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:183:mechanism
   object_id: mm9:sturmford:object:183
@@ -84366,6 +84379,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:184:mechanism
   object_id: mm9:sturmford:object:184
@@ -84376,6 +84390,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:185:mechanism
   object_id: mm9:sturmford:object:185
@@ -84386,6 +84401,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:188:mechanism
   object_id: mm9:sturmford:object:188
@@ -84396,6 +84412,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:189:mechanism
   object_id: mm9:sturmford:object:189
@@ -84406,6 +84423,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:190:mechanism
   object_id: mm9:sturmford:object:190
@@ -84416,6 +84434,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:199:mechanism
   object_id: mm9:sturmford:object:199
@@ -84426,6 +84445,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id033 []
 - mechanism_id: mm9:sturmford:object:200:mechanism
   object_id: mm9:sturmford:object:200
@@ -84436,6 +84456,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:201:mechanism
   object_id: mm9:sturmford:object:201
@@ -84446,6 +84467,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:202:mechanism
   object_id: mm9:sturmford:object:202
@@ -84456,6 +84478,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:203:mechanism
   object_id: mm9:sturmford:object:203
@@ -84467,6 +84490,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id034 []
 - mechanism_id: mm9:sturmford:object:251:mechanism
   object_id: mm9:sturmford:object:251
@@ -84492,6 +84516,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id036 []
 - mechanism_id: mm9:sturmford:object:260:mechanism
   object_id: mm9:sturmford:object:260
@@ -84502,6 +84555,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:261:mechanism
   object_id: mm9:sturmford:object:261
@@ -84512,6 +84566,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:262:mechanism
   object_id: mm9:sturmford:object:262
@@ -84522,6 +84577,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:sturmford:object:299:mechanism
   object_id: mm9:sturmford:object:299
@@ -84551,6 +84607,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor15
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id037 []
 - mechanism_id: mm9:sturmford:object:300:mechanism
   object_id: mm9:sturmford:object:300
@@ -84580,6 +84665,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor16
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id038 []
 - mechanism_id: mm9:sturmford:object:301:mechanism
   object_id: mm9:sturmford:object:301
@@ -84609,6 +84723,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor14
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id039 []
 - mechanism_id: mm9:sturmford:object:302:mechanism
   object_id: mm9:sturmford:object:302
@@ -84638,6 +84781,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor13
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id040 []
 - mechanism_id: mm9:sturmford:object:303:mechanism
   object_id: mm9:sturmford:object:303
@@ -84663,6 +84835,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\drawbridge02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id041
   - phase: open
     slot: 0
@@ -84689,6 +84890,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id042 []
 - mechanism_id: mm9:sturmford:object:307:mechanism
   object_id: mm9:sturmford:object:307
@@ -84700,6 +84902,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id043 []
 - mechanism_id: mm9:sturmford:object:310:mechanism
   object_id: mm9:sturmford:object:310
@@ -84729,6 +84932,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: RotatingDoor8
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\knock.wav
+    authored: true
   trigger_outputs: &id044 []
 - mechanism_id: mm9:sturmford:object:311:mechanism
   object_id: mm9:sturmford:object:311
@@ -84758,6 +84990,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: RotatingDoor7
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\knock.wav
+    authored: true
   trigger_outputs: &id045 []
 - mechanism_id: mm9:sturmford:object:312:mechanism
   object_id: mm9:sturmford:object:312
@@ -84787,6 +85048,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door02.wav
+    authored: true
   trigger_outputs: &id046 []
 - mechanism_id: mm9:sturmford:object:313:mechanism
   object_id: mm9:sturmford:object:313
@@ -84816,6 +85106,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door02.wav
+    authored: true
   trigger_outputs: &id047 []
 - mechanism_id: mm9:sturmford:object:314:mechanism
   object_id: mm9:sturmford:object:314
@@ -84845,6 +85164,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Events\WoodCreak1.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\stonedoorslam.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id048
   - phase: open
     slot: 0
@@ -84860,6 +85208,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id049 []
 - mechanism_id: mm9:sturmford:object:316:mechanism
   object_id: mm9:sturmford:object:316
@@ -84870,6 +85219,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id050 []
 - mechanism_id: mm9:sturmford:object:317:mechanism
   object_id: mm9:sturmford:object:317
@@ -84880,6 +85230,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id051 []
 triggers:
 - trigger_id: mm9:sturmford:object:248:trigger
@@ -86226,6 +86577,111 @@ interactions:
   script_id: destructon.scr
   sends: *id051
 bindings:
+- object_id: mm9:sturmford:object:1
+  source_object_index: 1
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group: &id059
+      source_model_index: 0
+      source_model_name: Ocean
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id052
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group: &id060
+      source_model_index: 0
+      source_model_name: Ocean
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id052
+- object_id: mm9:sturmford:object:2
+  source_object_index: 2
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id053
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group:
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id053
+- object_id: mm9:sturmford:object:4
+  source_object_index: 4
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id054
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group:
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id054
 - object_id: mm9:sturmford:object:6
   source_object_index: 6
   targets:
@@ -86283,18 +86739,343 @@ bindings:
 - object_id: mm9:sturmford:object:24
   source_object_index: 24
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: InvisibleBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id055
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: InvisibleBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id055
+- object_id: mm9:sturmford:object:27
+  source_object_index: 27
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: Rain0
+    source_model_name: Rain0
+    source_polygon_group: &id057
+      source_model_index: 4
+      source_model_name: Rain0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id056
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: Rain0
+    source_model_name: Rain0
+    source_polygon_group: &id058
+      source_model_index: 4
+      source_model_name: Rain0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id056
 - object_id: mm9:sturmford:object:28
   source_object_index: 28
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id139
+    - source_model_index: 4
+      source_name: Rain0
+      movable: true
+      world_translation_lt:
+      - -512.0
+      - 212.0
+      - 0.0
+      distance_from_position_lt: 499.744
+      claimed_by_exact_bindings:
+      - source_object_index: 27
+        source_name: Rain0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -512.0
+        - 468.0
+        - 0.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: Rain0
+        source_model_name: Rain0
+        source_polygon_group: *id057
+      - source_object_index: 27
+        source_name: Rain0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -512.0
+        - 468.0
+        - 0.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: Rain0
+        source_model_name: Rain0
+        source_polygon_group: *id058
+    - source_model_index: 0
+      source_name: Ocean
+      movable: true
+      world_translation_lt:
+      - -1280.0
+      - -88.0
+      - 256.0
+      distance_from_position_lt: 1260.476
+      claimed_by_exact_bindings:
+      - source_object_index: 1
+        source_name: Ocean
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -1280.0
+        - -88.0
+        - 256.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:0
+        bmodel_index: 0
+        bmodel_name: Ocean
+        source_model_name: Ocean
+        source_polygon_group: *id059
+      - source_object_index: 1
+        source_name: Ocean
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -1280.0
+        - -88.0
+        - 256.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:0
+        bmodel_index: 0
+        bmodel_name: Ocean
+        source_model_name: Ocean
+        source_polygon_group: *id060
+    - source_model_index: 9
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt:
+      - 1984.5
+      - 292.0
+      - -1280.0
+      distance_from_position_lt: 2400.057
+      claimed_by_exact_bindings:
+      - source_object_index: 185
+        source_name: PerceptionBrush3
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 1984.5
+        - 440.0
+        - -1280.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:9
+        bmodel_index: 9
+        bmodel_name: PerceptionBrush3
+        source_model_name: PerceptionBrush3
+        source_polygon_group: &id069
+          source_model_index: 9
+          source_model_name: PerceptionBrush3
+          source_poly_count: 34
+          source_surface_count: 34
+          roles: &id061
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 185
+        source_name: PerceptionBrush3
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 1984.5
+        - 440.0
+        - -1280.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:9
+        bmodel_index: 9
+        bmodel_name: PerceptionBrush3
+        source_model_name: PerceptionBrush3
+        source_polygon_group: &id070
+          source_model_index: 9
+          source_model_name: PerceptionBrush3
+          source_poly_count: 34
+          source_surface_count: 34
+          roles: *id061
+    - source_model_index: 8
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt:
+      - -588.0
+      - 276.0
+      - -4928.5
+      distance_from_position_lt: 4900.42
+      claimed_by_exact_bindings:
+      - source_object_index: 184
+        source_name: PerceptionBrush2
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -588.0
+        - 440.0
+        - -4928.5
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:8
+        bmodel_index: 8
+        bmodel_name: PerceptionBrush2
+        source_model_name: PerceptionBrush2
+        source_polygon_group: &id067
+          source_model_index: 8
+          source_model_name: PerceptionBrush2
+          source_poly_count: 34
+          source_surface_count: 34
+          roles: &id062
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 184
+        source_name: PerceptionBrush2
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -588.0
+        - 440.0
+        - -4928.5
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:8
+        bmodel_index: 8
+        bmodel_name: PerceptionBrush2
+        source_model_name: PerceptionBrush2
+        source_polygon_group: &id068
+          source_model_index: 8
+          source_model_name: PerceptionBrush2
+          source_poly_count: 34
+          source_surface_count: 34
+          roles: *id062
+    - source_model_index: 20
+      source_name: InvisibleBrush5
+      movable: true
+      world_translation_lt:
+      - 768.0
+      - 216.0
+      - 4834.5
+      distance_from_position_lt: 4973.347
+      claimed_by_exact_bindings:
+      - source_object_index: 261
+        source_name: InvisibleBrush5
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 768.0
+        - 216.0
+        - 4834.5
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:20
+        bmodel_index: 20
+        bmodel_name: InvisibleBrush5
+        source_model_name: InvisibleBrush5
+        source_polygon_group: &id090
+          source_model_index: 20
+          source_model_name: InvisibleBrush5
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id063
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 261
+        source_name: InvisibleBrush5
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 768.0
+        - 216.0
+        - 4834.5
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:20
+        bmodel_index: 20
+        bmodel_name: InvisibleBrush5
+        source_model_name: InvisibleBrush5
+        source_polygon_group: &id091
+          source_model_index: 20
+          source_model_name: InvisibleBrush5
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id063
 - object_id: mm9:sturmford:object:29
   source_object_index: 29
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: BlueWater0
+      source_poly_count: 430
+      source_surface_count: 6
+      roles: &id064
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: BlueWater0
+    source_model_name: BlueWater0
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: BlueWater0
+      source_poly_count: 430
+      source_surface_count: 6
+      roles: *id064
 - object_id: mm9:sturmford:object:30
   source_object_index: 30
   targets:
@@ -86676,8 +87457,38 @@ bindings:
 - object_id: mm9:sturmford:object:93
   source_object_index: 93
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_source_model_name
+    bmodel_index: 6
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group: &id080
+      source_model_index: 6
+      source_model_name: PerceptionBrush0
+      source_poly_count: 42
+      source_surface_count: 42
+      roles: &id065
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_bmodel_name
+    bmodel_index: 6
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group: &id081
+      source_model_index: 6
+      source_model_name: PerceptionBrush0
+      source_poly_count: 42
+      source_surface_count: 42
+      roles: *id065
 - object_id: mm9:sturmford:object:103
   source_object_index: 103
   targets:
@@ -87113,18 +87924,72 @@ bindings:
 - object_id: mm9:sturmford:object:183
   source_object_index: 183
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_source_model_name
+    bmodel_index: 7
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: PerceptionBrush1
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: &id066
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_bmodel_name
+    bmodel_index: 7
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: PerceptionBrush1
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: *id066
 - object_id: mm9:sturmford:object:184
   source_object_index: 184
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_source_model_name
+    bmodel_index: 8
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group: *id067
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_bmodel_name
+    bmodel_index: 8
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group: *id068
 - object_id: mm9:sturmford:object:185
   source_object_index: 185
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_source_model_name
+    bmodel_index: 9
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group: *id069
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_bmodel_name
+    bmodel_index: 9
+    bmodel_name: PerceptionBrush3
+    source_model_name: PerceptionBrush3
+    source_polygon_group: *id070
 - object_id: mm9:sturmford:object:186
   source_object_index: 186
   targets:
@@ -87140,18 +88005,108 @@ bindings:
 - object_id: mm9:sturmford:object:188
   source_object_index: 188
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_source_model_name
+    bmodel_index: 10
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id071
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_bmodel_name
+    bmodel_index: 10
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id071
 - object_id: mm9:sturmford:object:189
   source_object_index: 189
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_source_model_name
+    bmodel_index: 11
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: InvisibleBrush2
+      source_poly_count: 11
+      source_surface_count: 11
+      roles: &id072
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_bmodel_name
+    bmodel_index: 11
+    bmodel_name: InvisibleBrush2
+    source_model_name: InvisibleBrush2
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: InvisibleBrush2
+      source_poly_count: 11
+      source_surface_count: 11
+      roles: *id072
 - object_id: mm9:sturmford:object:190
   source_object_index: 190
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_source_model_name
+    bmodel_index: 12
+    bmodel_name: InvisibleBrush3
+    source_model_name: InvisibleBrush3
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: InvisibleBrush3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id073
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_bmodel_name
+    bmodel_index: 12
+    bmodel_name: InvisibleBrush3
+    source_model_name: InvisibleBrush3
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: InvisibleBrush3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id073
 - object_id: mm9:sturmford:object:191
   source_object_index: 191
   targets:
@@ -87185,41 +88140,438 @@ bindings:
 - object_id: mm9:sturmford:object:199
   source_object_index: 199
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_source_model_name
+    bmodel_index: 13
+    bmodel_name: Weakwall
+    source_model_name: Weakwall
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: Weakwall
+      source_poly_count: 34
+      source_surface_count: 34
+      roles: &id074
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_bmodel_name
+    bmodel_index: 13
+    bmodel_name: Weakwall
+    source_model_name: Weakwall
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: Weakwall
+      source_poly_count: 34
+      source_surface_count: 34
+      roles: *id074
 - object_id: mm9:sturmford:object:200
   source_object_index: 200
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_source_model_name
+    bmodel_index: 14
+    bmodel_name: Weakwallperc
+    source_model_name: Weakwallperc
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: Weakwallperc
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: &id075
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_bmodel_name
+    bmodel_index: 14
+    bmodel_name: Weakwallperc
+    source_model_name: Weakwallperc
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: Weakwallperc
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: *id075
 - object_id: mm9:sturmford:object:201
   source_object_index: 201
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_source_model_name
+    bmodel_index: 15
+    bmodel_name: Portchainperc
+    source_model_name: Portchainperc
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: Portchainperc
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id076
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_bmodel_name
+    bmodel_index: 15
+    bmodel_name: Portchainperc
+    source_model_name: Portchainperc
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: Portchainperc
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id076
 - object_id: mm9:sturmford:object:202
   source_object_index: 202
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_source_model_name
+    bmodel_index: 16
+    bmodel_name: Drawchainperc
+    source_model_name: Drawchainperc
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: Drawchainperc
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id077
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_bmodel_name
+    bmodel_index: 16
+    bmodel_name: Drawchainperc
+    source_model_name: Drawchainperc
+    source_polygon_group:
+      source_model_index: 16
+      source_model_name: Drawchainperc
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id077
 - object_id: mm9:sturmford:object:203
   source_object_index: 203
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id140
+    - source_model_index: 17
+      source_name: Portcullislever
+      movable: true
+      world_translation_lt:
+      - 5075.0
+      - 666.0
+      - 6528.0
+      distance_from_position_lt: 58.898
+      claimed_by_exact_bindings:
+      - source_object_index: 250
+        source_name: Portcullislever
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5075.0
+        - 646.0
+        - 6528.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:17
+        bmodel_index: 17
+        bmodel_name: Portcullislever
+        source_model_name: Portcullislever
+        source_polygon_group: &id085
+          source_model_index: 17
+          source_model_name: Portcullislever
+          source_poly_count: 18
+          source_surface_count: 18
+          roles: &id078
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 250
+        source_name: Portcullislever
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5075.0
+        - 646.0
+        - 6528.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:17
+        bmodel_index: 17
+        bmodel_name: Portcullislever
+        source_model_name: Portcullislever
+        source_polygon_group: &id086
+          source_model_index: 17
+          source_model_name: Portcullislever
+          source_poly_count: 18
+          source_surface_count: 18
+          roles: *id078
+    - source_model_index: 18
+      source_name: DoorChain4
+      movable: true
+      world_translation_lt:
+      - 5058.0
+      - 777.0
+      - 6528.0
+      distance_from_position_lt: 95.776
+      claimed_by_exact_bindings:
+      - source_object_index: 251
+        source_name: DoorChain4
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5058.0
+        - 718.0
+        - 6528.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:18
+        bmodel_index: 18
+        bmodel_name: DoorChain4
+        source_model_name: DoorChain4
+        source_polygon_group: &id087
+          source_model_index: 18
+          source_model_name: DoorChain4
+          source_poly_count: 5
+          source_surface_count: 5
+          roles: &id079
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 251
+        source_name: DoorChain4
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5058.0
+        - 718.0
+        - 6528.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:18
+        bmodel_index: 18
+        bmodel_name: DoorChain4
+        source_model_name: DoorChain4
+        source_polygon_group: &id088
+          source_model_index: 18
+          source_model_name: DoorChain4
+          source_poly_count: 5
+          source_surface_count: 5
+          roles: *id079
+    - source_model_index: 6
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt:
+      - 5043.5
+      - 516.0
+      - 6528.0
+      distance_from_position_lt: 202.969
+      claimed_by_exact_bindings:
+      - source_object_index: 93
+        source_name: PerceptionBrush0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5043.5
+        - 582.0
+        - 6528.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:6
+        bmodel_index: 6
+        bmodel_name: PerceptionBrush0
+        source_model_name: PerceptionBrush0
+        source_polygon_group: *id080
+      - source_object_index: 93
+        source_name: PerceptionBrush0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5043.5
+        - 582.0
+        - 6528.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:6
+        bmodel_index: 6
+        bmodel_name: PerceptionBrush0
+        source_model_name: PerceptionBrush0
+        source_polygon_group: *id081
+    - source_model_index: 57
+      source_name: RotatingDoor7
+      movable: true
+      world_translation_lt:
+      - 5248.0
+      - 876.0
+      - 6492.0
+      distance_from_position_lt: 217.403
+      claimed_by_exact_bindings:
+      - source_object_index: 310
+        source_name: RotatingDoor7
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5248.0
+        - 940.0
+        - 6456.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:57
+        bmodel_index: 57
+        bmodel_name: RotatingDoor7
+        source_model_name: RotatingDoor7
+        source_polygon_group: &id128
+          source_model_index: 57
+          source_model_name: RotatingDoor7
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id082
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 310
+        source_name: RotatingDoor7
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5248.0
+        - 940.0
+        - 6456.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:57
+        bmodel_index: 57
+        bmodel_name: RotatingDoor7
+        source_model_name: RotatingDoor7
+        source_polygon_group: &id129
+          source_model_index: 57
+          source_model_name: RotatingDoor7
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id082
+    - source_model_index: 58
+      source_name: RotatingDoor8
+      movable: true
+      world_translation_lt:
+      - 5248.0
+      - 876.0
+      - 6564.0
+      distance_from_position_lt: 217.403
+      claimed_by_exact_bindings:
+      - source_object_index: 311
+        source_name: RotatingDoor8
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 5248.0
+        - 940.0
+        - 6600.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:58
+        bmodel_index: 58
+        bmodel_name: RotatingDoor8
+        source_model_name: RotatingDoor8
+        source_polygon_group: &id130
+          source_model_index: 58
+          source_model_name: RotatingDoor8
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id083
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 311
+        source_name: RotatingDoor8
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 5248.0
+        - 940.0
+        - 6600.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:58
+        bmodel_index: 58
+        bmodel_name: RotatingDoor8
+        source_model_name: RotatingDoor8
+        source_polygon_group: &id131
+          source_model_index: 58
+          source_model_name: RotatingDoor8
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id083
 - object_id: mm9:sturmford:object:248
   source_object_index: 248
   targets:
   - target_kind: trigger_volume
     target_id: mm9:sturmford:object:248:volume
     confidence: source_object_volume
-    pos_lt: *id052
+    pos_lt: *id084
     dims_lt: *id030
+- object_id: mm9:sturmford:object:250
+  source_object_index: 250
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_source_model_name
+    bmodel_index: 17
+    bmodel_name: Portcullislever
+    source_model_name: Portcullislever
+    source_polygon_group: *id085
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_bmodel_name
+    bmodel_index: 17
+    bmodel_name: Portcullislever
+    source_model_name: Portcullislever
+    source_polygon_group: *id086
 - object_id: mm9:sturmford:object:251
   source_object_index: 251
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_source_model_name
+    bmodel_index: 18
+    bmodel_name: DoorChain4
+    source_model_name: DoorChain4
+    source_polygon_group: *id087
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_bmodel_name
+    bmodel_index: 18
+    bmodel_name: DoorChain4
+    source_model_name: DoorChain4
+    source_polygon_group: *id088
 - object_id: mm9:sturmford:object:252
   source_object_index: 252
   targets:
@@ -87271,18 +88623,90 @@ bindings:
 - object_id: mm9:sturmford:object:260
   source_object_index: 260
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_source_model_name
+    bmodel_index: 19
+    bmodel_name: InvisibleBrush4
+    source_model_name: InvisibleBrush4
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: InvisibleBrush4
+      source_poly_count: 7
+      source_surface_count: 7
+      roles: &id089
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_bmodel_name
+    bmodel_index: 19
+    bmodel_name: InvisibleBrush4
+    source_model_name: InvisibleBrush4
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: InvisibleBrush4
+      source_poly_count: 7
+      source_surface_count: 7
+      roles: *id089
 - object_id: mm9:sturmford:object:261
   source_object_index: 261
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_source_model_name
+    bmodel_index: 20
+    bmodel_name: InvisibleBrush5
+    source_model_name: InvisibleBrush5
+    source_polygon_group: *id090
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_bmodel_name
+    bmodel_index: 20
+    bmodel_name: InvisibleBrush5
+    source_model_name: InvisibleBrush5
+    source_polygon_group: *id091
 - object_id: mm9:sturmford:object:262
   source_object_index: 262
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_source_model_name
+    bmodel_index: 21
+    bmodel_name: InvisibleBrush6
+    source_model_name: InvisibleBrush6
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: InvisibleBrush6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id092
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_bmodel_name
+    bmodel_index: 21
+    bmodel_name: InvisibleBrush6
+    source_model_name: InvisibleBrush6
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: InvisibleBrush6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id092
 - object_id: mm9:sturmford:object:263
   source_object_index: 263
   targets:
@@ -87355,81 +88779,1510 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:sturmford:object:274
     confidence: exact_source_object_index
+- object_id: mm9:sturmford:object:275
+  source_object_index: 275
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_source_model_name
+    bmodel_index: 22
+    bmodel_name: AITrk0
+    source_model_name: AITrk0
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: AITrk0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id093
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_bmodel_name
+    bmodel_index: 22
+    bmodel_name: AITrk0
+    source_model_name: AITrk0
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: AITrk0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id093
+- object_id: mm9:sturmford:object:276
+  source_object_index: 276
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_source_model_name
+    bmodel_index: 23
+    bmodel_name: AITrk1
+    source_model_name: AITrk1
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: AITrk1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id094
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_bmodel_name
+    bmodel_index: 23
+    bmodel_name: AITrk1
+    source_model_name: AITrk1
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: AITrk1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id094
+- object_id: mm9:sturmford:object:277
+  source_object_index: 277
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_source_model_name
+    bmodel_index: 24
+    bmodel_name: AITrk2
+    source_model_name: AITrk2
+    source_polygon_group:
+      source_model_index: 24
+      source_model_name: AITrk2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id095
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_bmodel_name
+    bmodel_index: 24
+    bmodel_name: AITrk2
+    source_model_name: AITrk2
+    source_polygon_group:
+      source_model_index: 24
+      source_model_name: AITrk2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id095
+- object_id: mm9:sturmford:object:278
+  source_object_index: 278
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_source_model_name
+    bmodel_index: 25
+    bmodel_name: AITrk3
+    source_model_name: AITrk3
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: AITrk3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id096
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_bmodel_name
+    bmodel_index: 25
+    bmodel_name: AITrk3
+    source_model_name: AITrk3
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: AITrk3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id096
+- object_id: mm9:sturmford:object:279
+  source_object_index: 279
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_source_model_name
+    bmodel_index: 26
+    bmodel_name: AITrk4
+    source_model_name: AITrk4
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: AITrk4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id097
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_bmodel_name
+    bmodel_index: 26
+    bmodel_name: AITrk4
+    source_model_name: AITrk4
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: AITrk4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id097
+- object_id: mm9:sturmford:object:280
+  source_object_index: 280
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_source_model_name
+    bmodel_index: 27
+    bmodel_name: AITrk5
+    source_model_name: AITrk5
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: AITrk5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id098
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_bmodel_name
+    bmodel_index: 27
+    bmodel_name: AITrk5
+    source_model_name: AITrk5
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: AITrk5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id098
+- object_id: mm9:sturmford:object:281
+  source_object_index: 281
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_source_model_name
+    bmodel_index: 28
+    bmodel_name: AITrk6
+    source_model_name: AITrk6
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: AITrk6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id099
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_bmodel_name
+    bmodel_index: 28
+    bmodel_name: AITrk6
+    source_model_name: AITrk6
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: AITrk6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id099
+- object_id: mm9:sturmford:object:282
+  source_object_index: 282
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_source_model_name
+    bmodel_index: 29
+    bmodel_name: AITrk7
+    source_model_name: AITrk7
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: AITrk7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id100
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_bmodel_name
+    bmodel_index: 29
+    bmodel_name: AITrk7
+    source_model_name: AITrk7
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: AITrk7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id100
+- object_id: mm9:sturmford:object:283
+  source_object_index: 283
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_source_model_name
+    bmodel_index: 30
+    bmodel_name: AITrk8
+    source_model_name: AITrk8
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: AITrk8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id101
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_bmodel_name
+    bmodel_index: 30
+    bmodel_name: AITrk8
+    source_model_name: AITrk8
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: AITrk8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id101
+- object_id: mm9:sturmford:object:284
+  source_object_index: 284
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_source_model_name
+    bmodel_index: 31
+    bmodel_name: AITrk9
+    source_model_name: AITrk9
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: AITrk9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id102
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_bmodel_name
+    bmodel_index: 31
+    bmodel_name: AITrk9
+    source_model_name: AITrk9
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: AITrk9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id102
+- object_id: mm9:sturmford:object:285
+  source_object_index: 285
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_source_model_name
+    bmodel_index: 32
+    bmodel_name: AITrk10
+    source_model_name: AITrk10
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: AITrk10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id103
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_bmodel_name
+    bmodel_index: 32
+    bmodel_name: AITrk10
+    source_model_name: AITrk10
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: AITrk10
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id103
+- object_id: mm9:sturmford:object:286
+  source_object_index: 286
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_source_model_name
+    bmodel_index: 33
+    bmodel_name: AITrk11
+    source_model_name: AITrk11
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: AITrk11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id104
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_bmodel_name
+    bmodel_index: 33
+    bmodel_name: AITrk11
+    source_model_name: AITrk11
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: AITrk11
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id104
+- object_id: mm9:sturmford:object:287
+  source_object_index: 287
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_source_model_name
+    bmodel_index: 34
+    bmodel_name: AITrk12
+    source_model_name: AITrk12
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: AITrk12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id105
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_bmodel_name
+    bmodel_index: 34
+    bmodel_name: AITrk12
+    source_model_name: AITrk12
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: AITrk12
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id105
+- object_id: mm9:sturmford:object:288
+  source_object_index: 288
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_source_model_name
+    bmodel_index: 35
+    bmodel_name: AITrk13
+    source_model_name: AITrk13
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: AITrk13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id106
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_bmodel_name
+    bmodel_index: 35
+    bmodel_name: AITrk13
+    source_model_name: AITrk13
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: AITrk13
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id106
+- object_id: mm9:sturmford:object:289
+  source_object_index: 289
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_source_model_name
+    bmodel_index: 36
+    bmodel_name: AITrk14
+    source_model_name: AITrk14
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: AITrk14
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id107
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_bmodel_name
+    bmodel_index: 36
+    bmodel_name: AITrk14
+    source_model_name: AITrk14
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: AITrk14
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id107
+- object_id: mm9:sturmford:object:290
+  source_object_index: 290
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_source_model_name
+    bmodel_index: 37
+    bmodel_name: AITrk15
+    source_model_name: AITrk15
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: AITrk15
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id108
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_bmodel_name
+    bmodel_index: 37
+    bmodel_name: AITrk15
+    source_model_name: AITrk15
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: AITrk15
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id108
+- object_id: mm9:sturmford:object:291
+  source_object_index: 291
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_source_model_name
+    bmodel_index: 38
+    bmodel_name: AITrk16
+    source_model_name: AITrk16
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: AITrk16
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id109
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_bmodel_name
+    bmodel_index: 38
+    bmodel_name: AITrk16
+    source_model_name: AITrk16
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: AITrk16
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id109
+- object_id: mm9:sturmford:object:292
+  source_object_index: 292
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_source_model_name
+    bmodel_index: 39
+    bmodel_name: AITrk17
+    source_model_name: AITrk17
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: AITrk17
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id110
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_bmodel_name
+    bmodel_index: 39
+    bmodel_name: AITrk17
+    source_model_name: AITrk17
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: AITrk17
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id110
+- object_id: mm9:sturmford:object:293
+  source_object_index: 293
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_source_model_name
+    bmodel_index: 40
+    bmodel_name: AITrk18
+    source_model_name: AITrk18
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: AITrk18
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id111
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_bmodel_name
+    bmodel_index: 40
+    bmodel_name: AITrk18
+    source_model_name: AITrk18
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: AITrk18
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id111
+- object_id: mm9:sturmford:object:294
+  source_object_index: 294
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_source_model_name
+    bmodel_index: 41
+    bmodel_name: AITrk19
+    source_model_name: AITrk19
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: AITrk19
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id112
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_bmodel_name
+    bmodel_index: 41
+    bmodel_name: AITrk19
+    source_model_name: AITrk19
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: AITrk19
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id112
+- object_id: mm9:sturmford:object:295
+  source_object_index: 295
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_source_model_name
+    bmodel_index: 42
+    bmodel_name: AITrk20
+    source_model_name: AITrk20
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: AITrk20
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id113
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_bmodel_name
+    bmodel_index: 42
+    bmodel_name: AITrk20
+    source_model_name: AITrk20
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: AITrk20
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id113
+- object_id: mm9:sturmford:object:296
+  source_object_index: 296
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_source_model_name
+    bmodel_index: 43
+    bmodel_name: AITrk21
+    source_model_name: AITrk21
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: AITrk21
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id114
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_bmodel_name
+    bmodel_index: 43
+    bmodel_name: AITrk21
+    source_model_name: AITrk21
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: AITrk21
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id114
+- object_id: mm9:sturmford:object:297
+  source_object_index: 297
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_source_model_name
+    bmodel_index: 44
+    bmodel_name: AITrk22
+    source_model_name: AITrk22
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: AITrk22
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id115
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_bmodel_name
+    bmodel_index: 44
+    bmodel_name: AITrk22
+    source_model_name: AITrk22
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: AITrk22
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id115
+- object_id: mm9:sturmford:object:298
+  source_object_index: 298
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_source_model_name
+    bmodel_index: 45
+    bmodel_name: AITrk23
+    source_model_name: AITrk23
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: AITrk23
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id116
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_bmodel_name
+    bmodel_index: 45
+    bmodel_name: AITrk23
+    source_model_name: AITrk23
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: AITrk23
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id116
 - object_id: mm9:sturmford:object:299
   source_object_index: 299
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_source_model_name
+    bmodel_index: 46
+    bmodel_name: RotatingDoor16
+    source_model_name: RotatingDoor16
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: RotatingDoor16
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id117
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_bmodel_name
+    bmodel_index: 46
+    bmodel_name: RotatingDoor16
+    source_model_name: RotatingDoor16
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: RotatingDoor16
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id117
 - object_id: mm9:sturmford:object:300
   source_object_index: 300
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_source_model_name
+    bmodel_index: 47
+    bmodel_name: RotatingDoor15
+    source_model_name: RotatingDoor15
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: RotatingDoor15
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id118
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_bmodel_name
+    bmodel_index: 47
+    bmodel_name: RotatingDoor15
+    source_model_name: RotatingDoor15
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: RotatingDoor15
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id118
 - object_id: mm9:sturmford:object:301
   source_object_index: 301
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_source_model_name
+    bmodel_index: 48
+    bmodel_name: RotatingDoor13
+    source_model_name: RotatingDoor13
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: RotatingDoor13
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id119
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_bmodel_name
+    bmodel_index: 48
+    bmodel_name: RotatingDoor13
+    source_model_name: RotatingDoor13
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: RotatingDoor13
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id119
 - object_id: mm9:sturmford:object:302
   source_object_index: 302
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_source_model_name
+    bmodel_index: 49
+    bmodel_name: RotatingDoor14
+    source_model_name: RotatingDoor14
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: RotatingDoor14
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: &id120
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:49
+    confidence: exact_bmodel_name
+    bmodel_index: 49
+    bmodel_name: RotatingDoor14
+    source_model_name: RotatingDoor14
+    source_polygon_group:
+      source_model_index: 49
+      source_model_name: RotatingDoor14
+      source_poly_count: 8
+      source_surface_count: 8
+      roles: *id120
 - object_id: mm9:sturmford:object:303
   source_object_index: 303
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_source_model_name
+    bmodel_index: 50
+    bmodel_name: Portcullis
+    source_model_name: Portcullis
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: Portcullis
+      source_poly_count: 221
+      source_surface_count: 221
+      roles: &id121
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:50
+    confidence: exact_bmodel_name
+    bmodel_index: 50
+    bmodel_name: Portcullis
+    source_model_name: Portcullis
+    source_polygon_group:
+      source_model_index: 50
+      source_model_name: Portcullis
+      source_poly_count: 221
+      source_surface_count: 221
+      roles: *id121
 - object_id: mm9:sturmford:object:304
   source_object_index: 304
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_source_model_name
+    bmodel_index: 51
+    bmodel_name: Ladder1
+    source_model_name: Ladder1
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: Ladder1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id122
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:51
+    confidence: exact_bmodel_name
+    bmodel_index: 51
+    bmodel_name: Ladder1
+    source_model_name: Ladder1
+    source_polygon_group:
+      source_model_index: 51
+      source_model_name: Ladder1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id122
+- object_id: mm9:sturmford:object:305
+  source_object_index: 305
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_source_model_name
+    bmodel_index: 52
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 52
+      source_model_name: WorldObject1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id123
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:52
+    confidence: exact_bmodel_name
+    bmodel_index: 52
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 52
+      source_model_name: WorldObject1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id123
+- object_id: mm9:sturmford:object:306
+  source_object_index: 306
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_source_model_name
+    bmodel_index: 53
+    bmodel_name: WorldObject7
+    source_model_name: WorldObject7
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: WorldObject7
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id124
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:53
+    confidence: exact_bmodel_name
+    bmodel_index: 53
+    bmodel_name: WorldObject7
+    source_model_name: WorldObject7
+    source_polygon_group:
+      source_model_index: 53
+      source_model_name: WorldObject7
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id124
 - object_id: mm9:sturmford:object:307
   source_object_index: 307
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_source_model_name
+    bmodel_index: 54
+    bmodel_name: Ladder0
+    source_model_name: Ladder0
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: Ladder0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id125
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:54
+    confidence: exact_bmodel_name
+    bmodel_index: 54
+    bmodel_name: Ladder0
+    source_model_name: Ladder0
+    source_polygon_group:
+      source_model_index: 54
+      source_model_name: Ladder0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id125
+- object_id: mm9:sturmford:object:308
+  source_object_index: 308
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:55
+    confidence: exact_source_model_name
+    bmodel_index: 55
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 55
+      source_model_name: WorldObject0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id126
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:55
+    confidence: exact_bmodel_name
+    bmodel_index: 55
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 55
+      source_model_name: WorldObject0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id126
+- object_id: mm9:sturmford:object:309
+  source_object_index: 309
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:56
+    confidence: exact_source_model_name
+    bmodel_index: 56
+    bmodel_name: WorldObject6
+    source_model_name: WorldObject6
+    source_polygon_group:
+      source_model_index: 56
+      source_model_name: WorldObject6
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id127
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:56
+    confidence: exact_bmodel_name
+    bmodel_index: 56
+    bmodel_name: WorldObject6
+    source_model_name: WorldObject6
+    source_polygon_group:
+      source_model_index: 56
+      source_model_name: WorldObject6
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id127
 - object_id: mm9:sturmford:object:310
   source_object_index: 310
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:57
+    confidence: exact_source_model_name
+    bmodel_index: 57
+    bmodel_name: RotatingDoor7
+    source_model_name: RotatingDoor7
+    source_polygon_group: *id128
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:57
+    confidence: exact_bmodel_name
+    bmodel_index: 57
+    bmodel_name: RotatingDoor7
+    source_model_name: RotatingDoor7
+    source_polygon_group: *id129
 - object_id: mm9:sturmford:object:311
   source_object_index: 311
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:58
+    confidence: exact_source_model_name
+    bmodel_index: 58
+    bmodel_name: RotatingDoor8
+    source_model_name: RotatingDoor8
+    source_polygon_group: *id130
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:58
+    confidence: exact_bmodel_name
+    bmodel_index: 58
+    bmodel_name: RotatingDoor8
+    source_model_name: RotatingDoor8
+    source_polygon_group: *id131
 - object_id: mm9:sturmford:object:312
   source_object_index: 312
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:59
+    confidence: exact_source_model_name
+    bmodel_index: 59
+    bmodel_name: Hatch2
+    source_model_name: Hatch2
+    source_polygon_group:
+      source_model_index: 59
+      source_model_name: Hatch2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id132
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:59
+    confidence: exact_bmodel_name
+    bmodel_index: 59
+    bmodel_name: Hatch2
+    source_model_name: Hatch2
+    source_polygon_group:
+      source_model_index: 59
+      source_model_name: Hatch2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id132
 - object_id: mm9:sturmford:object:313
   source_object_index: 313
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:60
+    confidence: exact_source_model_name
+    bmodel_index: 60
+    bmodel_name: Hatch1
+    source_model_name: Hatch1
+    source_polygon_group:
+      source_model_index: 60
+      source_model_name: Hatch1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id133
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:60
+    confidence: exact_bmodel_name
+    bmodel_index: 60
+    bmodel_name: Hatch1
+    source_model_name: Hatch1
+    source_polygon_group:
+      source_model_index: 60
+      source_model_name: Hatch1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id133
 - object_id: mm9:sturmford:object:314
   source_object_index: 314
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:61
+    confidence: exact_source_model_name
+    bmodel_index: 61
+    bmodel_name: drawbridge
+    source_model_name: drawbridge
+    source_polygon_group:
+      source_model_index: 61
+      source_model_name: drawbridge
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: &id134
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:61
+    confidence: exact_bmodel_name
+    bmodel_index: 61
+    bmodel_name: drawbridge
+    source_model_name: drawbridge
+    source_polygon_group:
+      source_model_index: 61
+      source_model_name: drawbridge
+      source_poly_count: 22
+      source_surface_count: 22
+      roles: *id134
 - object_id: mm9:sturmford:object:315
   source_object_index: 315
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:62
+    confidence: exact_source_model_name
+    bmodel_index: 62
+    bmodel_name: DestructableBrush0
+    source_model_name: DestructableBrush0
+    source_polygon_group:
+      source_model_index: 62
+      source_model_name: DestructableBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id135
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:62
+    confidence: exact_bmodel_name
+    bmodel_index: 62
+    bmodel_name: DestructableBrush0
+    source_model_name: DestructableBrush0
+    source_polygon_group:
+      source_model_index: 62
+      source_model_name: DestructableBrush0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id135
 - object_id: mm9:sturmford:object:316
   source_object_index: 316
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:63
+    confidence: exact_source_model_name
+    bmodel_index: 63
+    bmodel_name: DestructableBrush1
+    source_model_name: DestructableBrush1
+    source_polygon_group:
+      source_model_index: 63
+      source_model_name: DestructableBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id136
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:63
+    confidence: exact_bmodel_name
+    bmodel_index: 63
+    bmodel_name: DestructableBrush1
+    source_model_name: DestructableBrush1
+    source_polygon_group:
+      source_model_index: 63
+      source_model_name: DestructableBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id136
 - object_id: mm9:sturmford:object:317
   source_object_index: 317
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:64
+    confidence: exact_source_model_name
+    bmodel_index: 64
+    bmodel_name: Drawbridgechain
+    source_model_name: Drawbridgechain
+    source_polygon_group:
+      source_model_index: 64
+      source_model_name: Drawbridgechain
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id137
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:64
+    confidence: exact_bmodel_name
+    bmodel_index: 64
+    bmodel_name: Drawbridgechain
+    source_model_name: Drawbridgechain
+    source_polygon_group:
+      source_model_index: 64
+      source_model_name: Drawbridgechain
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id137
+- object_id: mm9:sturmford:object:318
+  source_object_index: 318
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:65
+    confidence: exact_source_model_name
+    bmodel_index: 65
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 65
+      source_model_name: Terrain0
+      source_poly_count: 21725
+      source_surface_count: 19215
+      roles: &id138
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:65
+    confidence: exact_bmodel_name
+    bmodel_index: 65
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 65
+      source_model_name: Terrain0
+      source_poly_count: 21725
+      source_surface_count: 19215
+      roles: *id138
 scripts:
 - script_id: ak_disable.scr
   source_path: AK_DISABLE.scr
@@ -87842,175 +90695,19 @@ scripts:
   command_count: 25
 unresolved:
 - kind: unresolved_binding
-  source_object_index: 24
-  source_name: InvisibleBrush0
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
   source_object_index: 28
   source_name: ScriptObject0
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 29
-  source_name: BlueWater0
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 93
-  source_name: PerceptionBrush0
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 183
-  source_name: PerceptionBrush1
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 184
-  source_name: PerceptionBrush2
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 185
-  source_name: PerceptionBrush3
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 188
-  source_name: InvisibleBrush1
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 189
-  source_name: InvisibleBrush2
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 190
-  source_name: InvisibleBrush3
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 199
-  source_name: Weakwall
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 200
-  source_name: Weakwallperc
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 201
-  source_name: Portchainperc
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 202
-  source_name: Drawchainperc
-  source_class: PerceptionBrush
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id139
 - kind: unresolved_binding
   source_object_index: 203
   source_name: defense
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 251
-  source_name: DoorChain4
-  source_class: Door
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 260
-  source_name: InvisibleBrush4
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 261
-  source_name: InvisibleBrush5
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 262
-  source_name: InvisibleBrush6
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 299
-  source_name: RotatingDoor16
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 300
-  source_name: RotatingDoor15
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 301
-  source_name: RotatingDoor13
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 302
-  source_name: RotatingDoor14
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 303
-  source_name: Portcullis
-  source_class: Door
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 304
-  source_name: Ladder1
-  source_class: Ladder
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 307
-  source_name: Ladder0
-  source_class: Ladder
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 310
-  source_name: RotatingDoor7
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 311
-  source_name: RotatingDoor8
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 312
-  source_name: Hatch2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 313
-  source_name: Hatch1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 314
-  source_name: drawbridge
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 315
-  source_name: DestructableBrush0
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 316
-  source_name: DestructableBrush1
-  source_class: DestructableBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 317
-  source_name: Drawbridgechain
-  source_class: DestructableBrush
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id140
 - kind: unresolved_target_name
   source: mechanism
   source_object_index: 303
@@ -88082,4 +90779,4 @@ validation:
   trigger_count: 1
   interaction_count: 129
   script_count: 6
-  unresolved_count: 38
+  unresolved_count: 6

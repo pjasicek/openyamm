@@ -27,7 +27,7 @@ script.labels["Bathhouse"] = function(ctx)
         if ctx:hasKey(351) then -- NPC339.scr:37-38
             ctx:giveExp(80000) -- NPC339.scr:39
             ctx:giveGold(5000) -- NPC339.scr:40
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC339.scr:41
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC339.scr:41
             ctx:giveKey(352) -- NPC339.scr:42
             do return ctx:exit("") end -- NPC339.scr:43
         end -- NPC339.scr:44
@@ -38,7 +38,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC339.scr:57
-    ctx:command("playsound", "voices\\NPC\\NPC_339.wav, Onexit, 100, 240, FALSE, 100") -- NPC339.scr:60
+    ctx:playSound("voices\\NPC\\NPC_339.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC339.scr:60
     do return ctx:exit("") end -- NPC339.scr:61
 end
 

@@ -18,14 +18,12 @@ script.labels["OnUse"] = function(ctx)
     if ctx:condition("nGiveOnce==TRUE") then -- GIVETAKE.scr:29
         if not ctx:hasItem("Item_ID") then -- GIVETAKE.scr:30-31
             ctx:giveItem("item_ID") -- GIVETAKE.scr:32
-            ctx:command("getmyhandle", "g_hmyobject") -- GIVETAKE.scr:33
-            ctx:command("removeobject", "g_hmyobject") -- GIVETAKE.scr:34
+            ctx:self():remove() -- GIVETAKE.scr:34
             do return ctx:exit("") end -- GIVETAKE.scr:35
         end -- GIVETAKE.scr:36
     else -- GIVETAKE.scr:37
         ctx:giveItem("Item_ID") -- GIVETAKE.scr:38
-        ctx:command("getmyhandle", "g_hmyobject") -- GIVETAKE.scr:39
-        ctx:command("removeobject", "g_hmyobject") -- GIVETAKE.scr:40
+        ctx:self():remove() -- GIVETAKE.scr:40
         do return ctx:exit("") end -- GIVETAKE.scr:41
     end -- GIVETAKE.scr:42
     do return ctx:exit("") end -- GIVETAKE.scr:43
@@ -37,8 +35,7 @@ script.labels["Init"] = function(ctx)
         do return ctx:exit("") end -- GIVETAKE.scr:53
     end -- GIVETAKE.scr:54
     if ctx:hasItem("Item_ID") then -- GIVETAKE.scr:56-57
-        ctx:command("getmyhandle", "g_hmyobject") -- GIVETAKE.scr:58
-        ctx:command("removeobject", "g_hmyobject") -- GIVETAKE.scr:59
+        ctx:self():remove() -- GIVETAKE.scr:59
         do return ctx:exit("") end -- GIVETAKE.scr:60
     end -- GIVETAKE.scr:61
     do return ctx:exit("") end -- GIVETAKE.scr:62
@@ -51,7 +48,7 @@ script.labels["Main"] = function(ctx)
     ctx:addTrigger("Use", "OnUse") -- GIVETAKE.scr:70
     ctx:getParam(0, "Item_Id") -- GIVETAKE.scr:71
     ctx:getParam(1, "nGiveOnce") -- GIVETAKE.scr:72
-    ctx:command("wait", "1 1 Init") -- GIVETAKE.scr:73
+    ctx:wait(1, 1, "Init") -- GIVETAKE.scr:73
     do return ctx:exit("") end -- GIVETAKE.scr:75
 end
 

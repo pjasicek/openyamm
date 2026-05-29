@@ -4,6 +4,7 @@ map_id: drangheimprison
 display_name: Drangheim Prison
 source:
   dat: ../source/worlds/DRANGHEIMPRISON.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/DRANGHEIMPRISON.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: drangheimprison.raw_objects.yml
   materials: drangheimprison.material_aliases.yml
   events: drangheimprison.events.yml
-  scene_compat: drangheimprison.scene.yml
+  scene_compat: null
   source_metadata_compat: drangheimprison.mm9.yml
-  bsp_compat: drangheimprison.bsp.yml
-  geometry_compat: drangheimprison.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: drangheimprison.blv
+  blv_compat: null
 scripts:
   level: ../events/drangheimprison.lua
   script_ir: ../events/drangheimprison.script_ir.yml

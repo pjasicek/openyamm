@@ -16,7 +16,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 82;
+constexpr uint32_t SaveVersion = 83;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -80,6 +80,7 @@ constexpr uint32_t SaveVersionMm9ScriptAnimationRequestState = 79;
 constexpr uint32_t SaveVersionMm9ScriptAudioRequestState = 80;
 constexpr uint32_t SaveVersionMm9ScriptAttributeEffectState = 81;
 constexpr uint32_t SaveVersionMm9ScriptFxPresentationRequestState = 82;
+constexpr uint32_t SaveVersionPendingSoundNames = 83;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -1634,6 +1635,7 @@ bool readPendingInputPromptForSave(BinaryReader &reader, EventRuntimeState &valu
 void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingSound &value)
 {
     writeValue(writer, value.soundId);
+    writeValue(writer, value.soundName);
     writeValue(writer, value.x);
     writeValue(writer, value.y);
     writeValue(writer, value.z);
@@ -1644,6 +1646,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingSound &val
 bool readValue(BinaryReader &reader, EventRuntimeState::PendingSound &value)
 {
     return readValue(reader, value.soundId)
+        && (reader.version() < SaveVersionPendingSoundNames || readValue(reader, value.soundName))
         && readValue(reader, value.x)
         && readValue(reader, value.y)
         && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.z))

@@ -16,9 +16,9 @@ script.includes[#script.includes + 1] = { line = 11, path = "basemelee.scr" }
 script.labels["OnStart"] = function(ctx)
     -- MP_IMP.scr:15
     -- start the walking
-    ctx:command("onfoundtarget", "TargetFound") -- MP_IMP.scr:19
-    ctx:command("getobjecthandle", "ImpMarker1 g_hobject") -- MP_IMP.scr:20
-    ctx:command("walkto", "g_hobject 8 DoNothing") -- MP_IMP.scr:21
+    ctx:onEvent("OnFoundTarget", "TargetFound") -- MP_IMP.scr:19
+    ctx:state().g_hobject = ctx:objectOrNil("ImpMarker1") -- MP_IMP.scr:20
+    ctx:self():walkTo(ctx:object("g_hobject"), 8, "DoNothing") -- MP_IMP.scr:21
     do return ctx:exit("") end -- MP_IMP.scr:22
 end
 
@@ -26,16 +26,16 @@ script.labels["TargetFound"] = function(ctx)
     -- MP_IMP.scr:25
     -- play wince anim and run for friends
     ctx:getParam(0, "g_hTarget") -- MP_IMP.scr:30
-    ctx:command("playanim", "wince1 DoNothing") -- MP_IMP.scr:31
-    ctx:command("getobjecthandle", "ImpMarker2 g_hobject") -- MP_IMP.scr:32
-    ctx:command("runto", "g_hobject 32 StartAttack") -- MP_IMP.scr:33
+    ctx:self():playAnimation("wince1", "DoNothing") -- MP_IMP.scr:31
+    ctx:state().g_hobject = ctx:objectOrNil("ImpMarker2") -- MP_IMP.scr:32
+    ctx:self():runTo(ctx:object("g_hobject"), 32, "StartAttack") -- MP_IMP.scr:33
     do return ctx:exit("") end -- MP_IMP.scr:34
 end
 
 script.labels["StartAttack"] = function(ctx)
     -- MP_IMP.scr:37
     -- shout for help and start attacking
-    ctx:command("help", "g_htarget") -- MP_IMP.scr:41
+    ctx:self():help(ctx:object("g_htarget")) -- MP_IMP.scr:41
     mm9.gosub(script, ctx, "BaseInit") -- MP_IMP.scr:42
     do return ctx:exit("") end -- MP_IMP.scr:43
 end
@@ -43,7 +43,7 @@ end
 script.labels["Main"] = function(ctx)
     -- MP_IMP.scr:46
     -- TraceOn ;delete me!!
-    ctx:command("wait", "1 1 OnStart") -- MP_IMP.scr:52
+    ctx:wait(1, 1, "OnStart") -- MP_IMP.scr:52
     do return ctx:exit("") end -- MP_IMP.scr:54
 end
 

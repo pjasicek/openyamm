@@ -4,6 +4,7 @@ map_id: frosgardcity
 display_name: Frosgard City
 source:
   dat: ../source/worlds/FROSGARDCITY.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/FROSGARDCITY.dat
   source_game: mm9
   dat_version: 66
@@ -25,8 +26,8 @@ sidecars:
   source_metadata_compat: frosgardcity.mm9.yml
   bsp_compat: null
   geometry_compat: null
-  model_assets_compat: frosgardcity.model_assets.yml
-  odm_compat: frosgardcity.odm
+  model_assets_compat: null
+  odm_compat: null
   blv_compat: null
 scripts:
   level: ../events/frosgardcity.lua

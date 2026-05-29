@@ -3636,6 +3636,22 @@ bool GameDataLoader::loadSelectedMap(
     return true;
 }
 
+bool GameDataLoader::selectMapMetadataOnlyById(int mapId)
+{
+    const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findById(mapId);
+
+    if (!selectedMap)
+    {
+        std::cerr << "Failed to select map metadata from map registry: id=" << mapId << '\n';
+        return false;
+    }
+
+    MapAssetInfo assetInfo = {};
+    assetInfo.map = *selectedMap;
+    m_selectedMap = std::move(assetInfo);
+    return true;
+}
+
 void GameDataLoader::applyMergedContinentSettingsToSelectedMap(const Engine::AssetFileSystem &assetFileSystem)
 {
     if (!m_selectedMap || !m_selectedMap->outdoorMapData || !m_selectedMap->outdoorMapDeltaData)

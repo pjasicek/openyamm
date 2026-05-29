@@ -41,6 +41,7 @@ map_id: testmap
 display_name: Test Map
 source:
   dat: ../source/worlds/TESTMAP.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/TESTMAP.dat
   source_game: mm9
   dat_version: 66
@@ -368,6 +369,58 @@ void writeBinaryFile(const std::filesystem::path &path, const std::vector<uint8_
     output.write(reinterpret_cast<const char *>(bytes.data()), static_cast<std::streamsize>(bytes.size()));
 }
 
+void writeBgra32BmpFile(
+    const std::filesystem::path &path,
+    int width,
+    int height,
+    const std::vector<uint8_t> &pixelsBgra)
+{
+    REQUIRE(width > 0);
+    REQUIRE(height > 0);
+    REQUIRE(pixelsBgra.size() == static_cast<size_t>(width) * static_cast<size_t>(height) * 4u);
+
+    std::filesystem::create_directories(path.parent_path());
+    std::ofstream output(path, std::ios::binary);
+    REQUIRE(output.good());
+
+    const uint32_t fileHeaderSize = 14;
+    const uint32_t dibHeaderSize = 40;
+    const uint32_t pixelOffset = fileHeaderSize + dibHeaderSize;
+    const uint32_t pixelBytes = static_cast<uint32_t>(pixelsBgra.size());
+    const uint32_t fileSize = pixelOffset + pixelBytes;
+    const uint16_t reserved = 0;
+    const uint16_t planes = 1;
+    const uint16_t bpp = 32;
+    const uint32_t compression = 0;
+    const uint32_t ppm = 0;
+    const uint32_t colors = 0;
+
+    output.write("BM", 2);
+    output.write(reinterpret_cast<const char *>(&fileSize), sizeof(fileSize));
+    output.write(reinterpret_cast<const char *>(&reserved), sizeof(reserved));
+    output.write(reinterpret_cast<const char *>(&reserved), sizeof(reserved));
+    output.write(reinterpret_cast<const char *>(&pixelOffset), sizeof(pixelOffset));
+    output.write(reinterpret_cast<const char *>(&dibHeaderSize), sizeof(dibHeaderSize));
+    output.write(reinterpret_cast<const char *>(&width), sizeof(width));
+    output.write(reinterpret_cast<const char *>(&height), sizeof(height));
+    output.write(reinterpret_cast<const char *>(&planes), sizeof(planes));
+    output.write(reinterpret_cast<const char *>(&bpp), sizeof(bpp));
+    output.write(reinterpret_cast<const char *>(&compression), sizeof(compression));
+    output.write(reinterpret_cast<const char *>(&pixelBytes), sizeof(pixelBytes));
+    output.write(reinterpret_cast<const char *>(&ppm), sizeof(ppm));
+    output.write(reinterpret_cast<const char *>(&ppm), sizeof(ppm));
+    output.write(reinterpret_cast<const char *>(&colors), sizeof(colors));
+    output.write(reinterpret_cast<const char *>(&colors), sizeof(colors));
+
+    for (int row = height - 1; row >= 0; --row)
+    {
+        const size_t rowOffset = static_cast<size_t>(row) * static_cast<size_t>(width) * 4u;
+        output.write(
+            reinterpret_cast<const char *>(pixelsBgra.data() + rowOffset),
+            static_cast<std::streamsize>(static_cast<size_t>(width) * 4u));
+    }
+}
+
 template <typename ValueType>
 void writeLittleEndianValue(std::vector<uint8_t> &bytes, size_t offset, ValueType value)
 {
@@ -376,7 +429,8 @@ void writeLittleEndianValue(std::vector<uint8_t> &bytes, size_t offset, ValueTyp
 
 std::vector<uint8_t> makeDtxHeaderBytes()
 {
-    std::vector<uint8_t> bytes(164, 0);
+    const size_t dxt1MipPayloadSize = 4096u + 1024u + 256u + 64u;
+    std::vector<uint8_t> bytes(164u + dxt1MipPayloadSize, 0);
     writeLittleEndianValue<int32_t>(bytes, 0, 0);
     writeLittleEndianValue<int32_t>(bytes, 4, -5);
     writeLittleEndianValue<uint16_t>(bytes, 8, 128);
@@ -398,6 +452,23 @@ std::vector<uint8_t> makeDtxHeaderBytes()
     const std::string command = "DetailTex Textures\\detailtextures\\det_01.dtx";
     std::memcpy(bytes.data() + 36, command.data(), command.size());
     return bytes;
+}
+
+std::vector<uint8_t> makeDecodedDxt1ZeroPixelsBgra()
+{
+    std::vector<uint8_t> pixels(static_cast<size_t>(128) * static_cast<size_t>(64) * 4u, 0);
+
+    for (size_t offset = 3; offset < pixels.size(); offset += 4)
+    {
+        pixels[offset] = 255;
+    }
+
+    return pixels;
+}
+
+void writeMatchingDecodedDtxCacheBmp(const std::filesystem::path &path)
+{
+    writeBgra32BmpFile(path, 128, 64, makeDecodedDxt1ZeroPixelsBgra());
 }
 
 std::vector<uint8_t> makeSprBytes(const std::vector<std::string> &textureRefs)
@@ -500,6 +571,8 @@ TEST_CASE("MM9 raw objects sidecar validation checks source indexes and raw leng
     rawObjects->unknownPropertyCount = 1;
     rawObjects->objects[0].objectIndex = 4;
     rawObjects->objects[0].propertyCount = 2;
+    rawObjects->objects[0].dataLength = 3;
+    rawObjects->objects[0].trailingHex = "xz";
     rawObjects->objects[0].properties[0].consumedDataLength = 5;
 
     const std::vector<std::string> issues =
@@ -508,6 +581,8 @@ TEST_CASE("MM9 raw objects sidecar validation checks source indexes and raw leng
     bool foundObjectIndexMismatch = false;
     bool foundPropertyCountMismatch = false;
     bool foundRawLengthMismatch = false;
+    bool foundTrailingHexIssue = false;
+    bool foundDataLengthMismatch = false;
     bool foundUnknownCountMismatch = false;
 
     for (const std::string &issue : issues)
@@ -518,6 +593,10 @@ TEST_CASE("MM9 raw objects sidecar validation checks source indexes and raw leng
             foundPropertyCountMismatch || issue.find("property_count mismatch") != std::string::npos;
         foundRawLengthMismatch =
             foundRawLengthMismatch || issue.find("raw hex length") != std::string::npos;
+        foundTrailingHexIssue =
+            foundTrailingHexIssue || issue.find("trailing hex contains non-hex") != std::string::npos;
+        foundDataLengthMismatch =
+            foundDataLengthMismatch || issue.find("decoded payload exceeds data_length") != std::string::npos;
         foundUnknownCountMismatch =
             foundUnknownCountMismatch || issue.find("unknown_property_count mismatch") != std::string::npos;
     }
@@ -525,6 +604,8 @@ TEST_CASE("MM9 raw objects sidecar validation checks source indexes and raw leng
     CHECK(foundObjectIndexMismatch);
     CHECK(foundPropertyCountMismatch);
     CHECK(foundRawLengthMismatch);
+    CHECK(foundTrailingHexIssue);
+    CHECK(foundDataLengthMismatch);
     CHECK(foundUnknownCountMismatch);
 }
 
@@ -540,8 +621,8 @@ unknown_property_codes: []
 objects:
   - object_index: 12
     name: Light
-    property_count: 6
-    data_length: 64
+    property_count: 10
+    data_length: 96
     trailing_hex: ""
     properties:
       - name: Name
@@ -592,6 +673,38 @@ objects:
         decoded: true
         raw_hex: "01"
         value_json: "1"
+      - name: FastLightObjects
+        code: 5
+        flags: 0
+        declared_data_length: 1
+        consumed_data_length: 1
+        decoded: true
+        raw_hex: "00"
+        value_json: "0"
+      - name: ConvertToAmbient
+        code: 3
+        flags: 0
+        declared_data_length: 4
+        consumed_data_length: 4
+        decoded: true
+        raw_hex: "00"
+        value_json: "0.5"
+      - name: Attenuation
+        code: 0
+        flags: 0
+        declared_data_length: 8
+        consumed_data_length: 8
+        decoded: true
+        raw_hex: "00"
+        value_json: "\"Linear\""
+      - name: AttCoefs
+        code: 2
+        flags: 0
+        declared_data_length: 12
+        consumed_data_length: 12
+        decoded: true
+        raw_hex: "00"
+        value_json: "[1.0, 0.0, 19.0]"
 )";
 
     std::string errorMessage;
@@ -604,7 +717,7 @@ objects:
     REQUIRE(sourceObjects.size() == 1);
     CHECK(sourceObjects[0].sourceObjectIndex == 12);
     CHECK(sourceObjects[0].sourceClass == "Light");
-    CHECK(sourceObjects[0].properties.size() == 6);
+    CHECK(sourceObjects[0].properties.size() == 10);
 
     OpenYAMM::Game::Mm9DatWorldInfo worldInfo = {};
     worldInfo.propertyString = "AmbientLight 10 20 30";
@@ -623,6 +736,15 @@ objects:
     CHECK(light.lightColor.g == doctest::Approx(128.0f));
     CHECK(light.hasLightObjects);
     CHECK(light.lightObjects);
+    CHECK(light.hasFastLightObjects);
+    CHECK(!light.fastLightObjects);
+    CHECK(light.staticObjectLightEligible);
+    CHECK(light.hasConvertToAmbient);
+    CHECK(light.convertToAmbient == doctest::Approx(0.5f));
+    CHECK(light.hasAttenuation);
+    CHECK(light.attenuation == "Linear");
+    REQUIRE(light.attCoefs.size() == 3);
+    CHECK(light.attCoefs[2] == doctest::Approx(19.0f));
 }
 
 TEST_CASE("MM9 raw objects and asset statuses can be projected into sound objects")
@@ -1145,7 +1267,7 @@ TEST_CASE("MM9 material texture inspection resolves source DTX headers and gener
     const std::filesystem::path sourceDtxPath = tempRoot / "source/textures/TEST/TEST.dtx";
     const std::filesystem::path cacheBitmapPath = tempRoot / "maps/testmap.bitmaps/TEST.bmp";
     writeBinaryFile(sourceDtxPath, makeDtxHeaderBytes());
-    writeTextFile(cacheBitmapPath, "bmp");
+    writeMatchingDecodedDtxCacheBmp(cacheBitmapPath);
 
     const std::filesystem::file_time_type sourceTime =
         std::filesystem::file_time_type::clock::now() - std::chrono::hours(1);
@@ -1178,10 +1300,14 @@ TEST_CASE("MM9 material texture inspection resolves source DTX headers and gener
     CHECK(statuses[0].sourceDtxSizeBytes == makeDtxHeaderBytes().size());
     CHECK(statuses[0].cacheHashLoaded);
     CHECK(statuses[0].cacheSha256.size() == 64);
-    CHECK(statuses[0].cacheSizeBytes == 3);
+    CHECK(statuses[0].cacheSizeBytes > 0);
     CHECK(statuses[0].cacheFreshnessKnown);
     CHECK(statuses[0].cacheNewerThanSource);
     CHECK(!statuses[0].cacheOlderThanSource);
+    CHECK(statuses[0].cacheDeterminismChecked);
+    CHECK(statuses[0].sourceDtxDecodedForCache);
+    CHECK(statuses[0].cacheImageDecoded);
+    CHECK(statuses[0].cacheMatchesDecodedSource);
     CHECK(statuses[0].dtxHeaderLoaded);
     CHECK(statuses[0].dtxHeaderMatchesSidecar);
     REQUIRE(statuses[0].dtxHeader.has_value());
@@ -1212,6 +1338,107 @@ TEST_CASE("MM9 material texture inspection resolves source DTX headers and gener
     CHECK(inspectionCache.sourceDtxIndexBuildCount == indexBuildCountAfterFirstRead);
     CHECK(inspectionCache.fileHashReadCount == hashReadCountAfterFirstRead);
     CHECK(inspectionCache.dtxHeaderReadCount == headerReadCountAfterFirstRead);
+
+    std::filesystem::remove_all(tempRoot);
+}
+
+TEST_CASE("MM9 material texture validation reports material alias mapping data loss")
+{
+    std::string errorMessage;
+    const std::optional<OpenYAMM::Editor::EditorMm9DatWorldSidecar> datWorld =
+        OpenYAMM::Editor::loadMm9DatWorldSidecarFromText(minimalDatWorldSidecarYaml(), errorMessage);
+    REQUIRE_MESSAGE(datWorld.has_value(), errorMessage.c_str());
+
+    const std::string materialAliasesYaml = R"(
+format_version: 1
+kind: mm9_material_aliases
+source_dat: mm9/extracted/WORLDS/WORLDS/TESTMAP.dat
+textures:
+  - alias: TEST
+    width: 128
+    height: 64
+)";
+
+    const std::optional<OpenYAMM::Editor::EditorMm9MaterialAliasesSidecar> materials =
+        OpenYAMM::Editor::loadMm9MaterialAliasesSidecarFromText(materialAliasesYaml, errorMessage);
+    REQUIRE_MESSAGE(materials.has_value(), errorMessage.c_str());
+
+    const std::filesystem::path levelPath =
+        std::filesystem::temp_directory_path() / "openyamm_mm9_material_alias_data_loss_test/maps/testmap.level.yml";
+    const std::vector<OpenYAMM::Editor::EditorMm9MaterialTextureStatus> statuses =
+        OpenYAMM::Editor::inspectMm9MaterialTextureReferences(levelPath, *datWorld, *materials);
+
+    REQUIRE(statuses.size() == 2);
+    CHECK(statuses[0].materialAliasEntry);
+    CHECK(statuses[0].aliasFieldPresent);
+    CHECK(!statuses[0].sourceTextureFieldPresent);
+    CHECK(!statuses[0].emittedBitmapFieldPresent);
+    CHECK(!statuses[0].emittedBitmapModeFieldPresent);
+
+    const std::vector<std::string> issues =
+        OpenYAMM::Editor::validateMm9MaterialTextureReferences(statuses);
+
+    bool foundMissingSourceTexture = false;
+    bool foundMissingEmittedBitmap = false;
+    bool foundMissingEmittedBitmapMode = false;
+
+    for (const std::string &issue : issues)
+    {
+        foundMissingSourceTexture =
+            foundMissingSourceTexture || issue.find("missing source_texture") != std::string::npos;
+        foundMissingEmittedBitmap =
+            foundMissingEmittedBitmap || issue.find("missing emitted_bitmap:") != std::string::npos;
+        foundMissingEmittedBitmapMode =
+            foundMissingEmittedBitmapMode || issue.find("missing emitted_bitmap_mode") != std::string::npos;
+    }
+
+    CHECK(foundMissingSourceTexture);
+    CHECK(foundMissingEmittedBitmap);
+    CHECK(foundMissingEmittedBitmapMode);
+}
+
+TEST_CASE("MM9 material texture validation rejects decoded caches that drift from source DTX pixels")
+{
+    std::string errorMessage;
+    const std::optional<OpenYAMM::Editor::EditorMm9DatWorldSidecar> datWorld =
+        OpenYAMM::Editor::loadMm9DatWorldSidecarFromText(minimalDatWorldSidecarYaml(), errorMessage);
+    REQUIRE_MESSAGE(datWorld.has_value(), errorMessage.c_str());
+
+    const std::optional<OpenYAMM::Editor::EditorMm9MaterialAliasesSidecar> materials =
+        OpenYAMM::Editor::loadMm9MaterialAliasesSidecarFromText(minimalMaterialAliasesSidecarYaml(), errorMessage);
+    REQUIRE_MESSAGE(materials.has_value(), errorMessage.c_str());
+
+    const std::filesystem::path tempRoot =
+        std::filesystem::temp_directory_path() / "openyamm_mm9_material_cache_drift_test";
+    std::filesystem::remove_all(tempRoot);
+
+    const std::filesystem::path levelPath = tempRoot / "maps/testmap.level.yml";
+    writeBinaryFile(tempRoot / "source/textures/TEST/TEST.dtx", makeDtxHeaderBytes());
+
+    std::vector<uint8_t> driftedPixels = makeDecodedDxt1ZeroPixelsBgra();
+    driftedPixels[0] = 17;
+    writeBgra32BmpFile(tempRoot / "maps/testmap.bitmaps/TEST.bmp", 128, 64, driftedPixels);
+
+    const std::vector<OpenYAMM::Editor::EditorMm9MaterialTextureStatus> statuses =
+        OpenYAMM::Editor::inspectMm9MaterialTextureReferences(levelPath, *datWorld, *materials);
+    REQUIRE(statuses.size() == 1);
+    CHECK(statuses[0].cacheDeterminismChecked);
+    CHECK(statuses[0].sourceDtxDecodedForCache);
+    CHECK(statuses[0].cacheImageDecoded);
+    CHECK(!statuses[0].cacheMatchesDecodedSource);
+
+    const std::vector<std::string> issues =
+        OpenYAMM::Editor::validateMm9MaterialTextureReferences(statuses);
+
+    bool foundCacheDrift = false;
+
+    for (const std::string &issue : issues)
+    {
+        foundCacheDrift =
+            foundCacheDrift || issue.find("generated cache is not deterministic") != std::string::npos;
+    }
+
+    CHECK(foundCacheDrift);
 
     std::filesystem::remove_all(tempRoot);
 }
@@ -1379,6 +1606,57 @@ TEST_CASE("MM9 material texture validation reports missing required source DTX p
     std::filesystem::remove_all(tempRoot);
 }
 
+TEST_CASE("MM9 material texture inspection treats hidden Default helper material as built-in")
+{
+    std::string errorMessage;
+    std::optional<OpenYAMM::Editor::EditorMm9DatWorldSidecar> datWorld =
+        OpenYAMM::Editor::loadMm9DatWorldSidecarFromText(minimalDatWorldSidecarYaml(), errorMessage);
+    REQUIRE_MESSAGE(datWorld.has_value(), errorMessage.c_str());
+
+    datWorld->worldModels[0].textures[0].sourceTexture = "Default";
+    datWorld->worldModels[0].roles.visible = false;
+    datWorld->worldModels[0].roles.terrain = false;
+    datWorld->worldModels[0].roles.triggerOrVolume = true;
+    datWorld->worldModels[0].roles.movable = true;
+
+    const std::string materialYaml = R"(
+format_version: 1
+kind: mm9_material_aliases
+source_dat: mm9/extracted/WORLDS/WORLDS/TESTMAP.dat
+stats: {}
+textures:
+  - alias: DEFAULT
+    source_texture: Default
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: testmap.bitmaps/DEFAULT.bmp
+    emitted_bitmap_mode: placeholder_missing_source
+)";
+
+    const std::optional<OpenYAMM::Editor::EditorMm9MaterialAliasesSidecar> materials =
+        OpenYAMM::Editor::loadMm9MaterialAliasesSidecarFromText(materialYaml, errorMessage);
+    REQUIRE_MESSAGE(materials.has_value(), errorMessage.c_str());
+
+    const std::filesystem::path levelPath =
+        std::filesystem::temp_directory_path() / "openyamm_mm9_default_helper_material_test/maps/testmap.level.yml";
+    const std::vector<OpenYAMM::Editor::EditorMm9MaterialTextureStatus> statuses =
+        OpenYAMM::Editor::inspectMm9MaterialTextureReferences(levelPath, *datWorld, *materials);
+
+    REQUIRE(statuses.size() == 1);
+    CHECK(statuses[0].sourceTexture == "Default");
+    CHECK(statuses[0].sourceAssetFamily == "builtin");
+    CHECK(statuses[0].resolutionSource == "lithtech_default_helper_material");
+    CHECK(statuses[0].defaultHelperMaterial);
+    CHECK(statuses[0].placeholderMissingSource);
+    CHECK(statuses[0].datReferenceCount == 1);
+    CHECK(statuses[0].defaultRenderableDatReferenceCount == 0);
+    CHECK(statuses[0].helperOnlyDatReferenceCount == 1);
+    CHECK(statuses[0].sourceDtxCandidateCount == 0);
+    CHECK(!statuses[0].sourceDtxResolved);
+    CHECK(OpenYAMM::Editor::validateMm9MaterialTextureReferences(statuses).empty());
+}
+
 TEST_CASE("MM9 material texture inspection resolves unique basename fallback")
 {
     std::string errorMessage;
@@ -1440,6 +1718,117 @@ textures:
     CHECK(statuses[0].sourcePathExists);
     CHECK(statuses[0].dtxHeaderLoaded);
     CHECK(statuses[0].dtxHeaderMatchesSidecar);
+    CHECK(OpenYAMM::Editor::validateMm9MaterialTextureReferences(statuses).empty());
+
+    std::filesystem::remove_all(tempRoot);
+}
+
+TEST_CASE("MM9 material texture inspection applies scoped source asset aliases")
+{
+    std::string errorMessage;
+    std::string datWorldYaml = minimalDatWorldSidecarYaml();
+    const std::string originalReference = "TEXTURES\\Test\\test.dtx";
+    const std::string missingReference = "TEXTURES\\ENVIRONMENTMAPS\\MountainSky\\MTN_Down.dtx";
+    const size_t referencePosition = datWorldYaml.find(originalReference);
+    REQUIRE(referencePosition != std::string::npos);
+    datWorldYaml.replace(referencePosition, originalReference.size(), missingReference);
+
+    const std::optional<OpenYAMM::Editor::EditorMm9DatWorldSidecar> datWorld =
+        OpenYAMM::Editor::loadMm9DatWorldSidecarFromText(datWorldYaml, errorMessage);
+    REQUIRE_MESSAGE(datWorld.has_value(), errorMessage.c_str());
+
+    const std::string materialYaml = R"(
+format_version: 1
+kind: mm9_material_aliases
+source_dat: mm9/extracted/WORLDS/WORLDS/TESTMAP.dat
+stats: {}
+textures:
+  - alias: MTNDOWN
+    source_texture: TEXTURES\ENVIRONMENTMAPS\MountainSky\MTN_Down.dtx
+    width: 256
+    height: 256
+    physical_path: ""
+    emitted_bitmap: testmap.bitmaps/MTNDOWN.bmp
+    emitted_bitmap_mode: placeholder_missing_source
+)";
+
+    const std::string levelText = R"(
+format_version: 1
+kind: mm9_level
+map_id: testmap
+display_name: Test Map
+source:
+  dat: ../source/worlds/TESTMAP.dat
+  manifest: ../source/manifest.yml
+  original_dat: mm9/extracted/WORLDS/WORLDS/TESTMAP.dat
+  source_game: mm9
+  dat_version: 66
+  content_hash: abc123
+runtime:
+  world_backend: dat_world
+  classification: dat_bsp_like
+  classification_confidence: high
+  visibility: dat_portal_bsp
+  collision: dat_physics_bsp
+  render: dat_render_world
+  sky: true
+sidecars:
+  dat_world: testmap.dat_world.yml
+  raw_objects: testmap.raw_objects.yml
+  materials: testmap.material_aliases.yml
+  events: testmap.events.yml
+  source_asset_aliases: ../import/overrides/testmap.source_asset_aliases.yml
+scripts:
+  level: ../events/testmap.lua
+  script_ir: ../events/testmap.script_ir.yml
+compatibility:
+  legacy_target_format: odm
+  generated_odm_blv_are_derived: true
+)";
+
+    const std::optional<OpenYAMM::Editor::EditorMm9MaterialAliasesSidecar> materials =
+        OpenYAMM::Editor::loadMm9MaterialAliasesSidecarFromText(materialYaml, errorMessage);
+    REQUIRE_MESSAGE(materials.has_value(), errorMessage.c_str());
+    const std::optional<OpenYAMM::Editor::EditorMm9DatLevelMetadata> metadata =
+        OpenYAMM::Editor::loadMm9DatLevelMetadataFromText(levelText, errorMessage);
+    REQUIRE_MESSAGE(metadata.has_value(), errorMessage.c_str());
+
+    const std::filesystem::path tempRoot =
+        std::filesystem::temp_directory_path() / "openyamm_mm9_material_source_alias_test";
+    std::filesystem::remove_all(tempRoot);
+
+    const std::filesystem::path levelPath = tempRoot / "maps/testmap.level.yml";
+    writeBinaryFile(tempRoot / "source/textures/SKYBOX/SNOWMTNS_DOWN.dtx", makeDtxHeaderBytes());
+    writeTextFile(tempRoot / "import/overrides/testmap.source_asset_aliases.yml", R"(
+format_version: 1
+kind: mm9_source_asset_aliases
+aliases:
+  - source_family: textures
+    requested: TEXTURES\ENVIRONMENTMAPS\MountainSky\MTN_Down.dtx
+    resolved: TEXTURES\Skybox\SnowMtns_Down.dtx
+    scope:
+      maps: [testmap]
+    reason: "test scoped skybox material alias"
+)");
+
+    const std::vector<OpenYAMM::Editor::EditorMm9MaterialTextureStatus> statuses =
+        OpenYAMM::Editor::inspectMm9MaterialTextureReferences(
+            levelPath,
+            *datWorld,
+            *materials,
+            nullptr,
+            &*metadata);
+
+    REQUIRE(statuses.size() == 1);
+    CHECK(statuses[0].sourceDtxResolved);
+    CHECK(!statuses[0].sourceDtxAmbiguous);
+    CHECK(statuses[0].aliasApplied);
+    CHECK(statuses[0].aliasTargetKey == "skybox/snowmtns_down.dtx");
+    CHECK(statuses[0].resolutionSource == "source_asset_alias");
+    CHECK(statuses[0].sourceDtxCandidates.size() == 1);
+    CHECK(statuses[0].sourceDtxCandidates[0].find("SKYBOX/SNOWMTNS_DOWN.dtx") != std::string::npos);
+    CHECK(statuses[0].sourcePathExists);
+    CHECK(statuses[0].dtxHeaderLoaded);
     CHECK(OpenYAMM::Editor::validateMm9MaterialTextureReferences(statuses).empty());
 
     std::filesystem::remove_all(tempRoot);
@@ -1800,6 +2189,7 @@ TEST_CASE("MM9 DAT level file validation rejects wrong sidecar kind")
     const std::filesystem::path eventsRoot = tempRoot / "events";
     const std::filesystem::path levelPath = mapsRoot / "testmap.level.yml";
 
+    writeTextFile(tempRoot / "source/manifest.yml", minimalSourceAssetManifestYaml());
     writeTextFile(sourceWorldRoot / "TESTMAP.dat", "dat");
     writeTextFile(mapsRoot / "testmap.dat_world.yml", "kind: outdoor_scene\n");
     writeTextFile(mapsRoot / "testmap.raw_objects.yml", "kind: mm9_raw_world_objects\n");
@@ -1832,6 +2222,7 @@ TEST_CASE("MM9 DAT level file validation rejects stale source DAT hash")
     const std::filesystem::path eventsRoot = tempRoot / "events";
     const std::filesystem::path levelPath = mapsRoot / "testmap.level.yml";
 
+    writeTextFile(tempRoot / "source/manifest.yml", minimalSourceAssetManifestYaml());
     writeTextFile(sourceWorldRoot / "TESTMAP.dat", "dat");
     writeTextFile(mapsRoot / "testmap.dat_world.yml", "kind: mm9_dat_world\n");
     writeTextFile(mapsRoot / "testmap.raw_objects.yml", "kind: mm9_raw_world_objects\n");
@@ -1875,6 +2266,7 @@ TEST_CASE("MM9 DAT level file validation accepts generated active-slice entrypoi
         CHECK(metadata->kind == "mm9_level");
         CHECK(metadata->runtime.worldBackend == "dat_world");
         CHECK(metadata->source.dat == activeLevel.second);
+        CHECK(metadata->source.manifest == "../source/manifest.yml");
         REQUIRE(metadata->sidecars.sourceAssetAliases.has_value());
         CHECK(*metadata->sidecars.sourceAssetAliases == "../import/overrides/mm9_active_slice.source_asset_aliases.yml");
 
@@ -2389,6 +2781,7 @@ map_id: testmap
 display_name: Test Map
 source:
   dat: ../source/worlds/TESTMAP.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/TESTMAP.dat
   source_game: mm9
   dat_version: 66
@@ -2647,7 +3040,9 @@ objects:
 
     REQUIRE(statuses.size() == 1);
     CHECK(!statuses[0].required);
-    CHECK(!statuses[0].resolved);
+    CHECK(statuses[0].resolved);
+    CHECK(statuses[0].builtinReference);
+    CHECK(statuses[0].resolutionSource == "lithtech_world_properties_sky_builtin");
     CHECK(issues.empty());
 }
 
@@ -2664,6 +3059,8 @@ TEST_CASE("MM9 asset dependency summary groups source and generated families")
     writeTextFile(tempRoot / "maps/testmap.events.yml", "sidecar");
     writeTextFile(tempRoot / "events/testmap.lua", "-- lua\n");
     writeTextFile(tempRoot / "events/testmap.script_ir.yml", "kind: script_ir\n");
+    writeTextFile(tempRoot / "source/data/ACTOR.txt", "actor table\n");
+    writeTextFile(tempRoot / "source/rude/NPC001.txt", "rude table\n");
 
     OpenYAMM::Editor::EditorMm9MaterialTextureStatus materialStatus = {};
     materialStatus.sourceTexture = "TEXTURES\\TEST\\TEST.dtx";
@@ -2694,6 +3091,25 @@ TEST_CASE("MM9 asset dependency summary groups source and generated families")
     optionalMissingTextureStatus.required = false;
     rawStatuses.push_back(optionalMissingTextureStatus);
 
+    std::vector<OpenYAMM::Editor::EditorMm9SourceAssetFamilyStatus> sourceFamilyStatuses;
+    OpenYAMM::Editor::EditorMm9SourceAssetFamilyStatus dataFamilyStatus = {};
+    dataFamilyStatus.id = "data";
+    dataFamilyStatus.declared = true;
+    dataFamilyStatus.actualFileCount = 2;
+    sourceFamilyStatuses.push_back(dataFamilyStatus);
+
+    OpenYAMM::Editor::EditorMm9SourceAssetFamilyStatus rudeFamilyStatus = {};
+    rudeFamilyStatus.id = "rude";
+    rudeFamilyStatus.declared = true;
+    rudeFamilyStatus.actualFileCount = 1;
+    sourceFamilyStatuses.push_back(rudeFamilyStatus);
+
+    OpenYAMM::Editor::EditorMm9SourceAssetFamilyStatus soundsFamilyStatus = {};
+    soundsFamilyStatus.id = "sounds";
+    soundsFamilyStatus.declared = true;
+    soundsFamilyStatus.actualFileCount = 5;
+    sourceFamilyStatuses.push_back(soundsFamilyStatus);
+
     std::string errorMessage;
     const std::optional<OpenYAMM::Editor::EditorMm9DatLevelMetadata> metadata =
         OpenYAMM::Editor::loadMm9DatLevelMetadataFromText(minimalMm9LevelYaml(), errorMessage);
@@ -2704,21 +3120,24 @@ TEST_CASE("MM9 asset dependency summary groups source and generated families")
             levelPath,
             *metadata,
             {materialStatus},
-            rawStatuses);
+            rawStatuses,
+            sourceFamilyStatuses);
 
-    CHECK(summary.total == 12);
-    CHECK(summary.resolved == 10);
+    CHECK(summary.total == 14);
+    CHECK(summary.resolved == 12);
     CHECK(summary.unresolved == 2);
     CHECK(summary.ambiguous == 0);
     CHECK(summary.stale == 0);
-    CHECK(summary.requiredTotal == 10);
-    CHECK(summary.requiredResolved == 9);
+    CHECK(summary.requiredTotal == 12);
+    CHECK(summary.requiredResolved == 11);
     CHECK(summary.requiredUnresolved == 1);
     CHECK(summary.requiredAmbiguous == 0);
     CHECK(summary.optionalTotal == 2);
     CHECK(summary.optionalResolved == 1);
     CHECK(summary.optionalUnresolved == 1);
     CHECK(summary.optionalAmbiguous == 0);
+    CHECK(summary.sourceOnly == 8);
+    CHECK(summary.unusedSource == 5);
 
     const auto findFamily =
         [&summary](const std::string &family)
@@ -2738,6 +3157,16 @@ TEST_CASE("MM9 asset dependency summary groups source and generated families")
     REQUIRE(findFamily("generated_events") != summary.families.end());
     CHECK(findFamily("generated_events")->total == 2);
     CHECK(findFamily("generated_events")->resolved == 2);
+    REQUIRE(findFamily("data") != summary.families.end());
+    CHECK(findFamily("data")->total == 1);
+    CHECK(findFamily("data")->resolved == 1);
+    CHECK(findFamily("data")->sourceOnly == 2);
+    CHECK(findFamily("data")->unusedSource == 1);
+    REQUIRE(findFamily("rude") != summary.families.end());
+    CHECK(findFamily("rude")->total == 1);
+    CHECK(findFamily("rude")->resolved == 1);
+    CHECK(findFamily("rude")->sourceOnly == 1);
+    CHECK(findFamily("rude")->unusedSource == 0);
     REQUIRE(findFamily("generated_caches") != summary.families.end());
     CHECK(findFamily("generated_caches")->total == 1);
     CHECK(findFamily("generated_caches")->resolved == 1);
@@ -2746,6 +3175,8 @@ TEST_CASE("MM9 asset dependency summary groups source and generated families")
     REQUIRE(findFamily("sounds") != summary.families.end());
     CHECK(findFamily("sounds")->unresolved == 1);
     CHECK(findFamily("sounds")->requiredUnresolved == 1);
+    CHECK(findFamily("sounds")->sourceOnly == 5);
+    CHECK(findFamily("sounds")->unusedSource == 4);
     REQUIRE(findFamily("textures") != summary.families.end());
     CHECK(findFamily("textures")->optionalUnresolved == 1);
 }

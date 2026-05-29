@@ -3,6 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
+import os
+import re
 import subprocess
 import sys
 from collections import defaultdict
@@ -17,13 +20,25 @@ from convert_abc_model import GL_TRIANGLES, Buffer, GltfBuilder, align_blob
 from mm9_units import MM9_TO_OPENYAMM_COORDINATE_SCALE
 from transcode_mm9_dat_to_odm import (
     DatWorld,
+    ExportedLight,
     OdmBModel,
     OdmFace,
     OdmVertex,
     UserPortal,
     WorldLeaf,
+    build_baked_model_instance_lines,
+    build_mm9_light_lines,
+    build_mm9_party_start_point_lines,
+    build_mechanism_lines,
     build_texture_size_index,
+    export_mm9_lights,
+    export_mm9_party_start_points,
+    mechanism_event_id,
+    find_bmodel_binding_for_mechanism,
+    mechanism_runtime_id,
+    property_map_cased,
     read_dat_world,
+    triangulate_polygon_fan,
     transcode_geometry,
     write_alias_bitmaps,
     write_material_aliases,
@@ -58,10 +73,29 @@ class SourcePortal:
 
 
 @dataclass
+class SourceMechanism:
+    source_node_name: str
+    mechanism_id: int
+    source_object_index: int
+    source_class: str
+    source_name: str
+    kind: str
+    bmodel_index: int
+    bmodel: OdmBModel
+    move_axis: tuple[float, float, float]
+    move_distance: float
+    open_speed: float
+    close_speed: float
+    initial_state: str
+
+
+@dataclass
 class SourceLayout:
     rooms: list[SourceRoom]
     portals: list[SourcePortal]
     diagnostics: dict[str, Any]
+    mechanisms: list[SourceMechanism] = field(default_factory=list)
+    lights: list[ExportedLight] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -79,6 +113,22 @@ class FaceRecord:
     centroid: tuple[float, float, float]
 
 
+BLV_SKIPPED_FACE_COLLISION_ROLES = {
+    "navigation_helper",
+    "sound_helper",
+    "visibility_helper",
+    "water_helper",
+    "water_marker",
+}
+
+
+def is_blv_export_face(bmodel: OdmBModel, face_index: int) -> bool:
+    if face_index >= len(bmodel.source_collision_role_for_face):
+        return True
+
+    return bmodel.source_collision_role_for_face[face_index] not in BLV_SKIPPED_FACE_COLLISION_ROLES
+
+
 def face_centroid(vertices: list[OdmVertex], face: OdmFace) -> tuple[float, float, float]:
     count = max(1, len(face.vertex_indices))
     return (
@@ -88,18 +138,147 @@ def face_centroid(vertices: list[OdmVertex], face: OdmFace) -> tuple[float, floa
     )
 
 
+def source_triangles_for_face(bmodel: OdmBModel, face: OdmFace) -> list[SourceTriangle]:
+    source_indices = list(face.vertex_indices)
+    source_uvs = list(zip(face.texture_us, face.texture_vs))
+    if len(source_indices) < 3:
+        return []
+
+    triangles = (
+        [(source_indices, source_uvs)]
+        if len(source_indices) == 3
+        else triangulate_polygon_fan(source_indices, source_uvs)
+    )
+    return [
+        SourceTriangle(
+            material_name=face.texture_alias,
+            vertices=[bmodel.vertices[index] for index in triangle_indices],
+            uvs=triangle_uvs,
+        )
+        for triangle_indices, triangle_uvs in triangles
+    ]
+
+
 def append_face_triangle(room: SourceRoom, bmodel: OdmBModel, face: OdmFace) -> None:
-    room.triangles.append(SourceTriangle(
-        material_name=face.texture_alias,
-        vertices=[bmodel.vertices[index] for index in face.vertex_indices],
-        uvs=list(zip(face.texture_us, face.texture_vs)),
-    ))
+    room.triangles.extend(source_triangles_for_face(bmodel, face))
+
+
+def mechanism_kind_for_object_class(object_class: str) -> str:
+    if object_class == "Door":
+        return "linear_door"
+    if object_class == "WeightedLift":
+        return "weighted_lift"
+    if object_class == "RotatingDoor":
+        return "rotating_door_as_lift"
+    if object_class == "RotatingBrush":
+        return "rotating_brush_as_lift"
+    return ""
+
+
+def bmodel_vertical_extent(bmodel: OdmBModel) -> float:
+    if not bmodel.vertices:
+        return 0.0
+
+    min_z = min(vertex.z for vertex in bmodel.vertices)
+    max_z = max(vertex.z for vertex in bmodel.vertices)
+    return float(max(0, max_z - min_z))
+
+
+def light_runtime_id(light: ExportedLight) -> str:
+    return f"mm9_light_{light.source_object_index}"
+
+
+def light_node_name(light: ExportedLight) -> str:
+    return f"LIGHT_{light_runtime_id(light)}"
+
+
+def metadata_int(value: Any, default: int = 0) -> int:
+    if isinstance(value, bool):
+        return 1 if value else 0
+    if isinstance(value, (int, float)):
+        number = float(value)
+    elif isinstance(value, str):
+        try:
+            number = float(value)
+        except ValueError:
+            return default
+    else:
+        return default
+    if not math.isfinite(number):
+        return default
+    return int(round(number))
+
+
+def metadata_light_radius(value: Any) -> int:
+    return max(0, min(32767, metadata_int(value)))
+
+
+def build_blv_mechanisms(dat_world: DatWorld, bmodels: list[OdmBModel], coordinate_scale: float) -> list[SourceMechanism]:
+    mechanisms: list[SourceMechanism] = []
+    used_bmodel_indices: set[int] = set()
+
+    for object_index, world_object in enumerate(dat_world.objects):
+        kind = mechanism_kind_for_object_class(world_object.name)
+        if not kind:
+            continue
+
+        values = property_map_cased(world_object)
+        move_dir = values.get("MoveDir")
+        has_linear = isinstance(move_dir, list) and len(move_dir) >= 3 and "MoveDist" in values
+        has_rotation = (
+            kind in {"rotating_door_as_lift", "rotating_brush_as_lift"}
+            and isinstance(values.get("RotationPoint"), list)
+            and isinstance(values.get("RotationAngles"), list)
+        )
+        if not has_linear and not has_rotation:
+            continue
+
+        binding = find_bmodel_binding_for_mechanism(values, bmodels)
+        if binding is None:
+            continue
+
+        bmodel_index, bmodel, _confidence = binding
+        if bmodel_index in used_bmodel_indices:
+            continue
+
+        source_name = values.get("Name")
+        if not isinstance(source_name, str) or not source_name:
+            source_name = f"{world_object.name}{object_index}"
+
+        if has_linear:
+            move_distance = abs(float(values.get("MoveDist", 0.0) or 0.0)) * coordinate_scale
+            move_axis = (float(move_dir[0]), float(move_dir[2]), float(move_dir[1]))
+        else:
+            move_distance = max(128.0, bmodel_vertical_extent(bmodel) + 16.0)
+            move_axis = (0.0, 0.0, 1.0)
+
+        mechanisms.append(SourceMechanism(
+            source_node_name=f"MECH_{mechanism_runtime_id(object_index)}",
+            mechanism_id=mechanism_runtime_id(object_index),
+            source_object_index=object_index,
+            source_class=world_object.name,
+            source_name=source_name,
+            kind=kind,
+            bmodel_index=bmodel_index,
+            bmodel=bmodel,
+            move_axis=move_axis,
+            move_distance=move_distance,
+            open_speed=abs(float(values.get("Speed", 128.0) or 128.0)) * coordinate_scale,
+            close_speed=abs(float(values.get("ClosingSpeed", values.get("Speed", 128.0)) or 128.0)) * coordinate_scale,
+            initial_state="open" if bool(values.get("StartOpen", 0)) else "closed",
+        ))
+        used_bmodel_indices.add(bmodel_index)
+
+    return mechanisms
 
 
 def build_face_records(bmodels: list[OdmBModel]) -> list[FaceRecord]:
     records = []
     for bmodel in bmodels:
         for face_index, face in enumerate(bmodel.faces):
+            if not is_blv_export_face(bmodel, face_index):
+                continue
+
             source_poly_index = -1
             if face_index < len(bmodel.source_poly_for_face):
                 source_poly_index = bmodel.source_poly_for_face[face_index]
@@ -116,7 +295,9 @@ def build_face_records(bmodels: list[OdmBModel]) -> list[FaceRecord]:
 def build_one_room_layout(bmodels: list[OdmBModel]) -> SourceLayout:
     room = SourceRoom(room_id=0)
     for bmodel in bmodels:
-        for face in bmodel.faces:
+        for face_index, face in enumerate(bmodel.faces):
+            if not is_blv_export_face(bmodel, face_index):
+                continue
             append_face_triangle(room, bmodel, face)
     return SourceLayout(rooms=[room], portals=[], diagnostics={"sector_mode": "one_room", "rooms": 1, "portals": 0})
 
@@ -448,7 +629,9 @@ def build_spatial_grid_layout(bmodels: list[OdmBModel], grid_size: int, portal_m
 
     centroids: list[tuple[OdmBModel, OdmFace, tuple[float, float, float]]] = []
     for bmodel in bmodels:
-        for face in bmodel.faces:
+        for face_index, face in enumerate(bmodel.faces):
+            if not is_blv_export_face(bmodel, face_index):
+                continue
             centroids.append((bmodel, face, face_centroid(bmodel.vertices, face)))
 
     if not centroids:
@@ -630,22 +813,14 @@ def build_leaf_grid_layout(
             if record.key in assigned_face_keys:
                 continue
             assigned_face_keys.add(record.key)
-            cell_triangles[cell].append(SourceTriangle(
-                material_name=record.face.texture_alias,
-                vertices=[record.bmodel.vertices[index] for index in record.face.vertex_indices],
-                uvs=list(zip(record.face.texture_us, record.face.texture_vs)),
-            ))
+            cell_triangles[cell].extend(source_triangles_for_face(record.bmodel, record.face))
 
     unassigned_face_count = 0
     for record in records:
         if record.key in assigned_face_keys:
             continue
         cell = grid_cell_for_point(record.centroid, min_x, max_x, min_y, max_y, grid_size)
-        cell_triangles[cell].append(SourceTriangle(
-            material_name=record.face.texture_alias,
-            vertices=[record.bmodel.vertices[index] for index in record.face.vertex_indices],
-            uvs=list(zip(record.face.texture_us, record.face.texture_vs)),
-        ))
+        cell_triangles[cell].extend(source_triangles_for_face(record.bmodel, record.face))
         unassigned_face_count += 1
 
     layout = build_layout_from_cell_triangles(
@@ -758,6 +933,9 @@ def write_source_glb(path: Path, layout: SourceLayout) -> dict[str, int]:
 
     material_names = {triangle.material_name for room in layout.rooms for triangle in room.triangles}
     material_names.update(portal.material_name for portal in layout.portals)
+    material_names.update(face.texture_alias for mechanism in layout.mechanisms for face in mechanism.bmodel.faces)
+    if layout.lights:
+        material_names.add("LIGHT_MARKER")
 
     material_indices: dict[str, int] = {}
     for material_name in sorted(material_names):
@@ -802,6 +980,42 @@ def write_source_glb(path: Path, layout: SourceLayout) -> dict[str, int]:
         total_vertices += vertices
         total_triangles += emitted_triangles
 
+    for mechanism in layout.mechanisms:
+        triangles_by_material: dict[str, list[SourceTriangle]] = defaultdict(list)
+        for face in mechanism.bmodel.faces:
+            for triangle in source_triangles_for_face(mechanism.bmodel, face):
+                triangles_by_material[face.texture_alias].append(triangle)
+        vertices, emitted_triangles = append_mesh_from_triangles(
+            builder,
+            mechanism.source_node_name,
+            triangles_by_material,
+            material_indices,
+        )
+        total_vertices += vertices
+        total_triangles += emitted_triangles
+
+    for light in layout.lights:
+        x, y, z = light.position
+        triangles = [
+            SourceTriangle(
+                material_name="LIGHT_MARKER",
+                vertices=[
+                    OdmVertex(x=x - 6, y=y, z=z - 4),
+                    OdmVertex(x=x + 6, y=y, z=z - 4),
+                    OdmVertex(x=x, y=y, z=z + 8),
+                ],
+                uvs=[(0, 0), (256, 0), (128, 256)],
+            ),
+        ]
+        vertices, emitted_triangles = append_mesh_from_triangles(
+            builder,
+            light_node_name(light),
+            {"LIGHT_MARKER": triangles},
+            material_indices,
+        )
+        total_vertices += vertices
+        total_triangles += emitted_triangles
+
     align_blob(builder.blob)
     builder.gltf.buffers = [Buffer(byteLength=len(builder.blob))]
     builder.gltf.set_binary_blob(bytes(builder.blob))
@@ -813,6 +1027,8 @@ def write_source_glb(path: Path, layout: SourceLayout) -> dict[str, int]:
         "source_glb_materials": len(material_indices),
         "source_glb_rooms": len(layout.rooms),
         "source_glb_portals": len(layout.portals),
+        "source_glb_mechanisms": len(layout.mechanisms),
+        "source_glb_lights": len(layout.lights),
     }
 
 
@@ -880,20 +1096,89 @@ def write_geometry_metadata(
     else:
         lines.append("portals: []")
 
+    lines.append("surfaces: []")
+    if layout.mechanisms:
+        lines.append("mechanisms:")
+        for mechanism in layout.mechanisms:
+            move_length = max(1, int(round(mechanism.move_distance)))
+            lines.extend([
+                f"  - id: {yaml_scalar('mechanism_' + str(mechanism.mechanism_id))}",
+                f"    mechanism_id: {mechanism.mechanism_id}",
+                f"    name: {yaml_scalar(mechanism.source_name)}",
+                f"    kind: {yaml_scalar(mechanism.kind)}",
+                "    source_nodes:",
+                f"      - {yaml_scalar(mechanism.source_node_name)}",
+                "    moving_nodes:",
+                f"      - {yaml_scalar(mechanism.source_node_name)}",
+                "    trigger_surfaces: []",
+                "    affected_face_indices: []",
+                "    affected_vertex_indices: []",
+                "    trigger_face_indices: []",
+                "    move_axis: ["
+                f"{mechanism.move_axis[0]:.8g}, {mechanism.move_axis[1]:.8g}, {mechanism.move_axis[2]:.8g}]",
+                f"    move_distance: {mechanism.move_distance:.8g}",
+                f"    open_speed: {mechanism.open_speed:.8g}",
+                f"    close_speed: {mechanism.close_speed:.8g}",
+                "    source:",
+                '      source_kind: "mm9_dat_object"',
+                f"      source_object_index: {mechanism.source_object_index}",
+                f"      source_class: {yaml_scalar(mechanism.source_class)}",
+                f"      source_bmodel_index: {mechanism.bmodel_index}",
+                "    door:",
+                f"      door_id: {mechanism.mechanism_id}",
+                f"      initial_state: {yaml_scalar(mechanism.initial_state)}",
+                "      direction: ["
+                f"{mechanism.move_axis[0]:.8g}, {mechanism.move_axis[1]:.8g}, {mechanism.move_axis[2]:.8g}]",
+                f"      move_length: {move_length}",
+                f"      open_speed: {mechanism.open_speed:.8g}",
+                f"      close_speed: {mechanism.close_speed:.8g}",
+            ])
+    else:
+        lines.append("mechanisms: []")
+    if layout.lights:
+        lines.append("lights:")
+        for light in layout.lights:
+            radius = metadata_light_radius(light.radius)
+            lines.extend([
+                f"  - id: {yaml_scalar(light_runtime_id(light))}",
+                f"    source_node: {yaml_scalar(light_node_name(light))}",
+                f"    color: [{light.effective_color[0]}, {light.effective_color[1]}, {light.effective_color[2]}]",
+                f"    radius: {radius}",
+                "    brightness: 255",
+                f"    type: {yaml_scalar(light.light_type)}",
+            ])
+    else:
+        lines.append("lights: []")
     lines.extend([
-        "surfaces: []",
-        "mechanisms: []",
         "entities: []",
-        "lights: []",
         "spawns: []",
     ])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_scene_yml(path: Path, output_name: str) -> None:
+def write_scene_yml(
+    path: Path,
+    output_name: str,
+    mechanism_lines: list[str],
+    light_lines: list[str],
+    party_start_point_lines: list[str],
+    door_lines: list[str] | None = None,
+    face_override_lines: list[str] | None = None,
+    baked_model_instance_lines: list[str] | None = None,
+) -> None:
     zero_outline_hex = "00" * 875
     zero_map_vars = ", ".join(["0"] * 75)
     zero_decor_vars = ", ".join(["0"] * 125)
+    mechanisms = "\n".join(mechanism_lines) if mechanism_lines else "  []"
+    lights = "\n".join(light_lines) if light_lines else "  []"
+    party_start_points = "\n".join(party_start_point_lines) if party_start_point_lines else "  []"
+    baked_model_instances = (
+        "\n".join(baked_model_instance_lines)
+        if baked_model_instance_lines
+        else "  []"
+    )
+    doors = "\n".join(door_lines) if door_lines else "    []"
+    face_overrides = "\n".join(face_override_lines) if face_override_lines else "    []"
     path.write_text(
         f"""format_version: 1
 kind: "indoor_scene"
@@ -924,6 +1209,14 @@ environment:
   ceiling: 32767
   map_extra_reserved_hex: "000000000000ff7f00000000000000000000000000000000"
 spawns: []
+lights:
+{lights}
+mechanisms:
+{mechanisms}
+baked_model_instances:
+{baked_model_instances}
+party_start_points:
+{party_start_points}
 initial_state:
   location:
     respawn_count: 0
@@ -932,12 +1225,14 @@ initial_state:
     alert_status: 0
   visible_outlines:
     bitset_hex: "{zero_outline_hex}"
-  face_attribute_overrides: []
+  face_attribute_overrides:
+{face_overrides}
   decoration_flags: []
   actors: []
   sprite_objects: []
   chests: []
-  doors: []
+  doors:
+{doors}
   variables:
     map: [{zero_map_vars}]
     decor: [{zero_decor_vars}]
@@ -1061,6 +1356,7 @@ def write_source_metadata(
         f"  source_glb: {yaml_scalar(output_name + '.source.glb')}",
         f"  geometry_metadata: {yaml_scalar(output_name + '.geometry.yml')}",
         f"  bsp_diagnostics: {yaml_scalar(output_name + '.bsp.yml')}",
+        f"  compiled_doors: {yaml_scalar(output_name + '.compiled_doors.yml')}",
         f"  bitmap_alias_dir: {yaml_scalar(str(bitmap_dir))}",
         f"source_world_models: {len(dat_world.world_models)}",
         f"source_objects: {len(dat_world.objects)}",
@@ -1076,11 +1372,74 @@ def write_source_metadata(
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def compile_blv(compile_tool: Path, source_glb: Path, geometry_metadata: Path, output_blv: Path) -> None:
+def compile_blv(
+    compile_tool: Path,
+    source_glb: Path,
+    geometry_metadata: Path,
+    output_blv: Path,
+    generated_doors_path: Path,
+) -> None:
     subprocess.run(
-        [str(compile_tool), str(source_glb), str(geometry_metadata), str(output_blv)],
+        [str(compile_tool), str(source_glb), str(geometry_metadata), str(output_blv), str(generated_doors_path)],
         check=True,
     )
+
+
+def read_generated_door_lines(path: Path) -> list[str]:
+    if not path.exists():
+        return []
+
+    text = path.read_text(encoding="utf-8").strip()
+    if not text or text == "[]":
+        return []
+
+    return ["    " + line if line else line for line in text.splitlines()]
+
+
+def build_indoor_mechanism_face_override_lines(door_lines: list[str]) -> tuple[list[str], dict[str, int]]:
+    lines: list[str] = []
+    stats = {
+        "mechanism_event_faces": 0,
+        "mechanism_event_face_mechanisms": 0,
+    }
+    current_door_id: int | None = None
+
+    for line in door_lines:
+        door_match = re.search(r"\bdoor_id:\s*(\d+)", line)
+        if door_match is not None:
+            current_door_id = int(door_match.group(1))
+            continue
+
+        face_match = re.search(r"\bface_ids:\s*\[([^\]]*)\]", line)
+        if face_match is None or current_door_id is None:
+            continue
+
+        source_object_index = current_door_id - mechanism_runtime_id(0)
+        event_id = mechanism_event_id(source_object_index)
+        if source_object_index < 0 or event_id <= 0 or event_id > 0xffff:
+            continue
+
+        face_ids = [
+            int(value.strip())
+            for value in face_match.group(1).split(",")
+            if value.strip()
+        ]
+        if not face_ids:
+            continue
+
+        for face_id in face_ids:
+            lines.extend([
+                f"    - face_index: {face_id}",
+                f"      legacy_attributes: {0x02000000}",
+                f"      cog_number: {event_id}",
+                f"      cog_triggered: {event_id}",
+                "      cog_trigger_type: 0",
+            ])
+            stats["mechanism_event_faces"] += 1
+
+        stats["mechanism_event_face_mechanisms"] += 1
+
+    return lines, stats
 
 
 def main() -> int:
@@ -1127,7 +1486,29 @@ def main() -> int:
 
     dat_world = read_dat_world(args.dat)
     texture_sizes = build_texture_size_index(args.extracted_root)
-    bmodels, alias_metadata, stats = transcode_geometry(dat_world, args.scale, texture_sizes)
+    bmodels, alias_metadata, stats, baked_instances = transcode_geometry(
+        dat_world,
+        args.scale,
+        texture_sizes,
+        args.extracted_root,
+        preserve_source_ngons=False,
+    )
+    blv_mechanisms = build_blv_mechanisms(dat_world, bmodels, args.scale)
+    lights, light_stats = export_mm9_lights(dat_world, args.scale)
+    light_lines = build_mm9_light_lines(lights)
+    party_start_points, party_start_stats = export_mm9_party_start_points(dat_world, args.scale)
+    party_start_point_lines = build_mm9_party_start_point_lines(party_start_points)
+    mechanism_bmodel_indices = {mechanism.bmodel_index for mechanism in blv_mechanisms}
+    static_bmodels = [
+        bmodel
+        for bmodel_index, bmodel in enumerate(bmodels)
+        if bmodel_index not in mechanism_bmodel_indices
+    ]
+    mechanism_lines, mechanism_stats = build_mechanism_lines(dat_world, bmodels, args.scale)
+    stats.update(mechanism_stats)
+    stats.update(light_stats)
+    stats.update(party_start_stats)
+    stats["blv_compiled_linear_mechanisms"] = len(blv_mechanisms)
 
     source_glb_path = args.output_dir / f"{output_name}.source.glb"
     geometry_metadata_path = args.output_dir / f"{output_name}.geometry.yml"
@@ -1137,13 +1518,40 @@ def main() -> int:
     aliases_path = args.output_dir / f"{output_name}.material_aliases.yml"
     raw_objects_path = args.output_dir / f"{output_name}.raw_objects.yml"
     blv_path = args.output_dir / f"{output_name}.blv"
+    generated_doors_path = args.output_dir / f"{output_name}.compiled_doors.yml"
     bitmap_dir = args.bitmap_dir or (args.output_dir.parent / "textures")
 
-    layout = build_source_layout(dat_world, bmodels, args.sector_mode, args.sector_grid, alias_metadata, args.scale)
+    layout = build_source_layout(dat_world, static_bmodels, args.sector_mode, args.sector_grid, alias_metadata, args.scale)
+    layout.mechanisms = blv_mechanisms
+    layout.lights = [
+        light
+        for light in lights
+        if light.static_object_light_eligible and metadata_light_radius(light.radius) > 0
+    ]
+    stats["blv_compiled_static_lights"] = len(layout.lights)
     source_glb_stats = write_source_glb(source_glb_path, layout)
     bitmap_modes = write_alias_bitmaps(bitmap_dir, alias_metadata)
+    bitmap_directory_name = os.path.relpath(bitmap_dir, args.output_dir).replace("\\", "/")
     write_geometry_metadata(geometry_metadata_path, output_name, source_glb_path.name, alias_metadata, layout)
-    write_scene_yml(scene_path, output_name)
+    baked_model_instance_lines = build_baked_model_instance_lines(baked_instances)
+    door_lines: list[str] = []
+    face_override_lines: list[str] = []
+    if args.compile_tool:
+        compile_blv(args.compile_tool, source_glb_path, geometry_metadata_path, blv_path, generated_doors_path)
+        door_lines = read_generated_door_lines(generated_doors_path)
+        face_override_lines, face_override_stats = build_indoor_mechanism_face_override_lines(door_lines)
+        stats.update(face_override_stats)
+        stats["blv_compiled_door_scene_entries"] = len([line for line in door_lines if line.startswith("    - ")])
+    write_scene_yml(
+        scene_path,
+        output_name,
+        mechanism_lines,
+        light_lines,
+        party_start_point_lines,
+        door_lines,
+        face_override_lines,
+        baked_model_instance_lines,
+    )
     write_source_metadata(
         source_metadata_path,
         args.dat,
@@ -1156,11 +1564,8 @@ def main() -> int:
         source_glb_stats,
     )
     write_bsp_diagnostics(bsp_diagnostics_path, dat_world, layout)
-    write_material_aliases(aliases_path, args.dat, alias_metadata, stats, bitmap_modes)
+    write_material_aliases(aliases_path, args.dat, alias_metadata, stats, bitmap_modes, bitmap_directory_name)
     write_raw_objects(raw_objects_path, dat_world)
-
-    if args.compile_tool:
-        compile_blv(args.compile_tool, source_glb_path, geometry_metadata_path, blv_path)
 
     print(f"wrote {source_glb_path}")
     print(f"wrote {geometry_metadata_path}")

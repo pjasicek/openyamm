@@ -14,8 +14,8 @@ script.labels["CompleteIsleOfAshes"] = function(ctx)
     ctx:giveKey("ISLE_KEY_YRSATALK") -- TESTINGSTUFF.inc:26
     ctx:giveKey("ISLE_KEY_XPDRAGONFLIES") -- TESTINGSTUFF.inc:27
     ctx:giveKey("ISLE_KEY_XPYRSAQUEST") -- TESTINGSTUFF.inc:28
-    ctx:command("cprint", "\"You must still:\"") -- TESTINGSTUFF.inc:30
-    ctx:command("cprint", "\"Pickup Forad and read the book\"") -- TESTINGSTUFF.inc:31
+    ctx:cprint("You must still:") -- TESTINGSTUFF.inc:30
+    ctx:cprint("Pickup Forad and read the book") -- TESTINGSTUFF.inc:31
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:33
 end
 
@@ -47,97 +47,97 @@ end
 
 script.labels["MaxOutMight"] = function(ctx)
     -- TESTINGSTUFF.inc:58
-    ctx:command("getattribute", "STAT_MIGHT, nTemp") -- TESTINGSTUFF.inc:59
-    ctx:command("ntemp", "= MAX_STAT - nTemp") -- TESTINGSTUFF.inc:60
-    ctx:command("giveattribute", "STAT_MIGHT, nTemp, 1, 0") -- TESTINGSTUFF.inc:61
+    ctx:getAttribute("STAT_MIGHT", "nTemp") -- TESTINGSTUFF.inc:59
+    ctx:set("nTemp", "MAX_STAT - nTemp") -- TESTINGSTUFF.inc:60
+    ctx:giveAttribute("STAT_MIGHT", "nTemp", 1, 0) -- TESTINGSTUFF.inc:61
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:62
 end
 
 script.labels["MaxOutMagic"] = function(ctx)
     -- TESTINGSTUFF.inc:64
-    ctx:command("getattribute", "STAT_MAGIC, nTemp") -- TESTINGSTUFF.inc:65
-    ctx:command("ntemp", "= MAX_STAT - nTemp") -- TESTINGSTUFF.inc:66
-    ctx:command("giveattribute", "STAT_MAGIC, nTemp, 1, 0") -- TESTINGSTUFF.inc:67
+    ctx:getAttribute("STAT_MAGIC", "nTemp") -- TESTINGSTUFF.inc:65
+    ctx:set("nTemp", "MAX_STAT - nTemp") -- TESTINGSTUFF.inc:66
+    ctx:giveAttribute("STAT_MAGIC", "nTemp", 1, 0) -- TESTINGSTUFF.inc:67
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:68
 end
 
 script.labels["MaxOutEndurance"] = function(ctx)
     -- TESTINGSTUFF.inc:70
-    ctx:command("getattribute", "STAT_ENDURANCE, nTemp") -- TESTINGSTUFF.inc:71
-    ctx:command("ntemp", "= MAX_STAT - nTemp") -- TESTINGSTUFF.inc:72
-    ctx:command("giveattribute", "STAT_ENDURANCE, nTemp, 1, 0") -- TESTINGSTUFF.inc:73
+    ctx:getAttribute("STAT_ENDURANCE", "nTemp") -- TESTINGSTUFF.inc:71
+    ctx:set("nTemp", "MAX_STAT - nTemp") -- TESTINGSTUFF.inc:72
+    ctx:giveAttribute("STAT_ENDURANCE", "nTemp", 1, 0) -- TESTINGSTUFF.inc:73
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:74
 end
 
 script.labels["MaxOutAccuracy"] = function(ctx)
     -- TESTINGSTUFF.inc:76
-    ctx:command("getattribute", "STAT_ACCURACY, nTemp") -- TESTINGSTUFF.inc:77
-    ctx:command("ntemp", "= MAX_STAT - nTemp") -- TESTINGSTUFF.inc:78
-    ctx:command("giveattribute", "STAT_ACCURACY, nTemp, 1, 0") -- TESTINGSTUFF.inc:79
+    ctx:getAttribute("STAT_ACCURACY", "nTemp") -- TESTINGSTUFF.inc:77
+    ctx:set("nTemp", "MAX_STAT - nTemp") -- TESTINGSTUFF.inc:78
+    ctx:giveAttribute("STAT_ACCURACY", "nTemp", 1, 0) -- TESTINGSTUFF.inc:79
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:80
 end
 
 script.labels["MaxOutSpeed"] = function(ctx)
     -- TESTINGSTUFF.inc:82
-    ctx:command("getattribute", "STAT_SPEED, nTemp") -- TESTINGSTUFF.inc:83
-    ctx:command("ntemp", "= MAX_STAT - nTemp") -- TESTINGSTUFF.inc:84
-    ctx:command("giveattribute", "STAT_SPEED, nTemp, 1, 0") -- TESTINGSTUFF.inc:85
+    ctx:getAttribute("STAT_SPEED", "nTemp") -- TESTINGSTUFF.inc:83
+    ctx:set("nTemp", "MAX_STAT - nTemp") -- TESTINGSTUFF.inc:84
+    ctx:giveAttribute("STAT_SPEED", "nTemp", 1, 0) -- TESTINGSTUFF.inc:85
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:86
 end
 
 script.labels["MaxOutLuck"] = function(ctx)
     -- TESTINGSTUFF.inc:88
-    ctx:command("getattribute", "STAT_LUCK, nTemp") -- TESTINGSTUFF.inc:89
-    ctx:command("ntemp", "= MAX_STAT - nTemp") -- TESTINGSTUFF.inc:90
-    ctx:command("giveattribute", "STAT_LUCK, nTemp, 1, 0") -- TESTINGSTUFF.inc:91
+    ctx:getAttribute("STAT_LUCK", "nTemp") -- TESTINGSTUFF.inc:89
+    ctx:set("nTemp", "MAX_STAT - nTemp") -- TESTINGSTUFF.inc:90
+    ctx:giveAttribute("STAT_LUCK", "nTemp", 1, 0) -- TESTINGSTUFF.inc:91
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:92
 end
 
 script.labels["ZeroOutMight"] = function(ctx)
     -- TESTINGSTUFF.inc:94
-    ctx:command("getattribute", "STAT_MIGHT, nTemp") -- TESTINGSTUFF.inc:95
-    ctx:command("ntemp", "= -1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:96
-    ctx:command("giveattribute", "STAT_MIGHT, nTemp, 1, 0") -- TESTINGSTUFF.inc:97
+    ctx:getAttribute("STAT_MIGHT", "nTemp") -- TESTINGSTUFF.inc:95
+    ctx:set("nTemp", "-1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:96
+    ctx:giveAttribute("STAT_MIGHT", "nTemp", 1, 0) -- TESTINGSTUFF.inc:97
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:98
 end
 
 script.labels["ZeroOutMagic"] = function(ctx)
     -- TESTINGSTUFF.inc:100
-    ctx:command("getattribute", "STAT_MAGIC, nTemp") -- TESTINGSTUFF.inc:101
-    ctx:command("ntemp", "= -1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:102
-    ctx:command("giveattribute", "STAT_MAGIC, nTemp, 1, 0") -- TESTINGSTUFF.inc:103
+    ctx:getAttribute("STAT_MAGIC", "nTemp") -- TESTINGSTUFF.inc:101
+    ctx:set("nTemp", "-1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:102
+    ctx:giveAttribute("STAT_MAGIC", "nTemp", 1, 0) -- TESTINGSTUFF.inc:103
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:104
 end
 
 script.labels["ZeroOutEndurance"] = function(ctx)
     -- TESTINGSTUFF.inc:106
-    ctx:command("getattribute", "STAT_ENDURANCE, nTemp") -- TESTINGSTUFF.inc:107
-    ctx:command("ntemp", "= -1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:108
-    ctx:command("giveattribute", "STAT_ENDURANCE, nTemp, 1, 0") -- TESTINGSTUFF.inc:109
+    ctx:getAttribute("STAT_ENDURANCE", "nTemp") -- TESTINGSTUFF.inc:107
+    ctx:set("nTemp", "-1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:108
+    ctx:giveAttribute("STAT_ENDURANCE", "nTemp", 1, 0) -- TESTINGSTUFF.inc:109
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:110
 end
 
 script.labels["ZeroOutAccuracy"] = function(ctx)
     -- TESTINGSTUFF.inc:112
-    ctx:command("getattribute", "STAT_ACCURACY, nTemp") -- TESTINGSTUFF.inc:113
-    ctx:command("ntemp", "= -1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:114
-    ctx:command("giveattribute", "STAT_ACCURACY, nTemp, 1, 0") -- TESTINGSTUFF.inc:115
+    ctx:getAttribute("STAT_ACCURACY", "nTemp") -- TESTINGSTUFF.inc:113
+    ctx:set("nTemp", "-1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:114
+    ctx:giveAttribute("STAT_ACCURACY", "nTemp", 1, 0) -- TESTINGSTUFF.inc:115
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:116
 end
 
 script.labels["ZeroOutSpeed"] = function(ctx)
     -- TESTINGSTUFF.inc:118
-    ctx:command("getattribute", "STAT_SPEED, nTemp") -- TESTINGSTUFF.inc:119
-    ctx:command("ntemp", "= -1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:120
-    ctx:command("giveattribute", "STAT_SPEED, nTemp, 1, 0") -- TESTINGSTUFF.inc:121
+    ctx:getAttribute("STAT_SPEED", "nTemp") -- TESTINGSTUFF.inc:119
+    ctx:set("nTemp", "-1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:120
+    ctx:giveAttribute("STAT_SPEED", "nTemp", 1, 0) -- TESTINGSTUFF.inc:121
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:122
 end
 
 script.labels["ZeroOutLuck"] = function(ctx)
     -- TESTINGSTUFF.inc:124
-    ctx:command("getattribute", "STAT_LUCK, nTemp") -- TESTINGSTUFF.inc:125
-    ctx:command("ntemp", "= -1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:126
-    ctx:command("giveattribute", "STAT_LUCK, nTemp, 1, 0") -- TESTINGSTUFF.inc:127
+    ctx:getAttribute("STAT_LUCK", "nTemp") -- TESTINGSTUFF.inc:125
+    ctx:set("nTemp", "-1 * MAX_STAT + nTemp") -- TESTINGSTUFF.inc:126
+    ctx:giveAttribute("STAT_LUCK", "nTemp", 1, 0) -- TESTINGSTUFF.inc:127
     do return ctx:exit(1) end -- TESTINGSTUFF.inc:128
 end
 

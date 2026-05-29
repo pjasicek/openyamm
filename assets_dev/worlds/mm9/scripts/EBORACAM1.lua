@@ -13,8 +13,8 @@ script.includes[#script.includes + 1] = { line = 10, path = "BaseGlobals.inc" }
 -- SJR
 script.labels["CameraOn"] = function(ctx)
     -- EBORACAM1.scr:15
-    ctx:command("getobjecthandle", "Ebora, hEbora") -- EBORACAM1.scr:17
-    ctx:command("faceobject", "hEbora, 0, DoNothing") -- EBORACAM1.scr:18
+    ctx:state().hEbora = ctx:objectOrNil("Ebora") -- EBORACAM1.scr:17
+    ctx:self():faceObject(ctx:object("hEbora"), 0, "DoNothing") -- EBORACAM1.scr:18
     do return ctx:exit("FALSE") end -- EBORACAM1.scr:20
 end
 

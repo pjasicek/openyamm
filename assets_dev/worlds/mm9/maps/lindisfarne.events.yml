@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/lindisfarne.lua
+  script_ir: ../events/lindisfarne.script_ir.yml
 objects:
 - object_id: mm9:lindisfarne:object:0
   source_object_index: 0
@@ -87847,10 +87848,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest1.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - 448.0
     - 1472.0
@@ -113538,6 +113541,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id040 []
 - mechanism_id: mm9:lindisfarne:object:8:mechanism
   object_id: mm9:lindisfarne:object:8
@@ -113549,6 +113553,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id041 []
 - mechanism_id: mm9:lindisfarne:object:26:mechanism
   object_id: mm9:lindisfarne:object:26
@@ -113560,6 +113565,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id042 []
 - mechanism_id: mm9:lindisfarne:object:27:mechanism
   object_id: mm9:lindisfarne:object:27
@@ -113570,6 +113576,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:28:mechanism
   object_id: mm9:lindisfarne:object:28
@@ -113580,6 +113587,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:29:mechanism
   object_id: mm9:lindisfarne:object:29
@@ -113590,6 +113598,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:30:mechanism
   object_id: mm9:lindisfarne:object:30
@@ -113600,6 +113609,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:31:mechanism
   object_id: mm9:lindisfarne:object:31
@@ -113610,6 +113620,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:32:mechanism
   object_id: mm9:lindisfarne:object:32
@@ -113620,6 +113631,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:33:mechanism
   object_id: mm9:lindisfarne:object:33
@@ -113630,6 +113642,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:34:mechanism
   object_id: mm9:lindisfarne:object:34
@@ -113640,6 +113653,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:35:mechanism
   object_id: mm9:lindisfarne:object:35
@@ -113650,6 +113664,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:36:mechanism
   object_id: mm9:lindisfarne:object:36
@@ -113660,6 +113675,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:126:mechanism
   object_id: mm9:lindisfarne:object:126
@@ -113670,6 +113686,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:136:mechanism
   object_id: mm9:lindisfarne:object:136
@@ -113699,6 +113716,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door01.wav
+    authored: true
   trigger_outputs: &id043 []
 - mechanism_id: mm9:lindisfarne:object:137:mechanism
   object_id: mm9:lindisfarne:object:137
@@ -113728,6 +113774,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door01.wav
+    authored: true
   trigger_outputs: &id044 []
 - mechanism_id: mm9:lindisfarne:object:138:mechanism
   object_id: mm9:lindisfarne:object:138
@@ -113739,6 +113814,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id045 []
 - mechanism_id: mm9:lindisfarne:object:139:mechanism
   object_id: mm9:lindisfarne:object:139
@@ -113750,6 +113826,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id046 []
 - mechanism_id: mm9:lindisfarne:object:142:mechanism
   object_id: mm9:lindisfarne:object:142
@@ -113779,6 +113856,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id047 []
 - mechanism_id: mm9:lindisfarne:object:143:mechanism
   object_id: mm9:lindisfarne:object:143
@@ -113808,6 +113914,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id048 []
 - mechanism_id: mm9:lindisfarne:object:144:mechanism
   object_id: mm9:lindisfarne:object:144
@@ -113837,6 +113972,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id049 []
 - mechanism_id: mm9:lindisfarne:object:145:mechanism
   object_id: mm9:lindisfarne:object:145
@@ -113866,6 +114030,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id050 []
 - mechanism_id: mm9:lindisfarne:object:146:mechanism
   object_id: mm9:lindisfarne:object:146
@@ -113895,6 +114088,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: Sounds\Door\locked_door01.wav
+    authored: true
   trigger_outputs: &id051 []
 - mechanism_id: mm9:lindisfarne:object:253:mechanism
   object_id: mm9:lindisfarne:object:253
@@ -113924,6 +114146,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id052 []
 - mechanism_id: mm9:lindisfarne:object:254:mechanism
   object_id: mm9:lindisfarne:object:254
@@ -113953,6 +114204,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id053 []
 - mechanism_id: mm9:lindisfarne:object:255:mechanism
   object_id: mm9:lindisfarne:object:255
@@ -113982,6 +114262,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TempleDoubleDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id054 []
 - mechanism_id: mm9:lindisfarne:object:256:mechanism
   object_id: mm9:lindisfarne:object:256
@@ -114011,6 +114320,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: TempleDoubleDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id055 []
 - mechanism_id: mm9:lindisfarne:object:285:mechanism
   object_id: mm9:lindisfarne:object:285
@@ -114040,6 +114378,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: OutfitterDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id056 []
 - mechanism_id: mm9:lindisfarne:object:286:mechanism
   object_id: mm9:lindisfarne:object:286
@@ -114069,6 +114436,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: OutfitterDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id057 []
 - mechanism_id: mm9:lindisfarne:object:309:mechanism
   object_id: mm9:lindisfarne:object:309
@@ -114079,6 +114475,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:310:mechanism
   object_id: mm9:lindisfarne:object:310
@@ -114090,6 +114487,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:311:mechanism
   object_id: mm9:lindisfarne:object:311
@@ -114101,6 +114499,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:312:mechanism
   object_id: mm9:lindisfarne:object:312
@@ -114112,6 +114511,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:313:mechanism
   object_id: mm9:lindisfarne:object:313
@@ -114123,6 +114523,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:314:mechanism
   object_id: mm9:lindisfarne:object:314
@@ -114134,6 +114535,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:315:mechanism
   object_id: mm9:lindisfarne:object:315
@@ -114145,6 +114547,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:316:mechanism
   object_id: mm9:lindisfarne:object:316
@@ -114156,6 +114559,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:lindisfarne:object:317:mechanism
   object_id: mm9:lindisfarne:object:317
@@ -114167,6 +114571,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: []
 triggers: []
 interactions:
@@ -116611,16 +117016,216 @@ interactions:
   script_id: ''
   sends: []
 bindings:
+- object_id: mm9:lindisfarne:object:0
+  source_object_index: 0
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_source_model_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 23107
+      source_surface_count: 21391
+      roles: &id058
+        visible: true
+        terrain: true
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: false
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:0
+    confidence: exact_bmodel_name
+    bmodel_index: 0
+    bmodel_name: Terrain0
+    source_model_name: Terrain0
+    source_polygon_group:
+      source_model_index: 0
+      source_model_name: Terrain0
+      source_poly_count: 23107
+      source_surface_count: 21391
+      roles: *id058
+- object_id: mm9:lindisfarne:object:1
+  source_object_index: 1
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_source_model_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id067
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id059
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:1
+    confidence: exact_bmodel_name
+    bmodel_index: 1
+    bmodel_name: TOD_Sky0
+    source_model_name: TOD_Sky0
+    source_polygon_group: &id068
+      source_model_index: 1
+      source_model_name: TOD_Sky0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id059
+- object_id: mm9:lindisfarne:object:3
+  source_object_index: 3
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_source_model_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id069
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: &id060
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: true
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:2
+    confidence: exact_bmodel_name
+    bmodel_index: 2
+    bmodel_name: SkyBox0
+    source_model_name: SkyBox0
+    source_polygon_group: &id070
+      source_model_index: 2
+      source_model_name: SkyBox0
+      source_poly_count: 12
+      source_surface_count: 12
+      roles: *id060
+- object_id: mm9:lindisfarne:object:6
+  source_object_index: 6
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_source_model_name
+    bmodel_index: 3
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: Ocean
+      source_poly_count: 13
+      source_surface_count: 13
+      roles: &id061
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:3
+    confidence: exact_bmodel_name
+    bmodel_index: 3
+    bmodel_name: Ocean
+    source_model_name: Ocean
+    source_polygon_group:
+      source_model_index: 3
+      source_model_name: Ocean
+      source_poly_count: 13
+      source_surface_count: 13
+      roles: *id061
 - object_id: mm9:lindisfarne:object:7
   source_object_index: 7
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_source_model_name
+    bmodel_index: 4
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group: &id065
+      source_model_index: 4
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id062
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:4
+    confidence: exact_bmodel_name
+    bmodel_index: 4
+    bmodel_name: BlueWater1
+    source_model_name: BlueWater1
+    source_polygon_group: &id066
+      source_model_index: 4
+      source_model_name: BlueWater1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id062
 - object_id: mm9:lindisfarne:object:8
   source_object_index: 8
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_source_model_name
+    bmodel_index: 5
+    bmodel_name: BlueWater3
+    source_model_name: BlueWater3
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: BlueWater3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id063
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: true
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:5
+    confidence: exact_bmodel_name
+    bmodel_index: 5
+    bmodel_name: BlueWater3
+    source_model_name: BlueWater3
+    source_polygon_group:
+      source_model_index: 5
+      source_model_name: BlueWater3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id063
 - object_id: mm9:lindisfarne:object:12
   source_object_index: 12
   targets:
@@ -116680,56 +117285,568 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id117
+    - source_model_index: 16
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt:
+      - 2300.0
+      - 248.0
+      - -6412.0
+      distance_from_position_lt: 6898.447
+      claimed_by_exact_bindings:
+      - source_object_index: 126
+        source_name: InvisibleBrush0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 2300.0
+        - 248.0
+        - -6412.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:16
+        bmodel_index: 16
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id082
+          source_model_index: 16
+          source_model_name: InvisibleBrush0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id064
+            visible: false
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: true
+            movable: true
+      - source_object_index: 126
+        source_name: InvisibleBrush0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 2300.0
+        - 248.0
+        - -6412.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:16
+        bmodel_index: 16
+        bmodel_name: InvisibleBrush0
+        source_model_name: InvisibleBrush0
+        source_polygon_group: &id083
+          source_model_index: 16
+          source_model_name: InvisibleBrush0
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id064
+    - source_model_index: 4
+      source_name: BlueWater1
+      movable: true
+      world_translation_lt:
+      - -8000.0
+      - -198.0
+      - -32.0
+      distance_from_position_lt: 7939.05
+      claimed_by_exact_bindings:
+      - source_object_index: 7
+        source_name: BlueWater1
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -7872.0
+        - -198.0
+        - -32.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: BlueWater1
+        source_model_name: BlueWater1
+        source_polygon_group: *id065
+      - source_object_index: 7
+        source_name: BlueWater1
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -7872.0
+        - -198.0
+        - -32.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:4
+        bmodel_index: 4
+        bmodel_name: BlueWater1
+        source_model_name: BlueWater1
+        source_polygon_group: *id066
+    - source_model_index: 1
+      source_name: TOD_Sky0
+      movable: true
+      world_translation_lt:
+      - 8192.0
+      - -192.00009155273438
+      - 1938.0001220703125
+      distance_from_position_lt: 8468.192
+      claimed_by_exact_bindings:
+      - source_object_index: 1
+        source_name: TOD_Sky0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 8192.0
+        - -240.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id067
+      - source_object_index: 1
+        source_name: TOD_Sky0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 8192.0
+        - -240.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:1
+        bmodel_index: 1
+        bmodel_name: TOD_Sky0
+        source_model_name: TOD_Sky0
+        source_polygon_group: *id068
+    - source_model_index: 2
+      source_name: SkyBox0
+      movable: true
+      world_translation_lt:
+      - 8192.0
+      - -192.00010681152344
+      - 1938.0001220703125
+      distance_from_position_lt: 8468.192
+      claimed_by_exact_bindings:
+      - source_object_index: 3
+        source_name: SkyBox0
+        confidence: exact_source_model_name
+        source_position_lt:
+        - 8192.0
+        - -192.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id069
+      - source_object_index: 3
+        source_name: SkyBox0
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - 8192.0
+        - -192.0
+        - 1938.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:2
+        bmodel_index: 2
+        bmodel_name: SkyBox0
+        source_model_name: SkyBox0
+        source_polygon_group: *id070
+    - source_model_index: 24
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt:
+      - -8816.0
+      - 209.0
+      - 54.0
+      distance_from_position_lt: 8754.501
+      claimed_by_exact_bindings:
+      - source_object_index: 143
+        source_name: RotatingDoor1
+        confidence: exact_source_model_name
+        source_position_lt:
+        - -8816.0
+        - 209.0
+        - 32.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:24
+        bmodel_index: 24
+        bmodel_name: RotatingDoor1
+        source_model_name: RotatingDoor1
+        source_polygon_group: &id091
+          source_model_index: 24
+          source_model_name: RotatingDoor1
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: &id071
+            visible: true
+            terrain: false
+            physics_bsp: false
+            vis_bsp: false
+            sky: false
+            water: false
+            trigger_or_volume: false
+            movable: true
+      - source_object_index: 143
+        source_name: RotatingDoor1
+        confidence: exact_bmodel_name
+        source_position_lt:
+        - -8816.0
+        - 209.0
+        - 32.0
+        target_kind: odm_bmodel
+        target_id: odm:bmodel:24
+        bmodel_index: 24
+        bmodel_name: RotatingDoor1
+        source_model_name: RotatingDoor1
+        source_polygon_group: &id092
+          source_model_index: 24
+          source_model_name: RotatingDoor1
+          source_poly_count: 6
+          source_surface_count: 6
+          roles: *id071
 - object_id: mm9:lindisfarne:object:27
   source_object_index: 27
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_source_model_name
+    bmodel_index: 6
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: PerceptionBrush2
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id072
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:6
+    confidence: exact_bmodel_name
+    bmodel_index: 6
+    bmodel_name: PerceptionBrush2
+    source_model_name: PerceptionBrush2
+    source_polygon_group:
+      source_model_index: 6
+      source_model_name: PerceptionBrush2
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id072
 - object_id: mm9:lindisfarne:object:28
   source_object_index: 28
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_source_model_name
+    bmodel_index: 7
+    bmodel_name: PerceptionBrush4
+    source_model_name: PerceptionBrush4
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: PerceptionBrush4
+      source_poly_count: 21
+      source_surface_count: 18
+      roles: &id073
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:7
+    confidence: exact_bmodel_name
+    bmodel_index: 7
+    bmodel_name: PerceptionBrush4
+    source_model_name: PerceptionBrush4
+    source_polygon_group:
+      source_model_index: 7
+      source_model_name: PerceptionBrush4
+      source_poly_count: 21
+      source_surface_count: 18
+      roles: *id073
 - object_id: mm9:lindisfarne:object:29
   source_object_index: 29
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_source_model_name
+    bmodel_index: 8
+    bmodel_name: PerceptionBrush6
+    source_model_name: PerceptionBrush6
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: PerceptionBrush6
+      source_poly_count: 30
+      source_surface_count: 30
+      roles: &id074
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:8
+    confidence: exact_bmodel_name
+    bmodel_index: 8
+    bmodel_name: PerceptionBrush6
+    source_model_name: PerceptionBrush6
+    source_polygon_group:
+      source_model_index: 8
+      source_model_name: PerceptionBrush6
+      source_poly_count: 30
+      source_surface_count: 30
+      roles: *id074
 - object_id: mm9:lindisfarne:object:30
   source_object_index: 30
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_source_model_name
+    bmodel_index: 9
+    bmodel_name: PerceptionBrush8
+    source_model_name: PerceptionBrush8
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: PerceptionBrush8
+      source_poly_count: 21
+      source_surface_count: 18
+      roles: &id075
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:9
+    confidence: exact_bmodel_name
+    bmodel_index: 9
+    bmodel_name: PerceptionBrush8
+    source_model_name: PerceptionBrush8
+    source_polygon_group:
+      source_model_index: 9
+      source_model_name: PerceptionBrush8
+      source_poly_count: 21
+      source_surface_count: 18
+      roles: *id075
 - object_id: mm9:lindisfarne:object:31
   source_object_index: 31
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_source_model_name
+    bmodel_index: 10
+    bmodel_name: PerceptionBrush9
+    source_model_name: PerceptionBrush9
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: PerceptionBrush9
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id076
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:10
+    confidence: exact_bmodel_name
+    bmodel_index: 10
+    bmodel_name: PerceptionBrush9
+    source_model_name: PerceptionBrush9
+    source_polygon_group:
+      source_model_index: 10
+      source_model_name: PerceptionBrush9
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id076
 - object_id: mm9:lindisfarne:object:32
   source_object_index: 32
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_source_model_name
+    bmodel_index: 11
+    bmodel_name: PerceptionBrush11
+    source_model_name: PerceptionBrush11
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: PerceptionBrush11
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: &id077
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:11
+    confidence: exact_bmodel_name
+    bmodel_index: 11
+    bmodel_name: PerceptionBrush11
+    source_model_name: PerceptionBrush11
+    source_polygon_group:
+      source_model_index: 11
+      source_model_name: PerceptionBrush11
+      source_poly_count: 18
+      source_surface_count: 18
+      roles: *id077
 - object_id: mm9:lindisfarne:object:33
   source_object_index: 33
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_source_model_name
+    bmodel_index: 12
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: PerceptionBrush0
+      source_poly_count: 50
+      source_surface_count: 50
+      roles: &id078
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:12
+    confidence: exact_bmodel_name
+    bmodel_index: 12
+    bmodel_name: PerceptionBrush0
+    source_model_name: PerceptionBrush0
+    source_polygon_group:
+      source_model_index: 12
+      source_model_name: PerceptionBrush0
+      source_poly_count: 50
+      source_surface_count: 50
+      roles: *id078
 - object_id: mm9:lindisfarne:object:34
   source_object_index: 34
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_source_model_name
+    bmodel_index: 13
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: PerceptionBrush1
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: &id079
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:13
+    confidence: exact_bmodel_name
+    bmodel_index: 13
+    bmodel_name: PerceptionBrush1
+    source_model_name: PerceptionBrush1
+    source_polygon_group:
+      source_model_index: 13
+      source_model_name: PerceptionBrush1
+      source_poly_count: 38
+      source_surface_count: 38
+      roles: *id079
 - object_id: mm9:lindisfarne:object:35
   source_object_index: 35
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_source_model_name
+    bmodel_index: 14
+    bmodel_name: PerceptionBrush12
+    source_model_name: PerceptionBrush12
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: PerceptionBrush12
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: &id080
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:14
+    confidence: exact_bmodel_name
+    bmodel_index: 14
+    bmodel_name: PerceptionBrush12
+    source_model_name: PerceptionBrush12
+    source_polygon_group:
+      source_model_index: 14
+      source_model_name: PerceptionBrush12
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: *id080
 - object_id: mm9:lindisfarne:object:36
   source_object_index: 36
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_source_model_name
+    bmodel_index: 15
+    bmodel_name: PerceptionBrush13
+    source_model_name: PerceptionBrush13
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: PerceptionBrush13
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: &id081
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:15
+    confidence: exact_bmodel_name
+    bmodel_index: 15
+    bmodel_name: PerceptionBrush13
+    source_model_name: PerceptionBrush13
+    source_polygon_group:
+      source_model_index: 15
+      source_model_name: PerceptionBrush13
+      source_poly_count: 14
+      source_surface_count: 14
+      roles: *id081
 - object_id: mm9:lindisfarne:object:37
   source_object_index: 37
   targets:
@@ -117255,53 +118372,387 @@ bindings:
 - object_id: mm9:lindisfarne:object:126
   source_object_index: 126
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_source_model_name
+    bmodel_index: 16
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id082
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:16
+    confidence: exact_bmodel_name
+    bmodel_index: 16
+    bmodel_name: InvisibleBrush0
+    source_model_name: InvisibleBrush0
+    source_polygon_group: *id083
 - object_id: mm9:lindisfarne:object:136
   source_object_index: 136
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_source_model_name
+    bmodel_index: 17
+    bmodel_name: BlacksmithDoor1
+    source_model_name: BlacksmithDoor1
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: BlacksmithDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id084
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:17
+    confidence: exact_bmodel_name
+    bmodel_index: 17
+    bmodel_name: BlacksmithDoor1
+    source_model_name: BlacksmithDoor1
+    source_polygon_group:
+      source_model_index: 17
+      source_model_name: BlacksmithDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id084
 - object_id: mm9:lindisfarne:object:137
   source_object_index: 137
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_source_model_name
+    bmodel_index: 18
+    bmodel_name: BlacksmithDoor2
+    source_model_name: BlacksmithDoor2
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: BlacksmithDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id085
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:18
+    confidence: exact_bmodel_name
+    bmodel_index: 18
+    bmodel_name: BlacksmithDoor2
+    source_model_name: BlacksmithDoor2
+    source_polygon_group:
+      source_model_index: 18
+      source_model_name: BlacksmithDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id085
 - object_id: mm9:lindisfarne:object:138
   source_object_index: 138
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_source_model_name
+    bmodel_index: 19
+    bmodel_name: Ladder0
+    source_model_name: Ladder0
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: Ladder0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id086
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:19
+    confidence: exact_bmodel_name
+    bmodel_index: 19
+    bmodel_name: Ladder0
+    source_model_name: Ladder0
+    source_polygon_group:
+      source_model_index: 19
+      source_model_name: Ladder0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id086
 - object_id: mm9:lindisfarne:object:139
   source_object_index: 139
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_source_model_name
+    bmodel_index: 20
+    bmodel_name: Ladder1
+    source_model_name: Ladder1
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: Ladder1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id087
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:20
+    confidence: exact_bmodel_name
+    bmodel_index: 20
+    bmodel_name: Ladder1
+    source_model_name: Ladder1
+    source_polygon_group:
+      source_model_index: 20
+      source_model_name: Ladder1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id087
+- object_id: mm9:lindisfarne:object:140
+  source_object_index: 140
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_source_model_name
+    bmodel_index: 21
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: WorldObject0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id088
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:21
+    confidence: exact_bmodel_name
+    bmodel_index: 21
+    bmodel_name: WorldObject0
+    source_model_name: WorldObject0
+    source_polygon_group:
+      source_model_index: 21
+      source_model_name: WorldObject0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id088
+- object_id: mm9:lindisfarne:object:141
+  source_object_index: 141
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_source_model_name
+    bmodel_index: 22
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: WorldObject1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id089
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:22
+    confidence: exact_bmodel_name
+    bmodel_index: 22
+    bmodel_name: WorldObject1
+    source_model_name: WorldObject1
+    source_polygon_group:
+      source_model_index: 22
+      source_model_name: WorldObject1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id089
 - object_id: mm9:lindisfarne:object:142
   source_object_index: 142
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_source_model_name
+    bmodel_index: 23
+    bmodel_name: RotatingDoor0
+    source_model_name: RotatingDoor0
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: RotatingDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id090
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:23
+    confidence: exact_bmodel_name
+    bmodel_index: 23
+    bmodel_name: RotatingDoor0
+    source_model_name: RotatingDoor0
+    source_polygon_group:
+      source_model_index: 23
+      source_model_name: RotatingDoor0
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id090
 - object_id: mm9:lindisfarne:object:143
   source_object_index: 143
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_source_model_name
+    bmodel_index: 24
+    bmodel_name: RotatingDoor1
+    source_model_name: RotatingDoor1
+    source_polygon_group: *id091
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:24
+    confidence: exact_bmodel_name
+    bmodel_index: 24
+    bmodel_name: RotatingDoor1
+    source_model_name: RotatingDoor1
+    source_polygon_group: *id092
 - object_id: mm9:lindisfarne:object:144
   source_object_index: 144
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_source_model_name
+    bmodel_index: 25
+    bmodel_name: RotatingDoor2
+    source_model_name: RotatingDoor2
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: RotatingDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id093
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:25
+    confidence: exact_bmodel_name
+    bmodel_index: 25
+    bmodel_name: RotatingDoor2
+    source_model_name: RotatingDoor2
+    source_polygon_group:
+      source_model_index: 25
+      source_model_name: RotatingDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id093
 - object_id: mm9:lindisfarne:object:145
   source_object_index: 145
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_source_model_name
+    bmodel_index: 26
+    bmodel_name: RotatingDoor3
+    source_model_name: RotatingDoor3
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: RotatingDoor3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id094
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:26
+    confidence: exact_bmodel_name
+    bmodel_index: 26
+    bmodel_name: RotatingDoor3
+    source_model_name: RotatingDoor3
+    source_polygon_group:
+      source_model_index: 26
+      source_model_name: RotatingDoor3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id094
 - object_id: mm9:lindisfarne:object:146
   source_object_index: 146
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_source_model_name
+    bmodel_index: 27
+    bmodel_name: InnDoor1
+    source_model_name: InnDoor1
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: InnDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id095
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:27
+    confidence: exact_bmodel_name
+    bmodel_index: 27
+    bmodel_name: InnDoor1
+    source_model_name: InnDoor1
+    source_polygon_group:
+      source_model_index: 27
+      source_model_name: InnDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id095
 - object_id: mm9:lindisfarne:object:147
   source_object_index: 147
   targets:
@@ -117794,12 +119245,82 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:lindisfarne:object:237
     confidence: exact_source_object_index
+- object_id: mm9:lindisfarne:object:239
+  source_object_index: 239
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_source_model_name
+    bmodel_index: 28
+    bmodel_name: WorldObject15
+    source_model_name: WorldObject15
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: WorldObject15
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id096
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:28
+    confidence: exact_bmodel_name
+    bmodel_index: 28
+    bmodel_name: WorldObject15
+    source_model_name: WorldObject15
+    source_polygon_group:
+      source_model_index: 28
+      source_model_name: WorldObject15
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id096
 - object_id: mm9:lindisfarne:object:240
   source_object_index: 240
   targets:
   - target_kind: model_instance
     target_id: mm9:lindisfarne:object:240
     confidence: exact_source_object_index
+- object_id: mm9:lindisfarne:object:242
+  source_object_index: 242
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_source_model_name
+    bmodel_index: 29
+    bmodel_name: WorldObject16
+    source_model_name: WorldObject16
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: WorldObject16
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: &id097
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:29
+    confidence: exact_bmodel_name
+    bmodel_index: 29
+    bmodel_name: WorldObject16
+    source_model_name: WorldObject16
+    source_polygon_group:
+      source_model_index: 29
+      source_model_name: WorldObject16
+      source_poly_count: 14
+      source_surface_count: 12
+      roles: *id097
 - object_id: mm9:lindisfarne:object:245
   source_object_index: 245
   targets:
@@ -117818,26 +119339,181 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:lindisfarne:object:250
     confidence: exact_source_object_index
+- object_id: mm9:lindisfarne:object:252
+  source_object_index: 252
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_source_model_name
+    bmodel_index: 30
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: WorldObject2
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: &id098
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:30
+    confidence: exact_bmodel_name
+    bmodel_index: 30
+    bmodel_name: WorldObject2
+    source_model_name: WorldObject2
+    source_polygon_group:
+      source_model_index: 30
+      source_model_name: WorldObject2
+      source_poly_count: 16
+      source_surface_count: 16
+      roles: *id098
 - object_id: mm9:lindisfarne:object:253
   source_object_index: 253
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_source_model_name
+    bmodel_index: 31
+    bmodel_name: RotatingDoor8
+    source_model_name: RotatingDoor8
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: RotatingDoor8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id099
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:31
+    confidence: exact_bmodel_name
+    bmodel_index: 31
+    bmodel_name: RotatingDoor8
+    source_model_name: RotatingDoor8
+    source_polygon_group:
+      source_model_index: 31
+      source_model_name: RotatingDoor8
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id099
 - object_id: mm9:lindisfarne:object:254
   source_object_index: 254
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_source_model_name
+    bmodel_index: 32
+    bmodel_name: RotatingDoor9
+    source_model_name: RotatingDoor9
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: RotatingDoor9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id100
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:32
+    confidence: exact_bmodel_name
+    bmodel_index: 32
+    bmodel_name: RotatingDoor9
+    source_model_name: RotatingDoor9
+    source_polygon_group:
+      source_model_index: 32
+      source_model_name: RotatingDoor9
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id100
 - object_id: mm9:lindisfarne:object:255
   source_object_index: 255
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_source_model_name
+    bmodel_index: 33
+    bmodel_name: TempleDoubleDoor2
+    source_model_name: TempleDoubleDoor2
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: TempleDoubleDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id101
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:33
+    confidence: exact_bmodel_name
+    bmodel_index: 33
+    bmodel_name: TempleDoubleDoor2
+    source_model_name: TempleDoubleDoor2
+    source_polygon_group:
+      source_model_index: 33
+      source_model_name: TempleDoubleDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id101
 - object_id: mm9:lindisfarne:object:256
   source_object_index: 256
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_source_model_name
+    bmodel_index: 34
+    bmodel_name: TempleDoubleDoor1
+    source_model_name: TempleDoubleDoor1
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: TempleDoubleDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id102
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:34
+    confidence: exact_bmodel_name
+    bmodel_index: 34
+    bmodel_name: TempleDoubleDoor1
+    source_model_name: TempleDoubleDoor1
+    source_polygon_group:
+      source_model_index: 34
+      source_model_name: TempleDoubleDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id102
 - object_id: mm9:lindisfarne:object:257
   source_object_index: 257
   targets:
@@ -117988,16 +119664,181 @@ bindings:
   - target_kind: model_instance
     target_id: mm9:lindisfarne:object:281
     confidence: exact_source_object_index
+- object_id: mm9:lindisfarne:object:282
+  source_object_index: 282
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_source_model_name
+    bmodel_index: 35
+    bmodel_name: Tavernzone
+    source_model_name: Tavernzone
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: Tavernzone
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id103
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:35
+    confidence: exact_bmodel_name
+    bmodel_index: 35
+    bmodel_name: Tavernzone
+    source_model_name: Tavernzone
+    source_polygon_group:
+      source_model_index: 35
+      source_model_name: Tavernzone
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id103
+- object_id: mm9:lindisfarne:object:283
+  source_object_index: 283
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_source_model_name
+    bmodel_index: 36
+    bmodel_name: Tavernwindow
+    source_model_name: Tavernwindow
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: Tavernwindow
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id104
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:36
+    confidence: exact_bmodel_name
+    bmodel_index: 36
+    bmodel_name: Tavernwindow
+    source_model_name: Tavernwindow
+    source_polygon_group:
+      source_model_index: 36
+      source_model_name: Tavernwindow
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id104
+- object_id: mm9:lindisfarne:object:284
+  source_object_index: 284
+  targets:
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_source_model_name
+    bmodel_index: 37
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: WorldObject3
+      source_poly_count: 9
+      source_surface_count: 9
+      roles: &id105
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:37
+    confidence: exact_bmodel_name
+    bmodel_index: 37
+    bmodel_name: WorldObject3
+    source_model_name: WorldObject3
+    source_polygon_group:
+      source_model_index: 37
+      source_model_name: WorldObject3
+      source_poly_count: 9
+      source_surface_count: 9
+      roles: *id105
 - object_id: mm9:lindisfarne:object:285
   source_object_index: 285
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_source_model_name
+    bmodel_index: 38
+    bmodel_name: OutfitterDoor1
+    source_model_name: OutfitterDoor1
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: OutfitterDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id106
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:38
+    confidence: exact_bmodel_name
+    bmodel_index: 38
+    bmodel_name: OutfitterDoor1
+    source_model_name: OutfitterDoor1
+    source_polygon_group:
+      source_model_index: 38
+      source_model_name: OutfitterDoor1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id106
 - object_id: mm9:lindisfarne:object:286
   source_object_index: 286
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_source_model_name
+    bmodel_index: 39
+    bmodel_name: OutfitterDoor2
+    source_model_name: OutfitterDoor2
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: OutfitterDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id107
+        visible: true
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: false
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:39
+    confidence: exact_bmodel_name
+    bmodel_index: 39
+    bmodel_name: OutfitterDoor2
+    source_model_name: OutfitterDoor2
+    source_polygon_group:
+      source_model_index: 39
+      source_model_name: OutfitterDoor2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id107
 - object_id: mm9:lindisfarne:object:287
   source_object_index: 287
   targets:
@@ -118133,48 +119974,318 @@ bindings:
 - object_id: mm9:lindisfarne:object:309
   source_object_index: 309
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_source_model_name
+    bmodel_index: 40
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id108
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:40
+    confidence: exact_bmodel_name
+    bmodel_index: 40
+    bmodel_name: InvisibleBrush1
+    source_model_name: InvisibleBrush1
+    source_polygon_group:
+      source_model_index: 40
+      source_model_name: InvisibleBrush1
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id108
 - object_id: mm9:lindisfarne:object:310
   source_object_index: 310
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_source_model_name
+    bmodel_index: 41
+    bmodel_name: AIBarrier0
+    source_model_name: AIBarrier0
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: AIBarrier0
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: &id109
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:41
+    confidence: exact_bmodel_name
+    bmodel_index: 41
+    bmodel_name: AIBarrier0
+    source_model_name: AIBarrier0
+    source_polygon_group:
+      source_model_index: 41
+      source_model_name: AIBarrier0
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: *id109
 - object_id: mm9:lindisfarne:object:311
   source_object_index: 311
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_source_model_name
+    bmodel_index: 42
+    bmodel_name: AIBarrier1
+    source_model_name: AIBarrier1
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: AIBarrier1
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: &id110
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:42
+    confidence: exact_bmodel_name
+    bmodel_index: 42
+    bmodel_name: AIBarrier1
+    source_model_name: AIBarrier1
+    source_polygon_group:
+      source_model_index: 42
+      source_model_name: AIBarrier1
+      source_poly_count: 10
+      source_surface_count: 10
+      roles: *id110
 - object_id: mm9:lindisfarne:object:312
   source_object_index: 312
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_source_model_name
+    bmodel_index: 43
+    bmodel_name: AIBarrier2
+    source_model_name: AIBarrier2
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: AIBarrier2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id111
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:43
+    confidence: exact_bmodel_name
+    bmodel_index: 43
+    bmodel_name: AIBarrier2
+    source_model_name: AIBarrier2
+    source_polygon_group:
+      source_model_index: 43
+      source_model_name: AIBarrier2
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id111
 - object_id: mm9:lindisfarne:object:313
   source_object_index: 313
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_source_model_name
+    bmodel_index: 44
+    bmodel_name: AIBarrier3
+    source_model_name: AIBarrier3
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: AIBarrier3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id112
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:44
+    confidence: exact_bmodel_name
+    bmodel_index: 44
+    bmodel_name: AIBarrier3
+    source_model_name: AIBarrier3
+    source_polygon_group:
+      source_model_index: 44
+      source_model_name: AIBarrier3
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id112
 - object_id: mm9:lindisfarne:object:314
   source_object_index: 314
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_source_model_name
+    bmodel_index: 45
+    bmodel_name: AIBarrier4
+    source_model_name: AIBarrier4
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: AIBarrier4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id113
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:45
+    confidence: exact_bmodel_name
+    bmodel_index: 45
+    bmodel_name: AIBarrier4
+    source_model_name: AIBarrier4
+    source_polygon_group:
+      source_model_index: 45
+      source_model_name: AIBarrier4
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id113
 - object_id: mm9:lindisfarne:object:315
   source_object_index: 315
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_source_model_name
+    bmodel_index: 46
+    bmodel_name: AIBarrier5
+    source_model_name: AIBarrier5
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: AIBarrier5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id114
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:46
+    confidence: exact_bmodel_name
+    bmodel_index: 46
+    bmodel_name: AIBarrier5
+    source_model_name: AIBarrier5
+    source_polygon_group:
+      source_model_index: 46
+      source_model_name: AIBarrier5
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id114
 - object_id: mm9:lindisfarne:object:316
   source_object_index: 316
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_source_model_name
+    bmodel_index: 47
+    bmodel_name: AIBarrier6
+    source_model_name: AIBarrier6
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: AIBarrier6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id115
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:47
+    confidence: exact_bmodel_name
+    bmodel_index: 47
+    bmodel_name: AIBarrier6
+    source_model_name: AIBarrier6
+    source_polygon_group:
+      source_model_index: 47
+      source_model_name: AIBarrier6
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id115
 - object_id: mm9:lindisfarne:object:317
   source_object_index: 317
   targets:
-  - target_kind: unresolved
-    confidence: unresolved
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_source_model_name
+    bmodel_index: 48
+    bmodel_name: AIBarrier7
+    source_model_name: AIBarrier7
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: AIBarrier7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: &id116
+        visible: false
+        terrain: false
+        physics_bsp: false
+        vis_bsp: false
+        sky: false
+        water: false
+        trigger_or_volume: true
+        movable: true
+  - target_kind: odm_bmodel
+    target_id: odm:bmodel:48
+    confidence: exact_bmodel_name
+    bmodel_index: 48
+    bmodel_name: AIBarrier7
+    source_model_name: AIBarrier7
+    source_polygon_group:
+      source_model_index: 48
+      source_model_name: AIBarrier7
+      source_poly_count: 6
+      source_surface_count: 6
+      roles: *id116
 - object_id: mm9:lindisfarne:object:318
   source_object_index: 318
   targets:
@@ -118966,195 +121077,12 @@ scripts:
   command_count: 22
 unresolved:
 - kind: unresolved_binding
-  source_object_index: 7
-  source_name: BlueWater1
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 8
-  source_name: BlueWater3
-  source_class: BlueWater
-  severity: warning
-- kind: unresolved_binding
   source_object_index: 26
   source_name: ScriptObject0
   source_class: ScriptObject
   severity: warning
-- kind: unresolved_binding
-  source_object_index: 27
-  source_name: PerceptionBrush2
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 28
-  source_name: PerceptionBrush4
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 29
-  source_name: PerceptionBrush6
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 30
-  source_name: PerceptionBrush8
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 31
-  source_name: PerceptionBrush9
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 32
-  source_name: PerceptionBrush11
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 33
-  source_name: PerceptionBrush0
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 34
-  source_name: PerceptionBrush1
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 35
-  source_name: PerceptionBrush12
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 36
-  source_name: PerceptionBrush13
-  source_class: PerceptionBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 126
-  source_name: InvisibleBrush0
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 136
-  source_name: BlacksmithDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 137
-  source_name: BlacksmithDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 138
-  source_name: Ladder0
-  source_class: Ladder
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 139
-  source_name: Ladder1
-  source_class: Ladder
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 142
-  source_name: RotatingDoor0
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 143
-  source_name: RotatingDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 144
-  source_name: RotatingDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 145
-  source_name: RotatingDoor3
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 146
-  source_name: InnDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 253
-  source_name: RotatingDoor8
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 254
-  source_name: RotatingDoor9
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 255
-  source_name: TempleDoubleDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 256
-  source_name: TempleDoubleDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 285
-  source_name: OutfitterDoor1
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 286
-  source_name: OutfitterDoor2
-  source_class: RotatingDoor
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 309
-  source_name: InvisibleBrush1
-  source_class: InvisibleBrush
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 310
-  source_name: AIBarrier0
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 311
-  source_name: AIBarrier1
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 312
-  source_name: AIBarrier2
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 313
-  source_name: AIBarrier3
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 314
-  source_name: AIBarrier4
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 315
-  source_name: AIBarrier5
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 316
-  source_name: AIBarrier6
-  source_class: AIBarrier
-  severity: warning
-- kind: unresolved_binding
-  source_object_index: 317
-  source_name: AIBarrier7
-  source_class: AIBarrier
-  severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id117
 validation:
   raw_object_count: 436
   event_object_count: 436
@@ -119207,4 +121135,4 @@ validation:
   trigger_count: 0
   interaction_count: 244
   script_count: 6
-  unresolved_count: 38
+  unresolved_count: 1

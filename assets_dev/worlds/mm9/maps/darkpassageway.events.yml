@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/darkpassageway.lua
+  script_ir: ../events/darkpassageway.script_ir.yml
 objects:
 - object_id: mm9:darkpassageway:object:0
   source_object_index: 0
@@ -4221,7 +4222,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: SpikeTrigger1
-    Pos: &id116
+    Pos: &id127
     - -2180.0
     - -137.0
     - -1284.0
@@ -11667,10 +11668,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest0
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -5424.0
     - -116.0
@@ -12075,10 +12078,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest1
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -5424.0
     - -116.0
@@ -12483,10 +12488,12 @@ objects:
     flags: 0
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest2
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -5424.0
     - -116.0
@@ -54944,7 +54951,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: ExitReset
-    Pos: &id117
+    Pos: &id150
     - -1728.0
     - -384.0
     - 864.0
@@ -55875,7 +55882,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: ExitTrigger0
-    Pos: &id118
+    Pos: &id152
     - -2160.0
     - -448.0
     - 440.0
@@ -56255,7 +56262,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: ExitTrigger1
-    Pos: &id119
+    Pos: &id153
     - -1936.0
     - -448.0
     - 440.0
@@ -56635,7 +56642,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: ExitTrigger2
-    Pos: &id120
+    Pos: &id154
     - -1936.0
     - -448.0
     - 584.0
@@ -57015,7 +57022,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: ExitTrigger3
-    Pos: &id121
+    Pos: &id155
     - -2160.0
     - -448.0
     - 584.0
@@ -67147,7 +67154,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerBansheeOff0
-    Pos: &id122
+    Pos: &id170
     - -7220.0
     - -80.0
     - -8596.0
@@ -68078,7 +68085,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerDoor0
-    Pos: &id123
+    Pos: &id172
     - -6016.0
     - -80.0
     - -6792.0
@@ -69426,7 +69433,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: TriggerAttack0
-    Pos: &id124
+    Pos: &id173
     - -6016.0
     - -80.0
     - -6230.0
@@ -98113,7 +98120,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: Trigger1
-    Pos: &id125
+    Pos: &id182
     - -3072.0
     - -262.5
     - -5696.0
@@ -117647,10 +117654,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest3
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -3968.0
     - -96.0
@@ -118055,10 +118064,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest4
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -3968.0
     - -96.0
@@ -118463,10 +118474,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest5
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -16.0
     - -96.0
@@ -118871,10 +118884,12 @@ objects:
     flags: 64
     raw_ref: properties[62]
   normalized_properties:
+    CloseSoundName: Sounds\Events\chestclosingwood.wav
     Filename: models\Props\Chest5.ABC
     Locked: 0
     MoveToFloor: 1
     Name: TreasureChest6
+    OpenSoundName: Sounds\Events\chestopeningwood.wav
     Pos:
     - -16.0
     - -96.0
@@ -119184,6 +119199,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ExitRoomTempleDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id060 []
 - mechanism_id: mm9:darkpassageway:object:1:mechanism
   object_id: mm9:darkpassageway:object:1
@@ -119209,6 +119253,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ExitRoomTempleDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id061 []
 - mechanism_id: mm9:darkpassageway:object:3:mechanism
   object_id: mm9:darkpassageway:object:3
@@ -119220,6 +119293,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id062 []
 - mechanism_id: mm9:darkpassageway:object:4:mechanism
   object_id: mm9:darkpassageway:object:4
@@ -119249,6 +119323,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id063
   - phase: open
     slot: 0
@@ -119283,6 +119386,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id064
   - phase: open
     slot: 0
@@ -119317,6 +119449,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id065
   - phase: open
     slot: 0
@@ -119351,6 +119512,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal02.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id066
   - phase: open
     slot: 0
@@ -119385,6 +119575,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id068 []
 - mechanism_id: mm9:darkpassageway:object:11:mechanism
   object_id: mm9:darkpassageway:object:11
@@ -119414,6 +119633,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR28
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id069 []
 - mechanism_id: mm9:darkpassageway:object:12:mechanism
   object_id: mm9:darkpassageway:object:12
@@ -119443,6 +119691,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL28
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id070 []
 - mechanism_id: mm9:darkpassageway:object:13:mechanism
   object_id: mm9:darkpassageway:object:13
@@ -119468,6 +119745,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id071 []
 - mechanism_id: mm9:darkpassageway:object:14:mechanism
   object_id: mm9:darkpassageway:object:14
@@ -119493,6 +119799,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorR40
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id072 []
 - mechanism_id: mm9:darkpassageway:object:15:mechanism
   object_id: mm9:darkpassageway:object:15
@@ -119518,6 +119853,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: DoubleDoorL40
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id073 []
 - mechanism_id: mm9:darkpassageway:object:16:mechanism
   object_id: mm9:darkpassageway:object:16
@@ -119547,6 +119911,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Events\slam.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id074
   - phase: open
     slot: 0
@@ -119587,6 +119980,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id075 []
 - mechanism_id: mm9:darkpassageway:object:18:mechanism
   object_id: mm9:darkpassageway:object:18
@@ -119612,6 +120034,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id076 []
 - mechanism_id: mm9:darkpassageway:object:19:mechanism
   object_id: mm9:darkpassageway:object:19
@@ -119637,6 +120088,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id077 []
 - mechanism_id: mm9:darkpassageway:object:20:mechanism
   object_id: mm9:darkpassageway:object:20
@@ -119662,6 +120142,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id078 []
 - mechanism_id: mm9:darkpassageway:object:21:mechanism
   object_id: mm9:darkpassageway:object:21
@@ -119687,6 +120196,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id079 []
 - mechanism_id: mm9:darkpassageway:object:62:mechanism
   object_id: mm9:darkpassageway:object:62
@@ -119698,6 +120236,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id080 []
 - mechanism_id: mm9:darkpassageway:object:69:mechanism
   object_id: mm9:darkpassageway:object:69
@@ -119709,6 +120248,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id081 []
 - mechanism_id: mm9:darkpassageway:object:72:mechanism
   object_id: mm9:darkpassageway:object:72
@@ -119734,6 +120274,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id082
   - phase: open
     slot: 0
@@ -119754,6 +120323,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:91:mechanism
   object_id: mm9:darkpassageway:object:91
@@ -119764,6 +120334,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:92:mechanism
   object_id: mm9:darkpassageway:object:92
@@ -119774,6 +120345,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:93:mechanism
   object_id: mm9:darkpassageway:object:93
@@ -119784,6 +120356,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:273:mechanism
   object_id: mm9:darkpassageway:object:273
@@ -119795,6 +120368,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id083 []
 - mechanism_id: mm9:darkpassageway:object:275:mechanism
   object_id: mm9:darkpassageway:object:275
@@ -119820,6 +120394,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Door\DoorSlideStone.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id084
   - phase: open
     slot: 0
@@ -119850,6 +120453,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id086
   - phase: close
     slot: 0
@@ -119866,6 +120498,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id091 []
 - mechanism_id: mm9:darkpassageway:object:305:mechanism
   object_id: mm9:darkpassageway:object:305
@@ -119877,6 +120510,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id092 []
 - mechanism_id: mm9:darkpassageway:object:306:mechanism
   object_id: mm9:darkpassageway:object:306
@@ -119902,6 +120536,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\metaldoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id093
   - phase: open
     slot: 0
@@ -119918,6 +120581,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:310:mechanism
   object_id: mm9:darkpassageway:object:310
@@ -119929,6 +120593,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:311:mechanism
   object_id: mm9:darkpassageway:object:311
@@ -119940,6 +120605,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:312:mechanism
   object_id: mm9:darkpassageway:object:312
@@ -119951,6 +120617,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:313:mechanism
   object_id: mm9:darkpassageway:object:313
@@ -119962,6 +120629,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:314:mechanism
   object_id: mm9:darkpassageway:object:314
@@ -119973,6 +120641,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:315:mechanism
   object_id: mm9:darkpassageway:object:315
@@ -119984,6 +120653,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:316:mechanism
   object_id: mm9:darkpassageway:object:316
@@ -119995,6 +120665,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 0
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:317:mechanism
   object_id: mm9:darkpassageway:object:317
@@ -120020,6 +120691,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: CanyonDoorR0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id094 []
 - mechanism_id: mm9:darkpassageway:object:318:mechanism
   object_id: mm9:darkpassageway:object:318
@@ -120045,6 +120745,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: CanyonDoorL0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id095 []
 - mechanism_id: mm9:darkpassageway:object:326:mechanism
   object_id: mm9:darkpassageway:object:326
@@ -120070,6 +120799,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\metaldoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id097
   - phase: open
     slot: 0
@@ -120100,6 +120858,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: Sounds\Events\boulderroll.wav
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\doorslammetal01.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id099
   - phase: close
     slot: 0
@@ -120115,6 +120902,7 @@ mechanisms:
     kind: destructible_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: &id101 []
 - mechanism_id: mm9:darkpassageway:object:335:mechanism
   object_id: mm9:darkpassageway:object:335
@@ -120126,6 +120914,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id102 []
 - mechanism_id: mm9:darkpassageway:object:337:mechanism
   object_id: mm9:darkpassageway:object:337
@@ -120151,6 +120940,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 1
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\doormetal_open02.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: Sounds\Door\metaldoorslide02.wav
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: Sounds\Door\doorslammetal02.wav
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id103 []
 - mechanism_id: mm9:darkpassageway:object:342:mechanism
   object_id: mm9:darkpassageway:object:342
@@ -120162,6 +120980,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id104 []
 - mechanism_id: mm9:darkpassageway:object:343:mechanism
   object_id: mm9:darkpassageway:object:343
@@ -120173,6 +120992,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id105 []
 - mechanism_id: mm9:darkpassageway:object:344:mechanism
   object_id: mm9:darkpassageway:object:344
@@ -120184,6 +121004,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id106 []
 - mechanism_id: mm9:darkpassageway:object:345:mechanism
   object_id: mm9:darkpassageway:object:345
@@ -120195,6 +121016,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id107 []
 - mechanism_id: mm9:darkpassageway:object:530:mechanism
   object_id: mm9:darkpassageway:object:530
@@ -120205,6 +121027,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:531:mechanism
   object_id: mm9:darkpassageway:object:531
@@ -120215,6 +121038,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:532:mechanism
   object_id: mm9:darkpassageway:object:532
@@ -120225,6 +121049,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:533:mechanism
   object_id: mm9:darkpassageway:object:533
@@ -120235,6 +121060,7 @@ mechanisms:
     kind: perception_brush
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:darkpassageway:object:535:mechanism
   object_id: mm9:darkpassageway:object:535
@@ -120246,6 +121072,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id109 []
 - mechanism_id: mm9:darkpassageway:object:570:mechanism
   object_id: mm9:darkpassageway:object:570
@@ -120271,6 +121098,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id110 []
 - mechanism_id: mm9:darkpassageway:object:571:mechanism
   object_id: mm9:darkpassageway:object:571
@@ -120296,6 +121152,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id111 []
 - mechanism_id: mm9:darkpassageway:object:572:mechanism
   object_id: mm9:darkpassageway:object:572
@@ -120321,6 +121206,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id112 []
 - mechanism_id: mm9:darkpassageway:object:573:mechanism
   object_id: mm9:darkpassageway:object:573
@@ -120346,6 +121260,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id113 []
 - mechanism_id: mm9:darkpassageway:object:574:mechanism
   object_id: mm9:darkpassageway:object:574
@@ -120371,6 +121314,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id114 []
 - mechanism_id: mm9:darkpassageway:object:575:mechanism
   object_id: mm9:darkpassageway:object:575
@@ -120396,6 +121368,35 @@ mechanisms:
     locked: 1
     reopen_on_contact: 0
     double_door_name: ''
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: ''
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: ''
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: ''
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id115 []
 triggers:
 - trigger_id: mm9:darkpassageway:object:8:trigger
@@ -122675,169 +123676,1317 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id183
+    - source_model_index: 0
+      source_name: ExitRoomTempleDoor0
+      movable: true
+      world_translation_lt: &id117
+      - -2064.0
+      - -176.0
+      - 1008.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 1
+      source_name: ExitRoomTempleDoor1
+      movable: true
+      world_translation_lt: &id116
+      - -2032.0
+      - -176.0
+      - 1008.0
+      distance_from_position_lt: 32.0
+    - source_model_index: 53
+      source_name: ExitRamp
+      movable: true
+      world_translation_lt: &id118
+      - -2048.0
+      - -236.0
+      - 892.0
+      distance_from_position_lt: 131.575
+    - source_model_index: 17
+      source_name: Switch
+      movable: true
+      world_translation_lt: &id119
+      - -2040.0
+      - -409.40411376953125
+      - 771.0
+      distance_from_position_lt: 333.5
+    - source_model_index: 54
+      source_name: ExitRiser
+      movable: true
+      world_translation_lt: &id120
+      - -2160.0
+      - -462.0
+      - 584.0
+      distance_from_position_lt: 520.373
 - object_id: mm9:darkpassageway:object:1
   source_object_index: 1
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id184
+    - source_model_index: 1
+      source_name: ExitRoomTempleDoor1
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 0.0
+    - source_model_index: 0
+      source_name: ExitRoomTempleDoor0
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 32.0
+    - source_model_index: 53
+      source_name: ExitRamp
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 131.575
+    - source_model_index: 17
+      source_name: Switch
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 332.732
+    - source_model_index: 54
+      source_name: ExitRiser
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 527.215
 - object_id: mm9:darkpassageway:object:3
   source_object_index: 3
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id185
+    - source_model_index: 3
+      source_name: Ladder5
+      movable: true
+      world_translation_lt: &id159
+      - -7436.0
+      - -226.0
+      - -525.0
+      distance_from_position_lt: 222.899
+    - source_model_index: 2
+      source_name: WorldObject10
+      movable: true
+      world_translation_lt: &id158
+      - -7438.0
+      - -241.0
+      - -516.5
+      distance_from_position_lt: 237.708
+    - source_model_index: 56
+      source_name: Ladder1
+      movable: true
+      world_translation_lt: &id156
+      - -7370.0
+      - -544.0
+      - -568.0
+      distance_from_position_lt: 545.092
+    - source_model_index: 55
+      source_name: Bridge0
+      movable: true
+      world_translation_lt: &id157
+      - -7438.0
+      - -720.0
+      - -816.5
+      distance_from_position_lt: 777.877
+    - source_model_index: 40
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt:
+      - -8340.0
+      - 116.0
+      - -1024.0
+      distance_from_position_lt: 1059.208
 - object_id: mm9:darkpassageway:object:4
   source_object_index: 4
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id186
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: &id121
+      - -2180.0
+      - -134.0
+      - -1332.0
+      distance_from_rotation_point_lt: 48.508
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: &id122
+      - -2176.0
+      - -80.0
+      - -1417.0
+      distance_from_rotation_point_lt: 71.456
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: &id123
+      - -2132.0
+      - -134.0
+      - -1284.0
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: &id124
+      - -2228.0
+      - -134.0
+      - -1284.0
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: &id125
+      - -2180.0
+      - -134.0
+      - -1236.0
+      distance_from_rotation_point_lt: 144.17
+    nearest_movable_world_models_by_position: &id187
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 48.508
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 71.456
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 107.559
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 107.559
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 144.17
 - object_id: mm9:darkpassageway:object:5
   source_object_index: 5
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id188
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_rotation_point_lt: 48.508
+    - source_model_index: 21
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: &id126
+      - -2180.0
+      - -208.0
+      - -1212.0
+      distance_from_rotation_point_lt: 71.169
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_rotation_point_lt: 144.17
+    nearest_movable_world_models_by_position: &id189
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 48.508
+    - source_model_index: 21
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 71.169
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 107.559
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 107.559
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 144.17
 - object_id: mm9:darkpassageway:object:6
   source_object_index: 6
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id190
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_rotation_point_lt: 48.508
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 21
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id126
+      distance_from_rotation_point_lt: 137.437
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_rotation_point_lt: 144.17
+    nearest_movable_world_models_by_position: &id191
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 48.508
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 107.559
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 107.559
+    - source_model_index: 21
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 137.437
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 144.17
 - object_id: mm9:darkpassageway:object:7
   source_object_index: 7
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id192
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_rotation_point_lt: 48.508
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_rotation_point_lt: 107.559
+    - source_model_index: 21
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id126
+      distance_from_rotation_point_lt: 137.437
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_rotation_point_lt: 144.17
+    nearest_movable_world_models_by_position: &id193
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 48.508
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 107.559
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 107.559
+    - source_model_index: 21
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 137.437
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 144.17
 - object_id: mm9:darkpassageway:object:8
   source_object_index: 8
   targets:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:8:volume
     confidence: source_object_volume
-    pos_lt: *id116
+    pos_lt: *id127
     dims_lt: *id050
 - object_id: mm9:darkpassageway:object:10
   source_object_index: 10
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id194
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: &id131
+      - -136.0
+      - -96.0
+      - -4992.0
+      distance_from_rotation_point_lt: 6341.18
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: &id129
+      - 32.0
+      - 160.0
+      - -4184.0
+      distance_from_rotation_point_lt: 6675.146
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: &id130
+      - -136.0
+      - -96.0
+      - -4096.0
+      distance_from_rotation_point_lt: 6844.569
+    - source_model_index: 82
+      source_name: Door6
+      movable: true
+      world_translation_lt: &id128
+      - -136.0
+      - -96.0
+      - -3200.0
+      distance_from_rotation_point_lt: 7422.353
+    - source_model_index: 35
+      source_name: WorldObject14
+      movable: true
+      world_translation_lt:
+      - -2228.0
+      - -1328.0
+      - -8528.0
+      distance_from_rotation_point_lt: 7584.242
+    nearest_movable_world_models_by_position: &id195
+    - source_model_index: 66
+      source_name: DB_TeleporterCage0
+      movable: true
+      world_translation_lt: &id149
+      - -2944.0
+      - -1224.0
+      - -8502.0
+      distance_from_position_lt: 803.499
+    - source_model_index: 8
+      source_name: DesertRoomDoor1
+      movable: true
+      world_translation_lt: &id136
+      - -3072.0
+      - -272.0
+      - -7408.0
+      distance_from_position_lt: 877.411
+    - source_model_index: 31
+      source_name: WorldObject17
+      movable: true
+      world_translation_lt: &id139
+      - -2680.0
+      - -1328.0
+      - -7952.0
+      distance_from_position_lt: 937.675
+    - source_model_index: 25
+      source_name: WorldObject8
+      movable: true
+      world_translation_lt: &id138
+      - -3152.0
+      - -1328.0
+      - -7916.0
+      distance_from_position_lt: 959.699
+    - source_model_index: 13
+      source_name: Door0
+      movable: true
+      world_translation_lt: &id137
+      - -3072.0
+      - -1248.0
+      - -7720.0
+      distance_from_position_lt: 960.326
 - object_id: mm9:darkpassageway:object:11
   source_object_index: 11
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id196
+    - source_model_index: 82
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id128
+      distance_from_rotation_point_lt: 5628.8
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id129
+      distance_from_rotation_point_lt: 5653.012
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_rotation_point_lt: 5794.458
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id131
+      distance_from_rotation_point_lt: 6088.82
+    - source_model_index: 71
+      source_name: Mirror3
+      movable: true
+      world_translation_lt: &id132
+      - -1184.0
+      - -122.99996948242188
+      - -3567.0
+      distance_from_rotation_point_lt: 6715.315
+    nearest_movable_world_models_by_position: &id197
+    - source_model_index: 41
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt: &id133
+      - -1980.0
+      - 160.0
+      - -2496.0
+      distance_from_position_lt: 762.312
+    - source_model_index: 67
+      source_name: DesertDoor0
+      movable: true
+      world_translation_lt: &id134
+      - -2176.0
+      - -64.0
+      - -2064.0
+      distance_from_position_lt: 824.825
+    - source_model_index: 79
+      source_name: Door3
+      movable: true
+      world_translation_lt: &id135
+      - -3824.0
+      - -96.0
+      - -3200.0
+      distance_from_position_lt: 1294.227
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 1338.716
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 1425.546
 - object_id: mm9:darkpassageway:object:12
   source_object_index: 12
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id198
+    - source_model_index: 82
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id128
+      distance_from_rotation_point_lt: 5724.183
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id129
+      distance_from_rotation_point_lt: 5745.187
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_rotation_point_lt: 5887.158
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id131
+      distance_from_rotation_point_lt: 6177.104
+    - source_model_index: 71
+      source_name: Mirror3
+      movable: true
+      world_translation_lt: *id132
+      distance_from_rotation_point_lt: 6810.253
+    nearest_movable_world_models_by_position: &id199
+    - source_model_index: 41
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 675.657
+    - source_model_index: 67
+      source_name: DesertDoor0
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 768.26
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 1304.626
+    - source_model_index: 79
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 1369.292
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 1393.834
 - object_id: mm9:darkpassageway:object:13
   source_object_index: 13
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id200
+    - source_model_index: 8
+      source_name: DesertRoomDoor1
+      movable: true
+      world_translation_lt: *id136
+      distance_from_position_lt: 48.0
+    - source_model_index: 13
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 1025.78
+    - source_model_index: 25
+      source_name: WorldObject8
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 1178.806
+    - source_model_index: 31
+      source_name: WorldObject17
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 1236.692
+    - source_model_index: 18
+      source_name: TubeRoomWater
+      movable: true
+      world_translation_lt:
+      - -3816.0
+      - -744.0
+      - -8432.0
+      distance_from_position_lt: 1377.906
 - object_id: mm9:darkpassageway:object:14
   source_object_index: 14
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id201
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: &id140
+      - -5631.0
+      - -64.0
+      - -5760.0
+      distance_from_position_lt: 71.113
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: &id141
+      - -5634.0
+      - -64.0
+      - -5760.0
+      distance_from_position_lt: 72.471
+    - source_model_index: 9
+      source_name: DoubleDoorL40
+      movable: true
+      world_translation_lt: &id142
+      - -5612.0
+      - -64.0
+      - -5696.0
+      distance_from_position_lt: 91.302
+    - source_model_index: 10
+      source_name: DoubleDoorR40
+      movable: true
+      world_translation_lt: &id143
+      - -5612.0
+      - -64.0
+      - -5824.0
+      distance_from_position_lt: 91.302
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: &id144
+      - -6016.0
+      - -72.0
+      - -6664.0
+      distance_from_position_lt: 997.725
 - object_id: mm9:darkpassageway:object:15
   source_object_index: 15
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id202
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 71.113
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 72.471
+    - source_model_index: 9
+      source_name: DoubleDoorL40
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 91.302
+    - source_model_index: 10
+      source_name: DoubleDoorR40
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 91.302
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 997.725
 - object_id: mm9:darkpassageway:object:16
   source_object_index: 16
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id203
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: *id140
+      distance_from_rotation_point_lt: 64.008
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id141
+      distance_from_rotation_point_lt: 64.125
+    - source_model_index: 9
+      source_name: DoubleDoorL40
+      movable: true
+      world_translation_lt: *id142
+      distance_from_rotation_point_lt: 92.282
+    - source_model_index: 10
+      source_name: DoubleDoorR40
+      movable: true
+      world_translation_lt: *id143
+      distance_from_rotation_point_lt: 92.282
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_rotation_point_lt: 985.594
+    nearest_movable_world_models_by_position: &id204
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 64.008
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 64.125
+    - source_model_index: 9
+      source_name: DoubleDoorL40
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 92.282
+    - source_model_index: 10
+      source_name: DoubleDoorR40
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 92.282
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 985.594
 - object_id: mm9:darkpassageway:object:17
   source_object_index: 17
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id205
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: &id164
+      - -6272.0
+      - -80.0
+      - -7912.0
+      distance_from_position_lt: 44.0
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: &id168
+      - -6272.0
+      - -71.9998550415039
+      - -7929.0
+      distance_from_position_lt: 47.844
+    - source_model_index: 76
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: &id163
+      - -6016.0
+      - -64.0
+      - -6705.0
+      distance_from_position_lt: 1225.581
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 1265.904
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: &id167
+      - -7552.0
+      - -64.0
+      - -8592.0
+      distance_from_position_lt: 1488.5
 - object_id: mm9:darkpassageway:object:18
   source_object_index: 18
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id206
+    - source_model_index: 13
+      source_name: Door0
+      movable: true
+      world_translation_lt: *id137
+      distance_from_position_lt: 0.0
+    - source_model_index: 25
+      source_name: WorldObject8
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 226.31
+    - source_model_index: 31
+      source_name: WorldObject17
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 462.48
+    - source_model_index: 26
+      source_name: WorldObject7
+      movable: true
+      world_translation_lt:
+      - -3636.0
+      - -1328.0
+      - -8060.0
+      distance_from_position_lt: 663.397
+    - source_model_index: 33
+      source_name: WorldObject16
+      movable: true
+      world_translation_lt:
+      - -2412.0
+      - -1328.0
+      - -8072.0
+      distance_from_position_lt: 752.266
 - object_id: mm9:darkpassageway:object:19
   source_object_index: 19
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id207
+    - source_model_index: 14
+      source_name: ExitRoomDoor
+      movable: true
+      world_translation_lt: &id151
+      - -2048.0
+      - -416.0
+      - 256.0
+      distance_from_position_lt: 44.011
+    - source_model_index: 54
+      source_name: ExitRiser
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 365.985
+    - source_model_index: 17
+      source_name: Switch
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 516.313
+    - source_model_index: 53
+      source_name: ExitRamp
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 662.716
+    - source_model_index: 1
+      source_name: ExitRoomTempleDoor1
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 790.17
 - object_id: mm9:darkpassageway:object:20
   source_object_index: 20
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id208
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 24.042
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 103.194
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 143.642
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 161.273
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 189.718
 - object_id: mm9:darkpassageway:object:21
   source_object_index: 21
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id209
+    - source_model_index: 16
+      source_name: TrapRoomDoor2
+      movable: true
+      world_translation_lt: &id146
+      - -1920.0
+      - -80.0
+      - -1417.0
+      distance_from_position_lt: 24.021
+    - source_model_index: 75
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: &id145
+      - -1920.0
+      - -75.99996185302734
+      - -1439.0
+      distance_from_position_lt: 32.939
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 232.002
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 236.309
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 256.379
 - object_id: mm9:darkpassageway:object:62
   source_object_index: 62
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id210
+    - source_model_index: 20
+      source_name: BlueWater0
+      movable: true
+      world_translation_lt:
+      - -7360.0
+      - -856.0
+      - -2192.0
+      distance_from_position_lt: 326.435
+    - source_model_index: 58
+      source_name: Bridge2
+      movable: true
+      world_translation_lt:
+      - -7216.0
+      - -880.0
+      - -2224.0
+      distance_from_position_lt: 409.018
+    - source_model_index: 59
+      source_name: Bridge3
+      movable: true
+      world_translation_lt: &id162
+      - -7376.0
+      - -880.0
+      - -2928.0
+      distance_from_position_lt: 504.317
+    - source_model_index: 57
+      source_name: Bridge1
+      movable: true
+      world_translation_lt:
+      - -7328.0
+      - -880.0
+      - -1520.0
+      distance_from_position_lt: 962.729
+    - source_model_index: 60
+      source_name: Bridge4
+      movable: true
+      world_translation_lt: &id161
+      - -7536.0
+      - -720.0
+      - -3580.0
+      distance_from_position_lt: 1132.311
 - object_id: mm9:darkpassageway:object:69
   source_object_index: 69
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id211
+    - source_model_index: 21
+      source_name: Ladder0
+      movable: true
+      world_translation_lt: *id126
+      distance_from_position_lt: 0.0
+    - source_model_index: 5
+      source_name: SpikeDoor1
+      movable: true
+      world_translation_lt: *id125
+      distance_from_position_lt: 77.795
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 113.86
+    - source_model_index: 7
+      source_name: SpikeDoor4
+      movable: true
+      world_translation_lt: *id124
+      distance_from_position_lt: 113.86
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 140.982
 - object_id: mm9:darkpassageway:object:72
   source_object_index: 72
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id212
+    - source_model_index: 23
+      source_name: FlameCage
+      movable: true
+      world_translation_lt:
+      - 148.0
+      - -164.0
+      - 2484.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 22
+      source_name: FlameDamage
+      movable: true
+      world_translation_lt:
+      - 136.0
+      - -164.0
+      - 2480.0
+      distance_from_position_lt: 12.649
+    - source_model_index: 1
+      source_name: ExitRoomTempleDoor1
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 2632.702
+    - source_model_index: 0
+      source_name: ExitRoomTempleDoor0
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 2659.26
+    - source_model_index: 53
+      source_name: ExitRamp
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 2713.312
 - object_id: mm9:darkpassageway:object:90
   source_object_index: 90
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id213
+    - source_model_index: 41
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 293.857
+    - source_model_index: 67
+      source_name: DesertDoor0
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 410.58
+    - source_model_index: 75
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 900.045
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 914.768
+    - source_model_index: 16
+      source_name: TrapRoomDoor2
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 921.46
 - object_id: mm9:darkpassageway:object:91
   source_object_index: 91
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id214
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 205.679
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 399.76
+    - source_model_index: 82
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 928.586
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 1031.007
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: &id147
+      - -1216.0
+      - -122.99998474121094
+      - -4351.0
+      distance_from_position_lt: 1283.985
 - object_id: mm9:darkpassageway:object:92
   source_object_index: 92
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id215
+    - source_model_index: 43
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt: &id177
+      - -1972.0
+      - 160.0
+      - -5624.0
+      distance_from_position_lt: 273.905
+    - source_model_index: 68
+      source_name: Mirror0
+      movable: true
+      world_translation_lt: &id178
+      - -2558.0
+      - -123.00001525878906
+      - -5119.0
+      distance_from_position_lt: 971.801
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 1768.908
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: &id148
+      - -2688.0
+      - -122.99995422363281
+      - -4095.0
+      distance_from_position_lt: 1905.599
+    - source_model_index: 8
+      source_name: DesertRoomDoor1
+      movable: true
+      world_translation_lt: *id136
+      distance_from_position_lt: 1939.913
 - object_id: mm9:darkpassageway:object:93
   source_object_index: 93
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id216
+    - source_model_index: 44
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: &id181
+      - -3992.0
+      - 160.0
+      - -4192.0
+      distance_from_position_lt: 215.258
+    - source_model_index: 78
+      source_name: Door2
+      movable: true
+      world_translation_lt: &id180
+      - -3824.0
+      - -96.0
+      - -4096.0
+      distance_from_position_lt: 468.461
+    - source_model_index: 79
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 967.603
+    - source_model_index: 77
+      source_name: Door1
+      movable: true
+      world_translation_lt: &id179
+      - -3824.0
+      - -96.0
+      - -4992.0
+      distance_from_position_lt: 1052.753
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 1459.839
 - object_id: mm9:darkpassageway:object:273
   source_object_index: 273
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id217
+    - source_model_index: 52
+      source_name: Ocean
+      movable: true
+      world_translation_lt: &id174
+      - -3008.0
+      - -1510.0
+      - -8480.0
+      distance_from_position_lt: 34.0
+    - source_model_index: 66
+      source_name: DB_TeleporterCage0
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 327.078
+    - source_model_index: 37
+      source_name: WorldObject12
+      movable: true
+      world_translation_lt: &id175
+      - -2816.0
+      - -1328.0
+      - -8972.0
+      distance_from_position_lt: 570.6
+    - source_model_index: 38
+      source_name: WorldObject11
+      movable: true
+      world_translation_lt: &id176
+      - -3320.0
+      - -1328.0
+      - -8960.0
+      distance_from_position_lt: 611.882
+    - source_model_index: 25
+      source_name: WorldObject8
+      movable: true
+      world_translation_lt: *id138
+      distance_from_position_lt: 620.877
 - object_id: mm9:darkpassageway:object:275
   source_object_index: 275
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id218
+    - source_model_index: 53
+      source_name: ExitRamp
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 52.0
+    - source_model_index: 0
+      source_name: ExitRoomTempleDoor0
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 179.109
+    - source_model_index: 1
+      source_name: ExitRoomTempleDoor1
+      movable: true
+      world_translation_lt: *id116
+      distance_from_position_lt: 179.109
+    - source_model_index: 17
+      source_name: Switch
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 186.799
+    - source_model_index: 54
+      source_name: ExitRiser
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 359.383
 - object_id: mm9:darkpassageway:object:276
   source_object_index: 276
   targets:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:276:volume
     confidence: source_object_volume
-    pos_lt: *id117
+    pos_lt: *id150
     dims_lt: *id051
 - object_id: mm9:darkpassageway:object:277
   source_object_index: 277
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id219
+    - source_model_index: 54
+      source_name: ExitRiser
+      movable: true
+      world_translation_lt: *id120
+      distance_from_position_lt: 0.5
+    - source_model_index: 17
+      source_name: Switch
+      movable: true
+      world_translation_lt: *id119
+      distance_from_position_lt: 228.447
+    - source_model_index: 14
+      source_name: ExitRoomDoor
+      movable: true
+      world_translation_lt: *id151
+      distance_from_position_lt: 349.7
+    - source_model_index: 53
+      source_name: ExitRamp
+      movable: true
+      world_translation_lt: *id118
+      distance_from_position_lt: 398.385
+    - source_model_index: 0
+      source_name: ExitRoomTempleDoor0
+      movable: true
+      world_translation_lt: *id117
+      distance_from_position_lt: 520.648
 - object_id: mm9:darkpassageway:object:278
   source_object_index: 278
   targets:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:278:volume
     confidence: source_object_volume
-    pos_lt: *id118
+    pos_lt: *id152
     dims_lt: *id052
 - object_id: mm9:darkpassageway:object:279
   source_object_index: 279
@@ -122845,7 +124994,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:279:volume
     confidence: source_object_volume
-    pos_lt: *id119
+    pos_lt: *id153
     dims_lt: *id053
 - object_id: mm9:darkpassageway:object:280
   source_object_index: 280
@@ -122853,7 +125002,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:280:volume
     confidence: source_object_volume
-    pos_lt: *id120
+    pos_lt: *id154
     dims_lt: *id054
 - object_id: mm9:darkpassageway:object:281
   source_object_index: 281
@@ -122861,205 +125010,1087 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:281:volume
     confidence: source_object_volume
-    pos_lt: *id121
+    pos_lt: *id155
     dims_lt: *id055
 - object_id: mm9:darkpassageway:object:288
   source_object_index: 288
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id220
+    - source_model_index: 56
+      source_name: Ladder1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 0.0
+    - source_model_index: 55
+      source_name: Bridge0
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 312.013
+    - source_model_index: 2
+      source_name: WorldObject10
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 314.778
+    - source_model_index: 3
+      source_name: Ladder5
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 327.611
+    - source_model_index: 39
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: &id160
+      - -8263.0
+      - -480.0
+      - -1024.0
+      distance_from_position_lt: 1004.729
 - object_id: mm9:darkpassageway:object:305
   source_object_index: 305
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id221
+    - source_model_index: 3
+      source_name: Ladder5
+      movable: true
+      world_translation_lt: *id159
+      distance_from_position_lt: 239.66
+    - source_model_index: 2
+      source_name: WorldObject10
+      movable: true
+      world_translation_lt: *id158
+      distance_from_position_lt: 244.788
+    - source_model_index: 56
+      source_name: Ladder1
+      movable: true
+      world_translation_lt: *id156
+      distance_from_position_lt: 466.103
+    - source_model_index: 55
+      source_name: Bridge0
+      movable: true
+      world_translation_lt: *id157
+      distance_from_position_lt: 618.007
+    - source_model_index: 39
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id160
+      distance_from_position_lt: 795.111
 - object_id: mm9:darkpassageway:object:306
   source_object_index: 306
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id222
+    - source_model_index: 61
+      source_name: TeleportDoor0
+      movable: true
+      world_translation_lt:
+      - -7552.0
+      - -310.0
+      - -3836.0
+      distance_from_position_lt: 0.0
+    - source_model_index: 32
+      source_name: WorldObject19
+      movable: true
+      world_translation_lt:
+      - -7552.0
+      - -448.0
+      - -3938.0
+      distance_from_position_lt: 171.604
+    - source_model_index: 60
+      source_name: Bridge4
+      movable: true
+      world_translation_lt: *id161
+      distance_from_position_lt: 483.624
+    - source_model_index: 59
+      source_name: Bridge3
+      movable: true
+      world_translation_lt: *id162
+      distance_from_position_lt: 1086.435
+    - source_model_index: 29
+      source_name: WorldObject21
+      movable: true
+      world_translation_lt: &id171
+      - -6016.0
+      - 20.0
+      - -4020.0
+      distance_from_position_lt: 1581.788
 - object_id: mm9:darkpassageway:object:309
   source_object_index: 309
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id223
+    - source_model_index: 76
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 1613.293
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 1618.073
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: &id165
+      - -7916.0
+      - -64.0
+      - -8438.5
+      distance_from_position_lt: 1686.05
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: &id166
+      - -8020.0
+      - -64.0
+      - -8438.5
+      distance_from_position_lt: 1708.842
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 1751.557
 - object_id: mm9:darkpassageway:object:310
   source_object_index: 310
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id224
+    - source_model_index: 76
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 1613.843
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 1618.824
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 1678.334
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 1701.23
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 1746.544
 - object_id: mm9:darkpassageway:object:311
   source_object_index: 311
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id225
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 1184.31
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 1216.539
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 1291.449
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 1471.315
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 1476.822
 - object_id: mm9:darkpassageway:object:312
   source_object_index: 312
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id226
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 1176.785
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 1209.214
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 1283.595
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 1468.137
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 1473.562
 - object_id: mm9:darkpassageway:object:313
   source_object_index: 313
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id227
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 1660.269
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 1729.244
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 2093.781
+    - source_model_index: 72
+      source_name: ElevatorObj
+      movable: true
+      world_translation_lt: &id169
+      - -8256.0
+      - -2508.0
+      - -7296.0
+      distance_from_position_lt: 2824.414
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 2921.794
 - object_id: mm9:darkpassageway:object:314
   source_object_index: 314
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id228
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 1654.291
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 1723.505
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 2088.456
+    - source_model_index: 72
+      source_name: ElevatorObj
+      movable: true
+      world_translation_lt: *id169
+      distance_from_position_lt: 2824.142
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 2919.844
 - object_id: mm9:darkpassageway:object:315
   source_object_index: 315
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id229
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 521.04
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 622.198
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 1010.428
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 2287.576
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 2290.845
 - object_id: mm9:darkpassageway:object:316
   source_object_index: 316
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id230
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 528.782
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 630.018
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 1018.126
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 2295.452
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 2298.71
 - object_id: mm9:darkpassageway:object:317
   source_object_index: 317
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id231
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 64.825
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 125.898
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 497.61
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 1828.674
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 1833.903
 - object_id: mm9:darkpassageway:object:318
   source_object_index: 318
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id232
+    - source_model_index: 63
+      source_name: CanyonDoorR0
+      movable: true
+      world_translation_lt: *id165
+      distance_from_position_lt: 65.805
+    - source_model_index: 62
+      source_name: CanyonDoorL0
+      movable: true
+      world_translation_lt: *id166
+      distance_from_position_lt: 132.824
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 385.663
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 1714.05
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 1719.628
 - object_id: mm9:darkpassageway:object:325
   source_object_index: 325
   targets:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:325:volume
     confidence: source_object_volume
-    pos_lt: *id122
+    pos_lt: *id170
     dims_lt: *id056
 - object_id: mm9:darkpassageway:object:326
   source_object_index: 326
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id233
+    - source_model_index: 64
+      source_name: TeleportDoor1
+      movable: true
+      world_translation_lt:
+      - -6016.0
+      - -28.0
+      - -4420.0
+      distance_from_position_lt: 62.0
+    - source_model_index: 29
+      source_name: WorldObject21
+      movable: true
+      world_translation_lt: *id171
+      distance_from_position_lt: 400.245
+    - source_model_index: 9
+      source_name: DoubleDoorL40
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 1342.012
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 1396.828
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 1397.651
 - object_id: mm9:darkpassageway:object:327
   source_object_index: 327
   targets:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:327:volume
     confidence: source_object_volume
-    pos_lt: *id123
+    pos_lt: *id172
     dims_lt: *id057
 - object_id: mm9:darkpassageway:object:328
   source_object_index: 328
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id234
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 44.721
+    - source_model_index: 76
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 62.233
+    - source_model_index: 10
+      source_name: DoubleDoorR40
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 914.033
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 965.254
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 966.309
 - object_id: mm9:darkpassageway:object:330
   source_object_index: 330
   targets:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:330:volume
     confidence: source_object_volume
-    pos_lt: *id124
+    pos_lt: *id173
     dims_lt: *id058
 - object_id: mm9:darkpassageway:object:332
   source_object_index: 332
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id235
+    - source_model_index: 66
+      source_name: DB_TeleporterCage0
+      movable: true
+      world_translation_lt: *id149
+      distance_from_position_lt: 8.0
+    - source_model_index: 52
+      source_name: Ocean
+      movable: true
+      world_translation_lt: *id174
+      distance_from_position_lt: 301.689
+    - source_model_index: 37
+      source_name: WorldObject12
+      movable: true
+      world_translation_lt: *id175
+      distance_from_position_lt: 499.828
+    - source_model_index: 38
+      source_name: WorldObject11
+      movable: true
+      world_translation_lt: *id176
+      distance_from_position_lt: 603.062
+    - source_model_index: 31
+      source_name: WorldObject17
+      movable: true
+      world_translation_lt: *id139
+      distance_from_position_lt: 620.274
 - object_id: mm9:darkpassageway:object:335
   source_object_index: 335
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id236
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 772.739
+    - source_model_index: 43
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 888.761
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 1161.12
+    - source_model_index: 68
+      source_name: Mirror0
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 1268.114
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 1542.852
 - object_id: mm9:darkpassageway:object:337
   source_object_index: 337
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id237
+    - source_model_index: 67
+      source_name: DesertDoor0
+      movable: true
+      world_translation_lt: *id134
+      distance_from_position_lt: 0.0
+    - source_model_index: 41
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 524.61
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 647.198
+    - source_model_index: 75
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 675.504
+    - source_model_index: 16
+      source_name: TrapRoomDoor2
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 695.989
 - object_id: mm9:darkpassageway:object:342
   source_object_index: 342
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id238
+    - source_model_index: 68
+      source_name: Mirror0
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 0.0
+    - source_model_index: 43
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt: *id177
+      distance_from_position_lt: 823.717
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 1032.219
+    - source_model_index: 77
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 1272.641
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 1546.217
 - object_id: mm9:darkpassageway:object:343
   source_object_index: 343
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id239
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 1.0
+    - source_model_index: 71
+      source_name: Mirror3
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 785.652
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 1110.254
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 1255.679
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 1290.665
 - object_id: mm9:darkpassageway:object:344
   source_object_index: 344
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id240
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 1.0
+    - source_model_index: 68
+      source_name: Mirror0
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 1031.227
+    - source_model_index: 78
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 1136.321
+    - source_model_index: 44
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 1337.805
+    - source_model_index: 77
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 1447.08
 - object_id: mm9:darkpassageway:object:345
   source_object_index: 345
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id241
+    - source_model_index: 71
+      source_name: Mirror3
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 1.0
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 783.654
+    - source_model_index: 82
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 1111.061
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 1173.804
+    - source_model_index: 41
+      source_name: WorldObject4
+      movable: true
+      world_translation_lt: *id133
+      distance_from_position_lt: 1364.877
 - object_id: mm9:darkpassageway:object:530
   source_object_index: 530
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id242
+    - source_model_index: 73
+      source_name: PerceptionBrush0
+      movable: true
+      world_translation_lt: *id168
+      distance_from_position_lt: 85.516
+    - source_model_index: 12
+      source_name: MountainForestDoor
+      movable: true
+      world_translation_lt: *id164
+      distance_from_position_lt: 90.863
+    - source_model_index: 76
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 1257.35
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 1297.333
+    - source_model_index: 30
+      source_name: WorldObject20
+      movable: true
+      world_translation_lt: *id167
+      distance_from_position_lt: 1390.16
 - object_id: mm9:darkpassageway:object:531
   source_object_index: 531
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id243
+    - source_model_index: 9
+      source_name: DoubleDoorL40
+      movable: true
+      world_translation_lt: *id142
+      distance_from_position_lt: 93.386
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 143.112
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 143.164
+    - source_model_index: 10
+      source_name: DoubleDoorR40
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 203.688
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 1102.438
 - object_id: mm9:darkpassageway:object:532
   source_object_index: 532
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id244
+    - source_model_index: 75
+      source_name: PerceptionBrush2
+      movable: true
+      world_translation_lt: *id145
+      distance_from_position_lt: 62.04
+    - source_model_index: 16
+      source_name: TrapRoomDoor2
+      movable: true
+      world_translation_lt: *id146
+      distance_from_position_lt: 65.429
+    - source_model_index: 15
+      source_name: TrapRoomDoor1
+      movable: true
+      world_translation_lt: *id122
+      distance_from_position_lt: 231.156
+    - source_model_index: 6
+      source_name: SpikeDoor2
+      movable: true
+      world_translation_lt: *id123
+      distance_from_position_lt: 255.413
+    - source_model_index: 4
+      source_name: SpikeDoor3
+      movable: true
+      world_translation_lt: *id121
+      distance_from_position_lt: 270.74
 - object_id: mm9:darkpassageway:object:533
   source_object_index: 533
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id245
+    - source_model_index: 76
+      source_name: PerceptionBrush3
+      movable: true
+      world_translation_lt: *id163
+      distance_from_position_lt: 165.798
+    - source_model_index: 65
+      source_name: ForestDoor0
+      movable: true
+      world_translation_lt: *id144
+      distance_from_position_lt: 169.894
+    - source_model_index: 10
+      source_name: DoubleDoorR40
+      movable: true
+      world_translation_lt: *id143
+      distance_from_position_lt: 1029.431
+    - source_model_index: 74
+      source_name: PerceptionBrush1
+      movable: true
+      world_translation_lt: *id141
+      distance_from_position_lt: 1072.584
+    - source_model_index: 11
+      source_name: Painting
+      movable: true
+      world_translation_lt: *id140
+      distance_from_position_lt: 1074.081
 - object_id: mm9:darkpassageway:object:534
   source_object_index: 534
   targets:
   - target_kind: trigger_volume
     target_id: mm9:darkpassageway:object:534:volume
     confidence: source_object_volume
-    pos_lt: *id125
+    pos_lt: *id182
     dims_lt: *id059
 - object_id: mm9:darkpassageway:object:535
   source_object_index: 535
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id246
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 603.876
+    - source_model_index: 68
+      source_name: Mirror0
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 754.932
+    - source_model_index: 77
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 932.297
+    - source_model_index: 78
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 945.744
+    - source_model_index: 44
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 1134.123
 - object_id: mm9:darkpassageway:object:570
   source_object_index: 570
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id247
+    - source_model_index: 77
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 0.0
+    - source_model_index: 44
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 856.598
+    - source_model_index: 78
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 896.0
+    - source_model_index: 68
+      source_name: Mirror0
+      movable: true
+      world_translation_lt: *id178
+      distance_from_position_lt: 1272.641
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 1447.7
 - object_id: mm9:darkpassageway:object:571
   source_object_index: 571
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id248
+    - source_model_index: 78
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 0.0
+    - source_model_index: 44
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 320.899
+    - source_model_index: 77
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 896.0
+    - source_model_index: 79
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 896.0
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 1136.321
 - object_id: mm9:darkpassageway:object:572
   source_object_index: 572
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id249
+    - source_model_index: 79
+      source_name: Door3
+      movable: true
+      world_translation_lt: *id135
+      distance_from_position_lt: 0.0
+    - source_model_index: 78
+      source_name: Door2
+      movable: true
+      world_translation_lt: *id180
+      distance_from_position_lt: 896.0
+    - source_model_index: 44
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id181
+      distance_from_position_lt: 1038.183
+    - source_model_index: 70
+      source_name: Mirror2
+      movable: true
+      world_translation_lt: *id148
+      distance_from_position_lt: 1446.461
+    - source_model_index: 77
+      source_name: Door1
+      movable: true
+      world_translation_lt: *id179
+      distance_from_position_lt: 1792.0
 - object_id: mm9:darkpassageway:object:573
   source_object_index: 573
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id250
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 0.0
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 864.074
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 896.0
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 1256.189
+    - source_model_index: 71
+      source_name: Mirror3
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 1769.084
 - object_id: mm9:darkpassageway:object:574
   source_object_index: 574
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id251
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 0.0
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 318.597
+    - source_model_index: 80
+      source_name: Door4
+      movable: true
+      world_translation_lt: *id131
+      distance_from_position_lt: 896.0
+    - source_model_index: 82
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 896.0
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 1110.024
 - object_id: mm9:darkpassageway:object:575
   source_object_index: 575
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id252
+    - source_model_index: 82
+      source_name: Door6
+      movable: true
+      world_translation_lt: *id128
+      distance_from_position_lt: 0.0
+    - source_model_index: 81
+      source_name: Door5
+      movable: true
+      world_translation_lt: *id130
+      distance_from_position_lt: 896.0
+    - source_model_index: 42
+      source_name: WorldObject5
+      movable: true
+      world_translation_lt: *id129
+      distance_from_position_lt: 1030.542
+    - source_model_index: 71
+      source_name: Mirror3
+      movable: true
+      world_translation_lt: *id132
+      distance_from_position_lt: 1110.73
+    - source_model_index: 69
+      source_name: Mirror1
+      movable: true
+      world_translation_lt: *id147
+      distance_from_position_lt: 1578.585
 scripts:
 - script_id: darkp_bridgepuzzle.scr
   source_path: DARKP_BRIDGEPUZZLE.scr
@@ -124138,311 +127169,443 @@ unresolved:
   source_name: ExitRoomTempleDoor0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id183
 - kind: unresolved_binding
   source_object_index: 1
   source_name: ExitRoomTempleDoor1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id184
 - kind: unresolved_binding
   source_object_index: 3
   source_name: Ladder5
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id185
 - kind: unresolved_binding
   source_object_index: 4
   source_name: SpikeDoor3
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id186
+    nearest_movable_world_models_by_position: *id187
 - kind: unresolved_binding
   source_object_index: 5
   source_name: SpikeDoor1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id188
+    nearest_movable_world_models_by_position: *id189
 - kind: unresolved_binding
   source_object_index: 6
   source_name: SpikeDoor2
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id190
+    nearest_movable_world_models_by_position: *id191
 - kind: unresolved_binding
   source_object_index: 7
   source_name: SpikeDoor4
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id192
+    nearest_movable_world_models_by_position: *id193
 - kind: unresolved_binding
   source_object_index: 10
   source_name: Door7
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id194
+    nearest_movable_world_models_by_position: *id195
 - kind: unresolved_binding
   source_object_index: 11
   source_name: DoubleDoorL28
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id196
+    nearest_movable_world_models_by_position: *id197
 - kind: unresolved_binding
   source_object_index: 12
   source_name: DoubleDoorR28
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id198
+    nearest_movable_world_models_by_position: *id199
 - kind: unresolved_binding
   source_object_index: 13
   source_name: DesertRoomDoor1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id200
 - kind: unresolved_binding
   source_object_index: 14
   source_name: DoubleDoorL40
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id201
 - kind: unresolved_binding
   source_object_index: 15
   source_name: DoubleDoorR40
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id202
 - kind: unresolved_binding
   source_object_index: 16
   source_name: Painting
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id203
+    nearest_movable_world_models_by_position: *id204
 - kind: unresolved_binding
   source_object_index: 17
   source_name: MountainForestDoor
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id205
 - kind: unresolved_binding
   source_object_index: 18
   source_name: Door0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id206
 - kind: unresolved_binding
   source_object_index: 19
   source_name: ExitRoomDoor
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id207
 - kind: unresolved_binding
   source_object_index: 20
   source_name: TrapRoomDoor1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id208
 - kind: unresolved_binding
   source_object_index: 21
   source_name: TrapRoomDoor2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id209
 - kind: unresolved_binding
   source_object_index: 62
   source_name: BlueWater0
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id210
 - kind: unresolved_binding
   source_object_index: 69
   source_name: Ladder0
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id211
 - kind: unresolved_binding
   source_object_index: 72
   source_name: FlameCage
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id212
 - kind: unresolved_binding
   source_object_index: 90
   source_name: WorldObject4
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id213
 - kind: unresolved_binding
   source_object_index: 91
   source_name: WorldObject5
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id214
 - kind: unresolved_binding
   source_object_index: 92
   source_name: WorldObject2
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id215
 - kind: unresolved_binding
   source_object_index: 93
   source_name: WorldObject3
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id216
 - kind: unresolved_binding
   source_object_index: 273
   source_name: Ocean
   source_class: BlueWater
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id217
 - kind: unresolved_binding
   source_object_index: 275
   source_name: ExitRamp
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id218
 - kind: unresolved_binding
   source_object_index: 277
   source_name: ExitRiser
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id219
 - kind: unresolved_binding
   source_object_index: 288
   source_name: Ladder1
   source_class: Ladder
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id220
 - kind: unresolved_binding
   source_object_index: 305
   source_name: PuzzleManager0
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id221
 - kind: unresolved_binding
   source_object_index: 306
   source_name: TeleportDoor0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id222
 - kind: unresolved_binding
   source_object_index: 309
   source_name: BansheeAEye0
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id223
 - kind: unresolved_binding
   source_object_index: 310
   source_name: BansheeAEye1
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id224
 - kind: unresolved_binding
   source_object_index: 311
   source_name: BansheeAEye2
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id225
 - kind: unresolved_binding
   source_object_index: 312
   source_name: BansheeAEye3
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id226
 - kind: unresolved_binding
   source_object_index: 313
   source_name: BansheeAEye4
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id227
 - kind: unresolved_binding
   source_object_index: 314
   source_name: BansheeAEye5
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id228
 - kind: unresolved_binding
   source_object_index: 315
   source_name: BansheeAEye6
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id229
 - kind: unresolved_binding
   source_object_index: 316
   source_name: BansheeAEye7
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id230
 - kind: unresolved_binding
   source_object_index: 317
   source_name: CanyonDoorL0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id231
 - kind: unresolved_binding
   source_object_index: 318
   source_name: CanyonDoorR0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id232
 - kind: unresolved_binding
   source_object_index: 326
   source_name: TeleportDoor1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id233
 - kind: unresolved_binding
   source_object_index: 328
   source_name: ForestDoor0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id234
 - kind: unresolved_binding
   source_object_index: 332
   source_name: DB_TeleporterCage0
   source_class: DestructableBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id235
 - kind: unresolved_binding
   source_object_index: 335
   source_name: GemLight0
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id236
 - kind: unresolved_binding
   source_object_index: 337
   source_name: DesertDoor0
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id237
 - kind: unresolved_binding
   source_object_index: 342
   source_name: LightBeam0
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id238
 - kind: unresolved_binding
   source_object_index: 343
   source_name: LightBeam1
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id239
 - kind: unresolved_binding
   source_object_index: 344
   source_name: LightBeam2
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id240
 - kind: unresolved_binding
   source_object_index: 345
   source_name: LightBeam3
   source_class: Shooter
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id241
 - kind: unresolved_binding
   source_object_index: 530
   source_name: PerceptionBrush0
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id242
 - kind: unresolved_binding
   source_object_index: 531
   source_name: PerceptionBrush1
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id243
 - kind: unresolved_binding
   source_object_index: 532
   source_name: PerceptionBrush2
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id244
 - kind: unresolved_binding
   source_object_index: 533
   source_name: PerceptionBrush3
   source_class: PerceptionBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id245
 - kind: unresolved_binding
   source_object_index: 535
   source_name: SpawnNjam0
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id246
 - kind: unresolved_binding
   source_object_index: 570
   source_name: Door1
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id247
 - kind: unresolved_binding
   source_object_index: 571
   source_name: Door2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id248
 - kind: unresolved_binding
   source_object_index: 572
   source_name: Door3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id249
 - kind: unresolved_binding
   source_object_index: 573
   source_name: Door4
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id250
 - kind: unresolved_binding
   source_object_index: 574
   source_name: Door5
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id251
 - kind: unresolved_binding
   source_object_index: 575
   source_name: Door6
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id252
 validation:
   raw_object_count: 611
   event_object_count: 611

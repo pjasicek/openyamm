@@ -12,7 +12,7 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 -- Handles the arrow shooter in A2_RD1
 script.labels["OnUse"] = function(ctx)
     -- ARROW.scr:12
-    ctx:command("getrandomint", "1, 8, g_ntemp") -- ARROW.scr:15
+    ctx:randomInt(1, 8, "g_ntemp") -- ARROW.scr:15
     if ctx:condition("g_ntemp==1") then -- ARROW.scr:17
         do return mm9.gotoLabel(script, ctx, "1") end -- ARROW.scr:18
     end -- ARROW.scr:20
@@ -42,9 +42,9 @@ end
 
 script.labels["1"] = function(ctx)
     -- ARROW.scr:53
-    ctx:command("getobjecthandle", "arrows1, g_hobject") -- ARROW.scr:57
+    ctx:state().g_hobject = ctx:objectOrNil("arrows1") -- ARROW.scr:57
     if ctx:condition("g_hobject==null") then -- ARROW.scr:58
-        ctx:command("debugout", "NULL!") -- ARROW.scr:59
+        ctx:debugOut("NULL!") -- ARROW.scr:59
         do return ctx:exit("") end -- ARROW.scr:60
     end -- ARROW.scr:61
     ctx:trigger("g_hobject", "On") -- ARROW.scr:62
@@ -54,9 +54,9 @@ end
 
 script.labels["2"] = function(ctx)
     -- ARROW.scr:68
-    ctx:command("getobjecthandle", "arrows2, g_hobject") -- ARROW.scr:72
+    ctx:state().g_hobject = ctx:objectOrNil("arrows2") -- ARROW.scr:72
     if ctx:condition("g_hobject==null") then -- ARROW.scr:73
-        ctx:command("debugout", "NULL!") -- ARROW.scr:74
+        ctx:debugOut("NULL!") -- ARROW.scr:74
         do return ctx:exit("") end -- ARROW.scr:75
     end -- ARROW.scr:76
     ctx:trigger("g_hobject", "On") -- ARROW.scr:77
@@ -66,9 +66,9 @@ end
 
 script.labels["3"] = function(ctx)
     -- ARROW.scr:83
-    ctx:command("getobjecthandle", "arrows3, g_hobject") -- ARROW.scr:87
+    ctx:state().g_hobject = ctx:objectOrNil("arrows3") -- ARROW.scr:87
     if ctx:condition("g_hobject==null") then -- ARROW.scr:88
-        ctx:command("debugout", "NULL!") -- ARROW.scr:89
+        ctx:debugOut("NULL!") -- ARROW.scr:89
         do return ctx:exit("") end -- ARROW.scr:90
     end -- ARROW.scr:91
     ctx:trigger("g_hobject", "On") -- ARROW.scr:92
@@ -78,9 +78,9 @@ end
 
 script.labels["4"] = function(ctx)
     -- ARROW.scr:98
-    ctx:command("getobjecthandle", "arrows4, g_hobject") -- ARROW.scr:102
+    ctx:state().g_hobject = ctx:objectOrNil("arrows4") -- ARROW.scr:102
     if ctx:condition("g_hobject==null") then -- ARROW.scr:103
-        ctx:command("debugout", "NULL!") -- ARROW.scr:104
+        ctx:debugOut("NULL!") -- ARROW.scr:104
         do return ctx:exit("") end -- ARROW.scr:105
     end -- ARROW.scr:106
     ctx:trigger("g_hobject", "On") -- ARROW.scr:107
@@ -90,9 +90,9 @@ end
 
 script.labels["5"] = function(ctx)
     -- ARROW.scr:113
-    ctx:command("getobjecthandle", "arrows5, g_hobject") -- ARROW.scr:117
+    ctx:state().g_hobject = ctx:objectOrNil("arrows5") -- ARROW.scr:117
     if ctx:condition("g_hobject==null") then -- ARROW.scr:118
-        ctx:command("debugout", "NULL!") -- ARROW.scr:119
+        ctx:debugOut("NULL!") -- ARROW.scr:119
         do return ctx:exit("") end -- ARROW.scr:120
     end -- ARROW.scr:121
     ctx:trigger("g_hobject", "On") -- ARROW.scr:122
@@ -102,9 +102,9 @@ end
 
 script.labels["6"] = function(ctx)
     -- ARROW.scr:128
-    ctx:command("getobjecthandle", "arrows6, g_hobject") -- ARROW.scr:132
+    ctx:state().g_hobject = ctx:objectOrNil("arrows6") -- ARROW.scr:132
     if ctx:condition("g_hobject==null") then -- ARROW.scr:133
-        ctx:command("debugout", "NULL!") -- ARROW.scr:134
+        ctx:debugOut("NULL!") -- ARROW.scr:134
         do return ctx:exit("") end -- ARROW.scr:135
     end -- ARROW.scr:136
     ctx:trigger("g_hobject", "On") -- ARROW.scr:137
@@ -114,9 +114,9 @@ end
 
 script.labels["7"] = function(ctx)
     -- ARROW.scr:143
-    ctx:command("getobjecthandle", "arrows7, g_hobject") -- ARROW.scr:147
+    ctx:state().g_hobject = ctx:objectOrNil("arrows7") -- ARROW.scr:147
     if ctx:condition("g_hobject==null") then -- ARROW.scr:148
-        ctx:command("debugout", "NULL!") -- ARROW.scr:149
+        ctx:debugOut("NULL!") -- ARROW.scr:149
         do return ctx:exit("") end -- ARROW.scr:150
     end -- ARROW.scr:151
     ctx:trigger("g_hobject", "On") -- ARROW.scr:152
@@ -126,9 +126,9 @@ end
 
 script.labels["8"] = function(ctx)
     -- ARROW.scr:158
-    ctx:command("getobjecthandle", "arrows8, g_hobject") -- ARROW.scr:162
+    ctx:state().g_hobject = ctx:objectOrNil("arrows8") -- ARROW.scr:162
     if ctx:condition("g_hobject==null") then -- ARROW.scr:163
-        ctx:command("debugout", "NULL!") -- ARROW.scr:164
+        ctx:debugOut("NULL!") -- ARROW.scr:164
         do return ctx:exit("") end -- ARROW.scr:165
     end -- ARROW.scr:166
     ctx:trigger("g_hobject", "On") -- ARROW.scr:167
@@ -139,7 +139,7 @@ end
 script.labels["Main"] = function(ctx)
     -- ARROW.scr:172
     -- TRACEON
-    ctx:command("set", "counter, 0") -- ARROW.scr:177
+    ctx:state().counter = 0 -- ARROW.scr:177
     ctx:addTrigger("Shoot", "OnUse") -- ARROW.scr:178
     do return ctx:exit("") end -- ARROW.scr:179
 end

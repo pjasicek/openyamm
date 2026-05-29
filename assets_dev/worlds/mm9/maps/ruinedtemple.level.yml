@@ -4,6 +4,7 @@ map_id: ruinedtemple
 display_name: Ruined Temple
 source:
   dat: ../source/worlds/RUINEDTEMPLE.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/RUINEDTEMPLE.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: ruinedtemple.raw_objects.yml
   materials: ruinedtemple.material_aliases.yml
   events: ruinedtemple.events.yml
-  scene_compat: ruinedtemple.scene.yml
+  scene_compat: null
   source_metadata_compat: ruinedtemple.mm9.yml
-  bsp_compat: ruinedtemple.bsp.yml
-  geometry_compat: ruinedtemple.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: ruinedtemple.blv
+  blv_compat: null
 scripts:
   level: ../events/ruinedtemple.lua
   script_ir: ../events/ruinedtemple.script_ir.yml

@@ -4,6 +4,7 @@ map_id: thjorgardcity
 display_name: Thjorgard City
 source:
   dat: ../source/worlds/THJORGARDCITY.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/THJORGARDCITY.dat
   source_game: mm9
   dat_version: 66
@@ -21,14 +22,14 @@ sidecars:
   raw_objects: thjorgardcity.raw_objects.yml
   materials: thjorgardcity.material_aliases.yml
   events: thjorgardcity.events.yml
-  source_asset_aliases: ../import/overrides/mm9_active_slice.source_asset_aliases.yml
   scene_compat: thjorgardcity.scene.yml
   source_metadata_compat: thjorgardcity.mm9.yml
   bsp_compat: null
   geometry_compat: null
-  model_assets_compat: thjorgardcity.model_assets.yml
-  odm_compat: thjorgardcity.odm
+  model_assets_compat: null
+  odm_compat: null
   blv_compat: null
+  source_asset_aliases: ../import/overrides/mm9_active_slice.source_asset_aliases.yml
 scripts:
   level: ../events/thjorgardcity.lua
   script_ir: ../events/thjorgardcity.script_ir.yml

@@ -16,23 +16,23 @@ end
 
 script.labels["AttackReady"] = function(ctx)
     -- ATTACKTEST.scr:12
-    ctx:command("attack", "AttackDone") -- ATTACKTEST.scr:14
+    ctx:self():attack("AttackDone") -- ATTACKTEST.scr:14
     do return ctx:exit("") end -- ATTACKTEST.scr:15
 end
 
 script.labels["FoundPlayer"] = function(ctx)
     -- ATTACKTEST.scr:18
     ctx:getParam(0, "g_hTarget") -- ATTACKTEST.scr:19
-    ctx:command("faceobject", "g_hTarget") -- ATTACKTEST.scr:20
-    ctx:command("onfoundplayer", "") -- ATTACKTEST.scr:21
-    ctx:command("attack", "AttackDone") -- ATTACKTEST.scr:23
+    ctx:self():faceObject(ctx:object("g_hTarget")) -- ATTACKTEST.scr:20
+    ctx:onEvent("OnFoundPlayer") -- ATTACKTEST.scr:21
+    ctx:self():attack("AttackDone") -- ATTACKTEST.scr:23
     do return ctx:exit("") end -- ATTACKTEST.scr:24
 end
 
 script.labels["Main"] = function(ctx)
     -- ATTACKTEST.scr:26
-    ctx:command("onfoundplayer", "FoundPlayer") -- ATTACKTEST.scr:27
-    ctx:command("onattackready", "AttackReady") -- ATTACKTEST.scr:28
+    ctx:onEvent("OnFoundPlayer", "FoundPlayer") -- ATTACKTEST.scr:27
+    ctx:onEvent("OnAttackReady", "AttackReady") -- ATTACKTEST.scr:28
     do return ctx:exit("") end -- ATTACKTEST.scr:30
 end
 

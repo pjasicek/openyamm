@@ -4,6 +4,7 @@ map_id: dookscastle
 display_name: Dook's Castle
 source:
   dat: ../source/worlds/DOOKSCASTLE.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/DOOKSCASTLE.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: dookscastle.raw_objects.yml
   materials: dookscastle.material_aliases.yml
   events: dookscastle.events.yml
-  scene_compat: dookscastle.scene.yml
+  scene_compat: null
   source_metadata_compat: dookscastle.mm9.yml
-  bsp_compat: dookscastle.bsp.yml
-  geometry_compat: dookscastle.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: dookscastle.blv
+  blv_compat: null
 scripts:
   level: ../events/dookscastle.lua
   script_ir: ../events/dookscastle.script_ir.yml

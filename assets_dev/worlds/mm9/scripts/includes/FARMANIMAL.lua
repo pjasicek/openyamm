@@ -36,16 +36,16 @@ script.labels["OnDamage"] = function(ctx)
         do return ctx:exit("FALSE") end -- FARMANIMAL.inc:38
     end -- FARMANIMAL.inc:39
     ctx:getParam(0, "g_hTarget") -- FARMANIMAL.inc:41
-    ctx:command("target", "g_hTarget, FALSE") -- FARMANIMAL.inc:42
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- FARMANIMAL.inc:42
     do return ctx:exit("FALSE") end -- FARMANIMAL.inc:44
 end
 
 script.labels["BaseRunCancel"] = function(ctx)
     -- FARMANIMAL.inc:47
     mm9.gosub(script, ctx, "BaseRunCancel") -- FARMANIMAL.inc:49
-    ctx:command("target", "NULL") -- FARMANIMAL.inc:51
-    ctx:command("g_htarget", "= NULL") -- FARMANIMAL.inc:52
-    ctx:command("stop", "") -- FARMANIMAL.inc:54
+    ctx:self():setTarget(nil) -- FARMANIMAL.inc:51
+    ctx:state().g_hTarget = nil -- FARMANIMAL.inc:52
+    ctx:self():stop() -- FARMANIMAL.inc:54
     mm9.gosub(script, ctx, "EnableWandering") -- FARMANIMAL.inc:55
     do return ctx:exit("") end -- FARMANIMAL.inc:57
 end
@@ -67,8 +67,8 @@ end
 
 script.labels["OnTargetDead"] = function(ctx)
     -- FARMANIMAL.inc:80
-    ctx:command("target", "NULL") -- FARMANIMAL.inc:82
-    ctx:command("g_htarget", "= NULL") -- FARMANIMAL.inc:83
+    ctx:self():setTarget(nil) -- FARMANIMAL.inc:82
+    ctx:state().g_hTarget = nil -- FARMANIMAL.inc:83
     mm9.gosub(script, ctx, "BaseRunCancel") -- FARMANIMAL.inc:84
     do return ctx:exit("") end -- FARMANIMAL.inc:86
 end
@@ -76,19 +76,19 @@ end
 script.labels["BaseShouldRun"] = function(ctx)
     -- FARMANIMAL.inc:89
     -- Farm animals always run..
-    ctx:command("g_btemp", "= TRUE") -- FARMANIMAL.inc:93
+    ctx:state().g_bTemp = true -- FARMANIMAL.inc:93
     do return ctx:exit("") end -- FARMANIMAL.inc:94
 end
 
 script.labels["FarmAnimalInit"] = function(ctx)
     -- FARMANIMAL.inc:97
-    ctx:setPropNumber("WanderWaitMin", 10) -- FARMANIMAL.inc:100
-    ctx:setPropNumber("WanderWaitMax", 20) -- FARMANIMAL.inc:101
+    ctx:self():setNumberProperty("WanderWaitMin", 10) -- FARMANIMAL.inc:100
+    ctx:self():setNumberProperty("WanderWaitMax", 20) -- FARMANIMAL.inc:101
     mm9.gosub(script, ctx, "BaseRunInit") -- FARMANIMAL.inc:103
-    ctx:command("wait", "0, 0.1, FarmInitWander") -- FARMANIMAL.inc:105
-    ctx:command("ondamage", "OnDamage") -- FARMANIMAL.inc:107
-    ctx:command("ondamagedone", "OnDamageDone") -- FARMANIMAL.inc:108
-    ctx:command("ontargetdead", "OnTargetDead") -- FARMANIMAL.inc:109
+    ctx:wait(0, 0.1, "FarmInitWander") -- FARMANIMAL.inc:105
+    ctx:onEvent("OnDamage", "OnDamage") -- FARMANIMAL.inc:107
+    ctx:onEvent("OnDamageDone", "OnDamageDone") -- FARMANIMAL.inc:108
+    ctx:onEvent("OnTargetDead", "OnTargetDead") -- FARMANIMAL.inc:109
     do return ctx:exit("") end -- FARMANIMAL.inc:111
 end
 

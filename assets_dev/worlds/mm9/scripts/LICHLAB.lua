@@ -17,7 +17,7 @@ script.labels["OnUse"] = function(ctx)
     if not ctx:hasKey(297) then -- LICHLAB.scr:17-18
         if ctx:hasKey(296) then -- LICHLAB.scr:19-20
             ctx:giveExp(10000) -- LICHLAB.scr:21
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- LICHLAB.scr:22
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- LICHLAB.scr:22
             -- give promo here
             ctx:giveKey(297) -- LICHLAB.scr:24
             do return ctx:exit("") end -- LICHLAB.scr:25

@@ -16,7 +16,7 @@ script.includes[#script.includes + 1] = { line = 10, path = "guardsounds.inc" }
 script.labels["Main"] = function(ctx)
     -- GUARDSOUNDS.scr:15
     mm9.gosub(script, ctx, "GS_Init") -- GUARDSOUNDS.scr:21
-    ctx:command("loopanim", "sleep 0 DoNothing") -- GUARDSOUNDS.scr:22
+    ctx:self():loopAnimation("sleep", 0, "DoNothing") -- GUARDSOUNDS.scr:22
     do return ctx:exit("") end -- GUARDSOUNDS.scr:24
 end
 

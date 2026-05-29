@@ -18,8 +18,8 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "nTargetAngle") -- PASSAGEMIRROR.scr:33
     ctx:getParam(1, "sNextMirror") -- PASSAGEMIRROR.scr:34
     ctx:getParam(2, "sLightName") -- PASSAGEMIRROR.scr:35
-    ctx:command("onpoststartworld", "InitPassageMirror") -- PASSAGEMIRROR.scr:37
-    ctx:command("oncachefiles", "CacheFiles") -- PASSAGEMIRROR.scr:38
+    ctx:onEvent("OnPostStartWorld", "InitPassageMirror") -- PASSAGEMIRROR.scr:37
+    ctx:onEvent("OnCacheFiles", "CacheFiles") -- PASSAGEMIRROR.scr:38
     do return ctx:exit("TRUE") end -- PASSAGEMIRROR.scr:40
 end
 
@@ -30,23 +30,22 @@ end
 
 script.labels["InitPassageMirror"] = function(ctx)
     -- PASSAGEMIRROR.scr:48
-    ctx:command("ntargetangle", "= nTargetAngle / dA") -- PASSAGEMIRROR.scr:50
-    ctx:command("nmod", "= 360 / dA") -- PASSAGEMIRROR.scr:51
+    ctx:set("nTargetAngle", "nTargetAngle / dA") -- PASSAGEMIRROR.scr:50
+    ctx:set("nMod", "360 / dA") -- PASSAGEMIRROR.scr:51
     ctx:addTrigger("use", "Rotate") -- PASSAGEMIRROR.scr:53
     ctx:addTrigger("off", "TakeFocus") -- PASSAGEMIRROR.scr:54
     ctx:addTrigger("trigger", "GiveFocus") -- PASSAGEMIRROR.scr:55
-    ctx:command("getmyhandle", "hMe") -- PASSAGEMIRROR.scr:57
-    ctx:command("getobjecthandle", "sNextMirror, hMirror") -- PASSAGEMIRROR.scr:58
-    ctx:command("getobjecthandle", "sLightName, hLight") -- PASSAGEMIRROR.scr:59
+    ctx:state().hMirror = ctx:objectOrNil("sNextMirror") -- PASSAGEMIRROR.scr:58
+    ctx:state().hLight = ctx:objectOrNil("sLightName") -- PASSAGEMIRROR.scr:59
     ctx:trigger("hLight", "on") -- PASSAGEMIRROR.scr:61
     do return ctx:exit("TRUE") end -- PASSAGEMIRROR.scr:63
 end
 
 script.labels["Rotate"] = function(ctx)
     -- PASSAGEMIRROR.scr:66
-    ctx:command("ncounter", "= nCounter + 1") -- PASSAGEMIRROR.scr:68
-    ctx:command("mod", "nCounter, nMod") -- PASSAGEMIRROR.scr:69
-    ctx:command("rotate", "0,1,0, dA, 180, DoNothing") -- PASSAGEMIRROR.scr:71
+    ctx:set("nCounter", "nCounter + 1") -- PASSAGEMIRROR.scr:68
+    ctx:mod("nCounter", "nMod") -- PASSAGEMIRROR.scr:69
+    ctx:self():rotate(0, 1, 0, "dA", 180, "DoNothing") -- PASSAGEMIRROR.scr:71
     if ctx:condition("nCounter!=nTargetAngle") then -- PASSAGEMIRROR.scr:73
         ctx:trigger("hMirror", "off") -- PASSAGEMIRROR.scr:74
     end -- PASSAGEMIRROR.scr:75
@@ -55,7 +54,7 @@ end
 
 script.labels["TakeFocus"] = function(ctx)
     -- PASSAGEMIRROR.scr:80
-    ctx:command("boff", "= TRUE") -- PASSAGEMIRROR.scr:82
+    ctx:state().bOff = true -- PASSAGEMIRROR.scr:82
     ctx:trigger("hMirror", "off") -- PASSAGEMIRROR.scr:84
     do return ctx:exit("TRUE") end -- PASSAGEMIRROR.scr:86
 end
@@ -69,7 +68,7 @@ script.labels["GiveFocus"] = function(ctx)
     end -- PASSAGEMIRROR.scr:95
     ctx:trigger("hLight", "rotate") -- PASSAGEMIRROR.scr:97
     if ctx:condition("nCounter==nTargetAngle") then -- PASSAGEMIRROR.scr:99
-        ctx:command("boff", "= FALSE") -- PASSAGEMIRROR.scr:100
+        ctx:state().bOff = false -- PASSAGEMIRROR.scr:100
         ctx:trigger("hMirror", "trigger") -- PASSAGEMIRROR.scr:101
     end -- PASSAGEMIRROR.scr:102
     do return ctx:exit("TRUE") end -- PASSAGEMIRROR.scr:104

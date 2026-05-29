@@ -10,8 +10,8 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 -- SceneTest.scr
 script.labels["On"] = function(ctx)
     -- SCENETEST.scr:14
-    ctx:command("getobjecthandle", "PlayerActor0, g_hTarget") -- SCENETEST.scr:18
-    ctx:command("getobjecthandle", "SceneCamera0, g_hCamera") -- SCENETEST.scr:19
+    ctx:state().g_hTarget = ctx:objectOrNil("PlayerActor0") -- SCENETEST.scr:18
+    ctx:state().g_hCamera = ctx:objectOrNil("SceneCamera0") -- SCENETEST.scr:19
     if ctx:condition("g_hTarget==NULL") then -- SCENETEST.scr:21
         do return ctx:exit("TRUE") end -- SCENETEST.scr:22
     end -- SCENETEST.scr:23

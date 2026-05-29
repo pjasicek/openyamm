@@ -23,7 +23,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC197.scr:28
-    ctx:command("playsound", "voices\\NPC\\NPC_197.wav, Onexit, 100, 240, FALSE, 100") -- NPC197.scr:31
+    ctx:playSound("voices\\NPC\\NPC_197.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC197.scr:31
     do return ctx:exit("") end -- NPC197.scr:32
 end
 

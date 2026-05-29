@@ -37,9 +37,9 @@ end
 script.labels["DoRude"] = function(ctx)
     -- NPC436.scr:49
     if ctx:condition("bSpokeTo==FALSE") then -- NPC436.scr:52
-        ctx:command("set", "bSpokeTo, TRUE") -- NPC436.scr:53
+        ctx:state().bSpokeTo = true -- NPC436.scr:53
         ctx:doRude(436) -- NPC436.scr:54
-        ctx:command("playsound", "\\voices\\npc\\NPC_249.wav, DoNothing, 100, 240, FALSE, 100") -- NPC436.scr:55
+        ctx:playSound("\\voices\\npc\\NPC_249.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC436.scr:55
         do return ctx:exit("") end -- NPC436.scr:56
     end -- NPC436.scr:57
     do return ctx:exit("") end -- NPC436.scr:58
@@ -47,7 +47,7 @@ end
 
 script.labels["Init"] = function(ctx)
     -- NPC436.scr:61
-    ctx:command("onfoundplayer", "DoRude") -- NPC436.scr:64
+    ctx:onEvent("OnFoundPlayer", "DoRude") -- NPC436.scr:64
     do return ctx:exit("") end -- NPC436.scr:66
 end
 
@@ -64,10 +64,10 @@ script.labels["Main"] = function(ctx)
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC436.scr:84
     ctx:addTrigger("Leave", "OnLeave") -- NPC436.scr:85
     ctx:addTrigger("Use", "OnUse") -- NPC436.scr:86
-    ctx:command("onpoststartworld", "Init") -- NPC436.scr:87
-    ctx:command("onpostminisaveload", "Init") -- NPC436.scr:88
-    ctx:command("onpostsaveload", "Init") -- NPC436.scr:89
-    ctx:command("wait", "1 .1 Init") -- NPC436.scr:90
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC436.scr:87
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC436.scr:88
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC436.scr:89
+    ctx:wait(1, .1, "Init") -- NPC436.scr:90
     do return ctx:exit("") end -- NPC436.scr:91
 end
 

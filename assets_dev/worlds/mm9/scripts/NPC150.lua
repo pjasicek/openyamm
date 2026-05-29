@@ -17,113 +17,107 @@ script.labels["OnStart"] = function(ctx)
     if ctx:condition("bSpeak==TRUE") then -- NPC150.scr:24
         do return ctx:exit("") end -- NPC150.scr:25
     end -- NPC150.scr:26
-    ctx:setPropNumber("DoRude", "False") -- NPC150.scr:28
-    ctx:command("getobjecthandle", "Broccan g_hobject") -- NPC150.scr:30
-    ctx:command("target", "g_hobject") -- NPC150.scr:31
+    ctx:self():setNumberProperty("DoRude", "False") -- NPC150.scr:28
+    ctx:state().g_hobject = ctx:objectOrNil("Broccan") -- NPC150.scr:30
+    ctx:self():setTarget(ctx:object("g_hobject")) -- NPC150.scr:31
     ctx:trigger("g_hobject", "Target") -- NPC150.scr:32
     ctx:giveKey(5020) -- NPC150.scr:34
-    ctx:command("loopanim", "conv2 0 DoNothing") -- NPC150.scr:35
-    ctx:command("playsound", "voices\\cinema\\NewGame\\01.wav, DoNothing, 100, 768, FALSE, 100") -- NPC150.scr:36
-    ctx:command("wait", "1 6.5, Trigger2") -- NPC150.scr:37
+    ctx:self():loopAnimation("conv2", 0, "DoNothing") -- NPC150.scr:35
+    ctx:playSound("voices\\cinema\\NewGame\\01.wav", "DoNothing", 100, 768, "FALSE", 100) -- NPC150.scr:36
+    ctx:wait(1, 6.5, "Trigger2") -- NPC150.scr:37
     do return ctx:exit("") end -- NPC150.scr:38
 end
 
 script.labels["Trigger2"] = function(ctx)
     -- NPC150.scr:42
     mm9.gosub(script, ctx, "Onstop") -- NPC150.scr:45
-    ctx:command("getobjecthandle", "Broccan g_hobject") -- NPC150.scr:46
-    ctx:trigger("g_hobject", "Speak2") -- NPC150.scr:47
+    ctx:object("Broccan"):trigger("Speak2") -- NPC150.scr:46-47
     do return ctx:exit("") end -- NPC150.scr:48
 end
 
 script.labels["OnSpeak3"] = function(ctx)
     -- NPC150.scr:52
-    ctx:command("loopanim", "conv2 0 DoNothing") -- NPC150.scr:55
-    ctx:command("playsound", "voices\\cinema\\NewGame\\03.wav, DoNothing, 100, 768, FALSE, 100") -- NPC150.scr:56
-    ctx:command("wait", "1 13.3, Trigger4") -- NPC150.scr:57
+    ctx:self():loopAnimation("conv2", 0, "DoNothing") -- NPC150.scr:55
+    ctx:playSound("voices\\cinema\\NewGame\\03.wav", "DoNothing", 100, 768, "FALSE", 100) -- NPC150.scr:56
+    ctx:wait(1, 13.3, "Trigger4") -- NPC150.scr:57
     do return ctx:exit("") end -- NPC150.scr:58
 end
 
 script.labels["Trigger4"] = function(ctx)
     -- NPC150.scr:62
     mm9.gosub(script, ctx, "Onstop") -- NPC150.scr:65
-    ctx:command("getobjecthandle", "Broccan g_hobject") -- NPC150.scr:66
-    ctx:trigger("g_hobject", "Speak4") -- NPC150.scr:67
+    ctx:object("Broccan"):trigger("Speak4") -- NPC150.scr:66-67
     do return ctx:exit("") end -- NPC150.scr:68
 end
 
 script.labels["OnSpeak5"] = function(ctx)
     -- NPC150.scr:72
-    ctx:command("loopanim", "conv5 0 DoNothing") -- NPC150.scr:75
-    ctx:command("playsound", "voices\\cinema\\NewGame\\05.wav, DoNothing, 100, 768, FALSE, 100") -- NPC150.scr:76
-    ctx:command("wait", "1 18.5, Trigger6") -- NPC150.scr:77
+    ctx:self():loopAnimation("conv5", 0, "DoNothing") -- NPC150.scr:75
+    ctx:playSound("voices\\cinema\\NewGame\\05.wav", "DoNothing", 100, 768, "FALSE", 100) -- NPC150.scr:76
+    ctx:wait(1, 18.5, "Trigger6") -- NPC150.scr:77
     do return ctx:exit("") end -- NPC150.scr:78
 end
 
 script.labels["Trigger6"] = function(ctx)
     -- NPC150.scr:82
     mm9.gosub(script, ctx, "Onstop") -- NPC150.scr:85
-    ctx:command("getobjecthandle", "Broccan g_hobject") -- NPC150.scr:86
-    ctx:trigger("g_hobject", "Speak6") -- NPC150.scr:87
+    ctx:object("Broccan"):trigger("Speak6") -- NPC150.scr:86-87
     do return ctx:exit("") end -- NPC150.scr:88
 end
 
 script.labels["OnSpeak7"] = function(ctx)
     -- NPC150.scr:92
-    ctx:command("loopanim", "conv4 0 DoNothing") -- NPC150.scr:95
-    ctx:command("playsound", "voices\\cinema\\NewGame\\07.wav, DoNothing, 100, 768, FALSE, 100") -- NPC150.scr:96
-    ctx:command("wait", "1 7, Trigger8") -- NPC150.scr:97
+    ctx:self():loopAnimation("conv4", 0, "DoNothing") -- NPC150.scr:95
+    ctx:playSound("voices\\cinema\\NewGame\\07.wav", "DoNothing", 100, 768, "FALSE", 100) -- NPC150.scr:96
+    ctx:wait(1, 7, "Trigger8") -- NPC150.scr:97
     do return ctx:exit("") end -- NPC150.scr:98
 end
 
 script.labels["Trigger8"] = function(ctx)
     -- NPC150.scr:102
     mm9.gosub(script, ctx, "Onstop") -- NPC150.scr:105
-    ctx:command("getobjecthandle", "Broccan g_hobject") -- NPC150.scr:106
-    ctx:trigger("g_hobject", "Speak8") -- NPC150.scr:107
+    ctx:object("Broccan"):trigger("Speak8") -- NPC150.scr:106-107
     do return ctx:exit("") end -- NPC150.scr:108
 end
 
 script.labels["OnSpeak9"] = function(ctx)
     -- NPC150.scr:112
-    ctx:command("loopanim", "conv5 0 DoNothing") -- NPC150.scr:115
-    ctx:command("playsound", "voices\\cinema\\NewGame\\09.wav, DoNothing, 100, 768, FALSE, 100") -- NPC150.scr:116
-    ctx:command("wait", "1 12.5, Trigger10") -- NPC150.scr:117
+    ctx:self():loopAnimation("conv5", 0, "DoNothing") -- NPC150.scr:115
+    ctx:playSound("voices\\cinema\\NewGame\\09.wav", "DoNothing", 100, 768, "FALSE", 100) -- NPC150.scr:116
+    ctx:wait(1, 12.5, "Trigger10") -- NPC150.scr:117
     do return ctx:exit("") end -- NPC150.scr:118
 end
 
 script.labels["Trigger10"] = function(ctx)
     -- NPC150.scr:122
     mm9.gosub(script, ctx, "Onstop") -- NPC150.scr:125
-    ctx:command("getobjecthandle", "Broccan g_hobject") -- NPC150.scr:126
-    ctx:trigger("g_hobject", "Speak10") -- NPC150.scr:127
+    ctx:object("Broccan"):trigger("Speak10") -- NPC150.scr:126-127
     do return ctx:exit("") end -- NPC150.scr:128
 end
 
 script.labels["OnSpeak11"] = function(ctx)
     -- NPC150.scr:131
-    ctx:command("loopanim", "conv5 0 DoNothing") -- NPC150.scr:134
-    ctx:command("playsound", "voices\\cinema\\NewGame\\11.wav, DoNothing, 100, 768, FALSE, 100") -- NPC150.scr:135
-    ctx:command("wait", "1 8.5, Trigger12") -- NPC150.scr:136
+    ctx:self():loopAnimation("conv5", 0, "DoNothing") -- NPC150.scr:134
+    ctx:playSound("voices\\cinema\\NewGame\\11.wav", "DoNothing", 100, 768, "FALSE", 100) -- NPC150.scr:135
+    ctx:wait(1, 8.5, "Trigger12") -- NPC150.scr:136
     do return ctx:exit("") end -- NPC150.scr:137
 end
 
 script.labels["Trigger12"] = function(ctx)
     -- NPC150.scr:141
-    ctx:command("target", "Null") -- NPC150.scr:143
+    ctx:self():setTarget(nil) -- NPC150.scr:143
     mm9.gosub(script, ctx, "Onstop") -- NPC150.scr:144
-    ctx:command("getobjecthandle", "Broccan g_hobject") -- NPC150.scr:145
-    ctx:trigger("g_hobject", "Speak12") -- NPC150.scr:146
-    ctx:command("wait", "1 1 OnSpeak12") -- NPC150.scr:147
+    ctx:object("Broccan"):trigger("Speak12") -- NPC150.scr:145-146
+    ctx:wait(1, 1, "OnSpeak12") -- NPC150.scr:147
     do return ctx:exit("") end -- NPC150.scr:148
 end
 
 script.labels["OnSpeak12"] = function(ctx)
     -- NPC150.scr:151
-    ctx:command("loopanim", "conv5 0 DoNothing") -- NPC150.scr:154
-    ctx:command("playsound", "voices\\cinema\\NewGame\\12.wav, DoNothing, 100, 768, FALSE, 100") -- NPC150.scr:155
+    ctx:self():loopAnimation("conv5", 0, "DoNothing") -- NPC150.scr:154
+    ctx:playSound("voices\\cinema\\NewGame\\12.wav", "DoNothing", 100, 768, "FALSE", 100) -- NPC150.scr:155
     -- wait 1 18.5, Trigger12
-    ctx:setPropNumber("DoRude", "TRUE") -- NPC150.scr:157
+    ctx:self():setNumberProperty("DoRude", "TRUE") -- NPC150.scr:157
     do return ctx:exit("") end -- NPC150.scr:158
 end
 
@@ -134,8 +128,8 @@ end
 
 script.labels["Init"] = function(ctx)
     -- NPC150.scr:168
-    ctx:command("onfoundplayer", "OnStart") -- NPC150.scr:171
-    ctx:command("onlosttarget", "ONLost") -- NPC150.scr:172
+    ctx:onEvent("OnFoundPlayer", "OnStart") -- NPC150.scr:171
+    ctx:onEvent("OnLostTarget", "ONLost") -- NPC150.scr:172
     do return ctx:exit("TRUE") end -- NPC150.scr:173
 end
 

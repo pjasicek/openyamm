@@ -13,32 +13,32 @@ script.labels = {}
 -- sounds.
 script.labels["InitPigPlaylist"] = function(ctx)
     -- PIGPLAYLIST.inc:14
-    ctx:command("arrayput", "spSounds, 0 , \"sounds\\animsounds\\pig\\die1.wav\"") -- PIGPLAYLIST.inc:16
-    ctx:command("arrayput", "spSounds, 1 , \"sounds\\animsounds\\pig\\fidget1.wav\"") -- PIGPLAYLIST.inc:17
-    ctx:command("arrayput", "spSounds, 2 , \"sounds\\animsounds\\pig\\fidget2.wav\"") -- PIGPLAYLIST.inc:18
-    ctx:command("arrayput", "spSounds, 3 , \"sounds\\animsounds\\pig\\rest.wav\"") -- PIGPLAYLIST.inc:19
-    ctx:command("arrayput", "spSounds, 4 , \"sounds\\animsounds\\pig\\roll.wav\"") -- PIGPLAYLIST.inc:20
-    ctx:command("arrayput", "spSounds, 5 , \"sounds\\animsounds\\pig\\standdown.wav\"") -- PIGPLAYLIST.inc:21
-    ctx:command("arrayput", "spSounds, 6 , \"sounds\\animsounds\\pig\\standup.wav\"") -- PIGPLAYLIST.inc:22
-    ctx:command("arrayput", "spSounds, 7 , \"sounds\\animsounds\\pig\\wince1.wav\"") -- PIGPLAYLIST.inc:23
-    ctx:command("arrayput", "spSounds, 8 , \"sounds\\animsounds\\pig\\wince2.wav\"") -- PIGPLAYLIST.inc:24
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\die1.wav\"") -- PIGPLAYLIST.inc:26
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\fidget1.wav\"") -- PIGPLAYLIST.inc:27
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\fidget2.wav\"") -- PIGPLAYLIST.inc:28
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\rest.wav\"") -- PIGPLAYLIST.inc:29
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\roll.wav\"") -- PIGPLAYLIST.inc:30
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\standdown.wav\"") -- PIGPLAYLIST.inc:31
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\standup.wav\"") -- PIGPLAYLIST.inc:32
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\wince1.wav\"") -- PIGPLAYLIST.inc:33
-    ctx:command("cachesound", "\"sounds\\animsounds\\pig\\wince2.wav\"") -- PIGPLAYLIST.inc:34
+    ctx:arrayPut("spSounds", 0, "sounds\\animsounds\\pig\\die1.wav") -- PIGPLAYLIST.inc:16
+    ctx:arrayPut("spSounds", 1, "sounds\\animsounds\\pig\\fidget1.wav") -- PIGPLAYLIST.inc:17
+    ctx:arrayPut("spSounds", 2, "sounds\\animsounds\\pig\\fidget2.wav") -- PIGPLAYLIST.inc:18
+    ctx:arrayPut("spSounds", 3, "sounds\\animsounds\\pig\\rest.wav") -- PIGPLAYLIST.inc:19
+    ctx:arrayPut("spSounds", 4, "sounds\\animsounds\\pig\\roll.wav") -- PIGPLAYLIST.inc:20
+    ctx:arrayPut("spSounds", 5, "sounds\\animsounds\\pig\\standdown.wav") -- PIGPLAYLIST.inc:21
+    ctx:arrayPut("spSounds", 6, "sounds\\animsounds\\pig\\standup.wav") -- PIGPLAYLIST.inc:22
+    ctx:arrayPut("spSounds", 7, "sounds\\animsounds\\pig\\wince1.wav") -- PIGPLAYLIST.inc:23
+    ctx:arrayPut("spSounds", 8, "sounds\\animsounds\\pig\\wince2.wav") -- PIGPLAYLIST.inc:24
+    ctx:cacheSound("sounds\\animsounds\\pig\\die1.wav") -- PIGPLAYLIST.inc:26
+    ctx:cacheSound("sounds\\animsounds\\pig\\fidget1.wav") -- PIGPLAYLIST.inc:27
+    ctx:cacheSound("sounds\\animsounds\\pig\\fidget2.wav") -- PIGPLAYLIST.inc:28
+    ctx:cacheSound("sounds\\animsounds\\pig\\rest.wav") -- PIGPLAYLIST.inc:29
+    ctx:cacheSound("sounds\\animsounds\\pig\\roll.wav") -- PIGPLAYLIST.inc:30
+    ctx:cacheSound("sounds\\animsounds\\pig\\standdown.wav") -- PIGPLAYLIST.inc:31
+    ctx:cacheSound("sounds\\animsounds\\pig\\standup.wav") -- PIGPLAYLIST.inc:32
+    ctx:cacheSound("sounds\\animsounds\\pig\\wince1.wav") -- PIGPLAYLIST.inc:33
+    ctx:cacheSound("sounds\\animsounds\\pig\\wince2.wav") -- PIGPLAYLIST.inc:34
     do return ctx:exit(1) end -- PIGPLAYLIST.inc:36
 end
 
 script.labels["PlayRandomPig"] = function(ctx)
     -- PIGPLAYLIST.inc:39
-    ctx:command("getrandomint", "0, 8, nIndex") -- PIGPLAYLIST.inc:41
-    ctx:command("arrayget", "spSounds, nIndex, sSound") -- PIGPLAYLIST.inc:42
-    ctx:command("playsound", "sSound, DoNothing, 1, 100, 0, 100") -- PIGPLAYLIST.inc:43
+    ctx:randomInt(0, 8, "nIndex") -- PIGPLAYLIST.inc:41
+    ctx:arrayGet("spSounds", "nIndex", "sSound") -- PIGPLAYLIST.inc:42
+    ctx:playSound("sSound", "DoNothing", 1, 100, 0, 100) -- PIGPLAYLIST.inc:43
     do return ctx:exit(1) end -- PIGPLAYLIST.inc:45
 end
 

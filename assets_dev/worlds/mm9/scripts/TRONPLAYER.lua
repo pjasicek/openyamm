@@ -17,27 +17,27 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "sPieceName") -- TRONPLAYER.scr:27
     ctx:getParam(1, "nTemp") -- TRONPLAYER.scr:28
     -- register this name
-    ctx:command("getmyhandle", "hTron") -- TRONPLAYER.scr:31
-    ctx:command("getobjectname", "hTron, sMyName") -- TRONPLAYER.scr:32
+    ctx:state().hTron = ctx:self() -- TRONPLAYER.scr:31
+    ctx:state().sMyName = ctx:object("hTron"):name() -- TRONPLAYER.scr:32
     ctx:setConsoleStrVar("TRON_PLAYER", "sMyName") -- TRONPLAYER.scr:33
-    ctx:command("numsquares", "= nTemp * nTemp - 1") -- TRONPLAYER.scr:35
-    ctx:command("onpoststartworld", "InitTronPlayer") -- TRONPLAYER.scr:37
+    ctx:set("NUMSQUARES", "nTemp * nTemp - 1") -- TRONPLAYER.scr:35
+    ctx:onEvent("OnPostStartWorld", "InitTronPlayer") -- TRONPLAYER.scr:37
     do return ctx:exit("TRUE") end -- TRONPLAYER.scr:39
 end
 
 script.labels["InitTronPlayer"] = function(ctx)
     -- TRONPLAYER.scr:42
     ctx:getConsoleStrVar("TRON_NAME", "sTronName") -- TRONPLAYER.scr:44
-    ctx:command("getobjecthandle", "sTronName, hTron") -- TRONPLAYER.scr:45
+    ctx:state().hTron = ctx:objectOrNil("sTronName") -- TRONPLAYER.scr:45
     ctx:addTrigger("PlacePiece", "SelectPiece") -- TRONPLAYER.scr:47
     do return ctx:exit("TRUE") end -- TRONPLAYER.scr:49
 end
 
 script.labels["SelectPiece"] = function(ctx)
     -- TRONPLAYER.scr:52
-    ctx:command("getrandomint", "0, NUMSQUARES, nTemp") -- TRONPLAYER.scr:54
-    ctx:command("stemp", "= sPieceName + nTemp") -- TRONPLAYER.scr:55
-    ctx:command("getobjecthandle", "sTemp, hPiece") -- TRONPLAYER.scr:56
+    ctx:randomInt(0, "NUMSQUARES", "nTemp") -- TRONPLAYER.scr:54
+    ctx:set("sTemp", "sPieceName + nTemp") -- TRONPLAYER.scr:55
+    ctx:state().hPiece = ctx:objectOrNil("sTemp") -- TRONPLAYER.scr:56
     -- if( hPiece!=0 )
     -- GetRandomInt STALL_MIN, STALL_MAX, nTemp
     -- Wait 0, nTemp, PlacePiece

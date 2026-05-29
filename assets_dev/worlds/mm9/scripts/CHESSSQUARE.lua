@@ -25,9 +25,8 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(2, "LISTLAST") -- CHESSSQUARE.scr:31
     ctx:addTrigger("off", "TurnOff") -- CHESSSQUARE.scr:33
     ctx:addTrigger("on", "TurnOn") -- CHESSSQUARE.scr:34
-    ctx:command("ontouchnotify", "OnTouch") -- CHESSSQUARE.scr:36
-    ctx:command("getmyhandle", "hMe") -- CHESSSQUARE.scr:38
-    ctx:command("getobjectname", "hMe, sMyName") -- CHESSSQUARE.scr:39
+    ctx:onEvent("OnTouchNotify", "OnTouch") -- CHESSSQUARE.scr:36
+    ctx:state().sMyName = ctx:self():name() -- CHESSSQUARE.scr:39
     do return ctx:exit("TRUE") end -- CHESSSQUARE.scr:41
 end
 
@@ -35,7 +34,6 @@ script.labels["OnTouch"] = function(ctx)
     -- CHESSSQUARE.scr:44
     -- if player: turn me off, check danger
     if ctx:condition("hPlayer==0") then -- CHESSSQUARE.scr:47
-        ctx:command("getplayerhandle", "hPlayer") -- CHESSSQUARE.scr:48
     end -- CHESSSQUARE.scr:49
     ctx:getParam(0, "hDummy") -- CHESSSQUARE.scr:51
     if ctx:condition("hPlayer==hDummy") then -- CHESSSQUARE.scr:52
@@ -51,8 +49,7 @@ script.labels["UpdateInactiveSquare"] = function(ctx)
     -- square to this square
     mm9.gosub(script, ctx, "TurnOff") -- CHESSSQUARE.scr:63
     ctx:getConsoleStrVar("LASTSQUARE", "sLastOne") -- CHESSSQUARE.scr:64
-    ctx:command("getobjecthandle", "sLastOne, hDummy") -- CHESSSQUARE.scr:65
-    ctx:trigger("hDummy", "on") -- CHESSSQUARE.scr:66
+    ctx:object("sLastOne"):trigger("on") -- CHESSSQUARE.scr:65-66
     ctx:setConsoleStrVar("LASTSQUARE", "sMyName") -- CHESSSQUARE.scr:67
     do return ctx:exit("TRUE") end -- CHESSSQUARE.scr:68
 end
@@ -72,13 +69,13 @@ end
 
 script.labels["TurnOff"] = function(ctx)
     -- CHESSSQUARE.scr:84
-    ctx:command("ontouchnotify", "DoNothing") -- CHESSSQUARE.scr:86
+    ctx:onEvent("OnTouchNotify", "DoNothing") -- CHESSSQUARE.scr:86
     do return ctx:exit("TRUE") end -- CHESSSQUARE.scr:87
 end
 
 script.labels["TurnOn"] = function(ctx)
     -- CHESSSQUARE.scr:89
-    ctx:command("ontouchnotify", "OnTouch") -- CHESSSQUARE.scr:91
+    ctx:onEvent("OnTouchNotify", "OnTouch") -- CHESSSQUARE.scr:91
     do return ctx:exit("TRUE") end -- CHESSSQUARE.scr:92
 end
 

@@ -10,10 +10,10 @@ script.includes[#script.includes + 1] = { line = 2, path = "range.inc" }
 
 script.labels["InitTrainingHostility"] = function(ctx)
     -- TRAININGHOSTILITY.inc:5
-    ctx:command("ondeath", "_OnDeath") -- TRAININGHOSTILITY.inc:7
-    ctx:command("ondamage", "_OnDamage") -- TRAININGHOSTILITY.inc:8
-    ctx:command("onfoundtarget", "_OnFoundTarget") -- TRAININGHOSTILITY.inc:9
-    ctx:command("onalert", "_OnDamage") -- TRAININGHOSTILITY.inc:10
+    ctx:onEvent("OnDeath", "_OnDeath") -- TRAININGHOSTILITY.inc:7
+    ctx:onEvent("OnDamage", "_OnDamage") -- TRAININGHOSTILITY.inc:8
+    ctx:onEvent("OnFoundTarget", "_OnFoundTarget") -- TRAININGHOSTILITY.inc:9
+    ctx:onEvent("OnAlert", "_OnDamage") -- TRAININGHOSTILITY.inc:10
     do return ctx:exit("TRUE") end -- TRAININGHOSTILITY.inc:12
 end
 
@@ -41,7 +41,7 @@ end
 script.labels["_BaseInit"] = function(ctx)
     -- TRAININGHOSTILITY.inc:39
     ctx:getParam(0, "g_hTarget") -- TRAININGHOSTILITY.inc:41
-    ctx:command("sendalert", "g_hTarget") -- TRAININGHOSTILITY.inc:42
+    ctx:self():sendAlert(ctx:object("g_hTarget")) -- TRAININGHOSTILITY.inc:42
     mm9.gosub(script, ctx, "BaseInit") -- TRAININGHOSTILITY.inc:44
     mm9.gosub(script, ctx, "RangeInit") -- TRAININGHOSTILITY.inc:45
     mm9.gosub(script, ctx, "SetupTarget") -- TRAININGHOSTILITY.inc:47

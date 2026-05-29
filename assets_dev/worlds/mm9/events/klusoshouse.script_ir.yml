@@ -1,0 +1,348 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: klusoshouse
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: blackheart.scr
+  source_path: BLACKHEART.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 26
+    name: OnUse
+  - line: 47
+    name: Init
+  - line: 64
+    name: CacheFiles
+  - line: 72
+    name: Main
+  registered_triggers:
+  - line: 77
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 33
+    command: giveitem
+    arguments_raw: '29'
+  - line: 35
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 36
+    command: givekey
+    arguments_raw: '223'
+  - line: 54
+    command: Haskey
+    arguments_raw: 223 g_ntemp
+  - line: 57
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 66
+    command: CacheSound
+    arguments_raw: '"sounds\events\alarmbell.wav"'
+  - line: 80
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  command_count: 19
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: klusoshidden.scr
+  source_path: KLUSOSHIDDEN.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  - line: 8
+    path: flags.inc
+  labels:
+  - line: 14
+    name: Main
+  - line: 23
+    name: CacheFiles
+  - line: 30
+    name: InitKlusosHidden
+  - line: 46
+    name: OnObjectLinkBroken
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands:
+  - line: 40
+    command: ClearFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  - line: 41
+    command: ClearFlag
+    arguments_raw: hMe, FLAG_SOLID
+  - line: 50
+    command: SetFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  - line: 51
+    command: SetFlag
+    arguments_raw: hMe, FLAG_SOLID
+  presentation_commands: []
+  unknown_commands:
+  - line: 16
+    command: OnPostStartWorld
+    arguments_raw: InitKlusosHidden
+  - line: 17
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitKlusosHidden
+  - line: 18
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 25
+    command: CacheScript
+    arguments_raw: '"baseMelee.scr"'
+  - line: 36
+    command: CreateObjectLink
+    arguments_raw: hBlackheart
+  - line: 37
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 48
+    command: hBlackheart
+    arguments_raw: = NULL
+  - line: 53
+    command: RunScript
+    arguments_raw: '"baseMelee.scr"'
+  command_count: 20
+- script_id: klusospatrol.scr
+  source_path: KLUSOSPATROL.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: baseMelee.inc
+  - line: 9
+    path: ListTraverse.inc
+  labels:
+  - line: 17
+    name: Main
+  - line: 31
+    name: CacheFiles
+  - line: 38
+    name: InitKlusosPatrol
+  - line: 64
+    name: AlertOthers
+  - line: 78
+    name: HuntPlayer
+  - line: 89
+    name: OnTraverseDone
+  registered_triggers:
+  - line: 54
+    message: start
+    callback: TraverseBegin
+    arguments_raw: start, TraverseBegin
+  - line: 55
+    message: charge
+    callback: HuntPlayer
+    arguments_raw: charge, HuntPlayer
+  trigger_edges:
+  - line: 68
+    target_expression: hTrigger
+    message_expression: trigger
+    arguments_raw: hTrigger, trigger
+  - line: 97
+    target_expression: hBuddy
+    message_expression: start
+    arguments_raw: hBuddy, start
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 24
+    command: OnPostStartWorld
+    arguments_raw: InitKlusosPatrol
+  - line: 25
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitKlusosPatrol
+  - line: 26
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 33
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\guard\aware2.wav"'
+  - line: 43
+    command: AddFriend
+    arguments_raw: AIBase
+  - line: 44
+    command: AddEnemy
+    arguments_raw: Player
+  - line: 52
+    command: TRAVERSERADIUS
+    arguments_raw: = 10
+  - line: 57
+    command: OnFoundTarget
+    arguments_raw: AlertOthers
+  - line: 82
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  command_count: 41
+- script_id: klusossleeper.scr
+  source_path: KLUSOSSLEEPER.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  - line: 8
+    path: flags.inc
+  labels:
+  - line: 13
+    name: Main
+  - line: 23
+    name: CacheFiles
+  - line: 30
+    name: InitKlusosHidden
+  - line: 45
+    name: OnObjectLinkBroken
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 40
+    command: LoopAnim
+    arguments_raw: sleep, 0
+  - line: 47
+    command: PlayAnim
+    arguments_raw: '"stand", DoNothing'
+  unknown_commands:
+  - line: 15
+    command: OnPostStartWorld
+    arguments_raw: InitKlusosHidden
+  - line: 16
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitKlusosHidden
+  - line: 18
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 25
+    command: CacheScript
+    arguments_raw: '"baseMelee.scr"'
+  - line: 34
+    command: CreateObjectLink
+    arguments_raw: hBlackheart
+  - line: 35
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 38
+    command: OnDamage
+    arguments_raw: OnObjectLinkBroken
+  - line: 49
+    command: hBlackheart
+    arguments_raw: = NULL
+  - line: 51
+    command: RunScript
+    arguments_raw: '"baseMelee.scr"'
+  command_count: 18
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+validation:
+  script_count: 6

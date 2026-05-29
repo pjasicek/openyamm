@@ -21,11 +21,11 @@ script.includes[#script.includes + 1] = { line = 11, path = "United.inc" }
 script.labels["Init"] = function(ctx)
     -- NPC87.scr:30
     if ctx:hasKey(40) then -- NPC87.scr:32-33
-        ctx:command("set", "bVanish TRUE") -- NPC87.scr:34
+        ctx:state().bVanish = true -- NPC87.scr:34
         mm9.gosub(script, ctx, "vanish") -- NPC87.scr:35
     end -- NPC87.scr:36
     if ctx:hasKey(108) then -- NPC87.scr:38-39
-        ctx:command("set", "bVanish False") -- NPC87.scr:40
+        ctx:state().bVanish = false -- NPC87.scr:40
         mm9.gosub(script, ctx, "Vanish") -- NPC87.scr:41
     end -- NPC87.scr:42
     do return ctx:exit("") end -- NPC87.scr:43
@@ -33,17 +33,17 @@ end
 
 script.labels["Vanish"] = function(ctx)
     -- NPC87.scr:48
-    ctx:command("getmyhandle", "g_hobject") -- NPC87.scr:51
+    ctx:state().g_hobject = ctx:self() -- NPC87.scr:51
     if ctx:condition("bVanish==TRUE") then -- NPC87.scr:53
-        ctx:command("clearflag", "g_hobject, visible") -- NPC87.scr:54
-        ctx:command("clearflag", "g_hobject, solid") -- NPC87.scr:55
-        ctx:command("clearflag", "g_hobject, gravity") -- NPC87.scr:56
+        ctx:self():setFlag("visible", false) -- NPC87.scr:54
+        ctx:self():setFlag("solid", false) -- NPC87.scr:55
+        ctx:self():setFlag("gravity", false) -- NPC87.scr:56
         do return ctx:exit("") end -- NPC87.scr:57
     else -- NPC87.scr:58
-        ctx:command("setflag", "g_hobject, visible") -- NPC87.scr:59
-        ctx:command("setflag", "g_hobject, solid") -- NPC87.scr:60
-        ctx:command("setflag", "g_hobject, gravity") -- NPC87.scr:61
-        ctx:command("loopanim", "Sit 0 DoNothing") -- NPC87.scr:62
+        ctx:self():setFlag("visible", true) -- NPC87.scr:59
+        ctx:self():setFlag("solid", true) -- NPC87.scr:60
+        ctx:self():setFlag("gravity", true) -- NPC87.scr:61
+        ctx:self():loopAnimation("Sit", 0, "DoNothing") -- NPC87.scr:62
         do return ctx:exit("") end -- NPC87.scr:63
     end -- NPC87.scr:64
     do return ctx:exit("") end -- NPC87.scr:66
@@ -71,7 +71,7 @@ script.labels["Gossip"] = function(ctx)
             ctx:giveKey(300) -- NPC87.scr:95
             ctx:giveExp(5000) -- NPC87.scr:96
             ctx:giveGold(5000) -- NPC87.scr:97
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC87.scr:98
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC87.scr:98
             do return ctx:exit("") end -- NPC87.scr:99
         end -- NPC87.scr:100
     end -- NPC87.scr:101
@@ -89,7 +89,7 @@ script.labels["FortStenig"] = function(ctx)
             ctx:giveKey(171) -- NPC87.scr:117
             ctx:giveExp(32000) -- NPC87.scr:118
             ctx:giveGold(7000) -- NPC87.scr:119
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC87.scr:120
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC87.scr:120
             -- gives reward
             do return ctx:exit("") end -- NPC87.scr:124
         end -- NPC87.scr:125
@@ -110,7 +110,7 @@ script.labels["CronaKiga"] = function(ctx)
             ctx:giveKey(170) -- NPC87.scr:150
             ctx:giveExp(52000) -- NPC87.scr:151
             ctx:giveGold(10000) -- NPC87.scr:152
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC87.scr:153
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC87.scr:153
             ctx:takeItem(390) -- NPC87.scr:154
             -- gives reward
             do return ctx:exit("") end -- NPC87.scr:157
@@ -123,7 +123,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC87.scr:172
-    ctx:command("playsound", "voices\\NPC\\NPC_087.wav, Onexit, 100, 240, FALSE, 100") -- NPC87.scr:175
+    ctx:playSound("voices\\NPC\\NPC_087.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC87.scr:175
     mm9.gosub(script, ctx, "OnCheck") -- NPC87.scr:176
     do return ctx:exit("") end -- NPC87.scr:177
 end
@@ -139,7 +139,7 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC87.scr:191
     ctx:addTrigger("Use", "OnUse") -- NPC87.scr:192
-    ctx:command("set", "Jarl, Sigmund") -- NPC87.scr:193
+    ctx:set("Jarl", "Sigmund") -- NPC87.scr:193
     mm9.gosub(script, ctx, "UnitedInit") -- NPC87.scr:194
     mm9.gosub(script, ctx, "Init") -- NPC87.scr:195
     do return ctx:exit("") end -- NPC87.scr:196

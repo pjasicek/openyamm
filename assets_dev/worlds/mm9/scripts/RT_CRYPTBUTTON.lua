@@ -13,20 +13,17 @@ script.includes[#script.includes + 1] = { line = 12, path = "Flags.inc" }
 -- Super simple "Move My World Object" script.
 script.labels["StopHere"] = function(ctx)
     -- RT_CRYPTBUTTON.scr:26
-    ctx:command("playsound", "Sounds\\Weapons\\EQHammerImpact.wav DoNothing 500 2000 FALSE 100") -- RT_CRYPTBUTTON.scr:28
+    ctx:playSound("Sounds\\Weapons\\EQHammerImpact.wav", "DoNothing", 500, 2000, "FALSE", 100) -- RT_CRYPTBUTTON.scr:28
     do return ctx:exit("TRUE") end -- RT_CRYPTBUTTON.scr:30
 end
 
 script.labels["MoveToMarker"] = function(ctx)
     -- RT_CRYPTBUTTON.scr:32
-    ctx:command("getmyhandle", "hMe") -- RT_CRYPTBUTTON.scr:34
-    ctx:command("setflag", "hMe, FLAG_GOTHRUWORLD") -- RT_CRYPTBUTTON.scr:35
-    ctx:command("getobjecthandle", "sDestBrush, hRock") -- RT_CRYPTBUTTON.scr:36
-    ctx:trigger("hRock", "Destroy") -- RT_CRYPTBUTTON.scr:37
+    ctx:self():setFlag("FLAG_GOTHRUWORLD", true) -- RT_CRYPTBUTTON.scr:35
+    ctx:object("sDestBrush"):trigger("Destroy") -- RT_CRYPTBUTTON.scr:36-37
     -- playsound Sounds\Events\boulderroll.wav DoNothing hDummy 1000 TRUE 100
-    ctx:command("getobjecthandle", "sMarker, hMarker") -- RT_CRYPTBUTTON.scr:39
-    ctx:command("getpos", "hMarker, nVarX, nVarY, nVarZ") -- RT_CRYPTBUTTON.scr:40
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 220, StopHere") -- RT_CRYPTBUTTON.scr:41
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("sMarker"):pos() -- RT_CRYPTBUTTON.scr:39-40
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 220, "StopHere") -- RT_CRYPTBUTTON.scr:41
     do return ctx:exit("") end -- RT_CRYPTBUTTON.scr:42
 end
 

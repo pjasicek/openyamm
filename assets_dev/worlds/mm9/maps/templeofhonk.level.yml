@@ -4,6 +4,7 @@ map_id: templeofhonk
 display_name: Temple of Honk
 source:
   dat: ../source/worlds/TEMPLEOFHONK.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/TEMPLEOFHONK.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: templeofhonk.raw_objects.yml
   materials: templeofhonk.material_aliases.yml
   events: templeofhonk.events.yml
-  scene_compat: templeofhonk.scene.yml
+  scene_compat: null
   source_metadata_compat: templeofhonk.mm9.yml
-  bsp_compat: templeofhonk.bsp.yml
-  geometry_compat: templeofhonk.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: templeofhonk.blv
+  blv_compat: null
 scripts:
   level: ../events/templeofhonk.lua
   script_ir: ../events/templeofhonk.script_ir.yml

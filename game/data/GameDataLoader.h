@@ -63,6 +63,7 @@ public:
     bool loadMapById(const Engine::AssetFileSystem &assetFileSystem, int mapId);
     bool loadMapByIdForGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId);
     bool loadMapByIdForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId);
+    bool selectMapMetadataOnlyById(int mapId);
     bool loadMapByFileName(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName);
     bool loadMapByFileNameForGameplay(
         const Engine::AssetFileSystem &assetFileSystem,

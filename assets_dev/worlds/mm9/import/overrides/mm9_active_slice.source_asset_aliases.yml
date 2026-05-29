@@ -50,3 +50,18 @@ aliases:
         - assets_dev/worlds/mm9/source/sounds/WEAPONS/GGLASS.wav
         - assets_dev/worlds/mm9/source/sounds/WEAPONS/CGLASS.wav
       decision: GLASS_SMASH.wav is the only event-style glass break sound in the mirrored source tree.
+  - source_family: textures
+    requested: TEXTURES\ENVIRONMENTMAPS\MountainSky\MTN_Down.dtx
+    resolved: TEXTURES\Skybox\SnowMtns_Down.dtx
+    scope:
+      maps: [thjorgard, thjorgardcity]
+    evidence:
+      dat_world:
+        - assets_dev/worlds/mm9/maps/thjorgard.dat_world.yml
+        - assets_dev/worlds/mm9/maps/thjorgardcity.dat_world.yml
+      source_object: SkyBox0
+      source_tree_absent: assets_dev/worlds/mm9/source/textures/ENVIRONMENTMAPS/MOUNTAINSKY/MTN_DOWN.dtx
+      source_tree_candidate: assets_dev/worlds/mm9/source/textures/SKYBOX/SNOWMTNS_DOWN.dtx
+      decision: The same SkyBox0 source model already references TEXTURES\Skybox\SnowMtns_Down.dtx for the resolved
+        down-facing snow-mountain sky material; MTN_Down is the unresolved environment-map spelling of that active-slice
+        sky face.

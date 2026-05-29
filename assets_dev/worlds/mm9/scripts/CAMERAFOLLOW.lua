@@ -12,9 +12,9 @@ script.includes[#script.includes + 1] = { line = 5, path = "aiglobals.inc" }
 -- Test...
 script.labels["FollowTick"] = function(ctx)
     -- CAMERAFOLLOW.scr:7
-    ctx:command("getvelocity", "g_hObject, g_posX, g_posY, g_posZ") -- CAMERAFOLLOW.scr:8
-    ctx:command("setvelocity", "g_hMyObject, g_posX, g_posY, g_posZ") -- CAMERAFOLLOW.scr:9
-    ctx:command("wait", "0,0.01,FollowTick") -- CAMERAFOLLOW.scr:10
+    ctx:state().g_posX, ctx:state().g_posY, ctx:state().g_posZ = ctx:object("g_hObject"):velocity() -- CAMERAFOLLOW.scr:8
+    ctx:self():setVelocity("g_posX", "g_posY", "g_posZ") -- CAMERAFOLLOW.scr:9
+    ctx:wait(0, 0.01, "FollowTick") -- CAMERAFOLLOW.scr:10
     do return ctx:exit("") end -- CAMERAFOLLOW.scr:11
 end
 
@@ -27,18 +27,18 @@ end
 script.labels["GoCinematic"] = function(ctx)
     -- CAMERAFOLLOW.scr:17
     -- LetterBox TRUE
-    ctx:command("screenfadein", "1") -- CAMERAFOLLOW.scr:19
+    ctx:screenFadeIn(1) -- CAMERAFOLLOW.scr:19
     do return ctx:exit("") end -- CAMERAFOLLOW.scr:20
 end
 
 script.labels["TurnOn"] = function(ctx)
     -- CAMERAFOLLOW.scr:22
     ctx:getParam(0, "g_hObject") -- CAMERAFOLLOW.scr:23
-    ctx:command("target", "g_hObject") -- CAMERAFOLLOW.scr:25
+    ctx:self():setTarget(ctx:object("g_hObject")) -- CAMERAFOLLOW.scr:25
     -- Trigger g_hMyObject,ON
     -- gosub FollowStart
-    ctx:command("screenfadeout", "1") -- CAMERAFOLLOW.scr:30
-    ctx:command("wait", "1,1,GoCinematic") -- CAMERAFOLLOW.scr:31
+    ctx:screenFadeOut(1) -- CAMERAFOLLOW.scr:30
+    ctx:wait(1, 1, "GoCinematic") -- CAMERAFOLLOW.scr:31
     do return ctx:exit("FALSE") end -- CAMERAFOLLOW.scr:33
 end
 
@@ -50,7 +50,6 @@ end
 
 script.labels["Main"] = function(ctx)
     -- CAMERAFOLLOW.scr:39
-    ctx:command("getmyhandle", "g_hMyObject") -- CAMERAFOLLOW.scr:40
     ctx:addTrigger("On", "TurnOn") -- CAMERAFOLLOW.scr:42
     ctx:addTrigger("Off", "TurnOff") -- CAMERAFOLLOW.scr:43
     do return ctx:exit("") end -- CAMERAFOLLOW.scr:45

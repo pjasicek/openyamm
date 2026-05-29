@@ -22,7 +22,7 @@ script.labels["Secrets"] = function(ctx)
     if not ctx:hasKey(247) then -- NPC417.scr:27-28
         if ctx:hasKey(246) then -- NPC417.scr:29-30
             ctx:giveExp(10000) -- NPC417.scr:31
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- NPC417.scr:32
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- NPC417.scr:32
             ctx:giveKey(247) -- NPC417.scr:33
             do return ctx:exit("") end -- NPC417.scr:34
         end -- NPC417.scr:35
@@ -35,7 +35,7 @@ end
 script.labels["OnTrap"] = function(ctx)
     -- NPC417.scr:45
     if ctx:hasKey(243) then -- NPC417.scr:47-48
-        ctx:command("set", "Trap true") -- NPC417.scr:49
+        ctx:state().Trap = true -- NPC417.scr:49
         ctx:giveKey(244) -- NPC417.scr:50
         do return ctx:exit("") end -- NPC417.scr:51
     end -- NPC417.scr:52
@@ -46,7 +46,7 @@ script.labels["OnRemove"] = function(ctx)
     -- NPC417.scr:56
     if ctx:hasKey(243) then -- NPC417.scr:60-61
         ctx:takeKey(244) -- NPC417.scr:62
-        ctx:command("set", "Trap false") -- NPC417.scr:63
+        ctx:state().Trap = false -- NPC417.scr:63
         do return ctx:exit("") end -- NPC417.scr:64
     end -- NPC417.scr:65
     do return ctx:exit("") end -- NPC417.scr:66
@@ -57,7 +57,7 @@ script.labels["OnFinish"] = function(ctx)
     if ctx:hasKey(243) then -- NPC417.scr:71-72
         if ctx:condition("Trap==false") then -- NPC417.scr:73
             ctx:giveKey(245) -- NPC417.scr:74
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- NPC417.scr:75
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- NPC417.scr:75
             do return ctx:exit("") end -- NPC417.scr:76
         end -- NPC417.scr:77
     end -- NPC417.scr:78
@@ -66,7 +66,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC417.scr:82
-    ctx:command("playsound", "voices\\NPC\\NPC_189.wav, DoNothing, 100, 240, FALSE, 100") -- NPC417.scr:85
+    ctx:playSound("voices\\NPC\\NPC_189.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC417.scr:85
     do return ctx:exit("") end -- NPC417.scr:86
 end
 
@@ -97,10 +97,10 @@ script.labels["Main"] = function(ctx)
     -- NPC417.scr:119
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("onpoststartworld", "Init") -- NPC417.scr:125
-    ctx:command("onpostminisaveload", "Init") -- NPC417.scr:126
-    ctx:command("onpostsaveload", "Init2") -- NPC417.scr:127
-    ctx:command("wait", "1 .1 Init") -- NPC417.scr:128
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC417.scr:125
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC417.scr:126
+    ctx:onEvent("OnPostSaveLoad", "Init2") -- NPC417.scr:127
+    ctx:wait(1, .1, "Init") -- NPC417.scr:128
     do return ctx:exit("") end -- NPC417.scr:131
 end
 

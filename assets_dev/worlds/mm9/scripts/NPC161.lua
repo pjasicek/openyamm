@@ -29,7 +29,7 @@ script.labels["ScholarCheck"] = function(ctx)
     if ctx:hasKey(201) then -- NPC161.scr:57-58
         do return ctx:exit("") end -- NPC161.scr:59
     end -- NPC161.scr:60
-    ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC161.scr:62
+    ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC161.scr:62
     if ctx:hasKey(425) then -- NPC161.scr:64-65
         ctx:giveKey(201) -- NPC161.scr:66
     end -- NPC161.scr:67
@@ -50,19 +50,19 @@ script.labels["PromoteScholar"] = function(ctx)
     -- Player has already completed the quest
     -- just check to see who gets promoted
     if ctx:hasKey(425) then -- NPC161.scr:91-92
-        ctx:command("givepromo", "Scholar Char1") -- NPC161.scr:93
+        ctx:givePromo("Scholar", "Char1") -- NPC161.scr:93
         ctx:takeKey(425) -- NPC161.scr:94
     end -- NPC161.scr:95
     if ctx:hasKey(426) then -- NPC161.scr:97-98
-        ctx:command("givepromo", "Scholar Char2") -- NPC161.scr:99
+        ctx:givePromo("Scholar", "Char2") -- NPC161.scr:99
         ctx:takeKey(426) -- NPC161.scr:100
     end -- NPC161.scr:101
     if ctx:hasKey(427) then -- NPC161.scr:103-104
-        ctx:command("givepromo", "Scholar Char3") -- NPC161.scr:105
+        ctx:givePromo("Scholar", "Char3") -- NPC161.scr:105
         ctx:takeKey(427) -- NPC161.scr:106
     end -- NPC161.scr:107
     if ctx:hasKey(428) then -- NPC161.scr:109-110
-        ctx:command("givepromo", "Scholar Char4") -- NPC161.scr:111
+        ctx:givePromo("Scholar", "Char4") -- NPC161.scr:111
         ctx:takeKey(428) -- NPC161.scr:112
     end -- NPC161.scr:113
     do return ctx:exit("") end -- NPC161.scr:114
@@ -78,7 +78,7 @@ script.labels["ToScholar"] = function(ctx)
             ctx:giveKey(205) -- NPC161.scr:127
             ctx:giveExp(24500) -- NPC161.scr:128
             ctx:giveGold(1000) -- NPC161.scr:129
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC161.scr:130
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC161.scr:130
             mm9.gosub(script, ctx, "PromoteScholar") -- NPC161.scr:131
             do return ctx:exit("") end -- NPC161.scr:132
         end -- NPC161.scr:133
@@ -90,7 +90,7 @@ script.labels["ToScholar"] = function(ctx)
             ctx:giveKey(205) -- NPC161.scr:140
             ctx:giveExp(11000) -- NPC161.scr:141
             ctx:giveGold(1000) -- NPC161.scr:142
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC161.scr:143
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC161.scr:143
             mm9.gosub(script, ctx, "PromoteScholar") -- NPC161.scr:144
             do return ctx:exit("") end -- NPC161.scr:145
         end -- NPC161.scr:146

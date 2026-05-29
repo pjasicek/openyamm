@@ -20,8 +20,8 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "LISTNAME") -- BOATJUDGE.scr:22
     ctx:getParam(1, "LISTFIRST") -- BOATJUDGE.scr:23
     ctx:getParam(2, "LISTLAST") -- BOATJUDGE.scr:24
-    ctx:command("getmyhandle", "LISTOBJECT") -- BOATJUDGE.scr:26
-    ctx:command("getobjectname", "LISTOBJECT, sMyName") -- BOATJUDGE.scr:27
+    ctx:state().LISTOBJECT = ctx:self() -- BOATJUDGE.scr:26
+    ctx:state().sMyName = ctx:object("LISTOBJECT"):name() -- BOATJUDGE.scr:27
     ctx:setConsoleStrVar("BOAT_JUDGE", "sMyName") -- BOATJUDGE.scr:28
     ctx:onRudeExit("StartRace", script.labels["StartRace"]) -- BOATJUDGE.scr:30
     ctx:addTrigger("use", "OnUse") -- BOATJUDGE.scr:31
@@ -51,7 +51,7 @@ script.labels["StartRace"] = function(ctx)
     end -- BOATJUDGE.scr:58
     ctx:addTrigger("CPUArrival", "AIWon") -- BOATJUDGE.scr:60
     ctx:addTrigger("PlayerArrival", "PlayerWon") -- BOATJUDGE.scr:61
-    ctx:command("wait", "0, 5, SignalAiBoats") -- BOATJUDGE.scr:63
+    ctx:wait(0, 5, "SignalAiBoats") -- BOATJUDGE.scr:63
     mm9.gosub(script, ctx, "Countdown5") -- BOATJUDGE.scr:64
     do return ctx:exit("TRUE") end -- BOATJUDGE.scr:66
 end
@@ -69,8 +69,8 @@ end
 
 script.labels["DisableWinning"] = function(ctx)
     -- BOATJUDGE.scr:83
-    ctx:command("removetrigger", "CPUArrival") -- BOATJUDGE.scr:85
-    ctx:command("removetrigger", "PlayerArrival") -- BOATJUDGE.scr:86
+    ctx:removeTrigger("CPUArrival") -- BOATJUDGE.scr:85
+    ctx:removeTrigger("PlayerArrival") -- BOATJUDGE.scr:86
     mm9.gosub(script, ctx, "SignalSubmerge") -- BOATJUDGE.scr:88
     do return ctx:exit("TRUE") end -- BOATJUDGE.scr:90
 end
@@ -78,13 +78,13 @@ end
 script.labels["AIWon"] = function(ctx)
     -- BOATJUDGE.scr:93
     mm9.gosub(script, ctx, "DisableWinning") -- BOATJUDGE.scr:95
-    ctx:command("rollovertext", "TEXT_DEFEAT, 1, 3000, 2000") -- BOATJUDGE.scr:97
+    ctx:rolloverText("TEXT_DEFEAT", 1, 3000, 2000) -- BOATJUDGE.scr:97
     do return ctx:exit("TRUE") end -- BOATJUDGE.scr:99
 end
 
 script.labels["PlayerWon"] = function(ctx)
     -- BOATJUDGE.scr:102
-    ctx:command("playsound", "\"sounds\\events\\trumpets02.wav\", DoNothing, 1, 5000, FALSE, 100") -- BOATJUDGE.scr:104
+    ctx:playSound("sounds\\events\\trumpets02.wav", "DoNothing", 1, 5000, "FALSE", 100) -- BOATJUDGE.scr:104
     mm9.gosub(script, ctx, "DisableWinning") -- BOATJUDGE.scr:106
     mm9.gosub(script, ctx, "RecordBoatWin") -- BOATJUDGE.scr:107
     do return ctx:exit("TRUE") end -- BOATJUDGE.scr:109

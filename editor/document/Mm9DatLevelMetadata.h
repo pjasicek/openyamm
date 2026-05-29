@@ -18,6 +18,7 @@ namespace OpenYAMM::Editor
 struct EditorMm9DatLevelSource
 {
     std::string dat;
+    std::string manifest;
     std::string originalDat;
     std::string sourceGame;
     int datVersion = 0;
@@ -271,6 +272,10 @@ struct EditorMm9MaterialTexture
     std::string physicalPath;
     std::string emittedBitmap;
     std::string emittedBitmapMode;
+    bool aliasFieldPresent = false;
+    bool sourceTextureFieldPresent = false;
+    bool emittedBitmapFieldPresent = false;
+    bool emittedBitmapModeFieldPresent = false;
     int width = 0;
     int height = 0;
     int dtxSurfaceFlag = 0;
@@ -356,6 +361,8 @@ struct EditorMm9MaterialTextureStatus
     std::string resolvedCachePath;
     std::string cacheSha256;
     std::string emittedBitmapMode;
+    std::string resolutionSource;
+    std::string aliasTargetKey;
     std::vector<std::string> sourceDtxCandidates;
     std::vector<std::string> sourceSpriteCandidates;
     std::vector<std::string> spriteFrameTextureRefs;
@@ -365,6 +372,8 @@ struct EditorMm9MaterialTextureStatus
     uintmax_t sourceDtxSizeBytes = 0;
     uintmax_t cacheSizeBytes = 0;
     size_t datReferenceCount = 0;
+    size_t defaultRenderableDatReferenceCount = 0;
+    size_t helperOnlyDatReferenceCount = 0;
     size_t materialAliasCountForSource = 0;
     size_t sourceDtxCandidateCount = 0;
     size_t sourceSpriteCandidateCount = 0;
@@ -373,6 +382,13 @@ struct EditorMm9MaterialTextureStatus
     size_t unresolvedSpriteFrameTextureCount = 0;
     size_t ambiguousSpriteFrameTextureCount = 0;
     bool placeholderMissingSource = false;
+    bool defaultHelperMaterial = false;
+    bool aliasApplied = false;
+    bool materialAliasEntry = false;
+    bool aliasFieldPresent = false;
+    bool sourceTextureFieldPresent = false;
+    bool emittedBitmapFieldPresent = false;
+    bool emittedBitmapModeFieldPresent = false;
     bool sourceDtxResolved = false;
     bool sourceDtxAmbiguous = false;
     bool sourceSpriteResolved = false;
@@ -386,8 +402,13 @@ struct EditorMm9MaterialTextureStatus
     bool cacheFreshnessKnown = false;
     bool cacheNewerThanSource = false;
     bool cacheOlderThanSource = false;
+    bool cacheDeterminismChecked = false;
+    bool sourceDtxDecodedForCache = false;
+    bool cacheImageDecoded = false;
+    bool cacheMatchesDecodedSource = false;
     bool dtxHeaderLoaded = false;
     bool dtxHeaderMatchesSidecar = false;
+    std::string cacheDeterminismMessage;
     std::optional<EditorMm9DtxHeader> dtxHeader;
 };
 
@@ -464,6 +485,7 @@ struct EditorMm9RawObjectAssetReferenceStatus
     bool resolved = false;
     bool ambiguous = false;
     bool aliasApplied = false;
+    bool builtinReference = false;
 };
 
 struct EditorMm9AssetDependencyFamilySummary
@@ -482,6 +504,8 @@ struct EditorMm9AssetDependencyFamilySummary
     size_t optionalResolved = 0;
     size_t optionalUnresolved = 0;
     size_t optionalAmbiguous = 0;
+    size_t sourceOnly = 0;
+    size_t unusedSource = 0;
 };
 
 struct EditorMm9AssetDependencySummary
@@ -499,7 +523,17 @@ struct EditorMm9AssetDependencySummary
     size_t optionalResolved = 0;
     size_t optionalUnresolved = 0;
     size_t optionalAmbiguous = 0;
+    size_t sourceOnly = 0;
+    size_t unusedSource = 0;
     std::vector<EditorMm9AssetDependencyFamilySummary> families;
+};
+
+struct EditorMm9ScriptIncludeResolutionSummary
+{
+    size_t references = 0;
+    size_t resolved = 0;
+    size_t unresolved = 0;
+    size_t ambiguous = 0;
 };
 
 struct EditorMm9DocumentPathStatus
@@ -606,6 +640,10 @@ std::filesystem::path resolveMm9DatLevelRelativePath(
 
 std::filesystem::path resolveMm9SourceAssetManifestPath(const std::filesystem::path &levelPhysicalPath);
 
+std::filesystem::path resolveMm9SourceAssetManifestPath(
+    const std::filesystem::path &levelPhysicalPath,
+    const EditorMm9DatLevelMetadata &metadata);
+
 std::vector<std::string> validateMm9DatLevelMetadataFiles(
     const std::filesystem::path &levelPhysicalPath,
     const EditorMm9DatLevelMetadata &metadata);
@@ -620,7 +658,8 @@ std::vector<EditorMm9MaterialTextureStatus> inspectMm9MaterialTextureReferences(
     const std::filesystem::path &levelPhysicalPath,
     const EditorMm9DatWorldSidecar &datWorld,
     const EditorMm9MaterialAliasesSidecar &materialAliases,
-    EditorMm9MaterialInspectionCache *pCache = nullptr);
+    EditorMm9MaterialInspectionCache *pCache = nullptr,
+    const EditorMm9DatLevelMetadata *pMetadata = nullptr);
 
 std::vector<std::string> validateMm9MaterialTextureReferences(
     const std::vector<EditorMm9MaterialTextureStatus> &statuses);
@@ -643,7 +682,8 @@ EditorMm9AssetDependencySummary summarizeMm9AssetDependencies(
     const std::filesystem::path &levelPhysicalPath,
     const EditorMm9DatLevelMetadata &metadata,
     const std::vector<EditorMm9MaterialTextureStatus> &materialStatuses,
-    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectAssetStatuses);
+    const std::vector<EditorMm9RawObjectAssetReferenceStatus> &rawObjectAssetStatuses,
+    const std::vector<EditorMm9SourceAssetFamilyStatus> &sourceFamilyStatuses = {});
 
 std::vector<EditorMm9DocumentPathStatus> inspectMm9DatLevelDocumentPaths(
     const std::filesystem::path &levelPhysicalPath,
@@ -662,6 +702,10 @@ std::vector<std::string> validateMm9EventsReferences(
     const EditorMm9DatLevelMetadata &metadata,
     const EditorMm9DatWorldSidecar &datWorld,
     const EditorMm9RawObjectsSidecar &rawObjects,
+    const Game::Mm9EventsData &events);
+
+EditorMm9ScriptIncludeResolutionSummary summarizeMm9EventScriptIncludeResolution(
+    const std::filesystem::path &levelPhysicalPath,
     const Game::Mm9EventsData &events);
 
 std::vector<EditorMm9SourceAssetFamilyStatus> inspectMm9SourceAssetManifestFiles(

@@ -17,25 +17,25 @@ end
 
 script.labels["MoveDownDone"] = function(ctx)
     -- BLADETRAP.scr:19
-    ctx:command("movedir", "-1,0,0,500,48, TrapDone") -- BLADETRAP.scr:22
+    ctx:self():moveDir(-1, 0, 0, 500, 48, "TrapDone") -- BLADETRAP.scr:22
     do return ctx:exit("") end -- BLADETRAP.scr:24
 end
 
 script.labels["MoveLeftDone"] = function(ctx)
     -- BLADETRAP.scr:27
-    ctx:command("movedir", "0,-1,0,10,48, MoveDownDone") -- BLADETRAP.scr:29
+    ctx:self():moveDir(0, -1, 0, 10, 48, "MoveDownDone") -- BLADETRAP.scr:29
     do return ctx:exit("") end -- BLADETRAP.scr:31
 end
 
 script.labels["MoveUpDone"] = function(ctx)
     -- BLADETRAP.scr:34
-    ctx:command("movedir", "1,0,0,500,48, MoveLeftDone") -- BLADETRAP.scr:37
+    ctx:self():moveDir(1, 0, 0, 500, 48, "MoveLeftDone") -- BLADETRAP.scr:37
     do return ctx:exit("") end -- BLADETRAP.scr:38
 end
 
 script.labels["TurnOn"] = function(ctx)
     -- BLADETRAP.scr:41
-    ctx:command("movedir", "0,1,0,10,48, MoveUpDone") -- BLADETRAP.scr:44
+    ctx:self():moveDir(0, 1, 0, 10, 48, "MoveUpDone") -- BLADETRAP.scr:44
     do return ctx:exit("FALSE") end -- BLADETRAP.scr:46
 end
 
@@ -47,7 +47,7 @@ end
 
 script.labels["Main"] = function(ctx)
     -- BLADETRAP.scr:57
-    ctx:command("getmyhandle", "hMyHandle") -- BLADETRAP.scr:60
+    ctx:state().hMyHandle = ctx:self() -- BLADETRAP.scr:60
     ctx:addTrigger("Test", "OnTest") -- BLADETRAP.scr:62
     ctx:addTrigger("ON", "TurnOn") -- BLADETRAP.scr:63
     -- TraceOn

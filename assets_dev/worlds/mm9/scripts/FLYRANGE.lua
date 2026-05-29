@@ -14,7 +14,7 @@ script.includes[#script.includes + 1] = { line = 11, path = "FlyRange.inc" }
 -- shoot!
 script.labels["Init"] = function(ctx)
     -- FLYRANGE.scr:14
-    ctx:command("setidle", "") -- FLYRANGE.scr:17
+    ctx:self():setIdle() -- FLYRANGE.scr:17
     do return ctx:exit("") end -- FLYRANGE.scr:19
 end
 
@@ -23,7 +23,7 @@ script.labels["Main"] = function(ctx)
     -- This routine is automatically run
     -- at script startup...
     mm9.gosub(script, ctx, "FlyRangeInit") -- FLYRANGE.scr:27
-    ctx:command("wait", "30, 0.1, Init") -- FLYRANGE.scr:29
+    ctx:wait(30, 0.1, "Init") -- FLYRANGE.scr:29
     do return ctx:exit("") end -- FLYRANGE.scr:31
 end
 

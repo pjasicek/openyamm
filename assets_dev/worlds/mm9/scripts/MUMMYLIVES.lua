@@ -14,15 +14,15 @@ script.includes[#script.includes + 1] = { line = 8, path = "globals.inc" }
 -- flag variables
 script.labels["OnFoundTarget"] = function(ctx)
     -- MUMMYLIVES.scr:21
-    ctx:command("runscript", "basemelee.scr") -- MUMMYLIVES.scr:24
-    ctx:command("exitscript", "") -- MUMMYLIVES.scr:25
+    ctx:runScript("basemelee.scr") -- MUMMYLIVES.scr:24
+    ctx:exitScript() -- MUMMYLIVES.scr:25
     do return ctx:exit("") end -- MUMMYLIVES.scr:26
 end
 
 script.labels["Init"] = function(ctx)
     -- MUMMYLIVES.scr:29
-    ctx:command("loopanim", "coffin 0 DoNothing") -- MUMMYLIVES.scr:32
-    ctx:command("onfoundtarget", "OnFoundTarget") -- MUMMYLIVES.scr:33
+    ctx:self():loopAnimation("coffin", 0, "DoNothing") -- MUMMYLIVES.scr:32
+    ctx:onEvent("OnFoundTarget", "OnFoundTarget") -- MUMMYLIVES.scr:33
     do return ctx:exit("") end -- MUMMYLIVES.scr:34
 end
 
@@ -31,7 +31,7 @@ script.labels["Main"] = function(ctx)
     -- traceon ;Delete
     ctx:getParam(0, "nRange") -- MUMMYLIVES.scr:42
     if ctx:condition("nRange==NULL") then -- MUMMYLIVES.scr:43
-        ctx:command("set", "nRange, 1024") -- MUMMYLIVES.scr:44
+        ctx:state().nRange = 1024 -- MUMMYLIVES.scr:44
     end -- MUMMYLIVES.scr:46
     -- wait 1 1 Init
     do return ctx:exit("") end -- MUMMYLIVES.scr:48

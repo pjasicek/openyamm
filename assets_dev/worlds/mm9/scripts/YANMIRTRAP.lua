@@ -24,16 +24,16 @@ end
 
 script.labels["CheckCount"] = function(ctx)
     -- YANMIRTRAP.scr:29
-    ctx:command("ncounter", "= nCounter + 1") -- YANMIRTRAP.scr:31
+    ctx:set("nCounter", "nCounter + 1") -- YANMIRTRAP.scr:31
     if ctx:condition("nCounter>=6") then -- YANMIRTRAP.scr:32
-        ctx:command("removetrigger", "SupportBroken") -- YANMIRTRAP.scr:33
-        ctx:command("getobjecthandle", "sTitanTrapName, hTitanTrap") -- YANMIRTRAP.scr:35
+        ctx:removeTrigger("SupportBroken") -- YANMIRTRAP.scr:33
+        ctx:state().hTitanTrap = ctx:objectOrNil("sTitanTrapName") -- YANMIRTRAP.scr:35
         if ctx:condition("hTitanTrap!=0") then -- YANMIRTRAP.scr:36
             ctx:trigger("hTitanTrap", "on") -- YANMIRTRAP.scr:37
         end -- YANMIRTRAP.scr:38
     end -- YANMIRTRAP.scr:39
-    ctx:command("onpostminisaveload", "Init") -- YANMIRTRAP.scr:41
-    ctx:command("onpostsaveload", "Init") -- YANMIRTRAP.scr:42
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- YANMIRTRAP.scr:41
+    ctx:onEvent("OnPostSaveLoad", "Init") -- YANMIRTRAP.scr:42
     mm9.gosub(script, ctx, "Init") -- YANMIRTRAP.scr:43
     do return ctx:exit(1) end -- YANMIRTRAP.scr:45
 end
@@ -41,41 +41,40 @@ end
 script.labels["Init"] = function(ctx)
     -- YANMIRTRAP.scr:49
     -- Bones
-    ctx:command("getobjecthandle", "DestructableBrush0 hTitanTrap") -- YANMIRTRAP.scr:53
+    ctx:state().hTitanTrap = ctx:objectOrNil("DestructableBrush0") -- YANMIRTRAP.scr:53
     if ctx:condition("hTitanTrap == 0") then -- YANMIRTRAP.scr:54
-        ctx:command("getobjecthandle", "PerceptionBrush2 hTitanTrap") -- YANMIRTRAP.scr:55
-        ctx:command("removeobject", "hTitanTrap") -- YANMIRTRAP.scr:56
+        ctx:state().hTitanTrap = ctx:objectOrNil("PerceptionBrush2") -- YANMIRTRAP.scr:55
+        ctx:object("hTitanTrap"):remove() -- YANMIRTRAP.scr:56
     end -- YANMIRTRAP.scr:57
-    ctx:command("getobjecthandle", "DestructableBrush1 hTitanTrap") -- YANMIRTRAP.scr:59
+    ctx:state().hTitanTrap = ctx:objectOrNil("DestructableBrush1") -- YANMIRTRAP.scr:59
     if ctx:condition("hTitanTrap == 0") then -- YANMIRTRAP.scr:60
-        ctx:command("getobjecthandle", "PerceptionBrush5 hTitanTrap") -- YANMIRTRAP.scr:61
-        ctx:command("removeobject", "hTitanTrap") -- YANMIRTRAP.scr:62
+        ctx:state().hTitanTrap = ctx:objectOrNil("PerceptionBrush5") -- YANMIRTRAP.scr:61
+        ctx:object("hTitanTrap"):remove() -- YANMIRTRAP.scr:62
     end -- YANMIRTRAP.scr:63
-    ctx:command("getobjecthandle", "DestructableBrush2 hTitanTrap") -- YANMIRTRAP.scr:65
+    ctx:state().hTitanTrap = ctx:objectOrNil("DestructableBrush2") -- YANMIRTRAP.scr:65
     if ctx:condition("hTitanTrap == 0") then -- YANMIRTRAP.scr:66
-        ctx:command("getobjecthandle", "PerceptionBrush3 hTitanTrap") -- YANMIRTRAP.scr:67
-        ctx:command("removeobject", "hTitanTrap") -- YANMIRTRAP.scr:68
+        ctx:state().hTitanTrap = ctx:objectOrNil("PerceptionBrush3") -- YANMIRTRAP.scr:67
+        ctx:object("hTitanTrap"):remove() -- YANMIRTRAP.scr:68
     end -- YANMIRTRAP.scr:69
-    ctx:command("getobjecthandle", "DestructableBrush3 hTitanTrap") -- YANMIRTRAP.scr:71
+    ctx:state().hTitanTrap = ctx:objectOrNil("DestructableBrush3") -- YANMIRTRAP.scr:71
     if ctx:condition("hTitanTrap == 0") then -- YANMIRTRAP.scr:72
-        ctx:command("getobjecthandle", "PerceptionBrush6 hTitanTrap") -- YANMIRTRAP.scr:73
-        ctx:command("removeobject", "hTitanTrap") -- YANMIRTRAP.scr:74
+        ctx:state().hTitanTrap = ctx:objectOrNil("PerceptionBrush6") -- YANMIRTRAP.scr:73
+        ctx:object("hTitanTrap"):remove() -- YANMIRTRAP.scr:74
     end -- YANMIRTRAP.scr:75
-    ctx:command("getobjecthandle", "DestructableBrush4 hTitanTrap") -- YANMIRTRAP.scr:77
+    ctx:state().hTitanTrap = ctx:objectOrNil("DestructableBrush4") -- YANMIRTRAP.scr:77
     if ctx:condition("hTitanTrap == 0") then -- YANMIRTRAP.scr:78
-        ctx:command("getobjecthandle", "PerceptionBrush4 hTitanTrap") -- YANMIRTRAP.scr:79
-        ctx:command("removeobject", "hTitanTrap") -- YANMIRTRAP.scr:80
+        ctx:state().hTitanTrap = ctx:objectOrNil("PerceptionBrush4") -- YANMIRTRAP.scr:79
+        ctx:object("hTitanTrap"):remove() -- YANMIRTRAP.scr:80
     end -- YANMIRTRAP.scr:81
-    ctx:command("getobjecthandle", "DestructableBrush5 hTitanTrap") -- YANMIRTRAP.scr:83
+    ctx:state().hTitanTrap = ctx:objectOrNil("DestructableBrush5") -- YANMIRTRAP.scr:83
     if ctx:condition("hTitanTrap == 0") then -- YANMIRTRAP.scr:84
-        ctx:command("getobjecthandle", "PerceptionBrush7 hTitanTrap") -- YANMIRTRAP.scr:85
-        ctx:command("removeobject", "hTitanTrap") -- YANMIRTRAP.scr:86
+        ctx:state().hTitanTrap = ctx:objectOrNil("PerceptionBrush7") -- YANMIRTRAP.scr:85
+        ctx:object("hTitanTrap"):remove() -- YANMIRTRAP.scr:86
     end -- YANMIRTRAP.scr:87
     if ctx:condition("nCounter < 6") then -- YANMIRTRAP.scr:89
         do return ctx:exit("") end -- YANMIRTRAP.scr:90
     end -- YANMIRTRAP.scr:91
-    ctx:command("getobjecthandle", "sTitanTrapName hTitanTrap") -- YANMIRTRAP.scr:93
-    ctx:trigger("hTitanTrap", "on") -- YANMIRTRAP.scr:94
+    ctx:object("sTitanTrapName"):trigger("on") -- YANMIRTRAP.scr:93-94
     do return ctx:exit("") end -- YANMIRTRAP.scr:96
 end
 

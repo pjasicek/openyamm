@@ -19,7 +19,7 @@ script.labels["OnUse"] = function(ctx)
     if ctx:condition("nLinked==FALSE") then -- PROPTRIGGER.scr:27
         do return ctx:exit("") end -- PROPTRIGGER.scr:28
     end -- PROPTRIGGER.scr:29
-    ctx:command("getobjecthandle", "Target g_hobject") -- PROPTRIGGER.scr:31
+    ctx:state().g_hobject = ctx:objectOrNil("Target") -- PROPTRIGGER.scr:31
     if ctx:condition("g_hobject!=null") then -- PROPTRIGGER.scr:32
         ctx:trigger("g_hobject", "message") -- PROPTRIGGER.scr:33
         do return ctx:exit("") end -- PROPTRIGGER.scr:34
@@ -29,11 +29,11 @@ end
 
 script.labels["Init"] = function(ctx)
     -- PROPTRIGGER.scr:39
-    ctx:command("getobjecthandle", "Target g_hobject") -- PROPTRIGGER.scr:42
+    ctx:state().g_hobject = ctx:objectOrNil("Target") -- PROPTRIGGER.scr:42
     if ctx:condition("g_hobject!=NULL") then -- PROPTRIGGER.scr:43
-        ctx:command("createobjectlink", "g_hobject") -- PROPTRIGGER.scr:44
-        ctx:command("onobjectlinkbroken", "BreakLink") -- PROPTRIGGER.scr:45
-        ctx:command("set", "nLinked, TRUE") -- PROPTRIGGER.scr:46
+        ctx:self():link(ctx:object("g_hobject")) -- PROPTRIGGER.scr:44
+        ctx:onEvent("OnObjectLinkBroken", "BreakLink") -- PROPTRIGGER.scr:45
+        ctx:state().nLinked = true -- PROPTRIGGER.scr:46
         do return ctx:exit("") end -- PROPTRIGGER.scr:47
     end -- PROPTRIGGER.scr:48
     do return ctx:exit("") end -- PROPTRIGGER.scr:49
@@ -41,7 +41,7 @@ end
 
 script.labels["BreakLink"] = function(ctx)
     -- PROPTRIGGER.scr:52
-    ctx:command("set", "nLinked, FALSE") -- PROPTRIGGER.scr:55
+    ctx:state().nLinked = false -- PROPTRIGGER.scr:55
     do return ctx:exit("") end -- PROPTRIGGER.scr:56
 end
 
@@ -50,13 +50,13 @@ script.labels["Main"] = function(ctx)
     -- traceon
     -- Don't Forget to Delete this!
     ctx:addTrigger("Use", "OnUse") -- PROPTRIGGER.scr:64
-    ctx:command("ontouchnotify", "OnUse") -- PROPTRIGGER.scr:65
+    ctx:onEvent("OnTouchNotify", "OnUse") -- PROPTRIGGER.scr:65
     ctx:getParam(0, "Target") -- PROPTRIGGER.scr:66
     ctx:getParam(1, "Message") -- PROPTRIGGER.scr:67
-    ctx:command("onpoststartworld", "Init") -- PROPTRIGGER.scr:68
-    ctx:command("onpostminisaveload", "Init") -- PROPTRIGGER.scr:69
-    ctx:command("onpostsaveload", "Init") -- PROPTRIGGER.scr:70
-    ctx:command("wait", "1 .1 Init") -- PROPTRIGGER.scr:71
+    ctx:onEvent("OnPostStartWorld", "Init") -- PROPTRIGGER.scr:68
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- PROPTRIGGER.scr:69
+    ctx:onEvent("OnPostSaveLoad", "Init") -- PROPTRIGGER.scr:70
+    ctx:wait(1, .1, "Init") -- PROPTRIGGER.scr:71
     do return ctx:exit("") end -- PROPTRIGGER.scr:72
 end
 

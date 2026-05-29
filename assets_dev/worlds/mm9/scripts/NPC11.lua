@@ -16,7 +16,7 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 -- P2  # of times animation runs
 script.labels["Off"] = function(ctx)
     -- NPC11.scr:18
-    ctx:command("debugout", "Done!!") -- NPC11.scr:22
+    ctx:debugOut("Done!!") -- NPC11.scr:22
     do return ctx:exit("") end -- NPC11.scr:23
 end
 
@@ -26,14 +26,14 @@ script.labels["OnUse"] = function(ctx)
     if ctx:hasItem(399) then -- NPC11.scr:31-32
         ctx:giveKey(1023) -- NPC11.scr:33
     end -- NPC11.scr:34
-    ctx:command("playsound", "sound, DoNothing, 100, 240, FALSE, 100") -- NPC11.scr:35
+    ctx:playSound("sound", "DoNothing", 100, 240, "FALSE", 100) -- NPC11.scr:35
     do return ctx:exit("") end -- NPC11.scr:36
 end
 
 script.labels["OnStart"] = function(ctx)
     -- NPC11.scr:39
-    ctx:command("getobjecthandle", "CommonerDwarfMaleB4 g_hobject") -- NPC11.scr:42
-    ctx:command("faceobject", "g_hobject 200 DoNothing") -- NPC11.scr:43
+    ctx:state().g_hobject = ctx:objectOrNil("CommonerDwarfMaleB4") -- NPC11.scr:42
+    ctx:self():faceObject(ctx:object("g_hobject"), 200, "DoNothing") -- NPC11.scr:43
     -- LoopAnim conv1, 0 Donothing
     do return ctx:exit("") end -- NPC11.scr:45
 end
@@ -54,7 +54,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "sound") -- NPC11.scr:64
     ctx:getParam(1, "Params") -- NPC11.scr:65
     ctx:getParam(2, "g_ntemp") -- NPC11.scr:66
-    ctx:command("loopanim", "Params,g_ntemp Off") -- NPC11.scr:67
+    ctx:self():loopAnimation("Params", "g_ntemp", "Off") -- NPC11.scr:67
     do return ctx:exit("") end -- NPC11.scr:68
 end
 

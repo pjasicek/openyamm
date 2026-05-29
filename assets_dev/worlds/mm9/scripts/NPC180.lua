@@ -21,17 +21,17 @@ script.includes[#script.includes + 1] = { line = 12, path = "United.inc" }
 -- flag variables
 script.labels["Init"] = function(ctx)
     -- NPC180.scr:30
-    ctx:command("loopanim", "Sit 0 DoNothing") -- NPC180.scr:32
+    ctx:self():loopAnimation("Sit", 0, "DoNothing") -- NPC180.scr:32
     if ctx:hasKey(104) then -- NPC180.scr:35-36
-        ctx:command("set", "bVanish TRUE") -- NPC180.scr:37
+        ctx:state().bVanish = true -- NPC180.scr:37
         mm9.gosub(script, ctx, "vanish") -- NPC180.scr:38
     end -- NPC180.scr:39
     if ctx:hasKey(40) then -- NPC180.scr:42-43
-        ctx:command("set", "bVanish TRUE") -- NPC180.scr:44
+        ctx:state().bVanish = true -- NPC180.scr:44
         mm9.gosub(script, ctx, "vanish") -- NPC180.scr:45
     end -- NPC180.scr:46
     if ctx:hasKey(108) then -- NPC180.scr:48-49
-        ctx:command("set", "bVanish False") -- NPC180.scr:50
+        ctx:state().bVanish = false -- NPC180.scr:50
         mm9.gosub(script, ctx, "Vanish") -- NPC180.scr:51
     end -- NPC180.scr:52
     do return ctx:exit("") end -- NPC180.scr:53
@@ -39,16 +39,16 @@ end
 
 script.labels["Vanish"] = function(ctx)
     -- NPC180.scr:58
-    ctx:command("getmyhandle", "g_hobject") -- NPC180.scr:61
+    ctx:state().g_hobject = ctx:self() -- NPC180.scr:61
     if ctx:condition("bVanish==TRUE") then -- NPC180.scr:63
-        ctx:command("clearflag", "g_hobject, visible") -- NPC180.scr:64
-        ctx:command("clearflag", "g_hobject, solid") -- NPC180.scr:65
-        ctx:command("clearflag", "g_hobject, gravity") -- NPC180.scr:66
+        ctx:self():setFlag("visible", false) -- NPC180.scr:64
+        ctx:self():setFlag("solid", false) -- NPC180.scr:65
+        ctx:self():setFlag("gravity", false) -- NPC180.scr:66
         do return ctx:exit("") end -- NPC180.scr:67
     else -- NPC180.scr:68
-        ctx:command("setflag", "g_hobject, visible") -- NPC180.scr:69
-        ctx:command("setflag", "g_hobject, solid") -- NPC180.scr:70
-        ctx:command("setflag", "g_hobject, gravity") -- NPC180.scr:71
+        ctx:self():setFlag("visible", true) -- NPC180.scr:69
+        ctx:self():setFlag("solid", true) -- NPC180.scr:70
+        ctx:self():setFlag("gravity", true) -- NPC180.scr:71
         do return ctx:exit("") end -- NPC180.scr:72
     end -- NPC180.scr:73
     do return ctx:exit("") end -- NPC180.scr:75
@@ -73,7 +73,7 @@ script.labels["Yanmir"] = function(ctx)
             ctx:giveKey(172) -- NPC180.scr:100
             ctx:giveExp(58000) -- NPC180.scr:101
             ctx:giveGold(10000) -- NPC180.scr:102
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC180.scr:103
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC180.scr:103
             -- gives reward
             do return ctx:exit("") end -- NPC180.scr:106
         end -- NPC180.scr:107
@@ -94,7 +94,7 @@ script.labels["Breakice"] = function(ctx)
             ctx:giveKey(175) -- NPC180.scr:133
             ctx:giveExp(30000) -- NPC180.scr:134
             ctx:giveGold(3000) -- NPC180.scr:135
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC180.scr:136
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC180.scr:136
             -- gives reward
             do return ctx:exit("") end -- NPC180.scr:139
         end -- NPC180.scr:140
@@ -106,7 +106,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC180.scr:153
-    ctx:command("playsound", "voices\\NPC\\NPC_180.wav, Onexit, 100, 240, FALSE, 100") -- NPC180.scr:159
+    ctx:playSound("voices\\NPC\\NPC_180.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC180.scr:159
     mm9.gosub(script, ctx, "Oncheck") -- NPC180.scr:160
     do return ctx:exit("") end -- NPC180.scr:162
 end
@@ -122,7 +122,7 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC180.scr:178
     ctx:addTrigger("Use", "OnUse") -- NPC180.scr:179
-    ctx:command("set", "Jarl, Tryygva") -- NPC180.scr:180
+    ctx:set("Jarl", "Tryygva") -- NPC180.scr:180
     mm9.gosub(script, ctx, "UnitedInit") -- NPC180.scr:181
     mm9.gosub(script, ctx, "Init") -- NPC180.scr:182
     do return ctx:exit("") end -- NPC180.scr:183

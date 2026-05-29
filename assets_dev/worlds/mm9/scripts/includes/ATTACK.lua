@@ -18,20 +18,20 @@ script.labels["InitAttack"] = function(ctx)
     if ctx:condition("g_hTarget == NULL") then -- ATTACK.inc:23
         do return ctx:exit("FALSE") end -- ATTACK.inc:24
     end -- ATTACK.inc:25
-    ctx:command("isattacking", "g_bAttacking") -- ATTACK.inc:27
+    ctx:state().g_bAttacking = ctx:self():isAttacking() -- ATTACK.inc:27
     if ctx:condition("g_bAttacking==TRUE") then -- ATTACK.inc:29
         do return ctx:exit("TRUE") end -- ATTACK.inc:30
     end -- ATTACK.inc:31
-    ctx:command("istargetinrange", "g_bInAttackRange") -- ATTACK.inc:33
+    ctx:state().g_bInAttackRange = ctx:self():isTargetInRange() -- ATTACK.inc:33
     if ctx:condition("g_bInAttackRange==TRUE") then -- ATTACK.inc:35
-        ctx:command("canattack", "g_bCanAttack") -- ATTACK.inc:36
+        ctx:state().g_bCanAttack = ctx:self():canAttack() -- ATTACK.inc:36
         if ctx:condition("g_bCanAttack==TRUE") then -- ATTACK.inc:38
             mm9.gosub(script, ctx, "AttackReady") -- ATTACK.inc:39
         end -- ATTACK.inc:40
         do return ctx:exit("TRUE") end -- ATTACK.inc:42
     end -- ATTACK.inc:43
     -- if ( g_bFighting==TRUE )
-    ctx:command("runto", "g_hTarget") -- ATTACK.inc:46
+    ctx:self():runTo(ctx:object("g_hTarget")) -- ATTACK.inc:46
     -- else
     -- WalkTo g_hTarget
     -- endif
@@ -43,9 +43,9 @@ script.labels["AttackReady"] = function(ctx)
     -- We are now in attack range (for our
     -- currently selected weapon) and ready
     -- to attack.  So let's do it!
-    ctx:command("set", "g_bFighting, TRUE") -- ATTACK.inc:61
-    ctx:command("gettime", "g_nLastAttackTime") -- ATTACK.inc:63
-    ctx:command("attack", "") -- ATTACK.inc:65
+    ctx:state().g_bFighting = true -- ATTACK.inc:61
+    ctx:getTime("g_nLastAttackTime") -- ATTACK.inc:63
+    ctx:self():attack() -- ATTACK.inc:65
     do return ctx:exit("") end -- ATTACK.inc:67
 end
 
@@ -53,8 +53,8 @@ script.labels["HandleTargetOutOfRange"] = function(ctx)
     -- ATTACK.inc:70
     -- Target moved out of our weapon range.
     -- Go after him!
-    ctx:command("canattack", "g_bCanAttack") -- ATTACK.inc:77
-    ctx:command("isattacking", "g_bAttacking") -- ATTACK.inc:78
+    ctx:state().g_bCanAttack = ctx:self():canAttack() -- ATTACK.inc:77
+    ctx:state().g_bAttacking = ctx:self():isAttacking() -- ATTACK.inc:78
     -- if ( g_bAttacking==TRUE )
     -- Wait 0.5, OutOfRangeWait
     -- endif
@@ -69,10 +69,10 @@ end
 script.labels["HandleLostTarget"] = function(ctx)
     -- ATTACK.inc:93
     -- We've lost the target, so let's go idle.
-    ctx:command("set", "g_hTarget, NULL") -- ATTACK.inc:98
-    ctx:command("set", "g_bFighting, FALSE") -- ATTACK.inc:99
-    ctx:command("target", "NULL") -- ATTACK.inc:100
-    ctx:command("setidle", "") -- ATTACK.inc:103
+    ctx:state().g_hTarget = nil -- ATTACK.inc:98
+    ctx:state().g_bFighting = false -- ATTACK.inc:99
+    ctx:self():setTarget(nil) -- ATTACK.inc:100
+    ctx:self():setIdle() -- ATTACK.inc:103
     do return ctx:exit("") end -- ATTACK.inc:105
 end
 
@@ -84,15 +84,15 @@ script.labels["OutOfRangeWait"] = function(ctx)
     if ctx:condition("g_hTarget==NULL") then -- ATTACK.inc:116
         do return ctx:exit("TRUE") end -- ATTACK.inc:117
     end -- ATTACK.inc:118
-    ctx:command("isattacking", "g_bAttacking") -- ATTACK.inc:120
+    ctx:state().g_bAttacking = ctx:self():isAttacking() -- ATTACK.inc:120
     if ctx:condition("g_bAttacking==TRUE") then -- ATTACK.inc:122
-        ctx:command("wait", "0.5, OutOfRangeWait") -- ATTACK.inc:123
+        ctx:wait(0.5, 0.5, "OutOfRangeWait") -- ATTACK.inc:123
         do return ctx:exit("TRUE") end -- ATTACK.inc:124
     end -- ATTACK.inc:125
-    ctx:command("canattack", "g_bCanAttack") -- ATTACK.inc:127
+    ctx:state().g_bCanAttack = ctx:self():canAttack() -- ATTACK.inc:127
     if ctx:condition("g_bCanAttack==TRUE") then -- ATTACK.inc:128
         -- gosub BaseMaybeRangeAttack
-        ctx:command("isattacking", "g_bAttacking") -- ATTACK.inc:131
+        ctx:state().g_bAttacking = ctx:self():isAttacking() -- ATTACK.inc:131
         if ctx:condition("g_bAttacking==TRUE") then -- ATTACK.inc:133
             do return ctx:exit("TRUE") end -- ATTACK.inc:134
         end -- ATTACK.inc:135
@@ -116,7 +116,7 @@ script.labels["OutOfRangeWait"] = function(ctx)
     -- Exit TRUE
     -- endif
     -- Continue waiting....
-    ctx:command("wait", "0.5, OutOfRangeWait") -- ATTACK.inc:163
+    ctx:wait(0.5, 0.5, "OutOfRangeWait") -- ATTACK.inc:163
     do return ctx:exit("") end -- ATTACK.inc:165
 end
 
@@ -125,9 +125,9 @@ script.labels["HandleAttackReady"] = function(ctx)
     -- We are now in attack range (for our
     -- currently selected weapon) and ready
     -- to attack.  So let's do it!
-    ctx:command("set", "g_bFighting, TRUE") -- ATTACK.inc:176
-    ctx:command("gettime", "g_nLastAttackTime") -- ATTACK.inc:178
-    ctx:command("attack", "") -- ATTACK.inc:180
+    ctx:state().g_bFighting = true -- ATTACK.inc:176
+    ctx:getTime("g_nLastAttackTime") -- ATTACK.inc:178
+    ctx:self():attack() -- ATTACK.inc:180
     do return ctx:exit("") end -- ATTACK.inc:182
 end
 
@@ -138,7 +138,7 @@ script.labels["HandleDamageDone"] = function(ctx)
     if ctx:condition("g_hAttacker==g_hMyObject") then -- ATTACK.inc:192
         do return ctx:exit("FALSE") end -- ATTACK.inc:193
     end -- ATTACK.inc:194
-    ctx:command("isactor", "g_hAttacker, g_nTemp") -- ATTACK.inc:196
+    ctx:state().g_nTemp = (ctx:object("g_hAttacker"):isActor() and 1 or 0) -- ATTACK.inc:196
     if ctx:condition("g_nTemp==FALSE") then -- ATTACK.inc:198
         -- Not an actor, therefore
         -- never go after it...
@@ -150,34 +150,34 @@ script.labels["HandleDamageDone"] = function(ctx)
         end -- ATTACK.inc:206
     end -- ATTACK.inc:207
     if ctx:condition("g_hTarget==NULL") then -- ATTACK.inc:209
-        ctx:command("set", "g_hTarget, g_hAttacker") -- ATTACK.inc:210
-        ctx:command("set", "g_bFighting, TRUE") -- ATTACK.inc:211
+        ctx:set("g_hTarget", "g_hAttacker") -- ATTACK.inc:210
+        ctx:state().g_bFighting = true -- ATTACK.inc:211
     else -- ATTACK.inc:212
-        ctx:command("istargetinrange", "g_bInAttackRange") -- ATTACK.inc:213
+        ctx:state().g_bInAttackRange = ctx:self():isTargetInRange() -- ATTACK.inc:213
         if ctx:condition("g_hAttacker!=NULL") then -- ATTACK.inc:215
             if ctx:condition("g_hAttacker!=g_hTarget") then -- ATTACK.inc:216
-                ctx:command("getclassname", "g_hAttacker, g_sTemp") -- ATTACK.inc:217
+                ctx:state().g_sTemp = ctx:object("g_hAttacker"):className() -- ATTACK.inc:217
                 if ctx:condition("g_sTemp!=Player") then -- ATTACK.inc:218
                     do return mm9.gotoLabel(script, ctx, "SkipTargetSwitch") end -- ATTACK.inc:219
                 end -- ATTACK.inc:220
                 -- 70% chance we'll switch to the damager
-                ctx:command("set", "g_nTemp, 70") -- ATTACK.inc:222
+                ctx:state().g_nTemp = 70 -- ATTACK.inc:222
                 if ctx:condition("g_bInAttackRange==TRUE") then -- ATTACK.inc:223
                     -- we're already in attack range of our current target
                     -- so lower chances of switching
-                    ctx:command("set", "g_nTemp, 10") -- ATTACK.inc:226
+                    ctx:state().g_nTemp = 10 -- ATTACK.inc:226
                 end -- ATTACK.inc:227
-                ctx:command("aigetdistance", "g_hTarget, g_nDist1") -- ATTACK.inc:229
-                ctx:command("aigetdistance", "g_hAttacker, g_nDist2") -- ATTACK.inc:230
+                ctx:state().g_nDist1 = ctx:self():aiDistanceTo(ctx:object("g_hTarget")) -- ATTACK.inc:229
+                ctx:state().g_nDist2 = ctx:self():aiDistanceTo(ctx:object("g_hAttacker")) -- ATTACK.inc:230
                 if ctx:condition("g_nDist2 > g_nDist1") then -- ATTACK.inc:232
                     -- reduce odds even further...
-                    ctx:command("divide", "g_nTemp, 2") -- ATTACK.inc:234
+                    ctx:state().g_nTemp = (tonumber(ctx:state().g_nTemp) or 0) / 2 -- ATTACK.inc:234
                 end -- ATTACK.inc:235
-                ctx:command("getrandomint", "0, 100, g_nRandom") -- ATTACK.inc:237
+                ctx:randomInt(0, 100, "g_nRandom") -- ATTACK.inc:237
                 if ctx:condition("g_nRandom < g_nTemp") then -- ATTACK.inc:238
                     -- Okay, we decided to switch our current target to the
                     -- attacker!
-                    ctx:command("set", "g_hTarget, g_hAttacker") -- ATTACK.inc:243
+                    ctx:set("g_hTarget", "g_hAttacker") -- ATTACK.inc:243
                 end -- ATTACK.inc:244
             end -- ATTACK.inc:245
         end -- ATTACK.inc:246
@@ -191,7 +191,7 @@ script.labels["SkipTargetSwitch"] = function(ctx)
         do return ctx:exit("FALSE") end -- ATTACK.inc:254
     end -- ATTACK.inc:255
     -- Go after the Target...
-    ctx:command("target", "g_hTarget") -- ATTACK.inc:259
+    ctx:self():setTarget(ctx:object("g_hTarget")) -- ATTACK.inc:259
     mm9.gosub(script, ctx, "InitAttack") -- ATTACK.inc:261
     do return ctx:exit("") end -- ATTACK.inc:263
 end
@@ -201,17 +201,17 @@ script.labels["OutOfRangeWalkingWait"] = function(ctx)
     -- Once we start walking after target,
     -- we want to start running as soon as
     -- we are attack ready...
-    ctx:command("canattack", "g_bCanAttack") -- ATTACK.inc:274
+    ctx:state().g_bCanAttack = ctx:self():canAttack() -- ATTACK.inc:274
     if ctx:condition("g_bCanAttack==TRUE") then -- ATTACK.inc:275
         -- gosub BaseMaybeRangeAttack
-        ctx:command("isattacking", "g_bAttacking") -- ATTACK.inc:277
+        ctx:state().g_bAttacking = ctx:self():isAttacking() -- ATTACK.inc:277
         if ctx:condition("g_bAttacking==TRUE") then -- ATTACK.inc:279
             do return ctx:exit("TRUE") end -- ATTACK.inc:280
         end -- ATTACK.inc:281
         mm9.gosub(script, ctx, "InitAttack") -- ATTACK.inc:283
         do return ctx:exit("TRUE") end -- ATTACK.inc:284
     end -- ATTACK.inc:285
-    ctx:command("wait", "0.5, OutOfRangeWait") -- ATTACK.inc:287
+    ctx:wait(0.5, 0.5, "OutOfRangeWait") -- ATTACK.inc:287
     do return ctx:exit("") end -- ATTACK.inc:289
 end
 
@@ -223,7 +223,7 @@ script.labels["HandleDamage"] = function(ctx)
     ctx:getParam(0, "g_hAttacker") -- ATTACK.inc:301
     ctx:getParam(1, "g_nLastDamage") -- ATTACK.inc:302
     ctx:getParam(2, "g_lastDamageType") -- ATTACK.inc:303
-    ctx:command("sendalert", "g_hAttacker") -- ATTACK.inc:305
+    ctx:self():sendAlert(ctx:object("g_hAttacker")) -- ATTACK.inc:305
     if ctx:condition("g_nLastDamage == 0") then -- ATTACK.inc:307
         mm9.gosub(script, ctx, "HandleDamageDone") -- ATTACK.inc:308
     end -- ATTACK.inc:309
@@ -233,7 +233,7 @@ end
 script.labels["HandlePathClear"] = function(ctx)
     -- ATTACK.inc:314
     if ctx:condition("g_hTarget!=NULL") then -- ATTACK.inc:317
-        ctx:command("runto", "g_hTarget, 120, NearTarget") -- ATTACK.inc:318
+        ctx:self():runTo(ctx:object("g_hTarget"), 120, "NearTarget") -- ATTACK.inc:318
     end -- ATTACK.inc:319
     do return ctx:exit("TRUE") end -- ATTACK.inc:321
 end
@@ -243,7 +243,7 @@ script.labels["NearTarget"] = function(ctx)
     -- Only walk up to them if the fight hasn't
     -- started yet...
     if ctx:condition("g_bFighting!=TRUE") then -- ATTACK.inc:331
-        ctx:command("walkto", "g_hTarget") -- ATTACK.inc:332
+        ctx:self():walkTo(ctx:object("g_hTarget")) -- ATTACK.inc:332
     end -- ATTACK.inc:333
     do return ctx:exit("") end -- ATTACK.inc:335
 end
@@ -253,7 +253,7 @@ script.labels["HandleCongestion"] = function(ctx)
     -- If there is congestion in the way,
     -- start walking
     if ctx:condition("g_hTarget!=NULL") then -- ATTACK.inc:346
-        ctx:command("walkto", "g_hTarget") -- ATTACK.inc:347
+        ctx:self():walkTo(ctx:object("g_hTarget")) -- ATTACK.inc:347
     end -- ATTACK.inc:348
     do return ctx:exit("TRUE") end -- ATTACK.inc:350
 end
@@ -261,12 +261,12 @@ end
 script.labels["HandleTargetDead"] = function(ctx)
     -- ATTACK.inc:353
     ctx:getParam(0, "g_nTemp") -- ATTACK.inc:356
-    ctx:command("target", "NULL") -- ATTACK.inc:358
-    ctx:command("set", "g_hTarget, NULL") -- ATTACK.inc:359
+    ctx:self():setTarget(nil) -- ATTACK.inc:358
+    ctx:state().g_hTarget = nil -- ATTACK.inc:359
     if ctx:condition("g_nTemp==g_hMyObject") then -- ATTACK.inc:361
         -- We killed him!
         -- taunt him, and go home....
-        ctx:command("taunt", "GoHome") -- ATTACK.inc:366
+        ctx:self():taunt("GoHome") -- ATTACK.inc:366
     else -- ATTACK.inc:367
         -- just go home...
         mm9.gosub(script, ctx, "GoHome") -- ATTACK.inc:369
@@ -280,7 +280,7 @@ script.labels["GoHome"] = function(ctx)
     -- NOTE: if we ge stuck on way back home,
     -- we will just stay there...
     -- for now, just go back into idle loop...
-    ctx:command("setidle", "") -- ATTACK.inc:384
+    ctx:self():setIdle() -- ATTACK.inc:384
     -- Set g_nGoingHome, TRUE
     -- WalkToPos g_homeX, g_homeY, g_homeZ, BaseImHome
     do return ctx:exit("") end -- ATTACK.inc:389

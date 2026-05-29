@@ -10,7 +10,6 @@
 #include "game/mm9/Mm9DialoguePackage.h"
 #include "game/mm9/Mm9DialogueRuntime.h"
 #include "game/mm9/Mm9InteractionRouting.h"
-#include "game/mm9/Mm9ScriptedBillboardVisuals.h"
 #include "game/mm9/Mm9ScriptedObjectRuntime.h"
 #include "game/mm9/Mm9ScriptRuntime.h"
 #include "game/party/Party.h"
@@ -903,9 +902,8 @@ TEST_CASE("Guberland MM9 scripted objects resolve native animated model assets w
         eventsLoader.loadFromText(*eventsText, errorMessage);
     REQUIRE_MESSAGE(eventsData.has_value(), errorMessage);
 
-    OpenYAMM::Game::Mm9ScriptedBillboardVisualSet emptyVisualSet = {};
     OpenYAMM::Game::Mm9ScriptedObjectRuntime objectRuntime = {};
-    REQUIRE(objectRuntime.initialize("guberland", *sceneData, emptyVisualSet, &*eventsData));
+    REQUIRE(objectRuntime.initialize("guberland", *sceneData, &*eventsData));
 
     OpenYAMM::Game::Mm9AnimatedModelResolver resolver = {};
     REQUIRE_MESSAGE(resolver.loadRegistry(registryPath, errorMessage), errorMessage);
@@ -992,9 +990,8 @@ TEST_CASE("Guberland MM9 resolved visible actors initialize native visual render
         eventsLoader.loadFromText(*eventsText, errorMessage);
     REQUIRE_MESSAGE(eventsData.has_value(), errorMessage);
 
-    OpenYAMM::Game::Mm9ScriptedBillboardVisualSet emptyVisualSet = {};
     OpenYAMM::Game::Mm9ScriptedObjectRuntime objectRuntime = {};
-    REQUIRE(objectRuntime.initialize("guberland", *sceneData, emptyVisualSet, &*eventsData));
+    REQUIRE(objectRuntime.initialize("guberland", *sceneData, &*eventsData));
 
     OpenYAMM::Game::Mm9AnimatedModelResolver resolver = {};
     REQUIRE_MESSAGE(resolver.loadRegistry(registryPath, errorMessage), errorMessage);
@@ -1073,9 +1070,8 @@ TEST_CASE("MM9 visible stationary dialogue actor initializes native visual and o
         eventsLoader.loadFromText(*eventsText, errorMessage);
     REQUIRE_MESSAGE(eventsData.has_value(), errorMessage);
 
-    OpenYAMM::Game::Mm9ScriptedBillboardVisualSet emptyVisualSet = {};
     OpenYAMM::Game::Mm9ScriptedObjectRuntime objectRuntime = {};
-    REQUIRE(objectRuntime.initialize("afterworld", *sceneData, emptyVisualSet, &*eventsData));
+    REQUIRE(objectRuntime.initialize("afterworld", *sceneData, &*eventsData));
 
     const OpenYAMM::Game::Mm9ScriptedObject *pSkraelosObject = nullptr;
     for (const OpenYAMM::Game::Mm9ScriptedObject &object : objectRuntime.objects())

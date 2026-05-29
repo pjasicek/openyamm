@@ -15,27 +15,25 @@ script.includes[#script.includes + 1] = { line = 10, path = "Flags.inc" }
 -- Trigger activated
 script.labels["StopHere"] = function(ctx)
     -- DARKP_RAISINGBRIDGE.scr:24
-    ctx:command("hmarker", "= NULL") -- DARKP_RAISINGBRIDGE.scr:26
+    ctx:state().hMarker = nil -- DARKP_RAISINGBRIDGE.scr:26
     do return ctx:exit("TRUE") end -- DARKP_RAISINGBRIDGE.scr:27
 end
 
 script.labels["DownMarker"] = function(ctx)
     -- DARKP_RAISINGBRIDGE.scr:29
-    ctx:command("ndown", "= 1") -- DARKP_RAISINGBRIDGE.scr:31
-    ctx:command("playsound", "Sounds\\Spells\\eshield.wav DoNothing 500 1000 FALSE 100") -- DARKP_RAISINGBRIDGE.scr:32
-    ctx:command("getobjecthandle", "sDownMarker, hMarker") -- DARKP_RAISINGBRIDGE.scr:33
-    ctx:command("getpos", "hMarker, nVarX, nVarY, nVarZ") -- DARKP_RAISINGBRIDGE.scr:34
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 180, StopHere") -- DARKP_RAISINGBRIDGE.scr:35
+    ctx:state().nDown = 1 -- DARKP_RAISINGBRIDGE.scr:31
+    ctx:playSound("Sounds\\Spells\\eshield.wav", "DoNothing", 500, 1000, "FALSE", 100) -- DARKP_RAISINGBRIDGE.scr:32
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("sDownMarker"):pos() -- DARKP_RAISINGBRIDGE.scr:33-34
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 180, "StopHere") -- DARKP_RAISINGBRIDGE.scr:35
     do return ctx:exit("TRUE") end -- DARKP_RAISINGBRIDGE.scr:36
 end
 
 script.labels["UpMarker"] = function(ctx)
     -- DARKP_RAISINGBRIDGE.scr:38
-    ctx:command("ndown", "= 0") -- DARKP_RAISINGBRIDGE.scr:40
-    ctx:command("playsound", "Sounds\\Spells\\eshield.wav DoNothing 500 1000 FALSE 100") -- DARKP_RAISINGBRIDGE.scr:41
-    ctx:command("getobjecthandle", "sTopMarker, hMarker") -- DARKP_RAISINGBRIDGE.scr:42
-    ctx:command("getpos", "hMarker, nVarX, nVarY, nVarZ") -- DARKP_RAISINGBRIDGE.scr:43
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 180, StopHere") -- DARKP_RAISINGBRIDGE.scr:44
+    ctx:state().nDown = 0 -- DARKP_RAISINGBRIDGE.scr:40
+    ctx:playSound("Sounds\\Spells\\eshield.wav", "DoNothing", 500, 1000, "FALSE", 100) -- DARKP_RAISINGBRIDGE.scr:41
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("sTopMarker"):pos() -- DARKP_RAISINGBRIDGE.scr:42-43
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 180, "StopHere") -- DARKP_RAISINGBRIDGE.scr:44
     do return ctx:exit("TRUE") end -- DARKP_RAISINGBRIDGE.scr:45
 end
 
@@ -51,8 +49,7 @@ end
 
 script.labels["Main2"] = function(ctx)
     -- DARKP_RAISINGBRIDGE.scr:57
-    ctx:command("getmyhandle", "hMe") -- DARKP_RAISINGBRIDGE.scr:59
-    ctx:command("setflag", "hMe, FLAG_GOTHRUWORLD") -- DARKP_RAISINGBRIDGE.scr:60
+    ctx:self():setFlag("FLAG_GOTHRUWORLD", true) -- DARKP_RAISINGBRIDGE.scr:60
     ctx:addTrigger("Move", "MoveMe") -- DARKP_RAISINGBRIDGE.scr:61
     do return ctx:exit("TRUE") end -- DARKP_RAISINGBRIDGE.scr:62
 end
@@ -62,7 +59,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "sTopMarker") -- DARKP_RAISINGBRIDGE.scr:66
     ctx:getParam(1, "sDownMarker") -- DARKP_RAISINGBRIDGE.scr:67
     ctx:getParam(2, "nDown") -- DARKP_RAISINGBRIDGE.scr:68
-    ctx:command("wait", "0 .1 main2") -- DARKP_RAISINGBRIDGE.scr:69
+    ctx:wait(0, .1, "main2") -- DARKP_RAISINGBRIDGE.scr:69
     do return ctx:exit("TRUE") end -- DARKP_RAISINGBRIDGE.scr:70
 end
 

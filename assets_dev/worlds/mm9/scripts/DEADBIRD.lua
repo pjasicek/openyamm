@@ -17,7 +17,7 @@ script.labels["OnDeath"] = function(ctx)
             ctx:giveKey(241) -- DEADBIRD.scr:19
             do return ctx:exit("") end -- DEADBIRD.scr:20
         else -- DEADBIRD.scr:21
-            ctx:command("add", "g_ncounter, 1") -- DEADBIRD.scr:22
+            ctx:state().g_ncounter = (tonumber(ctx:state().g_ncounter) or 0) + 1 -- DEADBIRD.scr:22
             do return ctx:exit("") end -- DEADBIRD.scr:23
         end -- DEADBIRD.scr:24
     end -- DEADBIRD.scr:25
@@ -33,8 +33,8 @@ script.labels["Main"] = function(ctx)
     -- DEADBIRD.scr:35
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("ondeath", "OnDeath") -- DEADBIRD.scr:40
-    ctx:command("set", "g_ncounter, 0") -- DEADBIRD.scr:41
+    ctx:onEvent("OnDeath", "OnDeath") -- DEADBIRD.scr:40
+    ctx:state().g_ncounter = 0 -- DEADBIRD.scr:41
     -- for debug..delete
     ctx:addTrigger("use", "Ondeath") -- DEADBIRD.scr:44
     do return ctx:exit("") end -- DEADBIRD.scr:47

@@ -17,16 +17,16 @@ script.includes[#script.includes + 1] = { line = 8, path = "pledge.inc" }
 -- p1 Hide or Unhide
 script.labels["Init"] = function(ctx)
     -- ARG_UNHIDE.scr:26
-    ctx:command("set", "g_ncounter, 0") -- ARG_UNHIDE.scr:29
+    ctx:state().g_ncounter = 0 -- ARG_UNHIDE.scr:29
     if ctx:hasKey(94) then -- ARG_UNHIDE.scr:31-32
         mm9.gosub(script, ctx, "hide") -- ARG_UNHIDE.scr:33
         do return ctx:exit("") end -- ARG_UNHIDE.scr:34
     end -- ARG_UNHIDE.scr:35
     if ctx:hasKey(90) then -- ARG_UNHIDE.scr:37-38
-        ctx:command("add", "g_ncounter, 1") -- ARG_UNHIDE.scr:39
+        ctx:state().g_ncounter = (tonumber(ctx:state().g_ncounter) or 0) + 1 -- ARG_UNHIDE.scr:39
     end -- ARG_UNHIDE.scr:40
     if ctx:hasKey(91) then -- ARG_UNHIDE.scr:42-43
-        ctx:command("add", "g_nCounter, 1") -- ARG_UNHIDE.scr:44
+        ctx:state().g_nCounter = (tonumber(ctx:state().g_nCounter) or 0) + 1 -- ARG_UNHIDE.scr:44
     end -- ARG_UNHIDE.scr:45
     if ctx:condition("g_nCounter==2") then -- ARG_UNHIDE.scr:47
         mm9.gosub(script, ctx, "Unhide") -- ARG_UNHIDE.scr:48
@@ -36,43 +36,27 @@ end
 
 script.labels["Unhide"] = function(ctx)
     -- ARG_UNHIDE.scr:55
-    ctx:command("getobjecthandle", "SvenProp g_hobject") -- ARG_UNHIDE.scr:58
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:59
-    ctx:command("getobjecthandle", "TryygvaProp g_hobject") -- ARG_UNHIDE.scr:61
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:62
-    ctx:command("getobjecthandle", "MarkeProp g_hobject") -- ARG_UNHIDE.scr:64
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:65
-    ctx:command("getobjecthandle", "BookProp g_hobject") -- ARG_UNHIDE.scr:67
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:68
-    ctx:command("getobjecthandle", "ForadProp g_hobject") -- ARG_UNHIDE.scr:70
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:71
-    ctx:command("getobjecthandle", "SigmundProp g_hobject") -- ARG_UNHIDE.scr:73
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:74
-    ctx:command("getobjecthandle", "TreatyProp g_hobject") -- ARG_UNHIDE.scr:76
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:77
-    ctx:command("getobjecthandle", "BjarniProp g_hobject") -- ARG_UNHIDE.scr:79
-    ctx:command("setflag", "g_hobject, visible") -- ARG_UNHIDE.scr:80
+    ctx:object("SvenProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:58-59
+    ctx:object("TryygvaProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:61-62
+    ctx:object("MarkeProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:64-65
+    ctx:object("BookProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:67-68
+    ctx:object("ForadProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:70-71
+    ctx:object("SigmundProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:73-74
+    ctx:object("TreatyProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:76-77
+    ctx:object("BjarniProp"):setFlag("visible", true) -- ARG_UNHIDE.scr:79-80
     do return ctx:exit("") end -- ARG_UNHIDE.scr:82
 end
 
 script.labels["Hide"] = function(ctx)
     -- ARG_UNHIDE.scr:87
-    ctx:command("getobjecthandle", "SvenProp g_hobject") -- ARG_UNHIDE.scr:90
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:91
-    ctx:command("getobjecthandle", "TryygvaProp g_hobject") -- ARG_UNHIDE.scr:93
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:94
-    ctx:command("getobjecthandle", "MarkeProp g_hobject") -- ARG_UNHIDE.scr:96
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:97
-    ctx:command("getobjecthandle", "BookProp g_hobject") -- ARG_UNHIDE.scr:99
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:100
-    ctx:command("getobjecthandle", "ForadProp g_hobject") -- ARG_UNHIDE.scr:102
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:103
-    ctx:command("getobjecthandle", "SigmundProp g_hobject") -- ARG_UNHIDE.scr:105
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:106
-    ctx:command("getobjecthandle", "TreatyProp g_hobject") -- ARG_UNHIDE.scr:108
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:109
-    ctx:command("getobjecthandle", "BjarniProp g_hobject") -- ARG_UNHIDE.scr:111
-    ctx:command("clearflag", "g_hobject, visible") -- ARG_UNHIDE.scr:112
+    ctx:object("SvenProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:90-91
+    ctx:object("TryygvaProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:93-94
+    ctx:object("MarkeProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:96-97
+    ctx:object("BookProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:99-100
+    ctx:object("ForadProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:102-103
+    ctx:object("SigmundProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:105-106
+    ctx:object("TreatyProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:108-109
+    ctx:object("BjarniProp"):setFlag("visible", false) -- ARG_UNHIDE.scr:111-112
     do return ctx:exit("") end -- ARG_UNHIDE.scr:114
 end
 
@@ -80,10 +64,10 @@ script.labels["Main"] = function(ctx)
     -- ARG_UNHIDE.scr:117
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("onpoststartworld", "Init") -- ARG_UNHIDE.scr:123
-    ctx:command("onpostminisaveload", "Init") -- ARG_UNHIDE.scr:124
-    ctx:command("onpostsaveload", "Init") -- ARG_UNHIDE.scr:125
-    ctx:command("wait", "1 1 Init") -- ARG_UNHIDE.scr:126
+    ctx:onEvent("OnPostStartWorld", "Init") -- ARG_UNHIDE.scr:123
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- ARG_UNHIDE.scr:124
+    ctx:onEvent("OnPostSaveLoad", "Init") -- ARG_UNHIDE.scr:125
+    ctx:wait(1, 1, "Init") -- ARG_UNHIDE.scr:126
     do return ctx:exit("") end -- ARG_UNHIDE.scr:127
 end
 

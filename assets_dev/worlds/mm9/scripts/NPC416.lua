@@ -30,7 +30,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC416.scr:48
-    ctx:command("playsound", "voices\\NPC\\NPC_088.wav, Onexit, 100, 240, FALSE, 100") -- NPC416.scr:51
+    ctx:playSound("voices\\NPC\\NPC_088.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC416.scr:51
     do return ctx:exit("") end -- NPC416.scr:52
 end
 
@@ -44,7 +44,7 @@ script.labels["Main"] = function(ctx)
     -- traceon
     -- Don't Forget to Delete this!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC416.scr:68
-    ctx:command("ondeath", "Ondeath") -- NPC416.scr:69
+    ctx:onEvent("OnDeath", "Ondeath") -- NPC416.scr:69
     ctx:addTrigger("Use", "OnUse") -- NPC416.scr:70
     do return ctx:exit("") end -- NPC416.scr:72
 end

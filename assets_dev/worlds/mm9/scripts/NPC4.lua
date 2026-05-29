@@ -31,7 +31,7 @@ script.labels["toMageOne"] = function(ctx)
         ctx:takeItem(242) -- NPC4.scr:61
         ctx:giveItem(244) -- NPC4.scr:62
         ctx:giveKey(288) -- NPC4.scr:63
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC4.scr:64
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC4.scr:64
         do return ctx:exit("") end -- NPC4.scr:65
     end -- NPC4.scr:66
     do return ctx:exit("") end -- NPC4.scr:67
@@ -45,7 +45,7 @@ script.labels["Reward"] = function(ctx)
             ctx:giveKey(294) -- NPC4.scr:83
             ctx:giveGold(5000) -- NPC4.scr:84
             ctx:giveExp(63000) -- NPC4.scr:85
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC4.scr:86
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC4.scr:86
             mm9.gosub(script, ctx, "PromoteMage") -- NPC4.scr:87
             do return ctx:exit("") end -- NPC4.scr:88
         end -- NPC4.scr:89
@@ -58,19 +58,19 @@ script.labels["PromoteMage"] = function(ctx)
     -- Player has already completed the quest
     -- just check to see who gets promoted
     if ctx:hasKey(429) then -- NPC4.scr:101-102
-        ctx:command("givepromo", "Mage Char1") -- NPC4.scr:103
+        ctx:givePromo("Mage", "Char1") -- NPC4.scr:103
         ctx:takeKey(429) -- NPC4.scr:104
     end -- NPC4.scr:105
     if ctx:hasKey(430) then -- NPC4.scr:107-108
-        ctx:command("givepromo", "Mage Char2") -- NPC4.scr:109
+        ctx:givePromo("Mage", "Char2") -- NPC4.scr:109
         ctx:takeKey(430) -- NPC4.scr:110
     end -- NPC4.scr:111
     if ctx:hasKey(431) then -- NPC4.scr:113-114
-        ctx:command("givepromo", "Mage Char3") -- NPC4.scr:115
+        ctx:givePromo("Mage", "Char3") -- NPC4.scr:115
         ctx:takeKey(431) -- NPC4.scr:116
     end -- NPC4.scr:117
     if ctx:hasKey(432) then -- NPC4.scr:119-120
-        ctx:command("givepromo", "Mage Char4") -- NPC4.scr:121
+        ctx:givePromo("Mage", "Char4") -- NPC4.scr:121
         ctx:takeKey(432) -- NPC4.scr:122
     end -- NPC4.scr:123
     do return ctx:exit("") end -- NPC4.scr:124
@@ -78,7 +78,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC4.scr:129
-    ctx:command("playsound", "voices\\NPC\\NPC_004.wav, Onexit, 100, 240, FALSE, 100") -- NPC4.scr:132
+    ctx:playSound("voices\\NPC\\NPC_004.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC4.scr:132
     do return ctx:exit("") end -- NPC4.scr:133
 end
 

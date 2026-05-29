@@ -25,7 +25,7 @@ script.labels["takeKeg"] = function(ctx)
             ctx:takeItem(249) -- NPC141.scr:35
             ctx:giveGold(500) -- NPC141.scr:36
             ctx:giveExp(5000) -- NPC141.scr:37
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC141.scr:38
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC141.scr:38
             do return ctx:exit("") end -- NPC141.scr:39
         end -- NPC141.scr:40
     end -- NPC141.scr:41
@@ -36,7 +36,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC141.scr:54
-    ctx:command("playsound", "voices\\NPC\\NPC_141.wav, Onexit, 100, 240, FALSE, 100") -- NPC141.scr:57
+    ctx:playSound("voices\\NPC\\NPC_141.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC141.scr:57
     do return ctx:exit("") end -- NPC141.scr:58
 end
 

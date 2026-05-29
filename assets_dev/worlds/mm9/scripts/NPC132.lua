@@ -35,15 +35,15 @@ end
 
 script.labels["OnDamage"] = function(ctx)
     -- NPC132.scr:51
-    ctx:command("die", "") -- NPC132.scr:54
-    ctx:command("set", "nUnconscious TRUE") -- NPC132.scr:55
+    ctx:self():die() -- NPC132.scr:54
+    ctx:state().nUnconscious = true -- NPC132.scr:55
     mm9.gosub(script, ctx, "givehair") -- NPC132.scr:56
     do return ctx:exit("") end -- NPC132.scr:57
 end
 
 script.labels["OnStop"] = function(ctx)
     -- NPC132.scr:60
-    ctx:command("stop", "") -- NPC132.scr:63
+    ctx:self():stop() -- NPC132.scr:63
     do return ctx:exit("") end -- NPC132.scr:64
 end
 
@@ -54,7 +54,7 @@ script.labels["OnUse"] = function(ctx)
         do return ctx:exit("") end -- NPC132.scr:73
     end -- NPC132.scr:74
     ctx:doRude(132) -- NPC132.scr:76
-    ctx:command("playsound", "voices\\NPC\\NPC_132.wav, DoNothing, 100, 240, FALSE, 100") -- NPC132.scr:77
+    ctx:playSound("voices\\NPC\\NPC_132.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC132.scr:77
     do return ctx:exit("") end -- NPC132.scr:78
 end
 

@@ -4,6 +4,7 @@ map_id: yanmirsfort
 display_name: Yanmir's Fort
 source:
   dat: ../source/worlds/YANMIRSFORT.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/YANMIRSFORT.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: yanmirsfort.raw_objects.yml
   materials: yanmirsfort.material_aliases.yml
   events: yanmirsfort.events.yml
-  scene_compat: yanmirsfort.scene.yml
+  scene_compat: null
   source_metadata_compat: yanmirsfort.mm9.yml
-  bsp_compat: yanmirsfort.bsp.yml
-  geometry_compat: yanmirsfort.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: yanmirsfort.blv
+  blv_compat: null
 scripts:
   level: ../events/yanmirsfort.lua
   script_ir: ../events/yanmirsfort.script_ir.yml

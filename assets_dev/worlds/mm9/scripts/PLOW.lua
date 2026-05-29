@@ -23,8 +23,7 @@ script.labels["OnUse"] = function(ctx)
             -- checks to see if player has already done this
             ctx:giveKey(130) -- PLOW.scr:34
             ctx:giveItem(371) -- PLOW.scr:35
-            ctx:command("getmyhandle", "g_hmyobject") -- PLOW.scr:36
-            ctx:command("removeobject", "g_hmyobject") -- PLOW.scr:37
+            ctx:self():remove() -- PLOW.scr:37
             -- gives plow key.
             do return ctx:exit("") end -- PLOW.scr:39
         end -- PLOW.scr:40
@@ -35,19 +34,18 @@ end
 script.labels["Init"] = function(ctx)
     -- PLOW.scr:46
     if ctx:hasKey(128) then -- PLOW.scr:49-50
-        ctx:command("getmyhandle", "g_hobject") -- PLOW.scr:51
-        ctx:command("setflag", "g_hobject, visible") -- PLOW.scr:52
-        ctx:command("setflag", "g_hobject, solid") -- PLOW.scr:53
-        ctx:command("setflag", "g_hobject, gravity") -- PLOW.scr:54
+        ctx:state().g_hobject = ctx:self() -- PLOW.scr:51
+        ctx:self():setFlag("visible", true) -- PLOW.scr:52
+        ctx:self():setFlag("solid", true) -- PLOW.scr:53
+        ctx:self():setFlag("gravity", true) -- PLOW.scr:54
     else -- PLOW.scr:55
-        ctx:command("getmyhandle", "g_hobject") -- PLOW.scr:56
-        ctx:command("clearflag", "g_hobject, visible") -- PLOW.scr:57
-        ctx:command("clearflag", "g_hobject, solid") -- PLOW.scr:58
-        ctx:command("clearflag", "g_hobject, gravity") -- PLOW.scr:59
+        ctx:state().g_hobject = ctx:self() -- PLOW.scr:56
+        ctx:self():setFlag("visible", false) -- PLOW.scr:57
+        ctx:self():setFlag("solid", false) -- PLOW.scr:58
+        ctx:self():setFlag("gravity", false) -- PLOW.scr:59
     end -- PLOW.scr:60
     if ctx:hasKey(130) then -- PLOW.scr:62-63
-        ctx:command("getmyhandle", "g_hmyobject") -- PLOW.scr:64
-        ctx:command("removeobject", "g_hmyobject") -- PLOW.scr:65
+        ctx:self():remove() -- PLOW.scr:65
         do return ctx:exit("") end -- PLOW.scr:66
     end -- PLOW.scr:67
     do return ctx:exit("") end -- PLOW.scr:68

@@ -35,7 +35,7 @@ script.labels["Plow"] = function(ctx)
             ctx:giveExp(2000) -- NPC91.scr:47
             ctx:giveGold(500) -- NPC91.scr:48
             ctx:giveKey(200) -- NPC91.scr:49
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC91.scr:50
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC91.scr:50
             -- givekey 129
             -- remove this....this is for when the player kills the yobboes
             -- OK, Tim.
@@ -47,7 +47,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC91.scr:62
-    ctx:command("playsound", "voices\\NPC\\NPC_091.wav, Onexit, 100, 240, FALSE, 100") -- NPC91.scr:65
+    ctx:playSound("voices\\NPC\\NPC_091.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC91.scr:65
     do return ctx:exit("") end -- NPC91.scr:66
 end
 
@@ -59,15 +59,15 @@ end
 script.labels["Init"] = function(ctx)
     -- NPC91.scr:75
     if ctx:hasKey(128) then -- NPC91.scr:77-78
-        ctx:command("getmyhandle", "g_hobject") -- NPC91.scr:79
-        ctx:command("setflag", "g_hobject, visible") -- NPC91.scr:80
-        ctx:command("setflag", "g_hobject, solid") -- NPC91.scr:81
-        ctx:command("setflag", "g_hobject, gravity") -- NPC91.scr:82
+        ctx:state().g_hobject = ctx:self() -- NPC91.scr:79
+        ctx:self():setFlag("visible", true) -- NPC91.scr:80
+        ctx:self():setFlag("solid", true) -- NPC91.scr:81
+        ctx:self():setFlag("gravity", true) -- NPC91.scr:82
     else -- NPC91.scr:83
-        ctx:command("getmyhandle", "g_hobject") -- NPC91.scr:84
-        ctx:command("clearflag", "g_hobject, visible") -- NPC91.scr:85
-        ctx:command("clearflag", "g_hobject, solid") -- NPC91.scr:86
-        ctx:command("clearflag", "g_hobject, gravity") -- NPC91.scr:87
+        ctx:state().g_hobject = ctx:self() -- NPC91.scr:84
+        ctx:self():setFlag("visible", false) -- NPC91.scr:85
+        ctx:self():setFlag("solid", false) -- NPC91.scr:86
+        ctx:self():setFlag("gravity", false) -- NPC91.scr:87
     end -- NPC91.scr:88
     do return ctx:exit("") end -- NPC91.scr:90
 end
@@ -77,10 +77,10 @@ script.labels["Main"] = function(ctx)
     -- TraceOn ;DELETE ME!!
     ctx:addTrigger("Use", "Onuse") -- NPC91.scr:97
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC91.scr:98
-    ctx:command("onpoststartworld", "Init") -- NPC91.scr:99
-    ctx:command("onpostminisaveload", "Init") -- NPC91.scr:100
-    ctx:command("onpostsaveload", "Init") -- NPC91.scr:101
-    ctx:command("wait", "1 .1 Init") -- NPC91.scr:102
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC91.scr:99
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC91.scr:100
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC91.scr:101
+    ctx:wait(1, .1, "Init") -- NPC91.scr:102
     do return ctx:exit("") end -- NPC91.scr:103
 end
 

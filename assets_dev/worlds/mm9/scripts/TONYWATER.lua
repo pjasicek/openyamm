@@ -21,44 +21,44 @@ end
 script.labels["WaterOnSink"] = function(ctx)
     -- TONYWATER.scr:42
     -- Sets the water in motion in the downward direction...
-    ctx:command("getdims", "g_hMyObject, nDimsX, nDimsY, nDimsZ") -- TONYWATER.scr:47
-    ctx:command("set", "nDestPosY, nOrigPosY") -- TONYWATER.scr:48
-    ctx:command("sub", "nDestPosY, nDimsY") -- TONYWATER.scr:49
-    ctx:command("sub", "nDestPosY, nDimsY") -- TONYWATER.scr:50
+    ctx:state().nDimsX, ctx:state().nDimsY, ctx:state().nDimsZ = ctx:self():dims() -- TONYWATER.scr:47
+    ctx:set("nDestPosY", "nOrigPosY") -- TONYWATER.scr:48
+    ctx:sub("nDestPosY", "nDimsY") -- TONYWATER.scr:49
+    ctx:sub("nDestPosY", "nDimsY") -- TONYWATER.scr:50
     -- Leave some water there....
-    ctx:command("add", "nDestPosY, nWaterToLeave") -- TONYWATER.scr:54
-    ctx:command("set", "bWaterSunk, 1") -- TONYWATER.scr:56
-    ctx:command("issounddone", "hWaterSound, g_bTemp") -- TONYWATER.scr:58
+    ctx:add("nDestPosY", "nWaterToLeave") -- TONYWATER.scr:54
+    ctx:state().bWaterSunk = 1 -- TONYWATER.scr:56
+    ctx:isSoundDone("hWaterSound", "g_bTemp") -- TONYWATER.scr:58
     if ctx:condition("g_bTemp==TRUE") then -- TONYWATER.scr:59
-        ctx:command("playsound", "sSinkSound, 1000, TRUE, 100, hWaterSound") -- TONYWATER.scr:60
+        ctx:playSound("sSinkSound", 1000, "TRUE", 100, "hWaterSound") -- TONYWATER.scr:60
     end -- TONYWATER.scr:61
-    ctx:command("movetopos", "nOrigPosX, nDestPosY, nOrigPosZ, nWaterSinkRate, WaterDoneSinking") -- TONYWATER.scr:63
+    ctx:self():moveToPos("nOrigPosX", "nDestPosY", "nOrigPosZ", "nWaterSinkRate", "WaterDoneSinking") -- TONYWATER.scr:63
     do return ctx:exit("") end -- TONYWATER.scr:65
 end
 
 script.labels["WaterDoneSinking"] = function(ctx)
     -- TONYWATER.scr:68
-    ctx:command("killsound", "hWaterSound") -- TONYWATER.scr:70
-    ctx:command("docallback", "1") -- TONYWATER.scr:71
+    ctx:killSound("hWaterSound") -- TONYWATER.scr:70
+    ctx:doCallback(1) -- TONYWATER.scr:71
     do return ctx:exit("") end -- TONYWATER.scr:72
 end
 
 script.labels["WaterDoneFilling"] = function(ctx)
     -- TONYWATER.scr:76
-    ctx:command("killsound", "hWaterSound") -- TONYWATER.scr:78
-    ctx:command("docallback", "2") -- TONYWATER.scr:79
+    ctx:killSound("hWaterSound") -- TONYWATER.scr:78
+    ctx:doCallback(2) -- TONYWATER.scr:79
     do return ctx:exit("") end -- TONYWATER.scr:80
 end
 
 script.labels["WaterOnFill"] = function(ctx)
     -- TONYWATER.scr:83
-    ctx:command("set", "nDestPosY, nOrigPosY") -- TONYWATER.scr:86
-    ctx:command("set", "bWaterSunk, 0") -- TONYWATER.scr:87
-    ctx:command("issounddone", "hWaterSound, g_bTemp") -- TONYWATER.scr:89
+    ctx:set("nDestPosY", "nOrigPosY") -- TONYWATER.scr:86
+    ctx:state().bWaterSunk = 0 -- TONYWATER.scr:87
+    ctx:isSoundDone("hWaterSound", "g_bTemp") -- TONYWATER.scr:89
     if ctx:condition("g_bTemp==TRUE") then -- TONYWATER.scr:90
-        ctx:command("playsound", "sFillSound, 1000, TRUE, 100, hWaterSound") -- TONYWATER.scr:91
+        ctx:playSound("sFillSound", 1000, "TRUE", 100, "hWaterSound") -- TONYWATER.scr:91
     end -- TONYWATER.scr:92
-    ctx:command("movetopos", "nOrigPosX, nDestPosY, nOrigPosZ, nWaterFillRate, WaterDoneFilling") -- TONYWATER.scr:94
+    ctx:self():moveToPos("nOrigPosX", "nDestPosY", "nOrigPosZ", "nWaterFillRate", "WaterDoneFilling") -- TONYWATER.scr:94
     do return ctx:exit("") end -- TONYWATER.scr:96
 end
 
@@ -74,22 +74,21 @@ end
 
 script.labels["WaterInit"] = function(ctx)
     -- TONYWATER.scr:111
-    ctx:command("getmyhandle", "g_hMyObject") -- TONYWATER.scr:116
-    ctx:command("getpos", "g_hMyObject, nOrigPosX, nOrigPosY, nOrigPosZ") -- TONYWATER.scr:117
+    ctx:state().nOrigPosX, ctx:state().nOrigPosY, ctx:state().nOrigPosZ = ctx:self():pos() -- TONYWATER.scr:117
     ctx:addTrigger("SinkWater", "WaterOnSink") -- TONYWATER.scr:119
     ctx:addTrigger("FillWater", "WaterOnFill") -- TONYWATER.scr:120
     ctx:addTrigger("ToggleWater", "WaterOnToggle") -- TONYWATER.scr:121
     ctx:getParam(0, "g_nTemp") -- TONYWATER.scr:123
     if ctx:condition("g_nTemp!=0") then -- TONYWATER.scr:125
-        ctx:command("set", "nWaterToLeave, g_nTemp") -- TONYWATER.scr:126
+        ctx:set("nWaterToLeave", "g_nTemp") -- TONYWATER.scr:126
     end -- TONYWATER.scr:127
     ctx:getParam(1, "g_nTemp") -- TONYWATER.scr:129
     if ctx:condition("g_nTemp!=0") then -- TONYWATER.scr:131
-        ctx:command("set", "nWaterSinkRate, g_nTemp") -- TONYWATER.scr:132
+        ctx:set("nWaterSinkRate", "g_nTemp") -- TONYWATER.scr:132
     end -- TONYWATER.scr:133
     ctx:getParam(2, "g_nTemp") -- TONYWATER.scr:135
     if ctx:condition("g_nTemp!=0") then -- TONYWATER.scr:137
-        ctx:command("set", "nWaterFillRate, g_nTemp") -- TONYWATER.scr:138
+        ctx:set("nWaterFillRate", "g_nTemp") -- TONYWATER.scr:138
     end -- TONYWATER.scr:139
     do return ctx:exit("") end -- TONYWATER.scr:141
 end

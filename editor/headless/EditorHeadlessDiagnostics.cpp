@@ -16,7 +16,6 @@
 #include "game/maps/TerrainTileData.h"
 #include "game/mm9/Mm9DtxTexture.h"
 #include "game/mm9/Mm9LightLayer.h"
-#include "game/mm9/Mm9ScriptedBillboardVisuals.h"
 #include "game/mm9/Mm9SoundLayer.h"
 #include "game/mm9/Mm9SpawnLayer.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -327,16 +326,81 @@ struct Mm9ValidationReportSummary
     std::string displayName;
     std::string levelFile;
     bool clean = false;
+    size_t levelLoadDiagnostics = 0;
+    bool sourceMutationSnapshotVerified = false;
+    size_t sourceMutationSnapshotFiles = 0;
+    size_t sourceDatHashDiagnostics = 0;
+    bool sourceDatHashVerified = false;
+    size_t sourceManifestDiagnostics = 0;
+    size_t sourceManifestExpectedFiles = 0;
+    size_t sourceManifestActualFiles = 0;
+    size_t sourceManifestCountDriftFamilies = 0;
+    size_t sourceManifestMissingDirectories = 0;
+    size_t documentPathsTotal = 0;
+    size_t documentPathsMissing = 0;
+    size_t documentPathsMissingRequired = 0;
+    size_t documentPathsReadOnlySource = 0;
+    size_t documentPathsGenerated = 0;
+    size_t documentPathsAuthored = 0;
+    size_t documentPathsAuthoredOverrides = 0;
+    size_t documentPathsCompatibilityDerived = 0;
     size_t datWorldReferenceIssues = 0;
+    size_t datWorldInvalidLeafReferences = 0;
+    size_t datWorldInvalidSurfaceTextureRefs = 0;
+    size_t datWorldInvalidPolySurfaceRefs = 0;
+    size_t datWorldInvalidPolyPlaneRefs = 0;
+    size_t datWorldInvalidPolyVertexRefs = 0;
+    size_t datWorldInvalidNodePolyRefs = 0;
+    size_t datWorldInvalidRootNodeRefs = 0;
+    size_t assetGraphTotal = 0;
+    size_t assetGraphResolved = 0;
+    size_t assetGraphUnresolved = 0;
+    size_t assetGraphAmbiguous = 0;
+    size_t assetGraphStale = 0;
+    size_t assetGraphRequiredTotal = 0;
+    size_t assetGraphRequiredResolved = 0;
     size_t assetGraphRequiredUnresolved = 0;
     size_t assetGraphRequiredAmbiguous = 0;
+    size_t assetGraphOptionalTotal = 0;
+    size_t assetGraphOptionalResolved = 0;
+    size_t assetGraphOptionalUnresolved = 0;
+    size_t assetGraphOptionalAmbiguous = 0;
+    size_t assetGraphSourceOnly = 0;
+    size_t assetGraphUnusedSource = 0;
+    size_t rawObjectAssetRefs = 0;
+    size_t requiredRawObjectAssetRefs = 0;
+    size_t optionalRawObjectAssetRefs = 0;
     size_t unresolvedRequiredRawObjectAssetRefs = 0;
+    size_t unresolvedOptionalRawObjectAssetRefs = 0;
     size_t staleCaches = 0;
     size_t mechanismUnresolvedRequiredTargets = 0;
     size_t mechanismIncompleteLinearMotion = 0;
     size_t mechanismIncompleteRotationMotion = 0;
+    size_t mechanismSoundSlots = 0;
+    size_t mechanismAuthoredSoundReferences = 0;
+    size_t mechanismEmptySoundReferences = 0;
+    size_t mechanismPreviewableMechanisms = 0;
+    size_t mechanismInertMechanisms = 0;
+    size_t mechanismInertPreviewEntries = 0;
+    size_t mechanismWithoutPreviewMotion = 0;
+    size_t mechanismWithoutPreviewTarget = 0;
+    size_t mechanismActivationStartOpenFields = 0;
+    size_t mechanismActivationLockedFields = 0;
+    size_t mechanismActivationPushOpenFields = 0;
+    size_t mechanismActivationTouchToOpenFields = 0;
+    size_t mechanismActivationLockOnCloseFields = 0;
+    size_t mechanismActivationReopenOnContactFields = 0;
+    size_t mechanismRotationOpenAwayFields = 0;
+    size_t mechanismTimingMoveDelayFields = 0;
+    size_t mechanismTimingOpenWaitFields = 0;
     size_t mechanismTriggerOutputs = 0;
     size_t mechanismUnresolvedTriggerOutputs = 0;
+    size_t scriptIncludes = 0;
+    size_t scriptLabels = 0;
+    size_t scriptIncludeReferences = 0;
+    size_t scriptResolvedIncludes = 0;
+    size_t scriptUnresolvedIncludes = 0;
+    size_t scriptAmbiguousIncludes = 0;
     size_t scriptRegisteredTriggers = 0;
     size_t scriptTriggerEdges = 0;
     size_t scriptMovementCommands = 0;
@@ -347,11 +411,25 @@ struct Mm9ValidationReportSummary
     size_t mechanismWorldModelTargetsMissingPolygonGroup = 0;
     size_t mechanismWorldModelTargetsMismatchedPolygonGroup = 0;
     size_t nativeRenderableTriangles = 0;
+    size_t viewportNativeMissingMaterialTriangles = 0;
+    size_t viewportNativePlaceholderMaterialTriangles = 0;
     size_t viewportNativeUnresolvedMaterialTriangles = 0;
+    size_t nativeFilterVisual = 0;
+    size_t nativeFilterInvisible = 0;
+    size_t nativeFilterWater = 0;
+    size_t nativeFilterVisibleWater = 0;
+    size_t nativeFilterWaterVolume = 0;
+    size_t nativeFilterRail = 0;
+    size_t nativeFilterHelper = 0;
+    size_t nativeFilterPhysics = 0;
+    size_t nativeFilterVisibility = 0;
+    size_t nativeFilterPortals = 0;
     size_t worldModelOverlayVertices = 0;
     size_t worldModelOverlayPickCandidates = 0;
     size_t selectedPolygonOverlayVertices = 0;
     size_t selectedSurfaceOverlayVertices = 0;
+    size_t rawObjects = 0;
+    size_t rawObjectSidecarIssues = 0;
     size_t objectSourceTransforms = 0;
     size_t objectBoundsEvidence = 0;
     size_t objectTriggerVolumes = 0;
@@ -366,6 +444,12 @@ struct Mm9ValidationReportSummary
     size_t mechanismTargetMarkerCandidates = 0;
     size_t mechanismTargetMarkerVertices = 0;
     size_t mechanismTargetMarkerSourceLinks = 0;
+    size_t mechanismGizmoCandidates = 0;
+    size_t mechanismCircleGizmoCandidates = 0;
+    size_t mechanismTargetGizmoCandidates = 0;
+    size_t mechanismMotionPathMarkers = 0;
+    size_t mechanismLineOfSightCheckedCandidates = 0;
+    size_t mechanismLineOfSightBlockedCandidates = 0;
     size_t lightObjects = 0;
     size_t lightOverlayVertices = 0;
     size_t staticRenderLights = 0;
@@ -384,10 +468,47 @@ struct Mm9ValidationReportSummary
     size_t missingDrawableModelInstanceGeometry = 0;
     size_t actorVariantCandidates = 0;
     size_t actorVariantGameplayIdentityRows = 0;
+    size_t actorVariantFootSoundFields = 0;
+    size_t actorVariantResolvedFootSounds = 0;
+    size_t actorVariantUnresolvedFootSounds = 0;
+    size_t actorVariantSourceSoundReferences = 0;
+    size_t actorVariantResolvedSourceSoundReferences = 0;
+    size_t actorVariantUnresolvedSourceSoundReferences = 0;
+    size_t actorVariantSourceVoiceReferences = 0;
+    size_t actorVariantResolvedSourceVoiceReferences = 0;
+    size_t actorVariantUnresolvedSourceVoiceReferences = 0;
     size_t actorVariantUnresolved = 0;
+    size_t scriptedObjectsWithModelCollisionVolumes = 0;
+    size_t scriptedObjectsRequiringBillboardCollisionVisuals = 0;
     size_t missingScriptedObjectCollisionVisuals = 0;
     size_t mechanismPreviewCandidates = 0;
     size_t mechanismPreviewChangedBounds = 0;
+    size_t materialTextures = 0;
+    size_t resolvedDtx = 0;
+    size_t ambiguousDtx = 0;
+    size_t sourceDtxPaths = 0;
+    size_t defaultHelperMaterials = 0;
+    size_t placeholderMissingSourceMaterials = 0;
+    size_t dtxHeaders = 0;
+    size_t dtxHeadersMatchingSidecar = 0;
+    size_t dtxUserFlagRecords = 0;
+    size_t dtxExtraByteRecords = 0;
+    size_t dtxMipPayloads = 0;
+    size_t dtxDecodedPreviewMips = 0;
+    size_t dtxSectionMetadataRecords = 0;
+    size_t dtxSectionPayloadsAvailable = 0;
+    size_t dtxCommandStrings = 0;
+    size_t decodedCacheDeterminismChecked = 0;
+    size_t decodedCacheSourceDecoded = 0;
+    size_t decodedCacheImageDecoded = 0;
+    size_t decodedCacheMatchesSource = 0;
+    size_t decodedCacheMismatches = 0;
+    size_t spriteMaterials = 0;
+    size_t resolvedSpriteMaterials = 0;
+    size_t spriteFrameTextures = 0;
+    size_t resolvedSpriteFrameTextures = 0;
+    size_t unresolvedSpriteFrameTextures = 0;
+    size_t ambiguousSpriteFrameTextures = 0;
     size_t diagnosticErrors = 0;
     size_t diagnosticWarnings = 0;
     size_t diagnosticInfo = 0;
@@ -427,6 +548,8 @@ bool readMm9ValidationReportSummary(
     const YAML::Node assetGraphNode = root["asset_graph"];
     const YAML::Node mechanismNode = root["mechanisms"];
     const YAML::Node diagnosticsNode = root["diagnostics"];
+    const YAML::Node sourceIntegrityNode = root["source_integrity"];
+    const YAML::Node documentPathsNode = root["document_paths"];
 
     summary = {};
     summary.path = reportPath;
@@ -434,21 +557,124 @@ bool readMm9ValidationReportSummary(
     summary.displayName = yamlScalarValue<std::string>(root, "display_name", std::string());
     summary.levelFile = yamlScalarValue<std::string>(root, "level_file", std::string());
     summary.clean = yamlScalarValue<bool>(root, "clean", false);
+    summary.levelLoadDiagnostics =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "level_load_diagnostics", 0);
+    summary.sourceMutationSnapshotVerified =
+        yamlScalarValue<bool>(sourceIntegrityNode, "source_mutation_snapshot_verified", false);
+    summary.sourceMutationSnapshotFiles =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "source_mutation_snapshot_files", 0);
+    summary.sourceDatHashDiagnostics =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "source_dat_hash_diagnostics", 0);
+    summary.sourceDatHashVerified =
+        yamlScalarValue<bool>(sourceIntegrityNode, "source_dat_hash_verified", false);
+    summary.sourceManifestDiagnostics =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "source_manifest_diagnostics", 0);
+    summary.sourceManifestExpectedFiles =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "source_manifest_expected_files", 0);
+    summary.sourceManifestActualFiles =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "source_manifest_actual_files", 0);
+    summary.sourceManifestCountDriftFamilies =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "source_manifest_count_drift_families", 0);
+    summary.sourceManifestMissingDirectories =
+        yamlScalarValue<size_t>(sourceIntegrityNode, "source_manifest_missing_directories", 0);
+    summary.documentPathsTotal = yamlScalarValue<size_t>(documentPathsNode, "total", 0);
+    summary.documentPathsMissing = yamlScalarValue<size_t>(documentPathsNode, "missing", 0);
+    summary.documentPathsMissingRequired = yamlScalarValue<size_t>(documentPathsNode, "missing_required", 0);
+    summary.documentPathsReadOnlySource = yamlScalarValue<size_t>(documentPathsNode, "source_read_only", 0);
+    summary.documentPathsGenerated = yamlScalarValue<size_t>(documentPathsNode, "generated", 0);
+    summary.documentPathsAuthored = yamlScalarValue<size_t>(documentPathsNode, "authored", 0);
+    summary.documentPathsAuthoredOverrides =
+        yamlScalarValue<size_t>(documentPathsNode, "authored_overrides", 0);
+    summary.documentPathsCompatibilityDerived =
+        yamlScalarValue<size_t>(documentPathsNode, "compatibility_derived", 0);
     summary.datWorldReferenceIssues = yamlScalarValue<size_t>(datWorldReferenceNode, "issues", 0);
+    summary.datWorldInvalidLeafReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "dat_world_invalid_leaf_references", 0);
+    summary.datWorldInvalidSurfaceTextureRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "dat_world_invalid_surface_texture_refs", 0);
+    summary.datWorldInvalidPolySurfaceRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "dat_world_invalid_poly_surface_refs", 0);
+    summary.datWorldInvalidPolyPlaneRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "dat_world_invalid_poly_plane_refs", 0);
+    summary.datWorldInvalidPolyVertexRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "dat_world_invalid_poly_vertex_refs", 0);
+    summary.datWorldInvalidNodePolyRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "dat_world_invalid_node_poly_refs", 0);
+    summary.datWorldInvalidRootNodeRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "dat_world_invalid_root_node_refs", 0);
+    summary.assetGraphTotal = yamlScalarValue<size_t>(assetGraphNode, "total", 0);
+    summary.assetGraphResolved = yamlScalarValue<size_t>(assetGraphNode, "resolved", 0);
+    summary.assetGraphUnresolved = yamlScalarValue<size_t>(assetGraphNode, "unresolved", 0);
+    summary.assetGraphAmbiguous = yamlScalarValue<size_t>(assetGraphNode, "ambiguous", 0);
+    summary.assetGraphStale = yamlScalarValue<size_t>(assetGraphNode, "stale", 0);
+    summary.assetGraphRequiredTotal = yamlScalarValue<size_t>(assetGraphNode, "required_total", 0);
+    summary.assetGraphRequiredResolved = yamlScalarValue<size_t>(assetGraphNode, "required_resolved", 0);
     summary.assetGraphRequiredUnresolved = yamlScalarValue<size_t>(assetGraphNode, "required_unresolved", 0);
     summary.assetGraphRequiredAmbiguous = yamlScalarValue<size_t>(assetGraphNode, "required_ambiguous", 0);
+    summary.assetGraphOptionalTotal = yamlScalarValue<size_t>(assetGraphNode, "optional_total", 0);
+    summary.assetGraphOptionalResolved = yamlScalarValue<size_t>(assetGraphNode, "optional_resolved", 0);
+    summary.assetGraphOptionalUnresolved = yamlScalarValue<size_t>(assetGraphNode, "optional_unresolved", 0);
+    summary.assetGraphOptionalAmbiguous = yamlScalarValue<size_t>(assetGraphNode, "optional_ambiguous", 0);
+    summary.assetGraphSourceOnly = yamlScalarValue<size_t>(assetGraphNode, "source_only", 0);
+    summary.assetGraphUnusedSource = yamlScalarValue<size_t>(assetGraphNode, "unused_source", 0);
+    summary.rawObjectAssetRefs = yamlScalarValue<size_t>(reportSummaryNode, "raw_object_asset_refs", 0);
+    summary.requiredRawObjectAssetRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "required_raw_object_asset_refs", 0);
+    summary.optionalRawObjectAssetRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "optional_raw_object_asset_refs", 0);
     summary.unresolvedRequiredRawObjectAssetRefs =
         yamlScalarValue<size_t>(reportSummaryNode, "unresolved_required_raw_object_asset_refs", 0);
-    summary.staleCaches = yamlScalarValue<size_t>(assetGraphNode, "stale", 0);
+    summary.unresolvedOptionalRawObjectAssetRefs =
+        yamlScalarValue<size_t>(reportSummaryNode, "unresolved_optional_raw_object_asset_refs", 0);
+    summary.staleCaches = summary.assetGraphStale;
     summary.mechanismUnresolvedRequiredTargets =
         yamlScalarValue<size_t>(mechanismNode, "unresolved_required_targets", 0);
     summary.mechanismIncompleteLinearMotion =
         yamlScalarValue<size_t>(mechanismNode, "incomplete_linear_motion", 0);
     summary.mechanismIncompleteRotationMotion =
         yamlScalarValue<size_t>(mechanismNode, "incomplete_rotation_motion", 0);
+    summary.mechanismSoundSlots = yamlScalarValue<size_t>(mechanismNode, "sound_slots", 0);
+    summary.mechanismAuthoredSoundReferences =
+        yamlScalarValue<size_t>(mechanismNode, "authored_sound_references", 0);
+    summary.mechanismEmptySoundReferences =
+        yamlScalarValue<size_t>(mechanismNode, "empty_sound_references", 0);
+    summary.mechanismPreviewableMechanisms =
+        yamlScalarValue<size_t>(mechanismNode, "previewable_mechanisms", 0);
+    summary.mechanismInertMechanisms =
+        yamlScalarValue<size_t>(mechanismNode, "inert_mechanisms", 0);
+    summary.mechanismInertPreviewEntries =
+        yamlScalarValue<size_t>(mechanismNode, "inert_preview_entries", 0);
+    summary.mechanismWithoutPreviewMotion =
+        yamlScalarValue<size_t>(mechanismNode, "without_preview_motion", 0);
+    summary.mechanismWithoutPreviewTarget =
+        yamlScalarValue<size_t>(mechanismNode, "without_preview_target", 0);
+    summary.mechanismActivationStartOpenFields =
+        yamlScalarValue<size_t>(mechanismNode, "activation_start_open_fields", 0);
+    summary.mechanismActivationLockedFields =
+        yamlScalarValue<size_t>(mechanismNode, "activation_locked_fields", 0);
+    summary.mechanismActivationPushOpenFields =
+        yamlScalarValue<size_t>(mechanismNode, "activation_push_open_fields", 0);
+    summary.mechanismActivationTouchToOpenFields =
+        yamlScalarValue<size_t>(mechanismNode, "activation_touch_to_open_fields", 0);
+    summary.mechanismActivationLockOnCloseFields =
+        yamlScalarValue<size_t>(mechanismNode, "activation_lock_on_close_fields", 0);
+    summary.mechanismActivationReopenOnContactFields =
+        yamlScalarValue<size_t>(mechanismNode, "activation_reopen_on_contact_fields", 0);
+    summary.mechanismRotationOpenAwayFields =
+        yamlScalarValue<size_t>(mechanismNode, "rotation_open_away_fields", 0);
+    summary.mechanismTimingMoveDelayFields =
+        yamlScalarValue<size_t>(mechanismNode, "timing_move_delay_fields", 0);
+    summary.mechanismTimingOpenWaitFields =
+        yamlScalarValue<size_t>(mechanismNode, "timing_open_wait_fields", 0);
     summary.mechanismTriggerOutputs = yamlScalarValue<size_t>(mechanismNode, "trigger_outputs", 0);
     summary.mechanismUnresolvedTriggerOutputs =
         yamlScalarValue<size_t>(mechanismNode, "unresolved_trigger_outputs", 0);
+    summary.scriptIncludes = yamlScalarValue<size_t>(reportSummaryNode, "script_includes", 0);
+    summary.scriptLabels = yamlScalarValue<size_t>(reportSummaryNode, "script_labels", 0);
+    summary.scriptIncludeReferences = yamlScalarValue<size_t>(reportSummaryNode, "script_include_references", 0);
+    summary.scriptResolvedIncludes = yamlScalarValue<size_t>(reportSummaryNode, "script_resolved_includes", 0);
+    summary.scriptUnresolvedIncludes = yamlScalarValue<size_t>(reportSummaryNode, "script_unresolved_includes", 0);
+    summary.scriptAmbiguousIncludes = yamlScalarValue<size_t>(reportSummaryNode, "script_ambiguous_includes", 0);
     summary.scriptRegisteredTriggers = yamlScalarValue<size_t>(reportSummaryNode, "script_registered_triggers", 0);
     summary.scriptTriggerEdges = yamlScalarValue<size_t>(reportSummaryNode, "script_trigger_edges", 0);
     summary.scriptMovementCommands = yamlScalarValue<size_t>(reportSummaryNode, "script_movement_commands", 0);
@@ -478,6 +704,18 @@ bool readMm9ValidationReportSummary(
         yamlScalarValue<size_t>(reportSummaryNode, "mechanism_target_marker_vertices", 0);
     summary.mechanismTargetMarkerSourceLinks =
         yamlScalarValue<size_t>(reportSummaryNode, "mechanism_target_marker_source_links", 0);
+    summary.mechanismGizmoCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_gizmo_candidates", 0);
+    summary.mechanismCircleGizmoCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_circle_gizmo_candidates", 0);
+    summary.mechanismTargetGizmoCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_target_gizmo_candidates", 0);
+    summary.mechanismMotionPathMarkers =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_motion_path_markers", 0);
+    summary.mechanismLineOfSightCheckedCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_los_checked_candidates", 0);
+    summary.mechanismLineOfSightBlockedCandidates =
+        yamlScalarValue<size_t>(reportSummaryNode, "mechanism_los_blocked_candidates", 0);
     summary.lightObjects = yamlScalarValue<size_t>(reportSummaryNode, "light_objects", 0);
     summary.lightOverlayVertices = yamlScalarValue<size_t>(reportSummaryNode, "light_overlay_vertices", 0);
     summary.staticRenderLights = yamlScalarValue<size_t>(reportSummaryNode, "static_render_lights", 0);
@@ -501,8 +739,22 @@ bool readMm9ValidationReportSummary(
         yamlScalarValue<size_t>(mechanismNode, "world_model_targets_mismatched_polygon_group", 0);
     summary.nativeRenderableTriangles =
         yamlScalarValue<size_t>(reportSummaryNode, "viewport_native_renderable_triangles", 0);
+    summary.viewportNativeMissingMaterialTriangles =
+        yamlScalarValue<size_t>(reportSummaryNode, "viewport_native_missing_material_triangles", 0);
+    summary.viewportNativePlaceholderMaterialTriangles =
+        yamlScalarValue<size_t>(reportSummaryNode, "viewport_native_placeholder_material_triangles", 0);
     summary.viewportNativeUnresolvedMaterialTriangles =
         yamlScalarValue<size_t>(reportSummaryNode, "viewport_native_unresolved_material_triangles", 0);
+    summary.nativeFilterVisual = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_visual", 0);
+    summary.nativeFilterInvisible = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_invisible", 0);
+    summary.nativeFilterWater = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_water", 0);
+    summary.nativeFilterVisibleWater = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_visible_water", 0);
+    summary.nativeFilterWaterVolume = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_water_volume", 0);
+    summary.nativeFilterRail = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_rail", 0);
+    summary.nativeFilterHelper = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_helper", 0);
+    summary.nativeFilterPhysics = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_physics", 0);
+    summary.nativeFilterVisibility = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_visibility", 0);
+    summary.nativeFilterPortals = yamlScalarValue<size_t>(reportSummaryNode, "native_filter_portals", 0);
     summary.worldModelOverlayVertices =
         yamlScalarValue<size_t>(reportSummaryNode, "world_model_overlay_vertices", 0);
     summary.worldModelOverlayPickCandidates =
@@ -511,6 +763,8 @@ bool readMm9ValidationReportSummary(
         yamlScalarValue<size_t>(reportSummaryNode, "selected_polygon_overlay_vertices", 0);
     summary.selectedSurfaceOverlayVertices =
         yamlScalarValue<size_t>(reportSummaryNode, "selected_surface_overlay_vertices", 0);
+    summary.rawObjects = yamlScalarValue<size_t>(reportSummaryNode, "raw_objects", 0);
+    summary.rawObjectSidecarIssues = yamlScalarValue<size_t>(reportSummaryNode, "raw_object_sidecar_issues", 0);
     summary.modelInstances = yamlScalarValue<size_t>(reportSummaryNode, "model_instances", 0);
     summary.modelInstancesInCameraFrame =
         yamlScalarValue<size_t>(reportSummaryNode, "model_instances_in_camera_frame", 0);
@@ -521,13 +775,72 @@ bool readMm9ValidationReportSummary(
     summary.actorVariantCandidates = yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_candidates", 0);
     summary.actorVariantGameplayIdentityRows =
         yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_gameplay_identity_rows", 0);
+    summary.actorVariantFootSoundFields =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_foot_sound_fields", 0);
+    summary.actorVariantResolvedFootSounds =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_resolved_foot_sounds", 0);
+    summary.actorVariantUnresolvedFootSounds =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_unresolved_foot_sounds", 0);
+    summary.actorVariantSourceSoundReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_source_sound_references", 0);
+    summary.actorVariantResolvedSourceSoundReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_resolved_source_sound_references", 0);
+    summary.actorVariantUnresolvedSourceSoundReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_unresolved_source_sound_references", 0);
+    summary.actorVariantSourceVoiceReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_source_voice_references", 0);
+    summary.actorVariantResolvedSourceVoiceReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_resolved_source_voice_references", 0);
+    summary.actorVariantUnresolvedSourceVoiceReferences =
+        yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_unresolved_source_voice_references", 0);
     summary.actorVariantUnresolved = yamlScalarValue<size_t>(reportSummaryNode, "actor_variant_unresolved", 0);
+    summary.scriptedObjectsWithModelCollisionVolumes =
+        yamlScalarValue<size_t>(reportSummaryNode, "scripted_objects_with_model_collision_volumes", 0);
+    summary.scriptedObjectsRequiringBillboardCollisionVisuals =
+        yamlScalarValue<size_t>(reportSummaryNode, "scripted_objects_requiring_billboard_collision_visuals", 0);
     summary.missingScriptedObjectCollisionVisuals =
         yamlScalarValue<size_t>(reportSummaryNode, "missing_scripted_object_collision_visuals", 0);
     summary.mechanismPreviewCandidates =
         yamlScalarValue<size_t>(reportSummaryNode, "mechanism_preview_candidates", 0);
     summary.mechanismPreviewChangedBounds =
         yamlScalarValue<size_t>(reportSummaryNode, "mechanism_preview_changed_bounds", 0);
+    summary.materialTextures = yamlScalarValue<size_t>(reportSummaryNode, "material_textures", 0);
+    summary.resolvedDtx = yamlScalarValue<size_t>(reportSummaryNode, "resolved_dtx", 0);
+    summary.ambiguousDtx = yamlScalarValue<size_t>(reportSummaryNode, "ambiguous_dtx", 0);
+    summary.sourceDtxPaths = yamlScalarValue<size_t>(reportSummaryNode, "source_dtx_paths", 0);
+    summary.defaultHelperMaterials = yamlScalarValue<size_t>(reportSummaryNode, "default_helper_materials", 0);
+    summary.placeholderMissingSourceMaterials =
+        yamlScalarValue<size_t>(reportSummaryNode, "placeholder_missing_source_materials", 0);
+    summary.dtxHeaders = yamlScalarValue<size_t>(reportSummaryNode, "dtx_headers", 0);
+    summary.dtxHeadersMatchingSidecar =
+        yamlScalarValue<size_t>(reportSummaryNode, "dtx_headers_matching_sidecar", 0);
+    summary.dtxUserFlagRecords = yamlScalarValue<size_t>(reportSummaryNode, "dtx_user_flag_records", 0);
+    summary.dtxExtraByteRecords = yamlScalarValue<size_t>(reportSummaryNode, "dtx_extra_byte_records", 0);
+    summary.dtxMipPayloads = yamlScalarValue<size_t>(reportSummaryNode, "dtx_mip_payloads", 0);
+    summary.dtxDecodedPreviewMips = yamlScalarValue<size_t>(reportSummaryNode, "dtx_decoded_preview_mips", 0);
+    summary.dtxSectionMetadataRecords =
+        yamlScalarValue<size_t>(reportSummaryNode, "dtx_section_metadata_records", 0);
+    summary.dtxSectionPayloadsAvailable =
+        yamlScalarValue<size_t>(reportSummaryNode, "dtx_section_payloads_available", 0);
+    summary.dtxCommandStrings = yamlScalarValue<size_t>(reportSummaryNode, "dtx_command_strings", 0);
+    summary.decodedCacheDeterminismChecked =
+        yamlScalarValue<size_t>(reportSummaryNode, "decoded_cache_determinism_checked", 0);
+    summary.decodedCacheSourceDecoded =
+        yamlScalarValue<size_t>(reportSummaryNode, "decoded_cache_source_decoded", 0);
+    summary.decodedCacheImageDecoded =
+        yamlScalarValue<size_t>(reportSummaryNode, "decoded_cache_image_decoded", 0);
+    summary.decodedCacheMatchesSource =
+        yamlScalarValue<size_t>(reportSummaryNode, "decoded_cache_matches_source", 0);
+    summary.decodedCacheMismatches = yamlScalarValue<size_t>(reportSummaryNode, "decoded_cache_mismatches", 0);
+    summary.spriteMaterials = yamlScalarValue<size_t>(reportSummaryNode, "sprite_materials", 0);
+    summary.resolvedSpriteMaterials = yamlScalarValue<size_t>(reportSummaryNode, "resolved_sprite_materials", 0);
+    summary.spriteFrameTextures = yamlScalarValue<size_t>(reportSummaryNode, "sprite_frame_textures", 0);
+    summary.resolvedSpriteFrameTextures =
+        yamlScalarValue<size_t>(reportSummaryNode, "resolved_sprite_frame_textures", 0);
+    summary.unresolvedSpriteFrameTextures =
+        yamlScalarValue<size_t>(reportSummaryNode, "unresolved_sprite_frame_textures", 0);
+    summary.ambiguousSpriteFrameTextures =
+        yamlScalarValue<size_t>(reportSummaryNode, "ambiguous_sprite_frame_textures", 0);
     summary.diagnosticErrors = yamlScalarValue<size_t>(diagnosticsNode, "errors", 0);
     summary.diagnosticWarnings = yamlScalarValue<size_t>(diagnosticsNode, "warnings", 0);
     summary.diagnosticInfo = yamlScalarValue<size_t>(diagnosticsNode, "info", 0);
@@ -588,16 +901,81 @@ bool writeMm9ValidationSummaryReport(
 
     size_t cleanCount = 0;
     size_t dirtyCount = 0;
+    size_t levelLoadDiagnostics = 0;
+    size_t sourceMutationSnapshotVerifiedReports = 0;
+    size_t sourceMutationSnapshotFiles = 0;
+    size_t sourceDatHashDiagnostics = 0;
+    size_t sourceDatHashVerifiedReports = 0;
+    size_t sourceManifestDiagnostics = 0;
+    size_t sourceManifestExpectedFiles = 0;
+    size_t sourceManifestActualFiles = 0;
+    size_t sourceManifestCountDriftFamilies = 0;
+    size_t sourceManifestMissingDirectories = 0;
+    size_t documentPathsTotal = 0;
+    size_t documentPathsMissing = 0;
+    size_t documentPathsMissingRequired = 0;
+    size_t readonlySourcePaths = 0;
+    size_t generatedPaths = 0;
+    size_t authoredPaths = 0;
+    size_t authoredOverridePaths = 0;
+    size_t compatibilityPaths = 0;
     size_t datWorldReferenceIssues = 0;
+    size_t datWorldInvalidLeafReferences = 0;
+    size_t datWorldInvalidSurfaceTextureRefs = 0;
+    size_t datWorldInvalidPolySurfaceRefs = 0;
+    size_t datWorldInvalidPolyPlaneRefs = 0;
+    size_t datWorldInvalidPolyVertexRefs = 0;
+    size_t datWorldInvalidNodePolyRefs = 0;
+    size_t datWorldInvalidRootNodeRefs = 0;
+    size_t assetGraphTotal = 0;
+    size_t assetGraphResolved = 0;
+    size_t assetGraphUnresolved = 0;
+    size_t assetGraphAmbiguous = 0;
+    size_t assetGraphStale = 0;
+    size_t assetGraphRequiredTotal = 0;
+    size_t assetGraphRequiredResolved = 0;
     size_t assetGraphRequiredUnresolved = 0;
     size_t assetGraphRequiredAmbiguous = 0;
+    size_t assetGraphOptionalTotal = 0;
+    size_t assetGraphOptionalResolved = 0;
+    size_t assetGraphOptionalUnresolved = 0;
+    size_t assetGraphOptionalAmbiguous = 0;
+    size_t assetGraphSourceOnly = 0;
+    size_t assetGraphUnusedSource = 0;
+    size_t rawObjectAssetRefs = 0;
+    size_t requiredRawObjectAssetRefs = 0;
+    size_t optionalRawObjectAssetRefs = 0;
     size_t unresolvedRequiredRawObjectAssetRefs = 0;
+    size_t unresolvedOptionalRawObjectAssetRefs = 0;
     size_t staleCaches = 0;
     size_t mechanismUnresolvedRequiredTargets = 0;
     size_t mechanismIncompleteLinearMotion = 0;
     size_t mechanismIncompleteRotationMotion = 0;
+    size_t mechanismSoundSlots = 0;
+    size_t mechanismAuthoredSoundReferences = 0;
+    size_t mechanismEmptySoundReferences = 0;
+    size_t mechanismPreviewableMechanisms = 0;
+    size_t mechanismInertMechanisms = 0;
+    size_t mechanismInertPreviewEntries = 0;
+    size_t mechanismWithoutPreviewMotion = 0;
+    size_t mechanismWithoutPreviewTarget = 0;
+    size_t mechanismActivationStartOpenFields = 0;
+    size_t mechanismActivationLockedFields = 0;
+    size_t mechanismActivationPushOpenFields = 0;
+    size_t mechanismActivationTouchToOpenFields = 0;
+    size_t mechanismActivationLockOnCloseFields = 0;
+    size_t mechanismActivationReopenOnContactFields = 0;
+    size_t mechanismRotationOpenAwayFields = 0;
+    size_t mechanismTimingMoveDelayFields = 0;
+    size_t mechanismTimingOpenWaitFields = 0;
     size_t mechanismTriggerOutputs = 0;
     size_t mechanismUnresolvedTriggerOutputs = 0;
+    size_t scriptIncludes = 0;
+    size_t scriptLabels = 0;
+    size_t scriptIncludeReferences = 0;
+    size_t scriptResolvedIncludes = 0;
+    size_t scriptUnresolvedIncludes = 0;
+    size_t scriptAmbiguousIncludes = 0;
     size_t scriptRegisteredTriggers = 0;
     size_t scriptTriggerEdges = 0;
     size_t scriptMovementCommands = 0;
@@ -608,11 +986,25 @@ bool writeMm9ValidationSummaryReport(
     size_t mechanismWorldModelTargetsMissingPolygonGroup = 0;
     size_t mechanismWorldModelTargetsMismatchedPolygonGroup = 0;
     size_t nativeRenderableTriangles = 0;
+    size_t viewportNativeMissingMaterialTriangles = 0;
+    size_t viewportNativePlaceholderMaterialTriangles = 0;
     size_t viewportNativeUnresolvedMaterialTriangles = 0;
+    size_t nativeFilterVisual = 0;
+    size_t nativeFilterInvisible = 0;
+    size_t nativeFilterWater = 0;
+    size_t nativeFilterVisibleWater = 0;
+    size_t nativeFilterWaterVolume = 0;
+    size_t nativeFilterRail = 0;
+    size_t nativeFilterHelper = 0;
+    size_t nativeFilterPhysics = 0;
+    size_t nativeFilterVisibility = 0;
+    size_t nativeFilterPortals = 0;
     size_t worldModelOverlayVertices = 0;
     size_t worldModelOverlayPickCandidates = 0;
     size_t selectedPolygonOverlayVertices = 0;
     size_t selectedSurfaceOverlayVertices = 0;
+    size_t rawObjects = 0;
+    size_t rawObjectSidecarIssues = 0;
     size_t objectSourceTransforms = 0;
     size_t objectBoundsEvidence = 0;
     size_t objectTriggerVolumes = 0;
@@ -627,6 +1019,12 @@ bool writeMm9ValidationSummaryReport(
     size_t mechanismTargetMarkerCandidates = 0;
     size_t mechanismTargetMarkerVertices = 0;
     size_t mechanismTargetMarkerSourceLinks = 0;
+    size_t mechanismGizmoCandidates = 0;
+    size_t mechanismCircleGizmoCandidates = 0;
+    size_t mechanismTargetGizmoCandidates = 0;
+    size_t mechanismMotionPathMarkers = 0;
+    size_t mechanismLineOfSightCheckedCandidates = 0;
+    size_t mechanismLineOfSightBlockedCandidates = 0;
     size_t lightObjects = 0;
     size_t lightOverlayVertices = 0;
     size_t staticRenderLights = 0;
@@ -645,10 +1043,47 @@ bool writeMm9ValidationSummaryReport(
     size_t missingDrawableModelInstanceGeometry = 0;
     size_t actorVariantCandidates = 0;
     size_t actorVariantGameplayIdentityRows = 0;
+    size_t actorVariantFootSoundFields = 0;
+    size_t actorVariantResolvedFootSounds = 0;
+    size_t actorVariantUnresolvedFootSounds = 0;
+    size_t actorVariantSourceSoundReferences = 0;
+    size_t actorVariantResolvedSourceSoundReferences = 0;
+    size_t actorVariantUnresolvedSourceSoundReferences = 0;
+    size_t actorVariantSourceVoiceReferences = 0;
+    size_t actorVariantResolvedSourceVoiceReferences = 0;
+    size_t actorVariantUnresolvedSourceVoiceReferences = 0;
     size_t actorVariantUnresolved = 0;
+    size_t scriptedObjectsWithModelCollisionVolumes = 0;
+    size_t scriptedObjectsRequiringBillboardCollisionVisuals = 0;
     size_t missingScriptedObjectCollisionVisuals = 0;
     size_t mechanismPreviewCandidates = 0;
     size_t mechanismPreviewChangedBounds = 0;
+    size_t materialTextures = 0;
+    size_t resolvedDtx = 0;
+    size_t ambiguousDtx = 0;
+    size_t sourceDtxPaths = 0;
+    size_t defaultHelperMaterials = 0;
+    size_t placeholderMissingSourceMaterials = 0;
+    size_t dtxHeaders = 0;
+    size_t dtxHeadersMatchingSidecar = 0;
+    size_t dtxUserFlagRecords = 0;
+    size_t dtxExtraByteRecords = 0;
+    size_t dtxMipPayloads = 0;
+    size_t dtxDecodedPreviewMips = 0;
+    size_t dtxSectionMetadataRecords = 0;
+    size_t dtxSectionPayloadsAvailable = 0;
+    size_t dtxCommandStrings = 0;
+    size_t decodedCacheDeterminismChecked = 0;
+    size_t decodedCacheSourceDecoded = 0;
+    size_t decodedCacheImageDecoded = 0;
+    size_t decodedCacheMatchesSource = 0;
+    size_t decodedCacheMismatches = 0;
+    size_t spriteMaterials = 0;
+    size_t resolvedSpriteMaterials = 0;
+    size_t spriteFrameTextures = 0;
+    size_t resolvedSpriteFrameTextures = 0;
+    size_t unresolvedSpriteFrameTextures = 0;
+    size_t ambiguousSpriteFrameTextures = 0;
     size_t diagnosticErrors = 0;
     size_t diagnosticWarnings = 0;
     size_t diagnosticInfo = 0;
@@ -664,16 +1099,87 @@ bool writeMm9ValidationSummaryReport(
             ++dirtyCount;
         }
 
+        levelLoadDiagnostics += report.levelLoadDiagnostics;
+        if (report.sourceMutationSnapshotVerified)
+        {
+            ++sourceMutationSnapshotVerifiedReports;
+        }
+        sourceMutationSnapshotFiles += report.sourceMutationSnapshotFiles;
+        sourceDatHashDiagnostics += report.sourceDatHashDiagnostics;
+        if (report.sourceDatHashVerified)
+        {
+            ++sourceDatHashVerifiedReports;
+        }
+        sourceManifestDiagnostics += report.sourceManifestDiagnostics;
+        sourceManifestExpectedFiles += report.sourceManifestExpectedFiles;
+        sourceManifestActualFiles += report.sourceManifestActualFiles;
+        sourceManifestCountDriftFamilies += report.sourceManifestCountDriftFamilies;
+        sourceManifestMissingDirectories += report.sourceManifestMissingDirectories;
+        documentPathsTotal += report.documentPathsTotal;
+        documentPathsMissing += report.documentPathsMissing;
+        documentPathsMissingRequired += report.documentPathsMissingRequired;
+        readonlySourcePaths += report.documentPathsReadOnlySource;
+        generatedPaths += report.documentPathsGenerated;
+        authoredPaths += report.documentPathsAuthored;
+        authoredOverridePaths += report.documentPathsAuthoredOverrides;
+        compatibilityPaths += report.documentPathsCompatibilityDerived;
         datWorldReferenceIssues += report.datWorldReferenceIssues;
+        datWorldInvalidLeafReferences += report.datWorldInvalidLeafReferences;
+        datWorldInvalidSurfaceTextureRefs += report.datWorldInvalidSurfaceTextureRefs;
+        datWorldInvalidPolySurfaceRefs += report.datWorldInvalidPolySurfaceRefs;
+        datWorldInvalidPolyPlaneRefs += report.datWorldInvalidPolyPlaneRefs;
+        datWorldInvalidPolyVertexRefs += report.datWorldInvalidPolyVertexRefs;
+        datWorldInvalidNodePolyRefs += report.datWorldInvalidNodePolyRefs;
+        datWorldInvalidRootNodeRefs += report.datWorldInvalidRootNodeRefs;
+        assetGraphTotal += report.assetGraphTotal;
+        assetGraphResolved += report.assetGraphResolved;
+        assetGraphUnresolved += report.assetGraphUnresolved;
+        assetGraphAmbiguous += report.assetGraphAmbiguous;
+        assetGraphStale += report.assetGraphStale;
+        assetGraphRequiredTotal += report.assetGraphRequiredTotal;
+        assetGraphRequiredResolved += report.assetGraphRequiredResolved;
         assetGraphRequiredUnresolved += report.assetGraphRequiredUnresolved;
         assetGraphRequiredAmbiguous += report.assetGraphRequiredAmbiguous;
+        assetGraphOptionalTotal += report.assetGraphOptionalTotal;
+        assetGraphOptionalResolved += report.assetGraphOptionalResolved;
+        assetGraphOptionalUnresolved += report.assetGraphOptionalUnresolved;
+        assetGraphOptionalAmbiguous += report.assetGraphOptionalAmbiguous;
+        assetGraphSourceOnly += report.assetGraphSourceOnly;
+        assetGraphUnusedSource += report.assetGraphUnusedSource;
+        rawObjectAssetRefs += report.rawObjectAssetRefs;
+        requiredRawObjectAssetRefs += report.requiredRawObjectAssetRefs;
+        optionalRawObjectAssetRefs += report.optionalRawObjectAssetRefs;
         unresolvedRequiredRawObjectAssetRefs += report.unresolvedRequiredRawObjectAssetRefs;
+        unresolvedOptionalRawObjectAssetRefs += report.unresolvedOptionalRawObjectAssetRefs;
         staleCaches += report.staleCaches;
         mechanismUnresolvedRequiredTargets += report.mechanismUnresolvedRequiredTargets;
         mechanismIncompleteLinearMotion += report.mechanismIncompleteLinearMotion;
         mechanismIncompleteRotationMotion += report.mechanismIncompleteRotationMotion;
+        mechanismSoundSlots += report.mechanismSoundSlots;
+        mechanismAuthoredSoundReferences += report.mechanismAuthoredSoundReferences;
+        mechanismEmptySoundReferences += report.mechanismEmptySoundReferences;
+        mechanismPreviewableMechanisms += report.mechanismPreviewableMechanisms;
+        mechanismInertMechanisms += report.mechanismInertMechanisms;
+        mechanismInertPreviewEntries += report.mechanismInertPreviewEntries;
+        mechanismWithoutPreviewMotion += report.mechanismWithoutPreviewMotion;
+        mechanismWithoutPreviewTarget += report.mechanismWithoutPreviewTarget;
+        mechanismActivationStartOpenFields += report.mechanismActivationStartOpenFields;
+        mechanismActivationLockedFields += report.mechanismActivationLockedFields;
+        mechanismActivationPushOpenFields += report.mechanismActivationPushOpenFields;
+        mechanismActivationTouchToOpenFields += report.mechanismActivationTouchToOpenFields;
+        mechanismActivationLockOnCloseFields += report.mechanismActivationLockOnCloseFields;
+        mechanismActivationReopenOnContactFields += report.mechanismActivationReopenOnContactFields;
+        mechanismRotationOpenAwayFields += report.mechanismRotationOpenAwayFields;
+        mechanismTimingMoveDelayFields += report.mechanismTimingMoveDelayFields;
+        mechanismTimingOpenWaitFields += report.mechanismTimingOpenWaitFields;
         mechanismTriggerOutputs += report.mechanismTriggerOutputs;
         mechanismUnresolvedTriggerOutputs += report.mechanismUnresolvedTriggerOutputs;
+        scriptIncludes += report.scriptIncludes;
+        scriptLabels += report.scriptLabels;
+        scriptIncludeReferences += report.scriptIncludeReferences;
+        scriptResolvedIncludes += report.scriptResolvedIncludes;
+        scriptUnresolvedIncludes += report.scriptUnresolvedIncludes;
+        scriptAmbiguousIncludes += report.scriptAmbiguousIncludes;
         scriptRegisteredTriggers += report.scriptRegisteredTriggers;
         scriptTriggerEdges += report.scriptTriggerEdges;
         scriptMovementCommands += report.scriptMovementCommands;
@@ -684,11 +1190,25 @@ bool writeMm9ValidationSummaryReport(
         mechanismWorldModelTargetsMissingPolygonGroup += report.mechanismWorldModelTargetsMissingPolygonGroup;
         mechanismWorldModelTargetsMismatchedPolygonGroup += report.mechanismWorldModelTargetsMismatchedPolygonGroup;
         nativeRenderableTriangles += report.nativeRenderableTriangles;
+        viewportNativeMissingMaterialTriangles += report.viewportNativeMissingMaterialTriangles;
+        viewportNativePlaceholderMaterialTriangles += report.viewportNativePlaceholderMaterialTriangles;
         viewportNativeUnresolvedMaterialTriangles += report.viewportNativeUnresolvedMaterialTriangles;
+        nativeFilterVisual += report.nativeFilterVisual;
+        nativeFilterInvisible += report.nativeFilterInvisible;
+        nativeFilterWater += report.nativeFilterWater;
+        nativeFilterVisibleWater += report.nativeFilterVisibleWater;
+        nativeFilterWaterVolume += report.nativeFilterWaterVolume;
+        nativeFilterRail += report.nativeFilterRail;
+        nativeFilterHelper += report.nativeFilterHelper;
+        nativeFilterPhysics += report.nativeFilterPhysics;
+        nativeFilterVisibility += report.nativeFilterVisibility;
+        nativeFilterPortals += report.nativeFilterPortals;
         worldModelOverlayVertices += report.worldModelOverlayVertices;
         worldModelOverlayPickCandidates += report.worldModelOverlayPickCandidates;
         selectedPolygonOverlayVertices += report.selectedPolygonOverlayVertices;
         selectedSurfaceOverlayVertices += report.selectedSurfaceOverlayVertices;
+        rawObjects += report.rawObjects;
+        rawObjectSidecarIssues += report.rawObjectSidecarIssues;
         objectSourceTransforms += report.objectSourceTransforms;
         objectBoundsEvidence += report.objectBoundsEvidence;
         objectTriggerVolumes += report.objectTriggerVolumes;
@@ -703,6 +1223,12 @@ bool writeMm9ValidationSummaryReport(
         mechanismTargetMarkerCandidates += report.mechanismTargetMarkerCandidates;
         mechanismTargetMarkerVertices += report.mechanismTargetMarkerVertices;
         mechanismTargetMarkerSourceLinks += report.mechanismTargetMarkerSourceLinks;
+        mechanismGizmoCandidates += report.mechanismGizmoCandidates;
+        mechanismCircleGizmoCandidates += report.mechanismCircleGizmoCandidates;
+        mechanismTargetGizmoCandidates += report.mechanismTargetGizmoCandidates;
+        mechanismMotionPathMarkers += report.mechanismMotionPathMarkers;
+        mechanismLineOfSightCheckedCandidates += report.mechanismLineOfSightCheckedCandidates;
+        mechanismLineOfSightBlockedCandidates += report.mechanismLineOfSightBlockedCandidates;
         lightObjects += report.lightObjects;
         lightOverlayVertices += report.lightOverlayVertices;
         staticRenderLights += report.staticRenderLights;
@@ -721,10 +1247,48 @@ bool writeMm9ValidationSummaryReport(
         missingDrawableModelInstanceGeometry += report.missingDrawableModelInstanceGeometry;
         actorVariantCandidates += report.actorVariantCandidates;
         actorVariantGameplayIdentityRows += report.actorVariantGameplayIdentityRows;
+        actorVariantFootSoundFields += report.actorVariantFootSoundFields;
+        actorVariantResolvedFootSounds += report.actorVariantResolvedFootSounds;
+        actorVariantUnresolvedFootSounds += report.actorVariantUnresolvedFootSounds;
+        actorVariantSourceSoundReferences += report.actorVariantSourceSoundReferences;
+        actorVariantResolvedSourceSoundReferences += report.actorVariantResolvedSourceSoundReferences;
+        actorVariantUnresolvedSourceSoundReferences += report.actorVariantUnresolvedSourceSoundReferences;
+        actorVariantSourceVoiceReferences += report.actorVariantSourceVoiceReferences;
+        actorVariantResolvedSourceVoiceReferences += report.actorVariantResolvedSourceVoiceReferences;
+        actorVariantUnresolvedSourceVoiceReferences += report.actorVariantUnresolvedSourceVoiceReferences;
         actorVariantUnresolved += report.actorVariantUnresolved;
+        scriptedObjectsWithModelCollisionVolumes += report.scriptedObjectsWithModelCollisionVolumes;
+        scriptedObjectsRequiringBillboardCollisionVisuals +=
+            report.scriptedObjectsRequiringBillboardCollisionVisuals;
         missingScriptedObjectCollisionVisuals += report.missingScriptedObjectCollisionVisuals;
         mechanismPreviewCandidates += report.mechanismPreviewCandidates;
         mechanismPreviewChangedBounds += report.mechanismPreviewChangedBounds;
+        materialTextures += report.materialTextures;
+        resolvedDtx += report.resolvedDtx;
+        ambiguousDtx += report.ambiguousDtx;
+        sourceDtxPaths += report.sourceDtxPaths;
+        defaultHelperMaterials += report.defaultHelperMaterials;
+        placeholderMissingSourceMaterials += report.placeholderMissingSourceMaterials;
+        dtxHeaders += report.dtxHeaders;
+        dtxHeadersMatchingSidecar += report.dtxHeadersMatchingSidecar;
+        dtxUserFlagRecords += report.dtxUserFlagRecords;
+        dtxExtraByteRecords += report.dtxExtraByteRecords;
+        dtxMipPayloads += report.dtxMipPayloads;
+        dtxDecodedPreviewMips += report.dtxDecodedPreviewMips;
+        dtxSectionMetadataRecords += report.dtxSectionMetadataRecords;
+        dtxSectionPayloadsAvailable += report.dtxSectionPayloadsAvailable;
+        dtxCommandStrings += report.dtxCommandStrings;
+        decodedCacheDeterminismChecked += report.decodedCacheDeterminismChecked;
+        decodedCacheSourceDecoded += report.decodedCacheSourceDecoded;
+        decodedCacheImageDecoded += report.decodedCacheImageDecoded;
+        decodedCacheMatchesSource += report.decodedCacheMatchesSource;
+        decodedCacheMismatches += report.decodedCacheMismatches;
+        spriteMaterials += report.spriteMaterials;
+        resolvedSpriteMaterials += report.resolvedSpriteMaterials;
+        spriteFrameTextures += report.spriteFrameTextures;
+        resolvedSpriteFrameTextures += report.resolvedSpriteFrameTextures;
+        unresolvedSpriteFrameTextures += report.unresolvedSpriteFrameTextures;
+        ambiguousSpriteFrameTextures += report.ambiguousSpriteFrameTextures;
         diagnosticErrors += report.diagnosticErrors;
         diagnosticWarnings += report.diagnosticWarnings;
         diagnosticInfo += report.diagnosticInfo;
@@ -746,16 +1310,89 @@ bool writeMm9ValidationSummaryReport(
     writeYamlScalar(stream, "", "clean", dirtyCount == 0);
     writeYamlScalar(stream, "", "clean_reports", cleanCount);
     writeYamlScalar(stream, "", "dirty_reports", dirtyCount);
+    writeYamlScalar(stream, "", "level_load_diagnostics", levelLoadDiagnostics);
+    writeYamlScalar(
+        stream,
+        "",
+        "source_mutation_snapshot_verified_reports",
+        sourceMutationSnapshotVerifiedReports);
+    writeYamlScalar(stream, "", "source_mutation_snapshot_files", sourceMutationSnapshotFiles);
+    writeYamlScalar(stream, "", "source_dat_hash_diagnostics", sourceDatHashDiagnostics);
+    writeYamlScalar(stream, "", "source_dat_hash_verified_reports", sourceDatHashVerifiedReports);
+    writeYamlScalar(stream, "", "source_manifest_diagnostics", sourceManifestDiagnostics);
+    writeYamlScalar(stream, "", "source_manifest_expected_files", sourceManifestExpectedFiles);
+    writeYamlScalar(stream, "", "source_manifest_actual_files", sourceManifestActualFiles);
+    writeYamlScalar(stream, "", "source_manifest_count_drift_families", sourceManifestCountDriftFamilies);
+    writeYamlScalar(stream, "", "source_manifest_missing_directories", sourceManifestMissingDirectories);
+    writeYamlScalar(stream, "", "document_paths_total", documentPathsTotal);
+    writeYamlScalar(stream, "", "document_paths_missing", documentPathsMissing);
+    writeYamlScalar(stream, "", "document_paths_missing_required", documentPathsMissingRequired);
+    writeYamlScalar(stream, "", "readonly_source_paths", readonlySourcePaths);
+    writeYamlScalar(stream, "", "generated_paths", generatedPaths);
+    writeYamlScalar(stream, "", "authored_paths", authoredPaths);
+    writeYamlScalar(stream, "", "authored_override_paths", authoredOverridePaths);
+    writeYamlScalar(stream, "", "compatibility_paths", compatibilityPaths);
     writeYamlScalar(stream, "", "dat_world_reference_issues", datWorldReferenceIssues);
+    writeYamlScalar(stream, "", "dat_world_invalid_leaf_references", datWorldInvalidLeafReferences);
+    writeYamlScalar(stream, "", "dat_world_invalid_surface_texture_refs", datWorldInvalidSurfaceTextureRefs);
+    writeYamlScalar(stream, "", "dat_world_invalid_poly_surface_refs", datWorldInvalidPolySurfaceRefs);
+    writeYamlScalar(stream, "", "dat_world_invalid_poly_plane_refs", datWorldInvalidPolyPlaneRefs);
+    writeYamlScalar(stream, "", "dat_world_invalid_poly_vertex_refs", datWorldInvalidPolyVertexRefs);
+    writeYamlScalar(stream, "", "dat_world_invalid_node_poly_refs", datWorldInvalidNodePolyRefs);
+    writeYamlScalar(stream, "", "dat_world_invalid_root_node_refs", datWorldInvalidRootNodeRefs);
+    writeYamlScalar(stream, "", "asset_graph_total", assetGraphTotal);
+    writeYamlScalar(stream, "", "asset_graph_resolved", assetGraphResolved);
+    writeYamlScalar(stream, "", "asset_graph_unresolved", assetGraphUnresolved);
+    writeYamlScalar(stream, "", "asset_graph_ambiguous", assetGraphAmbiguous);
+    writeYamlScalar(stream, "", "asset_graph_stale", assetGraphStale);
+    writeYamlScalar(stream, "", "asset_graph_required_total", assetGraphRequiredTotal);
+    writeYamlScalar(stream, "", "asset_graph_required_resolved", assetGraphRequiredResolved);
     writeYamlScalar(stream, "", "asset_graph_required_unresolved", assetGraphRequiredUnresolved);
     writeYamlScalar(stream, "", "asset_graph_required_ambiguous", assetGraphRequiredAmbiguous);
+    writeYamlScalar(stream, "", "asset_graph_optional_total", assetGraphOptionalTotal);
+    writeYamlScalar(stream, "", "asset_graph_optional_resolved", assetGraphOptionalResolved);
+    writeYamlScalar(stream, "", "asset_graph_optional_unresolved", assetGraphOptionalUnresolved);
+    writeYamlScalar(stream, "", "asset_graph_optional_ambiguous", assetGraphOptionalAmbiguous);
+    writeYamlScalar(stream, "", "asset_graph_source_only", assetGraphSourceOnly);
+    writeYamlScalar(stream, "", "asset_graph_unused_source", assetGraphUnusedSource);
+    writeYamlScalar(stream, "", "raw_object_asset_refs", rawObjectAssetRefs);
+    writeYamlScalar(stream, "", "required_raw_object_asset_refs", requiredRawObjectAssetRefs);
+    writeYamlScalar(stream, "", "optional_raw_object_asset_refs", optionalRawObjectAssetRefs);
     writeYamlScalar(stream, "", "unresolved_required_raw_object_asset_refs", unresolvedRequiredRawObjectAssetRefs);
+    writeYamlScalar(stream, "", "unresolved_optional_raw_object_asset_refs", unresolvedOptionalRawObjectAssetRefs);
     writeYamlScalar(stream, "", "stale_caches", staleCaches);
     writeYamlScalar(stream, "", "mechanism_unresolved_required_targets", mechanismUnresolvedRequiredTargets);
     writeYamlScalar(stream, "", "mechanism_incomplete_linear_motion", mechanismIncompleteLinearMotion);
     writeYamlScalar(stream, "", "mechanism_incomplete_rotation_motion", mechanismIncompleteRotationMotion);
+    writeYamlScalar(stream, "", "mechanism_sound_slots", mechanismSoundSlots);
+    writeYamlScalar(stream, "", "mechanism_authored_sound_references", mechanismAuthoredSoundReferences);
+    writeYamlScalar(stream, "", "mechanism_empty_sound_references", mechanismEmptySoundReferences);
+    writeYamlScalar(stream, "", "mechanism_previewable_mechanisms", mechanismPreviewableMechanisms);
+    writeYamlScalar(stream, "", "mechanism_inert_mechanisms", mechanismInertMechanisms);
+    writeYamlScalar(stream, "", "mechanism_inert_preview_entries", mechanismInertPreviewEntries);
+    writeYamlScalar(stream, "", "mechanism_without_preview_motion", mechanismWithoutPreviewMotion);
+    writeYamlScalar(stream, "", "mechanism_without_preview_target", mechanismWithoutPreviewTarget);
+    writeYamlScalar(stream, "", "mechanism_activation_start_open_fields", mechanismActivationStartOpenFields);
+    writeYamlScalar(stream, "", "mechanism_activation_locked_fields", mechanismActivationLockedFields);
+    writeYamlScalar(stream, "", "mechanism_activation_push_open_fields", mechanismActivationPushOpenFields);
+    writeYamlScalar(stream, "", "mechanism_activation_touch_to_open_fields", mechanismActivationTouchToOpenFields);
+    writeYamlScalar(stream, "", "mechanism_activation_lock_on_close_fields", mechanismActivationLockOnCloseFields);
+    writeYamlScalar(
+        stream,
+        "",
+        "mechanism_activation_reopen_on_contact_fields",
+        mechanismActivationReopenOnContactFields);
+    writeYamlScalar(stream, "", "mechanism_rotation_open_away_fields", mechanismRotationOpenAwayFields);
+    writeYamlScalar(stream, "", "mechanism_timing_move_delay_fields", mechanismTimingMoveDelayFields);
+    writeYamlScalar(stream, "", "mechanism_timing_open_wait_fields", mechanismTimingOpenWaitFields);
     writeYamlScalar(stream, "", "mechanism_trigger_outputs", mechanismTriggerOutputs);
     writeYamlScalar(stream, "", "mechanism_unresolved_trigger_outputs", mechanismUnresolvedTriggerOutputs);
+    writeYamlScalar(stream, "", "script_includes", scriptIncludes);
+    writeYamlScalar(stream, "", "script_labels", scriptLabels);
+    writeYamlScalar(stream, "", "script_include_references", scriptIncludeReferences);
+    writeYamlScalar(stream, "", "script_resolved_includes", scriptResolvedIncludes);
+    writeYamlScalar(stream, "", "script_unresolved_includes", scriptUnresolvedIncludes);
+    writeYamlScalar(stream, "", "script_ambiguous_includes", scriptAmbiguousIncludes);
     writeYamlScalar(stream, "", "script_registered_triggers", scriptRegisteredTriggers);
     writeYamlScalar(stream, "", "script_trigger_edges", scriptTriggerEdges);
     writeYamlScalar(stream, "", "script_movement_commands", scriptMovementCommands);
@@ -785,12 +1422,34 @@ bool writeMm9ValidationSummaryReport(
     writeYamlScalar(
         stream,
         "",
+        "viewport_native_missing_material_triangles",
+        viewportNativeMissingMaterialTriangles);
+    writeYamlScalar(
+        stream,
+        "",
+        "viewport_native_placeholder_material_triangles",
+        viewportNativePlaceholderMaterialTriangles);
+    writeYamlScalar(
+        stream,
+        "",
         "viewport_native_unresolved_material_triangles",
         viewportNativeUnresolvedMaterialTriangles);
+    writeYamlScalar(stream, "", "native_filter_visual", nativeFilterVisual);
+    writeYamlScalar(stream, "", "native_filter_invisible", nativeFilterInvisible);
+    writeYamlScalar(stream, "", "native_filter_water", nativeFilterWater);
+    writeYamlScalar(stream, "", "native_filter_visible_water", nativeFilterVisibleWater);
+    writeYamlScalar(stream, "", "native_filter_water_volume", nativeFilterWaterVolume);
+    writeYamlScalar(stream, "", "native_filter_rail", nativeFilterRail);
+    writeYamlScalar(stream, "", "native_filter_helper", nativeFilterHelper);
+    writeYamlScalar(stream, "", "native_filter_physics", nativeFilterPhysics);
+    writeYamlScalar(stream, "", "native_filter_visibility", nativeFilterVisibility);
+    writeYamlScalar(stream, "", "native_filter_portals", nativeFilterPortals);
     writeYamlScalar(stream, "", "world_model_overlay_vertices", worldModelOverlayVertices);
     writeYamlScalar(stream, "", "world_model_overlay_pick_candidates", worldModelOverlayPickCandidates);
     writeYamlScalar(stream, "", "selected_polygon_overlay_vertices", selectedPolygonOverlayVertices);
     writeYamlScalar(stream, "", "selected_surface_overlay_vertices", selectedSurfaceOverlayVertices);
+    writeYamlScalar(stream, "", "raw_objects", rawObjects);
+    writeYamlScalar(stream, "", "raw_object_sidecar_issues", rawObjectSidecarIssues);
     writeYamlScalar(stream, "", "object_source_transforms", objectSourceTransforms);
     writeYamlScalar(stream, "", "object_bounds_evidence", objectBoundsEvidence);
     writeYamlScalar(stream, "", "object_trigger_volumes", objectTriggerVolumes);
@@ -809,6 +1468,12 @@ bool writeMm9ValidationSummaryReport(
     writeYamlScalar(stream, "", "mechanism_target_marker_candidates", mechanismTargetMarkerCandidates);
     writeYamlScalar(stream, "", "mechanism_target_marker_vertices", mechanismTargetMarkerVertices);
     writeYamlScalar(stream, "", "mechanism_target_marker_source_links", mechanismTargetMarkerSourceLinks);
+    writeYamlScalar(stream, "", "mechanism_gizmo_candidates", mechanismGizmoCandidates);
+    writeYamlScalar(stream, "", "mechanism_circle_gizmo_candidates", mechanismCircleGizmoCandidates);
+    writeYamlScalar(stream, "", "mechanism_target_gizmo_candidates", mechanismTargetGizmoCandidates);
+    writeYamlScalar(stream, "", "mechanism_motion_path_markers", mechanismMotionPathMarkers);
+    writeYamlScalar(stream, "", "mechanism_los_checked_candidates", mechanismLineOfSightCheckedCandidates);
+    writeYamlScalar(stream, "", "mechanism_los_blocked_candidates", mechanismLineOfSightBlockedCandidates);
     writeYamlScalar(stream, "", "light_objects", lightObjects);
     writeYamlScalar(stream, "", "light_overlay_vertices", lightOverlayVertices);
     writeYamlScalar(stream, "", "static_render_lights", staticRenderLights);
@@ -827,10 +1492,71 @@ bool writeMm9ValidationSummaryReport(
     writeYamlScalar(stream, "", "missing_drawable_model_instance_geometry", missingDrawableModelInstanceGeometry);
     writeYamlScalar(stream, "", "actor_variant_candidates", actorVariantCandidates);
     writeYamlScalar(stream, "", "actor_variant_gameplay_identity_rows", actorVariantGameplayIdentityRows);
+    writeYamlScalar(stream, "", "actor_variant_foot_sound_fields", actorVariantFootSoundFields);
+    writeYamlScalar(stream, "", "actor_variant_resolved_foot_sounds", actorVariantResolvedFootSounds);
+    writeYamlScalar(stream, "", "actor_variant_unresolved_foot_sounds", actorVariantUnresolvedFootSounds);
+    writeYamlScalar(stream, "", "actor_variant_source_sound_references", actorVariantSourceSoundReferences);
+    writeYamlScalar(
+        stream,
+        "",
+        "actor_variant_resolved_source_sound_references",
+        actorVariantResolvedSourceSoundReferences);
+    writeYamlScalar(
+        stream,
+        "",
+        "actor_variant_unresolved_source_sound_references",
+        actorVariantUnresolvedSourceSoundReferences);
+    writeYamlScalar(stream, "", "actor_variant_source_voice_references", actorVariantSourceVoiceReferences);
+    writeYamlScalar(
+        stream,
+        "",
+        "actor_variant_resolved_source_voice_references",
+        actorVariantResolvedSourceVoiceReferences);
+    writeYamlScalar(
+        stream,
+        "",
+        "actor_variant_unresolved_source_voice_references",
+        actorVariantUnresolvedSourceVoiceReferences);
     writeYamlScalar(stream, "", "actor_variant_unresolved", actorVariantUnresolved);
+    writeYamlScalar(
+        stream,
+        "",
+        "scripted_objects_with_model_collision_volumes",
+        scriptedObjectsWithModelCollisionVolumes);
+    writeYamlScalar(
+        stream,
+        "",
+        "scripted_objects_requiring_billboard_collision_visuals",
+        scriptedObjectsRequiringBillboardCollisionVisuals);
     writeYamlScalar(stream, "", "missing_scripted_object_collision_visuals", missingScriptedObjectCollisionVisuals);
     writeYamlScalar(stream, "", "mechanism_preview_candidates", mechanismPreviewCandidates);
     writeYamlScalar(stream, "", "mechanism_preview_changed_bounds", mechanismPreviewChangedBounds);
+    writeYamlScalar(stream, "", "material_textures", materialTextures);
+    writeYamlScalar(stream, "", "resolved_dtx", resolvedDtx);
+    writeYamlScalar(stream, "", "ambiguous_dtx", ambiguousDtx);
+    writeYamlScalar(stream, "", "source_dtx_paths", sourceDtxPaths);
+    writeYamlScalar(stream, "", "default_helper_materials", defaultHelperMaterials);
+    writeYamlScalar(stream, "", "placeholder_missing_source_materials", placeholderMissingSourceMaterials);
+    writeYamlScalar(stream, "", "dtx_headers", dtxHeaders);
+    writeYamlScalar(stream, "", "dtx_headers_matching_sidecar", dtxHeadersMatchingSidecar);
+    writeYamlScalar(stream, "", "dtx_user_flag_records", dtxUserFlagRecords);
+    writeYamlScalar(stream, "", "dtx_extra_byte_records", dtxExtraByteRecords);
+    writeYamlScalar(stream, "", "dtx_mip_payloads", dtxMipPayloads);
+    writeYamlScalar(stream, "", "dtx_decoded_preview_mips", dtxDecodedPreviewMips);
+    writeYamlScalar(stream, "", "dtx_section_metadata_records", dtxSectionMetadataRecords);
+    writeYamlScalar(stream, "", "dtx_section_payloads_available", dtxSectionPayloadsAvailable);
+    writeYamlScalar(stream, "", "dtx_command_strings", dtxCommandStrings);
+    writeYamlScalar(stream, "", "decoded_cache_determinism_checked", decodedCacheDeterminismChecked);
+    writeYamlScalar(stream, "", "decoded_cache_source_decoded", decodedCacheSourceDecoded);
+    writeYamlScalar(stream, "", "decoded_cache_image_decoded", decodedCacheImageDecoded);
+    writeYamlScalar(stream, "", "decoded_cache_matches_source", decodedCacheMatchesSource);
+    writeYamlScalar(stream, "", "decoded_cache_mismatches", decodedCacheMismatches);
+    writeYamlScalar(stream, "", "sprite_materials", spriteMaterials);
+    writeYamlScalar(stream, "", "resolved_sprite_materials", resolvedSpriteMaterials);
+    writeYamlScalar(stream, "", "sprite_frame_textures", spriteFrameTextures);
+    writeYamlScalar(stream, "", "resolved_sprite_frame_textures", resolvedSpriteFrameTextures);
+    writeYamlScalar(stream, "", "unresolved_sprite_frame_textures", unresolvedSpriteFrameTextures);
+    writeYamlScalar(stream, "", "ambiguous_sprite_frame_textures", ambiguousSpriteFrameTextures);
     writeYamlScalar(stream, "", "diagnostic_errors", diagnosticErrors);
     writeYamlScalar(stream, "", "diagnostic_warnings", diagnosticWarnings);
     writeYamlScalar(stream, "", "diagnostic_info", diagnosticInfo);
@@ -846,14 +1572,80 @@ bool writeMm9ValidationSummaryReport(
         writeYamlScalar(stream, "    ", "level_file", report.levelFile);
         writeYamlScalar(stream, "    ", "report_file", report.path.filename().generic_string());
         writeYamlScalar(stream, "    ", "clean", report.clean);
+        writeYamlScalar(stream, "    ", "level_load_diagnostics", report.levelLoadDiagnostics);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "source_mutation_snapshot_verified",
+            report.sourceMutationSnapshotVerified);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "source_mutation_snapshot_files",
+            report.sourceMutationSnapshotFiles);
+        writeYamlScalar(stream, "    ", "source_dat_hash_diagnostics", report.sourceDatHashDiagnostics);
+        writeYamlScalar(stream, "    ", "source_dat_hash_verified", report.sourceDatHashVerified);
+        writeYamlScalar(stream, "    ", "source_manifest_diagnostics", report.sourceManifestDiagnostics);
+        writeYamlScalar(stream, "    ", "source_manifest_expected_files", report.sourceManifestExpectedFiles);
+        writeYamlScalar(stream, "    ", "source_manifest_actual_files", report.sourceManifestActualFiles);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "source_manifest_count_drift_families",
+            report.sourceManifestCountDriftFamilies);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "source_manifest_missing_directories",
+            report.sourceManifestMissingDirectories);
+        writeYamlScalar(stream, "    ", "document_paths_total", report.documentPathsTotal);
+        writeYamlScalar(stream, "    ", "document_paths_missing", report.documentPathsMissing);
+        writeYamlScalar(stream, "    ", "document_paths_missing_required", report.documentPathsMissingRequired);
+        writeYamlScalar(stream, "    ", "readonly_source_paths", report.documentPathsReadOnlySource);
+        writeYamlScalar(stream, "    ", "generated_paths", report.documentPathsGenerated);
+        writeYamlScalar(stream, "    ", "authored_paths", report.documentPathsAuthored);
+        writeYamlScalar(stream, "    ", "authored_override_paths", report.documentPathsAuthoredOverrides);
+        writeYamlScalar(stream, "    ", "compatibility_paths", report.documentPathsCompatibilityDerived);
         writeYamlScalar(stream, "    ", "dat_world_reference_issues", report.datWorldReferenceIssues);
+        writeYamlScalar(stream, "    ", "dat_world_invalid_leaf_references", report.datWorldInvalidLeafReferences);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "dat_world_invalid_surface_texture_refs",
+            report.datWorldInvalidSurfaceTextureRefs);
+        writeYamlScalar(stream, "    ", "dat_world_invalid_poly_surface_refs", report.datWorldInvalidPolySurfaceRefs);
+        writeYamlScalar(stream, "    ", "dat_world_invalid_poly_plane_refs", report.datWorldInvalidPolyPlaneRefs);
+        writeYamlScalar(stream, "    ", "dat_world_invalid_poly_vertex_refs", report.datWorldInvalidPolyVertexRefs);
+        writeYamlScalar(stream, "    ", "dat_world_invalid_node_poly_refs", report.datWorldInvalidNodePolyRefs);
+        writeYamlScalar(stream, "    ", "dat_world_invalid_root_node_refs", report.datWorldInvalidRootNodeRefs);
+        writeYamlScalar(stream, "    ", "asset_graph_total", report.assetGraphTotal);
+        writeYamlScalar(stream, "    ", "asset_graph_resolved", report.assetGraphResolved);
+        writeYamlScalar(stream, "    ", "asset_graph_unresolved", report.assetGraphUnresolved);
+        writeYamlScalar(stream, "    ", "asset_graph_ambiguous", report.assetGraphAmbiguous);
+        writeYamlScalar(stream, "    ", "asset_graph_stale", report.assetGraphStale);
+        writeYamlScalar(stream, "    ", "asset_graph_required_total", report.assetGraphRequiredTotal);
+        writeYamlScalar(stream, "    ", "asset_graph_required_resolved", report.assetGraphRequiredResolved);
         writeYamlScalar(stream, "    ", "asset_graph_required_unresolved", report.assetGraphRequiredUnresolved);
         writeYamlScalar(stream, "    ", "asset_graph_required_ambiguous", report.assetGraphRequiredAmbiguous);
+        writeYamlScalar(stream, "    ", "asset_graph_optional_total", report.assetGraphOptionalTotal);
+        writeYamlScalar(stream, "    ", "asset_graph_optional_resolved", report.assetGraphOptionalResolved);
+        writeYamlScalar(stream, "    ", "asset_graph_optional_unresolved", report.assetGraphOptionalUnresolved);
+        writeYamlScalar(stream, "    ", "asset_graph_optional_ambiguous", report.assetGraphOptionalAmbiguous);
+        writeYamlScalar(stream, "    ", "asset_graph_source_only", report.assetGraphSourceOnly);
+        writeYamlScalar(stream, "    ", "asset_graph_unused_source", report.assetGraphUnusedSource);
+        writeYamlScalar(stream, "    ", "raw_object_asset_refs", report.rawObjectAssetRefs);
+        writeYamlScalar(stream, "    ", "required_raw_object_asset_refs", report.requiredRawObjectAssetRefs);
+        writeYamlScalar(stream, "    ", "optional_raw_object_asset_refs", report.optionalRawObjectAssetRefs);
         writeYamlScalar(
             stream,
             "    ",
             "unresolved_required_raw_object_asset_refs",
             report.unresolvedRequiredRawObjectAssetRefs);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "unresolved_optional_raw_object_asset_refs",
+            report.unresolvedOptionalRawObjectAssetRefs);
         writeYamlScalar(stream, "    ", "stale_caches", report.staleCaches);
         writeYamlScalar(
             stream,
@@ -870,17 +1662,106 @@ bool writeMm9ValidationSummaryReport(
             "    ",
             "mechanism_incomplete_rotation_motion",
             report.mechanismIncompleteRotationMotion);
+        writeYamlScalar(stream, "    ", "mechanism_sound_slots", report.mechanismSoundSlots);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_authored_sound_references",
+            report.mechanismAuthoredSoundReferences);
+        writeYamlScalar(stream, "    ", "mechanism_empty_sound_references", report.mechanismEmptySoundReferences);
+        writeYamlScalar(stream, "    ", "mechanism_previewable_mechanisms", report.mechanismPreviewableMechanisms);
+        writeYamlScalar(stream, "    ", "mechanism_inert_mechanisms", report.mechanismInertMechanisms);
+        writeYamlScalar(stream, "    ", "mechanism_inert_preview_entries", report.mechanismInertPreviewEntries);
+        writeYamlScalar(stream, "    ", "mechanism_without_preview_motion", report.mechanismWithoutPreviewMotion);
+        writeYamlScalar(stream, "    ", "mechanism_without_preview_target", report.mechanismWithoutPreviewTarget);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_activation_start_open_fields",
+            report.mechanismActivationStartOpenFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_activation_locked_fields",
+            report.mechanismActivationLockedFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_activation_push_open_fields",
+            report.mechanismActivationPushOpenFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_activation_touch_to_open_fields",
+            report.mechanismActivationTouchToOpenFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_activation_lock_on_close_fields",
+            report.mechanismActivationLockOnCloseFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_activation_reopen_on_contact_fields",
+            report.mechanismActivationReopenOnContactFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_rotation_open_away_fields",
+            report.mechanismRotationOpenAwayFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_timing_move_delay_fields",
+            report.mechanismTimingMoveDelayFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_timing_open_wait_fields",
+            report.mechanismTimingOpenWaitFields);
         writeYamlScalar(stream, "    ", "mechanism_trigger_outputs", report.mechanismTriggerOutputs);
         writeYamlScalar(
             stream,
             "    ",
             "mechanism_unresolved_trigger_outputs",
             report.mechanismUnresolvedTriggerOutputs);
+        writeYamlScalar(stream, "    ", "script_includes", report.scriptIncludes);
+        writeYamlScalar(stream, "    ", "script_labels", report.scriptLabels);
+        writeYamlScalar(stream, "    ", "script_include_references", report.scriptIncludeReferences);
+        writeYamlScalar(stream, "    ", "script_resolved_includes", report.scriptResolvedIncludes);
+        writeYamlScalar(stream, "    ", "script_unresolved_includes", report.scriptUnresolvedIncludes);
+        writeYamlScalar(stream, "    ", "script_ambiguous_includes", report.scriptAmbiguousIncludes);
         writeYamlScalar(stream, "    ", "script_registered_triggers", report.scriptRegisteredTriggers);
         writeYamlScalar(stream, "    ", "script_trigger_edges", report.scriptTriggerEdges);
         writeYamlScalar(stream, "    ", "script_movement_commands", report.scriptMovementCommands);
         writeYamlScalar(stream, "    ", "script_unknown_commands", report.scriptUnknownCommands);
         writeYamlScalar(stream, "    ", "script_command_count", report.scriptCommandCount);
+        writeYamlScalar(stream, "    ", "native_renderable_triangles", report.nativeRenderableTriangles);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "viewport_native_missing_material_triangles",
+            report.viewportNativeMissingMaterialTriangles);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "viewport_native_placeholder_material_triangles",
+            report.viewportNativePlaceholderMaterialTriangles);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "viewport_native_unresolved_material_triangles",
+            report.viewportNativeUnresolvedMaterialTriangles);
+        writeYamlScalar(stream, "    ", "native_filter_visual", report.nativeFilterVisual);
+        writeYamlScalar(stream, "    ", "native_filter_invisible", report.nativeFilterInvisible);
+        writeYamlScalar(stream, "    ", "native_filter_water", report.nativeFilterWater);
+        writeYamlScalar(stream, "    ", "native_filter_visible_water", report.nativeFilterVisibleWater);
+        writeYamlScalar(stream, "    ", "native_filter_water_volume", report.nativeFilterWaterVolume);
+        writeYamlScalar(stream, "    ", "native_filter_rail", report.nativeFilterRail);
+        writeYamlScalar(stream, "    ", "native_filter_helper", report.nativeFilterHelper);
+        writeYamlScalar(stream, "    ", "native_filter_physics", report.nativeFilterPhysics);
+        writeYamlScalar(stream, "    ", "native_filter_visibility", report.nativeFilterVisibility);
+        writeYamlScalar(stream, "    ", "native_filter_portals", report.nativeFilterPortals);
         writeYamlScalar(stream, "    ", "world_model_overlay_vertices", report.worldModelOverlayVertices);
         writeYamlScalar(
             stream,
@@ -889,6 +1770,8 @@ bool writeMm9ValidationSummaryReport(
             report.worldModelOverlayPickCandidates);
         writeYamlScalar(stream, "    ", "selected_polygon_overlay_vertices", report.selectedPolygonOverlayVertices);
         writeYamlScalar(stream, "    ", "selected_surface_overlay_vertices", report.selectedSurfaceOverlayVertices);
+        writeYamlScalar(stream, "    ", "raw_objects", report.rawObjects);
+        writeYamlScalar(stream, "    ", "raw_object_sidecar_issues", report.rawObjectSidecarIssues);
         writeYamlScalar(stream, "    ", "object_source_transforms", report.objectSourceTransforms);
         writeYamlScalar(stream, "    ", "object_bounds_evidence", report.objectBoundsEvidence);
         writeYamlScalar(stream, "    ", "object_trigger_volumes", report.objectTriggerVolumes);
@@ -919,6 +1802,24 @@ bool writeMm9ValidationSummaryReport(
             "    ",
             "mechanism_target_marker_source_links",
             report.mechanismTargetMarkerSourceLinks);
+        writeYamlScalar(stream, "    ", "mechanism_gizmo_candidates", report.mechanismGizmoCandidates);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_circle_gizmo_candidates",
+            report.mechanismCircleGizmoCandidates);
+        writeYamlScalar(stream, "    ", "mechanism_target_gizmo_candidates", report.mechanismTargetGizmoCandidates);
+        writeYamlScalar(stream, "    ", "mechanism_motion_path_markers", report.mechanismMotionPathMarkers);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_los_checked_candidates",
+            report.mechanismLineOfSightCheckedCandidates);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "mechanism_los_blocked_candidates",
+            report.mechanismLineOfSightBlockedCandidates);
         writeYamlScalar(stream, "    ", "light_objects", report.lightObjects);
         writeYamlScalar(stream, "    ", "light_overlay_vertices", report.lightOverlayVertices);
         writeYamlScalar(stream, "    ", "static_render_lights", report.staticRenderLights);
@@ -963,7 +1864,58 @@ bool writeMm9ValidationSummaryReport(
             "    ",
             "actor_variant_gameplay_identity_rows",
             report.actorVariantGameplayIdentityRows);
+        writeYamlScalar(stream, "    ", "actor_variant_foot_sound_fields", report.actorVariantFootSoundFields);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_resolved_foot_sounds",
+            report.actorVariantResolvedFootSounds);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_unresolved_foot_sounds",
+            report.actorVariantUnresolvedFootSounds);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_source_sound_references",
+            report.actorVariantSourceSoundReferences);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_resolved_source_sound_references",
+            report.actorVariantResolvedSourceSoundReferences);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_unresolved_source_sound_references",
+            report.actorVariantUnresolvedSourceSoundReferences);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_source_voice_references",
+            report.actorVariantSourceVoiceReferences);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_resolved_source_voice_references",
+            report.actorVariantResolvedSourceVoiceReferences);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "actor_variant_unresolved_source_voice_references",
+            report.actorVariantUnresolvedSourceVoiceReferences);
         writeYamlScalar(stream, "    ", "actor_variant_unresolved", report.actorVariantUnresolved);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "scripted_objects_with_model_collision_volumes",
+            report.scriptedObjectsWithModelCollisionVolumes);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "scripted_objects_requiring_billboard_collision_visuals",
+            report.scriptedObjectsRequiringBillboardCollisionVisuals);
         writeYamlScalar(
             stream,
             "    ",
@@ -971,6 +1923,40 @@ bool writeMm9ValidationSummaryReport(
             report.missingScriptedObjectCollisionVisuals);
         writeYamlScalar(stream, "    ", "mechanism_preview_candidates", report.mechanismPreviewCandidates);
         writeYamlScalar(stream, "    ", "mechanism_preview_changed_bounds", report.mechanismPreviewChangedBounds);
+        writeYamlScalar(stream, "    ", "material_textures", report.materialTextures);
+        writeYamlScalar(stream, "    ", "resolved_dtx", report.resolvedDtx);
+        writeYamlScalar(stream, "    ", "ambiguous_dtx", report.ambiguousDtx);
+        writeYamlScalar(stream, "    ", "source_dtx_paths", report.sourceDtxPaths);
+        writeYamlScalar(stream, "    ", "default_helper_materials", report.defaultHelperMaterials);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "placeholder_missing_source_materials",
+            report.placeholderMissingSourceMaterials);
+        writeYamlScalar(stream, "    ", "dtx_headers", report.dtxHeaders);
+        writeYamlScalar(stream, "    ", "dtx_headers_matching_sidecar", report.dtxHeadersMatchingSidecar);
+        writeYamlScalar(stream, "    ", "dtx_user_flag_records", report.dtxUserFlagRecords);
+        writeYamlScalar(stream, "    ", "dtx_extra_byte_records", report.dtxExtraByteRecords);
+        writeYamlScalar(stream, "    ", "dtx_mip_payloads", report.dtxMipPayloads);
+        writeYamlScalar(stream, "    ", "dtx_decoded_preview_mips", report.dtxDecodedPreviewMips);
+        writeYamlScalar(stream, "    ", "dtx_section_metadata_records", report.dtxSectionMetadataRecords);
+        writeYamlScalar(stream, "    ", "dtx_section_payloads_available", report.dtxSectionPayloadsAvailable);
+        writeYamlScalar(stream, "    ", "dtx_command_strings", report.dtxCommandStrings);
+        writeYamlScalar(
+            stream,
+            "    ",
+            "decoded_cache_determinism_checked",
+            report.decodedCacheDeterminismChecked);
+        writeYamlScalar(stream, "    ", "decoded_cache_source_decoded", report.decodedCacheSourceDecoded);
+        writeYamlScalar(stream, "    ", "decoded_cache_image_decoded", report.decodedCacheImageDecoded);
+        writeYamlScalar(stream, "    ", "decoded_cache_matches_source", report.decodedCacheMatchesSource);
+        writeYamlScalar(stream, "    ", "decoded_cache_mismatches", report.decodedCacheMismatches);
+        writeYamlScalar(stream, "    ", "sprite_materials", report.spriteMaterials);
+        writeYamlScalar(stream, "    ", "resolved_sprite_materials", report.resolvedSpriteMaterials);
+        writeYamlScalar(stream, "    ", "sprite_frame_textures", report.spriteFrameTextures);
+        writeYamlScalar(stream, "    ", "resolved_sprite_frame_textures", report.resolvedSpriteFrameTextures);
+        writeYamlScalar(stream, "    ", "unresolved_sprite_frame_textures", report.unresolvedSpriteFrameTextures);
+        writeYamlScalar(stream, "    ", "ambiguous_sprite_frame_textures", report.ambiguousSpriteFrameTextures);
         writeYamlScalar(stream, "    ", "diagnostic_errors", report.diagnosticErrors);
         writeYamlScalar(stream, "    ", "diagnostic_warnings", report.diagnosticWarnings);
         writeYamlScalar(stream, "    ", "diagnostic_info", report.diagnosticInfo);
@@ -995,6 +1981,7 @@ void writeMm9RawObjectAssetReferenceStatus(
     writeYamlScalar(stream, "      ", "resolved", status.resolved);
     writeYamlScalar(stream, "      ", "ambiguous", status.ambiguous);
     writeYamlScalar(stream, "      ", "alias_applied", status.aliasApplied);
+    writeYamlScalar(stream, "      ", "builtin_reference", status.builtinReference);
 
     if (!status.resolvedSourcePath.empty())
     {
@@ -1047,8 +2034,19 @@ struct Mm9ModelInstanceAssetResolutionSummary
     size_t actorVariantUnresolved = 0;
     size_t actorVariantActorRows = 0;
     size_t actorVariantGameplayIdentityRows = 0;
+    size_t actorVariantFootSoundFields = 0;
+    size_t actorVariantResolvedFootSounds = 0;
+    size_t actorVariantUnresolvedFootSounds = 0;
+    size_t actorVariantSourceSoundReferences = 0;
+    size_t actorVariantResolvedSourceSoundReferences = 0;
+    size_t actorVariantUnresolvedSourceSoundReferences = 0;
+    size_t actorVariantSourceVoiceReferences = 0;
+    size_t actorVariantResolvedSourceVoiceReferences = 0;
+    size_t actorVariantUnresolvedSourceVoiceReferences = 0;
     size_t scriptedObjects = 0;
     size_t scriptedObjectsWithCollisionVisuals = 0;
+    size_t scriptedObjectsWithModelCollisionVolumes = 0;
+    size_t scriptedObjectsRequiringBillboardCollisionVisuals = 0;
     size_t missingScriptedObjectCollisionVisuals = 0;
     std::vector<UnresolvedActorVariant> unresolvedActorVariants;
 };
@@ -1147,6 +2145,19 @@ struct Mm9MechanismValidationSummary
         std::string issue;
     };
 
+    struct InertPreviewMechanism
+    {
+        int sourceObjectIndex = -1;
+        std::string sourceClass;
+        std::string sourceName;
+        std::string mechanismId;
+        std::string reason;
+        bool hasPreviewMotion = false;
+        bool hasPreviewWorldModelTarget = false;
+        bool hasBinding = false;
+        bool requiredTarget = false;
+    };
+
     size_t total = 0;
     size_t withBinding = 0;
     size_t withWorldModelTarget = 0;
@@ -1160,6 +2171,23 @@ struct Mm9MechanismValidationSummary
     size_t worldModelTargetsMismatchedPolygonGroup = 0;
     size_t withLinearMotion = 0;
     size_t withRotationMotion = 0;
+    size_t withSoundEvidence = 0;
+    size_t soundSlots = 0;
+    size_t authoredSoundReferences = 0;
+    size_t emptySoundReferences = 0;
+    size_t previewableMechanisms = 0;
+    size_t inertMechanisms = 0;
+    size_t mechanismsWithoutPreviewMotion = 0;
+    size_t mechanismsWithoutPreviewTarget = 0;
+    size_t activationStartOpenFields = 0;
+    size_t activationLockedFields = 0;
+    size_t activationPushOpenFields = 0;
+    size_t activationTouchToOpenFields = 0;
+    size_t activationLockOnCloseFields = 0;
+    size_t activationReopenOnContactFields = 0;
+    size_t rotationOpenAwayFields = 0;
+    size_t timingMoveDelayFields = 0;
+    size_t timingOpenWaitFields = 0;
     size_t triggerOutputs = 0;
     size_t unresolvedTriggerOutputs = 0;
     size_t incompleteLinearMotion = 0;
@@ -1170,6 +2198,7 @@ struct Mm9MechanismValidationSummary
     std::vector<IncompleteMotion> incompleteMotion;
     std::vector<NonMovableWorldModelTarget> nonMovableWorldModelTargets;
     std::vector<PolygonGroupTargetIssue> polygonGroupTargetIssues;
+    std::vector<InertPreviewMechanism> inertPreviewMechanisms;
 };
 
 struct Mm9MechanismPreviewValidationSummary
@@ -1374,6 +2403,121 @@ Mm9MechanismValidationSummary summarizeMm9Mechanisms(
         const bool hasAnyRotationMotion =
             mechanism.rotation.hasRotationPoint
             || mechanism.rotation.hasRotationAngles;
+        const bool hasPreviewMotion =
+            (mechanism.linear.hasMoveDir
+                && mechanism.linear.hasMoveDist
+                && std::fabs(mechanism.linear.moveDistLt) > 0.0001f)
+            || (mechanism.rotation.hasRotationPoint && mechanism.rotation.hasRotationAngles);
+        bool hasPreviewWorldModelTarget = false;
+
+        if (pBinding != nullptr)
+        {
+            for (const OpenYAMM::Game::Mm9EventBindingTarget &target : pBinding->targets)
+            {
+                if (target.targetKind == "odm_bmodel" && target.bmodelIndex.has_value())
+                {
+                    hasPreviewWorldModelTarget = true;
+                    break;
+                }
+            }
+        }
+
+        if (hasPreviewMotion && hasPreviewWorldModelTarget)
+        {
+            ++summary.previewableMechanisms;
+        }
+        else
+        {
+            ++summary.inertMechanisms;
+            Mm9MechanismValidationSummary::InertPreviewMechanism inert = {};
+            inert.sourceObjectIndex = mechanism.sourceObjectIndex;
+            inert.sourceClass = mechanism.sourceClass;
+            inert.sourceName = mechanism.sourceName;
+            inert.mechanismId = mechanism.mechanismId;
+            inert.hasPreviewMotion = hasPreviewMotion;
+            inert.hasPreviewWorldModelTarget = hasPreviewWorldModelTarget;
+            inert.hasBinding = pBinding != nullptr;
+            inert.requiredTarget = isMm9RequiredMechanismTarget(mechanism);
+
+            if (!hasPreviewMotion)
+            {
+                ++summary.mechanismsWithoutPreviewMotion;
+            }
+            if (!hasPreviewWorldModelTarget)
+            {
+                ++summary.mechanismsWithoutPreviewTarget;
+            }
+
+            if (!hasPreviewMotion && !hasPreviewWorldModelTarget)
+            {
+                inert.reason = "missing_preview_motion_and_world_model_target";
+            }
+            else if (!hasPreviewMotion)
+            {
+                inert.reason = "missing_preview_motion";
+            }
+            else
+            {
+                inert.reason = "missing_preview_world_model_target";
+            }
+
+            summary.inertPreviewMechanisms.push_back(std::move(inert));
+        }
+
+        if (mechanism.activation.hasStartOpen)
+        {
+            ++summary.activationStartOpenFields;
+        }
+        if (mechanism.activation.hasLocked)
+        {
+            ++summary.activationLockedFields;
+        }
+        if (mechanism.activation.hasPushOpen)
+        {
+            ++summary.activationPushOpenFields;
+        }
+        if (mechanism.activation.hasTouchToOpen)
+        {
+            ++summary.activationTouchToOpenFields;
+        }
+        if (mechanism.activation.hasLockOnClose)
+        {
+            ++summary.activationLockOnCloseFields;
+        }
+        if (mechanism.activation.hasReopenOnContact)
+        {
+            ++summary.activationReopenOnContactFields;
+        }
+        if (mechanism.rotation.hasOpenAway)
+        {
+            ++summary.rotationOpenAwayFields;
+        }
+        if (mechanism.timing.hasMoveDelaySecondsSource)
+        {
+            ++summary.timingMoveDelayFields;
+        }
+        if (mechanism.timing.hasOpenWaitSecondsSource)
+        {
+            ++summary.timingOpenWaitFields;
+        }
+
+        if (!mechanism.sounds.empty())
+        {
+            ++summary.withSoundEvidence;
+        }
+
+        summary.soundSlots += mechanism.sounds.size();
+        for (const OpenYAMM::Game::Mm9EventMechanismSound &sound : mechanism.sounds)
+        {
+            if (!sound.soundName.empty())
+            {
+                ++summary.authoredSoundReferences;
+            }
+            else if (sound.authored)
+            {
+                ++summary.emptySoundReferences;
+            }
+        }
 
         summary.triggerOutputs += mechanism.triggerOutputs.size();
         for (const OpenYAMM::Game::Mm9EventTriggerOutput &output : mechanism.triggerOutputs)
@@ -2081,7 +3225,178 @@ struct Mm9MechanismTargetMarkerSummary
     size_t candidates = 0;
     size_t vertices = 0;
     size_t sourceLinkedTargets = 0;
+    size_t gizmoCandidates = 0;
+    size_t circleGizmoCandidates = 0;
+    size_t targetGizmoCandidates = 0;
+    size_t motionPathMarkers = 0;
+    size_t lineOfSightCheckedCandidates = 0;
+    size_t lineOfSightBlockedCandidates = 0;
 };
+
+bool mm9DatWorldModelBoundsForMarker(
+    const EditorMm9DatWorldSidecar &datWorld,
+    size_t sourceModelIndex,
+    Game::Mm9DatVec3 &center,
+    Game::Mm9DatVec3 &halfExtents)
+{
+    if (sourceModelIndex >= datWorld.worldModels.size())
+    {
+        return false;
+    }
+
+    const EditorMm9DatWorldModelSummary &model = datWorld.worldModels[sourceModelIndex];
+    const Game::Mm9DatVec3 minPoint = {
+        model.boundsMinLt.x * Game::Mm9DatToOpenYammScale,
+        model.boundsMinLt.z * Game::Mm9DatToOpenYammScale,
+        model.boundsMinLt.y * Game::Mm9DatToOpenYammScale,
+    };
+    const Game::Mm9DatVec3 maxPoint = {
+        model.boundsMaxLt.x * Game::Mm9DatToOpenYammScale,
+        model.boundsMaxLt.z * Game::Mm9DatToOpenYammScale,
+        model.boundsMaxLt.y * Game::Mm9DatToOpenYammScale,
+    };
+
+    center = {
+        (minPoint.x + maxPoint.x) * 0.5f,
+        (minPoint.y + maxPoint.y) * 0.5f,
+        (minPoint.z + maxPoint.z) * 0.5f,
+    };
+    halfExtents = {
+        std::max(std::fabs(maxPoint.x - minPoint.x) * 0.5f, 16.0f),
+        std::max(std::fabs(maxPoint.y - minPoint.y) * 0.5f, 16.0f),
+        std::max(std::fabs(maxPoint.z - minPoint.z) * 0.5f, 16.0f),
+    };
+    return true;
+}
+
+bool mm9PointInsideAabb(
+    const Game::Mm9DatVec3 &point,
+    const Game::Mm9DatVec3 &minPoint,
+    const Game::Mm9DatVec3 &maxPoint)
+{
+    return point.x >= minPoint.x && point.x <= maxPoint.x
+        && point.y >= minPoint.y && point.y <= maxPoint.y
+        && point.z >= minPoint.z && point.z <= maxPoint.z;
+}
+
+bool intersectMm9RayAabbDistance(
+    const Game::Mm9DatVec3 &origin,
+    const Game::Mm9DatVec3 &direction,
+    const Game::Mm9DatVec3 &minPoint,
+    const Game::Mm9DatVec3 &maxPoint,
+    float &distance)
+{
+    float tMin = 0.0f;
+    float tMax = std::numeric_limits<float>::max();
+
+    const float originValues[3] = {origin.x, origin.y, origin.z};
+    const float directionValues[3] = {direction.x, direction.y, direction.z};
+    const float minValues[3] = {minPoint.x, minPoint.y, minPoint.z};
+    const float maxValues[3] = {maxPoint.x, maxPoint.y, maxPoint.z};
+
+    for (size_t axis = 0; axis < 3; ++axis)
+    {
+        if (std::fabs(directionValues[axis]) <= 0.00001f)
+        {
+            if (originValues[axis] < minValues[axis] || originValues[axis] > maxValues[axis])
+            {
+                return false;
+            }
+
+            continue;
+        }
+
+        const float inverseDirection = 1.0f / directionValues[axis];
+        float t0 = (minValues[axis] - originValues[axis]) * inverseDirection;
+        float t1 = (maxValues[axis] - originValues[axis]) * inverseDirection;
+
+        if (t0 > t1)
+        {
+            std::swap(t0, t1);
+        }
+
+        tMin = std::max(tMin, t0);
+        tMax = std::min(tMax, t1);
+
+        if (tMin > tMax)
+        {
+            return false;
+        }
+    }
+
+    distance = tMin;
+    return true;
+}
+
+bool mm9DatMarkerHasLineOfSightForReport(
+    const EditorMm9DatWorldSidecar &datWorld,
+    const Game::Mm9DatVec3 &cameraPosition,
+    const Game::Mm9DatVec3 &target)
+{
+    const Game::Mm9DatVec3 toTarget = mm9Subtract(target, cameraPosition);
+    const float targetDistance = mm9Length(toTarget);
+
+    if (targetDistance <= 1.0f)
+    {
+        return true;
+    }
+
+    const Game::Mm9DatVec3 direction = mm9Multiply(toTarget, 1.0f / targetDistance);
+    constexpr float StartSlack = 8.0f;
+    constexpr float EndSlack = 16.0f;
+    constexpr float BoundsSlack = 4.0f;
+
+    for (const EditorMm9DatWorldModelSummary &model : datWorld.worldModels)
+    {
+        if ((!model.roles.visible && !model.roles.terrain && !model.roles.movable)
+            || model.roles.sky
+            || model.roles.visBsp
+            || model.roles.triggerOrVolume)
+        {
+            continue;
+        }
+
+        const Game::Mm9DatVec3 rawMinPoint = {
+            model.boundsMinLt.x * Game::Mm9DatToOpenYammScale,
+            model.boundsMinLt.z * Game::Mm9DatToOpenYammScale,
+            model.boundsMinLt.y * Game::Mm9DatToOpenYammScale,
+        };
+        const Game::Mm9DatVec3 rawMaxPoint = {
+            model.boundsMaxLt.x * Game::Mm9DatToOpenYammScale,
+            model.boundsMaxLt.z * Game::Mm9DatToOpenYammScale,
+            model.boundsMaxLt.y * Game::Mm9DatToOpenYammScale,
+        };
+        const Game::Mm9DatVec3 minPoint = {
+            std::min(rawMinPoint.x, rawMaxPoint.x) - BoundsSlack,
+            std::min(rawMinPoint.y, rawMaxPoint.y) - BoundsSlack,
+            std::min(rawMinPoint.z, rawMaxPoint.z) - BoundsSlack,
+        };
+        const Game::Mm9DatVec3 maxPoint = {
+            std::max(rawMinPoint.x, rawMaxPoint.x) + BoundsSlack,
+            std::max(rawMinPoint.y, rawMaxPoint.y) + BoundsSlack,
+            std::max(rawMinPoint.z, rawMaxPoint.z) + BoundsSlack,
+        };
+
+        if (mm9PointInsideAabb(target, minPoint, maxPoint))
+        {
+            continue;
+        }
+
+        float distance = 0.0f;
+
+        if (!intersectMm9RayAabbDistance(cameraPosition, direction, minPoint, maxPoint, distance))
+        {
+            continue;
+        }
+
+        if (distance > StartSlack && distance < targetDistance - EndSlack)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 Mm9MechanismTargetMarkerSummary summarizeMm9MechanismTargetMarkers(
     const Game::Mm9EventsData &events,
@@ -2090,7 +3405,8 @@ Mm9MechanismTargetMarkerSummary summarizeMm9MechanismTargetMarkers(
     const Game::Mm9LightLayer &lightLayer,
     const Game::Mm9SoundLayer &soundLayer,
     const Game::Mm9SpawnLayer &spawnLayer,
-    const Game::OutdoorSceneData &sceneData)
+    const Game::OutdoorSceneData &sceneData,
+    const Game::Mm9DatCameraFrame &cameraFrame)
 {
     Mm9MechanismTargetMarkerSummary summary = {};
 
@@ -2113,6 +3429,13 @@ Mm9MechanismTargetMarkerSummary summarizeMm9MechanismTargetMarkers(
                 spawnLayer,
                 sceneData,
                 static_cast<size_t>(mechanism.sourceObjectIndex));
+        bool hasTargetGizmo = false;
+
+        if (sourcePositioned)
+        {
+            ++summary.gizmoCandidates;
+            ++summary.circleGizmoCandidates;
+        }
 
         for (const Game::Mm9EventBindingTarget &target : pBinding->targets)
         {
@@ -2132,6 +3455,49 @@ Mm9MechanismTargetMarkerSummary summarizeMm9MechanismTargetMarkers(
                 ++summary.sourceLinkedTargets;
                 summary.vertices += 8;
             }
+
+            Game::Mm9DatVec3 center = {};
+            Game::Mm9DatVec3 halfExtents = {};
+            if (mm9DatWorldModelBoundsForMarker(datWorld, *target.bmodelIndex, center, halfExtents))
+            {
+                ++summary.gizmoCandidates;
+                ++summary.targetGizmoCandidates;
+                hasTargetGizmo = true;
+
+                if (cameraFrame.valid)
+                {
+                    ++summary.lineOfSightCheckedCandidates;
+
+                    if (!mm9DatMarkerHasLineOfSightForReport(datWorld, cameraFrame.position, center))
+                    {
+                        ++summary.lineOfSightBlockedCandidates;
+                    }
+                }
+            }
+
+            Game::Mm9DatMechanismPreviewMotion motion = {};
+            motion.progress = 1.0f;
+            motion.hasLinearMotion =
+                mechanism.linear.hasMoveDir
+                && mechanism.linear.hasMoveDist
+                && std::fabs(mechanism.linear.moveDistLt) > 0.0001f
+                && mm9Vec3FromFloatVector(mechanism.linear.moveDirLt, motion.moveDirLt);
+            motion.hasRotationMotion =
+                mechanism.rotation.hasRotationPoint
+                && mechanism.rotation.hasRotationAngles
+                && mm9Vec3FromFloatVector(mechanism.rotation.rotationPointLt, motion.rotationPointLt)
+                && mm9Vec3FromFloatVector(mechanism.rotation.rotationAnglesDeg, motion.rotationAnglesDeg);
+
+            if (motion.hasLinearMotion || motion.hasRotationMotion)
+            {
+                ++summary.motionPathMarkers;
+            }
+        }
+
+        if (!sourcePositioned && hasTargetGizmo)
+        {
+            ++summary.gizmoCandidates;
+            ++summary.circleGizmoCandidates;
         }
     }
 
@@ -2231,6 +3597,9 @@ Mm9ModelInstanceCameraFrameSummary summarizeMm9ModelInstanceCameraFrame(
     return summary;
 }
 
+std::vector<Game::Mm9DatModelRenderRole> mm9ModelRenderRolesFromSidecar(
+    const EditorMm9DatWorldSidecar &sidecar);
+
 bool writeMm9DatLevelValidationReport(
     const std::filesystem::path &worldRoot,
     const std::filesystem::path &levelPhysicalPath,
@@ -2247,6 +3616,11 @@ bool writeMm9DatLevelValidationReport(
     const EditorMm9DatLevelMetadata &metadata = document.mm9DatLevelMetadata();
     const EditorMm9LoadedSidecars &sidecars = document.mm9DatLoadedSidecars();
     const Game::Mm9DatRenderMesh &datRenderMesh = document.mm9DatRenderMesh();
+    const Game::Mm9DatRenderFilterResult nativeFilters =
+        Game::classifyMm9DatRenderMeshFilters(
+            datRenderMesh,
+            mm9ModelRenderRolesFromSidecar(sidecars.datWorld),
+            sidecars.datWorld.userPortals.size());
     const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
     const Game::Mm9ObjectLayer &objectLayer = document.mm9ObjectLayer();
     const Game::Mm9LightLayer &lightLayer = document.mm9LightLayer();
@@ -2270,6 +3644,7 @@ bool writeMm9DatLevelValidationReport(
             spawnLayer,
             sceneData,
             sidecars.rawObjects);
+    const Game::Mm9DatCameraFrame reportCameraFrame = Game::frameMm9DatRenderMeshCamera(datRenderMesh);
     const Mm9MechanismTargetMarkerSummary mechanismTargetMarkerSummary =
         summarizeMm9MechanismTargetMarkers(
             sidecars.events,
@@ -2278,8 +3653,8 @@ bool writeMm9DatLevelValidationReport(
             lightLayer,
             soundLayer,
             spawnLayer,
-            sceneData);
-    const Game::Mm9DatCameraFrame reportCameraFrame = Game::frameMm9DatRenderMeshCamera(datRenderMesh);
+            sceneData,
+            reportCameraFrame);
     const Mm9ModelInstanceCameraFrameSummary modelInstanceCameraFrameSummary =
         summarizeMm9ModelInstanceCameraFrame(sceneData, reportCameraFrame, 60.0f, 1920.0f / 1200.0f);
     const Mm9MechanismValidationSummary mechanismSummary =
@@ -2295,6 +3670,7 @@ bool writeMm9DatLevelValidationReport(
     std::vector<const EditorMm9RawObjectAssetReferenceStatus *> unresolvedOptionalRawObjects;
     std::vector<const EditorMm9MaterialTextureStatus *> invalidMaterialTextures;
     std::vector<const EditorMm9MaterialTextureStatus *> staleMaterialCaches;
+    std::vector<const EditorMm9MaterialTextureStatus *> nondeterministicMaterialCaches;
     std::vector<const EditorMm9DocumentPathStatus *> authoredPathStatuses;
     std::vector<const EditorMm9DocumentPathStatus *> authoredOverridePathStatuses;
     std::vector<const EditorMm9DocumentPathStatus *> generatedPathStatuses;
@@ -2306,13 +3682,22 @@ bool writeMm9DatLevelValidationReport(
     size_t requiredRawObjectAssetReferenceCount = 0;
     size_t resolvedTextureCount = 0;
     size_t ambiguousTextureCount = 0;
+    size_t sourceDtxPathCount = 0;
+    size_t defaultHelperMaterialCount = 0;
+    size_t placeholderMissingSourceMaterialCount = 0;
     size_t loadedDtxHeaderCount = 0;
     size_t matchedDtxHeaderCount = 0;
+    size_t dtxUserFlagRecordCount = 0;
+    size_t dtxExtraByteRecordCount = 0;
     size_t dtxMipPayloadCount = 0;
     size_t dtxDecodedPreviewMipCount = 0;
     size_t dtxSectionMetadataCount = 0;
     size_t dtxSectionPayloadAvailableCount = 0;
     size_t dtxCommandStringCount = 0;
+    size_t decodedCacheDeterminismCheckedCount = 0;
+    size_t decodedCacheSourceDecodedCount = 0;
+    size_t decodedCacheImageDecodedCount = 0;
+    size_t decodedCacheMatchCount = 0;
     size_t spriteMaterialCount = 0;
     size_t resolvedSpriteMaterialCount = 0;
     size_t spriteFrameTextureCount = 0;
@@ -2327,6 +3712,8 @@ bool writeMm9DatLevelValidationReport(
     size_t invalidRootNodeRefs = 0;
     size_t worldModelsWithUnknownValues = 0;
     size_t userPortalsWithRawUnknowns = 0;
+    size_t scriptIncludes = 0;
+    size_t scriptLabels = 0;
     size_t scriptRegisteredTriggers = 0;
     size_t scriptTriggerEdges = 0;
     size_t scriptMovementCommands = 0;
@@ -2339,6 +3726,8 @@ bool writeMm9DatLevelValidationReport(
     const size_t staticRenderLightCount = Game::buildMm9StaticRenderLights(lightLayer).size();
     const std::vector<std::string> datWorldReferenceIssues =
         validateMm9DatWorldSidecarReferences(sidecars.datWorld);
+    const std::vector<std::string> rawObjectSidecarIssues =
+        validateMm9RawObjectsSidecarReferences(sidecars.rawObjects);
     const std::vector<std::string> &levelLoadDiagnostics = document.mm9DatLevelLoadDiagnostics();
     const std::vector<std::string> &sourceManifestDiagnostics = document.mm9SourceAssetManifestDiagnostics();
     const std::vector<EditorMm9SourceAssetFamilyStatus> &sourceFamilyStatuses =
@@ -2350,9 +3739,13 @@ bool writeMm9DatLevelValidationReport(
     size_t sourceFamilyCountDriftCount = 0;
     size_t sourceFamilyMissingDirectoryCount = 0;
     size_t sourceDatHashDiagnosticCount = 0;
+    const EditorMm9ScriptIncludeResolutionSummary scriptIncludeSummary =
+        summarizeMm9EventScriptIncludeResolution(levelPhysicalPath, sidecars.events);
 
     for (const OpenYAMM::Game::Mm9EventScript &script : sidecars.events.scripts)
     {
+        scriptIncludes += script.includes.size();
+        scriptLabels += script.labels.size();
         scriptRegisteredTriggers += script.registeredTriggers.size();
         scriptTriggerEdges += script.triggerEdges.size();
         scriptMovementCommands += script.movementCommands.size();
@@ -2441,9 +3834,24 @@ bool writeMm9DatLevelValidationReport(
 
     for (const EditorMm9MaterialTextureStatus &status : textureStatuses)
     {
+        if (status.defaultHelperMaterial)
+        {
+            ++defaultHelperMaterialCount;
+        }
+
+        if (status.placeholderMissingSource)
+        {
+            ++placeholderMissingSourceMaterialCount;
+        }
+
         if (status.sourceDtxResolved)
         {
             ++resolvedTextureCount;
+        }
+
+        if (status.sourceDtxResolved && status.sourcePathExists)
+        {
+            ++sourceDtxPathCount;
         }
 
         if (status.sourceDtxAmbiguous)
@@ -2463,6 +3871,8 @@ bool writeMm9DatLevelValidationReport(
 
         if (status.dtxHeader)
         {
+            ++dtxUserFlagRecordCount;
+            dtxExtraByteRecordCount += status.dtxHeader->extraBytes.size();
             dtxMipPayloadCount += status.dtxHeader->mips.size();
             dtxSectionMetadataCount += status.dtxHeader->sections.size();
 
@@ -2488,15 +3898,27 @@ bool writeMm9DatLevelValidationReport(
             }
         }
 
+        const bool missingRequiredMaterialAliasField =
+            status.materialAliasEntry
+            && (!status.aliasFieldPresent
+                || status.alias.empty()
+                || !status.sourceTextureFieldPresent
+                || status.sourceTexture.empty()
+                || !status.emittedBitmapFieldPresent
+                || status.emittedBitmap.empty()
+                || !status.emittedBitmapModeFieldPresent
+                || status.emittedBitmapMode.empty());
         const bool requiredSource = status.datReferenceCount > 0 || !status.sourceTexture.empty();
         bool invalid =
-            requiredSource
-            && !status.placeholderMissingSource
-            && (!status.sourceDtxResolved
-                || status.sourceDtxAmbiguous
-                || !status.sourcePathExists
-                || !status.dtxHeaderLoaded
-                || !status.dtxHeaderMatchesSidecar);
+            !status.defaultHelperMaterial
+            && (missingRequiredMaterialAliasField
+                || (requiredSource
+                    && !status.placeholderMissingSource
+                    && (!status.sourceDtxResolved
+                        || status.sourceDtxAmbiguous
+                        || !status.sourcePathExists
+                        || !status.dtxHeaderLoaded
+                        || !status.dtxHeaderMatchesSidecar)));
 
         if (status.sourceAssetFamily == "sprites")
         {
@@ -2517,14 +3939,16 @@ bool writeMm9DatLevelValidationReport(
             }
 
             invalid =
-                requiredSource
-                && (!status.sourceSpriteResolved
-                    || status.sourceSpriteAmbiguous
-                    || !status.sourceSpritePathExists
-                    || !status.sourceSpriteParsed
-                    || status.spriteFrameTextureCount == 0
-                    || status.unresolvedSpriteFrameTextureCount != 0
-                    || status.ambiguousSpriteFrameTextureCount != 0);
+                !status.defaultHelperMaterial
+                && (missingRequiredMaterialAliasField
+                    || (requiredSource
+                        && (!status.sourceSpriteResolved
+                            || status.sourceSpriteAmbiguous
+                            || !status.sourceSpritePathExists
+                            || !status.sourceSpriteParsed
+                            || status.spriteFrameTextureCount == 0
+                            || status.unresolvedSpriteFrameTextureCount != 0
+                            || status.ambiguousSpriteFrameTextureCount != 0)));
         }
 
         if (invalid)
@@ -2535,6 +3959,30 @@ bool writeMm9DatLevelValidationReport(
         if (status.cacheOlderThanSource)
         {
             staleMaterialCaches.push_back(&status);
+        }
+
+        if (status.cacheDeterminismChecked)
+        {
+            ++decodedCacheDeterminismCheckedCount;
+
+            if (status.sourceDtxDecodedForCache)
+            {
+                ++decodedCacheSourceDecodedCount;
+            }
+
+            if (status.cacheImageDecoded)
+            {
+                ++decodedCacheImageDecodedCount;
+            }
+
+            if (status.cacheMatchesDecodedSource)
+            {
+                ++decodedCacheMatchCount;
+            }
+            else
+            {
+                nondeterministicMaterialCaches.push_back(&status);
+            }
         }
     }
 
@@ -2603,12 +4051,22 @@ bool writeMm9DatLevelValidationReport(
         && levelLoadDiagnostics.empty()
         && sourceManifestDiagnostics.empty()
         && datWorldReferenceIssues.empty()
+        && rawObjectSidecarIssues.empty()
         && invalidMaterialTextures.empty()
+        && nondeterministicMaterialCaches.empty()
         && ambiguousTextureCount == 0
         && modelInstanceSummary.missingAssets == 0
         && modelInstanceSummary.missingDrawableGeometry == 0
         && modelInstanceSummary.actorVariantUnresolved == 0
         && modelInstanceSummary.actorVariantGameplayIdentityRows == modelInstanceSummary.actorVariantResolved
+        && modelInstanceSummary.actorVariantUnresolvedFootSounds == 0
+        && modelInstanceSummary.actorVariantResolvedFootSounds == modelInstanceSummary.actorVariantFootSoundFields
+        && modelInstanceSummary.actorVariantUnresolvedSourceSoundReferences == 0
+        && modelInstanceSummary.actorVariantResolvedSourceSoundReferences
+            == modelInstanceSummary.actorVariantSourceSoundReferences
+        && modelInstanceSummary.actorVariantUnresolvedSourceVoiceReferences == 0
+        && modelInstanceSummary.actorVariantResolvedSourceVoiceReferences
+            == modelInstanceSummary.actorVariantSourceVoiceReferences
         && viewportSummary.nativeRenderableTriangles != 0
         && viewportSummary.nativeTexturedTriangles != 0
         && assetSummary.requiredUnresolved == 0
@@ -2617,6 +4075,7 @@ bool writeMm9DatLevelValidationReport(
         && mechanismSummary.worldModelTargetsMissingModel == 0
         && mechanismSummary.worldModelTargetsMissingPolygonGroup == 0
         && mechanismSummary.worldModelTargetsMismatchedPolygonGroup == 0
+        && mechanismSummary.inertPreviewMechanisms.size() == mechanismSummary.inertMechanisms
         && (sidecars.datWorld.worldModels.empty() || worldModelOverlayVertices != 0)
         && (worldModelOverlayVertices == 0 || worldModelOverlayPickCandidates != 0)
         && (datRenderMesh.triangles.empty() || selectedDatOverlaySummary.polygonVertices != 0)
@@ -2731,6 +4190,7 @@ bool writeMm9DatLevelValidationReport(
     writeYamlScalar(stream, "  ", "source_read_only", sourceReadOnlyPathStatuses.size());
     writeYamlScalar(stream, "  ", "generated", generatedPathStatuses.size());
     writeYamlScalar(stream, "  ", "authored", authoredPathStatuses.size());
+    writeYamlScalar(stream, "  ", "authored_overrides", authoredOverridePathStatuses.size());
     writeYamlScalar(stream, "  ", "compatibility_derived", compatibilityPathStatuses.size());
     if (sourceReadOnlyPathStatuses.empty())
     {
@@ -2840,6 +4300,16 @@ bool writeMm9DatLevelValidationReport(
         "  ",
         "viewport_native_unresolved_material_triangles",
         viewportSummary.nativeUnresolvedMaterialTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_visual", nativeFilters.summary.visualTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_invisible", nativeFilters.summary.invisibleTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_water", nativeFilters.summary.waterTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_visible_water", nativeFilters.summary.visibleWaterTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_water_volume", nativeFilters.summary.waterVolumeTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_rail", nativeFilters.summary.railTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_helper", nativeFilters.summary.helperTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_physics", nativeFilters.summary.physicsTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_visibility", nativeFilters.summary.visibilityTriangles);
+    writeYamlScalar(stream, "  ", "native_filter_portals", nativeFilters.summary.portalOverlays);
     writeYamlScalar(stream, "  ", "world_model_overlay_vertices", worldModelOverlayVertices);
     writeYamlScalar(stream, "  ", "world_model_overlay_pick_candidates", worldModelOverlayPickCandidates);
     writeYamlScalar(stream, "  ", "selected_polygon_overlay_vertices", selectedDatOverlaySummary.polygonVertices);
@@ -2854,6 +4324,12 @@ bool writeMm9DatLevelValidationReport(
         "  ",
         "viewport_model_instance_decoded_skin_textures",
         viewportSummary.modelInstanceDecodedSkinTextures);
+    writeYamlScalar(stream, "  ", "script_includes", scriptIncludes);
+    writeYamlScalar(stream, "  ", "script_labels", scriptLabels);
+    writeYamlScalar(stream, "  ", "script_include_references", scriptIncludeSummary.references);
+    writeYamlScalar(stream, "  ", "script_resolved_includes", scriptIncludeSummary.resolved);
+    writeYamlScalar(stream, "  ", "script_unresolved_includes", scriptIncludeSummary.unresolved);
+    writeYamlScalar(stream, "  ", "script_ambiguous_includes", scriptIncludeSummary.ambiguous);
     writeYamlScalar(stream, "  ", "script_registered_triggers", scriptRegisteredTriggers);
     writeYamlScalar(stream, "  ", "script_trigger_edges", scriptTriggerEdges);
     writeYamlScalar(stream, "  ", "script_movement_commands", scriptMovementCommands);
@@ -2865,6 +4341,7 @@ bool writeMm9DatLevelValidationReport(
     writeYamlScalar(stream, "  ", "unresolved_event_rotation_candidates", unresolvedEventRotationCandidates);
     writeYamlScalar(stream, "  ", "unresolved_event_position_candidates", unresolvedEventPositionCandidates);
     writeYamlScalar(stream, "  ", "raw_objects", sidecars.rawObjects.objects.size());
+    writeYamlScalar(stream, "  ", "raw_object_sidecar_issues", rawObjectSidecarIssues.size());
     writeYamlScalar(stream, "  ", "object_source_transforms", objectLayer.positionedObjectCount);
     writeYamlScalar(stream, "  ", "object_bounds_evidence", objectLayer.boundsEvidenceObjectCount);
     writeYamlScalar(stream, "  ", "object_trigger_volumes", objectLayer.triggerVolumeCount);
@@ -2905,6 +4382,47 @@ bool writeMm9DatLevelValidationReport(
         "  ",
         "actor_variant_gameplay_identity_rows",
         modelInstanceSummary.actorVariantGameplayIdentityRows);
+    writeYamlScalar(stream, "  ", "actor_variant_foot_sound_fields", modelInstanceSummary.actorVariantFootSoundFields);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_resolved_foot_sounds",
+        modelInstanceSummary.actorVariantResolvedFootSounds);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_unresolved_foot_sounds",
+        modelInstanceSummary.actorVariantUnresolvedFootSounds);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_source_sound_references",
+        modelInstanceSummary.actorVariantSourceSoundReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_resolved_source_sound_references",
+        modelInstanceSummary.actorVariantResolvedSourceSoundReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_unresolved_source_sound_references",
+        modelInstanceSummary.actorVariantUnresolvedSourceSoundReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_source_voice_references",
+        modelInstanceSummary.actorVariantSourceVoiceReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_resolved_source_voice_references",
+        modelInstanceSummary.actorVariantResolvedSourceVoiceReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "actor_variant_unresolved_source_voice_references",
+        modelInstanceSummary.actorVariantUnresolvedSourceVoiceReferences);
     writeYamlScalar(stream, "  ", "scripted_objects", modelInstanceSummary.scriptedObjects);
     writeYamlScalar(
         stream,
@@ -2914,20 +4432,41 @@ bool writeMm9DatLevelValidationReport(
     writeYamlScalar(
         stream,
         "  ",
+        "scripted_objects_with_model_collision_volumes",
+        modelInstanceSummary.scriptedObjectsWithModelCollisionVolumes);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "scripted_objects_requiring_billboard_collision_visuals",
+        modelInstanceSummary.scriptedObjectsRequiringBillboardCollisionVisuals);
+    writeYamlScalar(
+        stream,
+        "  ",
         "missing_scripted_object_collision_visuals",
         modelInstanceSummary.missingScriptedObjectCollisionVisuals);
+
     writeYamlScalar(stream, "  ", "mechanism_preview_candidates", mechanismPreviewSummary.candidates);
     writeYamlScalar(stream, "  ", "mechanism_preview_changed_bounds", mechanismPreviewSummary.changedBounds);
     writeYamlScalar(stream, "  ", "material_textures", textureStatuses.size());
     writeYamlScalar(stream, "  ", "resolved_dtx", resolvedTextureCount);
     writeYamlScalar(stream, "  ", "ambiguous_dtx", ambiguousTextureCount);
+    writeYamlScalar(stream, "  ", "source_dtx_paths", sourceDtxPathCount);
+    writeYamlScalar(stream, "  ", "default_helper_materials", defaultHelperMaterialCount);
+    writeYamlScalar(stream, "  ", "placeholder_missing_source_materials", placeholderMissingSourceMaterialCount);
     writeYamlScalar(stream, "  ", "dtx_headers", loadedDtxHeaderCount);
     writeYamlScalar(stream, "  ", "dtx_headers_matching_sidecar", matchedDtxHeaderCount);
+    writeYamlScalar(stream, "  ", "dtx_user_flag_records", dtxUserFlagRecordCount);
+    writeYamlScalar(stream, "  ", "dtx_extra_byte_records", dtxExtraByteRecordCount);
     writeYamlScalar(stream, "  ", "dtx_mip_payloads", dtxMipPayloadCount);
     writeYamlScalar(stream, "  ", "dtx_decoded_preview_mips", dtxDecodedPreviewMipCount);
     writeYamlScalar(stream, "  ", "dtx_section_metadata_records", dtxSectionMetadataCount);
     writeYamlScalar(stream, "  ", "dtx_section_payloads_available", dtxSectionPayloadAvailableCount);
     writeYamlScalar(stream, "  ", "dtx_command_strings", dtxCommandStringCount);
+    writeYamlScalar(stream, "  ", "decoded_cache_determinism_checked", decodedCacheDeterminismCheckedCount);
+    writeYamlScalar(stream, "  ", "decoded_cache_source_decoded", decodedCacheSourceDecodedCount);
+    writeYamlScalar(stream, "  ", "decoded_cache_image_decoded", decodedCacheImageDecodedCount);
+    writeYamlScalar(stream, "  ", "decoded_cache_matches_source", decodedCacheMatchCount);
+    writeYamlScalar(stream, "  ", "decoded_cache_mismatches", nondeterministicMaterialCaches.size());
     writeYamlScalar(stream, "  ", "sprite_materials", spriteMaterialCount);
     writeYamlScalar(stream, "  ", "resolved_sprite_materials", resolvedSpriteMaterialCount);
     writeYamlScalar(stream, "  ", "sprite_frame_textures", spriteFrameTextureCount);
@@ -2956,6 +4495,84 @@ bool writeMm9DatLevelValidationReport(
         "  ",
         "mechanism_target_marker_source_links",
         mechanismTargetMarkerSummary.sourceLinkedTargets);
+    writeYamlScalar(stream, "  ", "mechanism_gizmo_candidates", mechanismTargetMarkerSummary.gizmoCandidates);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "mechanism_circle_gizmo_candidates",
+        mechanismTargetMarkerSummary.circleGizmoCandidates);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "mechanism_target_gizmo_candidates",
+        mechanismTargetMarkerSummary.targetGizmoCandidates);
+    writeYamlScalar(stream, "  ", "mechanism_motion_path_markers", mechanismTargetMarkerSummary.motionPathMarkers);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "mechanism_los_checked_candidates",
+        mechanismTargetMarkerSummary.lineOfSightCheckedCandidates);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "mechanism_los_blocked_candidates",
+        mechanismTargetMarkerSummary.lineOfSightBlockedCandidates);
+
+    stream << "actor_variants:\n";
+    writeYamlScalar(stream, "  ", "candidates", modelInstanceSummary.actorVariantCandidates);
+    writeYamlScalar(stream, "  ", "resolved", modelInstanceSummary.actorVariantResolved);
+    writeYamlScalar(stream, "  ", "unresolved", modelInstanceSummary.actorVariantUnresolved);
+    writeYamlScalar(stream, "  ", "actor_rows", modelInstanceSummary.actorVariantActorRows);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "gameplay_identity_rows",
+        modelInstanceSummary.actorVariantGameplayIdentityRows);
+    writeYamlScalar(stream, "  ", "foot_sound_fields", modelInstanceSummary.actorVariantFootSoundFields);
+    writeYamlScalar(stream, "  ", "resolved_foot_sounds", modelInstanceSummary.actorVariantResolvedFootSounds);
+    writeYamlScalar(stream, "  ", "unresolved_foot_sounds", modelInstanceSummary.actorVariantUnresolvedFootSounds);
+    writeYamlScalar(stream, "  ", "source_sound_references", modelInstanceSummary.actorVariantSourceSoundReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "resolved_source_sound_references",
+        modelInstanceSummary.actorVariantResolvedSourceSoundReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "unresolved_source_sound_references",
+        modelInstanceSummary.actorVariantUnresolvedSourceSoundReferences);
+    writeYamlScalar(stream, "  ", "source_voice_references", modelInstanceSummary.actorVariantSourceVoiceReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "resolved_source_voice_references",
+        modelInstanceSummary.actorVariantResolvedSourceVoiceReferences);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "unresolved_source_voice_references",
+        modelInstanceSummary.actorVariantUnresolvedSourceVoiceReferences);
+
+    if (modelInstanceSummary.unresolvedActorVariants.empty())
+    {
+        stream << "  missing_variants: []\n";
+    }
+    else
+    {
+        stream << "  missing_variants:\n";
+
+        for (const Mm9ModelInstanceAssetResolutionSummary::UnresolvedActorVariant &unresolved :
+            modelInstanceSummary.unresolvedActorVariants)
+        {
+            stream << "    - source_object_index: " << unresolved.sourceObjectIndex << '\n';
+            writeYamlScalar(stream, "      ", "source_ref", unresolved.sourceRef);
+            writeYamlScalar(stream, "      ", "source_class", unresolved.sourceClass);
+            writeYamlScalar(stream, "      ", "source_name", unresolved.sourceName);
+            writeYamlScalar(stream, "      ", "source_model", unresolved.sourceModel);
+            writeYamlScalar(stream, "      ", "source_skin", unresolved.sourceSkin);
+        }
+    }
 
     stream << "dat_world_reference_validation:\n";
     writeYamlScalar(stream, "  ", "issues", datWorldReferenceIssues.size());
@@ -2977,6 +4594,25 @@ bool writeMm9DatLevelValidationReport(
         stream << "  issue_details:\n";
 
         for (const std::string &issue : datWorldReferenceIssues)
+        {
+            stream << "    - ";
+            writeYamlQuoted(stream, issue);
+            stream << '\n';
+        }
+    }
+
+    stream << "raw_object_sidecar_validation:\n";
+    writeYamlScalar(stream, "  ", "issues", rawObjectSidecarIssues.size());
+
+    if (rawObjectSidecarIssues.empty())
+    {
+        stream << "  issue_details: []\n";
+    }
+    else
+    {
+        stream << "  issue_details:\n";
+
+        for (const std::string &issue : rawObjectSidecarIssues)
         {
             stream << "    - ";
             writeYamlQuoted(stream, issue);
@@ -3061,6 +4697,28 @@ bool writeMm9DatLevelValidationReport(
     writeYamlScalar(stream, "  ", "model_instance_targets", mechanismSummary.withModelInstanceTarget);
     writeYamlScalar(stream, "  ", "with_linear_motion", mechanismSummary.withLinearMotion);
     writeYamlScalar(stream, "  ", "with_rotation_motion", mechanismSummary.withRotationMotion);
+    writeYamlScalar(stream, "  ", "with_sound_evidence", mechanismSummary.withSoundEvidence);
+    writeYamlScalar(stream, "  ", "sound_slots", mechanismSummary.soundSlots);
+    writeYamlScalar(stream, "  ", "authored_sound_references", mechanismSummary.authoredSoundReferences);
+    writeYamlScalar(stream, "  ", "empty_sound_references", mechanismSummary.emptySoundReferences);
+    writeYamlScalar(stream, "  ", "previewable_mechanisms", mechanismSummary.previewableMechanisms);
+    writeYamlScalar(stream, "  ", "inert_mechanisms", mechanismSummary.inertMechanisms);
+    writeYamlScalar(stream, "  ", "inert_preview_entries", mechanismSummary.inertPreviewMechanisms.size());
+    writeYamlScalar(stream, "  ", "without_preview_motion", mechanismSummary.mechanismsWithoutPreviewMotion);
+    writeYamlScalar(stream, "  ", "without_preview_target", mechanismSummary.mechanismsWithoutPreviewTarget);
+    writeYamlScalar(stream, "  ", "activation_start_open_fields", mechanismSummary.activationStartOpenFields);
+    writeYamlScalar(stream, "  ", "activation_locked_fields", mechanismSummary.activationLockedFields);
+    writeYamlScalar(stream, "  ", "activation_push_open_fields", mechanismSummary.activationPushOpenFields);
+    writeYamlScalar(stream, "  ", "activation_touch_to_open_fields", mechanismSummary.activationTouchToOpenFields);
+    writeYamlScalar(stream, "  ", "activation_lock_on_close_fields", mechanismSummary.activationLockOnCloseFields);
+    writeYamlScalar(
+        stream,
+        "  ",
+        "activation_reopen_on_contact_fields",
+        mechanismSummary.activationReopenOnContactFields);
+    writeYamlScalar(stream, "  ", "rotation_open_away_fields", mechanismSummary.rotationOpenAwayFields);
+    writeYamlScalar(stream, "  ", "timing_move_delay_fields", mechanismSummary.timingMoveDelayFields);
+    writeYamlScalar(stream, "  ", "timing_open_wait_fields", mechanismSummary.timingOpenWaitFields);
     writeYamlScalar(stream, "  ", "trigger_outputs", mechanismSummary.triggerOutputs);
     writeYamlScalar(stream, "  ", "unresolved_trigger_outputs", mechanismSummary.unresolvedTriggerOutputs);
     writeYamlScalar(stream, "  ", "incomplete_linear_motion", mechanismSummary.incompleteLinearMotion);
@@ -3178,6 +4836,29 @@ bool writeMm9DatLevelValidationReport(
         }
     }
 
+    if (mechanismSummary.inertPreviewMechanisms.empty())
+    {
+        stream << "  inert_preview_mechanisms: []\n";
+    }
+    else
+    {
+        stream << "  inert_preview_mechanisms:\n";
+
+        for (const Mm9MechanismValidationSummary::InertPreviewMechanism &inert :
+            mechanismSummary.inertPreviewMechanisms)
+        {
+            stream << "    - source_object_index: " << inert.sourceObjectIndex << '\n';
+            writeYamlScalar(stream, "      ", "source_class", inert.sourceClass);
+            writeYamlScalar(stream, "      ", "source_name", inert.sourceName);
+            writeYamlScalar(stream, "      ", "mechanism_id", inert.mechanismId);
+            writeYamlScalar(stream, "      ", "reason", inert.reason);
+            writeYamlScalar(stream, "      ", "has_preview_motion", inert.hasPreviewMotion);
+            writeYamlScalar(stream, "      ", "has_preview_world_model_target", inert.hasPreviewWorldModelTarget);
+            writeYamlScalar(stream, "      ", "has_binding", inert.hasBinding);
+            writeYamlScalar(stream, "      ", "required_target", inert.requiredTarget);
+        }
+    }
+
     stream << "asset_graph:\n";
     writeYamlScalar(stream, "  ", "total", assetSummary.total);
     writeYamlScalar(stream, "  ", "resolved", assetSummary.resolved);
@@ -3192,6 +4873,8 @@ bool writeMm9DatLevelValidationReport(
     writeYamlScalar(stream, "  ", "optional_resolved", assetSummary.optionalResolved);
     writeYamlScalar(stream, "  ", "optional_unresolved", assetSummary.optionalUnresolved);
     writeYamlScalar(stream, "  ", "optional_ambiguous", assetSummary.optionalAmbiguous);
+    writeYamlScalar(stream, "  ", "source_only", assetSummary.sourceOnly);
+    writeYamlScalar(stream, "  ", "unused_source", assetSummary.unusedSource);
     stream << "  families:\n";
 
     for (const EditorMm9AssetDependencyFamilySummary &family : assetSummary.families)
@@ -3212,6 +4895,8 @@ bool writeMm9DatLevelValidationReport(
         writeYamlScalar(stream, "      ", "optional_resolved", family.optionalResolved);
         writeYamlScalar(stream, "      ", "optional_unresolved", family.optionalUnresolved);
         writeYamlScalar(stream, "      ", "optional_ambiguous", family.optionalAmbiguous);
+        writeYamlScalar(stream, "      ", "source_only", family.sourceOnly);
+        writeYamlScalar(stream, "      ", "unused_source", family.unusedSource);
     }
 
     stream << "viewport_missing_material_triangles:\n";
@@ -3258,6 +4943,26 @@ bool writeMm9DatLevelValidationReport(
         writeYamlScalar(stream, "      ", "source_texture", pStatus->sourceTexture);
         writeYamlScalar(stream, "      ", "source_asset_family", pStatus->sourceAssetFamily);
         writeYamlScalar(stream, "      ", "physical_path", pStatus->physicalPath);
+        writeYamlScalar(stream, "      ", "default_helper_material", pStatus->defaultHelperMaterial);
+        writeYamlScalar(
+            stream,
+            "      ",
+            "default_renderable_dat_refs",
+            pStatus->defaultRenderableDatReferenceCount);
+        writeYamlScalar(stream, "      ", "helper_only_dat_refs", pStatus->helperOnlyDatReferenceCount);
+        writeYamlScalar(stream, "      ", "alias_field_present", pStatus->aliasFieldPresent);
+        writeYamlScalar(stream, "      ", "source_texture_field_present", pStatus->sourceTextureFieldPresent);
+        writeYamlScalar(stream, "      ", "emitted_bitmap_field_present", pStatus->emittedBitmapFieldPresent);
+        writeYamlScalar(
+            stream,
+            "      ",
+            "emitted_bitmap_mode_field_present",
+            pStatus->emittedBitmapModeFieldPresent);
+        writeYamlScalar(stream, "      ", "emitted_bitmap", pStatus->emittedBitmap);
+        writeYamlScalar(stream, "      ", "emitted_bitmap_mode", pStatus->emittedBitmapMode);
+        writeYamlScalar(stream, "      ", "resolution_source", pStatus->resolutionSource);
+        writeYamlScalar(stream, "      ", "alias_applied", pStatus->aliasApplied);
+        writeYamlScalar(stream, "      ", "alias_target_key", pStatus->aliasTargetKey);
         writeYamlScalar(stream, "      ", "source_dtx_resolved", pStatus->sourceDtxResolved);
         writeYamlScalar(stream, "      ", "source_dtx_ambiguous", pStatus->sourceDtxAmbiguous);
         writeYamlScalar(stream, "      ", "source_path_exists", pStatus->sourcePathExists);
@@ -3349,6 +5054,30 @@ bool writeMm9DatLevelValidationReport(
             writeYamlScalar(stream, "      ", "source_texture", pStatus->sourceTexture);
             writeYamlScalar(stream, "      ", "emitted_bitmap", pStatus->emittedBitmap);
             writeYamlScalar(stream, "      ", "resolved_cache_path", pStatus->resolvedCachePath);
+        }
+    }
+
+    if (nondeterministicMaterialCaches.empty())
+    {
+        stream << "  nondeterministic_decoded_caches: []\n";
+    }
+    else
+    {
+        stream << "  nondeterministic_decoded_caches:\n";
+
+        for (const EditorMm9MaterialTextureStatus *pStatus : nondeterministicMaterialCaches)
+        {
+            stream << "    - texture_index: " << pStatus->textureIndex << '\n';
+            writeYamlScalar(stream, "      ", "alias", pStatus->alias);
+            writeYamlScalar(stream, "      ", "source_texture", pStatus->sourceTexture);
+            writeYamlScalar(stream, "      ", "emitted_bitmap", pStatus->emittedBitmap);
+            writeYamlScalar(stream, "      ", "emitted_bitmap_mode", pStatus->emittedBitmapMode);
+            writeYamlScalar(stream, "      ", "resolved_source_path", pStatus->resolvedSourcePath);
+            writeYamlScalar(stream, "      ", "resolved_cache_path", pStatus->resolvedCachePath);
+            writeYamlScalar(stream, "      ", "source_dtx_decoded", pStatus->sourceDtxDecodedForCache);
+            writeYamlScalar(stream, "      ", "cache_image_decoded", pStatus->cacheImageDecoded);
+            writeYamlScalar(stream, "      ", "cache_matches_decoded_source", pStatus->cacheMatchesDecodedSource);
+            writeYamlScalar(stream, "      ", "message", pStatus->cacheDeterminismMessage);
         }
     }
 
@@ -3469,16 +5198,47 @@ bool writeMm9DatLevelValidationReport(
             issue);
     }
 
+    for (const std::string &issue : rawObjectSidecarIssues)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            metadata.source.dat,
+            "raw_object_sidecar_validation",
+            metadata.sidecars.rawObjects,
+            "mm9_raw_object_sidecar_validator",
+            "sidecar generator",
+            issue);
+    }
+
     for (const EditorMm9MaterialTextureStatus *pStatus : invalidMaterialTextures)
     {
+        const bool missingRequiredMaterialAliasField =
+            pStatus->materialAliasEntry
+            && (!pStatus->aliasFieldPresent
+                || pStatus->alias.empty()
+                || !pStatus->sourceTextureFieldPresent
+                || pStatus->sourceTexture.empty()
+                || !pStatus->emittedBitmapFieldPresent
+                || pStatus->emittedBitmap.empty()
+                || !pStatus->emittedBitmapModeFieldPresent
+                || pStatus->emittedBitmapMode.empty());
+
         addNormalizedDiagnostic(
             "error",
             pStatus->physicalPath,
             "material_textures/" + std::to_string(pStatus->textureIndex),
             metadata.sidecars.materials,
-            "mm9_material_texture_resolver",
-            pStatus->sourceDtxAmbiguous || pStatus->sourceSpriteAmbiguous ? "authored override" : "source asset mirror",
-            "material texture reference is unresolved or ambiguous: " + pStatus->sourceTexture);
+            missingRequiredMaterialAliasField
+                ? "mm9_material_alias_sidecar_validator"
+                : "mm9_material_texture_resolver",
+            missingRequiredMaterialAliasField
+                ? "sidecar generator"
+                : (pStatus->sourceDtxAmbiguous || pStatus->sourceSpriteAmbiguous
+                    ? "authored override"
+                    : "source asset mirror"),
+            missingRequiredMaterialAliasField
+                ? "material alias sidecar is missing required mapping fields: " + pStatus->alias
+                : "material texture reference is unresolved or ambiguous: " + pStatus->sourceTexture);
     }
 
     for (const EditorMm9MaterialTextureStatus *pStatus : staleMaterialCaches)
@@ -3493,9 +5253,36 @@ bool writeMm9DatLevelValidationReport(
             "generated material cache is older than source DTX: " + pStatus->sourceTexture);
     }
 
+    for (const EditorMm9MaterialTextureStatus *pStatus : nondeterministicMaterialCaches)
+    {
+        addNormalizedDiagnostic(
+            "error",
+            pStatus->physicalPath,
+            "material_textures/" + std::to_string(pStatus->textureIndex),
+            pStatus->emittedBitmap,
+            "mm9_material_cache_determinism_validator",
+            "sidecar generator",
+            "generated material cache does not match decoded source DTX: " + pStatus->sourceTexture
+                + " reason=" + pStatus->cacheDeterminismMessage);
+    }
+
     for (const EditorMm9MaterialTextureStatus &status : textureStatuses)
     {
-        if (!status.placeholderMissingSource || status.datReferenceCount == 0)
+        const bool hasResolvedPreviewSource =
+            status.defaultHelperMaterial
+                ? true
+                : (status.sourceAssetFamily == "sprites"
+                    ? status.sourceSpriteResolved
+                        && status.sourceSpritePathExists
+                        && status.sourceSpriteParsed
+                        && status.spriteFrameTextureCount != 0
+                        && status.unresolvedSpriteFrameTextureCount == 0
+                        && status.ambiguousSpriteFrameTextureCount == 0
+                    : status.sourceDtxResolved && status.sourcePathExists);
+
+        if (!status.placeholderMissingSource
+            || status.datReferenceCount == 0
+            || hasResolvedPreviewSource)
         {
             continue;
         }
@@ -3539,6 +5326,26 @@ bool writeMm9DatLevelValidationReport(
                 + pStatus->sourceFamily + " " + pStatus->sourceValue);
     }
 
+    for (const EditorMm9AssetDependencyFamilySummary &family : assetSummary.families)
+    {
+        if (family.unusedSource == 0)
+        {
+            continue;
+        }
+
+        addNormalizedDiagnostic(
+            "warning",
+            metadata.source.manifest,
+            "asset_graph/families/" + family.family,
+            metadata.source.manifest,
+            "mm9_asset_graph_source_inventory",
+            "source asset mirror",
+            "source family has unused entries for the loaded map: family=" + family.family
+                + " unused_source=" + std::to_string(family.unusedSource)
+                + " source_only=" + std::to_string(family.sourceOnly)
+                + " graph_refs=" + std::to_string(family.total));
+    }
+
     for (const Mm9ModelInstanceAssetResolutionSummary::UnresolvedActorVariant &unresolved :
         modelInstanceSummary.unresolvedActorVariants)
     {
@@ -3562,12 +5369,13 @@ bool writeMm9DatLevelValidationReport(
             metadata.source.dat,
             "model_instances",
             metadata.sidecars.materials,
-            "mm9_scripted_billboard_visual_resolver",
+            "mm9_scripted_object_model_resolver",
             "sidecar generator",
-            "scripted object billboard collision visuals are not generated for "
+            "scripted object model/native collision volumes are unresolved for "
                 + std::to_string(modelInstanceSummary.missingScriptedObjectCollisionVisuals)
-                + " of " + std::to_string(modelInstanceSummary.scriptedObjects)
-                + " scripted/model-backed objects");
+                + " of "
+                + std::to_string(modelInstanceSummary.scriptedObjectsRequiringBillboardCollisionVisuals)
+                + " scripted objects");
     }
 
     for (const Mm9MechanismValidationSummary::IncompleteMotion &incomplete : mechanismSummary.incompleteMotion)
@@ -3639,6 +5447,22 @@ bool writeMm9DatLevelValidationReport(
             "sidecar generator",
             "mechanism target is unresolved: " + unresolved.sourceName + " target_kind="
                 + unresolved.targetKind + " confidence=" + unresolved.confidence);
+    }
+
+    if (mechanismSummary.inertMechanisms != 0)
+    {
+        addNormalizedDiagnostic(
+            "info",
+            metadata.source.dat,
+            "mechanisms/inert_preview_mechanisms",
+            metadata.sidecars.events,
+            "mm9_mechanism_preview_state_resolver",
+            "sidecar generator",
+            "mechanisms without editor movement preview are listed with source-object reasons: inert="
+                + std::to_string(mechanismSummary.inertMechanisms)
+                + " missing_motion=" + std::to_string(mechanismSummary.mechanismsWithoutPreviewMotion)
+                + " missing_world_model_target="
+                + std::to_string(mechanismSummary.mechanismsWithoutPreviewTarget));
     }
 
     size_t normalizedErrorCount = 0;
@@ -3994,7 +5818,7 @@ Mm9SourceIntegritySnapshot collectMm9SourceIntegritySnapshot(const std::filesyst
 
     snapshot.levelDiagnostics = validateMm9DatLevelMetadataFiles(levelPath, *metadata);
 
-    const std::filesystem::path manifestPath = resolveMm9SourceAssetManifestPath(levelPath);
+    const std::filesystem::path manifestPath = resolveMm9SourceAssetManifestPath(levelPath, *metadata);
     std::string manifestText;
     if (!readTextFileContents(manifestPath, manifestText))
     {
@@ -7393,6 +9217,96 @@ bool endsWithCaseInsensitive(const std::string &value, const std::string &suffix
     return true;
 }
 
+std::optional<std::filesystem::path> findMm9CaseInsensitivePhysicalPath(
+    const std::filesystem::path &root,
+    const std::filesystem::path &relativePath)
+{
+    std::filesystem::path currentPath = root;
+
+    for (const std::filesystem::path &part : relativePath)
+    {
+        if (part.empty() || part == ".")
+        {
+            continue;
+        }
+
+        if (part == "..")
+        {
+            return std::nullopt;
+        }
+
+        const std::filesystem::path exactPath = currentPath / part;
+        std::error_code exactError;
+        if (std::filesystem::exists(exactPath, exactError) && !exactError)
+        {
+            currentPath = exactPath;
+            continue;
+        }
+
+        std::error_code directoryError;
+        if (!std::filesystem::is_directory(currentPath, directoryError) || directoryError)
+        {
+            return std::nullopt;
+        }
+
+        const std::string targetName = lowerCopy(part.generic_string());
+        bool found = false;
+        std::error_code iteratorError;
+        std::filesystem::directory_iterator iterator(currentPath, iteratorError);
+        const std::filesystem::directory_iterator endIterator;
+
+        while (!iteratorError && iterator != endIterator)
+        {
+            if (lowerCopy(iterator->path().filename().generic_string()) == targetName)
+            {
+                currentPath = iterator->path();
+                found = true;
+                break;
+            }
+
+            iterator.increment(iteratorError);
+        }
+
+        if (!found)
+        {
+            return std::nullopt;
+        }
+    }
+
+    return currentPath;
+}
+
+std::optional<std::filesystem::path> resolveMm9ModelTexturePhysicalPath(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &texturePath)
+{
+    const std::optional<std::filesystem::path> mountedPath =
+        assetFileSystem.resolvePhysicalPath(texturePath);
+    if (mountedPath)
+    {
+        return mountedPath;
+    }
+
+    const std::filesystem::path sourceRoot =
+        assetFileSystem.getDevelopmentRoot()
+        / std::filesystem::path("worlds")
+        / assetFileSystem.getActiveWorldId()
+        / "source";
+    const std::string normalizedPath = normalizeMm9ModelInstanceImagePath(texturePath);
+
+    if (normalizedPath.rfind("skins/", 0) == 0)
+    {
+        return findMm9CaseInsensitivePhysicalPath(sourceRoot, std::filesystem::path(normalizedPath));
+    }
+
+    if (normalizedPath.rfind("textures/", 0) == 0)
+    {
+        return findMm9CaseInsensitivePhysicalPath(sourceRoot, std::filesystem::path(normalizedPath));
+    }
+
+    return std::nullopt;
+}
+
 std::optional<OpenYAMM::Engine::ImagePixelsBgra> loadMm9ModelTexturePixels(
     const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
     const std::string &texturePath,
@@ -7401,7 +9315,7 @@ std::optional<OpenYAMM::Engine::ImagePixelsBgra> loadMm9ModelTexturePixels(
     if (endsWithCaseInsensitive(texturePath, ".dtx"))
     {
         const std::optional<std::filesystem::path> resolvedPath =
-            assetFileSystem.resolvePhysicalPath(texturePath);
+            resolveMm9ModelTexturePhysicalPath(assetFileSystem, texturePath);
         if (!resolvedPath)
         {
             return std::nullopt;
@@ -7549,18 +9463,6 @@ Mm9ModelInstanceAssetResolutionSummary summarizeMm9ModelInstanceAssetResolution(
     OpenYAMM::Engine::BinaryAssetCache binaryAssetCache;
     const std::optional<Mm9ModelInstanceActorSourceLookup> actorSourceLookup =
         loadMm9ModelInstanceActorSourceLookup(assetFileSystem);
-    std::optional<OpenYAMM::Game::Mm9ScriptedBillboardVisualSet> visualSet;
-    OpenYAMM::Game::Mm9ScriptedBillboardVisualSet loadedVisualSet = {};
-    std::string visualLoadError;
-
-    if (loadedVisualSet.loadFromAssetFileSystem(
-            assetFileSystem,
-            visualLoadError,
-            OpenYAMM::Game::Mm9ScriptedBillboardVisualRoot,
-            false))
-    {
-        visualSet = std::move(loadedVisualSet);
-    }
 
     summary.total = sceneData.modelInstances.size();
 
@@ -7599,6 +9501,19 @@ Mm9ModelInstanceAssetResolutionSummary summarizeMm9ModelInstanceAssetResolution(
                 {
                     ++summary.actorVariantGameplayIdentityRows;
                 }
+
+                if (mm9ActorFootSoundRequiresResolution(resolvedSource.actorRow.footSound))
+                {
+                    ++summary.actorVariantFootSoundFields;
+                    if (resolvedSource.actorRow.footSoundReferences.empty())
+                    {
+                        ++summary.actorVariantUnresolvedFootSounds;
+                    }
+                    else
+                    {
+                        ++summary.actorVariantResolvedFootSounds;
+                    }
+                }
             }
             else
             {
@@ -7613,24 +9528,40 @@ Mm9ModelInstanceAssetResolutionSummary summarizeMm9ModelInstanceAssetResolution(
                 unresolved.sourceSkin = modelInstance.sourceSkin;
                 summary.unresolvedActorVariants.push_back(std::move(unresolved));
             }
-        }
 
-        if (scriptedObject)
-        {
-            ++summary.scriptedObjects;
-
-            const std::optional<std::string> visualId =
-                visualSet ? visualSet->resolveVisualIdForModelInstance(mapId, modelInstance) : std::nullopt;
-            const OpenYAMM::Game::Mm9ScriptedBillboardVisual *pVisual =
-                visualId && visualSet ? visualSet->findVisual(*visualId) : nullptr;
-
-            if (pVisual != nullptr && pVisual->collision.radius > 0 && pVisual->collision.height > 0)
+            for (const EditorMm9RawObjectAssetReferenceStatus &status : rawObjectAssetStatuses)
             {
-                ++summary.scriptedObjectsWithCollisionVisuals;
-            }
-            else
-            {
-                ++summary.missingScriptedObjectCollisionVisuals;
+                if (status.sourceObjectIndex != modelInstance.sourceObjectIndex
+                    || (status.sourceFamily != "sounds" && status.sourceFamily != "voices"))
+                {
+                    continue;
+                }
+
+                const bool resolvedReference = status.resolved && !status.ambiguous;
+                if (status.sourceFamily == "sounds")
+                {
+                    ++summary.actorVariantSourceSoundReferences;
+                    if (resolvedReference)
+                    {
+                        ++summary.actorVariantResolvedSourceSoundReferences;
+                    }
+                    else
+                    {
+                        ++summary.actorVariantUnresolvedSourceSoundReferences;
+                    }
+                }
+                else
+                {
+                    ++summary.actorVariantSourceVoiceReferences;
+                    if (resolvedReference)
+                    {
+                        ++summary.actorVariantResolvedSourceVoiceReferences;
+                    }
+                    else
+                    {
+                        ++summary.actorVariantUnresolvedSourceVoiceReferences;
+                    }
+                }
             }
         }
 
@@ -7651,6 +9582,21 @@ Mm9ModelInstanceAssetResolutionSummary summarizeMm9ModelInstanceAssetResolution(
                 modelInstance,
                 rawObjectAssetStatuses,
                 resolvedAssetPath);
+        }
+
+        if (scriptedObject)
+        {
+            ++summary.scriptedObjects;
+
+            if (!resolvedAssetPath.empty())
+            {
+                ++summary.scriptedObjectsWithModelCollisionVolumes;
+            }
+            else
+            {
+                ++summary.scriptedObjectsRequiringBillboardCollisionVisuals;
+                ++summary.missingScriptedObjectCollisionVisuals;
+            }
         }
 
         if (resolvedAssetPath.empty())
@@ -7725,22 +9671,6 @@ bool verifyOutdoorModelInstanceResolution(
     const bool isMm9Map =
         OpenYAMM::Game::normalizeWorldId(outdoorGeometry.worldId) == "mm9"
         || OpenYAMM::Game::normalizeWorldId(assetFileSystem.getActiveWorldId()) == "mm9";
-    std::optional<OpenYAMM::Game::Mm9ScriptedBillboardVisualSet> visualSet;
-
-    if (isMm9Map)
-    {
-        OpenYAMM::Game::Mm9ScriptedBillboardVisualSet loadedVisualSet = {};
-        std::string loadError;
-
-        if (loadedVisualSet.loadFromAssetFileSystem(
-                assetFileSystem,
-                loadError,
-                OpenYAMM::Game::Mm9ScriptedBillboardVisualRoot,
-                false))
-        {
-            visualSet = std::move(loadedVisualSet);
-        }
-    }
 
     for (const OpenYAMM::Game::OutdoorSceneModelInstance &modelInstance : sceneData.modelInstances)
     {
@@ -7769,27 +9699,6 @@ bool verifyOutdoorModelInstanceResolution(
         if (scriptedObject)
         {
             ++scriptedObjectCount;
-
-            if (visualSet)
-            {
-                const std::string mapId = OpenYAMM::Game::normalizeMapFileStem(outdoorGeometry.fileName);
-                const std::optional<std::string> visualId =
-                    visualSet->resolveVisualIdForModelInstance(mapId, modelInstance);
-                const OpenYAMM::Game::Mm9ScriptedBillboardVisual *pVisual =
-                    visualId ? visualSet->findVisual(*visualId) : nullptr;
-
-                if (pVisual != nullptr)
-                {
-                    if (pVisual->collision.radius <= 0 || pVisual->collision.height <= 0)
-                    {
-                        failure = "model instance " + modelInstance.sourceRef
-                            + " resolved to invalid MM9 billboard collision visual " + pVisual->visualId;
-                        return false;
-                    }
-
-                    ++collisionVisualCount;
-                }
-            }
         }
 
         if (!resolvedSource.inferredFromActorClass)
@@ -7829,7 +9738,7 @@ bool verifyOutdoorModelInstanceResolution(
 
         for (const std::string &skinTexturePath : splitMm9ModelInstanceSourceSkinImages(resolvedSource.sourceSkin))
         {
-            if (!assetFileSystem.resolvePhysicalPath(skinTexturePath))
+            if (!resolveMm9ModelTexturePhysicalPath(assetFileSystem, skinTexturePath))
             {
                 failure = "model instance " + modelInstance.sourceRef
                     + " resolved to missing actor skin texture " + skinTexturePath;
@@ -7849,13 +9758,12 @@ bool verifyOutdoorModelInstanceResolution(
             }
         }
 
-        ++verifiedAssetCount;
-    }
+        if (scriptedObject)
+        {
+            ++collisionVisualCount;
+        }
 
-    if (scriptedObjectCount > 0 && collisionVisualCount == 0)
-    {
-        failure = "MM9 scripted model instances did not resolve any billboard collision visuals";
-        return false;
+        ++verifiedAssetCount;
     }
 
     return true;
@@ -8582,6 +10490,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
     size_t sourceDtxHashCount = 0;
     size_t cacheHashCount = 0;
     size_t staleCacheCount = 0;
+    size_t decodedCacheDeterminismCheckedCount = 0;
+    size_t decodedCacheMatchCount = 0;
     size_t physicsBspCount = 0;
     size_t visBspCount = 0;
     size_t decodedPBlockCount = 0;
@@ -8599,6 +10509,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
     size_t invalidRootNodeRefs = 0;
     size_t worldModelsWithUnknownValues = 0;
     size_t userPortalsWithRawUnknowns = 0;
+    size_t scriptIncludes = 0;
+    size_t scriptLabels = 0;
     size_t scriptRegisteredTriggers = 0;
     size_t scriptTriggerEdges = 0;
     size_t scriptMovementCommands = 0;
@@ -8610,6 +10522,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
     size_t unresolvedEventPositionCandidates = 0;
     const std::vector<std::string> datWorldReferenceIssues =
         validateMm9DatWorldSidecarReferences(sidecars.datWorld);
+    const std::vector<std::string> rawObjectSidecarIssues =
+        validateMm9RawObjectsSidecarReferences(sidecars.rawObjects);
     const std::vector<EditorMm9SourceAssetFamilyStatus> &sourceFamilyStatuses =
         document.mm9SourceAssetFamilyStatuses();
     size_t sourceFamilyExpectedFileCount = 0;
@@ -8618,6 +10532,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
     size_t sourceFamilyMissingDirectoryCount = 0;
     size_t sourceDatHashDiagnosticCount = 0;
     const EditorMm9AssetDependencySummary &assetSummary = document.mm9AssetDependencySummary();
+    const EditorMm9ScriptIncludeResolutionSummary scriptIncludeSummary =
+        summarizeMm9EventScriptIncludeResolution(levelPath, sidecars.events);
 
     if (document.mm9DatWorld().worldModels.size() != sidecars.datWorld.worldModels.size())
     {
@@ -8649,6 +10565,18 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
         return 1;
     }
 
+    if (!rawObjectSidecarIssues.empty())
+    {
+        std::cerr << "Editor headless MM9 DAT level failed: raw object sidecar issues remain:\n";
+
+        for (const std::string &issue : rawObjectSidecarIssues)
+        {
+            std::cerr << "  " << issue << '\n';
+        }
+
+        return 1;
+    }
+
     for (const std::string &diagnostic : document.mm9DatLevelLoadDiagnostics())
     {
         if (diagnostic.find("source DAT hash") != std::string::npos)
@@ -8659,6 +10587,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
 
     for (const OpenYAMM::Game::Mm9EventScript &script : sidecars.events.scripts)
     {
+        scriptIncludes += script.includes.size();
+        scriptLabels += script.labels.size();
         scriptRegisteredTriggers += script.registeredTriggers.size();
         scriptTriggerEdges += script.triggerEdges.size();
         scriptMovementCommands += script.movementCommands.size();
@@ -8717,6 +10647,7 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
             document.mm9RawObjectAssetReferenceStatuses());
     const Mm9MechanismPreviewValidationSummary mechanismPreviewSummary =
         validateMm9MechanismPreviewTransforms(sidecars.events, datRenderMesh);
+    const Game::Mm9DatCameraFrame nativeCameraFrame = Game::frameMm9DatRenderMeshCamera(datRenderMesh);
     const size_t worldModelOverlayVertices = countMm9WorldModelOverlayVertices(sidecars.datWorld);
     const size_t worldModelOverlayPickCandidates = countMm9WorldModelOverlayPickCandidates(sidecars.datWorld);
     const size_t objectOverlayVertices = countMm9ObjectOverlayVertices(document.mm9ObjectLayer());
@@ -8735,7 +10666,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
             document.mm9LightLayer(),
             document.mm9SoundLayer(),
             document.mm9SpawnLayer(),
-            sceneData);
+            sceneData,
+            nativeCameraFrame);
 
     if (modelInstanceSummary.total != 0 && modelInstanceSummary.missingAssets != 0)
     {
@@ -8832,8 +10764,49 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
         return 1;
     }
 
+    if (!sidecars.events.mechanisms.empty()
+        && mechanismTargetMarkerSummary.circleGizmoCandidates < sidecars.events.mechanisms.size())
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: mechanism overlay has no selectable circle gizmo"
+            << " mechanisms=" << sidecars.events.mechanisms.size()
+            << " circle_gizmos=" << mechanismTargetMarkerSummary.circleGizmoCandidates << '\n';
+        return 1;
+    }
+
+    if (mechanismTargetMarkerSummary.targetGroups != 0
+        && mechanismTargetMarkerSummary.targetGizmoCandidates < mechanismTargetMarkerSummary.targetGroups)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: mechanism target markers have no selectable target gizmo"
+            << " target_groups=" << mechanismTargetMarkerSummary.targetGroups
+            << " target_gizmos=" << mechanismTargetMarkerSummary.targetGizmoCandidates << '\n';
+        return 1;
+    }
+
+    if (mechanismPreviewSummary.candidates != 0
+        && mechanismTargetMarkerSummary.motionPathMarkers < mechanismPreviewSummary.candidates)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: mechanism previewable targets have no motion path markers"
+            << " preview_candidates=" << mechanismPreviewSummary.candidates
+            << " motion_paths=" << mechanismTargetMarkerSummary.motionPathMarkers << '\n';
+        return 1;
+    }
+
+    if (nativeCameraFrame.valid
+        && mechanismTargetMarkerSummary.targetGizmoCandidates != 0
+        && mechanismTargetMarkerSummary.lineOfSightCheckedCandidates
+            != mechanismTargetMarkerSummary.targetGizmoCandidates)
+    {
+        std::cerr
+            << "Editor headless MM9 DAT level failed: mechanism target gizmos did not get LoS fade checks"
+            << " target_gizmos=" << mechanismTargetMarkerSummary.targetGizmoCandidates
+            << " los_checked=" << mechanismTargetMarkerSummary.lineOfSightCheckedCandidates << '\n';
+        return 1;
+    }
+
     const Game::Mm9DatRenderBounds nativeBounds = Game::computeMm9DatRenderBounds(datRenderMesh);
-    const Game::Mm9DatCameraFrame nativeCameraFrame = Game::frameMm9DatRenderMeshCamera(datRenderMesh);
     const Mm9ModelInstanceCameraFrameSummary modelInstanceCameraFrameSummary =
         summarizeMm9ModelInstanceCameraFrame(sceneData, nativeCameraFrame, 60.0f, 1920.0f / 1200.0f);
     const Game::Mm9DatRenderFilterResult nativeFilters =
@@ -9014,6 +10987,16 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
         if (status.cacheOlderThanSource)
         {
             ++staleCacheCount;
+        }
+
+        if (status.cacheDeterminismChecked)
+        {
+            ++decodedCacheDeterminismCheckedCount;
+
+            if (status.cacheMatchesDecodedSource)
+            {
+                ++decodedCacheMatchCount;
+            }
         }
     }
 
@@ -9420,6 +11403,7 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
               << " vis_bsp_models=" << visBspCount
               << " decoded_pblocks=" << decodedPBlockCount
               << " raw_objects=" << sidecars.rawObjects.objects.size()
+              << " raw_object_sidecar_issues=" << rawObjectSidecarIssues.size()
               << " world_model_overlay_vertices=" << worldModelOverlayVertices
               << " world_model_overlay_pick_candidates=" << worldModelOverlayPickCandidates
               << " object_source_transforms=" << document.mm9ObjectLayer().positionedObjectCount
@@ -9427,6 +11411,14 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
               << " object_trigger_volumes=" << document.mm9ObjectLayer().triggerVolumeCount
               << " object_overlay_vertices=" << objectOverlayVertices
               << " object_overlay_pick_candidates=" << objectOverlayPickCandidates
+              << " mechanism_gizmo_candidates=" << mechanismTargetMarkerSummary.gizmoCandidates
+              << " mechanism_circle_gizmo_candidates=" << mechanismTargetMarkerSummary.circleGizmoCandidates
+              << " mechanism_target_gizmo_candidates=" << mechanismTargetMarkerSummary.targetGizmoCandidates
+              << " mechanism_motion_path_markers=" << mechanismTargetMarkerSummary.motionPathMarkers
+              << " mechanism_los_checked_candidates="
+              << mechanismTargetMarkerSummary.lineOfSightCheckedCandidates
+              << " mechanism_los_blocked_candidates="
+              << mechanismTargetMarkerSummary.lineOfSightBlockedCandidates
               << " light_objects=" << document.mm9LightLayer().lights.size()
               << " light_overlay_vertices=" << sourceMarkerOverlaySummary.lightVertices
               << " static_render_lights=" << Game::buildMm9StaticRenderLights(document.mm9LightLayer()).size()
@@ -9458,9 +11450,28 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
               << " actor_variant_actor_rows=" << modelInstanceSummary.actorVariantActorRows
               << " actor_variant_gameplay_identity_rows="
               << modelInstanceSummary.actorVariantGameplayIdentityRows
+              << " actor_variant_foot_sound_fields=" << modelInstanceSummary.actorVariantFootSoundFields
+              << " actor_variant_resolved_foot_sounds=" << modelInstanceSummary.actorVariantResolvedFootSounds
+              << " actor_variant_unresolved_foot_sounds=" << modelInstanceSummary.actorVariantUnresolvedFootSounds
+              << " actor_variant_source_sound_references="
+              << modelInstanceSummary.actorVariantSourceSoundReferences
+              << " actor_variant_resolved_source_sound_references="
+              << modelInstanceSummary.actorVariantResolvedSourceSoundReferences
+              << " actor_variant_unresolved_source_sound_references="
+              << modelInstanceSummary.actorVariantUnresolvedSourceSoundReferences
+              << " actor_variant_source_voice_references="
+              << modelInstanceSummary.actorVariantSourceVoiceReferences
+              << " actor_variant_resolved_source_voice_references="
+              << modelInstanceSummary.actorVariantResolvedSourceVoiceReferences
+              << " actor_variant_unresolved_source_voice_references="
+              << modelInstanceSummary.actorVariantUnresolvedSourceVoiceReferences
               << " scripted_objects=" << modelInstanceSummary.scriptedObjects
               << " scripted_objects_with_collision_visuals="
               << modelInstanceSummary.scriptedObjectsWithCollisionVisuals
+              << " scripted_objects_with_model_collision_volumes="
+              << modelInstanceSummary.scriptedObjectsWithModelCollisionVolumes
+              << " scripted_objects_requiring_billboard_collision_visuals="
+              << modelInstanceSummary.scriptedObjectsRequiringBillboardCollisionVisuals
               << " missing_scripted_object_collision_visuals="
               << modelInstanceSummary.missingScriptedObjectCollisionVisuals
               << " materials=" << sidecars.materialAliases.textures.size()
@@ -9476,6 +11487,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
               << " source_dtx_hashes=" << sourceDtxHashCount
               << " cache_hashes=" << cacheHashCount
               << " stale_caches=" << staleCacheCount
+              << " decoded_cache_checks=" << decodedCacheDeterminismCheckedCount
+              << " decoded_cache_matches=" << decodedCacheMatchCount
               << " raw_object_asset_refs=" << rawObjectAssetReferenceCount
               << " optional_raw_object_asset_refs=" << optionalRawObjectAssetReferenceCount
               << " unresolved_raw_object_asset_refs=" << unresolvedRawObjectAssetReferenceCount
@@ -9488,13 +11501,39 @@ int EditorHeadlessDiagnostics::runVerifyMm9DatLevel(
               << " asset_graph_required_unresolved=" << assetSummary.requiredUnresolved
               << " asset_graph_required_ambiguous=" << assetSummary.requiredAmbiguous
               << " asset_graph_optional_unresolved=" << assetSummary.optionalUnresolved
+              << " asset_graph_source_only=" << assetSummary.sourceOnly
+              << " asset_graph_unused_source=" << assetSummary.unusedSource
               << " mechanisms=" << mechanismSummary.total
               << " mechanism_unresolved_targets=" << mechanismSummary.unresolvedTargets
               << " mechanism_unresolved_required_targets=" << mechanismSummary.unresolvedRequiredTargets
               << " mechanism_incomplete_linear_motion=" << mechanismSummary.incompleteLinearMotion
               << " mechanism_incomplete_rotation_motion=" << mechanismSummary.incompleteRotationMotion
+              << " mechanism_sound_slots=" << mechanismSummary.soundSlots
+              << " mechanism_authored_sound_references=" << mechanismSummary.authoredSoundReferences
+              << " mechanism_empty_sound_references=" << mechanismSummary.emptySoundReferences
+              << " mechanism_previewable_mechanisms=" << mechanismSummary.previewableMechanisms
+              << " mechanism_inert_mechanisms=" << mechanismSummary.inertMechanisms
+              << " mechanism_inert_preview_entries=" << mechanismSummary.inertPreviewMechanisms.size()
+              << " mechanism_without_preview_motion=" << mechanismSummary.mechanismsWithoutPreviewMotion
+              << " mechanism_without_preview_target=" << mechanismSummary.mechanismsWithoutPreviewTarget
+              << " mechanism_activation_start_open_fields=" << mechanismSummary.activationStartOpenFields
+              << " mechanism_activation_locked_fields=" << mechanismSummary.activationLockedFields
+              << " mechanism_activation_push_open_fields=" << mechanismSummary.activationPushOpenFields
+              << " mechanism_activation_touch_to_open_fields=" << mechanismSummary.activationTouchToOpenFields
+              << " mechanism_activation_lock_on_close_fields=" << mechanismSummary.activationLockOnCloseFields
+              << " mechanism_activation_reopen_on_contact_fields="
+              << mechanismSummary.activationReopenOnContactFields
+              << " mechanism_rotation_open_away_fields=" << mechanismSummary.rotationOpenAwayFields
+              << " mechanism_timing_move_delay_fields=" << mechanismSummary.timingMoveDelayFields
+              << " mechanism_timing_open_wait_fields=" << mechanismSummary.timingOpenWaitFields
               << " mechanism_trigger_outputs=" << mechanismSummary.triggerOutputs
               << " mechanism_unresolved_trigger_outputs=" << mechanismSummary.unresolvedTriggerOutputs
+              << " script_includes=" << scriptIncludes
+              << " script_labels=" << scriptLabels
+              << " script_include_references=" << scriptIncludeSummary.references
+              << " script_resolved_includes=" << scriptIncludeSummary.resolved
+              << " script_unresolved_includes=" << scriptIncludeSummary.unresolved
+              << " script_ambiguous_includes=" << scriptIncludeSummary.ambiguous
               << " script_registered_triggers=" << scriptRegisteredTriggers
               << " script_trigger_edges=" << scriptTriggerEdges
               << " script_movement_commands=" << scriptMovementCommands
@@ -10180,6 +12219,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9Events(
 
     size_t missingSourceScripts = 0;
     size_t resolvedSourceScripts = 0;
+    const EditorMm9ScriptIncludeResolutionSummary scriptIncludeSummary =
+        summarizeMm9EventScriptIncludeResolution(levelPath, events);
 
     for (const Game::Mm9EventScript &script : events.scripts)
     {
@@ -10249,6 +12290,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9Events(
 
     if (rawPropertyMismatches != 0
         || missingSourceScripts != 0
+        || scriptIncludeSummary.unresolved != 0
+        || scriptIncludeSummary.ambiguous != 0
         || missingBindingObjects != 0
         || outOfRangeWorldTargets != 0
         || mechanismsWithMissingObjects != 0)
@@ -10257,6 +12300,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9Events(
             << "Editor headless MM9 events failed:"
             << " raw_property_mismatches=" << rawPropertyMismatches
             << " missing_source_scripts=" << missingSourceScripts
+            << " unresolved_source_includes=" << scriptIncludeSummary.unresolved
+            << " ambiguous_source_includes=" << scriptIncludeSummary.ambiguous
             << " missing_binding_objects=" << missingBindingObjects
             << " out_of_range_world_targets=" << outOfRangeWorldTargets
             << " mechanisms_with_missing_objects=" << mechanismsWithMissingObjects << '\n';
@@ -10267,6 +12312,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9Events(
               << " objects=" << events.objects.size()
               << " scripts=" << events.scripts.size()
               << " resolved_source_scripts=" << resolvedSourceScripts
+              << " resolved_source_includes=" << scriptIncludeSummary.resolved
+              << " source_include_references=" << scriptIncludeSummary.references
               << " generated_lua_bytes=" << generatedLuaText.size()
               << " generated_script_ir_bytes=" << generatedScriptIrText.size()
               << " mechanisms=" << events.mechanisms.size()
@@ -10482,10 +12529,12 @@ int EditorHeadlessDiagnostics::runVerifyMm9InspectorSearch(
             std::to_string(texture.textureIndex),
             values);
 
-        if (texture.placeholderMissingSource
-            || !texture.sourceDtxResolved
-            || texture.sourceDtxAmbiguous
-            || texture.cacheOlderThanSource)
+        if (!texture.defaultHelperMaterial
+            && (texture.placeholderMissingSource
+                || !texture.sourceDtxResolved
+                || texture.sourceDtxAmbiguous
+                || texture.cacheOlderThanSource
+                || (texture.cacheDeterminismChecked && !texture.cacheMatchesDecodedSource)))
         {
             appendMm9InspectorSearchEntry(
                 entries,
@@ -10591,6 +12640,8 @@ int EditorHeadlessDiagnostics::runVerifyMm9InspectorSearch(
             {
                 script.scriptId,
                 script.sourcePath,
+                std::to_string(script.includes.size()),
+                std::to_string(script.labels.size()),
                 std::to_string(script.registeredTriggerCount),
                 std::to_string(script.movementCommandCount),
             });
@@ -11101,6 +13152,8 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
     size_t totalSourceDtxHashes = 0;
     size_t totalCacheHashes = 0;
     size_t totalStaleCaches = 0;
+    size_t totalDecodedCacheChecks = 0;
+    size_t totalDecodedCacheMatches = 0;
     size_t totalDecodedPBlocks = 0;
     size_t totalEventObjects = 0;
     size_t totalRawObjectAssetReferences = 0;
@@ -11114,6 +13167,8 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
     size_t totalAssetGraphRequiredUnresolved = 0;
     size_t totalAssetGraphRequiredAmbiguous = 0;
     size_t totalAssetGraphOptionalUnresolved = 0;
+    size_t totalAssetGraphSourceOnly = 0;
+    size_t totalAssetGraphUnusedSource = 0;
     size_t totalReadOnlySourcePaths = 0;
     size_t totalGeneratedPaths = 0;
     size_t totalAuthoredPaths = 0;
@@ -11199,6 +13254,8 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
         size_t sourceDtxHashCount = 0;
         size_t cacheHashCount = 0;
         size_t staleCacheCount = 0;
+        size_t decodedCacheCheckCount = 0;
+        size_t decodedCacheMatchCount = 0;
         size_t unresolvedRawObjectAssetReferenceCount = 0;
         size_t unresolvedOptionalRawObjectAssetReferenceCount = 0;
 
@@ -11227,6 +13284,23 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
             if (status.cacheOlderThanSource)
             {
                 ++staleCacheCount;
+            }
+
+            if (status.cacheDeterminismChecked)
+            {
+                ++decodedCacheCheckCount;
+
+                if (status.cacheMatchesDecodedSource)
+                {
+                    ++decodedCacheMatchCount;
+                }
+                else
+                {
+                    std::cerr << "Editor headless MM9 DAT all-level verification failed for "
+                              << fileName << ": decoded material cache does not match source DTX: "
+                              << status.sourceTexture << " reason=" << status.cacheDeterminismMessage << '\n';
+                    return 1;
+                }
             }
         }
 
@@ -11393,6 +13467,8 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
         totalSourceDtxHashes += sourceDtxHashCount;
         totalCacheHashes += cacheHashCount;
         totalStaleCaches += staleCacheCount;
+        totalDecodedCacheChecks += decodedCacheCheckCount;
+        totalDecodedCacheMatches += decodedCacheMatchCount;
         totalEventObjects += sidecars.events.objects.size();
         totalRawObjectAssetReferences += document.mm9RawObjectAssetReferenceStatuses().size();
         totalUnresolvedRawObjectAssetReferences += unresolvedRawObjectAssetReferenceCount;
@@ -11405,6 +13481,8 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
         totalAssetGraphRequiredUnresolved += document.mm9AssetDependencySummary().requiredUnresolved;
         totalAssetGraphRequiredAmbiguous += document.mm9AssetDependencySummary().requiredAmbiguous;
         totalAssetGraphOptionalUnresolved += document.mm9AssetDependencySummary().optionalUnresolved;
+        totalAssetGraphSourceOnly += document.mm9AssetDependencySummary().sourceOnly;
+        totalAssetGraphUnusedSource += document.mm9AssetDependencySummary().unusedSource;
         totalReadOnlySourcePaths += readOnlySourcePathCount;
         totalGeneratedPaths += generatedPathCount;
         totalAuthoredPaths += authoredPathCount;
@@ -11439,6 +13517,8 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
               << " source_dtx_hashes=" << totalSourceDtxHashes
               << " cache_hashes=" << totalCacheHashes
               << " stale_caches=" << totalStaleCaches
+              << " decoded_cache_checks=" << totalDecodedCacheChecks
+              << " decoded_cache_matches=" << totalDecodedCacheMatches
               << " decoded_pblocks=" << totalDecodedPBlocks
               << " raw_object_asset_refs=" << totalRawObjectAssetReferences
               << " unresolved_raw_object_asset_refs=" << totalUnresolvedRawObjectAssetReferences
@@ -11452,6 +13532,8 @@ int EditorHeadlessDiagnostics::runVerifyAllMm9DatLevels(const std::filesystem::p
               << " asset_graph_required_unresolved=" << totalAssetGraphRequiredUnresolved
               << " asset_graph_required_ambiguous=" << totalAssetGraphRequiredAmbiguous
               << " asset_graph_optional_unresolved=" << totalAssetGraphOptionalUnresolved
+              << " asset_graph_source_only=" << totalAssetGraphSourceOnly
+              << " asset_graph_unused_source=" << totalAssetGraphUnusedSource
               << " readonly_source_paths=" << totalReadOnlySourcePaths
               << " generated_paths=" << totalGeneratedPaths
               << " authored_paths=" << totalAuthoredPaths

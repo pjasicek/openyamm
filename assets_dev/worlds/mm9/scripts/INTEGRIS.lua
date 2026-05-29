@@ -19,8 +19,7 @@ script.labels["Onuse"] = function(ctx)
             -- gives player finished quest key
             ctx:giveKey("", 223) -- INTEGRIS.scr:24
             ctx:giveItem(181) -- INTEGRIS.scr:25
-            ctx:command("getmyhandle", "g_hmyobject") -- INTEGRIS.scr:26
-            ctx:command("removeobject", "g_hmyobject") -- INTEGRIS.scr:27
+            ctx:self():remove() -- INTEGRIS.scr:27
             do return ctx:exit("") end -- INTEGRIS.scr:28
         end -- INTEGRIS.scr:30
     end -- INTEGRIS.scr:31
@@ -33,9 +32,8 @@ script.labels["Main"] = function(ctx)
     ctx:addTrigger("Use", "Onuse") -- INTEGRIS.scr:45
     ctx:hasKey(223, "keycheck") -- INTEGRIS.scr:46
     if ctx:condition("g_ntemp==1") then -- INTEGRIS.scr:47
-        ctx:command("getmyhandle", "g_hmyobject") -- INTEGRIS.scr:48
-        ctx:command("removeobject", "g_hmyobject") -- INTEGRIS.scr:49
-        ctx:command("exitscript", "") -- INTEGRIS.scr:50
+        ctx:self():remove() -- INTEGRIS.scr:49
+        ctx:exitScript() -- INTEGRIS.scr:50
         do return ctx:exit("") end -- INTEGRIS.scr:51
     end -- INTEGRIS.scr:52
     do return ctx:exit("") end -- INTEGRIS.scr:54

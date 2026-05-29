@@ -14,7 +14,7 @@ script.includes[#script.includes + 1] = { line = 8, path = "globals.inc" }
 script.labels["OnUse"] = function(ctx)
     -- TASARCHALICE.scr:13
     if ctx:condition("Chalice_ID==Right") then -- TASARCHALICE.scr:17
-        ctx:command("giveattribute", "0 10 0 288000") -- TASARCHALICE.scr:18
+        ctx:giveAttribute(0, 10, 0, 288000) -- TASARCHALICE.scr:18
         ctx:giveKey(9500) -- TASARCHALICE.scr:19
         do return ctx:exit("") end -- TASARCHALICE.scr:20
     else -- TASARCHALICE.scr:21

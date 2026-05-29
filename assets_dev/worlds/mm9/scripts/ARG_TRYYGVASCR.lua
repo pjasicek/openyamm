@@ -12,15 +12,15 @@ script.includes[#script.includes + 1] = { line = 10, path = "globals.inc" }
 -- handles Kira's Argument Cutscene stuff
 script.labels["Init"] = function(ctx)
     -- ARG_TRYYGVASCR.scr:15
-    ctx:command("loopanim", "Sc2_Kirashot5 0 DoNothing") -- ARG_TRYYGVASCR.scr:18
+    ctx:self():loopAnimation("Sc2_Kirashot5", 0, "DoNothing") -- ARG_TRYYGVASCR.scr:18
     do return ctx:exit("") end -- ARG_TRYYGVASCR.scr:19
 end
 
 script.labels["Main"] = function(ctx)
     -- ARG_TRYYGVASCR.scr:22
     -- TraceOn ;delete me!!
-    ctx:command("onpoststartworld", "Init") -- ARG_TRYYGVASCR.scr:26
-    ctx:command("onpostminisaveload", "Init") -- ARG_TRYYGVASCR.scr:27
+    ctx:onEvent("OnPostStartWorld", "Init") -- ARG_TRYYGVASCR.scr:26
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- ARG_TRYYGVASCR.scr:27
     do return ctx:exit("") end -- ARG_TRYYGVASCR.scr:29
 end
 

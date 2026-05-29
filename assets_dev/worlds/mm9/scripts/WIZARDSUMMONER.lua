@@ -17,41 +17,41 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "sShooterName") -- WIZARDSUMMONER.scr:24
     ctx:getParam(1, "sLocationName") -- WIZARDSUMMONER.scr:25
     ctx:getParam(2, "sNextName") -- WIZARDSUMMONER.scr:26
-    ctx:command("onpoststartworld", "InitWizardSummoner") -- WIZARDSUMMONER.scr:28
+    ctx:onEvent("OnPostStartWorld", "InitWizardSummoner") -- WIZARDSUMMONER.scr:28
     do return ctx:exit("TRUE") end -- WIZARDSUMMONER.scr:30
 end
 
 script.labels["InitWizardSummoner"] = function(ctx)
     -- WIZARDSUMMONER.scr:33
-    ctx:command("addfriend", "Player") -- WIZARDSUMMONER.scr:35
-    ctx:command("getobjecthandle", "sShooterName, hShooter") -- WIZARDSUMMONER.scr:37
-    ctx:command("getobjecthandle", "sLocationName, hLocation") -- WIZARDSUMMONER.scr:38
-    ctx:command("getobjecthandle", "sNextName, hNext") -- WIZARDSUMMONER.scr:39
-    ctx:command("faceobject", "hLocation, 180, DoNothing") -- WIZARDSUMMONER.scr:41
+    ctx:self():addFriend("Player") -- WIZARDSUMMONER.scr:35
+    ctx:state().hShooter = ctx:objectOrNil("sShooterName") -- WIZARDSUMMONER.scr:37
+    ctx:state().hLocation = ctx:objectOrNil("sLocationName") -- WIZARDSUMMONER.scr:38
+    ctx:state().hNext = ctx:objectOrNil("sNextName") -- WIZARDSUMMONER.scr:39
+    ctx:self():faceObject(ctx:object("hLocation"), 180, "DoNothing") -- WIZARDSUMMONER.scr:41
     ctx:addTrigger("start", "ConjureSpell") -- WIZARDSUMMONER.scr:43
     do return ctx:exit("TRUE") end -- WIZARDSUMMONER.scr:45
 end
 
 script.labels["ConjureSpell"] = function(ctx)
     -- WIZARDSUMMONER.scr:48
-    ctx:command("playsound", "\"sounds\\ambient\\thunder\\thunderlong.wav\", DoNothing, 1, 500, FALSE, 100") -- WIZARDSUMMONER.scr:50
-    ctx:command("playanim", "fidget2, DoNothing") -- WIZARDSUMMONER.scr:51
+    ctx:playSound("sounds\\ambient\\thunder\\thunderlong.wav", "DoNothing", 1, 500, "FALSE", 100) -- WIZARDSUMMONER.scr:50
+    ctx:self():playAnimation("fidget2", "DoNothing") -- WIZARDSUMMONER.scr:51
     ctx:trigger("hShooter", "play") -- WIZARDSUMMONER.scr:52
-    ctx:command("wait", "0, 1.5, CastSpell") -- WIZARDSUMMONER.scr:53
+    ctx:wait(0, 1.5, "CastSpell") -- WIZARDSUMMONER.scr:53
     do return ctx:exit("TRUE") end -- WIZARDSUMMONER.scr:55
 end
 
 script.labels["CastSpell"] = function(ctx)
     -- WIZARDSUMMONER.scr:58
-    ctx:command("playanim", "rattack1, DoNothing") -- WIZARDSUMMONER.scr:60
-    ctx:command("wait", "0, 1, FinishSpell") -- WIZARDSUMMONER.scr:61
+    ctx:self():playAnimation("rattack1", "DoNothing") -- WIZARDSUMMONER.scr:60
+    ctx:wait(0, 1, "FinishSpell") -- WIZARDSUMMONER.scr:61
     do return ctx:exit("TRUE") end -- WIZARDSUMMONER.scr:63
 end
 
 script.labels["FinishSpell"] = function(ctx)
     -- WIZARDSUMMONER.scr:66
-    ctx:command("addenemy", "GreaterDemon") -- WIZARDSUMMONER.scr:68
-    ctx:command("onfoundtarget", "LinkToBaseRange") -- WIZARDSUMMONER.scr:69
+    ctx:self():addEnemy("GreaterDemon") -- WIZARDSUMMONER.scr:68
+    ctx:onEvent("OnFoundTarget", "LinkToBaseRange") -- WIZARDSUMMONER.scr:69
     ctx:trigger("hShooter", "shoot") -- WIZARDSUMMONER.scr:70
     ctx:trigger("hNext", "start") -- WIZARDSUMMONER.scr:71
     do return ctx:exit("TRUE") end -- WIZARDSUMMONER.scr:73
@@ -60,17 +60,16 @@ end
 script.labels["OnDamage"] = function(ctx)
     -- WIZARDSUMMONER.scr:76
     ctx:getParam(0, "g_hObject") -- WIZARDSUMMONER.scr:78
-    ctx:command("isplayer", "g_hObject, g_bTemp") -- WIZARDSUMMONER.scr:79
+    ctx:state().g_bTemp = ctx:object("g_hObject"):isPlayer() -- WIZARDSUMMONER.scr:79
     if ctx:condition("g_bTemp==TRUE") then -- WIZARDSUMMONER.scr:80
-        ctx:command("addenemy", "Player") -- WIZARDSUMMONER.scr:81
+        ctx:self():addEnemy("Player") -- WIZARDSUMMONER.scr:81
         ctx:setConsoleNumVar("PLAYER_FRIEND", "FALSE") -- WIZARDSUMMONER.scr:82
     else -- WIZARDSUMMONER.scr:83
-        ctx:command("playsound", "\"sounds\\animsounds\\evilsorcerer\\die1.wav\", DoNothing, 1, 5000, FALSE, 200") -- WIZARDSUMMONER.scr:84
-        ctx:command("getmyhandle", "hShooter") -- WIZARDSUMMONER.scr:86
-        ctx:command("doclientfx", "hShooter, SPELL_BLUEDOTS, FALSE, TRUE") -- WIZARDSUMMONER.scr:87
-        ctx:command("getobjecthandle", "SummoningGuy3, hShooter") -- WIZARDSUMMONER.scr:88
-        ctx:trigger("hShooter", "finish") -- WIZARDSUMMONER.scr:89
-        ctx:command("die", "") -- WIZARDSUMMONER.scr:91
+        ctx:playSound("sounds\\animsounds\\evilsorcerer\\die1.wav", "DoNothing", 1, 5000, "FALSE", 200) -- WIZARDSUMMONER.scr:84
+        ctx:state().hShooter = ctx:self() -- WIZARDSUMMONER.scr:86
+        ctx:object("hShooter"):doClientFx("SPELL_BLUEDOTS", "FALSE", "TRUE") -- WIZARDSUMMONER.scr:87
+        ctx:object("SummoningGuy3"):trigger("finish") -- WIZARDSUMMONER.scr:88-89
+        ctx:self():die() -- WIZARDSUMMONER.scr:91
     end -- WIZARDSUMMONER.scr:92
     do return ctx:exit("TRUE") end -- WIZARDSUMMONER.scr:94
 end
@@ -78,7 +77,7 @@ end
 script.labels["OnDeath"] = function(ctx)
     -- WIZARDSUMMONER.scr:97
     ctx:getParam(0, "g_hObject") -- WIZARDSUMMONER.scr:99
-    ctx:command("isplayer", "g_hObject, g_bTemp") -- WIZARDSUMMONER.scr:100
+    ctx:state().g_bTemp = ctx:object("g_hObject"):isPlayer() -- WIZARDSUMMONER.scr:100
     if ctx:condition("g_bTemp==TRUE") then -- WIZARDSUMMONER.scr:101
         ctx:setConsoleNumVar("PLAYER_FRIEND", "FALSE") -- WIZARDSUMMONER.scr:102
     end -- WIZARDSUMMONER.scr:103
@@ -89,10 +88,10 @@ script.labels["LinkToBaseRange"] = function(ctx)
     -- WIZARDSUMMONER.scr:108
     mm9.gosub(script, ctx, "BaseInit") -- WIZARDSUMMONER.scr:110
     mm9.gosub(script, ctx, "RangeInit") -- WIZARDSUMMONER.scr:111
-    ctx:command("g_rangeattacktype", "= RANGE_TYPE2") -- WIZARDSUMMONER.scr:113
+    ctx:set("g_rangeAttackType", "RANGE_TYPE2") -- WIZARDSUMMONER.scr:113
     mm9.gosub(script, ctx, "SetupRangeAttackType") -- WIZARDSUMMONER.scr:114
     mm9.gosub(script, ctx, "StartRangeAttack") -- WIZARDSUMMONER.scr:115
-    ctx:command("ondamage", "OnDamage") -- WIZARDSUMMONER.scr:117
+    ctx:onEvent("OnDamage", "OnDamage") -- WIZARDSUMMONER.scr:117
     do return ctx:exit("TRUE") end -- WIZARDSUMMONER.scr:119
 end
 

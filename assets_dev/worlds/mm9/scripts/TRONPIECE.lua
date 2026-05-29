@@ -14,7 +14,7 @@ script.labels = {}
 script.labels["Main"] = function(ctx)
     -- TRONPIECE.scr:14
     ctx:getParam(0, "nMyIndex") -- TRONPIECE.scr:16
-    ctx:command("onpoststartworld", "InitTronPiece") -- TRONPIECE.scr:18
+    ctx:onEvent("OnPostStartWorld", "InitTronPiece") -- TRONPIECE.scr:18
     do return ctx:exit(1) end -- TRONPIECE.scr:20
 end
 
@@ -24,7 +24,7 @@ script.labels["InitTronPiece"] = function(ctx)
     ctx:addTrigger("white", "TurnWhite") -- TRONPIECE.scr:26
     ctx:addTrigger("black", "TurnBlack") -- TRONPIECE.scr:27
     ctx:getConsoleStrVar("TRON_NAME", "sTronName") -- TRONPIECE.scr:29
-    ctx:command("getobjecthandle", "sTronName, hTron") -- TRONPIECE.scr:30
+    ctx:state().hTron = ctx:objectOrNil("sTronName") -- TRONPIECE.scr:30
     do return ctx:exit(1) end -- TRONPIECE.scr:32
 end
 
@@ -39,13 +39,13 @@ end
 
 script.labels["TurnWhite"] = function(ctx)
     -- TRONPIECE.scr:46
-    ctx:command("setmodelfilenames", "\"models\\gibs\\stone.abc\", \"skins\\gibs\\yellow.dtx\"") -- TRONPIECE.scr:48
+    ctx:self():setModelFilenames("models\\gibs\\stone.abc", "skins\\gibs\\yellow.dtx") -- TRONPIECE.scr:48
     do return ctx:exit(1) end -- TRONPIECE.scr:49
 end
 
 script.labels["TurnBlack"] = function(ctx)
     -- TRONPIECE.scr:52
-    ctx:command("setmodelfilenames", "\"models\\gibs\\stone.abc\", \"skins\\gibs\\blue.dtx\"") -- TRONPIECE.scr:54
+    ctx:self():setModelFilenames("models\\gibs\\stone.abc", "skins\\gibs\\blue.dtx") -- TRONPIECE.scr:54
     do return ctx:exit(1) end -- TRONPIECE.scr:55
 end
 

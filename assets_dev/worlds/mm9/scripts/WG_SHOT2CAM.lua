@@ -18,10 +18,10 @@ script.includes[#script.includes + 1] = { line = 13, path = "globals.inc" }
 -- flag variables
 script.labels["OnPlay"] = function(ctx)
     -- WG_SHOT2CAM.scr:30
-    ctx:command("getobjecthandle", "WinMan g_hobject") -- WG_SHOT2CAM.scr:34
-    ctx:command("target", "g_hobject") -- WG_SHOT2CAM.scr:35
+    ctx:state().g_hobject = ctx:objectOrNil("WinMan") -- WG_SHOT2CAM.scr:34
+    ctx:self():setTarget(ctx:object("g_hobject")) -- WG_SHOT2CAM.scr:35
     -- facedir 3476.0 1172.0 -3596.0 0 DoNothing
-    ctx:command("screenfadein", "1") -- WG_SHOT2CAM.scr:37
+    ctx:screenFadeIn(1) -- WG_SHOT2CAM.scr:37
     ctx:trigger("g_hobject", "switch") -- WG_SHOT2CAM.scr:38
     do return ctx:exit("") end -- WG_SHOT2CAM.scr:40
 end

@@ -67,6 +67,18 @@ public:
         return result;
     }
 
+    std::vector<uint8_t> bytesBetween(size_t begin, size_t end) const
+    {
+        if (begin > end || end > m_bytes.size())
+        {
+            throw Mm9DatParseError("slice out of range");
+        }
+
+        return std::vector<uint8_t>(
+            m_bytes.begin() + static_cast<std::ptrdiff_t>(begin),
+            m_bytes.begin() + static_cast<std::ptrdiff_t>(end));
+    }
+
     uint8_t u8()
     {
         return readScalar<uint8_t>();
@@ -420,6 +432,147 @@ Mm9DatWorldModel readWorldModel(BinaryReader &reader)
     return model;
 }
 
+Mm9DatObjectPropertyType propertyTypeFromCode(uint8_t code)
+{
+    switch (code)
+    {
+    case 0:
+        return Mm9DatObjectPropertyType::String;
+    case 1:
+        return Mm9DatObjectPropertyType::Vector;
+    case 2:
+        return Mm9DatObjectPropertyType::Color;
+    case 3:
+        return Mm9DatObjectPropertyType::Real;
+    case 4:
+        return Mm9DatObjectPropertyType::Flags;
+    case 5:
+        return Mm9DatObjectPropertyType::Bool;
+    case 6:
+        return Mm9DatObjectPropertyType::LongInt;
+    case 7:
+        return Mm9DatObjectPropertyType::Rotation;
+    default:
+        return Mm9DatObjectPropertyType::Unknown;
+    }
+}
+
+void readObjectPropertyTypedValue(BinaryReader &reader, Mm9DatObjectProperty &property)
+{
+    switch (property.type)
+    {
+    case Mm9DatObjectPropertyType::String:
+        property.stringValue = reader.string();
+        break;
+    case Mm9DatObjectPropertyType::Vector:
+    case Mm9DatObjectPropertyType::Color:
+        property.vectorValue = reader.vec3();
+        break;
+    case Mm9DatObjectPropertyType::Real:
+        property.floatValue = reader.f32();
+        break;
+    case Mm9DatObjectPropertyType::Flags:
+    case Mm9DatObjectPropertyType::LongInt:
+        property.rawUIntValue = reader.u32();
+        std::memcpy(&property.floatValue, &property.rawUIntValue, sizeof(property.floatValue));
+        property.intValue = static_cast<int32_t>(property.floatValue);
+        break;
+    case Mm9DatObjectPropertyType::Bool:
+        property.boolValue = reader.u8() != 0;
+        property.intValue = property.boolValue ? 1 : 0;
+        break;
+    case Mm9DatObjectPropertyType::Rotation:
+        property.rotationValue = {{
+            reader.f32(),
+            reader.f32(),
+            reader.f32(),
+            reader.f32(),
+        }};
+        break;
+    case Mm9DatObjectPropertyType::Unknown:
+        throw Mm9DatParseError("unknown object property code " + std::to_string(property.code));
+    }
+}
+
+Mm9DatObjectProperty readObjectProperty(BinaryReader &reader, size_t objectEnd)
+{
+    Mm9DatObjectProperty property = {};
+    property.name = reader.string();
+    property.code = reader.u8();
+    property.type = propertyTypeFromCode(property.code);
+    property.flags = reader.u32();
+    property.declaredDataLength = reader.u16();
+
+    const size_t valueStart = reader.tell();
+
+    try
+    {
+        readObjectPropertyTypedValue(reader, property);
+        property.decoded = true;
+    }
+    catch (const Mm9DatParseError &exception)
+    {
+        property.decoded = false;
+        property.decodeError = exception.what();
+        reader.seek(valueStart);
+
+        const size_t availableLength = objectEnd > valueStart ? objectEnd - valueStart : 0;
+        const size_t skipLength = std::min<size_t>(property.declaredDataLength, availableLength);
+        reader.skip(skipLength);
+    }
+
+    if (reader.tell() > objectEnd)
+    {
+        throw Mm9DatParseError("object property overread declared object payload");
+    }
+
+    property.consumedDataLength = static_cast<uint16_t>(reader.tell() - valueStart);
+    property.rawData = reader.bytesBetween(valueStart, reader.tell());
+    return property;
+}
+
+std::vector<Mm9DatObject> readWorldObjects(BinaryReader &reader)
+{
+    const uint32_t objectCount = reader.u32();
+    std::vector<Mm9DatObject> objects;
+    objects.reserve(objectCount);
+
+    for (uint32_t objectIndex = 0; objectIndex < objectCount; ++objectIndex)
+    {
+        const size_t objectStart = reader.tell();
+        Mm9DatObject object = {};
+        object.sourceObjectIndex = objectIndex;
+        object.payloadLength = reader.u16();
+
+        const size_t objectEnd = reader.tell() + object.payloadLength;
+        object.className = reader.string();
+
+        const uint32_t propertyCount = reader.u32();
+        object.properties.reserve(propertyCount);
+
+        for (uint32_t propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
+        {
+            object.properties.push_back(readObjectProperty(reader, objectEnd));
+        }
+
+        if (reader.tell() > objectEnd)
+        {
+            throw Mm9DatParseError(
+                "object " + object.className + " at " + std::to_string(objectStart)
+                + " overread declared payload");
+        }
+
+        if (reader.tell() < objectEnd)
+        {
+            object.trailingData = reader.readBytes(objectEnd - reader.tell());
+        }
+
+        objects.push_back(std::move(object));
+    }
+
+    return objects;
+}
+
 Mm9DatVec3 ltToOpenYamm(const Mm9DatVec3 &value, float scale)
 {
     return {
@@ -488,64 +641,128 @@ Mm9DatVec3 renderVertexPosition(const Mm9DatRenderVertex &vertex)
     };
 }
 
+Mm9DatVec3 rotateX(const Mm9DatVec3 &value, float angleRadians)
+{
+    const float angleSin = std::sin(angleRadians);
+    const float angleCos = std::cos(angleRadians);
+    return {
+        value.x,
+        value.y * angleCos - value.z * angleSin,
+        value.y * angleSin + value.z * angleCos,
+    };
+}
+
+Mm9DatVec3 rotateY(const Mm9DatVec3 &value, float angleRadians)
+{
+    const float angleSin = std::sin(angleRadians);
+    const float angleCos = std::cos(angleRadians);
+    return {
+        value.x * angleCos + value.z * angleSin,
+        value.y,
+        -value.x * angleSin + value.z * angleCos,
+    };
+}
+
+Mm9DatVec3 rotateZ(const Mm9DatVec3 &value, float angleRadians)
+{
+    const float angleSin = std::sin(angleRadians);
+    const float angleCos = std::cos(angleRadians);
+    return {
+        value.x * angleCos - value.y * angleSin,
+        value.x * angleSin + value.y * angleCos,
+        value.z,
+    };
+}
+
+Mm9DatVec3 mechanismAnglesRadians(
+    const Mm9DatMechanismPreviewMotion &motion,
+    float progress)
+{
+    constexpr float Pi = 3.14159265358979323846f;
+    return scale(motion.rotationAnglesDeg, progress * Pi / 180.0f);
+}
+
+Mm9DatVec3 applyMechanismMotionLt(
+    const Mm9DatVec3 &sourcePositionLt,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float progress)
+{
+    Mm9DatVec3 result = sourcePositionLt;
+    const float clampedProgress = std::clamp(progress, 0.0f, 1.0f);
+
+    if (motion.hasLinearMotion && std::fabs(motion.moveDistLt) > 0.0001f)
+    {
+        result = add(result, scale(motion.moveDirLt, motion.moveDistLt * clampedProgress));
+    }
+
+    if (motion.hasRotationMotion)
+    {
+        const Mm9DatVec3 angles = mechanismAnglesRadians(motion, clampedProgress);
+        Mm9DatVec3 relative = sub(result, motion.rotationPointLt);
+        relative = rotateX(relative, angles.x);
+        relative = rotateY(relative, angles.y);
+        relative = rotateZ(relative, angles.z);
+        result = add(motion.rotationPointLt, relative);
+    }
+
+    return result;
+}
+
+Mm9DatVec3 invertMechanismMotionLt(
+    const Mm9DatVec3 &transformedPositionLt,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float progress)
+{
+    Mm9DatVec3 result = transformedPositionLt;
+    const float clampedProgress = std::clamp(progress, 0.0f, 1.0f);
+    if (motion.hasRotationMotion)
+    {
+        const Mm9DatVec3 angles = mechanismAnglesRadians(motion, clampedProgress);
+        Mm9DatVec3 relative = sub(result, motion.rotationPointLt);
+        relative = rotateZ(relative, -angles.z);
+        relative = rotateY(relative, -angles.y);
+        relative = rotateX(relative, -angles.x);
+        result = add(motion.rotationPointLt, relative);
+    }
+
+    if (motion.hasLinearMotion && std::fabs(motion.moveDistLt) > 0.0001f)
+    {
+        result = sub(result, scale(motion.moveDirLt, motion.moveDistLt * clampedProgress));
+    }
+
+    return result;
+}
+
+Mm9DatVec3 transformMechanismPoint(
+    const Mm9DatVec3 &position,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float transformScale)
+{
+    const Mm9DatVec3 sourcePositionLt = openYammToLt(position, transformScale);
+    return ltToOpenYamm(
+        applyMechanismMotionLt(sourcePositionLt, motion, motion.progress),
+        transformScale);
+}
+
+Mm9DatVec3 inverseTransformMechanismPoint(
+    const Mm9DatVec3 &position,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float progress,
+    float transformScale)
+{
+    const Mm9DatVec3 transformedPositionLt = openYammToLt(position, transformScale);
+    return ltToOpenYamm(
+        invertMechanismMotionLt(transformedPositionLt, motion, progress),
+        transformScale);
+}
+
 Mm9DatRenderVertex transformedRenderVertex(
     const Mm9DatRenderVertex &vertex,
     const Mm9DatMechanismPreviewMotion &motion,
     float transformScale)
 {
-    constexpr float Pi = 3.14159265358979323846f;
-    const Mm9DatVec3 openYammPosition = renderVertexPosition(vertex);
-    Mm9DatVec3 sourcePositionLt = openYammToLt(openYammPosition, transformScale);
-
-    if (motion.hasLinearMotion && std::fabs(motion.moveDistLt) > 0.0001f)
-    {
-        sourcePositionLt = add(
-            sourcePositionLt,
-            scale(motion.moveDirLt, motion.moveDistLt * motion.progress));
-    }
-
-    if (motion.hasRotationMotion)
-    {
-        const Mm9DatVec3 angles = scale(motion.rotationAnglesDeg, motion.progress * Pi / 180.0f);
-        Mm9DatVec3 relative = sub(sourcePositionLt, motion.rotationPointLt);
-
-        if (std::fabs(angles.x) > 0.0001f)
-        {
-            const float angleSin = std::sin(angles.x);
-            const float angleCos = std::cos(angles.x);
-            relative = {
-                relative.x,
-                relative.y * angleCos - relative.z * angleSin,
-                relative.y * angleSin + relative.z * angleCos,
-            };
-        }
-
-        if (std::fabs(angles.y) > 0.0001f)
-        {
-            const float angleSin = std::sin(angles.y);
-            const float angleCos = std::cos(angles.y);
-            relative = {
-                relative.x * angleCos + relative.z * angleSin,
-                relative.y,
-                -relative.x * angleSin + relative.z * angleCos,
-            };
-        }
-
-        if (std::fabs(angles.z) > 0.0001f)
-        {
-            const float angleSin = std::sin(angles.z);
-            const float angleCos = std::cos(angles.z);
-            relative = {
-                relative.x * angleCos - relative.y * angleSin,
-                relative.x * angleSin + relative.y * angleCos,
-                relative.z,
-            };
-        }
-
-        sourcePositionLt = add(motion.rotationPointLt, relative);
-    }
-
-    const Mm9DatVec3 transformedPosition = ltToOpenYamm(sourcePositionLt, transformScale);
+    const Mm9DatVec3 transformedPosition =
+        transformMechanismPoint(renderVertexPosition(vertex), motion, transformScale);
     Mm9DatRenderVertex transformedVertex = vertex;
     transformedVertex.x = transformedPosition.x;
     transformedVertex.y = transformedPosition.y;
@@ -806,6 +1023,10 @@ std::optional<Mm9DatWorld> parseMm9DatWorld(
         readWorldTree(reader);
         world.worldModelPos = static_cast<uint32_t>(reader.tell());
 
+        reader.seek(world.objectDataPos);
+        world.objects = readWorldObjects(reader);
+
+        reader.seek(world.worldModelPos);
         const uint32_t worldModelCount = reader.u32();
         world.worldModels.reserve(worldModelCount);
 
@@ -1122,6 +1343,37 @@ Mm9DatRenderBounds computeMm9DatRenderBoundsForSourceModel(
     return computeMm9DatRenderBounds(modelMesh);
 }
 
+Mm9DatRenderTriangle transformMm9DatMechanismPreviewTriangle(
+    const Mm9DatRenderTriangle &triangle,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float transformScale)
+{
+    Mm9DatRenderTriangle transformedTriangle = triangle;
+
+    for (Mm9DatRenderVertex &vertex : transformedTriangle.vertices)
+    {
+        vertex = transformedRenderVertex(vertex, motion, transformScale);
+    }
+
+    return transformedTriangle;
+}
+
+Mm9DatVec3 transformMm9DatMechanismPreviewPoint(
+    const Mm9DatVec3 &position,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float transformScale)
+{
+    return transformMechanismPoint(position, motion, transformScale);
+}
+
+Mm9DatVec3 inverseTransformMm9DatMechanismPreviewPoint(
+    const Mm9DatVec3 &position,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float transformScale)
+{
+    return inverseTransformMechanismPoint(position, motion, motion.progress, transformScale);
+}
+
 Mm9DatMechanismPreviewResult buildMm9DatMechanismPreviewMesh(
     const Mm9DatRenderMesh &mesh,
     const Mm9DatMechanismPreviewMotion &motion,
@@ -1146,10 +1398,7 @@ Mm9DatMechanismPreviewResult buildMm9DatMechanismPreviewMesh(
             continue;
         }
 
-        for (Mm9DatRenderVertex &vertex : triangle.vertices)
-        {
-            vertex = transformedRenderVertex(vertex, motion, transformScale);
-        }
+        triangle = transformMm9DatMechanismPreviewTriangle(triangle, motion, transformScale);
 
         ++result.transformedTriangles;
     }
@@ -1211,6 +1460,43 @@ Mm9DatCameraFrame frameMm9DatRenderBoundsCamera(
         && std::isfinite(frame.farPlane)
         && frame.farPlane > frame.nearPlane;
     return frame;
+}
+
+std::vector<Mm9DatModelRenderRole> deriveMm9DatModelRenderRoles(const Mm9DatWorld &world)
+{
+    std::vector<Mm9DatModelRenderRole> roles;
+    roles.reserve(world.worldModels.size());
+
+    for (size_t modelIndex = 0; modelIndex < world.worldModels.size(); ++modelIndex)
+    {
+        const Mm9DatWorldModel &model = world.worldModels[modelIndex];
+        const std::string name = normalizedMaterialTextureKey(model.name);
+
+        Mm9DatModelRenderRole role = {};
+        role.sourceModelIndex = modelIndex;
+        role.physicsBsp = name == "physicsbsp";
+        role.visBsp = name == "visbsp";
+        role.sky = startsWith(name, "tod_sky") || startsWith(name, "sky") || startsWith(name, "skybox");
+        role.water = startsWith(name, "ocean") || startsWith(name, "bluewater") || startsWith(name, "water");
+        role.terrain = startsWith(name, "terrain") || startsWith(name, "ground") || startsWith(name, "cliff");
+        role.triggerOrVolume =
+            startsWith(name, "trigger")
+            || startsWith(name, "invisiblebrush")
+            || startsWith(name, "aibarrier")
+            || startsWith(name, "perceptionbrush")
+            || startsWith(name, "ladder")
+            || startsWith(name, "volume")
+            || startsWith(name, "sound")
+            || startsWith(name, "weather")
+            || startsWith(name, "rain")
+            || startsWith(name, "poison")
+            || startsWith(name, "corrosive");
+        role.movable = (model.worldInfoFlags & (1u << 1)) != 0;
+        role.visible = !role.physicsBsp && !role.visBsp && !role.triggerOrVolume;
+        roles.push_back(role);
+    }
+
+    return roles;
 }
 
 Mm9DatRenderFilterResult classifyMm9DatRenderMeshFilters(

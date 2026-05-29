@@ -21,11 +21,10 @@ script.labels["givePotion"] = function(ctx)
     -- NPC142.scr:24
     if ctx:hasKey(210) then -- NPC142.scr:26-27
         if not ctx:hasKey(373) then -- NPC142.scr:28-29
-            ctx:command("getobjecthandle", "RotatingDoor3 g_hobject") -- NPC142.scr:30
-            ctx:trigger("g_hobject", "unlock") -- NPC142.scr:31
+            ctx:object("RotatingDoor3"):trigger("unlock") -- NPC142.scr:30-31
             ctx:giveItem(558) -- NPC142.scr:32
             ctx:giveKey(373) -- NPC142.scr:33
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC142.scr:34
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC142.scr:34
             do return ctx:exit("") end -- NPC142.scr:35
         end -- NPC142.scr:36
     end -- NPC142.scr:37
@@ -37,9 +36,9 @@ script.labels["PotionWait"] = function(ctx)
     -- Nurtigan Quest
     if ctx:hasKey(208) then -- NPC142.scr:47-48
         ctx:takeItem(240) -- NPC142.scr:50
-        ctx:command("getgametime", "nHour nMinute") -- NPC142.scr:51
-        ctx:command("nhour", "= nHour + 2") -- NPC142.scr:52
-        ctx:command("@m", "nHour : nMinute Givekey Givekey") -- NPC142.scr:53
+        ctx:getGameTime("nHour", "nMinute") -- NPC142.scr:51
+        ctx:set("nHour", "nHour + 2") -- NPC142.scr:52
+        ctx:atTime("nHour", "nMinute", "Givekey", "Givekey") -- NPC142.scr:53
         do return ctx:exit("") end -- NPC142.scr:54
     end -- NPC142.scr:55
     -- NOTE: this gives the waiting key outright.
@@ -64,7 +63,7 @@ script.labels["OnUse"] = function(ctx)
             ctx:giveKey(207) -- NPC142.scr:83
         end -- NPC142.scr:85
     end -- NPC142.scr:86
-    ctx:command("playsound", "voices\\NPC\\NPC_142.wav, Onexit, 100, 240, FALSE, 100") -- NPC142.scr:88
+    ctx:playSound("voices\\NPC\\NPC_142.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC142.scr:88
     do return ctx:exit("") end -- NPC142.scr:89
 end
 

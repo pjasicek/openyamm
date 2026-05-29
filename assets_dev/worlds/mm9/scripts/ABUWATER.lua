@@ -20,37 +20,36 @@ end
 -- Default parameters
 script.labels["OnRaiseWater"] = function(ctx)
     -- ABUWATER.scr:37
-    ctx:command("getdims", "g_hMyObject, nDimsX, nDimsY, nDimsZ") -- ABUWATER.scr:40
-    ctx:command("set", "nDestPosY, nOrigPosY") -- ABUWATER.scr:41
-    ctx:command("add", "nDestPosY, nDimsY") -- ABUWATER.scr:42
+    ctx:state().nDimsX, ctx:state().nDimsY, ctx:state().nDimsZ = ctx:self():dims() -- ABUWATER.scr:40
+    ctx:set("nDestPosY", "nOrigPosY") -- ABUWATER.scr:41
+    ctx:add("nDestPosY", "nDimsY") -- ABUWATER.scr:42
     -- Leave some water there....
-    ctx:command("sub", "nDestPosY, nWaterToLeave") -- ABUWATER.scr:46
-    ctx:command("issounddone", "hWaterSound, g_bTemp") -- ABUWATER.scr:48
+    ctx:sub("nDestPosY", "nWaterToLeave") -- ABUWATER.scr:46
+    ctx:isSoundDone("hWaterSound", "g_bTemp") -- ABUWATER.scr:48
     if ctx:condition("g_bTemp==TRUE") then -- ABUWATER.scr:49
-        ctx:command("playsound", "sFillSound, 1000, TRUE, 100, hWaterSound") -- ABUWATER.scr:50
+        ctx:playSound("sFillSound", 1000, "TRUE", 100, "hWaterSound") -- ABUWATER.scr:50
     end -- ABUWATER.scr:51
-    ctx:command("movetopos", "nOrigPosX, nDestPosY, nOrigPosZ, nWaterFillRate, StopSound") -- ABUWATER.scr:53
+    ctx:self():moveToPos("nOrigPosX", "nDestPosY", "nOrigPosZ", "nWaterFillRate", "StopSound") -- ABUWATER.scr:53
     do return ctx:exit("") end -- ABUWATER.scr:55
 end
 
 script.labels["StopSound"] = function(ctx)
     -- ABUWATER.scr:58
-    ctx:command("killsound", "hWaterSound") -- ABUWATER.scr:60
+    ctx:killSound("hWaterSound") -- ABUWATER.scr:60
     do return ctx:exit("") end -- ABUWATER.scr:62
 end
 
 script.labels["Main"] = function(ctx)
     -- ABUWATER.scr:65
-    ctx:command("getmyhandle", "g_hMyObject") -- ABUWATER.scr:70
-    ctx:command("getpos", "g_hMyObject, nOrigPosX, nOrigPosY, nOrigPosZ") -- ABUWATER.scr:71
+    ctx:state().nOrigPosX, ctx:state().nOrigPosY, ctx:state().nOrigPosZ = ctx:self():pos() -- ABUWATER.scr:71
     ctx:addTrigger("RaiseWater", "OnRaiseWater") -- ABUWATER.scr:73
     ctx:getParam(0, "g_nTemp") -- ABUWATER.scr:75
     if ctx:condition("g_nTemp!=0") then -- ABUWATER.scr:77
-        ctx:command("set", "nWaterToLeave, g_nTemp") -- ABUWATER.scr:78
+        ctx:set("nWaterToLeave", "g_nTemp") -- ABUWATER.scr:78
     end -- ABUWATER.scr:79
     ctx:getParam(1, "g_nTemp") -- ABUWATER.scr:81
     if ctx:condition("g_nTemp!=0") then -- ABUWATER.scr:83
-        ctx:command("set", "nWaterFillRate, g_nTemp") -- ABUWATER.scr:84
+        ctx:set("nWaterFillRate", "g_nTemp") -- ABUWATER.scr:84
     end -- ABUWATER.scr:85
     do return ctx:exit("") end -- ABUWATER.scr:87
 end

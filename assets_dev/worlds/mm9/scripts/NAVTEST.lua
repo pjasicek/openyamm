@@ -12,24 +12,24 @@ script.includes[#script.includes + 1] = { line = 8, path = "aiglobals.inc" }
 script.labels["GoGetHim"] = function(ctx)
     -- NAVTEST.scr:12
     if ctx:condition("g_hTarget!=NULL") then -- NAVTEST.scr:15
-        ctx:command("target", "g_hTarget") -- NAVTEST.scr:16
-        ctx:command("walkto", "g_hTarget") -- NAVTEST.scr:17
+        ctx:self():setTarget(ctx:object("g_hTarget")) -- NAVTEST.scr:16
+        ctx:self():walkTo(ctx:object("g_hTarget")) -- NAVTEST.scr:17
     end -- NAVTEST.scr:18
     do return ctx:exit("") end -- NAVTEST.scr:20
 end
 
 script.labels["OnReset"] = function(ctx)
     -- NAVTEST.scr:23
-    ctx:command("target", "NULL") -- NAVTEST.scr:26
-    ctx:command("set", "g_hTarget, NULL") -- NAVTEST.scr:27
+    ctx:self():setTarget(nil) -- NAVTEST.scr:26
+    ctx:state().g_hTarget = nil -- NAVTEST.scr:27
     do return ctx:exit("") end -- NAVTEST.scr:29
 end
 
 script.labels["OnUse"] = function(ctx)
     -- NAVTEST.scr:32
     ctx:getParam(0, "g_hObject") -- NAVTEST.scr:35
-    ctx:command("faceobject", "g_hObject, 180") -- NAVTEST.scr:36
-    ctx:command("setint", "g_sOut, g_hObject") -- NAVTEST.scr:38
+    ctx:self():faceObject(ctx:object("g_hObject"), 180) -- NAVTEST.scr:36
+    ctx:setInt("g_sOut", "g_hObject") -- NAVTEST.scr:38
     do return ctx:exit("") end -- NAVTEST.scr:40
 end
 
@@ -53,8 +53,8 @@ end
 
 script.labels["main"] = function(ctx)
     -- NAVTEST.scr:66
-    ctx:command("ondamagedone", "GoGetHim") -- NAVTEST.scr:70
-    ctx:command("ondamage", "Damage") -- NAVTEST.scr:71
+    ctx:onEvent("OnDamageDone", "GoGetHim") -- NAVTEST.scr:70
+    ctx:onEvent("OnDamage", "Damage") -- NAVTEST.scr:71
     ctx:addTrigger("Reset", "OnReset") -- NAVTEST.scr:73
     ctx:addTrigger("Use", "OnUse") -- NAVTEST.scr:74
     ctx:addTrigger("Disable", "OnDisable") -- NAVTEST.scr:75

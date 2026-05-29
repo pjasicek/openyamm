@@ -17,23 +17,23 @@ end
 
 script.labels["AttackReady"] = function(ctx)
     -- JUNK2.scr:13
-    ctx:command("attack", "AttackDone") -- JUNK2.scr:15
+    ctx:self():attack("AttackDone") -- JUNK2.scr:15
     do return ctx:exit("") end -- JUNK2.scr:16
 end
 
 script.labels["FoundPlayer"] = function(ctx)
     -- JUNK2.scr:19
     ctx:getParam(0, "g_hTarget") -- JUNK2.scr:20
-    ctx:command("faceobject", "g_hTarget") -- JUNK2.scr:21
-    ctx:command("onfoundplayer", "") -- JUNK2.scr:22
-    ctx:command("attack", "AttackDone") -- JUNK2.scr:24
+    ctx:self():faceObject(ctx:object("g_hTarget")) -- JUNK2.scr:21
+    ctx:onEvent("OnFoundPlayer") -- JUNK2.scr:22
+    ctx:self():attack("AttackDone") -- JUNK2.scr:24
     do return ctx:exit("") end -- JUNK2.scr:25
 end
 
 script.labels["Main"] = function(ctx)
     -- JUNK2.scr:27
-    ctx:command("onfoundplayer", "FoundPlayer") -- JUNK2.scr:28
-    ctx:command("onattackready", "AttackReady") -- JUNK2.scr:29
+    ctx:onEvent("OnFoundPlayer", "FoundPlayer") -- JUNK2.scr:28
+    ctx:onEvent("OnAttackReady", "AttackReady") -- JUNK2.scr:29
     do return ctx:exit("") end -- JUNK2.scr:31
 end
 

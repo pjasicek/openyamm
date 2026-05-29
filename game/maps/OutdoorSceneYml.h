@@ -111,6 +111,23 @@ struct OutdoorSceneSpawn
     OutdoorSpawn spawn = {};
 };
 
+struct OutdoorSceneLight
+{
+    size_t sourceObjectIndex = 0;
+    std::string sourceClass;
+    std::string sourceName;
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t z = 0;
+    int32_t radius = 0;
+    std::array<uint8_t, 3> color = {255, 255, 255};
+    std::array<uint8_t, 3> effectiveColor = {255, 255, 255};
+    std::string type = "point";
+    bool lightObjects = false;
+    bool fastLightObjects = false;
+    bool staticObjectLightEligible = false;
+};
+
 struct OutdoorSceneModelInstance
 {
     std::string instanceId;
@@ -129,6 +146,48 @@ struct OutdoorSceneModelInstance
     std::array<float, 4> rotationQuat = {0.0f, 0.0f, 0.0f, 1.0f};
     std::array<float, 3> scale = {1.0f, 1.0f, 1.0f};
     std::string collisionMode = "none";
+};
+
+struct OutdoorSceneMechanism
+{
+    struct Binding
+    {
+        std::string targetKind;
+        size_t bmodelIndex = static_cast<size_t>(-1);
+        std::string bmodelName;
+        std::string confidence;
+    };
+
+    struct Motion
+    {
+        bool hasLinear = false;
+        int32_t dx = 0;
+        int32_t dy = 0;
+        int32_t dz = 0;
+        bool hasRotation = false;
+        float rotationPivotX = 0.0f;
+        float rotationPivotY = 0.0f;
+        float rotationPivotZ = 0.0f;
+        float rotationDegreesX = 0.0f;
+        float rotationDegreesY = 0.0f;
+        float rotationDegreesZ = 0.0f;
+        uint32_t moveTimeMs = 1000;
+    };
+
+    struct Activation
+    {
+        bool startOpen = false;
+        bool locked = false;
+    };
+
+    uint32_t mechanismId = 0;
+    size_t sourceObjectIndex = 0;
+    std::string sourceClass;
+    std::string sourceName;
+    std::string kind;
+    Binding binding = {};
+    Motion motion = {};
+    Activation activation = {};
 };
 
 struct OutdoorSceneFaceAttributeOverride
@@ -162,7 +221,9 @@ struct OutdoorSceneData
     std::vector<OutdoorSceneInteractiveFace> interactiveFaces;
     std::vector<OutdoorSceneEntity> entities;
     std::vector<OutdoorSceneSpawn> spawns;
+    std::vector<OutdoorSceneLight> lights;
     std::vector<OutdoorSceneModelInstance> modelInstances;
+    std::vector<OutdoorSceneMechanism> mechanisms;
     OutdoorSceneInitialState initialState = {};
 };
 

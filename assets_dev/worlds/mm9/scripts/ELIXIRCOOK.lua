@@ -18,7 +18,7 @@ script.labels["OnUse"] = function(ctx)
     if ctx:hasItem(378) then -- ELIXIRCOOK.scr:29-30
         ctx:takeItem(378) -- ELIXIRCOOK.scr:31
         ctx:giveItem(561) -- ELIXIRCOOK.scr:32
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- ELIXIRCOOK.scr:33
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- ELIXIRCOOK.scr:33
         do return ctx:exit("") end -- ELIXIRCOOK.scr:34
     end -- ELIXIRCOOK.scr:35
     do return ctx:exit("") end -- ELIXIRCOOK.scr:36

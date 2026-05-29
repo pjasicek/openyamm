@@ -9,8 +9,8 @@ script.labels = {}
 -- SceneCamera0.scr
 script.labels["On"] = function(ctx)
     -- SCENECAMERA0.scr:5
-    ctx:command("getobjecthandle", "PlayerActor0, g_hObject") -- SCENECAMERA0.scr:6
-    ctx:command("target", "g_hObject") -- SCENECAMERA0.scr:7
+    ctx:state().g_hObject = ctx:objectOrNil("PlayerActor0") -- SCENECAMERA0.scr:6
+    ctx:self():setTarget(ctx:object("g_hObject")) -- SCENECAMERA0.scr:7
     do return ctx:exit(0) end -- SCENECAMERA0.scr:8
 end
 

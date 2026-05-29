@@ -12,11 +12,11 @@ script.labels["BeginMovie"] = function(ctx)
     if ctx:condition("start = 1") then -- DIRECTOR1.scr:11
         do return ctx:exit("") end -- DIRECTOR1.scr:12
     end -- DIRECTOR1.scr:13
-    ctx:command("getobjecthandle", "c0,hCamera1") -- DIRECTOR1.scr:15
-    ctx:command("getobjecthandle", "Goblin0, hGoblin0") -- DIRECTOR1.scr:16
+    ctx:state().hCamera1 = ctx:objectOrNil("c0") -- DIRECTOR1.scr:15
+    ctx:state().hGoblin0 = ctx:objectOrNil("Goblin0") -- DIRECTOR1.scr:16
     ctx:trigger("hGoblin0", "BeginScene") -- DIRECTOR1.scr:18
     ctx:trigger("hCamera1", "Zoom") -- DIRECTOR1.scr:19
-    ctx:command("set", "start,1") -- DIRECTOR1.scr:21
+    ctx:state().start = 1 -- DIRECTOR1.scr:21
     do return ctx:exit("") end -- DIRECTOR1.scr:23
 end
 

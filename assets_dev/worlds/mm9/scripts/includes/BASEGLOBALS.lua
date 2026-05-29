@@ -19,7 +19,7 @@ end
 
 script.labels["StopMoving"] = function(ctx)
     -- BASEGLOBALS.inc:21
-    ctx:command("stop", "") -- BASEGLOBALS.inc:23
+    ctx:self():stop() -- BASEGLOBALS.inc:23
     do return ctx:exit("TRUE") end -- BASEGLOBALS.inc:24
 end
 

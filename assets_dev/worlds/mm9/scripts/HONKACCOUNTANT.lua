@@ -26,22 +26,22 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(2, "LISTLAST") -- HONKACCOUNTANT.scr:29
     ctx:getParam(3, "sChestName") -- HONKACCOUNTANT.scr:30
     ctx:getParam(4, "sKeyName") -- HONKACCOUNTANT.scr:31
-    ctx:command("onpoststartworld", "InitHonkAccountant") -- HONKACCOUNTANT.scr:33
-    ctx:command("onpostminisaveload", "InitHonkAccountant") -- HONKACCOUNTANT.scr:34
+    ctx:onEvent("OnPostStartWorld", "InitHonkAccountant") -- HONKACCOUNTANT.scr:33
+    ctx:onEvent("OnPostMiniSaveLoad", "InitHonkAccountant") -- HONKACCOUNTANT.scr:34
     do return ctx:exit("TRUE") end -- HONKACCOUNTANT.scr:36
 end
 
 script.labels["InitHonkAccountant"] = function(ctx)
     -- HONKACCOUNTANT.scr:39
     mm9.gosub(script, ctx, "InitHonkHostility") -- HONKACCOUNTANT.scr:41
-    ctx:command("getobjecthandle", "sChestName, hChest") -- HONKACCOUNTANT.scr:43
-    ctx:command("getobjecthandle", "sKeyName, hKey") -- HONKACCOUNTANT.scr:44
+    ctx:state().hChest = ctx:objectOrNil("sChestName") -- HONKACCOUNTANT.scr:43
+    ctx:state().hKey = ctx:objectOrNil("sKeyName") -- HONKACCOUNTANT.scr:44
     if ctx:condition("hKey!=0") then -- HONKACCOUNTANT.scr:45
-        ctx:command("createobjectlink", "hKey") -- HONKACCOUNTANT.scr:46
-        ctx:command("onobjectlinkbroken", "OnObjectLinkBroken") -- HONKACCOUNTANT.scr:47
+        ctx:self():link(ctx:object("hKey")) -- HONKACCOUNTANT.scr:46
+        ctx:onEvent("OnObjectLinkBroken", "OnObjectLinkBroken") -- HONKACCOUNTANT.scr:47
     end -- HONKACCOUNTANT.scr:48
-    ctx:command("@m", "7 : 0,  TraverseBegin, DoNothing") -- HONKACCOUNTANT.scr:50
-    ctx:command("@m", "19 : 0, TraverseBegin, DoNothing") -- HONKACCOUNTANT.scr:51
+    ctx:atTime(7, 0, "TraverseBegin", "DoNothing") -- HONKACCOUNTANT.scr:50
+    ctx:atTime(19, 0, "TraverseBegin", "DoNothing") -- HONKACCOUNTANT.scr:51
     mm9.gosub(script, ctx, "BaseWanderInit") -- HONKACCOUNTANT.scr:53
     ctx:addTrigger("stolen", "KeyWasStolen") -- HONKACCOUNTANT.scr:55
     mm9.gosub(script, ctx, "SetTraversePace") -- HONKACCOUNTANT.scr:57
@@ -77,7 +77,7 @@ end
 script.labels["CollectMoney"] = function(ctx)
     -- HONKACCOUNTANT.scr:91
     -- Trigger hChest, open
-    ctx:command("wait", "0, 2, CloseChest") -- HONKACCOUNTANT.scr:94
+    ctx:wait(0, 2, "CloseChest") -- HONKACCOUNTANT.scr:94
     mm9.gosub(script, ctx, "TraverseResume") -- HONKACCOUNTANT.scr:95
     do return ctx:exit("TRUE") end -- HONKACCOUNTANT.scr:97
 end
@@ -90,7 +90,7 @@ end
 
 script.labels["DoPuzzle"] = function(ctx)
     -- HONKACCOUNTANT.scr:107
-    ctx:command("playanim", "\"prop-fidget1\", TraverseResume") -- HONKACCOUNTANT.scr:109
+    ctx:self():playAnimation("prop-fidget1", "TraverseResume") -- HONKACCOUNTANT.scr:109
     do return ctx:exit("TRUE") end -- HONKACCOUNTANT.scr:111
 end
 
@@ -117,7 +117,7 @@ script.labels["OnObjectLinkBroken"] = function(ctx)
     -- actually see it
     ctx:getParam(0, "hLink") -- HONKACCOUNTANT.scr:137
     if ctx:condition("hLink==0") then -- HONKACCOUNTANT.scr:139
-        ctx:command("hkey", "= NULL") -- HONKACCOUNTANT.scr:140
+        ctx:state().hKey = nil -- HONKACCOUNTANT.scr:140
     else -- HONKACCOUNTANT.scr:141
         mm9.gosub(script, ctx, "BecomeHostile") -- HONKACCOUNTANT.scr:142
     end -- HONKACCOUNTANT.scr:143
@@ -128,8 +128,8 @@ script.labels["KeyWasStolen"] = function(ctx)
     -- HONKACCOUNTANT.scr:148
     -- either saw it stolen
     -- or found it stolen
-    ctx:command("hkey", "= NULL") -- HONKACCOUNTANT.scr:152
-    ctx:command("removetrigger", "stolen") -- HONKACCOUNTANT.scr:154
+    ctx:state().hKey = nil -- HONKACCOUNTANT.scr:152
+    ctx:removeTrigger("stolen") -- HONKACCOUNTANT.scr:154
     mm9.gosub(script, ctx, "TraversePause") -- HONKACCOUNTANT.scr:156
     mm9.gosub(script, ctx, "TurnHostilityOn") -- HONKACCOUNTANT.scr:157
     do return ctx:exit("TRUE") end -- HONKACCOUNTANT.scr:159

@@ -18,15 +18,15 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "LISTNAME") -- PASSAGEGEMSTONE.scr:18
     ctx:getParam(1, "LISTFIRST") -- PASSAGEGEMSTONE.scr:19
     ctx:getParam(2, "LISTLAST") -- PASSAGEGEMSTONE.scr:20
-    ctx:command("onpoststartworld", "InitPassageGemstone") -- PASSAGEGEMSTONE.scr:22
-    ctx:command("oncachefiles", "CacheFiles") -- PASSAGEGEMSTONE.scr:23
+    ctx:onEvent("OnPostStartWorld", "InitPassageGemstone") -- PASSAGEGEMSTONE.scr:22
+    ctx:onEvent("OnCacheFiles", "CacheFiles") -- PASSAGEGEMSTONE.scr:23
     do return ctx:exit("TRUE") end -- PASSAGEGEMSTONE.scr:25
 end
 
 script.labels["CacheFiles"] = function(ctx)
     -- PASSAGEGEMSTONE.scr:28
-    ctx:command("cachesound", "\"sounds\\spells\\enchantitem.wav\"") -- PASSAGEGEMSTONE.scr:30
-    ctx:command("cachesound", "\"sounds\\door\\doorslidestone.wav\"") -- PASSAGEGEMSTONE.scr:31
+    ctx:cacheSound("sounds\\spells\\enchantitem.wav") -- PASSAGEGEMSTONE.scr:30
+    ctx:cacheSound("sounds\\door\\doorslidestone.wav") -- PASSAGEGEMSTONE.scr:31
     do return ctx:exit("TRUE") end -- PASSAGEGEMSTONE.scr:33
 end
 
@@ -34,30 +34,30 @@ script.labels["InitPassageGemstone"] = function(ctx)
     -- PASSAGEGEMSTONE.scr:36
     ctx:addTrigger("use", "ShineLight") -- PASSAGEGEMSTONE.scr:38
     ctx:addTrigger("trigger", "ReleaseMonsters") -- PASSAGEGEMSTONE.scr:39
-    ctx:command("getobjecthandle", "Mirror0, hMirror") -- PASSAGEGEMSTONE.scr:41
-    ctx:command("getobjecthandle", "GemLight0, hLaser") -- PASSAGEGEMSTONE.scr:42
+    ctx:state().hMirror = ctx:objectOrNil("Mirror0") -- PASSAGEGEMSTONE.scr:41
+    ctx:state().hLaser = ctx:objectOrNil("GemLight0") -- PASSAGEGEMSTONE.scr:42
     do return ctx:exit("TRUE") end -- PASSAGEGEMSTONE.scr:44
 end
 
 script.labels["ReleaseMonsters"] = function(ctx)
     -- PASSAGEGEMSTONE.scr:47
-    ctx:command("removetrigger", "release") -- PASSAGEGEMSTONE.scr:49
-    ctx:command("playsound", "\"sounds\\spells\\enchantitem.wav\", SoundCallback, 1, 1000, FALSE, 100") -- PASSAGEGEMSTONE.scr:51
+    ctx:removeTrigger("release") -- PASSAGEGEMSTONE.scr:49
+    ctx:playSound("sounds\\spells\\enchantitem.wav", "SoundCallback", 1, 1000, "FALSE", 100) -- PASSAGEGEMSTONE.scr:51
     mm9.gosub(script, ctx, "GetFirstObject") -- PASSAGEGEMSTONE.scr:53
     while ctx:condition("LISTINDEX<LISTLAST") do -- PASSAGEGEMSTONE.scr:54
         ctx:trigger("LISTOBJECT", "go") -- PASSAGEGEMSTONE.scr:55
         mm9.gosub(script, ctx, "GetNextObject") -- PASSAGEGEMSTONE.scr:56
     end -- PASSAGEGEMSTONE.scr:57
     ctx:trigger("LISTOBJECT", "go") -- PASSAGEGEMSTONE.scr:58
-    ctx:command("getobjecthandle", "DesertDoor0, LISTOBJECT") -- PASSAGEGEMSTONE.scr:60
-    ctx:trigger("LISTOBJECT", "unlock") -- PASSAGEGEMSTONE.scr:61
-    ctx:trigger("LISTOBJECT", "open") -- PASSAGEGEMSTONE.scr:62
+    local object = ctx:object("DesertDoor0") -- PASSAGEGEMSTONE.scr:60
+    object:trigger("unlock") -- PASSAGEGEMSTONE.scr:61
+    object:trigger("open") -- PASSAGEGEMSTONE.scr:62
     do return ctx:exit("TRUE") end -- PASSAGEGEMSTONE.scr:64
 end
 
 script.labels["SoundCallback"] = function(ctx)
     -- PASSAGEGEMSTONE.scr:67
-    ctx:command("playsound", "\"sounds\\door\\doorslidestone.wav\", DoNothing, 1, 1000, FALSE, 100") -- PASSAGEGEMSTONE.scr:69
+    ctx:playSound("sounds\\door\\doorslidestone.wav", "DoNothing", 1, 1000, "FALSE", 100) -- PASSAGEGEMSTONE.scr:69
     do return ctx:exit("TRUE") end -- PASSAGEGEMSTONE.scr:71
 end
 
@@ -70,13 +70,13 @@ script.labels["ShineLight"] = function(ctx)
     if ctx:condition("hMirror!=0") then -- PASSAGEGEMSTONE.scr:82
         ctx:trigger("hMirror", "trigger") -- PASSAGEGEMSTONE.scr:83
     end -- PASSAGEGEMSTONE.scr:84
-    ctx:command("wait", "0, 1, RestoreInterface") -- PASSAGEGEMSTONE.scr:86
+    ctx:wait(0, 1, "RestoreInterface") -- PASSAGEGEMSTONE.scr:86
     do return ctx:exit("TRUE") end -- PASSAGEGEMSTONE.scr:88
 end
 
 script.labels["RemoveInterface"] = function(ctx)
     -- PASSAGEGEMSTONE.scr:91
-    ctx:command("removetrigger", "use") -- PASSAGEGEMSTONE.scr:93
+    ctx:removeTrigger("use") -- PASSAGEGEMSTONE.scr:93
     do return ctx:exit("TRUE") end -- PASSAGEGEMSTONE.scr:95
 end
 

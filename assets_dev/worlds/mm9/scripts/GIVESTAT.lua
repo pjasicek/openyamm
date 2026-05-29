@@ -23,22 +23,22 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(2, "STAT_PARTY") -- GIVESTAT.scr:28
     ctx:getParam(3, "STAT_TIME") -- GIVESTAT.scr:29
     if ctx:condition("sStatName==\"Might\"") then -- GIVESTAT.scr:31
-        ctx:command("stat_type", "= 0") -- GIVESTAT.scr:32
+        ctx:state().STAT_TYPE = 0 -- GIVESTAT.scr:32
     else -- GIVESTAT.scr:33
         if ctx:condition("sStatName==\"Magic\"") then -- GIVESTAT.scr:34
-            ctx:command("stat_type", "= 1") -- GIVESTAT.scr:35
+            ctx:state().STAT_TYPE = 1 -- GIVESTAT.scr:35
         else -- GIVESTAT.scr:36
             if ctx:condition("sStatName==\"Endurance\"") then -- GIVESTAT.scr:37
-                ctx:command("stat_type", "= 2") -- GIVESTAT.scr:38
+                ctx:state().STAT_TYPE = 2 -- GIVESTAT.scr:38
             else -- GIVESTAT.scr:39
                 if ctx:condition("sStatName==\"Accuracy\"") then -- GIVESTAT.scr:40
-                    ctx:command("stat_type", "= 3") -- GIVESTAT.scr:41
+                    ctx:state().STAT_TYPE = 3 -- GIVESTAT.scr:41
                 else -- GIVESTAT.scr:42
                     if ctx:condition("sStatName==\"Speed\"") then -- GIVESTAT.scr:43
-                        ctx:command("stat_type", "= 4") -- GIVESTAT.scr:44
+                        ctx:state().STAT_TYPE = 4 -- GIVESTAT.scr:44
                     else -- GIVESTAT.scr:45
                         if ctx:condition("sStatName==\"Luck\"") then -- GIVESTAT.scr:46
-                            ctx:command("stat_type", "= 5") -- GIVESTAT.scr:47
+                            ctx:state().STAT_TYPE = 5 -- GIVESTAT.scr:47
                         end -- GIVESTAT.scr:48
                     end -- GIVESTAT.scr:49
                 end -- GIVESTAT.scr:50
@@ -46,14 +46,14 @@ script.labels["Main"] = function(ctx)
         end -- GIVESTAT.scr:52
     end -- GIVESTAT.scr:53
     -- 1 real minute = 10 game minutes = 600 game seconds
-    ctx:command("stat_time", "= STAT_TIME * 600") -- GIVESTAT.scr:56
+    ctx:set("STAT_TIME", "STAT_TIME * 600") -- GIVESTAT.scr:56
     ctx:addTrigger("give", "GiveStat") -- GIVESTAT.scr:58
     do return ctx:exit(1) end -- GIVESTAT.scr:60
 end
 
 script.labels["GiveStat"] = function(ctx)
     -- GIVESTAT.scr:63
-    ctx:command("giveattribute", "STAT_TYPE, STAT_VALUE, STAT_PARTY, STAT_TIME") -- GIVESTAT.scr:65
+    ctx:giveAttribute("STAT_TYPE", "STAT_VALUE", "STAT_PARTY", "STAT_TIME") -- GIVESTAT.scr:65
     do return ctx:exit(1) end -- GIVESTAT.scr:67
 end
 

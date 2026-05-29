@@ -23,17 +23,17 @@ end
 script.labels["DirectorSpawnDwarf"] = function(ctx)
     -- CAMPDIRECTOR.scr:36
     -- first lets make sure we don't spawn too many
-    ctx:command("getobjects", "Dwarf, 20000, 10, g_hDwarfArray, g_nObjects") -- CAMPDIRECTOR.scr:39
+    ctx:getObjects("Dwarf", 20000, 10, "g_hDwarfArray", "g_nObjects") -- CAMPDIRECTOR.scr:39
     if ctx:condition("g_nObjects >= 5") then -- CAMPDIRECTOR.scr:40
         do return ctx:exit("") end -- CAMPDIRECTOR.scr:41
     end -- CAMPDIRECTOR.scr:42
-    ctx:command("arrayget", "g_sDwarfSpawn, g_nLastDwarfSpawn, g_sSpawn") -- CAMPDIRECTOR.scr:44
-    ctx:command("add", "g_nLastDwarfSpawn, 1") -- CAMPDIRECTOR.scr:45
+    ctx:arrayGet("g_sDwarfSpawn", "g_nLastDwarfSpawn", "g_sSpawn") -- CAMPDIRECTOR.scr:44
+    ctx:state().g_nLastDwarfSpawn = (tonumber(ctx:state().g_nLastDwarfSpawn) or 0) + 1 -- CAMPDIRECTOR.scr:45
     if ctx:condition("g_nLastDwarfSpawn > 4") then -- CAMPDIRECTOR.scr:47
-        ctx:command("set", "g_nLastDwarfSpawn, 0") -- CAMPDIRECTOR.scr:48
+        ctx:state().g_nLastDwarfSpawn = 0 -- CAMPDIRECTOR.scr:48
     end -- CAMPDIRECTOR.scr:49
     if ctx:condition("g_sDwarfSpawn != NULL") then -- CAMPDIRECTOR.scr:51
-        ctx:command("getobjecthandle", ", g_sSpawn, g_hSpawn") -- CAMPDIRECTOR.scr:52
+        ctx:state().g_hSpawn = ctx:objectOrNil("g_sSpawn") -- CAMPDIRECTOR.scr:52
     end -- CAMPDIRECTOR.scr:53
     -- Trigger the spawn dot
     if ctx:condition("g_hSpawn != NULL") then -- CAMPDIRECTOR.scr:56
@@ -52,17 +52,17 @@ end
 script.labels["DirectorSpawnZombie"] = function(ctx)
     -- CAMPDIRECTOR.scr:72
     -- first lets make sure we don't spawn too many
-    ctx:command("getobjects", "Zombie, 20000, 10, g_hZombieArray, g_nObjects") -- CAMPDIRECTOR.scr:75
+    ctx:getObjects("Zombie", 20000, 10, "g_hZombieArray", "g_nObjects") -- CAMPDIRECTOR.scr:75
     if ctx:condition("g_nObjects >= 5") then -- CAMPDIRECTOR.scr:76
         do return ctx:exit("") end -- CAMPDIRECTOR.scr:77
     end -- CAMPDIRECTOR.scr:78
-    ctx:command("arrayget", "g_sZombieSpawn, g_nLastZombieSpawn, g_sSpawn") -- CAMPDIRECTOR.scr:80
-    ctx:command("add", "g_nLastZombieSpawn, 1") -- CAMPDIRECTOR.scr:81
+    ctx:arrayGet("g_sZombieSpawn", "g_nLastZombieSpawn", "g_sSpawn") -- CAMPDIRECTOR.scr:80
+    ctx:state().g_nLastZombieSpawn = (tonumber(ctx:state().g_nLastZombieSpawn) or 0) + 1 -- CAMPDIRECTOR.scr:81
     if ctx:condition("g_nLastZombieSpawn > 4") then -- CAMPDIRECTOR.scr:83
-        ctx:command("set", "g_nLastZombieSpawn, 0") -- CAMPDIRECTOR.scr:84
+        ctx:state().g_nLastZombieSpawn = 0 -- CAMPDIRECTOR.scr:84
     end -- CAMPDIRECTOR.scr:85
     if ctx:condition("g_sSpawn != NULL") then -- CAMPDIRECTOR.scr:87
-        ctx:command("getobjecthandle", ", g_sSpawn, g_hSpawn") -- CAMPDIRECTOR.scr:88
+        ctx:state().g_hSpawn = ctx:objectOrNil("g_sSpawn") -- CAMPDIRECTOR.scr:88
     end -- CAMPDIRECTOR.scr:89
     -- Trigger the spawn dot
     if ctx:condition("g_hSpawn != NULL") then -- CAMPDIRECTOR.scr:92
@@ -74,17 +74,17 @@ end
 script.labels["DirectorSetupSpawns"] = function(ctx)
     -- CAMPDIRECTOR.scr:100
     -- Setup Goblins first
-    ctx:command("arrayput", "g_sZombieSpawn, 0, AISpawn16") -- CAMPDIRECTOR.scr:103
-    ctx:command("arrayput", "g_sZombieSpawn, 1, AISpawn17") -- CAMPDIRECTOR.scr:104
-    ctx:command("arrayput", "g_sZombieSpawn, 2, AISpawn18") -- CAMPDIRECTOR.scr:105
-    ctx:command("arrayput", "g_sZombieSpawn, 3, AISpawn19") -- CAMPDIRECTOR.scr:106
-    ctx:command("arrayput", "g_sZombieSpawn, 4, AISpawn20") -- CAMPDIRECTOR.scr:107
+    ctx:arrayPut("g_sZombieSpawn", 0, "AISpawn16") -- CAMPDIRECTOR.scr:103
+    ctx:arrayPut("g_sZombieSpawn", 1, "AISpawn17") -- CAMPDIRECTOR.scr:104
+    ctx:arrayPut("g_sZombieSpawn", 2, "AISpawn18") -- CAMPDIRECTOR.scr:105
+    ctx:arrayPut("g_sZombieSpawn", 3, "AISpawn19") -- CAMPDIRECTOR.scr:106
+    ctx:arrayPut("g_sZombieSpawn", 4, "AISpawn20") -- CAMPDIRECTOR.scr:107
     -- Setup Dwarfs
-    ctx:command("arrayput", "g_sDwarfSpawn, 0, AISpawn11") -- CAMPDIRECTOR.scr:110
-    ctx:command("arrayput", "g_sDwarfSpawn, 1, AISpawn12") -- CAMPDIRECTOR.scr:111
-    ctx:command("arrayput", "g_sDwarfSpawn, 2, AISpawn13") -- CAMPDIRECTOR.scr:112
-    ctx:command("arrayput", "g_sDwarfSpawn, 3, AISpawn14") -- CAMPDIRECTOR.scr:113
-    ctx:command("arrayput", "g_sDwarfSpawn, 4, AISpawn15") -- CAMPDIRECTOR.scr:114
+    ctx:arrayPut("g_sDwarfSpawn", 0, "AISpawn11") -- CAMPDIRECTOR.scr:110
+    ctx:arrayPut("g_sDwarfSpawn", 1, "AISpawn12") -- CAMPDIRECTOR.scr:111
+    ctx:arrayPut("g_sDwarfSpawn", 2, "AISpawn13") -- CAMPDIRECTOR.scr:112
+    ctx:arrayPut("g_sDwarfSpawn", 3, "AISpawn14") -- CAMPDIRECTOR.scr:113
+    ctx:arrayPut("g_sDwarfSpawn", 4, "AISpawn15") -- CAMPDIRECTOR.scr:114
     do return ctx:exit("") end -- CAMPDIRECTOR.scr:116
 end
 

@@ -4,6 +4,7 @@
 #include "editor/import/ObjModelImport.h"
 #include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/mm9/Mm9DatWorld.h"
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
@@ -63,6 +64,22 @@ public:
         uint32_t mm9DatAssetIssueMarkerVertices = 0;
         uint32_t mm9DatMechanismTargetMarkerSubmissions = 0;
         uint32_t mm9DatMechanismTargetMarkerVertices = 0;
+    };
+
+    struct Mm9MechanismPreviewTargetCache
+    {
+        size_t sourceModelIndex = std::numeric_limits<size_t>::max();
+        bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 halfExtents = {0.0f, 0.0f, 0.0f};
+        bool previewable = false;
+        Game::Mm9DatMechanismPreviewMotion openMotion = {};
+    };
+
+    struct Mm9MechanismPreviewCacheEntry
+    {
+        bool previewable = false;
+        std::optional<bx::Vec3> sourceMarkerPosition;
+        std::vector<Mm9MechanismPreviewTargetCache> targets;
     };
 
     enum class TransformGizmoMode
@@ -276,6 +293,7 @@ private:
         bool hasEventOverlay = false;
         bool hintOnlyEventOverlay = false;
         bool blockedByLineOfSight = false;
+        bool mm9MechanismPreviewable = false;
     };
 
     enum class GizmoDragMode
@@ -457,9 +475,10 @@ private:
     void submitMarkerGeometry(const EditorSession &session, const EditorDocument &document, const EditorSelection &selection);
     void ensureIndoorMechanismPreviewDocument(const EditorDocument &document) const;
     void ensureMm9MechanismPreviewDocument(const EditorDocument &document) const;
+    const std::vector<Mm9MechanismPreviewCacheEntry> &mm9MechanismPreviewCache(
+        const EditorDocument &document) const;
     void advanceIndoorMechanismPreview(const EditorDocument &document, float deltaSeconds);
     void invalidateIndoorMechanismPreview();
-    void invalidateMm9MechanismPreview();
     const std::vector<Game::IndoorVertex> &indoorRenderVertices(const EditorDocument &document) const;
     Game::IndoorFaceGeometryCache &indoorRenderFaceGeometryCache(const EditorDocument &document) const;
     void refreshIndoorPreviewGeometryBuffers(const EditorDocument &document);
@@ -672,6 +691,8 @@ private:
     mutable std::unordered_map<size_t, Game::RuntimeMechanismState> m_indoorMechanismPreviewOverrides;
     mutable std::string m_mm9MechanismPreviewDocumentKey;
     mutable std::unordered_map<size_t, float> m_mm9MechanismPreviewProgressByIndex;
+    mutable std::string m_mm9MechanismPreviewCacheKey;
+    mutable std::vector<Mm9MechanismPreviewCacheEntry> m_mm9MechanismPreviewCache;
     IndoorDoorFaceEditMode m_indoorDoorFaceEditMode = IndoorDoorFaceEditMode::None;
     std::optional<size_t> m_indoorDoorFaceEditDoorIndex;
     mutable std::string m_indoorRenderVerticesKey;
@@ -683,7 +704,6 @@ private:
     mutable std::string m_indoorActorFloorSnapKey;
     mutable std::unordered_map<uint64_t, int> m_indoorActorFloorSnapZByKey;
     uint64_t m_indoorMechanismPreviewRevision = 0;
-    uint64_t m_mm9MechanismPreviewRevision = 0;
     float m_indoorMechanismPreviewAccumulatorSeconds = 0.0f;
     bool m_indoorPreviewGeometryBuffersDirty = false;
     TransformGizmoMode m_transformGizmoMode = TransformGizmoMode::Translate;

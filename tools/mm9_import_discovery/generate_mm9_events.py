@@ -2,9 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
+import math
 import re
+import shutil
 import sys
+import wave
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -61,6 +65,8 @@ KNOWN_NORMALIZED_PROPERTIES = {
     "CloseStartSound",
     "CloseBusySound",
     "CloseStopSound",
+    "OpenSoundName",
+    "CloseSoundName",
     "JiggleSound",
     "DoRude",
     "NPCNbr",
@@ -75,6 +81,15 @@ KNOWN_NORMALIZED_PROPERTIES = {
     "XRotateForward",
     "YRotateForward",
     "ZRotateForward",
+    "DestinationWorld",
+    "StartPointName",
+    "LoadScreen",
+    "LoadTextID",
+    "TravelDays",
+    "AskPlayer",
+    "TeamNbr",
+    "PlayerNbr",
+    "MovePlayerToFloor",
 }
 
 for slot in range(1, 11):
@@ -127,6 +142,34 @@ SCRIPTED_INTERACTION_CLASSES = {
     "BlueWater",
     "Ladder",
 }
+
+TRAVEL_TRIGGER_CLASSES = {
+    "ExitTrigger",
+}
+
+MM9_MECHANISM_EVENT_ID_BASE = 30000
+MM9_INTERACTIVE_MECHANISM_KINDS = {
+    "linear_door",
+    "weighted_lift",
+    "rotating_door",
+    "rotating_brush",
+}
+
+MM9_SOUND_SOURCE_ALIASES = {
+    "animsounds/dragonredhop.wav": "animsounds/dragon/hop.wav",
+    "dragonredhop.wav": "animsounds/dragon/hop.wav",
+    "dragonredhop": "animsounds/dragon/hop",
+    "door/elestart.wav": "ambient/machinery lich - start.wav",
+    "door/elestart": "ambient/machinery lich - start",
+    "door/eleloop.wav": "ambient/machinery lich - loop.wav",
+    "door/eleloop": "ambient/machinery lich - loop",
+    "door/elestop.wav": "ambient/machinery lich - end.wav",
+    "door/elestop": "ambient/machinery lich - end",
+    "events/pushterrain.wav": "events/stonestonescrape01.wav",
+    "events/pushterrain": "events/stonestonescrape01",
+}
+
+MM9_SYNTHETIC_NOTE_PATTERN = re.compile(r"^music/([a-g])(#?)([1-3])\.wav$")
 
 MOVEMENT_COMMANDS = {"movetopos", "movedir", "rotate", "setpos"}
 STATE_COMMANDS = {"setflag", "clearflag", "setstat", "getstat", "destroyobject"}
@@ -345,7 +388,348 @@ def lua_string(value: str) -> str:
     return json.dumps(value)
 
 
-def map_lua_text(map_id: str, script_irs: dict[str, ScriptIr]) -> str:
+def classic_mechanism_runtime_id(source_object_index: int) -> int:
+    return 900000 + source_object_index
+
+
+def mechanism_event_id(source_object_index: int) -> int:
+    return MM9_MECHANISM_EVENT_ID_BASE + source_object_index
+
+
+def normalize_mm9_sound_name(value: Any) -> str:
+    if not isinstance(value, str):
+        return ""
+
+    normalized = value.strip().replace("\\", "/")
+    while normalized.startswith("/"):
+        normalized = normalized[1:]
+
+    lower = normalized.lower()
+    for prefix in ("sounds/", "source/sounds/"):
+        if lower.startswith(prefix):
+            normalized = normalized[len(prefix):]
+            lower = normalized.lower()
+
+    return normalized
+
+
+def lt_position_to_openyamm(position: list[Any], scale: float = 2.56) -> dict[str, int]:
+    return {
+        "x": int(round(float(position[0]) * scale)),
+        "y": int(round(float(position[2]) * scale)),
+        "z": int(round(float(position[1]) * scale)),
+    }
+
+
+def lt_rotation_to_openyamm_yaw_degrees(rotation: list[Any]) -> float:
+    if len(rotation) < 2:
+        return 0.0
+    return (-math.degrees(float(rotation[1]))) % 360.0
+
+
+def lt_rotation_to_openyamm_yaw_units(rotation: list[Any]) -> int:
+    return int(round(lt_rotation_to_openyamm_yaw_degrees(rotation) * 2048.0 / 360.0)) % 2048
+
+
+def bool_property(value: Any, default: bool = False) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value != 0
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"1", "true", "yes", "on"}:
+            return True
+        if normalized in {"0", "false", "no", "off"}:
+            return False
+    return default
+
+
+def int_property(value: Any, default: int = 0) -> int:
+    if isinstance(value, bool):
+        return 1 if value else 0
+    if isinstance(value, (int, float)):
+        return int(value)
+    if isinstance(value, str):
+        try:
+            return int(float(value))
+        except ValueError:
+            return default
+    return default
+
+
+def start_point_entry(
+    source_object_index: int,
+    source_name: str,
+    values: dict[str, Any],
+    start_index: int,
+) -> dict[str, Any] | None:
+    position = values.get("Pos")
+    if not isinstance(position, list) or len(position) < 3:
+        return None
+
+    rotation = values.get("Rotation")
+    if not isinstance(rotation, list) or len(rotation) < 4:
+        rotation = [0.0, 0.0, 0.0, 0.0]
+
+    return {
+        "start_index": start_index,
+        "source_object_index": source_object_index,
+        "source_class": "StartPoint",
+        "source_name": source_name or f"StartPoint{start_index}",
+        "source_position_lt": [float(value) for value in position[:3]],
+        "position": lt_position_to_openyamm(position),
+        "source_rotation_lt": [float(value) for value in rotation[:4]],
+        "direction_yaw_units": lt_rotation_to_openyamm_yaw_units(rotation),
+        "direction_degrees": lt_rotation_to_openyamm_yaw_degrees(rotation),
+        "team_number": int_property(values.get("TeamNbr"), 0),
+        "player_number": int_property(values.get("PlayerNbr"), 0),
+        "move_player_to_floor": bool_property(values.get("MovePlayerToFloor"), True),
+    }
+
+
+def append_map_lua_start_points(lines: list[str], event_data: dict[str, Any]) -> None:
+    lines.append("map.start_points = {")
+    for start in event_data.get("start_points", []) or []:
+        if not isinstance(start, dict):
+            continue
+        position = start.get("position", {})
+        if not isinstance(position, dict):
+            position = {}
+        lines.append("    {")
+        lines.append(f"        start_index = {int(start.get('start_index', 0))},")
+        lines.append(f"        source_object_index = {int(start.get('source_object_index', 0))},")
+        lines.append(f"        source_name = {lua_string(str(start.get('source_name', '')))},")
+        lines.append(f"        x = {int(position.get('x', 0))},")
+        lines.append(f"        y = {int(position.get('y', 0))},")
+        lines.append(f"        z = {int(position.get('z', 0))},")
+        lines.append(f"        direction_yaw_units = {int(start.get('direction_yaw_units', 0))},")
+        lines.append(f"        move_player_to_floor = {str(bool(start.get('move_player_to_floor', True))).lower()},")
+        lines.append("    },")
+    lines.append("}")
+    lines.append("map.start_point_by_name = {}")
+    lines.append("map.start_point_by_source_object_index = {}")
+    lines.append("for _, start_point in ipairs(map.start_points) do")
+    lines.append("    if start_point.source_name ~= nil and start_point.source_name ~= \"\" then")
+    lines.append("        map.start_point_by_name[start_point.source_name] = start_point")
+    lines.append("    end")
+    lines.append("    map.start_point_by_source_object_index[start_point.source_object_index] = start_point")
+    lines.append("end")
+    lines.append("")
+    lines.append("function map.resolveStartPoint(nameOrIndex)")
+    lines.append("    if type(nameOrIndex) == \"number\" then")
+    lines.append("        return map.start_points[nameOrIndex + 1] or map.start_point_by_source_object_index[nameOrIndex]")
+    lines.append("    end")
+    lines.append("    if type(nameOrIndex) == \"string\" then")
+    lines.append("        return map.start_point_by_name[nameOrIndex]")
+    lines.append("    end")
+    lines.append("    return nil")
+    lines.append("end")
+    lines.append("")
+    lines.append("function map.moveToStartPoint(nameOrIndex, targetMapFileName)")
+    lines.append("    local start_point = map.resolveStartPoint(nameOrIndex)")
+    lines.append("    if start_point == nil or evt == nil or evt.MoveToMap == nil then")
+    lines.append("        return false")
+    lines.append("    end")
+    lines.append("    evt.MoveToMap(")
+    lines.append("        start_point.x,")
+    lines.append("        start_point.y,")
+    lines.append("        start_point.z,")
+    lines.append("        start_point.direction_yaw_units,")
+    lines.append("        0,")
+    lines.append("        0,")
+    lines.append("        0,")
+    lines.append("        1,")
+    lines.append("        targetMapFileName)")
+    lines.append("    return true")
+    lines.append("end")
+    lines.append("")
+
+
+def map_lua_mechanism_entries(event_data: dict[str, Any]) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    for mechanism in event_data.get("mechanisms", []) or []:
+        if not isinstance(mechanism, dict):
+            continue
+
+        source_object_index = mechanism.get("source_object_index")
+        if not isinstance(source_object_index, int):
+            continue
+
+        mechanism_motion_data = mechanism.get("mechanism", {})
+        mechanism_kind = (
+            str(mechanism_motion_data.get("kind", ""))
+            if isinstance(mechanism_motion_data, dict)
+            else ""
+        )
+        entry = {
+            "mechanism_id": classic_mechanism_runtime_id(source_object_index),
+            "event_id": mechanism_event_id(source_object_index),
+            "source_object_index": source_object_index,
+            "source_class": str(mechanism.get("source_class", "")),
+            "source_name": str(mechanism.get("source_name", "")),
+            "kind": mechanism_kind,
+            "hint": str(mechanism.get("source_name", "")) or str(mechanism.get("source_class", "")),
+            "classic_door_id": None,
+            "sounds": [],
+        }
+        sounds = mechanism.get("sounds", [])
+        if isinstance(sounds, list):
+            entry["sounds"] = [
+                sound
+                for sound in sounds
+                if isinstance(sound, dict)
+                and isinstance(sound.get("phase"), str)
+                and isinstance(sound.get("sound_name"), str)
+                and sound.get("sound_name")
+            ]
+        classic_event_face = mechanism.get("classic_event_face", {})
+        if isinstance(classic_event_face, dict):
+            event_id = classic_event_face.get("event_id")
+            if isinstance(event_id, int):
+                entry["event_id"] = event_id
+            hint = classic_event_face.get("hint")
+            if isinstance(hint, str) and hint:
+                entry["hint"] = hint
+        classic_runtime = mechanism.get("classic_runtime", {})
+        if isinstance(classic_runtime, dict):
+            classic_door_id = classic_runtime.get("door_id")
+            if isinstance(classic_door_id, int):
+                entry["classic_door_id"] = classic_door_id
+        entries.append(entry)
+    return entries
+
+
+def append_map_lua_mechanisms(lines: list[str], event_data: dict[str, Any]) -> None:
+    mechanisms = map_lua_mechanism_entries(event_data)
+    lines.append("map.mechanisms = {")
+    for mechanism in mechanisms:
+        lines.append("    {")
+        lines.append(f"        mechanism_id = {mechanism['mechanism_id']},")
+        lines.append(f"        event_id = {mechanism['event_id']},")
+        lines.append(f"        source_object_index = {mechanism['source_object_index']},")
+        lines.append(f"        source_class = {lua_string(mechanism['source_class'])},")
+        lines.append(f"        source_name = {lua_string(mechanism['source_name'])},")
+        lines.append(f"        kind = {lua_string(mechanism['kind'])},")
+        lines.append(f"        hint = {lua_string(mechanism['hint'])},")
+        if mechanism["classic_door_id"] is not None:
+            lines.append(f"        classic_door_id = {mechanism['classic_door_id']},")
+        if mechanism["sounds"]:
+            lines.append("        sounds = {")
+            for sound in mechanism["sounds"]:
+                phase = str(sound.get("phase", ""))
+                sound_name = str(sound.get("sound_name", ""))
+                position = sound.get("position")
+                lines.append(f"            [{lua_string(phase)}] = {{")
+                lines.append(f"                name = {lua_string(sound_name)},")
+                if isinstance(position, dict):
+                    x = int(position.get("x", 0) or 0)
+                    y = int(position.get("y", 0) or 0)
+                    z = int(position.get("z", 0) or 0)
+                    lines.append(f"                x = {x},")
+                    lines.append(f"                y = {y},")
+                    lines.append(f"                z = {z},")
+                lines.append("            },")
+            lines.append("        },")
+        lines.append("    },")
+    lines.append("}")
+    lines.append("map.mechanism_by_name = {}")
+    lines.append("map.mechanism_by_source_object_index = {}")
+    lines.append("map.mechanism_by_door_id = {}")
+    lines.append("for _, mechanism in ipairs(map.mechanisms) do")
+    lines.append("    if mechanism.source_name ~= nil and mechanism.source_name ~= \"\" then")
+    lines.append("        map.mechanism_by_name[mechanism.source_name] = mechanism")
+    lines.append("    end")
+    lines.append("    map.mechanism_by_source_object_index[mechanism.source_object_index] = mechanism")
+    lines.append("    map.mechanism_by_door_id[mechanism.mechanism_id] = mechanism")
+    lines.append("    if mechanism.classic_door_id ~= nil then")
+    lines.append("        map.mechanism_by_door_id[mechanism.classic_door_id] = mechanism")
+    lines.append("    end")
+    lines.append("end")
+    lines.append("")
+    lines.append("function map.resolveMechanism(nameOrId)")
+    lines.append("    if type(nameOrId) == \"number\" then")
+    lines.append("        return map.mechanism_by_door_id[nameOrId] or map.mechanism_by_source_object_index[nameOrId]")
+    lines.append("    end")
+    lines.append("    if type(nameOrId) == \"string\" then")
+    lines.append("        return map.mechanism_by_name[nameOrId]")
+    lines.append("    end")
+    lines.append("    return nil")
+    lines.append("end")
+    lines.append("")
+    lines.append("function map.playMechanismSound(mechanism, action)")
+    lines.append("    if mechanism == nil or mechanism.sounds == nil or evt == nil or evt.PlaySoundName == nil then")
+    lines.append("        return")
+    lines.append("    end")
+    lines.append("    local sound = nil")
+    lines.append("    if action == 1 then")
+    lines.append("        sound = mechanism.sounds.close_start or mechanism.sounds.close")
+    lines.append("    else")
+    lines.append("        sound = mechanism.sounds.open_start or mechanism.sounds.open")
+    lines.append("    end")
+    lines.append("    if sound == nil or sound.name == nil or sound.name == \"\" then")
+    lines.append("        return")
+    lines.append("    end")
+    lines.append("    evt.PlaySoundName(sound.name, sound.x or 0, sound.y or 0, sound.z or 0)")
+    lines.append("end")
+    lines.append("")
+    lines.append("function map.triggerMechanism(nameOrId, action)")
+    lines.append("    local mechanism = map.resolveMechanism(nameOrId)")
+    lines.append("    if mechanism == nil then")
+    lines.append("        return false")
+    lines.append("    end")
+    lines.append("    local resolved_action = action or 2")
+    lines.append("    map.playMechanismSound(mechanism, resolved_action)")
+    lines.append("    if mechanism.classic_door_id ~= nil and evt ~= nil and evt.SetDoorState ~= nil then")
+    lines.append("        evt.SetDoorState(mechanism.classic_door_id, resolved_action)")
+    lines.append("        return true")
+    lines.append("    end")
+    lines.append("    if evt ~= nil and evt.SetOutdoorModelMechanismState ~= nil then")
+    lines.append("        evt.SetOutdoorModelMechanismState(mechanism.mechanism_id, resolved_action)")
+    lines.append("        return true")
+    lines.append("    end")
+    lines.append("    return false")
+    lines.append("end")
+    lines.append("")
+
+
+def append_map_lua_classic_event_handlers(lines: list[str], event_data: dict[str, Any]) -> None:
+    mechanisms = [
+        mechanism
+        for mechanism in map_lua_mechanism_entries(event_data)
+        if mechanism["kind"] in MM9_INTERACTIVE_MECHANISM_KINDS
+        and 0 < int(mechanism["event_id"]) <= 0xffff
+    ]
+
+    lines.append("SetMapMetadata({")
+    lines.append("    onLoad = {},")
+    lines.append("    onLeave = {},")
+    lines.append("    contextActions = {")
+    for mechanism in mechanisms:
+        action_kind = "open_door" if mechanism["kind"] in {"linear_door", "rotating_door"} else "generic_event"
+        lines.append(
+            f"    [{mechanism['event_id']}] = {{ kind = {lua_string(action_kind)}, "
+            f"source = \"mm9_mechanism\", targetName = {lua_string(mechanism['hint'])} }},"
+        )
+    lines.append("    },")
+    lines.append("    textureNames = {},")
+    lines.append("    spriteNames = {},")
+    lines.append("    castSpellIds = {},")
+    lines.append("    timers = {},")
+    lines.append("})")
+    lines.append("")
+
+    for mechanism in mechanisms:
+        hint = mechanism["hint"]
+        lines.append(
+            f"RegisterEvent({mechanism['event_id']}, {lua_string(hint)}, function()"
+        )
+        lines.append(f"    map.triggerMechanism({mechanism['source_object_index']}, 2)")
+        lines.append(f"end, {lua_string(hint)})")
+        lines.append("")
+
+
+def map_lua_text(map_id: str, script_irs: dict[str, ScriptIr], event_data: dict[str, Any] | None = None) -> str:
     lines: list[str] = [
         "-- generated from MM9 event sidecars; do not edit by hand",
         "local map = {}",
@@ -353,6 +737,9 @@ def map_lua_text(map_id: str, script_irs: dict[str, ScriptIr]) -> str:
         "map.scripts = {}",
         "",
     ]
+    append_map_lua_start_points(lines, event_data or {})
+    append_map_lua_mechanisms(lines, event_data or {})
+    append_map_lua_classic_event_handlers(lines, event_data or {})
     for script_id, ir in sorted(script_irs.items()):
         lines.append(f"map.scripts[{lua_string(script_id)}] = {{")
         lines.append(f"    source = {lua_string(ir.source_path.name)},")
@@ -398,9 +785,14 @@ def map_lua_text(map_id: str, script_irs: dict[str, ScriptIr]) -> str:
     return "\n".join(lines)
 
 
-def write_map_lua(path: Path, map_id: str, script_irs: dict[str, ScriptIr]) -> None:
+def write_map_lua(
+    path: Path,
+    map_id: str,
+    script_irs: dict[str, ScriptIr],
+    event_data: dict[str, Any] | None = None,
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(map_lua_text(map_id, script_irs), encoding="utf-8")
+    path.write_text(map_lua_text(map_id, script_irs, event_data), encoding="utf-8")
 
 
 def map_script_ir_data(map_id: str, scripts_root: Path, script_irs: dict[str, ScriptIr]) -> dict[str, Any]:
@@ -523,6 +915,43 @@ def activation(values: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
+def mechanism_sounds(values: dict[str, Any]) -> list[dict[str, Any]]:
+    sounds: list[dict[str, Any]] = []
+    sound_position = values.get("SoundPos")
+    position = (
+        lt_position_to_openyamm(sound_position)
+        if isinstance(sound_position, list) and len(sound_position) >= 3
+        else None
+    )
+    for phase, property_name in (
+        ("open", "OpenSoundName"),
+        ("close", "CloseSoundName"),
+        ("open_start", "OpenStartSound"),
+        ("open_busy", "OpenBusySound"),
+        ("open_stop", "OpenStopSound"),
+        ("close_start", "CloseStartSound"),
+        ("close_busy", "CloseBusySound"),
+        ("close_stop", "CloseStopSound"),
+        ("jiggle", "JiggleSound"),
+    ):
+        if property_name not in values:
+            continue
+
+        source_sound_name = values.get(property_name, "")
+        sound_name = normalize_mm9_sound_name(source_sound_name)
+        entry = {
+            "phase": phase,
+            "source_property": property_name,
+            "source_sound_name": source_sound_name or "",
+            "sound_name": sound_name,
+            "authored": True,
+        }
+        if position is not None:
+            entry["position"] = position
+        sounds.append(entry)
+    return sounds
+
+
 def build_scene_model_instance_bindings(scene_path: Path) -> dict[int, list[dict[str, Any]]]:
     if not scene_path.exists():
         return {}
@@ -542,6 +971,54 @@ def build_scene_model_instance_bindings(scene_path: Path) -> dict[int, list[dict
             }
         )
     return bindings
+
+
+def load_scene_indoor_door_ids(scene_path: Path) -> set[int]:
+    if not scene_path.exists():
+        return set()
+
+    scene = load_yaml(scene_path)
+    initial_state = scene.get("initial_state", {})
+    if not isinstance(initial_state, dict):
+        return set()
+
+    door_ids: set[int] = set()
+    for door in initial_state.get("doors", []) or []:
+        if not isinstance(door, dict):
+            continue
+        door_id = door.get("door_id")
+        if isinstance(door_id, int):
+            door_ids.add(door_id)
+
+    return door_ids
+
+
+def load_scene_classic_event_face_ids(scene_path: Path) -> set[int]:
+    if not scene_path.exists():
+        return set()
+
+    scene = load_yaml(scene_path)
+    event_ids: set[int] = set()
+
+    bmodel_faces = scene.get("bmodel_faces", {})
+    if isinstance(bmodel_faces, dict):
+        for face in bmodel_faces.get("interactive_faces", []) or []:
+            if not isinstance(face, dict):
+                continue
+            event_id = face.get("cog_number")
+            if isinstance(event_id, int):
+                event_ids.add(event_id)
+
+    initial_state = scene.get("initial_state", {})
+    if isinstance(initial_state, dict):
+        for override in initial_state.get("face_attribute_overrides", []) or []:
+            if not isinstance(override, dict):
+                continue
+            event_id = override.get("cog_number")
+            if isinstance(event_id, int):
+                event_ids.add(event_id)
+
+    return event_ids
 
 
 def build_mm9_bmodel_bindings(metadata_path: Path) -> dict[str, list[dict[str, Any]]]:
@@ -870,7 +1347,10 @@ def build_events_for_map(
     raw = load_yaml(raw_objects_path)
     map_id = remove_suffix(raw_objects_path.name, ".raw_objects.yml")
     script_index = build_script_index(scripts_root)
-    scene_bindings = build_scene_model_instance_bindings(scene_path or raw_objects_path.with_name(f"{map_id}.scene.yml"))
+    resolved_scene_path = scene_path or raw_objects_path.with_name(f"{map_id}.scene.yml")
+    scene_bindings = build_scene_model_instance_bindings(resolved_scene_path)
+    scene_indoor_door_ids = load_scene_indoor_door_ids(resolved_scene_path)
+    scene_classic_event_face_ids = load_scene_classic_event_face_ids(resolved_scene_path)
     resolved_dat_world_path = dat_world_path or raw_objects_path.with_name(f"{map_id}.dat_world.yml")
     world_model_polygon_groups = load_world_model_polygon_groups(resolved_dat_world_path)
     bmodel_bindings = build_mm9_bmodel_bindings(metadata_path or raw_objects_path.with_name(f"{map_id}.mm9.yml"))
@@ -884,8 +1364,10 @@ def build_events_for_map(
     object_names: set[str] = set()
     object_entries: list[dict[str, Any]] = []
     mechanisms: list[dict[str, Any]] = []
+    start_points: list[dict[str, Any]] = []
     triggers: list[dict[str, Any]] = []
     interactions: list[dict[str, Any]] = []
+    travel_triggers: list[dict[str, Any]] = []
     bindings: list[dict[str, Any]] = []
     unresolved: list[dict[str, Any]] = []
     referenced_scripts: dict[str, ScriptIr] = {}
@@ -926,7 +1408,9 @@ def build_events_for_map(
             classifications.append("mechanism")
         if object_class == "Trigger":
             classifications.append("trigger")
-        if object_class in SCRIPTED_INTERACTION_CLASSES or script_name:
+        if object_class in TRAVEL_TRIGGER_CLASSES:
+            classifications.append("travel")
+        if object_class in SCRIPTED_INTERACTION_CLASSES or object_class in TRAVEL_TRIGGER_CLASSES or script_name:
             classifications.append("interaction")
 
         raw_properties = property_refs(object_node)
@@ -965,6 +1449,11 @@ def build_events_for_map(
             )
         if object_bindings:
             bindings.append({"object_id": object_id, "source_object_index": object_index, "targets": object_bindings})
+
+        if object_class == "StartPoint":
+            start_point = start_point_entry(object_index, object_name, values, len(start_points))
+            if start_point is not None:
+                start_points.append(start_point)
         elif object_class in MECHANISM_CLASS_KINDS:
             shared_rotation_binding = shared_rotation_point_world_model_binding(
                 object_class,
@@ -1027,18 +1516,43 @@ def build_events_for_map(
                 output["resolution"] = "pending"
 
         if object_class in MECHANISM_CLASS_KINDS:
-            mechanisms.append(
-                {
-                    "mechanism_id": f"{object_id}:mechanism",
-                    "object_id": object_id,
-                    "source_object_index": object_index,
-                    "source_class": object_class,
-                    "source_name": object_name,
-                    "mechanism": mechanism_motion(values, MECHANISM_CLASS_KINDS[object_class]),
-                    "activation": activation(values),
-                    "trigger_outputs": outputs,
+            runtime_mechanism_id = classic_mechanism_runtime_id(object_index)
+            runtime_event_id = mechanism_event_id(object_index)
+            classic_runtime: dict[str, Any] | None = None
+            if runtime_mechanism_id in scene_indoor_door_ids:
+                classic_runtime = {
+                    "target_kind": "indoor_door",
+                    "door_id": runtime_mechanism_id,
+                    "binding_source": "compiled_blv_scene_door",
                 }
-            )
+
+            mechanism_entry = {
+                "mechanism_id": f"{object_id}:mechanism",
+                "runtime_mechanism_id": runtime_mechanism_id,
+                "runtime_event_id": runtime_event_id,
+                "object_id": object_id,
+                "source_object_index": object_index,
+                "source_class": object_class,
+                "source_name": object_name,
+                "mechanism": mechanism_motion(values, MECHANISM_CLASS_KINDS[object_class]),
+                "activation": activation(values),
+                "sounds": mechanism_sounds(values),
+                "trigger_outputs": outputs,
+                **({"classic_runtime": classic_runtime} if classic_runtime is not None else {}),
+            }
+            if (
+                MECHANISM_CLASS_KINDS[object_class] in MM9_INTERACTIVE_MECHANISM_KINDS
+                and runtime_event_id in scene_classic_event_face_ids
+                and runtime_event_id <= 0xffff
+            ):
+                mechanism_entry["classic_event_face"] = {
+                    "event_id": runtime_event_id,
+                    "cog_number": runtime_event_id,
+                    "cog_triggered": runtime_event_id,
+                    "cog_trigger_type": 0,
+                    "hint": object_name or object_class,
+                }
+            mechanisms.append(mechanism_entry)
 
         if object_class == "Trigger":
             triggers.append(
@@ -1053,7 +1567,27 @@ def build_events_for_map(
                 }
             )
 
-        if object_class in SCRIPTED_INTERACTION_CLASSES or script_name or outputs:
+        if object_class in TRAVEL_TRIGGER_CLASSES:
+            travel = {
+                "travel_id": f"{object_id}:travel",
+                "object_id": object_id,
+                "source_object_index": object_index,
+                "source_name": object_name,
+                "destination_world": str(values.get("DestinationWorld", "") or ""),
+                "start_point_name": str(values.get("StartPointName", "") or ""),
+                "ask_player": bool_property(values.get("AskPlayer"), False),
+                "travel_days": int_property(values.get("TravelDays"), 0),
+                "load_screen": str(values.get("LoadScreen", "") or ""),
+            }
+            travel_triggers.append(travel)
+
+        if object_class in SCRIPTED_INTERACTION_CLASSES or object_class in TRAVEL_TRIGGER_CLASSES or script_name or outputs:
+            travel_target = None
+            if object_class in TRAVEL_TRIGGER_CLASSES:
+                travel_target = {
+                    "destination_world": str(values.get("DestinationWorld", "") or ""),
+                    "start_point_name": str(values.get("StartPointName", "") or ""),
+                }
             interactions.append(
                 {
                     "interaction_id": f"{object_id}:interaction",
@@ -1066,6 +1600,7 @@ def build_events_for_map(
                         "touch": bool(object_class == "Trigger" or values.get("TriggerTouch") or values.get("TouchToOpen")),
                     },
                     "script_id": script_id,
+                    "travel": travel_target,
                     "sends": outputs,
                 }
             )
@@ -1107,8 +1642,10 @@ def build_events_for_map(
             "script_ir": Path("..") / "events" / f"{map_id}.script_ir.yml",
         },
         "objects": object_entries,
+        "start_points": start_points,
         "mechanisms": mechanisms,
         "triggers": triggers,
+        "travel_triggers": travel_triggers,
         "interactions": interactions,
         "bindings": bindings,
         "scripts": [
@@ -1121,7 +1658,9 @@ def build_events_for_map(
             "event_object_count": len(object_entries),
             "class_counts": dict(sorted(class_counts.items())),
             "mechanism_count": len(mechanisms),
+            "start_point_count": len(start_points),
             "trigger_count": len(triggers),
+            "travel_trigger_count": len(travel_triggers),
             "interaction_count": len(interactions),
             "script_count": len(referenced_scripts),
             "unresolved_count": len(unresolved),
@@ -1173,6 +1712,141 @@ def check_generated_text(path: Path, expected_text: str) -> str | None:
     return None
 
 
+def build_source_sound_index(source_sounds_root: Path) -> dict[str, Path]:
+    index: dict[str, Path] = {}
+    if not source_sounds_root.is_dir():
+        return index
+
+    for path in source_sounds_root.rglob("*.wav"):
+        if not path.is_file():
+            continue
+
+        relative = path.relative_to(source_sounds_root).as_posix()
+        key = normalize_mm9_sound_name(relative).lower()
+        index.setdefault(key, path)
+        if key.endswith(".wav"):
+            index.setdefault(key[:-4], path)
+        index.setdefault(path.name.lower(), path)
+        index.setdefault(path.stem.lower(), path)
+
+    return index
+
+
+def referenced_sound_names(event_data: dict[str, Any]) -> set[str]:
+    names: set[str] = set()
+    for mechanism in event_data.get("mechanisms", []) or []:
+        if not isinstance(mechanism, dict):
+            continue
+        for sound in mechanism.get("sounds", []) or []:
+            if not isinstance(sound, dict):
+                continue
+            sound_name = normalize_mm9_sound_name(sound.get("sound_name", ""))
+            if sound_name:
+                names.add(sound_name)
+    return names
+
+
+def find_source_sound_path(source_sound_index: dict[str, Path], sound_name: str) -> Path | None:
+    key = normalize_mm9_sound_name(sound_name).lower()
+    if not key:
+        return None
+
+    candidates = [key]
+    if key.endswith(".wav"):
+        candidates.append(key[:-4])
+    path_name = Path(key).name
+    if path_name != key:
+        candidates.append(path_name)
+        if path_name.endswith(".wav"):
+            candidates.append(path_name[:-4])
+    alias = MM9_SOUND_SOURCE_ALIASES.get(key)
+    if alias is not None:
+        candidates.append(alias)
+        if alias.endswith(".wav"):
+            candidates.append(alias[:-4])
+
+    for candidate in candidates:
+        source_path = source_sound_index.get(candidate)
+        if source_path is not None:
+            return source_path
+    return None
+
+
+def synthetic_note_frequency(note_name: str, sharp: str, octave_text: str) -> float:
+    semitones = {
+        "c": -9,
+        "d": -7,
+        "e": -5,
+        "f": -4,
+        "g": -2,
+        "a": 0,
+        "b": 2,
+    }
+    octave = int(octave_text) - 1
+    half_steps = semitones[note_name] + (1 if sharp else 0) + octave * 12
+    return 440.0 * (2.0 ** (half_steps / 12.0))
+
+
+def synthetic_mm9_sound_bytes(sound_name: str) -> bytes | None:
+    key = normalize_mm9_sound_name(sound_name).lower()
+    match = MM9_SYNTHETIC_NOTE_PATTERN.match(key)
+    if match is None:
+        return None
+
+    frequency = synthetic_note_frequency(match.group(1), match.group(2), match.group(3))
+    sample_rate = 22050
+    duration_seconds = 0.45
+    sample_count = int(sample_rate * duration_seconds)
+    fade_samples = max(1, int(sample_rate * 0.025))
+    amplitude = 11000
+
+    payload = bytearray()
+    for index in range(sample_count):
+        envelope = 1.0
+        if index < fade_samples:
+            envelope = index / fade_samples
+        elif index >= sample_count - fade_samples:
+            envelope = (sample_count - index - 1) / fade_samples
+        sample = int(round(math.sin((2.0 * math.pi * frequency * index) / sample_rate) * amplitude * envelope))
+        payload.extend(sample.to_bytes(2, byteorder="little", signed=True))
+
+    output = io.BytesIO()
+    with wave.open(output, "wb") as wav:
+        wav.setnchannels(1)
+        wav.setsampwidth(2)
+        wav.setframerate(sample_rate)
+        wav.writeframes(bytes(payload))
+    return output.getvalue()
+
+
+def copy_referenced_sounds(
+    event_data: dict[str, Any],
+    source_sound_index: dict[str, Path],
+    audio_root: Path,
+) -> tuple[int, int]:
+    copied = 0
+    missing = 0
+
+    for sound_name in sorted(referenced_sound_names(event_data)):
+        key = sound_name.lower()
+        source_path = find_source_sound_path(source_sound_index, sound_name)
+        if source_path is None:
+            source_bytes = synthetic_mm9_sound_bytes(sound_name)
+            if source_bytes is None:
+                missing += 1
+                continue
+        else:
+            source_bytes = source_path.read_bytes()
+
+        destination = audio_root / key
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        if not destination.exists() or source_bytes != destination.read_bytes():
+            destination.write_bytes(source_bytes)
+            copied += 1
+
+    return copied, missing
+
+
 def run_generation(args: argparse.Namespace) -> int:
     raw_paths = selected_raw_object_paths(args.maps_root, args.only_map)
     if not raw_paths:
@@ -1182,6 +1856,9 @@ def run_generation(args: argparse.Namespace) -> int:
     all_errors: list[str] = []
     generated = 0
     checked = 0
+    sounds_copied = 0
+    sounds_missing = 0
+    source_sound_index = build_source_sound_index(args.source_sounds_root) if args.audio_root is not None else {}
     for raw_path in raw_paths:
         event_data, script_irs = build_events_for_map(raw_path, args.scripts_root, args.events_root)
         errors = validate_event_data(raw_path, event_data)
@@ -1195,7 +1872,7 @@ def run_generation(args: argparse.Namespace) -> int:
         if args.check_idempotent:
             expected_files = [
                 (events_path, yaml_text(event_data)),
-                (lua_path, map_lua_text(map_id, script_irs)),
+                (lua_path, map_lua_text(map_id, script_irs, event_data)),
                 (script_ir_path, yaml_text(map_script_ir_data(map_id, args.scripts_root, script_irs))),
             ]
             for path, expected_text in expected_files:
@@ -1206,7 +1883,7 @@ def run_generation(args: argparse.Namespace) -> int:
         elif not args.validate_only:
             events_path = args.maps_root / f"{map_id}.events.yml"
             write_yaml(events_path, event_data)
-            write_map_lua(lua_path, map_id, script_irs)
+            write_map_lua(lua_path, map_id, script_irs, event_data)
             write_map_script_ir(
                 script_ir_path,
                 map_id,
@@ -1216,6 +1893,10 @@ def run_generation(args: argparse.Namespace) -> int:
             print(f"wrote {events_path}")
             print(f"wrote {lua_path}")
             print(f"wrote {script_ir_path}")
+            if args.audio_root is not None:
+                copied, missing = copy_referenced_sounds(event_data, source_sound_index, args.audio_root)
+                sounds_copied += copied
+                sounds_missing += missing
             generated += 1
 
     if all_errors:
@@ -1223,7 +1904,10 @@ def run_generation(args: argparse.Namespace) -> int:
             print(error, file=sys.stderr)
         return 1
 
-    print(f"mm9 events generated={generated} checked={checked} validated={len(raw_paths)}")
+    sound_summary = ""
+    if args.audio_root is not None:
+        sound_summary = f" sounds_copied={sounds_copied} sounds_missing={sounds_missing}"
+    print(f"mm9 events generated={generated} checked={checked} validated={len(raw_paths)}{sound_summary}")
     return 0
 
 
@@ -1232,6 +1916,8 @@ def main() -> int:
     parser.add_argument("--maps-root", type=Path, default=Path("assets_dev/worlds/mm9/maps"))
     parser.add_argument("--scripts-root", type=Path, default=Path("mm9/extracted/SCRIPTS/SCRIPTS"))
     parser.add_argument("--events-root", type=Path, default=Path("assets_dev/worlds/mm9/events"))
+    parser.add_argument("--source-sounds-root", type=Path, default=Path("mm9/extracted/SOUNDS/SOUNDS"))
+    parser.add_argument("--audio-root", type=Path)
     parser.add_argument("--only-map", action="append", default=[])
     parser.add_argument("--validate-only", action="store_true")
     parser.add_argument(

@@ -17,16 +17,14 @@ script.labels["Onuse"] = function(ctx)
         if not ctx:hasKey(354) then -- GUNGNIR.scr:16-17
             ctx:giveItem(189) -- GUNGNIR.scr:18
             ctx:giveKey(354) -- GUNGNIR.scr:19
-            ctx:command("getmyhandle", "g_hmyobject") -- GUNGNIR.scr:20
-            ctx:command("removeobject", "g_hmyobject") -- GUNGNIR.scr:21
+            ctx:self():remove() -- GUNGNIR.scr:21
             do return ctx:exit("") end -- GUNGNIR.scr:22
         end -- GUNGNIR.scr:23
     else -- GUNGNIR.scr:24
         if not ctx:hasKey(355) then -- GUNGNIR.scr:25-26
             ctx:giveItem(189) -- GUNGNIR.scr:27
             ctx:giveKey(355) -- GUNGNIR.scr:28
-            ctx:command("getmyhandle", "g_hmyobject") -- GUNGNIR.scr:29
-            ctx:command("removeobject", "g_hmyobject") -- GUNGNIR.scr:30
+            ctx:self():remove() -- GUNGNIR.scr:30
             do return ctx:exit("") end -- GUNGNIR.scr:31
         end -- GUNGNIR.scr:32
     end -- GUNGNIR.scr:33
@@ -36,13 +34,11 @@ end
 script.labels["DeleteCheck"] = function(ctx)
     -- GUNGNIR.scr:38
     if ctx:hasKey(354) then -- GUNGNIR.scr:41-42
-        ctx:command("getmyhandle", "g_hmyobject") -- GUNGNIR.scr:43
-        ctx:command("removeobject", "g_hmyobject") -- GUNGNIR.scr:44
+        ctx:self():remove() -- GUNGNIR.scr:44
         do return ctx:exit("") end -- GUNGNIR.scr:45
     end -- GUNGNIR.scr:46
     if ctx:hasKey(355) then -- GUNGNIR.scr:48-49
-        ctx:command("getmyhandle", "g_hmyobject") -- GUNGNIR.scr:50
-        ctx:command("removeobject", "g_hmyobject") -- GUNGNIR.scr:51
+        ctx:self():remove() -- GUNGNIR.scr:51
         do return ctx:exit("") end -- GUNGNIR.scr:52
     end -- GUNGNIR.scr:53
     do return ctx:exit("") end -- GUNGNIR.scr:54

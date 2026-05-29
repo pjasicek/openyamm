@@ -17,8 +17,8 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(1, "sFloorName") -- CHESSPAWN.scr:13
     ctx:getParam(2, "BOARDSIZE") -- CHESSPAWN.scr:14
     ctx:getParam(3, "nLocation") -- CHESSPAWN.scr:15
-    ctx:command("bshouldqueen", "= TRUE") -- CHESSPAWN.scr:17
-    ctx:command("onpoststartworld", "InitChessBase") -- CHESSPAWN.scr:19
+    ctx:state().bShouldQueen = true -- CHESSPAWN.scr:17
+    ctx:onEvent("OnPostStartWorld", "InitChessBase") -- CHESSPAWN.scr:19
     do return ctx:exit("TRUE") end -- CHESSPAWN.scr:21
 end
 
@@ -35,7 +35,7 @@ script.labels["CheckPath"] = function(ctx)
         do return ctx:exit("TRUE") end -- CHESSPAWN.scr:35
     end -- CHESSPAWN.scr:36
     ctx:getParam(0, "hTrigger") -- CHESSPAWN.scr:38
-    ctx:command("listindex", "= zMe + 1 * BOARDSIZE + xMe - 1") -- CHESSPAWN.scr:40
+    ctx:set("LISTINDEX", "zMe + 1 * BOARDSIZE + xMe - 1") -- CHESSPAWN.scr:40
     if ctx:condition("xMe!=0") then -- CHESSPAWN.scr:41
         mm9.gosub(script, ctx, "GetCurrentObject") -- CHESSPAWN.scr:42
         if ctx:condition("LISTOBJECT==hTrigger") then -- CHESSPAWN.scr:43
@@ -43,7 +43,7 @@ script.labels["CheckPath"] = function(ctx)
             do return ctx:exit("TRUE") end -- CHESSPAWN.scr:45
         end -- CHESSPAWN.scr:46
     end -- CHESSPAWN.scr:47
-    ctx:command("listindex", "= LISTINDEX + 2") -- CHESSPAWN.scr:49
+    ctx:set("LISTINDEX", "LISTINDEX + 2") -- CHESSPAWN.scr:49
     if ctx:condition("xMe!=SIZEINDEX") then -- CHESSPAWN.scr:50
         mm9.gosub(script, ctx, "GetCurrentObject") -- CHESSPAWN.scr:51
         if ctx:condition("LISTOBJECT==hTrigger") then -- CHESSPAWN.scr:52

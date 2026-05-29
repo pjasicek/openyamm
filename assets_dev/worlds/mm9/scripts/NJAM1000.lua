@@ -16,10 +16,10 @@ script.includes[#script.includes + 1] = { line = 12, path = "range.inc" }
 script.labels["Main"] = function(ctx)
     -- NJAM1000.scr:19
     -- TraceOn ;delete me!!
-    ctx:command("getplayerhandle", "g_hplayer") -- NJAM1000.scr:24
-    ctx:command("target", "g_hplayer") -- NJAM1000.scr:25
-    ctx:command("addenemy", "Player") -- NJAM1000.scr:27
-    ctx:command("onpostminisaveload", "Vanish2c") -- NJAM1000.scr:29
+    ctx:state().g_hplayer = ctx:player() -- NJAM1000.scr:24
+    ctx:self():setTarget(ctx:player()) -- NJAM1000.scr:25
+    ctx:self():addEnemy("Player") -- NJAM1000.scr:27
+    ctx:onEvent("OnPostMiniSaveLoad", "Vanish2c") -- NJAM1000.scr:29
     mm9.gosub(script, ctx, "baseinit") -- NJAM1000.scr:31
     mm9.gosub(script, ctx, "RangeInit") -- NJAM1000.scr:32
     mm9.gosub(script, ctx, "Init") -- NJAM1000.scr:33

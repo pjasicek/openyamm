@@ -336,6 +336,14 @@ public:
         int32_t objectIndex,
         std::optional<std::string> &errorMessage,
         size_t &dispatchedCount);
+    bool dispatchRegisteredCallbacks(
+        const std::string &kind,
+        const std::string &selector,
+        const std::string &mapId,
+        int32_t objectIndex,
+        const std::vector<std::string> &scriptParams,
+        std::optional<std::string> &errorMessage,
+        size_t &dispatchedCount);
     bool dispatchMovementResult(
         size_t movementRequestIndex,
         const std::string &resultKind,
@@ -371,11 +379,34 @@ public:
     void setScriptStrVar(const std::string &name, const std::string &value);
     std::string getScriptStrVar(const std::string &name, const std::string &defaultValue = {}) const;
     void setObjectHandleVar(const std::string &name, const std::string &handle);
+    void clearObjectHandleVar(const std::string &name);
     std::string getObjectHandleVar(const std::string &name, const std::string &defaultValue = {}) const;
     std::string getSoundHandleVar(const std::string &name, const std::string &defaultValue = {}) const;
     std::string objectHandleForName(const std::string &name) const;
+    std::string objectNameForHandle(const std::string &handle) const;
+    std::string objectClassNameForHandle(const std::string &handle) const;
+    void setObjectTargetHandle(const std::string &objectHandle, const std::string &targetHandle);
+    std::string objectTargetHandle(const std::string &objectHandle) const;
+    void createObjectLink(const std::string &objectHandle, const std::string &linkedHandle);
+    void breakObjectLink(const std::string &objectHandle, const std::string &linkedHandle);
+    std::vector<std::string> objectLinkedHandles(const std::string &objectHandle) const;
     void setObjectNumberProperty(const std::string &propertyName, int32_t value, size_t line);
     int32_t getObjectNumberProperty(const std::string &propertyKey, int32_t defaultValue = 0) const;
+    void setObjectNumberPropertyForHandle(
+        const std::string &objectHandle,
+        const std::string &propertyName,
+        int32_t value);
+    int32_t getObjectNumberPropertyForHandle(
+        const std::string &objectHandle,
+        const std::string &propertyName,
+        int32_t defaultValue = 0) const;
+    void setObjectStringPropertyForHandle(
+        const std::string &objectHandle,
+        const std::string &propertyName,
+        const std::string &value);
+    std::string getObjectStringPropertyForHandle(
+        const std::string &objectHandle,
+        const std::string &propertyName) const;
     std::string resolveScriptString(const std::string &token) const;
     bool executeCommand(
         const std::string &command,
@@ -406,6 +437,76 @@ public:
     void registerTrigger(const std::string &triggerName, const std::string &label, size_t line);
     void removeTrigger(const std::string &triggerName);
     void dispatchTrigger(const std::string &targetHandle, const std::string &message, size_t line);
+    void dispatchTriggerFromObject(
+        const Mm9DialogueOwnerContext &owner,
+        const std::string &scriptSource,
+        const std::string &targetHandle,
+        const std::string &message,
+        size_t line);
+    bool runLabelForObject(
+        const std::string &scriptSource,
+        const std::string &label,
+        const std::string &mapId,
+        int32_t objectIndex,
+        std::optional<std::string> &errorMessage);
+    bool runLabelForObject(
+        const std::string &scriptSource,
+        const std::string &label,
+        const std::string &mapId,
+        int32_t objectIndex,
+        const std::vector<std::string> &scriptParams,
+        std::optional<std::string> &errorMessage);
+    bool requestAnimation(
+        const std::string &objectHandle,
+        const std::string &operation,
+        const std::vector<std::string> &arguments,
+        size_t line);
+    bool requestMovement(
+        const std::string &objectHandle,
+        const std::string &operation,
+        const std::vector<std::string> &arguments,
+        size_t line);
+    bool requestActorAction(
+        const std::string &objectHandle,
+        const std::string &operation,
+        const std::vector<std::string> &arguments,
+        size_t line);
+    bool damageObject(
+        const std::string &targetHandle,
+        const std::vector<std::string> &arguments,
+        size_t line);
+    bool killObject(const std::string &objectHandle);
+    bool requestAi(
+        const std::string &objectHandle,
+        const std::string &operation,
+        const std::vector<std::string> &arguments,
+        size_t line);
+    std::string spawnObject(
+        const std::string &handleVar,
+        const std::vector<std::string> &arguments,
+        bool extended,
+        size_t line);
+    void setObjectModelFilenames(
+        const std::string &objectHandle,
+        const std::vector<std::string> &filenames);
+    bool requestAttachment(
+        const std::string &objectHandle,
+        const std::string &operation,
+        const std::vector<std::string> &arguments,
+        size_t line);
+    bool setObjectIdle(const std::string &objectHandle);
+    bool setObjectStuck(const std::string &objectHandle);
+    void addObjectRelation(
+        const std::string &objectHandle,
+        const std::string &operation,
+        const std::string &classOrName);
+    void removeObjectRelation(
+        const std::string &objectHandle,
+        const std::string &operation,
+        const std::string &classOrName);
+    bool objectIsFriend(const std::string &objectHandle, const std::string &targetHandle) const;
+    double objectDistanceTo(const std::string &sourceHandle, const std::string &targetHandle) const;
+    bool objectAiQuery(const std::string &objectHandle, const std::string &operation) const;
     Mm9DialogueRuntime &dialogueRuntime();
     const std::string &activeScriptSource() const;
 
@@ -416,11 +517,20 @@ private:
     const Mm9GeneratedObjectDialogueBinding *objectBindingForObject(
         const std::string &mapId,
         int32_t objectIndex) const;
+    bool dispatchRegisteredCallbacks(
+        const std::string &kind,
+        const std::string &selector,
+        const std::string &mapId,
+        int32_t objectIndex,
+        const std::optional<std::vector<std::string>> &scriptParams,
+        std::optional<std::string> &errorMessage,
+        size_t &dispatchedCount);
     bool runLabelForObject(
         const std::string &scriptSource,
         const std::string &label,
         const std::string &mapId,
         int32_t objectIndex,
+        const std::optional<std::vector<std::string>> &scriptParams,
         std::optional<std::string> &errorMessage);
     void removeRuntimeObject(const std::string &handle);
     std::string resolveSoundHandle(const std::string &token) const;

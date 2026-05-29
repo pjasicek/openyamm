@@ -18,22 +18,21 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "LISTNAME") -- PIGRACERAI.scr:19
     ctx:getParam(1, "LISTFIRST") -- PIGRACERAI.scr:20
     ctx:getParam(2, "LISTLAST") -- PIGRACERAI.scr:21
-    ctx:command("wait", "0, 3, InitPigRacerAI") -- PIGRACERAI.scr:23
+    ctx:wait(0, 3, "InitPigRacerAI") -- PIGRACERAI.scr:23
     do return ctx:exit("TRUE") end -- PIGRACERAI.scr:25
 end
 
 script.labels["InitPigRacerAI"] = function(ctx)
     -- PIGRACERAI.scr:28
-    ctx:command("getmyhandle", "hMe") -- PIGRACERAI.scr:30
-    ctx:command("getrandomint", "5, 8, nRandom") -- PIGRACERAI.scr:32
-    ctx:command("getstat", "hMe, RunVel, nTemp") -- PIGRACERAI.scr:33
-    ctx:command("ntemp", "= nTemp * nRandom") -- PIGRACERAI.scr:34
-    ctx:command("setstat", "hMe, RunVel, nTemp") -- PIGRACERAI.scr:35
+    ctx:randomInt(5, 8, "nRandom") -- PIGRACERAI.scr:32
+    ctx:state().nTemp = ctx:self():getStat("RunVel") -- PIGRACERAI.scr:33
+    ctx:set("nTemp", "nTemp * nRandom") -- PIGRACERAI.scr:34
+    ctx:self():setStat("RunVel", "nTemp") -- PIGRACERAI.scr:35
     mm9.gosub(script, ctx, "SetTraverseRun") -- PIGRACERAI.scr:37
     mm9.gosub(script, ctx, "SetTraverseOnce") -- PIGRACERAI.scr:38
-    ctx:command("traverseradius", "= 64") -- PIGRACERAI.scr:39
+    ctx:state().TRAVERSERADIUS = 64 -- PIGRACERAI.scr:39
     ctx:addTrigger("Start", "TraverseBegin") -- PIGRACERAI.scr:41
-    ctx:command("setidle", "") -- PIGRACERAI.scr:43
+    ctx:self():setIdle() -- PIGRACERAI.scr:43
     do return ctx:exit("TRUE") end -- PIGRACERAI.scr:45
 end
 

@@ -17,8 +17,7 @@ script.includes[#script.includes + 1] = { line = 8, path = "bankorb.inc" }
 -- P2  # of times animation runs
 script.labels["OnRude"] = function(ctx)
     -- NPC206.scr:19
-    ctx:command("getobjecthandle", "bankdoor g_hobject") -- NPC206.scr:24
-    ctx:trigger("g_hobject", "toggle") -- NPC206.scr:25
+    ctx:object("bankdoor"):trigger("toggle") -- NPC206.scr:24-25
     mm9.gosub(script, ctx, "OnRude") -- NPC206.scr:26
     do return ctx:exit("") end -- NPC206.scr:27
 end
@@ -31,7 +30,7 @@ script.labels["OnBank"] = function(ctx)
         end -- NPC206.scr:44
     end -- NPC206.scr:45
     ctx:doRude(206) -- NPC206.scr:48
-    ctx:command("playsound", "voices\\NPC\\NPC_206.wav, Onexit, 100, 240, FALSE, 100") -- NPC206.scr:49
+    ctx:playSound("voices\\NPC\\NPC_206.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC206.scr:49
     do return ctx:exit("") end -- NPC206.scr:52
 end
 
@@ -46,12 +45,12 @@ script.labels["Main"] = function(ctx)
     -- Don't Forget to Delete this!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC206.scr:68
     ctx:addTrigger("bank", "OnBank") -- NPC206.scr:69
-    ctx:command("set", "sLocation, Frosgard") -- NPC206.scr:70
-    ctx:command("onpoststartworld", "Init") -- NPC206.scr:71
-    ctx:command("onpostminisaveload", "Init") -- NPC206.scr:72
-    ctx:command("onpostsaveload", "Init") -- NPC206.scr:73
-    ctx:command("onpostsaveload", "Init") -- NPC206.scr:74
-    ctx:command("wait", "1 .1 Init") -- NPC206.scr:75
+    ctx:set("sLocation", "Frosgard") -- NPC206.scr:70
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC206.scr:71
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC206.scr:72
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC206.scr:73
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC206.scr:74
+    ctx:wait(1, .1, "Init") -- NPC206.scr:75
     do return ctx:exit("") end -- NPC206.scr:76
 end
 

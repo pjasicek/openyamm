@@ -38,30 +38,30 @@ end
 script.labels["OnCheck"] = function(ctx)
     -- UNITED.inc:58
     if not ctx:hasKey(178) then -- UNITED.inc:61-62
-        ctx:command("g_ncounter", "= 0") -- UNITED.inc:64
+        ctx:state().g_ncounter = 0 -- UNITED.inc:64
         if ctx:hasKey("Key_1") then -- UNITED.inc:66-67
-            ctx:command("g_ncounter", "= g_ncounter + 1") -- UNITED.inc:68
+            ctx:set("g_ncounter", "g_ncounter + 1") -- UNITED.inc:68
             -- ArrayPut ClanArray, 0, 1
         end -- UNITED.inc:70
         if ctx:hasKey("Key_2") then -- UNITED.inc:72-73
-            ctx:command("g_ncounter", "= g_ncounter + 1") -- UNITED.inc:74
+            ctx:set("g_ncounter", "g_ncounter + 1") -- UNITED.inc:74
             -- ArrayPut ClanArray, 1, 1
         end -- UNITED.inc:76
         if ctx:hasKey("key_3") then -- UNITED.inc:78-79
-            ctx:command("g_ncounter", "= g_ncounter + 1") -- UNITED.inc:80
+            ctx:set("g_ncounter", "g_ncounter + 1") -- UNITED.inc:80
             -- ArrayPut ClanArray, 2, 1
         end -- UNITED.inc:82
         if ctx:hasKey("Key_4") then -- UNITED.inc:84-85
-            ctx:command("g_ncounter", "= g_ncounter + 1") -- UNITED.inc:86
+            ctx:set("g_ncounter", "g_ncounter + 1") -- UNITED.inc:86
             -- ArrayPut ClanArray, 3, 1
         end -- UNITED.inc:88
         if ctx:hasKey("key_5") then -- UNITED.inc:90-91
-            ctx:command("g_ncounter", "= g_ncounter + 1") -- UNITED.inc:92
+            ctx:set("g_ncounter", "g_ncounter + 1") -- UNITED.inc:92
             -- ArrayPut ClanArray, 4, 1
         end -- UNITED.inc:94
         if ctx:condition("g_ncounter == 5") then -- UNITED.inc:97
             ctx:giveKey(178) -- UNITED.inc:98
-            ctx:command("set", "BeenDone, true") -- UNITED.inc:99
+            ctx:state().BeenDone = true -- UNITED.inc:99
             do return ctx:exit("") end -- UNITED.inc:100
         end -- UNITED.inc:101
         -- gosub checkallclans
@@ -74,83 +74,83 @@ script.labels["CheckAllClans"] = function(ctx)
     if ctx:condition("BeenDone==true") then -- UNITED.inc:112
         do return ctx:exit("") end -- UNITED.inc:113
     end -- UNITED.inc:114
-    ctx:command("set", "counter, 0") -- UNITED.inc:116
+    ctx:state().counter = 0 -- UNITED.inc:116
 end
 
 script.labels["CheckAllClansloop"] = function(ctx)
     -- UNITED.inc:120
-    ctx:command("arrayget", "ClanArray, counter, ClanOn") -- UNITED.inc:126
+    ctx:arrayGet("ClanArray", "counter", "ClanOn") -- UNITED.inc:126
     if ctx:condition("ClanOn==false") then -- UNITED.inc:127
         do return ctx:exit("") end -- UNITED.inc:128
     end -- UNITED.inc:129
-    ctx:command("add", "Counter, 1") -- UNITED.inc:131
+    ctx:state().Counter = (tonumber(ctx:state().Counter) or 0) + 1 -- UNITED.inc:131
     if ctx:condition("counter<5") then -- UNITED.inc:133
         do return mm9.gotoLabel(script, ctx, "CheckAllClansloop") end -- UNITED.inc:134
     end -- UNITED.inc:135
     -- ...........success.............
     ctx:giveKey(178) -- UNITED.inc:140
-    ctx:command("set", "BeenDone, true") -- UNITED.inc:142
-    ctx:command("wait", "1 0.2, DoNothing") -- UNITED.inc:143
+    ctx:state().BeenDone = true -- UNITED.inc:142
+    ctx:wait(1, 0.2, "DoNothing") -- UNITED.inc:143
     do return ctx:exit("") end -- UNITED.inc:144
 end
 
 script.labels["SvenInit"] = function(ctx)
     -- UNITED.inc:147
-    ctx:command("set", "Key_1, 82") -- UNITED.inc:150
-    ctx:command("set", "Key_2, 38") -- UNITED.inc:151
-    ctx:command("set", "Key_3, 51") -- UNITED.inc:152
-    ctx:command("set", "Key_4, 63") -- UNITED.inc:153
-    ctx:command("set", "Key_5, 74") -- UNITED.inc:154
+    ctx:state().Key_1 = 82 -- UNITED.inc:150
+    ctx:state().Key_2 = 38 -- UNITED.inc:151
+    ctx:state().Key_3 = 51 -- UNITED.inc:152
+    ctx:state().Key_4 = 63 -- UNITED.inc:153
+    ctx:state().Key_5 = 74 -- UNITED.inc:154
     do return ctx:exit("") end -- UNITED.inc:155
 end
 
 script.labels["KiraInit"] = function(ctx)
     -- UNITED.inc:158
-    ctx:command("set", "Key_1, 34") -- UNITED.inc:161
-    ctx:command("set", "Key_2, 38") -- UNITED.inc:162
-    ctx:command("set", "Key_3, 51") -- UNITED.inc:163
-    ctx:command("set", "Key_4, 63") -- UNITED.inc:164
-    ctx:command("set", "Key_5, 74") -- UNITED.inc:165
+    ctx:state().Key_1 = 34 -- UNITED.inc:161
+    ctx:state().Key_2 = 38 -- UNITED.inc:162
+    ctx:state().Key_3 = 51 -- UNITED.inc:163
+    ctx:state().Key_4 = 63 -- UNITED.inc:164
+    ctx:state().Key_5 = 74 -- UNITED.inc:165
     do return ctx:exit("") end -- UNITED.inc:168
 end
 
 script.labels["BjarniInit"] = function(ctx)
     -- UNITED.inc:171
-    ctx:command("set", "Key_1, 82") -- UNITED.inc:174
-    ctx:command("set", "Key_2, 34") -- UNITED.inc:175
-    ctx:command("set", "Key_3, 51") -- UNITED.inc:176
-    ctx:command("set", "Key_4, 63") -- UNITED.inc:177
-    ctx:command("set", "Key_5, 74") -- UNITED.inc:178
+    ctx:state().Key_1 = 82 -- UNITED.inc:174
+    ctx:state().Key_2 = 34 -- UNITED.inc:175
+    ctx:state().Key_3 = 51 -- UNITED.inc:176
+    ctx:state().Key_4 = 63 -- UNITED.inc:177
+    ctx:state().Key_5 = 74 -- UNITED.inc:178
     do return ctx:exit("") end -- UNITED.inc:180
 end
 
 script.labels["MarkelInit"] = function(ctx)
     -- UNITED.inc:183
-    ctx:command("set", "Key_1, 82") -- UNITED.inc:186
-    ctx:command("set", "Key_2, 38") -- UNITED.inc:187
-    ctx:command("set", "Key_3, 51") -- UNITED.inc:188
-    ctx:command("set", "Key_4, 34") -- UNITED.inc:189
-    ctx:command("set", "Key_5, 74") -- UNITED.inc:190
+    ctx:state().Key_1 = 82 -- UNITED.inc:186
+    ctx:state().Key_2 = 38 -- UNITED.inc:187
+    ctx:state().Key_3 = 51 -- UNITED.inc:188
+    ctx:state().Key_4 = 34 -- UNITED.inc:189
+    ctx:state().Key_5 = 74 -- UNITED.inc:190
     do return ctx:exit("") end -- UNITED.inc:191
 end
 
 script.labels["SigmundInit"] = function(ctx)
     -- UNITED.inc:194
-    ctx:command("set", "Key_1, 82") -- UNITED.inc:197
-    ctx:command("set", "Key_2, 38") -- UNITED.inc:198
-    ctx:command("set", "Key_3, 34") -- UNITED.inc:199
-    ctx:command("set", "Key_4, 63") -- UNITED.inc:200
-    ctx:command("set", "Key_5, 74") -- UNITED.inc:201
+    ctx:state().Key_1 = 82 -- UNITED.inc:197
+    ctx:state().Key_2 = 38 -- UNITED.inc:198
+    ctx:state().Key_3 = 34 -- UNITED.inc:199
+    ctx:state().Key_4 = 63 -- UNITED.inc:200
+    ctx:state().Key_5 = 74 -- UNITED.inc:201
     do return ctx:exit("") end -- UNITED.inc:203
 end
 
 script.labels["TryygvaInit"] = function(ctx)
     -- UNITED.inc:206
-    ctx:command("set", "Key_1, 82") -- UNITED.inc:209
-    ctx:command("set", "Key_2, 38") -- UNITED.inc:210
-    ctx:command("set", "Key_3, 51") -- UNITED.inc:211
-    ctx:command("set", "Key_4, 63") -- UNITED.inc:212
-    ctx:command("set", "Key_5, 34") -- UNITED.inc:213
+    ctx:state().Key_1 = 82 -- UNITED.inc:209
+    ctx:state().Key_2 = 38 -- UNITED.inc:210
+    ctx:state().Key_3 = 51 -- UNITED.inc:211
+    ctx:state().Key_4 = 63 -- UNITED.inc:212
+    ctx:state().Key_5 = 34 -- UNITED.inc:213
     do return ctx:exit("") end -- UNITED.inc:214
 end
 

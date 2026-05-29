@@ -13,8 +13,8 @@ script.includes[#script.includes + 1] = { line = 10, path = "botbase.inc" }
 -- Include BotGlobals.Inc prior to this inc file.
 script.labels["BE_ProjectileAvoidDone"] = function(ctx)
     -- BOTEVADE.inc:13
-    ctx:command("stop", "") -- BOTEVADE.inc:18
-    ctx:command("onprojectile", "BB_OnProjectile, 200") -- BOTEVADE.inc:19
+    ctx:self():stop() -- BOTEVADE.inc:18
+    ctx:onEvent("OnProjectile", "BB_OnProjectile") -- BOTEVADE.inc:19
     do return ctx:exit("") end -- BOTEVADE.inc:21
 end
 
@@ -22,34 +22,34 @@ script.labels["BE_AvoidProjectile"] = function(ctx)
     -- BOTEVADE.inc:24
     -- See which way it's coming and strafe
     -- away from it....
-    ctx:command("getvelocity", "hProjectile, velX, velY, velZ") -- BOTEVADE.inc:31
-    ctx:command("vecnorm", "velX, velY, velZ") -- BOTEVADE.inc:32
-    ctx:command("set", "g_nTemp, 90") -- BOTEVADE.inc:34
-    ctx:command("getrandomint", "0,1, g_nRandom") -- BOTEVADE.inc:35
+    ctx:state().velX, ctx:state().velY, ctx:state().velZ = ctx:object("hProjectile"):velocity() -- BOTEVADE.inc:31
+    ctx:state().velX, ctx:state().velY, ctx:state().velZ = ctx:vecNorm("velX", "velY", "velZ") -- BOTEVADE.inc:32
+    ctx:state().g_nTemp = 90 -- BOTEVADE.inc:34
+    ctx:randomInt(0, 1, "g_nRandom") -- BOTEVADE.inc:35
     if ctx:condition("g_nRandom==1") then -- BOTEVADE.inc:37
-        ctx:command("mul", "g_nTemp, -1") -- BOTEVADE.inc:38
+        ctx:state().g_nTemp = (tonumber(ctx:state().g_nTemp) or 0) * -1 -- BOTEVADE.inc:38
     end -- BOTEVADE.inc:39
-    ctx:command("rotatedir", "velX, velY,velZ, g_nTemp") -- BOTEVADE.inc:41
-    ctx:command("facedir", "velX, velY, velZ") -- BOTEVADE.inc:43
-    ctx:command("onprojectile", "") -- BOTEVADE.inc:44
-    ctx:command("run", "") -- BOTEVADE.inc:45
-    ctx:command("wait", "EVADE_WAIT, 0.3, BE_ProjectileAvoidDone") -- BOTEVADE.inc:46
+    ctx:state().velX, ctx:state().velY, ctx:state().velZ = ctx:rotateDir("velX", "velY", "velZ", "g_nTemp") -- BOTEVADE.inc:41
+    ctx:self():faceDir("velX", "velY", "velZ") -- BOTEVADE.inc:43
+    ctx:onEvent("OnProjectile") -- BOTEVADE.inc:44
+    ctx:self():run() -- BOTEVADE.inc:45
+    ctx:wait("EVADE_WAIT", 0.3, "BE_ProjectileAvoidDone") -- BOTEVADE.inc:46
     do return ctx:exit("") end -- BOTEVADE.inc:48
 end
 
 script.labels["BE_StrafeRight"] = function(ctx)
     -- BOTEVADE.inc:52
-    ctx:command("getrightdir", "dirX, dirY, dirZ") -- BOTEVADE.inc:54
-    ctx:command("strafe", "dirX, dirY, dirZ, TRUE") -- BOTEVADE.inc:55
-    ctx:command("wait", "EVADE_WAIT, 0.8, BE_EvadeRightTick") -- BOTEVADE.inc:56
+    ctx:state().dirX, ctx:state().dirY, ctx:state().dirZ = ctx:self():rightDir() -- BOTEVADE.inc:54
+    ctx:self():strafe("dirX", "dirY", "dirZ", "TRUE") -- BOTEVADE.inc:55
+    ctx:wait("EVADE_WAIT", 0.8, "BE_EvadeRightTick") -- BOTEVADE.inc:56
     do return ctx:exit("") end -- BOTEVADE.inc:58
 end
 
 script.labels["BE_StrafeLeft"] = function(ctx)
     -- BOTEVADE.inc:61
-    ctx:command("getleftdir", "dirX, dirY, dirZ") -- BOTEVADE.inc:63
-    ctx:command("strafe", "dirX, dirY, dirZ, TRUE") -- BOTEVADE.inc:64
-    ctx:command("wait", "EVADE_WAIT, 0.8, BE_EvadeLeftTick") -- BOTEVADE.inc:65
+    ctx:state().dirX, ctx:state().dirY, ctx:state().dirZ = ctx:self():leftDir() -- BOTEVADE.inc:63
+    ctx:self():strafe("dirX", "dirY", "dirZ", "TRUE") -- BOTEVADE.inc:64
+    ctx:wait("EVADE_WAIT", 0.8, "BE_EvadeLeftTick") -- BOTEVADE.inc:65
     do return ctx:exit("") end -- BOTEVADE.inc:67
 end
 
@@ -77,7 +77,7 @@ end
 script.labels["BE_CancelEvade"] = function(ctx)
     -- BOTEVADE.inc:96
     -- Just stop our wait tick...
-    ctx:command("wait", "EVADE_WAIT, 0, DoNothing") -- BOTEVADE.inc:101
+    ctx:wait("EVADE_WAIT", 0, "DoNothing") -- BOTEVADE.inc:101
     do return ctx:exit("") end -- BOTEVADE.inc:103
 end
 

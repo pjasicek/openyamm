@@ -12,6 +12,7 @@ coordinate_system:
 generated:
   tool: tools/mm9_import_discovery/generate_mm9_events.py
   lua: ../events/thearena.lua
+  script_ir: ../events/thearena.script_ir.yml
 objects:
 - object_id: mm9:thearena:object:0
   source_object_index: 0
@@ -23032,7 +23033,7 @@ objects:
     MessageName9: ''
     MoveToFloor: 0
     Name: PlayerInTheHouse
-    Pos: &id024
+    Pos: &id036
     - 4.0
     - 51.0
     - -493.0
@@ -27552,7 +27553,7 @@ objects:
     MessageName9: 'on'
     MoveToFloor: 0
     Name: WinCheerTrigger0
-    Pos: &id025
+    Pos: &id037
     - -256.0
     - 640.0
     - 448.0
@@ -27932,7 +27933,7 @@ objects:
     MessageName9: 'on'
     MoveToFloor: 0
     Name: LooseBooTrigger0
-    Pos: &id026
+    Pos: &id038
     - -128.0
     - 640.0
     - 448.0
@@ -29054,6 +29055,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor1
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id014
   - phase: open
     slot: 0
@@ -29088,6 +29118,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor0
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id015 []
 - mechanism_id: mm9:thearena:object:2:mechanism
   object_id: mm9:thearena:object:2
@@ -29113,6 +29172,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor3
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id016 []
 - mechanism_id: mm9:thearena:object:3:mechanism
   object_id: mm9:thearena:object:3
@@ -29138,6 +29226,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor2
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id017 []
 - mechanism_id: mm9:thearena:object:4:mechanism
   object_id: mm9:thearena:object:4
@@ -29163,6 +29280,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor5
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id018 []
 - mechanism_id: mm9:thearena:object:5:mechanism
   object_id: mm9:thearena:object:5
@@ -29188,6 +29334,35 @@ mechanisms:
     locked: 0
     reopen_on_contact: 1
     double_door_name: RotatingDoor4
+  sounds:
+  - phase: open_start
+    source_property: OpenStartSound
+    sound_name: Sounds\Door\door01open.wav
+    authored: true
+  - phase: open_busy
+    source_property: OpenBusySound
+    sound_name: ''
+    authored: true
+  - phase: open_stop
+    source_property: OpenStopSound
+    sound_name: ''
+    authored: true
+  - phase: close_start
+    source_property: CloseStartSound
+    sound_name: Sounds\Door\door01creak.wav
+    authored: true
+  - phase: close_busy
+    source_property: CloseBusySound
+    sound_name: ''
+    authored: true
+  - phase: close_stop
+    source_property: CloseStopSound
+    sound_name: Sounds\Door\door01close.wav
+    authored: true
+  - phase: jiggle
+    source_property: JiggleSound
+    sound_name: ''
+    authored: true
   trigger_outputs: &id019 []
 - mechanism_id: mm9:thearena:object:19:mechanism
   object_id: mm9:thearena:object:19
@@ -29199,6 +29374,7 @@ mechanisms:
     source_units: lithtech_mm9
   activation:
     start_on: 1
+  sounds: []
   trigger_outputs: &id020 []
 - mechanism_id: mm9:thearena:object:28:mechanism
   object_id: mm9:thearena:object:28
@@ -29209,6 +29385,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 - mechanism_id: mm9:thearena:object:30:mechanism
   object_id: mm9:thearena:object:30
@@ -29219,6 +29396,7 @@ mechanisms:
     kind: collision_volume
     source_units: lithtech_mm9
   activation: {}
+  sounds: []
   trigger_outputs: []
 triggers:
 - trigger_id: mm9:thearena:object:92:trigger
@@ -29714,53 +29892,393 @@ bindings:
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id039
+    - source_model_index: 0
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: &id024
+      - -32.0
+      - 64.0
+      - -600.0
+      distance_from_rotation_point_lt: 32.0
+    - source_model_index: 1
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: &id025
+      - 32.0
+      - 64.0
+      - -600.0
+      distance_from_rotation_point_lt: 96.0
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: &id026
+      - 0.0
+      - 8.0
+      - 0.0
+      distance_from_rotation_point_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: &id027
+      - 0.0
+      - 424.0
+      - 0.0
+      distance_from_rotation_point_lt: 702.635
+    - source_model_index: 9
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: &id028
+      - 0.0
+      - 488.0
+      - 8.0
+      distance_from_rotation_point_lt: 744.0
+    nearest_movable_world_models_by_position: &id040
+    - source_model_index: 0
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id024
+      distance_from_position_lt: 32.0
+    - source_model_index: 1
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 96.0
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 702.635
+    - source_model_index: 9
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 744.0
 - object_id: mm9:thearena:object:1
   source_object_index: 1
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_rotation_point: &id041
+    - source_model_index: 1
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id025
+      distance_from_rotation_point_lt: 32.0
+    - source_model_index: 0
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id024
+      distance_from_rotation_point_lt: 96.0
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_rotation_point_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_rotation_point_lt: 702.635
+    - source_model_index: 9
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id028
+      distance_from_rotation_point_lt: 744.0
+    nearest_movable_world_models_by_position: &id042
+    - source_model_index: 1
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 32.0
+    - source_model_index: 0
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id024
+      distance_from_position_lt: 96.0
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 702.635
+    - source_model_index: 9
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 744.0
 - object_id: mm9:thearena:object:2
   source_object_index: 2
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id043
+    - source_model_index: 2
+      source_name: RotatingDoor2
+      movable: true
+      world_translation_lt: &id030
+      - -604.0
+      - 80.0
+      - -40.0
+      distance_from_position_lt: 29.12
+    - source_model_index: 3
+      source_name: RotatingDoor3
+      movable: true
+      world_translation_lt: &id029
+      - -604.0
+      - 80.0
+      - 40.0
+      distance_from_position_lt: 105.3
+    - source_model_index: 13
+      source_name: AIRail1
+      movable: true
+      world_translation_lt: &id031
+      - -680.0
+      - 8.0
+      - 0.0
+      distance_from_position_lt: 116.756
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 702.635
 - object_id: mm9:thearena:object:3
   source_object_index: 3
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id044
+    - source_model_index: 3
+      source_name: RotatingDoor3
+      movable: true
+      world_translation_lt: *id029
+      distance_from_position_lt: 29.12
+    - source_model_index: 2
+      source_name: RotatingDoor2
+      movable: true
+      world_translation_lt: *id030
+      distance_from_position_lt: 105.3
+    - source_model_index: 13
+      source_name: AIRail1
+      movable: true
+      world_translation_lt: *id031
+      distance_from_position_lt: 116.756
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 702.635
 - object_id: mm9:thearena:object:4
   source_object_index: 4
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id045
+    - source_model_index: 4
+      source_name: RotatingDoor4
+      movable: true
+      world_translation_lt: &id033
+      - 604.0
+      - 80.0
+      - 40.0
+      distance_from_position_lt: 29.12
+    - source_model_index: 5
+      source_name: RotatingDoor5
+      movable: true
+      world_translation_lt: &id032
+      - 604.0
+      - 80.0
+      - -40.0
+      distance_from_position_lt: 105.3
+    - source_model_index: 14
+      source_name: AIRail2
+      movable: true
+      world_translation_lt: &id034
+      - 680.0
+      - 8.0
+      - 0.0
+      distance_from_position_lt: 116.756
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 702.635
 - object_id: mm9:thearena:object:5
   source_object_index: 5
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id046
+    - source_model_index: 5
+      source_name: RotatingDoor5
+      movable: true
+      world_translation_lt: *id032
+      distance_from_position_lt: 29.12
+    - source_model_index: 4
+      source_name: RotatingDoor4
+      movable: true
+      world_translation_lt: *id033
+      distance_from_position_lt: 105.3
+    - source_model_index: 14
+      source_name: AIRail2
+      movable: true
+      world_translation_lt: *id034
+      distance_from_position_lt: 116.756
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 605.997
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 702.635
 - object_id: mm9:thearena:object:19
   source_object_index: 19
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id047
+    - source_model_index: 8
+      source_name: WorldObject2
+      movable: true
+      world_translation_lt:
+      - -111.0
+      - 88.0
+      - -1344.0
+      distance_from_position_lt: 109.695
+    - source_model_index: 0
+      source_name: RotatingDoor0
+      movable: true
+      world_translation_lt: *id024
+      distance_from_position_lt: 768.333
+    - source_model_index: 1
+      source_name: RotatingDoor1
+      movable: true
+      world_translation_lt: *id025
+      distance_from_position_lt: 782.856
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 1363.431
+    - source_model_index: 2
+      source_name: RotatingDoor2
+      movable: true
+      world_translation_lt: *id030
+      distance_from_position_lt: 1382.363
 - object_id: mm9:thearena:object:28
   source_object_index: 28
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id048
+    - source_model_index: 9
+      source_name: InvisibleBrush0
+      movable: true
+      world_translation_lt: *id028
+      distance_from_position_lt: 32.985
+    - source_model_index: 7
+      source_name: WorldObject0
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - 592.0
+      - 0.0
+      distance_from_position_lt: 72.0
+    - source_model_index: 11
+      source_name: WorldObject3
+      movable: true
+      world_translation_lt: *id027
+      distance_from_position_lt: 96.0
+    - source_model_index: 12
+      source_name: AIRail0
+      movable: true
+      world_translation_lt: *id026
+      distance_from_position_lt: 512.0
+    - source_model_index: 6
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: &id035
+      - 0.0
+      - 384.5
+      - 719.5
+      distance_from_position_lt: 732.148
 - object_id: mm9:thearena:object:30
   source_object_index: 30
   targets:
   - target_kind: unresolved
     confidence: unresolved
+    nearest_movable_world_models_by_position: &id049
+    - source_model_index: 10
+      source_name: InvisibleBrush1
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - 280.0
+      - 719.5
+      distance_from_position_lt: 0.0
+    - source_model_index: 21
+      source_name: AITrk11
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - 200.0
+      - 680.0
+      distance_from_position_lt: 89.22
+    - source_model_index: 6
+      source_name: WorldObject1
+      movable: true
+      world_translation_lt: *id035
+      distance_from_position_lt: 104.5
+    - source_model_index: 19
+      source_name: AITrk7
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - 200.0
+      - 792.0
+      distance_from_position_lt: 107.964
+    - source_model_index: 18
+      source_name: AITrk6
+      movable: true
+      world_translation_lt:
+      - 0.0
+      - 200.0
+      - 864.0
+      distance_from_position_lt: 165.167
 - object_id: mm9:thearena:object:92
   source_object_index: 92
   targets:
   - target_kind: trigger_volume
     target_id: mm9:thearena:object:92:volume
     confidence: source_object_volume
-    pos_lt: *id024
+    pos_lt: *id036
     dims_lt: *id011
 - object_id: mm9:thearena:object:123
   source_object_index: 123
@@ -29768,7 +30286,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:thearena:object:123:volume
     confidence: source_object_volume
-    pos_lt: *id025
+    pos_lt: *id037
     dims_lt: *id012
 - object_id: mm9:thearena:object:124
   source_object_index: 124
@@ -29776,7 +30294,7 @@ bindings:
   - target_kind: trigger_volume
     target_id: mm9:thearena:object:124:volume
     confidence: source_object_volume
-    pos_lt: *id026
+    pos_lt: *id038
     dims_lt: *id013
 scripts:
 - script_id: arena.scr
@@ -31085,46 +31603,66 @@ unresolved:
   source_name: RotatingDoor0
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id039
+    nearest_movable_world_models_by_position: *id040
 - kind: unresolved_binding
   source_object_index: 1
   source_name: RotatingDoor1
   source_class: RotatingDoor
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_rotation_point: *id041
+    nearest_movable_world_models_by_position: *id042
 - kind: unresolved_binding
   source_object_index: 2
   source_name: RotatingDoor2
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id043
 - kind: unresolved_binding
   source_object_index: 3
   source_name: RotatingDoor3
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id044
 - kind: unresolved_binding
   source_object_index: 4
   source_name: RotatingDoor4
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id045
 - kind: unresolved_binding
   source_object_index: 5
   source_name: RotatingDoor5
   source_class: Door
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id046
 - kind: unresolved_binding
   source_object_index: 19
   source_name: ArenaFight
   source_class: ScriptObject
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id047
 - kind: unresolved_binding
   source_object_index: 28
   source_name: InvisibleBrush0
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id048
 - kind: unresolved_binding
   source_object_index: 30
   source_name: InvisibleBrush1
   source_class: InvisibleBrush
   severity: warning
+  evidence:
+    nearest_movable_world_models_by_position: *id049
 validation:
   raw_object_count: 132
   event_object_count: 132

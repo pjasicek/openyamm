@@ -18,13 +18,13 @@ script.labels["Main"] = function(ctx)
     do return ctx:exit(1) end -- THJORGARDSPECTATOR.scr:17
     ctx:getParam(0, "nAge") -- THJORGARDSPECTATOR.scr:18
     -- CacheSound
-    ctx:command("wait", "0, 1, InitThjorgardSpectator") -- THJORGARDSPECTATOR.scr:21
+    ctx:wait(0, 1, "InitThjorgardSpectator") -- THJORGARDSPECTATOR.scr:21
     do return ctx:exit(1) end -- THJORGARDSPECTATOR.scr:23
 end
 
 script.labels["InitThjorgardSpectator"] = function(ctx)
     -- THJORGARDSPECTATOR.scr:26
-    ctx:command("setidle", "") -- THJORGARDSPECTATOR.scr:28
+    ctx:self():setIdle() -- THJORGARDSPECTATOR.scr:28
     do return ctx:exit(1) end -- THJORGARDSPECTATOR.scr:30
 end
 

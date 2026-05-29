@@ -14,14 +14,14 @@ script.includes[#script.includes + 1] = { line = 8, path = "globals.inc" }
 script.labels["OnUse"] = function(ctx)
     -- GUARDWALK.scr:14
     if ctx:condition("counter==0") then -- GUARDWALK.scr:20
-        ctx:command("set", "L_marker g_marker1") -- GUARDWALK.scr:21
-        ctx:command("set", "counter 1") -- GUARDWALK.scr:22
+        ctx:set("L_marker", "g_marker1") -- GUARDWALK.scr:21
+        ctx:state().counter = 1 -- GUARDWALK.scr:22
         do return mm9.gotoLabel(script, ctx, "WalkStart") end -- GUARDWALK.scr:23
         do return ctx:exit("") end -- GUARDWALK.scr:24
     end -- GUARDWALK.scr:25
     if ctx:condition("counter==1") then -- GUARDWALK.scr:27
-        ctx:command("set", "L_marker g_marker2") -- GUARDWALK.scr:28
-        ctx:command("set", "counter 0") -- GUARDWALK.scr:29
+        ctx:set("L_marker", "g_marker2") -- GUARDWALK.scr:28
+        ctx:state().counter = 0 -- GUARDWALK.scr:29
         do return mm9.gotoLabel(script, ctx, "WalkStart") end -- GUARDWALK.scr:30
         do return ctx:exit("") end -- GUARDWALK.scr:31
     end -- GUARDWALK.scr:32
@@ -30,14 +30,14 @@ end
 
 script.labels["WalkStart"] = function(ctx)
     -- GUARDWALK.scr:37
-    ctx:command("getobjecthandle", "L_marker g_hobject") -- GUARDWALK.scr:40
-    ctx:command("runto", "g_hobject 32 Arrive") -- GUARDWALK.scr:41
+    ctx:state().g_hobject = ctx:objectOrNil("L_marker") -- GUARDWALK.scr:40
+    ctx:self():runTo(ctx:object("g_hobject"), 32, "Arrive") -- GUARDWALK.scr:41
     do return ctx:exit("") end -- GUARDWALK.scr:42
 end
 
 script.labels["Arrive"] = function(ctx)
     -- GUARDWALK.scr:46
-    ctx:command("wait", "0 .01 OnUse") -- GUARDWALK.scr:49
+    ctx:wait(0, .01, "OnUse") -- GUARDWALK.scr:49
     -- gosub OnUse
     do return ctx:exit("") end -- GUARDWALK.scr:51
 end
@@ -51,7 +51,7 @@ script.labels["Main"] = function(ctx)
     -- GUARDWALK.scr:62
     -- traceon
     -- Don't Forget to Delete this!
-    ctx:command("onstuck", "WalkStart") -- GUARDWALK.scr:68
+    ctx:onEvent("OnStuck", "WalkStart") -- GUARDWALK.scr:68
     ctx:addTrigger("use", "OnUse") -- GUARDWALK.scr:69
     do return ctx:exit("") end -- GUARDWALK.scr:70
 end

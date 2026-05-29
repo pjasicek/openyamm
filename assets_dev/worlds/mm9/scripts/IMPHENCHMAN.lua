@@ -15,7 +15,7 @@ script.includes[#script.includes + 1] = { line = 8, path = "baseMelee.inc" }
 script.labels["Main"] = function(ctx)
     -- IMPHENCHMAN.scr:11
     -- OnPostStartWorld InitImpHenchman
-    ctx:command("wait", "0, 5, InitImpHenchman") -- IMPHENCHMAN.scr:14
+    ctx:wait(0, 5, "InitImpHenchman") -- IMPHENCHMAN.scr:14
     do return ctx:exit("TRUE") end -- IMPHENCHMAN.scr:16
 end
 
@@ -30,9 +30,9 @@ end
 script.labels["DefendImp"] = function(ctx)
     -- IMPHENCHMAN.scr:29
     mm9.gosub(script, ctx, "BaseWanderStop") -- IMPHENCHMAN.scr:31
-    ctx:command("getplayerhandle", "g_hTarget") -- IMPHENCHMAN.scr:32
+    ctx:state().g_hTarget = ctx:player() -- IMPHENCHMAN.scr:32
     mm9.gosub(script, ctx, "SetupTarget") -- IMPHENCHMAN.scr:33
-    ctx:command("runto", "g_hTarget, 10, AggressiveStart") -- IMPHENCHMAN.scr:34
+    ctx:self():runTo(ctx:player(), 10, "AggressiveStart") -- IMPHENCHMAN.scr:34
     do return ctx:exit("TRUE") end -- IMPHENCHMAN.scr:36
 end
 

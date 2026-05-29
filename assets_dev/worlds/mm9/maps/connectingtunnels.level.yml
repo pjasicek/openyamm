@@ -4,6 +4,7 @@ map_id: connectingtunnels
 display_name: Connecting Tunnel
 source:
   dat: ../source/worlds/CONNECTINGTUNNELS.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/CONNECTINGTUNNELS.dat
   source_game: mm9
   dat_version: 66
@@ -21,13 +22,13 @@ sidecars:
   raw_objects: connectingtunnels.raw_objects.yml
   materials: connectingtunnels.material_aliases.yml
   events: connectingtunnels.events.yml
-  scene_compat: connectingtunnels.scene.yml
+  scene_compat: null
   source_metadata_compat: connectingtunnels.mm9.yml
-  bsp_compat: connectingtunnels.bsp.yml
-  geometry_compat: connectingtunnels.geometry.yml
+  bsp_compat: null
+  geometry_compat: null
   model_assets_compat: null
   odm_compat: null
-  blv_compat: connectingtunnels.blv
+  blv_compat: null
 scripts:
   level: ../events/connectingtunnels.lua
   script_ir: ../events/connectingtunnels.script_ir.yml

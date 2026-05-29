@@ -1,0 +1,1308 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: thearena
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: arena.scr
+  source_path: ARENA.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: Pickmon.inc
+  - line: 10
+    path: nogold.inc
+  labels:
+  - line: 49
+    name: OnRude
+  - line: 103
+    name: FightCheck
+  - line: 145
+    name: OnWatch
+  - line: 178
+    name: pick
+  - line: 223
+    name: Init
+  - line: 256
+    name: OnArrive
+  - line: 286
+    name: Onuse
+  - line: 304
+    name: OnMonsterA
+  - line: 332
+    name: OnMonsterB
+  - line: 359
+    name: OnMonsterAWin
+  - line: 372
+    name: OnMonsterBWin
+  - line: 385
+    name: FightWin
+  - line: 398
+    name: Givewin
+  - line: 409
+    name: LockDoors
+  - line: 422
+    name: UnLockDoors
+  - line: 431
+    name: OnBet
+  - line: 437
+    name: OnBet2
+  - line: 519
+    name: OnLord
+  - line: 530
+    name: Reset
+  - line: 553
+    name: BeVictorious
+  - line: 562
+    name: OnMonsterDead
+  - line: 606
+    name: OnPostStartWorld
+  - line: 613
+    name: Main
+  registered_triggers:
+  - line: 621
+    message: Arrive
+    callback: OnArrive
+    arguments_raw: Arrive OnArrive
+  - line: 622
+    message: Pick
+    callback: Init
+    arguments_raw: Pick Init
+  - line: 623
+    message: MonsterA
+    callback: OnMonsterA
+    arguments_raw: MonsterA OnMonsterA
+  - line: 624
+    message: MonsterB
+    callback: OnMonsterB
+    arguments_raw: MonsterB OnMonsterB
+  - line: 625
+    message: WinMonsterA
+    callback: OnMonsterAWin
+    arguments_raw: WinMonsterA OnMonsterAWin
+  - line: 626
+    message: WinMonsterB
+    callback: OnMonsterBWin
+    arguments_raw: WinMonsterB OnMonsterBWin
+  - line: 627
+    message: Fight
+    callback: OnWatch
+    arguments_raw: Fight OnWatch
+  - line: 628
+    message: Lord
+    callback: OnLord
+    arguments_raw: Lord OnLord
+  - line: 629
+    message: IDied
+    callback: OnMonsterDead
+    arguments_raw: IDied, OnMonsterDead
+  trigger_edges:
+  - line: 110
+    target_expression: g_hobject
+    message_expression: Page
+    arguments_raw: g_hobject Page
+  - line: 118
+    target_expression: g_hobject
+    message_expression: Squire
+    arguments_raw: g_hobject Squire
+  - line: 126
+    target_expression: g_hobject
+    message_expression: Knight
+    arguments_raw: g_hobject Knight
+  - line: 135
+    target_expression: g_hobject
+    message_expression: Lord
+    arguments_raw: g_hobject Lord
+  - line: 277
+    target_expression: hMonsterA
+    message_expression: HateAll
+    arguments_raw: hMonsterA HateAll
+  - line: 278
+    target_expression: hMonsterB
+    message_expression: HateAll
+    arguments_raw: hMonsterB HateAll
+  - line: 412
+    target_expression: g_hobject
+    message_expression: close
+    arguments_raw: g_hobject close
+  - line: 413
+    target_expression: g_hobject
+    message_expression: lock
+    arguments_raw: g_hobject lock
+  - line: 416
+    target_expression: g_hobject
+    message_expression: close
+    arguments_raw: g_hobject close
+  - line: 417
+    target_expression: g_hobject
+    message_expression: lock
+    arguments_raw: g_hobject lock
+  - line: 425
+    target_expression: g_hobject
+    message_expression: unlock
+    arguments_raw: g_hobject unlock
+  - line: 428
+    target_expression: g_hobject
+    message_expression: unlock
+    arguments_raw: g_hobject unlock
+  - line: 557
+    target_expression: hWinner
+    message_expression: RunScript
+    arguments_raw: hWinner,RunScript ArenaVictory.scr
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 52
+    command: nDeadCounter
+    arguments_raw: = 0
+  - line: 54
+    command: haskey
+    arguments_raw: 231 g_hobject
+  - line: 56
+    command: haskey
+    arguments_raw: 230 g_ntemp
+  - line: 63
+    command: haskey
+    arguments_raw: 1018 g_ntemp
+  - line: 69
+    command: haskey
+    arguments_raw: 1009 g_ntemp
+  - line: 75
+    command: haskey
+    arguments_raw: 1011 g_ntemp
+  - line: 77
+    command: haskey
+    arguments_raw: 1020 g_ntemp
+  - line: 85
+    command: haskey
+    arguments_raw: 1010 g_ntemp
+  - line: 91
+    command: haskey
+    arguments_raw: 1017 g_ntemp
+  - line: 107
+    command: haskey
+    arguments_raw: 1004 g_ntemp
+  - line: 115
+    command: haskey
+    arguments_raw: 1005 g_ntemp
+  - line: 123
+    command: haskey
+    arguments_raw: 1006 g_ntemp
+  - line: 132
+    command: haskey
+    arguments_raw: 1007 g_ntemp
+  - line: 148
+    command: set
+    arguments_raw: SCRIPT " ScriptName ArenaCreature.scr"
+  - line: 150
+    command: removeobject
+    arguments_raw: hMonsterA
+  - line: 151
+    command: sMonsterA
+    arguments_raw: = sMonsterA + Script
+  - line: 154
+    command: Spawn
+    arguments_raw: hMonsterA Xpos YPos ZPos sMonsterA
+  - line: 156
+    command: set
+    arguments_raw: SCRIPT " ScriptName ArenaCreature.scr
+  - line: 158
+    command: removeobject
+    arguments_raw: hMonsterB
+  - line: 159
+    command: sMonsterB
+    arguments_raw: = sMonsterB + Script
+  - line: 162
+    command: Spawn
+    arguments_raw: hMonsterB Xpos YPos ZPos sMonsterB
+  - line: 184
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel mon1
+  - line: 185
+    command: g_nTemp
+    arguments_raw: = mon1
+  - line: 187
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp
+  - line: 188
+    command: nMonsterA_Level
+    arguments_raw: = nMonster_Level
+  - line: 190
+    command: nMin2
+    arguments_raw: = mon1 - 4
+  - line: 193
+    command: nMin2
+    arguments_raw: = nMinLevel
+  - line: 196
+    command: nMax2
+    arguments_raw: = nMin2 + 8
+  - line: 199
+    command: nMax2
+    arguments_raw: = nMaxLevel
+  - line: 200
+    command: nMin2
+    arguments_raw: = nMax2 - 8
+  - line: 203
+    command: getrandomint
+    arguments_raw: nMin2, nMax2, mon2
+  - line: 208
+    command: mon2
+    arguments_raw: = mon1 - 1
+  - line: 210
+    command: mon2
+    arguments_raw: = mon1 + 1
+  - line: 213
+    command: g_ntemp
+    arguments_raw: = mon2
+  - line: 215
+    command: SMonsterB
+    arguments_raw: = sMonster_Temp
+  - line: 216
+    command: nMonsterB_Level
+    arguments_raw: = nMonster_Level
+  - line: 228
+    command: givekey
+    arguments_raw: '1009'
+  - line: 231
+    command: add
+    arguments_raw: g_nCounter, 1
+  - line: 235
+    command: set
+    arguments_raw: Script " ScriptName ArenaMini.scr
+  - line: 237
+    command: sMiniMonsterA
+    arguments_raw: = sMonsterA + Script
+  - line: 240
+    command: Spawn2
+    arguments_raw: hMonsterA Xpos YPos ZPos 1 0 0 sMiniMonsterA
+  - line: 243
+    command: set
+    arguments_raw: Script " ScriptName ArenaMini.scr
+  - line: 245
+    command: sMiniMonsterB
+    arguments_raw: = sMonsterB + Script
+  - line: 248
+    command: Spawn2
+    arguments_raw: hMonsterB Xpos YPos ZPos 1 0 0 sMiniMonsterB
+  - line: 262
+    command: bMonAThere
+    arguments_raw: = TRUE
+  - line: 271
+    command: bMonBThere
+    arguments_raw: = TRUE
+  - line: 289
+    command: haskey
+    arguments_raw: 217 g_ntemp
+  - line: 291
+    command: Haskey
+    arguments_raw: 214 g_ntemp
+  - line: 293
+    command: givekey
+    arguments_raw: '217'
+  - line: 307
+    command: set
+    arguments_raw: sBetOn MonsterA
+  - line: 308
+    command: g_ntemp
+    arguments_raw: = nMonsterB_Level - nMonsterA_Level
+  - line: 310
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 1.5
+  - line: 315
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 2
+  - line: 320
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 3
+  - line: 325
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 4
+  - line: 335
+    command: set
+    arguments_raw: sBetOn MonsterB
+  - line: 336
+    command: g_ntemp
+    arguments_raw: = nMonsterA_Level - nMonsterB_Level
+  - line: 338
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 1.5
+  - line: 343
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 2
+  - line: 348
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 3
+  - line: 353
+    command: nBetAmount
+    arguments_raw: = nBetAmount * 4
+  - line: 363
+    command: Givekey
+    arguments_raw: '1018'
+  - line: 376
+    command: Givekey
+    arguments_raw: '1018'
+  - line: 388
+    command: givekey
+    arguments_raw: '217'
+  - line: 391
+    command: givekey
+    arguments_raw: '1009'
+  - line: 392
+    command: takekey
+    arguments_raw: '1020'
+  - line: 393
+    command: GetConsoleNumVar
+    arguments_raw: nWinAmount nBetAmount
+  - line: 394
+    command: givegold
+    arguments_raw: nBetAmount
+  - line: 401
+    command: takekey
+    arguments_raw: '1018'
+  - line: 402
+    command: takekey
+    arguments_raw: '1019'
+  - line: 404
+    command: givegold
+    arguments_raw: nBetAmount
+  - line: 405
+    command: debugout
+    arguments_raw: nBetAmount
+  - line: 442
+    command: haskey
+    arguments_raw: 1012 g_ntemp
+  - line: 444
+    command: hasgold
+    arguments_raw: 50 g_ntemp
+  - line: 450
+    command: takekey
+    arguments_raw: '1012'
+  - line: 451
+    command: takegold
+    arguments_raw: '50'
+  - line: 452
+    command: set
+    arguments_raw: nBetAmount 50
+  - line: 457
+    command: haskey
+    arguments_raw: 1013 g_ntemp
+  - line: 459
+    command: hasgold
+    arguments_raw: 100 g_ntemp
+  - line: 465
+    command: takekey
+    arguments_raw: '1013'
+  - line: 466
+    command: takegold
+    arguments_raw: '100'
+  - line: 467
+    command: set
+    arguments_raw: nBetAmount 100
+  - line: 472
+    command: haskey
+    arguments_raw: 1014 g_ntemp
+  - line: 474
+    command: hasgold
+    arguments_raw: 250 g_ntemp
+  - line: 480
+    command: takekey
+    arguments_raw: '1014'
+  - line: 481
+    command: takegold
+    arguments_raw: '250'
+  - line: 482
+    command: set
+    arguments_raw: nBetAmount 250
+  - line: 487
+    command: haskey
+    arguments_raw: 1015 g_ntemp
+  - line: 489
+    command: hasgold
+    arguments_raw: 500 g_ntemp
+  - line: 495
+    command: takekey
+    arguments_raw: '1015'
+  - line: 496
+    command: takegold
+    arguments_raw: '500'
+  - line: 497
+    command: set
+    arguments_raw: nBetAmount 500
+  - line: 502
+    command: haskey
+    arguments_raw: 1016 g_ntemp
+  - line: 504
+    command: hasgold
+    arguments_raw: 1000 g_ntemp
+  - line: 510
+    command: takekey
+    arguments_raw: '1016'
+  - line: 511
+    command: takegold
+    arguments_raw: '1000'
+  - line: 512
+    command: set
+    arguments_raw: nBetAmount 1000
+  - line: 522
+    command: haskey
+    arguments_raw: 214 g_ntemp
+  - line: 524
+    command: set
+    arguments_raw: nLord TRUE
+  - line: 533
+    command: takekey
+    arguments_raw: '1004'
+  - line: 534
+    command: takekey
+    arguments_raw: '1005'
+  - line: 535
+    command: takekey
+    arguments_raw: '1006'
+  - line: 536
+    command: takekey
+    arguments_raw: '1007'
+  - line: 537
+    command: takekey
+    arguments_raw: '1008'
+  - line: 538
+    command: takekey
+    arguments_raw: '1010'
+  - line: 539
+    command: takekey
+    arguments_raw: '1011'
+  - line: 540
+    command: takekey
+    arguments_raw: '1012'
+  - line: 541
+    command: takekey
+    arguments_raw: '1013'
+  - line: 542
+    command: takekey
+    arguments_raw: '1014'
+  - line: 543
+    command: takekey
+    arguments_raw: '1015'
+  - line: 544
+    command: takekey
+    arguments_raw: '1016'
+  - line: 545
+    command: takekey
+    arguments_raw: '1017'
+  - line: 546
+    command: takekey
+    arguments_raw: '1018'
+  - line: 547
+    command: takekey
+    arguments_raw: '1019'
+  - line: 556
+    command: Takekey
+    arguments_raw: '1010'
+  - line: 570
+    command: nDeadCounter
+    arguments_raw: = nDeadCounter + 1
+  - line: 580
+    command: takekey
+    arguments_raw: '1019'
+  - line: 583
+    command: haskey
+    arguments_raw: 1017 bHasKey
+  - line: 588
+    command: hWinner
+    arguments_raw: = hMonsterB
+  - line: 594
+    command: hWinner
+    arguments_raw: = hMonsterA
+  - line: 618
+    command: takekey
+    arguments_raw: '1009'
+  - line: 630
+    command: OnRudeExit
+    arguments_raw: OnRude
+  - line: 633
+    command: OnPostStartWorld
+    arguments_raw: OnPostStartWorld
+  command_count: 372
+- script_id: arenafight.scr
+  source_path: ARENAFIGHT.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: Pickmon.inc
+  labels:
+  - line: 43
+    name: OnPage
+  - line: 113
+    name: OnSquire
+  - line: 203
+    name: OnKnight
+  - line: 312
+    name: OnLord
+  - line: 448
+    name: ClearMon
+  - line: 457
+    name: OnHello
+  - line: 472
+    name: Reset
+  - line: 495
+    name: GetCharLevel
+  - line: 520
+    name: OnDead
+  - line: 534
+    name: OnPlayerInTheHouse
+  - line: 551
+    name: Main
+  registered_triggers:
+  - line: 556
+    message: Dead
+    callback: OnDead
+    arguments_raw: Dead, OnDead
+  - line: 557
+    message: Hello
+    callback: OnHello
+    arguments_raw: Hello OnHello
+  - line: 558
+    message: Page
+    callback: OnPage
+    arguments_raw: Page, OnPage
+  - line: 559
+    message: Squire
+    callback: OnSquire
+    arguments_raw: Squire, OnSquire
+  - line: 560
+    message: Knight
+    callback: OnKnight
+    arguments_raw: Knight, OnKnight
+  - line: 561
+    message: Lord
+    callback: OnLord
+    arguments_raw: Lord, OnLord
+  - line: 562
+    message: PlayerInTheHouse
+    callback: OnPlayerInTheHouse
+    arguments_raw: PlayerInTheHouse,OnPlayerInTheHouse
+  trigger_edges:
+  - line: 105
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 108
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 195
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 198
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 305
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 308
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 318
+    target_expression: g_hobject
+    message_expression: Lord
+    arguments_raw: g_hobject Lord
+  - line: 440
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 443
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 528
+    target_expression: g_hobject
+    message_expression: UnLock
+    arguments_raw: g_hobject UnLock
+  - line: 545
+    target_expression: g_hObject
+    message_expression: close
+    arguments_raw: g_hObject,close
+  - line: 546
+    target_expression: g_hObject
+    message_expression: Lock
+    arguments_raw: g_hObject,Lock
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 46
+    command: SetConsoleNumVar
+    arguments_raw: WaitingForPlayer,TRUE
+  - line: 48
+    command: nMinLevel
+    arguments_raw: = nPlayerLevel * .8
+  - line: 49
+    command: nMaxLevel
+    arguments_raw: = nPlayerLevel * 1.3
+  - line: 51
+    command: set
+    arguments_raw: nMaxLevel 89
+  - line: 55
+    command: nMaxLevel
+    arguments_raw: = 4
+  - line: 60
+    command: getrandomInt
+    arguments_raw: 1, 2 nNumberMonsters
+  - line: 61
+    command: nArenaReward
+    arguments_raw: = nNumberMonsters * nPlayerLevel
+  - line: 62
+    command: nArenaReward
+    arguments_raw: = nArenaReward * 20
+  - line: 65
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 69
+    command: Goto
+    arguments_raw: OnPage
+  - line: 74
+    command: Goto
+    arguments_raw: OnPage
+  - line: 78
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp + Script
+  - line: 81
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterA
+  - line: 85
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 89
+    command: Goto
+    arguments_raw: OnPage
+  - line: 94
+    command: Goto
+    arguments_raw: OnPage
+  - line: 98
+    command: sMonsterB
+    arguments_raw: = sMonster_Temp + Script
+  - line: 101
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterB
+  - line: 116
+    command: SetConsoleNumVar
+    arguments_raw: WaitingForPlayer,TRUE
+  - line: 118
+    command: nMinLevel
+    arguments_raw: = nPlayerLevel * .8
+  - line: 119
+    command: nMaxLevel
+    arguments_raw: = nPlayerLevel * 1.5
+  - line: 121
+    command: set
+    arguments_raw: nMaxLevel 89
+  - line: 125
+    command: nMaxLevel
+    arguments_raw: = 4
+  - line: 130
+    command: getrandomInt
+    arguments_raw: 1, 3 nNumberMonsters
+  - line: 131
+    command: nArenaReward
+    arguments_raw: = nNumberMonsters * nPlayerLevel
+  - line: 132
+    command: nArenaReward
+    arguments_raw: = nArenaReward * 30
+  - line: 135
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 139
+    command: Goto
+    arguments_raw: OnSquire
+  - line: 144
+    command: Goto
+    arguments_raw: OnSquire
+  - line: 148
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp + Script
+  - line: 151
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterA
+  - line: 155
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 159
+    command: Goto
+    arguments_raw: OnSquire
+  - line: 164
+    command: Goto
+    arguments_raw: OnSquire
+  - line: 168
+    command: sMonsterB
+    arguments_raw: = sMonster_Temp + Script
+  - line: 171
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterB
+  - line: 175
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 179
+    command: Goto
+    arguments_raw: OnSquire
+  - line: 184
+    command: Goto
+    arguments_raw: OnSquire
+  - line: 188
+    command: sMonsterB
+    arguments_raw: = sMonster_Temp + Script
+  - line: 191
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterB
+  - line: 206
+    command: SetConsoleNumVar
+    arguments_raw: WaitingForPlayer,TRUE
+  - line: 208
+    command: nMinLevel
+    arguments_raw: = nPlayerLevel
+  - line: 209
+    command: nMaxLevel
+    arguments_raw: = nPlayerLevel * 1.7
+  - line: 211
+    command: set
+    arguments_raw: nMaxLevel 89
+  - line: 215
+    command: nMaxLevel
+    arguments_raw: = 4
+  - line: 220
+    command: getrandomInt
+    arguments_raw: 1, 4 nNumberMonsters
+  - line: 221
+    command: nArenaReward
+    arguments_raw: = nNumberMonsters * nPlayerLevel
+  - line: 222
+    command: nArenaReward
+    arguments_raw: = nArenaReward * 50
+  - line: 225
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 229
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 234
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 238
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp + Script
+  - line: 241
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterA
+  - line: 245
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 249
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 254
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 258
+    command: sMonsterB
+    arguments_raw: = sMonster_Temp + Script
+  - line: 261
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterB
+  - line: 265
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 269
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 274
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 278
+    command: sMonsterB
+    arguments_raw: = sMonster_Temp + Script
+  - line: 281
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterB
+  - line: 285
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 289
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 294
+    command: Goto
+    arguments_raw: OnKnight
+  - line: 298
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp + Script
+  - line: 301
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterA
+  - line: 315
+    command: SetConsoleNumVar
+    arguments_raw: WaitingForPlayer,TRUE
+  - line: 320
+    command: nMinLevel
+    arguments_raw: = nPlayerLevel
+  - line: 323
+    command: nMaxLevel
+    arguments_raw: = nPlayerLevel * 2.5
+  - line: 325
+    command: set
+    arguments_raw: nMaxLevel 89
+  - line: 329
+    command: nMaxLevel
+    arguments_raw: = 4
+  - line: 334
+    command: getrandomInt
+    arguments_raw: 1, 5 nNumberMonsters
+  - line: 335
+    command: nArenaReward
+    arguments_raw: = nNumberMonsters * nPlayerLevel
+  - line: 336
+    command: nArenaReward
+    arguments_raw: = nArenaReward * 100
+  - line: 339
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 344
+    command: Goto
+    arguments_raw: OnLord
+  - line: 349
+    command: Goto
+    arguments_raw: OnLord
+  - line: 353
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp + Script
+  - line: 356
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterA
+  - line: 360
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 364
+    command: Goto
+    arguments_raw: OnLord
+  - line: 369
+    command: Goto
+    arguments_raw: OnLord
+  - line: 373
+    command: sMonsterB
+    arguments_raw: = sMonster_Temp + Script
+  - line: 376
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterB
+  - line: 380
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 384
+    command: Goto
+    arguments_raw: OnLord
+  - line: 389
+    command: Goto
+    arguments_raw: OnLord
+  - line: 393
+    command: sMonsterB
+    arguments_raw: = sMonster_Temp + Script
+  - line: 396
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterB
+  - line: 400
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 403
+    command: Goto
+    arguments_raw: OnLord
+  - line: 408
+    command: Goto
+    arguments_raw: OnLord
+  - line: 412
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp + Script
+  - line: 415
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterA
+  - line: 420
+    command: getrandomint
+    arguments_raw: nMinLevel, nMaxLevel g_ntemp
+  - line: 424
+    command: Goto
+    arguments_raw: OnLord
+  - line: 429
+    command: Goto
+    arguments_raw: OnLord
+  - line: 433
+    command: sMonsterA
+    arguments_raw: = sMonster_Temp + Script
+  - line: 436
+    command: Spawn
+    arguments_raw: g_hobject Xpos YPos ZPos sMonsterA
+  - line: 451
+    command: set
+    arguments_raw: nMonstersDead 0
+  - line: 452
+    command: removeobject
+    arguments_raw: hMonsterA
+  - line: 453
+    command: removeobject
+    arguments_raw: hMonsterB
+  - line: 462
+    command: set
+    arguments_raw: g_ncounter, 0
+  - line: 466
+    command: add
+    arguments_raw: g_nCounter 1
+  - line: 475
+    command: set
+    arguments_raw: nMonstersDead 0
+  - line: 476
+    command: takekey
+    arguments_raw: '1004'
+  - line: 477
+    command: takekey
+    arguments_raw: '1005'
+  - line: 478
+    command: takekey
+    arguments_raw: '1006'
+  - line: 479
+    command: takekey
+    arguments_raw: '1007'
+  - line: 480
+    command: takekey
+    arguments_raw: '1008'
+  - line: 481
+    command: takekey
+    arguments_raw: '1010'
+  - line: 482
+    command: takekey
+    arguments_raw: '1011'
+  - line: 483
+    command: takekey
+    arguments_raw: '1012'
+  - line: 484
+    command: takekey
+    arguments_raw: '1013'
+  - line: 485
+    command: takekey
+    arguments_raw: '1014'
+  - line: 486
+    command: takekey
+    arguments_raw: '1015'
+  - line: 487
+    command: takekey
+    arguments_raw: '1016'
+  - line: 488
+    command: takekey
+    arguments_raw: '1017'
+  - line: 489
+    command: takekey
+    arguments_raw: '1018'
+  - line: 490
+    command: takekey
+    arguments_raw: '1019'
+  - line: 498
+    command: GetPCLevel
+    arguments_raw: 0 g_ntemp
+  - line: 500
+    command: nPlayerLevel
+    arguments_raw: = NPlayerLevel + g_ntemp
+  - line: 503
+    command: GetPCLevel
+    arguments_raw: 1 g_ntemp
+  - line: 504
+    command: nPlayerLevel
+    arguments_raw: = NPlayerLevel + g_ntemp
+  - line: 506
+    command: GetPCLevel
+    arguments_raw: 2 g_ntemp
+  - line: 507
+    command: nPlayerLevel
+    arguments_raw: = NPlayerLevel + g_ntemp
+  - line: 509
+    command: GetPCLevel
+    arguments_raw: 3 g_ntemp
+  - line: 510
+    command: nPlayerLevel
+    arguments_raw: = NPlayerLevel + g_ntemp
+  - line: 513
+    command: nPlayerLevel
+    arguments_raw: = nPlayerLevel / 4
+  - line: 515
+    command: debugout
+    arguments_raw: nPlayerLevel
+  - line: 523
+    command: add
+    arguments_raw: nMonstersDead 1
+  - line: 525
+    command: Givekey
+    arguments_raw: '1020'
+  - line: 526
+    command: SetConsoleNumVar
+    arguments_raw: nWinAmount nArenaReward
+  - line: 536
+    command: GetConsoleNumVar
+    arguments_raw: WaitingForPlayer,bWaitingForPlayer
+  - line: 542
+    command: SetConsoleNumVar
+    arguments_raw: WaitingForPlayer,FALSE
+  - line: 564
+    command: SetConsoleNumVar
+    arguments_raw: WaitingForPlayer,FALSE
+  command_count: 360
+- script_id: npc245.scr
+  source_path: NPC245.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: basedoor.inc
+  labels:
+  - line: 18
+    name: OnRude
+  - line: 28
+    name: Run
+  - line: 38
+    name: OnVanish
+  - line: 47
+    name: OnEnter
+  - line: 59
+    name: Init
+  - line: 71
+    name: OnUse
+  - line: 80
+    name: Main
+  registered_triggers:
+  - line: 88
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  - line: 89
+    message: Enter
+    callback: OnEnter
+    arguments_raw: Enter, OnEnter
+  trigger_edges:
+  - line: 32
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  movement_commands: []
+  state_commands:
+  - line: 51
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 52
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 53
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 64
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 65
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 66
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands: []
+  unknown_commands:
+  - line: 21
+    command: haskey
+    arguments_raw: 231 g_ntemp
+  - line: 34
+    command: runto
+    arguments_raw: g_hobject 128 OnVanish
+  - line: 42
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 43
+    command: exitscript
+    arguments_raw: ''
+  - line: 55
+    command: walkto
+    arguments_raw: g_hobject 16 DoNothing
+  - line: 74
+    command: stop
+    arguments_raw: ''
+  - line: 87
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 35
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: svenarena.scr
+  source_path: SVENARENA.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: globals.inc
+  - line: 8
+    path: BaseMelee.inc
+  labels:
+  - line: 20
+    name: OnWalk
+  - line: 56
+    name: OnGuard
+  - line: 68
+    name: OnArrive
+  - line: 76
+    name: OnWave
+  - line: 91
+    name: Init
+  - line: 103
+    name: OnStart
+  - line: 115
+    name: Boo
+  - line: 127
+    name: OnUse
+  - line: 134
+    name: OnRude
+  - line: 143
+    name: Main
+  registered_triggers:
+  - line: 150
+    message: Walk
+    callback: OnWalk
+    arguments_raw: Walk OnWalk
+  - line: 151
+    message: use
+    callback: OnUse
+    arguments_raw: use OnUse
+  - line: 152
+    message: Guard
+    callback: OnGuard
+    arguments_raw: Guard OnGuard
+  trigger_edges:
+  - line: 42
+    target_expression: g_hobject
+    message_expression: Guard
+    arguments_raw: g_hobject Guard
+  - line: 45
+    target_expression: g_hobject
+    message_expression: Guard
+    arguments_raw: g_hobject Guard
+  - line: 81
+    target_expression: g_hobject
+    message_expression: trigger
+    arguments_raw: g_hobject trigger
+  - line: 107
+    target_expression: g_hobject
+    message_expression: use
+    arguments_raw: g_hobject use
+  - line: 109
+    target_expression: g_hobject
+    message_expression: enter
+    arguments_raw: g_hobject enter
+  - line: 120
+    target_expression: g_hobject
+    message_expression: trigger
+    arguments_raw: g_hobject trigger
+  movement_commands: []
+  state_commands:
+  - line: 36
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 37
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 38
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 61
+    command: setflag
+    arguments_raw: g_hobject, visible
+  - line: 62
+    command: setflag
+    arguments_raw: g_hobject, solid
+  - line: 63
+    command: setflag
+    arguments_raw: g_hobject, gravity
+  - line: 96
+    command: clearflag
+    arguments_raw: g_hobject, visible
+  - line: 97
+    command: clearflag
+    arguments_raw: g_hobject, solid
+  - line: 98
+    command: clearflag
+    arguments_raw: g_hobject, gravity
+  presentation_commands:
+  - line: 84
+    command: Playanim
+    arguments_raw: Bless DoNothing
+  unknown_commands:
+  - line: 25
+    command: haskey
+    arguments_raw: 231 g_ntemp
+  - line: 30
+    command: haskey
+    arguments_raw: 230 g_ntemp
+  - line: 48
+    command: walkto
+    arguments_raw: g_hobject 6 OnArrive
+  - line: 65
+    command: walkto
+    arguments_raw: g_hobject 6 OnArrive
+  - line: 130
+    command: givekey
+    arguments_raw: '1034'
+  - line: 137
+    command: takekey
+    arguments_raw: '1034'
+  - line: 149
+    command: OnRudeExit
+    arguments_raw: OnRude
+  command_count: 66
+validation:
+  script_count: 5

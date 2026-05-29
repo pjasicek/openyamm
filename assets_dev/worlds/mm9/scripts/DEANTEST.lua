@@ -30,7 +30,7 @@ end
 script.labels["Main"] = function(ctx)
     -- DEANTEST.scr:41
     -- TraceOn ;delete me!!
-    ctx:command("@m", "00:15 Onblabber") -- DEANTEST.scr:45
+    ctx:atTime(0, 15, "Onblabber") -- DEANTEST.scr:45
     do return ctx:exit("") end -- DEANTEST.scr:48
 end
 

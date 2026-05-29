@@ -20,13 +20,13 @@ script.includes[#script.includes + 1] = { line = 14, path = "United.inc" }
 -- promo variables
 script.labels["Init"] = function(ctx)
     -- BJARNI.scr:30
-    ctx:command("loopanim", "Sit 0 DoNothing") -- BJARNI.scr:33
+    ctx:self():loopAnimation("Sit", 0, "DoNothing") -- BJARNI.scr:33
     if ctx:hasKey(40) then -- BJARNI.scr:34-35
-        ctx:command("set", "bVanish TRUE") -- BJARNI.scr:36
+        ctx:state().bVanish = true -- BJARNI.scr:36
         mm9.gosub(script, ctx, "vanish") -- BJARNI.scr:37
     end -- BJARNI.scr:38
     if ctx:hasKey(108) then -- BJARNI.scr:40-41
-        ctx:command("set", "bVanish False") -- BJARNI.scr:42
+        ctx:state().bVanish = false -- BJARNI.scr:42
         mm9.gosub(script, ctx, "Vanish") -- BJARNI.scr:43
     end -- BJARNI.scr:44
     do return ctx:exit("") end -- BJARNI.scr:45
@@ -34,16 +34,16 @@ end
 
 script.labels["Vanish"] = function(ctx)
     -- BJARNI.scr:50
-    ctx:command("getmyhandle", "g_hobject") -- BJARNI.scr:53
+    ctx:state().g_hobject = ctx:self() -- BJARNI.scr:53
     if ctx:condition("bVanish==TRUE") then -- BJARNI.scr:55
-        ctx:command("clearflag", "g_hobject, visible") -- BJARNI.scr:56
-        ctx:command("clearflag", "g_hobject, solid") -- BJARNI.scr:57
-        ctx:command("clearflag", "g_hobject, gravity") -- BJARNI.scr:58
+        ctx:self():setFlag("visible", false) -- BJARNI.scr:56
+        ctx:self():setFlag("solid", false) -- BJARNI.scr:57
+        ctx:self():setFlag("gravity", false) -- BJARNI.scr:58
         do return ctx:exit("") end -- BJARNI.scr:59
     else -- BJARNI.scr:60
-        ctx:command("setflag", "g_hobject, visible") -- BJARNI.scr:61
-        ctx:command("setflag", "g_hobject, solid") -- BJARNI.scr:62
-        ctx:command("setflag", "g_hobject, gravity") -- BJARNI.scr:63
+        ctx:self():setFlag("visible", true) -- BJARNI.scr:61
+        ctx:self():setFlag("solid", true) -- BJARNI.scr:62
+        ctx:self():setFlag("gravity", true) -- BJARNI.scr:63
         do return ctx:exit("") end -- BJARNI.scr:64
     end -- BJARNI.scr:65
     do return ctx:exit("") end -- BJARNI.scr:67
@@ -70,10 +70,9 @@ script.labels["Ivsar"] = function(ctx)
             ctx:giveKey(117) -- BJARNI.scr:96
             ctx:giveExp(42000) -- BJARNI.scr:97
             ctx:giveGold(3500) -- BJARNI.scr:98
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- BJARNI.scr:99
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- BJARNI.scr:99
             -- gives reward
-            ctx:command("getobjecthandle", "Ivsar g_hobject") -- BJARNI.scr:101
-            ctx:trigger("g_hobject", "stop") -- BJARNI.scr:102
+            ctx:object("Ivsar"):trigger("stop") -- BJARNI.scr:101-102
             do return ctx:exit("") end -- BJARNI.scr:104
         end -- BJARNI.scr:105
     end -- BJARNI.scr:106
@@ -105,7 +104,7 @@ script.labels["loveletter2"] = function(ctx)
         if ctx:condition("keycheck==0") then -- BJARNI.scr:144
             ctx:giveExp(15200) -- BJARNI.scr:145
             ctx:giveGold(2000) -- BJARNI.scr:146
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- BJARNI.scr:147
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- BJARNI.scr:147
             ctx:giveKey(151) -- BJARNI.scr:148
             do return ctx:exit("") end -- BJARNI.scr:149
         end -- BJARNI.scr:150
@@ -116,7 +115,7 @@ script.labels["loveletter2"] = function(ctx)
         if ctx:condition("keycheck==0") then -- BJARNI.scr:156
             ctx:giveExp(15200) -- BJARNI.scr:157
             ctx:giveGold(2000) -- BJARNI.scr:158
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- BJARNI.scr:159
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- BJARNI.scr:159
             ctx:giveKey(151) -- BJARNI.scr:160
             do return ctx:exit("") end -- BJARNI.scr:161
         end -- BJARNI.scr:162
@@ -138,7 +137,7 @@ script.labels["Anskram"] = function(ctx)
         ctx:giveKey(149) -- BJARNI.scr:189
         ctx:giveExp(20000) -- BJARNI.scr:190
         ctx:giveGold(3000) -- BJARNI.scr:191
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- BJARNI.scr:192
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- BJARNI.scr:192
         -- gives reward
         do return ctx:exit("") end -- BJARNI.scr:194
     end -- BJARNI.scr:195
@@ -158,7 +157,7 @@ script.labels["OnUse"] = function(ctx)
             ctx:giveKey(215) -- BJARNI.scr:221
         end -- BJARNI.scr:222
     end -- BJARNI.scr:223
-    ctx:command("playsound", "voices\\NPC\\NPC_045.wav, Onexit, 100, 240, FALSE, 100") -- BJARNI.scr:225
+    ctx:playSound("voices\\NPC\\NPC_045.wav", "Onexit", 100, 240, "FALSE", 100) -- BJARNI.scr:225
     mm9.gosub(script, ctx, "OnCheck") -- BJARNI.scr:226
     do return ctx:exit("") end -- BJARNI.scr:228
 end
@@ -173,13 +172,13 @@ script.labels["Main"] = function(ctx)
     -- TraceOn ;DELETE ME!!
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- BJARNI.scr:240
     ctx:addTrigger("Use", "OnUse") -- BJARNI.scr:241
-    ctx:command("loopanim", "listen, 0 Onexit") -- BJARNI.scr:242
-    ctx:command("set", "Jarl, Bjarni") -- BJARNI.scr:243
+    ctx:self():loopAnimation("listen", 0, "Onexit") -- BJARNI.scr:242
+    ctx:set("Jarl", "Bjarni") -- BJARNI.scr:243
     mm9.gosub(script, ctx, "UnitedInit") -- BJARNI.scr:244
-    ctx:command("onpoststartworld", "Init") -- BJARNI.scr:245
-    ctx:command("onpostminisaveload", "Init") -- BJARNI.scr:246
-    ctx:command("onpostsaveload", "Init") -- BJARNI.scr:247
-    ctx:command("wait", "1 .1 Init") -- BJARNI.scr:248
+    ctx:onEvent("OnPostStartWorld", "Init") -- BJARNI.scr:245
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- BJARNI.scr:246
+    ctx:onEvent("OnPostSaveLoad", "Init") -- BJARNI.scr:247
+    ctx:wait(1, .1, "Init") -- BJARNI.scr:248
     do return ctx:exit("") end -- BJARNI.scr:249
 end
 

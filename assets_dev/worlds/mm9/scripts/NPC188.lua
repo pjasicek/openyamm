@@ -23,7 +23,7 @@ script.labels["ritual"] = function(ctx)
         if ctx:hasKey(257) then -- NPC188.scr:31-32
             ctx:giveItem(430) -- NPC188.scr:33
             ctx:giveExp(5000) -- NPC188.scr:34
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC188.scr:35
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC188.scr:35
             ctx:giveKey(258) -- NPC188.scr:36
             do return ctx:exit("") end -- NPC188.scr:37
         end -- NPC188.scr:38
@@ -34,7 +34,7 @@ end
 -- End ritual quest
 script.labels["OnUse"] = function(ctx)
     -- NPC188.scr:50
-    ctx:command("playsound", "voices\\NPC\\NPC_188.wav, Onexit, 100, 240, FALSE, 100") -- NPC188.scr:53
+    ctx:playSound("voices\\NPC\\NPC_188.wav", "Onexit", 100, 240, "FALSE", 100) -- NPC188.scr:53
     do return ctx:exit("") end -- NPC188.scr:54
 end
 

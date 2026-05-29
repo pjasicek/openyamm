@@ -23,8 +23,7 @@ script.labels["Use1"] = function(ctx)
     -- PLACECAPSTONE.scr:24
     if ctx:hasKey(98) then -- PLACECAPSTONE.scr:29-30
         if ctx:hasItem(396) then -- PLACECAPSTONE.scr:33-34
-            ctx:command("getobjecthandle", "capstone g_hobject") -- PLACECAPSTONE.scr:35
-            ctx:trigger("g_hobject", "place") -- PLACECAPSTONE.scr:36
+            ctx:object("capstone"):trigger("place") -- PLACECAPSTONE.scr:35-36
             do return ctx:exit("") end -- PLACECAPSTONE.scr:37
         end -- PLACECAPSTONE.scr:38
     end -- PLACECAPSTONE.scr:39

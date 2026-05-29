@@ -33,17 +33,17 @@ end
 
 script.labels["StartMightGame"] = function(ctx)
     -- ARMWRESTLE.scr:39
-    ctx:command("getrandomint", "1, 40 nRandom") -- ARMWRESTLE.scr:41
-    ctx:command("my_might", "= nMight + nRandom") -- ARMWRESTLE.scr:42
-    ctx:command("getattribute", "0, PLAYER_MIGHT") -- ARMWRESTLE.scr:44
-    ctx:command("getrandomint", "9, 50, nRandom") -- ARMWRESTLE.scr:45
-    ctx:command("player_might", "= PLAYER_MIGHT + nRandom") -- ARMWRESTLE.scr:46
+    ctx:randomInt(1, 40, "nRandom") -- ARMWRESTLE.scr:41
+    ctx:set("MY_MIGHT", "nMight + nRandom") -- ARMWRESTLE.scr:42
+    ctx:getAttribute(0, "PLAYER_MIGHT") -- ARMWRESTLE.scr:44
+    ctx:randomInt(9, 50, "nRandom") -- ARMWRESTLE.scr:45
+    ctx:set("PLAYER_MIGHT", "PLAYER_MIGHT + nRandom") -- ARMWRESTLE.scr:46
     if ctx:condition("PLAYER_MIGHT>=MY_MIGHT") then -- ARMWRESTLE.scr:48
         mm9.gosub(script, ctx, "StartCower") -- ARMWRESTLE.scr:49
         mm9.gosub(script, ctx, "RecordMightWin") -- ARMWRESTLE.scr:50
     else -- ARMWRESTLE.scr:51
         mm9.gosub(script, ctx, "LoopTaunt") -- ARMWRESTLE.scr:52
-        ctx:command("rollovertext", "TEXT_DEFEAT, 1, 3000, 2000") -- ARMWRESTLE.scr:53
+        ctx:rolloverText("TEXT_DEFEAT", 1, 3000, 2000) -- ARMWRESTLE.scr:53
     end -- ARMWRESTLE.scr:54
     do return ctx:exit("TRUE") end -- ARMWRESTLE.scr:56
 end
@@ -57,25 +57,25 @@ end
 
 script.labels["StartCower"] = function(ctx)
     -- ARMWRESTLE.scr:67
-    ctx:command("playanim", "\"cowerstart\", LoopCower") -- ARMWRESTLE.scr:69
+    ctx:self():playAnimation("cowerstart", "LoopCower") -- ARMWRESTLE.scr:69
     do return ctx:exit("TRUE") end -- ARMWRESTLE.scr:71
 end
 
 script.labels["LoopCower"] = function(ctx)
     -- ARMWRESTLE.scr:74
-    ctx:command("loopanim", "\"cower\", 5, FinishCower") -- ARMWRESTLE.scr:76
+    ctx:self():loopAnimation("cower", 5, "FinishCower") -- ARMWRESTLE.scr:76
     do return ctx:exit("TRUE") end -- ARMWRESTLE.scr:78
 end
 
 script.labels["FinishCower"] = function(ctx)
     -- ARMWRESTLE.scr:81
-    ctx:command("playanim", "\"cowerstop\", RestoreUse") -- ARMWRESTLE.scr:83
+    ctx:self():playAnimation("cowerstop", "RestoreUse") -- ARMWRESTLE.scr:83
     do return ctx:exit("TRUE") end -- ARMWRESTLE.scr:85
 end
 
 script.labels["RemoveUse"] = function(ctx)
     -- ARMWRESTLE.scr:88
-    ctx:command("removetrigger", "use") -- ARMWRESTLE.scr:90
+    ctx:removeTrigger("use") -- ARMWRESTLE.scr:90
     do return ctx:exit("TRUE") end -- ARMWRESTLE.scr:92
 end
 

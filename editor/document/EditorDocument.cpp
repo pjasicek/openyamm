@@ -2085,7 +2085,8 @@ bool EditorDocument::loadMm9DatLevelPhysicalPath(
     m_mm9AssetDependencySummary = {};
     m_mm9DocumentPathStatuses.clear();
     m_mm9SourceAssetManifest = {};
-    m_mm9SourceAssetManifestPhysicalPath = resolveMm9SourceAssetManifestPath(normalizedPath);
+    m_mm9SourceAssetManifestPhysicalPath =
+        resolveMm9SourceAssetManifestPath(normalizedPath, m_mm9DatLevelMetadata);
 
     if (!m_developmentRoot.empty()
         && !m_editorDevelopmentRoot.empty()
@@ -2201,7 +2202,8 @@ bool EditorDocument::loadMm9DatLevelPhysicalPath(
                     normalizedPath,
                     m_mm9DatLoadedSidecars.datWorld,
                     m_mm9DatLoadedSidecars.materialAliases,
-                    &m_mm9MaterialInspectionCache);
+                    &m_mm9MaterialInspectionCache,
+                    &m_mm9DatLevelMetadata);
             m_mm9DatRenderMaterialAssignments =
                 Game::assignMm9DatRenderMeshMaterials(
                     m_mm9DatRenderMesh,
@@ -2238,7 +2240,8 @@ bool EditorDocument::loadMm9DatLevelPhysicalPath(
                     normalizedPath,
                     m_mm9DatLevelMetadata,
                     m_mm9MaterialTextureStatuses,
-                    m_mm9RawObjectAssetReferenceStatuses);
+                    m_mm9RawObjectAssetReferenceStatuses,
+                    m_mm9SourceAssetFamilyStatuses);
 
             if (m_mm9DatLevelMetadata.sidecars.sceneCompat
                 && !m_mm9DatLevelMetadata.sidecars.sceneCompat->empty())

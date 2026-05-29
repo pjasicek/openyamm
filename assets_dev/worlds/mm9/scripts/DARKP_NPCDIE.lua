@@ -18,13 +18,13 @@ end
 
 script.labels["TakeHit"] = function(ctx)
     -- DARKP_NPCDIE.scr:19
-    ctx:command("playanim", "Wince1, AnimateA") -- DARKP_NPCDIE.scr:21
+    ctx:self():playAnimation("Wince1", "AnimateA") -- DARKP_NPCDIE.scr:21
     do return ctx:exit("TRUE") end -- DARKP_NPCDIE.scr:22
 end
 
 script.labels["AnimateA"] = function(ctx)
     -- DARKP_NPCDIE.scr:24
-    ctx:command("playanim", "Wince2, Stop") -- DARKP_NPCDIE.scr:26
+    ctx:self():playAnimation("Wince2", "Stop") -- DARKP_NPCDIE.scr:26
     do return ctx:exit("TRUE") end -- DARKP_NPCDIE.scr:27
 end
 
@@ -33,21 +33,20 @@ script.labels["Main2"] = function(ctx)
     ctx:addTrigger("Wince", "TakeHit") -- DARKP_NPCDIE.scr:31
     ctx:addTrigger("destroy", "Die") -- DARKP_NPCDIE.scr:32
     -- SJR
-    ctx:command("getmyhandle", "hMe") -- DARKP_NPCDIE.scr:35
-    ctx:command("setstat", "hMe, GaveTreasure, TRUE") -- DARKP_NPCDIE.scr:36
+    ctx:self():setStat("GaveTreasure", "TRUE") -- DARKP_NPCDIE.scr:36
     -- endSJR
     do return ctx:exit("TRUE") end -- DARKP_NPCDIE.scr:38
 end
 
 script.labels["Die"] = function(ctx)
     -- DARKP_NPCDIE.scr:40
-    ctx:command("die", "") -- DARKP_NPCDIE.scr:42
+    ctx:self():die() -- DARKP_NPCDIE.scr:42
     do return ctx:exit("tRUE") end -- DARKP_NPCDIE.scr:43
 end
 
 script.labels["Main"] = function(ctx)
     -- DARKP_NPCDIE.scr:45
-    ctx:command("wait", "0, 0.1, Main2") -- DARKP_NPCDIE.scr:47
+    ctx:wait(0, 0.1, "Main2") -- DARKP_NPCDIE.scr:47
     do return ctx:exit("TRUE") end -- DARKP_NPCDIE.scr:48
 end
 

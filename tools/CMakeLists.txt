@@ -101,7 +101,6 @@ add_executable(mm9_animated_model_render_smoke
     ../game/mm9/Mm9AnimatedModelResolver.cpp
     ../game/mm9/Mm9DtxTexture.cpp
     ../game/mm9/Mm9AnimatedModelSidecar.cpp
-    ../game/mm9/Mm9ScriptedBillboardVisuals.cpp
     ../game/mm9/Mm9ScriptedObjectRuntime.cpp
     ../game/render/AnimatedModelAsset.cpp
     ../game/render/AnimatedModelRenderer.cpp
@@ -126,6 +125,31 @@ target_link_libraries(mm9_animated_model_render_smoke
 
 target_compile_features(mm9_animated_model_render_smoke PRIVATE cxx_std_20)
 add_dependencies(mm9_animated_model_render_smoke openyamm_runtime_shaders)
+
+add_executable(mm9_dat_world_render_smoke
+    mm9_dat_world_render_smoke_main.cpp
+)
+
+target_include_directories(mm9_dat_world_render_smoke
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}
+        ${OPENYAMM_BGFX_FETCH_SOURCE_DIR}/3rdparty
+)
+
+target_compile_definitions(mm9_dat_world_render_smoke
+    PRIVATE
+        OPENYAMM_BGFX_SHADER_DIR="${OPENYAMM_RUNTIME_SHADER_DIR}"
+)
+
+target_link_libraries(mm9_dat_world_render_smoke
+    PRIVATE
+        openyamm_game
+        openyamm_engine
+        yaml-cpp::yaml-cpp
+)
+
+target_compile_features(mm9_dat_world_render_smoke PRIVATE cxx_std_20)
+add_dependencies(mm9_dat_world_render_smoke openyamm_runtime_shaders)
 
 add_executable(mm9_animated_model_viewer
     mm9_animated_model_viewer_main.cpp

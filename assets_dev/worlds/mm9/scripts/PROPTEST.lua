@@ -10,9 +10,9 @@ script.includes[#script.includes + 1] = { line = 8, path = "globals.inc" }
 -- PropTest.scr
 script.labels["OnUse"] = function(ctx)
     -- PROPTEST.scr:13
-    ctx:command("add", "nCount,1") -- PROPTEST.scr:16
+    ctx:state().nCount = (tonumber(ctx:state().nCount) or 0) + 1 -- PROPTEST.scr:16
     if ctx:condition("nCount==2") then -- PROPTEST.scr:18
-        ctx:setPropNumber("Locked", "FALSE") -- PROPTEST.scr:19
+        ctx:self():setNumberProperty("Locked", "FALSE") -- PROPTEST.scr:19
     end -- PROPTEST.scr:20
     do return ctx:exit(0) end -- PROPTEST.scr:22
 end

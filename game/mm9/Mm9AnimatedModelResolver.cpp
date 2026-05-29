@@ -110,6 +110,53 @@ std::vector<std::string> normalizeSkinSequence(const YAML::Node &node)
     return output;
 }
 
+void readAliasMap(
+    const YAML::Node &node,
+    std::unordered_map<std::string, std::string> &aliases,
+    std::string (*normalize)(const std::string &))
+{
+    if (!node || !node.IsMap())
+    {
+        return;
+    }
+
+    for (YAML::const_iterator iterator = node.begin(); iterator != node.end(); ++iterator)
+    {
+        if (!iterator->first.IsScalar() || !iterator->second.IsScalar())
+        {
+            continue;
+        }
+
+        const std::string source = normalize(iterator->first.as<std::string>());
+        const std::string target = normalize(iterator->second.as<std::string>());
+        if (!source.empty() && !target.empty())
+        {
+            aliases[source] = target;
+        }
+    }
+}
+
+std::string aliasedRef(
+    const std::unordered_map<std::string, std::string> &aliases,
+    const std::string &value)
+{
+    const auto iterator = aliases.find(value);
+    return iterator != aliases.end() ? iterator->second : value;
+}
+
+std::vector<std::string> aliasedRefs(
+    const std::unordered_map<std::string, std::string> &aliases,
+    const std::vector<std::string> &values)
+{
+    std::vector<std::string> result;
+    result.reserve(values.size());
+    for (const std::string &value : values)
+    {
+        result.push_back(aliasedRef(aliases, value));
+    }
+    return result;
+}
+
 std::string skinListKey(const std::vector<std::string> &skins)
 {
     std::ostringstream stream;
@@ -257,6 +304,8 @@ bool Mm9AnimatedModelResolver::loadRegistry(
     std::string &errorMessage)
 {
     m_entries.clear();
+    m_sourceModelAliases.clear();
+    m_sourceSkinAliases.clear();
     m_worldRoot.clear();
 
     try
@@ -279,6 +328,12 @@ bool Mm9AnimatedModelResolver::loadRegistry(
         }
 
         m_worldRoot = registryPath.parent_path().parent_path();
+        const YAML::Node aliases = root["aliases"];
+        if (aliases && aliases.IsMap())
+        {
+            readAliasMap(aliases["source_models"], m_sourceModelAliases, normalizeMm9AnimatedModelSourceModelRef);
+            readAliasMap(aliases["source_skins"], m_sourceSkinAliases, normalizeSkinRef);
+        }
 
         for (const YAML::Node &modelNode : models)
         {
@@ -344,7 +399,8 @@ std::optional<Mm9AnimatedModelResolution> Mm9AnimatedModelResolver::resolve(
     std::vector<AnimatedModelDiagnostic> &diagnostics) const
 {
     const std::string normalizedModel = normalizeMm9AnimatedModelSourceModelRef(sourceModel);
-    if (normalizedModel.empty())
+    const std::string aliasedModel = aliasedRef(m_sourceModelAliases, normalizedModel);
+    if (aliasedModel.empty())
     {
         addDiagnostic(diagnostics, "MM9 animated model resolution failed: empty source Filename", true);
         return std::nullopt;
@@ -353,7 +409,7 @@ std::optional<Mm9AnimatedModelResolution> Mm9AnimatedModelResolver::resolve(
     const Mm9AnimatedModelRegistryEntry *pEntry = nullptr;
     for (const Mm9AnimatedModelRegistryEntry &entry : m_entries)
     {
-        if (entry.sourceModel == normalizedModel)
+        if (entry.sourceModel == aliasedModel)
         {
             pEntry = &entry;
             break;
@@ -365,12 +421,13 @@ std::optional<Mm9AnimatedModelResolution> Mm9AnimatedModelResolver::resolve(
         addDiagnostic(
             diagnostics,
             "MM9 animated model resolution failed for Filename '" + sourceModel
-                + "' normalized as '" + normalizedModel + "'",
+                + "' normalized as '" + aliasedModel + "'",
             true);
         return std::nullopt;
     }
 
-    std::vector<std::string> normalizedSkins = normalizeMm9AnimatedModelSourceSkinRefs(sourceSkin);
+    std::vector<std::string> normalizedSkins =
+        aliasedRefs(m_sourceSkinAliases, normalizeMm9AnimatedModelSourceSkinRefs(sourceSkin));
     const Mm9AnimatedModelSkinBinding *pSkinBinding = nullptr;
 
     if (normalizedSkins.empty())
@@ -385,11 +442,10 @@ std::optional<Mm9AnimatedModelResolution> Mm9AnimatedModelResolver::resolve(
         {
             addDiagnostic(
                 diagnostics,
-                "MM9 animated model resolution failed for Skin '" + sourceSkin
+                "MM9 animated model resolution uses object Skin override '" + sourceSkin
                     + "' normalized as '" + skinListKey(normalizedSkins)
                     + "' on Filename '" + sourceModel + "'",
-                true);
-            return std::nullopt;
+                false);
         }
     }
 
@@ -398,7 +454,7 @@ std::optional<Mm9AnimatedModelResolution> Mm9AnimatedModelResolver::resolve(
         m_worldRoot,
         sourceModel,
         sourceSkin,
-        normalizedModel,
+        aliasedModel,
         normalizedSkins,
         pSkinBinding);
 }
@@ -437,7 +493,8 @@ std::optional<Mm9AnimatedModelResolution> Mm9AnimatedModelResolver::resolveModel
         return std::nullopt;
     }
 
-    std::vector<std::string> normalizedSkins = normalizeMm9AnimatedModelSourceSkinRefs(sourceSkin);
+    std::vector<std::string> normalizedSkins =
+        aliasedRefs(m_sourceSkinAliases, normalizeMm9AnimatedModelSourceSkinRefs(sourceSkin));
     const Mm9AnimatedModelSkinBinding *pSkinBinding = nullptr;
     if (!skinBindingId.empty())
     {
@@ -465,11 +522,10 @@ std::optional<Mm9AnimatedModelResolution> Mm9AnimatedModelResolver::resolveModel
         {
             addDiagnostic(
                 diagnostics,
-                "MM9 animated model resolution failed for Skin '" + sourceSkin
+                "MM9 animated model resolution uses object Skin override '" + sourceSkin
                     + "' normalized as '" + skinListKey(normalizedSkins)
                     + "' on model_asset '" + modelAsset + "'",
-                true);
-            return std::nullopt;
+                false);
         }
     }
 

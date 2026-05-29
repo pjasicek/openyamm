@@ -12,6 +12,11 @@ namespace OpenYAMM::Editor
 {
 struct Mm9ResolvedModelInstanceActorSource
 {
+    struct ActorSoundReference
+    {
+        std::string sourcePath;
+    };
+
     struct ActorRow
     {
         std::string table;
@@ -53,6 +58,7 @@ struct Mm9ResolvedModelInstanceActorSource
         std::string hostilityGroup;
         std::string treasureLevel;
         std::string voiceRadius;
+        std::vector<ActorSoundReference> footSoundReferences;
     };
 
     std::string variantId;
@@ -90,6 +96,10 @@ bool canResolveMm9ModelInstanceActorSource(
 
 std::string normalizeMm9ModelInstanceVirtualPath(std::string value);
 std::string normalizeMm9ModelInstanceImagePath(std::string value);
+bool mm9ActorFootSoundRequiresResolution(const std::string &footSound);
+std::vector<Mm9ResolvedModelInstanceActorSource::ActorSoundReference> resolveMm9ActorFootSoundReferences(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &footSound);
 std::vector<std::string> splitMm9ModelInstanceSourceSkins(const std::string &sourceSkin);
 std::vector<std::string> splitMm9ModelInstanceSourceSkinImages(const std::string &sourceSkin);
 std::string mm9ModelInstanceActorVariantAssetPath(

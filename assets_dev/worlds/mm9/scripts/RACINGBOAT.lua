@@ -18,8 +18,8 @@ script.labels["Main"] = function(ctx)
     -- RACINGBOAT.scr:34
     ctx:getParam(0, "sDestName") -- RACINGBOAT.scr:36
     ctx:getParam(1, "bIsAI") -- RACINGBOAT.scr:37
-    ctx:command("onpoststartworld", "InitRacingBoat") -- RACINGBOAT.scr:39
-    ctx:command("onpostminisaveload", "InitRacingBoat") -- RACINGBOAT.scr:40
+    ctx:onEvent("OnPostStartWorld", "InitRacingBoat") -- RACINGBOAT.scr:39
+    ctx:onEvent("OnPostMiniSaveLoad", "InitRacingBoat") -- RACINGBOAT.scr:40
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:42
 end
 
@@ -30,37 +30,36 @@ script.labels["InitRacingBoat"] = function(ctx)
     -- turn it back off when race is over
     ctx:addTrigger("off", "TurnOff") -- RACINGBOAT.scr:50
     ctx:addTrigger("submerge", "Submerge") -- RACINGBOAT.scr:51
-    ctx:command("getmyhandle", "hMe") -- RACINGBOAT.scr:53
-    ctx:command("getpos", "hMe, xMe,yMe,zMe") -- RACINGBOAT.scr:54
-    ctx:command("getobjecthandle", "sDestName, hDest") -- RACINGBOAT.scr:55
+    ctx:state().xMe, ctx:state().yMe, ctx:state().zMe = ctx:self():pos() -- RACINGBOAT.scr:54
+    ctx:state().hDest = ctx:objectOrNil("sDestName") -- RACINGBOAT.scr:55
     if ctx:condition("hDest==0") then -- RACINGBOAT.scr:56
         do return ctx:exit("TRUE") end -- RACINGBOAT.scr:57
     end -- RACINGBOAT.scr:58
-    ctx:command("faceobject", "hDest, 0, DoNothing") -- RACINGBOAT.scr:60
+    ctx:self():faceObject(ctx:object("hDest"), 0, "DoNothing") -- RACINGBOAT.scr:60
     ctx:getConsoleStrVar("BOAT_JUDGE", "sJudgeName") -- RACINGBOAT.scr:61
-    ctx:command("getobjecthandle", "sJudgeName, hJudge") -- RACINGBOAT.scr:62
+    ctx:state().hJudge = ctx:objectOrNil("sJudgeName") -- RACINGBOAT.scr:62
     if ctx:condition("hJudge!=0") then -- RACINGBOAT.scr:63
-        ctx:command("createobjectlink", "hJudge") -- RACINGBOAT.scr:64
-        ctx:command("onobjectlinkbroken", "OnObjectLinkBroken") -- RACINGBOAT.scr:65
+        ctx:self():link(ctx:object("hJudge")) -- RACINGBOAT.scr:64
+        ctx:onEvent("OnObjectLinkBroken", "OnObjectLinkBroken") -- RACINGBOAT.scr:65
     end -- RACINGBOAT.scr:66
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:68
 end
 
 script.labels["OnObjectLinkBroken"] = function(ctx)
     -- RACINGBOAT.scr:71
-    ctx:command("hjudge", "= NULL") -- RACINGBOAT.scr:73
+    ctx:state().hJudge = nil -- RACINGBOAT.scr:73
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:75
 end
 
 script.labels["TurnOn"] = function(ctx)
     -- RACINGBOAT.scr:78
     -- ready for racing action
-    ctx:command("getdistance", "hMe, hDest, nDist") -- RACINGBOAT.scr:81
-    ctx:command("ndist", "= nDist / 10") -- RACINGBOAT.scr:82
+    ctx:state().nDist = ctx:self():distanceTo(ctx:object("hDest")) -- RACINGBOAT.scr:81
+    ctx:set("nDist", "nDist / 10") -- RACINGBOAT.scr:82
     -- if ai turned us on, start moving
     -- if player, wait till they shoot us
     if ctx:condition("bIsAI==TRUE") then -- RACINGBOAT.scr:86
-        ctx:command("ntemp", "= nDist / 2") -- RACINGBOAT.scr:87
+        ctx:set("nTemp", "nDist / 2") -- RACINGBOAT.scr:87
         mm9.gosub(script, ctx, "StartMoveLoop") -- RACINGBOAT.scr:88
     else -- RACINGBOAT.scr:89
         mm9.gosub(script, ctx, "Ready") -- RACINGBOAT.scr:90
@@ -71,48 +70,48 @@ end
 script.labels["TurnOff"] = function(ctx)
     -- RACINGBOAT.scr:96
     -- not ready for racing action
-    ctx:command("stop", "") -- RACINGBOAT.scr:99
+    ctx:self():stop() -- RACINGBOAT.scr:99
     -- go back, ready for another race
-    ctx:command("setpos", "hMe, xMe,yMe,zMe") -- RACINGBOAT.scr:101
-    ctx:command("ondamage", "DoNothing") -- RACINGBOAT.scr:103
+    ctx:self():setPos("xMe", "yMe", "zMe") -- RACINGBOAT.scr:101
+    ctx:onEvent("OnDamage", "DoNothing") -- RACINGBOAT.scr:103
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:105
 end
 
 script.labels["MoveForward"] = function(ctx)
     -- RACINGBOAT.scr:108
     -- move in forward direction
-    ctx:command("getdistance", "hMe, hDest, nRemainder") -- RACINGBOAT.scr:111
+    ctx:state().nRemainder = ctx:self():distanceTo(ctx:object("hDest")) -- RACINGBOAT.scr:111
     if ctx:condition("nRemainder<nDist") then -- RACINGBOAT.scr:113
         mm9.gosub(script, ctx, "Arrived") -- RACINGBOAT.scr:114
         do return ctx:exit("TRUE") end -- RACINGBOAT.scr:115
     end -- RACINGBOAT.scr:116
     -- take this off so player doesnt cheeze
-    ctx:command("ondamage", "DoNothing") -- RACINGBOAT.scr:119
-    ctx:command("movedir", "dx,0,dz, nDist, nDist, Ready") -- RACINGBOAT.scr:120
+    ctx:onEvent("OnDamage", "DoNothing") -- RACINGBOAT.scr:119
+    ctx:self():moveDir("dx", 0, "dz", "nDist", "nDist", "Ready") -- RACINGBOAT.scr:120
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:122
 end
 
 script.labels["StartMoveLoop"] = function(ctx)
     -- RACINGBOAT.scr:125
     -- move in forward direction
-    ctx:command("getdistance", "hMe, hDest, nRemainder") -- RACINGBOAT.scr:128
+    ctx:state().nRemainder = ctx:self():distanceTo(ctx:object("hDest")) -- RACINGBOAT.scr:128
     if ctx:condition("nRemainder<nDist") then -- RACINGBOAT.scr:129
         mm9.gosub(script, ctx, "Arrived") -- RACINGBOAT.scr:130
         do return ctx:exit("TRUE") end -- RACINGBOAT.scr:131
     else -- RACINGBOAT.scr:132
-        ctx:command("getfacedir", "hMe, dx,dy,dz") -- RACINGBOAT.scr:133
+        ctx:state().dx, ctx:state().dy, ctx:state().dz = ctx:self():rotation() -- RACINGBOAT.scr:133
     end -- RACINGBOAT.scr:134
-    ctx:command("getrandomint", "nTemp, nDist, nSpeed") -- RACINGBOAT.scr:136
-    ctx:command("nspeed", "= nSpeed / 2") -- RACINGBOAT.scr:137
-    ctx:command("movedir", "dx,0,dz, nDist, nSpeed, StartMoveLoop") -- RACINGBOAT.scr:138
+    ctx:randomInt("nTemp", "nDist", "nSpeed") -- RACINGBOAT.scr:136
+    ctx:set("nSpeed", "nSpeed / 2") -- RACINGBOAT.scr:137
+    ctx:self():moveDir("dx", 0, "dz", "nDist", "nSpeed", "StartMoveLoop") -- RACINGBOAT.scr:138
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:140
 end
 
 script.labels["Ready"] = function(ctx)
     -- RACINGBOAT.scr:143
     -- re-setup race
-    ctx:command("getfacedir", "hMe, dx,dy,dz") -- RACINGBOAT.scr:146
-    ctx:command("ondamage", "MoveForward") -- RACINGBOAT.scr:147
+    ctx:state().dx, ctx:state().dy, ctx:state().dz = ctx:self():rotation() -- RACINGBOAT.scr:146
+    ctx:onEvent("OnDamage", "MoveForward") -- RACINGBOAT.scr:147
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:149
 end
 
@@ -130,23 +129,23 @@ end
 
 script.labels["Submerge"] = function(ctx)
     -- RACINGBOAT.scr:165
-    ctx:command("stop", "") -- RACINGBOAT.scr:167
-    ctx:command("ondamage", "DoNothing") -- RACINGBOAT.scr:168
-    ctx:command("movedir", "0,-1,0, 64, 64, ReturnToStart") -- RACINGBOAT.scr:169
+    ctx:self():stop() -- RACINGBOAT.scr:167
+    ctx:onEvent("OnDamage", "DoNothing") -- RACINGBOAT.scr:168
+    ctx:self():moveDir(0, -1, 0, 64, 64, "ReturnToStart") -- RACINGBOAT.scr:169
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:171
 end
 
 script.labels["ReturnToStart"] = function(ctx)
     -- RACINGBOAT.scr:174
-    ctx:command("ntemp", "= yMe - 64") -- RACINGBOAT.scr:176
-    ctx:command("setpos", "hMe, xMe,nTemp,zMe") -- RACINGBOAT.scr:177
+    ctx:set("nTemp", "yMe - 64") -- RACINGBOAT.scr:176
+    ctx:self():setPos("xMe", "nTemp", "zMe") -- RACINGBOAT.scr:177
     mm9.gosub(script, ctx, "Surface") -- RACINGBOAT.scr:178
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:180
 end
 
 script.labels["Surface"] = function(ctx)
     -- RACINGBOAT.scr:183
-    ctx:command("movedir", "0,1,0, 64, 64, TurnOff") -- RACINGBOAT.scr:185
+    ctx:self():moveDir(0, 1, 0, 64, 64, "TurnOff") -- RACINGBOAT.scr:185
     do return ctx:exit("TRUE") end -- RACINGBOAT.scr:187
 end
 

@@ -16,8 +16,8 @@ script.includes[#script.includes + 1] = { line = 8, path = "HonkHostility.inc" }
 script.labels["Main"] = function(ctx)
     -- HONKGUARDBASIC.scr:16
     ctx:getParam(0, "HONK_TYPE") -- HONKGUARDBASIC.scr:18
-    ctx:command("onpoststartworld", "InitHonkGuardBasic") -- HONKGUARDBASIC.scr:20
-    ctx:command("onpostminisaveload", "InitHonkGuardBasic") -- HONKGUARDBASIC.scr:21
+    ctx:onEvent("OnPostStartWorld", "InitHonkGuardBasic") -- HONKGUARDBASIC.scr:20
+    ctx:onEvent("OnPostMiniSaveLoad", "InitHonkGuardBasic") -- HONKGUARDBASIC.scr:21
     do return ctx:exit("TRUE") end -- HONKGUARDBASIC.scr:23
 end
 
@@ -33,7 +33,7 @@ end
 script.labels["AttachTool"] = function(ctx)
     -- HONKGUARDBASIC.scr:36
     if ctx:condition("HONK_TYPE==1") then -- HONKGUARDBASIC.scr:38
-        ctx:command("attachprop", "\"HonkPamphlet.ABC\",\"Pamphlet.DTX\",\"Pamphlet\",hProp") -- HONKGUARDBASIC.scr:39
+        ctx:self():attachProp("HonkPamphlet.ABC", "Pamphlet.DTX", "Pamphlet", ctx:object("hProp")) -- HONKGUARDBASIC.scr:39
     end -- HONKGUARDBASIC.scr:40
     do return ctx:exit("TRUE") end -- HONKGUARDBASIC.scr:42
 end

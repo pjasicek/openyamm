@@ -484,7 +484,9 @@ ReplaceGlobalEvent(822, "MMMerge Champion promotion", function()
         firstMessage = Game.NPCText[1099],
         repeatMessage = Game.NPCText[1099],
         refuseMessage = Game.NPCText[1100],
-        condition = function() return IsAtLeast(ArenaWinsKnight, 5) end,
+        condition = function()
+            return GetPartyVariable(ArenaWinsKnight) + GetPartyVariable(ArenaWinsLord) >= 5
+        end,
     })
 
     if result == 1 then

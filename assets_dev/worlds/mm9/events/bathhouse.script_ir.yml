@@ -1,0 +1,1196 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: bathhouse
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bathfurnace.scr
+  source_path: BATHFURNACE.scr
+  parse_status: parsed
+  includes:
+  - line: 14
+    path: globals.inc
+  labels:
+  - line: 28
+    name: dn
+  - line: 35
+    name: repeat0
+  - line: 45
+    name: repeat1
+  - line: 56
+    name: turnoff
+  - line: 67
+    name: turnon
+  - line: 82
+    name: KillFatc
+  - line: 91
+    name: main2
+  - line: 107
+    name: main
+  registered_triggers:
+  - line: 112
+    message: turnon
+    callback: turnon
+    arguments_raw: turnon turnon
+  - line: 113
+    message: turnoff
+    callback: turnoff
+    arguments_raw: turnoff turnoff
+  - line: 114
+    message: repeat0
+    callback: repeat0
+    arguments_raw: repeat0 repeat0
+  - line: 115
+    message: repeat1
+    callback: repeat1
+    arguments_raw: repeat1 repeat1
+  trigger_edges:
+  - line: 39
+    target_expression: hPiston0
+    message_expression: toggle
+    arguments_raw: hPiston0 toggle
+  - line: 49
+    target_expression: hPiston1
+    message_expression: toggle
+    arguments_raw: hPiston1 toggle
+  - line: 59
+    target_expression: hBoilingSteam0
+    message_expression: 'off'
+    arguments_raw: hBoilingSteam0 off
+  - line: 60
+    target_expression: hBoilingSteam1
+    message_expression: 'off'
+    arguments_raw: hBoilingSteam1 off
+  - line: 61
+    target_expression: hDamageBrush0
+    message_expression: turnoff
+    arguments_raw: hDamageBrush0 turnoff
+  - line: 62
+    target_expression: hDamageBrush1
+    message_expression: turnoff
+    arguments_raw: hDamageBrush1 turnoff
+  - line: 70
+    target_expression: hBoilingSteam0
+    message_expression: 'on'
+    arguments_raw: hBoilingSteam0 on
+  - line: 71
+    target_expression: hBoilingSteam1
+    message_expression: 'on'
+    arguments_raw: hBoilingSteam1 on
+  - line: 72
+    target_expression: hDamageBrush0
+    message_expression: turnon
+    arguments_raw: hDamageBrush0 turnon
+  - line: 73
+    target_expression: hDamageBrush1
+    message_expression: turnon
+    arguments_raw: hDamageBrush1 turnon
+  - line: 74
+    target_expression: hPiston0
+    message_expression: toggle
+    arguments_raw: hPiston0 toggle
+  - line: 75
+    target_expression: hPiston1
+    message_expression: toggle
+    arguments_raw: hPiston1 toggle
+  - line: 86
+    target_expression: g_hobject
+    message_expression: Die
+    arguments_raw: g_hobject Die
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 63
+    command: nSwitchOpen
+    arguments_raw: = 0
+  - line: 77
+    command: nSwitchOpen
+    arguments_raw: = 1
+  - line: 110
+    command: traceon
+    arguments_raw: ''
+  command_count: 41
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: dp2steam.scr
+  source_path: DP2STEAM.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 15
+    name: FireOn
+  - line: 24
+    name: FireOff
+  - line: 32
+    name: Main
+  registered_triggers:
+  - line: 36
+    message: FireOn
+    callback: FireOn
+    arguments_raw: FireOn, FireOn
+  - line: 37
+    message: FireOff
+    callback: FireOff
+    arguments_raw: FireOff, FireOff
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: SetPropNumber
+    arguments_raw: FireScale, MaxScale
+  - line: 27
+    command: SetPropNumber
+    arguments_raw: FireScale, MinScale
+  command_count: 9
+- script_id: dp2waterdamage.scr
+  source_path: DP2WATERDAMAGE.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 15
+    name: DamageOn
+  - line: 24
+    name: DamageOff
+  - line: 33
+    name: Main
+  registered_triggers:
+  - line: 38
+    message: DamageOn
+    callback: DamageOn
+    arguments_raw: DamageOn, DamageOn
+  - line: 39
+    message: DamageOff
+    callback: DamageOff
+    arguments_raw: DamageOff, DamageOff
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: SetPropString
+    arguments_raw: Damagetype, DT_BURN
+  - line: 19
+    command: SetPropNumber
+    arguments_raw: Damage, Damage_Amount
+  - line: 27
+    command: SetPropString
+    arguments_raw: Damagetype, DT_UNSPECIFIED
+  - line: 28
+    command: SetPropNumber
+    arguments_raw: Damage, 0
+  command_count: 10
+- script_id: drainwater.scr
+  source_path: DRAINWATER.scr
+  parse_status: parsed
+  includes:
+  - line: 15
+    path: BaseGlobals.inc
+  labels:
+  - line: 35
+    name: Main
+  - line: 48
+    name: InitDrainSwitch
+  - line: 63
+    name: FillWater
+  - line: 75
+    name: DrainWater
+  - line: 87
+    name: OnFillWater
+  - line: 94
+    name: OnDrainWater
+  registered_triggers:
+  - line: 50
+    message: drain
+    callback: DrainWater
+    arguments_raw: "drain,\tDrainWater"
+  - line: 51
+    message: fill
+    callback: FillWater
+    arguments_raw: "fill,\tFillWater"
+  - line: 66
+    message: drain
+    callback: DrainWater
+    arguments_raw: "drain,\tDrainWater"
+  - line: 78
+    message: fill
+    callback: FillWater
+    arguments_raw: "fill,\tFillWater"
+  trigger_edges:
+  - line: 65
+    target_expression: hFillTrigger
+    message_expression: trigger
+    arguments_raw: hFillTrigger, trigger
+  - line: 77
+    target_expression: hDrainTrigger
+    message_expression: trigger
+    arguments_raw: hDrainTrigger, trigger
+  movement_commands:
+  - line: 70
+    command: MoveToPOS
+    arguments_raw: xMe,yMe,zMe, 10, OnFillWater
+  - line: 82
+    command: MoveToPOS
+    arguments_raw: xMe,yMe,zMe, 10, OnDrainWater
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 42
+    command: OnPostStartWorld
+    arguments_raw: InitDrainSwitch
+  - line: 43
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitDrainSwitch
+  - line: 67
+    command: RemoveTrigger
+    arguments_raw: fill
+  - line: 79
+    command: RemoveTrigger
+    arguments_raw: drain
+  - line: 89
+    command: Stop
+    arguments_raw: ''
+  - line: 96
+    command: Stop
+    arguments_raw: ''
+  command_count: 34
+- script_id: eborabath.scr
+  source_path: EBORABATH.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: globals.inc
+  - line: 11
+    path: flags.inc
+  - line: 12
+    path: baseMelee.inc
+  labels:
+  - line: 30
+    name: OnGossip
+  - line: 42
+    name: DeadConcubine
+  - line: 62
+    name: EscapeTheTub
+  - line: 82
+    name: OnLaunchDone0
+  - line: 101
+    name: OnEboraArrive1
+  - line: 109
+    name: Land
+  - line: 116
+    name: LandDone
+  - line: 138
+    name: DeadPal
+  - line: 153
+    name: CastSpell
+  - line: 160
+    name: DitchTheJoint
+  - line: 186
+    name: ClearMe
+  - line: 195
+    name: CacheFiles
+  - line: 202
+    name: InitEboraBath
+  - line: 222
+    name: OnFoundPlayer
+  - line: 235
+    name: OnLaunchDone
+  - line: 243
+    name: TurnCameraOn
+  - line: 252
+    name: TurnCameraOff
+  - line: 266
+    name: Main
+  - line: 278
+    name: TurnCameraOn
+  registered_triggers:
+  - line: 209
+    message: OnGossip
+    callback: OnGossip
+    arguments_raw: OnGossip OnGossip
+  - line: 210
+    message: DeadConcubine
+    callback: DeadConcubine
+    arguments_raw: DeadConcubine DeadConcubine
+  - line: 211
+    message: DeadPal
+    callback: DeadPal
+    arguments_raw: DeadPal DeadPal
+  trigger_edges:
+  - line: 126
+    target_expression: g_hObject
+    message_expression: EboraArrive
+    arguments_raw: g_hObject, EboraArrive
+  - line: 247
+    target_expression: hCamera
+    message_expression: 'on'
+    arguments_raw: hCamera, on
+  - line: 255
+    target_expression: hCamera
+    message_expression: 'off'
+    arguments_raw: hCamera, off
+  movement_commands: []
+  state_commands:
+  - line: 189
+    command: ClearFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  presentation_commands:
+  - line: 73
+    command: PlayAnim
+    arguments_raw: launch, CastSpell
+  - line: 111
+    command: PlayAnim
+    arguments_raw: land, LandDone
+  - line: 148
+    command: PlayAnim
+    arguments_raw: fidget2, CastSpell
+  - line: 155
+    command: PlayAnim
+    arguments_raw: Castspell, DitchTheJoint
+  - line: 215
+    command: SetModelFilenames
+    arguments_raw: '"models\ebora.abc", "skins\succubusredgstrng.dtx"'
+  - line: 228
+    command: PlayAnim
+    arguments_raw: launch, OnLaunchDone
+  unknown_commands:
+  - line: 33
+    command: nGossip
+    arguments_raw: = nGossip + 1
+  - line: 35
+    command: unknown
+    arguments_raw: if( nGossip>5 )
+  - line: 36
+    command: RemoveTrigger
+    arguments_raw: OnGossip
+  - line: 45
+    command: nDeadConcubines
+    arguments_raw: = nDeadConcubines + 1
+  - line: 48
+    command: Stop
+    arguments_raw: ''
+  - line: 49
+    command: g_hTarget
+    arguments_raw: = NULL
+  - line: 51
+    command: OnFoundTarget
+    arguments_raw: DoNothing
+  - line: 52
+    command: RemoveTrigger
+    arguments_raw: DeadConcubine
+  - line: 55
+    command: nTaunt
+    arguments_raw: = 8 + nDeadConcubines
+  - line: 104
+    command: RunTo
+    arguments_raw: g_hObject, 8, Land
+  - line: 131
+    command: FaceObject
+    arguments_raw: hEboraMarker, 180
+  - line: 163
+    command: DoClientFX
+    arguments_raw: hMe, SPELL_COLUMNOFFIRE, FALSE, TRUE
+  - line: 168
+    command: HasKey
+    arguments_raw: 348 g_ntemp
+  - line: 170
+    command: haskey
+    arguments_raw: 349 g_ntemp
+  - line: 172
+    command: givekey
+    arguments_raw: '349'
+  - line: 173
+    command: GiveExp
+    arguments_raw: '80000'
+  - line: 177
+    command: givekey
+    arguments_raw: '350'
+  - line: 197
+    command: CacheClientFX
+    arguments_raw: SPELL_COLUMNOFFIRE
+  - line: 207
+    command: SetPropNumber
+    arguments_raw: CanDamage, FALSE
+  - line: 213
+    command: OnFoundPlayer
+    arguments_raw: OnFoundPlayer
+  - line: 217
+    command: SetIdle
+    arguments_raw: ''
+  - line: 224
+    command: OnFoundPlayer
+    arguments_raw: DoNothing
+  - line: 246
+    command: LetterBox
+    arguments_raw: 'TRUE'
+  - line: 254
+    command: LetterBox
+    arguments_raw: 'FALSE'
+  - line: 257
+    command: haskey
+    arguments_raw: 498 g_ntemp
+  - line: 259
+    command: removeobject
+    arguments_raw: hMe
+  - line: 271
+    command: OnPostStartWorld
+    arguments_raw: InitEboraBath
+  - line: 272
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitEboraBath
+  - line: 273
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 283
+    command: IsTurnBased
+    arguments_raw: g_nTemp
+  - line: 285
+    command: ScreenFadeOut
+    arguments_raw: '1'
+  - line: 291
+    command: ScreenFadeIn
+    arguments_raw: '1'
+  - line: 292
+    command: goto
+    arguments_raw: TurnCameraOn, 1
+  command_count: 104
+- script_id: eboracam1.scr
+  source_path: EBORACAM1.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: BaseGlobals.inc
+  labels:
+  - line: 15
+    name: CameraOn
+  - line: 23
+    name: Main
+  registered_triggers:
+  - line: 25
+    message: 'on'
+    callback: CameraOn
+    arguments_raw: on,  CameraOn
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 18
+    command: FaceObject
+    arguments_raw: hEbora, 0, DoNothing
+  command_count: 5
+- script_id: eboraconcubine.scr
+  source_path: EBORACONCUBINE.scr
+  parse_status: parsed
+  includes:
+  - line: 10
+    path: baseMelee.inc
+  labels:
+  - line: 13
+    name: OnLaunchDone
+  - line: 22
+    name: OnFoundPlayer
+  - line: 33
+    name: OnDeath
+  - line: 44
+    name: InitEboraConcubine
+  - line: 74
+    name: Main
+  registered_triggers: []
+  trigger_edges:
+  - line: 37
+    target_expression: g_hMyObject
+    message_expression: DeadConcubine
+    arguments_raw: g_hMyObject, DeadConcubine
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 28
+    command: PlayAnim
+    arguments_raw: launch, OnLaunchDone
+  - line: 49
+    command: SetModelFilenames
+    arguments_raw: '"models\ebora.abc", "skins\Siren1.dtx"'
+  - line: 52
+    command: SetModelFilenames
+    arguments_raw: '"models\ebora.abc", "skins\Siren2.dtx"'
+  - line: 55
+    command: SetModelFilenames
+    arguments_raw: '"models\ebora.abc", "skins\Siren3.dtx"'
+  - line: 58
+    command: SetModelFilenames
+    arguments_raw: '"models\ebora.abc", "skins\Siren4.dtx"'
+  unknown_commands:
+  - line: 24
+    command: OnFoundPlayer
+    arguments_raw: DoNothing
+  - line: 46
+    command: GetRandomInt
+    arguments_raw: 0, 3, g_nTemp
+  - line: 66
+    command: OnDeath
+    arguments_raw: OnDeath
+  - line: 67
+    command: OnFoundPlayer
+    arguments_raw: OnFoundPlayer
+  - line: 69
+    command: SetIdle
+    arguments_raw: ''
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: InitEboraConcubine
+  command_count: 34
+- script_id: effectsmgr.scr
+  source_path: EFFECTSMGR.scr
+  parse_status: parsed
+  includes:
+  - line: 26
+    path: BaseGlobals.inc
+  labels:
+  - line: 43
+    name: Main
+  - line: 50
+    name: InitEffectsMgr
+  - line: 66
+    name: DoScene
+  - line: 81
+    name: DoQuake
+  - line: 92
+    name: DoText
+  - line: 98
+    name: DoLetterBox
+  - line: 104
+    name: PlaySoundLoop
+  - line: 116
+    name: EndScene
+  - line: 122
+    name: UpdatePOS
+  - line: 130
+    name: SetupAllTriggers
+  - line: 150
+    name: SetupQuakeObject
+  - line: 169
+    name: TurnQuakeOn
+  - line: 172
+    name: TurnQuakeOff
+  - line: 175
+    name: TurnTextOn
+  - line: 178
+    name: TurnTextOff
+  - line: 181
+    name: TurnBoxOn
+  - line: 184
+    name: TurnBoxOff
+  - line: 188
+    name: SetDurationLong
+  - line: 192
+    name: SetDurationShort
+  - line: 196
+    name: SetDurationInstant
+  - line: 201
+    name: SetQuakeHigh
+  - line: 204
+    name: SetQuakeMed
+  registered_triggers:
+  - line: 55
+    message: StartScene
+    callback: DoScene
+    arguments_raw: StartScene, DoScene
+  - line: 133
+    message: QuakeOn
+    callback: TurnQuakeOn
+    arguments_raw: QuakeOn, TurnQuakeOn
+  - line: 134
+    message: QuakeOff
+    callback: TurnQuakeOff
+    arguments_raw: QuakeOff, TurnQuakeOff
+  - line: 135
+    message: TextOn
+    callback: TurnTextOn
+    arguments_raw: TextOn, TurnTextOn
+  - line: 136
+    message: TextOff
+    callback: TurnTextOff
+    arguments_raw: TextOff, TurnTextOff
+  - line: 137
+    message: BoxOn
+    callback: TurnBoxOn
+    arguments_raw: BoxOn, TurnBoxOn
+  - line: 138
+    message: BoxOff
+    callback: TurnBoxOff
+    arguments_raw: BoxOff, TurnBoxOff
+  - line: 140
+    message: DurationLong
+    callback: SetDurationLong
+    arguments_raw: DurationLong, SetDurationLong
+  - line: 141
+    message: DurationShort
+    callback: SetDurationShort
+    arguments_raw: DurationShort, SetDurationShort
+  - line: 142
+    message: DurationInstant
+    callback: SetDurationInstant
+    arguments_raw: DurationInstant, SetDurationInstant
+  - line: 144
+    message: QuakeStrong
+    callback: SetQuakeHigh
+    arguments_raw: QuakeStrong, SetQuakeHigh
+  - line: 145
+    message: QuakeWeak
+    callback: SetQuakeMed
+    arguments_raw: QuakeWeak, SetQuakeMed
+  trigger_edges:
+  - line: 61
+    target_expression: hMe
+    message_expression: 'On'
+    arguments_raw: hMe, On
+  - line: 88
+    target_expression: hMe
+    message_expression: trigger
+    arguments_raw: hMe, trigger
+  movement_commands:
+  - line: 126
+    command: SetPOS
+    arguments_raw: hMe, x,y,z
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 46
+    command: CacheSound
+    arguments_raw: sounds\weapons\eqhammerpostimpactloop.wav
+  - line: 58
+    command: GetPlayerHandle
+    arguments_raw: hPlayer
+  - line: 68
+    command: nLoopCount
+    arguments_raw: = nCountHolder
+  - line: 100
+    command: LetterBox
+    arguments_raw: 'TRUE'
+  - line: 111
+    command: nLoopCount
+    arguments_raw: = nLoopCount - 1
+  - line: 118
+    command: LetterBox
+    arguments_raw: 'FALSE'
+  - line: 154
+    command: SetPropNumber
+    arguments_raw: DecayRate, 1
+  - line: 156
+    command: SetPropNumber
+    arguments_raw: InnerDamage, 0
+  - line: 157
+    command: SetPropNumber
+    arguments_raw: InnerRadius, 1
+  - line: 158
+    command: SetPropNumber
+    arguments_raw: OuterRadius, 500
+  - line: 160
+    command: SetPropNumber
+    arguments_raw: QuakeDuration, 12
+  - line: 162
+    command: SetPropNumber
+    arguments_raw: ShakeAmount, 12
+  - line: 170
+    command: bQuakeOn
+    arguments_raw: = TRUE
+  - line: 173
+    command: bQuakeOn
+    arguments_raw: = FALSE
+  - line: 176
+    command: bTextOn
+    arguments_raw: = TRUE
+  - line: 179
+    command: bTextOn
+    arguments_raw: = FALSE
+  - line: 182
+    command: bBoxOn
+    arguments_raw: = TRUE
+  - line: 185
+    command: bBoxOn
+    arguments_raw: = FALSE
+  - line: 189
+    command: SetPropNumber
+    arguments_raw: QuakeDuration, 12
+  - line: 190
+    command: nCountHolder
+    arguments_raw: = 4
+  - line: 193
+    command: SetPropNumber
+    arguments_raw: QuakeDuration, 6
+  - line: 194
+    command: nCountHolder
+    arguments_raw: = 2
+  - line: 197
+    command: SetPropNumber
+    arguments_raw: QuakeDuration, 1
+  - line: 198
+    command: nCountHolder
+    arguments_raw: = 0
+  - line: 202
+    command: SetPropNumber
+    arguments_raw: ShakeAmount, 12
+  - line: 205
+    command: SetPropNumber
+    arguments_raw: ShakeAmount, 6
+  command_count: 84
+- script_id: fatc.scr
+  source_path: FATC.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  - line: 9
+    path: basemelee.inc
+  - line: 10
+    path: range.inc
+  labels:
+  - line: 14
+    name: OnMoveIt
+  - line: 25
+    name: Arrived
+  - line: 33
+    name: OnEboraArrive
+  - line: 40
+    name: OnDeath
+  - line: 48
+    name: OnDie
+  - line: 56
+    name: Main
+  registered_triggers:
+  - line: 60
+    message: Die
+    callback: OnDie
+    arguments_raw: Die OnDie
+  - line: 61
+    message: MoveIt
+    callback: OnMoveIt
+    arguments_raw: MoveIt OnMoveIt
+  - line: 62
+    message: EboraArrive
+    callback: OnEboraArrive
+    arguments_raw: EboraArrive OnEboraArrive
+  trigger_edges: []
+  movement_commands:
+  - line: 20
+    command: MoveToPos
+    arguments_raw: 1808, 44, g_posZ, g_velX, Arrived
+  state_commands:
+  - line: 18
+    command: GetStat
+    arguments_raw: g_hMyObject RunVel g_velX
+  presentation_commands: []
+  unknown_commands:
+  - line: 28
+    command: SetIdle
+    arguments_raw: ''
+  - line: 50
+    command: Stop
+    arguments_raw: ''
+  - line: 51
+    command: Die
+    arguments_raw: ''
+  - line: 67
+    command: OnDeath
+    arguments_raw: OnDeath
+  command_count: 21
+- script_id: furnacewarning.scr
+  source_path: FURNACEWARNING.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 12
+    name: Done
+  - line: 21
+    name: OnUse
+  - line: 30
+    name: Main
+  registered_triggers:
+  - line: 32
+    message: use
+    callback: OnUse
+    arguments_raw: use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 15
+    command: Letterbox
+    arguments_raw: 'FALSE'
+  command_count: 6
+- script_id: imphenchman.scr
+  source_path: IMPHENCHMAN.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: baseMelee.inc
+  labels:
+  - line: 11
+    name: Main
+  - line: 19
+    name: InitImpHenchman
+  - line: 29
+    name: DefendImp
+  registered_triggers:
+  - line: 21
+    message: Help
+    callback: DefendImp
+    arguments_raw: Help, DefendImp
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 32
+    command: GetPlayerHandle
+    arguments_raw: g_hTarget
+  - line: 34
+    command: RunTo
+    arguments_raw: g_hTarget, 10, AggressiveStart
+  command_count: 11
+- script_id: spawnloc.scr
+  source_path: SPAWNLOC.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 18
+    name: Main
+  - line: 28
+    name: InitSpawnLoc
+  - line: 41
+    name: RequestSpawn
+  - line: 50
+    name: RequestFocus
+  - line: 58
+    name: TurnOn
+  - line: 67
+    name: TurnOff
+  registered_triggers:
+  - line: 30
+    message: 'On'
+    callback: TurnOn
+    arguments_raw: On, TurnOn
+  - line: 61
+    message: spawn
+    callback: RequestSpawn
+    arguments_raw: spawn, RequestSpawn
+  - line: 62
+    message: focus
+    callback: RequestFocus
+    arguments_raw: focus, RequestFocus
+  - line: 63
+    message: 'off'
+    callback: TurnOff
+    arguments_raw: off, TurnOff
+  trigger_edges:
+  - line: 46
+    target_expression: hSpawnMgr
+    message_expression: ForceSpawn
+    arguments_raw: hSpawnMgr, ForceSpawn
+  - line: 54
+    target_expression: hSpawnMgr
+    message_expression: SetLocation
+    arguments_raw: hSpawnMgr, SetLocation
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 22
+    command: OnPostStartWorld
+    arguments_raw: InitSpawnLoc
+  - line: 23
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitSpawnLoc
+  - line: 44
+    command: SetConsoleStrVar
+    arguments_raw: SPAWN_TYPE, sCreatureName
+  - line: 53
+    command: SetConsoleStrVar
+    arguments_raw: SPAWN_TYPE, sCreatureName
+  - line: 70
+    command: RemoveTrigger
+    arguments_raw: spawn
+  - line: 71
+    command: RemoveTrigger
+    arguments_raw: focus
+  - line: 72
+    command: RemoveTrigger
+    arguments_raw: 'off'
+  command_count: 26
+- script_id: spawnmgr.scr
+  source_path: SPAWNMGR.scr
+  parse_status: parsed
+  includes:
+  - line: 23
+    path: BaseGlobals.inc
+  labels:
+  - line: 50
+    name: Main
+  - line: 64
+    name: CacheFiles
+  - line: 71
+    name: InitSpawnMgr
+  - line: 88
+    name: OnObjectLinkBroken
+  - line: 95
+    name: OnCreatureDied
+  - line: 109
+    name: SpawnCreature
+  - line: 141
+    name: AdjustTotals
+  - line: 149
+    name: TurnOn
+  - line: 157
+    name: TurnOff
+  - line: 168
+    name: SetLocation
+  registered_triggers:
+  - line: 73
+    message: SetLocation
+    callback: SetLocation
+    arguments_raw: SetLocation, SetLocation
+  - line: 74
+    message: Respawn
+    callback: OnCreatureDied
+    arguments_raw: Respawn, OnCreatureDied
+  - line: 75
+    message: ForceSpawn
+    callback: SpawnCreature
+    arguments_raw: ForceSpawn, SpawnCreature
+  - line: 76
+    message: 'Off'
+    callback: TurnOff
+    arguments_raw: Off, TurnOff
+  - line: 77
+    message: 'On'
+    callback: TurnOn
+    arguments_raw: On, TurnOn
+  - line: 153
+    message: Respawn
+    callback: OnCreatureDied
+    arguments_raw: Respawn, OnCreatureDied
+  - line: 164
+    message: Respawn
+    callback: AdjustTotals
+    arguments_raw: Respawn, AdjustTotals
+  trigger_edges:
+  - line: 104
+    target_expression: hSpawnMarker
+    message_expression: spawn
+    arguments_raw: hSpawnMarker, spawn
+  - line: 119
+    target_expression: hNotify
+    message_expression: trigger
+    arguments_raw: hNotify, trigger
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 57
+    command: OnPostStartWorld
+    arguments_raw: InitSpawnMgr
+  - line: 58
+    command: OnPostMiniSaveLoad
+    arguments_raw: InitSpawnMgr
+  - line: 59
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 66
+    command: CacheScript
+    arguments_raw: '"SpawnCreature.scr"'
+  - line: 81
+    command: CreateObjectLink
+    arguments_raw: hNotify
+  - line: 83
+    command: OnObjectLinkBroken
+    arguments_raw: OnObjectLinkBroken
+  - line: 90
+    command: hNotify
+    arguments_raw: = NULL
+  - line: 100
+    command: IsNotDivisible
+    arguments_raw: = NumKilled
+  - line: 101
+    command: Mod
+    arguments_raw: IsNotDivisible, SpawnCycle
+  - line: 123
+    command: NumOnScreen
+    arguments_raw: = NumOnScreen + SpawnSize
+  - line: 124
+    command: nTemp
+    arguments_raw: = SpawnSize
+  - line: 128
+    command: sCreatureName
+    arguments_raw: = LESSERDEMON
+  - line: 130
+    command: sCreatureName
+    arguments_raw: = NAME + SCRIPT
+  - line: 134
+    command: unknown
+    arguments_raw: while(nTemp>0)
+  - line: 135
+    command: Spawn
+    arguments_raw: hDummy, Spawnx,Spawny,Spawnz, sCreatureName
+  - line: 136
+    command: nTemp
+    arguments_raw: = nTemp - 1
+  - line: 137
+    command: endwhile
+    arguments_raw: ''
+  - line: 144
+    command: NumKilled
+    arguments_raw: = NumKilled + 1
+  - line: 145
+    command: NumOnScreen
+    arguments_raw: = NumOnScreen - 1
+  - line: 152
+    command: RemoveTrigger
+    arguments_raw: Respawn
+  - line: 161
+    command: RemoveTrigger
+    arguments_raw: Respawn
+  - line: 173
+    command: GetConsoleStrVar
+    arguments_raw: SPAWN_TYPE, sCreatureName
+  - line: 175
+    command: NAME
+    arguments_raw: = sCreatureName
+  command_count: 64
+- script_id: steamvent.scr
+  source_path: STEAMVENT.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 26
+    name: TurnItOff
+  - line: 37
+    name: TurnItOn
+  - line: 48
+    name: main2
+  - line: 59
+    name: main
+  registered_triggers: []
+  trigger_edges:
+  - line: 29
+    target_expression: hMyHandle
+    message_expression: 'off'
+    arguments_raw: hMyHandle off
+  - line: 30
+    target_expression: hDamageBrush
+    message_expression: turnoff
+    arguments_raw: hDamageBrush turnoff
+  - line: 40
+    target_expression: hMyHandle
+    message_expression: 'on'
+    arguments_raw: hMyHandle on
+  - line: 41
+    target_expression: hDamageBrush
+    message_expression: turnon
+    arguments_raw: hDamageBrush turnon
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands: []
+  command_count: 17
+- script_id: steamventdb.scr
+  source_path: STEAMVENTDB.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 28
+    name: dn
+  - line: 34
+    name: turnoff
+  - line: 42
+    name: turnon
+  - line: 50
+    name: main2
+  - line: 62
+    name: main
+  registered_triggers:
+  - line: 66
+    message: turnon
+    callback: turnon
+    arguments_raw: turnon turnon
+  - line: 67
+    message: turnoff
+    callback: turnoff
+    arguments_raw: turnoff turnoff
+  trigger_edges: []
+  movement_commands:
+  - line: 37
+    command: movetopos
+    arguments_raw: ax ay az 1000 dn
+  - line: 45
+    command: movetopos
+    arguments_raw: bx by bz 1000 dn
+  state_commands: []
+  presentation_commands: []
+  unknown_commands: []
+  command_count: 15
+validation:
+  script_count: 16

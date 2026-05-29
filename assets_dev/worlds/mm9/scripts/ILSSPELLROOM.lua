@@ -22,20 +22,20 @@ script.labels["Onclickon"] = function(ctx)
         do return ctx:exit("") end -- ILSSPELLROOM.scr:61
     end -- ILSSPELLROOM.scr:62
     -- gets the dims of volume brush
-    ctx:command("getobjecthandle", "spellinside, g_hobject") -- ILSSPELLROOM.scr:67
-    ctx:command("getobjectminmax", "g_hobject, VolumeMinX, VolumeMinY, VolumeMinZ, VolumeMaxX, VolumeMaxY, VolumeMaxZ") -- ILSSPELLROOM.scr:68
-    ctx:command("getplayerswithindist", "-1072.0 325.763916 5419.0 512 PlayerIds 8 Playercount") -- ILSSPELLROOM.scr:71
+    ctx:state().g_hobject = ctx:objectOrNil("spellinside") -- ILSSPELLROOM.scr:67
+    ctx:state().VolumeMinX, ctx:state().VolumeMinY, ctx:state().VolumeMinZ, ctx:state().VolumeMaxX, ctx:state().VolumeMaxY, ctx:state().VolumeMaxZ = ctx:object("g_hobject"):minMax() -- ILSSPELLROOM.scr:68
+    ctx:getPlayersWithinDist(-1072.0, 325.763916, 5419.0, 512, "PlayerIds", 8, "Playercount") -- ILSSPELLROOM.scr:71
     if ctx:condition("Playercount==0") then -- ILSSPELLROOM.scr:72
         do return ctx:exit("") end -- ILSSPELLROOM.scr:73
     end -- ILSSPELLROOM.scr:74
-    ctx:command("set", "loopcounter, 0") -- ILSSPELLROOM.scr:75
+    ctx:state().loopcounter = 0 -- ILSSPELLROOM.scr:75
 end
 
 script.labels["CheckPlayerLoop"] = function(ctx)
     -- ILSSPELLROOM.scr:78
-    ctx:command("arrayget", "PlayerIds, loopCounter, g_hobject") -- ILSSPELLROOM.scr:82
+    ctx:arrayGet("PlayerIds", "loopCounter", "g_hobject") -- ILSSPELLROOM.scr:82
     mm9.gosub(script, ctx, "CheckPlayer") -- ILSSPELLROOM.scr:83
-    ctx:command("add", "loopcounter, 1") -- ILSSPELLROOM.scr:84
+    ctx:state().loopcounter = (tonumber(ctx:state().loopcounter) or 0) + 1 -- ILSSPELLROOM.scr:84
     if ctx:condition("loopcounter<Playercount") then -- ILSSPELLROOM.scr:85
         do return mm9.gotoLabel(script, ctx, "CheckPlayerLoop") end -- ILSSPELLROOM.scr:86
     end -- ILSSPELLROOM.scr:87
@@ -45,7 +45,7 @@ end
 script.labels["CheckPlayer"] = function(ctx)
     -- ILSSPELLROOM.scr:92
     -- Gets the dims of Player
-    ctx:command("getpos", "g_hobject PlayerX, PlayerY, PlayerZ") -- ILSSPELLROOM.scr:100
+    ctx:state().PlayerX, ctx:state().PlayerY, ctx:state().PlayerZ = ctx:object("g_hobject"):pos() -- ILSSPELLROOM.scr:100
     if ctx:condition("PlayerX>=VolumeMinX") then -- ILSSPELLROOM.scr:102
         if ctx:condition("PlayerX<=VolumeMaxX") then -- ILSSPELLROOM.scr:103
             if ctx:condition("PlayerY>=VolumeMinY") then -- ILSSPELLROOM.scr:104
@@ -68,42 +68,37 @@ script.labels["OnHeal"] = function(ctx)
     -- ILSSPELLROOM.scr:121
     if ctx:condition("Broken!=true") then -- ILSSPELLROOM.scr:125
         if ctx:condition("counter<=g_nHealCount") then -- ILSSPELLROOM.scr:128
-            ctx:command("add", "counter, 1") -- ILSSPELLROOM.scr:130
+            ctx:state().counter = (tonumber(ctx:state().counter) or 0) + 1 -- ILSSPELLROOM.scr:130
             mm9.gosub(script, ctx, "HealOnUse") -- ILSSPELLROOM.scr:131
             do return ctx:exit("") end -- ILSSPELLROOM.scr:132
         end -- ILSSPELLROOM.scr:133
-        ctx:command("getobjecthandle", "glass1, g_hobject") -- ILSSPELLROOM.scr:136
-        ctx:trigger("g_hobject", "destroy") -- ILSSPELLROOM.scr:137
-        ctx:command("getobjecthandle", "DestructableBrush9, g_hobject") -- ILSSPELLROOM.scr:138
-        ctx:trigger("g_hobject", "destroy") -- ILSSPELLROOM.scr:139
-        ctx:command("getobjecthandle", "glassb1, g_hobject") -- ILSSPELLROOM.scr:140
-        ctx:trigger("g_hobject", "destroy") -- ILSSPELLROOM.scr:141
-        ctx:command("getobjecthandle", "DestructableBrush7, g_hobject") -- ILSSPELLROOM.scr:142
-        ctx:trigger("g_hobject", "destroy") -- ILSSPELLROOM.scr:143
-        ctx:command("set", "Broken, true") -- ILSSPELLROOM.scr:145
+        ctx:object("glass1"):trigger("destroy") -- ILSSPELLROOM.scr:136-137
+        ctx:object("DestructableBrush9"):trigger("destroy") -- ILSSPELLROOM.scr:138-139
+        ctx:object("glassb1"):trigger("destroy") -- ILSSPELLROOM.scr:140-141
+        ctx:object("DestructableBrush7"):trigger("destroy") -- ILSSPELLROOM.scr:142-143
+        ctx:state().Broken = true -- ILSSPELLROOM.scr:145
         do return ctx:exit("") end -- ILSSPELLROOM.scr:146
     end -- ILSSPELLROOM.scr:147
-    ctx:command("getobjecthandle", "spellinside, g_hobject") -- ILSSPELLROOM.scr:149
-    ctx:trigger("g_hobject", "DamageOn") -- ILSSPELLROOM.scr:150
+    ctx:object("spellinside"):trigger("DamageOn") -- ILSSPELLROOM.scr:149-150
     -- DEBUGOUT broken!!
     do return ctx:exit("") end -- ILSSPELLROOM.scr:152
 end
 
 script.labels["Onopen"] = function(ctx)
     -- ILSSPELLROOM.scr:156
-    ctx:command("set", "closed, false") -- ILSSPELLROOM.scr:159
+    ctx:state().closed = false -- ILSSPELLROOM.scr:159
     do return ctx:exit("") end -- ILSSPELLROOM.scr:160
 end
 
 script.labels["Onclose"] = function(ctx)
     -- ILSSPELLROOM.scr:163
-    ctx:command("set", "closed, true") -- ILSSPELLROOM.scr:166
+    ctx:state().closed = true -- ILSSPELLROOM.scr:166
     do return ctx:exit("") end -- ILSSPELLROOM.scr:167
 end
 
 script.labels["Onbreak"] = function(ctx)
     -- ILSSPELLROOM.scr:171
-    ctx:command("set", "broken, true") -- ILSSPELLROOM.scr:174
+    ctx:state().broken = true -- ILSSPELLROOM.scr:174
     do return ctx:exit("") end -- ILSSPELLROOM.scr:175
 end
 
@@ -111,28 +106,28 @@ script.labels["HealOnUse"] = function(ctx)
     -- ILSSPELLROOM.scr:181
     -- See if we should heal the object that triggered
     -- us..
-    ctx:command("getplayerid", "g_hObject, g_nPlayerId") -- ILSSPELLROOM.scr:190
-    ctx:command("getplayernbr", "g_hObject, g_nPlayerNbr") -- ILSSPELLROOM.scr:191
+    ctx:getPlayerId(ctx:object("g_hObject"), "g_nPlayerId") -- ILSSPELLROOM.scr:190
+    ctx:getPlayerNumber(ctx:object("g_hObject"), "g_nPlayerNbr") -- ILSSPELLROOM.scr:191
     if ctx:condition("g_nPlayerNbr==-1") then -- ILSSPELLROOM.scr:193
         -- Not a player!
         do return ctx:exit("FALSE") end -- ILSSPELLROOM.scr:195
     end -- ILSSPELLROOM.scr:196
-    ctx:command("arrayget", "g_nPlayerHealedArray, g_nPlayerNbr, g_nTemp") -- ILSSPELLROOM.scr:198
+    ctx:arrayGet("g_nPlayerHealedArray", "g_nPlayerNbr", "g_nTemp") -- ILSSPELLROOM.scr:198
     if ctx:condition("g_nTemp==g_nPlayerId") then -- ILSSPELLROOM.scr:200
-        ctx:command("arrayget", "g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp") -- ILSSPELLROOM.scr:201
+        ctx:arrayGet("g_nPlayerHealedCountArray", "g_nPlayerNbr", "g_nTemp") -- ILSSPELLROOM.scr:201
         if ctx:condition("g_nTemp>=g_nHealCount") then -- ILSSPELLROOM.scr:202
             -- they've already Used this item...
             -- Don't let them do it again...
             do return ctx:exit("FALSE") end -- ILSSPELLROOM.scr:206
         end -- ILSSPELLROOM.scr:207
     else -- ILSSPELLROOM.scr:208
-        ctx:command("arrayput", "g_nPlayerHealedCountArray, g_nPlayerNbr, 0") -- ILSSPELLROOM.scr:209
+        ctx:arrayPut("g_nPlayerHealedCountArray", "g_nPlayerNbr", 0) -- ILSSPELLROOM.scr:209
     end -- ILSSPELLROOM.scr:211
-    ctx:command("arrayget", "g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp") -- ILSSPELLROOM.scr:213
-    ctx:command("add", "g_nTemp, 1") -- ILSSPELLROOM.scr:214
-    ctx:command("arrayput", "g_nPlayerHealedCountArray, g_nPlayerNbr, g_nTemp") -- ILSSPELLROOM.scr:215
-    ctx:command("arrayput", "g_nPlayerHealedArray, g_nPlayerNbr, g_nPlayerId") -- ILSSPELLROOM.scr:216
-    ctx:command("heal", "g_hObject, g_nHealAmt") -- ILSSPELLROOM.scr:218
+    ctx:arrayGet("g_nPlayerHealedCountArray", "g_nPlayerNbr", "g_nTemp") -- ILSSPELLROOM.scr:213
+    ctx:state().g_nTemp = (tonumber(ctx:state().g_nTemp) or 0) + 1 -- ILSSPELLROOM.scr:214
+    ctx:arrayPut("g_nPlayerHealedCountArray", "g_nPlayerNbr", "g_nTemp") -- ILSSPELLROOM.scr:215
+    ctx:arrayPut("g_nPlayerHealedArray", "g_nPlayerNbr", "g_nPlayerId") -- ILSSPELLROOM.scr:216
+    ctx:heal(ctx:object("g_hObject"), "g_nHealAmt") -- ILSSPELLROOM.scr:218
     -- CHANGE THIS TO HEAL SPELL POINTS!!
     do return ctx:exit("") end -- ILSSPELLROOM.scr:222
 end
@@ -142,11 +137,11 @@ script.labels["Main"] = function(ctx)
     -- TRACEON
     ctx:getParam(0, "g_nTemp") -- ILSSPELLROOM.scr:230
     if ctx:condition("g_nTemp!=0") then -- ILSSPELLROOM.scr:232
-        ctx:command("set", "g_nHealAmt, g_nTemp") -- ILSSPELLROOM.scr:233
+        ctx:set("g_nHealAmt", "g_nTemp") -- ILSSPELLROOM.scr:233
     end -- ILSSPELLROOM.scr:234
     ctx:getParam(1, "g_nTemp") -- ILSSPELLROOM.scr:236
     if ctx:condition("g_nTemp!=0") then -- ILSSPELLROOM.scr:238
-        ctx:command("set", "g_nHealCount, g_nTemp") -- ILSSPELLROOM.scr:239
+        ctx:set("g_nHealCount", "g_nTemp") -- ILSSPELLROOM.scr:239
     end -- ILSSPELLROOM.scr:240
     ctx:addTrigger("use", "Onclickon") -- ILSSPELLROOM.scr:244
     ctx:addTrigger("open", "Onopen") -- ILSSPELLROOM.scr:245

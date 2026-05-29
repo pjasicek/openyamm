@@ -3032,60 +3032,16 @@ bool OutdoorGameView::initialize(
 
     if (normalizeWorldId(map.worldId) == "mm9" && outdoorSceneData)
     {
-        Mm9ScriptedBillboardVisualSet visualSet = {};
-        std::string visualError;
-        const bool loadedScriptedBillboardVisuals =
-            visualSet.loadFromAssetFileSystem(assetFileSystem, visualError);
-
-        if (!loadedScriptedBillboardVisuals
-            && !visualError.empty()
-            && assetFileSystem.exists(Mm9ScriptedBillboardVisualRoot))
-        {
-            std::cerr << "Failed to load MM9 scripted billboard visuals for " << map.fileName
-                      << ": " << visualError << '\n';
-        }
-
         const std::string mapId = normalizeMapFileStem(map.fileName);
-        const auto logMissingVisual =
-            [&map](const Mm9ScriptedBillboardInstance &instance)
-            {
-                std::cerr
-                    << "MM9 scripted billboard missing visual"
-                    << " map=" << (instance.mapId.empty() ? map.fileName : instance.mapId)
-                    << " object_id=" << instance.objectId
-                    << " source_object_index=" << instance.sourceObjectIndex
-                    << " source_class=" << instance.sourceClass
-                    << " source_name=" << instance.sourceName
-                    << " visual_id=" << instance.visualId
-                    << " source_model=" << instance.sourceModel
-                    << " source_skin=" << instance.sourceSkin
-                    << " script_name=" << instance.scriptName
-                    << " script_params=" << instance.scriptParams
-                    << " reason=" << instance.missingVisualReason
-                    << '\n';
-            };
 
         Mm9ScriptedObjectRuntime scriptedObjectRuntime = {};
         scriptedObjectRuntime.initialize(
             mapId,
             *outdoorSceneData,
-            visualSet,
             mm9EventsData ? &*mm9EventsData : nullptr);
 
         m_mm9ScriptedBillboardInstances = scriptedObjectRuntime.objects();
-        if (loadedScriptedBillboardVisuals)
-        {
-            for (const Mm9ScriptedBillboardInstance &instance : m_mm9ScriptedBillboardInstances)
-            {
-                if (instance.missingVisual)
-                {
-                    logMissingVisual(instance);
-                }
-            }
-        }
-
         m_mm9ScriptedObjectRuntime = std::move(scriptedObjectRuntime);
-        m_mm9ScriptedBillboardVisuals = std::move(visualSet);
 
         m_mm9AnimatedActorInstances.clear();
         const std::optional<std::filesystem::path> registryPath =
@@ -3767,7 +3723,6 @@ void OutdoorGameView::shutdown()
         m_isInitialized = false;
         m_map.reset();
         m_outdoorMapData.reset();
-        m_mm9ScriptedBillboardVisuals.reset();
         m_mm9ScriptedObjectRuntime.reset();
         m_mm9ScriptedBillboardInstances.clear();
         m_mm9AnimatedActorInstances.clear();

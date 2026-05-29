@@ -13,31 +13,31 @@ script.includes[#script.includes + 1] = { line = 11, path = "globals.inc" }
 -- Orc Warrior Observing the Orcs training.
 script.labels["Start"] = function(ctx)
     -- TH_TRAININGORCOBSERVER.scr:24
-    ctx:command("bistraining", "= TRUE") -- TH_TRAININGORCOBSERVER.scr:26
+    ctx:state().bIsTraining = true -- TH_TRAININGORCOBSERVER.scr:26
     mm9.gosub(script, ctx, "LookAtTrainees") -- TH_TRAININGORCOBSERVER.scr:27
     do return ctx:exit("TRUE") end -- TH_TRAININGORCOBSERVER.scr:28
 end
 
 script.labels["TurnOff"] = function(ctx)
     -- TH_TRAININGORCOBSERVER.scr:30
-    ctx:command("wait", "1, 1, DoNothing") -- TH_TRAININGORCOBSERVER.scr:32
-    ctx:command("bistraining", "= FALSE") -- TH_TRAININGORCOBSERVER.scr:33
+    ctx:wait(1, 1, "DoNothing") -- TH_TRAININGORCOBSERVER.scr:32
+    ctx:state().bIsTraining = false -- TH_TRAININGORCOBSERVER.scr:33
     do return ctx:exit("TRUE") end -- TH_TRAININGORCOBSERVER.scr:34
 end
 
 script.labels["LookAround"] = function(ctx)
     -- TH_TRAININGORCOBSERVER.scr:37
-    ctx:command("stop", "") -- TH_TRAININGORCOBSERVER.scr:39
-    ctx:command("playanim", "Fidget1, LookAtTrainees") -- TH_TRAININGORCOBSERVER.scr:40
+    ctx:self():stop() -- TH_TRAININGORCOBSERVER.scr:39
+    ctx:self():playAnimation("Fidget1", "LookAtTrainees") -- TH_TRAININGORCOBSERVER.scr:40
     do return ctx:exit("TRUE") end -- TH_TRAININGORCOBSERVER.scr:41
 end
 
 script.labels["Relax"] = function(ctx)
     -- TH_TRAININGORCOBSERVER.scr:43
-    ctx:command("stop", "") -- TH_TRAININGORCOBSERVER.scr:45
-    ctx:command("getobjecthandle", "sTarget, hCommander") -- TH_TRAININGORCOBSERVER.scr:46
-    ctx:command("faceobject", "hCommander, 180") -- TH_TRAININGORCOBSERVER.scr:47
-    ctx:command("wait", "0, 2, LookAround") -- TH_TRAININGORCOBSERVER.scr:48
+    ctx:self():stop() -- TH_TRAININGORCOBSERVER.scr:45
+    ctx:state().hCommander = ctx:objectOrNil("sTarget") -- TH_TRAININGORCOBSERVER.scr:46
+    ctx:self():faceObject(ctx:object("hCommander"), 180) -- TH_TRAININGORCOBSERVER.scr:47
+    ctx:wait(0, 2, "LookAround") -- TH_TRAININGORCOBSERVER.scr:48
     do return ctx:exit("TRUE") end -- TH_TRAININGORCOBSERVER.scr:49
 end
 
@@ -47,13 +47,13 @@ script.labels["LookAtTrainees"] = function(ctx)
         do return ctx:exit("") end -- TH_TRAININGORCOBSERVER.scr:54
     end -- TH_TRAININGORCOBSERVER.scr:55
     if ctx:condition("bDirection==0") then -- TH_TRAININGORCOBSERVER.scr:57
-        ctx:command("bdirection", "= 1") -- TH_TRAININGORCOBSERVER.scr:58
-        ctx:command("getobjecthandle", "sMarkerA, hMarker") -- TH_TRAININGORCOBSERVER.scr:59
-        ctx:command("walkto", "hMarker, 10, Relax") -- TH_TRAININGORCOBSERVER.scr:60
+        ctx:state().bDirection = 1 -- TH_TRAININGORCOBSERVER.scr:58
+        ctx:state().hMarker = ctx:objectOrNil("sMarkerA") -- TH_TRAININGORCOBSERVER.scr:59
+        ctx:self():walkTo(ctx:object("hMarker"), 10, "Relax") -- TH_TRAININGORCOBSERVER.scr:60
     else -- TH_TRAININGORCOBSERVER.scr:61
-        ctx:command("bdirection", "= 0") -- TH_TRAININGORCOBSERVER.scr:62
-        ctx:command("getobjecthandle", "sMarkerB, hMarker") -- TH_TRAININGORCOBSERVER.scr:63
-        ctx:command("walkto", "hMarker, 10, Relax") -- TH_TRAININGORCOBSERVER.scr:64
+        ctx:state().bDirection = 0 -- TH_TRAININGORCOBSERVER.scr:62
+        ctx:state().hMarker = ctx:objectOrNil("sMarkerB") -- TH_TRAININGORCOBSERVER.scr:63
+        ctx:self():walkTo(ctx:object("hMarker"), 10, "Relax") -- TH_TRAININGORCOBSERVER.scr:64
     end -- TH_TRAININGORCOBSERVER.scr:65
     do return ctx:exit("TRUE") end -- TH_TRAININGORCOBSERVER.scr:66
 end
@@ -71,7 +71,7 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(0, "sMarkerA") -- TH_TRAININGORCOBSERVER.scr:78
     ctx:getParam(1, "sMarkerB") -- TH_TRAININGORCOBSERVER.scr:79
     ctx:getParam(2, "sTarget") -- TH_TRAININGORCOBSERVER.scr:80
-    ctx:command("onpoststartworld", "Main2") -- TH_TRAININGORCOBSERVER.scr:81
+    ctx:onEvent("OnPostStartWorld", "Main2") -- TH_TRAININGORCOBSERVER.scr:81
     do return ctx:exit("") end -- TH_TRAININGORCOBSERVER.scr:82
 end
 

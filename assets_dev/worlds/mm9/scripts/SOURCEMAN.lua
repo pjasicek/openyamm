@@ -36,14 +36,14 @@ script.labels["Main"] = function(ctx)
     ctx:getParam(3, "NAME") -- SOURCEMAN.scr:64
     ctx:getParam(4, "sNotifyName") -- SOURCEMAN.scr:65
     ctx:getParam(5, "nQuota") -- SOURCEMAN.scr:66
-    ctx:command("wait", "0, .1, InitSourceMan") -- SOURCEMAN.scr:68
+    ctx:wait(0, .1, "InitSourceMan") -- SOURCEMAN.scr:68
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:69
 end
 
 script.labels["InitSourceMan"] = function(ctx)
     -- SOURCEMAN.scr:72
     mm9.gosub(script, ctx, "CapParams") -- SOURCEMAN.scr:74
-    ctx:command("screaturename", "= NAME + SPACE + KEYWORD + SPACE + SCRIPT") -- SOURCEMAN.scr:75
+    ctx:set("sCreatureName", "NAME + SPACE + KEYWORD + SPACE + SCRIPT") -- SOURCEMAN.scr:75
     ctx:addTrigger("ReSpawn", "OnCreatureDied") -- SOURCEMAN.scr:77
     ctx:addTrigger("ForceSpawn", "OnForceSpawn") -- SOURCEMAN.scr:78
     ctx:addTrigger("Off", "TurnOff") -- SOURCEMAN.scr:79
@@ -61,29 +61,29 @@ script.labels["InitSourceMan"] = function(ctx)
     ctx:addTrigger("SetSpawn8", "ChangeTo8") -- SOURCEMAN.scr:92
     ctx:addTrigger("SetSpawn9", "ChangeTo9") -- SOURCEMAN.scr:93
     -- these are to do random callbacks
-    ctx:command("setcallback", "0, ChangeTo0") -- SOURCEMAN.scr:96
-    ctx:command("setcallback", "1, ChangeTo1") -- SOURCEMAN.scr:97
-    ctx:command("setcallback", "2, ChangeTo2") -- SOURCEMAN.scr:98
-    ctx:command("setcallback", "3, ChangeTo3") -- SOURCEMAN.scr:99
-    ctx:command("setcallback", "4, ChangeTo4") -- SOURCEMAN.scr:100
-    ctx:command("setcallback", "5, ChangeTo5") -- SOURCEMAN.scr:101
-    ctx:command("setcallback", "6, ChangeTo6") -- SOURCEMAN.scr:102
-    ctx:command("setcallback", "7, ChangeTo7") -- SOURCEMAN.scr:103
-    ctx:command("setcallback", "8, ChangeTo8") -- SOURCEMAN.scr:104
-    ctx:command("setcallback", "9, ChangeTo9") -- SOURCEMAN.scr:105
-    ctx:command("getobjecthandle", "SpawnMarker0, hSpawnMarker") -- SOURCEMAN.scr:107
-    ctx:command("getobjecthandle", "sNotifyName, hDoneObject") -- SOURCEMAN.scr:108
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:110
+    ctx:setCallback(0, "ChangeTo0") -- SOURCEMAN.scr:96
+    ctx:setCallback(1, "ChangeTo1") -- SOURCEMAN.scr:97
+    ctx:setCallback(2, "ChangeTo2") -- SOURCEMAN.scr:98
+    ctx:setCallback(3, "ChangeTo3") -- SOURCEMAN.scr:99
+    ctx:setCallback(4, "ChangeTo4") -- SOURCEMAN.scr:100
+    ctx:setCallback(5, "ChangeTo5") -- SOURCEMAN.scr:101
+    ctx:setCallback(6, "ChangeTo6") -- SOURCEMAN.scr:102
+    ctx:setCallback(7, "ChangeTo7") -- SOURCEMAN.scr:103
+    ctx:setCallback(8, "ChangeTo8") -- SOURCEMAN.scr:104
+    ctx:setCallback(9, "ChangeTo9") -- SOURCEMAN.scr:105
+    ctx:state().hSpawnMarker = ctx:objectOrNil("SpawnMarker0") -- SOURCEMAN.scr:107
+    ctx:state().hDoneObject = ctx:objectOrNil("sNotifyName") -- SOURCEMAN.scr:108
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("hSpawnMarker"):pos() -- SOURCEMAN.scr:110
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:111
 end
 
 script.labels["CapParams"] = function(ctx)
     -- SOURCEMAN.scr:114
     if ctx:condition("NumSpawns>10") then -- SOURCEMAN.scr:116
-        ctx:command("numspawns", "= 10") -- SOURCEMAN.scr:117
+        ctx:state().NumSpawns = 10 -- SOURCEMAN.scr:117
     end -- SOURCEMAN.scr:118
     if ctx:condition("SpawnSize>10") then -- SOURCEMAN.scr:119
-        ctx:command("spawnsize", "= 10") -- SOURCEMAN.scr:120
+        ctx:state().SpawnSize = 10 -- SOURCEMAN.scr:120
     end -- SOURCEMAN.scr:121
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:122
 end
@@ -93,11 +93,11 @@ script.labels["OnForceSpawn"] = function(ctx)
     if ctx:condition("NumOnScreen>=10") then -- SOURCEMAN.scr:127
         do return ctx:exit("TRUE") end -- SOURCEMAN.scr:128
     end -- SOURCEMAN.scr:129
-    ctx:command("numonscreen", "= NumOnScreen + SpawnSize") -- SOURCEMAN.scr:130
-    ctx:command("ntemp", "= SpawnSize") -- SOURCEMAN.scr:131
+    ctx:set("NumOnScreen", "NumOnScreen + SpawnSize") -- SOURCEMAN.scr:130
+    ctx:set("nTemp", "SpawnSize") -- SOURCEMAN.scr:131
     while ctx:condition("nTemp!=0") do -- SOURCEMAN.scr:132
-        ctx:command("spawn", "hCurSpawn, Spawnx,Spawny,Spawnz, sCreatureName") -- SOURCEMAN.scr:133
-        ctx:command("ntemp", "= nTemp - 1") -- SOURCEMAN.scr:134
+        ctx:state().hCurSpawn = ctx:spawn("Spawnx", "Spawny", "Spawnz", "sCreatureName") -- SOURCEMAN.scr:133
+        ctx:set("nTemp", "nTemp - 1") -- SOURCEMAN.scr:134
     end -- SOURCEMAN.scr:135
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:136
 end
@@ -107,10 +107,10 @@ script.labels["OnCreatureDied"] = function(ctx)
     if ctx:condition("NumKilled==nQuota") then -- SOURCEMAN.scr:141
         ctx:trigger("hDoneObject", "trigger") -- SOURCEMAN.scr:142
     end -- SOURCEMAN.scr:143
-    ctx:command("numkilled", "= NumKilled + 1") -- SOURCEMAN.scr:145
-    ctx:command("numonscreen", "= NumOnScreen - 1") -- SOURCEMAN.scr:146
-    ctx:command("isnotdivisible", "= NumKilled") -- SOURCEMAN.scr:147
-    ctx:command("mod", "IsNotDivisible, SpawnCycle") -- SOURCEMAN.scr:148
+    ctx:set("NumKilled", "NumKilled + 1") -- SOURCEMAN.scr:145
+    ctx:set("NumOnScreen", "NumOnScreen - 1") -- SOURCEMAN.scr:146
+    ctx:set("IsNotDivisible", "NumKilled") -- SOURCEMAN.scr:147
+    ctx:mod("IsNotDivisible", "SpawnCycle") -- SOURCEMAN.scr:148
     if ctx:condition("IsNotDivisible==0") then -- SOURCEMAN.scr:150
         mm9.gosub(script, ctx, "OnForceSpawn") -- SOURCEMAN.scr:151
     end -- SOURCEMAN.scr:152
@@ -125,96 +125,86 @@ end
 
 script.labels["TurnOff"] = function(ctx)
     -- SOURCEMAN.scr:162
-    ctx:command("removetrigger", "ReSpawn") -- SOURCEMAN.scr:164
+    ctx:removeTrigger("ReSpawn") -- SOURCEMAN.scr:164
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:165
 end
 
 script.labels["ChangeToRandom"] = function(ctx)
     -- SOURCEMAN.scr:168
-    ctx:command("getrandomint", "1, NumSpawns, nTemp") -- SOURCEMAN.scr:170
+    ctx:randomInt(1, "NumSpawns", "nTemp") -- SOURCEMAN.scr:170
     if ctx:condition("nTemp==nCurSpawn") then -- SOURCEMAN.scr:171
-        ctx:command("ntemp", "= nTemp + 1") -- SOURCEMAN.scr:172
+        ctx:set("nTemp", "nTemp + 1") -- SOURCEMAN.scr:172
     end -- SOURCEMAN.scr:173
-    ctx:command("ncurspawn", "= nTemp") -- SOURCEMAN.scr:174
-    ctx:command("docallback", "nCurSpawn") -- SOURCEMAN.scr:175
+    ctx:set("nCurSpawn", "nTemp") -- SOURCEMAN.scr:174
+    ctx:doCallback("nCurSpawn") -- SOURCEMAN.scr:175
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:176
 end
 
 script.labels["ChangeToNext"] = function(ctx)
     -- SOURCEMAN.scr:179
-    ctx:command("ncurspawn", "= nCurSpawn + 1") -- SOURCEMAN.scr:181
-    ctx:command("mod", "nCurSpawn, NumSpawns") -- SOURCEMAN.scr:182
-    ctx:command("docallback", "nCurSpawn") -- SOURCEMAN.scr:183
+    ctx:set("nCurSpawn", "nCurSpawn + 1") -- SOURCEMAN.scr:181
+    ctx:mod("nCurSpawn", "NumSpawns") -- SOURCEMAN.scr:182
+    ctx:doCallback("nCurSpawn") -- SOURCEMAN.scr:183
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:184
 end
 
 script.labels["ChangeTo0"] = function(ctx)
     -- SOURCEMAN.scr:187
-    ctx:command("getobjecthandle", "SpawnMarker0, hSpawnMarker") -- SOURCEMAN.scr:189
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:190
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker0"):pos() -- SOURCEMAN.scr:189-190
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:191
 end
 
 script.labels["ChangeTo1"] = function(ctx)
     -- SOURCEMAN.scr:193
-    ctx:command("getobjecthandle", "SpawnMarker1, hSpawnMarker") -- SOURCEMAN.scr:195
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:196
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker1"):pos() -- SOURCEMAN.scr:195-196
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:197
 end
 
 script.labels["ChangeTo2"] = function(ctx)
     -- SOURCEMAN.scr:199
-    ctx:command("getobjecthandle", "SpawnMarker2, hSpawnMarker") -- SOURCEMAN.scr:201
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:202
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker2"):pos() -- SOURCEMAN.scr:201-202
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:203
 end
 
 script.labels["ChangeTo3"] = function(ctx)
     -- SOURCEMAN.scr:205
-    ctx:command("getobjecthandle", "SpawnMarker3, hSpawnMarker") -- SOURCEMAN.scr:207
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:208
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker3"):pos() -- SOURCEMAN.scr:207-208
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:209
 end
 
 script.labels["ChangeTo4"] = function(ctx)
     -- SOURCEMAN.scr:211
-    ctx:command("getobjecthandle", "SpawnMarker4, hSpawnMarker") -- SOURCEMAN.scr:213
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:214
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker4"):pos() -- SOURCEMAN.scr:213-214
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:215
 end
 
 script.labels["ChangeTo5"] = function(ctx)
     -- SOURCEMAN.scr:217
-    ctx:command("getobjecthandle", "SpawnMarker5, hSpawnMarker") -- SOURCEMAN.scr:219
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:220
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker5"):pos() -- SOURCEMAN.scr:219-220
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:221
 end
 
 script.labels["ChangeTo6"] = function(ctx)
     -- SOURCEMAN.scr:223
-    ctx:command("getobjecthandle", "SpawnMarker6, hSpawnMarker") -- SOURCEMAN.scr:225
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:226
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker6"):pos() -- SOURCEMAN.scr:225-226
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:227
 end
 
 script.labels["ChangeTo7"] = function(ctx)
     -- SOURCEMAN.scr:229
-    ctx:command("getobjecthandle", "SpawnMarker7, hSpawnMarker") -- SOURCEMAN.scr:231
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:232
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker7"):pos() -- SOURCEMAN.scr:231-232
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:233
 end
 
 script.labels["ChangeTo8"] = function(ctx)
     -- SOURCEMAN.scr:235
-    ctx:command("getobjecthandle", "SpawnMarker8, hSpawnMarker") -- SOURCEMAN.scr:237
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:238
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker8"):pos() -- SOURCEMAN.scr:237-238
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:239
 end
 
 script.labels["ChangeTo9"] = function(ctx)
     -- SOURCEMAN.scr:241
-    ctx:command("getobjecthandle", "SpawnMarker9, hSpawnMarker") -- SOURCEMAN.scr:243
-    ctx:command("getpos", "hSpawnMarker, Spawnx,Spawny,Spawnz") -- SOURCEMAN.scr:244
+    ctx:state().Spawnx, ctx:state().Spawny, ctx:state().Spawnz = ctx:object("SpawnMarker9"):pos() -- SOURCEMAN.scr:243-244
     do return ctx:exit("TRUE") end -- SOURCEMAN.scr:245
 end
 

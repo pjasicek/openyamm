@@ -27,17 +27,17 @@ end
 
 script.labels["SoftExit"] = function(ctx)
     -- WIZARDLABCAMERA.scr:26
-    ctx:command("removetrigger", "next") -- WIZARDLABCAMERA.scr:28
+    ctx:removeTrigger("next") -- WIZARDLABCAMERA.scr:28
     ctx:addTrigger("next", "StartNextScene") -- WIZARDLABCAMERA.scr:29
-    ctx:command("screenfadeout", "0") -- WIZARDLABCAMERA.scr:31
-    ctx:command("wait", "0, 2, SoftEntrance") -- WIZARDLABCAMERA.scr:33
+    ctx:screenFadeOut(0) -- WIZARDLABCAMERA.scr:31
+    ctx:wait(0, 2, "SoftEntrance") -- WIZARDLABCAMERA.scr:33
     do return ctx:exit("TRUE") end -- WIZARDLABCAMERA.scr:35
 end
 
 script.labels["SoftEntrance"] = function(ctx)
     -- WIZARDLABCAMERA.scr:38
     mm9.gosub(script, ctx, "StartNextScene") -- WIZARDLABCAMERA.scr:40
-    ctx:command("screenfadein", "2") -- WIZARDLABCAMERA.scr:42
+    ctx:screenFadeIn(2) -- WIZARDLABCAMERA.scr:42
     do return ctx:exit("TRUE") end -- WIZARDLABCAMERA.scr:44
 end
 

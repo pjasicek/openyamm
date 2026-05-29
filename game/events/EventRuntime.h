@@ -188,6 +188,7 @@ struct EventRuntimeState
         Kind kind = Kind::PlayOneShot;
         SoundScope soundScope = SoundScope::Engine;
         uint32_t soundId = 0;
+        std::string soundName;
         uint64_t key = 0;
         int32_t x = 0;
         int32_t y = 0;

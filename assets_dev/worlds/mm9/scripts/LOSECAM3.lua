@@ -14,32 +14,30 @@ script.includes[#script.includes + 1] = { line = 8, path = "globals.inc" }
 script.labels["OnPlay"] = function(ctx)
     -- LOSECAM3.scr:27
     ctx:getParam(0, "hTriggeredMe") -- LOSECAM3.scr:30
-    ctx:command("getmyhandle", "g_hmyobject") -- LOSECAM3.scr:32
-    ctx:command("getpos", "g_hmyobject MyX MyY MyZ") -- LOSECAM3.scr:33
-    ctx:command("getobjecthandle", "sTarget g_htarget") -- LOSECAM3.scr:35
-    ctx:command("target", "g_htarget") -- LOSECAM3.scr:36
-    ctx:command("wait", "1 2 OnPan") -- LOSECAM3.scr:37
+    ctx:state().MyX, ctx:state().MyY, ctx:state().MyZ = ctx:self():pos() -- LOSECAM3.scr:33
+    ctx:state().g_htarget = ctx:objectOrNil("sTarget") -- LOSECAM3.scr:35
+    ctx:self():setTarget(ctx:object("g_htarget")) -- LOSECAM3.scr:36
+    ctx:wait(1, 2, "OnPan") -- LOSECAM3.scr:37
     -- gosub OnPan
     do return ctx:exit("") end -- LOSECAM3.scr:39
 end
 
 script.labels["OnPan"] = function(ctx)
     -- LOSECAM3.scr:42
-    ctx:command("getobjecthandle", "sCamera g_hobject") -- LOSECAM3.scr:45
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- LOSECAM3.scr:46
-    ctx:command("movetopos", "xpos Ypos Zpos 100 OnArrive1") -- LOSECAM3.scr:47
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("sCamera"):pos() -- LOSECAM3.scr:45-46
+    ctx:self():moveToPos("xpos", "Ypos", "Zpos", 100, "OnArrive1") -- LOSECAM3.scr:47
     do return ctx:exit("") end -- LOSECAM3.scr:48
 end
 
 script.labels["OnArrive1"] = function(ctx)
     -- LOSECAM3.scr:51
-    ctx:command("wait", "1 3 Reset") -- LOSECAM3.scr:55
+    ctx:wait(1, 3, "Reset") -- LOSECAM3.scr:55
     do return ctx:exit("") end -- LOSECAM3.scr:56
 end
 
 script.labels["Reset"] = function(ctx)
     -- LOSECAM3.scr:59
-    ctx:command("setpos", "g_hmyobject MyX MyY MyZ DoNothing") -- LOSECAM3.scr:62
+    ctx:self():setPos("MyX", "MyY", "MyZ") -- LOSECAM3.scr:62
     do return ctx:exit("") end -- LOSECAM3.scr:63
 end
 

@@ -30,7 +30,7 @@ end
 
 script.labels["Main"] = function(ctx)
     -- HUCKSTERMOD.scr:32
-    ctx:command("oncachefiles", "CacheFiles") -- HUCKSTERMOD.scr:34
+    ctx:onEvent("OnCacheFiles", "CacheFiles") -- HUCKSTERMOD.scr:34
     -- register map win type
     ctx:getParam(0, "bGuberland") -- HUCKSTERMOD.scr:37
     if ctx:condition("bGuberland==1") then -- HUCKSTERMOD.scr:38
@@ -45,12 +45,12 @@ end
 
 script.labels["CacheFiles"] = function(ctx)
     -- HUCKSTERMOD.scr:51
-    ctx:command("cachesound", "\"sounds\\events\\dingbell.wav\"") -- HUCKSTERMOD.scr:53
-    ctx:command("cachesound", "\"sounds\\events\\gold01.wav\"") -- HUCKSTERMOD.scr:54
-    ctx:command("cachesound", "\"sounds\\events\\quest.wav\"") -- HUCKSTERMOD.scr:55
-    ctx:command("cachesound", "\"sounds\\door\\doorlock01.wav\"") -- HUCKSTERMOD.scr:56
-    ctx:command("cachesound", "\"sounds\\events\\trumpets02.wav\"") -- HUCKSTERMOD.scr:57
-    ctx:command("cachesound", "\"sounds\\spells\\bless.wav\"") -- HUCKSTERMOD.scr:58
+    ctx:cacheSound("sounds\\events\\dingbell.wav") -- HUCKSTERMOD.scr:53
+    ctx:cacheSound("sounds\\events\\gold01.wav") -- HUCKSTERMOD.scr:54
+    ctx:cacheSound("sounds\\events\\quest.wav") -- HUCKSTERMOD.scr:55
+    ctx:cacheSound("sounds\\door\\doorlock01.wav") -- HUCKSTERMOD.scr:56
+    ctx:cacheSound("sounds\\events\\trumpets02.wav") -- HUCKSTERMOD.scr:57
+    ctx:cacheSound("sounds\\spells\\bless.wav") -- HUCKSTERMOD.scr:58
     do return ctx:exit(1) end -- HUCKSTERMOD.scr:60
 end
 

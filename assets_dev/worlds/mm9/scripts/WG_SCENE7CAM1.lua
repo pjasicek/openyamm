@@ -18,26 +18,24 @@ script.includes[#script.includes + 1] = { line = 13, path = "globals.inc" }
 -- flag variables
 script.labels["OnPlay"] = function(ctx)
     -- WG_SCENE7CAM1.scr:33
-    ctx:command("getobjecthandle", "Krohn g_hobject") -- WG_SCENE7CAM1.scr:37
-    ctx:command("target", "g_hobject") -- WG_SCENE7CAM1.scr:38
+    ctx:state().g_hobject = ctx:objectOrNil("Krohn") -- WG_SCENE7CAM1.scr:37
+    ctx:self():setTarget(ctx:object("g_hobject")) -- WG_SCENE7CAM1.scr:38
     if ctx:condition("g_stemp!=cam2") then -- WG_SCENE7CAM1.scr:39
-        ctx:command("wait", "1 1 OnPan") -- WG_SCENE7CAM1.scr:40
+        ctx:wait(1, 1, "OnPan") -- WG_SCENE7CAM1.scr:40
     end -- WG_SCENE7CAM1.scr:41
     do return ctx:exit("") end -- WG_SCENE7CAM1.scr:42
 end
 
 script.labels["OnPan"] = function(ctx)
     -- WG_SCENE7CAM1.scr:45
-    ctx:command("getobjecthandle", "sMarker g_hobject") -- WG_SCENE7CAM1.scr:48
-    ctx:command("getpos", "g_hobject Xpos Ypos Zpos") -- WG_SCENE7CAM1.scr:49
-    ctx:command("movetopos", "xpos Ypos Zpos 150 OnArrive") -- WG_SCENE7CAM1.scr:50
+    ctx:state().Xpos, ctx:state().Ypos, ctx:state().Zpos = ctx:object("sMarker"):pos() -- WG_SCENE7CAM1.scr:48-49
+    ctx:self():moveToPos("xpos", "Ypos", "Zpos", 150, "OnArrive") -- WG_SCENE7CAM1.scr:50
     do return ctx:exit("") end -- WG_SCENE7CAM1.scr:51
 end
 
 script.labels["OnArrive"] = function(ctx)
     -- WG_SCENE7CAM1.scr:56
-    ctx:command("getobjecthandle", "Winman g_hobject") -- WG_SCENE7CAM1.scr:59
-    ctx:trigger("g_hobject", "CutToKrohn") -- WG_SCENE7CAM1.scr:60
+    ctx:object("Winman"):trigger("CutToKrohn") -- WG_SCENE7CAM1.scr:59-60
     do return ctx:exit("") end -- WG_SCENE7CAM1.scr:61
 end
 

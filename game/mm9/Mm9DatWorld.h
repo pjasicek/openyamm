@@ -156,6 +156,48 @@ struct Mm9DatWorldInfo
     Mm9DatVec3 extentsMaxLt;
 };
 
+enum class Mm9DatObjectPropertyType
+{
+    String = 0,
+    Vector = 1,
+    Color = 2,
+    Real = 3,
+    Flags = 4,
+    Bool = 5,
+    LongInt = 6,
+    Rotation = 7,
+    Unknown = 255,
+};
+
+struct Mm9DatObjectProperty
+{
+    std::string name;
+    uint8_t code = 0;
+    Mm9DatObjectPropertyType type = Mm9DatObjectPropertyType::Unknown;
+    uint32_t flags = 0;
+    uint16_t declaredDataLength = 0;
+    uint16_t consumedDataLength = 0;
+    bool decoded = false;
+    std::string decodeError;
+    std::vector<uint8_t> rawData;
+    std::string stringValue;
+    Mm9DatVec3 vectorValue;
+    std::array<float, 4> rotationValue = {};
+    float floatValue = 0.0f;
+    uint32_t rawUIntValue = 0;
+    int32_t intValue = 0;
+    bool boolValue = false;
+};
+
+struct Mm9DatObject
+{
+    size_t sourceObjectIndex = 0;
+    std::string className;
+    uint16_t payloadLength = 0;
+    std::vector<Mm9DatObjectProperty> properties;
+    std::vector<uint8_t> trailingData;
+};
+
 struct Mm9DatWorld
 {
     uint32_t version = 0;
@@ -164,6 +206,7 @@ struct Mm9DatWorld
     uint32_t worldModelPos = 0;
     Mm9DatWorldInfo worldInfo;
     std::vector<Mm9DatWorldModel> worldModels;
+    std::vector<Mm9DatObject> objects;
 };
 
 struct Mm9DatRenderVertex
@@ -366,6 +409,21 @@ Mm9DatRenderBounds computeMm9DatRenderBoundsForSourceModel(
     const Mm9DatRenderMesh &mesh,
     size_t sourceModelIndex);
 
+Mm9DatRenderTriangle transformMm9DatMechanismPreviewTriangle(
+    const Mm9DatRenderTriangle &triangle,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float scale = Mm9DatToOpenYammScale);
+
+Mm9DatVec3 transformMm9DatMechanismPreviewPoint(
+    const Mm9DatVec3 &position,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float scale = Mm9DatToOpenYammScale);
+
+Mm9DatVec3 inverseTransformMm9DatMechanismPreviewPoint(
+    const Mm9DatVec3 &position,
+    const Mm9DatMechanismPreviewMotion &motion,
+    float scale = Mm9DatToOpenYammScale);
+
 Mm9DatMechanismPreviewResult buildMm9DatMechanismPreviewMesh(
     const Mm9DatRenderMesh &mesh,
     const Mm9DatMechanismPreviewMotion &motion,
@@ -385,4 +443,6 @@ Mm9DatRenderFilterResult classifyMm9DatRenderMeshFilters(
     const Mm9DatRenderMesh &mesh,
     const std::vector<Mm9DatModelRenderRole> &modelRoles,
     size_t portalOverlayCount = 0);
+
+std::vector<Mm9DatModelRenderRole> deriveMm9DatModelRenderRoles(const Mm9DatWorld &world);
 }

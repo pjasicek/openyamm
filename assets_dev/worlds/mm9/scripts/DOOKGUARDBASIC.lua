@@ -15,8 +15,8 @@ script.includes[#script.includes + 1] = { line = 9, path = "DookHostility.inc" }
 -- until they go through the tunnel.
 script.labels["Main"] = function(ctx)
     -- DOOKGUARDBASIC.scr:12
-    ctx:command("onpoststartworld", "InitDookGuardBasic") -- DOOKGUARDBASIC.scr:14
-    ctx:command("onpostminisaveload", "InitDookGuardBasic") -- DOOKGUARDBASIC.scr:15
+    ctx:onEvent("OnPostStartWorld", "InitDookGuardBasic") -- DOOKGUARDBASIC.scr:14
+    ctx:onEvent("OnPostMiniSaveLoad", "InitDookGuardBasic") -- DOOKGUARDBASIC.scr:15
     do return ctx:exit("TRUE") end -- DOOKGUARDBASIC.scr:17
 end
 

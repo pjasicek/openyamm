@@ -330,6 +330,27 @@ def existing_sidecar(path: Path) -> str | None:
     return path.name if path.exists() else None
 
 
+def existing_level_sidecar_value(path: Path, key: str) -> str | None:
+    if not path.exists():
+        return None
+
+    level = load_yaml(path)
+    sidecars = level.get("sidecars")
+    if not isinstance(sidecars, dict):
+        return None
+
+    value = sidecars.get(key)
+    return value if isinstance(value, str) and value else None
+
+
+def existing_outdoor_scene_sidecar(path: Path) -> str | None:
+    if not path.exists():
+        return None
+
+    scene = load_yaml(path)
+    return path.name if scene.get("kind") == "outdoor_scene" else None
+
+
 def level_sidecar(
     map_entry: dict[str, Any],
     package_dat_path: Path,
@@ -344,7 +365,7 @@ def level_sidecar(
         "raw_objects": existing_sidecar(output_root / f"{map_id}.raw_objects.yml"),
         "materials": existing_sidecar(output_root / f"{map_id}.material_aliases.yml"),
         "events": existing_sidecar(output_root / f"{map_id}.events.yml"),
-        "scene_compat": existing_sidecar(output_root / f"{map_id}.scene.yml"),
+        "scene_compat": existing_outdoor_scene_sidecar(output_root / f"{map_id}.scene.yml"),
         "source_metadata_compat": existing_sidecar(output_root / f"{map_id}.mm9.yml"),
         "bsp_compat": existing_sidecar(output_root / f"{map_id}.bsp.yml"),
         "geometry_compat": existing_sidecar(output_root / f"{map_id}.geometry.yml"),
@@ -352,6 +373,10 @@ def level_sidecar(
         "odm_compat": existing_sidecar(output_root / f"{map_id}.odm"),
         "blv_compat": existing_sidecar(output_root / f"{map_id}.blv"),
     }
+    source_asset_aliases = existing_level_sidecar_value(output_root / f"{map_id}.level.yml", "source_asset_aliases")
+    if source_asset_aliases is not None:
+        sidecars["source_asset_aliases"] = source_asset_aliases
+
     return {
         "format_version": 1,
         "kind": "mm9_level",
@@ -359,6 +384,7 @@ def level_sidecar(
         "display_name": display_name,
         "source": {
             "dat": rel_from_maps(package_dat_path),
+            "manifest": "../source/manifest.yml",
             "original_dat": (ORIGINAL_EXTRACTED_ROOT / "WORLDS/WORLDS" / map_entry["source_dat"]).as_posix(),
             "source_game": "mm9",
             "dat_version": 66,

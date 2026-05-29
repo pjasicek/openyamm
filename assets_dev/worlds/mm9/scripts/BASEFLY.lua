@@ -13,7 +13,7 @@ script.includes[#script.includes + 1] = { line = 10, path = "BaseFly.inc" }
 -- Base script for creatures that stay in the air and attack.
 script.labels["Init"] = function(ctx)
     -- BASEFLY.scr:14
-    ctx:command("setidle", "") -- BASEFLY.scr:16
+    ctx:self():setIdle() -- BASEFLY.scr:16
     do return ctx:exit("") end -- BASEFLY.scr:18
 end
 
@@ -22,7 +22,7 @@ script.labels["Main"] = function(ctx)
     -- This routine is automatically run
     -- at script startup...
     mm9.gosub(script, ctx, "BaseFlyInit") -- BASEFLY.scr:26
-    ctx:command("wait", "30, 0.01, Init") -- BASEFLY.scr:28
+    ctx:wait(30, 0.01, "Init") -- BASEFLY.scr:28
     do return ctx:exit("") end -- BASEFLY.scr:30
 end
 

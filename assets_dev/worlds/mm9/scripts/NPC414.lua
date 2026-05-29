@@ -34,23 +34,23 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- NPC414.scr:57
-    ctx:command("playsound", "voices\\NPC\\NPC_414.wav, DoNothing, 100, 240, FALSE, 100") -- NPC414.scr:60
+    ctx:playSound("voices\\NPC\\NPC_414.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC414.scr:60
     do return ctx:exit("") end -- NPC414.scr:61
 end
 
 script.labels["Init"] = function(ctx)
     -- NPC414.scr:64
     if ctx:hasKey(121) then -- NPC414.scr:68-69
-        ctx:command("getmyhandle", "g_hobject") -- NPC414.scr:71
+        ctx:state().g_hobject = ctx:self() -- NPC414.scr:71
         if ctx:condition("sLocation==Guberland") then -- NPC414.scr:73
-            ctx:command("setflag", "g_hobject, visible") -- NPC414.scr:74
-            ctx:command("setflag", "g_hobject, solid") -- NPC414.scr:75
-            ctx:command("setflag", "g_hobject, gravity") -- NPC414.scr:76
+            ctx:self():setFlag("visible", true) -- NPC414.scr:74
+            ctx:self():setFlag("solid", true) -- NPC414.scr:75
+            ctx:self():setFlag("gravity", true) -- NPC414.scr:76
             do return ctx:exit("") end -- NPC414.scr:77
         else -- NPC414.scr:78
-            ctx:command("clearflag", "g_hobject, visible") -- NPC414.scr:79
-            ctx:command("clearflag", "g_hobject, solid") -- NPC414.scr:80
-            ctx:command("clearflag", "g_hobject, gravity") -- NPC414.scr:81
+            ctx:self():setFlag("visible", false) -- NPC414.scr:79
+            ctx:self():setFlag("solid", false) -- NPC414.scr:80
+            ctx:self():setFlag("gravity", false) -- NPC414.scr:81
             do return ctx:exit("") end -- NPC414.scr:82
         end -- NPC414.scr:83
     end -- NPC414.scr:84
@@ -64,10 +64,10 @@ script.labels["Main"] = function(ctx)
     ctx:onRudeExit("OnRude", script.labels["OnRude"]) -- NPC414.scr:96
     ctx:getParam(0, "sLocation") -- NPC414.scr:97
     ctx:addTrigger("Use", "OnUse") -- NPC414.scr:98
-    ctx:command("onpoststartworld", "Init") -- NPC414.scr:99
-    ctx:command("onpostminisaveload", "Init") -- NPC414.scr:100
-    ctx:command("onpostsaveload", "Init") -- NPC414.scr:101
-    ctx:command("wait", "1 .1 Init") -- NPC414.scr:102
+    ctx:onEvent("OnPostStartWorld", "Init") -- NPC414.scr:99
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NPC414.scr:100
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NPC414.scr:101
+    ctx:wait(1, .1, "Init") -- NPC414.scr:102
     do return ctx:exit("") end -- NPC414.scr:103
 end
 

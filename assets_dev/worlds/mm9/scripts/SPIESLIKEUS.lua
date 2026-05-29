@@ -16,7 +16,7 @@ script.labels["OnRude"] = function(ctx)
         if ctx:hasKey(18) then -- SPIESLIKEUS.scr:21-22
             ctx:giveExp(2000) -- SPIESLIKEUS.scr:23
             ctx:giveGold(500) -- SPIESLIKEUS.scr:24
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- SPIESLIKEUS.scr:25
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- SPIESLIKEUS.scr:25
             ctx:giveKey(471) -- SPIESLIKEUS.scr:26
             do return ctx:exit("") end -- SPIESLIKEUS.scr:27
         end -- SPIESLIKEUS.scr:28
@@ -26,7 +26,7 @@ end
 
 script.labels["OnUse"] = function(ctx)
     -- SPIESLIKEUS.scr:34
-    ctx:command("playsound", "voices\\NPC\\NPC_046.wav, Onexit, 100, 240, FALSE, 100") -- SPIESLIKEUS.scr:37
+    ctx:playSound("voices\\NPC\\NPC_046.wav", "Onexit", 100, 240, "FALSE", 100) -- SPIESLIKEUS.scr:37
     do return ctx:exit("") end -- SPIESLIKEUS.scr:38
 end
 

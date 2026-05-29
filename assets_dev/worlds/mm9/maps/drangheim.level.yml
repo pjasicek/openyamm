@@ -4,6 +4,7 @@ map_id: drangheim
 display_name: Drangheim
 source:
   dat: ../source/worlds/DRANGHEIM.dat
+  manifest: ../source/manifest.yml
   original_dat: mm9/extracted/WORLDS/WORLDS/DRANGHEIM.dat
   source_game: mm9
   dat_version: 66
@@ -25,8 +26,8 @@ sidecars:
   source_metadata_compat: drangheim.mm9.yml
   bsp_compat: null
   geometry_compat: null
-  model_assets_compat: drangheim.model_assets.yml
-  odm_compat: drangheim.odm
+  model_assets_compat: null
+  odm_compat: null
   blv_compat: null
 scripts:
   level: ../events/drangheim.lua

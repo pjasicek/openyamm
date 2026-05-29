@@ -19,8 +19,7 @@ script.labels["OnUse"] = function(ctx)
     if ctx:hasKey(238) then -- EVERSTRIKE.scr:33-34
         ctx:giveKey(241) -- EVERSTRIKE.scr:35
         ctx:giveItem(184) -- EVERSTRIKE.scr:36
-        ctx:command("getmyhandle", "g_hmyobject") -- EVERSTRIKE.scr:37
-        ctx:command("removeobject", "g_hmyobject") -- EVERSTRIKE.scr:38
+        ctx:self():remove() -- EVERSTRIKE.scr:38
         do return ctx:exit("") end -- EVERSTRIKE.scr:39
     end -- EVERSTRIKE.scr:40
     do return ctx:exit("") end -- EVERSTRIKE.scr:41
@@ -28,19 +27,19 @@ end
 
 script.labels["Remove"] = function(ctx)
     -- EVERSTRIKE.scr:44
-    ctx:command("getmyhandle", "g_hobject") -- EVERSTRIKE.scr:47
-    ctx:command("clearflag", "g_hobject, visible") -- EVERSTRIKE.scr:48
-    ctx:command("clearflag", "g_hobject, solid") -- EVERSTRIKE.scr:49
-    ctx:command("clearflag", "g_hobject, gravity") -- EVERSTRIKE.scr:50
+    ctx:state().g_hobject = ctx:self() -- EVERSTRIKE.scr:47
+    ctx:self():setFlag("visible", false) -- EVERSTRIKE.scr:48
+    ctx:self():setFlag("solid", false) -- EVERSTRIKE.scr:49
+    ctx:self():setFlag("gravity", false) -- EVERSTRIKE.scr:50
     do return ctx:exit("") end -- EVERSTRIKE.scr:51
 end
 
 script.labels["Appear"] = function(ctx)
     -- EVERSTRIKE.scr:53
-    ctx:command("getmyhandle", "g_hobject") -- EVERSTRIKE.scr:57
-    ctx:command("setflag", "g_hobject, visible") -- EVERSTRIKE.scr:58
-    ctx:command("setflag", "g_hobject, solid") -- EVERSTRIKE.scr:59
-    ctx:command("setflag", "g_hobject, gravity") -- EVERSTRIKE.scr:60
+    ctx:state().g_hobject = ctx:self() -- EVERSTRIKE.scr:57
+    ctx:self():setFlag("visible", true) -- EVERSTRIKE.scr:58
+    ctx:self():setFlag("solid", true) -- EVERSTRIKE.scr:59
+    ctx:self():setFlag("gravity", true) -- EVERSTRIKE.scr:60
     do return ctx:exit("") end -- EVERSTRIKE.scr:61
 end
 
@@ -62,7 +61,7 @@ script.labels["Main"] = function(ctx)
     -- traceon
     -- Don't Forget to Delete this!
     ctx:addTrigger("Use", "OnUse") -- EVERSTRIKE.scr:87
-    ctx:command("wait", "1 1 Init") -- EVERSTRIKE.scr:88
+    ctx:wait(1, 1, "Init") -- EVERSTRIKE.scr:88
     do return ctx:exit("") end -- EVERSTRIKE.scr:90
 end
 

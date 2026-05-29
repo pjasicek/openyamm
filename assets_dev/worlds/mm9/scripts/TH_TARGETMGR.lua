@@ -33,9 +33,9 @@ script.labels["OnTargetHit"] = function(ctx)
     ctx:getConsoleNumVar("TARGET_LEVEL", "PRIZE_LEVEL") -- TH_TARGETMGR.scr:39
     ctx:getConsoleNumVar("TARGET_INDEX", "LISTINDEX") -- TH_TARGETMGR.scr:40
     if ctx:condition("PRIZE_LEVEL>0") then -- TH_TARGETMGR.scr:42
-        ctx:command("playsound", "HIT_TARGET, GiveGold, 1, 5000, FALSE, 100") -- TH_TARGETMGR.scr:43
+        ctx:playSound("HIT_TARGET", "GiveGold", 1, 5000, "FALSE", 100) -- TH_TARGETMGR.scr:43
     else -- TH_TARGETMGR.scr:44
-        ctx:command("playsound", "HIT_TARGET, DoNothing, 1, 5000, FALSE, 100") -- TH_TARGETMGR.scr:45
+        ctx:playSound("HIT_TARGET", "DoNothing", 1, 5000, "FALSE", 100) -- TH_TARGETMGR.scr:45
     end -- TH_TARGETMGR.scr:46
     mm9.gosub(script, ctx, "GetCurrentObject") -- TH_TARGETMGR.scr:48
     if ctx:condition("LISTOBJECT!=0") then -- TH_TARGETMGR.scr:49
@@ -77,7 +77,7 @@ end
 
 script.labels["GiveGold"] = function(ctx)
     -- TH_TARGETMGR.scr:89
-    ctx:command("playsound", "WON_MONEY, DoNothing, 1, 5000, FALSE, 100") -- TH_TARGETMGR.scr:91
+    ctx:playSound("WON_MONEY", "DoNothing", 1, 5000, "FALSE", 100) -- TH_TARGETMGR.scr:91
     ctx:giveGold("PRIZE_LEVEL") -- TH_TARGETMGR.scr:93
     do return ctx:exit("TRUE") end -- TH_TARGETMGR.scr:95
 end

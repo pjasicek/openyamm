@@ -21,12 +21,11 @@ script.labels["OnChase"] = function(ctx)
         do return ctx:exit("") end -- NJAMCHASE.scr:29
     end -- NJAMCHASE.scr:30
     if ctx:hasKey(108) then -- NJAMCHASE.scr:33-34
-        ctx:command("getobjecthandle", "Njamdoor g_hobject") -- NJAMCHASE.scr:35
-        ctx:trigger("g_hobject", "Unlock") -- NJAMCHASE.scr:36
+        ctx:object("Njamdoor"):trigger("Unlock") -- NJAMCHASE.scr:35-36
         -- trigger door to unlock and him to go through it.
         ctx:giveKey(470) -- NJAMCHASE.scr:38
         ctx:giveExp(226000) -- NJAMCHASE.scr:39
-        ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 24000, FALSE, 100") -- NJAMCHASE.scr:40
+        ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 24000, "FALSE", 100) -- NJAMCHASE.scr:40
         mm9.gosub(script, ctx, "Chase") -- NJAMCHASE.scr:41
         do return ctx:exit("") end -- NJAMCHASE.scr:42
     end -- NJAMCHASE.scr:43
@@ -35,9 +34,9 @@ end
 
 script.labels["Chase"] = function(ctx)
     -- NJAMCHASE.scr:48
-    ctx:command("getplayerhandle", "g_hplayer") -- NJAMCHASE.scr:52
-    ctx:command("target", "g_hplayer") -- NJAMCHASE.scr:53
-    ctx:command("addenemy", "player") -- NJAMCHASE.scr:54
+    ctx:state().g_hplayer = ctx:player() -- NJAMCHASE.scr:52
+    ctx:self():setTarget(ctx:player()) -- NJAMCHASE.scr:53
+    ctx:self():addEnemy("player") -- NJAMCHASE.scr:54
     mm9.gosub(script, ctx, "BaseInit") -- NJAMCHASE.scr:56
     do return ctx:exit("") end -- NJAMCHASE.scr:57
 end
@@ -45,8 +44,8 @@ end
 script.labels["Init"] = function(ctx)
     -- NJAMCHASE.scr:60
     if ctx:hasKey(470) then -- NJAMCHASE.scr:64-65
-        ctx:command("getmyhandle", "g_hobject") -- NJAMCHASE.scr:66
-        ctx:command("removeobject", "g_hobject") -- NJAMCHASE.scr:67
+        ctx:state().g_hobject = ctx:self() -- NJAMCHASE.scr:66
+        ctx:object("g_hobject"):remove() -- NJAMCHASE.scr:67
     else -- NJAMCHASE.scr:68
         mm9.gosub(script, ctx, "init") -- NJAMCHASE.scr:69
     end -- NJAMCHASE.scr:70
@@ -57,13 +56,13 @@ script.labels["Main"] = function(ctx)
     -- NJAMCHASE.scr:75
     -- TraceOn ;delete me!!
     ctx:addTrigger("Chase", "OnChase") -- NJAMCHASE.scr:79
-    ctx:command("ondamage", "Chase") -- NJAMCHASE.scr:80
+    ctx:onEvent("OnDamage", "Chase") -- NJAMCHASE.scr:80
     -- Gosub Init
     mm9.gosub(script, ctx, "BaseDoorInit") -- NJAMCHASE.scr:82
-    ctx:command("onpoststartworld", "Init") -- NJAMCHASE.scr:83
-    ctx:command("onpostminisaveload", "Init") -- NJAMCHASE.scr:84
-    ctx:command("onpostsaveload", "Init") -- NJAMCHASE.scr:85
-    ctx:command("wait", "1 .1 Init") -- NJAMCHASE.scr:86
+    ctx:onEvent("OnPostStartWorld", "Init") -- NJAMCHASE.scr:83
+    ctx:onEvent("OnPostMiniSaveLoad", "Init") -- NJAMCHASE.scr:84
+    ctx:onEvent("OnPostSaveLoad", "Init") -- NJAMCHASE.scr:85
+    ctx:wait(1, .1, "Init") -- NJAMCHASE.scr:86
     do return ctx:exit("") end -- NJAMCHASE.scr:87
 end
 

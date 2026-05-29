@@ -15,26 +15,25 @@ script.includes[#script.includes + 1] = { line = 9, path = "basewander.inc" }
 script.labels["OnUse"] = function(ctx)
     -- MARYSHEEP.scr:14
     ctx:getParam(0, "g_htarget") -- MARYSHEEP.scr:17
-    ctx:command("faceobject", "g_htarget 200 DoNothing") -- MARYSHEEP.scr:18
+    ctx:self():faceObject(ctx:object("g_htarget"), 200, "DoNothing") -- MARYSHEEP.scr:18
     mm9.gosub(script, ctx, "FollowInit") -- MARYSHEEP.scr:20
     mm9.gosub(script, ctx, "FollowOnUse") -- MARYSHEEP.scr:21
-    ctx:command("getobjecthandle", "CommonerChildHuman2ChildA0 g_hobject") -- MARYSHEEP.scr:22
-    ctx:trigger("g_hobject", "Target") -- MARYSHEEP.scr:23
+    ctx:object("CommonerChildHuman2ChildA0"):trigger("Target") -- MARYSHEEP.scr:22-23
     do return ctx:exit("") end -- MARYSHEEP.scr:25
 end
 
 script.labels["OnRun"] = function(ctx)
     -- MARYSHEEP.scr:28
     ctx:getParam(0, "g_htarget") -- MARYSHEEP.scr:31
-    ctx:command("stop", "") -- MARYSHEEP.scr:32
+    ctx:self():stop() -- MARYSHEEP.scr:32
     mm9.gosub(script, ctx, "followstop") -- MARYSHEEP.scr:33
-    ctx:command("runto", "g_htarget 16 OnArrive") -- MARYSHEEP.scr:34
+    ctx:self():runTo(ctx:object("g_htarget"), 16, "OnArrive") -- MARYSHEEP.scr:34
     do return ctx:exit("") end -- MARYSHEEP.scr:35
 end
 
 script.labels["OnArrive"] = function(ctx)
     -- MARYSHEEP.scr:38
-    ctx:command("runscript", "Cat.scr") -- MARYSHEEP.scr:41
+    ctx:runScript("Cat.scr") -- MARYSHEEP.scr:41
     do return ctx:exit("") end -- MARYSHEEP.scr:42
 end
 

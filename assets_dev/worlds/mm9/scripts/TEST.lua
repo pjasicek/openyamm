@@ -13,13 +13,13 @@ script.includes[#script.includes + 1] = { line = 9, path = "camera.scr" }
 -- jeffs fun test
 script.labels["main"] = function(ctx)
     -- TEST.scr:12
-    ctx:command("ontouchnotify", "run") -- TEST.scr:14
+    ctx:onEvent("OnTouchNotify", "run") -- TEST.scr:14
     do return ctx:exit("") end -- TEST.scr:16
 end
 
 script.labels["run"] = function(ctx)
     -- TEST.scr:20
-    ctx:command("runscript", "camera.scr") -- TEST.scr:22
+    ctx:runScript("camera.scr") -- TEST.scr:22
 end
 
 -- :Goto

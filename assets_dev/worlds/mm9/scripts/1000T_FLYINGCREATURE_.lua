@@ -24,11 +24,10 @@ end
 script.labels["InitFlyingCreature"] = function(ctx)
     -- 1000T_FLYINGCREATURE_.scr:27
     mm9.gosub(script, ctx, "SetTraverseRun") -- 1000T_FLYINGCREATURE_.scr:29
-    ctx:command("setmodelfilenames", "\"models\\flyingicky.abc\", \"textures\\leveltextures\\misc\\black.dtx\"") -- 1000T_FLYINGCREATURE_.scr:31
-    ctx:command("getmyhandle", "hMe") -- 1000T_FLYINGCREATURE_.scr:33
-    ctx:command("setflag", "hMe, 2097152") -- 1000T_FLYINGCREATURE_.scr:34
-    ctx:command("setstat", "hMe, FlyVel, 900") -- 1000T_FLYINGCREATURE_.scr:35
-    ctx:command("onstuck", "RemoveMe") -- 1000T_FLYINGCREATURE_.scr:37
+    ctx:self():setModelFilenames("models\\flyingicky.abc", "textures\\leveltextures\\misc\\black.dtx") -- 1000T_FLYINGCREATURE_.scr:31
+    ctx:self():setFlag("2097152", true) -- 1000T_FLYINGCREATURE_.scr:34
+    ctx:self():setStat("FlyVel", 900) -- 1000T_FLYINGCREATURE_.scr:35
+    ctx:onEvent("OnStuck", "RemoveMe") -- 1000T_FLYINGCREATURE_.scr:37
     ctx:addTrigger("go", "TraverseBegin") -- 1000T_FLYINGCREATURE_.scr:39
     do return ctx:exit(1) end -- 1000T_FLYINGCREATURE_.scr:41
 end
@@ -36,18 +35,18 @@ end
 script.labels["OnTraverseDone"] = function(ctx)
     -- 1000T_FLYINGCREATURE_.scr:44
     if ctx:condition("LISTINDEX==LISTLAST") then -- 1000T_FLYINGCREATURE_.scr:46
-        ctx:command("stop", "") -- 1000T_FLYINGCREATURE_.scr:47
-        ctx:command("removeobject", "hMe") -- 1000T_FLYINGCREATURE_.scr:48
+        ctx:self():stop() -- 1000T_FLYINGCREATURE_.scr:47
+        ctx:self():remove() -- 1000T_FLYINGCREATURE_.scr:48
     else -- 1000T_FLYINGCREATURE_.scr:49
-        ctx:command("playsound", "\"sounds\\animsounds\\evileyeflap.wav\", DoNothing, 500, 2000, 0, 100") -- 1000T_FLYINGCREATURE_.scr:50
+        ctx:playSound("sounds\\animsounds\\evileyeflap.wav", "DoNothing", 500, 2000, 0, 100) -- 1000T_FLYINGCREATURE_.scr:50
     end -- 1000T_FLYINGCREATURE_.scr:51
     do return ctx:exit(1) end -- 1000T_FLYINGCREATURE_.scr:53
 end
 
 script.labels["RemoveMe"] = function(ctx)
     -- 1000T_FLYINGCREATURE_.scr:56
-    ctx:command("stop", "") -- 1000T_FLYINGCREATURE_.scr:58
-    ctx:command("removeobject", "hMe") -- 1000T_FLYINGCREATURE_.scr:59
+    ctx:self():stop() -- 1000T_FLYINGCREATURE_.scr:58
+    ctx:self():remove() -- 1000T_FLYINGCREATURE_.scr:59
     do return ctx:exit(1) end -- 1000T_FLYINGCREATURE_.scr:61
 end
 

@@ -23,8 +23,7 @@ script.labels["OnUse"] = function(ctx)
             -- checks to see if player has already done this
             ctx:giveKey(131) -- HERBS.scr:34
             ctx:giveItem(372) -- HERBS.scr:35
-            ctx:command("getmyhandle", "g_hmyobject") -- HERBS.scr:36
-            ctx:command("removeobject", "g_hmyobject") -- HERBS.scr:37
+            ctx:self():remove() -- HERBS.scr:37
             -- gives herbs key.
             do return ctx:exit("") end -- HERBS.scr:39
         end -- HERBS.scr:40
@@ -35,19 +34,18 @@ end
 script.labels["Init"] = function(ctx)
     -- HERBS.scr:46
     if ctx:hasKey(128) then -- HERBS.scr:49-50
-        ctx:command("getmyhandle", "g_hobject") -- HERBS.scr:51
-        ctx:command("setflag", "g_hobject, visible") -- HERBS.scr:52
-        ctx:command("setflag", "g_hobject, solid") -- HERBS.scr:53
-        ctx:command("setflag", "g_hobject, gravity") -- HERBS.scr:54
+        ctx:state().g_hobject = ctx:self() -- HERBS.scr:51
+        ctx:self():setFlag("visible", true) -- HERBS.scr:52
+        ctx:self():setFlag("solid", true) -- HERBS.scr:53
+        ctx:self():setFlag("gravity", true) -- HERBS.scr:54
     else -- HERBS.scr:55
-        ctx:command("getmyhandle", "g_hobject") -- HERBS.scr:56
-        ctx:command("clearflag", "g_hobject, visible") -- HERBS.scr:57
-        ctx:command("clearflag", "g_hobject, solid") -- HERBS.scr:58
-        ctx:command("clearflag", "g_hobject, gravity") -- HERBS.scr:59
+        ctx:state().g_hobject = ctx:self() -- HERBS.scr:56
+        ctx:self():setFlag("visible", false) -- HERBS.scr:57
+        ctx:self():setFlag("solid", false) -- HERBS.scr:58
+        ctx:self():setFlag("gravity", false) -- HERBS.scr:59
     end -- HERBS.scr:60
     if ctx:hasKey(131) then -- HERBS.scr:63-64
-        ctx:command("getmyhandle", "g_hmyobject") -- HERBS.scr:65
-        ctx:command("removeobject", "g_hmyobject") -- HERBS.scr:66
+        ctx:self():remove() -- HERBS.scr:66
         do return ctx:exit("") end -- HERBS.scr:67
     end -- HERBS.scr:68
     do return ctx:exit("") end -- HERBS.scr:69

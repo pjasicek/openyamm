@@ -17,7 +17,7 @@ end
 
 script.labels["OnScene1"] = function(ctx)
     -- GUARDACTOR.scr:15
-    ctx:command("playanim", "search, EndScene") -- GUARDACTOR.scr:17
+    ctx:self():playAnimation("search", "EndScene") -- GUARDACTOR.scr:17
     do return ctx:exit(1) end -- GUARDACTOR.scr:19
 end
 
@@ -29,15 +29,15 @@ end
 
 script.labels["OnScene5"] = function(ctx)
     -- GUARDACTOR.scr:29
-    ctx:command("getobjecthandle", "MarkerTarget2, g_hTarget") -- GUARDACTOR.scr:31
-    ctx:command("runto", "g_hTarget, 25, DoNothing") -- GUARDACTOR.scr:32
+    ctx:state().g_hTarget = ctx:objectOrNil("MarkerTarget2") -- GUARDACTOR.scr:31
+    ctx:self():runTo(ctx:object("g_hTarget"), 25, "DoNothing") -- GUARDACTOR.scr:32
     do return ctx:exit(1) end -- GUARDACTOR.scr:34
 end
 
 script.labels["Attack"] = function(ctx)
     -- GUARDACTOR.scr:37
     mm9.gosub(script, ctx, "EndScene") -- GUARDACTOR.scr:39
-    ctx:command("getobjecthandle", "MarkerTarget2, g_hTarget") -- GUARDACTOR.scr:40
+    ctx:state().g_hTarget = ctx:objectOrNil("MarkerTarget2") -- GUARDACTOR.scr:40
     mm9.gosub(script, ctx, "BaseInit") -- GUARDACTOR.scr:41
     mm9.gosub(script, ctx, "SetupTarget") -- GUARDACTOR.scr:42
     mm9.gosub(script, ctx, "AggressiveStart") -- GUARDACTOR.scr:43

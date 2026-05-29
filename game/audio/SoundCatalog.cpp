@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
+#include <functional>
 #include <optional>
 
 namespace OpenYAMM::Game
@@ -40,6 +41,35 @@ std::string trimCopy(const std::string &value)
     }
 
     return value.substr(start, end - start);
+}
+
+std::string normalizeSoundLookupName(const std::string &value)
+{
+    std::string normalized = toLowerCopy(trimCopy(value));
+
+    for (char &character : normalized)
+    {
+        if (character == '\\')
+        {
+            character = '/';
+        }
+    }
+
+    while (!normalized.empty() && normalized.front() == '/')
+    {
+        normalized.erase(normalized.begin());
+    }
+
+    for (const std::string &prefix : {"sounds/", "source/sounds/"})
+    {
+        if (normalized.rfind(prefix, 0) == 0)
+        {
+            normalized.erase(0, prefix.size());
+            break;
+        }
+    }
+
+    return normalized;
 }
 
 std::string normalizeComment(const std::string &value)
@@ -112,23 +142,73 @@ void indexAudioDirectory(
     const std::string &audioDirectory,
     std::unordered_map<std::string, std::string> &virtualPathByLowerName)
 {
+    const auto indexEntry =
+        [&virtualPathByLowerName](const std::string &relativePath, const std::string &virtualPath)
+    {
+        std::string lowerEntry = normalizeSoundLookupName(relativePath);
+
+        if (lowerEntry.size() < 5 || lowerEntry.substr(lowerEntry.size() - 4) != ".wav")
+        {
+            return;
+        }
+
+        virtualPathByLowerName[lowerEntry] = virtualPath;
+        virtualPathByLowerName[lowerEntry.substr(0, lowerEntry.size() - 4)] = virtualPath;
+
+        const size_t slash = lowerEntry.find_last_of('/');
+        if (slash != std::string::npos && slash + 1 < lowerEntry.size())
+        {
+            const std::string fileName = lowerEntry.substr(slash + 1);
+            virtualPathByLowerName[fileName] = virtualPath;
+            virtualPathByLowerName[fileName.substr(0, fileName.size() - 4)] = virtualPath;
+        }
+    };
+
+    std::function<void(const std::string &, const std::string &)> recurse =
+        [&assetFileSystem, &indexEntry, &recurse](
+            const std::string &virtualDirectory,
+            const std::string &prefix)
+    {
+        for (const std::string &entry : assetFileSystem.enumerate(virtualDirectory))
+        {
+            if (entry.empty() || entry == "." || entry == "..")
+            {
+                continue;
+            }
+
+            const std::string relativePath = prefix.empty() ? entry : prefix + "/" + entry;
+            const std::string virtualPath = virtualDirectory + "/" + entry;
+            const std::string lowerEntry = toLowerCopy(entry);
+
+            if (lowerEntry.size() >= 4 && lowerEntry.substr(lowerEntry.size() - 4) == ".wav")
+            {
+                indexEntry(relativePath, virtualPath);
+            }
+            else
+            {
+                recurse(virtualPath, relativePath);
+            }
+        }
+    };
+
     for (const std::string &entry : assetFileSystem.enumerate(audioDirectory))
     {
-        if (entry.empty())
+        if (entry.empty() || entry == "." || entry == "..")
         {
             continue;
         }
 
         const std::string lowerEntry = toLowerCopy(entry);
+        const std::string virtualPath = audioDirectory + "/" + entry;
 
-        if (lowerEntry.size() < 5 || lowerEntry.substr(lowerEntry.size() - 4) != ".wav")
+        if (lowerEntry.size() >= 4 && lowerEntry.substr(lowerEntry.size() - 4) == ".wav")
         {
-            continue;
+            indexEntry(entry, virtualPath);
         }
-
-        const std::string resolvedPath = audioDirectory + "/" + entry;
-        virtualPathByLowerName[lowerEntry] = resolvedPath;
-        virtualPathByLowerName[lowerEntry.substr(0, lowerEntry.size() - 4)] = resolvedPath;
+        else
+        {
+            recurse(virtualPath, entry);
+        }
     }
 }
 
@@ -356,7 +436,7 @@ std::optional<std::string> SoundCatalog::buildVirtualPath(SoundRef sound) const
 
 std::optional<std::string> SoundCatalog::buildVirtualPathByName(SoundScope scope, const std::string &soundName) const
 {
-    const std::string lowerName = toLowerCopy(trimCopy(soundName));
+    const std::string lowerName = normalizeSoundLookupName(soundName);
     if (lowerName.empty())
     {
         return std::nullopt;

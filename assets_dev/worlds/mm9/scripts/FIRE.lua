@@ -10,19 +10,18 @@ script.includes[#script.includes + 1] = { line = 2, path = "globals.inc" }
 script.labels["OnUse"] = function(ctx)
     -- FIRE.scr:9
     ctx:trigger("g_hMyObject", "ON") -- FIRE.scr:11
-    ctx:command("getobjecthandle", "ScriptObject0, g_hObject") -- FIRE.scr:13
-    ctx:command("set", "g_sOut, Test") -- FIRE.scr:15
-    ctx:command("set", "g_sTemp, FlameId") -- FIRE.scr:16
-    ctx:command("add", "g_sOut, nTemp") -- FIRE.scr:17
+    ctx:state().g_hObject = ctx:objectOrNil("ScriptObject0") -- FIRE.scr:13
+    ctx:set("g_sOut", "Test") -- FIRE.scr:15
+    ctx:set("g_sTemp", "FlameId") -- FIRE.scr:16
+    ctx:add("g_sOut", "nTemp") -- FIRE.scr:17
     ctx:trigger("g_hObject", "g_sOut") -- FIRE.scr:19
-    ctx:command("debugout", "g_sOut") -- FIRE.scr:20
+    ctx:debugOut("g_sOut") -- FIRE.scr:20
     do return ctx:exit("") end -- FIRE.scr:23
 end
 
 script.labels["Main"] = function(ctx)
     -- FIRE.scr:25
     -- TraceOn
-    ctx:command("getmyhandle", "g_hMyObject") -- FIRE.scr:29
     ctx:addTrigger("Use", "OnUse") -- FIRE.scr:30
     ctx:getParam(0, "FlameId") -- FIRE.scr:32
     do return ctx:exit("") end -- FIRE.scr:34

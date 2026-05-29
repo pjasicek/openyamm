@@ -1,0 +1,366 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: beethoven
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bottlefollow.scr
+  source_path: BOTTLEFOLLOW.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: BaseGlobals.inc
+  - line: 9
+    path: ListTraverseNONAI.inc
+  - line: 10
+    path: flags.inc
+  labels:
+  - line: 39
+    name: Main
+  - line: 63
+    name: OnTraverseDone
+  - line: 90
+    name: FloatLoop
+  - line: 111
+    name: GotoBeginning
+  - line: 125
+    name: GotoFinishing
+  registered_triggers: []
+  trigger_edges: []
+  movement_commands:
+  - line: 100
+    command: Rotate
+    arguments_raw: 0,1,0, ANGLE_DIST, ANGLE_RATE, DoNothing
+  - line: 104
+    command: MoveDir
+    arguments_raw: 0,nDir,0, FLOAT_DIST, FLOAT_RATE, FloatLoop
+  - line: 120
+    command: SetPOS
+    arguments_raw: hMe, xMe,yMe,zMe
+  - line: 134
+    command: SetPOS
+    arguments_raw: hMe, xMe,yMe,zMe
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 49
+    command: LISTNAME
+    arguments_raw: = STARTNAME
+  - line: 50
+    command: LISTFIRST
+    arguments_raw: = STARTFIRST
+  - line: 51
+    command: LISTLAST
+    arguments_raw: = STARTLAST
+  - line: 54
+    command: TRAVERSE_SPEED
+    arguments_raw: = 40
+  - line: 68
+    command: bFinishing
+    arguments_raw: = TRUE
+  - line: 72
+    command: bContinue
+    arguments_raw: = 1
+  - line: 78
+    command: bFinishing
+    arguments_raw: = FALSE
+  - line: 82
+    command: bContinue
+    arguments_raw: = 1
+  - line: 94
+    command: nCounter
+    arguments_raw: = 0
+  - line: 95
+    command: bFinishing
+    arguments_raw: = FALSE
+  - line: 102
+    command: nDir
+    arguments_raw: = nDir * -1
+  - line: 106
+    command: nCounter
+    arguments_raw: = nCounter + 1
+  - line: 113
+    command: LISTNAME
+    arguments_raw: = STARTNAME
+  - line: 114
+    command: LISTFIRST
+    arguments_raw: = STARTFIRST
+  - line: 115
+    command: LISTLAST
+    arguments_raw: = STARTLAST
+  - line: 127
+    command: LISTNAME
+    arguments_raw: = FINISHNAME
+  - line: 128
+    command: LISTFIRST
+    arguments_raw: = FINISHFIRST
+  - line: 129
+    command: LISTLAST
+    arguments_raw: = FINISHLAST
+  command_count: 57
+- script_id: coffinmummy.scr
+  source_path: COFFINMUMMY.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: BaseGlobals.inc
+  - line: 12
+    path: flags.inc
+  labels:
+  - line: 22
+    name: Main
+  - line: 31
+    name: OnPostStartworld
+  - line: 56
+    name: WakeUp
+  - line: 72
+    name: GoNormal
+  - line: 86
+    name: OnPostDestroy
+  registered_triggers:
+  - line: 46
+    message: awaken
+    callback: WakeUp
+    arguments_raw: awaken, WakeUp
+  trigger_edges:
+  - line: 92
+    target_expression: hCoffin
+    message_expression: destroy
+    arguments_raw: hCoffin, destroy
+  movement_commands: []
+  state_commands:
+  - line: 45
+    command: SetFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  - line: 47
+    command: SetStat
+    arguments_raw: hMe, gravity, FALSE
+  - line: 51
+    command: ClearFlag
+    arguments_raw: hMe,FLAG_SOLID
+  - line: 61
+    command: SetFlag
+    arguments_raw: hMe, FLAG_VISIBLE
+  - line: 62
+    command: SetFlag
+    arguments_raw: hMe, FLAG_SOLID
+  - line: 89
+    command: SetStat
+    arguments_raw: hMe, gravity, TRUE
+  presentation_commands:
+  - line: 42
+    command: LoopAnim
+    arguments_raw: '"coffin2", 0'
+  - line: 67
+    command: PlayAnim
+    arguments_raw: wakeup2
+  unknown_commands:
+  - line: 26
+    command: OnPostStartWorld
+    arguments_raw: OnPostStartworld
+  - line: 35
+    command: IsClass
+    arguments_raw: hMe, "Mummy", bAnimOk
+  - line: 37
+    command: IsClass
+    arguments_raw: hMe, "Zombie", bAnimOk
+  - line: 58
+    command: RemoveTrigger
+    arguments_raw: awaken
+  - line: 59
+    command: OnDamage
+    arguments_raw: DoNothing
+  - line: 66
+    command: AddModelKey
+    arguments_raw: AtKick, OnPostDestroy
+  - line: 79
+    command: GetPlayerHandle
+    arguments_raw: hMe
+  - line: 80
+    command: Target
+    arguments_raw: hMe,TRUE
+  - line: 82
+    command: RunScript
+    arguments_raw: '"baseMelee.scr"'
+  - line: 88
+    command: SetPropNumber
+    arguments_raw: CanDamage, TRUE
+  - line: 95
+    command: Stop
+    arguments_raw: ''
+  - line: 96
+    command: SetIdle
+    arguments_raw: ''
+  command_count: 37
+- script_id: coffinraise.scr
+  source_path: COFFINRAISE.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 13
+    name: Main
+  - line: 25
+    name: DoNothing
+  - line: 29
+    name: CacheFiles
+  - line: 35
+    name: OnRaise
+  - line: 46
+    name: TriggerMonster
+  registered_triggers:
+  - line: 17
+    message: raise
+    callback: OnRaise
+    arguments_raw: raise, OnRaise
+  - line: 18
+    message: open
+    callback: OnRaise
+    arguments_raw: open,  OnRaise
+  trigger_edges:
+  - line: 50
+    target_expression: hMonster
+    message_expression: Awaken
+    arguments_raw: hMonster, Awaken
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 40
+    command: PlayAnim
+    arguments_raw: open, TriggerMonster
+  unknown_commands:
+  - line: 20
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 31
+    command: CacheSound
+    arguments_raw: Sounds\Door\stone_door02.wav
+  - line: 37
+    command: RemoveTrigger
+    arguments_raw: raise
+  - line: 38
+    command: RemoveTrigger
+    arguments_raw: open
+  command_count: 17
+- script_id: ludwigsmanuscript.scr
+  source_path: LUDWIGSMANUSCRIPT.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: Onuse
+  - line: 49
+    name: Init
+  - line: 66
+    name: Delete
+  - line: 74
+    name: Main
+  registered_triggers:
+  - line: 78
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: Haskey
+    arguments_raw: 14 g_ntemp
+  - line: 23
+    command: Haskey
+    arguments_raw: 16 keycheck
+  - line: 26
+    command: givekey
+    arguments_raw: '16'
+  - line: 27
+    command: Set
+    arguments_raw: keydata, 16
+  - line: 28
+    command: giveitem
+    arguments_raw: '248'
+  - line: 30
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 35
+    command: Haskey
+    arguments_raw: 110 keycheck
+  - line: 38
+    command: givekey
+    arguments_raw: '110'
+  - line: 39
+    command: set
+    arguments_raw: keydata, 110
+  - line: 40
+    command: giveitem
+    arguments_raw: '248'
+  - line: 42
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 52
+    command: haskey
+    arguments_raw: 16 g_ntemp
+  - line: 57
+    command: haskey
+    arguments_raw: 110 g_ntemp
+  - line: 70
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 79
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 80
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 81
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 41
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+validation:
+  script_count: 5

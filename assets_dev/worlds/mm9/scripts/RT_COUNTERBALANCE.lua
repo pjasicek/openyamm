@@ -13,28 +13,25 @@ script.includes[#script.includes + 1] = { line = 12, path = "Flags.inc" }
 -- Super simple "Move My World Object" script.
 script.labels["StopHere"] = function(ctx)
     -- RT_COUNTERBALANCE.scr:23
-    ctx:command("playsound", "Sounds\\Door\\doorslammetal01.wav DoNothing hDummy 400 FALSE 100") -- RT_COUNTERBALANCE.scr:25
-    ctx:command("hcrypt", "= NULL") -- RT_COUNTERBALANCE.scr:26
-    ctx:command("getobjecthandle", "DB_Crypt0, hCrypt") -- RT_COUNTERBALANCE.scr:27
-    ctx:trigger("hCrypt", "Destroy") -- RT_COUNTERBALANCE.scr:28
+    ctx:playSound("Sounds\\Door\\doorslammetal01.wav", "DoNothing", "hDummy", 400, "FALSE", 100) -- RT_COUNTERBALANCE.scr:25
+    ctx:state().hCrypt = nil -- RT_COUNTERBALANCE.scr:26
+    ctx:object("DB_Crypt0"):trigger("Destroy") -- RT_COUNTERBALANCE.scr:27-28
     do return ctx:exit("TRUE") end -- RT_COUNTERBALANCE.scr:29
 end
 
 script.labels["MoveToMarker"] = function(ctx)
     -- RT_COUNTERBALANCE.scr:31
-    ctx:command("getmyhandle", "hMe") -- RT_COUNTERBALANCE.scr:33
-    ctx:command("setflag", "hMe, FLAG_GOTHRUWORLD") -- RT_COUNTERBALANCE.scr:34
+    ctx:self():setFlag("FLAG_GOTHRUWORLD", true) -- RT_COUNTERBALANCE.scr:34
     -- playsound Sounds\Events\boulderroll.wav DoNothing hDummy 1000 TRUE 100
-    ctx:command("getobjecthandle", "CryptMarker0, hMarker") -- RT_COUNTERBALANCE.scr:36
-    ctx:command("getpos", "hMarker, nVarX, nVarY, nVarZ") -- RT_COUNTERBALANCE.scr:37
-    ctx:command("movetopos", "nVarX, nVarY, nVarZ, 300, StopHere") -- RT_COUNTERBALANCE.scr:38
+    ctx:state().nVarX, ctx:state().nVarY, ctx:state().nVarZ = ctx:object("CryptMarker0"):pos() -- RT_COUNTERBALANCE.scr:36-37
+    ctx:self():moveToPos("nVarX", "nVarY", "nVarZ", 300, "StopHere") -- RT_COUNTERBALANCE.scr:38
     do return ctx:exit("") end -- RT_COUNTERBALANCE.scr:39
 end
 
 script.labels["Main"] = function(ctx)
     -- RT_COUNTERBALANCE.scr:41
     ctx:addTrigger("Fall", "MoveToMarker") -- RT_COUNTERBALANCE.scr:43
-    ctx:command("ondamage", "MoveToMarker") -- RT_COUNTERBALANCE.scr:44
+    ctx:onEvent("OnDamage", "MoveToMarker") -- RT_COUNTERBALANCE.scr:44
     do return ctx:exit("") end -- RT_COUNTERBALANCE.scr:45
 end
 

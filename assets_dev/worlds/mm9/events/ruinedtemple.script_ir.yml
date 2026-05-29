@@ -1,0 +1,499 @@
+format_version: 1
+kind: mm9_script_ir
+map_id: ruinedtemple
+generated:
+  tool: tools/mm9_import_discovery/generate_mm9_events.py
+scripts:
+- script_id: bookletter.scr
+  source_path: BOOKLETTER.scr
+  parse_status: parsed
+  includes:
+  - line: 8
+    path: globals.inc
+  labels:
+  - line: 16
+    name: OnUse
+  - line: 38
+    name: Letter
+  - line: 48
+    name: Init
+  - line: 58
+    name: Close
+  - line: 66
+    name: Main
+  registered_triggers:
+  - line: 74
+    message: Use
+    callback: OnUse
+    arguments_raw: Use OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 23
+    command: PlayAnim
+    arguments_raw: Openbook
+  - line: 52
+    command: LoopAnim
+    arguments_raw: Down 0 DoNothing
+  - line: 61
+    command: playanim
+    arguments_raw: closebook
+  unknown_commands:
+  - line: 25
+    command: set
+    arguments_raw: Open, true
+  - line: 29
+    command: Doletter
+    arguments_raw: Item_Id
+  - line: 43
+    command: doletter
+    arguments_raw: Item_Id
+  - line: 63
+    command: set
+    arguments_raw: Open, false
+  - line: 75
+    command: set
+    arguments_raw: Open, false
+  - line: 76
+    command: OnPostStartWorld
+    arguments_raw: Init
+  - line: 77
+    command: OnPostMiniSaveLoad
+    arguments_raw: Init
+  - line: 78
+    command: OnPostSaveLoad
+    arguments_raw: Init
+  command_count: 37
+- script_id: colloidalgenie.scr
+  source_path: COLLOIDALGENIE.scr
+  parse_status: parsed
+  includes:
+  - line: 7
+    path: BaseGlobals.inc
+  labels:
+  - line: 24
+    name: Main
+  - line: 35
+    name: CacheFiles
+  - line: 46
+    name: InitColloidalGenie
+  - line: 62
+    name: AppearWait
+  - line: 76
+    name: Appear
+  - line: 90
+    name: OfferWish
+  - line: 98
+    name: GrantWish
+  - line: 129
+    name: Disappear
+  - line: 139
+    name: BlockRUDE
+  registered_triggers:
+  - line: 55
+    message: appear
+    callback: AppearWait
+    arguments_raw: appear, AppearWait
+  - line: 100
+    message: use
+    callback: BlockRUDE
+    arguments_raw: use, BlockRUDE
+  trigger_edges: []
+  movement_commands:
+  - line: 80
+    command: SetPOS
+    arguments_raw: hMe, x,y,z
+  state_commands: []
+  presentation_commands:
+  - line: 48
+    command: SetModelFileNames
+    arguments_raw: '"models\ColloidalWarrior.abc", "skins\spells\Shockwave.dtx"'
+  unknown_commands:
+  - line: 28
+    command: OnCacheFiles
+    arguments_raw: CacheFiles
+  - line: 37
+    command: CacheClientFX
+    arguments_raw: SPELL_MIST
+  - line: 38
+    command: CacheClientFX
+    arguments_raw: SPELL_BLACKSMOKE
+  - line: 40
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\dragon\fidget1.wav"'
+  - line: 41
+    command: CacheSound
+    arguments_raw: '"sounds\animsounds\zombie\ressurect2.wav"'
+  - line: 52
+    command: AddEnemy
+    arguments_raw: AIBase
+  - line: 53
+    command: AddFriend
+    arguments_raw: Player
+  - line: 57
+    command: OnRudeExit
+    arguments_raw: GrantWish
+  - line: 66
+    command: y
+    arguments_raw: = y + 36
+  - line: 69
+    command: DoClientFX
+    arguments_raw: hAppear, SPELL_BLACKSMOKE, FALSE, TRUE
+  - line: 78
+    command: DoClientFX
+    arguments_raw: hAppear, SPELL_MIST, FALSE, TRUE
+  - line: 92
+    command: RemoveTrigger
+    arguments_raw: use
+  - line: 93
+    command: DoRude
+    arguments_raw: '435'
+  - line: 101
+    command: OnRudeExit
+    arguments_raw: DoNothing
+  - line: 103
+    command: HasKey
+    arguments_raw: 5022, bHasKey
+  - line: 105
+    command: GiveGold
+    arguments_raw: '5000'
+  - line: 107
+    command: HasKey
+    arguments_raw: 5023, bHasKey
+  - line: 109
+    command: GiveExp
+    arguments_raw: '5000'
+  - line: 111
+    command: HasKey
+    arguments_raw: 5024, bHasKey
+  - line: 113
+    command: GetRandomInt
+    arguments_raw: 234, 238, x
+  - line: 114
+    command: GiveItem
+    arguments_raw: x
+  - line: 116
+    command: HasKey
+    arguments_raw: 5025, bHasKey
+  - line: 118
+    command: GiveAttribute
+    arguments_raw: 0, 10, TRUE, 0
+  - line: 131
+    command: DoClientFX
+    arguments_raw: hAppear, SPELL_MIST, FALSE, TRUE
+  - line: 132
+    command: DoClientFX
+    arguments_raw: hAppear, SPELL_BLACKSMOKE, FALSE, TRUE
+  - line: 134
+    command: RemoveObject
+    arguments_raw: hMe
+  command_count: 62
+- script_id: geniecrystal.scr
+  source_path: GENIECRYSTAL.scr
+  parse_status: parsed
+  includes: []
+  labels:
+  - line: 15
+    name: Main
+  - line: 24
+    name: CallGenie
+  registered_triggers:
+  - line: 19
+    message: use
+    callback: CallGenie
+    arguments_raw: use, CallGenie
+  trigger_edges:
+  - line: 31
+    target_expression: hGenie
+    message_expression: appear
+    arguments_raw: hGenie, appear
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: RemoveTrigger
+    arguments_raw: use
+  command_count: 9
+- script_id: propanim.scr
+  source_path: PROPANIM.scr
+  parse_status: parsed
+  includes:
+  - line: 13
+    path: globals.inc
+  labels:
+  - line: 25
+    name: PlayAnim
+  - line: 34
+    name: Init
+  - line: 51
+    name: OnUse
+  - line: 65
+    name: Main
+  registered_triggers:
+  - line: 42
+    message: Use
+    callback: OnUse
+    arguments_raw: Use, OnUse
+  trigger_edges: []
+  movement_commands: []
+  state_commands: []
+  presentation_commands:
+  - line: 29
+    command: LoopAnim
+    arguments_raw: Params 0 DoNothing
+  - line: 55
+    command: Playanim
+    arguments_raw: sParameter2 DoNothing
+  unknown_commands:
+  - line: 38
+    command: set
+    arguments_raw: bLoop, FALSE
+  - line: 45
+    command: goto
+    arguments_raw: PlayAnim
+  - line: 57
+    command: set
+    arguments_raw: g_nCounter, 1
+  - line: 74
+    command: OnPostStartWorld
+    arguments_raw: Init
+  command_count: 25
+- script_id: rt_cavein.scr
+  source_path: RT_CAVEIN.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: Globals.inc
+  - line: 12
+    path: Flags.inc
+  labels:
+  - line: 28
+    name: StopHere
+  - line: 36
+    name: MoveToMarker
+  - line: 48
+    name: Delay
+  - line: 54
+    name: Main
+  registered_triggers:
+  - line: 60
+    message: Fall
+    callback: Delay
+    arguments_raw: Fall, Delay
+  trigger_edges:
+  - line: 32
+    target_expression: hRock
+    message_expression: Destroy
+    arguments_raw: hRock, Destroy
+  - line: 41
+    target_expression: hRock
+    message_expression: Destroy
+    arguments_raw: hRock, Destroy
+  movement_commands:
+  - line: 45
+    command: MoveToPos
+    arguments_raw: nVarX, nVarY, nVarZ, 220, StopHere
+  state_commands:
+  - line: 39
+    command: SetFlag
+    arguments_raw: hMe, FLAG_GOTHRUWORLD
+  presentation_commands: []
+  unknown_commands: []
+  command_count: 20
+- script_id: rt_counterbalance.scr
+  source_path: RT_COUNTERBALANCE.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: Globals.inc
+  - line: 12
+    path: Flags.inc
+  labels:
+  - line: 23
+    name: StopHere
+  - line: 31
+    name: MoveToMarker
+  - line: 41
+    name: Main
+  registered_triggers:
+  - line: 43
+    message: Fall
+    callback: MoveToMarker
+    arguments_raw: Fall, MoveToMarker
+  trigger_edges:
+  - line: 28
+    target_expression: hCrypt
+    message_expression: Destroy
+    arguments_raw: hCrypt, Destroy
+  movement_commands:
+  - line: 38
+    command: MoveToPos
+    arguments_raw: nVarX, nVarY, nVarZ, 300, StopHere
+  state_commands:
+  - line: 34
+    command: SetFlag
+    arguments_raw: hMe, FLAG_GOTHRUWORLD
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: hCrypt
+    arguments_raw: = NULL
+  - line: 44
+    command: OnDamage
+    arguments_raw: MoveToMarker
+  command_count: 14
+- script_id: suntemplebuttons.scr
+  source_path: SUNTEMPLEBUTTONS.scr
+  parse_status: parsed
+  includes:
+  - line: 11
+    path: globals.inc
+  labels:
+  - line: 22
+    name: HandleStar1
+  - line: 34
+    name: HandleStar2
+  - line: 46
+    name: HandleDiamond1
+  - line: 58
+    name: HandleDiamond2
+  - line: 70
+    name: HandleMoon1
+  - line: 82
+    name: HandleMoon2
+  - line: 94
+    name: HandleMainButton
+  - line: 114
+    name: HandleElevator
+  - line: 124
+    name: Main
+  registered_triggers:
+  - line: 127
+    message: Star1
+    callback: HandleStar1
+    arguments_raw: Star1, HandleStar1
+  - line: 128
+    message: Star2
+    callback: HandleStar2
+    arguments_raw: Star2, HandleStar2
+  - line: 129
+    message: Diamond1
+    callback: HandleDiamond1
+    arguments_raw: Diamond1, HandleDiamond1
+  - line: 130
+    message: Diamond2
+    callback: HandleDiamond2
+    arguments_raw: Diamond2, HandleDiamond2
+  - line: 131
+    message: Moon1
+    callback: HandleMoon1
+    arguments_raw: Moon1, HandleMoon1
+  - line: 132
+    message: Moon2
+    callback: HandleMoon2
+    arguments_raw: Moon2, HandleMoon2
+  - line: 133
+    message: Use
+    callback: HandleMainButton
+    arguments_raw: Use, HandleMainButton
+  trigger_edges:
+  - line: 119
+    target_expression: g_hobject
+    message_expression: open
+    arguments_raw: g_hobject open
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 26
+    command: set
+    arguments_raw: StarBut1, FALSE
+  - line: 28
+    command: set
+    arguments_raw: StarBut1, TRUE
+  - line: 38
+    command: set
+    arguments_raw: StarBut2, FALSE
+  - line: 40
+    command: set
+    arguments_raw: StarBut2, TRUE
+  - line: 50
+    command: set
+    arguments_raw: DiamondBut1, FALSE
+  - line: 52
+    command: set
+    arguments_raw: DiamondBut1, TRUE
+  - line: 62
+    command: set
+    arguments_raw: DiamondBut2, FALSE
+  - line: 64
+    command: set
+    arguments_raw: DiamondBut2, TRUE
+  - line: 74
+    command: set
+    arguments_raw: MoonBut1, FALSE
+  - line: 76
+    command: set
+    arguments_raw: MoonBut1, TRUE
+  - line: 86
+    command: set
+    arguments_raw: MoonBut2, FALSE
+  - line: 88
+    command: set
+    arguments_raw: MoonBut2, TRUE
+  command_count: 61
+- script_id: treeoflife.scr
+  source_path: TREEOFLIFE.scr
+  parse_status: parsed
+  includes:
+  - line: 9
+    path: globals.inc
+  labels:
+  - line: 15
+    name: Onuse
+  - line: 34
+    name: Main
+  registered_triggers:
+  - line: 38
+    message: Use
+    callback: Onuse
+    arguments_raw: Use, Onuse
+  trigger_edges:
+  - line: 26
+    target_expression: g_hobject
+    message_expression: 'on'
+    arguments_raw: g_hobject on
+  - line: 42
+    target_expression: g_hobject
+    message_expression: 'off'
+    arguments_raw: g_hobject off
+  movement_commands: []
+  state_commands: []
+  presentation_commands: []
+  unknown_commands:
+  - line: 19
+    command: haskey
+    arguments_raw: 256 g_ntemp
+  - line: 21
+    command: giveitem
+    arguments_raw: '241'
+  - line: 22
+    command: givekey
+    arguments_raw: '256'
+  - line: 24
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 45
+    command: Haskey
+    arguments_raw: 256 keycheck
+  - line: 48
+    command: removeobject
+    arguments_raw: g_hmyobject
+  - line: 49
+    command: exitscript
+    arguments_raw: ''
+  command_count: 21
+validation:
+  script_count: 8

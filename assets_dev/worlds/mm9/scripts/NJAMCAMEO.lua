@@ -23,7 +23,7 @@ end
 script.labels["OnDamage"] = function(ctx)
     -- NJAMCAMEO.scr:29
     ctx:getParam(0, "g_htarget") -- NJAMCAMEO.scr:32
-    ctx:command("target", "g_htarget") -- NJAMCAMEO.scr:33
+    ctx:self():setTarget(ctx:object("g_htarget")) -- NJAMCAMEO.scr:33
     mm9.gosub(script, ctx, "vanish") -- NJAMCAMEO.scr:34
     -- gosub Ondamage, 1
     do return ctx:exit("") end -- NJAMCAMEO.scr:36
@@ -32,13 +32,13 @@ end
 script.labels["Main"] = function(ctx)
     -- NJAMCAMEO.scr:39
     -- delete me!!
-    ctx:command("traceon", "") -- NJAMCAMEO.scr:42
+    ctx:traceOn() -- NJAMCAMEO.scr:42
     mm9.gosub(script, ctx, "Init") -- NJAMCAMEO.scr:44
     mm9.gosub(script, ctx, "BasewanderInit") -- NJAMCAMEO.scr:45
     mm9.gosub(script, ctx, "BaseWanderForceStartUp") -- NJAMCAMEO.scr:46
-    ctx:command("ondamage", "OnDamage") -- NJAMCAMEO.scr:47
+    ctx:onEvent("OnDamage", "OnDamage") -- NJAMCAMEO.scr:47
     ctx:addTrigger("Use", "OnDamage") -- NJAMCAMEO.scr:48
-    ctx:command("ontouchnotify", "OnDamage") -- NJAMCAMEO.scr:49
+    ctx:onEvent("OnTouchNotify", "OnDamage") -- NJAMCAMEO.scr:49
     do return ctx:exit("") end -- NJAMCAMEO.scr:50
 end
 

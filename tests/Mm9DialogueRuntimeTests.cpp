@@ -996,6 +996,63 @@ TEST_CASE("MM9 generated Lua script runtime keeps object and trigger state disti
     std::filesystem::remove_all(fixtureRoot, cleanupError);
 }
 
+TEST_CASE("MM9 script runtime dispatches external DAT trigger callbacks from source object context")
+{
+    const std::filesystem::path fixtureRoot = makeFixtureRoot();
+    const OpenYAMM::Game::Mm9DialoguePackage package = loadFixturePackage(fixtureRoot);
+    OpenYAMM::Game::Party party = {};
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    REQUIRE(dialogueRuntime.enterObject("testmap", 7));
+
+    std::optional<std::string> error;
+    REQUIRE(scriptRuntime.runLabel("DORUDE.scr", "ObjectState", error));
+    REQUIRE(scriptRuntime.state().triggers.size() == 1);
+    const size_t previousDispatchCount = scriptRuntime.state().triggerDispatches.size();
+
+    OpenYAMM::Game::Mm9DialogueOwnerContext owner = {};
+    REQUIRE(dialogueRuntime.ownerContextForObject("testmap", 7, owner));
+    scriptRuntime.dispatchTriggerFromObject(
+        owner,
+        "DATMECH.scr",
+        "mm9:testmap:object:7",
+        "Use",
+        0);
+
+    REQUIRE(scriptRuntime.state().triggerDispatches.size() == previousDispatchCount + 1);
+    const OpenYAMM::Game::Mm9ScriptRuntimeTriggerDispatch &dispatch =
+        scriptRuntime.state().triggerDispatches.back();
+    CHECK(dispatch.scriptSource == "DATMECH.scr");
+    CHECK(dispatch.mapId == "testmap");
+    CHECK(dispatch.objectIndex == 7);
+    CHECK(dispatch.targetHandle == "mm9:testmap:object:7");
+    CHECK(dispatch.message == "Use");
+    CHECK(scriptRuntime.getConsoleNumVar("SCORE", 0) == 7);
+
+    std::error_code cleanupError;
+    std::filesystem::remove_all(fixtureRoot, cleanupError);
+}
+
+TEST_CASE("MM9 script runtime can run object label from external DAT activation context")
+{
+    const std::filesystem::path fixtureRoot = makeFixtureRoot();
+    const OpenYAMM::Game::Mm9DialoguePackage package = loadFixturePackage(fixtureRoot);
+    OpenYAMM::Game::Party party = {};
+    OpenYAMM::Game::Mm9DialogueRuntime dialogueRuntime(package, party);
+    OpenYAMM::Game::Mm9ScriptRuntime scriptRuntime(package, dialogueRuntime);
+
+    std::optional<std::string> error;
+    REQUIRE(scriptRuntime.runLabelForObject("DORUDE.scr", "OnUse", "testmap", 7, error));
+    CHECK_FALSE(error.has_value());
+    CHECK(scriptRuntime.getConsoleNumVar("SCORE", 0) == 7);
+    CHECK(scriptRuntime.getConsoleStrVar("GREETING") == "hello");
+    CHECK(dialogueRuntime.owner().objectIndex == -1);
+
+    std::error_code cleanupError;
+    std::filesystem::remove_all(fixtureRoot, cleanupError);
+}
+
 TEST_CASE("MM9 object activation runs linked scripts and preserves dialogue owner context")
 {
     const std::filesystem::path fixtureRoot = makeFixtureRoot();

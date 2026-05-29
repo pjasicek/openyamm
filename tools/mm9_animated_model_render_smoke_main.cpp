@@ -648,9 +648,8 @@ std::optional<RenderSubject> buildRuntimeBindingSubject(
         return std::nullopt;
     }
 
-    OpenYAMM::Game::Mm9ScriptedBillboardVisualSet emptyVisualSet = {};
     OpenYAMM::Game::Mm9ScriptedObjectRuntime objectRuntime = {};
-    if (!objectRuntime.initialize(arguments.mapId, *sceneData, emptyVisualSet, &*eventsData))
+    if (!objectRuntime.initialize(arguments.mapId, *sceneData, &*eventsData))
     {
         errorMessage = "could not initialize MM9 scripted object runtime";
         return std::nullopt;

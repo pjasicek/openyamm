@@ -17,20 +17,20 @@ script.includes[#script.includes + 1] = { line = 7, path = "globals.inc" }
 -- flag variables
 script.labels["Loop"] = function(ctx)
     -- WG_NPC336.scr:25
-    ctx:command("getmyhandle", "g_hobject") -- WG_NPC336.scr:29
-    ctx:command("clearflag", "g_hobject, visible") -- WG_NPC336.scr:30
-    ctx:command("clearflag", "g_hobject, solid") -- WG_NPC336.scr:31
-    ctx:command("clearflag", "g_hobject, gravity") -- WG_NPC336.scr:32
+    ctx:state().g_hobject = ctx:self() -- WG_NPC336.scr:29
+    ctx:self():setFlag("visible", false) -- WG_NPC336.scr:30
+    ctx:self():setFlag("solid", false) -- WG_NPC336.scr:31
+    ctx:self():setFlag("gravity", false) -- WG_NPC336.scr:32
     do return ctx:exit("") end -- WG_NPC336.scr:33
 end
 
 script.labels["OnStart"] = function(ctx)
     -- WG_NPC336.scr:36
-    ctx:command("getmyhandle", "g_hobject") -- WG_NPC336.scr:39
-    ctx:command("setflag", "g_hobject, visible") -- WG_NPC336.scr:40
-    ctx:command("setflag", "g_hobject, solid") -- WG_NPC336.scr:41
-    ctx:command("setflag", "g_hobject, gravity") -- WG_NPC336.scr:42
-    ctx:command("loopanim", "stand 0 DoNothing") -- WG_NPC336.scr:43
+    ctx:state().g_hobject = ctx:self() -- WG_NPC336.scr:39
+    ctx:self():setFlag("visible", true) -- WG_NPC336.scr:40
+    ctx:self():setFlag("solid", true) -- WG_NPC336.scr:41
+    ctx:self():setFlag("gravity", true) -- WG_NPC336.scr:42
+    ctx:self():loopAnimation("stand", 0, "DoNothing") -- WG_NPC336.scr:43
     do return ctx:exit("") end -- WG_NPC336.scr:44
 end
 

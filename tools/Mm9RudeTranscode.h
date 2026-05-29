@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
+#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
@@ -285,7 +286,8 @@ std::string generateMm9ScriptLua(const Mm9ScriptFile &file);
 Mm9ObjectDialogueBindingIndex scanMm9ObjectDialogueBindings(
     const std::filesystem::path &mapsDirectory,
     const std::filesystem::path &scriptsDirectory,
-    const std::set<int32_t> &knownRudeIds);
+    const std::set<int32_t> &knownRudeIds,
+    std::ostream *pDebugStream = nullptr);
 
 struct Mm9DialoguePipelineGeneratedFile
 {
@@ -309,10 +311,12 @@ struct Mm9DialoguePipelineWriteResult
 
 Mm9DialoguePipelineResult generateMm9DialoguePipelineFiles(
     const std::filesystem::path &extractedRoot,
-    const std::filesystem::path &mapsDirectory);
+    const std::filesystem::path &mapsDirectory,
+    std::ostream *pDebugStream = nullptr);
 
 Mm9DialoguePipelineWriteResult writeMm9DialoguePipelineFiles(
     const std::filesystem::path &outputRoot,
     const std::vector<Mm9DialoguePipelineGeneratedFile> &files,
-    bool checkOnly);
+    bool checkOnly,
+    std::ostream *pDebugStream = nullptr);
 }

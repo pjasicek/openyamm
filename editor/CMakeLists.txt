@@ -41,7 +41,6 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/mm9/Mm9LightLayer.cpp
     ${CMAKE_SOURCE_DIR}/game/mm9/Mm9SoundLayer.cpp
     ${CMAKE_SOURCE_DIR}/game/mm9/Mm9SpawnLayer.cpp
-    ${CMAKE_SOURCE_DIR}/game/mm9/Mm9ScriptedBillboardVisuals.cpp
     ${CMAKE_SOURCE_DIR}/game/party/SkillData.cpp
     ${CMAKE_SOURCE_DIR}/tools/legacy_events/EvtProgram.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/ChestTable.cpp

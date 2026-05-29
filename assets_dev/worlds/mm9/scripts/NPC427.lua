@@ -18,32 +18,30 @@ script.labels["OnRude"] = function(ctx)
         if not ctx:hasKey(370) then -- NPC427.scr:19-20
             ctx:giveKey(370) -- NPC427.scr:21
             ctx:giveExp(4000) -- NPC427.scr:22
-            ctx:command("playsound", "sounds\\events\\quest.wav, DoNothing, 100, 240, FALSE, 100") -- NPC427.scr:23
+            ctx:playSound("sounds\\events\\quest.wav", "DoNothing", 100, 240, "FALSE", 100) -- NPC427.scr:23
         end -- NPC427.scr:25
-        ctx:command("wait", "1 1 OnRunAway") -- NPC427.scr:26
+        ctx:wait(1, 1, "OnRunAway") -- NPC427.scr:26
     end -- NPC427.scr:27
     do return ctx:exit("") end -- NPC427.scr:29
 end
 
 script.labels["OnRunAway"] = function(ctx)
     -- NPC427.scr:32
-    ctx:command("getobjecthandle", "AntoniMarker g_hobject") -- NPC427.scr:35
-    ctx:command("runto", "g_hobject 8 OnVanish") -- NPC427.scr:36
+    ctx:state().g_hobject = ctx:objectOrNil("AntoniMarker") -- NPC427.scr:35
+    ctx:self():runTo(ctx:object("g_hobject"), 8, "OnVanish") -- NPC427.scr:36
     do return ctx:exit("") end -- NPC427.scr:37
 end
 
 script.labels["OnVanish"] = function(ctx)
     -- NPC427.scr:40
-    ctx:command("getmyhandle", "g_hmyobject") -- NPC427.scr:43
-    ctx:command("removeobject", "g_hmyobject") -- NPC427.scr:44
+    ctx:self():remove() -- NPC427.scr:44
     do return ctx:exit("") end -- NPC427.scr:45
 end
 
 script.labels["DeleteCheck"] = function(ctx)
     -- NPC427.scr:48
     if ctx:hasKey(370) then -- NPC427.scr:51-52
-        ctx:command("getmyhandle", "g_hmyobject") -- NPC427.scr:53
-        ctx:command("removeobject", "g_hmyobject") -- NPC427.scr:54
+        ctx:self():remove() -- NPC427.scr:54
         do return ctx:exit("") end -- NPC427.scr:55
     end -- NPC427.scr:56
     do return ctx:exit("") end -- NPC427.scr:57

@@ -5,6 +5,7 @@
 #include "editor/model/Mm9ModelInstanceActorResolver.h"
 
 #include "game/maps/TerrainTileData.h"
+#include "game/maps/MapIdentity.h"
 #include "game/mm9/Mm9DatWorld.h"
 #include "game/mm9/Mm9DtxTexture.h"
 #include "game/SpawnPreview.h"
@@ -3037,6 +3038,120 @@ const Game::Mm9EventBinding *findMm9EventBindingForObject(
     return nullptr;
 }
 
+std::string normalizeMm9ScriptId(const std::string &scriptName)
+{
+    std::string normalized = toLowerCopy(trimCopy(scriptName));
+
+    if (!normalized.empty() && std::filesystem::path(normalized).extension().empty())
+    {
+        normalized += ".scr";
+    }
+
+    return normalized;
+}
+
+const Game::Mm9EventScript *findMm9EventScriptById(
+    const Game::Mm9EventsData &events,
+    const std::string &scriptName)
+{
+    const std::string normalizedScriptName = normalizeMm9ScriptId(scriptName);
+
+    if (normalizedScriptName.empty())
+    {
+        return nullptr;
+    }
+
+    for (const Game::Mm9EventScript &script : events.scripts)
+    {
+        const std::string normalizedSourceFileName =
+            normalizeMm9ScriptId(std::filesystem::path(script.sourcePath).filename().string());
+
+        if (normalizeMm9ScriptId(script.scriptId) == normalizedScriptName
+            || normalizeMm9ScriptId(script.sourcePath) == normalizedScriptName
+            || normalizedSourceFileName == normalizedScriptName)
+        {
+            return &script;
+        }
+    }
+
+    return nullptr;
+}
+
+size_t countMm9HostilityRegisteredTriggers(const Game::Mm9EventScript &script)
+{
+    size_t count = 0;
+
+    for (const Game::Mm9EventScript::RegisteredTrigger &trigger : script.registeredTriggers)
+    {
+        const std::string message = toLowerCopy(trimCopy(trigger.message));
+        const std::string callback = toLowerCopy(trimCopy(trigger.callback));
+
+        if (message == "hostile" || callback.find("hostil") != std::string::npos)
+        {
+            ++count;
+        }
+    }
+
+    return count;
+}
+
+size_t countMm9HostilityTriggerEdges(const Game::Mm9EventScript &script)
+{
+    size_t count = 0;
+
+    for (const Game::Mm9EventScript::TriggerEdge &edge : script.triggerEdges)
+    {
+        const std::string message = toLowerCopy(trimCopy(edge.messageExpression));
+        const std::string target = toLowerCopy(trimCopy(edge.targetExpression));
+
+        if (message.find("hostil") != std::string::npos || target.find("hostil") != std::string::npos)
+        {
+            ++count;
+        }
+    }
+
+    return count;
+}
+
+size_t countMm9HostilityIncludes(const Game::Mm9EventScript &script)
+{
+    size_t count = 0;
+
+    for (const Game::Mm9EventScript::Include &include : script.includes)
+    {
+        if (toLowerCopy(trimCopy(include.path)).find("hostil") != std::string::npos)
+        {
+            ++count;
+        }
+    }
+
+    return count;
+}
+
+std::string mm9ScriptIncludePathsText(const Game::Mm9EventScript &script)
+{
+    if (script.includes.empty())
+    {
+        return "<none>";
+    }
+
+    std::string text;
+
+    for (size_t includeIndex = 0; includeIndex < script.includes.size(); ++includeIndex)
+    {
+        if (!text.empty())
+        {
+            text += ", ";
+        }
+
+        text += script.includes[includeIndex].path.empty()
+            ? std::string("<empty>")
+            : script.includes[includeIndex].path;
+    }
+
+    return text;
+}
+
 bool isMm9RequiredMechanismTarget(const Game::Mm9EventMechanism &mechanism)
 {
     return mechanism.sourceClass != "ScriptObject";
@@ -3076,6 +3191,11 @@ size_t mm9ReferenceValidationBlockingIssueCount(const Mm9ReferenceValidationUiSu
 
 bool isMm9MaterialTextureBlockingIssue(const EditorMm9MaterialTextureStatus &status)
 {
+    if (status.defaultHelperMaterial)
+    {
+        return false;
+    }
+
     const bool requiredSource = status.datReferenceCount > 0 || !status.sourceTexture.empty();
     bool invalid =
         requiredSource
@@ -3100,6 +3220,26 @@ bool isMm9MaterialTextureBlockingIssue(const EditorMm9MaterialTextureStatus &sta
     }
 
     return invalid;
+}
+
+bool mm9MaterialTextureHasResolvedPreviewSource(const EditorMm9MaterialTextureStatus &status)
+{
+    if (status.defaultHelperMaterial)
+    {
+        return true;
+    }
+
+    if (status.sourceAssetFamily == "sprites")
+    {
+        return status.sourceSpriteResolved
+            && status.sourceSpritePathExists
+            && status.sourceSpriteParsed
+            && status.spriteFrameTextureCount != 0
+            && status.unresolvedSpriteFrameTextureCount == 0
+            && status.ambiguousSpriteFrameTextureCount == 0;
+    }
+
+    return status.sourceDtxResolved && status.sourcePathExists;
 }
 
 std::vector<Mm9NormalizedDiagnosticUiEntry> collectMm9NormalizedDiagnostics(
@@ -3240,7 +3380,9 @@ std::vector<Mm9NormalizedDiagnosticUiEntry> collectMm9NormalizedDiagnostics(
                 "generated material cache is older than source DTX: " + status.sourceTexture);
         }
 
-        if (status.placeholderMissingSource && status.datReferenceCount > 0)
+        if (status.placeholderMissingSource
+            && status.datReferenceCount > 0
+            && !mm9MaterialTextureHasResolvedPreviewSource(status))
         {
             addDiagnostic(
                 "warning",
@@ -3277,6 +3419,75 @@ std::vector<Mm9NormalizedDiagnosticUiEntry> collectMm9NormalizedDiagnostics(
     if (!document.hasMm9DatLoadedSidecars())
     {
         return diagnostics;
+    }
+
+    const Engine::AssetFileSystem *pAssetFileSystem = session.assetFileSystem();
+    const Mm9ModelInstanceActorSourceLookup *pActorSourceLookup =
+        pAssetFileSystem != nullptr
+            ? cachedMm9ModelInstanceActorSourceLookup(*pAssetFileSystem)
+            : nullptr;
+    std::unordered_set<size_t> actorVariantSourceObjectIndexes;
+
+    for (const Game::OutdoorSceneModelInstance &modelInstance : document.outdoorSceneData().modelInstances)
+    {
+        if (!canResolveMm9ModelInstanceActorSource(modelInstance, pActorSourceLookup))
+        {
+            continue;
+        }
+
+        actorVariantSourceObjectIndexes.insert(modelInstance.sourceObjectIndex);
+
+        const Mm9ResolvedModelInstanceActorSource resolvedSource =
+            resolveMm9ModelInstanceActorSource(modelInstance, pActorSourceLookup);
+
+        if (!resolvedSource.inferredFromActorClass)
+        {
+            addDiagnostic(
+                "error",
+                metadata.source.dat,
+                "raw_objects/" + std::to_string(modelInstance.sourceObjectIndex),
+                metadata.sidecars.materials,
+                "mm9_actor_variant_resolver",
+                "sidecar generator",
+                "actor/monster variant is unresolved: " + modelInstance.sourceName
+                    + " class=" + modelInstance.sourceClass
+                    + " model=" + modelInstance.sourceModel
+                    + " skin=" + modelInstance.sourceSkin);
+        }
+        else if (mm9ActorFootSoundRequiresResolution(resolvedSource.actorRow.footSound)
+            && resolvedSource.actorRow.footSoundReferences.empty())
+        {
+            addDiagnostic(
+                "error",
+                metadata.source.dat,
+                "raw_objects/" + std::to_string(modelInstance.sourceObjectIndex),
+                metadata.source.manifest,
+                "mm9_actor_variant_sound_resolver",
+                "source asset mirror",
+                "actor/monster foot sound is unresolved: " + resolvedSource.actorRow.footSound
+                    + " source=" + modelInstance.sourceName);
+        }
+    }
+
+    for (const EditorMm9RawObjectAssetReferenceStatus &status : document.mm9RawObjectAssetReferenceStatuses())
+    {
+        if ((status.sourceFamily != "sounds" && status.sourceFamily != "voices")
+            || actorVariantSourceObjectIndexes.find(status.sourceObjectIndex) == actorVariantSourceObjectIndexes.end()
+            || (status.resolved && !status.ambiguous))
+        {
+            continue;
+        }
+
+        addDiagnostic(
+            status.required ? "error" : "warning",
+            metadata.source.dat,
+            "raw_objects/" + std::to_string(status.sourceObjectIndex)
+                + "/properties/" + std::to_string(status.propertyIndex),
+            metadata.sidecars.rawObjects,
+            "mm9_actor_variant_source_asset_resolver",
+            status.ambiguous ? "authored override" : "source asset mirror",
+            "actor/monster " + status.sourceFamily
+                + " reference is unresolved or ambiguous: " + status.sourceValue);
     }
 
     const Game::Mm9EventsData &events = document.mm9DatLoadedSidecars().events;
@@ -3367,7 +3578,9 @@ Mm9ReferenceValidationUiSummary collectMm9ReferenceValidationUiSummary(
             ++summary.materialWarnings;
         }
 
-        if (status.placeholderMissingSource && status.datReferenceCount > 0)
+        if (status.placeholderMissingSource
+            && status.datReferenceCount > 0
+            && !mm9MaterialTextureHasResolvedPreviewSource(status))
         {
             ++summary.materialWarnings;
         }
@@ -11487,10 +11700,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
             size_t diagnosticCount = session.validationMessages().size();
             for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
             {
-                if (status.placeholderMissingSource
-                    || !status.sourceDtxResolved
-                    || status.sourceDtxAmbiguous
-                    || status.cacheOlderThanSource)
+                if (!status.defaultHelperMaterial
+                    && (status.placeholderMissingSource
+                        || !status.sourceDtxResolved
+                        || status.sourceDtxAmbiguous
+                        || status.cacheOlderThanSource))
                 {
                     ++diagnosticCount;
                 }
@@ -11558,10 +11772,11 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
 
                 for (const EditorMm9MaterialTextureStatus &status : document.mm9MaterialTextureStatuses())
                 {
-                    if (!status.placeholderMissingSource
-                        && status.sourceDtxResolved
-                        && !status.sourceDtxAmbiguous
-                        && !status.cacheOlderThanSource)
+                    if (status.defaultHelperMaterial
+                        || (!status.placeholderMissingSource
+                            && status.sourceDtxResolved
+                            && !status.sourceDtxAmbiguous
+                            && !status.cacheOlderThanSource))
                     {
                         continue;
                     }
@@ -12568,15 +12783,145 @@ void EditorMainWindow::renderInspector(EditorSession &session)
 
                     if (beginInspectorSectionBlock("Actor/Monster Variant"))
                     {
+                        const auto renderActorRowField =
+                            [this](const char *pLabel, const std::string &value)
+                        {
+                            renderInspectorCopyableReadOnlyField(
+                                pLabel,
+                                value.empty() ? std::string("<none>") : value);
+                        };
+                        std::string footSoundSourcePaths;
+                        for (const Mm9ResolvedModelInstanceActorSource::ActorSoundReference &reference :
+                            resolvedSource.actorRow.footSoundReferences)
+                        {
+                            if (!footSoundSourcePaths.empty())
+                            {
+                                footSoundSourcePaths += "; ";
+                            }
+                            footSoundSourcePaths += reference.sourcePath;
+                        }
+                        const bool actorVariantCandidate =
+                            canResolveMm9ModelInstanceActorSource(modelInstance, pActorSourceLookup);
+                        const bool actorRowEvidence =
+                            !resolvedSource.actorRow.table.empty()
+                            || !resolvedSource.actorRow.row.empty()
+                            || !resolvedSource.actorRow.number.empty()
+                            || !resolvedSource.actorRow.monsterName.empty()
+                            || !resolvedSource.actorRow.typePicture.empty();
+                        const bool actorGameplayIdentity =
+                            !resolvedSource.actorRow.level.empty()
+                            || !resolvedSource.actorRow.hitPoints.empty()
+                            || !resolvedSource.actorRow.armorClass.empty()
+                            || !resolvedSource.actorRow.experience.empty()
+                            || !resolvedSource.actorRow.speed.empty()
+                            || !resolvedSource.actorRow.scriptName.empty()
+                            || !resolvedSource.actorRow.footSound.empty()
+                            || !resolvedSource.actorRow.isMonster.empty()
+                            || !resolvedSource.actorRow.hostilityGroup.empty()
+                            || !resolvedSource.actorRow.voiceRadius.empty();
+                        const bool missingFootSoundSource =
+                            resolvedSource.inferredFromActorClass
+                            && mm9ActorFootSoundRequiresResolution(resolvedSource.actorRow.footSound)
+                            && resolvedSource.actorRow.footSoundReferences.empty();
+                        const bool completeVariant =
+                            !resolvedSource.sourceModel.empty()
+                            && !resolvedSource.sourceSkin.empty()
+                            && (!resolvedSource.inferredFromActorClass || !resolvedSource.actorRow.row.empty());
+                        const Game::Mm9EventScript *pActorEventScript = nullptr;
+
+                        if (document.hasMm9DatLoadedSidecars())
+                        {
+                            pActorEventScript =
+                                findMm9EventScriptById(
+                                    document.mm9DatLoadedSidecars().events,
+                                    resolvedSource.actorRow.scriptName);
+                        }
+
+                        const size_t hostilityRegisteredTriggerCount =
+                            pActorEventScript != nullptr
+                                ? countMm9HostilityRegisteredTriggers(*pActorEventScript)
+                                : 0;
+                        const size_t hostilityTriggerEdgeCount =
+                            pActorEventScript != nullptr ? countMm9HostilityTriggerEdges(*pActorEventScript) : 0;
+                        const size_t hostilityIncludeCount =
+                            pActorEventScript != nullptr ? countMm9HostilityIncludes(*pActorEventScript) : 0;
+                        const bool hasActorTableHostility =
+                            !trimCopy(resolvedSource.actorRow.hostilityGroup).empty();
+                        const bool hasScriptHostility =
+                            hostilityRegisteredTriggerCount > 0
+                            || hostilityTriggerEdgeCount > 0
+                            || hostilityIncludeCount > 0;
+                        std::string hostilitySemantics = "<none>";
+
+                        if (hasActorTableHostility && hasScriptHostility)
+                        {
+                            hostilitySemantics = "actor-table group plus generated-script hostility callbacks";
+                        }
+                        else if (hasActorTableHostility)
+                        {
+                            hostilitySemantics = "actor-table hostility group";
+                        }
+                        else if (hasScriptHostility)
+                        {
+                            hostilitySemantics = "generated-script hostility callbacks";
+                        }
+
+                        std::string variantDiagnosticSeverity = "none";
+                        std::string variantDiagnosticResolver = "<none>";
+                        std::string variantDiagnosticMessage = "<none>";
+
+                        if (actorVariantCandidate && !resolvedSource.inferredFromActorClass)
+                        {
+                            variantDiagnosticSeverity = "error";
+                            variantDiagnosticResolver = "mm9_actor_variant_resolver";
+                            variantDiagnosticMessage =
+                                "actor/monster variant is unresolved: class="
+                                + modelInstance.sourceClass
+                                + " name="
+                                + modelInstance.sourceName
+                                + " model="
+                                + modelInstance.sourceModel
+                                + " skin="
+                                + modelInstance.sourceSkin;
+                        }
+                        else if (resolvedSource.inferredFromActorClass && !actorRowEvidence)
+                        {
+                            variantDiagnosticSeverity = "error";
+                            variantDiagnosticResolver = "mm9_actor_variant_resolver";
+                            variantDiagnosticMessage =
+                                "actor/monster variant has no official actor-table row evidence";
+                        }
+                        else if (actorVariantCandidate && !actorGameplayIdentity)
+                        {
+                            variantDiagnosticSeverity = "error";
+                            variantDiagnosticResolver = "mm9_actor_variant_resolver";
+                            variantDiagnosticMessage =
+                                "actor/monster variant has no gameplay identity row fields";
+                        }
+                        else if (missingFootSoundSource)
+                        {
+                            variantDiagnosticSeverity = "error";
+                            variantDiagnosticResolver = "mm9_actor_variant_sound_resolver";
+                            variantDiagnosticMessage =
+                                "actor/monster foot sound is unresolved: "
+                                + resolvedSource.actorRow.footSound;
+                        }
+
                         if (beginInspectorPropertyTable("Mm9ActorVariantFields"))
                         {
-                            const bool completeVariant =
-                                !resolvedSource.sourceModel.empty()
-                                && !resolvedSource.sourceSkin.empty()
-                                && (!resolvedSource.inferredFromActorClass
-                                    || !resolvedSource.actorRow.row.empty());
-
                             renderInspectorReadOnlyField("Complete", completeVariant ? "true" : "false");
+                            renderInspectorReadOnlyField(
+                                "Actor Variant Candidate",
+                                actorVariantCandidate ? "true" : "false");
+                            renderInspectorCopyableReadOnlyField(
+                                "Variant Diagnostic Severity",
+                                variantDiagnosticSeverity);
+                            renderInspectorCopyableReadOnlyField(
+                                "Variant Diagnostic Resolver",
+                                variantDiagnosticResolver);
+                            renderInspectorCopyableReadOnlyField(
+                                "Variant Diagnostic Message",
+                                variantDiagnosticMessage);
                             renderInspectorCopyableReadOnlyField(
                                 "Variant Id",
                                 resolvedSource.variantId.empty()
@@ -12646,6 +12991,17 @@ void EditorMainWindow::renderInspector(EditorSession &session)
                                     ? std::string("<none>")
                                     : resolvedSource.actorRow.hostilityGroup);
                             renderInspectorCopyableReadOnlyField(
+                                "Faction Semantics Source",
+                                hasActorTableHostility
+                                    ? std::string("ACTOR/MONSTERS Hostility Group")
+                                    : std::string("<none>"));
+                            renderInspectorCopyableReadOnlyField(
+                                "Team/Alignment Columns",
+                                "no explicit ACTOR/MONSTERS team/alignment columns");
+                            renderInspectorCopyableReadOnlyField(
+                                "Hostility Runtime Source",
+                                hostilitySemantics);
+                            renderInspectorCopyableReadOnlyField(
                                 "Is Monster",
                                 resolvedSource.actorRow.isMonster.empty()
                                     ? std::string("<none>")
@@ -12656,15 +13012,68 @@ void EditorMainWindow::renderInspector(EditorSession &session)
                                     ? std::string("<none>")
                                     : resolvedSource.actorRow.scriptName);
                             renderInspectorCopyableReadOnlyField(
+                                "Generated Script Matched",
+                                pActorEventScript != nullptr ? "true" : "false");
+                            renderInspectorCopyableReadOnlyField(
+                                "Generated Script Source",
+                                pActorEventScript != nullptr && !pActorEventScript->sourcePath.empty()
+                                    ? pActorEventScript->sourcePath
+                                    : std::string("<none>"));
+                            renderInspectorCopyableReadOnlyField(
+                                "Generated Script Includes",
+                                pActorEventScript != nullptr
+                                    ? mm9ScriptIncludePathsText(*pActorEventScript)
+                                    : std::string("<none>"));
+                            renderInspectorCopyableReadOnlyField(
+                                "Hostility Includes",
+                                std::to_string(hostilityIncludeCount));
+                            renderInspectorCopyableReadOnlyField(
+                                "Hostility Registered Triggers",
+                                std::to_string(hostilityRegisteredTriggerCount));
+                            renderInspectorCopyableReadOnlyField(
+                                "Hostility Trigger Edges",
+                                std::to_string(hostilityTriggerEdgeCount));
+                            renderInspectorCopyableReadOnlyField(
                                 "Foot Sound",
                                 resolvedSource.actorRow.footSound.empty()
                                     ? std::string("<none>")
                                     : resolvedSource.actorRow.footSound);
                             renderInspectorCopyableReadOnlyField(
+                                "Foot Sound Source Count",
+                                std::to_string(resolvedSource.actorRow.footSoundReferences.size()));
+                            renderInspectorCopyableReadOnlyField(
+                                "Foot Sound Sources",
+                                footSoundSourcePaths.empty()
+                                    ? std::string("<none>")
+                                    : footSoundSourcePaths);
+                            renderInspectorCopyableReadOnlyField(
                                 "Voice Radius",
                                 resolvedSource.actorRow.voiceRadius.empty()
                                     ? std::string("<none>")
                                     : resolvedSource.actorRow.voiceRadius);
+                            renderActorRowField("Treasure Type", resolvedSource.actorRow.treasureType);
+                            renderActorRowField("Treasure Level", resolvedSource.actorRow.treasureLevel);
+                            renderActorRowField("Quest", resolvedSource.actorRow.quest);
+                            renderActorRowField("Fly", resolvedSource.actorRow.fly);
+                            renderActorRowField("Move", resolvedSource.actorRow.move);
+                            renderActorRowField("Walk Velocity", resolvedSource.actorRow.walkVelocity);
+                            renderActorRowField("Run Velocity", resolvedSource.actorRow.runVelocity);
+                            renderActorRowField("Fly Velocity", resolvedSource.actorRow.flyVelocity);
+                            renderActorRowField("Lunge Velocity", resolvedSource.actorRow.lungeVelocity);
+                            renderActorRowField("Attack Reach", resolvedSource.actorRow.attackReach);
+                            renderActorRowField("Attack Range", resolvedSource.actorRow.attackRange);
+                            renderActorRowField("Recovery", resolvedSource.actorRow.recovery);
+                            renderActorRowField("Target Preference", resolvedSource.actorRow.targetPreference);
+                            renderActorRowField("Bonus", resolvedSource.actorRow.bonus);
+                            renderActorRowField("Alert Radius", resolvedSource.actorRow.alertRadius);
+                            renderActorRowField("Accuracy", resolvedSource.actorRow.accuracy);
+                            renderActorRowField("Foot Radius", resolvedSource.actorRow.footRadius);
+                            renderActorRowField("Transparent", resolvedSource.actorRow.transparent);
+                            renderActorRowField("Head Turn", resolvedSource.actorRow.headTurn);
+                            renderActorRowField("Special", resolvedSource.actorRow.special);
+                            renderActorRowField("Scale", resolvedSource.actorRow.scale);
+                            renderActorRowField("Evade Chance", resolvedSource.actorRow.evadeChance);
+                            renderActorRowField("Strafe Attack Pct", resolvedSource.actorRow.strafeAttackPct);
                             renderInspectorCopyableReadOnlyField("Resolved Model", resolvedSource.sourceModel);
                             renderInspectorCopyableReadOnlyField("Resolved Skin", resolvedSource.sourceSkin);
                             renderInspectorCopyOpenReadOnlyField(
@@ -12707,7 +13116,10 @@ void EditorMainWindow::renderInspector(EditorSession &session)
                             document.mm9RawObjectAssetReferenceStatuses())
                         {
                             if (status.sourceObjectIndex != modelInstance.sourceObjectIndex
-                                || (status.sourceFamily != "models" && status.sourceFamily != "skins"))
+                                || (status.sourceFamily != "models"
+                                    && status.sourceFamily != "skins"
+                                    && status.sourceFamily != "sounds"
+                                    && status.sourceFamily != "voices"))
                             {
                                 continue;
                             }
@@ -12756,7 +13168,8 @@ void EditorMainWindow::renderInspector(EditorSession &session)
                         }
                         else
                         {
-                            ImGui::TextDisabled("No model or skin source-asset references for this instance.");
+                            ImGui::TextDisabled(
+                                "No model, skin, sound, or voice source-asset references for this instance.");
                         }
 
                         endInspectorSectionBlock();
@@ -14522,6 +14935,12 @@ void EditorMainWindow::renderMm9MaterialTextureInspector(EditorSession &session,
             if (pStatus != nullptr)
             {
                 renderInspectorReadOnlyField("Source Asset Family", pStatus->sourceAssetFamily);
+                renderInspectorReadOnlyField("Resolution Source", pStatus->resolutionSource);
+                renderInspectorReadOnlyField("Alias Applied", pStatus->aliasApplied ? "true" : "false");
+                renderInspectorReadOnlyField("Alias Target Key", pStatus->aliasTargetKey);
+                renderInspectorReadOnlyField(
+                    "Default Helper Material",
+                    pStatus->defaultHelperMaterial ? "true" : "false");
                 renderInspectorCopyOpenReadOnlyField(
                     "Resolved Source",
                     pStatus->resolvedSourcePath,
@@ -14590,6 +15009,12 @@ void EditorMainWindow::renderMm9MaterialTextureInspector(EditorSession &session,
                     "Cache Older Than Source",
                     pStatus->cacheOlderThanSource ? "true" : "false");
                 renderInspectorReadOnlyField("DAT References", std::to_string(pStatus->datReferenceCount));
+                renderInspectorReadOnlyField(
+                    "Default-Renderable DAT References",
+                    std::to_string(pStatus->defaultRenderableDatReferenceCount));
+                renderInspectorReadOnlyField(
+                    "Helper-Only DAT References",
+                    std::to_string(pStatus->helperOnlyDatReferenceCount));
                 renderInspectorReadOnlyField(
                     "Aliases For Source",
                     std::to_string(pStatus->materialAliasCountForSource));
@@ -15570,6 +15995,20 @@ void EditorMainWindow::renderMm9MechanismInspector(EditorSession &session, size_
                 "Locked",
                 mm9OptionalBoolText(mechanism.activation.locked, mechanism.activation.hasLocked));
             renderInspectorReadOnlyField(
+                "Push Open",
+                mm9OptionalBoolText(mechanism.activation.pushOpen, mechanism.activation.hasPushOpen));
+            renderInspectorReadOnlyField(
+                "Touch To Open",
+                mm9OptionalBoolText(mechanism.activation.touchToOpen, mechanism.activation.hasTouchToOpen));
+            renderInspectorReadOnlyField(
+                "Lock On Close",
+                mm9OptionalBoolText(mechanism.activation.lockOnClose, mechanism.activation.hasLockOnClose));
+            renderInspectorReadOnlyField(
+                "Reopen On Contact",
+                mm9OptionalBoolText(
+                    mechanism.activation.reopenOnContact,
+                    mechanism.activation.hasReopenOnContact));
+            renderInspectorReadOnlyField(
                 "Move Dir LT",
                 mechanism.linear.hasMoveDir ? mm9FloatVectorText(mechanism.linear.moveDirLt) : "<unknown>");
             renderInspectorReadOnlyField(
@@ -15597,9 +16036,52 @@ void EditorMainWindow::renderMm9MechanismInspector(EditorSession &session, size_
                 mechanism.rotation.hasRotationAngles
                     ? mm9FloatVectorText(mechanism.rotation.rotationAnglesDeg)
                     : std::string("<unknown>"));
+            renderInspectorReadOnlyField(
+                "Open Away",
+                mm9OptionalBoolText(mechanism.rotation.openAway, mechanism.rotation.hasOpenAway));
+            renderInspectorReadOnlyField(
+                "Move Delay Seconds",
+                mechanism.timing.hasMoveDelaySecondsSource
+                    ? std::to_string(mechanism.timing.moveDelaySecondsSource)
+                    : std::string("<unknown>"));
+            renderInspectorReadOnlyField(
+                "Open Wait Seconds",
+                mechanism.timing.hasOpenWaitSecondsSource
+                    ? std::to_string(mechanism.timing.openWaitSecondsSource)
+                    : std::string("<unknown>"));
+            renderInspectorReadOnlyField("Sound Slots", std::to_string(mechanism.sounds.size()));
             renderInspectorReadOnlyField("Trigger Outputs", std::to_string(mechanism.triggerOutputs.size()));
             ImGui::EndTable();
         }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Sounds", false))
+    {
+        if (mechanism.sounds.empty())
+        {
+            ImGui::TextDisabled("No generated sound evidence for this mechanism.");
+        }
+        else if (beginInspectorPropertyTable("Mm9MechanismSounds"))
+        {
+            for (size_t soundIndex = 0; soundIndex < mechanism.sounds.size(); ++soundIndex)
+            {
+                const Game::Mm9EventMechanismSound &sound = mechanism.sounds[soundIndex];
+                const std::string propertyText =
+                    sound.sourceProperty.empty() ? std::string("<unknown>") : sound.sourceProperty;
+                const std::string soundNameText =
+                    sound.soundName.empty() ? std::string("<empty>") : sound.soundName;
+                std::string soundText = "phase=" + sound.phase
+                    + ", property=" + propertyText
+                    + ", sound=" + soundNameText
+                    + ", authored=" + boolText(sound.authored);
+                const std::string label = "Sound " + std::to_string(soundIndex);
+                renderInspectorCopyableReadOnlyField(label.c_str(), soundText);
+            }
+
+            ImGui::EndTable();
+        }
+
         endInspectorSectionBlock();
     }
 
@@ -15655,10 +16137,19 @@ void EditorMainWindow::renderMm9MechanismInspector(EditorSession &session, size_
         const bool hasPreview =
             m_viewport.tryGetMm9MechanismPreviewProgress(document, mechanismIndex, previewProgress);
         const bool canPreview = hasMotion && hasWorldModelTarget;
+        const std::string previewReason =
+            canPreview
+                ? std::string("previewable")
+                : (!hasMotion && !hasWorldModelTarget
+                    ? std::string("inert: missing motion and world-model target")
+                    : (!hasMotion
+                        ? std::string("inert: missing motion")
+                        : std::string("inert: missing world-model target")));
 
         if (beginInspectorPropertyTable("Mm9MechanismPreviewFields"))
         {
             renderInspectorReadOnlyField("Previewable", canPreview ? "true" : "false");
+            renderInspectorReadOnlyField("Preview Status", previewReason);
             renderInspectorReadOnlyField("Target World Model", hasWorldModelTarget ? "true" : "false");
             renderInspectorReadOnlyField("Motion", hasMotion ? "true" : "false");
             renderInspectorReadOnlyField("Active", hasPreview ? "true" : "false");
@@ -15921,6 +16412,8 @@ void EditorMainWindow::renderMm9EventScriptInspector(EditorSession &session, siz
             renderInspectorReadOnlyField(
                 "Source Asset Alias Role",
                 metadata.sidecars.sourceAssetAliases ? "authored_override" : "none");
+            renderInspectorReadOnlyField("Includes", std::to_string(script.includes.size()));
+            renderInspectorReadOnlyField("Labels", std::to_string(script.labels.size()));
             renderInspectorReadOnlyField("Registered Triggers", std::to_string(script.registeredTriggerCount));
             renderInspectorReadOnlyField("Trigger Edges", std::to_string(script.triggerEdges.size()));
             renderInspectorReadOnlyField("Movement Commands", std::to_string(script.movementCommandCount));
@@ -15928,6 +16421,52 @@ void EditorMainWindow::renderMm9EventScriptInspector(EditorSession &session, siz
             renderInspectorReadOnlyField("Command Count", std::to_string(script.commandCount));
             ImGui::EndTable();
         }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Includes", false))
+    {
+        if (script.includes.empty())
+        {
+            ImGui::TextDisabled("No source script includes.");
+        }
+        else if (beginInspectorPropertyTable("Mm9EventScriptIncludes"))
+        {
+            for (size_t includeIndex = 0; includeIndex < script.includes.size(); ++includeIndex)
+            {
+                const Game::Mm9EventScript::Include &include = script.includes[includeIndex];
+                const std::string includeText = "line=" + std::to_string(include.line)
+                    + ", path=" + (include.path.empty() ? std::string("<none>") : include.path);
+                const std::string label = "Include " + std::to_string(includeIndex);
+                renderInspectorCopyableReadOnlyField(label.c_str(), includeText);
+            }
+
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Labels", false))
+    {
+        if (script.labels.empty())
+        {
+            ImGui::TextDisabled("No source script labels.");
+        }
+        else if (beginInspectorPropertyTable("Mm9EventScriptLabels"))
+        {
+            for (size_t labelIndex = 0; labelIndex < script.labels.size(); ++labelIndex)
+            {
+                const Game::Mm9EventScript::Label &scriptLabel = script.labels[labelIndex];
+                const std::string labelText = "line=" + std::to_string(scriptLabel.line)
+                    + ", name=" + (scriptLabel.name.empty() ? std::string("<none>") : scriptLabel.name);
+                const std::string label = "Label " + std::to_string(labelIndex);
+                renderInspectorCopyableReadOnlyField(label.c_str(), labelText);
+            }
+
+            ImGui::EndTable();
+        }
+
         endInspectorSectionBlock();
     }
 

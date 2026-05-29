@@ -849,6 +849,7 @@ public:
         uint32_t moveTimeMs,
         bool closed,
         bool moveParty) override;
+    void registerOutdoorSceneMechanisms(const OutdoorSceneData &sceneData);
     bool triggerMm9Object(const std::string &objectName, const std::string &messageName);
     bool triggerMm9MechanismByRuntimeId(uint32_t mechanismId, const std::string &messageName);
     EventRuntimeState *eventRuntimeState() override;

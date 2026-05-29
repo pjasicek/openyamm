@@ -35,7 +35,6 @@
 #include "game/mm9/Mm9ScriptRuntime.h"
 #include "game/mm9/Mm9AnimatedActorVisual.h"
 #include "game/mm9/Mm9ScriptedObjectRuntime.h"
-#include "game/mm9/Mm9ScriptedBillboardVisuals.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
@@ -621,7 +620,6 @@ private:
     std::optional<DecorationBillboardSet> m_outdoorDecorationBillboardSet;
     std::optional<ActorPreviewBillboardSet> m_outdoorActorPreviewBillboardSet;
     std::optional<SpriteObjectBillboardSet> m_outdoorSpriteObjectBillboardSet;
-    std::optional<Mm9ScriptedBillboardVisualSet> m_mm9ScriptedBillboardVisuals;
     std::optional<Mm9ScriptedObjectRuntime> m_mm9ScriptedObjectRuntime;
     std::vector<Mm9ScriptedBillboardInstance> m_mm9ScriptedBillboardInstances;
     std::vector<Mm9AnimatedActorInstance> m_mm9AnimatedActorInstances;
