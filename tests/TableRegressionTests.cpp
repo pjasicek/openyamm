@@ -424,7 +424,7 @@ TEST_CASE("settings monster bolster feature defaults off")
     CHECK_EQ(loadedSettings->contextActionPopup, OpenYAMM::Game::GameSettings::createDefault().contextActionPopup);
     CHECK(loadedSettings->outdoorBillboardDepthSlice == doctest::Approx(256.0f));
     CHECK_FALSE(loadedSettings->skipEventCutscenes);
-    CHECK(loadedSettings->waitForLevelSprites);
+    CHECK_FALSE(loadedSettings->waitForLevelSprites);
 
     std::filesystem::remove(path);
 }

@@ -2257,6 +2257,11 @@ bool GameplayUiRuntime::renderHouseVideoFrame(float x, float y, float quadWidth,
     return true;
 }
 
+HouseVideoPlayer::CacheStats GameplayUiRuntime::houseVideoCacheStats() const
+{
+    return m_houseVideoPlayer.cacheStats();
+}
+
 void GameplayUiRuntime::clearPortraitRuntime()
 {
     m_portraitRuntimeLoaded = false;

@@ -593,7 +593,6 @@ void GameAudioSystem::bindGameplayTables(
 {
     m_pCharacterDollTable = &characterDollTable;
     m_pCharacterVoiceTable = &characterVoiceTable;
-    preloadSpellEffectSounds(spellTable);
     preloadArcomageUiSounds();
 }
 
@@ -856,21 +855,6 @@ void GameAudioSystem::endMapSoundPreload()
 Engine::AudioSystem::CacheStats GameAudioSystem::cacheStats() const
 {
     return m_audioSystem.cacheStats();
-}
-
-void GameAudioSystem::preloadSpellEffectSounds(const SpellTable &spellTable)
-{
-    std::unordered_set<int> preloadedSoundIds;
-
-    for (const SpellEntry &spellEntry : spellTable.entries())
-    {
-        if (spellEntry.effectSoundId <= 0 || !preloadedSoundIds.insert(spellEntry.effectSoundId).second)
-        {
-            continue;
-        }
-
-        preloadSound(engineSound(static_cast<uint32_t>(spellEntry.effectSoundId)));
-    }
 }
 
 void GameAudioSystem::preloadArcomageUiSounds()

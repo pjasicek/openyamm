@@ -124,7 +124,6 @@ private:
 
     static bool isExclusiveGroup(PlaybackGroup group);
     bool initializeSoundCatalog(const Engine::AssetFileSystem &assetFileSystem);
-    void preloadSpellEffectSounds(const SpellTable &spellTable);
     void preloadArcomageUiSounds();
     bool isBackgroundMusicTrackLoaded(int redbookTrack) const;
     bool queueBackgroundMusicTrackDecode(int redbookTrack);

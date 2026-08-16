@@ -255,6 +255,7 @@ bool appendVideoFrame(
     SwsContext &swsContext,
     int width,
     int height,
+    size_t frameSizeBytes,
     std::vector<uint8_t> &videoPixels)
 {
     if (frame.width != width || frame.height != height)
@@ -262,7 +263,6 @@ bool appendVideoFrame(
         return false;
     }
 
-    const size_t frameSizeBytes = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
     const size_t previousSize = videoPixels.size();
     videoPixels.resize(previousSize + frameSizeBytes);
     uint8_t *pDestinationData[4] = {};
@@ -271,7 +271,7 @@ bool appendVideoFrame(
         pDestinationData,
         destinationLinesize,
         videoPixels.data() + previousSize,
-        AV_PIX_FMT_BGRA,
+        AV_PIX_FMT_YUV420P,
         width,
         height,
         1);
@@ -405,6 +405,9 @@ HouseVideoPlayer::HouseVideoPlayer()
     , m_videoTextureWidth(0)
     , m_videoTextureHeight(0)
     , m_pAudioStream(nullptr)
+    , m_pUploadSwsContext(nullptr)
+    , m_uploadSwsContextWidth(0)
+    , m_uploadSwsContextHeight(0)
     , m_pActiveClip(nullptr)
     , m_playbackSeconds(0.0f)
     , m_uploadedFrameIndex(InvalidFrameIndex)
@@ -458,6 +461,17 @@ void HouseVideoPlayer::shutdown()
 
         m_pAudioStream = nullptr;
     }
+
+    if (m_pUploadSwsContext != nullptr)
+    {
+        sws_freeContext(m_pUploadSwsContext);
+        m_pUploadSwsContext = nullptr;
+        m_uploadSwsContextWidth = 0;
+        m_uploadSwsContextHeight = 0;
+    }
+
+    m_uploadScratchBuffer.clear();
+    m_uploadScratchBuffer.shrink_to_fit();
 
     if (canUseBgfxResources() && bgfx::isValid(m_videoTextureHandle))
     {
@@ -551,6 +565,7 @@ bool HouseVideoPlayer::play(
     m_nextAudioSampleIndex = 0;
     m_totalQueuedAudioFrames = 0;
     m_loopPlayback = loopPlayback;
+    evictInactiveCachedClips();
     ensureVideoTexture(pClip->width, pClip->height);
     uploadVideoFrame(0);
 
@@ -785,6 +800,35 @@ void HouseVideoPlayer::ensureVideoTexture(int width, int height)
     m_videoTextureHeight = height;
 }
 
+bool HouseVideoPlayer::ensureUploadConversionContext(int width, int height)
+{
+    if (m_pUploadSwsContext != nullptr && m_uploadSwsContextWidth == width && m_uploadSwsContextHeight == height)
+    {
+        return true;
+    }
+
+    if (m_pUploadSwsContext != nullptr)
+    {
+        sws_freeContext(m_pUploadSwsContext);
+        m_pUploadSwsContext = nullptr;
+    }
+
+    m_pUploadSwsContext = sws_getContext(
+        width,
+        height,
+        AV_PIX_FMT_YUV420P,
+        width,
+        height,
+        AV_PIX_FMT_BGRA,
+        SWS_BILINEAR,
+        nullptr,
+        nullptr,
+        nullptr);
+    m_uploadSwsContextWidth = width;
+    m_uploadSwsContextHeight = height;
+    return m_pUploadSwsContext != nullptr;
+}
+
 void HouseVideoPlayer::uploadVideoFrame(size_t frameIndex)
 {
     if (m_pActiveClip == nullptr
@@ -802,9 +846,50 @@ void HouseVideoPlayer::uploadVideoFrame(size_t frameIndex)
         return;
     }
 
-    const bgfx::Memory *pMemory = copyBgraTextureUploadMemory(
+    if (!ensureUploadConversionContext(m_pActiveClip->width, m_pActiveClip->height))
+    {
+        return;
+    }
+
+    uint8_t *pSourceData[4] = {};
+    int sourceLinesize[4] = {};
+    const int fillResult = av_image_fill_arrays(
+        pSourceData,
+        sourceLinesize,
         m_pActiveClip->videoPixels.data() + frameOffset,
-        static_cast<uint32_t>(m_pActiveClip->frameSizeBytes));
+        AV_PIX_FMT_YUV420P,
+        m_pActiveClip->width,
+        m_pActiveClip->height,
+        1);
+
+    if (fillResult < 0)
+    {
+        return;
+    }
+
+    const size_t bgraFrameSizeBytes =
+        static_cast<size_t>(m_pActiveClip->width) * static_cast<size_t>(m_pActiveClip->height) * 4;
+
+    if (m_uploadScratchBuffer.size() < bgraFrameSizeBytes)
+    {
+        m_uploadScratchBuffer.resize(bgraFrameSizeBytes);
+    }
+
+    uint8_t *pDestinationData[4] = {m_uploadScratchBuffer.data(), nullptr, nullptr, nullptr};
+    int destinationLinesize[4] = {m_pActiveClip->width * 4, 0, 0, 0};
+
+    sws_scale(
+        m_pUploadSwsContext,
+        pSourceData,
+        sourceLinesize,
+        0,
+        m_pActiveClip->height,
+        pDestinationData,
+        destinationLinesize);
+
+    const bgfx::Memory *pMemory = copyBgraTextureUploadMemory(
+        m_uploadScratchBuffer.data(),
+        static_cast<uint32_t>(bgraFrameSizeBytes));
     bgfx::updateTexture2D(
         m_videoTextureHandle,
         0,
@@ -971,7 +1056,7 @@ void HouseVideoPlayer::finishCompletedBackgroundPreload()
 
     if (pClip != nullptr)
     {
-        m_cachedClipsByKey[makeClipKey(DefaultHouseVideoDirectory, m_backgroundPreloadJob->videoStem)] = pClip;
+        cacheClip(makeClipKey(DefaultHouseVideoDirectory, m_backgroundPreloadJob->videoStem), pClip);
     }
 
     m_backgroundPreloadJob.reset();
@@ -990,7 +1075,7 @@ void HouseVideoPlayer::clearBackgroundPreloads()
 
     if (pClip != nullptr)
     {
-        m_cachedClipsByKey[makeClipKey(DefaultHouseVideoDirectory, m_backgroundPreloadJob->videoStem)] = pClip;
+        cacheClip(makeClipKey(DefaultHouseVideoDirectory, m_backgroundPreloadJob->videoStem), pClip);
     }
 
     m_backgroundPreloadJob.reset();
@@ -1020,7 +1105,7 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::getOrDecodeClip
 
         if (pClip != nullptr)
         {
-            m_cachedClipsByKey.emplace(clipKey, pClip);
+            cacheClip(clipKey, pClip);
         }
 
         m_backgroundPreloadJob.reset();
@@ -1031,10 +1116,43 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::getOrDecodeClip
 
     if (pClip != nullptr)
     {
-        m_cachedClipsByKey.emplace(clipKey, pClip);
+        cacheClip(clipKey, pClip);
     }
 
     return pClip;
+}
+
+void HouseVideoPlayer::cacheClip(const std::string &clipKey, std::shared_ptr<DecodedClip> pClip)
+{
+    m_cachedClipsByKey[clipKey] = std::move(pClip);
+}
+
+void HouseVideoPlayer::evictInactiveCachedClips()
+{
+    for (auto it = m_cachedClipsByKey.begin(); it != m_cachedClipsByKey.end();)
+    {
+        if (it->first == m_activeClipKey)
+        {
+            ++it;
+        }
+        else
+        {
+            it = m_cachedClipsByKey.erase(it);
+        }
+    }
+}
+
+HouseVideoPlayer::CacheStats HouseVideoPlayer::cacheStats() const
+{
+    CacheStats stats;
+    stats.clipCount = m_cachedClipsByKey.size();
+
+    for (const auto &[key, clip] : m_cachedClipsByKey)
+    {
+        stats.totalBytes += clip->videoPixels.size() + clip->audioSamples.size() * sizeof(float);
+    }
+
+    return stats;
 }
 
 std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
@@ -1146,7 +1264,7 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
         pVideoCodecContext->pix_fmt,
         width,
         height,
-        AV_PIX_FMT_BGRA,
+        AV_PIX_FMT_YUV420P,
         SWS_BILINEAR,
         nullptr,
         nullptr,
@@ -1238,9 +1356,41 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
         return nullptr;
     }
 
+    const int yuv420FrameSizeBytesSigned = av_image_get_buffer_size(AV_PIX_FMT_YUV420P, width, height, 1);
+
+    if (yuv420FrameSizeBytesSigned <= 0)
+    {
+        std::cerr << "HouseVideoPlayer: av_image_get_buffer_size failed for " << virtualPath << '\n';
+        return nullptr;
+    }
+
     std::vector<uint8_t> videoPixels;
     std::vector<float> audioSamples;
-    const size_t frameSizeBytes = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
+    const size_t frameSizeBytes = static_cast<size_t>(yuv420FrameSizeBytesSigned);
+
+    std::optional<float> estimatedFrameRate = parseFrameRate(videoStream.avg_frame_rate);
+
+    if (!estimatedFrameRate || *estimatedFrameRate <= 0.0f)
+    {
+        estimatedFrameRate = parseFrameRate(videoStream.r_frame_rate);
+    }
+
+    const std::optional<float> estimatedDurationSeconds = streamDurationSeconds(videoStream, *pFormatContext);
+
+    if (estimatedFrameRate && *estimatedFrameRate > 0.0f && estimatedDurationSeconds && *estimatedDurationSeconds > 0.0f)
+    {
+        const size_t estimatedFrameCount =
+            static_cast<size_t>(*estimatedFrameRate * *estimatedDurationSeconds) + 1;
+        videoPixels.reserve(estimatedFrameCount * frameSizeBytes);
+    }
+
+    if (pSwrContext != nullptr && estimatedDurationSeconds && *estimatedDurationSeconds > 0.0f)
+    {
+        const size_t estimatedAudioSampleCount = static_cast<size_t>(
+            *estimatedDurationSeconds * HouseVideoAudioFrequency * HouseVideoAudioChannels)
+            + static_cast<size_t>(HouseVideoAudioChannels);
+        audioSamples.reserve(estimatedAudioSampleCount);
+    }
 
     while ((result = av_read_frame(pFormatContext.get(), pPacket.get())) >= 0)
     {
@@ -1296,7 +1446,7 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
             }
 
             const bool appendResult = isVideoPacket
-                ? appendVideoFrame(*pFrame, *pSwsContext, width, height, videoPixels)
+                ? appendVideoFrame(*pFrame, *pSwsContext, width, height, frameSizeBytes, videoPixels)
                 : (pSwrContext != nullptr
                     ? appendAudioFrame(
                         *pFrame,
@@ -1359,7 +1509,7 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
 
             const bool isVideoFrame = pCodecContext == pVideoCodecContext.get();
             const bool appendResult = isVideoFrame
-                ? appendVideoFrame(*pFrame, *pSwsContext, width, height, videoPixels)
+                ? appendVideoFrame(*pFrame, *pSwsContext, width, height, frameSizeBytes, videoPixels)
                 : (pSwrContext != nullptr
                     ? appendAudioFrame(
                         *pFrame,

@@ -294,6 +294,7 @@ public:
     void setHouseVideoAudioVolume(float volume);
     void updateHouseVideoPlayback(float deltaSeconds);
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const;
+    HouseVideoPlayer::CacheStats houseVideoCacheStats() const;
 
 private:
     void recordPerformanceAssetLoad(

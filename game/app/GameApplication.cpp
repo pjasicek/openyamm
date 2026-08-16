@@ -2929,13 +2929,16 @@ void GameApplication::registerDebugConsoleCommands()
             const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
             const size_t mapPixelBytes = selectedMap ? mapRenderSourcePixelBytes(*selectedMap) : 0;
             const Engine::AudioSystem::CacheStats audioStats = m_gameAudioSystem.cacheStats();
+            const HouseVideoPlayer::CacheStats videoStats = m_gameSession.gameplayUiRuntime().houseVideoCacheStats();
             std::ostringstream out;
             out << "map_render_source_bytes=" << mapPixelBytes
                 << " map_last_released_bytes=" << m_gameDataLoader.lastReleasedMapRenderSourcePixelBytes()
                 << " map_sources_released="
                 << (m_gameDataLoader.selectedMapRenderSourcePixelsReleased() ? "true" : "false")
                 << " audio_clip_count=" << audioStats.clipCount
-                << " audio_sample_bytes=" << audioStats.sampleBytes;
+                << " audio_sample_bytes=" << audioStats.sampleBytes
+                << " video_clip_count=" << videoStats.clipCount
+                << " video_cache_bytes=" << videoStats.totalBytes;
             return commandResult(true, out.str());
         }});
 

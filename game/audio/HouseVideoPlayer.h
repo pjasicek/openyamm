@@ -14,11 +14,19 @@
 #include <unordered_map>
 #include <vector>
 
+struct SwsContext;
+
 namespace OpenYAMM::Game
 {
 class HouseVideoPlayer
 {
 public:
+    struct CacheStats
+    {
+        size_t clipCount = 0;
+        size_t totalBytes = 0;
+    };
+
     HouseVideoPlayer();
     ~HouseVideoPlayer();
 
@@ -52,6 +60,7 @@ public:
     bgfx::TextureHandle textureHandle() const;
     int videoTextureWidth() const;
     int videoTextureHeight() const;
+    CacheStats cacheStats() const;
 
 private:
     struct DecodedClip
@@ -77,6 +86,7 @@ private:
 
     bool ensureAudioStream();
     void ensureVideoTexture(int width, int height);
+    bool ensureUploadConversionContext(int width, int height);
     void uploadVideoFrame(size_t frameIndex);
     void updateAudioQueue();
     void advancePlaybackWithoutAudio(float deltaSeconds);
@@ -88,6 +98,8 @@ private:
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &videoStem,
         const std::string &videoDirectory);
+    void cacheClip(const std::string &clipKey, std::shared_ptr<DecodedClip> pClip);
+    void evictInactiveCachedClips();
     static std::shared_ptr<DecodedClip> decodeClip(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &videoStem,
@@ -99,6 +111,10 @@ private:
     int m_videoTextureWidth;
     int m_videoTextureHeight;
     SDL_AudioStream *m_pAudioStream;
+    SwsContext *m_pUploadSwsContext;
+    int m_uploadSwsContextWidth;
+    int m_uploadSwsContextHeight;
+    std::vector<uint8_t> m_uploadScratchBuffer;
     std::shared_ptr<DecodedClip> m_pActiveClip;
     std::string m_activeClipKey;
     float m_playbackSeconds;

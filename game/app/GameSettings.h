@@ -133,7 +133,7 @@ struct GameSettings
     std::string viewDistance = "default";
     float outdoorBillboardDepthSlice = 256.0f;
     bool skipEventCutscenes = false;
-    bool waitForLevelSprites = true;
+    bool waitForLevelSprites = false;
     Engine::AssetScaleProfile assetScaleProfile = Engine::createUniformAssetScaleProfile(Engine::AssetScaleTier::X1);
     GameplayUiLayout gameplayUiLayout = GameplayUiLayout::Widescreen;
     WindowMode windowMode = WindowMode::Windowed;
