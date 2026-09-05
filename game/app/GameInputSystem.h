@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/app/GamepadInput.h"
 #include "game/app/GameSettings.h"
 #include "game/app/MobileJumpDoubleTapGesture.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -63,6 +64,9 @@ private:
     };
 
     GameplayInputFrame m_frame = {};
+    GamepadInput m_gamepadInput;
+    uint64_t m_lastGamepadFrameTickNanoseconds = 0;
+    bool m_previousGamepadEscapeHeld = false;
     std::string m_pendingTextInput;
     std::array<uint16_t, SDL_SCANCODE_COUNT> m_pendingKeyboardPressCounts = {};
     std::array<bool, SDL_SCANCODE_COUNT> m_previousKeyboardHeld = {};

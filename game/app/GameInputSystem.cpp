@@ -77,6 +77,12 @@ void suppressButtonWhileHeld(bool physicalHeld, bool &logicalHeld, bool &suppres
 
 void GameInputSystem::handleSdlEvent(const SDL_Event &event)
 {
+    if (isGamepadSdlEvent(event))
+    {
+        m_gamepadInput.handleSdlEvent(event);
+        return;
+    }
+
     if (event.type == SDL_EVENT_TEXT_INPUT)
     {
         if (event.text.text != nullptr)
@@ -831,6 +837,95 @@ void GameInputSystem::updateFromEngineInput(
     static_cast<void>(mobileFlightControlsEnabled);
     static_cast<void>(mobileInspectControlEnabled);
 #endif
+
+    // Gamepad rides the same action and mouse-look paths as the keyboard and mouse.
+    const uint64_t gamepadFrameTickNanoseconds = SDL_GetTicksNS();
+    float gamepadDeltaSeconds = 1.0f / 60.0f;
+
+    if (m_lastGamepadFrameTickNanoseconds != 0 && gamepadFrameTickNanoseconds > m_lastGamepadFrameTickNanoseconds)
+    {
+        gamepadDeltaSeconds = std::min(
+            static_cast<float>(gamepadFrameTickNanoseconds - m_lastGamepadFrameTickNanoseconds) / 1000000000.0f,
+            0.1f);
+    }
+
+    m_lastGamepadFrameTickNanoseconds = gamepadFrameTickNanoseconds;
+
+    if (!blockGameplayInput)
+    {
+        SDL_Window *pGamepadWindow = SDL_GetMouseFocus();
+
+        if (pGamepadWindow == nullptr)
+        {
+            pGamepadWindow = SDL_GetKeyboardFocus();
+        }
+
+        // The cursor is free whenever gameplay mouse-look is not capturing it (desktop) or the HUD
+        // is showing something other than plain gameplay (Android). Then the pad drives the pointer.
+#if defined(__ANDROID__)
+        const bool gamepadCursorMode = !mobileGameplayTouchControlsEnabled;
+#else
+        const bool gamepadCursorMode =
+            pGamepadWindow == nullptr || !SDL_GetWindowRelativeMouseMode(pGamepadWindow);
+#endif
+
+        const GamepadFrameResult gamepad =
+            mapGamepadFrame(m_gamepadInput.state(), settings.gamepad, gamepadDeltaSeconds, gamepadCursorMode);
+
+        if (gamepadCursorMode)
+        {
+            if ((gamepad.cursorDeltaX != 0.0f || gamepad.cursorDeltaY != 0.0f) && screenWidth > 0 && screenHeight > 0)
+            {
+                const float cursorX =
+                    std::clamp(m_frame.pointerX + gamepad.cursorDeltaX, 0.0f, static_cast<float>(screenWidth - 1));
+                const float cursorY =
+                    std::clamp(m_frame.pointerY + gamepad.cursorDeltaY, 0.0f, static_cast<float>(screenHeight - 1));
+                m_frame.pointerX = cursorX;
+                m_frame.pointerY = cursorY;
+
+                if (pGamepadWindow != nullptr)
+                {
+                    SDL_WarpMouseInWindow(pGamepadWindow, cursorX, cursorY);
+                }
+            }
+
+            leftMouseButtonHeld = leftMouseButtonHeld || gamepad.cursorLeftHeld;
+            rightMouseButtonHeld = rightMouseButtonHeld || gamepad.cursorRightHeld;
+        }
+
+        if (gamepad.escapeHeld)
+        {
+            m_frame.keyboardHeld[SDL_SCANCODE_ESCAPE] = true;
+
+            if (!m_previousGamepadEscapeHeld)
+            {
+                ++m_frame.keyboardPressCounts[SDL_SCANCODE_ESCAPE];
+            }
+        }
+
+        m_previousGamepadEscapeHeld = gamepad.escapeHeld;
+
+        for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
+        {
+            const size_t actionIndex = keyboardActionIndex(definition.action);
+
+            if (!gamepad.actionHeld[actionIndex])
+            {
+                continue;
+            }
+
+            actionHeld[actionIndex] = true;
+
+            const SDL_Scancode scancode = settings.keyboard.keyboardBinding(definition.action);
+            if (scancode > SDL_SCANCODE_UNKNOWN && scancode < SDL_SCANCODE_COUNT)
+            {
+                m_frame.keyboardHeld[scancode] = true;
+            }
+        }
+
+        m_frame.relativeMouseX += gamepad.lookDeltaX;
+        m_frame.relativeMouseY += gamepad.lookDeltaY;
+    }
 
     m_frame.leftMouseButton = buildButtonState(leftMouseButtonHeld, m_previousLeftMouseButtonHeld);
     m_frame.rightMouseButton = buildButtonState(rightMouseButtonHeld, m_previousRightMouseButtonHeld);

@@ -1164,6 +1164,44 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gamepad", "enabled"))
+    {
+        parseBoolValue(*value, settings.gamepad.enabled);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gamepad", "deadzone"))
+    {
+        float parsed = settings.gamepad.deadzone;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.gamepad.deadzone = std::clamp(parsed, 0.0f, 0.95f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gamepad", "look_sensitivity"))
+    {
+        float parsed = settings.gamepad.lookSensitivity;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.gamepad.lookSensitivity = std::clamp(parsed, 0.0f, 10.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gamepad", "invert_look_y"))
+    {
+        parseBoolValue(*value, settings.gamepad.invertLookY);
+    }
+
+    for (const GamepadButtonDefinition &definition : gamepadButtonDefinitions())
+    {
+        if (const std::optional<std::string> value = getIniValue(document, "gamepad", std::string(definition.iniKey)))
+        {
+            settings.gamepad.setAction(definition.button, parseGamepadActionName(trimCopy(*value)));
+        }
+    }
+
     for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
     {
         std::optional<std::string> value = getIniValue(document, "input", std::string(definition.iniKey));
@@ -1410,6 +1448,19 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
     for (const KeyboardBindingDefinition &definition : keyboardBindingDefinitions())
     {
         output << definition.iniKey << '=' << inputBindingName(settings.keyboard.binding(definition.action)) << '\n';
+    }
+
+    output
+        << '\n'
+        << "[gamepad]\n"
+        << "enabled=" << (settings.gamepad.enabled ? "true" : "false") << '\n'
+        << "deadzone=" << std::clamp(settings.gamepad.deadzone, 0.0f, 0.95f) << '\n'
+        << "look_sensitivity=" << std::clamp(settings.gamepad.lookSensitivity, 0.0f, 10.0f) << '\n'
+        << "invert_look_y=" << (settings.gamepad.invertLookY ? "true" : "false") << '\n';
+
+    for (const GamepadButtonDefinition &definition : gamepadButtonDefinitions())
+    {
+        output << definition.iniKey << '=' << gamepadActionName(settings.gamepad.action(definition.button)) << '\n';
     }
 
     output

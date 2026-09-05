@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/AssetScaleTier.h"
+#include "game/app/GamepadInput.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/gameplay/CharacterAttackTuning.h"
 
@@ -163,6 +164,7 @@ struct GameSettings
     std::string combatTraceFile = "logs/combat_trace.log";
     float hitchThresholdMilliseconds = 8.0f;
     KeyboardSettings keyboard = {};
+    GamepadSettings gamepad = {};
     bool preseedParty = true;
     uint32_t partySeedRosterId = 0;
     std::string assetRoot;
