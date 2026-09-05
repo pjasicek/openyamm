@@ -15,6 +15,7 @@ add_executable(openyamm_unit_tests
     GameplaySaveLoadUiSupportTests.cpp
     GameplayRuleRegressionTests.cpp
     GameInputSystemTests.cpp
+    GamepadInputTests.cpp
     AwardRuntimeTests.cpp
     GameplayProjectileServiceTests.cpp
     ImageAssetLoaderTests.cpp
@@ -67,6 +68,7 @@ add_executable(openyamm_unit_tests
     GameplayScreenRuntimeTestStubs.cpp
     ../game/app/GameSettings.cpp
     ../game/app/GameInputSystem.cpp
+    ../game/app/GamepadInput.cpp
     ../game/app/KeyboardBindings.cpp
     ../game/app/ScreenManager.cpp
     ../engine/AudioSystem.cpp

@@ -5195,6 +5195,12 @@ void GameApplication::handleSdlEvent(const SDL_Event &event)
 
     IScreen *pActiveScreen = m_screenManager.activeScreen();
 
+    if (isGamepadSdlEvent(event))
+    {
+        m_gameInputSystem.handleSdlEvent(event);
+        return;
+    }
+
 #if defined(__ANDROID__)
     const bool activeScreenHandlesTouchDirectly =
         pActiveScreen != nullptr

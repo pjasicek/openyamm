@@ -279,10 +279,15 @@ int EngineApplication::run() const
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
 #endif
 
-    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_GAMEPAD))
     {
-        std::cerr << "SDL_Init failed: " << SDL_GetError() << '\n';
-        return 1;
+        std::cerr << "SDL_Init with gamepad support failed: " << SDL_GetError() << ", retrying without it\n";
+
+        if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
+        {
+            std::cerr << "SDL_Init failed: " << SDL_GetError() << '\n';
+            return 1;
+        }
     }
 
     const SdlSubsystemGuard sdlGuard(true);
