@@ -2,6 +2,8 @@
 #include "AndroidShaderPaths.h"
 
 #include <android/log.h>
+#include <android/asset_manager_jni.h>
+#include <jni.h>
 #include <SDL3/SDL_filesystem.h>
 #include <SDL3/SDL_hints.h>
 #include <SDL3/SDL_iostream.h>
@@ -225,9 +227,55 @@ void copyPackagedAssetToFile(SDL_IOStream &sourceStream, const std::filesystem::
     }
 }
 
+// SDL_IOFromFile tries Android internal storage before the APK for relative paths. Older extracted
+// shaders can therefore shadow their replacements even after an APK update. Read the APK explicitly.
+std::vector<uint8_t> readApkAsset(const char *pPath)
+{
+    JNIEnv *pEnvironment = static_cast<JNIEnv *>(SDL_GetAndroidJNIEnv());
+    jobject activity = static_cast<jobject>(SDL_GetAndroidActivity());
+    if (pEnvironment == nullptr || activity == nullptr)
+    {
+        throw std::runtime_error("Android activity unavailable while opening APK assets");
+    }
+    jclass activityClass = pEnvironment->GetObjectClass(activity);
+    jmethodID getAssets = pEnvironment->GetMethodID(activityClass, "getAssets", "()Landroid/content/res/AssetManager;");
+    jobject assetManager = pEnvironment->CallObjectMethod(activity, getAssets);
+    AAssetManager *pManager = AAssetManager_fromJava(pEnvironment, assetManager);
+    AAsset *pAsset = pManager != nullptr ? AAssetManager_open(pManager, pPath, AASSET_MODE_BUFFER) : nullptr;
+    pEnvironment->DeleteLocalRef(assetManager);
+    pEnvironment->DeleteLocalRef(activityClass);
+    pEnvironment->DeleteLocalRef(activity);
+    if (pAsset == nullptr)
+    {
+        throw std::runtime_error(std::string("Missing APK asset: ") + pPath);
+    }
+    const off64_t length = AAsset_getLength64(pAsset);
+    // Only shaders and the small initial settings file are extracted through this path.
+    if (length <= 0 || length > 16 * 1024 * 1024)
+    {
+        AAsset_close(pAsset);
+        throw std::runtime_error(std::string("Invalid APK runtime asset length: ") + pPath);
+    }
+    std::vector<uint8_t> bytes(size_t(length), uint8_t(0));
+    size_t offset = 0;
+    while (offset < bytes.size())
+    {
+        const int count = AAsset_read(pAsset, bytes.data() + offset, bytes.size() - offset);
+        if (count <= 0)
+        {
+            AAsset_close(pAsset);
+            throw std::runtime_error(std::string("Short APK runtime asset read: ") + pPath);
+        }
+        offset += size_t(count);
+    }
+    AAsset_close(pAsset);
+    return bytes;
+}
+
 void extractPackagedAssetIfNeeded(const std::filesystem::path &storageRoot, const PackagedAsset &asset)
 {
-    SDL_IOStream *pSourceStream = SDL_IOFromFile(asset.pApkPath, "rb");
+    const std::vector<uint8_t> sourceBytes = readApkAsset(asset.pApkPath);
+    SDL_IOStream *pSourceStream = SDL_IOFromConstMem(sourceBytes.data(), sourceBytes.size());
 
     if (pSourceStream == nullptr)
     {

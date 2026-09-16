@@ -22,4 +22,4 @@ target_include_directories(main
 )
 
 target_compile_features(main PRIVATE cxx_std_20)
-target_link_libraries(main PRIVATE openyamm_game SDL3::SDL3 log)
+target_link_libraries(main PRIVATE openyamm_game SDL3::SDL3 log android)

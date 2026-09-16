@@ -8,10 +8,13 @@ The selected emulator is test-owned: this replaces its game settings. Optional
 import argparse
 import configparser
 import hashlib
+import io
 from pathlib import Path
 import subprocess
 import time
 import zipfile
+
+from PIL import Image
 
 
 def main():
@@ -25,7 +28,11 @@ def main():
     parser.add_argument("--world", default="mm8")
     parser.add_argument("--map", default="out13.odm")
     parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument("--resume-cycles", type=int, default=3,
+                        help="Test Home, task switching and screen off/on without restarting the game")
     args = parser.parse_args()
+    if args.resume_cycles < 0:
+        parser.error("--resume-cycles must be nonnegative")
     args.output.mkdir(parents=True, exist_ok=True)
     package = "org.openyamm.android"
     storage = "/sdcard/Android/data/" + package + "/files"
@@ -45,6 +52,16 @@ def main():
 
     def launch():
         adb("shell", "am", "start", "-n", package + "/.OpenYammActivity")
+
+    def capture_rendered_screen(name):
+        screenshot = adb("exec-out", "screencap", "-p")
+        (args.output / (name + ".png")).write_bytes(screenshot)
+        with Image.open(io.BytesIO(screenshot)) as image:
+            width, height = image.size
+            # Exclude Android status/navigation bars and game letterboxing.
+            center = image.crop((width // 4, height // 4, 3 * width // 4, 3 * height // 4)).convert("L")
+            histogram = center.histogram()
+        return sum(histogram[24:]) > sum(histogram) * 0.10
 
     with zipfile.ZipFile(args.apk) as apk:
         config = configparser.ConfigParser()
@@ -130,6 +147,52 @@ def main():
         else:
             raise RuntimeError("Timed out waiting for rendered map readiness: " + marker)
 
+        if not capture_rendered_screen("before-resume"):
+            raise RuntimeError("Map initialized, but the initial screen is black.")
+        original_pid = adb("shell", "pidof", package).strip()
+        for cycle in range(args.resume_cycles):
+            transition = ("home", "task-switch", "screen-off")[cycle % 3]
+            print("Testing resume " + str(cycle + 1) + ": " + transition, flush=True)
+            lifecycle_log = adb("logcat", "-d", "-v", "brief", "-s", "SDL")
+            destroyed_count = lifecycle_log.count(b"surfaceDestroyed()")
+            created_count = lifecycle_log.count(b"surfaceCreated()")
+            if transition == "home":
+                adb("shell", "input", "keyevent", "KEYCODE_HOME")
+            elif transition == "task-switch":
+                adb("shell", "am", "start", "-a", "android.settings.SETTINGS")
+            else:
+                adb("shell", "input", "keyevent", "KEYCODE_SLEEP")
+
+            deadline = time.monotonic() + 30
+            while time.monotonic() < deadline:
+                time.sleep(1)
+                lifecycle_log = adb("logcat", "-d", "-v", "brief", "-s", "SDL")
+                if lifecycle_log.count(b"surfaceDestroyed()") > destroyed_count:
+                    break
+            else:
+                raise RuntimeError("Background transition did not destroy the Android surface.")
+
+            if transition == "screen-off":
+                adb("shell", "input", "keyevent", "KEYCODE_WAKEUP")
+                adb("shell", "wm", "dismiss-keyguard")
+            launch()
+            # Let Android's cached task snapshot disappear before judging game pixels.
+            time.sleep(3)
+            deadline = time.monotonic() + 30
+            while time.monotonic() < deadline:
+                time.sleep(1)
+                if adb("shell", "pidof", package, check=False).strip() != original_pid:
+                    raise RuntimeError("Game exited or restarted during " + transition + ".")
+                window_state = adb("shell", "dumpsys", "window").decode(errors="replace")
+                focused = any("mCurrentFocus=" in line and package in line for line in window_state.splitlines())
+                lifecycle_log = adb("logcat", "-d", "-v", "brief", "-s", "SDL")
+                recreated = lifecycle_log.count(b"surfaceCreated()") > created_count
+                if focused and recreated and capture_rendered_screen("resume-" + str(cycle + 1) + "-" + transition):
+                    break
+            else:
+                raise RuntimeError("Rendering did not recover after " + transition + ".")
+
+        print("PASS: " + str(args.resume_cycles) + " surface recreation/resume cycles without restart", flush=True)
         for path, expected in shaders.items():
             if adb("exec-out", "cat", storage + "/" + path) != expected:
                 raise RuntimeError("Extracted shader differs from installed APK: " + path)
