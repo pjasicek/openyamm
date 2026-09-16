@@ -570,6 +570,8 @@ bool ScriptedEventProgram::populateMetadataFromLua(
     program.m_textureNames = readStringArrayFromField(pLuaState, -1, "textureNames");
     program.m_spriteNames = readStringArrayFromField(pLuaState, -1, "spriteNames");
     program.m_castSpellIds = readIntegerArrayFromField<uint32_t>(pLuaState, -1, "castSpellIds");
+    program.m_levitateTrapFaceMask = readOptionalUnsignedField(pLuaState, -1, "levitateTrapFaceMask").value_or(0);
+    program.m_levitateTrapEvents = readIntegerArrayFromField<uint16_t>(pLuaState, -1, "levitateTrapEvents", true);
     program.m_timerTriggers = readTimerTriggers(pLuaState, -1, scope);
     lua_pop(pLuaState, 3);
     return true;
@@ -683,6 +685,12 @@ const std::vector<uint32_t> &ScriptedEventProgram::castSpellIds() const
 const std::vector<ScriptedEventProgram::TimerTrigger> &ScriptedEventProgram::timerTriggers() const
 {
     return m_timerTriggers;
+}
+
+bool ScriptedEventProgram::isLevitateSensitivePressurePlate(uint16_t eventId, uint32_t faceAttributes) const
+{
+    return (faceAttributes & m_levitateTrapFaceMask) != 0
+        || std::find(m_levitateTrapEvents.begin(), m_levitateTrapEvents.end(), eventId) != m_levitateTrapEvents.end();
 }
 
 bool ScriptedEventProgram::hasEvent(uint16_t eventId) const

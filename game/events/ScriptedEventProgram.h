@@ -49,6 +49,7 @@ public:
     const std::vector<uint32_t> &castSpellIds() const;
     const std::vector<TimerTrigger> &timerTriggers() const;
     bool hasEvent(uint16_t eventId) const;
+    bool isLevitateSensitivePressurePlate(uint16_t eventId, uint32_t faceAttributes) const;
     bool isHintOnlyEvent(uint16_t eventId) const;
     std::optional<std::string> getHint(uint16_t eventId) const;
     std::optional<std::string> summarizeEvent(uint16_t eventId) const;
@@ -79,6 +80,8 @@ private:
     std::vector<std::string> m_textureNames;
     std::vector<std::string> m_spriteNames;
     std::vector<uint32_t> m_castSpellIds;
+    uint32_t m_levitateTrapFaceMask = 0;
+    std::vector<uint16_t> m_levitateTrapEvents;
     std::vector<TimerTrigger> m_timerTriggers;
 };
 

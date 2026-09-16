@@ -583,6 +583,11 @@ const GameplayAssetLoadCache &GameplayUiRuntime::assetLoadCache() const
     return m_assetLoadCache;
 }
 
+const std::vector<GameplayHudLayoutEntry> &GameplayUiRuntime::gameplayHudLayoutEntries()
+{
+    return m_gameplayHudLayoutCache.entries(m_layoutManager);
+}
+
 UiLayoutManager &GameplayUiRuntime::layoutManager()
 {
     return m_layoutManager;
@@ -1905,6 +1910,7 @@ void GameplayUiRuntime::submitHudQuadBatch(
 
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
+    const uint32_t identityTransform = bgfx::setTransform(modelMatrix);
     size_t quadIndex = 0;
 
     while (quadIndex < quads.size())
@@ -1973,7 +1979,7 @@ void GameplayUiRuntime::submitHudQuadBatch(
             }
 
             const GameplayHudBatchQuad &firstQuad = quads[quadIndex];
-            bgfx::setTransform(modelMatrix);
+            bgfx::setTransform(identityTransform);
             bgfx::setVertexBuffer(0, &transientVertexBuffer);
             bindTexture(
                 0,

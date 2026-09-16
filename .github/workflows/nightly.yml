@@ -176,7 +176,7 @@ jobs:
       - name: Install host build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y libgl1-mesa-dev libx11-dev libxext-dev
+          sudo apt-get install --no-install-recommends -y libgl1-mesa-dev libx11-dev libxext-dev python3-pil
           test -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
           test -x "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager"
           echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> "$GITHUB_PATH"

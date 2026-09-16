@@ -85,6 +85,9 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/varying.def.sc"
             "${CMAKE_SOURCE_DIR}/game/shaders/billboard_lit.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_textured_fog.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_sunlight.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_baked_lighting.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_bmodel_lightmap.sh"
             "${OPENYAMM_BGFX_SOURCE_DIR}/examples/common/common.sh"
             openyamm_shaderc
         VERBATIM
@@ -364,6 +367,10 @@ function(openyamm_configure_runtime_shaders)
 
     openyamm_copy_runtime_shader("vs_cubes.bin")
     openyamm_copy_runtime_shader("fs_cubes.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_screen_color.sc"
+        "vertex"
+        "vs_screen_color.bin")
     openyamm_copy_runtime_shader("vs_shadowmaps_texture.bin")
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_shadowmaps_texture.sc"
@@ -385,16 +392,17 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_terrain_fog.sc"
         "fragment"
         "fs_outdoor_terrain_fog.bin")
-    if (NOT ANDROID)
+    foreach(lightmapShader vs_outdoor_bmodel_lightmap fs_outdoor_bmodel_lightmap
+            fs_outdoor_bmodel_baked fs_outdoor_terrain_baked)
+        if(lightmapShader MATCHES "^vs_")
+            set(lightmapShaderType vertex)
+        else()
+            set(lightmapShaderType fragment)
+        endif()
         openyamm_compile_bgfx_shader(
-            "${CMAKE_SOURCE_DIR}/game/shaders/vs_outdoor_bmodel_lightmap.sc"
-            "vertex"
-            "vs_outdoor_bmodel_lightmap.bin")
-        openyamm_compile_bgfx_shader(
-            "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_bmodel_lightmap.sc"
-            "fragment"
-            "fs_outdoor_bmodel_lightmap.bin")
-    endif()
+            "${CMAKE_SOURCE_DIR}/game/shaders/${lightmapShader}.sc"
+            "${lightmapShaderType}" "${lightmapShader}.bin")
+    endforeach()
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_billboard_lit.sc"
         "fragment"
@@ -453,11 +461,18 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_terrain_decoration.bin")
 
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_terrain_decoration_baked.sc"
+        "fragment"
+        "fs_terrain_decoration_baked.bin")
+
     set(runtimeShaderNames
+        fs_terrain_decoration_baked.bin
         vs_terrain_decoration.bin
         fs_terrain_decoration.bin
         vs_cubes.bin
         fs_cubes.bin
+        vs_screen_color.bin
         vs_shadowmaps_texture.bin
         fs_shadowmaps_texture.bin
         vs_outdoor_textured_fog.bin
@@ -477,11 +492,9 @@ function(openyamm_configure_runtime_shaders)
         vs_editor_preview_material.bin
         fs_editor_preview_material.bin
     )
-    if (NOT ANDROID)
-        list(APPEND runtimeShaderNames
-            vs_outdoor_bmodel_lightmap.bin
-            fs_outdoor_bmodel_lightmap.bin)
-    endif()
+    list(APPEND runtimeShaderNames
+        vs_outdoor_bmodel_lightmap.bin fs_outdoor_bmodel_lightmap.bin
+        fs_outdoor_bmodel_baked.bin fs_outdoor_terrain_baked.bin)
 
     # Android startup extracts exactly the shaders that this build produces.
     set_property(GLOBAL PROPERTY OPENYAMM_RUNTIME_SHADER_NAMES "${runtimeShaderNames}")

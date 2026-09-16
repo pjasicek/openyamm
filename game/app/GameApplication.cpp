@@ -1,7 +1,7 @@
 #include "game/app/GameApplication.h"
 
 #include "game/StringUtils.h"
-#include "game/app/GprofControl.h"
+#include "game/app/ProfilingControl.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayHeldItemController.h"
@@ -5748,6 +5748,7 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 
 void GameApplication::shutdownApplication()
 {
+    setGameplayProfilingEnabled(false);
     m_screenManager.setActiveScreen(nullptr);
     m_pLoadingOverlayScreen.reset();
     m_gameSession.gameplayScreenRuntime().clearSharedUiRuntime();
@@ -6700,7 +6701,7 @@ bool GameApplication::loadCurrentSessionMap(
     bool initializeView,
     const std::function<void(int)> &progressCallback)
 {
-    setGprofProfilingEnabled(false);
+    setGameplayProfilingEnabled(false);
 
     if (m_pAssetFileSystem == nullptr || !m_gameSession.hasCurrentMapFileName())
     {
@@ -6831,7 +6832,7 @@ bool GameApplication::loadCurrentSessionMap(
 
 void GameApplication::beginLoadingOverlay(LoadingOverlayScreen::Presentation presentation)
 {
-    setGprofProfilingEnabled(false);
+    setGameplayProfilingEnabled(false);
 
     if (m_pAssetFileSystem == nullptr)
     {
@@ -8508,8 +8509,9 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         !m_loadingOverlayActive
         && m_screenManager.activeScreen() == nullptr
         && m_pMapSceneRuntime != nullptr
-        && m_gameSession.activeWorldRuntime() != nullptr;
-    setGprofProfilingEnabled(gameplayLoaded);
+        && m_gameSession.activeWorldRuntime() != nullptr
+        && (m_pMapSceneRuntime->kind() != SceneKind::Outdoor || !m_outdoorGameView.hasPendingSpriteWarmups());
+    setGameplayProfilingEnabled(gameplayLoaded);
 
     const bool collectFrameDiagnostics = m_config.performanceTrace;
     const uint64_t frameBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;

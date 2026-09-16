@@ -220,13 +220,6 @@ void bleedTransparentEdgeColors(uint16_t width, uint16_t height, std::vector<uin
     }
 }
 
-struct BgraMipLevel
-{
-    uint16_t width = 0;
-    uint16_t height = 0;
-    std::vector<uint8_t> pixels;
-};
-
 std::vector<uint8_t> downsampleBgraPixels(
     const std::vector<uint8_t> &sourcePixels,
     uint16_t sourceWidth,
@@ -578,6 +571,35 @@ void preserveBgraCutoutCoverage(
     }
 }
 
+std::vector<BgraMipLevel> prepareBgraMipChain(
+    uint16_t width, uint16_t height, const std::vector<uint8_t> &pixels, uint8_t alphaCutoff)
+{
+    std::vector<BgraMipLevel> levels = buildBgraMipLevels(width, height, pixels.data(), pixels.size());
+    for (size_t index = 1; index < levels.size(); ++index)
+    {
+        if (alphaCutoff > 0)
+        {
+            preserveBgraCutoutCoverage(levels[index].pixels, pixels, alphaCutoff);
+        }
+    }
+    return levels;
+}
+
+void updateBgraTextureArrayLayer(
+    bgfx::TextureHandle texture, uint16_t layer, const std::vector<BgraMipLevel> &levels)
+{
+    if (!bgfx::isValid(texture))
+    {
+        return;
+    }
+    for (uint8_t index = 0; index < levels.size(); ++index)
+    {
+        const BgraMipLevel &level = levels[index];
+        bgfx::updateTexture2D(texture, layer, index, 0, 0, level.width, level.height,
+            copyBgraTextureUploadMemory(level.pixels.data(), level.pixels.size()));
+    }
+}
+
 void updateBgraTextureArrayLayer(
     bgfx::TextureHandle texture,
     uint16_t layer,
@@ -586,22 +608,9 @@ void updateBgraTextureArrayLayer(
     const std::vector<uint8_t> &pixels,
     uint8_t alphaCutoff)
 {
-    if (!bgfx::isValid(texture))
+    if (bgfx::isValid(texture))
     {
-        return;
-    }
-
-    std::vector<BgraMipLevel> levels = buildBgraMipLevels(width, height, pixels.data(), pixels.size());
-
-    for (uint8_t index = 0; index < levels.size(); ++index)
-    {
-        BgraMipLevel &level = levels[index];
-        if (index > 0 && alphaCutoff > 0)
-        {
-            preserveBgraCutoutCoverage(level.pixels, pixels, alphaCutoff);
-        }
-        bgfx::updateTexture2D(texture, layer, index, 0, 0, level.width, level.height,
-            copyBgraTextureUploadMemory(level.pixels.data(), level.pixels.size()));
+        updateBgraTextureArrayLayer(texture, layer, prepareBgraMipChain(width, height, pixels, alphaCutoff));
     }
 }
 

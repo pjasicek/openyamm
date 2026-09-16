@@ -8229,27 +8229,29 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
         m_atmosphereState.skyTextureName = *m_eventRuntimeState->outdoorSkyTextureOverride;
     }
 
-    m_atmosphereState.ambientBrightness = enclosedEnvironment && !m_atmosphereState.alwaysLight
-        ? 0.25f
-        : normalizedAmbientBrightness(minutesOfDay);
+    if (m_atmosphereState.alwaysLight)
+    {
+        m_atmosphereState.ambientBrightness = 0.69f;
+    }
+    else if (enclosedEnvironment)
+    {
+        m_atmosphereState.ambientBrightness = 0.25f;
+    }
+    else if (m_atmosphereState.alwaysDark)
+    {
+        m_atmosphereState.ambientBrightness = 0.15f;
+    }
+    else
+    {
+        m_atmosphereState.ambientBrightness = normalizedAmbientBrightness(minutesOfDay);
+    }
     const float normalizedBrightness = std::clamp(
         (m_atmosphereState.ambientBrightness - 0.15f) / (0.69f - 0.15f),
         0.0f,
         1.0f);
-    m_atmosphereState.darknessOverlayAlpha = (1.0f - normalizedBrightness) * 0.55f;
-
-    if (m_atmosphereState.isNight)
-    {
-        m_atmosphereState.darknessOverlayColorAbgr = makeAbgr(16, 24, 52);
-    }
-    else
-    {
-        const float twilightFactor = std::clamp(m_atmosphereState.fogDensity, 0.0f, 1.0f);
-        const uint8_t red = static_cast<uint8_t>(std::clamp(std::lround(92.0f * twilightFactor), 0l, 255l));
-        const uint8_t green = static_cast<uint8_t>(std::clamp(std::lround(36.0f * twilightFactor), 0l, 255l));
-        const uint8_t blue = static_cast<uint8_t>(std::clamp(std::lround(30.0f * twilightFactor), 0l, 255l));
-        m_atmosphereState.darknessOverlayColorAbgr = makeAbgr(red, green, blue);
-    }
+    // Retain the serialized fields, but apply day/night illumination before local lights in the shaders.
+    m_atmosphereState.darknessOverlayAlpha = 0.0f;
+    m_atmosphereState.darknessOverlayColorAbgr = 0;
 
     m_atmosphereState.gameplayOverlayAlpha = 0.0f;
     m_atmosphereState.gameplayOverlayColorAbgr = m_gameplayOverlayColorAbgr;
@@ -10175,7 +10177,10 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
 
     actor.velocityX = desiredMoveX * moveSpeed;
     actor.velocityY = desiredMoveY * moveSpeed;
-    actor.velocityZ = pStats->canFly ? effectiveDesiredMoveZ * moveSpeed : 0.0f;
+    if (pStats->canFly)
+    {
+        actor.velocityZ = effectiveDesiredMoveZ * moveSpeed;
+    }
     const float movementStartX = actor.preciseX;
     const float movementStartY = actor.preciseY;
     const float movementStartZ = actor.preciseZ;

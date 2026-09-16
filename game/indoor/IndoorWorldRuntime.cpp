@@ -4215,6 +4215,13 @@ bool IndoorWorldRuntime::executeFaceTriggeredEvent(
 
     if (triggerAttribute == FaceAttribute::PressurePlate)
     {
+        if (m_pParty != nullptr && m_pParty->hasPartyBuff(PartyBuffId::Levitate)
+            && m_pLocalEventProgram != nullptr && *m_pLocalEventProgram
+            && (*m_pLocalEventProgram)->isLevitateSensitivePressurePlate(face.cogTriggered, attributes))
+        {
+            return false;
+        }
+
         pEventRuntimeState->lastPressurePlateTrigger = EventRuntimeState::PressurePlateTrigger{
             .world = "indoor",
             .eventId = face.cogTriggered,

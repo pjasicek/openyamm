@@ -129,6 +129,37 @@ TEST_CASE("sprite atlas luminance variants require their own ramp and keep exact
     CHECK(atlas->variants.at(55).chroma[0] == doctest::Approx(0.2f));
 }
 
+TEST_CASE("sprite atlas palette lookups validate dimensions and retain exact base bypass")
+{
+    const std::array<std::string, 3> models = {
+        "masked_luminance_lut_v1", "multi_mask_luminance_lut_v1", "masked_native_rgb_displacement_lut_v1"};
+    const std::array<std::string, 3> sizes = {"[256, 1]", "[256, 4]", "[1089, 33]"};
+    for (size_t i = 0; i < models.size(); ++i)
+    {
+        std::string fixture = Fixture;
+        fixture.replace(fixture.find("green_chroma_srgb_v1"), std::string("green_chroma_srgb_v1").size(), models[i]);
+        const std::string old = "chroma_vector: [0.2, 0.18, 1]";
+        fixture.replace(fixture.find(old), old.size(),
+            "lookup: atlas/palette_55.rgba32f, lookup_size: " + sizes[i]);
+        std::string error;
+        const auto atlas = OpenYAMM::Engine::SpriteAtlas::parse(fixture, error);
+        REQUIRE_MESSAGE(atlas, error);
+        CHECK(atlas->maskChannels == (i == 1 ? 4 : 1));
+        CHECK(atlas->variants.at(54).lookup.empty());
+        CHECK(atlas->variants.at(54).chroma[3] == 0);
+        CHECK(atlas->variants.at(55).chroma[3] == float(5 + i));
+        CHECK(atlas->variants.at(55).lookup == "atlas/palette_55.rgba32f");
+        for (const std::pair<std::string, std::string> &replacement : {
+            std::pair{sizes[i], std::string("[256, 2]")},
+            std::pair{std::string("atlas/palette_55.rgba32f"), std::string("atlas/../palette_55.rgba32f")}})
+        {
+            std::string invalid = fixture;
+            invalid.replace(invalid.find(replacement.first), replacement.first.size(), replacement.second);
+            CHECK_FALSE(OpenYAMM::Engine::SpriteAtlas::parse(invalid, error));
+        }
+    }
+}
+
 TEST_CASE("sprite atlas mage package preserves variable crops and three shared palette variants")
 {
     std::ifstream input(std::string(OPENYAMM_SOURCE_DIR) + "/assets_dev/engine/sprites_new/pmn2/manifest.json");

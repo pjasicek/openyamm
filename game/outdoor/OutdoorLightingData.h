@@ -2,8 +2,10 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -66,7 +68,35 @@ struct OutdoorLightingData
     std::vector<OutdoorLightmapAtlasPage> atlasPages;
     std::vector<std::vector<OutdoorBModelFaceLighting>> facesByBModel;
     std::vector<OutdoorAuthoredLight> authoredLights;
+    // Version 2 stores adjacent RGBM4 sun/sky pages. Version 1 retains imported MM9 semantics.
+    uint32_t terrainPageIndex = 0;
+    std::array<float, 4> terrainBounds = {};
+    struct Dependency
+    {
+        std::string path;
+        uint64_t hash = 0;
+    };
+    struct Probe
+    {
+        std::array<float, 3> position = {};
+        std::array<float, 3> sun = {};
+        std::array<float, 3> sky = {};
+    };
+    std::vector<Dependency> dependencies;
+    std::vector<Probe> probes;
+    std::unordered_map<uint64_t, std::vector<uint32_t>> probesByCell;
+
+    bool hasBakedSources() const
+    {
+        return formatVersion == 2;
+    }
+    void indexProbes();
+    std::optional<Probe> sampleProbe(
+        const std::array<float, 3> &position,
+        const std::function<bool(const std::array<float, 3> &)> &visible) const;
 };
+
+uint64_t outdoorLightingContentHash(const std::vector<uint8_t> &bytes);
 
 void scaleOutdoorLightingBrightness(OutdoorLightingData &lightingData, float brightnessScale);
 

@@ -11,6 +11,8 @@
 
 namespace OpenYAMM::Game
 {
+class ViewFrustum;
+
 class OutdoorBillboardRenderer
 {
 public:
@@ -44,12 +46,14 @@ public:
         OutdoorGameView &view,
         uint16_t viewId,
         const float *pViewMatrix,
-        const bx::Vec3 &cameraPosition);
+        const bx::Vec3 &cameraPosition,
+        const ViewFrustum &frustum);
     static void renderRuntimeWorldItems(
         OutdoorGameView &view,
         uint16_t viewId,
         const float *pViewMatrix,
-        const bx::Vec3 &cameraPosition);
+        const bx::Vec3 &cameraPosition,
+        const ViewFrustum &frustum);
     static void renderRuntimeProjectiles(
         OutdoorGameView &view,
         uint16_t viewId,

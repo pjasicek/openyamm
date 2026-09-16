@@ -91,6 +91,8 @@ function(openyamm_configure_ffmpeg)
         endif()
     endif()
 
+    file(MAKE_DIRECTORY "${OPENYAMM_FFMPEG_BUILD_DIR}")
+
     add_custom_command(
         OUTPUT
             "${OPENYAMM_FFMPEG_LIBAVFORMAT}"
@@ -98,7 +100,6 @@ function(openyamm_configure_ffmpeg)
             "${OPENYAMM_FFMPEG_LIBSWRESAMPLE}"
             "${OPENYAMM_FFMPEG_LIBSWSCALE}"
             "${OPENYAMM_FFMPEG_LIBAVUTIL}"
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${OPENYAMM_FFMPEG_BUILD_DIR}"
         COMMAND bash "${OPENYAMM_FFMPEG_SOURCE_DIR}/configure"
             ${openyammFfmpegConfigureArgs}
         COMMAND ${OPENYAMM_FFMPEG_MAKE_PROGRAM} -j4

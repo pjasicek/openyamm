@@ -48,11 +48,13 @@ add_executable(openyamm_unit_tests
     MobileJoystickDirectionTests.cpp
     MergedBaseTablesTests.cpp
     OutdoorLightingRuntimeTests.cpp
+    OutdoorSunlightTests.cpp
     OutdoorLightingDataTests.cpp
     OutdoorPathfindingBuilderTests.cpp
     OutdoorNavigationDataTests.cpp
     OutdoorRenderDataTests.cpp
     BillboardGeometryTests.cpp
+    ViewFrustumTests.cpp
     PartyRegressionTests.cpp
     PathMapTests.cpp
     PathPlannerTests.cpp
@@ -70,6 +72,7 @@ add_executable(openyamm_unit_tests
     TextureFilteringTests.cpp
     TurnBasedCombatRuntimeTests.cpp
     UiLayoutManagerTests.cpp
+    GameplayHudLayoutCacheTests.cpp
     GameplayScreenRuntimeTestStubs.cpp
     ../game/app/GameSettings.cpp
     ../game/app/GameInputSystem.cpp

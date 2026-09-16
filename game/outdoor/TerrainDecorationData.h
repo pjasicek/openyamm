@@ -11,6 +11,14 @@
 
 namespace OpenYAMM::Game
 {
+struct TerrainDecorationVariant
+{
+    float weight = 1.0f;
+    float widthScale = 1.0f;
+    float heightScale = 1.0f;
+    int layer = -1; // Version 1 uses the variant's position in the atlas.
+};
+
 struct TerrainDecorationRule
 {
     std::string texture;
@@ -23,13 +31,10 @@ struct TerrainDecorationRule
     int maskWidth = 0;
     int maskHeight = 0;
     std::vector<uint8_t> coverage;
-};
-
-struct TerrainDecorationVariant
-{
-    float weight = 1.0f;
-    float widthScale = 1.0f;
-    float heightScale = 1.0f;
+    std::string family;
+    bool fullFootprint = false;
+    float windStrength = 2.5f;
+    std::vector<TerrainDecorationVariant> variants;
 };
 
 struct TerrainDecorationConfig

@@ -1745,6 +1745,42 @@ std::string buildNormalizedOutdoorAuthoredSnapshot(const OpenYAMM::Game::MapAsse
 }
 }
 
+TEST_CASE("levitate does not suppress direct scripted trap spell execution")
+{
+    using namespace OpenYAMM::Game;
+    struct TrapScript
+    {
+        const char *path;
+        uint16_t eventId;
+        size_t castCount;
+    };
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::optional<std::string> support = readSourceTextFile(
+        sourceRoot / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(support);
+    for (const TrapScript &trap : {
+             TrapScript{"mm6/events/maps/6t7.lua", 61, 1},
+             TrapScript{"mm7/events/maps/7d10.lua", 452, 1},
+             TrapScript{"mm8/events/maps/d26.lua", 101, 10}})
+    {
+        INFO(trap.path);
+        const std::optional<std::string> source = readSourceTextFile(sourceRoot / "assets_dev/worlds" / trap.path);
+        REQUIRE(source);
+        std::string error;
+        const std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
+            *support + "\n" + *source, trap.path, ScriptedEventScope::Map, error);
+        REQUIRE_MESSAGE(program, error);
+        CHECK(program->isLevitateSensitivePressurePlate(trap.eventId, 0x8c000102));
+        Party party = makeScriptedRegressionParty();
+        party.applyPartyBuff(PartyBuffId::Levitate, 600.0f, 0, 112, 1, SkillMastery::Expert, 0);
+        EventRuntimeState state;
+        RecordingSceneEventContext scene;
+        EventRuntime runtime;
+        REQUIRE(runtime.executeEventById(program, std::nullopt, trap.eventId, state, &party, &scene));
+        CHECK(scene.castSpellCalls.size() == trap.castCount);
+    }
+}
+
 TEST_CASE("generated_lua_event_scripts_are_loaded_from_files")
 {
     const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();

@@ -9,6 +9,7 @@
 #include "game/tables/FaceAnimationTable.h"
 #include "game/tables/PortraitFxEventTable.h"
 #include "game/ui/GameplayHudCommon.h"
+#include "game/ui/GameplayHudLayoutCache.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -138,6 +139,7 @@ public:
     GameplayAssetLoadCache &assetLoadCache();
     const GameplayAssetLoadCache &assetLoadCache() const;
 
+    const std::vector<GameplayHudLayoutEntry> &gameplayHudLayoutEntries();
     UiLayoutManager &layoutManager();
     const UiLayoutManager &layoutManager() const;
 
@@ -366,6 +368,7 @@ private:
     const GameDataRepository *m_pDataRepository = nullptr;
     GameplayAssetLoadCache m_assetLoadCache;
     UiLayoutManager m_layoutManager;
+    GameplayHudLayoutCache m_gameplayHudLayoutCache;
     mutable std::unordered_map<std::string, const UiLayoutManager::LayoutElement *> m_hudLayoutElementLookupCache;
     mutable std::unordered_map<const char *, const UiLayoutManager::LayoutElement *>
         m_staticHudLayoutElementLookupCache;

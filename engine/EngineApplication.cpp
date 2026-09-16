@@ -4,6 +4,7 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <atomic>
 #include <filesystem>
 #include <iostream>
 #include <memory>
@@ -77,6 +78,45 @@ public:
 
 private:
     bool m_isInitialized;
+};
+
+class SdlForegroundWatch
+{
+public:
+    SdlForegroundWatch() = default;
+    SdlForegroundWatch(const SdlForegroundWatch &) = delete;
+    SdlForegroundWatch &operator=(const SdlForegroundWatch &) = delete;
+
+    ~SdlForegroundWatch()
+    {
+        SDL_RemoveEventWatch(onEvent, this);
+    }
+
+    bool initialize()
+    {
+        return SDL_AddEventWatch(onEvent, this);
+    }
+
+    bool consumeForegroundTransition()
+    {
+        return m_enteredForeground.exchange(false);
+    }
+
+private:
+    static bool SDLCALL onEvent(void *pUserData, SDL_Event *pEvent)
+    {
+        if (pEvent->type == SDL_EVENT_DID_ENTER_FOREGROUND)
+        {
+            SdlForegroundWatch *pWatch = static_cast<SdlForegroundWatch *>(pUserData);
+            pWatch->m_enteredForeground.store(true);
+        }
+
+        return true;
+    }
+
+    // SDL lifecycle events bypass the queue and watchers may run on another thread.
+    // Only signal here; the application thread owns the bgfx reset.
+    std::atomic<bool> m_enteredForeground = false;
 };
 
 struct SdlWindowDeleter
@@ -286,6 +326,14 @@ int EngineApplication::run() const
     }
 
     const SdlSubsystemGuard sdlGuard(true);
+    SdlForegroundWatch foregroundWatch;
+
+    if (!foregroundWatch.initialize())
+    {
+        std::cerr << "SDL_AddEventWatch failed: " << SDL_GetError() << '\n';
+        return 1;
+    }
+
     AssetFileSystem assetFileSystem;
 
     if (!initializeAssetFileSystem(assetFileSystem))
@@ -366,6 +414,7 @@ int EngineApplication::run() const
     std::cout << "Close the window to exit.\n";
 
     bool isRunning = true;
+    bool refreshRenderWindow = false;
     uint64_t lastFrameTickCount = SDL_GetTicksNS();
     const bool logFps = m_config.fpsTrace;
     const bool collectPerformanceDiagnostics = m_config.performanceTrace;
@@ -418,7 +467,6 @@ int EngineApplication::run() const
         lastFrameTickCount = currentFrameTickCount;
         float mouseWheelDelta = 0.0f;
         SDL_Event event;
-        bool refreshRenderWindow = false;
         const uint64_t eventBeginTickCount = collectFrameTimings ? SDL_GetTicksNS() : 0;
         uint64_t frameEventCount = 0;
 
@@ -442,14 +490,6 @@ int EngineApplication::run() const
                 refreshRenderWindow = true;
             }
 
-            if (event.type == SDL_EVENT_DID_ENTER_FOREGROUND)
-            {
-                frameDeltaNanoseconds = 16666667ULL;
-                deltaSeconds = 1.0f / 60.0f;
-                lastFrameTickCount = SDL_GetTicksNS();
-                refreshRenderWindow = true;
-            }
-
             if (event.type == SDL_EVENT_MOUSE_WHEEL)
             {
                 mouseWheelDelta += event.wheel.y;
@@ -461,12 +501,17 @@ int EngineApplication::run() const
             }
         }
 
-        if (refreshRenderWindow)
+        if (!isRunning)
         {
-            int resizedDrawableWidth = 0;
-            int resizedDrawableHeight = 0;
-            SDL_GetWindowSizeInPixels(pWindow.get(), &resizedDrawableWidth, &resizedDrawableHeight);
-            bgfxContext.resize(pWindow.get(), resizedDrawableWidth, resizedDrawableHeight);
+            break;
+        }
+
+        if (foregroundWatch.consumeForegroundTransition())
+        {
+            frameDeltaNanoseconds = 16666667ULL;
+            deltaSeconds = 1.0f / 60.0f;
+            lastFrameTickCount = SDL_GetTicksNS();
+            refreshRenderWindow = true;
         }
 
         uint64_t frameEventNanoseconds = 0;
@@ -504,6 +549,20 @@ int EngineApplication::run() const
         }
 
         const uint64_t renderCallbackBeginTickCount = collectFrameTimings ? SDL_GetTicksNS() : 0;
+
+        if (drawableWidth <= 0 || drawableHeight <= 0)
+        {
+            // Retain the pending surface refresh until Android has a valid drawable.
+            refreshRenderWindow = true;
+            SDL_Delay(10);
+            continue;
+        }
+
+        if (refreshRenderWindow)
+        {
+            bgfxContext.resize(pWindow.get(), drawableWidth, drawableHeight);
+            refreshRenderWindow = false;
+        }
 
         if (m_renderFrameCallback)
         {

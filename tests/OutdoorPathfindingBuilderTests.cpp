@@ -281,6 +281,189 @@ TEST_CASE("outdoor BModel movement cannot step through an overhead face")
     CHECK_LT(state.footZ, 40.0f);
 }
 
+TEST_CASE("outdoor actor leaving elevated support falls instead of snapping to terrain")
+{
+    OutdoorMapData mapData = makeOutdoorMapWithTerrain();
+    mapData.bmodels.push_back(makeOutdoorBridgeBModel(0.0f, 0.0f, 160.0f));
+    const OutdoorMovementController controller(mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+    OpenYAMM::Game::OutdoorMoveState state =
+        controller.initializeActorStateForBodyPreservingZ(190.0f, 0.0f, 161.0f, 40.0f);
+    REQUIRE_EQ(state.supportKind, OutdoorSupportKind::BModelFace);
+    REQUIRE_FALSE(state.airborne);
+
+    for (int tick = 0; tick < 16 && !state.airborne; ++tick)
+    {
+        const float previousZ = state.footZ;
+        state = controller.resolveOutdoorActorMove(
+            state, {40.0f, 128.0f}, 1000.0f, 0.0f, state.verticalVelocity, false, 1.0f / 128.0f);
+        CHECK(state.footZ >= previousZ - 1.0f);
+    }
+    REQUIRE(state.airborne);
+    CHECK(state.footZ > 150.0f);
+
+    for (int tick = 0; tick < 256 && state.airborne; ++tick)
+    {
+        state = controller.resolveOutdoorActorMove(
+            state, {40.0f, 128.0f}, 384.0f, 0.0f, state.verticalVelocity, false, 1.0f / 128.0f);
+        CHECK(state.footZ >= 1.0f);
+    }
+    CHECK_FALSE(state.airborne);
+    CHECK_EQ(state.supportKind, OutdoorSupportKind::Terrain);
+    CHECK(state.footZ == doctest::Approx(1.0f));
+    CHECK(state.verticalVelocity == doctest::Approx(0.0f));
+}
+
+TEST_CASE("outdoor actor retains ground adhesion across a small downward step")
+{
+    OutdoorMapData mapData = makeOutdoorMapWithTerrain();
+    mapData.bmodels.push_back(makeOutdoorBridgeBModel(0.0f, 0.0f, 8.0f));
+    const OutdoorMovementController controller(mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+    OpenYAMM::Game::OutdoorMoveState state =
+        controller.initializeActorStateForBodyPreservingZ(190.0f, 0.0f, 9.0f, 40.0f);
+
+    for (int tick = 0; tick < 16; ++tick)
+    {
+        state = controller.resolveOutdoorActorMove(
+            state, {40.0f, 128.0f}, 1000.0f, 0.0f, state.verticalVelocity, false, 1.0f / 128.0f);
+        CHECK_FALSE(state.airborne);
+    }
+    CHECK_EQ(state.supportKind, OutdoorSupportKind::Terrain);
+    CHECK(state.footZ == doctest::Approx(1.0f));
+}
+
+TEST_CASE("outdoor actor gravity accumulates while moving and while stationary")
+{
+    const OutdoorMapData mapData = makeOutdoorMapWithTerrain();
+    const OutdoorMovementController controller(mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+    for (float horizontalVelocity : {0.0f, 384.0f})
+    {
+        OpenYAMM::Game::OutdoorMoveState state =
+            controller.initializeActorStateForBodyPreservingZ(0.0f, 0.0f, 1000.0f, 40.0f);
+        for (int tick = 0; tick < 128; ++tick)
+        {
+            state = controller.resolveOutdoorActorMove(
+                state, {40.0f, 128.0f}, horizontalVelocity, 0.0f, state.verticalVelocity, false, 1.0f / 128.0f);
+        }
+        CHECK(state.airborne);
+        CHECK(state.footZ > 350.0f);
+        CHECK(state.footZ < 360.0f);
+        CHECK(state.verticalVelocity == doctest::Approx(-1280.0f));
+    }
+}
+
+TEST_CASE("outdoor actor step checks the entire lift and destination body clearance")
+{
+    for (int ceilingZ : {40, 96, 112})
+    {
+        for (bool untouchable : {false, true})
+        {
+            OutdoorMapData mapData = makeBModelStepTestMap(true);
+            mapData.bmodels[0].faces[2].vertexIndices = {8, 11, 10, 9};
+            for (size_t vertexIndex = 12; vertexIndex < 16; ++vertexIndex)
+            {
+                mapData.bmodels[0].vertices[vertexIndex].z = ceilingZ;
+            }
+            if (untouchable)
+            {
+                mapData.bmodels[0].faces.back().attributes = faceAttributeBit(FaceAttribute::Untouchable);
+            }
+            const OutdoorMovementController controller(mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+            OpenYAMM::Game::OutdoorMoveState state =
+                controller.initializeActorStateForBodyPreservingZ(-80.0f, 0.0f, 1.0f, 10.0f);
+            for (int tick = 0; tick < 80; ++tick)
+            {
+                state = controller.resolveOutdoorActorMove(
+                    state, {10.0f, 30.0f, 128.0f}, 384.0f, 0.0f, state.verticalVelocity, false, 1.0f / 128.0f);
+            }
+            INFO("ceiling=" << ceilingZ << " untouchable=" << untouchable);
+            if (ceilingZ == 112 || untouchable)
+            {
+                CHECK(state.x > 100.0f);
+                CHECK(state.footZ == doctest::Approx(81.0f));
+            }
+            else
+            {
+                CHECK(state.x < 0.0f);
+                CHECK(state.footZ < 40.0f);
+            }
+        }
+    }
+}
+
+TEST_CASE("outdoor actor step still honors body step height without overhead geometry")
+{
+    const OutdoorMapData mapData = makeBModelStepTestMap(false);
+    const OutdoorMovementController controller(mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+    for (float stepHeight : {40.0f, 128.0f})
+    {
+        OpenYAMM::Game::OutdoorMoveState state =
+            controller.initializeActorStateForBodyPreservingZ(-80.0f, 0.0f, 1.0f, 10.0f);
+        for (int tick = 0; tick < 80; ++tick)
+        {
+            state = controller.resolveOutdoorActorMove(
+                state, {10.0f, 30.0f, stepHeight}, 384.0f, 0.0f, state.verticalVelocity, false, 1.0f / 128.0f);
+        }
+        if (stepHeight == 40.0f)
+        {
+            CHECK(state.footZ < 40.0f);
+        }
+        else
+        {
+            CHECK(state.footZ == doctest::Approx(81.0f));
+        }
+    }
+}
+
+TEST_CASE("outdoor actor step checks sloped and off-center overhead geometry across its radius")
+{
+    for (int obstruction = 0; obstruction < 4; ++obstruction)
+    {
+        OutdoorMapData mapData = makeBModelStepTestMap(true);
+        OutdoorBModel &model = mapData.bmodels[0];
+        model.faces[2].vertexIndices = {8, 11, 10, 9};
+        if (obstruction == 0)
+        {
+            // Center clearance is 115, but the sloped ceiling enters the raised body's footprint.
+            model.vertices[12].z = model.vertices[13].z = 65;
+            model.vertices[14].z = model.vertices[15].z = 165;
+        }
+        else
+        {
+            const int nearY = obstruction == 3 ? 11 : 8;
+            model.vertices[12] = {-20, nearY, 96};
+            model.vertices[13] = {200, nearY, 96};
+            model.vertices[14] = {200, 14, 96};
+            model.vertices[15] = {-20, 14, 96};
+            if (obstruction == 2)
+            {
+                // A suspended vertical face touches the raised body, but misses its initial height.
+                model.vertices[12] = {-20, 8, 85};
+                model.vertices[13] = {200, 8, 85};
+                model.vertices[14] = {200, 8, 100};
+                model.vertices[15] = {-20, 8, 100};
+                model.faces.back().polygonType = OutdoorPolygonWall;
+            }
+        }
+
+        const OutdoorMovementController controller(mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+        // Start under the obstruction's footprint so this checks the lift itself, not later steering around it.
+        const OpenYAMM::Game::OutdoorMoveState start =
+            controller.initializeActorStateForBodyPreservingZ(-17.0f, 0.0f, 1.0f, 10.0f);
+        const OpenYAMM::Game::OutdoorMoveState state = controller.resolveOutdoorActorMove(
+            start, {10.0f, 30.0f, 128.0f}, 384.0f, 0.0f, 0.0f, false, 1.0f / 128.0f);
+        INFO("obstruction=" << obstruction);
+        if (obstruction == 3)
+        {
+            CHECK(state.footZ == doctest::Approx(81.0f));
+        }
+        else
+        {
+            CHECK(state.x < 0.0f);
+            CHECK(state.footZ < 40.0f);
+        }
+    }
+}
+
 TEST_CASE("outdoor pathfinding builder materializes terrain triangles matching rendered terrain height")
 {
     OutdoorMapData mapData = makeOutdoorMapWithTerrain();

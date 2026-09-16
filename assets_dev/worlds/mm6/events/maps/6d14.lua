@@ -2,6 +2,7 @@
 -- generated from legacy EVT/STR
 
 SetMapMetadata({
+    levitateTrapEvents = {56},
     onLoad = {},
     onLeave = {},
     openedChestIds = {

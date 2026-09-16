@@ -1,7 +1,8 @@
-$input a_position, a_texcoord0, a_texcoord1, a_texcoord3
-$output v_texcoord0, v_depth, v_worldPosition, v_texcoord1, v_flowInfo
+$input a_position, a_normal, a_texcoord0, a_texcoord1, a_texcoord3
+$output v_texcoord0, v_depth, v_worldPosition, v_texcoord1, v_flowInfo, v_sunlight
 
 #include "common.sh"
+#include "outdoor_sunlight.sh"
 
 void main()
 {
@@ -13,4 +14,5 @@ void main()
     v_worldPosition = worldPosition.xyz;
     v_texcoord1 = a_texcoord1;
     v_flowInfo = a_texcoord3;
+    v_sunlight = outdoorSunlight(a_normal);
 }

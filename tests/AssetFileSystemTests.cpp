@@ -303,6 +303,11 @@ TEST_CASE("AssetFileSystem mounts generated runtime zip package sets")
         REQUIRE(devStyleTableText.has_value());
         CHECK_EQ(*devStyleTableText, "engine-map-stats");
 
+        CHECK(assetFileSystem.readTextFile("worlds/mm6/maps/shared.odm")
+            == std::optional<std::string>("active-map"));
+        CHECK(assetFileSystem.readTextFile("worlds/mm8/textures/shared.bmp")
+            == std::optional<std::string>("inactive-texture"));
+
         const std::optional<std::string> sharedMapText = assetFileSystem.readTextFile("Data/games/shared.odm");
         REQUIRE(sharedMapText.has_value());
         CHECK_EQ(*sharedMapText, "active-map");

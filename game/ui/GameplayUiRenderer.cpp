@@ -43,12 +43,6 @@ enum class PortraitAggroIndicator
     Red,
 };
 
-enum class ActiveGameplayHudLayout
-{
-    Overlay,
-    Standard,
-    Widescreen
-};
 
 struct PointerRenderInput
 {
@@ -165,34 +159,34 @@ bool isOverlayHudState(GameplayHudScreenState hudScreenState)
         || hudScreenState == GameplayHudScreenState::QuickReference;
 }
 
-const char *basebarLayoutIdForHudLayout(ActiveGameplayHudLayout layout)
+const char *basebarLayoutIdForHudLayout(GameplayHudLayoutMode layout)
 {
     switch (layout)
     {
-    case ActiveGameplayHudLayout::Overlay:
+    case GameplayHudLayoutMode::Overlay:
         return "OutdoorBasebar";
 
-    case ActiveGameplayHudLayout::Standard:
+    case GameplayHudLayoutMode::Standard:
         return "OutdoorStandardBasebar";
 
-    case ActiveGameplayHudLayout::Widescreen:
+    case GameplayHudLayoutMode::Widescreen:
         return "OutdoorGameplayBasebar";
     }
 
     return "OutdoorGameplayBasebar";
 }
 
-const char *partyStripLayoutIdForHudLayout(ActiveGameplayHudLayout layout)
+const char *partyStripLayoutIdForHudLayout(GameplayHudLayoutMode layout)
 {
     switch (layout)
     {
-    case ActiveGameplayHudLayout::Overlay:
+    case GameplayHudLayoutMode::Overlay:
         return "OutdoorPartyStrip";
 
-    case ActiveGameplayHudLayout::Standard:
+    case GameplayHudLayoutMode::Standard:
         return "OutdoorStandardPartyStrip";
 
-    case ActiveGameplayHudLayout::Widescreen:
+    case GameplayHudLayoutMode::Widescreen:
         return "OutdoorGameplayPartyStrip";
     }
 
@@ -552,88 +546,6 @@ bool isBuffLayoutVisible(
     return true;
 }
 
-bool isDescendantOfAny(
-    GameplayScreenRuntime &context,
-    const UiLayoutManager::LayoutElement &layout,
-    std::initializer_list<std::string_view> ancestorIds)
-{
-    const UiLayoutManager::LayoutElement *pCurrent = &layout;
-
-    while (pCurrent != nullptr)
-    {
-        const std::string normalizedLayoutId =
-            !pCurrent->normalizedId.empty() ? pCurrent->normalizedId : toLowerCopy(pCurrent->id);
-
-        for (std::string_view ancestorId : ancestorIds)
-        {
-            if (normalizedLayoutId == ancestorId)
-            {
-                return true;
-            }
-        }
-
-        if (pCurrent->parentId.empty())
-        {
-            break;
-        }
-
-        pCurrent = context.findHudLayoutElement(pCurrent->parentId);
-    }
-
-    return false;
-}
-
-bool isGameplayElementVisibleInHudState(
-    GameplayScreenRuntime &context,
-    const UiLayoutManager::LayoutElement &layout,
-    ActiveGameplayHudLayout gameplayHudLayout)
-{
-    const std::string normalizedScreen =
-        !layout.normalizedScreen.empty() ? layout.normalizedScreen : toLowerCopy(layout.screen);
-
-    if (normalizedScreen != "outdoorhud")
-    {
-        return false;
-    }
-
-    if (gameplayHudLayout == ActiveGameplayHudLayout::Overlay)
-    {
-        return isDescendantOfAny(context, layout, {"outdoorbasebar"});
-    }
-
-    if (gameplayHudLayout == ActiveGameplayHudLayout::Standard)
-    {
-        return isDescendantOfAny(context, layout, {"outdoorstandardbasebar", "outdoorstandardtopbar"});
-    }
-
-    if (isDescendantOfAny(context, layout, {"outdoorfollowerpanel"}))
-    {
-        return context.interactionState().followerPanelOpen;
-    }
-
-    if (isDescendantOfAny(context, layout, {"outdoorfollowertoggle"}))
-    {
-        return true;
-    }
-
-    return isDescendantOfAny(
-        context,
-        layout,
-        {
-            "outdoorgameplaybasebar",
-            "outdooroptionsbar",
-            "outdoorgoldbar",
-            "outdoorfoodrestbar",
-            "outdoorflybufficon",
-            "outdoorbuffbodypanel",
-            "outdoorbuffskullpanel",
-            "outdoorminimapframe",
-            "outdoormobileactionpanel",
-            "outdoormobileflightpanel",
-            "outdoormobilesystempanel",
-            "outdoormobilemovementzone",
-        });
-}
 } // namespace
 
 void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, int width, int height)
@@ -648,16 +560,16 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     const GameplayHudScreenState hudScreenState = context.currentHudScreenState();
     const bool isLimitedOverlayHud = isOverlayHudState(hudScreenState)
         && !activeEventDialogPreservesGameplayHud(context.activeEventDialog());
-    const ActiveGameplayHudLayout gameplayHudLayout = isLimitedOverlayHud
-        ? ActiveGameplayHudLayout::Overlay
+    const GameplayHudLayoutMode gameplayHudLayout = isLimitedOverlayHud
+        ? GameplayHudLayoutMode::Overlay
 #if defined(__ANDROID__)
-        : ActiveGameplayHudLayout::Widescreen;
+        : GameplayHudLayoutMode::Widescreen;
 #else
         : (context.settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Standard
-            ? ActiveGameplayHudLayout::Standard
-            : ActiveGameplayHudLayout::Widescreen);
+            ? GameplayHudLayoutMode::Standard
+            : GameplayHudLayoutMode::Widescreen);
 #endif
-    const bool useGameplayWideHud = gameplayHudLayout == ActiveGameplayHudLayout::Widescreen;
+    const bool useGameplayWideHud = gameplayHudLayout == GameplayHudLayoutMode::Widescreen;
     const std::string basebarLayoutId = basebarLayoutIdForHudLayout(gameplayHudLayout);
     const std::string partyStripLayoutId = partyStripLayoutIdForHudLayout(gameplayHudLayout);
     const UiLayoutManager::LayoutElement *pBasebarLayout = context.findHudLayoutElement(basebarLayoutId);
@@ -750,10 +662,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     float portraitStartX = partyStripX + partyStripWidth * (20.0f / 471.0f);
     float portraitY = partyStripY + partyStripHeight * (23.0f / 92.0f);
     const float portraitDeltaX = partyStripWidth * (94.0f / 471.0f);
-    std::vector<GameplayHudBatchQuad> queuedHudQuads;
+    thread_local std::vector<GameplayHudBatchQuad> queuedHudQuads;
+    queuedHudQuads.clear();
     queuedHudQuads.reserve(256);
     const auto flushQueuedHudQuads =
-        [&context, &queuedHudQuads, width, height]()
+        [&context, width, height]()
         {
             if (queuedHudQuads.empty())
             {
@@ -1064,10 +977,10 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         }
     }
 
-    if (gameplayHudLayout != ActiveGameplayHudLayout::Widescreen)
+    if (gameplayHudLayout != GameplayHudLayoutMode::Widescreen)
     {
         const std::string shieldPrefix =
-            gameplayHudLayout == ActiveGameplayHudLayout::Standard ? "OutdoorStandardCharShield_" : "CharShield_";
+            gameplayHudLayout == GameplayHudLayoutMode::Standard ? "OutdoorStandardCharShield_" : "CharShield_";
 
         for (size_t memberIndex = displayedMemberCount; memberIndex < 5; ++memberIndex)
         {
@@ -1114,41 +1027,13 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     bool hasMinimapState = false;
     GameplayResolvedHudLayoutElement minimapOverlay = {};
 
-    for (const std::string &layoutId : context.sortedHudLayoutIdsForScreen("OutdoorHud"))
+    for (const GameplayHudLayoutEntry &entry : context.gameplayUiRuntime().gameplayHudLayoutEntries())
     {
-        const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement(layoutId);
-
-        if (pLayout == nullptr || !pLayout->visible)
-        {
-            continue;
-        }
-
-        const std::string normalizedLayoutId =
-            !pLayout->normalizedId.empty() ? pLayout->normalizedId : toLowerCopy(layoutId);
-        const std::string normalizedRoleId = normalizeGameplayLayoutRoleIdFromNormalized(
-            normalizedLayoutId);
-
-        if (normalizedLayoutId == "outdoorbasebar"
-            || normalizedLayoutId == "outdoorpartystrip"
-            || normalizedLayoutId == "outdoorstandardbasebar"
-            || normalizedLayoutId == "outdoorstandardpartystrip"
-            || normalizedLayoutId == "outdoorstandardstatusbar"
-            || normalizedLayoutId == "outdoorgameplaybasebar"
-            || normalizedLayoutId == "outdoorgameplaypartystrip"
-            || normalizedLayoutId == "outdoorgameplaystatusbar"
-            || normalizedLayoutId == "outdoorgameplaybasebar_ornleft1"
-            || normalizedLayoutId == "outdoorgameplaybasebar_ornleft2"
-            || normalizedLayoutId == "outdoorgameplaybasebar_ornright1"
-            || normalizedLayoutId == "outdoorgameplaybasebar_ornright2"
-            || normalizedLayoutId == "outdoormobileinspectbutton"
-            || normalizedLayoutId == "outdoormobileinspectbuttonicon"
-            || normalizedLayoutId.rfind("charshield_", 0) == 0
-            || normalizedLayoutId.rfind("outdoorstandardcharshield_", 0) == 0)
-        {
-            continue;
-        }
-
-        if (!isGameplayElementVisibleInHudState(context, *pLayout, gameplayHudLayout)
+        const UiLayoutManager::LayoutElement *pLayout = entry.pLayout;
+        const std::string &layoutId = pLayout->id;
+        const std::string &normalizedLayoutId = pLayout->normalizedId;
+        const std::string &normalizedRoleId = entry.normalizedRoleId;
+        if (!pLayout->visible || !entry.visibleIn(gameplayHudLayout, context.interactionState().followerPanelOpen)
             || !isBuffLayoutVisible(context, party, layoutId))
         {
             continue;

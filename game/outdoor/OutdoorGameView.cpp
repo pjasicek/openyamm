@@ -2918,6 +2918,7 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_entityMarkerVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_spawnMarkerVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_programHandle(BGFX_INVALID_HANDLE)
+    , m_screenTintProgramHandle(BGFX_INVALID_HANDLE)
     , m_texturedTerrainProgramHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewProgramHandle(BGFX_INVALID_HANDLE)
     , m_outdoorLitBillboardProgramHandle(BGFX_INVALID_HANDLE)
@@ -2938,6 +2939,7 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_outdoorFxLightPositionsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFxLightColorsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFxLightParamsUniformHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorSunlightUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFogColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFogDensitiesUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFogDistancesUniformHandle(BGFX_INVALID_HANDLE)
@@ -3196,12 +3198,16 @@ bool OutdoorGameView::initialize(
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     m_terrainWaterSamplerHandle = bgfx::createUniform("s_texTerrainWater", bgfx::UniformType::Sampler);
-#if !defined(__ANDROID__)
     if (m_pOutdoorMapData->lightingData)
     {
         m_bmodelLightmapSamplerHandle = bgfx::createUniform("s_texLightmap", bgfx::UniformType::Sampler);
+        if (m_pOutdoorMapData->lightingData->hasBakedSources())
+        {
+            m_bakedSkySamplerHandle = bgfx::createUniform("s_texBakedSky", bgfx::UniformType::Sampler);
+            m_bakedLightingUniformHandle = bgfx::createUniform("u_bakedLighting", bgfx::UniformType::Vec4);
+            m_bakedTerrainBoundsUniformHandle = bgfx::createUniform("u_bakedTerrainBounds", bgfx::UniformType::Vec4);
+        }
     }
-#endif
     m_outdoorBillboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_outdoorBillboardOverrideColorUniformHandle =
         bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
@@ -3210,6 +3216,7 @@ bool OutdoorGameView::initialize(
     m_outdoorFxLightPositionsUniformHandle = bgfx::createUniform("u_fxLightPositions", bgfx::UniformType::Vec4, 8);
     m_outdoorFxLightColorsUniformHandle = bgfx::createUniform("u_fxLightColors", bgfx::UniformType::Vec4, 8);
     m_outdoorFxLightParamsUniformHandle = bgfx::createUniform("u_fxLightParams", bgfx::UniformType::Vec4);
+    m_outdoorSunlightUniformHandle = bgfx::createUniform("u_outdoorSunlight", bgfx::UniformType::Vec4);
     m_outdoorFogColorUniformHandle = bgfx::createUniform("u_fogColor", bgfx::UniformType::Vec4);
     m_outdoorFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
     m_outdoorFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
@@ -3226,6 +3233,7 @@ bool OutdoorGameView::initialize(
     if ((requireTerrainResources && !bgfx::isValid(m_vertexBufferHandle))
         || (requireTerrainResources && !bgfx::isValid(m_indexBufferHandle))
         || !bgfx::isValid(m_programHandle)
+        || !bgfx::isValid(m_screenTintProgramHandle)
         || !bgfx::isValid(m_outdoorLitBillboardProgramHandle)
         || !m_worldFxRenderResources.isReady()
         || !bgfx::isValid(m_outdoorTexturedFogProgramHandle)
@@ -3238,12 +3246,16 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_outdoorFxLightPositionsUniformHandle)
         || !bgfx::isValid(m_outdoorFxLightColorsUniformHandle)
         || !bgfx::isValid(m_outdoorFxLightParamsUniformHandle)
+        || !bgfx::isValid(m_outdoorSunlightUniformHandle)
         || !bgfx::isValid(m_outdoorFogColorUniformHandle)
         || !bgfx::isValid(m_outdoorFogDensitiesUniformHandle)
         || !bgfx::isValid(m_outdoorFogDistancesUniformHandle)
         || !bgfx::isValid(m_outdoorCameraPositionUniformHandle)
         || !bgfx::isValid(m_secretPulseParamsUniformHandle)
-        || (m_pOutdoorMapData->lightingData && !bgfx::isValid(m_bmodelLightmapSamplerHandle)))
+        || (m_pOutdoorMapData->lightingData && !bgfx::isValid(m_bmodelLightmapSamplerHandle))
+        || (m_pOutdoorMapData->lightingData && m_pOutdoorMapData->lightingData->hasBakedSources()
+            && (!bgfx::isValid(m_bakedSkySamplerHandle) || !bgfx::isValid(m_bakedLightingUniformHandle)
+                || !bgfx::isValid(m_bakedTerrainBoundsUniformHandle))))
     {
         std::cerr << "OutdoorGameView failed to create bgfx resources.\n";
         shutdown();
@@ -3565,7 +3577,8 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         cameraForward,
         cameraRight,
         cameraUp,
-        wireframeViewMatrix);
+        wireframeViewMatrix,
+        wireframeProjectionMatrix);
     captureFrameTimingStage(worldRenderStageNanoseconds);
 
     if (captureSavePreviewThisFrame)
@@ -3735,6 +3748,7 @@ void OutdoorGameView::shutdown()
     m_terrainDecorationsInitializationAttempted = false;
     m_outdoorSpatialFxRuntime.reset();
     m_outdoorLightingRuntime.reset();
+    m_bakedProbeCache.clear();
     m_outdoorBModelLightingRuntime.reset();
     m_cachedOutdoorDynamicLightEmitters.clear();
     m_pCachedOutdoorLightingData = nullptr;
@@ -3744,6 +3758,7 @@ void OutdoorGameView::shutdown()
     if (!Engine::BgfxContext::isBgfxInitialized())
     {
         m_programHandle = BGFX_INVALID_HANDLE;
+        m_screenTintProgramHandle = BGFX_INVALID_HANDLE;
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
         m_spellAreaPreviewProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorLitBillboardProgramHandle = BGFX_INVALID_HANDLE;
@@ -3761,12 +3776,16 @@ void OutdoorGameView::shutdown()
         m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
         m_terrainWaterSamplerHandle = BGFX_INVALID_HANDLE;
         m_bmodelLightmapSamplerHandle = BGFX_INVALID_HANDLE;
+        m_bakedSkySamplerHandle = BGFX_INVALID_HANDLE;
+        m_bakedLightingUniformHandle = BGFX_INVALID_HANDLE;
+        m_bakedTerrainBoundsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorBillboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorBillboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorBillboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightPositionsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightColorsUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFxLightParamsUniformHandle = BGFX_INVALID_HANDLE;
+        m_outdoorSunlightUniformHandle = BGFX_INVALID_HANDLE;
         m_bloodSplatVertexCount = 0;
         m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
         m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
@@ -3803,6 +3822,12 @@ void OutdoorGameView::shutdown()
         screenRuntime.clearSharedUiRuntime();
         resetRuntimeState();
         return;
+    }
+
+    if (bgfx::isValid(m_screenTintProgramHandle))
+    {
+        bgfx::destroy(m_screenTintProgramHandle);
+        m_screenTintProgramHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_programHandle))
@@ -3900,6 +3925,16 @@ void OutdoorGameView::shutdown()
         m_terrainWaterSamplerHandle = BGFX_INVALID_HANDLE;
     }
 
+    for (bgfx::UniformHandle *pHandle :
+        {&m_bakedSkySamplerHandle, &m_bakedLightingUniformHandle, &m_bakedTerrainBoundsUniformHandle})
+    {
+        if (bgfx::isValid(*pHandle))
+        {
+            bgfx::destroy(*pHandle);
+            *pHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+
     if (bgfx::isValid(m_bmodelLightmapSamplerHandle))
     {
         bgfx::destroy(m_bmodelLightmapSamplerHandle);
@@ -3934,6 +3969,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_outdoorFxLightColorsUniformHandle);
         m_outdoorFxLightColorsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_outdoorSunlightUniformHandle))
+    {
+        bgfx::destroy(m_outdoorSunlightUniformHandle);
+        m_outdoorSunlightUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_outdoorFxLightParamsUniformHandle))
@@ -5420,6 +5461,7 @@ void OutdoorGameView::TexturedTerrainVertex::init()
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord1, 1, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord3, 4, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
         .end();
 }
 

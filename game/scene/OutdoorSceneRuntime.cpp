@@ -372,7 +372,12 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
             const OutdoorBModelFace &face =
                 pMapData->bmodels[moveState.supportBModelIndex].faces[moveState.supportFaceIndex];
 
-            if (hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate) && face.cogTriggeredNumber != 0)
+            const bool bypassedByLevitate = m_pPartyRuntime->party().hasPartyBuff(PartyBuffId::Levitate)
+                && m_localEventProgram
+                && m_localEventProgram->isLevitateSensitivePressurePlate(face.cogTriggeredNumber, face.attributes);
+
+            if (hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate)
+                && face.cogTriggeredNumber != 0 && !bypassedByLevitate)
             {
                 pEventRuntimeState->lastPressurePlateTrigger = EventRuntimeState::PressurePlateTrigger{
                     .world = "outdoor",

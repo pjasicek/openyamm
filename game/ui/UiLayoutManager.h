@@ -110,6 +110,10 @@ public:
         std::string notes;
     };
 
+    uint64_t revision() const
+    {
+        return m_revision;
+    }
     void clear();
     bool loadLayoutFile(const Engine::AssetFileSystem &assetFileSystem, const std::string &path);
     bool loadLayoutText(const std::string &sourceName, const std::string &text);
@@ -123,6 +127,7 @@ public:
     const std::unordered_map<std::string, LayoutElement> &elements() const;
 
 private:
+    uint64_t m_revision = 0;
     std::vector<std::string> m_layoutOrder;
     std::unordered_map<std::string, LayoutElement> m_layoutElements;
     std::unordered_map<std::string, const LayoutElement *> m_layoutElementByLookupId;

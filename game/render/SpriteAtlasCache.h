@@ -25,6 +25,7 @@ struct SpriteBillboardTexture
     BillboardOpacityMask opacityMask;
     bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle maskHandle = BGFX_INVALID_HANDLE;
+    bgfx::TextureHandle lookupHandle = BGFX_INVALID_HANDLE;
     std::array<float, 4> atlasRect = {};
     std::array<float, 4> atlasTexel = {};
     std::array<float, 4> chroma = {};
@@ -72,12 +73,14 @@ private:
     {
         Engine::SpriteAtlas atlas;
         std::vector<Page> pages;
+        std::map<int, bgfx::TextureHandle> lookups;
         bool preloaded = false;
     };
     std::map<std::string, Package> m_packages;
     std::unordered_set<std::string> m_failed;
     bgfx::ProgramHandle m_program = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_maskSampler = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_lookupSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_rectUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_texelUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_chromaUniform = BGFX_INVALID_HANDLE;

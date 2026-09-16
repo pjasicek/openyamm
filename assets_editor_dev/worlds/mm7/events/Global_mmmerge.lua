@@ -33,15 +33,15 @@ RegisterGlobalHouseTopicClickHook(65071, "MMMerge Antagarich Arcomage deck requi
     MM7.BlockArcomageWithoutDeck(context)
 end)
 
-ReplaceGlobalEvent(513, "MMMerge Malwick conditional ambush", function()
+appendGlobalEvent(513, "MMMerge Malwick conditional ambush", function()
     MM7.SummonMalwickAmbush(false)
 end)
 
-ReplaceGlobalEvent(514, "MMMerge Malwick forced ambush", function()
+appendGlobalEvent(514, "MMMerge Malwick forced ambush", function()
     MM7.SummonMalwickAmbush(true)
 end)
 
-ReplaceGlobalEvent(769, "MMMerge Malwick wand", function()
+appendGlobalEvent(769, "MMMerge Malwick wand", function()
     MM7.GiveMalwickWand()
 end)
 
@@ -77,10 +77,10 @@ appendGlobalEvent(893, "MMMerge Judge Fairweather follower", function()
     MM7.ChooseJudgeFairweatherFollower()
 end)
 
-ReplaceGlobalEvent(920, "MMMerge Antagarich endgame started", function()
+appendGlobalEvent(920, "MMMerge Antagarich endgame started", function()
     MM7.UpdateAntagarichEndgameStarted()
 end)
 
-ReplaceGlobalEvent(922, "MMMerge Antagarich endgame complete", function()
+appendGlobalEvent(922, "MMMerge Antagarich endgame complete", function()
     MM7.MarkAntagarichEndgameComplete()
 end)

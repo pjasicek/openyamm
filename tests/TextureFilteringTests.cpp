@@ -202,3 +202,49 @@ TEST_CASE("Cutout mip coverage keeps sparse grass visible without coloring trans
         CHECK(reduced[i] < 102);
     }
 }
+
+TEST_CASE("Cached animation mip chains preserve frame pixels and deterministic downsampling")
+{
+    const std::vector<uint8_t> firstFrame = {
+        0, 20, 40, 255, 20, 40, 60, 255,
+        40, 60, 80, 255, 60, 80, 100, 255,
+    };
+    const std::vector<uint8_t> secondFrame(16, 120);
+    const std::vector<BgraMipLevel> first = prepareBgraMipChain(2, 2, firstFrame);
+    const std::vector<BgraMipLevel> second = prepareBgraMipChain(2, 2, secondFrame);
+    REQUIRE(first.size() == 2);
+    REQUIRE(second.size() == 2);
+    CHECK(first[0].pixels == firstFrame);
+    CHECK(second[0].pixels == secondFrame);
+    CHECK(first[1].width == 1);
+    CHECK(first[1].height == 1);
+    CHECK(first[1].pixels == std::vector<uint8_t>{30, 50, 70, 255});
+    CHECK(second[1].pixels == std::vector<uint8_t>{120, 120, 120, 120});
+    CHECK(prepareBgraMipChain(2, 2, firstFrame)[1].pixels == first[1].pixels);
+    CHECK(prepareBgraMipChain(0, 2, firstFrame).empty());
+    CHECK(prepareBgraMipChain(8, 8, firstFrame).empty());
+}
+
+TEST_CASE("Cached animation mip chains retain rectangular dimensions and cutout coverage")
+{
+    std::vector<uint8_t> pixels(8 * 2 * 4, 255);
+    for (size_t pixel = 0; pixel < 16; ++pixel)
+    {
+        pixels[pixel * 4 + 3] = pixel % 3 == 0 ? 0 : 255;
+    }
+    const std::vector<BgraMipLevel> raw = prepareBgraMipChain(8, 2, pixels);
+    const std::vector<BgraMipLevel> cutout = prepareBgraMipChain(8, 2, pixels, 160);
+    REQUIRE(raw.size() == 4);
+    REQUIRE(cutout.size() == raw.size());
+    CHECK(raw[1].width == 4);
+    CHECK(raw[1].height == 1);
+    CHECK(raw[2].width == 2);
+    CHECK(raw[3].width == 1);
+    CHECK(cutout[0].pixels == pixels);
+    for (size_t level = 1; level < raw.size(); ++level)
+    {
+        std::vector<uint8_t> expected = raw[level].pixels;
+        preserveBgraCutoutCoverage(expected, pixels, 160);
+        CHECK(cutout[level].pixels == expected);
+    }
+}

@@ -1,7 +1,8 @@
 $input a_position, a_texcoord0, a_color0, i_data0, i_data1, i_data2, i_data3
-$output v_texcoord0, v_texcoord1, v_worldPosition, v_flowInfo, v_depth, v_color0
+$output v_texcoord0, v_texcoord1, v_worldPosition, v_flowInfo, v_depth, v_color0, v_sunlight
 
 #include "common.sh"
+#include "outdoor_sunlight.sh"
 
 uniform vec4 u_cameraPosition;
 uniform vec4 u_terrainDecorationParams;
@@ -29,4 +30,5 @@ void main()
     v_flowInfo = vec4(i_data3.w, 0.0, 0.0, 0.0);
     v_depth = gl_Position.w;
     v_color0 = a_color0 * i_data2;
+    v_sunlight = outdoorSunlight(i_data3.xyz);
 }

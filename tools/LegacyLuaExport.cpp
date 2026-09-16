@@ -1,5 +1,6 @@
 #include "tools/LegacyLuaExport.h"
 #include "game/events/EvtEnums.h"
+#include "game/party/SpellIds.h"
 #include "game/tables/PortraitEnums.h"
 
 #include <algorithm>
@@ -12314,11 +12315,119 @@ void emitContextActionMetadataValue(
     stream << " }";
 }
 
+bool isPressureTrapSpell(uint32_t spellId)
+{
+    // Only hostile trap spells; beneficial casts and map-wide effects are not pressure traps.
+    switch (static_cast<SpellId>(spellId))
+    {
+        case SpellId::FireBolt:
+        case SpellId::Fireball:
+        case SpellId::Sparks:
+        case SpellId::LightningBolt:
+        case SpellId::PoisonSpray:
+        case SpellId::IceBolt:
+        case SpellId::AcidBurst:
+        case SpellId::IceBlast:
+        case SpellId::Stun:
+        case SpellId::DeadlySwarm:
+        case SpellId::Blades:
+        case SpellId::RockBlast:
+        case SpellId::DeathBlossom:
+        case SpellId::ToxicCloud:
+        case SpellId::Shrapmetal:
+        case SpellId::DragonBreath:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool isSimplePressureTrapEvent(const LegacyLuaEvent &event)
+{
+    const std::vector<uint8_t> steps = collectNormalEventSteps(event);
+    if (steps.empty())
+    {
+        return false;
+    }
+
+    bool hasTrapSpell = false;
+    for (uint8_t step : collectReachableSteps(event, steps, steps.front()))
+    {
+        NormalStepInfo stepInfo;
+        if (!decomposeNormalStep(event, step, stepInfo))
+        {
+            return false;
+        }
+
+        for (const LegacyLuaInstruction *pInstruction : collectMeaningfulInstructionsForStep(event, step))
+        {
+            switch (pInstruction->operation)
+            {
+                case LegacyLuaOperation::CastSpell:
+                    if (pInstruction->arguments.size() != 9 || !isPressureTrapSpell(pInstruction->arguments[0]))
+                    {
+                        return false;
+                    }
+                    hasTrapSpell = true;
+                    break;
+                case LegacyLuaOperation::Compare:
+                case LegacyLuaOperation::Jump:
+                    if (!pInstruction->jumpTargetStep
+                        || std::find(steps.begin(), steps.end(), *pInstruction->jumpTargetStep) == steps.end())
+                    {
+                        return false;
+                    }
+                    break;
+                case LegacyLuaOperation::Exit:
+                case LegacyLuaOperation::ForPartyMember:
+                case LegacyLuaOperation::StatusText:
+                    break;
+                default:
+                    return false;
+            }
+        }
+    }
+    return hasTrapSpell;
+}
+
+bool isAuditedMm6PressureTrap(uint16_t eventId, const LegacyLuaExportLookups &lookups)
+{
+    const std::string map = toLowerCopy(std::filesystem::path(lookups.sourceMapFile.value_or("")).stem().string());
+    // These physical plates also maintain trap/puzzle state, or apply direct surface damage.
+    // Bypassing a puzzle plate must bypass its state changes as well as its spell casts.
+    if (map == "6d03")
+    {
+        return eventId == 21; // Guild Key disarms the Fireball plate.
+    }
+    if (map == "6d08")
+    {
+        return eventId == 22 || eventId == 23 || eventId == 25 || eventId == 32; // Puzzle plates and spikes.
+    }
+    if (map == "sci-fi")
+    {
+        return eventId == 47; // Lights-out Sparks plate.
+    }
+    if (map == "6t6")
+    {
+        return eventId == 34; // Lava floor.
+    }
+    if (map == "6t7")
+    {
+        return eventId == 76; // Lava pool.
+    }
+    if (map == "6t8")
+    {
+        return eventId >= 16 && eventId <= 20; // Temple of the Snake damage floors.
+    }
+    return false;
+}
+
 void emitMetadata(
     std::ostringstream &stream,
     const EvtProgram &evtProgram,
     const StrTable &strTable,
     const LegacyLuaExportLookups &lookups,
+    const std::vector<LegacyLuaEvent> &decodedEvents,
     const std::vector<SyntheticTriggerEvent> &syntheticTriggerEvents,
     LegacyLuaExportScope scope,
     LegacyEventVersion version)
@@ -12331,6 +12440,35 @@ void emitMetadata(
     collectCastSpellIds(evtProgram, castSpellIds, version);
 
     stream << (scope == LegacyLuaExportScope::Global ? "SetGlobalMetadata" : "SetMapMetadata") << "({\n";
+    if (scope == LegacyLuaExportScope::Map && version == LegacyEventVersion::Mm8)
+    {
+        // Native MM8 uses this face bit for Levitate; MM6/MM7 use it for monster triggers.
+        // Imported geometry may use MM8's layout regardless of its original event version.
+        stream << "    levitateTrapFaceMask = 0x08000000,\n";
+    }
+    else if (scope == LegacyLuaExportScope::Map)
+    {
+        std::vector<uint16_t> trapEvents;
+        for (size_t index = 0; index < decodedEvents.size(); ++index)
+        {
+            const LegacyLuaEvent directEvent = directEventWithoutSyntheticTriggerContinuations(
+                decodedEvents[index], evtProgram.getEvents()[index]);
+            if (isSimplePressureTrapEvent(directEvent)
+                || (version == LegacyEventVersion::Mm6 && isAuditedMm6PressureTrap(directEvent.eventId, lookups)))
+            {
+                trapEvents.push_back(directEvent.eventId);
+            }
+        }
+        if (!trapEvents.empty())
+        {
+            stream << "    levitateTrapEvents = {";
+            for (size_t index = 0; index < trapEvents.size(); ++index)
+            {
+                stream << (index == 0 ? "" : ", ") << trapEvents[index];
+            }
+            stream << "},\n";
+        }
+    }
     stream << "    onLoad = {";
 
     bool wroteEntry = false;
@@ -12619,7 +12757,7 @@ std::string generateLegacyEventLuaChunk(
     }
 
     stream << "-- generated from legacy EVT/STR\n\n";
-    emitMetadata(stream, evtProgram, strTable, lookups, syntheticTriggerEvents, scope, version);
+    emitMetadata(stream, evtProgram, strTable, lookups, decodedEvents, syntheticTriggerEvents, scope, version);
     stream << '\n';
 
     for (size_t eventIndex = 0; eventIndex < decodedEvents.size(); ++eventIndex)

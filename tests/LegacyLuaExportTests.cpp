@@ -1,6 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "tools/LegacyLuaExport.h"
+#include "game/events/ScriptedEventProgram.h"
 
 #include <array>
 #include <cstdint>
@@ -81,6 +82,104 @@ void appendExitRecord(std::vector<uint8_t> &evtBytes, uint16_t eventId, uint8_t 
     evtBytes.push_back(step);
     evtBytes.push_back(static_cast<uint8_t>(OpenYAMM::Game::EvtOpcode::Exit));
 }
+
+OpenYAMM::Game::ScriptedEventProgram exportPressureTrapProgram(
+    const std::vector<uint8_t> &bytes,
+    OpenYAMM::Game::LegacyEventVersion version,
+    const std::string &mapName = "test.blv")
+{
+    using namespace OpenYAMM::Game;
+    EvtProgram legacyProgram;
+    REQUIRE(legacyProgram.loadFromBytes(bytes));
+    LegacyLuaExportLookups lookups;
+    lookups.sourceMapFile = mapName;
+    const std::string lua = generateLegacyEventLuaChunk(
+        legacyProgram, StrTable{}, lookups, LegacyLuaExportScope::Map, version);
+    const std::vector<uint8_t> supportBytes = readBinaryFixture(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/scripts/common/event_support.lua");
+    std::string error;
+    const std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
+        std::string(supportBytes.begin(), supportBytes.end()) + "\n" + lua,
+        "pressure-trap-test", ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(program.has_value(), error);
+    return *program;
+}
+}
+
+TEST_CASE("levitate pressure trap export respects each worlds event semantics")
+{
+    using namespace OpenYAMM::Game;
+    const std::filesystem::path worlds = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds";
+    const ScriptedEventProgram mm7 = exportPressureTrapProgram(
+        readBinaryFixture(worlds / "mm7/_legacy/events/7d10.EVT"), LegacyEventVersion::Mm7);
+    CHECK(mm7.isLevitateSensitivePressurePlate(451, 0x84000102));
+    CHECK(mm7.isLevitateSensitivePressurePlate(452, 0x84000100));
+    CHECK_FALSE(mm7.isLevitateSensitivePressurePlate(501, 0x8c000100));
+
+    const ScriptedEventProgram mm6 = exportPressureTrapProgram(
+        readBinaryFixture(worlds / "mm6/_legacy/events/6D03.EVT"), LegacyEventVersion::Mm6, "6d03.blv");
+    CHECK(mm6.isLevitateSensitivePressurePlate(21, 0x84000100));
+    CHECK_FALSE(mm6.isLevitateSensitivePressurePlate(22, 0x8c000100));
+
+    const ScriptedEventProgram puzzle = exportPressureTrapProgram(
+        readBinaryFixture(worlds / "mm6/_legacy/events/6D08.EVT"), LegacyEventVersion::Mm6, "6d08.blv");
+    for (uint16_t eventId : {22, 23, 25, 32, 34, 35, 36, 39, 40, 41, 42})
+    {
+        CHECK(puzzle.isLevitateSensitivePressurePlate(eventId, 0x84000100));
+    }
+    CHECK_FALSE(puzzle.isLevitateSensitivePressurePlate(24, 0x84000100));
+
+    const ScriptedEventProgram encounter = exportPressureTrapProgram(
+        readBinaryFixture(worlds / "mm7/_legacy/events/7out02.EVT"), LegacyEventVersion::Mm7);
+    CHECK_FALSE(encounter.isLevitateSensitivePressurePlate(236, 0x04000100));
+
+    const ScriptedEventProgram mm8 = exportPressureTrapProgram(
+        readBinaryFixture(worlds / "mm8/_legacy/events/D26.EVT"), LegacyEventVersion::Mm8);
+    CHECK(mm8.isLevitateSensitivePressurePlate(101, 0x8c000102));
+    CHECK_FALSE(mm8.isLevitateSensitivePressurePlate(101, 0x84000102));
+}
+
+TEST_CASE("levitate pressure trap inference rejects benefits and reachable side effects")
+{
+    using namespace OpenYAMM::Game;
+    std::vector<uint8_t> bytes;
+    const auto appendRecord = [&](uint16_t eventId, uint8_t step, EvtOpcode opcode, std::vector<uint8_t> payload)
+    {
+        bytes.push_back(static_cast<uint8_t>(4 + payload.size()));
+        bytes.push_back(static_cast<uint8_t>(eventId));
+        bytes.push_back(0);
+        bytes.push_back(step);
+        bytes.push_back(static_cast<uint8_t>(opcode));
+        bytes.insert(bytes.end(), payload.begin(), payload.end());
+    };
+    std::vector<uint8_t> fireball(27, 0);
+    fireball[0] = 6;
+    fireball[2] = 5;
+    std::vector<uint8_t> wizardEye = fireball;
+    wizardEye[0] = 12;
+    appendRecord(1, 0, EvtOpcode::CastSpell, fireball);
+    appendExitRecord(bytes, 1, 1);
+    appendRecord(1, 2, EvtOpcode::Set, {0x75, 0, 1, 0, 0, 0}); // Unreachable state change.
+    appendRecord(2, 0, EvtOpcode::CastSpell, wizardEye);
+    appendExitRecord(bytes, 2, 1);
+    appendRecord(3, 0, EvtOpcode::CastSpell, fireball);
+    appendRecord(3, 1, EvtOpcode::Set, {0x75, 0, 1, 0, 0, 0});
+    appendExitRecord(bytes, 3, 2);
+    appendRecord(4, 0, EvtOpcode::Compare, {0x75, 0, 1, 0, 0, 0, 3});
+    appendRecord(4, 1, EvtOpcode::CastSpell, fireball);
+    appendExitRecord(bytes, 4, 2);
+    appendRecord(4, 3, EvtOpcode::Set, {0x75, 0, 1, 0, 0, 0});
+    appendExitRecord(bytes, 4, 4);
+    appendRecord(5, 0, EvtOpcode::CastSpell, fireball);
+    appendRecord(5, 1, EvtOpcode::CastSpell, wizardEye);
+    appendExitRecord(bytes, 5, 2);
+
+    const ScriptedEventProgram program = exportPressureTrapProgram(bytes, LegacyEventVersion::Mm7);
+    CHECK(program.isLevitateSensitivePressurePlate(1, 0x04000000));
+    for (uint16_t eventId : {2, 3, 4, 5})
+    {
+        CHECK_FALSE(program.isLevitateSensitivePressurePlate(eventId, 0x04000000));
+    }
 }
 
 TEST_CASE("legacy lua exporter preserves return for castle gloaming soul jar chest")

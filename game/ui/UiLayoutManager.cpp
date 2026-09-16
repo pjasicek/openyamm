@@ -260,6 +260,7 @@ std::string yamlStringOrEmpty(const YAML::Node &node, const char *key)
 
 void UiLayoutManager::clear()
 {
+    ++m_revision;
     m_layoutOrder.clear();
     m_layoutElements.clear();
     m_layoutElementByLookupId.clear();
@@ -280,6 +281,8 @@ bool UiLayoutManager::loadLayoutFile(const Engine::AssetFileSystem &assetFileSys
 
 bool UiLayoutManager::loadLayoutText(const std::string &sourceName, const std::string &text)
 {
+    // Failed parses can still have replaced some elements, so invalidate before parsing.
+    ++m_revision;
     try
     {
         m_sortedLayoutIdsByScreen.clear();

@@ -2,7 +2,7 @@
 
 namespace OpenYAMM::Game
 {
-void setGprofProfilingEnabled(bool enabled);
+void setGameplayProfilingEnabled(bool enabled);
 
 class GprofProfilingScope
 {

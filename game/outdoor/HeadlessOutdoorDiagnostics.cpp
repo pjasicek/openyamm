@@ -22,7 +22,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/app/GameApplication.h"
-#include "game/app/GprofControl.h"
+#include "game/app/ProfilingControl.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorMechanismRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -41,6 +41,7 @@
 #include "game/outdoor/OutdoorPathfindingBuilder.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/outdoor/OutdoorSunlight.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
@@ -9001,6 +9002,194 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         );
 
+        struct LevitatePlateCase
+        {
+            const char *worldId;
+            const char *mapFile;
+            uint16_t trapEvent;
+            uint16_t ordinaryEvent;
+            bool damagesParty;
+        };
+        for (const LevitatePlateCase &plateCase : {
+                 LevitatePlateCase{"mm8", "d26.blv", 101, 0, false},
+                 LevitatePlateCase{"mm8", "d05.blv", 111, 12, false},
+                 LevitatePlateCase{"mm7", "7d10.blv", 451, 0, false},
+                 LevitatePlateCase{"mm7", "7d12.blv", 452, 11, false},
+                 LevitatePlateCase{"mm6", "6d03.blv", 21, 22, false},
+                 LevitatePlateCase{"mm6", "6d08.blv", 22, 24, false},
+                 LevitatePlateCase{"mm6", "6t8.blv", 16, 0, true}})
+        {
+            runCase(
+                std::string("indoor_levitate_pressure_plate_") + plateCase.mapFile,
+                [&](std::string &failure)
+                {
+                    const std::string previousWorldId = assetFileSystem.getActiveWorldId();
+                    struct WorldRestore
+                    {
+                        Engine::AssetFileSystem &assets;
+                        std::string worldId;
+                        ~WorldRestore()
+                        {
+                            assets.switchActiveWorld(worldId);
+                        }
+                    } worldRestore{assetFileSystem, previousWorldId};
+                    if (!assetFileSystem.switchActiveWorld(plateCase.worldId)
+                        || !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, plateCase.mapFile))
+                    {
+                        failure = "could not load plate map";
+                        return false;
+                    }
+                    const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+                    if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData
+                        || !loadedMap->eventRuntimeState || !loadedMap->localEventProgram)
+                    {
+                        failure = "plate map is missing runtime data";
+                        return false;
+                    }
+                    const IndoorMapData &mapData = *loadedMap->indoorMapData;
+                    const size_t noFace = static_cast<size_t>(-1);
+                    size_t trapFace = noFace;
+                    size_t ordinaryFace = noFace;
+                    size_t safeFace = noFace;
+                    for (size_t index = 0; index < mapData.faces.size(); ++index)
+                    {
+                        const IndoorFace &face = mapData.faces[index];
+                        if (face.facetType != 3 && face.facetType != 4)
+                        {
+                            continue;
+                        }
+                        if (!hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate))
+                        {
+                            safeFace = index;
+                        }
+                        else if (face.cogTriggered == plateCase.trapEvent)
+                        {
+                            trapFace = index;
+                        }
+                        else if (plateCase.ordinaryEvent != 0 && face.cogTriggered == plateCase.ordinaryEvent)
+                        {
+                            ordinaryFace = index;
+                        }
+                    }
+                    if (trapFace == noFace || safeFace == noFace
+                        || (plateCase.ordinaryEvent != 0 && ordinaryFace == noFace))
+                    {
+                        failure = "expected floor bindings were not found";
+                        return false;
+                    }
+                    if (!loadedMap->localEventProgram->isLevitateSensitivePressurePlate(
+                            plateCase.trapEvent, mapData.faces[trapFace].attributes))
+                    {
+                        failure = "loaded event program is missing the trap policy";
+                        return false;
+                    }
+
+                    Party party;
+                    party.setItemTable(&gameDataLoader.getItemTable());
+                    party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
+                    party.seed(createRegressionPartySeed());
+                    GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
+                    GameplayProjectileService projectileService;
+                    IndoorSceneRuntime runtime(
+                        loadedMap->map.fileName, loadedMap->map, mapData,
+                        gameDataLoader.getMonsterTable(), gameDataLoader.getMonsterProjectileTable(),
+                        gameDataLoader.getObjectTable(), gameDataLoader.getSpellTable(),
+                        gameDataLoader.getItemTable(), gameDataLoader.getChestTable(), party,
+                        loadedMap->indoorMapDeltaData, loadedMap->eventRuntimeState,
+                        loadedMap->localEventProgram, loadedMap->globalEventProgram,
+                        &actorService, &projectileService);
+                    const auto health = [&]()
+                    {
+                        int total = 0;
+                        for (const Character &member : runtime.party().members())
+                        {
+                            total += member.health;
+                        }
+                        return total;
+                    };
+                    const auto standOn = [&](size_t faceIndex)
+                    {
+                        // Scene snapshots store movement/world state; party state belongs to the session.
+                        party = runtime.party();
+                        IndoorSceneRuntime::Snapshot snapshot = runtime.snapshot();
+                        snapshot.partyRuntime.movementState.grounded = true;
+                        snapshot.partyRuntime.movementState.supportFaceIndex = faceIndex;
+                        snapshot.partyRuntime.movementState.sectorId = mapData.faces[faceIndex].roomNumber;
+                        snapshot.partyRuntime.movementState.eyeSectorId = mapData.faces[faceIndex].roomNumber;
+                        snapshot.eventRuntimeState->lastPressurePlateTrigger.reset();
+                        runtime.restoreSnapshot(snapshot);
+                        runtime.advanceSimulation(1.0f);
+                    };
+                    const auto applyBuff = [&](PartyBuffId buffId)
+                    {
+                        runtime.party().applyPartyBuff(buffId, 10.0f, 0, 112, 1, SkillMastery::Expert, 0);
+                    };
+                    standOn(safeFace);
+                    Character *pCaster = runtime.party().member(0);
+                    ensureCharacterSkill(*pCaster, "VampireAbility", 3, SkillMastery::Expert);
+                    pCaster->learnSpell(spellIdValue(SpellId::Levitate));
+                    PartySpellCastRequest request;
+                    request.casterMemberIndex = 0;
+                    request.spellId = spellIdValue(SpellId::Levitate);
+                    request.spendMana = false;
+                    request.applyRecovery = false;
+                    const PartySpellCastResult castResult = PartySpellSystem::castSpell(
+                        runtime.party(), runtime.worldRuntime(), gameDataLoader.getSpellTable(), request);
+                    if (!castResult.succeeded()
+                        || !runtime.party().hasPartyBuff(PartyBuffId::Levitate))
+                    {
+                        failure = "Levitate spell casting did not apply the party buff";
+                        return false;
+                    }
+                    const int initialHealth = health();
+                    const std::array<uint8_t, 75> initialMapVars = runtime.eventRuntimeState()->mapVars;
+                    standOn(trapFace);
+                    if (runtime.eventRuntimeState()->lastPressurePlateTrigger
+                        || projectileService.projectileCount() != 0 || health() != initialHealth
+                        || runtime.eventRuntimeState()->mapVars != initialMapVars)
+                    {
+                        failure = "levitating entry activated a trap or changed its puzzle state";
+                        return false;
+                    }
+
+                    runtime.party().advanceTimedStates(
+                        runtime.party().partyBuff(PartyBuffId::Levitate)->remainingSeconds + 1.0f);
+                    standOn(trapFace);
+                    if (runtime.party().hasPartyBuff(PartyBuffId::Levitate)
+                        || runtime.eventRuntimeState()->lastPressurePlateTrigger)
+                    {
+                        failure = "buff expiration retriggered the occupied plate";
+                        return false;
+                    }
+                    applyBuff(PartyBuffId::WaterWalk);
+                    applyBuff(PartyBuffId::FeatherFall);
+                    standOn(safeFace);
+                    standOn(trapFace);
+                    const bool trapHadEffect = plateCase.damagesParty
+                        ? health() < initialHealth : projectileService.projectileCount() > 0;
+                    if (!runtime.eventRuntimeState()->lastPressurePlateTrigger || !trapHadEffect)
+                    {
+                        failure = "unprotected re-entry did not activate trap damage/projectiles";
+                        return false;
+                    }
+
+                    if (ordinaryFace != noFace)
+                    {
+                        standOn(safeFace);
+                        applyBuff(PartyBuffId::Levitate);
+                        standOn(ordinaryFace);
+                        if (!runtime.eventRuntimeState()->lastPressurePlateTrigger
+                            || runtime.eventRuntimeState()->lastPressurePlateTrigger->eventId
+                                != plateCase.ordinaryEvent)
+                        {
+                            failure = "Levitate suppressed an ordinary floor event";
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+        }
+
         runCase(
             "indoor_pressure_plate_tiled_region_triggers_once_per_event_entry",
             [&](std::string &failure)
@@ -13095,6 +13284,86 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_ground_actor_walking_preserves_falling_velocity",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+            size_t actorIndex = snapshot.mapActors.size();
+            for (size_t index = 0; index < snapshot.mapActors.size(); ++index)
+            {
+                const OutdoorWorldRuntime::MapActorState &actor = snapshot.mapActors[index];
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(actor.monsterId);
+                if (pStats != nullptr && !pStats->canFly && actor.moveSpeed > 0
+                    && !actor.isDead && !actor.hostileToParty
+                    && pStats->movementType != MonsterTable::MonsterMovementType::Stationary)
+                {
+                    actorIndex = index;
+                    break;
+                }
+            }
+            if (actorIndex == snapshot.mapActors.size())
+            {
+                failure = "no walking ground actor available";
+                return false;
+            }
+
+            OutdoorWorldRuntime::MapActorState &actor = snapshot.mapActors[actorIndex];
+            actor.preciseZ += 4000.0f;
+            actor.z = static_cast<int>(std::lround(actor.preciseZ));
+            actor.homePreciseZ = actor.preciseZ;
+            actor.homeZ = actor.z;
+            actor.aiState = OutdoorWorldRuntime::ActorAiState::Wandering;
+            actor.animation = OutdoorWorldRuntime::ActorAnimation::Walking;
+            actor.actionSeconds = 10.0f;
+            actor.idleDecisionSeconds = 10.0f;
+            actor.moveDirectionX = 1.0f;
+            actor.moveDirectionY = 0.0f;
+            actor.velocityZ = 0.0f;
+            actor.movementStateInitialized = false;
+            snapshot.actorUpdateAccumulatorSeconds = 0.0f;
+            const float startX = actor.preciseX;
+            const float startY = actor.preciseY;
+            const float startZ = actor.preciseZ;
+            scenario.world.restoreSnapshot(snapshot);
+
+            size_t walkingTicks = 0;
+            for (int tick = 0; tick < 64; ++tick)
+            {
+                scenario.world.updateMapActors(1.0f / 128.0f, startX + 1000.0f, startY, startZ);
+                const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+                if (pActor != nullptr && pActor->animation == OutdoorWorldRuntime::ActorAnimation::Walking)
+                {
+                    ++walkingTicks;
+                }
+            }
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(actorIndex);
+            if (pActor == nullptr || walkingTicks < 60 || std::abs(pActor->preciseX - startX) < 1.0f)
+            {
+                failure = "actor did not exercise walking integration while airborne: walking_ticks="
+                    + std::to_string(walkingTicks) + " delta_x="
+                    + std::to_string(pActor != nullptr ? pActor->preciseX - startX : 0.0f);
+                return false;
+            }
+            if (!pActor->movementState.airborne || pActor->preciseZ > startZ - 150.0f
+                || pActor->preciseZ < startZ - 180.0f || pActor->velocityZ > -630.0f)
+            {
+                failure = "walking actor did not accumulate gravity: drop="
+                    + std::to_string(startZ - pActor->preciseZ) + " velocity=" + std::to_string(pActor->velocityZ);
+                return false;
+            }
             return true;
         }
     );
@@ -19498,6 +19767,19 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+            snapshot.gameMinutes = 3.0f * 60.0f + 30.0f;
+            scenario.world.restoreSnapshot(snapshot);
+            const OutdoorWorldRuntime::AtmosphereState &night = scenario.world.atmosphereState();
+            const std::array<float, 4> nightSunlight = buildOutdoorSunlight(*modifiedMap.outdoorMapData, night);
+            if (!night.isNight || std::abs(nightSunlight[3] - 0.255634f) > 0.001f
+                || nightSunlight[0] != 0.0f || nightSunlight[2] != 0.0f
+                || std::abs(outdoorBillboardBaseLight(nightSunlight) - nightSunlight[3]) > 0.001f
+                || night.darknessOverlayAlpha != 0.0f)
+            {
+                failure = "3:30AM surfaces and sprites did not use atmospheric ambient without a darkness overlay";
+                return false;
+            }
+
             snapshot.gameMinutes = 4.0f * 60.0f;
             scenario.world.restoreSnapshot(snapshot);
 
@@ -19550,6 +19832,52 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_atmosphere_forced_lighting_overrides_clock_for_surfaces_and_sprites",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData)
+            {
+                failure = "selected map missing outdoor data";
+                return false;
+            }
+
+            for (bool alwaysLight : {false, true})
+            {
+                MapAssetInfo modifiedMap = *selectedMap;
+                OutdoorWeatherProfile profile = {};
+                profile.alwaysLight = alwaysLight;
+                profile.alwaysDark = !alwaysLight;
+                modifiedMap.outdoorWeatherProfile = profile;
+                RegressionScenario scenario = {};
+                if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+                {
+                    failure = "forced lighting scenario init failed";
+                    return false;
+                }
+
+                OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+                for (float minutes : {0.0f, 210.0f, 720.0f, 1320.0f})
+                {
+                    snapshot.gameMinutes = minutes;
+                    scenario.world.restoreSnapshot(snapshot);
+                    const OutdoorWorldRuntime::AtmosphereState &atmosphere = scenario.world.atmosphereState();
+                    const std::array<float, 4> sunlight = buildOutdoorSunlight(*modifiedMap.outdoorMapData, atmosphere);
+                    if (atmosphere.isNight == alwaysLight
+                        || std::abs(sunlight[3] - (alwaysLight ? 0.69f : 0.15f)) > 0.001f
+                        || (!alwaysLight && (sunlight[0] != 0.0f || sunlight[2] != 0.0f))
+                        || (!alwaysLight && std::abs(outdoorBillboardBaseLight(sunlight) - 0.15f) > 0.001f)
+                        || atmosphere.darknessOverlayAlpha != 0.0f)
+                    {
+                        failure = "forced lighting did not override the daily ambient and direct sunlight";
+                        return false;
+                    }
+                }
+            }
             return true;
         }
     );

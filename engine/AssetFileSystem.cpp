@@ -844,29 +844,26 @@ bool AssetFileSystem::mountPackagedAssetRoot(
     const std::filesystem::path activeWorldArchive =
         assetRoot / WorldsDevelopmentRootName / (normalizedWorldId + ".zip");
 
-    if (!mountPackageArchiveIfPresent(activeWorldArchive, false))
+    if (std::filesystem::exists(activeWorldArchive)
+        && !mountSearchRootAt(activeWorldArchive, "/worlds/" + normalizedWorldId, false))
     {
         return false;
     }
 
     const std::vector<std::filesystem::path> worldArchives = collectExistingWorldPackageArchives(assetRoot);
 
+    // PhysicsFS mounts a physical archive only once. Mount each world at its canonical namespace;
+    // unqualified legacy requests expand through these mounts in the same precedence order.
     for (const std::filesystem::path &worldArchive : worldArchives)
     {
-        if (worldArchive != activeWorldArchive && !mountPackageArchiveIfPresent(worldArchive, true))
+        if (worldArchive == activeWorldArchive)
         {
-            return false;
+            continue;
         }
-    }
-
-    for (const std::filesystem::path &worldArchive : worldArchives)
-    {
         const std::string worldPackageId = normalizePackageId(worldArchive.stem().string(), {});
-
         if (worldPackageId.empty()
             || !mountSearchRootAt(worldArchive, "/worlds/" + worldPackageId, true))
         {
-            std::cerr << "Could not mount world package namespace for " << worldArchive << '\n';
             return false;
         }
     }
@@ -1525,6 +1522,7 @@ std::vector<std::string> AssetFileSystem::resolveVirtualPathCandidates(const std
     std::vector<std::string> resolvedPaths;
     std::unordered_set<std::string> knownPaths;
     const std::string normalizedPath = normalizeVirtualPath(virtualPath);
+    const bool packageQualified = normalizedPath.starts_with("engine/") || normalizedPath.starts_with("worlds/");
     const std::vector<std::string> aliasCandidates = expandPackageAliasCandidates(normalizedPath);
 
     const auto appendCandidate = [&resolvedPaths, &knownPaths](const std::string &candidate)
@@ -1536,8 +1534,18 @@ std::vector<std::string> AssetFileSystem::resolveVirtualPathCandidates(const std
     };
 
     const auto appendCandidateWithAndroidApkPrefixes =
-        [this, &appendCandidate](const std::string &candidate)
+        [this, &appendCandidate, packageQualified](const std::string &candidate)
     {
+        if (!packageQualified)
+        {
+            for (const SearchMount &mount : m_searchMounts)
+            {
+                if (mount.archive)
+                {
+                    appendCandidate(mount.mountPoint.empty() ? candidate : mount.mountPoint + "/" + candidate);
+                }
+            }
+        }
         appendCandidate(candidate);
 
         const std::vector<std::string> androidCandidates = expandAndroidApkAssetCandidates(candidate);
@@ -1554,9 +1562,6 @@ std::vector<std::string> AssetFileSystem::resolveVirtualPathCandidates(const std
         appendCandidateWithAndroidApkPrefixes(remapTieredVirtualPath(candidate, m_assetScaleProfile));
         appendCandidateWithAndroidApkPrefixes(baseTieredVirtualPath(candidate));
     };
-
-    const bool packageQualified = normalizedPath.starts_with("engine/")
-        || normalizedPath.starts_with("worlds/");
 
     if (packageQualified)
     {

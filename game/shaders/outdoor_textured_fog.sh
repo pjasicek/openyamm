@@ -10,6 +10,12 @@ SAMPLER2DARRAY(s_texColor, 0);
 SAMPLER2D(s_texColor, 0);
 #endif
 
+#if BAKED_SOURCES
+SAMPLER2D(s_texLightmap, 2);
+uniform vec4 u_bakedTerrainBounds;
+#include "outdoor_baked_lighting.sh"
+#endif
+
 uniform vec4 u_fogColor;
 uniform vec4 u_fogDensities;
 uniform vec4 u_fogDistances;
@@ -55,7 +61,13 @@ float getFogAlpha(float dist)
 
 vec3 getFxLighting(vec3 worldPosition)
 {
-    vec3 lighting = vec3(u_fxLightParams.y, u_fxLightParams.y, u_fxLightParams.y);
+    // Only base illumination receives sunlight; local spell/torch contributions retain their full strength.
+#if BAKED_SOURCES
+    float base = 0.0;
+#else
+    float base = u_fxLightParams.y * v_sunlight;
+#endif
+    vec3 lighting = vec3(base, base, base);
 
     for (int i = 0; i < 8; ++i)
     {
@@ -164,7 +176,14 @@ void main()
     }
 
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z);
+#if BAKED_SOURCES
+    vec2 bakedUv = (v_worldPosition.xy - u_bakedTerrainBounds.xy) / u_bakedTerrainBounds.zw;
+    vec3 baked = bakedSourceLighting(texture2D(s_texLightmap, bakedUv), texture2D(s_texBakedSky, bakedUv));
+    vec4 litTextureColor = vec4(bakedSurfaceColor(textureColor.rgb,
+        baked + getFxLighting(v_worldPosition)), textureColor.a);
+#else
     vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(v_worldPosition), textureColor.a);
+#endif
 
     bool classicSecret = v_texcoord1.x > 0.5 && v_texcoord1.x < 1.5;
     bool authoredPerception = v_texcoord1.x >= 1.5;

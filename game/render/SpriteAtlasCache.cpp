@@ -6,6 +6,8 @@
 #include "game/tables/SpriteTables.h"
 
 #include <iostream>
+#include <cmath>
+#include <cstring>
 #include <limits>
 #include <stdexcept>
 #include <utility>
@@ -55,6 +57,35 @@ bool SpriteAtlasCache::load(const Engine::AssetFileSystem &assets, const std::st
             throw std::runtime_error("Atlas frame or variant is not declared");
         }
         const Engine::SpriteAtlasFrame &frame = atlas.frames.at(reference->frame);
+        const Engine::SpriteAtlasVariant &appearance = atlas.variants.at(variant);
+        if (!appearance.lookup.empty() && !package.lookups.contains(variant))
+        {
+            const std::optional<std::vector<uint8_t>> bytes = assets.readBinaryFile(root + appearance.lookup);
+            const size_t expected = size_t(appearance.lookupSize[0]) * appearance.lookupSize[1] * 4 * sizeof(float);
+            if (!bytes || bytes->size() != expected)
+            {
+                throw std::runtime_error("Invalid sprite lookup byte count: " + appearance.lookup);
+            }
+            for (size_t offset = 0; offset < expected; offset += sizeof(float))
+            {
+                float value;
+                std::memcpy(&value, bytes->data() + offset, sizeof(float));
+                if (!std::isfinite(value) || std::abs(value) > 64)
+                {
+                    throw std::runtime_error("Invalid sprite lookup value: " + appearance.lookup);
+                }
+            }
+            const bgfx::TextureHandle lookup = bgfx::createTexture2D(
+                uint16_t(appearance.lookupSize[0]), uint16_t(appearance.lookupSize[1]), false, 1,
+                bgfx::TextureFormat::RGBA32F, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP
+                    | BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT,
+                bgfx::copy(bytes->data(), uint32_t(bytes->size())));
+            if (!bgfx::isValid(lookup))
+            {
+                throw std::runtime_error("Unable to allocate sprite palette lookup");
+            }
+            package.lookups.emplace(variant, lookup);
+        }
         const Engine::SpriteAtlasPage &description = atlas.pages[frame.page];
         Page &page = package.pages[frame.page];
         if (!bgfx::isValid(page.base))
@@ -119,6 +150,7 @@ bool SpriteAtlasCache::load(const Engine::AssetFileSystem &assets, const std::st
         if (!bgfx::isValid(m_maskSampler))
         {
             m_maskSampler = bgfx::createUniform("s_spriteMask", bgfx::UniformType::Sampler);
+            m_lookupSampler = bgfx::createUniform("s_spriteLookup", bgfx::UniformType::Sampler);
             m_rectUniform = bgfx::createUniform("u_spriteAtlasRect", bgfx::UniformType::Vec4);
             m_texelUniform = bgfx::createUniform("u_spriteAtlasTexel", bgfx::UniformType::Vec4);
             m_chromaUniform = bgfx::createUniform("u_spriteChroma", bgfx::UniformType::Vec4);
@@ -146,6 +178,7 @@ bool SpriteAtlasCache::load(const Engine::AssetFileSystem &assets, const std::st
         texture.fourthChroma = atlas.variants.at(variant).fourthChroma;
         texture.textureHandle = page.base;
         texture.maskHandle = page.mask;
+        texture.lookupHandle = appearance.lookup.empty() ? page.mask : package.lookups.at(variant);
         texture.opacityMask = page.opacity.at(reference->frame);
         texture.atlas = true;
         return true;
@@ -217,6 +250,9 @@ bgfx::ProgramHandle SpriteAtlasCache::bind(
     }
     bindTexture(1, m_maskSampler, texture.maskHandle, TextureFilterProfile::Billboard,
         BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+    bgfx::setTexture(2, m_lookupSampler, texture.lookupHandle,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP | BGFX_SAMPLER_MIN_POINT
+            | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT);
     bgfx::setUniform(m_rectUniform, texture.atlasRect.data());
     std::array<float, 4> texel = texture.atlasTexel;
     if (!textureFilteringEnabled())
@@ -237,6 +273,10 @@ void SpriteAtlasCache::clear(bool destroyGpu)
     {
         for (auto &[name, package] : m_packages)
         {
+            for (const auto &[variant, lookup] : package.lookups)
+            {
+                bgfx::destroy(lookup);
+            }
             for (Page &page : package.pages)
             {
                 if (bgfx::isValid(page.base))
@@ -250,7 +290,7 @@ void SpriteAtlasCache::clear(bool destroyGpu)
             }
         }
         for (bgfx::UniformHandle uniform : {
-            m_maskSampler, m_rectUniform, m_texelUniform, m_chromaUniform, m_secondChromaUniform,
+            m_maskSampler, m_lookupSampler, m_rectUniform, m_texelUniform, m_chromaUniform, m_secondChromaUniform,
             m_thirdChromaUniform, m_fourthChromaUniform})
         {
             if (bgfx::isValid(uniform))
@@ -267,6 +307,7 @@ void SpriteAtlasCache::clear(bool destroyGpu)
     m_failed.clear();
     m_program = BGFX_INVALID_HANDLE;
     m_maskSampler = BGFX_INVALID_HANDLE;
+    m_lookupSampler = BGFX_INVALID_HANDLE;
     m_rectUniform = BGFX_INVALID_HANDLE;
     m_texelUniform = BGFX_INVALID_HANDLE;
     m_chromaUniform = BGFX_INVALID_HANDLE;

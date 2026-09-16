@@ -325,8 +325,104 @@ TEST_CASE("Terrain decoration loader opts in per map and rejects malformed confi
     write("version: 1\ntuft_texture: atlas.png\ntuft_variants: [{weight: 0}]\nrules: []\n");
     CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
     CHECK_FALSE(error.empty());
+    {
+        std::ofstream stream(directory / "families.yml");
+        stream << "version: 2\ntuft_texture: plants.png\ntuft_atlas_grid: [4, 3]\nfamilies:\n"
+               << "  reed:\n    kind: grass\n    candidates: 18\n    width: 24\n    height: 100\n"
+               << "    full_footprint: true\n    wind_strength: 0.8\n"
+               << "    variants: [{layer: 4, weight: 60}, {layer: 5, weight: 40}]\n";
+    }
+    write("version: 2\nfamilies_file: families.yml\nrules:\n"
+          "  - {texture: marsh, family: reed, density: 0.6}\n");
+    const std::optional<TerrainDecorationConfig> familyConfig = loadTerrainDecorationConfig(assets, map, error);
+    REQUIRE(familyConfig);
+    REQUIRE(familyConfig->rules.size() == 1);
+    const TerrainDecorationRule &reed = familyConfig->rules[0];
+    CHECK(reed.family == "reed");
+    CHECK(reed.fullFootprint);
+    CHECK(reed.height == doctest::Approx(100.0f));
+    CHECK(reed.candidates == 18);
+    CHECK(reed.density == doctest::Approx(0.6f));
+    CHECK(reed.windStrength == doctest::Approx(0.8f));
+    REQUIRE(reed.variants.size() == 2);
+    CHECK(reed.variants[1].layer == 5);
+    write("version: 2\nfamilies_file: families.yml\nrules: [{texture: marsh, family: missing}]\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    CHECK_FALSE(error.empty());
+    write("version: 2\nfamilies_file: families.yml\nrules:\n"
+          "  - {texture: marsh, family: reed, variants: [{layer: 12}]}\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    write("version: 2\nfamilies_file: families.yml\nrules:\n"
+          "  - {texture: marsh, family: reed, wind_strength: -1}\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    write("version: 2\nfamilies_file: missing.yml\nrules: []\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    write("version: 2\nfamilies_file: ../families.yml\nrules: []\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    write("version: 2\nenabled: false\nreason: underwater\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    CHECK(error.empty());
     assets.shutdown();
     std::filesystem::remove_all(root);
+}
+
+TEST_CASE("Terrain decoration family variants preserve legacy placement and select only their own layers")
+{
+    TerrainDecorationConfig legacy = config();
+    legacy.tuftVariants = {{45, 1, 1}, {35, 1, 0.9f}, {15, 1, 1.35f}, {5, 0.85f, 0.85f}};
+    TerrainDecorationConfig migrated = legacy;
+    migrated.rules[0].variants = legacy.tuftVariants;
+    for (size_t i = 0; i < migrated.rules[0].variants.size(); ++i)
+    {
+        migrated.rules[0].variants[i].layer = int(i);
+    }
+    const TerrainDecorationPlacement before = scatterTerrainDecorations(flatMap(), textures(), legacy);
+    const TerrainDecorationPlacement after = scatterTerrainDecorations(flatMap(), textures(), migrated);
+    REQUIRE_FALSE(before.instances.empty());
+    REQUIRE(before.instances.size() == after.instances.size());
+    for (size_t i = 0; i < before.instances.size(); ++i)
+    {
+        CHECK(before.instances[i].positionYaw == after.instances[i].positionYaw);
+        CHECK(before.instances[i].sizeWindKind == after.instances[i].sizeWindKind);
+        CHECK(before.instances[i].color == after.instances[i].color);
+        CHECK(before.instances[i].groundNormal == after.instances[i].groundNormal);
+    }
+    migrated.rules[0].variants = {{1, 1, 1, 7}};
+    migrated.rules[0].windStrength = 0.4f;
+    const TerrainDecorationPlacement selected = scatterTerrainDecorations(flatMap(), textures(), migrated);
+    REQUIRE(selected.instances.size() == before.instances.size());
+    for (const TerrainDecorationInstance &instance : selected.instances)
+    {
+        CHECK(instance.groundNormal[3] == 7.0f);
+        CHECK(instance.sizeWindKind[2] == doctest::Approx(0.4f));
+    }
+}
+
+TEST_CASE("Terrain decoration strict plants keep their full footprint out of internal water channels")
+{
+    TerrainDecorationConfig settings = config();
+    TerrainDecorationRule &rule = settings.rules[0];
+    rule.candidates = 128;
+    rule.width = 80;
+    rule.maskWidth = rule.maskHeight = 64;
+    rule.coverage.assign(64 * 64, 255);
+    for (int y = 0; y < 64; ++y)
+    {
+        for (int x = 29; x <= 34; ++x)
+        {
+            rule.coverage[y * 64 + x] = 0;
+        }
+    }
+    const TerrainDecorationPlacement roots = scatterTerrainDecorations(flatMap(), textures(), settings);
+    rule.fullFootprint = true;
+    const TerrainDecorationPlacement strict = scatterTerrainDecorations(flatMap(), textures(), settings);
+    REQUIRE_FALSE(strict.instances.empty());
+    CHECK(strict.instances.size() < roots.instances.size());
+    for (const TerrainDecorationInstance &instance : strict.instances)
+    {
+        const float cellX = instance.positionYaw[0] - outdoorGridCornerWorldX(64);
+        CHECK((cellX + 80.0f * 0.65f < 29 * 8.0f || cellX - 80.0f * 0.65f > 35 * 8.0f));
+    }
 }
 
 TEST_CASE("Terrain decoration variants preserve placements and batches while weighting shapes")

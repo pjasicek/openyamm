@@ -42,7 +42,8 @@ public:
         const bx::Vec3 &cameraForward,
         const bx::Vec3 &cameraRight,
         const bx::Vec3 &cameraUp,
-        const float *pViewMatrix);
+        const float *pViewMatrix,
+        const float *pProjectionMatrix);
 
     static void renderOutdoorSky(
         OutdoorGameView &view,
@@ -55,14 +56,9 @@ public:
         const bx::Vec3 &cameraUp,
         float renderDistance);
 
-    static void renderOutdoorDarknessOverlay(
+    static void renderOutdoorGameplayOverlay(
         OutdoorGameView &view,
         uint16_t viewId,
-        const bx::Vec3 &cameraPosition,
-        const bx::Vec3 &cameraForward,
-        const bx::Vec3 &cameraRight,
-        const bx::Vec3 &cameraUp,
-        float aspectRatio,
         float overlayAlpha,
         uint32_t overlayColorAbgr);
 
@@ -112,7 +108,7 @@ private:
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,
         const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet);
-    static void applySecretPulseUniforms(OutdoorGameView &view);
+    static void applyOutdoorSurfaceUniforms(OutdoorGameView &view);
     static void applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition);
     static void destroyResolvedBModelDrawGroups(OutdoorGameView &view);
     static void rebuildResolvedBModelDrawGroups(OutdoorGameView &view);

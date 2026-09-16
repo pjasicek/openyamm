@@ -218,12 +218,13 @@ bool BgfxContext::initialize(SDL_Window *pWindow, int windowWidth, int windowHei
 
 void BgfxContext::resize(SDL_Window *pWindow, int windowWidth, int windowHeight) const
 {
-    if (!m_isInitialized)
+    if (!m_isInitialized || windowWidth <= 0 || windowHeight <= 0)
     {
         return;
     }
 
 #if defined(__ANDROID__)
+    // Foreground transitions can replace the native surface without resizing it.
     bgfx::setPlatformData(resolvePlatformData(pWindow));
 #else
     static_cast<void>(pWindow);

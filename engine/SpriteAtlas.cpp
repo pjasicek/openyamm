@@ -70,9 +70,14 @@ std::optional<SpriteAtlas> SpriteAtlas::parse(const std::string &text, std::stri
         const YAML::Node root = YAML::Load(text);
         require(root["schema_version"].as<int>() == 1, "Unsupported sprite atlas schema");
         const std::string recolorModel = root["recolor_model"].as<std::string>();
-        const bool useFourRegions = recolorModel == "multi_mask_luminance_rgb_v1";
+        const bool useSingleLut = recolorModel == "masked_luminance_lut_v1";
+        const bool useMultiLut = recolorModel == "multi_mask_luminance_lut_v1";
+        const bool useRgbLut = recolorModel == "masked_native_rgb_displacement_lut_v1";
+        const bool useLookup = useSingleLut || useMultiLut || useRgbLut;
+        const bool useFourRegions = recolorModel == "multi_mask_luminance_rgb_v1" || useMultiLut;
         const bool useRegions = recolorModel == "masked_regions_luminance_rgb_v1" || useFourRegions;
-        require(recolorModel == "green_chroma_srgb_v1" || recolorModel == "masked_luminance_rgb_v1" || useRegions,
+        require(recolorModel == "green_chroma_srgb_v1" || recolorModel == "masked_luminance_rgb_v1"
+            || useRegions || useLookup,
             "Unsupported recolor model");
         const bool useLuminance = recolorModel == "masked_luminance_rgb_v1";
         SpriteAtlas atlas;
@@ -127,7 +132,20 @@ std::optional<SpriteAtlas> SpriteAtlas::parse(const std::string &text, std::stri
             const int id = entry.first.as<int>();
             require(id >= 0 && id <= 32767, "Invalid sprite variant id");
             SpriteAtlasVariant variant;
-            if (!entry.second["exact_base_bypass"].as<bool>(false) && useRegions)
+            if (!entry.second["exact_base_bypass"].as<bool>(false) && useLookup)
+            {
+                variant.lookup = entry.second["lookup"].as<std::string>();
+                const std::string suffix = ".rgba32f";
+                require(variant.lookup.starts_with("atlas/") && variant.lookup.ends_with(suffix)
+                    && isIdentifier(variant.lookup.substr(6, variant.lookup.size() - 6 - suffix.size())),
+                    "Invalid sprite lookup path");
+                variant.lookupSize = readArray<int, 2>(entry.second["lookup_size"]);
+                const std::array<int, 2> expected = useRgbLut ? std::array<int, 2>{1089, 33}
+                    : std::array<int, 2>{256, useMultiLut ? 4 : 1};
+                require(variant.lookupSize == expected, "Invalid sprite lookup dimensions");
+                variant.chroma[3] = useRgbLut ? 7 : (useMultiLut ? 6 : 5);
+            }
+            else if (!entry.second["exact_base_bypass"].as<bool>(false) && useRegions)
             {
                 const YAML::Node ramps = entry.second["region_luminance_vectors"];
                 require(ramps.IsSequence() && ramps.size() == size_t(atlas.maskChannels),

@@ -3,7 +3,7 @@
 #include "engine/AssetScaleTier.h"
 #include "game/app/GameApplication.h"
 #include "game/app/GameSettings.h"
-#include "game/app/GprofControl.h"
+#include "game/app/ProfilingControl.h"
 #include "game/app/OpenYammMain.h"
 #include "game/outdoor/HeadlessOutdoorDiagnostics.h"
 #include "game/scenario/ScenarioHeadlessCommand.h"
@@ -236,7 +236,7 @@ void applySettingsConfigOverridesIfConfigured(
 
 int runApplication(int argc, char **argv)
 {
-    setGprofProfilingEnabled(false);
+    setGameplayProfilingEnabled(false);
     av_log_set_level(AV_LOG_ERROR);
 
     OpenYAMM::Engine::ApplicationConfig config = OpenYAMM::Engine::ApplicationConfig::createDefault();

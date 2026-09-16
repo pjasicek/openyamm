@@ -110,7 +110,7 @@ float materialCoverage(const TerrainDecorationRule &rule, float u, float v, bool
     }
     // Short blades may overhang the blend; their roots must still be on grass. Stones and tall
     // clumps retain full-width clearance. A soft acceptance probability thins the grassy edge.
-    const bool strict = rule.stone || fullFootprint;
+    const bool strict = rule.stone || rule.fullFootprint || fullFootprint;
     const float radiusWorld = strict ? rule.width * 0.65f : 4.0f;
     const int radius = std::max(1, int(std::ceil(radiusWorld * rule.maskWidth / 512.0f)));
     const int x = int(u * rule.maskWidth);
@@ -143,9 +143,37 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
     try
     {
         const YAML::Node root = YAML::Load(*text);
-        if (root["version"].as<int>() != 1 || !root["rules"].IsSequence() || root["rules"].size() > 256)
+        const int version = root["version"].as<int>();
+        if (version != 1 && version != 2)
         {
-            throw std::runtime_error("expected version 1 and at most 256 terrain decoration rules");
+            throw std::runtime_error("expected terrain decoration version 1 or 2");
+        }
+        if (version == 2 && !root["enabled"].as<bool>(true))
+        {
+            return std::nullopt;
+        }
+        if (!root["rules"].IsSequence() || root["rules"].size() > 256)
+        {
+            throw std::runtime_error("expected at most 256 terrain decoration rules");
+        }
+        YAML::Node library = root;
+        if (version == 2)
+        {
+            const std::string file = root["families_file"].as<std::string>();
+            if (file.empty() || std::filesystem::path(file).filename().string() != file)
+            {
+                throw std::runtime_error("families_file must be a local filename");
+            }
+            const std::optional<std::string> familyText = assets.readTextFile(directory + file);
+            if (!familyText)
+            {
+                throw std::runtime_error("missing terrain decoration family file: " + file);
+            }
+            library.reset(YAML::Load(*familyText));
+            if (library["version"].as<int>() != 2 || !library["families"].IsMap())
+            {
+                throw std::runtime_error("invalid terrain decoration family library");
+            }
         }
         TerrainDecorationConfig config;
         config.seed = root["seed"].as<uint32_t>(1);
@@ -155,10 +183,10 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
         config.patchSize = boundedFloat(root, "patch_size", 768.0f, 128.0f, 8192.0f);
         config.tallGrassChance = boundedFloat(root, "tall_grass_chance", 0.0f, 0.0f, 0.25f);
         config.tallGrassScale = boundedFloat(root, "tall_grass_scale", 1.8f, 1.0f, 2.0f);
-        config.tuftTexture = directory + root["tuft_texture"].as<std::string>();
-        if (root["tuft_atlas_grid"])
+        config.tuftTexture = directory + library["tuft_texture"].as<std::string>();
+        if (library["tuft_atlas_grid"])
         {
-            config.tuftAtlasGrid = root["tuft_atlas_grid"].as<std::array<int, 2>>();
+            config.tuftAtlasGrid = library["tuft_atlas_grid"].as<std::array<int, 2>>();
         }
         if (config.tuftAtlasGrid[0] < 1 || config.tuftAtlasGrid[0] > 4 ||
             config.tuftAtlasGrid[1] < 1 || config.tuftAtlasGrid[1] > 4)
@@ -182,7 +210,8 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
                 config.tuftVariants.push_back(variant);
             }
         }
-        if (config.tuftVariants.size() != size_t(config.tuftAtlasGrid[0] * config.tuftAtlasGrid[1]))
+        const int layerCount = config.tuftAtlasGrid[0] * config.tuftAtlasGrid[1];
+        if (version == 1 && config.tuftVariants.size() != size_t(layerCount))
         {
             throw std::runtime_error("tuft variant count must equal atlas cell count");
         }
@@ -201,9 +230,24 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
                 config.densityMask.push_back(mask->pixels[i + 2]);
             }
         }
-        for (const YAML::Node &node : root["rules"])
+        for (const YAML::Node &mapRule : root["rules"])
         {
             TerrainDecorationRule rule;
+            YAML::Node node = YAML::Clone(mapRule);
+            if (version == 2)
+            {
+                rule.family = mapRule["family"].as<std::string>();
+                const YAML::Node definition = library["families"][rule.family];
+                if (!definition.IsMap())
+                {
+                    throw std::runtime_error("unknown terrain decoration family: " + rule.family);
+                }
+                node.reset(YAML::Clone(definition));
+                for (const auto &entry : mapRule)
+                {
+                    node[entry.first.as<std::string>()] = YAML::Clone(entry.second);
+                }
+            }
             rule.texture = node["texture"].as<std::string>();
             const std::string kind = node["kind"].as<std::string>();
             if (kind != "grass" && kind != "stone")
@@ -218,7 +262,30 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
             }
             rule.width = boundedFloat(node, "width", 40.0f, 2.0f, 96.0f);
             rule.density = boundedFloat(node, "density", 1.0f, 0.0f, 2.0f);
-            rule.height = boundedFloat(node, "height", 28.0f, 2.0f, 64.0f);
+            rule.height = boundedFloat(node, "height", 28.0f, 2.0f, 128.0f);
+            rule.fullFootprint = node["full_footprint"].as<bool>(false);
+            rule.windStrength = boundedFloat(node, "wind_strength", 2.5f, 0.0f, 4.0f);
+            if (version == 2 && !rule.stone)
+            {
+                const YAML::Node variants = node["variants"];
+                if (!variants.IsSequence() || variants.size() == 0 || variants.size() > 16)
+                {
+                    throw std::runtime_error("plant family requires 1..16 atlas variants");
+                }
+                for (const YAML::Node &variantNode : variants)
+                {
+                    TerrainDecorationVariant variant;
+                    variant.layer = variantNode["layer"].as<int>();
+                    if (variant.layer < 0 || variant.layer >= layerCount)
+                    {
+                        throw std::runtime_error("plant variant layer outside atlas");
+                    }
+                    variant.weight = boundedFloat(variantNode, "weight", 1.0f, 0.01f, 100.0f);
+                    variant.widthScale = boundedFloat(variantNode, "width_scale", 1.0f, 0.25f, 1.0f);
+                    variant.heightScale = boundedFloat(variantNode, "height_scale", 1.0f, 0.25f, 1.5f);
+                    rule.variants.push_back(variant);
+                }
+            }
             if (node["tint"])
             {
                 rule.tint = node["tint"].as<std::array<float, 3>>();
@@ -290,7 +357,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(
         {
             return false;
         }
-        const float radius = (rule.stone || fullFootprint ? rule.width * 0.65f : 4.0f)
+        const float radius = (rule.stone || rule.fullFootprint || fullFootprint ? rule.width * 0.65f : 4.0f)
             / OutdoorMapData::TerrainTileSize;
         for (int dy = -1; dy <= 1; ++dy)
         {
@@ -311,7 +378,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                 bool allowed = false;
                 for (const TerrainDecorationRule *pNeighbor : rulesByTile[map.tileMap[ty * width + tx]])
                 {
-                    if (pNeighbor->stone == rule.stone &&
+                    if (pNeighbor->stone == rule.stone && pNeighbor->family == rule.family &&
                         materialCoverage(*pNeighbor, gx - tx, gy - ty, fullFootprint) > 0.0f)
                     {
                         allowed = true;
@@ -326,11 +393,6 @@ TerrainDecorationPlacement scatterTerrainDecorations(
         }
         return true;
     };
-    float totalVariantWeight = 0.0f;
-    for (const TerrainDecorationVariant &variant : config.tuftVariants)
-    {
-        totalVariantWeight += variant.weight;
-    }
     // Keep each mesh kind contiguous so mixed tiles do not fragment merged draw ranges.
     // Placement is static; no scattering or uploads occur during frames.
     for (bool stone : {false, true})
@@ -346,6 +408,13 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                     if (rule.stone != stone)
                     {
                         continue;
+                    }
+                    const std::vector<TerrainDecorationVariant> &variants =
+                        rule.variants.empty() ? config.tuftVariants : rule.variants;
+                    float totalVariantWeight = 0.0f;
+                    for (const TerrainDecorationVariant &variant : variants)
+                    {
+                        totalVariantWeight += variant.weight;
                     }
                     TerrainDecorationPatch patch = {};
                     patch.first = uint32_t(result.instances.size());
@@ -385,18 +454,21 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                         }
                         size_t variantIndex = 0;
                         TerrainDecorationVariant variant;
-                        if (!rule.stone && !config.tuftVariants.empty())
+                        if (!rule.stone && !variants.empty())
                         {
                             // A separate random stream preserves all existing placement/rotation choices.
                             uint32_t variantState = hash(state ^ 0x85ebca6bu);
                             float choice = randomUnit(variantState) * totalVariantWeight;
-                            while (variantIndex + 1 < config.tuftVariants.size() &&
-                                   choice >= config.tuftVariants[variantIndex].weight)
+                            while (variantIndex + 1 < variants.size() && choice >= variants[variantIndex].weight)
                             {
-                                choice -= config.tuftVariants[variantIndex].weight;
+                                choice -= variants[variantIndex].weight;
                                 ++variantIndex;
                             }
-                            variant = config.tuftVariants[variantIndex];
+                            variant = variants[variantIndex];
+                            if (variant.layer >= 0)
+                            {
+                                variantIndex = size_t(variant.layer);
+                            }
                         }
                         const float tallChance = config.tallGrassChance * 2.0f * smoothUnit((noise - 0.35f) / 0.4f);
                         const bool tall = !rule.stone && randomUnit(detailState) < tallChance &&
@@ -407,7 +479,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                         TerrainDecorationInstance instance = {
                             {px, py, z - (rule.stone ? 1.5f : 3.0f), yaw},
                             {rule.width * scale * variant.widthScale, instanceHeight,
-                             rule.stone ? 0.0f : 2.5f, rule.stone ? 1.0f : 0.0f},
+                             rule.stone ? 0.0f : rule.windStrength, rule.stone ? 1.0f : 0.0f},
                             {rule.tint[0] * shade, rule.tint[1] * shade, rule.tint[2] * shade, 1.0f},
                             {normal.x, normal.y, normal.z, float(variantIndex)}};
                         result.instances.push_back(instance);

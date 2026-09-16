@@ -4518,49 +4518,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     assetInfo.outdoorMapData->renderData = std::move(*renderData);
                     logStageComplete("cooked outdoor render data loaded");
 
-                    const std::optional<std::string> lightingDataFileName =
-                        buildLightingDataFileName(map.fileName);
-                    const std::optional<std::string> lightingDataPath = lightingDataFileName
-                        ? findAssetPath(assetFileSystem, map.worldId, *lightingDataFileName)
-                        : std::nullopt;
-
-                    if (lightingDataPath)
-                    {
-                        const std::optional<std::vector<uint8_t>> lightingDataBytes =
-                            assetFileSystem.readBinaryFile(*lightingDataPath);
-
-                        if (!lightingDataBytes)
-                        {
-                            std::cerr << "Failed to load cooked outdoor lighting for " << map.fileName << '\n';
-                            return std::nullopt;
-                        }
-
-                        OutdoorLightingDataLoader lightingDataLoader = {};
-                        std::optional<OutdoorLightingData> lightingData = lightingDataLoader.loadFromBytes(
-                            *lightingDataBytes,
-                            *geometryBytes,
-                            *assetInfo.outdoorMapData,
-                            sceneError);
-
-                        if (!lightingData)
-                        {
-                            std::cerr << "Failed to parse cooked outdoor lighting for " << map.fileName
-                                      << ": " << sceneError << '\n';
-                            return std::nullopt;
-                        }
-
-                        if (assetInfo.outdoorMapData->sceneProfile == OutdoorSceneProfile::BModelWorld)
-                        {
-                            scaleOutdoorLightingBrightness(
-                                *lightingData,
-                                assetInfo.outdoorMapData->lightmapBrightnessScale);
-                        }
-
-                        assetInfo.lightingDataPath = *lightingDataPath;
-                        assetInfo.lightingDataSize = lightingDataBytes->size();
-                        assetInfo.outdoorMapData->lightingData = std::move(*lightingData);
-                        logStageComplete("cooked outdoor lighting loaded");
-                    }
                 }
             }
             else if (companionBytes)
@@ -4576,6 +4533,62 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     assetInfo.authoredCompanionSource = AuthoredCompanionSource::LegacyCompanion;
                     logStageComplete("outdoor map delta parsed");
                 }
+            }
+
+            const std::optional<std::string> lightingDataFileName =
+                buildLightingDataFileName(map.fileName);
+            const std::optional<std::string> lightingDataPath = lightingDataFileName
+                ? findAssetPath(assetFileSystem, map.worldId, *lightingDataFileName)
+                : std::nullopt;
+
+            if (lightingDataPath)
+            {
+                const std::optional<std::vector<uint8_t>> lightingDataBytes =
+                    assetFileSystem.readBinaryFile(*lightingDataPath);
+
+                if (!lightingDataBytes)
+                {
+                    std::cerr << "Failed to load cooked outdoor lighting for " << map.fileName << '\n';
+                    return std::nullopt;
+                }
+
+                std::string lightingError;
+                OutdoorLightingDataLoader lightingDataLoader = {};
+                std::optional<OutdoorLightingData> lightingData = lightingDataLoader.loadFromBytes(
+                    *lightingDataBytes,
+                    *geometryBytes,
+                    *assetInfo.outdoorMapData,
+                    lightingError);
+
+                if (!lightingData)
+                {
+                    std::cerr << "Failed to parse cooked outdoor lighting for " << map.fileName
+                              << ": " << lightingError << '\n';
+                    return std::nullopt;
+                }
+
+                if (assetInfo.outdoorMapData->sceneProfile == OutdoorSceneProfile::BModelWorld)
+                {
+                    scaleOutdoorLightingBrightness(
+                        *lightingData,
+                        assetInfo.outdoorMapData->lightmapBrightnessScale);
+                }
+
+                for (const OutdoorLightingData::Dependency &dependency : lightingData->dependencies)
+                {
+                    const std::optional<std::vector<uint8_t>> bytes =
+                        assetFileSystem.readBinaryFile(dependency.path);
+                    if (!bytes || outdoorLightingContentHash(*bytes) != dependency.hash)
+                    {
+                        std::cerr << "Stale baked lighting dependency: " << dependency.path
+                                  << "; regenerate " << *lightingDataPath << '\n';
+                        return std::nullopt;
+                    }
+                }
+                assetInfo.lightingDataPath = *lightingDataPath;
+                assetInfo.lightingDataSize = lightingDataBytes->size();
+                assetInfo.outdoorMapData->lightingData = std::move(*lightingData);
+                logStageComplete("cooked outdoor lighting loaded");
             }
 
             if (!applyTerrainTileDescriptorAttributes(assetFileSystem, *assetInfo.outdoorMapData))
