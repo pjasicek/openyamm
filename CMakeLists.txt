@@ -26,6 +26,10 @@ option(OPENYAMM_BUILD_TOOLS "Build the tools targets." OFF)
 option(OPENYAMM_BUILD_TESTS "Build the unit test target." ON)
 option(OPENYAMM_BUILD_DESKTOP_EXECUTABLE "Build the desktop OpenYAMM executable." ON)
 option(OPENYAMM_USE_SYSTEM_SDL3 "Use an installed SDL3 package instead of fetching it." OFF)
+option(OPENYAMM_USE_VULKAN "Use Vulkan for the desktop renderer and build SPIR-V shaders." OFF)
+if (OPENYAMM_USE_VULKAN AND (ANDROID OR APPLE))
+    message(FATAL_ERROR "OPENYAMM_USE_VULKAN currently supports Linux and Windows desktop builds only.")
+endif()
 option(
     OPENYAMM_ENABLE_GPROF_SAMPLING
     "Link the desktop executable for low-overhead gprof histogram sampling without call-arc instrumentation."
