@@ -16,6 +16,9 @@ uniform vec4 u_fxLightColors[8];
 uniform vec4 u_fxLightParams;
 uniform vec4 u_secretPulseParams;
 
+#define MATERIAL_OUTDOOR_RESPONSE 1
+#include "material_lighting.sh"
+
 float safeSmoothstep(float edge0, float edge1, float value)
 {
     if (edge0 == edge1)
@@ -96,15 +99,25 @@ void main()
 
 #if BAKED_SOURCES
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z);
-    vec3 staticLighting = bakedSourceLighting(texture2D(s_texLightmap, v_lightmapUv),
-                                              texture2D(s_texBakedSky, v_lightmapUv));
-    vec4 litTextureColor = vec4(bakedSurfaceColor(textureColor.rgb,
-        staticLighting + getFxLighting(v_worldPosition)), textureColor.a);
+    vec4 bakedSun = texture2D(s_texLightmap, v_lightmapUv);
+    vec4 bakedSky = texture2D(s_texBakedSky, v_lightmapUv);
+    vec3 staticLighting = bakedSourceLighting(bakedSun, bakedSky);
+    // Material sheen and emissive join the linear expression before its one display encode.
+    // Only the directional term receives the baked sun visibility; local sheen and emissive
+    // remain independent of that source.
+    vec4 litTextureColor = vec4(bakedSurfaceColorWithEmission(textureColor.rgb,
+        staticLighting + getFxLighting(v_worldPosition),
+        outdoorMaterialFaceResponse(
+            v_worldPosition,
+            v_worldNormal,
+            decodeBakedSource(bakedSun))), textureColor.a);
 #else
     vec3 staticLighting = texture2D(s_texLightmap, v_lightmapUv).rgb * v_color0.rgb;
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z);
+    // Combined imported lightmaps stay in the legacy domain; the material term is added in it.
     vec4 litTextureColor = vec4(
-        textureColor.rgb * staticLighting * getFxLighting(v_worldPosition),
+        textureColor.rgb * staticLighting * getFxLighting(v_worldPosition)
+            + outdoorMaterialFaceResponse(v_worldPosition, v_worldNormal, vec3_splat(1.0)),
         textureColor.a);
 #endif
 

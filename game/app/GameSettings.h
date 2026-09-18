@@ -191,6 +191,11 @@ struct GameSettings
     bool newGameGodLich = false;
     bool allowIncompleteCharacterCreation = false;
     bool debugConsole = true;
+    // Launch-time capture directives; parsed from [debug] but intentionally not written back by
+    // saveGameSettings so an injected capture request fires only for the launch that requested it.
+    std::string screenshotPath;
+    float screenshotDelaySeconds = 0.0f;
+    std::string screenshotTourPath;
     int keyboardInteractionDepth = 512;
     int mouseInteractionDepth = 512;
     bool combatText = true;

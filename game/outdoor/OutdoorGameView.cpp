@@ -2892,6 +2892,10 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_outdoorFogDensitiesUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFogDistancesUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorCameraPositionUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialShadingUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialEmissiveColorUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialSunDirectionUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialSunColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_secretPulseParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewParams0UniformHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewParams1UniformHandle(BGFX_INVALID_HANDLE)
@@ -3200,6 +3204,10 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_outdoorFogDensitiesUniformHandle)
         || !bgfx::isValid(m_outdoorFogDistancesUniformHandle)
         || !bgfx::isValid(m_outdoorCameraPositionUniformHandle)
+        || !bgfx::isValid(m_materialShadingUniformHandle)
+        || !bgfx::isValid(m_materialEmissiveColorUniformHandle)
+        || !bgfx::isValid(m_materialSunDirectionUniformHandle)
+        || !bgfx::isValid(m_materialSunColorUniformHandle)
         || !bgfx::isValid(m_secretPulseParamsUniformHandle)
         || (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData
             && !bgfx::isValid(m_bmodelLightmapSamplerHandle))
@@ -3687,6 +3695,7 @@ void OutdoorGameView::shutdown()
         resetLightingStats(m_outdoorLightingStats);
         m_outdoorSpriteRenderDiagnostics = {};
         m_lastOutdoorLightingStatsLogElapsedTime = 0.0f;
+        m_lastSubmittedBModelMaterialId = 0xffff;
     };
 
     screenRuntime.clearUiControllerRuntimeState();
@@ -3704,6 +3713,7 @@ void OutdoorGameView::shutdown()
     m_cachedOutdoorDynamicLightEmitters.clear();
     m_pCachedOutdoorLightingData = nullptr;
     m_outdoorLightingRuntimesInitialized = false;
+    m_lastSubmittedBModelMaterialId = 0xffff;
     m_worldFxSystem.reset();
 
     if (!Engine::BgfxContext::isBgfxInitialized())
@@ -3956,6 +3966,30 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_outdoorCameraPositionUniformHandle);
         m_outdoorCameraPositionUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialShadingUniformHandle))
+    {
+        bgfx::destroy(m_materialShadingUniformHandle);
+        m_materialShadingUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialEmissiveColorUniformHandle))
+    {
+        bgfx::destroy(m_materialEmissiveColorUniformHandle);
+        m_materialEmissiveColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialSunDirectionUniformHandle))
+    {
+        bgfx::destroy(m_materialSunDirectionUniformHandle);
+        m_materialSunDirectionUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialSunColorUniformHandle))
+    {
+        bgfx::destroy(m_materialSunColorUniformHandle);
+        m_materialSunColorUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_secretPulseParamsUniformHandle))
@@ -5427,6 +5461,7 @@ void OutdoorGameView::LitBillboardVertex::init()
 
 void OutdoorGameView::LightmappedBModelVertex::init()
 {
+    static_assert(sizeof(LightmappedBModelVertex) == 64);
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
@@ -5434,6 +5469,7 @@ void OutdoorGameView::LightmappedBModelVertex::init()
         .add(bgfx::Attrib::TexCoord3, 4, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord4, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+        .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
         .end();
 }
 

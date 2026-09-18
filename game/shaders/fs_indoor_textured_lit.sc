@@ -1,4 +1,4 @@
-$input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace, v_flowInfo, v_color0
+$input v_texcoord0, v_worldPosition, v_worldNormal, v_texcoord1, v_screenspace, v_flowInfo, v_color0
 
 #include "common.sh"
 
@@ -10,6 +10,10 @@ uniform vec4 u_indoorLightParams;
 uniform vec4 u_secretPulseParams;
 uniform vec4 u_indoorSkyParams;
 uniform vec4 u_indoorSkyProjectionParams;
+uniform vec4 u_cameraPosition;
+
+#define MATERIAL_INDOOR_RESPONSE 1
+#include "material_lighting.sh"
 
 vec3 getIndoorLighting(vec3 worldPosition, vec3 vertexLighting)
 {
@@ -92,6 +96,13 @@ void main()
     }
 
     vec3 color = textureColor.rgb * getIndoorLighting(v_worldPosition, v_color0.rgb);
+
+    // Bounded artistic sheen and emissive before the secret tint. Indoor sky is an
+    // excluded presentation surface even if it shares a texture with an authored material.
+    if (v_flowInfo.w >= -1.5)
+    {
+        color += indoorMaterialFaceResponse(v_worldPosition, v_worldNormal);
+    }
 
     if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)
     {

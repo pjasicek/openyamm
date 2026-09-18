@@ -1455,6 +1455,26 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "screenshot_path"))
+    {
+        settings.screenshotPath = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "screenshot_delay_seconds"))
+    {
+        float parsed = settings.screenshotDelaySeconds;
+
+        if (parseFloatValue(*value, parsed) && parsed >= 0.0f)
+        {
+            settings.screenshotDelaySeconds = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "screenshot_tour_path"))
+    {
+        settings.screenshotTourPath = trimCopy(*value);
+    }
+
     error.clear();
     return settings;
 }

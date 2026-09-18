@@ -182,6 +182,12 @@ private:
         float fluidFlow;
         uint32_t bakedLightAbgr;
 
+        // Unit world-space normal from the transformed face geometry; zero marks faces
+        // without a usable plane.
+        float normalX = 0.0f;
+        float normalY = 0.0f;
+        float normalZ = 0.0f;
+
         static void init();
         static bgfx::VertexLayout ms_layout;
     };
@@ -217,6 +223,7 @@ private:
         int16_t sectorId = -1;
         int16_t backSectorId = -1;
         uint32_t stableId = 0;
+        uint16_t materialId = SurfaceMaterialRuntimeSet::NeutralMaterialId;
         std::vector<bgfx::TextureHandle> frameTextureHandles;
         std::vector<uint32_t> frameLengthTicks;
         uint32_t animationLengthTicks = 0;
@@ -665,6 +672,10 @@ private:
     bgfx::UniformHandle m_secretPulseParamsUniformHandle;
     bgfx::UniformHandle m_indoorSkyParamsUniformHandle;
     bgfx::UniformHandle m_indoorSkyProjectionParamsUniformHandle;
+    bgfx::UniformHandle m_indoorCameraPositionUniformHandle;
+    bgfx::UniformHandle m_materialShadingUniformHandle;
+    bgfx::UniformHandle m_materialEmissiveColorUniformHandle;
+    uint16_t m_lastSubmittedMaterialId = 0xffff;
     bgfx::UniformHandle m_billboardAmbientUniformHandle;
     bgfx::UniformHandle m_billboardOverrideColorUniformHandle;
     bgfx::UniformHandle m_billboardOutlineParamsUniformHandle;

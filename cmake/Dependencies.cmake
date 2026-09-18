@@ -291,6 +291,9 @@ function(openyamm_fetch_bgfx_stack)
     include("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/BgfxGlUniformCache.cmake")
     openyamm_patch_bgfx_gl_uniform_cache("${bgfxSourceDir}")
 
+    include("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/BgfxEglOpaqueWindow.cmake")
+    openyamm_patch_bgfx_egl_opaque_window("${bgfxSourceDir}")
+
     if (NOT TARGET openyamm_bgfx_headers)
         add_library(openyamm_bgfx_headers INTERFACE)
 

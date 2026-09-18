@@ -1066,6 +1066,65 @@ void OutdoorRenderer::applyOutdoorSurfaceUniforms(OutdoorGameView &view)
     bgfx::setUniform(view.m_secretPulseParamsUniformHandle, params.data());
 }
 
+void OutdoorRenderer::applyOutdoorMaterialSunUniforms(OutdoorGameView &view)
+{
+    if (!bgfx::isValid(view.m_materialSunDirectionUniformHandle)
+        || !bgfx::isValid(view.m_materialSunColorUniformHandle)
+        || view.m_pOutdoorMapData == nullptr
+        || view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const OutdoorMaterialSunInputs sun = buildOutdoorMaterialSunInputs(
+        *view.m_pOutdoorMapData,
+        view.m_pOutdoorWorldRuntime->atmosphereState(),
+        view.m_gameSettings,
+        view.m_pOutdoorMapData->hasBakeSunDirection,
+        view.m_pOutdoorMapData->bakeSunDirection);
+    const float direction[4] = {sun.direction.x, sun.direction.y, sun.direction.z, sun.enabled ? 1.0f : 0.0f};
+    const float color[4] = {sun.color[0], sun.color[1], sun.color[2], 0.0f};
+    bgfx::setUniform(view.m_materialSunDirectionUniformHandle, direction);
+    bgfx::setUniform(view.m_materialSunColorUniformHandle, color);
+}
+
+void OutdoorRenderer::applyBModelMaterialUniforms(OutdoorGameView &view, uint16_t materialId)
+{
+    if (!bgfx::isValid(view.m_materialShadingUniformHandle)
+        || !bgfx::isValid(view.m_materialEmissiveColorUniformHandle)
+        || view.m_pOutdoorMapData == nullptr)
+    {
+        return;
+    }
+
+    // The GL renderer replays bound uniform values for every draw of a program, so the
+    // values only need to enter the command stream when they actually change. One write
+    // per material change keeps the per-frame uniform stream small.
+    if (view.m_lastSubmittedBModelMaterialId == materialId)
+    {
+        return;
+    }
+
+    view.m_lastSubmittedBModelMaterialId = materialId;
+
+    const ResolvedSurfaceMaterial &material =
+        view.m_pOutdoorMapData->surfaceMaterials.material(materialId);
+    const float shading[4] = {
+        material.roughness,
+        material.specular,
+        material.fresnelStrength,
+        material.emissiveStrength
+    };
+    const float emissiveColor[4] = {
+        material.emissiveColor[0],
+        material.emissiveColor[1],
+        material.emissiveColor[2],
+        0.0f
+    };
+    bgfx::setUniform(view.m_materialShadingUniformHandle, shading);
+    bgfx::setUniform(view.m_materialEmissiveColorUniformHandle, emissiveColor);
+}
+
 void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition)
 {
     if (!bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
@@ -1250,8 +1309,8 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         std::vector<OutdoorGameView::TexturedTerrainVertex> textured;
         std::vector<OutdoorGameView::LightmappedBModelVertex> lightmapped;
     };
-    // Material animation and atlas page both define a static draw group.
-    std::map<std::pair<size_t, uint16_t>, ResolvedVertices> verticesByMaterial;
+    // Material animation, atlas page and resolved surface material all define a static draw group.
+    std::map<std::tuple<size_t, uint16_t, uint16_t>, ResolvedVertices> verticesByMaterial;
 
     for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
     {
@@ -1312,9 +1371,13 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             continue;
         }
 
+        // The animation handle carries the logical source texture identity of the effective
+        // (override-resolved) texture; the material binding follows that identity, not the
+        // current animation frame.
+        const std::string &effectiveTextureName =
+            view.m_bmodelTextureAnimations[animationIndex].textureName;
+
         const uint16_t lightmapPage = batch.lightmappedVertices.empty() ? 0xffff : batch.lightmapPageIndex;
-        ResolvedVertices &resolved = verticesByMaterial[{animationIndex, lightmapPage}];
-        std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices = resolved.textured;
         uint32_t effectiveAttributes = batch.baseAttributes;
 
         if (pMapDeltaData != nullptr && batch.faceId < pMapDeltaData->faceAttributes.size())
@@ -1355,10 +1418,31 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
 
         secretPulse = secretFaceVertexValue(effectiveAttributes, perceptionDifficulty);
 
+        const uint16_t materialId =
+            view.m_pOutdoorMapData != nullptr
+                ? view.m_pOutdoorMapData->surfaceMaterials.resolveMaterialId(
+                    effectiveTextureName, effectiveAttributes, false)
+                : SurfaceMaterialRuntimeSet::NeutralMaterialId;
+        ResolvedVertices &resolved = verticesByMaterial[{animationIndex, lightmapPage, materialId}];
+        std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices = resolved.textured;
+
         const size_t oldSize = groupVertices.size();
         groupVertices.insert(groupVertices.end(), batch.vertices.begin(), batch.vertices.end());
         const std::optional<OutdoorBModelRuntimeTransformState> runtimeTransform =
             outdoorBModelRuntimeTransform(pEventRuntimeState, batch.bModelIndex);
+        bx::Vec3 transformedNormal = {0.0f, 0.0f, 0.0f};
+
+        if (runtimeTransform && !batch.vertices.empty())
+        {
+            transformedNormal = transformOutdoorBModelDirection(
+                {
+                    batch.vertices.front().normalX,
+                    batch.vertices.front().normalY,
+                    batch.vertices.front().normalZ
+                },
+                runtimeTransform->transform,
+                runtimeTransform->fraction);
+        }
 
         for (size_t vertexIndex = oldSize; vertexIndex < groupVertices.size(); ++vertexIndex)
         {
@@ -1372,6 +1456,14 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             groupVertices[vertexIndex].x = transformed.x;
             groupVertices[vertexIndex].y = transformed.y;
             groupVertices[vertexIndex].z = transformed.z;
+
+            if (runtimeTransform)
+            {
+                groupVertices[vertexIndex].normalX = transformedNormal.x;
+                groupVertices[vertexIndex].normalY = transformedNormal.y;
+                groupVertices[vertexIndex].normalZ = transformedNormal.z;
+            }
+
             groupVertices[vertexIndex].secretPulse = secretPulse;
             groupVertices[vertexIndex].flowUPerSecond = flowInfo[0];
             groupVertices[vertexIndex].flowVPerSecond = flowInfo[1];
@@ -1379,7 +1471,8 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             groupVertices[vertexIndex].fluidFlow = flowInfo[3];
         }
 
-        // Keep the exact same resolved position, event attributes and flow on the lightmap layout.
+        // Keep the exact same resolved position, event attributes, flow and normal on the
+        // lightmap layout.
         for (size_t index = 0; index < batch.lightmappedVertices.size(); ++index)
         {
             OutdoorGameView::LightmappedBModelVertex vertex = batch.lightmappedVertices[index];
@@ -1387,6 +1480,9 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             vertex.x = source.x;
             vertex.y = source.y;
             vertex.z = source.z;
+            vertex.normalX = source.normalX;
+            vertex.normalY = source.normalY;
+            vertex.normalZ = source.normalZ;
             vertex.secretPulse = source.secretPulse;
             vertex.flowUPerSecond = source.flowUPerSecond;
             vertex.flowVPerSecond = source.flowVPerSecond;
@@ -1424,8 +1520,9 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         OutdoorGameView::ResolvedBModelDrawGroup group = {};
         group.vertexBufferHandle = vertexBufferHandle;
         group.vertexCount = static_cast<uint32_t>(groupVertices.size());
-        group.animationIndex = material.first;
-        group.lightmapPageIndex = material.second;
+        group.animationIndex = std::get<0>(material);
+        group.lightmapPageIndex = std::get<1>(material);
+        group.materialId = std::get<2>(material);
         group.usesStaticLighting = usesStaticLighting;
         const OutdoorLightSelectionBounds bounds = boundsFromTexturedVertices(groupVertices);
         group.boundsMin = bounds.min;
@@ -1569,8 +1666,9 @@ void OutdoorRenderer::refreshBModelWorldRenderChunks(OutdoorGameView &view)
         chunk.groups.clear();
         chunk.hasBounds = false;
 
-        std::map<std::pair<size_t, bool>, std::vector<OutdoorGameView::TexturedTerrainVertex>> verticesByMaterial;
-        std::map<std::tuple<size_t, bool, uint16_t>,
+        std::map<std::tuple<size_t, bool, uint16_t>, std::vector<OutdoorGameView::TexturedTerrainVertex>>
+            verticesByMaterial;
+        std::map<std::tuple<size_t, bool, uint16_t, uint16_t>,
             std::vector<OutdoorGameView::LightmappedBModelVertex>> lightmappedVerticesByMaterial;
 
         for (OutdoorGameView::BModelWorldRenderFace &face : chunk.faces)
@@ -1585,6 +1683,11 @@ void OutdoorRenderer::refreshBModelWorldRenderChunks(OutdoorGameView &view)
             {
                 continue;
             }
+
+            const uint16_t materialId = view.m_pOutdoorMapData->surfaceMaterials.resolveMaterialId(
+                view.m_bmodelTextureAnimations[animationIndex].textureName,
+                effectiveAttributes,
+                false);
 
             std::vector<OutdoorGameView::TexturedTerrainVertex> vertices = buildTexturedBModelFaceVertices(
                 *view.m_pOutdoorMapData,
@@ -1616,14 +1719,15 @@ void OutdoorRenderer::refreshBModelWorldRenderChunks(OutdoorGameView &view)
                     buildLightmappedBModelFaceVertices(
                         *view.m_pOutdoorMapData, face.bModelIndex, face.faceIndex, vertices);
                 std::vector<OutdoorGameView::LightmappedBModelVertex> &groupVertices =
-                    lightmappedVerticesByMaterial[{animationIndex, face.translucent, face.lightmapPageIndex}];
+                    lightmappedVerticesByMaterial[
+                        {animationIndex, face.translucent, face.lightmapPageIndex, materialId}];
                 groupVertices.insert(
                     groupVertices.end(), lightmappedVertices.begin(), lightmappedVertices.end());
             }
             else
             {
                 std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices =
-                    verticesByMaterial[{animationIndex, face.translucent}];
+                    verticesByMaterial[{animationIndex, face.translucent, materialId}];
                 groupVertices.insert(groupVertices.end(), vertices.begin(), vertices.end());
             }
         }
@@ -1650,8 +1754,9 @@ void OutdoorRenderer::refreshBModelWorldRenderChunks(OutdoorGameView &view)
             OutdoorGameView::BModelWorldRenderGroup group = {};
             group.vertexBufferHandle = vertexBufferHandle;
             group.vertexCount = static_cast<uint32_t>(vertices.size());
-            group.animationIndex = materialKey.first;
-            group.translucent = materialKey.second;
+            group.animationIndex = std::get<0>(materialKey);
+            group.translucent = std::get<1>(materialKey);
+            group.materialId = std::get<2>(materialKey);
             group.boundsMin = bounds.min;
             group.boundsMax = bounds.max;
             group.hasBounds = bounds.valid;
@@ -1705,6 +1810,7 @@ void OutdoorRenderer::refreshBModelWorldRenderChunks(OutdoorGameView &view)
             group.animationIndex = std::get<0>(materialKey);
             group.translucent = std::get<1>(materialKey);
             group.lightmapPageIndex = std::get<2>(materialKey);
+            group.materialId = std::get<3>(materialKey);
             group.usesStaticLighting = true;
             group.boundsMin = bounds.min;
             group.boundsMax = bounds.max;
@@ -2169,17 +2275,26 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
         return vertices;
     }
 
+    // The flat face normal is computed independently of the diffuse-lighting mode; both the
+    // classic and lightmapped layouts carry it. Degenerate faces keep a zero normal. Only the
+    // classic non-lightmapped path historically rejected faces on geometry failure; other
+    // profiles keep rendering them (with a zero normal when no plane exists).
+    const bool geometryFailureRejectsFace = mapData.sceneProfile == OutdoorSceneProfile::ClassicOdm
+        && (!useLightmaps || !mapData.lightingData);
     bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
-    if (mapData.sceneProfile == OutdoorSceneProfile::ClassicOdm && (!useLightmaps || !mapData.lightingData))
     {
         OutdoorFaceGeometryData geometry = {};
-        if (!buildOutdoorFaceGeometry(bmodel, bModelIndex, face, faceIndex, geometry, true))
-        {
-            return vertices;
-        }
-        if (geometry.hasPlane)
+        const bool geometryValid =
+            buildOutdoorFaceGeometry(bmodel, bModelIndex, face, faceIndex, geometry, true);
+
+        if (geometryValid && geometry.hasPlane)
         {
             normal = bx::normalize(geometry.normal);
+        }
+
+        if (!geometryValid && geometryFailureRejectsFace)
+        {
+            return vertices;
         }
     }
 
@@ -2287,6 +2402,9 @@ std::vector<OutdoorGameView::LightmappedBModelVertex> OutdoorRenderer::buildLigh
             vertex.flowVPerSecond = source.flowVPerSecond;
             vertex.lavaFlow = source.lavaFlow;
             vertex.fluidFlow = source.fluidFlow;
+            vertex.normalX = source.normalX;
+            vertex.normalY = source.normalY;
+            vertex.normalZ = source.normalZ;
             vertex.lightmapU = sourceLighting.u;
             vertex.lightmapV = sourceLighting.v;
             vertex.staticColorAbgr = sourceLighting.staticColorAbgr;
@@ -2717,6 +2835,8 @@ void OutdoorRenderer::createBModelTextureBatches(
             batch.textureWidth = pBaseTexture->width;
             batch.textureHeight = pBaseTexture->height;
             batch.textureName = toLowerCopy(face.textureName);
+            batch.baseMaterialId =
+                outdoorMapData.surfaceMaterials.resolveMaterialId(batch.textureName, face.attributes, false);
             const OutdoorLightSelectionBounds batchBounds = boundsFromTexturedVertices(batch.vertices);
             batch.boundsMin = batchBounds.min;
             batch.boundsMax = batchBounds.max;
@@ -2781,6 +2901,17 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     const std::optional<OutdoorTerrainTextureAtlas> &outdoorTerrainTextureAtlas,
     const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet)
 {
+    view.m_lastSubmittedBModelMaterialId = 0xffff;
+
+    // Material uniforms must exist before any world-surface program is created: the GL
+    // renderer resolves user uniforms into per-program bindings at program creation.
+    view.m_materialShadingUniformHandle = bgfx::createUniform("u_materialShading", bgfx::UniformType::Vec4);
+    view.m_materialEmissiveColorUniformHandle =
+        bgfx::createUniform("u_materialEmissiveColor", bgfx::UniformType::Vec4);
+    view.m_materialSunDirectionUniformHandle =
+        bgfx::createUniform("u_materialSunDirection", bgfx::UniformType::Vec4);
+    view.m_materialSunColorUniformHandle = bgfx::createUniform("u_materialSunColor", bgfx::UniformType::Vec4);
+
     OutdoorGameView::TerrainVertex::init();
     OutdoorGameView::TexturedTerrainVertex::init();
     OutdoorGameView::LitBillboardVertex::init();
@@ -3532,6 +3663,10 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                                         const bx::Vec3 &cameraRight, const bx::Vec3 &cameraUp, const float *pViewMatrix,
                                         const float *pProjectionMatrix)
 {
+    // Material IDs are map-local and bgfx uniforms are shared by name. Force the first
+    // eligible draw of every frame to establish this view's material state.
+    view.m_lastSubmittedBModelMaterialId = 0xffff;
+
     const ViewFrustum frustum(pViewMatrix, pProjectionMatrix, bgfx::getCaps()->homogeneousDepth);
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
@@ -3624,6 +3759,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                 view.m_outdoorFogDistancesUniformHandle, view.m_outdoorCameraPositionUniformHandle,
                 cameraPosition, worldFogParameters);
             applyOutdoorSurfaceUniforms(view);
+            applyOutdoorMaterialSunUniforms(view);
             worldSurfaceUniformsApplied = true;
         }
     };
@@ -3960,6 +4096,11 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                                 {
                                     state |= BGFX_STATE_WRITE_Z;
                                 }
+                                applyBModelMaterialUniforms(
+                                    view,
+                                    group.translucent
+                                        ? SurfaceMaterialRuntimeSet::NeutralMaterialId
+                                        : group.materialId);
                                 bgfx::setState(state);
                                 bgfx::submit(MainViewId,
                                              group.usesStaticLighting ? view.m_outdoorBModelLightmapProgramHandle
@@ -4040,6 +4181,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                                     cameraPosition, groupBounds);
                             }
 
+                            applyBModelMaterialUniforms(view, group.materialId);
                             bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z |
                                            BGFX_STATE_DEPTH_TEST_LEQUAL);
                             bgfx::submit(MainViewId, group.usesStaticLighting
@@ -4047,7 +4189,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         }
                     }
 
-                    for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
+                    for (OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
                     {
                         if (!outdoorBModelUsesRuntimeDraw(
                                 pEventRuntimeState, view.m_pOutdoorWorldRuntime, batch.bModelIndex) ||
@@ -4182,20 +4324,15 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         std::vector<OutdoorGameView::LightmappedBModelVertex> lightmappedVertices =
                             batch.lightmappedVertices;
 
-                        // A runtime batch contains one face. Rotate its normal once, without moving its origin.
+                        // A runtime batch contains one face. Rotate its flat normal once, as a
+                        // direction without translation, and share it across both layouts.
                         bx::Vec3 transformedNormal = {0.0f, 0.0f, 0.0f};
                         if (runtimeTransform && !vertices.empty())
                         {
-                            OutdoorBModelTransform normalTransform = runtimeTransform->transform;
-                            normalTransform.translationX = 0.0f;
-                            normalTransform.translationY = 0.0f;
-                            normalTransform.translationZ = 0.0f;
-                            normalTransform.pivotX = 0.0f;
-                            normalTransform.pivotY = 0.0f;
-                            normalTransform.pivotZ = 0.0f;
-                            transformedNormal = transformOutdoorBModelPoint(
+                            transformedNormal = transformOutdoorBModelDirection(
                                 {vertices.front().normalX, vertices.front().normalY, vertices.front().normalZ},
-                                normalTransform, runtimeTransform->fraction);
+                                runtimeTransform->transform,
+                                runtimeTransform->fraction);
                         }
                         for (OutdoorGameView::TexturedTerrainVertex &vertex : vertices)
                         {
@@ -4219,6 +4356,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
 
                         for (OutdoorGameView::LightmappedBModelVertex &vertex : lightmappedVertices)
                         {
+                            if (runtimeTransform)
+                            {
+                                vertex.normalX = transformedNormal.x;
+                                vertex.normalY = transformedNormal.y;
+                                vertex.normalZ = transformedNormal.z;
+                            }
                             const bx::Vec3 transformed =
                                 applyOutdoorBModelRuntimeTransform(runtimeTransform, {vertex.x, vertex.y, vertex.z});
                             vertex.x = transformed.x;
@@ -4298,6 +4441,27 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         {
                             state |= BGFX_STATE_BLEND_ALPHA;
                         }
+                        if (batch.resolvedMaterialAnimationIndex != animationIndex
+                            || batch.resolvedMaterialAttributes != effectiveAttributes)
+                        {
+                            batch.resolvedMaterialId =
+                                animationIndex == batch.defaultAnimationIndex
+                                    && effectiveAttributes == batch.baseAttributes
+                                ? batch.baseMaterialId
+                                : view.m_pOutdoorMapData->surfaceMaterials.resolveMaterialId(
+                                    view.m_bmodelTextureAnimations[animationIndex].textureName,
+                                    effectiveAttributes,
+                                    false);
+                            batch.resolvedMaterialAnimationIndex = animationIndex;
+                            batch.resolvedMaterialAttributes = effectiveAttributes;
+                        }
+
+                        const bool materialEligible = !batch.translucent && !blendPartialAlpha;
+                        applyBModelMaterialUniforms(
+                            view,
+                            materialEligible
+                                ? batch.resolvedMaterialId
+                                : SurfaceMaterialRuntimeSet::NeutralMaterialId);
                         bgfx::setState(state);
                         bgfx::submit(MainViewId,
                                      usesStaticLighting ? view.m_outdoorBModelLightmapProgramHandle

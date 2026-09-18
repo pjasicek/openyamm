@@ -7,7 +7,9 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <exception>
+#include <unordered_set>
 
 namespace OpenYAMM::Game
 {
@@ -16,6 +18,11 @@ namespace
 std::optional<SurfaceMaterialSemantic> parseSemantic(const std::string &value)
 {
     const std::string normalizedValue = toLowerCopy(value);
+
+    if (normalizedValue == "generic")
+    {
+        return SurfaceMaterialSemantic::Generic;
+    }
 
     if (normalizedValue == "generic_animated")
     {
@@ -177,6 +184,240 @@ void normalizeExplicitFrameLengths(SurfaceAnimationSequence &animation)
 
     animation.animationLengthTicks = animationLengthTicks;
 }
+
+bool shadingFloatInRange(
+    const YAML::Node &node,
+    const char *propertyName,
+    const std::string &materialId,
+    float minValue,
+    float maxValue,
+    float &outValue,
+    std::string &errorMessage)
+{
+    float value = 0.0f;
+
+    try
+    {
+        value = node.as<float>();
+    }
+    catch (const std::exception &)
+    {
+        errorMessage = "surface material '" + materialId + "': shading." + propertyName
+            + " must be a number";
+        return false;
+    }
+
+    if (!std::isfinite(value))
+    {
+        errorMessage = "surface material '" + materialId + "': shading." + propertyName
+            + " must be a finite number";
+        return false;
+    }
+
+    if (value < minValue || value > maxValue)
+    {
+        errorMessage = "surface material '" + materialId + "': shading." + propertyName + "="
+            + std::to_string(value) + " is outside the allowed range ["
+            + std::to_string(minValue) + ", " + std::to_string(maxValue) + "]";
+        return false;
+    }
+
+    outValue = value;
+    return true;
+}
+
+bool shadingBoolValue(
+    const YAML::Node &node,
+    const char *propertyName,
+    const std::string &materialId,
+    bool &outValue,
+    std::string &errorMessage)
+{
+    try
+    {
+        outValue = node.as<bool>();
+        return true;
+    }
+    catch (const std::exception &)
+    {
+        errorMessage = "surface material '" + materialId + "': shading." + propertyName
+            + " must be a boolean";
+        return false;
+    }
+}
+
+std::optional<SurfaceMaterialShading> parseShadingNode(
+    const YAML::Node &shadingNode,
+    const std::string &materialId,
+    bool appliesToTerrain,
+    bool appliesToFaces,
+    std::string &errorMessage)
+{
+    if (!shadingNode.IsMap())
+    {
+        errorMessage = "surface material '" + materialId + "': shading must be a YAML map";
+        return std::nullopt;
+    }
+
+    SurfaceMaterialShading shading = {};
+
+    for (const auto &entry : shadingNode)
+    {
+        const std::string propertyName = entry.first.as<std::string>("");
+
+        if (propertyName.empty())
+        {
+            errorMessage = "surface material '" + materialId + "': shading has an empty property name";
+            return std::nullopt;
+        }
+
+        const YAML::Node valueNode = entry.second;
+
+        if (propertyName == "roughness")
+        {
+            if (!shadingFloatInRange(
+                    valueNode, "roughness", materialId, 0.05f, 1.0f, shading.roughness, errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "specular")
+        {
+            if (!shadingFloatInRange(
+                    valueNode, "specular", materialId, 0.0f, 1.0f, shading.specular, errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "receives_wetness")
+        {
+            if (!shadingBoolValue(
+                    valueNode, "receives_wetness", materialId, shading.receivesWetness, errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "wetness_response")
+        {
+            if (!shadingFloatInRange(
+                    valueNode,
+                    "wetness_response",
+                    materialId,
+                    0.0f,
+                    1.0f,
+                    shading.wetnessResponse,
+                    errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "wet_roughness")
+        {
+            if (!shadingFloatInRange(
+                    valueNode, "wet_roughness", materialId, 0.05f, 1.0f, shading.wetRoughness, errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "wet_darkening")
+        {
+            if (!shadingFloatInRange(
+                    valueNode, "wet_darkening", materialId, 0.0f, 1.0f, shading.wetDarkening, errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "receives_puddles")
+        {
+            if (!shadingBoolValue(
+                    valueNode, "receives_puddles", materialId, shading.receivesPuddles, errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "fresnel_strength")
+        {
+            if (!shadingFloatInRange(
+                    valueNode,
+                    "fresnel_strength",
+                    materialId,
+                    0.0f,
+                    1.0f,
+                    shading.fresnelStrength,
+                    errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "emissive_strength")
+        {
+            if (!shadingFloatInRange(
+                    valueNode,
+                    "emissive_strength",
+                    materialId,
+                    0.0f,
+                    4.0f,
+                    shading.emissiveStrength,
+                    errorMessage))
+            {
+                return std::nullopt;
+            }
+        }
+        else if (propertyName == "emissive_color")
+        {
+            if (!valueNode.IsSequence() || valueNode.size() != 3)
+            {
+                errorMessage = "surface material '" + materialId
+                    + "': shading.emissive_color must be a sequence of three numbers";
+                return std::nullopt;
+            }
+
+            std::array<float, 3> color = {};
+
+            for (size_t componentIndex = 0; componentIndex < 3; ++componentIndex)
+            {
+                const std::string colorPropertyName =
+                    "emissive_color[" + std::to_string(componentIndex) + "]";
+
+                if (!shadingFloatInRange(
+                        valueNode[componentIndex],
+                        colorPropertyName.c_str(),
+                        materialId,
+                        0.0f,
+                        1.0f,
+                        color[componentIndex],
+                        errorMessage))
+                {
+                    return std::nullopt;
+                }
+            }
+
+            shading.emissiveColor = color;
+        }
+        else
+        {
+            errorMessage = "surface material '" + materialId + "': unknown shading property '"
+                + propertyName + "'";
+            return std::nullopt;
+        }
+    }
+
+    if (shading.receivesPuddles && !shading.receivesWetness)
+    {
+        errorMessage = "surface material '" + materialId
+            + "': shading.receives_puddles requires receives_wetness";
+        return std::nullopt;
+    }
+
+    if (shading.receivesPuddles && appliesToFaces && !appliesToTerrain)
+    {
+        errorMessage = "surface material '" + materialId
+            + "': shading.receives_puddles is terrain-only and cannot be set on face-only materials";
+        return std::nullopt;
+    }
+
+    return shading;
+}
 }
 
 bool SurfaceMaterialTable::loadFromYaml(const std::string &yamlText, std::string &errorMessage)
@@ -203,6 +444,8 @@ bool SurfaceMaterialTable::loadFromYaml(const std::string &yamlText, std::string
         return false;
     }
 
+    std::unordered_set<std::string> seenMaterialIds;
+
     for (const YAML::Node &materialNode : materialsNode)
     {
         if (!materialNode.IsMap())
@@ -220,6 +463,12 @@ bool SurfaceMaterialTable::loadFromYaml(const std::string &yamlText, std::string
         if (material.id.empty())
         {
             continue;
+        }
+
+        if (!seenMaterialIds.insert(material.id).second)
+        {
+            errorMessage = "duplicate surface material id '" + material.id + "'";
+            return false;
         }
 
         const YAML::Node semanticNode = materialNode["semantic"];
@@ -350,6 +599,21 @@ bool SurfaceMaterialTable::loadFromYaml(const std::string &yamlText, std::string
             }
         }
 
+        const YAML::Node shadingNode = materialNode["shading"];
+
+        if (shadingNode)
+        {
+            std::optional<SurfaceMaterialShading> shading = parseShadingNode(
+                shadingNode, material.id, material.appliesToTerrain, material.appliesToFaces, errorMessage);
+
+            if (!shading)
+            {
+                return false;
+            }
+
+            material.shading = *shading;
+        }
+
         m_materials.push_back(std::move(material));
     }
 
@@ -412,5 +676,20 @@ const SurfaceMaterialDefinition *SurfaceMaterialTable::findMatch(
     }
 
     return nullptr;
+}
+
+size_t SurfaceMaterialTable::definitionCount() const
+{
+    return m_materials.size();
+}
+
+const SurfaceMaterialDefinition *SurfaceMaterialTable::definitionAt(size_t index) const
+{
+    if (index >= m_materials.size())
+    {
+        return nullptr;
+    }
+
+    return &m_materials[index];
 }
 } // namespace OpenYAMM::Game

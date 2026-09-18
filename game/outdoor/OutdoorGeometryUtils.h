@@ -89,6 +89,10 @@ bx::Vec3 transformOutdoorBModelPoint(
     const bx::Vec3 &point,
     const OutdoorBModelTransform &transform,
     float fraction);
+bx::Vec3 transformOutdoorBModelDirection(
+    const bx::Vec3 &direction,
+    const OutdoorBModelTransform &transform,
+    float fraction);
 OutdoorBModel transformOutdoorBModel(
     const OutdoorBModel &bmodel,
     const OutdoorBModelTransform &transform,

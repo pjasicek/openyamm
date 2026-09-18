@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/maps/MapPresentation.h"
+#include "game/render/SurfaceMaterialRuntime.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -176,6 +177,7 @@ struct IndoorMapData
     std::vector<IndoorOutline> outlines;
     std::optional<IndoorPartyStartPoint> partyStartPoint;
     std::optional<MapPresentation> mapPresentation;
+    SurfaceMaterialRuntimeSet surfaceMaterials;
     uint32_t doorCount = 0;
     size_t sectorCount = 0;
     size_t spriteCount = 0;

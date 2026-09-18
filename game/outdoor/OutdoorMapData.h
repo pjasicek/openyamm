@@ -1,5 +1,7 @@
 #pragma once
 
+#include "bx/math.h"
+
 #include "game/maps/MapPresentation.h"
 
 #include "game/maps/OutdoorSceneProfile.h"
@@ -7,6 +9,7 @@
 #include "game/outdoor/OutdoorRenderData.h"
 #include "game/outdoor/OutdoorLightingData.h"
 #include "game/outdoor/OutdoorMechanismAudio.h"
+#include "game/render/SurfaceMaterialRuntime.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -284,6 +287,10 @@ struct OutdoorMapData
     std::optional<OutdoorRenderData> renderData;
     std::optional<OutdoorLightingData> lightingData;
     std::optional<MapPresentation> mapPresentation;
+    SurfaceMaterialRuntimeSet surfaceMaterials;
+    // Fixed sun direction of the paired bake recipe (runtime-only, never serialized).
+    bx::Vec3 bakeSunDirection = {0.0f, 0.0f, 0.0f};
+    bool hasBakeSunDirection = false;
     size_t terrainNormalCount = 0;
     size_t bmodelCount = 0;
     size_t entityCount = 0;

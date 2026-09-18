@@ -1,0 +1,49 @@
+--- a/src/glcontext_egl.cpp
++++ b/src/glcontext_egl.cpp
+@@ -428,7 +428,13 @@
+ 				attrs[numAttrs++] = colorBlockInfo.rBits;
+ 
+ 				attrs[numAttrs++] = EGL_ALPHA_SIZE;
+-				attrs[numAttrs++] = colorBlockInfo.aBits;
++				// OpenYAMM: desktop windows are opaque; request a zero-alpha config so Wayland
++				// compositors cannot re-blend the window through partial backbuffer alpha left
++				// behind by alpha-blended content. Android and headless keep the upstream value.
++				attrs[numAttrs++] = BX_PLATFORM_ANDROID || headless
++					? colorBlockInfo.aBits
++					: 0
++					;
+ 
+ 				attrs[numAttrs++] = EGL_DEPTH_SIZE;
+ 				attrs[numAttrs++] = depthStecilBlockInfo.depthBits;
+@@ -452,7 +458,30 @@
+ 					, BX_COUNTOF(attrs)
+ 					);
+ 
+-				success = eglChooseConfig(m_display, attrs, &m_config, 1, &numConfigs);
++				EGLConfig configIds[64];
++				success = eglChooseConfig(m_display, attrs, configIds, BX_COUNTOF(configIds), &numConfigs);
++
++				if (success
++				&&  0 < numConfigs)
++				{
++					m_config = configIds[0];
++#	if !BX_PLATFORM_ANDROID
++					if (!headless)
++					{
++						for (EGLint ii = 0, iiMax = numConfigs; ii < iiMax; ++ii)
++						{
++							EGLint alphaSize = 0;
++							eglGetConfigAttrib(m_display, configIds[ii], EGL_ALPHA_SIZE, &alphaSize);
++
++							if (0 == alphaSize)
++							{
++								m_config = configIds[ii];
++								break;
++							}
++						}
++					}
++#	endif // !BX_PLATFORM_ANDROID
++				}
+ 
+ 				if (!success
+ 				||  0 == numConfigs)

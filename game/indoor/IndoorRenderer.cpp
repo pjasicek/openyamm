@@ -85,12 +85,14 @@ uint32_t stableIndoorTexturedBatchId(
     const std::string &textureName,
     int16_t sectorId,
     int16_t backSectorId,
+    uint16_t materialId,
     size_t batchIndex)
 {
     uint32_t hash = 2166136261u;
     hash = fnv1a32Update(hash, textureName);
     hash ^= static_cast<uint32_t>(static_cast<uint16_t>(sectorId)) + 0x9e3779b9u + (hash << 6) + (hash >> 2);
     hash ^= static_cast<uint32_t>(static_cast<uint16_t>(backSectorId)) + 0x85ebca6bu + (hash << 6) + (hash >> 2);
+    hash ^= static_cast<uint32_t>(materialId) + 0x27d4eb2fu + (hash << 6) + (hash >> 2);
     hash ^= static_cast<uint32_t>(batchIndex) + 0xc2b2ae35u + (hash << 6) + (hash >> 2);
     return hash != 0 ? hash : 1u;
 }
@@ -2439,6 +2441,21 @@ IndoorRenderer::TexturedVertex IndoorRenderer::interpolateTexturedVertex(
     result.flowVPerSecond = (first.flowVPerSecond + second.flowVPerSecond) * 0.5f;
     result.lavaFlow = (first.lavaFlow + second.lavaFlow) * 0.5f;
     result.fluidFlow = (first.fluidFlow + second.fluidFlow) * 0.5f;
+
+    const bx::Vec3 lerpedNormal = {
+        (first.normalX + second.normalX) * 0.5f,
+        (first.normalY + second.normalY) * 0.5f,
+        (first.normalZ + second.normalZ) * 0.5f
+    };
+    const float lerpedNormalLength = vecLength(lerpedNormal);
+
+    if (lerpedNormalLength > 0.0001f)
+    {
+        result.normalX = lerpedNormal.x / lerpedNormalLength;
+        result.normalY = lerpedNormal.y / lerpedNormalLength;
+        result.normalZ = lerpedNormal.z / lerpedNormalLength;
+    }
+
     return result;
 }
 
@@ -2643,6 +2660,9 @@ IndoorRenderer::IndoorRenderer()
     , m_secretPulseParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_indoorSkyParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_indoorSkyProjectionParamsUniformHandle(BGFX_INVALID_HANDLE)
+    , m_indoorCameraPositionUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialShadingUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialEmissiveColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOverrideColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOutlineParamsUniformHandle(BGFX_INVALID_HANDLE)
@@ -2695,6 +2715,7 @@ bool IndoorRenderer::initialize(
 )
 {
     shutdown();
+    m_lastSubmittedMaterialId = 0xffff;
     m_isInitialized = true;
     m_pAssetFileSystem = pAssetFileSystem;
     m_map = map;
@@ -2954,6 +2975,10 @@ bool IndoorRenderer::initialize(
     m_indoorSkyParamsUniformHandle = bgfx::createUniform("u_indoorSkyParams", bgfx::UniformType::Vec4);
     m_indoorSkyProjectionParamsUniformHandle =
         bgfx::createUniform("u_indoorSkyProjectionParams", bgfx::UniformType::Vec4);
+    m_indoorCameraPositionUniformHandle = bgfx::createUniform("u_cameraPosition", bgfx::UniformType::Vec4);
+    m_materialShadingUniformHandle = bgfx::createUniform("u_materialShading", bgfx::UniformType::Vec4);
+    m_materialEmissiveColorUniformHandle =
+        bgfx::createUniform("u_materialEmissiveColor", bgfx::UniformType::Vec4);
     m_billboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_billboardOverrideColorUniformHandle =
         bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
@@ -2999,6 +3024,9 @@ bool IndoorRenderer::initialize(
         || !bgfx::isValid(m_secretPulseParamsUniformHandle)
         || !bgfx::isValid(m_indoorSkyParamsUniformHandle)
         || !bgfx::isValid(m_indoorSkyProjectionParamsUniformHandle)
+        || !bgfx::isValid(m_indoorCameraPositionUniformHandle)
+        || !bgfx::isValid(m_materialShadingUniformHandle)
+        || !bgfx::isValid(m_materialEmissiveColorUniformHandle)
         || !bgfx::isValid(m_billboardAmbientUniformHandle)
         || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
         || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
@@ -4312,6 +4340,16 @@ void IndoorRenderer::render(
             0.0f,
             0.0f
         };
+        const std::array<float, 4> cameraPosition = {
+            m_cameraPositionX,
+            m_cameraPositionY,
+            m_cameraPositionZ,
+            1.0f
+        };
+        bgfx::setUniform(m_indoorCameraPositionUniformHandle, cameraPosition.data());
+        // Material IDs are map-local and the uniform names are shared with the outdoor
+        // renderer. Establish indoor state again on the first eligible draw each frame.
+        m_lastSubmittedMaterialId = 0xffff;
 
         for (const TexturedBatch &batch : m_texturedBatches)
         {
@@ -4358,6 +4396,29 @@ void IndoorRenderer::render(
                 batchLightSet.colors.data(),
                 MaxIndoorShaderLights);
             bgfx::setUniform(m_indoorLightParamsUniformHandle, batchLightSet.params.data());
+
+            // Values only enter the command stream when they change; the renderer replays
+            // bound values for every draw of the program.
+            if (m_lastSubmittedMaterialId != batch.materialId)
+            {
+                m_lastSubmittedMaterialId = batch.materialId;
+                const ResolvedSurfaceMaterial &batchMaterial =
+                    m_pIndoorMapData->surfaceMaterials.material(batch.materialId);
+                const float materialShading[4] = {
+                    batchMaterial.roughness,
+                    batchMaterial.specular,
+                    batchMaterial.fresnelStrength,
+                    batchMaterial.emissiveStrength
+                };
+                const float materialEmissiveColor[4] = {
+                    batchMaterial.emissiveColor[0],
+                    batchMaterial.emissiveColor[1],
+                    batchMaterial.emissiveColor[2],
+                    0.0f
+                };
+                bgfx::setUniform(m_materialShadingUniformHandle, materialShading);
+                bgfx::setUniform(m_materialEmissiveColorUniformHandle, materialEmissiveColor);
+            }
             std::array<float, 4> batchSecretPulseParams = secretPulseParams;
 
             if (batch.textureWidth > 0 && batch.textureHeight > 0)
@@ -6369,6 +6430,7 @@ bool IndoorRenderer::activateGameplayWorldHit(const GameplayWorldHit &hit)
 
 void IndoorRenderer::shutdown()
 {
+    m_lastSubmittedMaterialId = 0xffff;
     m_spriteAtlasCache.clear(Engine::BgfxContext::isBgfxInitialized());
     m_pIndoorMapData = nullptr;
     m_indoorPortalGraph.reset();
@@ -6422,6 +6484,9 @@ void IndoorRenderer::shutdown()
         m_secretPulseParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_indoorSkyParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_indoorSkyProjectionParamsUniformHandle = BGFX_INVALID_HANDLE;
+        m_indoorCameraPositionUniformHandle = BGFX_INVALID_HANDLE;
+        m_materialShadingUniformHandle = BGFX_INVALID_HANDLE;
+        m_materialEmissiveColorUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
@@ -6563,6 +6628,24 @@ void IndoorRenderer::shutdown()
     {
         bgfx::destroy(m_indoorSkyProjectionParamsUniformHandle);
         m_indoorSkyProjectionParamsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_indoorCameraPositionUniformHandle))
+    {
+        bgfx::destroy(m_indoorCameraPositionUniformHandle);
+        m_indoorCameraPositionUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialShadingUniformHandle))
+    {
+        bgfx::destroy(m_materialShadingUniformHandle);
+        m_materialShadingUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialEmissiveColorUniformHandle))
+    {
+        bgfx::destroy(m_materialEmissiveColorUniformHandle);
+        m_materialEmissiveColorUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_billboardAmbientUniformHandle))
@@ -6709,6 +6792,7 @@ void IndoorRenderer::TerrainVertex::init()
 
 void IndoorRenderer::TexturedVertex::init()
 {
+    static_assert(sizeof(TexturedVertex) == 72);
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
@@ -6716,6 +6800,7 @@ void IndoorRenderer::TexturedVertex::init()
         .add(bgfx::Attrib::TexCoord2, 1, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord3, 4, bgfx::AttribType::Float)
         .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+        .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
         .end();
 }
 
@@ -7103,6 +7188,9 @@ void IndoorRenderer::renderBloodSplats(
         || !bgfx::isValid(m_secretPulseParamsUniformHandle)
         || !bgfx::isValid(m_indoorSkyParamsUniformHandle)
         || !bgfx::isValid(m_indoorSkyProjectionParamsUniformHandle)
+        || !bgfx::isValid(m_indoorCameraPositionUniformHandle)
+        || !bgfx::isValid(m_materialShadingUniformHandle)
+        || !bgfx::isValid(m_materialEmissiveColorUniformHandle)
         || m_pSceneRuntime->worldRuntime().bloodSplatCount() == 0)
     {
         return;
@@ -9923,9 +10011,19 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             face.roomBehindNumber < m_pIndoorMapData->sectors.size()
                 ? static_cast<int16_t>(face.roomBehindNumber)
                 : int16_t(-1);
+        const std::optional<MapDeltaData> &faceMapDeltaData = runtimeMapDeltaData();
+        const uint32_t effectiveAttributes =
+            faceMapDeltaData && faceIndex < faceMapDeltaData->faceAttributes.size()
+                ? faceMapDeltaData->faceAttributes[faceIndex]
+                : face.attributes;
+        const uint16_t materialId = hasFaceAttribute(effectiveAttributes, FaceAttribute::IndoorSky)
+            ? SurfaceMaterialRuntimeSet::NeutralMaterialId
+            : m_pIndoorMapData->surfaceMaterials.resolveMaterialId(
+                normalizedTextureName, effectiveAttributes, false);
         const std::string batchKey = normalizedTextureName
             + "#" + std::to_string(sectorId)
-            + "#" + std::to_string(backSectorId);
+            + "#" + std::to_string(backSectorId)
+            + "#" + std::to_string(materialId);
         size_t batchIndex = 0;
         const std::unordered_map<std::string, size_t>::const_iterator batchIterator =
             batchIndicesByTexture.find(batchKey);
@@ -9936,12 +10034,14 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             batch.textureName = normalizedTextureName;
             batch.sectorId = sectorId;
             batch.backSectorId = backSectorId;
+            batch.materialId = materialId;
 
             for (TexturedBatch &previousBatch : previousBatches)
             {
                 if (previousBatch.textureName == normalizedTextureName
                     && previousBatch.sectorId == sectorId
-                    && previousBatch.backSectorId == backSectorId)
+                    && previousBatch.backSectorId == backSectorId
+                    && previousBatch.materialId == materialId)
                 {
                     batch.vertexBufferHandle = previousBatch.vertexBufferHandle;
                     batch.vertexCapacity = previousBatch.vertexCapacity;
@@ -10021,6 +10121,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
                 batch.textureName,
                 batch.sectorId,
                 batch.backSectorId,
+                batch.materialId,
                 batchIndex);
             m_texturedBatches.push_back(std::move(batch));
         }
@@ -11089,6 +11190,10 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
     }
 
     const bx::Vec3 faceNormal = computeFaceNormal(transformedVertices, face);
+    const float faceNormalLength = vecLength(faceNormal);
+    const bx::Vec3 flatFaceNormal = faceNormalLength > 0.0001f
+        ? bx::Vec3{faceNormal.x / faceNormalLength, faceNormal.y / faceNormalLength, faceNormal.z / faceNormalLength}
+        : bx::Vec3{0.0f, 0.0f, 0.0f};
     const std::array<float, 4> flowInfo =
         indoorFaceFlowInfo(effectiveAttributes, face.facetType, texture.width, texture.height);
     const float textureCoordinateScale = indoorFaceTextureCoordinateScale(effectiveAttributes, face.facetType);
@@ -11238,6 +11343,9 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
             texturedVertex.y = static_cast<float>(vertex.y);
             texturedVertex.z = static_cast<float>(vertex.z);
             texturedVertex.secretPulse = secretFaceVertexFlag(effectiveAttributes);
+            texturedVertex.normalX = flatFaceNormal.x;
+            texturedVertex.normalY = flatFaceNormal.y;
+            texturedVertex.normalZ = flatFaceNormal.z;
             texturedVertex.barycentric0 = triangleVertexSlot == 0 ? 1.0f : 0.0f;
             texturedVertex.barycentric1 = triangleVertexSlot == 1 ? 1.0f : 0.0f;
             texturedVertex.barycentric2 = triangleVertexSlot == 2 ? 1.0f : 0.0f;

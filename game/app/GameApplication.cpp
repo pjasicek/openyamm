@@ -2794,21 +2794,18 @@ void setDebugTownPortalUnlocks(Party &party, bool unlocked)
 GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     : m_config(config)
     , m_engineApplication(
-        config,
-        std::bind(&GameApplication::loadGameData, this, std::placeholders::_1),
-        std::bind(&GameApplication::initializeRenderer, this),
-        std::bind(&GameApplication::handleSdlEvent, this, std::placeholders::_1),
-        std::bind(
-            &GameApplication::renderFrame,
-            this,
-            std::placeholders::_1,
-            std::placeholders::_2,
-            std::placeholders::_3,
-            std::placeholders::_4
-        ),
-        std::bind(&GameApplication::shutdownApplication, this),
-        std::bind(&GameApplication::applicationTextInputActive, this)
-    )
+          config,
+          std::bind(&GameApplication::loadGameData, this, std::placeholders::_1),
+          std::bind(&GameApplication::initializeRenderer, this),
+          std::bind(&GameApplication::handleSdlEvent, this, std::placeholders::_1),
+          [this](int width, int height, float mouseWheelDelta, float deltaSeconds)
+          {
+              renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+              updateScreenshotCaptureFrame();
+          },
+          std::bind(&GameApplication::shutdownApplication, this),
+          std::bind(&GameApplication::applicationTextInputActive, this)
+      )
     , m_gameSession()
     , m_indoorGameView(m_gameSession)
     , m_outdoorGameView(m_gameSession)
@@ -4786,6 +4783,49 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(true, "Reloaded " + m_gameSession.currentMapFileName());
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "screenshot",
+        .description = "Save a PNG screenshot of the current frame.",
+        .usage = "screenshot [name]",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            std::string name = "screenshot";
+
+            if (!context.args.empty())
+            {
+                name = context.args[0];
+            }
+
+            for (const char character : name)
+            {
+                const bool allowed = (character >= 'a' && character <= 'z')
+                    || (character >= 'A' && character <= 'Z')
+                    || (character >= '0' && character <= '9')
+                    || character == '_'
+                    || character == '-';
+
+                if (!allowed)
+                {
+                    return commandResult(
+                        false,
+                        "Name may only contain letters, digits, '_' and '-'.");
+                }
+            }
+
+            const std::filesystem::path outputPath =
+                std::filesystem::path("output") / "screenshots" / (name + ".png");
+            const std::string outputPathText = outputPath.string();
+            m_screenshotCaptureService.requestCapture(
+                outputPath,
+                [this](bool success, const std::string &message)
+                {
+                    m_debugConsole.addMessage(
+                        success ? DebugConsole::MessageKind::Success : DebugConsole::MessageKind::Error,
+                        message);
+                });
+            return commandResult(true, "Capture requested: " + outputPathText);
         }});
 
     updateDebugConsoleDataOptions();
@@ -9039,6 +9079,201 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         m_framePerformanceDiagnostics.debugConsoleRenderNanoseconds,
         debugConsoleRenderBeginTickCount);
     finishFrameDiagnostics();
+}
+
+void GameApplication::updateScreenshotCaptureFrame()
+{
+    m_screenshotCaptureService.update();
+
+    if (m_pMapSceneRuntime == nullptr || m_loadingOverlayActive)
+    {
+        return;
+    }
+
+    if (!m_screenshotGameplayStartTicksValid)
+    {
+        m_screenshotGameplayStartTicksValid = true;
+        m_screenshotGameplayStartTicks = SDL_GetTicks();
+    }
+
+    if (!m_settings.screenshotPath.empty()
+        && !m_screenshotScheduledCaptureFired
+        && SDL_GetTicks() - m_screenshotGameplayStartTicks
+            >= static_cast<uint32_t>(m_settings.screenshotDelaySeconds * 1000.0f))
+    {
+        m_screenshotScheduledCaptureFired = true;
+        m_screenshotCaptureService.requestCapture(
+            std::filesystem::path(m_settings.screenshotPath),
+            [this](bool success, const std::string &message)
+            {
+                m_debugConsole.addMessage(
+                    success ? DebugConsole::MessageKind::Success : DebugConsole::MessageKind::Error,
+                    message);
+            });
+    }
+
+    if (m_settings.screenshotTourPath.empty())
+    {
+        return;
+    }
+
+    if (!m_screenshotTour.has_value())
+    {
+        if (m_screenshotTourLoadFailed)
+        {
+            return;
+        }
+
+        std::string error;
+        std::optional<ScreenshotTour> tour = loadScreenshotTour(m_settings.screenshotTourPath, error);
+
+        if (!tour)
+        {
+            m_screenshotTourLoadFailed = true;
+            std::cerr << "GameApplication: " << error << '\n';
+            m_debugConsole.addMessage(DebugConsole::MessageKind::Error, error);
+            return;
+        }
+
+        m_screenshotTour = std::move(tour);
+        m_screenshotTourShotIndex = 0;
+        m_screenshotTourSettleStartTicks = SDL_GetTicks();
+
+        if (!applyScreenshotTourShotPose(m_screenshotTour->shots.front()))
+        {
+            m_screenshotTourStage = ScreenshotTourStage::Finished;
+            m_debugConsole.addMessage(
+                DebugConsole::MessageKind::Error,
+                "screenshot tour could not apply the first shot pose; stopping tour");
+            return;
+        }
+
+        m_screenshotTourStage = ScreenshotTourStage::Settling;
+        m_debugConsole.addMessage(
+            DebugConsole::MessageKind::Info,
+            "screenshot tour started: " + std::to_string(m_screenshotTour->shots.size()) + " shots");
+        return;
+    }
+
+    if (m_screenshotTourStage != ScreenshotTourStage::Settling
+        || m_screenshotTourShotIndex >= m_screenshotTour->shots.size())
+    {
+        return;
+    }
+
+    const ScreenshotTourShot &shot = m_screenshotTour->shots[m_screenshotTourShotIndex];
+    const float settleSeconds = shot.settleSeconds >= 0.0f
+        ? shot.settleSeconds
+        : m_screenshotTour->defaultSettleSeconds;
+    // Keep a small floor so the captured frame reflects the applied pose even with settle_seconds: 0.
+    const uint32_t settleMilliseconds = std::max(static_cast<uint32_t>(settleSeconds * 1000.0f), 100u);
+
+    if (SDL_GetTicks() - m_screenshotTourSettleStartTicks < settleMilliseconds)
+    {
+        return;
+    }
+
+    const size_t shotIndex = m_screenshotTourShotIndex;
+    const std::string indexText = shotIndex + 1 < 10
+        ? "0" + std::to_string(shotIndex + 1)
+        : std::to_string(shotIndex + 1);
+    const std::filesystem::path outputPath = std::filesystem::path(m_screenshotTour->outputDirectory)
+        / (indexText + "-" + shot.name + ".png");
+    m_screenshotTourStage = ScreenshotTourStage::WaitingForCapture;
+    m_screenshotCaptureService.requestCapture(
+        outputPath,
+        [this, shotIndex](bool success, const std::string &message)
+        {
+            m_debugConsole.addMessage(
+                success ? DebugConsole::MessageKind::Success : DebugConsole::MessageKind::Error,
+                message);
+            advanceScreenshotTourAfterCapture(shotIndex, success);
+        });
+}
+
+bool GameApplication::applyScreenshotTourShotPose(const ScreenshotTourShot &shot)
+{
+    if (m_pMapSceneRuntime == nullptr)
+    {
+        return false;
+    }
+
+    if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
+    {
+        if (m_pOutdoorPartyRuntime == nullptr)
+        {
+            return false;
+        }
+
+        m_pOutdoorPartyRuntime->teleportTo(shot.x, shot.y, shot.z);
+        m_outdoorGameView.setCameraAngles(shot.yawRadians, shot.pitchRadians);
+
+        if (m_pOutdoorWorldRuntime != nullptr)
+        {
+            GameplayInputFrame input = {};
+            input.screenWidth = m_lastFrameWidth;
+            input.screenHeight = m_lastFrameHeight;
+            m_pOutdoorWorldRuntime->updateWorldMovement(input, 0.0f, true);
+        }
+    }
+    else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
+    {
+        IndoorSceneRuntime *pIndoorRuntime = static_cast<IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
+        pIndoorRuntime->partyRuntime().teleportPartyPosition(shot.x, shot.y, shot.z);
+        const IndoorMoveState &moveState = pIndoorRuntime->partyRuntime().movementState();
+        m_indoorRenderer.setCameraPosition(moveState.x, moveState.y, moveState.eyeZ());
+        m_indoorRenderer.setCameraAngles(shot.yawRadians, shot.pitchRadians);
+    }
+    else
+    {
+        return false;
+    }
+
+    synchronizeSessionFromRuntime();
+    return true;
+}
+
+void GameApplication::advanceScreenshotTourAfterCapture(size_t shotIndex, bool success)
+{
+    if (!m_screenshotTour.has_value()
+        || m_screenshotTourStage != ScreenshotTourStage::WaitingForCapture
+        || m_screenshotTourShotIndex != shotIndex)
+    {
+        return;
+    }
+
+    const bool hasMoreShots = success && m_screenshotTourShotIndex + 1 < m_screenshotTour->shots.size();
+
+    if (!hasMoreShots)
+    {
+        m_screenshotTourStage = ScreenshotTourStage::Finished;
+
+        if (success)
+        {
+            m_debugConsole.addMessage(DebugConsole::MessageKind::Info, "screenshot tour finished");
+        }
+
+        if (m_screenshotTour->exitWhenFinished)
+        {
+            requestApplicationQuit();
+        }
+
+        return;
+    }
+
+    ++m_screenshotTourShotIndex;
+    m_screenshotTourSettleStartTicks = SDL_GetTicks();
+
+    if (!applyScreenshotTourShotPose(m_screenshotTour->shots[m_screenshotTourShotIndex]))
+    {
+        m_screenshotTourStage = ScreenshotTourStage::Finished;
+        m_debugConsole.addMessage(
+            DebugConsole::MessageKind::Error,
+            "screenshot tour could not apply the next shot pose; stopping tour");
+        return;
+    }
+
+    m_screenshotTourStage = ScreenshotTourStage::Settling;
 }
 
 bool GameApplication::processPendingMapMove()

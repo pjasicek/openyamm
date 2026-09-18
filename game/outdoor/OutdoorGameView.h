@@ -214,6 +214,11 @@ private:
         float lightmapV;
         uint32_t staticColorAbgr;
 
+        // Unit world-space normal; zero marks surfaces without a geometric plane.
+        float normalX = 0.0f;
+        float normalY = 0.0f;
+        float normalZ = 0.0f;
+
         static void init();
 
         static bgfx::VertexLayout ms_layout;
@@ -249,6 +254,10 @@ private:
         int textureHeight = 0;
         std::string textureName;
         size_t defaultAnimationIndex = static_cast<size_t>(-1);
+        uint16_t baseMaterialId = SurfaceMaterialRuntimeSet::NeutralMaterialId;
+        uint16_t resolvedMaterialId = SurfaceMaterialRuntimeSet::NeutralMaterialId;
+        size_t resolvedMaterialAnimationIndex = static_cast<size_t>(-1);
+        uint32_t resolvedMaterialAttributes = 0;
         bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
         bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
         bool hasBounds = false;
@@ -281,10 +290,11 @@ private:
         bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
         uint32_t vertexCount = 0;
         size_t animationIndex = static_cast<size_t>(-1);
+        uint16_t lightmapPageIndex = 0xffff;
+        uint16_t materialId = SurfaceMaterialRuntimeSet::NeutralMaterialId;
         bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
         bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
         bool hasBounds = false;
-        uint16_t lightmapPageIndex = 0xffff;
         bool usesStaticLighting = false;
     };
 
@@ -309,11 +319,12 @@ private:
         bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
         uint32_t vertexCount = 0;
         size_t animationIndex = static_cast<size_t>(-1);
+        uint16_t lightmapPageIndex = 0xffff;
+        uint16_t materialId = SurfaceMaterialRuntimeSet::NeutralMaterialId;
         bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
         bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
         bool hasBounds = false;
         bool translucent = false;
-        uint16_t lightmapPageIndex = 0xffff;
         bool usesStaticLighting = false;
     };
 
@@ -732,6 +743,11 @@ private:
     bgfx::UniformHandle m_outdoorFogDensitiesUniformHandle;
     bgfx::UniformHandle m_outdoorFogDistancesUniformHandle;
     bgfx::UniformHandle m_outdoorCameraPositionUniformHandle;
+    bgfx::UniformHandle m_materialShadingUniformHandle;
+    bgfx::UniformHandle m_materialEmissiveColorUniformHandle;
+    bgfx::UniformHandle m_materialSunDirectionUniformHandle;
+    bgfx::UniformHandle m_materialSunColorUniformHandle;
+    uint16_t m_lastSubmittedBModelMaterialId = 0xffff;
     bgfx::UniformHandle m_secretPulseParamsUniformHandle;
     bgfx::UniformHandle m_spellAreaPreviewParams0UniformHandle;
     bgfx::UniformHandle m_spellAreaPreviewParams1UniformHandle;

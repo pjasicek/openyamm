@@ -8,6 +8,7 @@ FetchContent_GetProperties(bgfx SOURCE_DIR OPENYAMM_BGFX_FETCH_SOURCE_DIR)
 add_library(openyamm_game STATIC
     render/RuntimeShader.cpp
     render/CinematicGrading.cpp
+    render/SurfaceMaterialRuntime.cpp
     app/ScreenManager.cpp
     app/GameInputSystem.cpp
     app/ProfilingControl.cpp
@@ -18,6 +19,8 @@ add_library(openyamm_game STATIC
     debug/DebugConsole.cpp
     debug/GameplayDebugTrace.cpp
     debug/GameImGuiBgfxRenderer.cpp
+    debug/ScreenshotCaptureService.cpp
+    debug/ScreenshotTour.cpp
     data/GameDataRepository.cpp
     app/GameSession.cpp
     audio/GameAudioSystem.cpp

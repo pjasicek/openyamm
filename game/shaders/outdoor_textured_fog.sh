@@ -25,6 +25,11 @@ uniform vec4 u_fxLightColors[8];
 uniform vec4 u_fxLightParams;
 uniform vec4 u_secretPulseParams;
 
+#if !TERRAIN_TEXTURE_ARRAY && !TERRAIN_DECORATION
+#define MATERIAL_OUTDOOR_RESPONSE 1
+#include "material_lighting.sh"
+#endif
+
 float safeSmoothstep(float edge0, float edge1, float value)
 {
     if (edge0 == edge1)
@@ -183,6 +188,15 @@ void main()
         baked + getFxLighting(v_worldPosition, 0.0)), textureColor.a);
 #else
     vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(v_worldPosition, v_sunlight), textureColor.a);
+#endif
+
+#if !TERRAIN_TEXTURE_ARRAY && !TERRAIN_DECORATION
+    // Bounded artistic sheen and emissive in the existing display-encoded domain, before the
+    // secret tint and outdoor fog. Zero material contribution keeps the color unchanged.
+    litTextureColor.rgb += outdoorMaterialFaceResponse(
+        v_worldPosition,
+        v_worldNormal,
+        vec3_splat(1.0));
 #endif
 
     bool classicSecret = v_texcoord1.x > 0.5 && v_texcoord1.x < 1.5;

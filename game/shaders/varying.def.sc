@@ -7,6 +7,7 @@ vec2 v_lightmapUv   : TEXCOORD5 = vec2(0.0, 0.0);
 vec4 v_color0       : COLOR0    = vec4(1.0, 1.0, 1.0, 1.0);
 float v_depth       : FOG       = 0.0;
 float v_sunlight    : TEXCOORD6 = 1.0;
+vec3 v_worldNormal  : TEXCOORD7 = vec3(0.0, 0.0, 0.0);
 
 vec4 i_data0 : TEXCOORD7;
 vec4 i_data1 : TEXCOORD6;

@@ -16,6 +16,7 @@
 #include "game/tables/SurfaceMaterialTable.h"
 #include "game/tables/SpriteTables.h"
 #include "game/tables/TextureFrameTable.h"
+#include "game/render/SurfaceMaterialRuntime.h"
 
 #include <array>
 #include <cstddef>
@@ -57,6 +58,7 @@ struct OutdoorTerrainTextureAtlas
     std::vector<uint8_t> pixels;
     std::array<OutdoorTerrainAtlasRegion, 256> tileRegions = {};
     std::array<std::string, 256> tileTextureNames = {};
+    std::array<uint16_t, 256> tileMaterialIds = {};
     std::vector<OutdoorAnimatedWaterTileSource> animatedWaterTiles;
 };
 

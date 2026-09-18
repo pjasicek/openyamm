@@ -10,6 +10,10 @@ materials:
       texture_prefixes:
         - 6wtrdr
     terrain_transition_overlay: true
+    shading:
+      roughness: 0.14
+      specular: 0.50
+      fresnel_strength: 0.65
     animation:
       frames:
         - texture: 6hdwtr000
@@ -209,3 +213,199 @@ materials:
           ticks: 15
         - texture: hwoil013
           ticks: 15
+  # New Sorpigal uses large, flat BModel faces, so keep the response restrained:
+  # the material layer should separate surface types without turning whole facades
+  # into polished plastic. Exact names also avoid changing similarly named content
+  # in the other mounted worlds.
+  - id: mm6_new_sorpigal_rough_stone
+    semantic: generic
+    applies_to: [face]
+    match:
+      texture_names:
+        - rblbw
+        - rblst
+        - rblst1
+        - rblle
+        - rblre
+        - tews
+        - tewls
+        - tewrs
+        - tewrd
+        - tewld
+        - tewm
+        - tav128wl
+        - tavle
+        - tavre
+        - tavctr
+        - t1wl5lea
+        - t1wl5rea
+        - t1wl5lec
+        - t1wl5ct
+        - t1wl4w
+        - t1wl4ctr
+        - t1wl1lea
+        - t1wl1lea1
+        - t1wl1rea
+        - t1wl1cts
+        - t1w11a
+        - cbrdbrck
+        - cbmxbrck
+        - pbrle
+        - pbrre
+        - pbrst
+        - pbrwn
+        - granite
+    shading:
+      roughness: 0.86
+      specular: 0.055
+      fresnel_strength: 0.10
+      receives_wetness: true
+      wetness_response: 0.75
+      wet_roughness: 0.20
+      wet_darkening: 0.08
+
+  - id: mm6_new_sorpigal_polished_stone
+    semantic: generic
+    applies_to: [face]
+    match:
+      texture_names:
+        - t1c2
+        - t1c3
+        - oflr
+        - t3c2
+        - crdflr3
+        - crdflr4
+        - bemob1
+        - bemob1b
+        - bemob2
+        - bemob2b
+    shading:
+      roughness: 0.48
+      specular: 0.14
+      fresnel_strength: 0.20
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.16
+      wet_darkening: 0.05
+
+  - id: mm6_new_sorpigal_roofing
+    semantic: generic
+    applies_to: [face]
+    match:
+      texture_names:
+        - pxshings
+        - tavrf
+        - plruf01
+        - pbtrm
+    shading:
+      roughness: 0.88
+      specular: 0.035
+      fresnel_strength: 0.06
+      receives_wetness: true
+      wetness_response: 0.65
+      wet_roughness: 0.24
+      wet_darkening: 0.07
+
+  - id: mm6_new_sorpigal_wood
+    semantic: generic
+    applies_to: [face]
+    match:
+      texture_names:
+        - cedvwal1
+        - cedvwal2
+        - cedhwal
+        - cedhwal1
+        - cedsqrdk
+        - bemhwal
+        - bemhwal1
+        - bemvwal
+        - bemvwal1
+        - bemtila
+        - wood012
+        - cbeam2
+        - cbeam5
+        - bemv
+        - bemv32a
+        - bemv32b
+        - bemsv16a
+        - bemsv32a
+        - bdksv16a
+        - bemstrt1
+        - bemstra1
+        - bemstara
+        - bemstarb
+        - bemstart
+        - trim
+        - top32
+    shading:
+      roughness: 0.74
+      specular: 0.065
+      fresnel_strength: 0.09
+      receives_wetness: true
+      wetness_response: 0.55
+      wet_roughness: 0.20
+      wet_darkening: 0.10
+
+  - id: mm6_new_sorpigal_plaster_facades
+    semantic: generic
+    applies_to: [face]
+    match:
+      texture_names:
+        - pxstrre
+        - pxstrle
+        - pxstrst
+        - pxstrdr
+        - pxstrwb
+        - pxstrwbx
+        - pxstrrew
+        - pxstrlew
+    shading:
+      roughness: 0.92
+      specular: 0.025
+      fresnel_strength: 0.04
+      receives_wetness: true
+      wetness_response: 0.40
+      wet_roughness: 0.28
+      wet_darkening: 0.06
+
+  - id: mm6_new_sorpigal_glazed_windows
+    semantic: generic
+    applies_to: [face]
+    match:
+      texture_names:
+        - tewsw
+        - tewdw
+        - thctrw1
+        - thctrw2
+        - thlgdr
+    shading:
+      roughness: 0.30
+      specular: 0.18
+      fresnel_strength: 0.38
+
+  - id: mm6_new_sorpigal_doors_and_metalwork
+    semantic: generic
+    applies_to: [face]
+    match:
+      texture_names:
+        - rhctr
+        - rhctrw
+        - rhdr1
+        - rhdr2
+        - tdoora
+        - tdoorb
+        - d2lgdor
+        - tavlgdr
+        - tavsmdr
+        - thsmdr
+        - bemdorb
+        - pbrdr
+        - plstrdr
+    shading:
+      roughness: 0.46
+      specular: 0.12
+      fresnel_strength: 0.22
+      receives_wetness: true
+      wetness_response: 0.35
+      wet_roughness: 0.18
+      wet_darkening: 0.05

@@ -21,6 +21,8 @@
 #include "game/content/ContentManifest.h"
 #include "game/debug/DebugConsole.h"
 #include "game/debug/GameImGuiBgfxRenderer.h"
+#include "game/debug/ScreenshotCaptureService.h"
+#include "game/debug/ScreenshotTour.h"
 #include "game/maps/SaveGame.h"
 #include "game/scene/IMapSceneRuntime.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
@@ -112,6 +114,14 @@ private:
         uint32_t sequence = 0;
         GameplayTraceMovementSnapshot start;
         GameplayTraceMovementSnapshot stop;
+    };
+
+    enum class ScreenshotTourStage
+    {
+        NotStarted,
+        Settling,
+        WaitingForCapture,
+        Finished,
     };
 
     struct FramePerformanceDiagnostics
@@ -244,6 +254,9 @@ private:
     std::vector<std::string> resolvePendingInputAnswers(
         const EventRuntimeState::PendingInputPrompt &prompt) const;
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
+    void updateScreenshotCaptureFrame();
+    bool applyScreenshotTourShotPose(const ScreenshotTourShot &shot);
+    void advanceScreenshotTourAfterCapture(size_t shotIndex, bool success);
     bool logFramePerformanceDiagnostics(uint32_t currentTick);
     void logFrameHitchDiagnostics(const FramePerformanceDiagnostics &diagnostics) const;
 
@@ -310,5 +323,14 @@ private:
     bool m_debugConsoleFrameBegun = false;
     bool m_debugConsoleCommandsRegistered = false;
     std::optional<PendingDebugMapJump> m_pendingDebugMapJump;
+    ScreenshotCaptureService m_screenshotCaptureService;
+    std::optional<ScreenshotTour> m_screenshotTour;
+    ScreenshotTourStage m_screenshotTourStage = ScreenshotTourStage::NotStarted;
+    size_t m_screenshotTourShotIndex = 0;
+    uint32_t m_screenshotTourSettleStartTicks = 0;
+    bool m_screenshotTourLoadFailed = false;
+    bool m_screenshotScheduledCaptureFired = false;
+    bool m_screenshotGameplayStartTicksValid = false;
+    uint32_t m_screenshotGameplayStartTicks = 0;
 };
 }

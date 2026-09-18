@@ -194,6 +194,48 @@ bx::Vec3 transformOutdoorBModelPoint(
     return result;
 }
 
+bx::Vec3 transformOutdoorBModelDirection(
+    const bx::Vec3 &direction,
+    const OutdoorBModelTransform &transform,
+    float fraction)
+{
+    const float clampedFraction = std::clamp(fraction, 0.0f, 1.0f);
+    const float radiansX = bx::toRad(transform.rotationDegreesX * clampedFraction);
+    const float radiansY = bx::toRad(transform.rotationDegreesY * clampedFraction);
+    const float radiansZ = bx::toRad(transform.rotationDegreesZ * clampedFraction);
+    bx::Vec3 result = direction;
+
+    if (std::fabs(radiansX) > GeometryEpsilon)
+    {
+        const float cosine = std::cos(radiansX);
+        const float sine = std::sin(radiansX);
+        result = {result.x, result.y * cosine - result.z * sine, result.y * sine + result.z * cosine};
+    }
+
+    if (std::fabs(radiansY) > GeometryEpsilon)
+    {
+        const float cosine = std::cos(radiansY);
+        const float sine = std::sin(radiansY);
+        result = {result.x * cosine + result.z * sine, result.y, -result.x * sine + result.z * cosine};
+    }
+
+    if (std::fabs(radiansZ) > GeometryEpsilon)
+    {
+        const float cosine = std::cos(radiansZ);
+        const float sine = std::sin(radiansZ);
+        result = {result.x * cosine - result.y * sine, result.x * sine + result.y * cosine, result.z};
+    }
+
+    const float length = vecLength(result);
+
+    if (length <= GeometryEpsilon)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
+
+    return {result.x / length, result.y / length, result.z / length};
+}
+
 OutdoorBModel transformOutdoorBModel(
     const OutdoorBModel &bmodel,
     const OutdoorBModelTransform &transform,

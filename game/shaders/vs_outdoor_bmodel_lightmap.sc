@@ -1,5 +1,5 @@
-$input a_position, a_color0, a_texcoord0, a_texcoord1, a_texcoord3, a_texcoord4
-$output v_texcoord0, v_depth, v_worldPosition, v_texcoord1, v_flowInfo, v_lightmapUv, v_color0
+$input a_position, a_normal, a_color0, a_texcoord0, a_texcoord1, a_texcoord3, a_texcoord4
+$output v_texcoord0, v_depth, v_worldPosition, v_worldNormal, v_texcoord1, v_flowInfo, v_lightmapUv, v_color0
 
 #include "common.sh"
 
@@ -11,6 +11,7 @@ void main()
     v_texcoord0 = a_texcoord0;
     v_depth = abs(viewPosition.z);
     v_worldPosition = worldPosition.xyz;
+    v_worldNormal = a_normal;
     v_texcoord1 = a_texcoord1;
     v_flowInfo = a_texcoord3;
     v_lightmapUv = a_texcoord4;

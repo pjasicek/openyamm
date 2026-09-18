@@ -227,3 +227,107 @@ TEST_CASE("baked lighting settings validate input atomically and round trip thro
     CHECK(legacy->cinematicStrength == 60);
     std::filesystem::remove(path);
 }
+
+TEST_CASE("material bake sun direction derives a unit vector from recipe angles")
+{
+    const std::optional<bx::Vec3> northWest = surfaceMaterialBakeSunDirection(315.0f, 45.0f);
+    REQUIRE(northWest.has_value());
+    CHECK(northWest->x == doctest::Approx(0.5f).epsilon(0.001f));
+    CHECK(northWest->y == doctest::Approx(-0.5f).epsilon(0.001f));
+    CHECK(northWest->z == doctest::Approx(0.7071f).epsilon(0.001f));
+
+    const std::optional<bx::Vec3> east = surfaceMaterialBakeSunDirection(90.0f, 0.0f);
+    REQUIRE(east.has_value());
+    CHECK(east->x == doctest::Approx(0.0f).epsilon(0.001f));
+    CHECK(east->y == doctest::Approx(1.0f).epsilon(0.001f));
+    CHECK(east->z == doctest::Approx(0.0f).epsilon(0.001f));
+
+    const std::optional<bx::Vec3> zenith = surfaceMaterialBakeSunDirection(0.0f, 90.0f);
+    REQUIRE(zenith.has_value());
+    CHECK(zenith->x == doctest::Approx(0.0f).epsilon(0.001f));
+    CHECK(zenith->y == doctest::Approx(0.0f).epsilon(0.001f));
+    CHECK(zenith->z == doctest::Approx(1.0f).epsilon(0.001f));
+
+    // Full-circle azimuths stay finite and unit length.
+    const std::optional<bx::Vec3> wrapped = surfaceMaterialBakeSunDirection(315.0f + 360.0f, 45.0f);
+    REQUIRE(wrapped.has_value());
+    CHECK(wrapped->x == doctest::Approx(northWest->x).epsilon(0.001f));
+    CHECK(wrapped->y == doctest::Approx(northWest->y).epsilon(0.001f));
+    CHECK(wrapped->z == doctest::Approx(northWest->z).epsilon(0.001f));
+}
+
+TEST_CASE("material sun inputs follow the diffuse-disabled sun policy inverts")
+{
+    GameSettings settings = {};
+    OutdoorWorldRuntime::AtmosphereState atmosphere = {};
+    atmosphere.isNight = false;
+    atmosphere.fogDensity = 0.0f;
+    atmosphere.ambientBrightness = 0.69f;
+    atmosphere.sunDirectionX = 0.8f;
+    atmosphere.sunDirectionZ = 0.6f;
+
+    SUBCASE("nonbaked classic exterior uses atmosphere direction and daylight gating")
+    {
+        const OutdoorMapData map = {};
+        const OutdoorMaterialSunInputs day =
+            buildOutdoorMaterialSunInputs(map, atmosphere, settings, false, {0.0f, 0.0f, 0.0f});
+        CHECK(day.enabled);
+        CHECK(day.direction.x == doctest::Approx(0.8f).epsilon(0.01f));
+        CHECK(day.direction.z == doctest::Approx(0.6f).epsilon(0.01f));
+        CHECK(day.color[0] == doctest::Approx(0.99f).epsilon(0.001f));
+
+        atmosphere.isNight = true;
+        const OutdoorMaterialSunInputs night =
+            buildOutdoorMaterialSunInputs(map, atmosphere, settings, false, {0.0f, 0.0f, 0.0f});
+        CHECK(!night.enabled);
+    }
+
+    SUBCASE("paired baked exterior with applied lightmaps uses the fixed bake direction")
+    {
+        OutdoorMapData map = {};
+        map.lightingData = OutdoorLightingData{};
+        map.lightingData->bakedSourcePages = true;
+        const bx::Vec3 bakeDirection = {0.5f, -0.5f, 0.7071f};
+        const OutdoorMaterialSunInputs baked =
+            buildOutdoorMaterialSunInputs(map, atmosphere, settings, true, bakeDirection);
+        CHECK(baked.enabled);
+        CHECK(baked.direction.x == doctest::Approx(0.5f).epsilon(0.001f));
+        CHECK(baked.direction.y == doctest::Approx(-0.5f).epsilon(0.001f));
+        CHECK(baked.direction.z == doctest::Approx(0.7071f).epsilon(0.001f));
+        // Night attenuates the baked sun response to zero together with the diffuse weights.
+        atmosphere.isNight = true;
+        const OutdoorMaterialSunInputs bakedNight =
+            buildOutdoorMaterialSunInputs(map, atmosphere, settings, true, bakeDirection);
+        CHECK(bakedNight.enabled);
+        CHECK(bakedNight.color[0] == doctest::Approx(0.0f).epsilon(0.001f));
+        CHECK(bakedNight.color[1] == doctest::Approx(0.0f).epsilon(0.001f));
+        CHECK(bakedNight.color[2] == doctest::Approx(0.0f).epsilon(0.001f));
+    }
+
+    SUBCASE("paired bake with lightmaps disabled falls back to the atmosphere direction")
+    {
+        OutdoorMapData map = {};
+        map.lightingData = OutdoorLightingData{};
+        map.lightingData->bakedSourcePages = true;
+        settings.lightmaps = false;
+        const OutdoorMaterialSunInputs fallback =
+            buildOutdoorMaterialSunInputs(map, atmosphere, settings, true, {0.0f, 0.0f, 1.0f});
+        CHECK(fallback.enabled);
+        CHECK(fallback.direction.x == doctest::Approx(0.8f).epsilon(0.01f));
+        CHECK(fallback.direction.z == doctest::Approx(0.6f).epsilon(0.01f));
+    }
+
+    SUBCASE("underwater and authored polygon worlds carry no directional sheen")
+    {
+        OutdoorWorldRuntime::AtmosphereState underwaterAtmosphere = atmosphere;
+        underwaterAtmosphere.underwater = true;
+        const OutdoorMapData map = {};
+        CHECK(!buildOutdoorMaterialSunInputs(map, underwaterAtmosphere, settings, true, {0.0f, 0.0f, 1.0f})
+                  .enabled);
+
+        OutdoorMapData bmodelWorldMap = {};
+        bmodelWorldMap.sceneProfile = OutdoorSceneProfile::BModelWorld;
+        CHECK(!buildOutdoorMaterialSunInputs(bmodelWorldMap, atmosphere, settings, true, {0.0f, 0.0f, 1.0f})
+                  .enabled);
+    }
+}

@@ -11,6 +11,7 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorNavigationData.h"
 #include "game/outdoor/OutdoorRenderData.h"
+#include "game/outdoor/OutdoorSunlight.h"
 #include "game/render/TextureFiltering.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
@@ -18,6 +19,8 @@
 #include "game/tables/TextureFrameTable.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/TextTable.h"
+
+#include <yaml-cpp/yaml.h>
 
 #include <SDL3/SDL.h>
 
@@ -579,6 +582,35 @@ const SurfaceMaterialDefinition *findTerrainSurfaceMaterialForDescriptor(
     return pSurfaceMaterialTable->findMatch(pBaseDescriptor->textureName, 0, true);
 }
 
+uint16_t resolveTerrainTileMaterialId(
+    const TerrainTileDescriptor &descriptor,
+    const std::vector<TerrainTileDescriptor> &tileDescriptors,
+    const SurfaceMaterialRuntimeSet &surfaceMaterials)
+{
+    if (surfaceMaterials.empty())
+    {
+        return SurfaceMaterialRuntimeSet::NeutralMaterialId;
+    }
+
+    const uint16_t directMaterialId =
+        surfaceMaterials.resolveMaterialId(descriptor.textureName, 0, true);
+
+    if (directMaterialId != SurfaceMaterialRuntimeSet::NeutralMaterialId)
+    {
+        return directMaterialId;
+    }
+
+    const TerrainTileDescriptor *pBaseDescriptor =
+        findLiquidBaseTerrainDescriptor(tileDescriptors, descriptor);
+
+    if (pBaseDescriptor == nullptr)
+    {
+        return SurfaceMaterialRuntimeSet::NeutralMaterialId;
+    }
+
+    return surfaceMaterials.resolveMaterialId(pBaseDescriptor->textureName, 0, true);
+}
+
 std::vector<uint8_t> scrollTerrainPixels(
     const std::vector<uint8_t> &sourcePixels,
     int width,
@@ -973,13 +1005,26 @@ void collectEncounterMonsterSpriteFamilies(
     }
 }
 
-std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(
-    const Engine::AssetFileSystem &assetFileSystem,
-    MapAssetLoadSharedCache *pSharedCache)
+enum class SurfaceMaterialTableLoadStatus
 {
+    Missing,
+    Loaded,
+    Invalid,
+};
+
+SurfaceMaterialTableLoadStatus loadSurfaceMaterialTable(
+    const Engine::AssetFileSystem &assetFileSystem,
+    MapAssetLoadSharedCache *pSharedCache,
+    std::optional<SurfaceMaterialTable> &outTable,
+    std::string &outError)
+{
+    outTable = std::nullopt;
+    outError.clear();
+
     if (pSharedCache != nullptr && pSharedCache->surfaceMaterialTable)
     {
-        return pSharedCache->surfaceMaterialTable;
+        outTable = pSharedCache->surfaceMaterialTable;
+        return SurfaceMaterialTableLoadStatus::Loaded;
     }
 
     const std::optional<std::string> contents =
@@ -987,7 +1032,7 @@ std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(
 
     if (!contents)
     {
-        return std::nullopt;
+        return SurfaceMaterialTableLoadStatus::Missing;
     }
 
     SurfaceMaterialTable materialTable = {};
@@ -995,8 +1040,14 @@ std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(
 
     if (!materialTable.loadFromYaml(*contents, errorMessage))
     {
-        std::cerr << "Failed to load surface materials: " << errorMessage << '\n';
-        return std::nullopt;
+        if (!errorMessage.empty())
+        {
+            outError = errorMessage;
+            return SurfaceMaterialTableLoadStatus::Invalid;
+        }
+
+        // An empty-but-valid table keeps the historical optional behavior.
+        return SurfaceMaterialTableLoadStatus::Missing;
     }
 
     if (pSharedCache != nullptr)
@@ -1004,7 +1055,65 @@ std::optional<SurfaceMaterialTable> loadSurfaceMaterialTable(
         pSharedCache->surfaceMaterialTable = materialTable;
     }
 
-    return materialTable;
+    outTable = std::move(materialTable);
+    return SurfaceMaterialTableLoadStatus::Loaded;
+}
+
+// Parses the sibling .bake.json recipe profile for the fixed bake sun direction. Fails only on
+// malformed recipes; an absent recipe is reported by the caller when materials require it.
+bool parseBakeRecipeSunDirection(
+    const std::string &recipePath,
+    const std::string &recipeText,
+    OutdoorMapData &outdoorMapData,
+    std::string &errorMessage)
+{
+    YAML::Node root;
+
+    try
+    {
+        root = YAML::Load(recipeText);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = "invalid bake recipe " + recipePath + ": " + exception.what();
+        return false;
+    }
+
+    const YAML::Node profileNode = root["profile"];
+    const YAML::Node azimuthNode = profileNode ? profileNode["azimuth"] : YAML::Node();
+    const YAML::Node elevationNode = profileNode ? profileNode["elevation"] : YAML::Node();
+
+    if (!azimuthNode || !azimuthNode.IsScalar() || !elevationNode || !elevationNode.IsScalar())
+    {
+        errorMessage = "bake recipe " + recipePath + " is missing profile.azimuth/elevation";
+        return false;
+    }
+
+    float azimuth = 0.0f;
+    float elevation = 0.0f;
+
+    try
+    {
+        azimuth = azimuthNode.as<float>();
+        elevation = elevationNode.as<float>();
+    }
+    catch (const std::exception &)
+    {
+        errorMessage = "bake recipe " + recipePath + " has non-numeric profile.azimuth/elevation";
+        return false;
+    }
+
+    const std::optional<bx::Vec3> direction = surfaceMaterialBakeSunDirection(azimuth, elevation);
+
+    if (!direction)
+    {
+        errorMessage = "bake recipe " + recipePath + " has a degenerate sun direction";
+        return false;
+    }
+
+    outdoorMapData.bakeSunDirection = *direction;
+    outdoorMapData.hasBakeSunDirection = true;
+    return true;
 }
 
 std::optional<std::string> loadMonsterSpriteFrameFamilyText(
@@ -3452,6 +3561,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     const OutdoorMapData &outdoorMapData,
     BitmapLoadCache &bitmapLoadCache,
     const SurfaceMaterialTable *pSurfaceMaterialTable,
+    const SurfaceMaterialRuntimeSet *pSurfaceMaterials,
     const MapLoadProgressPump &progressPump
 )
 {
@@ -3708,6 +3818,10 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         region.isTransitionOverlay = useTransitionOverlay;
         textureAtlas.tileTextureNames[tileIndex] = textureName;
         textureAtlas.tileRegions[static_cast<size_t>(tileIndex)] = region;
+        textureAtlas.tileMaterialIds[static_cast<size_t>(tileIndex)] =
+            pSurfaceMaterials != nullptr
+                ? resolveTerrainTileMaterialId(descriptor, *tileDescriptors, *pSurfaceMaterials)
+                : SurfaceMaterialRuntimeSet::NeutralMaterialId;
 
         if (!animatedSurfaceFrames.empty())
         {
@@ -4366,12 +4480,38 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
     std::optional<TextureFrameTable> textureFrameTable;
     std::optional<SurfaceMaterialTable> surfaceMaterialTable;
+    SurfaceMaterialRuntimeSet surfaceMaterialSet;
 
     if (loadRenderSurfaces)
     {
         textureFrameTable = loadTextureFrameTable(assetFileSystem, pSharedCache);
         logStageComplete("texture frame table loaded");
-        surfaceMaterialTable = loadSurfaceMaterialTable(assetFileSystem, pSharedCache);
+        std::string surfaceMaterialError;
+        const SurfaceMaterialTableLoadStatus surfaceMaterialStatus = loadSurfaceMaterialTable(
+            assetFileSystem,
+            pSharedCache,
+            surfaceMaterialTable,
+            surfaceMaterialError);
+
+        if (surfaceMaterialStatus == SurfaceMaterialTableLoadStatus::Invalid)
+        {
+            std::cerr << "Failed to load surface materials for " << map.fileName
+                      << ": " << surfaceMaterialError << '\n';
+            return std::nullopt;
+        }
+
+        if (surfaceMaterialTable)
+        {
+            std::string surfaceMaterialSetError;
+
+            if (!surfaceMaterialSet.buildFromTable(*surfaceMaterialTable, surfaceMaterialSetError))
+            {
+                std::cerr << "Failed to resolve surface materials for " << map.fileName
+                          << ": " << surfaceMaterialSetError << '\n';
+                return std::nullopt;
+            }
+        }
+
         logStageComplete("surface materials loaded");
     }
 
@@ -4388,6 +4528,11 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
             assetInfo.outdoorMapData->worldId = map.worldId;
             assetInfo.outdoorMapData->fileName = map.fileName;
             assetInfo.outdoorMapData->mapPresentation = mapPresentation;
+
+            if (!surfaceMaterialSet.empty())
+            {
+                assetInfo.outdoorMapData->surfaceMaterials = surfaceMaterialSet;
+            }
 
             if (sceneText)
             {
@@ -4589,6 +4734,47 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.lightingDataSize = lightingDataBytes->size();
                 assetInfo.outdoorMapData->lightingData = std::move(*lightingData);
                 logStageComplete("cooked outdoor lighting loaded");
+
+                if (assetInfo.outdoorMapData->lightingData->hasBakedSources())
+                {
+                    const std::string normalizedLightingFileName = toLower(map.fileName);
+                    const std::string recipeFileName = normalizedLightingFileName.ends_with(".odm")
+                        ? normalizedLightingFileName.substr(0, normalizedLightingFileName.size() - 4)
+                            + ".bake.json"
+                        : std::string();
+                    const std::optional<std::string> bakeRecipePath = recipeFileName.empty()
+                        ? std::nullopt
+                        : findAssetPath(assetFileSystem, map.worldId, recipeFileName);
+
+                    if (bakeRecipePath)
+                    {
+                        const std::optional<std::string> recipeText =
+                            assetFileSystem.readTextFile(*bakeRecipePath);
+                        std::string recipeError;
+
+                        if (!recipeText
+                            || !parseBakeRecipeSunDirection(
+                                *bakeRecipePath,
+                                *recipeText,
+                                *assetInfo.outdoorMapData,
+                                recipeError))
+                        {
+                            std::cerr << "Failed to load bake recipe for " << map.fileName
+                                      << ": " << (recipeText ? recipeError : "unreadable recipe file")
+                                      << '\n';
+                            return std::nullopt;
+                        }
+                    }
+
+                    if (!assetInfo.outdoorMapData->hasBakeSunDirection
+                        && surfaceMaterialSet.hasDirectionalShading())
+                    {
+                        std::cerr << "Failed to resolve surface materials for " << map.fileName
+                                  << ": directional material shading requires the paired bake's "
+                                     "sibling .bake.json recipe (profile.azimuth/elevation)\n";
+                        return std::nullopt;
+                    }
+                }
             }
 
             if (!applyTerrainTileDescriptorAttributes(assetFileSystem, *assetInfo.outdoorMapData))
@@ -4635,6 +4821,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         *assetInfo.outdoorMapData,
                         bitmapLoadCache,
                         surfaceMaterialTable ? &*surfaceMaterialTable : nullptr,
+                        surfaceMaterialSet.empty() ? nullptr : &surfaceMaterialSet,
                         progressPump);
                 logStageComplete("outdoor terrain textures built");
                 assetInfo.outdoorBModelTextureSet =
@@ -4762,6 +4949,11 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
         if (assetInfo.indoorMapData)
         {
             assetInfo.indoorMapData->mapPresentation = mapPresentation;
+
+            if (!surfaceMaterialSet.empty())
+            {
+                assetInfo.indoorMapData->surfaceMaterials = surfaceMaterialSet;
+            }
 
             if (sceneText)
             {

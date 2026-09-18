@@ -22,3 +22,20 @@ first. Do not manually edit generated dependency sources as the permanent fix.
 Validation uses `GlUniformCacheTests.cpp` for value/lifetime/array behavior and real-GPU New Sorpigal captures for
 integration. See `docs/PERF_NEW_SORPIGAL_SUBMISSIONS.md` for measurements and limitations. GL upload counts alone do
 not establish a frame-rate improvement.
+
+# bgfx EGL opaque window config
+
+`bgfx-egl-opaque-window.patch` targets the same pinned bgfx revision.
+
+The patch requests an EGL config without alpha bits for desktop windowed GL contexts (`EGL_ALPHA_SIZE` 0 plus a
+preference pass over the returned config list for a zero-alpha config). Without it, the window buffer is ARGB, and
+alpha-blended content leaves partial alpha in the backbuffer; Wayland compositors then re-composite the window
+premultiplied, adding background light exactly at those pixels. Observed as glowing/brightened sprite vegetation
+("shader flowers") under GNOME on Ubuntu 26.04, while the engine's own frame readback stays correct.
+
+Android and the headless pbuffer path keep the upstream `EGL_ALPHA_SIZE` value. OpenGL ES and other backends are
+unaffected. `cmake/BgfxEglOpaqueWindow.cmake` applies the patch during dependency configuration with the same
+already-applied/reverse-check handling as the uniform cache patch.
+
+Validation compares an engine screenshot capture (`[debug] screenshot_path`) against a compositor window capture of
+the same frame: the engine capture must be opaque (alpha 255) and both captures must match.

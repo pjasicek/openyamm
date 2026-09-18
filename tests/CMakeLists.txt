@@ -65,6 +65,8 @@ add_executable(openyamm_unit_tests
     SpellRegressionTests.cpp
     RegressionGameData.cpp
     SpellbookUiLayoutTests.cpp
+    SurfaceMaterialTests.cpp
+    SurfaceNormalGeometryTests.cpp
     TableRegressionTests.cpp
     TextTableTests.cpp
     TerrainDecorationTests.cpp
@@ -212,6 +214,7 @@ add_executable(openyamm_unit_tests
     ../game/tables/TransitionTable.cpp
     ../game/tables/SpriteTables.cpp
     ../game/tables/SurfaceMaterialTable.cpp
+    ../game/render/SurfaceMaterialRuntime.cpp
     ../game/tables/TextureFrameTable.cpp
     ../game/ui/GameplayUiController.cpp
     ../game/ui/SpellbookUiLayout.cpp
