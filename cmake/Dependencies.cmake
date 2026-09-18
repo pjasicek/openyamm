@@ -288,6 +288,9 @@ function(openyamm_fetch_bgfx_stack)
     openyamm_populate_dependency(bimg bimgSourceDir)
     openyamm_populate_dependency(bgfx bgfxSourceDir)
 
+    include("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/BgfxGlUniformCache.cmake")
+    openyamm_patch_bgfx_gl_uniform_cache("${bgfxSourceDir}")
+
     if (NOT TARGET openyamm_bgfx_headers)
         add_library(openyamm_bgfx_headers INTERFACE)
 

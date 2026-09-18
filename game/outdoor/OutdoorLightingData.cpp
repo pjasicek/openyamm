@@ -13,8 +13,10 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr std::array<uint8_t, 8> LightingMagic = {'O', 'Y', 'M', 'L', 'I', 'T', '1', 0};
-constexpr uint32_t LightingFormatVersion = 2;
+constexpr uint32_t LightingFormatVersion = 3;
 constexpr uint32_t LightingHeaderSize = 96;
+constexpr uint32_t LightingBakedSourcePages = 0x01;
+constexpr uint32_t LightingKnownFlags = LightingBakedSourcePages;
 constexpr uint32_t PageRecordSize = 16;
 constexpr uint32_t FaceRecordSize = 24;
 constexpr uint32_t VertexRecordSize = 12;
@@ -50,6 +52,50 @@ float readFloat(const std::vector<uint8_t> &bytes, size_t offset)
     float value = 0.0f;
     std::memcpy(&value, &bits, sizeof(value));
     return value;
+}
+
+bool decodeRleBgra(
+    const std::vector<uint8_t> &bytes,
+    size_t offset,
+    size_t byteCount,
+    size_t expectedPixelCount,
+    std::vector<uint32_t> &pixels)
+{
+    const size_t end = offset + byteCount;
+    pixels.reserve(expectedPixelCount);
+    while (offset < end && pixels.size() < expectedPixelCount)
+    {
+        const uint8_t tag = bytes[offset++];
+        const size_t spanLength = size_t(tag & 0x7f) + 1;
+        if (spanLength > expectedPixelCount - pixels.size())
+        {
+            return false;
+        }
+        if ((tag & 0x80) != 0)
+        {
+            if (end - offset < sizeof(uint32_t))
+            {
+                return false;
+            }
+            const uint32_t pixel = readU32(bytes, offset);
+            offset += sizeof(uint32_t);
+            pixels.insert(pixels.end(), spanLength, pixel);
+        }
+        else
+        {
+            const size_t spanBytes = spanLength * sizeof(uint32_t);
+            if (end - offset < spanBytes)
+            {
+                return false;
+            }
+            for (size_t index = 0; index < spanLength; ++index)
+            {
+                pixels.push_back(readU32(bytes, offset + index * sizeof(uint32_t)));
+            }
+            offset += spanBytes;
+        }
+    }
+    return offset == end && pixels.size() == expectedPixelCount;
 }
 
 uint64_t fnv1a64(const std::vector<uint8_t> &bytes)
@@ -281,7 +327,7 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
     const uint32_t fileSize = readU32(lightingBytes, 68);
     const uint32_t ambientColorAbgr = readU32(lightingBytes, 72);
 
-    if ((version != 1 && version != LightingFormatVersion)
+    if (version != LightingFormatVersion
         || headerSize != LightingHeaderSize || fileSize != lightingBytes.size())
     {
         errorMessage = "unsupported outdoor lighting data header";
@@ -335,37 +381,36 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
         page.height = readU32(lightingBytes, recordOffset + 4);
         const uint32_t pagePixelOffset = readU32(lightingBytes, recordOffset + 8);
         const uint32_t pagePixelBytes = readU32(lightingBytes, recordOffset + 12);
-        const uint64_t expectedPixelBytes = static_cast<uint64_t>(page.width) * page.height * sizeof(uint32_t);
-
         if (page.width == 0 || page.width > 8192
             || page.height == 0 || page.height > 8192
             || pagePixelOffset != expectedPagePixelOffset
-            || pagePixelBytes != expectedPixelBytes
-            || expectedPagePixelOffset + expectedPixelBytes > lightingBytes.size())
+            || pagePixelBytes == 0
+            || expectedPagePixelOffset + pagePixelBytes > lightingBytes.size())
         {
             errorMessage = "outdoor lighting atlas page is invalid";
             return std::nullopt;
         }
 
         const size_t pixelCount = static_cast<size_t>(page.width) * page.height;
-        page.pixelsBgra.reserve(pixelCount);
-        for (size_t pixelIndex = 0; pixelIndex < pixelCount; ++pixelIndex)
+        if (!decodeRleBgra(lightingBytes, pagePixelOffset, pagePixelBytes, pixelCount, page.pixelsBgra))
         {
-            page.pixelsBgra.push_back(readU32(lightingBytes, pagePixelOffset + pixelIndex * sizeof(uint32_t)));
+            errorMessage = "outdoor lighting atlas compression is invalid";
+            return std::nullopt;
         }
-        expectedPagePixelOffset += expectedPixelBytes;
+        expectedPagePixelOffset += pagePixelBytes;
         result.atlasPages.push_back(std::move(page));
     }
 
-    if (version == 1 && expectedPagePixelOffset != lightingBytes.size())
+    const uint32_t flags = readU32(lightingBytes, 76);
+    if ((flags & ~LightingKnownFlags) != 0)
     {
-        errorMessage = "outdoor lighting atlas payload does not consume the file";
+        errorMessage = "outdoor lighting flags are invalid";
         return std::nullopt;
     }
-
-    if (version == 2)
+    result.bakedSourcePages = (flags & LightingBakedSourcePages) != 0;
+    if (result.bakedSourcePages)
     {
-        result.terrainPageIndex = readU32(lightingBytes, 76);
+        result.terrainPageIndex = 0;
         for (size_t axis = 0; axis < 4; ++axis)
         {
             result.terrainBounds[axis] = readFloat(lightingBytes, 80 + axis * 4);
@@ -462,6 +507,11 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
             return std::nullopt;
         }
     }
+    else if (expectedPagePixelOffset != lightingBytes.size())
+    {
+        errorMessage = "outdoor lighting atlas payload does not consume the file";
+        return std::nullopt;
+    }
 
     result.facesByBModel.resize(outdoorMapData.bmodels.size());
     size_t faceRecordIndex = 0;
@@ -492,7 +542,7 @@ std::optional<OutdoorLightingData> OutdoorLightingDataLoader::loadFromBytes(
                 || (flags & ~FaceKnownFlags) != 0
                 || (atlasPageIndex != 0xffff && atlasPageIndex >= result.atlasPages.size())
                 || (hasLightmap && atlasPageIndex == 0xffff)
-                || (version == 2 && hasLightmap && atlasPageIndex % 2 != 0))
+                || (result.bakedSourcePages && hasLightmap && atlasPageIndex % 2 != 0))
             {
                 errorMessage = "outdoor lighting face identity or atlas reference is invalid";
                 return std::nullopt;

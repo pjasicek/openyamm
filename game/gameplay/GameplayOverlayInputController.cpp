@@ -1852,6 +1852,8 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
                 {"VideoOptionsBloodSplatsButton", GameplayVideoOptionsPointerTargetType::BloodSplatsButton},
                 {"VideoOptionsColoredLightsButton", GameplayVideoOptionsPointerTargetType::ColoredLightsButton},
                 {"VideoOptionsTintingButton", GameplayVideoOptionsPointerTargetType::TintingButton},
+                {"VideoOptionsCinematicButton", GameplayVideoOptionsPointerTargetType::CinematicButton},
+                {"VideoOptionsCinematicStrengthTrack", GameplayVideoOptionsPointerTargetType::CinematicStrengthTrack},
                 {"VideoOptionsReturnButton", GameplayVideoOptionsPointerTargetType::ReturnButton},
             };
 
@@ -1867,6 +1869,39 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
 
             return {};
         };
+
+    // Dragging remains attached to the track even when the pointer leaves its bounds.
+    if (pointerState.leftButtonPressed)
+    {
+        if (!view.interactionState().videoOptionsClickLatch)
+        {
+            const GameplayVideoOptionsPointerTarget target = findPointerTarget(pointerState.x, pointerState.y);
+            if (target.type == GameplayVideoOptionsPointerTargetType::CinematicStrengthTrack)
+            {
+                view.interactionState().videoOptionsClickLatch = true;
+                view.interactionState().videoOptionsPressedTarget = target;
+            }
+        }
+        if (view.interactionState().videoOptionsPressedTarget.type
+            == GameplayVideoOptionsPointerTargetType::CinematicStrengthTrack)
+        {
+            const auto *pLayout = view.findHudLayoutElement("VideoOptionsCinematicStrengthTrack");
+            const auto track = view.resolveHudLayoutElement(pLayout->id, screenWidth, screenHeight,
+                pLayout->width, pLayout->height);
+            if (track && track->width > 0.0f)
+            {
+                const int strength = std::clamp(int(std::lround(
+                    100.0f * (pointerState.x - track->x) / track->width)), 0, 100);
+                GameSettings &settings = view.mutableSettings();
+                if (settings.cinematicStrength != strength)
+                {
+                    settings.cinematicStrength = strength;
+                    view.commitSettingsChange();
+                }
+            }
+            return true;
+        }
+    }
 
     handlePointerClickRelease(
         pointerState,
@@ -1893,6 +1928,14 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
             case GameplayVideoOptionsPointerTargetType::TintingButton:
                 settings.tinting = !settings.tinting;
                 view.commitSettingsChange();
+                break;
+
+            case GameplayVideoOptionsPointerTargetType::CinematicButton:
+                settings.cinematicGrading = !settings.cinematicGrading;
+                view.commitSettingsChange();
+                break;
+
+            case GameplayVideoOptionsPointerTargetType::CinematicStrengthTrack:
                 break;
 
             case GameplayVideoOptionsPointerTargetType::ReturnButton:

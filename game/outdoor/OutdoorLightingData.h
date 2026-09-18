@@ -68,7 +68,7 @@ struct OutdoorLightingData
     std::vector<OutdoorLightmapAtlasPage> atlasPages;
     std::vector<std::vector<OutdoorBModelFaceLighting>> facesByBModel;
     std::vector<OutdoorAuthoredLight> authoredLights;
-    // Version 2 stores adjacent RGBM4 sun/sky pages. Version 1 retains imported MM9 semantics.
+    bool bakedSourcePages = false;
     uint32_t terrainPageIndex = 0;
     std::array<float, 4> terrainBounds = {};
     struct Dependency
@@ -88,7 +88,7 @@ struct OutdoorLightingData
 
     bool hasBakedSources() const
     {
-        return formatVersion == 2;
+        return bakedSourcePages;
     }
     void indexProbes();
     std::optional<Probe> sampleProbe(

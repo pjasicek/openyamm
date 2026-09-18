@@ -55,6 +55,7 @@ bool compilePSSLShader(
     return writeUnsupportedBackendMessage("PSSL shader compilation is not enabled.\n", pMessageWriter);
 }
 
+#if !defined(OPENYAMM_SHADERC_ENABLE_SPIRV)
 bool compileSPIRVShader(
     const Options &options,
     uint32_t version,
@@ -65,6 +66,7 @@ bool compileSPIRVShader(
     BX_UNUSED(options, version, code, pShaderWriter);
     return writeUnsupportedBackendMessage("SPIR-V shader compilation is not enabled.\n", pMessageWriter);
 }
+#endif
 
 bool compileWgslShader(
     const Options &options,

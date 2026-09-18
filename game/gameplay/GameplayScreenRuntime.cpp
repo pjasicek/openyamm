@@ -633,7 +633,9 @@ bool GameplayScreenRuntime::mobileInspectControlAvailable() const
 {
     const GameplayHudScreenState hudScreenState = currentHudScreenState();
 
-    if (hudScreenState == GameplayHudScreenState::Gameplay || hudScreenState == GameplayHudScreenState::Chest)
+    if (hudScreenState == GameplayHudScreenState::Gameplay
+        || hudScreenState == GameplayHudScreenState::Chest
+        || hudScreenState == GameplayHudScreenState::Spellbook)
     {
         return true;
     }

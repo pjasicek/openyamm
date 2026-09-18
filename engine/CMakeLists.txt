@@ -20,6 +20,10 @@ target_include_directories(openyamm_engine
 
 target_compile_features(openyamm_engine PUBLIC cxx_std_20)
 
+if (OPENYAMM_USE_VULKAN)
+    target_compile_definitions(openyamm_engine PRIVATE OPENYAMM_USE_VULKAN=1)
+endif()
+
 target_compile_definitions(openyamm_engine
     PUBLIC
         OPENYAMM_DEV_ASSETS_DIR="${OPENYAMM_DEV_ASSETS_DIR}"

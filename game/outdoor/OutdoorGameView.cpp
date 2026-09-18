@@ -1,3 +1,4 @@
+#include "game/render/RuntimeShader.h"
 #include "game/outdoor/OutdoorGameView.h"
 
 #include "game/app/GameSession.h"
@@ -2814,59 +2815,6 @@ bool projectWorldPointToScreen(
     return true;
 }
 
-std::filesystem::path getShaderPath(bgfx::RendererType::Enum rendererType, const char *pShaderName)
-{
-    const std::filesystem::path configuredShaderRoot = OPENYAMM_BGFX_SHADER_DIR;
-    std::string rendererDirectory;
-
-    switch (rendererType)
-    {
-    case bgfx::RendererType::Direct3D11:
-        rendererDirectory = "dxbc";
-        break;
-
-    case bgfx::RendererType::OpenGL:
-        rendererDirectory = "glsl";
-        break;
-
-    case bgfx::RendererType::OpenGLES:
-        rendererDirectory = "essl";
-        break;
-
-    default:
-        return {};
-    }
-
-    const std::filesystem::path shaderName =
-        std::filesystem::path(rendererDirectory) / (std::string(pShaderName) + ".bin");
-
-    if (configuredShaderRoot.is_absolute())
-    {
-        return configuredShaderRoot / shaderName;
-    }
-
-    if (const char *pBasePath = SDL_GetBasePath())
-    {
-        const std::filesystem::path executableRoot = pBasePath;
-        const std::filesystem::path packagedPath = executableRoot / configuredShaderRoot / shaderName;
-
-        if (std::filesystem::exists(packagedPath))
-        {
-            return packagedPath;
-        }
-
-        const std::filesystem::path buildTreePath = executableRoot / ".." / configuredShaderRoot / shaderName;
-
-        if (std::filesystem::exists(buildTreePath))
-        {
-            return buildTreePath;
-        }
-
-        return packagedPath;
-    }
-
-    return configuredShaderRoot / shaderName;
-}
 
 bool hasOutdoorCameraMotionInput(const GameplayInputFrame &input)
 {
@@ -3198,13 +3146,13 @@ bool OutdoorGameView::initialize(
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     m_terrainWaterSamplerHandle = bgfx::createUniform("s_texTerrainWater", bgfx::UniformType::Sampler);
-    if (m_pOutdoorMapData->lightingData)
+    if (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData)
     {
         m_bmodelLightmapSamplerHandle = bgfx::createUniform("s_texLightmap", bgfx::UniformType::Sampler);
         if (m_pOutdoorMapData->lightingData->hasBakedSources())
         {
             m_bakedSkySamplerHandle = bgfx::createUniform("s_texBakedSky", bgfx::UniformType::Sampler);
-            m_bakedLightingUniformHandle = bgfx::createUniform("u_bakedLighting", bgfx::UniformType::Vec4);
+            m_bakedLightingUniformHandle = bgfx::createUniform("u_bakedLighting", bgfx::UniformType::Vec4, 2);
             m_bakedTerrainBoundsUniformHandle = bgfx::createUniform("u_bakedTerrainBounds", bgfx::UniformType::Vec4);
         }
     }
@@ -3238,7 +3186,8 @@ bool OutdoorGameView::initialize(
         || !m_worldFxRenderResources.isReady()
         || !bgfx::isValid(m_outdoorTexturedFogProgramHandle)
         || !bgfx::isValid(m_outdoorTerrainFogProgramHandle)
-        || (m_pOutdoorMapData->lightingData && !bgfx::isValid(m_outdoorBModelLightmapProgramHandle))
+        || (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData
+            && !bgfx::isValid(m_outdoorBModelLightmapProgramHandle))
         || !bgfx::isValid(m_outdoorForcePerspectiveProgramHandle)
         || !bgfx::isValid(m_outdoorBillboardAmbientUniformHandle)
         || !bgfx::isValid(m_outdoorBillboardOverrideColorUniformHandle)
@@ -3252,8 +3201,10 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_outdoorFogDistancesUniformHandle)
         || !bgfx::isValid(m_outdoorCameraPositionUniformHandle)
         || !bgfx::isValid(m_secretPulseParamsUniformHandle)
-        || (m_pOutdoorMapData->lightingData && !bgfx::isValid(m_bmodelLightmapSamplerHandle))
-        || (m_pOutdoorMapData->lightingData && m_pOutdoorMapData->lightingData->hasBakedSources()
+        || (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData
+            && !bgfx::isValid(m_bmodelLightmapSamplerHandle))
+        || (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData
+            && m_pOutdoorMapData->lightingData->hasBakedSources()
             && (!bgfx::isValid(m_bakedSkySamplerHandle) || !bgfx::isValid(m_bakedLightingUniformHandle)
                 || !bgfx::isValid(m_bakedTerrainBoundsUniformHandle))))
     {

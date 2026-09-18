@@ -3698,6 +3698,44 @@ void GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(GameplayScreenRunti
         "VideoOptionsTintingButton",
         GameplayVideoOptionsRenderButton::Tinting,
         settings.tinting);
+
+    const auto drawSolid = [&context](const char *pName, uint32_t color, float x, float y, float w, float h)
+    {
+        const std::optional<GameplayHudTextureHandle> texture =
+            context.gameplayUiRuntime().ensureSolidHudTextureLoaded(pName, color);
+        if (texture)
+        {
+            context.submitHudTexturedQuad(*texture, x, y, w, h);
+        }
+    };
+    const auto drawLabel = [&context, &resolveLayout](const char *pId, const std::string &text)
+    {
+        const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(pId);
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> rect = resolveLayout(pId);
+        if (pLayout != nullptr && rect)
+        {
+            context.renderLayoutLabel(*pLayout, *rect, text);
+        }
+    };
+    drawLabel("VideoOptionsCinematicTitle", "COLOR GRADING");
+    const auto button = resolveLayout("VideoOptionsCinematicButton");
+    if (button)
+    {
+        drawSolid("cinematic_button", 0xff302820, button->x, button->y, button->width, button->height);
+        drawLabel("VideoOptionsCinematicButton",
+            settings.cinematicGrading ? "Cinematic grading: On" : "Cinematic grading: Off");
+    }
+    drawLabel("VideoOptionsCinematicStrengthLabel", "Strength: " + std::to_string(settings.cinematicStrength) + "%");
+    const auto track = resolveLayout("VideoOptionsCinematicStrengthTrack");
+    if (track)
+    {
+        const float t = float(std::clamp(settings.cinematicStrength, 0, 100)) / 100.0f;
+        const float knobWidth = track->height * 0.5f;
+        drawSolid("cinematic_track", 0xff302820, track->x, track->y + track->height * 0.4f,
+            track->width, track->height * 0.2f);
+        drawSolid("cinematic_knob", 0xff80b8d8, track->x + (track->width - knobWidth) * t,
+            track->y, knobWidth, track->height);
+    }
 }
 
 constexpr size_t SaveLoadVisibleSlotCount = 10;

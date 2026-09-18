@@ -87,7 +87,7 @@ OUTDOOR_RENDER_CELL_SIZE = 4096
 OUTDOOR_RENDER_FLAG_DYNAMIC = 0x01
 OUTDOOR_RENDER_FLAG_TRANSLUCENT = 0x02
 OUTDOOR_LIGHTING_MAGIC = b"OYMLIT1\0"
-OUTDOOR_LIGHTING_VERSION = 1
+OUTDOOR_LIGHTING_VERSION = 3
 OUTDOOR_LIGHTING_HEADER_SIZE = 96
 OUTDOOR_LIGHTING_PAGE_RECORD_SIZE = 16
 OUTDOOR_LIGHTING_FACE_RECORD_SIZE = 24
@@ -5742,6 +5742,30 @@ def fnv1a64(data: bytes) -> int:
     return value
 
 
+def encode_bgra_rle(pixels: list[int]) -> bytes:
+    output = bytearray()
+    index = 0
+    while index < len(pixels):
+        run = 1
+        while run < 128 and index + run < len(pixels) and pixels[index + run] == pixels[index]:
+            run += 1
+        if run >= 2:
+            output.append(0x80 | (run - 1))
+            output.extend(struct.pack("<I", pixels[index]))
+            index += run
+            continue
+
+        start = index
+        index += 1
+        while index - start < 128 and index < len(pixels):
+            if index + 1 < len(pixels) and pixels[index] == pixels[index + 1]:
+                break
+            index += 1
+        output.append(index - start - 1)
+        output.extend(struct.pack(f"<{index - start}I", *pixels[start:index]))
+    return bytes(output)
+
+
 def navigation_mechanisms_by_bmodel(dat_world: DatWorld, bmodels: list[OdmBModel]) -> dict[int, int]:
     result: dict[int, int] = {}
     for object_index, world_object in enumerate(dat_world.objects):
@@ -6215,7 +6239,8 @@ def build_outdoor_lighting_bytes(
     vertex_records_offset = face_records_offset + len(lighting_faces) * OUTDOOR_LIGHTING_FACE_RECORD_SIZE
     light_records_offset = vertex_records_offset + vertex_count * OUTDOOR_LIGHTING_VERTEX_RECORD_SIZE
     pixel_data_offset = light_records_offset + len(lights) * OUTDOOR_LIGHTING_LIGHT_RECORD_SIZE
-    pixel_bytes = sum(page.width * page.height * 4 for page in pages)
+    page_payloads = [encode_bgra_rle(page.pixels_bgra) for page in pages]
+    pixel_bytes = sum(len(payload) for payload in page_payloads)
     file_size = pixel_data_offset + pixel_bytes
     data = bytearray(file_size)
     ambient_abgr = abgr_color(ambient[0] / 255.0, ambient[1] / 255.0, ambient[2] / 255.0)
@@ -6241,8 +6266,8 @@ def build_outdoor_lighting_bytes(
     )
 
     current_pixel_offset = pixel_data_offset
-    for page_index, page in enumerate(pages):
-        page_pixel_bytes = page.width * page.height * 4
+    for page_index, (page, payload) in enumerate(zip(pages, page_payloads)):
+        page_pixel_bytes = len(payload)
         struct.pack_into(
             "<IIII",
             data,
@@ -6252,7 +6277,7 @@ def build_outdoor_lighting_bytes(
             current_pixel_offset,
             page_pixel_bytes,
         )
-        struct.pack_into(f"<{len(page.pixels_bgra)}I", data, current_pixel_offset, *page.pixels_bgra)
+        data[current_pixel_offset:current_pixel_offset + page_pixel_bytes] = payload
         current_pixel_offset += page_pixel_bytes
 
     current_vertex_index = 0

@@ -1,0 +1,32 @@
+{
+  "backend": "5.2.2 LTS",
+  "conversion": {
+    "converter_sha256": "0af348122788ed359d5117755315bb560767f0981b43483a817aaf216e8c9f21",
+    "source_format": 2,
+    "terrain_filter": "2x2 linear-light box"
+  },
+  "geometry_helper_sha256": "954d893477af8b1b060845610d077821b9cef40f857e659abc1570a8254279d3",
+  "producer_sha256": "2fcba36ddf071b513b6b9edafffd20be5a0725137559b952bfa30c852a6f9b7e",
+  "profile": {
+    "azimuth": 315,
+    "building_page_size": 1024,
+    "elevation": 45,
+    "map": "7out15.odm",
+    "preview_position": [
+      -13000,
+      -15000,
+      1600
+    ],
+    "preview_target": [
+      -9000,
+      -8000,
+      300
+    ],
+    "samples": 64,
+    "sky_energy": 0.35,
+    "sun_energy": 2.6,
+    "terrain_size": 1024,
+    "units_per_texel": 32,
+    "world": "mm7"
+  }
+}

@@ -1,7 +1,7 @@
 """Bake native ODM diffuse lighting with Cycles. Run using Blender's background Python.
 
 Profiles are JSON (a YAML subset). Geometry and base textures remain unchanged.
-Output is version-2 OpenYAMM lighting plus a dependency/quality report.
+Output is version-3 OpenYAMM lighting plus a dependency/quality report.
 """
 import argparse
 import csv
@@ -20,7 +20,8 @@ from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from bake_geometry import face_basis
+from bake_geometry import face_basis, pack_lightmap_charts, rle_bgra
+from bake_assets import bake_texture_paths
 
 sys.path.insert(0, str(ROOT / 'util'))
 from map_export import parse_odm_file
@@ -90,7 +91,9 @@ def main():
     recipe_data = {'profile': profile, 'backend': bpy.app.version_string,
                    'producer_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                    'geometry_helper_sha256': hashlib.sha256(
-                       Path(__file__).with_name('bake_geometry.py').read_bytes()).hexdigest()}
+                       Path(__file__).with_name('bake_geometry.py').read_bytes()).hexdigest(),
+                   'asset_helper_sha256': hashlib.sha256(
+                       Path(__file__).with_name('bake_assets.py').read_bytes()).hexdigest()}
     (out / recipe.name).write_text(json.dumps(recipe_data, sort_keys=True, indent=2)+'\n')
     deps[str(recipe.relative_to(ROOT / 'assets_dev'))] = fnv((out / recipe.name).read_bytes())
     bpy.ops.object.select_all(action='SELECT')
@@ -114,11 +117,7 @@ def main():
     toward_sun = Vector((math.cos(e)*math.cos(a), math.cos(e)*math.sin(a), math.sin(e)))
     sun.rotation_euler = (-toward_sun).to_track_quat('-Z', 'Y').to_euler()
     materials = {}
-    texture_paths = {}
-    for directory in [ROOT / 'assets_dev/engine/terrain', ROOT / 'assets_dev/engine/textures',
-                      ROOT / 'assets_dev/worlds' / world / 'textures']:
-        for path in directory.glob('*.bmp'):
-            texture_paths[path.stem.lower()] = path
+    texture_paths, terrain_paths = bake_texture_paths(ROOT / 'assets_dev', world)
     def material(name, terrain=False):
         key = name.lower() + ('_terrain' if terrain else '')
         if key in materials:
@@ -128,7 +127,7 @@ def main():
         bsdf = mat.node_tree.nodes['Principled BSDF']
         bsdf.inputs['Roughness'].default_value = 1
         bsdf.inputs['Specular IOR Level'].default_value = 0
-        path = texture_paths.get(name.lower())
+        path = (terrain_paths if terrain else texture_paths).get(name.lower())
         if path is None:
             raise ValueError('Missing authoritative bake material: '+key)
         dependency(path)
@@ -161,21 +160,7 @@ def main():
     page_size = profile['building_page_size']
     pages = []
     records = []
-    cursor_x, cursor_y, row_h, page_id = 4, 4, 0, 0
-    def reserve(width, height):
-        nonlocal cursor_x, cursor_y, row_h, page_id
-        width, height = min(width, page_size-8), min(height, page_size-8)
-        if cursor_x + width + 4 > page_size:
-            cursor_x, cursor_y, row_h = 4, cursor_y+row_h+8, 0
-        if cursor_y + height + 4 > page_size:
-            page_id += 1
-            cursor_x, cursor_y, row_h = 4, 4, 0
-        result = (page_id, cursor_x, cursor_y, width, height)
-        cursor_x += width+8
-        row_h = max(row_h, height)
-        return result
-
-    # Each page is a mesh with split face vertices, retaining native triangle fans.
+    charts = []
     groups = {}
     for bi, model in enumerate(native['bmodels']):
         for fi, face in enumerate(model['faces']):
@@ -194,16 +179,25 @@ def main():
             hi = np.max(coords, axis=0)
             span = np.maximum(hi-lo, 1)
             w, h = [max(2, math.ceil(v/profile['units_per_texel'])) for v in span]
-            pi, x, y, w, h = reserve(w, h)
-            light_uv = [((x+.5+(u-lo[0])/span[0]*(w-1))/page_size,
-                         (y+.5+(v-lo[1])/span[1]*(h-1))/page_size) for u,v in coords]
-            record.update(page=2+pi*2, uvs=light_uv)
             mat, (tw, th) = material(face['texture_name'])
             tex_uv = [((u+face['texture_delta_u'])/tw, 1-(v+face['texture_delta_v'])/th)
                       for u,v in zip(face['texture_us'],face['texture_vs'])]
-            groups.setdefault(pi, []).append((points, tex_uv, light_uv, mat))
+            charts.append({'record': record, 'points': points, 'coords': coords, 'lo': lo, 'span': span,
+                           'size': (w, h), 'material_uvs': tex_uv, 'material': mat})
 
-    def make_mesh(name, entries, size):
+    placements, building_dimensions = pack_lightmap_charts(
+        [chart['size'] for chart in charts], page_size)
+    for chart, (pi, x, y, w, h) in zip(charts, placements):
+        page_width, page_height = building_dimensions[pi]
+        light_uv = [((x+.5+(u-chart['lo'][0])/chart['span'][0]*(w-1))/page_width,
+                     (y+.5+(v-chart['lo'][1])/chart['span'][1]*(h-1))/page_height)
+                    for u,v in chart['coords']]
+        chart['record'].update(page=2+pi*2, uvs=light_uv)
+        groups.setdefault(pi, []).append(
+            (chart['points'], chart['material_uvs'], light_uv, chart['material']))
+
+    # Each page is a mesh with split face vertices, retaining native triangle fans.
+    def make_mesh(name, entries, dimensions):
         verts, triangles, uvs, light_uvs, mats = [], [], [], [], []
         for points, texcoords, lighting, mat in entries:
             offset = len(verts)
@@ -232,7 +226,7 @@ def main():
                 lm.data[li].uv = light_uvs[vi]
         mesh.uv_layers.active = lm
         lm.active_render = True
-        return obj, size
+        return obj, dimensions
 
     # Exact native diagonal and world coordinates. One world-space terrain atlas in the first proof.
     table_name = {'mm6': 'terrain_tile_data_3.txt', 'mm7': 'terrain_tile_data_2.txt',
@@ -256,8 +250,9 @@ def main():
             for indices in [(0,1,2),(2,1,3)]:
                 entries.append(([points[i] for i in indices], [texcoords[i] for i in indices],
                                 [light[i] for i in indices], mat))
-    objects = [make_mesh('terrain', entries, terrain_size)]
-    objects.extend(make_mesh('buildings_'+str(pi), groups[pi], page_size) for pi in range(len(groups)))
+    objects = [make_mesh('terrain', entries, (terrain_size, terrain_size))]
+    objects.extend(make_mesh('buildings_'+str(pi), groups[pi], building_dimensions[pi])
+                   for pi in range(len(building_dimensions)))
     if args.preview_only:
         camera_data = bpy.data.cameras.new('review camera')
         camera = bpy.data.objects.new('review camera',camera_data)
@@ -322,7 +317,7 @@ def main():
         points = [Vector((x+dx,y+dy,z)) for dx,dy in [(-.5,-.5),(.5,-.5),(.5,.5),(-.5,.5)]]
         probe_entries.append((points,[(0,0)]*4,coords,probe_mat))
         probe_texels.append((py+1,px+1))
-    probe_object = make_mesh('probes',probe_entries,probe_size)
+    probe_object = make_mesh('probes',probe_entries,(probe_size,probe_size))
     probe_object[0].visible_shadow = False
     probe_object[0].visible_diffuse = False
     probe_object[0].visible_glossy = False
@@ -331,9 +326,9 @@ def main():
     stats = {'profile': profile, 'blender': bpy.app.version_string, 'device': scene.cycles.device,
              'sun_direction': list(toward_sun), 'bakes': [], 'dependencies': deps,
              'probe_count': len(probe_positions), 'atlas_pages': 2*(len(objects)-1),
-             'atlas_bytes': sum(size*size*8 for obj,size in objects[:-1])}
-    for obj, size in objects:
-        target = bpy.data.images.new(obj.name, width=size, height=size, float_buffer=True)
+             'atlas_bytes': sum(width*height*8 for obj,(width,height) in objects[:-1])}
+    for obj, (width, height) in objects:
+        target = bpy.data.images.new(obj.name, width=width, height=height, float_buffer=True)
         for mat in obj.data.materials:
             node = mat.node_tree.nodes.get('BakeTarget') or mat.node_tree.nodes.new('ShaderNodeTexImage')
             node.name = 'BakeTarget'
@@ -351,13 +346,13 @@ def main():
             sky.inputs[1].default_value = profile['sky_energy'] if term == 'sky' else 0
             start = time.monotonic()
             bpy.ops.object.bake(type='DIFFUSE')
-            pixels = np.array(target.pixels[:], dtype=np.float32).reshape(size,size,4)
+            pixels = np.array(target.pixels[:], dtype=np.float32).reshape(height,width,4)
             np.save(out / (obj.name+'_'+term+'.npy'), pixels)
             payload = rgbm(pixels)
             if obj.name == 'probes':
                 probe_values[term] = np.array([pixels[y,x,:3] for y,x in probe_texels])
             else:
-                pages.append((size,size,payload))
+                pages.append((width,height,rle_bgra(payload)))
             stats['bakes'].append({'object':obj.name,'term':term,'seconds':time.monotonic()-start,
                                    'max':float(pixels[:,:,:3].max())})
             print('BAKED', stats['bakes'][-1], flush=True)
@@ -384,10 +379,10 @@ def main():
     total = pixel_offset + len(payloads) + len(extension)
     header = bytearray(96)
     header[:8] = b'OYMLIT1\0'
-    struct.pack_into('<IIQ',header,8,2,96,fnv(source.read_bytes()))
+    struct.pack_into('<IIQ',header,8,3,96,fnv(source.read_bytes()))
     struct.pack_into('<12I',header,24,len(native['bmodels']),len(records),len(pages),len(records),
                      len(vertices)//12,0,page_offset,face_offset,vertex_offset,light_offset,pixel_offset,total)
-    struct.pack_into('<II4f',header,72,0,0,-32768,32768,65024,-65024)
+    struct.pack_into('<II4f',header,72,0,1,-32768,32768,65024,-65024)
     output = out / (source.stem+'.lighting')
     output.write_bytes(header+page_records+faces+vertices+payloads+extension)
     stats['output_bytes'] = output.stat().st_size

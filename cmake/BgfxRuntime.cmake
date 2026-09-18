@@ -1,5 +1,7 @@
 include_guard(GLOBAL)
 
+option(OPENYAMM_GL_UNIFORM_CACHE "Skip unchanged desktop OpenGL uniform uploads." ON)
+
 function(openyamm_bgfx_shader_platform outputVariable)
     if (ANDROID)
         set(shaderPlatform "android")
@@ -26,6 +28,11 @@ function(openyamm_bgfx_shader_targets outputVariable)
         set(shaderTargets "osx|120|glsl")
     else()
         set(shaderTargets "linux|120|glsl")
+    endif()
+
+    if (OPENYAMM_USE_VULKAN)
+        openyamm_bgfx_shader_platform(shaderPlatform)
+        list(APPEND shaderTargets "${shaderPlatform}|spirv|spirv")
     endif()
 
     set(${outputVariable} ${shaderTargets} PARENT_SCOPE)
@@ -177,6 +184,11 @@ function(openyamm_configure_bgfx_runtime)
             target_sources(openyamm_bgfx PRIVATE
                 ${OPENYAMM_BGFX_SOURCE_DIR}/src/dxgi.cpp
                 ${OPENYAMM_BGFX_SOURCE_DIR}/src/nvapi.cpp
+            )
+        endif()
+
+        if (WIN32 OR OPENYAMM_USE_VULKAN)
+            target_sources(openyamm_bgfx PRIVATE
                 ${OPENYAMM_BGFX_SOURCE_DIR}/src/shader_dxbc.cpp
             )
         endif()
@@ -187,6 +199,7 @@ function(openyamm_configure_bgfx_runtime)
                 ${OPENYAMM_BX_SOURCE_DIR}/include
                 ${OPENYAMM_BIMG_SOURCE_DIR}/include
             PRIVATE
+                ${CMAKE_SOURCE_DIR}/engine
                 ${OPENYAMM_BGFX_SOURCE_DIR}/3rdparty
                 ${OPENYAMM_BGFX_SOURCE_DIR}/3rdparty/khronos
                 ${OPENYAMM_BIMG_SOURCE_DIR}/3rdparty
@@ -220,11 +233,16 @@ function(openyamm_configure_bgfx_runtime)
                 BGFX_CONFIG_RENDERER_DIRECT3D11=${openyammBgfxDirect3D11}
                 BGFX_CONFIG_RENDERER_DIRECT3D12=0
                 BGFX_CONFIG_RENDERER_METAL=0
-                BGFX_CONFIG_RENDERER_VULKAN=0
+                BGFX_CONFIG_RENDERER_VULKAN=$<BOOL:${OPENYAMM_USE_VULKAN}>
                 BGFX_CONFIG_RENDERER_WEBGPU=0
                 BGFX_CONFIG_RENDERER_OPENGL=${openyammBgfxOpenGlVersion}
                 BGFX_CONFIG_RENDERER_OPENGLES=${openyammBgfxOpenGlesVersion}
         )
+
+        if (NOT ANDROID AND NOT EMSCRIPTEN)
+            target_compile_definitions(openyamm_bgfx PRIVATE
+                OPENYAMM_BGFX_GL_UNIFORM_CACHE=$<BOOL:${OPENYAMM_GL_UNIFORM_CACHE}>)
+        endif()
 
         if (MINGW)
             # MinGW-w64's dirent does not expose d_type, which bx's optional directory reader requires.
@@ -343,6 +361,11 @@ function(openyamm_configure_bgfx_runtime)
 
         if (WIN32)
             target_compile_definitions(openyamm_shaderc PRIVATE OPENYAMM_SHADERC_ENABLE_HLSL=1)
+        endif()
+
+        if (OPENYAMM_USE_VULKAN)
+            include(BgfxSpirv)
+            openyamm_configure_spirv_compiler()
         endif()
 
         target_include_directories(openyamm_shaderc PRIVATE
@@ -466,7 +489,14 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_terrain_decoration_baked.bin")
 
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_cinematic_grading.sc" "vertex" "vs_cinematic_grading.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_cinematic_grading.sc" "fragment" "fs_cinematic_grading.bin")
+
     set(runtimeShaderNames
+        vs_cinematic_grading.bin
+        fs_cinematic_grading.bin
         fs_terrain_decoration_baked.bin
         vs_terrain_decoration.bin
         fs_terrain_decoration.bin

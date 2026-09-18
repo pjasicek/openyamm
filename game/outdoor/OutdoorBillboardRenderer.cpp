@@ -763,11 +763,13 @@ uint32_t OutdoorBillboardRenderer::computeBillboardLightContributionAbgr(
     }
 
     std::array<float, 3> rgb = view.m_outdoorLightingRuntime.sampleLightingRgb({x, y, z});
-    if (view.m_pOutdoorMapData->lightingData && view.m_pOutdoorMapData->lightingData->hasBakedSources())
+    if (view.m_gameSettings.lightmaps
+        && view.m_pOutdoorMapData->lightingData
+        && view.m_pOutdoorMapData->lightingData->hasBakedSources())
     {
         const OutdoorLightingData &lighting = *view.m_pOutdoorMapData->lightingData;
-        const std::array<float, 4> weights =
-            outdoorBakedLightingWeights(view.m_pOutdoorWorldRuntime->atmosphereState());
+        const std::array<std::array<float, 4>, 2> colors =
+            outdoorBakedLightingColors(view.m_pOutdoorWorldRuntime->atmosphereState(), view.m_gameSettings);
         const std::array<float, 3> position = {x, y, z};
         auto cached = view.m_bakedProbeCache.find(position);
         if (cached == view.m_bakedProbeCache.end())
@@ -789,8 +791,9 @@ uint32_t OutdoorBillboardRenderer::computeBillboardLightContributionAbgr(
         for (size_t channel = 0; channel < 3; ++channel)
         {
             // Outside the probe volume use sky-only fill, never a stale sun shadow from a distant probe.
-            const float baked = probe ? probe->sun[channel] * weights[0] + probe->sky[channel] * weights[1]
-                                      : 0.25f * weights[1];
+            const float baked = probe
+                ? probe->sun[channel] * colors[0][channel] + probe->sky[channel] * colors[1][channel]
+                : 0.25f * colors[1][channel];
             rgb[channel] = std::pow(std::max(rgb[channel] + baked, 0.0f), 1.0f / 2.2f);
         }
     }
@@ -828,7 +831,9 @@ std::optional<OutdoorGameView::InspectHit> OutdoorBillboardRenderer::resolveHove
 void OutdoorBillboardRenderer::applyBillboardAmbientUniform(OutdoorGameView &view)
 {
     const OutdoorLightingData *pLightingData =
-        view.m_pOutdoorMapData != nullptr && view.m_pOutdoorMapData->lightingData
+        view.m_gameSettings.lightmaps
+            && view.m_pOutdoorMapData != nullptr
+            && view.m_pOutdoorMapData->lightingData
             ? &*view.m_pOutdoorMapData->lightingData
             : nullptr;
     const uint32_t mapAmbientColor = pLightingData != nullptr ? pLightingData->ambientColorAbgr : 0;

@@ -30,6 +30,8 @@ bgfx::RendererType::Enum selectRendererType(bool useNoopRenderer)
 
 #if defined(__ANDROID__)
     return bgfx::RendererType::OpenGLES;
+#elif defined(OPENYAMM_USE_VULKAN)
+    return bgfx::RendererType::Vulkan;
 #elif defined(_WIN32)
     return bgfx::RendererType::Direct3D11;
 #else

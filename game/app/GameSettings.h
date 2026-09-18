@@ -124,6 +124,12 @@ struct GameSettings
     bool shadows = false;
     bool spriteOutline = false;
     bool textureFiltering = true;
+    bool lightmaps = true;
+    // Linear multipliers of the separate baked sun/sky sources; identity preserves the authored bake.
+    float bakedSunStrength = 1.0f;
+    float bakedSkyStrength = 3.0f;
+    std::array<float, 3> bakedSunColor = {1.0f, 1.0f, 1.0f};
+    std::array<float, 3> bakedSkyColor = {0.8f, 0.9f, 1.0f};
     bool terrainDecorations = false;
     std::string terrainFiltering = "anisotropic";
     std::string terrainAnisotropy = "8x";
@@ -143,6 +149,8 @@ struct GameSettings
     int resolutionWidth = 1600;
     int resolutionHeight = 900;
     bool verticalSync = false;
+    bool cinematicGrading = true;
+    int cinematicStrength = 60;
 
     bool startInMainMenu = false;
     std::string startupSaveFile;
@@ -199,6 +207,9 @@ struct GameSettings
 };
 
 std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, std::string &error);
+std::optional<std::string> getBakedLightingSetting(const GameSettings &settings, const std::string &name);
+bool setBakedLightingSetting(
+    GameSettings &settings, const std::string &name, const std::string &value, std::string &error);
 bool saveGameSettings(const std::filesystem::path &path, const GameSettings &settings, std::string &error);
 bool migrateLegacyAndroidSettings(GameSettings &settings);
 CharacterAttackTuning characterAttackTuningFromSettings(const GameSettings &settings);

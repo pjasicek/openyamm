@@ -536,6 +536,8 @@ enum class GameplayVideoOptionsPointerTargetType
     BloodSplatsButton,
     ColoredLightsButton,
     TintingButton,
+    CinematicButton,
+    CinematicStrengthTrack,
     ReturnButton
 };
 

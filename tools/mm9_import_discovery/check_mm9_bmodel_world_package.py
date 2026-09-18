@@ -97,7 +97,7 @@ def validate_active_slice(maps_root: Path, events_root: Path) -> list[str]:
                 expected_light_offset = expected_vertex_offset + vertex_count * 12
                 expected_pixel_offset = expected_light_offset + light_count * 80
                 if (
-                    version != 1
+                    version != 3
                     or header_size != 96
                     or page_count == 0
                     or face_count == 0

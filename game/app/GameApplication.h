@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/app/AppMode.h"
+#include "game/render/CinematicGrading.h"
 #include "game/app/GameInputSystem.h"
 #include "game/app/GameSettings.h"
 #include "game/app/GameSession.h"
@@ -248,6 +249,7 @@ private:
 
     Engine::ApplicationConfig m_config;
     Engine::EngineApplication m_engineApplication;
+    CinematicGrading m_cinematicGrading;
     GameDataLoader m_gameDataLoader;
     GameDataRepository m_gameDataRepository;
     WorldManifest m_activeWorldManifest;

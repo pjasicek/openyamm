@@ -87,7 +87,8 @@ private:
         size_t bModelIndex,
         size_t faceIndex,
         int textureWidth,
-        int textureHeight);
+        int textureHeight,
+        bool useLightmaps);
     static std::vector<OutdoorGameView::LightmappedBModelVertex> buildLightmappedBModelFaceVertices(
         const OutdoorMapData &mapData,
         size_t bModelIndex,

@@ -1,3 +1,4 @@
+#include "game/render/RuntimeShader.h"
 #include "game/outdoor/OutdoorRenderer.h"
 
 #include "game/app/GameSession.h"
@@ -529,59 +530,6 @@ struct OutdoorFogParameters
     std::array<float, 4> distances = {1.0f, 1.0f, 2.0f, 0.0f};
 };
 
-std::filesystem::path getShaderPath(bgfx::RendererType::Enum rendererType, const char *pShaderName)
-{
-    const std::filesystem::path configuredShaderRoot = OPENYAMM_BGFX_SHADER_DIR;
-    std::string rendererDirectory;
-
-    switch (rendererType)
-    {
-    case bgfx::RendererType::Direct3D11:
-        rendererDirectory = "dxbc";
-        break;
-
-    case bgfx::RendererType::OpenGL:
-        rendererDirectory = "glsl";
-        break;
-
-    case bgfx::RendererType::OpenGLES:
-        rendererDirectory = "essl";
-        break;
-
-    default:
-        return {};
-    }
-
-    const std::filesystem::path shaderName =
-        std::filesystem::path(rendererDirectory) / (std::string(pShaderName) + ".bin");
-
-    if (configuredShaderRoot.is_absolute())
-    {
-        return configuredShaderRoot / shaderName;
-    }
-
-    if (const char *pBasePath = SDL_GetBasePath())
-    {
-        const std::filesystem::path executableRoot = pBasePath;
-        const std::filesystem::path packagedPath = executableRoot / configuredShaderRoot / shaderName;
-
-        if (std::filesystem::exists(packagedPath))
-        {
-            return packagedPath;
-        }
-
-        const std::filesystem::path buildTreePath = executableRoot / ".." / configuredShaderRoot / shaderName;
-
-        if (std::filesystem::exists(buildTreePath))
-        {
-            return buildTreePath;
-        }
-
-        return packagedPath;
-    }
-
-    return configuredShaderRoot / shaderName;
-}
 
 std::vector<uint8_t> readBinaryFile(const std::filesystem::path &path)
 {
@@ -1079,8 +1027,8 @@ void OutdoorRenderer::applyOutdoorSurfaceUniforms(OutdoorGameView &view)
     {
         const OutdoorLightingData &lighting = *view.m_pOutdoorMapData->lightingData;
         const OutdoorWorldRuntime::AtmosphereState &atmosphere = view.m_pOutdoorWorldRuntime->atmosphereState();
-        const std::array<float, 4> weights = outdoorBakedLightingWeights(atmosphere);
-        bgfx::setUniform(view.m_bakedLightingUniformHandle, weights.data());
+        const std::array<std::array<float, 4>, 2> colors = outdoorBakedLightingColors(atmosphere, view.m_gameSettings);
+        bgfx::setUniform(view.m_bakedLightingUniformHandle, colors.data(), 2);
         std::array<float, 4> bounds = lighting.terrainBounds;
         const OutdoorLightmapAtlasPage &page = lighting.atlasPages[lighting.terrainPageIndex];
         const float texelX = bounds[2] / std::max(float(page.width) - 1.0f, 1.0f);
@@ -1643,7 +1591,8 @@ void OutdoorRenderer::refreshBModelWorldRenderChunks(OutdoorGameView &view)
                 face.bModelIndex,
                 face.faceIndex,
                 face.textureWidth,
-                face.textureHeight);
+                face.textureHeight,
+                face.usesStaticLighting);
             const OutdoorBModelFace &sourceFace =
                 view.m_pOutdoorMapData->bmodels[face.bModelIndex].faces[face.faceIndex];
             OutdoorBModelFace effectiveFace = sourceFace;
@@ -1859,7 +1808,7 @@ bool OutdoorRenderer::buildBModelWorldRenderChunks(
         face.textureHeight = pTexture->height;
         face.defaultAnimationIndex = animationIt->second;
         face.translucent = reference.translucent;
-        if (outdoorMapData.lightingData)
+        if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
         {
             const OutdoorBModelFaceLighting &lighting =
                 outdoorMapData.lightingData->facesByBModel[reference.bModelIndex][reference.faceIndex];
@@ -2197,7 +2146,8 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
     size_t bModelIndex,
     size_t faceIndex,
     int textureWidth,
-    int textureHeight)
+    int textureHeight,
+    bool useLightmaps)
 {
     std::vector<OutdoorGameView::TexturedTerrainVertex> vertices;
 
@@ -2220,7 +2170,7 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
     }
 
     bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
-    if (mapData.sceneProfile == OutdoorSceneProfile::ClassicOdm && !mapData.lightingData)
+    if (mapData.sceneProfile == OutdoorSceneProfile::ClassicOdm && (!useLightmaps || !mapData.lightingData))
     {
         OutdoorFaceGeometryData geometry = {};
         if (!buildOutdoorFaceGeometry(bmodel, bModelIndex, face, faceIndex, geometry, true))
@@ -2742,7 +2692,8 @@ void OutdoorRenderer::createBModelTextureBatches(
                     bModelIndex,
                     localFaceIndex,
                     pBaseTexture->width,
-                    pBaseTexture->height);
+                    pBaseTexture->height,
+                    view.m_gameSettings.lightmaps);
 
             if (texturedBModelVertices.empty())
             {
@@ -2751,7 +2702,7 @@ void OutdoorRenderer::createBModelTextureBatches(
 
             OutdoorGameView::TexturedBModelBatch batch = {};
             batch.vertices = texturedBModelVertices;
-            if (outdoorMapData.lightingData)
+            if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
             {
                 batch.lightmappedVertices = buildLightmappedBModelFaceVertices(
                     outdoorMapData, bModelIndex, localFaceIndex, texturedBModelVertices);
@@ -2816,7 +2767,9 @@ void OutdoorRenderer::ensureTerrainDecorations(OutdoorGameView &view, const Outd
     {
         view.m_terrainDecorations.initialize(*view.m_pAssetFileSystem, *config, std::move(placement),
             loadProgramHandle("vs_terrain_decoration",
-                outdoorMapData.lightingData && outdoorMapData.lightingData->hasBakedSources()
+                view.m_gameSettings.lightmaps
+                    && outdoorMapData.lightingData
+                    && outdoorMapData.lightingData->hasBakedSources()
                     ? "fs_terrain_decoration_baked" : "fs_terrain_decoration"));
     }
 }
@@ -2831,7 +2784,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     OutdoorGameView::TerrainVertex::init();
     OutdoorGameView::TexturedTerrainVertex::init();
     OutdoorGameView::LitBillboardVertex::init();
-    if (outdoorMapData.lightingData)
+    if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
     {
         OutdoorGameView::LightmappedBModelVertex::init();
     }
@@ -2980,11 +2933,13 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     view.m_worldFxRenderResources.setParticleProgramHandle(loadProgramHandle("vs_particle", "fs_particle"));
     view.m_outdoorTerrainFogProgramHandle =
         loadProgramHandle("vs_outdoor_textured_fog",
-            outdoorMapData.lightingData && outdoorMapData.lightingData->hasBakedSources()
+            view.m_gameSettings.lightmaps
+                && outdoorMapData.lightingData
+                && outdoorMapData.lightingData->hasBakedSources()
                 ? "fs_outdoor_terrain_baked" : "fs_outdoor_terrain_fog");
     view.m_outdoorTexturedFogProgramHandle =
         loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
-    if (outdoorMapData.lightingData)
+    if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
     {
         view.m_outdoorBModelLightmapProgramHandle =
             loadProgramHandle("vs_outdoor_bmodel_lightmap",
@@ -3014,7 +2969,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
         }
     }
 
-    if (outdoorMapData.lightingData)
+    if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
     {
         view.m_bmodelLightmapTextureHandles.reserve(outdoorMapData.lightingData->atlasPages.size());
         for (const OutdoorLightmapAtlasPage &page : outdoorMapData.lightingData->atlasPages)
@@ -3583,9 +3538,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     const uint32_t identityTransform = bgfx::setTransform(modelMatrix);
     const OutdoorFogParameters worldFogParameters =
         buildOutdoorWorldFogParameters(view.m_pOutdoorWorldRuntime, pAtmosphereState, farClipDistance);
-    const OutdoorLightingData *pLightingData = view.m_pOutdoorMapData != nullptr && view.m_pOutdoorMapData->lightingData
-                                                   ? &*view.m_pOutdoorMapData->lightingData
-                                                   : nullptr;
+    const OutdoorLightingData *pLightingData =
+        view.m_gameSettings.lightmaps
+            && view.m_pOutdoorMapData != nullptr
+            && view.m_pOutdoorMapData->lightingData
+        ? &*view.m_pOutdoorMapData->lightingData
+        : nullptr;
     view.m_outdoorSunlight = view.m_pOutdoorMapData != nullptr && pAtmosphereState != nullptr
         ? buildOutdoorSunlight(*view.m_pOutdoorMapData, *pAtmosphereState)
         : std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f};
@@ -3731,7 +3689,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         view.m_gameSettings.performanceTrace ? &view.m_outdoorLightingStats : nullptr, cameraPosition,
                         chunkBounds);
 
-                    if (view.m_pOutdoorMapData->lightingData
+                    if (view.m_gameSettings.lightmaps
+                        && view.m_pOutdoorMapData->lightingData
                         && view.m_pOutdoorMapData->lightingData->hasBakedSources())
                     {
                         const uint32_t page = view.m_pOutdoorMapData->lightingData->terrainPageIndex;
@@ -3755,7 +3714,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                             TextureFilterProfile::Terrain);
                 applyOutdoorFxLightUniforms(view, cameraPosition);
 
-                if (view.m_pOutdoorMapData->lightingData
+                if (view.m_gameSettings.lightmaps
+                    && view.m_pOutdoorMapData->lightingData
                     && view.m_pOutdoorMapData->lightingData->hasBakedSources())
                 {
                     const uint32_t page = view.m_pOutdoorMapData->lightingData->terrainPageIndex;
@@ -3826,7 +3786,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                     }
                 }
 
-                if (view.m_pOutdoorMapData->lightingData
+                if (view.m_gameSettings.lightmaps
+                    && view.m_pOutdoorMapData->lightingData
                     && view.m_pOutdoorMapData->lightingData->hasBakedSources())
                 {
                     const uint32_t page = view.m_pOutdoorMapData->lightingData->terrainPageIndex;

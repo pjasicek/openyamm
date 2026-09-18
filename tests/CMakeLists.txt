@@ -15,6 +15,7 @@ add_executable(openyamm_unit_tests
     GameplaySaveLoadUiSupportTests.cpp
     GameplayRuleRegressionTests.cpp
     GameInputSystemTests.cpp
+    GlUniformCacheTests.cpp
     AwardRuntimeTests.cpp
     GameplayProjectileServiceTests.cpp
     FontAssetTests.cpp

@@ -4575,7 +4575,7 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "config",
-        .description = "Inspect or mutate debug settings.",
+        .description = "Inspect or mutate debug settings and baked sun/sky strength/color.",
         .usage = "config get|set|toggle <name> [value]",
         .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
@@ -4584,11 +4584,35 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(
                     false,
                     "Usage: config get|set|toggle "
-                    "immortal|unlimited_mana|invisible|start_flying|terrain_decorations [value]");
+                    "immortal|unlimited_mana|invisible|start_flying|terrain_decorations|baked_sun_strength|"
+                    "baked_sky_strength|baked_sun_color|baked_sky_color [value]");
             }
 
             const std::string action = toLowerCopy(context.args[0]);
             const std::string name = toLowerCopy(context.args[1]);
+
+            if (const std::optional<std::string> value = getBakedLightingSetting(m_settings, name))
+            {
+                if (action == "get")
+                {
+                    return commandResult(true, name + "=" + *value);
+                }
+                if (action != "set" || context.args.size() != 3)
+                {
+                    return commandResult(false, "Usage: config set " + name + " <strength or R,G,B>");
+                }
+                std::string error;
+                if (!setBakedLightingSetting(m_settings, name, context.args[2], error))
+                {
+                    return commandResult(false, error);
+                }
+                applyCurrentSettingsToActiveRuntime();
+                if (!saveGameSettings(settingsFilePath(), m_settings, error))
+                {
+                    return commandResult(false, "Applied, but could not save settings.ini: " + error);
+                }
+                return commandResult(true, name + "=" + *getBakedLightingSetting(m_settings, name));
+            }
 
             const auto getSetting = [this, activeParty, &name]() -> std::optional<bool>
             {
@@ -7436,6 +7460,7 @@ void GameApplication::restoreSavedOutdoorWorldStateForSelectedMap()
 
 void GameApplication::shutdownRenderer()
 {
+    m_cinematicGrading.shutdown();
     m_gameAudioSystem.stopAllPlayback();
     MenuScreenBase::shutdownSharedResources();
     m_mainMenuChildScreensPrepared = false;
@@ -8505,6 +8530,7 @@ void GameApplication::reportQuickSaveStatus(const std::string &status)
 
 void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds)
 {
+    m_cinematicGrading.resetViews();
     const bool gameplayLoaded =
         !m_loadingOverlayActive
         && m_screenManager.activeScreen() == nullptr
@@ -8875,7 +8901,9 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         recordFrameDiagnostics(m_framePerformanceDiagnostics.postWorldNanoseconds, postWorldBeginTickCount);
         const uint64_t renderWorldBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         const float worldRenderDeltaSeconds = gameplayWorldPaused ? deltaSeconds : scaledGameplayDeltaSeconds;
+        m_cinematicGrading.begin(width, height, m_settings.cinematicGrading, m_settings.cinematicStrength);
         pWorldRuntime->renderWorld(width, height, m_gameInputSystem.frame(), worldRenderDeltaSeconds);
+        m_cinematicGrading.submit();
         recordFrameDiagnostics(m_framePerformanceDiagnostics.renderWorldNanoseconds, renderWorldBeginTickCount);
         const uint64_t renderGameplayUiBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         m_gameSession.renderGameplayUi(width, height);

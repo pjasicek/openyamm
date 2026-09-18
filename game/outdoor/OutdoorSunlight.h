@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/app/GameSettings.h"
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 
@@ -37,6 +38,20 @@ inline std::array<float, 4> outdoorBakedLightingWeights(const OutdoorWorldRuntim
         : std::clamp((atmosphere.ambientBrightness - 0.15f) / 0.54f, 0.0f, 1.0f)
             * (1.0f - std::clamp(atmosphere.fogDensity, 0.0f, 1.0f));
     return {daylight, 0.12f + 0.88f * daylight, 0.0f, 0.0f};
+}
+
+// Two vec4s match u_bakedLighting[2]. Shared by surface shaders and CPU sprite-probe evaluation.
+inline std::array<std::array<float, 4>, 2> outdoorBakedLightingColors(
+    const OutdoorWorldRuntime::AtmosphereState &atmosphere, const GameSettings &settings)
+{
+    const std::array<float, 4> weights = outdoorBakedLightingWeights(atmosphere);
+    std::array<std::array<float, 4>, 2> colors = {};
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        colors[0][channel] = weights[0] * settings.bakedSunStrength * settings.bakedSunColor[channel];
+        colors[1][channel] = weights[1] * settings.bakedSkyStrength * settings.bakedSkyColor[channel];
+    }
+    return colors;
 }
 
 inline float outdoorBillboardBaseLight(const std::array<float, 4> &sunlight)

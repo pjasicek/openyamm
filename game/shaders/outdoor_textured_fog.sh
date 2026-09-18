@@ -59,13 +59,13 @@ float getFogAlpha(float dist)
     return 1.0 - safeSmoothstep(u_fogDistances.y, u_fogDistances.z, dist);
 }
 
-vec3 getFxLighting(vec3 worldPosition)
+vec3 getFxLighting(vec3 worldPosition, float sunlight)
 {
     // Only base illumination receives sunlight; local spell/torch contributions retain their full strength.
 #if BAKED_SOURCES
     float base = 0.0;
 #else
-    float base = u_fxLightParams.y * v_sunlight;
+    float base = u_fxLightParams.y * sunlight;
 #endif
     vec3 lighting = vec3(base, base, base);
 
@@ -180,9 +180,9 @@ void main()
     vec2 bakedUv = (v_worldPosition.xy - u_bakedTerrainBounds.xy) / u_bakedTerrainBounds.zw;
     vec3 baked = bakedSourceLighting(texture2D(s_texLightmap, bakedUv), texture2D(s_texBakedSky, bakedUv));
     vec4 litTextureColor = vec4(bakedSurfaceColor(textureColor.rgb,
-        baked + getFxLighting(v_worldPosition)), textureColor.a);
+        baked + getFxLighting(v_worldPosition, 0.0)), textureColor.a);
 #else
-    vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(v_worldPosition), textureColor.a);
+    vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(v_worldPosition, v_sunlight), textureColor.a);
 #endif
 
     bool classicSecret = v_texcoord1.x > 0.5 && v_texcoord1.x < 1.5;

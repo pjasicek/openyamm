@@ -1,0 +1,111 @@
+--- a/src/renderer_gl.cpp
++++ b/src/renderer_gl.cpp
+@@ -4,6 +4,10 @@
+  */
+ 
+ #include "bgfx_p.h"
++
++#if OPENYAMM_BGFX_GL_UNIFORM_CACHE
++#	include "GlUniformCache.h"
++#endif
+ 
+ #if (BGFX_CONFIG_RENDERER_OPENGLES || BGFX_CONFIG_RENDERER_OPENGL)
+ #	include "renderer_gl.h"
+@@ -3394,6 +3398,9 @@
+ 
+ 		void destroyProgram(ProgramHandle _handle) override
+ 		{
++#if OPENYAMM_BGFX_GL_UNIFORM_CACHE
++			m_uniformStateCache.invalidateProgram(m_program[_handle.idx].m_id);
++#endif
+ 			m_program[_handle.idx].destroy();
+ 		}
+ 
+@@ -4200,6 +4207,9 @@
+ 
+ 		void invalidateCache()
+ 		{
++#if OPENYAMM_BGFX_GL_UNIFORM_CACHE
++			m_uniformStateCache.clear();
++#endif
+ 			if (m_samplerObjectSupport)
+ 			{
+ 				m_samplerStateCache.invalidate();
+@@ -4692,6 +4702,56 @@
+ 			GL_CHECK(glUseProgram(program) );
+ 		}
+ 
++#if OPENYAMM_BGFX_GL_UNIFORM_CACHE
++		void setUniform1i(uint32_t loc, int value)
++		{
++			if (m_uniformStateCache.update(loc, 1, &value, sizeof(value)))
++			{
++				GL_CHECK(glUniform1i(loc, value));
++			}
++		}
++
++		void setUniform1iv(uint32_t loc, int num, const int* data)
++		{
++			if (m_uniformStateCache.update(loc, num, data, sizeof(int)))
++			{
++				GL_CHECK(glUniform1iv(loc, num, data));
++			}
++		}
++
++		void setUniform4f(uint32_t loc, float x, float y, float z, float w)
++		{
++			const float data[4] = {x, y, z, w};
++			if (m_uniformStateCache.update(loc, 1, data, sizeof(data)))
++			{
++				GL_CHECK(glUniform4f(loc, x, y, z, w));
++			}
++		}
++
++		void setUniform4fv(uint32_t loc, int num, const float* data)
++		{
++			if (m_uniformStateCache.update(loc, num, data, 4 * sizeof(float)))
++			{
++				GL_CHECK(glUniform4fv(loc, num, data));
++			}
++		}
++
++		void setUniformMatrix3fv(uint32_t loc, int num, GLboolean transpose, const float* data)
++		{
++			if (m_uniformStateCache.update(loc, num, data, 9 * sizeof(float), transpose != GL_FALSE))
++			{
++				GL_CHECK(glUniformMatrix3fv(loc, num, transpose, data));
++			}
++		}
++
++		void setUniformMatrix4fv(uint32_t loc, int num, GLboolean transpose, const float* data)
++		{
++			if (m_uniformStateCache.update(loc, num, data, 16 * sizeof(float), transpose != GL_FALSE))
++			{
++				GL_CHECK(glUniformMatrix4fv(loc, num, transpose, data));
++			}
++		}
++#else
+ 		// Cache uniform uploads to avoid redundant uploading of state that is
+ 		// already set to a shader program
+ 		void setUniform1i(uint32_t loc, int value)
+@@ -4774,6 +4834,8 @@
+ 				GL_CHECK(glUniformMatrix4fv(loc, num, transpose, data) );
+ 			}
+ 		}
++
++#endif
+ 
+ 		void* m_renderdocdll;
+ 
+@@ -4794,7 +4856,11 @@
+ 		OcclusionQueryGL m_occlusionQuery;
+ 
+ 		SamplerStateCache m_samplerStateCache;
++#if OPENYAMM_BGFX_GL_UNIFORM_CACHE
++		OpenYAMM::GlUniformCache m_uniformStateCache;
++#else
+ 		UniformStateCache m_uniformStateCache;
++#endif
+ 
+ 		TextVideoMem m_textVideoMem;
+ 		bool m_rtMsaa;

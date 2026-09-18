@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
@@ -543,6 +544,64 @@ CharacterAttackTuning characterAttackTuningFromSettings(const GameSettings &sett
     return tuning;
 }
 
+std::optional<std::string> getBakedLightingSetting(const GameSettings &settings, const std::string &name)
+{
+    std::ostringstream output;
+    output.precision(9);
+    if (name == "baked_sun_strength" || name == "baked_sky_strength")
+    {
+        output << (name == "baked_sun_strength" ? settings.bakedSunStrength : settings.bakedSkyStrength);
+    }
+    else if (name == "baked_sun_color" || name == "baked_sky_color")
+    {
+        const std::array<float, 3> &color = name == "baked_sun_color" ? settings.bakedSunColor : settings.bakedSkyColor;
+        output << color[0] << ',' << color[1] << ',' << color[2];
+    }
+    else
+    {
+        return std::nullopt;
+    }
+    return output.str();
+}
+
+bool setBakedLightingSetting(
+    GameSettings &settings, const std::string &name, const std::string &value, std::string &error)
+{
+    error.clear();
+    if (name == "baked_sun_strength" || name == "baked_sky_strength")
+    {
+        float strength = 0.0f;
+        if (!parseFloatValue(value, strength) || !std::isfinite(strength) || strength < 0.0f || strength > 16.0f)
+        {
+            error = name + " requires a finite strength in [0, 16].";
+            return false;
+        }
+        (name == "baked_sun_strength" ? settings.bakedSunStrength : settings.bakedSkyStrength) = strength;
+        return true;
+    }
+    if (name == "baked_sun_color" || name == "baked_sky_color")
+    {
+        std::array<float, 3> color = {};
+        size_t begin = 0;
+        for (size_t channel = 0; channel < color.size(); ++channel)
+        {
+            const size_t end = value.find(',', begin);
+            if ((channel < 2) != (end != std::string::npos)
+                || !parseFloatValue(value.substr(begin, end - begin), color[channel])
+                || !std::isfinite(color[channel]) || color[channel] < 0.0f || color[channel] > 1.0f)
+            {
+                error = name + " requires three comma-separated linear RGB components in [0, 1].";
+                return false;
+            }
+            begin = end == std::string::npos ? value.size() : end + 1;
+        }
+        (name == "baked_sun_color" ? settings.bakedSunColor : settings.bakedSkyColor) = color;
+        return true;
+    }
+    error = "Unknown baked lighting setting: " + name;
+    return false;
+}
+
 std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, std::string &error)
 {
     std::ifstream input(path);
@@ -557,6 +616,16 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
     buffer << input.rdbuf();
     const IniDocument document = parseIniDocument(buffer.str());
     GameSettings settings = GameSettings::createDefault();
+    for (const char *pName : {"baked_sun_strength", "baked_sky_strength", "baked_sun_color", "baked_sky_color"})
+    {
+        if (const std::optional<std::string> value = getIniValue(document, "video", pName))
+        {
+            if (!setBakedLightingSetting(settings, pName, *value, error))
+            {
+                return std::nullopt;
+            }
+        }
+    }
 
     if (const std::optional<std::string> value = getIniValue(document, "profile", "name"))
     {
@@ -809,6 +878,24 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         {
             settings.textureFiltering = parsed;
         }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "cinematic_grading"))
+    {
+        parseBoolValue(*value, settings.cinematicGrading);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "cinematic_strength"))
+    {
+        int parsed = settings.cinematicStrength;
+        if (parseIntValue(*value, parsed))
+        {
+            settings.cinematicStrength = std::clamp(parsed, 0, 100);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "lightmaps"))
+    {
+        parseBoolValue(*value, settings.lightmaps);
     }
 
     if (const std::optional<std::string> value = getIniValue(document, "video", "terrain_decorations"))
@@ -1468,6 +1555,13 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "shadows=" << (settings.shadows ? "true" : "false") << '\n'
         << "sprite_outline=" << (settings.spriteOutline ? "true" : "false") << '\n'
         << "texture_filtering=" << (settings.textureFiltering ? "true" : "false") << '\n'
+        << "cinematic_grading=" << (settings.cinematicGrading ? "true" : "false") << '\n'
+        << "cinematic_strength=" << settings.cinematicStrength << '\n'
+        << "lightmaps=" << (settings.lightmaps ? "true" : "false") << '\n'
+        << "baked_sun_strength=" << *getBakedLightingSetting(settings, "baked_sun_strength") << '\n'
+        << "baked_sky_strength=" << *getBakedLightingSetting(settings, "baked_sky_strength") << '\n'
+        << "baked_sun_color=" << *getBakedLightingSetting(settings, "baked_sun_color") << '\n'
+        << "baked_sky_color=" << *getBakedLightingSetting(settings, "baked_sky_color") << '\n'
         << "terrain_decorations=" << (settings.terrainDecorations ? "true" : "false") << '\n'
         << "terrain_filtering=" << settings.terrainFiltering << '\n'
         << "terrain_anisotropy=" << settings.terrainAnisotropy << '\n'
