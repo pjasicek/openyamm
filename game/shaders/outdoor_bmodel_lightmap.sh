@@ -53,7 +53,7 @@ float getFogAlpha(float dist)
 vec3 getFxLighting(vec3 worldPosition)
 {
 #if BAKED_SOURCES
-    vec3 lighting = vec3(0.0);
+    vec3 lighting = vec3_splat(0.0);
 #else
     vec3 lighting = vec3(u_fxLightParams.y, u_fxLightParams.y, u_fxLightParams.y);
 #endif
