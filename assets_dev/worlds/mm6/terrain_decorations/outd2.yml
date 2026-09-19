@@ -1,0 +1,216 @@
+minimum_normal_z: 0.88
+density_variation: 0.8
+patch_size: 768
+tall_grass_chance: 0.04
+tall_grass_scale: 1.5
+version: 2
+families_file: families_v2.yml
+seed: 1788689720
+distance: 4096
+rules:
+- texture: 6grastyl
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+- texture: 6grdrte
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrte_foreground.png
+- texture: 6grdrtn
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtn_foreground.png
+- texture: 6grdrtne
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtne_foreground.png
+- texture: 6grdrtnw
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtnw_foreground.png
+- texture: 6grdrts
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrts_foreground.png
+- texture: 6grdrtse
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtse_foreground.png
+- texture: 6grdrtsw
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtsw_foreground.png
+- texture: 6grdrtw
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtw_foreground.png
+- texture: 6grdrtxne
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxne_foreground.png
+- texture: 6grdrtxnw
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxnw_foreground.png
+- texture: 6grdrtxse
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxse_foreground.png
+- texture: 6grdrtxsw
+  family: coastal_grass
+  density: 0.85
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxsw_foreground.png
+- texture: trope
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/trope_foreground.png
+- texture: tropn
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropn_foreground.png
+- texture: tropne
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropne_foreground.png
+- texture: tropnw
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropnw_foreground.png
+- texture: trops
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/trops_foreground.png
+- texture: tropse
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropse_foreground.png
+- texture: tropsw
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropsw_foreground.png
+- texture: troptyl
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+- texture: tropw
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropw_foreground.png
+- texture: tropxne
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropxne_foreground.png
+- texture: tropxnw
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropxnw_foreground.png
+- texture: tropxse
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropxse_foreground.png
+- texture: tropxsw
+  family: tropical_low
+  density: 0.8
+  tint:
+  - 0.78
+  - 0.95
+  - 0.58
+  mask: masks/tropxsw_foreground.png

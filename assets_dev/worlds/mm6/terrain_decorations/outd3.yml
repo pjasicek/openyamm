@@ -1,0 +1,217 @@
+minimum_normal_z: 0.88
+density_variation: 0.8
+patch_size: 768
+tall_grass_chance: 0.04
+tall_grass_scale: 1.5
+version: 2
+families_file: families_v2.yml
+seed: 2460684872
+distance: 4096
+rules:
+- texture: 6grastyl
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+- texture: 6grdrte
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrte_foreground.png
+- texture: 6grdrtn
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtn_foreground.png
+- texture: 6grdrtne
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtne_foreground.png
+- texture: 6grdrtnw
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtnw_foreground.png
+- texture: 6grdrts
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrts_foreground.png
+- texture: 6grdrtse
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtse_foreground.png
+- texture: 6grdrtsw
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtsw_foreground.png
+- texture: 6grdrtw
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtw_foreground.png
+- texture: 6grdrtxne
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxne_foreground.png
+- texture: 6grdrtxnw
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxnw_foreground.png
+- texture: 6grdrtxse
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxse_foreground.png
+- texture: 6grdrtxsw
+  family: meadow
+  density: 0.8
+  tint:
+  - 0.82
+  - 0.98
+  - 0.78
+  mask: masks/6grdrtxsw_foreground.png
+- texture: swmdre
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdre_swamp.png
+- texture: swmdrn
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrn_swamp.png
+- texture: swmdrne
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrne_swamp.png
+- texture: swmdrnw
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrnw_swamp.png
+- texture: swmdrs
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrs_swamp.png
+- texture: swmdrse
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrse_swamp.png
+- texture: swmdrsw
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrsw_swamp.png
+- texture: swmdrw
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrw_swamp.png
+- texture: swmdrxne
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrxne_swamp.png
+- texture: swmdrxnw
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrxnw_swamp.png
+- texture: swmdrxse
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrxse_swamp.png
+- texture: swmdrxsw
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmdrxsw_swamp.png
+- texture: swmtyl
+  family: marsh_reed
+  density: 0.5
+  tint:
+  - 0.64
+  - 0.78
+  - 0.48
+  mask: masks/swmtyl_swamp.png

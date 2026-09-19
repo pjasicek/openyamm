@@ -33,15 +33,6 @@ rules:
   - 0.82
   - 0.98
   - 0.78
-- texture: 6dirttyl
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
 - texture: 6grdrte
   kind: grass
   candidates: 50
@@ -52,17 +43,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrte.png
-- texture: 6grdrte
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrte.png
-  invert_mask: true
 - texture: 6grdrtn
   kind: grass
   candidates: 50
@@ -73,17 +53,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtn.png
-- texture: 6grdrtn
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtn.png
-  invert_mask: true
 - texture: 6grdrtne
   kind: grass
   candidates: 50
@@ -94,17 +63,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtne.png
-- texture: 6grdrtne
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtne.png
-  invert_mask: true
 - texture: 6grdrtnw
   kind: grass
   candidates: 50
@@ -115,17 +73,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtnw.png
-- texture: 6grdrtnw
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtnw.png
-  invert_mask: true
 - texture: 6grdrts
   kind: grass
   candidates: 50
@@ -136,17 +83,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrts.png
-- texture: 6grdrts
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrts.png
-  invert_mask: true
 - texture: 6grdrtse
   kind: grass
   candidates: 50
@@ -157,17 +93,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtse.png
-- texture: 6grdrtse
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtse.png
-  invert_mask: true
 - texture: 6grdrtsw
   kind: grass
   candidates: 50
@@ -178,17 +103,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtsw.png
-- texture: 6grdrtsw
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtsw.png
-  invert_mask: true
 - texture: 6grdrtw
   kind: grass
   candidates: 50
@@ -199,17 +113,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtw.png
-- texture: 6grdrtw
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtw.png
-  invert_mask: true
 - texture: 6grdrtxne
   kind: grass
   candidates: 50
@@ -220,17 +123,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtxne.png
-- texture: 6grdrtxne
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtxne.png
-  invert_mask: true
 - texture: 6grdrtxnw
   kind: grass
   candidates: 50
@@ -241,17 +133,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtxnw.png
-- texture: 6grdrtxnw
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtxnw.png
-  invert_mask: true
 - texture: 6grdrtxse
   kind: grass
   candidates: 50
@@ -262,17 +143,6 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtxse.png
-- texture: 6grdrtxse
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtxse.png
-  invert_mask: true
 - texture: 6grdrtxsw
   kind: grass
   candidates: 50
@@ -283,14 +153,3 @@ rules:
   - 0.98
   - 0.78
   mask: masks/6grdrtxsw.png
-- texture: 6grdrtxsw
-  kind: stone
-  candidates: 10
-  width: 12
-  height: 4
-  tint:
-  - 0.65
-  - 0.43
-  - 0.29
-  mask: masks/6grdrtxsw.png
-  invert_mask: true

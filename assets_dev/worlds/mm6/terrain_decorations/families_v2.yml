@@ -1,0 +1,229 @@
+version: 2
+tuft_texture: plants_v2.png
+tuft_atlas_grid:
+- 4
+- 3
+families:
+  meadow:
+    kind: grass
+    candidates: 50
+    width: 40
+    height: 30
+    tint:
+    - 0.82
+    - 0.98
+    - 0.78
+    variants:
+    - layer: 0
+      weight: 45
+      width_scale: 1
+      height_scale: 1
+    - layer: 1
+      weight: 35
+      width_scale: 1
+      height_scale: 0.9
+    - layer: 2
+      weight: 15
+      width_scale: 1
+      height_scale: 1.35
+    - layer: 3
+      weight: 5
+      width_scale: 0.85
+      height_scale: 0.85
+    full_footprint: false
+    wind_strength: 2.5
+  coastal_grass:
+    kind: grass
+    candidates: 50
+    width: 36
+    height: 24
+    tint:
+    - 0.82
+    - 0.98
+    - 0.78
+    variants:
+    - layer: 0
+      weight: 15
+      width_scale: 1
+      height_scale: 1
+    - layer: 1
+      weight: 40
+      width_scale: 1
+      height_scale: 0.9
+    - layer: 2
+      weight: 35
+      width_scale: 1
+      height_scale: 1.35
+    - layer: 3
+      weight: 10
+      width_scale: 0.85
+      height_scale: 0.85
+    full_footprint: false
+    wind_strength: 2.5
+  woodland_grass:
+    kind: grass
+    candidates: 50
+    width: 40
+    height: 28
+    tint:
+    - 0.82
+    - 0.98
+    - 0.78
+    variants:
+    - layer: 0
+      weight: 50
+      width_scale: 1
+      height_scale: 1
+    - layer: 1
+      weight: 35
+      width_scale: 1
+      height_scale: 0.9
+    - layer: 2
+      weight: 12
+      width_scale: 1
+      height_scale: 1.35
+    - layer: 3
+      weight: 3
+      width_scale: 0.85
+      height_scale: 0.85
+    full_footprint: false
+    wind_strength: 2.5
+  dry_meadow:
+    kind: grass
+    candidates: 50
+    width: 36
+    height: 24
+    tint:
+    - 0.82
+    - 0.98
+    - 0.78
+    variants:
+    - layer: 0
+      weight: 10
+      width_scale: 1
+      height_scale: 1
+    - layer: 1
+      weight: 20
+      width_scale: 1
+      height_scale: 0.9
+    - layer: 2
+      weight: 25
+      width_scale: 1
+      height_scale: 1.35
+    - layer: 3
+      weight: 45
+      width_scale: 0.85
+      height_scale: 0.85
+    full_footprint: false
+    wind_strength: 2.5
+  dry_tuft:
+    kind: grass
+    candidates: 8
+    width: 28
+    height: 18
+    tint:
+    - 0.87
+    - 0.78
+    - 0.53
+    variants:
+    - layer: 2
+      weight: 1
+    - layer: 3
+      weight: 1
+    full_footprint: true
+    wind_strength: 2.5
+  dead_tuft:
+    kind: grass
+    candidates: 8
+    width: 24
+    height: 18
+    tint:
+    - 0.6
+    - 0.58
+    - 0.5
+    variants:
+    - layer: 8
+      weight: 1
+    - layer: 9
+      weight: 1
+    full_footprint: true
+    wind_strength: 0.25
+  marsh_reed:
+    kind: grass
+    candidates: 18
+    width: 24
+    height: 100
+    tint:
+    - 0.64
+    - 0.78
+    - 0.48
+    variants:
+    - layer: 4
+      weight: 1
+    - layer: 5
+      weight: 1
+    full_footprint: true
+    wind_strength: 1.2
+  tropical_low:
+    kind: grass
+    candidates: 24
+    width: 40
+    height: 26
+    tint:
+    - 0.78
+    - 0.95
+    - 0.58
+    variants:
+    - layer: 6
+      weight: 1
+    - layer: 7
+      weight: 1
+    - layer: 0
+      weight: 1
+    full_footprint: true
+    wind_strength: 0.7
+  earth_stone:
+    kind: stone
+    candidates: 10
+    width: 12
+    height: 4
+    tint:
+    - 0.65
+    - 0.43
+    - 0.29
+  snow_stone:
+    kind: stone
+    candidates: 3
+    width: 10
+    height: 3
+    tint:
+    - 0.45
+    - 0.46
+    - 0.48
+  volcanic_stone:
+    kind: stone
+    candidates: 6
+    width: 12
+    height: 4
+    tint:
+    - 0.16
+    - 0.16
+    - 0.16
+  rock_chip:
+    kind: stone
+    candidates: 4
+    width: 12
+    height: 4
+    tint:
+    - 0.65
+    - 0.43
+    - 0.29
+  grey_stone_chip:
+    kind: stone
+    candidates: 4
+    width: 12
+    height: 4
+    tint:
+    - 0.21
+    - 0.22
+    - 0.22
