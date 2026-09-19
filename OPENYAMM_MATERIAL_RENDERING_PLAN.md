@@ -450,21 +450,51 @@ Do not add mask texture IDs to every face or split facade geometry into window p
 owns the mask binding; material ID already distinguishes compatible draw groups. Missing explicitly authored
 masks must report their path. Validate x1/x2 asset selection alignment and packaged lookup.
 
+## 10a. In-shade response (phase I)
+
+The A–G sheen model is purely directional (material sun plus one selected local light), so authored
+surfaces outside those lobes — the common case at typical viewpoints — were numerically unchanged
+(the 2026-09-19 new-Sorpigal authoring study measured 99.5–99.98% identical pixels on brick, doors
+and roofs). Phase I adds the two missing terms without new assets or render targets:
+
+1. **Energy-normalized direct sheen.** The Blinn-Phong lobe scales its peak by
+   `(exponent + 2) / 24` so smoothness brightens the highlight instead of shrinking it to a
+   sub-pixel needle; the divisor keeps the default 0.9-roughness response at its established
+   strength, so existing authored matte values do not shift.
+2. **Sky/ambient environment specular.** A grazing-angle term where the mirror direction selects
+   sky above the horizon and a dim ground bounce below it (`reflect` against the normal, smoothstep
+   on `mirrorDirection.z`), so a flat wall varies vertically instead of washing uniformly — the
+   first, directionless constant version read as a white smudge on oblique walls and was replaced
+   after review. The environment color comes from data each path already binds: the decoded
+   **baked sky page** tinted by `u_bakedLighting[1]` on the baked BModel and terrain paths (so
+   baked shadows carry over), and the **sector ambient** (`u_indoorLightParams.yzw`) indoors,
+   sharing the diffuse ambient exactly. Squared smoothness keeps matte surfaces (plaster,
+   weathered wood) essentially clean. Nonbaked outdoor and the classic face fallback pass zero
+   and stay unchanged.
+
+Deferred with reason (from the same study): **surface-normal detail** (normal maps need tangent
+frames plus disciplined per-texture authoring; dark pixels are not recesses) and **terrain masks on
+transition tiles** (road tiles are transition-class by design; would need a per-tile mask array or a
+second world-space mask texture). A prefiltered environment cubemap remains the recorded upgrade if
+the sky-page term still reads too quiet.
+
 ## 11. Implementation phases and completion gates
 
 Each phase must build independently. Preserve a neutral/default path throughout. Use phase status and evidence
-here when implementation begins. **Phases A, B and C are implemented**; phases D–H are **pending**.
+here when implementation begins. **Phases A, B, C, D, E, F, G and I are implemented**; phase H is
+**deferred** (superseded in value by phase I's in-shade response; may still be done cheaply later).
 
 | Phase | Deliverable | Gate before proceeding |
 | --- | --- | --- |
 | A — data and ownership — **done** | Optional shading parser, generic semantic, neutral ID, map-owned CPU bindings, revision-aware resolution and material batch keys. | Existing liquid/animation fixtures pass; invalid data is diagnosed; no visual change, per-frame lookup or new terrain draw. |
 | B — normals — **done** | Flat normals through all eligible layouts, transforms, subdivision and shader interfaces; indoor camera input. | Geometry/stride tests and all relevant shader variants pass; material terms still zero. |
 | C — face response — **done** | Shared math, separate sun inputs, baked recipe direction, roughness/specular/Fresnel/emissive and one selected local specular light. | Baked/nonbaked outdoor and indoor fixtures respond to camera/light direction; zero/default matches baseline; nighttime has no sun highlight. |
-| D — wetness | Shared controls, defaults in all three INIs, exterior eligibility, subtle darkening and wet roughness. | 0/0.5/1 captures; indoor/underwater/neutral exclusions; map transitions clear old state. |
-| E — terrain LUT | Per-layer material data, fixed data sampling, existing array and chunk integration. | Two adjacent materials differ in one existing draw; animation/layer IDs stay correct; shore exclusions hold; LUT cost measured. |
-| F — puddles | Optional scene metadata, image load, independent bounds, slope/eligibility gates and terrain-only response. | Asymmetric mask/corners tested, no out-of-bounds smear, lightmaps on/off alignment, missing authored asset error, valid bake dependencies. |
-| G — packed mask (optional) | Opaque facade mask and exact neutral behavior. | Real facade fixture works without geometric splitting; unmasked path avoids sampling. |
-| H — second local highlight (optional) | At most two existing selected lights. | Recorded visual benefit and acceptable CPU/GPU cost. Otherwise remain at one. |
+| D — wetness — **done** | Shared controls, defaults in all three INIs, exterior eligibility, subtle darkening and wet roughness. | 0/0.5/1 captures; indoor/underwater/neutral exclusions; map transitions clear old state. |
+| E — terrain LUT — **done** | Per-layer material data, fixed data sampling, existing array and chunk integration. | Two adjacent materials differ in one existing draw; animation/layer IDs stay correct; shore exclusions hold; LUT cost measured. |
+| F — puddles — **done** | Optional scene metadata, image load, independent bounds, slope/eligibility gates and terrain-only response. | Asymmetric mask/corners tested, no out-of-bounds smear, lightmaps on/off alignment, missing authored asset error, valid bake dependencies. |
+| G — packed mask (optional) — **done** | Opaque facade mask and exact neutral behavior. | Real facade fixture works without geometric splitting; unmasked path avoids sampling. |
+| H — second local highlight (optional) — **deferred** | At most two existing selected lights. | Deferred: the phase I sky/ambient response dominates the in-shade benefit; revisit if local-light scenes still read flat. |
+| I — in-shade response — **done** | Energy-normalized direct sheen plus sky/ambient environment specular from already-bound data. | The new-Sorpigal authoring pass reads visibly different from materials-off at fixed poses; materials-off stays bit-identical; GPU cost measured. |
 
 Phase A evidence (2026-09-18):
 
@@ -601,6 +631,237 @@ Phase C evidence (2026-09-18) and open issue:
   across identical invocations). Two bgfx patch-state repairs (`git checkout` of the patched files plus
   reconfigure) were needed and left the dependency tree consistent with the pinned patches. (Addendum: the
   repository owner confirmed this was their own interleaved activity, not another automated session.)
+
+Phase D evidence (2026-09-19):
+
+- Controls: `video.surface_materials` (default true) and `video.material_wetness` (default 0, finite [0, 1])
+  parse, validate and serialize in [GameSettings](game/app/GameSettings.cpp); the keys ship in
+  `settings.ini`, `settings_release.ini` and `android/settings.ini`. The existing `config` console command
+  gained get/set for both (`config set material_wetness 0.5`), applying through the settings snapshot and
+  saving settings.ini — the same path as the baked-sun controls. Invalid values produce named errors.
+- Shader: `u_materialEnvironment` (per-frame global exterior wetness) and `u_materialWetness`
+  (per-material effective response, wet roughness, wet darkening) in
+  [material_lighting.sh](game/shaders/material_lighting.sh) implement the section 7 formula — the upward
+  smoothstep bias, `mix(dryRoughness, wetRoughness, W)` on the sheen lobe and `1 - W * wetDarkening` on the
+  albedo term. Wet darkening sits in each path's working domain: inside the linear expression for paired
+  bakes (`bakedSurfaceColorWithEmission` albedo scale), on the albedo product for combined lightmaps and the
+  nonbaked display domain. Emissive and dry specular stay wetness-independent; the roughness mix only
+  narrows the existing sheen lobe. Indoor applies no albedo scale (its environment is provably zero) and
+  keeps the dry roughness path.
+- CPU: `outdoorMaterialWetnessAmount` in [OutdoorSunlight.h](game/outdoor/OutdoorSunlight.h) gates
+  exterior + non-underwater + master switch; the environment uniform is written once per frame in the
+  outdoor uniform block, and the indoor renderer binds an explicit zero environment every frame so an
+  outdoor value can never leak across a map switch (material dedupe state also resets on view/map init).
+  `surface_materials=false` binds the neutral record outdoors and indoors and disables the material sun.
+- Unit: 2 new test cases (31 assertions) in [OutdoorSunlightTests.cpp](tests/OutdoorSunlightTests.cpp) —
+  eligibility (exterior classic and BModelWorld receive wetness; underwater, enclosed and the master switch
+  deliver zero; out-of-range values clamp) and setting parse/validate/round-trip.
+- GPU gate (OpenGL, oute3 + authored New Sorpigal content): wetness 0/0.5/1 captures show a monotonic
+  progression on opted-in surfaces (mean darkening delta -0.05 → -0.15, doubling with wetness; roofs carry
+  the full upward bias, so the 0.5→1 step is ~6 display units — below a naive >8 pixel threshold but
+  measurable at >4 and in the means). Indoor `6d01.blv` at wetness 1 vs 0 differs by 0.001% (animation
+  noise only). The kill switch was verified with region means on the material-active wall area:
+  `surface_materials=false` sits exactly on the shading-stripped neutral (mean delta ≤0.03) while
+  materials-on shows the expected lift; whole-frame pixel thresholds at this view are dominated by ~0.8-3%
+  water/sprite animation noise between runs and are not a usable signal. GLES 300 cross-compiles for all
+  seven affected fragment shaders; the full unit suite shows the same three pre-existing failures.
+
+Phase E evidence (2026-09-19):
+
+- `buildTerrainMaterialLookup` in [SurfaceMaterialRuntime.cpp](game/render/SurfaceMaterialRuntime.cpp) packs the
+  section 8 contract into a 256x3 RGBA8 data texture (row 0: roughness/specular/wetness response/wet roughness;
+  row 1: wet darkening/fresnel/puddles/emissive-strength-over-4; row 2: emissive RGB/reserved), built once during
+  the atlas presentation pass alongside the Phase A per-layer ids; composited shore/transition layers stay
+  neutral. The LUT uploads as a non-sRGB RGBA8 texture with fixed point/clamp/no-mip sampling bound at slot 4
+  (`s_texMaterialLut`) for both terrain draw paths (chunks and whole terrain); user texture filtering cannot
+  change it. `u_materialEnvironment.y/z` carry terrain-material enable and terrain-emissive presence, both
+  suppressed by the master switch.
+- Shaders: the terrain variants of `outdoor_textured_fog.sh` gained `terrainMaterialLutRow` (texel-center
+  sampling `(layer+0.5)/256`, `(row+0.5)/3`), the wetness factor and albedo scale from LUT rows, and a sheen
+  response reusing the shared `materialSpecularForLight`. Two LUT reads always; the emissive row only when
+  `u_materialEnvironment.z > 0.5`; the whole branch skipped when `u_materialEnvironment.y < 0.5`, keeping
+  decoration and neutral variants bit-for-bit unchanged. On the baked terrain path the response joins the linear
+  expression via `bakedSurfaceColorWithEmission`; on the nonbaked path it scales/adds in the display domain.
+- Unit: 2 test cases (44 assertions) in [SurfaceMaterialTests.cpp](tests/SurfaceMaterialTests.cpp) covering the
+  full row layout byte-for-byte, the shore-transition neutralization, untouched-layer neutrality and the
+  no-terrain-materials flag state.
+- GPU gate (oute3, OpenGL): authored grass (`6grastyl`, bluish emissive + wetness) and dirt (`6dirttyl`, reddish
+  emissive) terrain materials render with their distinct tints over the same terrain draw (0.91%/0.99% of the
+  frame in overlapping view bounds), proving per-layer divergence without new draws; wetness 1 darkens the
+  opted-in terrain broadly (8.3% of frame). Animated water and layer identities are unaffected (tints land on
+  the correct tiles; water animation continues). GLES 300 cross-compiles for all five terrain/decoration
+  fragment shaders; the full unit suite shows the same three pre-existing failures.
+- Cost: equal-length desktop runs with every material feature enabled (face sheen, terrain LUT, wetness 0.5)
+  measure ~1794 FPS / 346us bgfx frame versus ~1981 FPS / 286us with materials suppressed — roughly a 10%
+  frame-time increase for the fully opted-in scene, within the section 12 budget, though this desktop proxy is
+  CPU-submission-heavy and conflates all material features rather than isolating the LUT; Android release
+  profiling remains due per section 12. Draw counts are structurally unchanged (same programs, buffers and
+  submits; the LUT adds one sampler bind).
+- Session note: the first Phase E link intermittently aborted in the headless new-game flow with glibc
+  `free(): invalid size`; the corruption was never reproducible under valgrind/gdb or after forcing full
+  rebuilds of the affected translation units (10+ clean runs since), matching a stale-object ABI mismatch from
+  an incremental build racing the atlas header change rather than a source defect. The forced rebuild is the
+  recorded fix; if the symptom ever recurs, rebuild the affected targets before investigating.
+- Review audit (2026-09-19, external review findings): all four Phase E review items are in place in the
+  current tree. (1) LUT packing is row-major via `TerrainMaterialLookup::texelByteOffset`
+  ((row*256+layer)*4+channel) with the byte address asserted independently in
+  [SurfaceMaterialTests.cpp](tests/SurfaceMaterialTests.cpp); (2) `m_terrainMaterialLutSamplerHandle`
+  is default-initialized invalid and destroyed/reset in both the release and invalidation paths; (3) the
+  baked terrain path passes `decodeBakedSource(bakedSun)` into `terrainMaterialFaceResponse` as
+  directional attenuation (nonbaked passes identity), matching the BModel face path; (4)
+  `hasEffectiveTerrainShading` gates `anyMaterialLayer`, and the
+  "terrain material LUT ignores animation-only material ids" case covers water rows without shading
+  (3 LUT cases / 56 assertions pass).
+
+Phase F evidence (2026-09-19):
+
+- Schema/overlay: `rendering.puddles` (mask/origin/extent) parses in [OutdoorSceneYml.cpp](game/maps/OutdoorSceneYml.cpp)
+  with finite-origin, nonzero-signed-extent and map validation; `parseOptionalRendering` now reads each rendering
+  key independently instead of returning early on a missing `view_distance_scale`. Runtime overlays live at
+  `assets_dev/worlds/<world>/maps/<stem>.scene.N.yml` (enumerated by the existing scene-overlay candidate list as
+  `Data/games/`), apply after the base scene, and never touch `oute3.lighting`/bake hashes, so authored puddles
+  do not invalidate lightmap dependencies. Overlay merge is per-key: an overlay without `rendering.puddles`
+  keeps the base scene's value; one with it replaces it.
+- Loader/renderer: [MapAssetLoader.cpp](game/maps/MapAssetLoader.cpp) resolves and decodes the mask through the
+  asset filesystem after outdoor map assembly; a missing/undecodable authored mask fails the map load with an
+  actionable message naming the asset. The mask uploads at slot 5 (`s_texPuddleMask`, linear/clamp, never
+  user-refiltered) with a 1x1 black fallback texel; `u_puddleBounds` carries the half-texel-adjusted
+  origin/extent derived from the mask's own dimensions, independent of lightmap resolution.
+  `u_materialEnvironment.w` carries puddle-mask presence gated by the master switch, so no authored mask means
+  the shader never samples slot 5. The puddle sampler/bounds uniforms are created with the other material
+  uniforms before any world-surface program, matching the Phase C GL program-creation behavior.
+- Shader: `terrainPuddleFactor` in `outdoor_textured_fog.sh` computes `P = maskRed × W × row1.z × upward`,
+  zero outside the authored world rectangle (an explicit range check, not clamping, so edge texels cannot
+  smear), then `roughness = mix(mix(row0.x, row0.w, W), 0.05, P)` and albedo `× mix(1, 0.88, P)` on both
+  baked and nonbaked terrain paths; face/decoration variants are untouched.
+- Unit: 3 cases (32 assertions) in [OutdoorScenePuddlesTests.cpp](tests/OutdoorScenePuddlesTests.cpp) covering
+  puddles-only parsing, validation rejections, and overlay replace/absence-keeps semantics against the real
+  oute3 scene; wetness eligibility/settings coverage extends [OutdoorSunlightTests.cpp](tests/OutdoorSunlightTests.cpp).
+- GPU gate (oute3, OpenGL): a single-bright-texel mask over the town square confines the effect to its world
+  rectangle — the sensitive-delta column band covering the texel's ground reads 7.4% with lightmaps on and
+  4.7% with lightmaps off while all bands on the far half of the frame stay at 0.0% (no out-of-rectangle
+  smear, both lightmap modes respond). Because the authored increment (albedo ×0.88 plus a roughness-0.05
+  sheen) sits below the 0.8–3.4% run-to-run capture noise floor in whole-frame diffs, the chain was verified
+  visually with a temporary amplified probe (puddle albedo constant 0.10, reverted immediately): the frame
+  shows a clearly bounded near-black band exactly on the mask texel's ground. A missing mask at the correct
+  overlay path fails the load with `Failed to load puddle mask for oute3.odm: unreadable authored asset ...`
+  and exit code 1. GLES 300 cross-compiles 3/3 terrain fragment shaders; the full unit suite shows the same
+  three pre-existing failures (1265/1268 cases).
+- Session note: whole-frame pixel statistics on this view are dominated by water/sprite animation timing
+  (two identical no-overlay runs differ on 2.7% of pixels), so gate conclusions above rely on spatial
+  band structure, the amplified probe and unit coverage rather than whole-frame thresholds. Gate fixtures
+  (overlay yml, mask PNG, `phase_f_gate_terrain` material row) were removed after the gate; the shared
+  wetness path was re-verified at 9.07%/8.45% darker-dominated after removal, matching the Phase E baseline.
+- Review fixes (2026-09-19, external review): two contract violations in the first Phase F link, both fixed
+  and re-gated on GPU. (1) The shader range check tested the half-texel-expanded sampling bounds, so a band
+  up to half a mask texel beyond the authored rectangle still passed and sampled the clamped edge — for a
+  2x2 mask over a 2048-unit extent the puddle rendered 4096 units wide. `u_puddleRect` (new vec4,
+  created with the other material uniforms before program creation) now carries the authored origin/extent
+  as the hard gate while `u_puddleBounds` remains the exact center-to-center sampling transform; inside the
+  authored rectangle that transform never reaches the clamp region. Verified with an amplified probe
+  (puddle albedo 0.10, temporary) and a rect shifted so its leaked east band covers ground already proven
+  eligible: the leaky gate darkened 3.74% of the frame (column bands 3–12), the fixed gate 1.60%
+  (bands 3–7, blob 508 px wide vs 1167 px); the 2.14% leak-only region is the half-texel band. (2) The mask
+  and black fallback texel were uploaded through `TextureFilterProfile::Terrain`, which allocates a mip
+  chain; distant sampling averaged the mask and faded puddle coverage (a one-bright-texel 2x2 mask
+  collapsed to a 32x32 px remnant at ~3000 units). Both are now single-level `bgfx::createTexture2D`
+  uploads with `BGFX_SAMPLER_MIP_POINT`/clamp sampling, mirroring the LUT; after the fix the distant
+  puddle renders at full strength (a 156x52 px darker-region and direct visual confirmation at the same
+  spot that previously collapsed). Final-constants regression after both fixes: single-bright-texel
+  confinement still holds (band 6 = 7.9% with lightmaps on; lightmaps off respond across the texel's
+  ground with the far bands at 0.0 — the lm-off spread relative to the first gate is the mip fix keeping
+  distant coverage at authored strength). GLES 300 cross-compiles 3/3 terrain fragment shaders; the full
+  unit suite shows the same three pre-existing failures. All probes and gate fixtures removed afterwards.
+
+Phase G evidence (2026-09-19):
+
+- Schema: `shading.material_mask_texture` (mount-relative image path) parses in
+  [SurfaceMaterialTable.cpp](game/tables/SurfaceMaterialTable.cpp) with non-empty/no-whitespace/scalar
+  validation and a face-only check (rejected on terrain-only materials, mirroring the
+  `receives_puddles` inverse). `ResolvedSurfaceMaterial` carries the path; absent key stays unmasked.
+  The pre-existing "unknown property" test case used this key name as its invalid fixture and was
+  updated to a still-unknown property.
+- Loading: [MapAssetLoader.cpp](game/maps/MapAssetLoader.cpp) walks the map's BModel faces once and
+  decodes one mask per material the faces actually reference (with delta-effective attributes, matching
+  the renderer's attribute-sensitive resolution), failing the map load with
+  `Failed to load material mask for <map> material '<id>': unreadable/undecodable authored asset <path>`
+  — verified on GPU: zero screenshots and the exact message with a missing file. Referenced-only
+  decoding keeps another world's broken mask from failing this map. The outdoor renderer uploads the
+  decoded images as single-level linear channel data (MIP_POINT, no mip chain, sharing the diffuse
+  wrap behavior); the indoor renderer resolves and decodes lazily through its asset filesystem on
+  first bind (event-swapped textures can reach materials the walk cannot see; those render unmasked
+  with a one-time stderr report naming the material and path, never silently). Mask paths resolve
+  through the mounted asset filesystem like every other rendering asset, so packaged lookup works by
+  construction; masks are single-authored paths, not per-tier variants.
+- Shaders: `material_mask.sh` declares `s_texMaterialMask` (slot 4, face families only — terrain owns
+  slot 4 for the LUT) and `sampleMaterialMask(uv)`, gated by the presence flag riding in
+  `u_materialWetness.w` so unmasked draws never sample. The shared helpers apply the section 10
+  channels: R mixes roughness toward `min(roughness, 0.10)`, G multiplies the wetness response (both
+  the roughness mix and the albedo darkening), B multiplies emissive. All three face families use it
+  (outdoor BModel lightmap baked/nonbaked, classic ODM faces, indoor textured) with the material's
+  own diffuse texcoord (flow-animated like the diffuse sample, never lightmap UV). Neutral
+  (0, 1, 1, 1) is bit-for-bit the unmasked value.
+- Binding: the mask binds on every face submit at slot 4 (terrain submits rebind slot 4 for the LUT,
+  so a material-change-only bind would leak); `u_materialWetness.w` enters the stream with the other
+  material uniforms on material change. Outdoor and indoor destroy/reset the neutral texel, sampler
+  and per-material handles in their release and invalidation paths.
+- Unit: 2 new cases (14 assertions) in [SurfaceMaterialTests.cpp](tests/SurfaceMaterialTests.cpp)
+  (parse/resolve/carry; empty/whitespace/non-scalar/terrain-only rejections).
+- GPU gate (oute3 + 6t1, OpenGL): a temporary gate row with an authored orange emissive and a
+  half/half B mask produced exactly the split facade the phase requires — glowing upper storeys with
+  unaffected ground floors on unsplit geometry (8–9% of frame orange across three of four cardinal
+  views; neutral-prompt image review confirmed the per-surface vertical split; the original demo view
+  shows none because its faces predate the row's textures). Indoors on 6t1, maskless emissive glows
+  fully, the half mask kills the door's glow (0.18% → 0.00%) and a center-band mask moves and halves
+  the floor's glow — per-texel gating through the lazy indoor path. Unmasked behavior is unchanged:
+  the no-fixture final run matches the pre-Phase-G baseline within the 2–3% capture noise floor.
+  GLES 300 cross-compiles 4/4 affected face fragment shaders; the full unit suite shows the same
+  three pre-existing failures.
+- Session notes: (1) first-match precedence matters when authoring gate fixtures — appended rows only
+  match textures no earlier row claims; oute3's real BModel face vocabulary was dumped from the
+  loader to pick unclaimed names. (2) Two early "glow confirmed" vision verdicts on the demo view
+  were false positives from leading prompts on dusk noise; the gate above relies on numeric
+  signatures and neutral-prompt review instead. (3) Moving the indoor sampler creation before program
+  creation had no effect (kept, it matches the documented GL rule); the actual indoor symptom was
+  fixture UV layout — surfaces mapping only part of the texture — not a binding defect.
+
+Phase I evidence (2026-09-19):
+
+- `materialSpecularForLight` in [material_lighting.sh](game/shaders/material_lighting.sh) gains the
+  energy-normalized peak `(exponent + 2) / 24`; at the 0.9 default roughness the factor is ~1.03
+  (visually unchanged), while polished/mask-shine surfaces get 6–8x stronger peaks that survive
+  off-angle viewpoints. `materialEnvironmentSpecular` adds the grazing sky/ambient term and is
+  consumed by `outdoorMaterialFaceResponse` (new `environmentColor` parameter; the baked BModel
+  call site passes `u_bakedLighting[1].rgb * decodeBakedSource(bakedSky)`, nonbaked and the classic
+  face fallback pass zero), by `terrainMaterialFaceResponse` (same parameter; the baked terrain call
+  site passes the same expression from its existing sky page sample) and by
+  `indoorMaterialFaceResponse` (sector ambient, no signature change). Zero specular still yields a
+  zero term, so neutral and materials-off draws are unchanged — verified: the materials-off capture
+  is 0.00%/0.25% identical to the pre-change study's disabled captures.
+- Gate (the new-Sorpigal study's own acceptance test): the study's four oute3 poses and measurement
+  patches, this build versus materials-off. Previously-unchanged patches moved to
+  brick 99.98%->0.00% unchanged (mean 9.0/255), door 99.80%->0.15% (8.4/255),
+  armory roof 99.52%->0.71% (5.1/255), fieldstone 94.48%->24.90% (max 54 at grazing angles);
+  matte plaster stays restrained (55.9% unchanged, mean 1.0) and stained glass keeps its emissive
+  lead (10.7/255). Neutral-prompt image review of the on/off pairs describes visible sheen on brick
+  edges, glass picking up the warm dusk sky and a directional roof sheen — the acceptance bar from
+  the study ("if the tavern still looks effectively unchanged, the renderer work isn't done") is
+  met. Two tuning constants (`0.45 + fresnel x ...` base and a 1.6 artistic scale) were raised from
+  a first physically-dim pass after the same patches measured only ~4/255.
+- Cost: equal-length 15s runs at the tavern pose measure ~1988 FPS / 281us bgfx frame with all 32
+  authored rows and 17 masks active versus ~2287 FPS / 214us with materials suppressed — a ~24%
+  bgfx frame-time increase for the fully opted-in close-up view on this CPU-submission-heavy
+  desktop proxy; Android release profiling remains due per section 12.
+- GLES 300 cross-compiles 6/6 affected fragment shaders (bmodel baked/lightmap, terrain
+  baked/fog, indoor, classic face); the full unit suite shows the same three pre-existing failures.
+- Revision (2026-09-19, user review): the first boosted constant term brightened walls/doors into
+  a white smudge (floors read fine). Replaced with the hemispheric sky/ground term and squared
+  smoothness described in 10a. Re-measured on the same patches: tavern brick 2.6/255 mean
+  (max 13), door 1.7 (14), window 5.3 (23, still leading), fieldstone 0.33 (max 34 grazing),
+  armory plaster 0.12 (max 5 — matte stays clean), roof 1.4, and a new upper-wall band patch
+  1.8/27 with the vertical sky-to-ground gradient visible in the on/off pair. GLES 5/5 after the
+  change. If walls still read badly in motion, the recorded fallback is to drop the environment
+  term and keep the energy normalization alone.
 
 No full-repository rebake or bulk material authoring is required for early phases. Use a few explicit fixtures
 first. Required acceptance covers A–F; G/H may remain deferred with the reason recorded. Do not mark deferred

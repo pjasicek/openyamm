@@ -59,6 +59,8 @@ struct OutdoorTerrainTextureAtlas
     std::array<OutdoorTerrainAtlasRegion, 256> tileRegions = {};
     std::array<std::string, 256> tileTextureNames = {};
     std::array<uint16_t, 256> tileMaterialIds = {};
+    // Per-layer terrain material contract plus map-level enable flags (Phase E LUT).
+    TerrainMaterialLookup materialLookup = {};
     std::vector<OutdoorAnimatedWaterTileSource> animatedWaterTiles;
 };
 

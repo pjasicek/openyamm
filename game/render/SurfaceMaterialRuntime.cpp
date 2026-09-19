@@ -3,6 +3,7 @@
 #include "game/StringUtils.h"
 
 #include <algorithm>
+#include <cmath>
 
 namespace OpenYAMM::Game
 {
@@ -109,6 +110,7 @@ bool SurfaceMaterialRuntimeSet::buildFromTable(const SurfaceMaterialTable &table
             resolvedMaterial.fresnelStrength = shading.fresnelStrength;
             resolvedMaterial.emissiveStrength = shading.emissiveStrength;
             resolvedMaterial.emissiveColor = shading.emissiveColor;
+            resolvedMaterial.materialMaskTexture = shading.materialMaskTexture;
         }
 
         m_materials.push_back(std::move(resolvedMaterial));
@@ -189,5 +191,80 @@ bool SurfaceMaterialRuntimeSet::hasDirectionalShading() const
     }
 
     return false;
+}
+
+namespace
+{
+uint8_t lutByte(float value, float scale)
+{
+    const float clamped = std::clamp(value * scale, 0.0f, 1.0f);
+    return static_cast<uint8_t>(std::lround(clamped * 255.0f));
+}
+
+bool hasEffectiveTerrainShading(const ResolvedSurfaceMaterial &material)
+{
+    const bool hasEmissive = material.emissiveStrength > 0.0f
+        && (material.emissiveColor[0] > 0.0f
+            || material.emissiveColor[1] > 0.0f
+            || material.emissiveColor[2] > 0.0f);
+    const bool hasWetResponse = material.effectiveWetnessResponse > 0.0f
+        && (material.wetDarkening > 0.0f || material.receivesPuddles);
+    return material.specular > 0.0f || hasWetResponse || hasEmissive;
+}
+}
+
+TerrainMaterialLookup buildTerrainMaterialLookup(
+    const SurfaceMaterialRuntimeSet &surfaceMaterials,
+    const std::array<uint16_t, TerrainMaterialLookup::LayerCount> &layerMaterialIds,
+    const std::array<uint8_t, TerrainMaterialLookup::LayerCount> &layerTransitionFlags)
+{
+    TerrainMaterialLookup lookup = {};
+
+    for (size_t layer = 0; layer < TerrainMaterialLookup::LayerCount; ++layer)
+    {
+        const bool transition = layerTransitionFlags[layer] != 0;
+        const uint16_t materialId = transition ? SurfaceMaterialRuntimeSet::NeutralMaterialId : layerMaterialIds[layer];
+        const ResolvedSurfaceMaterial &material = surfaceMaterials.material(materialId);
+        const bool hasMaterial = materialId != SurfaceMaterialRuntimeSet::NeutralMaterialId
+            && hasEffectiveTerrainShading(material);
+
+        const auto setByte = [&](size_t row, size_t channel, uint8_t value)
+        {
+            lookup.bytes[TerrainMaterialLookup::texelByteOffset(layer, row, channel)] = value;
+        };
+
+        // Row 0: roughness, specular, effective wetness response, wet roughness.
+        setByte(0, 0, lutByte(material.roughness, 1.0f));
+        setByte(0, 1, lutByte(material.specular, 1.0f));
+        setByte(0, 2, lutByte(material.effectiveWetnessResponse, 1.0f));
+        setByte(0, 3, lutByte(material.wetRoughness, 1.0f));
+
+        // Row 1: wet darkening, fresnel strength, puddles allowed, emissive strength / 4.
+        setByte(1, 0, lutByte(material.wetDarkening, 1.0f));
+        setByte(1, 1, lutByte(material.fresnelStrength, 1.0f));
+        setByte(1, 2, material.receivesPuddles ? 255 : 0);
+        setByte(1, 3, lutByte(material.emissiveStrength, 0.25f));
+
+        // Row 2: emissive RGB, reserved zero.
+        setByte(2, 0, lutByte(material.emissiveColor[0], 1.0f));
+        setByte(2, 1, lutByte(material.emissiveColor[1], 1.0f));
+        setByte(2, 2, lutByte(material.emissiveColor[2], 1.0f));
+        setByte(2, 3, 0);
+
+        if (hasMaterial)
+        {
+            lookup.anyMaterialLayer = true;
+
+            if (material.emissiveStrength > 0.0f
+                && (material.emissiveColor[0] > 0.0f
+                    || material.emissiveColor[1] > 0.0f
+                    || material.emissiveColor[2] > 0.0f))
+            {
+                lookup.anyEmissiveLayer = true;
+            }
+        }
+    }
+
+    return lookup;
 }
 } // namespace OpenYAMM::Game

@@ -467,6 +467,7 @@ private:
         const GameplayContextActionState *pContextActionState);
     void renderFxSegmentProjectiles(uint16_t viewId, const float *pViewMatrix);
     bgfx::TextureHandle ensureBloodSplatTexture();
+    bgfx::TextureHandle ensureMaterialMaskTexture(uint16_t materialId);
     void ensureBloodSplatVertexBuffer();
     void renderBloodSplats(
         uint16_t viewId,
@@ -675,6 +676,13 @@ private:
     bgfx::UniformHandle m_indoorCameraPositionUniformHandle;
     bgfx::UniformHandle m_materialShadingUniformHandle;
     bgfx::UniformHandle m_materialEmissiveColorUniformHandle;
+    bgfx::UniformHandle m_materialEnvironmentUniformHandle;
+    bgfx::UniformHandle m_materialWetnessUniformHandle;
+    bgfx::UniformHandle m_materialMaskSamplerHandle;
+    bgfx::TextureHandle m_materialMaskNeutralTexelHandle = BGFX_INVALID_HANDLE;
+    // Packed facade mask textures keyed by resolved material id, created on first use.
+    std::unordered_map<uint16_t, bgfx::TextureHandle> m_materialMaskTextureHandles;
+    std::unordered_set<uint16_t> m_failedMaterialMaskIds;
     uint16_t m_lastSubmittedMaterialId = 0xffff;
     bgfx::UniformHandle m_billboardAmbientUniformHandle;
     bgfx::UniformHandle m_billboardOverrideColorUniformHandle;

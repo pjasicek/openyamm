@@ -96,6 +96,7 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_baked_lighting.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_bmodel_lightmap.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/material_lighting.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/material_mask.sh"
             "${OPENYAMM_BGFX_SOURCE_DIR}/examples/common/common.sh"
             openyamm_shaderc
         VERBATIM

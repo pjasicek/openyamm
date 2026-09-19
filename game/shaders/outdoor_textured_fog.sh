@@ -28,6 +28,128 @@ uniform vec4 u_secretPulseParams;
 #if !TERRAIN_TEXTURE_ARRAY && !TERRAIN_DECORATION
 #define MATERIAL_OUTDOOR_RESPONSE 1
 #include "material_lighting.sh"
+#include "material_mask.sh"
+#elif TERRAIN_TEXTURE_ARRAY
+#define MATERIAL_TERRAIN_RESPONSE 1
+#include "material_lighting.sh"
+SAMPLER2D(s_texMaterialLut, 4);
+SAMPLER2D(s_texPuddleMask, 5);
+uniform vec4 u_puddleBounds;
+uniform vec4 u_puddleRect;
+#endif
+
+#if TERRAIN_TEXTURE_ARRAY
+// Terrain material response reads the 256x3 per-layer LUT. Two reads cover the scalar
+// contract (row 0: roughness, specular, wetness response, wet roughness; row 1: wet
+// darkening, fresnel, puddles, emissive strength / 4); the emissive row is sampled only
+// when the map-level uniform says one exists. The whole branch is skipped when the
+// environment disables terrain materials.
+vec4 terrainMaterialLutRow(float row)
+{
+    float layer = clamp(v_flowInfo.x + 0.5, 0.0, 256.0);
+    return texture2D(s_texMaterialLut, vec2(layer / 256.0, (row + 0.5) / 3.0));
+}
+
+float terrainWetnessFactor(vec3 normal, vec4 lutRow0)
+{
+    float wetness = clamp(u_materialEnvironment.x * lutRow0.z, 0.0, 1.0);
+    float upward = smoothstep(0.25, 0.90, max(normal.z, 0.0));
+    return wetness * mix(0.5, 1.0, upward);
+}
+
+vec3 terrainMaterialFaceResponse(
+    vec3 worldPosition,
+    vec3 worldNormal,
+    vec4 lutRow0,
+    vec4 lutRow1,
+    vec3 emissive,
+    float roughness,
+    vec3 directionalAttenuation,
+    vec3 environmentColor)
+{
+    vec3 viewDirection = u_cameraPosition.xyz - worldPosition;
+
+    if (!materialSurfaceEnabled(worldNormal, viewDirection))
+    {
+        return vec3_splat(0.0);
+    }
+
+    float specular = lutRow0.y;
+    float fresnelStrength = lutRow1.y;
+    vec3 unitViewDirection = materialUnitViewDirection(viewDirection);
+    vec3 response = materialSpecularForLight(
+        worldNormal,
+        unitViewDirection,
+        u_materialSunDirection.xyz,
+        u_materialSunColor.rgb * directionalAttenuation,
+        specular,
+        roughness,
+        fresnelStrength);
+    response += materialEnvironmentSpecular(
+        worldNormal,
+        unitViewDirection,
+        environmentColor,
+        specular,
+        roughness,
+        fresnelStrength);
+
+    if (specular > 0.0 && u_fxLightParams.x > 0.0)
+    {
+        vec3 toLight = u_fxLightPositions[0].xyz - worldPosition;
+        float toLightLengthSquared = dot(toLight, toLight);
+
+        if (toLightLengthSquared > 0.000001)
+        {
+            float radius = max(u_fxLightPositions[0].w, 1.0);
+            float attenuation = 1.0 - clamp(toLightLengthSquared / (radius * radius), 0.0, 1.0);
+            attenuation *= attenuation;
+            vec3 lightColor = u_fxLightColors[0].rgb * (u_fxLightColors[0].w * attenuation * u_fxLightParams.z);
+            response += materialSpecularForLight(
+                worldNormal,
+                unitViewDirection,
+                toLight * inversesqrt(toLightLengthSquared),
+                lightColor,
+                specular,
+                roughness,
+                fresnelStrength);
+        }
+    }
+
+    // Emissive strength is stored divided by 4 to fit [0, 1] in the data texture.
+    return response + emissive * (lutRow1.w * 4.0);
+}
+
+float terrainMaterialAlbedoScale(vec3 worldNormal, vec4 lutRow0, vec4 lutRow1, float puddle)
+{
+    float scale = 1.0 - terrainWetnessFactor(worldNormal, lutRow0) * lutRow1.x;
+    return scale * mix(1.0, 0.88, puddle);
+}
+
+// Authored puddles: the mask red channel gates an extra roughness/albedo response on top
+// of wetness eligibility. u_puddleRect is the authored rectangle (origin, extent) and the
+// only region allowed to respond; u_puddleBounds is the half-texel-expanded sampling
+// transform that lands authored texel centers on texel centers. Zero outside the authored
+// rectangle; clamping would smear an edge puddle beyond it. The environment flag skips
+// sampling when no mask exists.
+float terrainPuddleFactor(vec3 worldNormal, float wetnessFactor, float puddlesAllowed)
+{
+    if (u_materialEnvironment.w < 0.5 || puddlesAllowed < 0.5)
+    {
+        return 0.0;
+    }
+
+    vec2 rectUv = (v_worldPosition.xy - u_puddleRect.xy) / u_puddleRect.zw;
+
+    if (rectUv.x < 0.0 || rectUv.x > 1.0 || rectUv.y < 0.0 || rectUv.y > 1.0)
+    {
+        return 0.0;
+    }
+
+    vec2 maskUv = (v_worldPosition.xy - u_puddleBounds.xy) / u_puddleBounds.zw;
+    float maskRed = texture2D(s_texPuddleMask, maskUv).r;
+    float upward = smoothstep(0.25, 0.90, max(worldNormal.z, 0.0));
+    return maskRed * wetnessFactor * upward;
+}
 #endif
 
 float safeSmoothstep(float edge0, float edge1, float value)
@@ -183,20 +305,83 @@ void main()
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z);
 #if BAKED_SOURCES
     vec2 bakedUv = (v_worldPosition.xy - u_bakedTerrainBounds.xy) / u_bakedTerrainBounds.zw;
-    vec3 baked = bakedSourceLighting(texture2D(s_texLightmap, bakedUv), texture2D(s_texBakedSky, bakedUv));
-    vec4 litTextureColor = vec4(bakedSurfaceColor(textureColor.rgb,
-        baked + getFxLighting(v_worldPosition, 0.0)), textureColor.a);
+    vec4 bakedSun = texture2D(s_texLightmap, bakedUv);
+    vec4 bakedSky = texture2D(s_texBakedSky, bakedUv);
+    vec3 baked = bakedSourceLighting(bakedSun, bakedSky);
+    vec4 litTextureColor;
+    // Terrain materials on the baked path join the linear expression before its one encode,
+    // exactly like BModel faces; decorations and the neutral path stay bit-for-bit unchanged.
+    #if TERRAIN_TEXTURE_ARRAY
+    if (u_materialEnvironment.y > 0.5)
+    {
+        vec4 lutRow0 = terrainMaterialLutRow(0.0);
+        vec4 lutRow1 = terrainMaterialLutRow(1.0);
+        vec3 lutEmissive = u_materialEnvironment.z > 0.5 ? terrainMaterialLutRow(2.0).rgb : vec3_splat(0.0);
+        float wetness = terrainWetnessFactor(v_worldNormal, lutRow0);
+        float puddle = terrainPuddleFactor(v_worldNormal, wetness, lutRow1.z);
+        float roughness = mix(mix(lutRow0.x, lutRow0.w, wetness), 0.05, puddle);
+        litTextureColor = vec4(
+            bakedSurfaceColorWithEmission(
+                textureColor.rgb,
+                baked + getFxLighting(v_worldPosition, 0.0),
+                terrainMaterialFaceResponse(
+                    v_worldPosition,
+                    v_worldNormal,
+                    lutRow0,
+                    lutRow1,
+                    lutEmissive,
+                    roughness,
+                    decodeBakedSource(bakedSun),
+                    u_bakedLighting[1].rgb * decodeBakedSource(bakedSky)),
+                terrainMaterialAlbedoScale(v_worldNormal, lutRow0, lutRow1, puddle)),
+            textureColor.a);
+    }
+    else
+    #endif
+    {
+        litTextureColor = vec4(bakedSurfaceColor(textureColor.rgb,
+            baked + getFxLighting(v_worldPosition, 0.0)), textureColor.a);
+    }
 #else
     vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(v_worldPosition, v_sunlight), textureColor.a);
 #endif
 
 #if !TERRAIN_TEXTURE_ARRAY && !TERRAIN_DECORATION
     // Bounded artistic sheen and emissive in the existing display-encoded domain, before the
-    // secret tint and outdoor fog. Zero material contribution keeps the color unchanged.
+    // secret tint and outdoor fog. Wetness darkens the albedo term; zero material
+    // contribution keeps the color unchanged.
+    vec4 materialMask = sampleMaterialMask(texcoord);
+    litTextureColor.rgb *= materialMaskedWetnessAlbedoScale(v_worldNormal, materialMask);
     litTextureColor.rgb += outdoorMaterialFaceResponse(
         v_worldPosition,
         v_worldNormal,
-        vec3_splat(1.0));
+        vec3_splat(1.0),
+        materialMask,
+        vec3_splat(0.0));
+#elif TERRAIN_TEXTURE_ARRAY && !BAKED_SOURCES
+    // Per-layer terrain materials on the nonbaked display path: two LUT reads cover the
+    // scalar contract; the third read only happens when authored terrain emissive exists.
+    // The branch is skipped entirely when the map carries no terrain materials or the
+    // master switch is off, keeping the neutral path bit-for-bit unchanged.
+    if (u_materialEnvironment.y > 0.5)
+    {
+        vec4 lutRow0 = terrainMaterialLutRow(0.0);
+        vec4 lutRow1 = terrainMaterialLutRow(1.0);
+        vec3 lutEmissive = u_materialEnvironment.z > 0.5 ? terrainMaterialLutRow(2.0).rgb : vec3_splat(0.0);
+        float wetness = terrainWetnessFactor(v_worldNormal, lutRow0);
+        float puddle = terrainPuddleFactor(v_worldNormal, wetness, lutRow1.z);
+        float roughness = mix(mix(lutRow0.x, lutRow0.w, wetness), 0.05, puddle);
+        litTextureColor.rgb *= terrainMaterialAlbedoScale(v_worldNormal, lutRow0, lutRow1, puddle);
+        litTextureColor.rgb += terrainMaterialFaceResponse(
+            v_worldPosition,
+            v_worldNormal,
+            lutRow0,
+            lutRow1,
+            lutEmissive,
+            roughness,
+            vec3_splat(1.0),
+            vec3_splat(0.0));
+    }
 #endif
 
     bool classicSecret = v_texcoord1.x > 0.5 && v_texcoord1.x < 1.5;

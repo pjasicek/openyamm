@@ -2663,6 +2663,8 @@ IndoorRenderer::IndoorRenderer()
     , m_indoorCameraPositionUniformHandle(BGFX_INVALID_HANDLE)
     , m_materialShadingUniformHandle(BGFX_INVALID_HANDLE)
     , m_materialEmissiveColorUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialEnvironmentUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialWetnessUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOverrideColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOutlineParamsUniformHandle(BGFX_INVALID_HANDLE)
@@ -2958,6 +2960,28 @@ bool IndoorRenderer::initialize(
     }
 
     m_faceCount = static_cast<uint32_t>(indoorMapData.faces.size());
+    // Sampler uniforms resolve into GL per-program bindings at program creation; the facade
+    // mask sampler must therefore exist before the first indoor program is created.
+    m_materialMaskSamplerHandle = bgfx::createUniform("s_texMaterialMask", bgfx::UniformType::Sampler);
+    {
+        // Neutral facade mask texel (R=0, G=255, B=255): unmasked materials never sample it.
+        const uint32_t neutralMaskTexel = 0xff00ffffu;
+        m_materialMaskNeutralTexelHandle = bgfx::createTexture2D(
+            1, 1, false, 1, bgraTextureUploadFormat(), BGFX_SAMPLER_MIP_POINT);
+
+        if (bgfx::isValid(m_materialMaskNeutralTexelHandle))
+        {
+            bgfx::updateTexture2D(
+                m_materialMaskNeutralTexelHandle,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                bgfx::copy(reinterpret_cast<const uint8_t *>(&neutralMaskTexel), sizeof(neutralMaskTexel)));
+        }
+    }
     m_programHandle = loadProgram("vs_cubes", "fs_cubes");
     m_texturedProgramHandle = loadProgram("vs_shadowmaps_texture", "fs_shadowmaps_texture");
     m_indoorLitProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_lit");
@@ -2979,6 +3003,8 @@ bool IndoorRenderer::initialize(
     m_materialShadingUniformHandle = bgfx::createUniform("u_materialShading", bgfx::UniformType::Vec4);
     m_materialEmissiveColorUniformHandle =
         bgfx::createUniform("u_materialEmissiveColor", bgfx::UniformType::Vec4);
+    m_materialEnvironmentUniformHandle = bgfx::createUniform("u_materialEnvironment", bgfx::UniformType::Vec4);
+    m_materialWetnessUniformHandle = bgfx::createUniform("u_materialWetness", bgfx::UniformType::Vec4);
     m_billboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_billboardOverrideColorUniformHandle =
         bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
@@ -3027,6 +3053,8 @@ bool IndoorRenderer::initialize(
         || !bgfx::isValid(m_indoorCameraPositionUniformHandle)
         || !bgfx::isValid(m_materialShadingUniformHandle)
         || !bgfx::isValid(m_materialEmissiveColorUniformHandle)
+        || !bgfx::isValid(m_materialEnvironmentUniformHandle)
+        || !bgfx::isValid(m_materialWetnessUniformHandle)
         || !bgfx::isValid(m_billboardAmbientUniformHandle)
         || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
         || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
@@ -4347,6 +4375,12 @@ void IndoorRenderer::render(
             1.0f
         };
         bgfx::setUniform(m_indoorCameraPositionUniformHandle, cameraPosition.data());
+
+        if (bgfx::isValid(m_materialEnvironmentUniformHandle))
+        {
+            const std::array<float, 4> materialEnvironment = {0.0f, 0.0f, 0.0f, 0.0f};
+            bgfx::setUniform(m_materialEnvironmentUniformHandle, materialEnvironment.data());
+        }
         // Material IDs are map-local and the uniform names are shared with the outdoor
         // renderer. Establish indoor state again on the first eligible draw each frame.
         m_lastSubmittedMaterialId = 0xffff;
@@ -4397,13 +4431,28 @@ void IndoorRenderer::render(
                 MaxIndoorShaderLights);
             bgfx::setUniform(m_indoorLightParamsUniformHandle, batchLightSet.params.data());
 
+            // surface_materials=false suppresses every new contribution: bind the neutral record.
+            const uint16_t boundMaterialId = settings.surfaceMaterials
+                ? batch.materialId
+                : SurfaceMaterialRuntimeSet::NeutralMaterialId;
+
+            // The material's facade mask binds on every draw; the presence flag rides in
+            // u_materialWetness.w and only needs to enter the stream on material change.
+            const bgfx::TextureHandle boundMaterialMask = ensureMaterialMaskTexture(boundMaterialId);
+            const bool boundMaterialHasMask = m_materialMaskTextureHandles.count(boundMaterialId) != 0;
+
+            if (bgfx::isValid(boundMaterialMask) && bgfx::isValid(m_materialMaskSamplerHandle))
+            {
+                bgfx::setTexture(4, m_materialMaskSamplerHandle, boundMaterialMask, BGFX_SAMPLER_MIP_POINT);
+            }
+
             // Values only enter the command stream when they change; the renderer replays
             // bound values for every draw of the program.
-            if (m_lastSubmittedMaterialId != batch.materialId)
+            if (m_lastSubmittedMaterialId != boundMaterialId)
             {
-                m_lastSubmittedMaterialId = batch.materialId;
+                m_lastSubmittedMaterialId = boundMaterialId;
                 const ResolvedSurfaceMaterial &batchMaterial =
-                    m_pIndoorMapData->surfaceMaterials.material(batch.materialId);
+                    m_pIndoorMapData->surfaceMaterials.material(boundMaterialId);
                 const float materialShading[4] = {
                     batchMaterial.roughness,
                     batchMaterial.specular,
@@ -4416,8 +4465,19 @@ void IndoorRenderer::render(
                     batchMaterial.emissiveColor[2],
                     0.0f
                 };
+                const float materialWetness[4] = {
+                    batchMaterial.effectiveWetnessResponse,
+                    batchMaterial.wetRoughness,
+                    batchMaterial.wetDarkening,
+                    boundMaterialHasMask ? 1.0f : 0.0f
+                };
                 bgfx::setUniform(m_materialShadingUniformHandle, materialShading);
                 bgfx::setUniform(m_materialEmissiveColorUniformHandle, materialEmissiveColor);
+
+                if (bgfx::isValid(m_materialWetnessUniformHandle))
+                {
+                    bgfx::setUniform(m_materialWetnessUniformHandle, materialWetness);
+                }
             }
             std::array<float, 4> batchSecretPulseParams = secretPulseParams;
 
@@ -6487,6 +6547,12 @@ void IndoorRenderer::shutdown()
         m_indoorCameraPositionUniformHandle = BGFX_INVALID_HANDLE;
         m_materialShadingUniformHandle = BGFX_INVALID_HANDLE;
         m_materialEmissiveColorUniformHandle = BGFX_INVALID_HANDLE;
+        m_materialEnvironmentUniformHandle = BGFX_INVALID_HANDLE;
+        m_materialWetnessUniformHandle = BGFX_INVALID_HANDLE;
+        m_materialMaskSamplerHandle = BGFX_INVALID_HANDLE;
+        m_materialMaskNeutralTexelHandle = BGFX_INVALID_HANDLE;
+        m_materialMaskTextureHandles.clear();
+        m_failedMaterialMaskIds.clear();
         m_billboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
@@ -6646,6 +6712,40 @@ void IndoorRenderer::shutdown()
     {
         bgfx::destroy(m_materialEmissiveColorUniformHandle);
         m_materialEmissiveColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialEnvironmentUniformHandle))
+    {
+        bgfx::destroy(m_materialEnvironmentUniformHandle);
+        m_materialEnvironmentUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialWetnessUniformHandle))
+    {
+        bgfx::destroy(m_materialWetnessUniformHandle);
+        m_materialWetnessUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    for (auto &[materialId, maskHandle] : m_materialMaskTextureHandles)
+    {
+        if (bgfx::isValid(maskHandle))
+        {
+            bgfx::destroy(maskHandle);
+        }
+    }
+    m_materialMaskTextureHandles.clear();
+    m_failedMaterialMaskIds.clear();
+
+    if (bgfx::isValid(m_materialMaskNeutralTexelHandle))
+    {
+        bgfx::destroy(m_materialMaskNeutralTexelHandle);
+        m_materialMaskNeutralTexelHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialMaskSamplerHandle))
+    {
+        bgfx::destroy(m_materialMaskSamplerHandle);
+        m_materialMaskSamplerHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_billboardAmbientUniformHandle))
@@ -7013,6 +7113,81 @@ const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::ensureSpriteBillbo
     registerBillboardTextureIndex(m_billboardTextureHandles.size() - 1);
     logLoadResult("loaded", textureWidth, textureHeight);
     return &m_billboardTextureHandles.back();
+}
+
+bgfx::TextureHandle IndoorRenderer::ensureMaterialMaskTexture(uint16_t materialId)
+{
+    const auto existingIt = m_materialMaskTextureHandles.find(materialId);
+
+    if (existingIt != m_materialMaskTextureHandles.end())
+    {
+        return existingIt->second;
+    }
+
+    if (materialId == SurfaceMaterialRuntimeSet::NeutralMaterialId
+        || m_pIndoorMapData == nullptr
+        || m_pAssetFileSystem == nullptr
+        || m_failedMaterialMaskIds.count(materialId) != 0)
+    {
+        return m_materialMaskNeutralTexelHandle;
+    }
+
+    const ResolvedSurfaceMaterial &material = m_pIndoorMapData->surfaceMaterials.material(materialId);
+
+    if (material.materialMaskTexture.empty())
+    {
+        return m_materialMaskNeutralTexelHandle;
+    }
+
+    const std::optional<std::vector<uint8_t>> maskBytes =
+        m_pAssetFileSystem->readBinaryFile(material.materialMaskTexture);
+
+    if (!maskBytes)
+    {
+        std::cerr << "Failed to load material mask for indoor material '" << material.sourceId
+                  << "': unreadable authored asset " << material.materialMaskTexture << '\n';
+        m_failedMaterialMaskIds.insert(materialId);
+        return m_materialMaskNeutralTexelHandle;
+    }
+
+    const std::optional<Engine::ImagePixelsBgra> maskPixels =
+        Engine::decodeImagePixelsBgra(*maskBytes, material.materialMaskTexture);
+
+    if (!maskPixels || maskPixels->width <= 0 || maskPixels->height <= 0)
+    {
+        std::cerr << "Failed to load material mask for indoor material '" << material.sourceId
+                  << "': undecodable authored asset " << material.materialMaskTexture << '\n';
+        m_failedMaterialMaskIds.insert(materialId);
+        return m_materialMaskNeutralTexelHandle;
+    }
+
+    const bgfx::TextureHandle maskHandle = bgfx::createTexture2D(
+        uint16_t(maskPixels->width),
+        uint16_t(maskPixels->height),
+        false,
+        1,
+        bgraTextureUploadFormat(),
+        BGFX_SAMPLER_MIP_POINT);
+
+    if (!bgfx::isValid(maskHandle))
+    {
+        std::cerr << "Failed to create material mask texture for indoor material '" << material.sourceId
+                  << "'\n";
+        m_failedMaterialMaskIds.insert(materialId);
+        return m_materialMaskNeutralTexelHandle;
+    }
+
+    bgfx::updateTexture2D(
+        maskHandle,
+        0,
+        0,
+        0,
+        0,
+        uint16_t(maskPixels->width),
+        uint16_t(maskPixels->height),
+        bgfx::copy(maskPixels->pixels.data(), uint32_t(maskPixels->pixels.size())));
+    m_materialMaskTextureHandles.emplace(materialId, maskHandle);
+    return maskHandle;
 }
 
 bgfx::TextureHandle IndoorRenderer::ensureBloodSplatTexture()

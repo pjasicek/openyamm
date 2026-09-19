@@ -18,6 +18,7 @@ uniform vec4 u_secretPulseParams;
 
 #define MATERIAL_OUTDOOR_RESPONSE 1
 #include "material_lighting.sh"
+#include "material_mask.sh"
 
 float safeSmoothstep(float edge0, float edge1, float value)
 {
@@ -104,20 +105,31 @@ void main()
     vec3 staticLighting = bakedSourceLighting(bakedSun, bakedSky);
     // Material sheen and emissive join the linear expression before its one display encode.
     // Only the directional term receives the baked sun visibility; local sheen and emissive
-    // remain independent of that source.
+    // remain independent of that source. Wetness darkens the linear albedo.
+    vec4 materialMask = sampleMaterialMask(texcoord);
     vec4 litTextureColor = vec4(bakedSurfaceColorWithEmission(textureColor.rgb,
         staticLighting + getFxLighting(v_worldPosition),
         outdoorMaterialFaceResponse(
             v_worldPosition,
             v_worldNormal,
-            decodeBakedSource(bakedSun))), textureColor.a);
+            decodeBakedSource(bakedSun),
+            materialMask,
+            u_bakedLighting[1].rgb * decodeBakedSource(bakedSky)),
+        materialMaskedWetnessAlbedoScale(v_worldNormal, materialMask)), textureColor.a);
 #else
     vec3 staticLighting = texture2D(s_texLightmap, v_lightmapUv).rgb * v_color0.rgb;
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z);
     // Combined imported lightmaps stay in the legacy domain; the material term is added in it.
+    vec4 materialMask = sampleMaterialMask(texcoord);
     vec4 litTextureColor = vec4(
         textureColor.rgb * staticLighting * getFxLighting(v_worldPosition)
-            + outdoorMaterialFaceResponse(v_worldPosition, v_worldNormal, vec3_splat(1.0)),
+            * materialMaskedWetnessAlbedoScale(v_worldNormal, materialMask)
+            + outdoorMaterialFaceResponse(
+                v_worldPosition,
+                v_worldNormal,
+                vec3_splat(1.0),
+                materialMask,
+                vec3_splat(0.0)),
         textureColor.a);
 #endif
 

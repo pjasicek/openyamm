@@ -33,6 +33,25 @@ constexpr uint32_t EnvironmentFlagAlwaysFoggy = 0x40;
 constexpr uint32_t EnvironmentFlagRedFog = 0x80;
 constexpr uint32_t SurfaceAnimationTicksPerSecond = 128;
 
+bool isFiniteFloatNode(const YAML::Node &node, float &value)
+{
+    if (!node || !node.IsScalar())
+    {
+        return false;
+    }
+
+    try
+    {
+        value = node.as<float>();
+    }
+    catch (const std::exception &)
+    {
+        return false;
+    }
+
+    return std::isfinite(value);
+}
+
 template <typename ValueType>
 bool readScalarNode(
     const YAML::Node &parentNode,
@@ -217,24 +236,76 @@ bool parseOptionalRendering(
         return false;
     }
 
-    if (!renderingNode["view_distance_scale"])
+    if (renderingNode["view_distance_scale"])
     {
-        return true;
+        float viewDistanceScale = rendering.viewDistanceScale.value_or(1.0f);
+        if (!readScalarNode(renderingNode, "view_distance_scale", viewDistanceScale, errorMessage, false))
+        {
+            return false;
+        }
+
+        if (!std::isfinite(viewDistanceScale) || viewDistanceScale <= 0.0f)
+        {
+            errorMessage = "rendering.view_distance_scale must be finite and greater than zero";
+            return false;
+        }
+
+        rendering.viewDistanceScale = viewDistanceScale;
     }
 
-    float viewDistanceScale = rendering.viewDistanceScale.value_or(1.0f);
-    if (!readScalarNode(renderingNode, "view_distance_scale", viewDistanceScale, errorMessage, false))
+    // A puddles-only rendering block parses without view_distance_scale. An overlay's
+    // explicit puddles block replaces the base one; absence keeps the base value.
+    const YAML::Node puddlesNode = renderingNode["puddles"];
+
+    if (puddlesNode)
     {
-        return false;
+        OutdoorScenePuddles puddles = {};
+
+        if (!puddlesNode.IsMap())
+        {
+            errorMessage = "rendering.puddles must be a map";
+            return false;
+        }
+
+        if (!readScalarNode(puddlesNode, "mask", puddles.mask, errorMessage))
+        {
+            return false;
+        }
+
+        if (puddles.mask.empty() || puddles.mask.front() == '-')
+        {
+            errorMessage = "rendering.puddles.mask must be a non-empty mounted asset path";
+            return false;
+        }
+
+        const YAML::Node originNode = puddlesNode["origin"];
+        if (!originNode || !originNode.IsSequence() || originNode.size() != 2
+            || !isFiniteFloatNode(originNode[0], puddles.origin[0])
+            || !isFiniteFloatNode(originNode[1], puddles.origin[1]))
+        {
+            errorMessage = "rendering.puddles.origin must be two finite coordinates";
+            return false;
+        }
+
+        const YAML::Node extentNode = puddlesNode["extent"];
+        if (!extentNode || !extentNode.IsSequence() || extentNode.size() != 2
+            || !isFiniteFloatNode(extentNode[0], puddles.extent[0])
+            || !isFiniteFloatNode(extentNode[1], puddles.extent[1]))
+        {
+            errorMessage = "rendering.puddles.extent must be two finite coordinates";
+            return false;
+        }
+
+        if (puddles.extent[0] == 0.0f || puddles.extent[1] == 0.0f
+            || !std::isfinite(puddles.extent[0]) || !std::isfinite(puddles.extent[1]))
+        {
+            errorMessage = "rendering.puddles.extent must have nonzero signed components";
+            return false;
+        }
+
+        rendering.puddles = puddles;
     }
 
-    if (!std::isfinite(viewDistanceScale) || viewDistanceScale <= 0.0f)
-    {
-        errorMessage = "rendering.view_distance_scale must be finite and greater than zero";
-        return false;
-    }
-
-    rendering.viewDistanceScale = viewDistanceScale;
     return true;
 }
 
@@ -3073,6 +3144,17 @@ bool buildOutdoorMapStateFromScene(
     outdoorMapData.sceneProfile = sceneData.sceneProfile;
     outdoorMapData.locationType = sceneData.environment.locationType;
     outdoorMapData.lightmapBrightnessScale = sceneData.lighting.lightmapBrightnessScale;
+    if (sceneData.rendering.puddles)
+    {
+        OutdoorMapData::PuddleMask puddleMask = {};
+        puddleMask.maskPath = sceneData.rendering.puddles->mask;
+        puddleMask.originX = sceneData.rendering.puddles->origin[0];
+        puddleMask.originY = sceneData.rendering.puddles->origin[1];
+        puddleMask.extentX = sceneData.rendering.puddles->extent[0];
+        puddleMask.extentY = sceneData.rendering.puddles->extent[1];
+        outdoorMapData.puddleMask = puddleMask;
+    }
+
     outdoorMapData.viewDistanceScale = sceneData.rendering.viewDistanceScale.value_or(
         sceneData.sceneProfile == OutdoorSceneProfile::BModelWorld
                 && sceneData.environment.locationType == OutdoorLocationType::Enclosed

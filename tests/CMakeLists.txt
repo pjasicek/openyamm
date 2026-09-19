@@ -67,6 +67,7 @@ add_executable(openyamm_unit_tests
     SpellbookUiLayoutTests.cpp
     SurfaceMaterialTests.cpp
     SurfaceNormalGeometryTests.cpp
+    OutdoorScenePuddlesTests.cpp
     TableRegressionTests.cpp
     TextTableTests.cpp
     TerrainDecorationTests.cpp

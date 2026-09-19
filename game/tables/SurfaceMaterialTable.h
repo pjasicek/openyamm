@@ -31,6 +31,9 @@ struct SurfaceMaterialShading
     float fresnelStrength = 0.0f;
     float emissiveStrength = 0.0f;
     std::array<float, 3> emissiveColor = {1.0f, 1.0f, 1.0f};
+    // Optional packed facade mask: mount-relative image path sampled with the diffuse UV.
+    // R selects shine, G multiplies wetness response, B multiplies emissive; empty = unmasked.
+    std::string materialMaskTexture;
 };
 
 struct SurfaceMaterialDefinition

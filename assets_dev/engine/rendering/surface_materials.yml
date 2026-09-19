@@ -222,7 +222,6 @@ materials:
     applies_to: [face]
     match:
       texture_names:
-        - rblbw
         - rblst
         - rblst1
         - rblle
@@ -248,7 +247,6 @@ materials:
         - t1wl1rea
         - t1wl1cts
         - t1w11a
-        - cbrdbrck
         - cbmxbrck
         - pbrle
         - pbrre
@@ -287,24 +285,6 @@ materials:
       wetness_response: 0.45
       wet_roughness: 0.16
       wet_darkening: 0.05
-
-  - id: mm6_new_sorpigal_roofing
-    semantic: generic
-    applies_to: [face]
-    match:
-      texture_names:
-        - pxshings
-        - tavrf
-        - plruf01
-        - pbtrm
-    shading:
-      roughness: 0.88
-      specular: 0.035
-      fresnel_strength: 0.06
-      receives_wetness: true
-      wetness_response: 0.65
-      wet_roughness: 0.24
-      wet_darkening: 0.07
 
   - id: mm6_new_sorpigal_wood
     semantic: generic
@@ -346,28 +326,6 @@ materials:
       wet_roughness: 0.20
       wet_darkening: 0.10
 
-  - id: mm6_new_sorpigal_plaster_facades
-    semantic: generic
-    applies_to: [face]
-    match:
-      texture_names:
-        - pxstrre
-        - pxstrle
-        - pxstrst
-        - pxstrdr
-        - pxstrwb
-        - pxstrwbx
-        - pxstrrew
-        - pxstrlew
-    shading:
-      roughness: 0.92
-      specular: 0.025
-      fresnel_strength: 0.04
-      receives_wetness: true
-      wetness_response: 0.40
-      wet_roughness: 0.28
-      wet_darkening: 0.06
-
   - id: mm6_new_sorpigal_glazed_windows
     semantic: generic
     applies_to: [face]
@@ -395,8 +353,6 @@ materials:
         - tdoora
         - tdoorb
         - d2lgdor
-        - tavlgdr
-        - tavsmdr
         - thsmdr
         - bemdorb
         - pbrdr
@@ -409,3 +365,393 @@ materials:
       wetness_response: 0.35
       wet_roughness: 0.18
       wet_darkening: 0.05
+
+  # Texture-inspected material pass; masks are generated from the corresponding
+  # source-coordinate regions under level_generation/materials/mm6_new_sorpigal/.
+  - id: mm6_new_sorpigal_framed_plaster_pxstrre
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrre
+    shading:
+      roughness: 0.95
+      specular: 0.055
+      fresnel_strength: 0.14
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.42
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrre.png
+  - id: mm6_new_sorpigal_framed_plaster_pxstrle
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrle
+    shading:
+      roughness: 0.95
+      specular: 0.055
+      fresnel_strength: 0.14
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.42
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrle.png
+  - id: mm6_new_sorpigal_framed_plaster_pxstrst
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrst
+    shading:
+      roughness: 0.95
+      specular: 0.055
+      fresnel_strength: 0.14
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.42
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrst.png
+  - id: mm6_new_sorpigal_leaded_plaster_pxstrwb
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrwb
+    shading:
+      roughness: 0.95
+      specular: 0.09
+      fresnel_strength: 0.3
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.4
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrwb.png
+      emissive_strength: 0.008
+      emissive_color:
+      - 1
+      - 0.59
+      - 0.23
+  - id: mm6_new_sorpigal_leaded_plaster_pxstrwbx
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrwbx
+    shading:
+      roughness: 0.95
+      specular: 0.09
+      fresnel_strength: 0.3
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.4
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrwbx.png
+      emissive_strength: 0.008
+      emissive_color:
+      - 1
+      - 0.59
+      - 0.23
+  - id: mm6_new_sorpigal_leaded_plaster_pxstrlew
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrlew
+    shading:
+      roughness: 0.95
+      specular: 0.09
+      fresnel_strength: 0.3
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.4
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrlew.png
+      emissive_strength: 0.008
+      emissive_color:
+      - 1
+      - 0.59
+      - 0.23
+  - id: mm6_new_sorpigal_leaded_plaster_pxstrrew
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrrew
+    shading:
+      roughness: 0.95
+      specular: 0.09
+      fresnel_strength: 0.3
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.4
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrrew.png
+      emissive_strength: 0.008
+      emissive_color:
+      - 1
+      - 0.59
+      - 0.23
+  - id: mm6_new_sorpigal_carved_wood_pxstrdr
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxstrdr
+    shading:
+      roughness: 0.79
+      specular: 0.11
+      fresnel_strength: 0.22
+      receives_wetness: true
+      wetness_response: 0.45
+      wet_roughness: 0.3
+      wet_darkening: 0.08
+      material_mask_texture: worlds/mm6/rendering/material_masks/pxstrdr.png
+      emissive_strength: 0.008
+      emissive_color:
+      - 1
+      - 0.59
+      - 0.23
+  - id: mm6_new_sorpigal_stained_glass_tavwctr
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - tavwctr
+    shading:
+      roughness: 0.93
+      specular: 0.11
+      fresnel_strength: 0.4
+      receives_wetness: true
+      wetness_response: 0.62
+      wet_roughness: 0.38
+      wet_darkening: 0.065
+      material_mask_texture: worlds/mm6/rendering/material_masks/tavwctr.png
+      emissive_strength: 0.003
+      emissive_color:
+      - 0.65
+      - 0.72
+      - 0.85
+  - id: mm6_new_sorpigal_stained_glass_tavwle
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - tavwle
+    shading:
+      roughness: 0.93
+      specular: 0.11
+      fresnel_strength: 0.4
+      receives_wetness: true
+      wetness_response: 0.62
+      wet_roughness: 0.38
+      wet_darkening: 0.065
+      material_mask_texture: worlds/mm6/rendering/material_masks/tavwle.png
+      emissive_strength: 0.003
+      emissive_color:
+      - 0.65
+      - 0.72
+      - 0.85
+  - id: mm6_new_sorpigal_stained_glass_tavwre
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - tavwre
+    shading:
+      roughness: 0.93
+      specular: 0.11
+      fresnel_strength: 0.4
+      receives_wetness: true
+      wetness_response: 0.62
+      wet_roughness: 0.38
+      wet_darkening: 0.065
+      material_mask_texture: worlds/mm6/rendering/material_masks/tavwre.png
+      emissive_strength: 0.003
+      emissive_color:
+      - 0.65
+      - 0.72
+      - 0.85
+  - id: mm6_new_sorpigal_enamel_and_iron_tavlgdr
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - tavlgdr
+    shading:
+      roughness: 0.85
+      specular: 0.16
+      fresnel_strength: 0.26
+      receives_wetness: true
+      wetness_response: 0.55
+      wet_roughness: 0.32
+      wet_darkening: 0.07
+      material_mask_texture: worlds/mm6/rendering/material_masks/tavlgdr.png
+  - id: mm6_new_sorpigal_carved_side_door_tavsmdr
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - tavsmdr
+    shading:
+      roughness: 0.87
+      specular: 0.12
+      fresnel_strength: 0.2
+      receives_wetness: true
+      wetness_response: 0.5
+      wet_roughness: 0.34
+      wet_darkening: 0.065
+      material_mask_texture: worlds/mm6/rendering/material_masks/tavsmdr.png
+  - id: mm6_new_sorpigal_armory_sign
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - armorpor
+    shading:
+      roughness: 0.8
+      specular: 0.1
+      fresnel_strength: 0.17
+      receives_wetness: true
+      wetness_response: 0.55
+      wet_roughness: 0.36
+      wet_darkening: 0.075
+      material_mask_texture: worlds/mm6/rendering/material_masks/armorpor.png
+  - id: mm6_new_sorpigal_fired_clay_brick
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - cbrdbrck
+    shading:
+      roughness: 0.68
+      specular: 0.12
+      fresnel_strength: 0.16
+      receives_wetness: true
+      wetness_response: 0.7
+      wet_roughness: 0.24
+      wet_darkening: 0.085
+      material_mask_texture: worlds/mm6/rendering/material_masks/cbrdbrck.png
+  - id: mm6_new_sorpigal_fieldstone
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - rblbw
+    shading:
+      roughness: 0.94
+      specular: 0.045
+      fresnel_strength: 0.08
+      receives_wetness: true
+      wetness_response: 0.75
+      wet_roughness: 0.42
+      wet_darkening: 0.08
+      material_mask_texture: worlds/mm6/rendering/material_masks/rblbw.png
+  - id: mm6_new_sorpigal_carved_stone_figures
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - tavldyle
+      - tavldyre
+    shading:
+      roughness: 0.91
+      specular: 0.045
+      fresnel_strength: 0.09
+      receives_wetness: true
+      wetness_response: 0.65
+      wet_roughness: 0.45
+      wet_darkening: 0.07
+  - id: mm6_new_sorpigal_wood_shingles
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - pxshings
+    shading:
+      roughness: 0.91
+      specular: 0.03
+      fresnel_strength: 0.06
+      receives_wetness: true
+      wetness_response: 0.6
+      wet_roughness: 0.4
+      wet_darkening: 0.08
+  - id: mm6_new_sorpigal_weathered_roof_boards
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - plruf01
+      - pbtrm
+    shading:
+      roughness: 0.88
+      specular: 0.035
+      fresnel_strength: 0.08
+      receives_wetness: true
+      wetness_response: 0.65
+      wet_roughness: 0.36
+      wet_darkening: 0.08
+  - id: mm6_new_sorpigal_tavern_fascia
+    semantic: generic
+    applies_to:
+    - face
+    match:
+      texture_names:
+      - tavrf
+    shading:
+      roughness: 0.8
+      specular: 0.065
+      fresnel_strength: 0.12
+      receives_wetness: true
+      wetness_response: 0.5
+      wet_roughness: 0.36
+      wet_darkening: 0.08
+  - id: mm6_new_sorpigal_grass
+    semantic: generic
+    applies_to:
+    - terrain
+    match:
+      texture_names:
+      - 6grastyl
+    shading:
+      roughness: 1.0
+      specular: 0.0
+      receives_wetness: true
+      wetness_response: 0.35
+      wet_roughness: 0.9
+      wet_darkening: 0.04
+  - id: mm6_new_sorpigal_earth
+    semantic: generic
+    applies_to:
+    - terrain
+    match:
+      texture_names:
+      - 6dirttyl
+    shading:
+      roughness: 0.96
+      specular: 0.012
+      fresnel_strength: 0.025
+      receives_wetness: true
+      wetness_response: 0.65
+      wet_roughness: 0.65
+      wet_darkening: 0.1

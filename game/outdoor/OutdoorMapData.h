@@ -16,6 +16,7 @@
 #include <array>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -291,6 +292,32 @@ struct OutdoorMapData
     // Fixed sun direction of the paired bake recipe (runtime-only, never serialized).
     bx::Vec3 bakeSunDirection = {0.0f, 0.0f, 0.0f};
     bool hasBakeSunDirection = false;
+    // Authored terrain puddle mask (runtime-only). Origin and origin+extent are the first
+    // and last texel centers; the first decoded image row is the row at origin.y.
+    struct PuddleMask
+    {
+        std::string maskPath;
+        float originX = 0.0f;
+        float originY = 0.0f;
+        float extentX = 0.0f;
+        float extentY = 0.0f;
+        int width = 0;
+        int height = 0;
+        std::vector<uint8_t> pixelsBgra;
+    };
+    std::optional<PuddleMask> puddleMask;
+    // Decoded packed facade masks for the materials this map's BModel faces actually
+    // reference (runtime-only, keyed by resolved material id). Channels: R shine selector,
+    // G wetness response multiplier, B emissive multiplier, A reserved.
+    struct MaterialMaskImage
+    {
+        std::string sourceId;
+        std::string maskPath;
+        int width = 0;
+        int height = 0;
+        std::vector<uint8_t> pixelsBgra;
+    };
+    std::unordered_map<uint16_t, MaterialMaskImage> materialMasks;
     size_t terrainNormalCount = 0;
     size_t bmodelCount = 0;
     size_t entityCount = 0;

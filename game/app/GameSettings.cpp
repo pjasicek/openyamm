@@ -602,6 +602,66 @@ bool setBakedLightingSetting(
     return false;
 }
 
+std::optional<std::string> getMaterialEnvironmentSetting(const GameSettings &settings, const std::string &name)
+{
+    std::ostringstream output;
+    output.precision(9);
+
+    if (name == "material_wetness")
+    {
+        output << settings.materialWetness;
+    }
+    else if (name == "surface_materials")
+    {
+        output << (settings.surfaceMaterials ? "true" : "false");
+    }
+    else
+    {
+        return std::nullopt;
+    }
+
+    return output.str();
+}
+
+bool setMaterialWetnessValue(const std::string &value, float &outWetness, std::string &error)
+{
+    float wetness = 0.0f;
+
+    if (!parseFloatValue(value, wetness) || !std::isfinite(wetness) || wetness < 0.0f || wetness > 1.0f)
+    {
+        error = "material_wetness requires a finite value in [0, 1].";
+        return false;
+    }
+
+    outWetness = wetness;
+    return true;
+}
+
+bool setMaterialEnvironmentSetting(
+    GameSettings &settings, const std::string &name, const std::string &value, std::string &error)
+{
+    error.clear();
+
+    if (name == "material_wetness")
+    {
+        return setMaterialWetnessValue(value, settings.materialWetness, error);
+    }
+
+    if (name == "surface_materials")
+    {
+        if (!parseBoolValue(value, settings.surfaceMaterials))
+        {
+            error = "surface_materials requires true or false.";
+            return false;
+        }
+
+        return true;
+    }
+
+    error = "Unknown material environment setting: " + name;
+    return false;
+}
+
 std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, std::string &error)
 {
     std::ifstream input(path);
@@ -896,6 +956,19 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
     if (const std::optional<std::string> value = getIniValue(document, "video", "lightmaps"))
     {
         parseBoolValue(*value, settings.lightmaps);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "surface_materials"))
+    {
+        parseBoolValue(*value, settings.surfaceMaterials);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "material_wetness"))
+    {
+        if (!setMaterialWetnessValue(*value, settings.materialWetness, error))
+        {
+            return std::nullopt;
+        }
     }
 
     if (const std::optional<std::string> value = getIniValue(document, "video", "terrain_decorations"))
@@ -1578,6 +1651,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "cinematic_grading=" << (settings.cinematicGrading ? "true" : "false") << '\n'
         << "cinematic_strength=" << settings.cinematicStrength << '\n'
         << "lightmaps=" << (settings.lightmaps ? "true" : "false") << '\n'
+        << "surface_materials=" << (settings.surfaceMaterials ? "true" : "false") << '\n'
+        << "material_wetness=" << *getMaterialEnvironmentSetting(settings, "material_wetness") << '\n'
         << "baked_sun_strength=" << *getBakedLightingSetting(settings, "baked_sun_strength") << '\n'
         << "baked_sky_strength=" << *getBakedLightingSetting(settings, "baked_sky_strength") << '\n'
         << "baked_sun_color=" << *getBakedLightingSetting(settings, "baked_sun_color") << '\n'

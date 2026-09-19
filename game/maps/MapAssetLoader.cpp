@@ -3836,6 +3836,23 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         ++validTileCount;
     }
 
+    // Pack the per-layer material contract once, at presentation build time; animated
+    // uploads and per-frame paths never re-match terrain materials.
+    {
+        std::array<uint8_t, TerrainMaterialLookup::LayerCount> layerTransitionFlags = {};
+
+        for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
+        {
+            layerTransitionFlags[static_cast<size_t>(tileIndex)] =
+                isTerrainDescriptorTransition((*tileDescriptors)[tileIndex]) ? 1 : 0;
+        }
+
+        textureAtlas.materialLookup = buildTerrainMaterialLookup(
+            pSurfaceMaterials != nullptr ? *pSurfaceMaterials : SurfaceMaterialRuntimeSet{},
+            textureAtlas.tileMaterialIds,
+            layerTransitionFlags);
+    }
+
     if (!missingTextureNames.empty() || !invalidSizeTextureNames.empty())
     {
         std::cout << "Terrain atlas diagnostics for " << outdoorMapData.fileName
@@ -4807,6 +4824,115 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         pSharedCache
                     );
                 logStageComplete("outdoor actor previews built");
+            }
+
+            if (assetInfo.outdoorMapData->puddleMask)
+            {
+                const std::optional<std::vector<uint8_t>> maskBytes =
+                    assetFileSystem.readBinaryFile(assetInfo.outdoorMapData->puddleMask->maskPath);
+
+                if (!maskBytes)
+                {
+                    std::cerr << "Failed to load puddle mask for " << map.fileName << ": unreadable authored asset "
+                              << assetInfo.outdoorMapData->puddleMask->maskPath << '\n';
+                    return std::nullopt;
+                }
+
+                const std::optional<Engine::ImagePixelsBgra> maskPixels =
+                    Engine::decodeImagePixelsBgra(*maskBytes, assetInfo.outdoorMapData->puddleMask->maskPath);
+
+                if (!maskPixels || maskPixels->width <= 0 || maskPixels->height <= 0)
+                {
+                    std::cerr << "Failed to load puddle mask for " << map.fileName << ": undecodable authored asset "
+                              << assetInfo.outdoorMapData->puddleMask->maskPath << '\n';
+                    return std::nullopt;
+                }
+
+                assetInfo.outdoorMapData->puddleMask->width = maskPixels->width;
+                assetInfo.outdoorMapData->puddleMask->height = maskPixels->height;
+                assetInfo.outdoorMapData->puddleMask->pixelsBgra = std::move(maskPixels->pixels);
+                logStageComplete("puddle mask loaded");
+            }
+
+            // Packed facade masks: decode one image per material this map's BModel faces
+            // actually reference, so a broken authored mask fails this map's load instead of
+            // another world's, and renderers stay IO-free.
+            if (!assetInfo.outdoorMapData->surfaceMaterials.empty())
+            {
+                std::unordered_set<uint16_t> referencedMaterialIds;
+                uint32_t globalFaceId = 0;
+
+                for (const OutdoorBModel &bmodel : assetInfo.outdoorMapData->bmodels)
+                {
+                    for (const OutdoorBModelFace &face : bmodel.faces)
+                    {
+                        // Attribute-sensitive binding: the renderer resolves with the
+                        // delta-effective attributes, so the walk must too or a masked
+                        // material reached only through an override would miss its image.
+                        const uint32_t effectiveAttributes =
+                            assetInfo.outdoorMapDeltaData
+                                && globalFaceId < assetInfo.outdoorMapDeltaData->faceAttributes.size()
+                                ? assetInfo.outdoorMapDeltaData->faceAttributes[globalFaceId]
+                                : face.attributes;
+                        referencedMaterialIds.insert(
+                            assetInfo.outdoorMapData->surfaceMaterials.resolveMaterialId(
+                                toLowerCopy(face.textureName),
+                                effectiveAttributes,
+                                false));
+                        ++globalFaceId;
+                    }
+                }
+
+                for (const uint16_t materialId : referencedMaterialIds)
+                {
+                    if (materialId == SurfaceMaterialRuntimeSet::NeutralMaterialId)
+                    {
+                        continue;
+                    }
+
+                    const ResolvedSurfaceMaterial &material =
+                        assetInfo.outdoorMapData->surfaceMaterials.material(materialId);
+
+                    if (material.materialMaskTexture.empty())
+                    {
+                        continue;
+                    }
+
+                    const std::optional<std::vector<uint8_t>> maskBytes =
+                        assetFileSystem.readBinaryFile(material.materialMaskTexture);
+
+                    if (!maskBytes)
+                    {
+                        std::cerr << "Failed to load material mask for " << map.fileName << " material '"
+                                  << material.sourceId << "': unreadable authored asset "
+                                  << material.materialMaskTexture << '\n';
+                        return std::nullopt;
+                    }
+
+                    const std::optional<Engine::ImagePixelsBgra> maskPixels =
+                        Engine::decodeImagePixelsBgra(*maskBytes, material.materialMaskTexture);
+
+                    if (!maskPixels || maskPixels->width <= 0 || maskPixels->height <= 0)
+                    {
+                        std::cerr << "Failed to load material mask for " << map.fileName << " material '"
+                                  << material.sourceId << "': undecodable authored asset "
+                                  << material.materialMaskTexture << '\n';
+                        return std::nullopt;
+                    }
+
+                    OutdoorMapData::MaterialMaskImage maskImage = {};
+                    maskImage.sourceId = material.sourceId;
+                    maskImage.maskPath = material.materialMaskTexture;
+                    maskImage.width = maskPixels->width;
+                    maskImage.height = maskPixels->height;
+                    maskImage.pixelsBgra = std::move(maskPixels->pixels);
+                    assetInfo.outdoorMapData->materialMasks.emplace(materialId, std::move(maskImage));
+                }
+
+                if (!assetInfo.outdoorMapData->materialMasks.empty())
+                {
+                    logStageComplete("material masks loaded");
+                }
             }
 
             if (loadRenderSurfaces)

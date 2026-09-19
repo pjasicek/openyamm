@@ -21,11 +21,11 @@ vec3 bakedSurfaceColor(vec3 color, vec3 lighting)
         vec3_splat(1.0 / 2.2));
 }
 
-vec3 bakedSurfaceColorWithEmission(vec3 color, vec3 lighting, vec3 addedLinear)
+vec3 bakedSurfaceColorWithEmission(vec3 color, vec3 lighting, vec3 addedLinear, float albedoScale)
 {
     // Material specular and emissive join the linear expression before its one display encode;
-    // a zero addedLinear term keeps the encoded result unchanged.
+    // zero addedLinear and unit albedoScale keep the encoded result unchanged.
     return pow(
-        max(pow(max(color, vec3_splat(0.0)), vec3_splat(2.2)) * lighting + addedLinear, vec3_splat(0.0)),
+        max(pow(max(color, vec3_splat(0.0)), vec3_splat(2.2)) * lighting * albedoScale + addedLinear, vec3_splat(0.0)),
         vec3_splat(1.0 / 2.2));
 }

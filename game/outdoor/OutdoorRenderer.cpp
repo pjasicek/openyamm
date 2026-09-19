@@ -1066,12 +1066,71 @@ void OutdoorRenderer::applyOutdoorSurfaceUniforms(OutdoorGameView &view)
     bgfx::setUniform(view.m_secretPulseParamsUniformHandle, params.data());
 }
 
+void OutdoorRenderer::bindTerrainMaterialLut(const OutdoorGameView &view)
+{
+    if (bgfx::isValid(view.m_terrainMaterialLutTextureHandle)
+        && bgfx::isValid(view.m_terrainMaterialLutSamplerHandle))
+    {
+        bgfx::setTexture(
+            4,
+            view.m_terrainMaterialLutSamplerHandle,
+            view.m_terrainMaterialLutTextureHandle,
+            BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT
+                | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+    }
+
+    const bgfx::TextureHandle puddleTexture = bgfx::isValid(view.m_puddleMaskTextureHandle)
+        ? view.m_puddleMaskTextureHandle
+        : view.m_puddleBlackTexelHandle;
+
+    if (bgfx::isValid(puddleTexture) && bgfx::isValid(view.m_puddleMaskSamplerHandle))
+    {
+        bgfx::setTexture(
+            5,
+            view.m_puddleMaskSamplerHandle,
+            puddleTexture,
+            BGFX_SAMPLER_MIP_POINT | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+    }
+
+    if (bgfx::isValid(view.m_puddleBoundsUniformHandle))
+    {
+        bgfx::setUniform(view.m_puddleBoundsUniformHandle, view.m_puddleBounds);
+    }
+
+    if (bgfx::isValid(view.m_puddleRectUniformHandle))
+    {
+        bgfx::setUniform(view.m_puddleRectUniformHandle, view.m_puddleRect);
+    }
+}
+
 void OutdoorRenderer::applyOutdoorMaterialSunUniforms(OutdoorGameView &view)
 {
+    if (view.m_pOutdoorMapData == nullptr || view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    if (bgfx::isValid(view.m_materialEnvironmentUniformHandle))
+    {
+        // One small material environment value per frame: exterior-gated global wetness,
+        // terrain-material enable and terrain-emissive presence (both suppressed by the
+        // master switch so the shader can skip whole branches).
+        const float wetness = outdoorMaterialWetnessAmount(
+            *view.m_pOutdoorMapData,
+            view.m_pOutdoorWorldRuntime->atmosphereState(),
+            view.m_gameSettings);
+        const float materialsEnabled = view.m_gameSettings.surfaceMaterials ? 1.0f : 0.0f;
+        const float environment[4] = {
+            wetness,
+            view.m_terrainMaterialsEnabled ? materialsEnabled : 0.0f,
+            view.m_terrainMaterialEmissivePresent ? materialsEnabled : 0.0f,
+            view.m_puddleMaskPresent ? materialsEnabled : 0.0f
+        };
+        bgfx::setUniform(view.m_materialEnvironmentUniformHandle, environment);
+    }
+
     if (!bgfx::isValid(view.m_materialSunDirectionUniformHandle)
-        || !bgfx::isValid(view.m_materialSunColorUniformHandle)
-        || view.m_pOutdoorMapData == nullptr
-        || view.m_pOutdoorWorldRuntime == nullptr)
+        || !bgfx::isValid(view.m_materialSunColorUniformHandle))
     {
         return;
     }
@@ -1095,6 +1154,39 @@ void OutdoorRenderer::applyBModelMaterialUniforms(OutdoorGameView &view, uint16_
         || view.m_pOutdoorMapData == nullptr)
     {
         return;
+    }
+
+    // surface_materials=false suppresses every new contribution: bind the neutral record.
+    if (!view.m_gameSettings.surfaceMaterials)
+    {
+        materialId = SurfaceMaterialRuntimeSet::NeutralMaterialId;
+    }
+
+    // The material's facade mask binds on every call: terrain submits rebind slot 4 for the
+    // LUT, so a material-change-only bind would leak the LUT into an unchanged-material draw.
+    // A mask-authored material without a loaded image can only appear through event-runtime
+    // texture swaps the loader walk cannot see; report it once instead of failing silently.
+    const ResolvedSurfaceMaterial &boundMaterial =
+        view.m_pOutdoorMapData->surfaceMaterials.material(materialId);
+
+    if (!boundMaterial.materialMaskTexture.empty()
+        && view.m_materialMaskTextureHandles.count(materialId) == 0
+        && view.m_reportedUnloadedMaterialMaskIds.insert(materialId).second)
+    {
+        std::cerr << "Surface material '" << boundMaterial.sourceId << "' authored mask "
+                  << boundMaterial.materialMaskTexture
+                  << " was not loaded for " << view.m_pOutdoorMapData->fileName
+                  << "; rendering it unmasked\n";
+    }
+
+    const bool materialHasMask = view.m_materialMaskTextureHandles.count(materialId) != 0;
+    const bgfx::TextureHandle materialMaskTexture = materialHasMask
+        ? view.m_materialMaskTextureHandles.at(materialId)
+        : view.m_materialMaskNeutralTexelHandle;
+
+    if (bgfx::isValid(materialMaskTexture) && bgfx::isValid(view.m_materialMaskSamplerHandle))
+    {
+        bgfx::setTexture(4, view.m_materialMaskSamplerHandle, materialMaskTexture, BGFX_SAMPLER_MIP_POINT);
     }
 
     // The GL renderer replays bound uniform values for every draw of a program, so the
@@ -1121,8 +1213,19 @@ void OutdoorRenderer::applyBModelMaterialUniforms(OutdoorGameView &view, uint16_
         material.emissiveColor[2],
         0.0f
     };
+    const float wetness[4] = {
+        material.effectiveWetnessResponse,
+        material.wetRoughness,
+        material.wetDarkening,
+        materialHasMask ? 1.0f : 0.0f
+    };
     bgfx::setUniform(view.m_materialShadingUniformHandle, shading);
     bgfx::setUniform(view.m_materialEmissiveColorUniformHandle, emissiveColor);
+
+    if (bgfx::isValid(view.m_materialWetnessUniformHandle))
+    {
+        bgfx::setUniform(view.m_materialWetnessUniformHandle, wetness);
+    }
 }
 
 void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition)
@@ -2911,6 +3014,33 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     view.m_materialSunDirectionUniformHandle =
         bgfx::createUniform("u_materialSunDirection", bgfx::UniformType::Vec4);
     view.m_materialSunColorUniformHandle = bgfx::createUniform("u_materialSunColor", bgfx::UniformType::Vec4);
+    view.m_materialEnvironmentUniformHandle = bgfx::createUniform("u_materialEnvironment", bgfx::UniformType::Vec4);
+    view.m_materialWetnessUniformHandle = bgfx::createUniform("u_materialWetness", bgfx::UniformType::Vec4);
+    view.m_puddleMaskSamplerHandle = bgfx::createUniform("s_texPuddleMask", bgfx::UniformType::Sampler);
+    view.m_puddleBoundsUniformHandle = bgfx::createUniform("u_puddleBounds", bgfx::UniformType::Vec4);
+    view.m_puddleRectUniformHandle = bgfx::createUniform("u_puddleRect", bgfx::UniformType::Vec4);
+    view.m_materialMaskSamplerHandle = bgfx::createUniform("s_texMaterialMask", bgfx::UniformType::Sampler);
+    {
+        // Neutral facade mask texel (R=0, G=255, B=255): unmasked materials never sample it.
+        const uint32_t neutralMaskTexel = 0xff00ffffu;
+        view.m_materialMaskNeutralTexelHandle = bgfx::createTexture2D(
+            1, 1, false, 1, bgraTextureUploadFormat(), BGFX_SAMPLER_MIP_POINT);
+
+        if (bgfx::isValid(view.m_materialMaskNeutralTexelHandle))
+        {
+            bgfx::updateTexture2D(
+                view.m_materialMaskNeutralTexelHandle,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                bgfx::copy(reinterpret_cast<const uint8_t *>(&neutralMaskTexel), sizeof(neutralMaskTexel)));
+        }
+    }
+    // A fresh map must re-bind material state; never carry a previous map's binding.
+    view.m_lastSubmittedBModelMaterialId = 0xffff;
 
     OutdoorGameView::TerrainVertex::init();
     OutdoorGameView::TexturedTerrainVertex::init();
@@ -3098,6 +3228,137 @@ bool OutdoorRenderer::initializeWorldRenderResources(
                     extractAtlasRegionPixels(atlas, region));
             }
         }
+
+        // Terrain material LUT: linear data, point sampled, clamped, never mip-filtered and
+        // never re-filtered by user texture-filter settings.
+        view.m_terrainMaterialsEnabled = atlas.materialLookup.anyMaterialLayer;
+        view.m_terrainMaterialEmissivePresent = atlas.materialLookup.anyEmissiveLayer;
+        view.m_terrainMaterialLutSamplerHandle =
+            bgfx::createUniform("s_texMaterialLut", bgfx::UniformType::Sampler);
+        view.m_terrainMaterialLutTextureHandle = bgfx::createTexture2D(
+            TerrainMaterialLookup::LayerCount,
+            TerrainMaterialLookup::RowCount,
+            false,
+            1,
+            bgfx::TextureFormat::RGBA8,
+            BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT
+                | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+
+        if (bgfx::isValid(view.m_terrainMaterialLutTextureHandle))
+        {
+            bgfx::updateTexture2D(
+                view.m_terrainMaterialLutTextureHandle,
+                0,
+                0,
+                0,
+                0,
+                TerrainMaterialLookup::LayerCount,
+                TerrainMaterialLookup::RowCount,
+                bgfx::copy(
+                    atlas.materialLookup.bytes.data(),
+                    uint32_t(atlas.materialLookup.bytes.size())));
+        }
+    }
+
+    // Authored puddle mask: single-level data texture, fixed linear/clamp sampling, never
+    // mip-filtered (a mip chain would average the authored mask and change coverage with
+    // distance) and never re-filtered by user texture-filter settings. A 1x1 black texel
+    // keeps sampler state valid when no mask is authored; the shader gates sampling on the
+    // environment flag and never reads it then. The sampler/bounds/rect uniforms themselves
+    // are created with the other material uniforms above, before any program creation.
+    constexpr uint64_t PuddleMaskSamplerFlags =
+        BGFX_SAMPLER_MIP_POINT | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP;
+    {
+        const uint32_t blackTexel = 0x000000ffu;
+        view.m_puddleBlackTexelHandle = bgfx::createTexture2D(
+            1, 1, false, 1, bgraTextureUploadFormat(), PuddleMaskSamplerFlags);
+
+        if (bgfx::isValid(view.m_puddleBlackTexelHandle))
+        {
+            bgfx::updateTexture2D(
+                view.m_puddleBlackTexelHandle,
+                0,
+                0,
+                0,
+                0,
+                1,
+                1,
+                bgfx::copy(reinterpret_cast<const uint8_t *>(&blackTexel), sizeof(blackTexel)));
+        }
+    }
+
+    if (outdoorMapData.puddleMask && outdoorMapData.puddleMask->width > 0
+        && !outdoorMapData.puddleMask->pixelsBgra.empty())
+    {
+        const OutdoorMapData::PuddleMask &mask = *outdoorMapData.puddleMask;
+        const uint16_t maskWidth = uint16_t(mask.width);
+        const uint16_t maskHeight = uint16_t(mask.height);
+        view.m_puddleMaskTextureHandle = bgfx::createTexture2D(
+            maskWidth, maskHeight, false, 1, bgraTextureUploadFormat(), PuddleMaskSamplerFlags);
+
+        if (!bgfx::isValid(view.m_puddleMaskTextureHandle))
+        {
+            std::cerr << "Failed to create puddle mask texture for " << outdoorMapData.fileName << '\n';
+            return false;
+        }
+
+        bgfx::updateTexture2D(
+            view.m_puddleMaskTextureHandle,
+            0,
+            0,
+            0,
+            0,
+            maskWidth,
+            maskHeight,
+            bgfx::copy(mask.pixelsBgra.data(), uint32_t(mask.pixelsBgra.size())));
+
+        view.m_puddleMaskPresent = true;
+        // The authored rectangle is the hard gate: nothing outside origin..origin+extent
+        // responds, so an edge puddle cannot smear past it. The sampling transform expands
+        // by half a texel so authored texel centers (origin + i*extent/(dim-1)) land on
+        // texture texel centers; inside the authored rectangle that mapping never reaches
+        // the clamp region.
+        view.m_puddleRect[0] = mask.originX;
+        view.m_puddleRect[1] = mask.originY;
+        view.m_puddleRect[2] = mask.extentX;
+        view.m_puddleRect[3] = mask.extentY;
+        const float texelWorldX = mask.extentX / std::max(float(mask.width) - 1.0f, 1.0f);
+        const float texelWorldY = mask.extentY / std::max(float(mask.height) - 1.0f, 1.0f);
+        view.m_puddleBounds[0] = mask.originX - texelWorldX * 0.5f;
+        view.m_puddleBounds[1] = mask.originY - texelWorldY * 0.5f;
+        view.m_puddleBounds[2] = mask.extentX + texelWorldX;
+        view.m_puddleBounds[3] = mask.extentY + texelWorldY;
+    }
+
+    // Packed facade masks: single-level linear channel data sharing the diffuse UV and
+    // repeat behavior; never sprite-alpha filtered and never mip-averaged.
+    for (const auto &[materialId, maskImage] : outdoorMapData.materialMasks)
+    {
+        const bgfx::TextureHandle maskHandle = bgfx::createTexture2D(
+            uint16_t(maskImage.width),
+            uint16_t(maskImage.height),
+            false,
+            1,
+            bgraTextureUploadFormat(),
+            BGFX_SAMPLER_MIP_POINT);
+
+        if (!bgfx::isValid(maskHandle))
+        {
+            std::cerr << "Failed to create material mask texture for " << outdoorMapData.fileName
+                      << " material '" << maskImage.sourceId << "'\n";
+            return false;
+        }
+
+        bgfx::updateTexture2D(
+            maskHandle,
+            0,
+            0,
+            0,
+            0,
+            uint16_t(maskImage.width),
+            uint16_t(maskImage.height),
+            bgfx::copy(maskImage.pixelsBgra.data(), uint32_t(maskImage.pixelsBgra.size())));
+        view.m_materialMaskTextureHandles.emplace(materialId, maskHandle);
     }
 
     if (view.m_gameSettings.lightmaps && outdoorMapData.lightingData)
@@ -3815,6 +4076,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                                 TextureFilterProfile::Terrain, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
                     bindTexture(1, view.m_terrainWaterSamplerHandle, view.m_terrainTextureArrayHandle,
                                 TextureFilterProfile::Terrain);
+                    bindTerrainMaterialLut(view);
                     OutdoorLightSelectionBounds chunkBounds = {};
                     chunkBounds.min = chunk.boundsMin;
                     chunkBounds.max = chunk.boundsMax;
@@ -3848,6 +4110,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                             TextureFilterProfile::Terrain, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
                 bindTexture(1, view.m_terrainWaterSamplerHandle, view.m_terrainTextureArrayHandle,
                             TextureFilterProfile::Terrain);
+                bindTerrainMaterialLut(view);
                 applyOutdoorFxLightUniforms(view, cameraPosition);
 
                 if (view.m_gameSettings.lightmaps

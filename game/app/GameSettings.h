@@ -130,6 +130,10 @@ struct GameSettings
     float bakedSkyStrength = 3.0f;
     std::array<float, 3> bakedSunColor = {1.0f, 1.0f, 1.0f};
     std::array<float, 3> bakedSkyColor = {0.8f, 0.9f, 1.0f};
+    // Surface materials: master switch for sheen/emissive/wetness contributions, and the global
+    // exterior wetness amount in [0, 1]. Zero/false keeps rendering bit-for-bit neutral.
+    bool surfaceMaterials = true;
+    float materialWetness = 0.0f;
     bool terrainDecorations = false;
     std::string terrainFiltering = "anisotropic";
     std::string terrainAnisotropy = "8x";
@@ -215,6 +219,10 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
 std::optional<std::string> getBakedLightingSetting(const GameSettings &settings, const std::string &name);
 bool setBakedLightingSetting(
     GameSettings &settings, const std::string &name, const std::string &value, std::string &error);
+std::optional<std::string> getMaterialEnvironmentSetting(const GameSettings &settings, const std::string &name);
+bool setMaterialEnvironmentSetting(
+    GameSettings &settings, const std::string &name, const std::string &value, std::string &error);
+bool setMaterialWetnessValue(const std::string &value, float &outWetness, std::string &error);
 bool saveGameSettings(const std::filesystem::path &path, const GameSettings &settings, std::string &error);
 bool migrateLegacyAndroidSettings(GameSettings &settings);
 CharacterAttackTuning characterAttackTuningFromSettings(const GameSettings &settings);

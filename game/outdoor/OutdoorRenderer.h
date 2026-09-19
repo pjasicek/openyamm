@@ -111,6 +111,7 @@ private:
         const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet);
     static void applyOutdoorSurfaceUniforms(OutdoorGameView &view);
     static void applyOutdoorMaterialSunUniforms(OutdoorGameView &view);
+    static void bindTerrainMaterialLut(const OutdoorGameView &view);
     static void applyBModelMaterialUniforms(OutdoorGameView &view, uint16_t materialId);
     static void applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition);
     static void destroyResolvedBModelDrawGroups(OutdoorGameView &view);

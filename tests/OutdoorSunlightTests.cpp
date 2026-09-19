@@ -331,3 +331,74 @@ TEST_CASE("material sun inputs follow the diffuse-disabled sun policy inverts")
                   .enabled);
     }
 }
+
+TEST_CASE("material wetness eligibility follows exterior and suppression rules")
+{
+    GameSettings settings = {};
+    settings.materialWetness = 0.75f;
+    OutdoorWorldRuntime::AtmosphereState atmosphere = {};
+
+    SUBCASE("exterior classic and polygon worlds receive the configured wetness")
+    {
+        const OutdoorMapData map = {};
+        CHECK(outdoorMaterialWetnessAmount(map, atmosphere, settings) == doctest::Approx(0.75f));
+
+        OutdoorMapData bmodelWorldMap = {};
+        bmodelWorldMap.sceneProfile = OutdoorSceneProfile::BModelWorld;
+        CHECK(outdoorMaterialWetnessAmount(bmodelWorldMap, atmosphere, settings) == doctest::Approx(0.75f));
+    }
+
+    SUBCASE("underwater, enclosed scenes and the master switch deliver zero")
+    {
+        atmosphere.underwater = true;
+        CHECK(outdoorMaterialWetnessAmount(OutdoorMapData{}, atmosphere, settings) == doctest::Approx(0.0f));
+        atmosphere.underwater = false;
+
+        OutdoorMapData enclosedMap = {};
+        enclosedMap.locationType = OutdoorLocationType::Enclosed;
+        CHECK(outdoorMaterialWetnessAmount(enclosedMap, atmosphere, settings) == doctest::Approx(0.0f));
+
+        settings.surfaceMaterials = false;
+        CHECK(outdoorMaterialWetnessAmount(OutdoorMapData{}, atmosphere, settings) == doctest::Approx(0.0f));
+    }
+
+    SUBCASE("out-of-range configured wetness clamps into [0, 1]")
+    {
+        settings.materialWetness = 2.0f;
+        CHECK(outdoorMaterialWetnessAmount(OutdoorMapData{}, atmosphere, settings) == doctest::Approx(1.0f));
+        settings.materialWetness = -3.0f;
+        CHECK(outdoorMaterialWetnessAmount(OutdoorMapData{}, atmosphere, settings) == doctest::Approx(0.0f));
+    }
+}
+
+TEST_CASE("material wetness setting parses, validates and round-trips")
+{
+    float wetness = -1.0f;
+    std::string error;
+    CHECK(setMaterialWetnessValue("0.5", wetness, error));
+    CHECK(wetness == doctest::Approx(0.5f));
+
+    CHECK(setMaterialWetnessValue("0", wetness, error));
+    CHECK(wetness == doctest::Approx(0.0f));
+
+    CHECK(setMaterialWetnessValue("1", wetness, error));
+    CHECK(wetness == doctest::Approx(1.0f));
+
+    CHECK(!setMaterialWetnessValue("1.5", wetness, error));
+    CHECK(!setMaterialWetnessValue("-0.1", wetness, error));
+    CHECK(!setMaterialWetnessValue("not_a_number", wetness, error));
+    CHECK(error.find("material_wetness") != std::string::npos);
+
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.surfaceMaterials);
+    CHECK(settings.materialWetness == doctest::Approx(0.0f));
+    CHECK(getMaterialEnvironmentSetting(settings, "material_wetness").has_value());
+    CHECK(*getMaterialEnvironmentSetting(settings, "material_wetness") == "0");
+    CHECK(*getMaterialEnvironmentSetting(settings, "surface_materials") == "true");
+
+    CHECK(setMaterialEnvironmentSetting(settings, "material_wetness", "1", error));
+    CHECK(settings.materialWetness == doctest::Approx(1.0f));
+    CHECK(setMaterialEnvironmentSetting(settings, "surface_materials", "false", error));
+    CHECK(!settings.surfaceMaterials);
+    CHECK(!setMaterialEnvironmentSetting(settings, "surface_materials", "maybe", error));
+}

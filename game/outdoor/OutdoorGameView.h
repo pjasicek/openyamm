@@ -747,6 +747,25 @@ private:
     bgfx::UniformHandle m_materialEmissiveColorUniformHandle;
     bgfx::UniformHandle m_materialSunDirectionUniformHandle;
     bgfx::UniformHandle m_materialSunColorUniformHandle;
+    bgfx::UniformHandle m_materialEnvironmentUniformHandle;
+    bgfx::UniformHandle m_materialWetnessUniformHandle;
+    bgfx::TextureHandle m_terrainMaterialLutTextureHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_terrainMaterialLutSamplerHandle = BGFX_INVALID_HANDLE;
+    bool m_terrainMaterialsEnabled = false;
+    bool m_terrainMaterialEmissivePresent = false;
+    bgfx::TextureHandle m_puddleMaskTextureHandle = BGFX_INVALID_HANDLE;
+    bgfx::TextureHandle m_puddleBlackTexelHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_puddleMaskSamplerHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_puddleBoundsUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_puddleRectUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_materialMaskSamplerHandle = BGFX_INVALID_HANDLE;
+    bgfx::TextureHandle m_materialMaskNeutralTexelHandle = BGFX_INVALID_HANDLE;
+    // Per-material packed facade mask textures decoded by the asset loader.
+    std::unordered_map<uint16_t, bgfx::TextureHandle> m_materialMaskTextureHandles;
+    std::unordered_set<uint16_t> m_reportedUnloadedMaterialMaskIds;
+    bool m_puddleMaskPresent = false;
+    float m_puddleBounds[4] = {0.0f, 0.0f, 1.0f, 1.0f};
+    float m_puddleRect[4] = {0.0f, 0.0f, 1.0f, 1.0f};
     uint16_t m_lastSubmittedBModelMaterialId = 0xffff;
     bgfx::UniformHandle m_secretPulseParamsUniformHandle;
     bgfx::UniformHandle m_spellAreaPreviewParams0UniformHandle;

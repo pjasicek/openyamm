@@ -2896,6 +2896,8 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_materialEmissiveColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_materialSunDirectionUniformHandle(BGFX_INVALID_HANDLE)
     , m_materialSunColorUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialEnvironmentUniformHandle(BGFX_INVALID_HANDLE)
+    , m_materialWetnessUniformHandle(BGFX_INVALID_HANDLE)
     , m_secretPulseParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewParams0UniformHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewParams1UniformHandle(BGFX_INVALID_HANDLE)
@@ -3208,6 +3210,8 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_materialEmissiveColorUniformHandle)
         || !bgfx::isValid(m_materialSunDirectionUniformHandle)
         || !bgfx::isValid(m_materialSunColorUniformHandle)
+        || !bgfx::isValid(m_materialEnvironmentUniformHandle)
+        || !bgfx::isValid(m_materialWetnessUniformHandle)
         || !bgfx::isValid(m_secretPulseParamsUniformHandle)
         || (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData
             && !bgfx::isValid(m_bmodelLightmapSamplerHandle))
@@ -3730,6 +3734,19 @@ void OutdoorGameView::shutdown()
         m_outdoorForcePerspectiveProgramHandle = BGFX_INVALID_HANDLE;
         m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_terrainTextureArrayHandle = BGFX_INVALID_HANDLE;
+        m_terrainMaterialLutTextureHandle = BGFX_INVALID_HANDLE;
+        m_terrainMaterialLutSamplerHandle = BGFX_INVALID_HANDLE;
+        m_terrainMaterialsEnabled = false;
+        m_terrainMaterialEmissivePresent = false;
+        m_puddleMaskTextureHandle = BGFX_INVALID_HANDLE;
+        m_puddleBlackTexelHandle = BGFX_INVALID_HANDLE;
+        m_puddleMaskSamplerHandle = BGFX_INVALID_HANDLE;
+        m_puddleBoundsUniformHandle = BGFX_INVALID_HANDLE;
+        m_materialMaskSamplerHandle = BGFX_INVALID_HANDLE;
+        m_materialMaskNeutralTexelHandle = BGFX_INVALID_HANDLE;
+        m_materialMaskTextureHandles.clear();
+        m_reportedUnloadedMaterialMaskIds.clear();
+        m_puddleMaskPresent = false;
         m_bloodSplatTextureHandle = BGFX_INVALID_HANDLE;
         m_forcePerspectiveSolidTextureHandle = BGFX_INVALID_HANDLE;
         m_bmodelLightmapTextureHandles.clear();
@@ -3846,6 +3863,67 @@ void OutdoorGameView::shutdown()
         bgfx::destroy(m_terrainTextureArrayHandle);
         m_terrainTextureArrayHandle = BGFX_INVALID_HANDLE;
     }
+    if (bgfx::isValid(m_terrainMaterialLutTextureHandle))
+    {
+        bgfx::destroy(m_terrainMaterialLutTextureHandle);
+        m_terrainMaterialLutTextureHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_terrainMaterialLutSamplerHandle))
+    {
+        bgfx::destroy(m_terrainMaterialLutSamplerHandle);
+        m_terrainMaterialLutSamplerHandle = BGFX_INVALID_HANDLE;
+    }
+    m_terrainMaterialsEnabled = false;
+    m_terrainMaterialEmissivePresent = false;
+
+    if (bgfx::isValid(m_puddleMaskTextureHandle))
+    {
+        bgfx::destroy(m_puddleMaskTextureHandle);
+        m_puddleMaskTextureHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_puddleBlackTexelHandle))
+    {
+        bgfx::destroy(m_puddleBlackTexelHandle);
+        m_puddleBlackTexelHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_puddleMaskSamplerHandle))
+    {
+        bgfx::destroy(m_puddleMaskSamplerHandle);
+        m_puddleMaskSamplerHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_puddleBoundsUniformHandle))
+    {
+        bgfx::destroy(m_puddleBoundsUniformHandle);
+        m_puddleBoundsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    for (auto &[materialId, maskHandle] : m_materialMaskTextureHandles)
+    {
+        if (bgfx::isValid(maskHandle))
+        {
+            bgfx::destroy(maskHandle);
+        }
+    }
+    m_materialMaskTextureHandles.clear();
+
+    if (bgfx::isValid(m_materialMaskNeutralTexelHandle))
+    {
+        bgfx::destroy(m_materialMaskNeutralTexelHandle);
+        m_materialMaskNeutralTexelHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialMaskSamplerHandle))
+    {
+        bgfx::destroy(m_materialMaskSamplerHandle);
+        m_materialMaskSamplerHandle = BGFX_INVALID_HANDLE;
+    }
+
+    m_puddleMaskPresent = false;
+
 
     for (bgfx::TextureHandle textureHandle : m_bmodelLightmapTextureHandles)
     {
@@ -3990,6 +4068,18 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_materialSunColorUniformHandle);
         m_materialSunColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialEnvironmentUniformHandle))
+    {
+        bgfx::destroy(m_materialEnvironmentUniformHandle);
+        m_materialEnvironmentUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_materialWetnessUniformHandle))
+    {
+        bgfx::destroy(m_materialWetnessUniformHandle);
+        m_materialWetnessUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_secretPulseParamsUniformHandle))

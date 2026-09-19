@@ -67,9 +67,20 @@ struct OutdoorSceneLighting
     float lightmapBrightnessScale = 1.0f;
 };
 
+// Authored world-space puddle mask for native terrain. The mask path is an explicit mounted
+// path; origin and origin+extent identify the first and last texel centers in world space,
+// with signed extent selecting the row/column direction.
+struct OutdoorScenePuddles
+{
+    std::string mask;
+    std::array<float, 2> origin = {0.0f, 0.0f};
+    std::array<float, 2> extent = {0.0f, 0.0f};
+};
+
 struct OutdoorSceneRendering
 {
     std::optional<float> viewDistanceScale;
+    std::optional<OutdoorScenePuddles> puddles;
 };
 
 struct OutdoorSceneTerrainAttributeOverride

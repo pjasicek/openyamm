@@ -14,6 +14,7 @@ uniform vec4 u_cameraPosition;
 
 #define MATERIAL_INDOOR_RESPONSE 1
 #include "material_lighting.sh"
+#include "material_mask.sh"
 
 vec3 getIndoorLighting(vec3 worldPosition, vec3 vertexLighting)
 {
@@ -101,7 +102,7 @@ void main()
     // excluded presentation surface even if it shares a texture with an authored material.
     if (v_flowInfo.w >= -1.5)
     {
-        color += indoorMaterialFaceResponse(v_worldPosition, v_worldNormal);
+        color += indoorMaterialFaceResponse(v_worldPosition, v_worldNormal, sampleMaterialMask(texcoord));
     }
 
     if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)

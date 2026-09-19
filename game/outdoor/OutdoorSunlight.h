@@ -84,6 +84,24 @@ inline std::optional<bx::Vec3> surfaceMaterialBakeSunDirection(float azimuthDegr
     return bx::Vec3{direction.x / length, direction.y / length, direction.z / length};
 }
 
+// Global exterior wetness actually delivered to material shaders. Indoors never runs this
+// path and binds a zero environment itself; underwater and enclosed scenes get none so no
+// value can carry across a map switch. surface_materials=false suppresses everything.
+inline float outdoorMaterialWetnessAmount(
+    const OutdoorMapData &mapData,
+    const OutdoorWorldRuntime::AtmosphereState &atmosphere,
+    const GameSettings &settings)
+{
+    if (!settings.surfaceMaterials
+        || mapData.locationType != OutdoorLocationType::Exterior
+        || atmosphere.underwater)
+    {
+        return 0.0f;
+    }
+
+    return std::clamp(settings.materialWetness, 0.0f, 1.0f);
+}
+
 struct OutdoorMaterialSunInputs
 {
     bx::Vec3 direction = {0.0f, 0.0f, 0.0f};
@@ -104,7 +122,8 @@ inline OutdoorMaterialSunInputs buildOutdoorMaterialSunInputs(
 {
     OutdoorMaterialSunInputs inputs = {};
 
-    if (mapData.sceneProfile != OutdoorSceneProfile::ClassicOdm
+    if (!settings.surfaceMaterials
+        || mapData.sceneProfile != OutdoorSceneProfile::ClassicOdm
         || mapData.locationType != OutdoorLocationType::Exterior
         || atmosphere.underwater)
     {

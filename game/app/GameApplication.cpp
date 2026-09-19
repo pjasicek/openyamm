@@ -4588,6 +4588,31 @@ void GameApplication::registerDebugConsoleCommands()
             const std::string action = toLowerCopy(context.args[0]);
             const std::string name = toLowerCopy(context.args[1]);
 
+            if (const std::optional<std::string> value = getMaterialEnvironmentSetting(m_settings, name))
+            {
+                if (action == "get")
+                {
+                    return commandResult(true, name + "=" + *value);
+                }
+                if (action != "set" || context.args.size() != 3)
+                {
+                    return commandResult(
+                        false, "Usage: config set " + name + " <"
+                            + (name == "material_wetness" ? "wetness in [0, 1]" : "true or false") + ">");
+                }
+                std::string error;
+                if (!setMaterialEnvironmentSetting(m_settings, name, context.args[2], error))
+                {
+                    return commandResult(false, error);
+                }
+                applyCurrentSettingsToActiveRuntime();
+                if (!saveGameSettings(settingsFilePath(), m_settings, error))
+                {
+                    return commandResult(false, "Applied, but could not save settings.ini: " + error);
+                }
+                return commandResult(true, name + "=" + *getMaterialEnvironmentSetting(m_settings, name));
+            }
+
             if (const std::optional<std::string> value = getBakedLightingSetting(m_settings, name))
             {
                 if (action == "get")

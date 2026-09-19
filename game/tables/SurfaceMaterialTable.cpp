@@ -394,6 +394,26 @@ std::optional<SurfaceMaterialShading> parseShadingNode(
 
             shading.emissiveColor = color;
         }
+        else if (propertyName == "material_mask_texture")
+        {
+            if (!valueNode.IsScalar())
+            {
+                errorMessage = "surface material '" + materialId
+                    + "': shading.material_mask_texture must be a path string";
+                return std::nullopt;
+            }
+
+            const std::string maskPath = valueNode.as<std::string>("");
+
+            if (maskPath.empty() || maskPath.find_first_of(" \t") != std::string::npos)
+            {
+                errorMessage = "surface material '" + materialId
+                    + "': shading.material_mask_texture must be a non-empty path without whitespace";
+                return std::nullopt;
+            }
+
+            shading.materialMaskTexture = maskPath;
+        }
         else
         {
             errorMessage = "surface material '" + materialId + "': unknown shading property '"
@@ -413,6 +433,14 @@ std::optional<SurfaceMaterialShading> parseShadingNode(
     {
         errorMessage = "surface material '" + materialId
             + "': shading.receives_puddles is terrain-only and cannot be set on face-only materials";
+        return std::nullopt;
+    }
+
+    if (!shading.materialMaskTexture.empty() && appliesToTerrain && !appliesToFaces)
+    {
+        errorMessage = "surface material '" + materialId
+            + "': shading.material_mask_texture is face-only (opaque BModel/indoor materials)"
+              " and cannot be set on terrain-only materials";
         return std::nullopt;
     }
 
