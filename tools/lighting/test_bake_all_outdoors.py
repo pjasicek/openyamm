@@ -17,6 +17,7 @@ class BatchBakeTests(unittest.TestCase):
             profiles = root / 'profiles'
             profiles.mkdir()
             (profiles / 'mm6_oute3.yml').write_text(json.dumps(dict(samples=64, sky_energy=0.35)))
+            (profiles / 'mm7_c.yml').write_text(json.dumps(dict(samples=64, sky_energy=0.35, azimuth=315)))
             for world, name in [('mm6', 'a.odm'), ('mm6', 'b.odm'), ('mm7', 'c.odm'), ('mm8', 'd.odm'),
                                 ('mm9', 'e.odm'), ('mm6', 'indoor.blv')]:
                 source = root / 'assets_dev/worlds' / world / 'maps' / name
@@ -39,13 +40,15 @@ class BatchBakeTests(unittest.TestCase):
                 (output / f'{stem}.lighting').write_text('new lighting')
                 self.assertEqual(profile['samples'], 16)
                 self.assertEqual(profile['sky_energy'], 0.35)
+                self.assertEqual(profile['azimuth'], 225)
                 return subprocess.CompletedProcess(command, 0)
 
             output = root / 'output'
             with patch.object(batch, 'ROOT', root), patch.object(batch, 'PROFILES', profiles), \
                     patch.object(batch.shutil, 'which', return_value='/fake/blender'), \
                     patch.object(batch.subprocess, 'run', side_effect=producer), \
-                    patch('sys.argv', ['batch', '--output', str(output), '--samples', '16', '--install']), \
+                    patch('sys.argv', ['batch', '--output', str(output), '--samples', '16',
+                                       '--azimuth', '225', '--install']), \
                     contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(batch.main(), 1)
             self.assertEqual(baked, [('mm6', 'a.odm'), ('mm6', 'b.odm'), ('mm7', 'c.odm'), ('mm8', 'd.odm')])

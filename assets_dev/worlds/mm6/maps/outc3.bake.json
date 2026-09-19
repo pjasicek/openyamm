@@ -1,14 +1,10 @@
 {
+  "asset_helper_sha256": "a5bf67908d541b5f0827414edbc6a038c77d4a90142e7eac7c7b28d19b2ebc7a",
   "backend": "5.2.2 LTS",
-  "conversion": {
-    "converter_sha256": "0af348122788ed359d5117755315bb560767f0981b43483a817aaf216e8c9f21",
-    "source_format": 2,
-    "terrain_filter": "2x2 linear-light box"
-  },
-  "geometry_helper_sha256": "954d893477af8b1b060845610d077821b9cef40f857e659abc1570a8254279d3",
-  "producer_sha256": "2fcba36ddf071b513b6b9edafffd20be5a0725137559b952bfa30c852a6f9b7e",
+  "geometry_helper_sha256": "791c7cc5333fc0299872f71ce003e8d6114656580e3ed79c2885d78a3b6472e3",
+  "producer_sha256": "ab65ae97312d8e0fbcd8036597ba167bda9959c312aa9d5ba35d9159abbcae52",
   "profile": {
-    "azimuth": 315,
+    "azimuth": 225.0,
     "building_page_size": 1024,
     "elevation": 45,
     "map": "outc3.odm",

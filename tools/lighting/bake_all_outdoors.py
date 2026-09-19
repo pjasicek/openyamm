@@ -6,6 +6,7 @@ Each successful output retains its recipe, report and intermediate files.
 
 import argparse
 import json
+import math
 from pathlib import Path
 import shutil
 import subprocess
@@ -21,6 +22,7 @@ def main():
     parser.add_argument('--output', required=True, type=Path, help='Directory for per-world/map bake output and logs')
     parser.add_argument('--world', nargs='+', choices=['mm6', 'mm7', 'mm8'], default=['mm6', 'mm7', 'mm8'])
     parser.add_argument('--samples', type=int, help='Override profile samples; 16 for drafts, normally 64')
+    parser.add_argument('--azimuth', type=float, help='Override sun azimuth in every selected map profile (degrees)')
     parser.add_argument('--blender', default='blender', help='Blender executable with Cycles support')
     parser.add_argument('--install', action='store_true', help='Copy successful lighting/recipe pairs into assets_dev')
     parser.add_argument('--dry-run', action='store_true', help='List candidates without baking or writing files')
@@ -28,6 +30,8 @@ def main():
     args = parser.parse_args()
     if args.samples is not None and args.samples < 1:
         parser.error('--samples must be positive')
+    if args.azimuth is not None and not math.isfinite(args.azimuth):
+        parser.error('--azimuth must be finite')
 
     sources = sorted(source for world in set(args.world)
                      for source in (ROOT / 'assets_dev/worlds' / world / 'maps').glob('*.odm'))
@@ -76,6 +80,8 @@ def main():
         profile.update(world=world, map=source.name)
         if args.samples is not None:
             profile['samples'] = args.samples
+        if args.azimuth is not None:
+            profile['azimuth'] = args.azimuth % 360
         profile_path = map_output / 'profile.json'
         profile_path.write_text(json.dumps(profile, indent=2) + '\n')
         log_path = map_output / 'blender.log'

@@ -178,7 +178,10 @@ def main():
             lo = np.min(coords, axis=0)
             hi = np.max(coords, axis=0)
             span = np.maximum(hi-lo, 1)
-            w, h = [max(2, math.ceil(v/profile['units_per_texel'])) for v in span]
+            # UV bounds lie on texel centers, leaving size-1 raster intervals. Tiny
+            # oblique faces need interior samples: a 2x2 chart can miss every sample
+            # and bake completely black even when the face is exposed to the sky.
+            w, h = [max(4, math.ceil(v/profile['units_per_texel']) + 1) for v in span]
             mat, (tw, th) = material(face['texture_name'])
             tex_uv = [((u+face['texture_delta_u'])/tw, 1-(v+face['texture_delta_v'])/th)
                       for u,v in zip(face['texture_us'],face['texture_vs'])]
