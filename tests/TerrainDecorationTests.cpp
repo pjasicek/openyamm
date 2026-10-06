@@ -7,6 +7,7 @@
 #include <doctest/doctest.h>
 
 #include <algorithm>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 
@@ -80,6 +81,43 @@ TEST_CASE("Terrain decoration masks preserve north south orientation and materia
     CHECK(scatterTerrainDecorations(flatMap(), textures(), settings).instances.empty());
 }
 
+TEST_CASE("Larger terrain grass keeps its instance budget and contains sloped card corners in culling bounds")
+{
+    OutdoorMapData map = flatMap();
+    map.heightMap[64 * 128 + 65] = 6;
+    map.heightMap[65 * 128 + 65] = 6;
+    const size_t originalCount = scatterTerrainDecorations(map, textures(), config()).instances.size();
+    REQUIRE(originalCount > 0);
+    for (float scale : {2.0f, 3.0f})
+    {
+        TerrainDecorationConfig settings = config();
+        settings.rules[0].width *= scale;
+        settings.rules[0].height *= scale;
+        const TerrainDecorationPlacement placement = scatterTerrainDecorations(map, textures(), settings);
+        REQUIRE(placement.instances.size() == originalCount);
+        for (const TerrainDecorationPatch &patch : placement.patches)
+        {
+            for (uint32_t index = patch.first; index < patch.first + patch.count; ++index)
+            {
+                const TerrainDecorationInstance &instance = placement.instances[index];
+                const float c = std::cos(instance.positionYaw[3]);
+                const float s = std::sin(instance.positionYaw[3]);
+                const float halfWidth = instance.sizeWindKind[0] * 0.5f;
+                for (const std::array<float, 2> &corner :
+                    {std::array<float, 2>{-halfWidth, 0}, {halfWidth, 0}, {0, -halfWidth}, {0, halfWidth}})
+                {
+                    const float x = c * corner[0] - s * corner[1];
+                    const float y = s * corner[0] + c * corner[1];
+                    const float z = instance.positionYaw[2]
+                        - (x * instance.groundNormal[0] + y * instance.groundNormal[1]) / instance.groundNormal[2];
+                    CHECK(z >= patch.min[2]);
+                    CHECK(z + instance.sizeWindKind[1] <= patch.max[2]);
+                }
+            }
+        }
+    }
+}
+
 TEST_CASE("Terrain decorations exclude buildings steep slopes and absent terrain")
 {
     OutdoorMapData map = flatMap();
@@ -90,7 +128,11 @@ TEST_CASE("Terrain decorations exclude buildings steep slopes and absent terrain
     house.maxY = 20;
     house.minZ = 0;
     house.maxZ = 500;
+    house.vertices = {{-20, -532, 0}, {532, 20, 500}};
     map.bmodels.push_back(house);
+    CHECK(scatterTerrainDecorations(map, textures(), config()).instances.empty());
+    map.bmodels.front().minX = 10000;
+    map.bmodels.front().maxX = 12000;
     CHECK(scatterTerrainDecorations(map, textures(), config()).instances.empty());
     map.bmodels.clear();
     map.heightMap[64 * 128 + 65] = 100;
@@ -286,6 +328,14 @@ TEST_CASE("Terrain decoration loader opts in per map and rejects malformed confi
     REQUIRE(valid);
     CHECK(valid->rules.size() == 1);
     CHECK(error.empty());
+    write("version: 1\ntuft_texture: tuft.png\nrules:\n"
+          "  - {texture: grass, kind: grass, candidates: 32, width: 120, height: 90}\n");
+    const std::optional<TerrainDecorationConfig> enlarged = loadTerrainDecorationConfig(assets, map, error);
+    REQUIRE(enlarged);
+    CHECK(enlarged->rules[0].width == 120.0f);
+    write("version: 1\ntuft_texture: tuft.png\nrules:\n"
+          "  - {texture: grass, kind: grass, candidates: 32, width: 129}\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
     write("version: 1\ntuft_texture: tuft.png\ndensity_variation: 0.8\npatch_size: 768\n"
           "tall_grass_chance: 0.08\ntall_grass_scale: 1.8\nrules:\n"
           "  - {texture: grass, kind: grass, candidates: 60, density: 0.5}\n");

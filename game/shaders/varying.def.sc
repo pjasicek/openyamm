@@ -23,5 +23,6 @@ float a_texcoord2   : TEXCOORD2;
 vec4 a_texcoord3    : TEXCOORD3;
 vec2 a_texcoord4    : TEXCOORD4;
 
-vec4 a_indices : BLENDINDICES;
+uvec4 a_indices : BLENDINDICES;
 vec4 a_weight : BLENDWEIGHT;
+uvec4 a_texcoord5 : TEXCOORD5;

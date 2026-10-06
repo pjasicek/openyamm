@@ -13,6 +13,7 @@
 #include "game/outdoor/OutdoorFogProfile.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/render/BillboardGeometry.h"
+#include "game/render/WaterGeometry.h"
 #include "game/render/ViewFrustum.h"
 #include "game/render/WaterBillboardReflection.h"
 #include "game/render/CombatActorHealthBarPolicy.h"
@@ -3595,6 +3596,31 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         }
     }
 
+    if (view.m_gameSettings.waterShader && view.m_outdoorDecorationBillboardSet
+        && view.m_waterRenderer.isReady())
+    {
+        const auto &atmosphere = view.m_pOutdoorWorldRuntime->atmosphereState();
+        const float daylight = atmosphere.isNight ? 0.0f : 1.0f - std::clamp(atmosphere.fogDensity, 0.0f, 1.0f);
+        const float brightness = atmosphere.ambientBrightness;
+        for (const BillboardDrawItem &item : drawItems)
+        {
+            if (!item.decoration || !item.visible || item.pTexture == nullptr)
+            {
+                continue;
+            }
+            std::vector<WaterVertex> waterVertices;
+            view.m_waterRenderer.appendBillboardGeometry(waterVertices, item.pTexture->textureName,
+                item.quad, item.mirrored);
+            if (!waterVertices.empty())
+            {
+                view.m_waterRenderer.renderBillboard(viewId, waterVertices, item.pTexture->textureHandle,
+                    view.m_elapsedTime,
+                    {atmosphere.sunDirectionX, atmosphere.sunDirectionY, atmosphere.sunDirectionZ, 0.0f},
+                    {daylight, 0.94f * daylight, 0.82f * daylight, 0.0f},
+                    {0.34f * brightness, 0.46f * brightness, 0.56f * brightness, brightness}, atmosphere.rainIntensity);
+            }
+        }
+    }
     if (pReflection != nullptr)
     {
         return;

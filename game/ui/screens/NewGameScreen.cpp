@@ -5,6 +5,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpeechIds.h"
+#include "game/ui/GameplayUiSkin.h"
 
 #include <algorithm>
 #include <array>
@@ -220,6 +221,12 @@ std::string canonicalNameToken(const std::string &value)
     return token;
 }
 
+std::string classIconTextureName(const std::string &className)
+{
+    const std::string token = canonicalNameToken(className);
+    return "hud_x2/menus/classes/" + (token == "lich" ? "necromancer" : token) + ".png";
+}
+
 std::vector<std::string> splitTabLine(const std::string &line)
 {
     std::vector<std::string> cells;
@@ -293,6 +300,25 @@ const MergedCharacterSelectionContinent *findNewGameContinent(
     }
 
     return nullptr;
+}
+
+uint32_t startingCasterClassId(uint32_t classId, const MergedCharacterSelectionContinent &continent)
+{
+    // Only these two caster families vary by starting continent; other choices remain unrestricted.
+    const auto offers = [&continent](uint32_t id)
+    {
+        return std::find(continent.availableClassIds.begin(), continent.availableClassIds.end(), id)
+            != continent.availableClassIds.end();
+    };
+    if (classId == 4 || classId == 5) // Cleric / Priest
+    {
+        return offers(5) ? 5 : 4;
+    }
+    if (classId == 42 || classId == 44) // Sorcerer / Necromancer
+    {
+        return offers(44) ? 44 : 42;
+    }
+    return classId;
 }
 
 RaceStatRule raceRuleForBaseStat(int baseStatValue)
@@ -802,6 +828,12 @@ void NewGameScreen::rebuildCandidates()
 
     const MergedCharacterSelectionTable &selectionTable = m_pGameData->mergedCharacterSelectionTable();
 
+    const MergedCharacterSelectionContinent *pContinent = findNewGameContinent(selectionTable, m_selectedContinent.key);
+    if (pContinent == nullptr)
+    {
+        return;
+    }
+
     std::vector<const CharacterDollEntry *> characterEntries;
 
     for (const auto &[characterId, entry] : m_pGameData->characterDollTable().characters())
@@ -846,7 +878,7 @@ void NewGameScreen::rebuildCandidates()
                 continue;
             }
 
-            availableClassIds.push_back(*classId);
+            availableClassIds.push_back(startingCasterClassId(*classId, *pContinent));
         }
 
         if (availableClassIds.empty())
@@ -865,7 +897,8 @@ void NewGameScreen::rebuildCandidates()
         candidate.defaultName = "Player";
         candidate.raceName = *raceName;
         candidate.availableClassIds = std::move(availableClassIds);
-        candidate.classId = classIdNear(pEntry->defaultClassId, candidate.availableClassIds, 1);
+        candidate.classId = classIdNear(startingCasterClassId(pEntry->defaultClassId, *pContinent),
+                                       candidate.availableClassIds, 1);
 
         if (const std::optional<std::string> className = m_pGameData->classSkillTable().classNameForId(candidate.classId))
         {
@@ -2075,8 +2108,10 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     label("CharacterCreationNameField", (m_state.nameEditing ? m_state.nameEditBuffer + "_" : m_state.name));
     setTextEditing(m_state.nameEditing);
     std::string helpTitle, helpBody;
+    std::vector<std::pair<std::string, uint32_t>> helpMasteries;
     Rect helpAnchor;
-    const auto inspectSkill = [this, &helpTitle, &helpBody, &helpAnchor](const std::string &skill, const Rect &rect)
+    const auto inspectSkill = [this, &helpTitle, &helpBody, &helpMasteries, &helpAnchor](
+                                  const std::string &skill, const Rect &rect)
     {
         if (!rightMouseDown() || modalOpen() || !pointerInside(rect))
         {
@@ -2091,8 +2126,8 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         helpBody = pHelp->description;
         helpAnchor = rect;
         const Character character = buildCharacter();
-        const auto mastery = [this, &helpBody, &character, &skill](SkillMastery level, const std::string &name,
-                                                                   const std::string &description)
+        const auto mastery = [this, &helpMasteries, &character, &skill](
+                                 SkillMastery level, const std::string &name, const std::string &description)
         {
             if (description.empty())
             {
@@ -2100,11 +2135,10 @@ void NewGameScreen::drawScreen(float deltaSeconds)
             }
             const int availability =
                 skillMasteryAvailabilityForCreation(&m_pGameData->classSkillTable(), character, skill, level);
-            helpBody += "\n" + name +
-                        (availability == 1   ? " (after promotion)"
-                         : availability == 2 ? " (unavailable)"
-                                             : "") +
-                        ": " + description;
+            const uint32_t color = availability == 1   ? GameplayUiSkin::Low
+                                   : availability == 2 ? GameplayUiSkin::Penalty
+                                                       : 0xffffffffu;
+            helpMasteries.emplace_back(name + ": " + description, color);
         };
         mastery(SkillMastery::Expert, "Expert", pHelp->expertDescription);
         mastery(SkillMastery::Master, "Master", pHelp->masterDescription);
@@ -2138,16 +2172,20 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     {
         removePartySlot();
     }
-    if (button("class", designRect("CharacterCreationClassValue"), "", "text_field"))
+    if (selectBox("class", designRect("CharacterCreationClassValue"), displayClassName(selectedClassName()),
+                  !isGodLichSelected() && !selectedCandidate().availableClassIds.empty(), 12.16f))
     {
         endNameEditing(true);
         const std::vector<uint32_t> choices = selectedCandidate().availableClassIds;
         std::vector<std::string> names;
+        std::vector<std::string> icons;
         for (const uint32_t id : choices)
         {
             CreationState state = m_state;
             state.selectedClassId = id;
-            names.push_back(displayClassName(classNameForState(state)));
+            const std::string className = classNameForState(state);
+            names.push_back(displayClassName(className));
+            icons.push_back(classIconTextureName(className));
         }
         confirm("Choose Class", selectedCandidate().raceName, names,
                 [this, choices](int index)
@@ -2157,9 +2195,8 @@ void NewGameScreen::drawScreen(float deltaSeconds)
                         m_state.selectedClassId = choices[size_t(index)];
                         refreshSkillChoices(true);
                     }
-                }, true);
+                }, true, true, std::move(icons));
     }
-    label("CharacterCreationClassValue", displayClassName(selectedClassName()) + "  v");
     if (rightMouseDown() && !modalOpen() && pointerInside(designRect("CharacterCreationClassValue")))
     {
         if (const ClassInspectEntry *pHelp = m_pGameData->characterInspectTable().getClass(selectedClassName()))
@@ -2180,6 +2217,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
                             portrait.width + 6 * designScale(), portrait.height + 6 * designScale()},
                            designScale(), 0xff61888eu);
         drawEllipseOutline(portrait, 1.1f * designScale(), 0xff85bbd8u);
+        drawTexture(classIconTextureName(selectedClassName()), designRect("CharacterCreationClassEmblem"));
         const std::string compositeKey = std::to_string(pEntry->id) + ":" + pEntry->bodyAsset;
         if (compositeKey != m_creationPreviewDollCacheKey)
         {
@@ -2319,6 +2357,10 @@ void NewGameScreen::drawScreen(float deltaSeconds)
             drawTexture(portraitTextureNameForEntry(*pMember),
                         {rect.x + 5 * designScale(), rect.y + 3 * designScale(), rect.width - 10 * designScale(),
                          rect.height - 6 * designScale()});
+            const float classIconSize = 20 * designScale();
+            drawTexture(classIconTextureName(classNameForState(state)),
+                        {rect.x + (rect.width - classIconSize) / 2,
+                         rect.y - classIconSize - 4 * designScale(), classIconSize, classIconSize});
         }
     }
     if (m_partySize < PartySlotButtonLayoutIds.size() && !isGodLichSelected() &&
@@ -2348,20 +2390,50 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     if (!helpBody.empty())
     {
         const float scale = designScale();
-        const float width = 315 * scale;
-        const std::vector<std::string> lines =
-            wrapTextToWidth("menu_arrus", helpBody, width - 32 * scale, 12 * scale / fontHeight("menu_arrus"));
-        const float height = std::min(420.0f, 54 + lines.size() * 15.0f) * scale;
+        const float width = 425 * scale;
+        const float horizontalPadding = 32 * scale;
+        const float bodyTop = 56 * scale;
+        const float lineHeight = (fontHeight("SMALLNUM") + 2) * scale;
+        const float bodyWidth = width - 2 * horizontalPadding;
+        const std::vector<std::string> lines = wrapTextToWidth("SMALLNUM", helpBody, bodyWidth, scale);
+        float height = bodyTop + 28 * scale + lines.size() * lineHeight;
+        std::vector<std::pair<std::vector<std::string>, uint32_t>> masteryLines;
+        for (const auto &[text, color] : helpMasteries)
+        {
+            masteryLines.emplace_back(wrapTextToWidth("SMALLNUM", text, bodyWidth, scale), color);
+            height += masteryLines.back().first.size() * lineHeight + 6 * scale;
+        }
+        if (!masteryLines.empty())
+        {
+            height += 8 * scale;
+        }
         const float x = helpAnchor.x + helpAnchor.width + width + 12 * scale < frameWidth()
                             ? helpAnchor.x + helpAnchor.width + 12 * scale
                             : helpAnchor.x - width - 12 * scale;
-        Rect panel{std::clamp(x, 8 * scale, frameWidth() - width - 8 * scale),
-                   std::clamp(helpAnchor.y, 8 * scale, frameHeight() - height - 8 * scale), width, height};
+        const Rect panel{
+            std::clamp(x, 8 * scale, std::max(8 * scale, frameWidth() - width - 8 * scale)),
+            std::clamp(helpAnchor.y + (helpAnchor.height - height) / 2, 8 * scale,
+                       std::max(8 * scale, frameHeight() - height - 8 * scale)),
+            width, height};
         skin("modal", panel);
-        textInRect({panel.x + 16 * scale, panel.y + 13 * scale, width - 32 * scale, 24 * scale}, helpTitle,
-                   "fondamento", 17, 0xffc6dfeau, true);
-        textInRect({panel.x + 16 * scale, panel.y + 42 * scale, width - 32 * scale, height - 54 * scale}, helpBody,
-                   "menu_arrus", 12);
+        drawText("Create", helpTitle, panel.x + (width - measureTextWidth("Create", helpTitle, scale)) / 2,
+                 panel.y + 22 * scale, GameplayUiSkin::Gold, scale);
+        float textY = panel.y + bodyTop;
+        for (const std::string &line : lines)
+        {
+            drawText("SMALLNUM", line, panel.x + horizontalPadding, textY, GameplayUiSkin::Ivory, scale);
+            textY += lineHeight;
+        }
+        textY += 8 * scale;
+        for (const auto &[wrappedLines, color] : masteryLines)
+        {
+            textY += 6 * scale;
+            for (const std::string &line : wrappedLines)
+            {
+                drawText("SMALLNUM", line, panel.x + horizontalPadding, textY, color, scale);
+                textY += lineHeight;
+            }
+        }
     }
     drawConfirmation();
 }

@@ -870,6 +870,30 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "model_shadow_quality"))
+    {
+        int parsed = settings.modelShadowQuality;
+        if (parseIntValue(*value, parsed) && parsed >= 0 && parsed <= 3)
+        {
+            settings.modelShadowQuality = parsed;
+        }
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "model_lods"))
+    {
+        bool parsed = settings.modelLods;
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.modelLods = parsed;
+        }
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "model_lod"))
+    {
+        int parsed = settings.modelLodOverride;
+        if (parseIntValue(*value, parsed) && parsed >= -1 && parsed <= 3)
+        {
+            settings.modelLodOverride = parsed;
+        }
+    }
     if (const std::optional<std::string> value = getIniValue(document, "video", "sprite_outline"))
     {
         bool parsed = settings.spriteOutline;
@@ -1786,6 +1810,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "colored_lights=" << (settings.coloredLights ? "true" : "false") << '\n'
         << "tinting=" << (settings.tinting ? "true" : "false") << '\n'
         << "shadows=" << (settings.shadows ? "true" : "false") << '\n'
+        << "model_shadow_quality=" << std::clamp(settings.modelShadowQuality, 0, 3) << '\n'
+        << "model_lods=" << (settings.modelLods ? "true" : "false") << '\n'
         << "sprite_outline=" << (settings.spriteOutline ? "true" : "false") << '\n'
         << "texture_filtering=" << (settings.textureFiltering ? "true" : "false") << '\n'
         << "cinematic_grading=" << (settings.cinematicGrading ? "true" : "false") << '\n'

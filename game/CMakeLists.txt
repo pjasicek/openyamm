@@ -379,6 +379,7 @@ if (OPENYAMM_BUILD_DESKTOP_EXECUTABLE)
 
     install(DIRECTORY "${OPENYAMM_RUNTIME_SHADER_DIR}/"
         DESTINATION "share/openyamm/runtime/shaders"
+        PATTERN "dxbc" EXCLUDE
     )
 
     if (IS_DIRECTORY "${CMAKE_SOURCE_DIR}/assets")

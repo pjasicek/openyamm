@@ -1261,6 +1261,8 @@ constexpr uint32_t FirstDebugWandItemId = 152;
 constexpr uint32_t LastDebugWandItemId = 176;
 constexpr const char *DwiRespawnMapFile = "out01.odm";
 constexpr const char *RavenshoreRespawnMapFile = "out02.odm";
+constexpr uint32_t RavenshoreVisitedQBit = 93;
+constexpr uint32_t EmeraldIslandFinishedQBit = 519;
 constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
 constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
 constexpr const char *EventMovieCutsceneDirectory = "Videos/Cutscenes";
@@ -10835,10 +10837,16 @@ GameApplication::MapStartDestination GameApplication::resolvePartyDefeatRespawnD
                 const MapStatsEntry *pDeathMap1 = !deathMap1.empty()
                     ? m_gameDataLoader.getMapStats().findByFileName(deathMap1)
                     : nullptr;
+                const bool unfinishedMm7Contest = pCurrentMap->worldId == "mm7"
+                    && m_pMapSceneRuntime != nullptr
+                    && !m_pMapSceneRuntime->party().hasQuestBit(EmeraldIslandFinishedQBit);
+                const bool useFirstDeathMap = pCurrentMap->worldId == "mm8" && m_pMapSceneRuntime != nullptr
+                    ? !m_pMapSceneRuntime->party().hasQuestBit(RavenshoreVisitedQBit)
+                    : unfinishedMm7Contest
+                        || sameMapFileName(currentMapFileName, deathMap1)
+                        || mapMatchesDeathDestination(*pCurrentMap, currentMapFileName, pDeathMap1);
 
-                if (!deathMap1.empty()
-                    && (sameMapFileName(currentMapFileName, deathMap1)
-                        || mapMatchesDeathDestination(*pCurrentMap, currentMapFileName, pDeathMap1)))
+                if (!deathMap1.empty() && useFirstDeathMap)
                 {
                     return MapStartDestination{
                         .mapFileName = deathMap1,

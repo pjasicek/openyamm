@@ -17,6 +17,12 @@ bool sunShadowCovered(vec3 projected)
 
 float sunShadowFiltered(vec3 projected, bool nearCascade)
 {
+    if (u_sunShadowParams[2].z > 0.5)
+    {
+        vec3 encoded = nearCascade ? texture2D(s_sunShadowNear, projected.xy).rgb
+                                   : texture2D(s_sunShadowFar, projected.xy).rgb;
+        return step(projected.z - u_sunShadowParams[0].z, sunShadowDepth(encoded));
+    }
     float visibility = 0.0;
     for (int y = -1; y <= 1; ++y)
     {

@@ -277,6 +277,8 @@ private:
     struct BModelTextureAnimationHandle
     {
         std::string textureName;
+        SurfaceMaterialSemantic surfaceSemantic = SurfaceMaterialSemantic::GenericAnimated;
+        uint32_t waterColorAbgr = 0;
         std::vector<bgfx::TextureHandle> frameTextureHandles;
         std::vector<uint32_t> frameLengthTicks;
         std::vector<bool> frameHasPartialAlphaPixels;
@@ -293,6 +295,7 @@ private:
         bool hasBounds = false;
         uint16_t lightmapPageIndex = 0xffff;
         bool usesStaticLighting = false;
+        bool waterSurface = false;
     };
 
     struct BModelWorldRenderFace

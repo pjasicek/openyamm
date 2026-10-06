@@ -84,6 +84,7 @@ private:
         mutable bool matricesDirty = true;
         mutable bool verticesDirty = true;
         mutable bool morphVerticesDirty = true;
+        mutable bool boundsDirty = true;
     };
 
     Slot *find(ModelInstanceHandle handle);

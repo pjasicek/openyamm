@@ -1,6 +1,6 @@
 #include "game/render/RuntimeShader.h"
 #include "game/indoor/IndoorRenderer.h"
-#include "game/render/IndoorWaterGeometry.h"
+#include "game/render/WaterGeometry.h"
 #include "game/render/ViewFrustum.h"
 #include "game/render/WaterBillboardReflection.h"
 
@@ -4228,7 +4228,7 @@ void IndoorRenderer::render(
         {
             return modelFrustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
                 {bounds.max[0], bounds.max[1], bounds.max[2]});
-        });
+        }, settings.modelLods ? std::abs(projectionMatrix[5]) * viewHeight * 0.5f : 0.0f, settings.modelLodOverride);
     if (collectRenderDiagnostics)
     {
         m_indoorPerformanceDiagnostics.renderParticleNanoseconds += SDL_GetTicksNS() - modelBeginTickCount;
@@ -9810,7 +9810,7 @@ bool IndoorRenderer::updateWaterGeometry()
             }
             const TexturedVertex &first = batch.vertices[batch.indices[index]];
             const std::array<float, 2> flow =
-                indoorWaterFlow(positions, uvs, first.flowUPerSecond, first.flowVPerSecond);
+                waterFaceFlow(positions, uvs, first.flowUPerSecond, first.flowVPerSecond);
             for (const bx::Vec3 &position : positions)
             {
                 vertices.push_back({position.x, position.y, position.z, 0.0f, 0.0f, 1.0f,
@@ -9818,7 +9818,7 @@ bool IndoorRenderer::updateWaterGeometry()
             }
         }
         std::vector<WaterSurfaceGeometry> surfaces =
-            buildIndoorWaterGeometry(vertices, batch.sectorId, batch.backSectorId);
+            buildWaterFaceGeometry(vertices, batch.sectorId, batch.backSectorId);
         for (WaterSurfaceGeometry &surface : surfaces)
         {
             geometry.push_back(std::move(surface));
@@ -9893,6 +9893,9 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
                 m_cameraYawRadians, -m_cameraPitchRadians, width, height, false, clip,
                 reflection.projectionScale);
         }
+        bgfx::setUniform(m_worldClipPlaneUniform, clip.data());
+        m_waterRenderer.renderIndoor(reflection.worldView, m_elapsedTime, lighting,
+            reflection.camera, reflectedForward, nullptr, &reflection, visibility.visibleSectorMask);
         if (billboards)
         {
             float billboardView[16];
@@ -10081,8 +10084,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         const auto materialTexture = texturesByName.find(normalizedTextureName);
         if (materialTexture != texturesByName.end()
             && materialTexture->second->waterColorAbgr != 0
-            && isIndoorWaterPool(attributes, materialTexture->second->surfaceSemantic,
-                computeFaceNormal(m_renderVertices, face)))
+            && isWaterSurface(attributes, materialTexture->second->surfaceSemantic))
         {
             waterColorAbgr = materialTexture->second->waterColorAbgr;
         }
@@ -12149,6 +12151,13 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 {
                     billboardTested = true;
                     if (!intersectRayAabb(rayOrigin, rayDirection,
+                        {pBounds->min[0], pBounds->min[1], pBounds->min[2]},
+                        {pBounds->max[0], pBounds->max[1], pBounds->max[2]}, distance))
+                    {
+                        return false;
+                    }
+                    pBounds = m_worldFxSystem.actorModelPoseBounds(actor.actorIndex);
+                    if (!pBounds->valid || !intersectRayAabb(rayOrigin, rayDirection,
                         {pBounds->min[0], pBounds->min[1], pBounds->min[2]},
                         {pBounds->max[0], pBounds->max[1], pBounds->max[2]}, distance))
                     {

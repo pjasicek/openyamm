@@ -112,6 +112,16 @@ elements:
     interactive: false
     notes: Native paperdoll composition and layers from NewGameScreen; do not use the browser sample or replace its rules
       with study data.
+  - id: CharacterCreationClassEmblem
+    anchor: top_left
+    offset_x: 134.0
+    offset_y: 154.0
+    width: 34.0
+    height: 34.0
+    z_index: 11
+    visible: true
+    interactive: false
+    notes: Selected class emblem beside the portrait's lower-right edge; controller supplies the class texture.
   - id: CharacterCreationSection0
     anchor: top_left
     offset_x: 195.2
@@ -245,7 +255,9 @@ elements:
     visible: true
     interactive: true
     asset:
-      default: hud_x2/menus/omenu_text_field.png
+      default: hud_x2/menus/omenu_button_quiet_default.png
+      highlighted: hud_x2/menus/omenu_button_quiet_hover.png
+      pressed: hud_x2/menus/omenu_button_quiet_pressed.png
     text:
       value: '{class_name}'
       font: menu_lucida
@@ -254,8 +266,8 @@ elements:
       align_y: middle
       scale: 0.71529
       pad_x: 6.9333
-    notes: Open a native choice list from available classes/races/world content; no browser hard-coded class restrictions.
-      Controller supplies live text.
+    notes: Shared selectbox with a separate arrow button; opens a native two-column choice window from available
+      classes/races/world content, without scrolling. Controller supplies live text.
   - id: CharacterCreationVoiceValue
     anchor: top_left
     offset_x: 58.7

@@ -91,6 +91,7 @@ public:
     bool hasActorModel(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelBounds(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelCullingBounds(size_t actorIndex) const;
+    const Engine::ModelBounds *actorModelPoseBounds(size_t actorIndex) const;
     void setActorModelOutline(size_t actorIndex, uint32_t colorAbgr);
     void beginFrame();
     void updateParticles(float deltaSeconds, bool paused);
@@ -177,12 +178,15 @@ private:
         float scale = 1.0f;
         float yawOffset = 0.0f;
         float zOffset = 0.0f;
+        bool disintegrates = false;
+        float height = 0.0f;
     };
     struct ActorModelInstance
     {
         Engine::ModelInstanceHandle handle;
         uint32_t actorId = 0;
         int16_t monsterId = 0;
+        bool dying = false;
     };
     bool m_actorModelsConfigured = false;
     std::unordered_map<std::string, ActorModelBinding> m_actorModelBindings;

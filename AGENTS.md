@@ -100,6 +100,10 @@ These rules apply to all AI-generated contributions in this repository.
 - Treat `CREATURE_RESTORE <source-pattern>` as an explicit request to follow
   [Creature Restore](.agents/skills/creature-restore/SKILL.md), also invocable as `$creature-restore`.
   Honor scope overrides such as front-only, resume, or plan-only; discussing the workflow does not start generation.
+- For MM6–MM8 sprites to rigged 3D creatures, Meshy model/rig/texture handoffs and existing model WIP audit/resume,
+  use [Creature to 3D](.agents/skills/creature-to-3d/SKILL.md), also invocable as `$creature-to-3d` or
+  `CREATURE_TO_3D <source-pattern>`. It has three resumable production stages and a read-only audit/status mode;
+  skill maintenance, discussion, audit and plan-only requests do not start generation or asset changes.
 - For MM6–MM8 creature sprite restoration/upscaling, atlas export, masks, or color variants, start with
   [Sprite Atlas and Variants Pipeline](level_generation/creatures/SPRITE_ATLAS_VARIANTS_PIPELINE.md), even when the
   user does not name the document. It contains the short generation recipe and separately marked future engine deltas.

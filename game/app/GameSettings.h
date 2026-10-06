@@ -117,6 +117,9 @@ struct GameSettings
     bool coloredLights = true;
     bool tinting = true;
     bool shadows = false;
+    int modelShadowQuality = 2;
+    bool modelLods = true;
+    int modelLodOverride = -1; // Debug review only; native AI/picking always use the original model.
     bool spriteOutline = false;
     bool textureFiltering = true;
     bool lightmaps = true;

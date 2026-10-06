@@ -372,6 +372,7 @@ const ModelPose *ModelInstanceSystem::pose(ModelInstanceHandle handle, bool defo
         }
         pSlot->verticesDirty = false;
         pSlot->morphVerticesDirty = false;
+        pSlot->boundsDirty = false;
     }
     return &pSlot->pose;
 }
@@ -404,8 +405,17 @@ const ModelMatrix *ModelInstanceSystem::nodeMatrix(ModelInstanceHandle handle, c
 const ModelBounds *ModelInstanceSystem::bounds(ModelInstanceHandle handle) const
 {
     const Slot *pSlot = find(handle);
-    pose(handle);
-    return pSlot != nullptr ? &pSlot->bounds : nullptr;
+    if (pSlot == nullptr)
+    {
+        return nullptr;
+    }
+    evaluateMatrices(*pSlot);
+    if (pSlot->boundsDirty)
+    {
+        pSlot->bounds = modelExactPoseBounds(*pSlot->asset, pSlot->pose);
+        pSlot->boundsDirty = false;
+    }
+    return &pSlot->bounds;
 }
 
 const ModelBounds *ModelInstanceSystem::cullingBounds(ModelInstanceHandle handle) const
@@ -502,6 +512,7 @@ void ModelInstanceSystem::evaluate(Slot &slot)
     slot.matricesDirty = true;
     slot.verticesDirty = true;
     slot.morphVerticesDirty = true;
+    slot.boundsDirty = true;
 }
 
 void ModelInstanceSystem::evaluateMatrices(const Slot &slot) const

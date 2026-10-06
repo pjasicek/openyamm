@@ -4,6 +4,29 @@
 
 using namespace OpenYAMM::Game;
 
+TEST_CASE("creature shadow quality and LOD settings validate and persist")
+{
+    GameSettings settings = GameSettings::createDefault();
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-model-settings.ini";
+    std::string error;
+    for (const std::string quality : {"0", "1", "2", "3"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "model_shadow_quality", quality));
+        CHECK(menuSettingValue(settings, "model_shadow_quality") == quality);
+        CHECK(settings.shadows == (quality != "0"));
+        REQUIRE(setMenuSettingValue(settings, "model_lods", "false"));
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded, error);
+        CHECK(menuSettingValue(*loaded, "model_shadow_quality") == quality);
+        CHECK_FALSE(loaded->modelLods);
+    }
+    CHECK_FALSE(setMenuSettingValue(settings, "model_shadow_quality", "4"));
+    CHECK_FALSE(setMenuSettingValue(settings, "model_lods", "unknown"));
+    CHECK(menuSettingValue(settings, "model_shadow_quality") == "3");
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("menu settings validate input and preserve unrelated game configuration")
 {
     GameSettings settings = GameSettings::createDefault();

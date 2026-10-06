@@ -51,6 +51,14 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.viewDistance;
     }
+    if (id == "model_shadow_quality")
+    {
+        return std::to_string(settings.shadows ? settings.modelShadowQuality : 0);
+    }
+    if (id == "model_lods")
+    {
+        return settings.modelLods ? "true" : "false";
+    }
     if (id == "texture_filtering")
     {
         return settings.textureFiltering ? "true" : "false";
@@ -286,6 +294,25 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.viewDistance = value;
+        return true;
+    }
+    if (id == "model_shadow_quality")
+    {
+        if (value != "0" && value != "1" && value != "2" && value != "3")
+        {
+            return false;
+        }
+        settings.modelShadowQuality = value[0] - '0';
+        settings.shadows = settings.modelShadowQuality != 0;
+        return true;
+    }
+    if (id == "model_lods")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.modelLods = value == "true";
         return true;
     }
     if (id == "texture_filtering")

@@ -1,0 +1,73 @@
+#pragma once
+
+#include "engine/models/ModelAsset.h"
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+
+namespace OpenYAMM::Engine
+{
+struct ModelLodView
+{
+    std::array<float, 3> camera = {};
+    float focalPixels = 0;
+    float orthographicPixelsPerUnit = 0;
+    int shadowCascade = -1;
+    bool enabled = true;
+    int forcedLevel = -1;
+};
+
+inline float modelBoundsDiameter(const ModelBounds &bounds)
+{
+    if (!bounds.valid)
+    {
+        return 0;
+    }
+    float squared = 0;
+    for (size_t axis = 0; axis < 3; ++axis)
+    {
+        const float extent = bounds.max[axis] - bounds.min[axis];
+        squared += extent * extent;
+    }
+    return std::sqrt(squared);
+}
+
+inline float modelProjectedPixels(const ModelBounds &bounds, const std::array<float, 3> &camera, float focalPixels)
+{
+    if (!bounds.valid || focalPixels <= 0)
+    {
+        return 0;
+    }
+    float squared = 0;
+    for (size_t axis = 0; axis < 3; ++axis)
+    {
+        const float delta = (bounds.min[axis] + bounds.max[axis]) * 0.5f - camera[axis];
+        squared += delta * delta;
+    }
+    const float diameter = modelBoundsDiameter(bounds);
+    return focalPixels * diameter / std::max(std::sqrt(squared) - diameter * 0.5f, 1.0f);
+}
+
+inline uint32_t modelLodLevel(float pixels, uint32_t previous, uint32_t count, bool shadow = false)
+{
+    if (count <= 1)
+    {
+        return 0;
+    }
+    count = std::min(count, 4u);
+    const std::array<float, 3> thresholds = shadow ? std::array<float, 3>{256, 96, 32}
+                                                 : std::array<float, 3>{500, 200, 80};
+    uint32_t level = std::min(previous, count - 1);
+    // Ten percent hysteresis avoids switches while a creature hovers around a screen-size boundary.
+    while (level + 1 < count && level < thresholds.size() && pixels < thresholds[level] * 0.9f)
+    {
+        ++level;
+    }
+    while (level > 0 && pixels > thresholds[level - 1] * 1.1f)
+    {
+        --level;
+    }
+    return level;
+}
+}

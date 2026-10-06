@@ -50,7 +50,7 @@ bgfx::VertexLayout skinnedVertexLayout()
         .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::Indices, 4, bgfx::AttribType::Uint16)
-        .add(bgfx::Attrib::TexCoord1, 4, bgfx::AttribType::Uint16)
+        .add(bgfx::Attrib::TexCoord5, 4, bgfx::AttribType::Uint16)
         .add(bgfx::Attrib::Weight, 4, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord3, 4, bgfx::AttribType::Float)
         .end();
@@ -597,6 +597,7 @@ void ModelRenderer::destroyDeformedBuffers(bool destroyGpu)
     }
     m_deformedVertexBuffers.clear();
     m_skinPalettes.clear();
+    m_lodStates.clear();
 }
 
 void ModelRenderer::destroySunShadows(bool destroyGpu)
@@ -611,6 +612,7 @@ void ModelRenderer::destroySunShadows(bool destroyGpu)
         m_shadowTextures[cascade] = BGFX_INVALID_HANDLE;
     }
     m_shadowParams[0][0] = 0;
+    m_shadowSize = 0;
 }
 
 void ModelRenderer::bindSunShadows() const
@@ -627,36 +629,46 @@ void ModelRenderer::bindSunShadows() const
 }
 
 void ModelRenderer::renderSunShadows(const ModelInstanceSystem &instances, uint16_t firstViewId,
-    const std::array<float, 3> &cameraPosition, const std::array<float, 3> &lightDirection, bool enabled)
+    const std::array<float, 3> &cameraPosition, const std::array<float, 3> &lightDirection, bool enabled,
+    int quality, bool lods)
 {
+    const ModelShadowSettings settings = modelShadowSettings(quality);
+    m_shadowParams[0][0] = 0;
     const float lengthSquared = lightDirection[0] * lightDirection[0] + lightDirection[1] * lightDirection[1]
         + lightDirection[2] * lightDirection[2];
-    if (!enabled || !bgfx::isValid(m_shadowProgramHandle) || instances.size() == 0
+    if (!enabled || settings.size == 0 || !bgfx::isValid(m_shadowProgramHandle) || instances.size() == 0
         || !std::isfinite(lengthSquared) || lengthSquared < 0.000001f || lightDirection[2] <= 0.0f)
     {
         destroySunShadows(true);
         return;
     }
     const bgfx::Caps &caps = *bgfx::getCaps();
+    if (m_shadowSize != settings.size)
+    {
+        destroySunShadows(true);
+        m_shadowSize = settings.size;
+    }
     std::array<ModelSunShadowCascade, ModelSunShadowCascades> cascades;
     for (size_t index = 0; index < cascades.size(); ++index)
     {
-        cascades[index] = modelSunShadowCascade(cameraPosition, lightDirection, ModelSunShadowRadii[index],
-            caps.homogeneousDepth, caps.originBottomLeft);
+        cascades[index] = modelSunShadowCascade(cameraPosition, lightDirection, settings.radii[index],
+            caps.homogeneousDepth, caps.originBottomLeft, settings.size);
     }
-    std::vector<Draw> casters = collectDraws(instances, [&](const ModelBounds &bounds)
+    std::array<std::vector<Draw>, ModelSunShadowCascades> cascadeDraws;
+    for (size_t index = 0; index < cascades.size(); ++index)
     {
-        return modelSunShadowIntersects(cascades.back(), bounds);
-    });
-    std::erase_if(casters, [&](const Draw &draw)
+        cascadeDraws[index] = collectDraws(instances, [&](const ModelBounds &bounds)
+        {
+            return modelSunShadowIntersects(cascades[index], bounds);
+        }, {cameraPosition, 0, settings.size / (2.0f * settings.radii[index]), int(index), lods});
+        std::erase_if(cascadeDraws[index], [](const Draw &draw)
+        {
+            return draw.pMaterial->alphaMode == ModelAlphaMode::Blend;
+        });
+    }
+    if (cascadeDraws[0].empty() && cascadeDraws[1].empty())
     {
-        const ModelBounds *pBounds = instances.cullingBounds(draw.instance);
-        return draw.pMaterial->alphaMode == ModelAlphaMode::Blend || pBounds == nullptr
-            || !modelSunShadowIntersects(cascades.back(), *pBounds);
-    });
-    if (casters.empty())
-    {
-        destroySunShadows(true);
+        // Camera visibility does not end ownership. Receivers stay disabled until a caster returns.
         return;
     }
     constexpr uint64_t textureFlags = BGFX_TEXTURE_RT | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP;
@@ -665,9 +677,9 @@ void ModelRenderer::renderSunShadows(const ModelInstanceSystem &instances, uint1
         if (!bgfx::isValid(m_shadowFramebuffers[index]))
         {
             const std::array<bgfx::TextureHandle, 2> textures = {
-                bgfx::createTexture2D(ModelSunShadowSize, ModelSunShadowSize, false, 1,
+                bgfx::createTexture2D(settings.size, settings.size, false, 1,
                     bgfx::TextureFormat::RGBA8, textureFlags),
-                bgfx::createTexture2D(ModelSunShadowSize, ModelSunShadowSize, false, 1,
+                bgfx::createTexture2D(settings.size, settings.size, false, 1,
                     bgfx::TextureFormat::D16, BGFX_TEXTURE_RT_WRITE_ONLY)};
             if (bgfx::isValid(textures[0]) && bgfx::isValid(textures[1]))
             {
@@ -690,15 +702,16 @@ void ModelRenderer::renderSunShadows(const ModelInstanceSystem &instances, uint1
         const uint16_t viewId = uint16_t(firstViewId + index);
         bgfx::setViewName(viewId, index == 0 ? "Creature sunlight near" : "Creature sunlight far");
         bgfx::setViewFrameBuffer(viewId, m_shadowFramebuffers[index]);
-        bgfx::setViewRect(viewId, 0, 0, ModelSunShadowSize, ModelSunShadowSize);
+        bgfx::setViewRect(viewId, 0, 0, settings.size, settings.size);
         bgfx::setViewClear(viewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0xffffffffu, 1.0f);
         bgfx::setViewTransform(viewId, cascades[index].view.data(), cascades[index].projection.data());
         bgfx::touch(viewId);
         m_shadowMatrices[index] = cascades[index].textureMatrix;
-        for (const Draw &draw : casters)
+        for (const Draw &draw : cascadeDraws[index])
         {
             const ModelBounds *pBounds = instances.cullingBounds(draw.instance);
-            if (!modelSunShadowIntersects(cascades[index], *pBounds) || !bindGeometry(draw))
+            if (draw.pMaterial->alphaMode == ModelAlphaMode::Blend
+                || !modelSunShadowIntersects(cascades[index], *pBounds) || !bindGeometry(draw))
             {
                 continue;
             }
@@ -714,17 +727,22 @@ void ModelRenderer::renderSunShadows(const ModelInstanceSystem &instances, uint1
             bgfx::submit(viewId, m_shadowProgramHandle);
         }
     }
-    m_shadowParams = {{{1.0f, 1.0f / ModelSunShadowSize, 0.00003f, 0.7f},
-        {cameraPosition[0], cameraPosition[1], cameraPosition[2], ModelSunShadowRadii.back()},
-        {2.0f * ModelSunShadowRadii[0] / ModelSunShadowSize,
-            2.0f * ModelSunShadowRadii[1] / ModelSunShadowSize, 0, 0},
+    if (!bgfx::isValid(m_shadowFramebuffers[0]) || !bgfx::isValid(m_shadowFramebuffers[1]))
+    {
+        return;
+    }
+    m_shadowParams = {{{1.0f, 1.0f / settings.size, 0.00003f, 0.7f},
+        {cameraPosition[0], cameraPosition[1], cameraPosition[2], settings.radii.back()},
+        {2.0f * settings.radii[0] / settings.size,
+            2.0f * settings.radii[1] / settings.size, quality == 1 ? 1.0f : 0.0f, 0},
         {lightDirection[0] / std::sqrt(lengthSquared), lightDirection[1] / std::sqrt(lengthSquared),
             lightDirection[2] / std::sqrt(lengthSquared), 0}}};
 }
 
 std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstanceSystem &instances,
-    const std::function<bool(const ModelBounds &)> &visibleBounds)
+    const std::function<bool(const ModelBounds &)> &visibleBounds, const ModelLodView &view)
 {
+    std::erase_if(m_lodStates, [&](const auto &entry) { return !instances.contains(entry.second.owner); });
     pruneUnusedAssets();
     std::erase_if(m_deformedVertexBuffers, [&](const auto &entry)
     {
@@ -782,7 +800,27 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
             {
                 continue;
             }
-            const MeshResources &mesh = pResources->meshes[node.meshIndex];
+            const ModelMesh &base = asset->meshes[node.meshIndex];
+            const bool shadow = view.shadowCascade >= 0;
+            LodState &state = m_lodStates[&matrix];
+            if (state.owner != handle)
+            {
+                state = {handle};
+            }
+            uint32_t &level = shadow ? state.shadow[size_t(view.shadowCascade)] : state.color;
+            const uint32_t count = shadow && !base.shadowMeshes.empty()
+                ? uint32_t(base.shadowMeshes.size()) : uint32_t(base.lodMeshes.size() + 1);
+            const float pixels = shadow ? modelBoundsDiameter(*pBounds) * view.orthographicPixelsPerUnit
+                : modelProjectedPixels(*pBounds, view.camera, view.focalPixels);
+            level = view.enabled && (shadow || view.focalPixels > 0)
+                ? modelLodLevel(pixels, level, count, shadow) : 0;
+            if (!shadow && view.forcedLevel >= 0)
+            {
+                level = std::min(uint32_t(view.forcedLevel), count - 1);
+            }
+            const uint32_t meshIndex = shadow && !base.shadowMeshes.empty() ? base.shadowMeshes[level]
+                : level == 0 ? uint32_t(node.meshIndex) : base.lodMeshes[level - 1];
+            const MeshResources &mesh = pResources->meshes[meshIndex];
             for (size_t primitiveIndex = 0; primitiveIndex < mesh.primitives.size(); ++primitiveIndex)
             {
                 const PrimitiveResources &primitive = mesh.primitives[primitiveIndex];
@@ -803,10 +841,10 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
                     pMaterial,
                     node.skinIndex >= 0 ? identityModelMatrix() : matrix,
                     &matrix,
-                    !asset->meshes[node.meshIndex].primitives[primitiveIndex].morphTargets.empty()
+                    !asset->meshes[meshIndex].primitives[primitiveIndex].morphTargets.empty()
                         ? &pPose->deformedVertices[nodeIndex][primitiveIndex] : nullptr,
                     pPose->deformationRevision,
-                    node.skinIndex >= 0 && asset->meshes[node.meshIndex].primitives[primitiveIndex].morphTargets.empty()
+                    node.skinIndex >= 0 && asset->meshes[meshIndex].primitives[primitiveIndex].morphTargets.empty()
                         ? &asset->skins[node.skinIndex] : nullptr,
                     pPose,
                     nullptr,
@@ -827,7 +865,7 @@ void ModelRenderer::render(
     const ModelRenderLighting &lighting,
     const std::function<ModelRenderLighting(const ModelBounds &)> &lightingForBounds,
     const ModelSkyEnvironment *pSkyEnvironment,
-    const std::function<bool(const ModelBounds &)> &visibleBounds)
+    const std::function<bool(const ModelBounds &)> &visibleBounds, float focalPixels, int forcedLod)
 {
     if (!bgfx::isValid(m_programHandle))
     {
@@ -847,25 +885,10 @@ void ModelRenderer::render(
     std::unordered_map<uint32_t, ModelRenderLighting> instanceLighting;
     std::vector<Draw> opaqueDraws;
     std::vector<Draw> transparentDraws;
-    std::vector<Draw> draws = collectDraws(instances, visibleBounds);
-    const std::vector<ModelInstanceHandle> handles = instances.handles();
-    const bool hasMarkers = std::any_of(handles.begin(), handles.end(), [&](ModelInstanceHandle handle)
-    {
-        if (!instances.isVisible(handle) || !instances.areNodeMarkersVisible(handle))
-        {
-            return false;
-        }
-        const ModelBounds *pBounds = instances.cullingBounds(handle);
-        return pBounds != nullptr && (!pBounds->valid || !visibleBounds || visibleBounds(*pBounds));
-    });
-    if (draws.empty() && !hasMarkers)
-    {
-        destroyEnvironment(true);
-    }
-    else
-    {
-        prepareEnvironment(pSkyEnvironment);
-    }
+    // Scene consumers own the environment, even outside the camera. Loading renders prewarm it too.
+    prepareEnvironment(pSkyEnvironment);
+    std::vector<Draw> draws = collectDraws(instances, visibleBounds,
+        {cameraPosition, focalPixels, 0, -1, true, forcedLod});
     for (Draw &draw : draws)
     {
         auto found = instanceLighting.find(draw.instance.index);

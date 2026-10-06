@@ -95,6 +95,9 @@ struct ModelMesh
     std::string name;
     std::vector<ModelPrimitive> primitives;
     std::vector<float> weights;
+    // Lower colour meshes; shadow meshes include their own level zero. All share the node's rig.
+    std::vector<uint32_t> lodMeshes;
+    std::vector<uint32_t> shadowMeshes;
 };
 
 struct ModelSkin

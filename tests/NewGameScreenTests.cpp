@@ -23,7 +23,6 @@ struct NewGameScreenTestAccess
             }
         }
         std::sort(expectedCharacterIds.begin(), expectedCharacterIds.end());
-        const std::vector<uint32_t> humanClassIds = {0, 4, 5, 12, 16, 22, 26, 30, 34, 42, 44};
         const std::vector<uint32_t> dragonClassIds = {10};
         const std::vector<uint32_t> expectedDragonIds = {25, 26, 72, 75};
 
@@ -31,12 +30,33 @@ struct NewGameScreenTestAccess
         {
             CAPTURE(continent.key);
             screen.selectContinent(continent.key);
+            const uint32_t clericClassId = continent.key == "jadame" ? 5 : 4;
+            const uint32_t mageClassId = continent.key == "enroth" || continent.key == "antagarich" ? 42 : 44;
+            const std::vector<uint32_t> humanClassIds = {0, clericClassId, 12, 16, 22, 26, 30, 34, mageClassId};
             std::vector<uint32_t> characterIds;
             std::vector<size_t> dragonIndices;
             bool foundHuman = false;
             for (size_t index = 0; index < screen.m_candidates.size(); ++index)
             {
                 const NewGameScreen::CreationCandidate &candidate = screen.m_candidates[index];
+                CHECK(std::find(candidate.availableClassIds.begin(), candidate.availableClassIds.end(),
+                                clericClassId == 4 ? 5u : 4u)
+                      == candidate.availableClassIds.end());
+                CHECK(std::find(candidate.availableClassIds.begin(), candidate.availableClassIds.end(),
+                                mageClassId == 42 ? 44u : 42u)
+                      == candidate.availableClassIds.end());
+                REQUIRE(std::find(candidate.availableClassIds.begin(), candidate.availableClassIds.end(),
+                                  candidate.classId) != candidate.availableClassIds.end());
+                const CharacterDollEntry *entry = data.characterDollTable().getCharacter(candidate.characterDataId);
+                REQUIRE(entry != nullptr);
+                if (entry->defaultClassId == 4 || entry->defaultClassId == 5)
+                {
+                    CHECK_EQ(candidate.classId, clericClassId);
+                }
+                if (entry->defaultClassId == 42 || entry->defaultClassId == 44)
+                {
+                    CHECK_EQ(candidate.classId, mageClassId);
+                }
                 characterIds.push_back(candidate.characterDataId);
                 if (candidate.raceName == "Human")
                 {
@@ -56,6 +76,26 @@ struct NewGameScreenTestAccess
             CHECK(foundHuman);
             REQUIRE_EQ(dragonIndices.size(), expectedDragonIds.size());
 
+            const auto human = std::find_if(screen.m_candidates.begin(), screen.m_candidates.end(),
+                [](const NewGameScreen::CreationCandidate &candidate) { return candidate.raceName == "Human"; });
+            REQUIRE(human != screen.m_candidates.end());
+            const size_t humanIndex = static_cast<size_t>(human - screen.m_candidates.begin());
+            for (uint32_t classId : {clericClassId, mageClassId})
+            {
+                screen.resetStateForCandidate(humanIndex);
+                screen.m_state.selectedClassId = classId;
+                screen.refreshSkillChoices(false);
+                createdParty.clear();
+                screen.confirmCreation();
+                REQUIRE_EQ(createdParty.size(), 1);
+                CHECK_EQ(createdParty.front().className,
+                         classId == clericClassId ? (clericClassId == 5 ? "Priest" : "Cleric")
+                                                 : (mageClassId == 44 ? "Necromancer" : "Sorcerer"));
+                CHECK_EQ(startingContinentId, continent.id);
+                CHECK(createdParty.front().hasSkill(classId == clericClassId ? "BodyMagic"
+                                                       : mageClassId == 44 ? "DarkMagic" : "FireMagic"));
+            }
+
             for (size_t dragonIndex : dragonIndices)
             {
                 createdParty.clear();
@@ -73,7 +113,7 @@ struct NewGameScreenTestAccess
 };
 }
 
-TEST_CASE("party creation offers all starting characters and classes on every continent")
+TEST_CASE("party creation offers all starting characters with continent-specific caster classes")
 {
     using namespace OpenYAMM::Game;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;

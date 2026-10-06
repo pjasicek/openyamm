@@ -1,8 +1,48 @@
 #include "engine/render/ModelSunShadows.h"
+#include "engine/render/ModelLod.h"
 
 #include <doctest/doctest.h>
 
 using namespace OpenYAMM::Engine;
+
+TEST_CASE("model LOD uses projected size with hysteresis and independent shadow thresholds")
+{
+    const ModelBounds bounds = {{-1, -1, -1}, {1, 1, 1}, true};
+    CHECK(modelProjectedPixels(bounds, {0, 0, 20}, 900)
+        == doctest::Approx(modelProjectedPixels(bounds, {0, 0, 20}, 450) * 2));
+    CHECK(modelProjectedPixels(bounds, {0, 0, 40}, 900) < modelProjectedPixels(bounds, {0, 0, 20}, 900));
+    CHECK(modelLodLevel(440, 0, 4) == 1);
+    CHECK(modelLodLevel(490, 1, 4) == 1);
+    CHECK(modelLodLevel(551, 1, 4) == 0);
+    CHECK(modelLodLevel(50, 0, 4) == 3);
+    CHECK(modelLodLevel(500, 3, 4) == 1);
+    CHECK(modelLodLevel(250, 0, 4, true) == 0);
+    CHECK(modelLodLevel(250, 0, 4) == 1);
+    CHECK(modelLodLevel(1, 99, 1) == 0);
+    CHECK(modelLodLevel(1, 99, 0) == 0);
+    CHECK(modelProjectedPixels({}, {0, 0, 0}, 900) == 0);
+    CHECK(std::isfinite(modelProjectedPixels(bounds, {0, 0, 0}, 900)));
+}
+
+TEST_CASE("model shadow quality bounds resolution coverage and projection snapping")
+{
+    CHECK(modelShadowSettings(0).size == 0);
+    CHECK(modelShadowSettings(1).size == 512);
+    CHECK(modelShadowSettings(2).size == 1024);
+    CHECK(modelShadowSettings(3).size == 2048);
+    CHECK(modelShadowSettings(-1).size == 0);
+    CHECK(modelShadowSettings(4).size == 0);
+    for (int quality = 1; quality <= 3; ++quality)
+    {
+        const ModelShadowSettings settings = modelShadowSettings(quality);
+        const ModelSunShadowCascade first = modelSunShadowCascade({0, 0, 0}, {0, 0, 1},
+            settings.radii[0], true, true, settings.size);
+        const ModelSunShadowCascade shifted = modelSunShadowCascade({0.1f, 0, 0}, {0, 0, 1},
+            settings.radii[0], true, true, settings.size);
+        CHECK(first.textureMatrix == shifted.textureMatrix);
+        CHECK(modelSunShadowIntersects(first, {{-100, -100, 0}, {100, 100, 500}, true}));
+    }
+}
 
 TEST_CASE("model sunlight shadow projection matches backend origins and depth conventions")
 {

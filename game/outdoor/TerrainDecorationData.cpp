@@ -39,13 +39,14 @@ float boundedFloat(const YAML::Node &node, const char *pName, float fallback, fl
     return value;
 }
 
-bool blocked(const OutdoorMapData &map, float x, float y, float z, float radius)
+bool blocked(const OutdoorMapData &map, const std::vector<std::array<bx::Vec3, 2>> &modelBounds,
+    float x, float y, float z, float radius)
 {
-    for (const OutdoorBModel &model : map.bmodels)
+    for (const std::array<bx::Vec3, 2> &bounds : modelBounds)
     {
-        if (x >= model.minX - radius && x <= model.maxX + radius &&
-            y >= model.minY - radius && y <= model.maxY + radius &&
-            z <= model.maxZ + 48.0f && z + 96.0f >= model.minZ)
+        if (x >= bounds[0].x - radius && x <= bounds[1].x + radius &&
+            y >= bounds[0].y - radius && y <= bounds[1].y + radius &&
+            z <= bounds[1].z + 48.0f && z + 96.0f >= bounds[0].z)
         {
             return true;
         }
@@ -260,7 +261,7 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
             {
                 throw std::runtime_error("terrain decoration requires a texture and 1..128 candidates per cell");
             }
-            rule.width = boundedFloat(node, "width", 40.0f, 2.0f, 96.0f);
+            rule.width = boundedFloat(node, "width", 40.0f, 2.0f, 128.0f);
             rule.density = boundedFloat(node, "density", 1.0f, 0.0f, 2.0f);
             rule.height = boundedFloat(node, "height", 28.0f, 2.0f, 128.0f);
             rule.fullFootprint = node["full_footprint"].as<bool>(false);
@@ -338,6 +339,26 @@ TerrainDecorationPlacement scatterTerrainDecorations(
     if (map.noTerrain || map.heightMap.size() != width * height || map.tileMap.size() != width * height)
     {
         return result;
+    }
+    std::vector<std::array<bx::Vec3, 2>> modelBounds;
+    modelBounds.reserve(map.bmodels.size());
+    for (const OutdoorBModel &model : map.bmodels)
+    {
+        if (model.vertices.empty())
+        {
+            continue;
+        }
+        bx::Vec3 min = {float(model.vertices.front().x), float(model.vertices.front().y),
+            float(model.vertices.front().z)};
+        bx::Vec3 max = min;
+        for (const OutdoorBModelVertex &vertex : model.vertices)
+        {
+            min = {std::min(min.x, float(vertex.x)), std::min(min.y, float(vertex.y)),
+                std::min(min.z, float(vertex.z))};
+            max = {std::max(max.x, float(vertex.x)), std::max(max.y, float(vertex.y)),
+                std::max(max.z, float(vertex.z))};
+        }
+        modelBounds.push_back({min, max});
     }
     std::array<std::vector<const TerrainDecorationRule *>, 256> rulesByTile;
     for (size_t tile = 0; tile < textures.size(); ++tile)
@@ -448,7 +469,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                         }
                         const bx::Vec3 normal = sampleOutdoorRenderedTerrainNormal(map, px, py);
                         if (!footprintFits(x, y, u, v, rule) || normal.z < config.minimumNormalZ ||
-                            blocked(map, px, py, z, rule.width * 0.65f + 32.0f))
+                            blocked(map, modelBounds, px, py, z, rule.width * 0.65f + 32.0f))
                         {
                             continue;
                         }
@@ -473,7 +494,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                         const float tallChance = config.tallGrassChance * 2.0f * smoothUnit((noise - 0.35f) / 0.4f);
                         const bool tall = !rule.stone && randomUnit(detailState) < tallChance &&
                             footprintFits(x, y, u, v, rule, true) &&
-                            !blocked(map, px, py, z, 144.0f);
+                            !blocked(map, modelBounds, px, py, z, 144.0f);
                         const float instanceHeight = rule.height * scale *
                             (tall ? std::max(variant.heightScale, config.tallGrassScale) : variant.heightScale);
                         TerrainDecorationInstance instance = {
@@ -483,8 +504,10 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                             {rule.tint[0] * shade, rule.tint[1] * shade, rule.tint[2] * shade, 1.0f},
                             {normal.x, normal.y, normal.z, float(variantIndex)}};
                         result.instances.push_back(instance);
-                        patch.min[2] = std::min(patch.min[2], z - 8.0f);
-                        patch.max[2] = std::max(patch.max[2], z + instanceHeight + 8.0f);
+                        const float slopeOffset = instance.sizeWindKind[0] * 0.5f
+                            * std::hypot(normal.x, normal.y) / std::max(normal.z, 0.5f);
+                        patch.min[2] = std::min(patch.min[2], z - slopeOffset - 8.0f);
+                        patch.max[2] = std::max(patch.max[2], z + instanceHeight + slopeOffset + 8.0f);
                     }
                     patch.count = uint32_t(result.instances.size()) - patch.first;
                     if (patch.count > 0)

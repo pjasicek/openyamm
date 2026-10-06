@@ -5,7 +5,6 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - Priest
       - Druid
       - Knight
       - Monk
@@ -23,7 +22,6 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - Priest
       - DarkElf
       - Druid
       - Knight
@@ -34,7 +32,6 @@ race_class_availability:
     race_id: 3
     classes:
       - Cleric
-      - Priest
       - Druid
       - Knight
       - Minotaur
@@ -58,7 +55,6 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - Priest
       - Druid
       - Knight
       - Monk
@@ -71,7 +67,6 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - Priest
       - Druid
       - Knight
       - Monk
@@ -84,7 +79,6 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - Priest
       - Druid
       - Knight
       - Monk
@@ -118,6 +112,6 @@ new_game_continents:
   - id: 4
     key: between_time
     name: "Between time"
-    available_class_ids: [5, 8, 16, 20, 38, 40, 44]
+    available_class_ids: [4, 8, 16, 20, 38, 40, 44]
     available_race_ids: [0, 1, 2, 3, 4, 9]
     portrait_exceptions: []

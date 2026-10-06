@@ -45,6 +45,36 @@ float storedReferenceRoundParticleSize(float particleSize = 1.0f)
 }
 }
 
+TEST_CASE("actor disintegration particles are bounded, expire and resume at the death clock")
+{
+    using namespace OpenYAMM::Game;
+    ParticleSystem particles;
+    FxRecipes::spawnActorDisintegrationParticles(particles, 42, 10, 20, 30, 179, 0, 1.25f);
+    CHECK(particles.particleCount() == 80);
+    const ParticleSystem::DebugStats stats = particles.debugStats();
+    CHECK(stats.activeByMaterial[size_t(FxParticleMaterial::Mist)] == 64);
+    CHECK(stats.activeByMaterial[size_t(FxParticleMaterial::Smoke)] == 16);
+    particles.update(0.5f);
+    ParticleSystem resumed;
+    FxRecipes::spawnActorDisintegrationParticles(resumed, 42, 10, 20, 30, 179, 0.5f, 1.25f);
+    REQUIRE(resumed.particleCount() == particles.particleCount());
+    for (size_t i = 0; i < particles.particleCount(); ++i)
+    {
+        CHECK(resumed.particles()[i].z == doctest::Approx(particles.particles()[i].z));
+    }
+    particles.update(1.0f);
+    CHECK(particles.particleCount() == 0);
+    FxRecipes::spawnActorDisintegrationParticles(particles, 42, 10, 20, 30, 179, 1.25f, 1.25f);
+    CHECK(particles.particleCount() == 0);
+    for (uint32_t i = 0; i < 100; ++i)
+    {
+        FxRecipes::spawnActorDisintegrationParticles(particles, i, 10, 20, 30, 179, 0, 1.25f);
+    }
+    CHECK(particles.particleCount() == particles.maxParticleCount());
+    particles.update(1.3f);
+    CHECK(particles.particleCount() == 0);
+}
+
 TEST_CASE("projectile area impact hits party and filters actors without map runtime")
 {
     GameplayProjectileService service;

@@ -20,10 +20,7 @@ function(openyamm_bgfx_shader_targets outputVariable)
     if (ANDROID)
         set(shaderTargets "android|300_es|essl")
     elseif (WIN32)
-        set(shaderTargets
-            "windows|120|glsl"
-            "windows|s_5_0|dxbc"
-        )
+        set(shaderTargets "windows|120|glsl")
     elseif (APPLE)
         set(shaderTargets "osx|120|glsl")
     else()
@@ -223,16 +220,10 @@ function(openyamm_configure_bgfx_runtime)
         if (ANDROID)
             set(openyammBgfxOpenGlVersion 0)
             set(openyammBgfxOpenGlesVersion 30)
-            set(openyammBgfxDirect3D11 0)
             set(openyammBgfxDebug 0)
         else()
             set(openyammBgfxOpenGlVersion 33)
             set(openyammBgfxOpenGlesVersion 0)
-            if (WIN32)
-                set(openyammBgfxDirect3D11 1)
-            else()
-                set(openyammBgfxDirect3D11 0)
-            endif()
             set(openyammBgfxDebug "$<IF:$<CONFIG:Debug>,1,0>")
         endif()
 
@@ -240,7 +231,7 @@ function(openyamm_configure_bgfx_runtime)
             PUBLIC
                 BX_CONFIG_DEBUG=${openyammBgfxDebug}
             PRIVATE
-                BGFX_CONFIG_RENDERER_DIRECT3D11=${openyammBgfxDirect3D11}
+                BGFX_CONFIG_RENDERER_DIRECT3D11=0
                 BGFX_CONFIG_RENDERER_DIRECT3D12=0
                 BGFX_CONFIG_RENDERER_METAL=0
                 BGFX_CONFIG_RENDERER_VULKAN=$<BOOL:${OPENYAMM_USE_VULKAN}>
@@ -363,15 +354,7 @@ function(openyamm_configure_bgfx_runtime)
             ${CMAKE_SOURCE_DIR}/tools/openyamm_shaderc_stubs.cpp
         )
 
-        if (WIN32)
-            list(APPEND openyammShadercSources ${OPENYAMM_BGFX_SOURCE_DIR}/tools/shaderc/shaderc_hlsl.cpp)
-        endif()
-
         add_executable(openyamm_shaderc ${openyammShadercSources})
-
-        if (WIN32)
-            target_compile_definitions(openyamm_shaderc PRIVATE OPENYAMM_SHADERC_ENABLE_HLSL=1)
-        endif()
 
         if (OPENYAMM_USE_VULKAN)
             include(BgfxSpirv)

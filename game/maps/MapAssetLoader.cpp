@@ -3808,6 +3808,7 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
 )
 {
     std::vector<std::string> textureNames;
+    std::unordered_map<std::string, SurfaceMaterialSemantic> waterMaterials;
     std::vector<std::pair<std::string, SurfaceAnimationSequence>> animationBindings;
 
     for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
@@ -3846,6 +3847,20 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
                     false,
                     pTextureFrameTable,
                     pSurfaceMaterialTable);
+
+            const SurfaceMaterialDefinition *pMaterial = pSurfaceMaterialTable != nullptr
+                ? pSurfaceMaterialTable->findMatch(normalizedName, face.attributes, false) : nullptr;
+            const SurfaceMaterialSemantic semantic = pMaterial != nullptr
+                ? pMaterial->semantic : SurfaceMaterialSemantic::GenericAnimated;
+            if (semantic == SurfaceMaterialSemantic::Lava)
+            {
+                waterMaterials[normalizedName] = semantic;
+            }
+            else if (!hasFaceAttribute(face.attributes, FaceAttribute::Lava)
+                && (hasFaceAttribute(face.attributes, FaceAttribute::Fluid) || semantic == SurfaceMaterialSemantic::Water))
+            {
+                waterMaterials[normalizedName] = semantic;
+            }
 
             appendTextureNameIfMissing(textureNames, normalizedName);
             appendAnimationTextureNamesIfMissing(textureNames, animation);
@@ -3910,6 +3925,15 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
         texture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, loadedAssetScaleTier);
         texture.physicalWidth = textureWidth;
         texture.physicalHeight = textureHeight;
+        const auto material = waterMaterials.find(textureName);
+        if (material != waterMaterials.end())
+        {
+            texture.surfaceSemantic = material->second;
+            if (material->second != SurfaceMaterialSemantic::Lava)
+            {
+                texture.waterColorAbgr = waterBodyColorFromBgra(*pixels);
+            }
+        }
         updateBitmapAlphaInfo(texture, *pixels);
         texture.pixels = *pixels;
         textureSet.textures.push_back(std::move(texture));

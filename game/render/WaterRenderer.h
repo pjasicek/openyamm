@@ -8,7 +8,9 @@
 #include <bx/math.h>
 
 #include <array>
+#include <map>
 #include <span>
+#include <string>
 #include <vector>
 
 namespace OpenYAMM::Engine
@@ -20,6 +22,7 @@ namespace OpenYAMM::Game
 {
 class ViewFrustum;
 struct IndoorLightingFrame;
+struct BillboardQuad;
 
 struct WaterVertex
 {
@@ -65,7 +68,7 @@ public:
 
     bool initialize(const Engine::AssetFileSystem &assets, std::vector<WaterSurfaceGeometry> geometry,
         std::span<const std::vector<uint8_t>> coverageMasks = {}, bool indoor = false);
-    bool updateGeometry(std::vector<WaterSurfaceGeometry> geometry);
+    bool updateGeometry(std::vector<WaterSurfaceGeometry> geometry, bool buildings = false);
     void shutdown();
     bool isReady() const;
     void prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, const float *pView, const float *pProjection,
@@ -75,9 +78,17 @@ public:
     void bindCoverage(uint8_t stage) const;
     void render(uint16_t viewId, float seconds,
         const std::array<float, 4> &sunDirection, const std::array<float, 4> &sunColor,
-        const std::array<float, 4> &skyColor, float rainIntensity, const WaterRippleRuntime *pRipples = nullptr);
+        const std::array<float, 4> &skyColor, float rainIntensity, const WaterRippleRuntime *pRipples = nullptr,
+        const Reflection *pReflection = nullptr);
     void renderIndoor(uint16_t viewId, float seconds, const IndoorLightingFrame &lighting,
-        const bx::Vec3 &camera, const bx::Vec3 &forward, const WaterRippleRuntime *pRipples = nullptr);
+        const bx::Vec3 &camera, const bx::Vec3 &forward, const WaterRippleRuntime *pRipples = nullptr,
+        const Reflection *pReflection = nullptr, std::span<const uint8_t> visibleSectors = {});
+    void renderBillboard(uint16_t viewId, std::span<const WaterVertex> vertices,
+        bgfx::TextureHandle sprite, float seconds,
+        const std::array<float, 4> &sunDirection, const std::array<float, 4> &sunColor,
+        const std::array<float, 4> &skyColor, float rainIntensity);
+    void appendBillboardGeometry(std::vector<WaterVertex> &vertices, const std::string &textureName,
+        const BillboardQuad &quad, bool mirrored) const;
 
 private:
     struct Surface
@@ -89,6 +100,7 @@ private:
         float distanceSquared = 0.0f;
         bool planar = true;
         bool visible = false;
+        bool building = false;
         int reflection = -1;
         int16_t sectorId = -1;
         int16_t backSectorId = -1;
@@ -113,6 +125,7 @@ private:
     bgfx::TextureHandle m_coverageTexture = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_coverageSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_normalSampler = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_spriteSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_reflectionSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_params = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_sunDirection = BGFX_INVALID_HANDLE;
@@ -124,5 +137,6 @@ private:
     bgfx::UniformHandle m_indoorLightColors = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_indoorLightParams = BGFX_INVALID_HANDLE;
     bool m_indoor = false;
+    std::map<std::string, std::vector<std::vector<std::array<float, 3>>>> m_spriteWaterStrips;
 };
 }

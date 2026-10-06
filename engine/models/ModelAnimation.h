@@ -33,6 +33,7 @@ struct ModelDeformationBounds
 
 ModelDeformationBounds buildModelDeformationBounds(const ModelAsset &asset);
 ModelBounds modelPoseBounds(const ModelAsset &asset, const ModelPose &pose, const ModelDeformationBounds &bounds);
+ModelBounds modelExactPoseBounds(const ModelAsset &asset, const ModelPose &pose);
 
 void resetModelPose(const ModelAsset &asset, ModelPose &pose);
 void evaluateModelClip(const ModelAsset &asset, uint32_t clipIndex, float timeSeconds, ModelPose &pose);

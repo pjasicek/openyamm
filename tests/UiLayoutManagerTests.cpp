@@ -2,7 +2,10 @@
 
 #include "game/ui/UiLayoutManager.h"
 
+#include <yaml-cpp/yaml.h>
+
 #include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -18,6 +21,51 @@ std::string loadLayoutSource(const std::filesystem::path &relativePath)
     text << input.rdbuf();
     return text.str();
 }
+}
+
+TEST_CASE("menu settings catalog has complete native layout controls")
+{
+    const YAML::Node catalog = YAML::Load(loadLayoutSource("assets_dev/engine/ui/menu/settings_catalog.yml"));
+    OpenYAMM::Game::UiLayoutManager manager;
+    for (const YAML::Node &section : catalog["sections"])
+    {
+        const std::string path = "assets_dev/engine/ui/gameplay/settings_" + section["id"].as<std::string>() + ".yml";
+        REQUIRE(manager.loadLayoutText(path, loadLayoutSource(path)));
+    }
+    const auto capitalized = [](const std::string &value)
+    {
+        std::string result;
+        bool upper = true;
+        for (unsigned char character : value)
+        {
+            if (character == '_' || character == '-')
+            {
+                upper = true;
+                continue;
+            }
+            result += upper ? char(std::toupper(character)) : char(character);
+            upper = false;
+        }
+        return result;
+    };
+    for (const YAML::Node &setting : catalog["settings"])
+    {
+        const std::string prefix = "Settings" + capitalized(setting["section"].as<std::string>());
+        const std::string id = prefix + capitalized(setting["id"].as<std::string>());
+        CAPTURE(id);
+        for (const char *pSuffix : {"Label", "Description", "Control"})
+        {
+            CAPTURE(pSuffix);
+            const OpenYAMM::Game::UiLayoutManager::LayoutElement *pElement = manager.findElement(id + pSuffix);
+            REQUIRE(pElement != nullptr);
+            CHECK(pElement->parentId == prefix + "ScrollViewport");
+        }
+        CHECK(manager.findElement(id + "Control")->interactive);
+        if (setting["type"].as<std::string>() == "range")
+        {
+            CHECK(manager.findElement(id + "Value") != nullptr);
+        }
+    }
 }
 
 TEST_CASE("shared Obsidian gameplay layout preserves command and follower ownership")

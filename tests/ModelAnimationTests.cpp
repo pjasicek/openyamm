@@ -581,6 +581,7 @@ TEST_CASE("ModelAnimation skinning applies inverse bind, all influences, morphs 
     ModelTransform transform;
     transform.translation = {10, 20, 30};
     REQUIRE(instances.sample(handle, 0, 0.5f, transform));
+    CHECK(instances.bounds(handle)->min[0] == doctest::Approx(12));
     const ModelVertex &vertex = instances.pose(handle)->deformedVertices[0][0][0];
     CHECK(vertex.position[0] == doctest::Approx(12));
     CHECK(vertex.position[1] == doctest::Approx(20));
@@ -631,6 +632,16 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
     const uint32_t body = *loaded.asset->findNode("Demon_Native_Mesh");
     const uint32_t ash = *loaded.asset->findNode("Demon_Ash_Remains");
     const uint32_t plume = *loaded.asset->findNode("Demon_Death_Plume");
+    // The portable authoring effect is replaced by batched runtime particles.
+    CHECK_EQ(loaded.asset->nodes[plume].meshIndex, -1);
+    CHECK(loaded.asset->nodes[plume].weights.empty());
+    for (const ModelMesh &mesh : loaded.asset->meshes)
+    {
+        for (const ModelPrimitive &primitive : mesh.primitives)
+        {
+            CHECK(primitive.morphTargets.empty());
+        }
+    }
     const std::array<std::pair<const char *, float>, 6> nativeClips = {{{"Standing", .125f}, {"Walk_Native", 1.125f},
         {"Attack", .75f}, {"Hit", .75f}, {"Fidget", .625f}, {"Death", 1.25f}}};
     for (const auto &[name, duration] : nativeClips)
@@ -638,7 +649,8 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
         const uint32_t clip = *loaded.asset->findClip(name);
         CHECK(loaded.asset->clips[clip].durationSeconds == doctest::Approx(duration));
         REQUIRE(instances.sample(handle, clip, duration * .5f, gltfModelPlacement({1, 2, 3}, 0, 100)));
-        REQUIRE(instances.bounds(handle)->valid);
+        // After 375 ms the body is hidden; runtime particles do not contribute to pick bounds.
+        CHECK(instances.bounds(handle)->valid == (std::string(name) != "Death"));
         for (const auto &node : instances.pose(handle)->deformedVertices)
         {
             for (const auto &primitive : node)
@@ -700,7 +712,7 @@ TEST_CASE("ModelAnimation defers crowd deformation and bounds contain every demo
             REQUIRE(instances.nodeMatrix(first, 0) != nullptr);
             CHECK(pPose->deformationRevision == revision);
             const ModelBounds exact = *instances.bounds(first);
-            revision = pPose->deformationRevision;
+            CHECK(pPose->deformationRevision == revision);
             CHECK(conservative.valid == exact.valid);
             if (exact.valid)
             {
@@ -713,7 +725,16 @@ TEST_CASE("ModelAnimation defers crowd deformation and bounds contain every demo
                 }
             }
             REQUIRE(instances.sample(first, clip, time, placement));
-            CHECK(instances.pose(first)->deformationRevision == revision);
+            CHECK(instances.bounds(first)->min == exact.min);
+            CHECK(instances.pose(first)->deformationRevision == revision + 1);
+            revision = pPose->deformationRevision;
+            const ModelBounds cpuVertices = *instances.bounds(first);
+            CHECK(cpuVertices.valid == exact.valid);
+            for (size_t axis = 0; axis < 3; ++axis)
+            {
+                CHECK(cpuVertices.min[axis] == doctest::Approx(exact.min[axis]));
+                CHECK(cpuVertices.max[axis] == doctest::Approx(exact.max[axis]));
+            }
         }
     }
     // A second instance has its own pose and does not inherit the first actor's deformation.
@@ -723,4 +744,76 @@ TEST_CASE("ModelAnimation defers crowd deformation and bounds contain every demo
     CHECK(reused.index == first.index);
     CHECK(reused.generation != first.generation);
     CHECK(instances.pose(reused)->deformationRevision == 1);
+}
+
+TEST_CASE("ModelAnimation demon LOD meshes share the rig and retain posed bounds across all clips")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", AssetScaleTier::X1));
+    const ModelLoadResult loaded = GltfModelLoader().load(assets, "worlds/mm6/models/mm6_demon.glb");
+    REQUIRE_MESSAGE(loaded, loaded.error);
+    const ModelAsset &asset = *loaded.asset;
+    const uint32_t nodeIndex = *asset.findNode("Demon_Native_Mesh");
+    const ModelMesh &mesh = asset.meshes[asset.nodes[nodeIndex].meshIndex];
+    REQUIRE(mesh.lodMeshes.size() == 3);
+    REQUIRE(mesh.shadowMeshes.size() == 4);
+    const std::array<size_t, 4> triangles = {16474, 8237, 2980, 1019};
+    for (size_t level = 0; level < 4; ++level)
+    {
+        const uint32_t meshIndex = level == 0 ? uint32_t(asset.nodes[nodeIndex].meshIndex) : mesh.lodMeshes[level - 1];
+        size_t indices = 0;
+        for (const ModelPrimitive &primitive : asset.meshes[meshIndex].primitives)
+        {
+            indices += primitive.indices.size();
+            CHECK(primitive.influences.size() == primitive.vertices.size());
+        }
+        CHECK(indices / 3 == triangles[level]);
+        const ModelMesh &shadow = asset.meshes[mesh.shadowMeshes[level]];
+        REQUIRE(shadow.primitives.size() == 1);
+        CHECK(shadow.primitives[0].indices.size() == indices);
+        ModelAsset lower = asset;
+        lower.nodes[nodeIndex].meshIndex = int(meshIndex);
+        for (uint32_t clip = 0; clip < asset.clips.size(); ++clip)
+        {
+            for (int sample = 0; sample < 5; ++sample)
+            {
+                ModelPose pose;
+                evaluateModelClip(asset, clip, asset.clips[clip].durationSeconds * sample / 4.0f, pose);
+                evaluateModelHierarchy(asset, identityModelMatrix(), pose);
+                const ModelBounds reference = modelExactPoseBounds(asset, pose);
+                const ModelBounds actual = modelExactPoseBounds(lower, pose);
+                CHECK(actual.valid == reference.valid);
+                if (actual.valid)
+                {
+                    for (size_t axis = 0; axis < 3; ++axis)
+                    {
+                        // Detect changed bind spaces, bad joint remapping and exploded decimated weights.
+                        CHECK(std::abs(reference.min[axis] - actual.min[axis]) < 0.15f);
+                        CHECK(std::abs(reference.max[axis] - actual.max[axis]) < 0.15f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE("ModelAnimation loader rejects self-referencing LOD metadata")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path root = makeTemporaryRoot();
+    std::string json = fixtureGltf();
+    const size_t position = json.find("\"primitives\"");
+    REQUIRE(position != std::string::npos);
+    json.insert(position, "\"extras\":{\"openyamm_lods\":[0]},");
+    writeFile(root / "assets_dev/engine/models/fixture.bin", fixtureBuffer());
+    writeFile(root / "assets_dev/engine/models/fixture.gltf", json);
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", AssetScaleTier::X1));
+    const ModelLoadResult loaded = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    CHECK_FALSE(loaded);
+    CHECK(loaded.error.find("LOD reference") != std::string::npos);
+    assets.shutdown();
+    std::filesystem::remove_all(root);
 }

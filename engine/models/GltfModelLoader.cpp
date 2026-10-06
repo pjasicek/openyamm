@@ -4,6 +4,7 @@
 #include "engine/AssetFileSystem.h"
 
 #include <cgltf/cgltf.h>
+#include <yaml-cpp/yaml.h>
 
 #include <algorithm>
 #include <array>
@@ -451,6 +452,52 @@ bool loadMeshes(const cgltf_data &data, ModelAsset &asset, std::string &error)
         const cgltf_mesh &sourceMesh = data.meshes[meshIndex];
         ModelMesh mesh;
         mesh.name = sourceMesh.name != nullptr ? sourceMesh.name : "";
+        cgltf_size extrasSize = 0;
+        cgltf_copy_extras_json(&data, &sourceMesh.extras, nullptr, &extrasSize);
+        if (extrasSize > 1)
+        {
+            try
+            {
+                std::string json(extrasSize, '\0');
+                if (cgltf_copy_extras_json(&data, &sourceMesh.extras, json.data(), &extrasSize)
+                    != cgltf_result_success)
+                {
+                    error = "cannot read model mesh LOD metadata";
+                    return false;
+                }
+                const YAML::Node extras = YAML::Load(json.c_str());
+                for (const char *pKey : {"openyamm_lods", "openyamm_shadow_lods"})
+                {
+                    if (!extras[pKey])
+                    {
+                        continue;
+                    }
+                    std::vector<uint32_t> &indices = std::string_view(pKey) == "openyamm_lods"
+                        ? mesh.lodMeshes : mesh.shadowMeshes;
+                    indices = extras[pKey].as<std::vector<uint32_t>>();
+                    const size_t maximum = std::string_view(pKey) == "openyamm_lods" ? 3 : 4;
+                    if (indices.empty() || indices.size() > maximum)
+                    {
+                        error = "model mesh LOD chain must contain at most four levels";
+                        return false;
+                    }
+                    std::unordered_set<uint32_t> unique;
+                    for (uint32_t index : indices)
+                    {
+                        if (index >= data.meshes_count || index == meshIndex || !unique.insert(index).second)
+                        {
+                            error = "model mesh LOD reference is invalid or duplicated";
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (const YAML::Exception &exception)
+            {
+                error = std::string("invalid model mesh LOD metadata: ") + exception.what();
+                return false;
+            }
+        }
         const size_t targetCount = sourceMesh.primitives_count != 0 ? sourceMesh.primitives[0].targets_count : 0;
         mesh.weights.resize(targetCount, 0.0f);
         if (sourceMesh.weights_count != 0)
@@ -739,21 +786,75 @@ bool loadSkins(const cgltf_data &data, ModelAsset &asset, std::string &error)
         {
             continue;
         }
-        for (const ModelPrimitive &primitive : asset.meshes[node.meshIndex].primitives)
+        std::vector<uint32_t> meshes = {uint32_t(node.meshIndex)};
+        const ModelMesh &mesh = asset.meshes[node.meshIndex];
+        meshes.insert(meshes.end(), mesh.lodMeshes.begin(), mesh.lodMeshes.end());
+        meshes.insert(meshes.end(), mesh.shadowMeshes.begin(), mesh.shadowMeshes.end());
+        for (uint32_t meshIndex : meshes)
         {
-            if (primitive.influences.empty())
+            for (const ModelPrimitive &primitive : asset.meshes[meshIndex].primitives)
             {
-                error = "skinned primitive has no joint influences";
-                return false;
-            }
-            for (const ModelVertexInfluences &influences : primitive.influences)
-            {
-                for (size_t i = 0; i < influences.joints.size(); ++i)
+                if (primitive.influences.empty())
                 {
-                    if (influences.weights[i] > 0 && influences.joints[i] >= asset.skins[node.skinIndex].joints.size())
+                    error = "skinned primitive has no joint influences";
+                    return false;
+                }
+                for (const ModelVertexInfluences &influences : primitive.influences)
+                {
+                    for (size_t i = 0; i < influences.joints.size(); ++i)
                     {
-                        error = "vertex joint index exceeds its skin";
+                        if (influences.weights[i] > 0
+                            && influences.joints[i] >= asset.skins[node.skinIndex].joints.size())
+                        {
+                            error = "vertex joint index exceeds its skin";
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
+bool validateMeshLods(const ModelAsset &asset, std::string &error)
+{
+    for (const ModelMesh &mesh : asset.meshes)
+    {
+        if ((!mesh.lodMeshes.empty() || !mesh.shadowMeshes.empty()) && !mesh.weights.empty())
+        {
+            error = "mesh LODs require skeletal or static geometry, not morph targets";
+            return false;
+        }
+        for (const std::vector<uint32_t> *pChain : {&mesh.lodMeshes, &mesh.shadowMeshes})
+        {
+            for (uint32_t index : *pChain)
+            {
+                const ModelMesh &lower = asset.meshes[index];
+                if (lower.primitives.empty() || !lower.weights.empty()
+                    || !lower.lodMeshes.empty() || !lower.shadowMeshes.empty())
+                {
+                    error = "LOD meshes must not contain morph targets or nested LOD chains";
+                    return false;
+                }
+                for (const ModelNode &node : asset.nodes)
+                {
+                    if (node.meshIndex == int(index))
+                    {
+                        error = "LOD meshes must be referenced only by their owning mesh";
                         return false;
+                    }
+                }
+                if (pChain == &mesh.shadowMeshes)
+                {
+                    for (const ModelPrimitive &primitive : lower.primitives)
+                    {
+                        if (primitive.materialIndex >= 0
+                            && asset.materials[primitive.materialIndex].alphaMode != ModelAlphaMode::Opaque)
+                        {
+                            error = "dedicated shadow LODs require opaque geometry";
+                            return false;
+                        }
                     }
                 }
             }
@@ -1006,6 +1107,7 @@ ModelLoadResult GltfModelLoader::load(
         !loadMaterials(*data, *asset, result.error) ||
         !loadMeshes(*data, *asset, result.error) ||
         !loadNodes(*data, *asset, result.error) ||
+        !validateMeshLods(*asset, result.error) ||
         !loadSkins(*data, *asset, result.error) ||
         !loadAnimations(*data, *asset, result.error))
     {

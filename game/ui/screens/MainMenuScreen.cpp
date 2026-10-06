@@ -615,10 +615,6 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
         }
         else if (setting.type == "select")
         {
-            if (button(id, rect, "", "text_field", enabled))
-            {
-                chooseSetting(setting);
-            }
             std::string display = value;
             for (const auto &[option, name] : setting.options)
             {
@@ -627,8 +623,10 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
                     display = name;
                 }
             }
-            textInRect({rect.x + 7 * designScale(), rect.y, rect.width - 16 * designScale(), rect.height},
-                       display + "  v", "menu_lucida", 11.52f, enabled ? 0xffc6dfeau : 0xff6b777au);
+            if (selectBox(id, rect, display, enabled))
+            {
+                chooseSetting(setting);
+            }
         }
         else
         {
@@ -683,7 +681,7 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
         setTextEditing(true);
     }
     label(prefix + "Search", m_search.empty() ? "Search actions or keys..." : m_search + (m_searchEditing ? "_" : ""));
-    if (button("binding-filter", designRect(prefix + "GroupFilter"), "", "text_field"))
+    if (selectBox("binding-filter", designRect(prefix + "GroupFilter"), m_bindingGroup, true, 12.16f))
     {
         std::vector<std::string> groups = {"All actions"};
         for (const Binding &binding : m_bindings)
@@ -703,7 +701,6 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
                     }
                 }, true);
     }
-    label(prefix + "GroupFilter", m_bindingGroup);
     std::vector<const Binding *> filtered;
     for (const Binding &binding : m_bindings)
     {

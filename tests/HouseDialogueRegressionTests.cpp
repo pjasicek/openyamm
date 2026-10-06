@@ -7195,6 +7195,8 @@ TEST_CASE("MM8 promotion sidecars exclude promoted and opposite classes on initi
         {62, 736, "Dragon", "GreatWyrm", "Archer", 1543, {540}},
         {71, 740, "Minotaur", "MinotaurLord", "Archer", 1545, {541, 732}},
         {81, 737, "Cleric", "PriestLight", "PriestDark", 1546, {626}},
+        // A Priest arriving from MM6/MM7 can finish this family in Jadame, including repeat visits.
+        {81, 737, "Priest", "PriestLight", "PriestDark", 1546, {626}},
         {89, 738, "Necromancer", "Lich", "ArchMage", 1548, {611}},
         {90, 739, "Vampire", "Nosferatu", "Archer", 1547, {627, 612}},
     };

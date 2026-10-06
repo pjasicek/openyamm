@@ -15,6 +15,23 @@ constexpr size_t ModelSunShadowCascades = 2;
 constexpr uint16_t ModelSunShadowSize = 2048;
 constexpr std::array<float, ModelSunShadowCascades> ModelSunShadowRadii = {1024.0f, 4096.0f};
 
+struct ModelShadowSettings
+{
+    uint16_t size = 0;
+    std::array<float, 2> radii = {};
+};
+
+inline ModelShadowSettings modelShadowSettings(int quality)
+{
+    switch (quality)
+    {
+    case 1: return {512, {512, 1536}};
+    case 2: return {1024, {768, 3072}};
+    case 3: return {2048, ModelSunShadowRadii};
+    default: return {};
+    }
+}
+
 struct ModelSunShadowCascade
 {
     ModelMatrix view = {};
@@ -23,14 +40,15 @@ struct ModelSunShadowCascade
 };
 
 inline ModelSunShadowCascade modelSunShadowCascade(const std::array<float, 3> &camera,
-    const std::array<float, 3> &direction, float radius, bool homogeneousDepth, bool originBottomLeft)
+    const std::array<float, 3> &direction, float radius, bool homogeneousDepth, bool originBottomLeft,
+    uint16_t resolution = ModelSunShadowSize)
 {
     const bx::Vec3 light = bx::normalize({direction[0], direction[1], direction[2]});
     const bx::Vec3 up = std::abs(light.z) > 0.95f ? bx::Vec3{0, 1, 0} : bx::Vec3{0, 0, 1};
     const bx::Vec3 right = bx::normalize(bx::cross(up, light));
     const bx::Vec3 vertical = bx::cross(light, right);
     const bx::Vec3 eye = {camera[0], camera[1], camera[2]};
-    const float texel = 2.0f * radius / ModelSunShadowSize;
+    const float texel = 2.0f * radius / resolution;
     const float x = bx::dot(eye, right);
     const float y = bx::dot(eye, vertical);
     // Fixed extents and texel-snapped light-space translation keep camera turns and subtexel movement stable.

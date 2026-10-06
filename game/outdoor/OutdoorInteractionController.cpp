@@ -3381,6 +3381,13 @@ bool OutdoorInteractionController::hitTestActorBillboard(
             {
                 return false;
             }
+            pBounds = view.m_worldFxSystem.actorModelPoseBounds(actorIndex);
+            if (!pBounds->valid || !intersectRayAabb(rayOrigin, rayDirection,
+                {pBounds->min[0], pBounds->min[1], pBounds->min[2]},
+                {pBounds->max[0], pBounds->max[1], pBounds->max[2]}, distance))
+            {
+                return false;
+            }
             pBounds = view.m_worldFxSystem.actorModelBounds(actorIndex);
             return intersectRayAabb(rayOrigin, rayDirection,
                 {pBounds->min[0], pBounds->min[1], pBounds->min[2]},

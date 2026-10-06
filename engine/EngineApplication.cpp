@@ -736,6 +736,7 @@ int EngineApplication::run() const
                     if (pStats != nullptr)
                     {
                         std::cout << "[GpuFrameResources] draws=" << pStats->numDraw
+                                  << " triangles=" << pStats->numPrims[bgfx::Topology::TriList]
                                   << " texture_bytes=" << pStats->textureMemoryUsed
                                   << " target_bytes=" << pStats->rtMemoryUsed
                                   << " transient_vb_bytes=" << pStats->transientVbUsed << '\n';

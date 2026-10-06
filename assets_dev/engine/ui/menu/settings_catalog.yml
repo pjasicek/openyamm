@@ -145,6 +145,27 @@ settings:
     - 16×
   desc: Keep distant ground textures sharper. Uses anisotropic terrain filtering.
   depends: texture_filtering
+- id: model_lods
+  section: video
+  group: World detail
+  name: Scale distant creature detail
+  type: toggle
+  desc: Use simpler creature shapes at a distance while retaining full detail nearby.
+- id: model_shadow_quality
+  section: video
+  group: World detail
+  name: Creature shadows
+  type: select
+  options:
+  - - '0'
+    - Off
+  - - '1'
+    - Low
+  - - '2'
+    - Medium
+  - - '3'
+    - High
+  desc: Animated shadows on creatures and their surroundings. Higher quality improves detail and range.
 - id: terrain_decorations
   section: video
   group: World detail

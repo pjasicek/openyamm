@@ -20,6 +20,46 @@ void includePoint(ModelBounds &bounds, const std::array<float, 3> &point)
     }
 }
 
+std::array<float, 3> morphPosition(const ModelPrimitive &primitive, const std::vector<float> &weights,
+    size_t vertexIndex)
+{
+    std::array<float, 3> position = primitive.vertices[vertexIndex].position;
+    for (size_t targetIndex = 0; targetIndex < primitive.morphTargets.size(); ++targetIndex)
+    {
+        const ModelMorphTarget &target = primitive.morphTargets[targetIndex];
+        if (weights[targetIndex] == 0.0f || target.positions.empty())
+        {
+            continue;
+        }
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            position[axis] += weights[targetIndex] * target.positions[vertexIndex][axis];
+        }
+    }
+    return position;
+}
+
+std::array<float, 3> skinPosition(const std::array<float, 3> &position, const ModelVertexInfluences &influences,
+    const std::vector<ModelMatrix> &joints)
+{
+    std::array<float, 3> result = {};
+    for (size_t i = 0; i < influences.weights.size(); ++i)
+    {
+        const float weight = influences.weights[i];
+        if (weight == 0.0f)
+        {
+            continue;
+        }
+        const ModelMatrix &joint = joints[influences.joints[i]];
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            result[axis] += weight * (joint[axis] * position[0] + joint[4 + axis] * position[1]
+                + joint[8 + axis] * position[2] + joint[12 + axis]);
+        }
+    }
+    return result;
+}
+
 std::array<float, 4> normalizedQuaternion(const std::array<float, 4> &value)
 {
     const float length = std::sqrt(
@@ -308,6 +348,51 @@ ModelBounds modelPoseBounds(const ModelAsset &asset, const ModelPose &pose, cons
     return result;
 }
 
+ModelBounds modelExactPoseBounds(const ModelAsset &asset, const ModelPose &pose)
+{
+    ModelBounds result;
+    for (size_t nodeIndex = 0; nodeIndex < asset.nodes.size(); ++nodeIndex)
+    {
+        const ModelNode &node = asset.nodes[nodeIndex];
+        const ModelMatrix &matrix = pose.globalMatrices[nodeIndex];
+        if (node.meshIndex < 0 || !modelMatrixVisible(matrix))
+        {
+            continue;
+        }
+        std::vector<ModelMatrix> joints;
+        if (node.skinIndex >= 0)
+        {
+            const ModelSkin &skin = asset.skins[node.skinIndex];
+            joints.reserve(skin.joints.size());
+            for (size_t i = 0; i < skin.joints.size(); ++i)
+            {
+                joints.push_back(multiplyModelMatrices(
+                    pose.globalMatrices[skin.joints[i]], skin.inverseBindMatrices[i]));
+            }
+        }
+        for (const ModelPrimitive &primitive : asset.meshes[node.meshIndex].primitives)
+        {
+            for (size_t vertexIndex = 0; vertexIndex < primitive.vertices.size(); ++vertexIndex)
+            {
+                const std::array<float, 3> position =
+                    morphPosition(primitive, pose.morphWeights[nodeIndex], vertexIndex);
+                if (node.skinIndex >= 0)
+                {
+                    includePoint(result, skinPosition(position, primitive.influences[vertexIndex], joints));
+                }
+                else
+                {
+                    includePoint(result, {
+                        matrix[0] * position[0] + matrix[4] * position[1] + matrix[8] * position[2] + matrix[12],
+                        matrix[1] * position[0] + matrix[5] * position[1] + matrix[9] * position[2] + matrix[13],
+                        matrix[2] * position[0] + matrix[6] * position[1] + matrix[10] * position[2] + matrix[14]});
+                }
+            }
+        }
+    }
+    return result;
+}
+
 void resetModelPose(const ModelAsset &asset, ModelPose &pose)
 {
     pose.localTransforms.resize(asset.nodes.size());
@@ -359,7 +444,7 @@ void evaluateModelHierarchy(const ModelAsset &asset, const ModelMatrix &rootMatr
 
 void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins)
 {
-    // CPU skinning is retained for exact picking; rendering skins without morphs uses the GPU.
+    // Full CPU vertices remain available to geometry consumers; picking evaluates positions only.
     // ponytail: morphs use CPU deformation; move them to the GPU if large morph crowds become a measured cost.
     ++pose.deformationRevision;
     pose.deformedVertices.resize(asset.nodes.size());
@@ -400,6 +485,7 @@ void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins)
             for (size_t vertexIndex = 0; vertexIndex < vertices.size(); ++vertexIndex)
             {
                 ModelVertex &vertex = vertices[vertexIndex];
+                vertex.position = morphPosition(primitive, pose.morphWeights[nodeIndex], vertexIndex);
                 for (size_t targetIndex = 0; targetIndex < primitive.morphTargets.size(); ++targetIndex)
                 {
                     const float weight = pose.morphWeights[nodeIndex][targetIndex];
@@ -410,10 +496,6 @@ void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins)
                     const ModelMorphTarget &target = primitive.morphTargets[targetIndex];
                     for (size_t axis = 0; axis < 3; ++axis)
                     {
-                        if (!target.positions.empty())
-                        {
-                            vertex.position[axis] += weight * target.positions[vertexIndex][axis];
-                        }
                         if (!target.normals.empty())
                         {
                             vertex.normal[axis] += weight * target.normals[vertexIndex][axis];
@@ -424,7 +506,7 @@ void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins)
                 {
                     const ModelVertexInfluences &influences = primitive.influences[vertexIndex];
                     const ModelVertex original = vertex;
-                    vertex.position = {};
+                    vertex.position = skinPosition(original.position, influences, joints);
                     vertex.normal = {};
                     for (size_t i = 0; i < influences.weights.size(); ++i)
                     {
@@ -433,13 +515,9 @@ void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins)
                         {
                             continue;
                         }
-                        const ModelMatrix &joint = joints[influences.joints[i]];
                         const ModelMatrix &normal = normals[influences.joints[i]];
                         for (size_t axis = 0; axis < 3; ++axis)
                         {
-                            vertex.position[axis] += weight * (joint[axis] * original.position[0]
-                                + joint[4 + axis] * original.position[1] + joint[8 + axis] * original.position[2]
-                                + joint[12 + axis]);
                             vertex.normal[axis] += weight * (normal[axis] * original.normal[0]
                                 + normal[4 + axis] * original.normal[1] + normal[8 + axis] * original.normal[2]);
                         }

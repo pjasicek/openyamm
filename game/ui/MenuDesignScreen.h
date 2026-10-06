@@ -31,10 +31,13 @@ class MenuDesignScreen : public MenuScreenBase
     bool action(const std::string &id, bool enabled = true, const std::string &text = {});
     bool button(const std::string &id, const Rect &rect, const std::string &text, const std::string &skin = "button",
                 bool enabled = true, bool selected = false);
+    bool selectBox(const std::string &id, const Rect &rect, const std::string &value, bool enabled = true,
+                   float logicalSize = 11.52f);
     void skin(const std::string &name, const Rect &rect, bool sliced = false, float padding = 0);
     void outline(const Rect &rect, uint32_t color);
     void confirm(const std::string &title, const std::string &body, std::vector<std::string> choices,
-                 std::function<void(int)> callback, bool dismissOnOutsideClick = false);
+                 std::function<void(int)> callback, bool dismissOnOutsideClick = false, bool twoColumns = false,
+                 std::vector<std::string> choiceIcons = {});
     void drawConfirmation();
     bool modalOpen() const;
     void closeConfirmation();
@@ -70,6 +73,8 @@ class MenuDesignScreen : public MenuScreenBase
         std::function<void(int)> callback;
         int scroll = 0;
         bool dismissOnOutsideClick = false;
+        bool twoColumns = false;
+        std::vector<std::string> choiceIcons;
     };
     std::optional<Confirmation> m_confirmation;
     bool m_drawingConfirmation = false;

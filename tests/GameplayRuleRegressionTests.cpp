@@ -2391,6 +2391,15 @@ TEST_CASE("outdoor terrain descriptors use mm6 and mm7 merged tile tables")
     CHECK(pMm8WaterMaterial->animation.frames.front().textureName == "hdwtr000");
     CHECK(pMm8WaterMaterial->animation.frames.back().textureName == "hdwtr013");
 
+    for (const char *pTexture : {"6hdwtr000", "7hdwtr013", "hdwtr000"})
+    {
+        const OpenYAMM::Game::SurfaceMaterialDefinition *pFrameMaterial =
+            surfaceMaterialTable.findMatch(pTexture, 0, false);
+        REQUIRE(pFrameMaterial != nullptr);
+        CHECK(pFrameMaterial->semantic == OpenYAMM::Game::SurfaceMaterialSemantic::Water);
+        CHECK(pFrameMaterial->animation.frames.empty());
+    }
+
     const OpenYAMM::Game::SurfaceMaterialDefinition *pLavaMaterial =
         surfaceMaterialTable.findMatch("lavtyl", 0, true);
     REQUIRE(pLavaMaterial != nullptr);

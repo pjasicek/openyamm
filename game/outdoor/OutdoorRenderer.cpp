@@ -1,5 +1,6 @@
 #include "game/render/RuntimeShader.h"
 #include "game/outdoor/OutdoorRenderer.h"
+#include "game/render/WaterGeometry.h"
 
 #include "game/app/GameSession.h"
 #include "game/events/EventRuntime.h"
@@ -1330,7 +1331,8 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         std::vector<OutdoorGameView::LightmappedBModelVertex> lightmapped;
     };
     // Material animation and atlas page both define a static draw group.
-    std::map<std::pair<size_t, uint16_t>, ResolvedVertices> verticesByMaterial;
+    std::map<std::tuple<size_t, uint16_t, uint32_t>, ResolvedVertices> verticesByMaterial;
+    std::vector<WaterVertex> waterVertices;
 
     for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
     {
@@ -1392,8 +1394,6 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         }
 
         const uint16_t lightmapPage = batch.lightmappedVertices.empty() ? 0xffff : batch.lightmapPageIndex;
-        ResolvedVertices &resolved = verticesByMaterial[{animationIndex, lightmapPage}];
-        std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices = resolved.textured;
         uint32_t effectiveAttributes = batch.baseAttributes;
 
         if (pMapDeltaData != nullptr && batch.faceId < pMapDeltaData->faceAttributes.size())
@@ -1416,6 +1416,13 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
                 effectiveAttributes &= ~clearIt->second;
             }
         }
+
+        const OutdoorGameView::BModelTextureAnimationHandle &animation =
+            view.m_bmodelTextureAnimations[animationIndex];
+        const uint32_t waterColor = isWaterSurface(effectiveAttributes, animation.surfaceSemantic)
+            ? animation.waterColorAbgr : 0;
+        ResolvedVertices &resolved = verticesByMaterial[{animationIndex, lightmapPage, waterColor}];
+        std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices = resolved.textured;
 
         float secretPulse = batch.vertices.empty() ? 0.0f : batch.vertices.front().secretPulse;
         int perceptionDifficulty = -1;
@@ -1456,6 +1463,27 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             groupVertices[vertexIndex].flowVPerSecond = flowInfo[1];
             groupVertices[vertexIndex].lavaFlow = flowInfo[2];
             groupVertices[vertexIndex].fluidFlow = flowInfo[3];
+        }
+
+        if (waterColor != 0)
+        {
+            for (size_t index = oldSize; index + 2 < groupVertices.size(); index += 3)
+            {
+                std::array<bx::Vec3, 3> positions = {bx::Vec3{0, 0, 0}, bx::Vec3{0, 0, 0}, bx::Vec3{0, 0, 0}};
+                std::array<std::array<float, 2>, 3> uvs = {};
+                for (size_t corner = 0; corner < 3; ++corner)
+                {
+                    const OutdoorGameView::TexturedTerrainVertex &vertex = groupVertices[index + corner];
+                    positions[corner] = {vertex.x, vertex.y, vertex.z};
+                    uvs[corner] = {vertex.u, vertex.v};
+                }
+                const std::array<float, 2> flow = waterFaceFlow(positions, uvs, flowInfo[0], flowInfo[1]);
+                for (const bx::Vec3 &position : positions)
+                {
+                    waterVertices.push_back({position.x, position.y, position.z, 0, 0, 1,
+                        flow[0], flow[1], -1.0f, 0.0f, waterColor});
+                }
+            }
         }
 
         // Keep the exact same resolved position, event attributes and flow on the lightmap layout.
@@ -1503,8 +1531,9 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         OutdoorGameView::ResolvedBModelDrawGroup group = {};
         group.vertexBufferHandle = vertexBufferHandle;
         group.vertexCount = static_cast<uint32_t>(groupVertices.size());
-        group.animationIndex = material.first;
-        group.lightmapPageIndex = material.second;
+        group.animationIndex = std::get<0>(material);
+        group.lightmapPageIndex = std::get<1>(material);
+        group.waterSurface = std::get<2>(material) != 0;
         group.usesStaticLighting = usesStaticLighting;
         const OutdoorLightSelectionBounds bounds = boundsFromTexturedVertices(groupVertices);
         group.boundsMin = bounds.min;
@@ -1513,6 +1542,10 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         view.m_resolvedBModelDrawGroups.push_back(group);
     }
 
+    if (!view.m_waterRenderer.updateGeometry(buildWaterFaceGeometry(waterVertices, -1, -1), true))
+    {
+        std::cerr << "Cannot upload outdoor water faces.\n";
+    }
     view.m_resolvedBModelDrawGroupRevision = targetRevision;
 }
 
@@ -2672,6 +2705,8 @@ void OutdoorRenderer::createBModelTextureBatches(
     {
         OutdoorGameView::BModelTextureAnimationHandle animationHandle = {};
         animationHandle.textureName = toLowerCopy(texture.textureName);
+        animationHandle.surfaceSemantic = texture.surfaceSemantic;
+        animationHandle.waterColorAbgr = texture.waterColorAbgr;
 
         const SurfaceAnimationSequence *pAnimation =
             findTextureAnimationBinding(outdoorBModelTextureSet->animationBindings, texture.textureName);
@@ -3821,7 +3856,7 @@ void OutdoorRenderer::renderWaterReflections(OutdoorGameView &view, const float 
             }
             for (const OutdoorGameView::ResolvedBModelDrawGroup &group : view.m_resolvedBModelDrawGroups)
             {
-                if (!bgfx::isValid(group.vertexBufferHandle) || group.vertexCount == 0
+                if (group.waterSurface || !bgfx::isValid(group.vertexBufferHandle) || group.vertexCount == 0
                     || group.animationIndex >= view.m_bmodelTextureAnimations.size()
                     || (group.hasBounds && (group.boundsMax.z < reflection.height
                         || !frustum.intersectsBounds(group.boundsMin, group.boundsMax))))
@@ -3846,6 +3881,17 @@ void OutdoorRenderer::renderWaterReflections(OutdoorGameView &view, const float 
                 }
                 submitResolvedBModelDrawGroup(view, group, reflection.worldView, frame, transform);
             }
+        }
+        if (view.m_showBModels)
+        {
+            const float daylight = atmosphere.isNight ? 0.0f
+                : (1.0f - std::clamp(atmosphere.fogDensity, 0.0f, 1.0f));
+            const float brightness = atmosphere.ambientBrightness;
+            view.m_waterRenderer.render(reflection.worldView, view.m_elapsedTime,
+                {atmosphere.sunDirectionX, atmosphere.sunDirectionY, atmosphere.sunDirectionZ, 0.0f},
+                {daylight, 0.94f * daylight, 0.82f * daylight, 0.0f},
+                {0.34f * brightness, 0.46f * brightness, 0.56f * brightness, brightness},
+                atmosphere.rainIntensity, nullptr, &reflection);
         }
         if (view.m_gameSettings.waterSpriteReflections)
         {
@@ -3893,8 +3939,9 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
             && view.m_gameSettings.bakedSunStrength > 0.001f))
         && view.m_pOutdoorMapData->locationType == OutdoorLocationType::Exterior;
     view.m_modelRenderer.renderSunShadows(view.m_worldFxSystem.models(), FirstSunShadowView,
-        {cameraPosition.x, cameraPosition.y, cameraPosition.z}, shadowLight, sunlightShadows);
-    if (!view.m_modelRenderer.hasSunShadows())
+        {cameraPosition.x, cameraPosition.y, cameraPosition.z}, shadowLight, sunlightShadows,
+        view.m_gameSettings.modelShadowQuality, view.m_gameSettings.modelLods);
+    if (!view.m_modelRenderer.hasSunShadows() && !view.m_modelRenderer.hasSunShadowResources())
     {
         destroySunReceiverResources(view);
     }
@@ -3978,6 +4025,11 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         && view.m_waterRenderer.isReady() && pAtmosphereState != nullptr;
     if (advancedWater)
     {
+        if (view.m_showBModels && view.m_resolvedBModelDrawGroupRevision != outdoorSurfaceVisualRevision(
+            view.m_pOutdoorWorldRuntime->mapDeltaData(), view.m_pOutdoorWorldRuntime->eventRuntimeState()))
+        {
+            rebuildResolvedBModelDrawGroups(view);
+        }
         updateAnimatedWaterTileTexture(view, true);
         view.m_waterRenderer.prepare(frustum, cameraPosition, pViewMatrix, pProjectionMatrix,
             view.m_gameSettings.waterReflections && !pAtmosphereState->underwater,
@@ -4372,7 +4424,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                     {
                         for (const OutdoorGameView::ResolvedBModelDrawGroup &group : view.m_resolvedBModelDrawGroups)
                         {
-                            if (!bgfx::isValid(group.vertexBufferHandle) || group.vertexCount == 0 ||
+                            if ((advancedWater && group.waterSurface)
+                                || !bgfx::isValid(group.vertexBufferHandle) || group.vertexCount == 0 ||
                                 group.animationIndex >= view.m_bmodelTextureAnimations.size())
                             {
                                 continue;
@@ -4862,7 +4915,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         {
             return frustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
                 {bounds.max[0], bounds.max[1], bounds.max[2]});
-        });
+        }, view.m_gameSettings.modelLods ? std::abs(pProjectionMatrix[5]) * viewHeight * 0.5f : 0.0f,
+        view.m_gameSettings.modelLodOverride);
     // Translucent spells need the actors and models behind them in the color buffer first.
     if (view.m_showSpriteObjects)
     {

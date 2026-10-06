@@ -343,6 +343,12 @@ jobs:
           grep -Fxq "OpenYAMM/settings.ini" windows-package-contents.txt
           grep -Fxq "OpenYAMM/runtime/shaders/glsl/vs_outdoor_billboard_lit.bin" windows-package-contents.txt
           grep -Fxq "OpenYAMM/runtime/shaders/glsl/fs_sprite_atlas.bin" windows-package-contents.txt
+          grep -Fxq "OpenYAMM/runtime/shaders/glsl/vs_model.bin" windows-package-contents.txt
+          grep -Fxq "OpenYAMM/runtime/shaders/glsl/vs_model_shadow.bin" windows-package-contents.txt
+          if grep -Eq '^OpenYAMM/runtime/shaders/dxbc(/|$)' windows-package-contents.txt; then
+            echo "::error::Windows package contains unused DirectX shaders."
+            exit 1
+          fi
           grep -Fxq "OpenYAMM/assets/engine.zip" windows-package-contents.txt
           grep -Fxq "OpenYAMM/assets/worlds/mm6.zip" windows-package-contents.txt
           grep -Fxq "OpenYAMM/assets/worlds/mm7.zip" windows-package-contents.txt

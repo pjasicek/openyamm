@@ -2,6 +2,7 @@
 
 #include "engine/models/ModelInstance.h"
 #include "engine/render/ModelEnvironment.h"
+#include "engine/render/ModelLod.h"
 #include "engine/render/ModelSunShadows.h"
 
 #include <bgfx/bgfx.h>
@@ -39,7 +40,12 @@ public:
     void preload(const ModelInstanceSystem &instances);
     void beginFrame();
     void renderSunShadows(const ModelInstanceSystem &instances, uint16_t firstViewId,
-        const std::array<float, 3> &cameraPosition, const std::array<float, 3> &lightDirection, bool enabled);
+        const std::array<float, 3> &cameraPosition, const std::array<float, 3> &lightDirection, bool enabled,
+        int quality = 2, bool lods = true);
+    bool hasSunShadowResources() const
+    {
+        return bgfx::isValid(m_shadowFramebuffers[0]);
+    }
     void bindSunShadows() const;
     bool hasSunShadows() const
     {
@@ -52,7 +58,8 @@ public:
         const ModelRenderLighting &lighting = {},
         const std::function<ModelRenderLighting(const ModelBounds &)> &lightingForBounds = {},
         const ModelSkyEnvironment *pSkyEnvironment = nullptr,
-        const std::function<bool(const ModelBounds &)> &visibleBounds = {});
+        const std::function<bool(const ModelBounds &)> &visibleBounds = {}, float focalPixels = 0,
+        int forcedLod = -1);
 
 private:
     struct PrimitiveResources
@@ -98,7 +105,7 @@ private:
     void pruneUnusedAssets();
     void destroy(AssetResources &resources);
     std::vector<Draw> collectDraws(const ModelInstanceSystem &instances,
-        const std::function<bool(const ModelBounds &)> &visibleBounds);
+        const std::function<bool(const ModelBounds &)> &visibleBounds, const ModelLodView &view = {});
     void destroyDeformedBuffers(bool destroyGpu);
     void bindSkin(const Draw &draw);
     bool bindGeometry(const Draw &draw);
@@ -120,6 +127,14 @@ private:
     bgfx::UniformHandle m_shadowParamsUniformHandle = BGFX_INVALID_HANDLE;
     std::array<ModelMatrix, ModelSunShadowCascades> m_shadowMatrices = {};
     std::array<std::array<float, 4>, 4> m_shadowParams = {};
+    uint16_t m_shadowSize = 0;
+    struct LodState
+    {
+        ModelInstanceHandle owner;
+        uint32_t color = 0;
+        std::array<uint32_t, 2> shadow = {};
+    };
+    std::unordered_map<const ModelMatrix *, LodState> m_lodStates;
     struct DeformedBuffer
     {
         ModelInstanceHandle owner;

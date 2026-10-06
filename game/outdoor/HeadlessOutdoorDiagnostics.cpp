@@ -7529,6 +7529,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         }
         scenario.world.restoreSnapshot(initial);
+        fx.particles().reset();
         scenario.world.applyPartyAttackToMapActor(first, 1, -9728, -11319, 161);
         fx.syncActorModels(scenario.world);
         GameplayRuntimeActorState hit;
@@ -7546,6 +7547,13 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         if (dying.animationState != ActorAiAnimationState::Dying || !fx.hasActorModel(first))
         {
             failure = "death did not retain the animated model";
+            return false;
+        }
+        const size_t deathParticles = fx.particles().particleCount();
+        fx.syncActorModels(scenario.world);
+        if (deathParticles != 80 || fx.particles().particleCount() != deathParticles)
+        {
+            failure = "death burst was missing, unbounded or emitted again on synchronization";
             return false;
         }
         for (int tick = 0; tick < 256; ++tick)
@@ -7566,7 +7574,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             return false;
         }
         fx.reset();
-        if (fx.models().size() != 0 || fx.hasActorModel(first))
+        if (fx.models().size() != 0 || fx.hasActorModel(first) || fx.particles().particleCount() != 0)
         {
             failure = "map reset retained actor models";
             return false;
@@ -23144,6 +23152,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             Party &party = pPartyRuntime->party();
+            party.setQuestBit(93, false);
             party.addGold(1234);
             party.depositGoldToBank(234);
 
@@ -23218,15 +23227,47 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out03.odm", failure))
+            {
+                return false;
+            }
+
+            if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "out01.odm")
+            {
+                failure = "Alvar defeat before visiting Ravenshore did not return to Dagger Wound";
+                return false;
+            }
+
             if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out02.odm", failure))
             {
                 return false;
             }
 
+            if (!GameApplicationTestAccess::mapSceneRuntime(application)->party().hasQuestBit(93))
+            {
+                failure = "visiting Ravenshore did not set QBit 93";
+                return false;
+            }
+
             if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "out02.odm")
             {
-                failure = "non-DWI defeat did not resolve to Ravenshore";
+                failure = "Ravenshore defeat did not resolve to Ravenshore";
                 return false;
+            }
+
+            for (const char *pMapFileName : {"out01.odm", "d09.blv", "out03.odm"})
+            {
+                if (!loadHeadlessGameApplicationMap(application, assetFileSystem, pMapFileName, failure))
+                {
+                    return false;
+                }
+
+                if (!GameApplicationTestAccess::mapSceneRuntime(application)->party().hasQuestBit(93)
+                    || GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "out02.odm")
+                {
+                    failure = std::string(pMapFileName) + " defeat after visiting Ravenshore did not use Ravenshore";
+                    return false;
+                }
             }
 
             if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "7out01.odm", failure))
@@ -23234,20 +23275,47 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            GameApplicationTestAccess::mapSceneRuntime(application)->party().setQuestBit(519, false);
+
             if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "7out01.odm")
             {
                 failure = "Emerald Island defeat did not resolve to the Antagarich death-map-1 start map";
                 return false;
             }
 
-            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "7out02.odm", failure))
+            for (const char *pMapFileName : {"7d28.blv", "7d06.blv", "7out02.odm"})
+            {
+                if (!loadHeadlessGameApplicationMap(application, assetFileSystem, pMapFileName, failure))
+                {
+                    return false;
+                }
+
+                Party &mm7Party = GameApplicationTestAccess::mapSceneRuntime(application)->party();
+                mm7Party.setQuestBit(519, false);
+
+                if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "7out01.odm")
+                {
+                    failure = std::string(pMapFileName) + " defeat before finishing the contest left Emerald Island";
+                    return false;
+                }
+
+                mm7Party.setQuestBit(519, true);
+
+                if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "7out02.odm")
+                {
+                    failure = std::string(pMapFileName) + " defeat after finishing the contest did not use Harmondale";
+                    return false;
+                }
+            }
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "oute3.odm", failure))
             {
                 return false;
             }
 
-            if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "7out02.odm")
+            if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "oute3.odm")
             {
-                failure = "Harmondale defeat did not resolve to the Antagarich death-map-2 start map";
+                failure = "Enroth defeat did not resolve to New Sorpigal";
                 return false;
             }
 

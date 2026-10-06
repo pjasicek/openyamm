@@ -1,4 +1,4 @@
-$input a_position, a_normal, a_texcoord0, a_indices, a_weight, a_texcoord1, a_texcoord3
+$input a_position, a_normal, a_texcoord0, a_indices, a_weight, a_texcoord5, a_texcoord3
 $output v_texcoord0, v_worldNormal, v_worldPosition
 
 #include "common.sh"

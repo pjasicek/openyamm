@@ -344,6 +344,21 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
             binding.scale = entry["scale"].as<float>();
             binding.yawOffset = entry["yaw_offset"].as<float>(0.0f);
             binding.zOffset = entry["z_offset"].as<float>(0.0f);
+            const std::string deathEffect = entry["death_effect"].as<std::string>("none");
+            if (deathEffect != "none" && deathEffect != "disintegration")
+            {
+                error = "unknown actor model death effect: " + deathEffect;
+                return false;
+            }
+            binding.disintegrates = deathEffect == "disintegration";
+            if (binding.disintegrates)
+            {
+                Engine::ModelPose rest;
+                Engine::resetModelPose(*binding.asset, rest);
+                Engine::evaluateModelHierarchy(*binding.asset, Engine::identityModelMatrix(), rest);
+                const Engine::ModelBounds bounds = Engine::modelExactPoseBounds(*binding.asset, rest);
+                binding.height = bounds.valid ? bounds.max[1] - bounds.min[1] : 0.0f;
+            }
             if (!std::isfinite(binding.scale) || binding.scale <= 0 || !std::isfinite(binding.yawOffset)
                 || !std::isfinite(binding.zOffset))
             {
@@ -423,6 +438,15 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world)
         const uint32_t clip = binding.clips[animationIndex];
         float time = std::max(state.animationTimeTicks, 0.0f) / 128.0f;
         const float duration = binding.asset->clips[clip].durationSeconds;
+        const bool dying = state.animationState == ActorAiAnimationState::Dying;
+        if (binding.disintegrates && dying && !instance->second.dying)
+        {
+            const float height = binding.scale * state.visualScale * binding.height
+                * (pMonster->height > 0 ? float(state.height) / pMonster->height : 1.0f);
+            FxRecipes::spawnActorDisintegrationParticles(m_particleSystem, state.actorId,
+                state.preciseX, state.preciseY, state.preciseZ + binding.zOffset, height, time, duration);
+        }
+        instance->second.dying = dying;
         if ((state.animationState == ActorAiAnimationState::Standing
                 || state.animationState == ActorAiAnimationState::Walking) && duration > 0)
         {
@@ -463,6 +487,12 @@ const Engine::ModelBounds *WorldFxSystem::actorModelCullingBounds(size_t actorIn
 {
     const auto iterator = m_actorModels.find(actorIndex);
     return iterator != m_actorModels.end() ? m_models.motionBounds(iterator->second.handle) : nullptr;
+}
+
+const Engine::ModelBounds *WorldFxSystem::actorModelPoseBounds(size_t actorIndex) const
+{
+    const auto iterator = m_actorModels.find(actorIndex);
+    return iterator != m_actorModels.end() ? m_models.cullingBounds(iterator->second.handle) : nullptr;
 }
 
 void WorldFxSystem::setActorModelOutline(size_t actorIndex, uint32_t colorAbgr)

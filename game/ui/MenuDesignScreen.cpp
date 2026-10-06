@@ -458,6 +458,27 @@ bool MenuDesignScreen::button(const std::string &id, const Rect &rect, const std
     return activated;
 }
 
+bool MenuDesignScreen::selectBox(const std::string &id, const Rect &rect, const std::string &value, bool enabled,
+                                float logicalSize)
+{
+    const bool available = enabled && (!modalOpen() || m_drawingConfirmation);
+    const bool hovered = available && pointerInside(rect);
+    const bool activated = button(id, rect, "", "button_quiet", enabled);
+    const bool pressed = hovered && leftMouseDown() && m_pressed == id;
+    const std::string state = !enabled ? "disabled" : pressed ? "pressed" : hovered ? "hover" : "default";
+    const float scale = designScale();
+    const Rect arrow{rect.x + rect.width - rect.height, rect.y, rect.height, rect.height};
+    skin("button_square_" + state, arrow, true, 6);
+    const uint32_t color = !enabled ? 0xff6b777au : hovered ? 0xffc0f0ffu : 0xffc6dfeau;
+    textInRect({rect.x + 9 * scale, rect.y, rect.width - arrow.width - 18 * scale, rect.height},
+               value, "menu_lucida", logicalSize, color);
+    const float centerX = arrow.x + arrow.width / 2;
+    const float centerY = arrow.y + arrow.height / 2;
+    drawTextureColor(ArtRoot + "chevron_down.png",
+                     {centerX - 6 * scale, centerY - 4 * scale, 12 * scale, 8 * scale}, color);
+    return activated;
+}
+
 bool MenuDesignScreen::action(const std::string &id, bool enabled, const std::string &text)
 {
     const UiLayoutManager::LayoutElement *pElement = m_designLayouts.findElement(id);
@@ -479,9 +500,11 @@ bool MenuDesignScreen::action(const std::string &id, bool enabled, const std::st
 }
 
 void MenuDesignScreen::confirm(const std::string &title, const std::string &body, std::vector<std::string> choices,
-                               std::function<void(int)> callback, bool dismissOnOutsideClick)
+                               std::function<void(int)> callback, bool dismissOnOutsideClick, bool twoColumns,
+                               std::vector<std::string> choiceIcons)
 {
-    m_confirmation = Confirmation{title, body, std::move(choices), std::move(callback), 0, dismissOnOutsideClick};
+    m_confirmation = Confirmation{title, body, std::move(choices), std::move(callback), 0,
+                                  dismissOnOutsideClick, twoColumns, std::move(choiceIcons)};
     m_confirmationNew = true;
     m_focus = "modal-0";
     m_pressed.clear();
@@ -509,10 +532,14 @@ void MenuDesignScreen::drawConfirmation()
     loadDesign("menu/confirmation");
     setDesignClip(std::nullopt);
     m_drawingConfirmation = true;
+    const bool twoColumns = m_confirmation->twoColumns;
     const bool list = m_confirmation->choices.size() > 3;
-    const int count = std::min(8, int(m_confirmation->choices.size()));
+    const int total = int(m_confirmation->choices.size());
+    const int count = twoColumns ? total : std::min(8, total);
+    const int columns = twoColumns ? std::min(2, count) : 1;
     const auto *pPanel = m_designLayouts.findElement("MenuConfirmationPanel");
-    const float height = list ? 155.0f + count * 25 : pPanel->height;
+    const float height = twoColumns ? 172.0f + ((count + columns - 1) / columns) * 46
+                                   : list ? 155.0f + count * 25 : pPanel->height;
     const float verticalShift = (pPanel->height - height) / 2 * designScale();
     const auto modalRect = [this, verticalShift](const std::string &id)
     {
@@ -520,16 +547,28 @@ void MenuDesignScreen::drawConfirmation()
         rect.y += verticalShift;
         return rect;
     };
-    const auto modalText = [this, &modalRect](const std::string &id, const std::string &text)
+    Rect panel = modalRect("MenuConfirmationPanel");
+    if (twoColumns)
+    {
+        const float width = 600 * designScale();
+        panel.x += (panel.width - width) / 2;
+        panel.width = width;
+    }
+    panel.height = height * designScale();
+    const auto modalText = [this, &modalRect, twoColumns, &panel](const std::string &id, const std::string &text)
     {
         const auto *pElement = m_designLayouts.findElement(id);
-        textInRect(modalRect(id), text, pElement->fontName, pElement->textScale * fontHeight(pElement->fontName),
+        Rect rect = modalRect(id);
+        if (twoColumns)
+        {
+            rect.x = panel.x + 36 * designScale();
+            rect.width = panel.width - 72 * designScale();
+        }
+        textInRect(rect, text, pElement->fontName, pElement->textScale * fontHeight(pElement->fontName),
                    pElement->textColorAbgr, true);
     };
     drawTexture(m_designLayouts.findElement("MenuConfirmationVeil")->primaryAsset,
                 {0, 0, float(frameWidth()), float(frameHeight())});
-    Rect panel = modalRect("MenuConfirmationPanel");
-    panel.height = height * designScale();
     drawTexture(pPanel->primaryAsset, panel);
     drawTexture(m_designLayouts.findElement("MenuConfirmationSeal")->primaryAsset, modalRect("MenuConfirmationSeal"));
     modalText("MenuConfirmationTitle", m_confirmation->title);
@@ -541,18 +580,26 @@ void MenuDesignScreen::drawConfirmation()
     {
         selected = -1;
     }
-    if (!m_confirmationNew && list && mouseWheelDelta() != 0)
+    if (!m_confirmationNew && list && !twoColumns && mouseWheelDelta() != 0)
     {
         m_confirmation->scroll = std::clamp(m_confirmation->scroll - int(mouseWheelDelta()), 0,
                                             std::max(0, int(m_confirmation->choices.size()) - count));
         m_focus.clear();
     }
     int navigation = 0;
-    if (keyPressed(SDL_SCANCODE_DOWN) || keyPressed(SDL_SCANCODE_RIGHT))
+    if (keyPressed(SDL_SCANCODE_DOWN))
+    {
+        navigation = columns;
+    }
+    if (keyPressed(SDL_SCANCODE_UP))
+    {
+        navigation = -columns;
+    }
+    if (keyPressed(SDL_SCANCODE_RIGHT))
     {
         navigation = 1;
     }
-    if (keyPressed(SDL_SCANCODE_UP) || keyPressed(SDL_SCANCODE_LEFT))
+    if (keyPressed(SDL_SCANCODE_LEFT))
     {
         navigation = -1;
     }
@@ -571,7 +618,6 @@ void MenuDesignScreen::drawConfirmation()
     if (!m_confirmationNew && (navigation != 0 || keyPressed(SDL_SCANCODE_HOME) || keyPressed(SDL_SCANCODE_END)))
     {
         m_keyboardFocus = true;
-        const int total = int(m_confirmation->choices.size());
         int index = m_focus.starts_with("modal-") ? std::stoi(m_focus.substr(6)) : m_confirmation->scroll;
         index = (index + navigation + total) % total;
         if (keyPressed(SDL_SCANCODE_HOME))
@@ -587,12 +633,18 @@ void MenuDesignScreen::drawConfirmation()
     }
     for (int i = 0; i < count; ++i)
     {
-        const int index = i + (list ? m_confirmation->scroll : 0);
+        const int index = i + (list && !twoColumns ? m_confirmation->scroll : 0);
         const float scale = designScale();
         const Rect body = modalRect("MenuConfirmationBody");
         const float width = list ? body.width - 18 * scale : (body.width - 8 * scale) / count - 6 * scale;
         Rect rect = modalRect("MenuConfirmationCancelButton");
-        if (list)
+        if (twoColumns)
+        {
+            const float width = (panel.width - 72 * scale - (columns - 1) * 12 * scale) / columns;
+            rect = {panel.x + 36 * scale + (i % columns) * (width + 12 * scale),
+                    panel.y + (126 + (i / columns) * 46) * scale, width, 38 * scale};
+        }
+        else if (list)
         {
             rect = {panel.x + (panel.width - width) / 2, panel.y + (133 + i * 25) * scale, width, 22 * scale};
         }
@@ -601,10 +653,20 @@ void MenuDesignScreen::drawConfirmation()
             rect.x += i * (width + 6 * scale);
             rect.width = width;
         }
-        if (button("modal-" + std::to_string(index), rect, m_confirmation->choices[index],
-                   index == count - 1 && !list ? "button_primary" : "button_quiet"))
+        const bool hasIcon = index < int(m_confirmation->choiceIcons.size())
+            && !m_confirmation->choiceIcons[index].empty();
+        if (button("modal-" + std::to_string(index), rect, hasIcon ? "" : m_confirmation->choices[index],
+                   index == count - 1 && !list && !twoColumns ? "button_primary" : "button_quiet"))
         {
             selected = index;
+        }
+        if (hasIcon)
+        {
+            drawTexture(m_confirmation->choiceIcons[index],
+                        {rect.x + 8 * scale, rect.y + (rect.height - 28 * scale) / 2, 28 * scale, 28 * scale});
+            textInRect({rect.x + 44 * scale, rect.y, rect.width - 52 * scale, rect.height},
+                       m_confirmation->choices[index], "fondamento", 13.8667f,
+                       pointerInside(rect) ? 0xffc0f0ffu : 0xffa4d1e8u);
         }
     }
     m_drawingConfirmation = false;

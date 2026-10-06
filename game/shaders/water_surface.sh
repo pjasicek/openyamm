@@ -19,6 +19,12 @@ vec3 waterWaveNormal(vec2 uv, vec3 baseNormal, vec3 tangent, vec3 bitangent, flo
     return normalize(baseNormal - (tangent * waves.x + bitangent * waves.y) * strength);
 }
 
+float waterFlowFoam(vec2 uv, float falling)
+{
+    float turbulence = waveSample(uv, 2.4, vec2(0.041, 0.031)).x;
+    return falling * (0.10 + 0.65 * smoothstep(-0.12, 0.12, turbulence));
+}
+
 float waterFresnel(vec3 normal, vec3 viewDirection)
 {
     float grazing = 1.0 - clamp(abs(dot(normal, viewDirection)), 0.0, 1.0);

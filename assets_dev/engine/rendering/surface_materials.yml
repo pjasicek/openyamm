@@ -128,6 +128,17 @@ materials:
         - texture: hdwtr013
           ticks: 15
 
+  # Faces may refer directly to a legacy water animation frame instead of its tile alias.
+  - id: water_animation_frames
+    semantic: water
+    applies_to:
+      - face
+    match:
+      texture_prefixes:
+        - 6hdwtr
+        - 7hdwtr
+        - hdwtr
+
   - id: lava
     semantic: lava
     applies_to:

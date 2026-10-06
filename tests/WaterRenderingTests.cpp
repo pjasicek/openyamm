@@ -4,7 +4,7 @@
 #include "game/render/WaterMath.h"
 #include "game/fx/WaterRippleRuntime.h"
 #include "game/render/WaterAppearance.h"
-#include "game/render/IndoorWaterGeometry.h"
+#include "game/render/WaterGeometry.h"
 #include "game/indoor/IndoorPortalVisibility.h"
 #include "game/render/WaterCoverage.h"
 #include "game/render/WaterReflectionUpdate.h"
@@ -31,35 +31,13 @@ TEST_CASE("indoor water visibility respects both sectors and keeps unassigned ge
 TEST_CASE("indoor water classification excludes lava and sky even when marked fluid")
 {
     const uint32_t fluid = faceAttributeBit(FaceAttribute::Fluid);
-    CHECK(isIndoorWaterSurface(fluid, SurfaceMaterialSemantic::GenericAnimated));
-    CHECK(isIndoorWaterSurface(0, SurfaceMaterialSemantic::Water));
-    CHECK_FALSE(isIndoorWaterSurface(0, SurfaceMaterialSemantic::GenericAnimated));
-    CHECK_FALSE(isIndoorWaterSurface(fluid, SurfaceMaterialSemantic::Lava));
-    CHECK_FALSE(isIndoorWaterSurface(fluid | faceAttributeBit(FaceAttribute::Lava), SurfaceMaterialSemantic::Water));
-    CHECK_FALSE(isIndoorWaterSurface(fluid | faceAttributeBit(FaceAttribute::IndoorSky),
+    CHECK(isWaterSurface(fluid, SurfaceMaterialSemantic::GenericAnimated));
+    CHECK(isWaterSurface(0, SurfaceMaterialSemantic::Water));
+    CHECK_FALSE(isWaterSurface(0, SurfaceMaterialSemantic::GenericAnimated));
+    CHECK_FALSE(isWaterSurface(fluid, SurfaceMaterialSemantic::Lava));
+    CHECK_FALSE(isWaterSurface(fluid | faceAttributeBit(FaceAttribute::Lava), SurfaceMaterialSemantic::Water));
+    CHECK_FALSE(isWaterSurface(fluid | faceAttributeBit(FaceAttribute::IndoorSky),
         SurfaceMaterialSemantic::Water));
-}
-
-TEST_CASE("indoor water pools use enhanced water while walls and cube undersides retain native animation")
-{
-    const uint32_t fluid = faceAttributeBit(FaceAttribute::Fluid);
-    for (const SurfaceMaterialSemantic semantic :
-        {SurfaceMaterialSemantic::Water, SurfaceMaterialSemantic::GenericAnimated})
-    {
-        CHECK(isIndoorWaterPool(fluid, semantic, {0, 0, 1}));
-        CHECK(isIndoorWaterPool(fluid, semantic, {0, 0, 65536}));
-        CHECK(isIndoorWaterPool(fluid, semantic, {0.05f, 0, 1}));
-        CHECK_FALSE(isIndoorWaterPool(fluid, semantic, {1, 0, 0}));
-        CHECK_FALSE(isIndoorWaterPool(fluid, semantic, {0, -1, 0}));
-        CHECK_FALSE(isIndoorWaterPool(fluid, semantic, {0, 0, -1}));
-        CHECK_FALSE(isIndoorWaterPool(fluid, semantic, {0, 1, 1}));
-        CHECK_FALSE(isIndoorWaterPool(fluid, semantic, {0, 0, 0}));
-        CHECK_FALSE(isIndoorWaterPool(fluid | faceAttributeBit(FaceAttribute::IndoorSky), semantic, {0, 0, 1}));
-        CHECK_FALSE(isIndoorWaterPool(fluid | faceAttributeBit(FaceAttribute::Lava), semantic, {0, 0, 1}));
-    }
-    CHECK(isIndoorWaterPool(0, SurfaceMaterialSemantic::Water, {0, 0, 1}));
-    CHECK_FALSE(isIndoorWaterPool(0, SurfaceMaterialSemantic::GenericAnimated, {0, 0, 1}));
-    CHECK_FALSE(isIndoorWaterPool(fluid, SurfaceMaterialSemantic::Lava, {0, 0, 1}));
 }
 
 TEST_CASE("indoor water separates pool elevations and keeps waterfalls out of planar reflections")
@@ -73,7 +51,7 @@ TEST_CASE("indoor water separates pool elevations and keeps waterfalls out of pl
         vertex(0, 0, 10), vertex(100, 0, 10), vertex(0, 0, 20),
         vertex(0, 0, 10), vertex(0, 0, 10), vertex(0, 0, 10)
     };
-    const std::vector<WaterSurfaceGeometry> geometry = buildIndoorWaterGeometry(triangles, 12, -1);
+    const std::vector<WaterSurfaceGeometry> geometry = buildWaterFaceGeometry(triangles, 12, -1);
     REQUIRE(geometry.size() == 3);
     CHECK(geometry[0].planar);
     CHECK(geometry[0].height == 10);
@@ -89,24 +67,63 @@ TEST_CASE("indoor water separates pool elevations and keeps waterfalls out of pl
         CHECK(surface.backSectorId == -1);
         CHECK(surface.vertices.front().colorAbgr == 0xff4a4429u);
     }
-    CHECK(buildIndoorWaterGeometry({}, 1, -1).empty());
+    const std::array<WaterVertex, 3> underside = {vertex(0, 0, 10), vertex(0, 100, 10), vertex(100, 0, 10)};
+    const std::vector<WaterSurfaceGeometry> below = buildWaterFaceGeometry(underside, -1, -1);
+    REQUIRE(below.size() == 1);
+    CHECK_FALSE(below.front().planar);
+    CHECK(below.front().vertices.front().normalZ == -1.0f);
+    CHECK(buildWaterFaceGeometry({}, 1, -1).empty());
 }
 
-TEST_CASE("indoor water directional flow follows native UV orientation on horizontal and vertical faces")
+TEST_CASE("water face directional flow follows native UV orientation on horizontal and vertical faces")
 {
     const std::array<std::array<float, 2>, 3> uvs = {{{0, 0}, {1, 0}, {0, 1}}};
     const std::array<bx::Vec3, 3> flat = {bx::Vec3{0, 0, 0}, bx::Vec3{128, 0, 0}, bx::Vec3{0, -128, 0}};
     const std::array<bx::Vec3, 3> wall = {bx::Vec3{0, 0, 0}, bx::Vec3{128, 0, 0}, bx::Vec3{0, 0, -128}};
-    const std::array<float, 2> flatFlow = indoorWaterFlow(flat, uvs, 0.0f, -0.5f);
-    const std::array<float, 2> wallFlow = indoorWaterFlow(wall, uvs, 0.0f, -0.5f);
+    const std::array<float, 2> flatFlow = waterFaceFlow(flat, uvs, 0.0f, -0.5f);
+    const std::array<float, 2> wallFlow = waterFaceFlow(wall, uvs, 0.0f, -0.5f);
     CHECK(flatFlow[0] == 0);
-    CHECK(flatFlow[1] == doctest::Approx(-64.0 / 2048.0));
+    CHECK(flatFlow[1] == doctest::Approx(-64.0 / 768.0));
     CHECK(wallFlow[0] == 0);
-    CHECK(wallFlow[1] == doctest::Approx(64.0 / 2048.0));
-    const std::array<float, 2> reverse = indoorWaterFlow(wall, uvs, 0.0f, 0.5f);
+    CHECK(wallFlow[1] == doctest::Approx(64.0 / 768.0));
+    const std::array<float, 2> reverse = waterFaceFlow(wall, uvs, 0.0f, 0.5f);
     CHECK(reverse[1] == -wallFlow[1]);
     const std::array<bx::Vec3, 3> collapsed = {bx::Vec3{0, 0, 0}, bx::Vec3{0, 0, 0}, bx::Vec3{0, 0, 0}};
-    CHECK(indoorWaterFlow(collapsed, uvs, 1, 1) == std::array<float, 2>{0, 0});
+    CHECK(waterFaceFlow(collapsed, uvs, 1, 1) == std::array<float, 2>{0, 0});
+}
+
+TEST_CASE("sprite fountain water stays inside authored streams and follows billboard mirroring")
+{
+    const std::string yaml = R"(textures:
+  fountain1:
+    - [[0.2, 0.3, 0.4], [0.25, 0.35, 0.9]]
+)";
+    const auto materials = parseSpriteWaterStrips(yaml);
+    const BillboardQuad quad = billboardQuad({10, 20, 30}, {1, 0, 0}, {0, 0, 1}, 100, 200);
+    const auto &strips = materials.at("fountain1");
+    REQUIRE(strips.size() == 1);
+    const std::vector<WaterVertex> ordinary = buildSpriteWaterGeometry(quad, strips, false);
+    const std::vector<WaterVertex> mirrored = buildSpriteWaterGeometry(quad, strips, true);
+    REQUIRE(ordinary.size() == 6);
+    REQUIRE(mirrored.size() == ordinary.size());
+    for (size_t index = 0; index < ordinary.size(); ++index)
+    {
+        CHECK(ordinary[index].x + mirrored[index].x == doctest::Approx(quad.center.x * 2));
+        CHECK(ordinary[index].z >= -50);
+        CHECK(ordinary[index].z <= 50);
+        CHECK(ordinary[index].layer == -2);
+        CHECK(ordinary[index].v == mirrored[index].v);
+    }
+    CHECK_FALSE(materials.contains("stone"));
+    std::string invalid = yaml;
+    invalid.replace(invalid.find("0.9"), 3, "1.9");
+    CHECK_THROWS_AS(parseSpriteWaterStrips(invalid), std::invalid_argument);
+    invalid = yaml;
+    invalid.replace(invalid.find("0.9"), 3, "0.1");
+    CHECK_THROWS_AS(parseSpriteWaterStrips(invalid), std::invalid_argument);
+    invalid = yaml;
+    invalid.replace(invalid.find("0.9"), 3, "bad");
+    CHECK_THROWS_AS(parseSpriteWaterStrips(invalid), std::invalid_argument);
 }
 
 TEST_CASE("water body tint keeps regional colour without the source wave pattern or resolution")

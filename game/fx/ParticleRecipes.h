@@ -198,6 +198,9 @@ void spawnBuffSparkles(
     float radius,
     uint32_t colorAbgr);
 
+void spawnActorDisintegrationParticles(ParticleSystem &particleSystem, uint32_t seed,
+    float x, float y, float z, float actorHeight, float elapsedSeconds, float durationSeconds);
+
 void spawnActorDebuffParticles(
     ParticleSystem &particleSystem,
     uint32_t spellId,
