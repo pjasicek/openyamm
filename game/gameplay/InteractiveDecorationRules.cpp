@@ -1,10 +1,13 @@
 #include "game/gameplay/InteractiveDecorationRules.h"
 
 #include "game/StringUtils.h"
+#include "game/indoor/IndoorMapData.h"
+#include "game/outdoor/OutdoorMapData.h"
 
 #include <algorithm>
 #include <cctype>
 #include <initializer_list>
+#include <random>
 #include <string_view>
 #include <vector>
 
@@ -383,11 +386,12 @@ std::optional<InteractiveDecorationBindingSpec> resolveInteractiveDecorationBind
 
     InteractiveDecorationBindingSpec spec = {};
 
-    if (*internalNumber >= 44 && *internalNumber <= 55)
+    if ((*internalNumber >= 44 && *internalNumber <= 55)
+        || (*internalNumber >= 64 && *internalNumber <= 75))
     {
         spec.baseEventId = 531;
         spec.eventCount = 12;
-        spec.initialState = static_cast<uint8_t>(*internalNumber - 44);
+        spec.initialState = static_cast<uint8_t>(*internalNumber - (*internalNumber >= 64 ? 64 : 44));
         return spec;
     }
 
@@ -458,6 +462,85 @@ uint8_t initialInteractiveDecorationState(InteractiveDecorationFamily family, ui
     }
 
     return 0;
+}
+
+namespace
+{
+template<typename Entity>
+void initializeMapDecorations(
+    std::span<const Entity> entities,
+    const DecorationTable &decorationTable,
+    std::array<uint8_t, 125> &decorVars,
+    uint32_t randomSeed)
+{
+    if (std::any_of(decorVars.begin(), decorVars.end(), [](uint8_t value) { return value != 0; }))
+    {
+        return;
+    }
+
+    std::mt19937 rng(randomSeed);
+    std::uniform_int_distribution<int> barrelContents(1, 7);
+    size_t decorVarIndex = 0;
+
+    for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
+    {
+        const Entity &entity = entities[entityIndex];
+        if (entity.scriptEventId() != 0)
+        {
+            continue;
+        }
+
+        const DecorationLookupResult decoration =
+            decorationTable.resolveMapDecoration(entity.decorationListId, entity.name);
+        if (decoration.pEntry == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<InteractiveDecorationBindingSpec> spec =
+            resolveInteractiveDecorationBindingSpec(*decoration.pEntry, entity.name);
+        if (!spec || decorVarIndex >= decorVars.size())
+        {
+            continue;
+        }
+
+        uint8_t state = spec->initialState;
+        const uint32_t seed = makeInteractiveDecorationSeed(
+            entityIndex, entity.decorationListId, entity.x, entity.y, entity.z);
+        if (spec->family == InteractiveDecorationFamily::Barrel)
+        {
+            state = static_cast<uint8_t>(barrelContents(rng));
+        }
+        else if (spec->useSeededInitialState)
+        {
+            state = static_cast<uint8_t>(seed % spec->eventCount);
+        }
+        else if (spec->family != InteractiveDecorationFamily::None)
+        {
+            state = initialInteractiveDecorationState(spec->family, seed);
+        }
+
+        decorVars[decorVarIndex++] = state;
+    }
+}
+}
+
+void initializeMapInteractiveDecorations(
+    std::span<const IndoorEntity> entities,
+    const DecorationTable &decorationTable,
+    std::array<uint8_t, 125> &decorVars,
+    uint32_t randomSeed)
+{
+    initializeMapDecorations(entities, decorationTable, decorVars, randomSeed);
+}
+
+void initializeMapInteractiveDecorations(
+    std::span<const OutdoorEntity> entities,
+    const DecorationTable &decorationTable,
+    std::array<uint8_t, 125> &decorVars,
+    uint32_t randomSeed)
+{
+    initializeMapDecorations(entities, decorationTable, decorVars, randomSeed);
 }
 
 bool interactiveDecorationIsCleared(uint8_t state, uint8_t eventCount, bool hideWhenCleared)

@@ -64,10 +64,6 @@ public:
     static void renderFxContactShadows(
         OutdoorGameView &view,
         uint16_t viewId);
-    static void renderFxGlowBillboards(
-        OutdoorGameView &view,
-        uint16_t viewId,
-        const float *pViewMatrix);
     static void renderFxSegmentProjectiles(
         OutdoorGameView &view,
         uint16_t viewId,

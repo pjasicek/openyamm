@@ -261,9 +261,9 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
             {
                 throw std::runtime_error("terrain decoration requires a texture and 1..128 candidates per cell");
             }
-            rule.width = boundedFloat(node, "width", 40.0f, 2.0f, 128.0f);
+            rule.width = boundedFloat(node, "width", 40.0f, 2.0f, 256.0f);
             rule.density = boundedFloat(node, "density", 1.0f, 0.0f, 2.0f);
-            rule.height = boundedFloat(node, "height", 28.0f, 2.0f, 128.0f);
+            rule.height = boundedFloat(node, "height", 28.0f, 2.0f, 256.0f);
             rule.fullFootprint = node["full_footprint"].as<bool>(false);
             rule.windStrength = boundedFloat(node, "wind_strength", 2.5f, 0.0f, 4.0f);
             if (version == 2 && !rule.stone)
@@ -440,9 +440,10 @@ TerrainDecorationPlacement scatterTerrainDecorations(
                     TerrainDecorationPatch patch = {};
                     patch.first = uint32_t(result.instances.size());
                     patch.stone = rule.stone;
-                    patch.min = {outdoorGridCornerWorldX(x) - 96.0f, outdoorGridCornerWorldY(y + 1) - 96.0f,
+                    const float padding = rule.width * 0.65f + rule.windStrength;
+                    patch.min = {outdoorGridCornerWorldX(x) - padding, outdoorGridCornerWorldY(y + 1) - padding,
                                  1.0e9f};
-                    patch.max = {outdoorGridCornerWorldX(x + 1) + 96.0f, outdoorGridCornerWorldY(y) + 96.0f,
+                    patch.max = {outdoorGridCornerWorldX(x + 1) + padding, outdoorGridCornerWorldY(y) + padding,
                                  -1.0e9f};
                     uint32_t state = hash(config.seed ^ cell ^ (rule.stone ? 0x517cc1b7u : 0u));
                     const float variation = rule.stone ? 0.0f : config.densityVariation;

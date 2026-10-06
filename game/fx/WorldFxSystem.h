@@ -87,7 +87,7 @@ public:
     void bindNamedEffectAudio(GameAudioSystem *pAudioSystem);
     bool configureActorModels(const Engine::AssetFileSystem &assets, const std::string &manifestPath,
         const MonsterTable &monsters, std::string &error);
-    void syncActorModels(const IGameplayWorldRuntime &world);
+    void syncActorModels(const IGameplayWorldRuntime &world, float deltaSeconds = 0.0f);
     bool hasActorModel(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelBounds(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelCullingBounds(size_t actorIndex) const;
@@ -180,6 +180,14 @@ private:
         float zOffset = 0.0f;
         bool disintegrates = false;
         float height = 0.0f;
+        uint32_t castClip = UINT32_MAX;
+        uint32_t runClip = UINT32_MAX;
+        float strideLength = 0.0f;
+        std::shared_ptr<const std::vector<float>> upperBodyMask;
+        // Authored non-deforming socket nodes: eyes, palms. Missing sockets simply have no attached FX.
+        std::array<uint32_t, 4> sockets = {UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX};
+        std::string rangedHandEffect;
+        uint32_t rangedHandSocket = UINT32_MAX;
     };
     struct ActorModelInstance
     {
@@ -187,10 +195,33 @@ private:
         uint32_t actorId = 0;
         int16_t monsterId = 0;
         bool dying = false;
+        bool initialized = false;
+        float yaw = 0.0f;
+        float previousX = 0.0f;
+        float previousY = 0.0f;
+        float gaitPhase = 0.0f;
+        bool backwards = false;
+        float previousTime = 0.0f;
+        uint8_t previousState = 0;
+        bool casting = false;
+        bool rangedHandActive = false;
+        EffectHandle rangedHandEffect;
+        float fxScale = 1.0f;
+        float castDuration = 0.0f;
+        float castProgress = 0.0f;
+        uint32_t castColor = 0;
+        float fxCooldown = 0.0f;
+        bool pendingRelease = false;
+        bool previousImpact = false;
+        bool hasCastOrigin = false;
+        float castOriginAge = 0.0f;
+        std::array<float, 3> castOrigin = {};
+        const ActorModelBinding *pBinding = nullptr;
     };
     bool m_actorModelsConfigured = false;
     std::unordered_map<std::string, ActorModelBinding> m_actorModelBindings;
     std::unordered_map<size_t, ActorModelInstance> m_actorModels;
+    void syncActorModelFx(const IGameplayWorldRuntime &world, float deltaSeconds, bool refreshSpatialFx);
     struct ProjectileFxTrailState
     {
         bool hasPreviousPosition = false;

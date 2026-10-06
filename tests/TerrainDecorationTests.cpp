@@ -88,7 +88,7 @@ TEST_CASE("Larger terrain grass keeps its instance budget and contains sloped ca
     map.heightMap[65 * 128 + 65] = 6;
     const size_t originalCount = scatterTerrainDecorations(map, textures(), config()).instances.size();
     REQUIRE(originalCount > 0);
-    for (float scale : {2.0f, 3.0f})
+    for (float scale : {2.0f, 3.0f, 5.0f, 6.4f})
     {
         TerrainDecorationConfig settings = config();
         settings.rules[0].width *= scale;
@@ -110,6 +110,11 @@ TEST_CASE("Larger terrain grass keeps its instance budget and contains sloped ca
                     const float y = s * corner[0] + c * corner[1];
                     const float z = instance.positionYaw[2]
                         - (x * instance.groundNormal[0] + y * instance.groundNormal[1]) / instance.groundNormal[2];
+                    const float wind = instance.sizeWindKind[2];
+                    CHECK(instance.positionYaw[0] + x - wind >= patch.min[0]);
+                    CHECK(instance.positionYaw[0] + x + wind <= patch.max[0]);
+                    CHECK(instance.positionYaw[1] + y - wind >= patch.min[1]);
+                    CHECK(instance.positionYaw[1] + y + wind <= patch.max[1]);
                     CHECK(z >= patch.min[2]);
                     CHECK(z + instance.sizeWindKind[1] <= patch.max[2]);
                 }
@@ -329,12 +334,16 @@ TEST_CASE("Terrain decoration loader opts in per map and rejects malformed confi
     CHECK(valid->rules.size() == 1);
     CHECK(error.empty());
     write("version: 1\ntuft_texture: tuft.png\nrules:\n"
-          "  - {texture: grass, kind: grass, candidates: 32, width: 120, height: 90}\n");
+          "  - {texture: grass, kind: grass, candidates: 32, width: 200, height: 250}\n");
     const std::optional<TerrainDecorationConfig> enlarged = loadTerrainDecorationConfig(assets, map, error);
     REQUIRE(enlarged);
-    CHECK(enlarged->rules[0].width == 120.0f);
+    CHECK(enlarged->rules[0].width == 200.0f);
+    CHECK(enlarged->rules[0].height == 250.0f);
     write("version: 1\ntuft_texture: tuft.png\nrules:\n"
-          "  - {texture: grass, kind: grass, candidates: 32, width: 129}\n");
+          "  - {texture: grass, kind: grass, candidates: 32, width: 257}\n");
+    CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
+    write("version: 1\ntuft_texture: tuft.png\nrules:\n"
+          "  - {texture: grass, kind: grass, candidates: 32, height: 257}\n");
     CHECK_FALSE(loadTerrainDecorationConfig(assets, map, error));
     write("version: 1\ntuft_texture: tuft.png\ndensity_variation: 0.8\npatch_size: 768\n"
           "tall_grass_chance: 0.08\ntall_grass_scale: 1.8\nrules:\n"

@@ -7,8 +7,8 @@ families:
   meadow:
     kind: grass
     candidates: 50
-    width: 80
-    height: 60
+    width: 120
+    height: 90
     tint:
     - 0.72
     - 0.86
@@ -35,8 +35,8 @@ families:
   coastal_grass:
     kind: grass
     candidates: 50
-    width: 72
-    height: 48
+    width: 108
+    height: 72
     tint:
     - 0.72
     - 0.86
@@ -63,8 +63,8 @@ families:
   woodland_grass:
     kind: grass
     candidates: 50
-    width: 80
-    height: 56
+    width: 120
+    height: 84
     tint:
     - 0.72
     - 0.86
@@ -91,8 +91,8 @@ families:
   dry_meadow:
     kind: grass
     candidates: 50
-    width: 72
-    height: 48
+    width: 108
+    height: 72
     tint:
     - 0.72
     - 0.86
@@ -119,8 +119,8 @@ families:
   dry_tuft:
     kind: grass
     candidates: 8
-    width: 56
-    height: 36
+    width: 84
+    height: 54
     tint:
     - 0.87
     - 0.78
@@ -135,8 +135,8 @@ families:
   dead_tuft:
     kind: grass
     candidates: 8
-    width: 48
-    height: 36
+    width: 72
+    height: 54
     tint:
     - 0.6
     - 0.58
@@ -151,8 +151,8 @@ families:
   marsh_reed:
     kind: grass
     candidates: 18
-    width: 24
-    height: 100
+    width: 36
+    height: 150
     tint:
     - 0.64
     - 0.78
@@ -167,8 +167,8 @@ families:
   tropical_low:
     kind: grass
     candidates: 24
-    width: 80
-    height: 52
+    width: 120
+    height: 78
     tint:
     - 0.65
     - 0.8

@@ -3037,7 +3037,6 @@ bool OutdoorGameView::initialize(
 
     OutdoorInteractionController::rebuildInteractiveDecorationBindings(*this);
     timingLogger.stage("interactive decoration bindings rebuilt");
-    OutdoorInteractionController::seedInteractiveDecorationRuntimeStateIfNeeded(*this);
     timingLogger.stage("interactive decoration runtime seeded");
     OutdoorInteractionController::buildDecorationBillboardSpatialIndex(*this);
     timingLogger.stage("decoration billboard spatial index built");

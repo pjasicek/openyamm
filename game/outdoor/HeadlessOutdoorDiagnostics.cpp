@@ -7483,7 +7483,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             return false;
         }
         WorldFxSystem fx;
-        if (!fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+        if (!fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
                 gameDataLoader.getMonsterTable(), failure))
         {
             return false;
@@ -7530,6 +7532,179 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         }
         scenario.world.restoreSnapshot(initial);
         fx.particles().reset();
+        // Moving spell actions layer the authored upper body over distance-driven legs. AI data stays authoritative.
+        fx.syncActorModels(scenario.world);
+        const Engine::ModelInstanceHandle model = fx.models().handles().front();
+        fx.models().pose(model, false);
+        OutdoorWorldRuntime::Snapshot layered = initial;
+        OutdoorWorldRuntime::MapActorState &caster = layered.mapActors[first];
+        caster.animation = OutdoorWorldRuntime::ActorAnimation::AttackRanged;
+        caster.queuedAttackAbility = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+        caster.animationTimeTicks = 32;
+        caster.actionSeconds = 0.5f;
+        caster.velocityX = 140.0f;
+        caster.preciseX += 14.0f;
+        caster.yawRadians += 3.14159265f;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, 0.1f);
+        fx.syncActorModels(scenario.world, 0.02f);
+        const Engine::ModelAsset *pAsset = fx.models().asset(model);
+        const Engine::ModelPose *pPose = fx.models().pose(model, false);
+        Engine::ModelPose castPose, walkingPose;
+        const std::optional<uint32_t> castClip = pAsset->findClip("Cast_FireBolt");
+        const std::optional<uint32_t> walkClip = pAsset->findClip("Walking");
+        if (!castClip || !walkClip)
+        {
+            failure = "demon cast/locomotion clips are missing";
+            return false;
+        }
+        Engine::evaluateModelClip(*pAsset, *castClip, 1.0f / 3.0f, castPose);
+        Engine::evaluateModelClip(*pAsset, *walkClip, fx.models().playbackTime(model), walkingPose);
+        for (const std::string &name : {"mixamorig:Head", "mixamorig:Hips"})
+        {
+            const uint32_t node = *pAsset->findNode(name);
+            const Engine::ModelPose &expected = name == "mixamorig:Head" ? castPose : walkingPose;
+            float dot = 0.0f;
+            for (size_t axis = 0; axis < 4; ++axis)
+            {
+                dot += pPose->localTransforms[node].rotation[axis] * expected.localTransforms[node].rotation[axis];
+            }
+            if (std::abs(std::abs(dot) - 1.0f) > 0.0001f)
+            {
+                failure = "spell action did not retain the locomotion legs and casting upper body";
+                return false;
+            }
+        }
+        const uint64_t revision = pPose->matrixRevision;
+        fx.syncActorModels(scenario.world, 0.0f);
+        if (fx.models().pose(model, false)->matrixRevision != revision
+            || scenario.world.mapActorState(first)->yawRadians != caster.yawRadians
+            || scenario.world.mapActorState(first)->preciseX != caster.preciseX
+            || fx.models().nodeMatrix(model, "Socket_Palm_Left") == nullptr
+            || fx.models().nodeMatrix(model, "Socket_Eye_Right") == nullptr)
+        {
+            failure = "paused presentation advanced, altered AI facing/movement, or lost its sockets";
+            return false;
+        }
+        GameDataRepository fxData;
+        fxData.bind(gameDataLoader);
+        GameSession fxSession;
+        fxSession.bindDataRepository(&fxData);
+        fxSession.bindActiveWorldRuntime(&scenario.world);
+        // Headless camera defaults to the origin facing +X. Only the nearby test caster should get attachment FX.
+        caster.preciseX = 400;
+        caster.preciseY = 0;
+        caster.velocityX = 0;
+        caster.animationTimeTicks = 64;
+        caster.actionSeconds = .25f;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .02f);
+        fx.syncProjectileFx(fxSession, .1f, true);
+        const size_t chargeParticles = fx.particles().particleCount();
+        if (chargeParticles != 5 || fx.glowBillboards().size() != 2 || fx.lightEmitters().size() != 1)
+        {
+            failure = "nearby casting FX were missing or exceeded the bounded eye/charge emission";
+            return false;
+        }
+        const FxParticleState &chargeSpark = fx.particles().particles().front();
+        if (chargeSpark.material != FxParticleMaterial::Ember || chargeSpark.size < 24.0f
+            || std::hypot(chargeSpark.velocityX, chargeSpark.velocityY) < 60.0f
+            || fx.glowBillboards()[1].radius != fx.glowBillboards()[0].radius * 0.5f)
+        {
+            failure = "casting lost its bright core or visible outward spark emission";
+            return false;
+        }
+        fx.syncProjectileFx(fxSession, 0, false);
+        if (fx.particles().particleCount() != chargeParticles)
+        {
+            failure = "paused socket FX emitted particles";
+            return false;
+        }
+        caster.animation = OutdoorWorldRuntime::ActorAnimation::Standing;
+        caster.attackImpactTriggered = true;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .01f, false);
+        const size_t releasedParticles = fx.particles().particleCount();
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .01f, false);
+        if (releasedParticles != chargeParticles + 12 || fx.particles().particleCount() != releasedParticles)
+        {
+            failure = "native release FX were missing or repeated after the impact flag";
+            return false;
+        }
+        caster.animation = OutdoorWorldRuntime::ActorAnimation::AttackRanged;
+        caster.attackImpactTriggered = false;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .1f, false);
+        const size_t interruptedParticles = fx.particles().particleCount();
+        caster.animation = OutdoorWorldRuntime::ActorAnimation::GotHit;
+        caster.attackImpactTriggered = true;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .01f, false);
+        if (fx.particles().particleCount() != interruptedParticles)
+        {
+            failure = "interrupted casting emitted a release burst";
+            return false;
+        }
+        // The ordinary fire missile uses a moving right-hand emitter; melee and spells do not acquire it.
+        caster.animation = OutdoorWorldRuntime::ActorAnimation::AttackRanged;
+        caster.queuedAttackAbility = OutdoorWorldRuntime::MonsterAttackAbility::Attack2;
+        caster.attackImpactTriggered = false;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .01f, false);
+        fx.updateParticles(.04f, false);
+        const Engine::ModelMatrix *pHand = fx.models().nodeMatrix(model, "Socket_Palm_Right");
+        if (fx.namedEffects().size() != 1 || fx.namedEffects().fixedSprites().size() != 1
+            || fx.namedEffects().particles().empty() || fx.namedEffects().fixedSprites().front().scale < 3.5f
+            || fx.namedEffects().particles().front().scale < 1.5f)
+        {
+            failure = "ranged fire attack did not acquire its bounded MM9 hand/trail sprites";
+            return false;
+        }
+        const EffectHandle handEffect = fx.namedEffects().fixedSprites().front().owner;
+        const float trailX = fx.namedEffects().particles().front().position[0];
+        caster.preciseX += 20;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .01f, false);
+        pHand = fx.models().nodeMatrix(model, "Socket_Palm_Right");
+        const EffectFixedSprite &handSprite = fx.namedEffects().fixedSprites().front();
+        if (handSprite.spriteResource != "mm9:effect-sprite/weapons/firebolt"
+            || std::abs(handSprite.position[0] - (*pHand)[12]) > .001f
+            || std::abs(handSprite.position[1] - (*pHand)[13]) > .001f
+            || std::abs(handSprite.position[2] - (*pHand)[14]) > .001f
+            || fx.namedEffects().particles().front().position[0] != trailX)
+        {
+            failure = "hand sprite did not follow its socket or its world-space trail moved with the actor";
+            return false;
+        }
+        const float handTime = fx.namedEffects().elapsedSeconds(handEffect);
+        fx.updateParticles(.5f, true);
+        if (fx.namedEffects().elapsedSeconds(handEffect) != handTime)
+        {
+            failure = "paused hand FX advanced";
+            return false;
+        }
+        caster.animation = OutdoorWorldRuntime::ActorAnimation::AttackMelee;
+        caster.queuedAttackAbility = OutdoorWorldRuntime::MonsterAttackAbility::Attack1;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .01f, false);
+        fx.updateParticles(.25f, false);
+        if (fx.namedEffects().contains(handEffect) || !fx.namedEffects().particles().empty()
+            || !fx.namedEffects().fixedSprites().empty())
+        {
+            failure = "melee retained the ranged hand effect after its short trail drain";
+            return false;
+        }
+        fxSession.bindActiveWorldRuntime(nullptr);
+        scenario.world.restoreSnapshot(initial);
+        fx.particles().reset();
+        fx.syncActorModels(scenario.world);
         scenario.world.applyPartyAttackToMapActor(first, 1, -9728, -11319, 161);
         fx.syncActorModels(scenario.world);
         GameplayRuntimeActorState hit;
@@ -7662,7 +7837,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             return false;
         }
         WorldFxSystem fx;
-        if (!fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+        if (!fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
                 gameDataLoader.getMonsterTable(), failure))
         {
             return false;

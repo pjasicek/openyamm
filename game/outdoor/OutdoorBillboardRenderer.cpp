@@ -4813,59 +4813,6 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
     }
 }
 
-void OutdoorBillboardRenderer::renderFxGlowBillboards(
-    OutdoorGameView &view,
-    uint16_t viewId,
-    const float *pViewMatrix)
-{
-    const std::vector<WorldFxGlowBillboard> &glowBillboards = view.m_worldFxSystem.glowBillboards();
-
-    if (glowBillboards.empty())
-    {
-        return;
-    }
-
-    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
-    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-    std::vector<OutdoorGameView::TerrainVertex> vertices;
-    vertices.reserve(glowBillboards.size() * 6);
-    size_t visibleGlowCount = 0;
-
-    for (const WorldFxGlowBillboard &glow : glowBillboards)
-    {
-        if (!glow.renderVisibleBillboard)
-        {
-            continue;
-        }
-
-        ++visibleGlowCount;
-        const bx::Vec3 center = {glow.x, glow.y, glow.z};
-        const bx::Vec3 right = {
-            cameraRight.x * glow.radius,
-            cameraRight.y * glow.radius,
-            cameraRight.z * glow.radius
-        };
-        const bx::Vec3 up = {
-            cameraUp.x * glow.radius,
-            cameraUp.y * glow.radius,
-            cameraUp.z * glow.radius
-        };
-        appendWorldQuadVertices(vertices, center, right, up, glow.colorAbgr);
-    }
-
-    if (view.m_gameSettings.performanceTrace)
-    {
-        view.m_outdoorSpriteRenderDiagnostics.fxGlowItems += visibleGlowCount;
-
-        if (!vertices.empty())
-        {
-            ++view.m_outdoorSpriteRenderDiagnostics.fxGlowSubmits;
-        }
-    }
-
-    submitColoredVertices(view, viewId, vertices, ColoredAdditiveRenderState);
-}
-
 void OutdoorBillboardRenderer::renderFxSegmentProjectiles(
     OutdoorGameView &view,
     uint16_t viewId,

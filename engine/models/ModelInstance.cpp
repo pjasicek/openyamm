@@ -62,6 +62,11 @@ ModelInstanceHandle ModelInstanceSystem::create(
     slot.playbackMode = ModelPlaybackMode::Once;
     slot.clipIndex = 0;
     slot.timeSeconds = 0.0f;
+    slot.layer = {};
+    slot.transitionPose = {};
+    slot.layerPose = {};
+    slot.transitionElapsed = 0.0f;
+    slot.transitionDuration = 0.0f;
     slot.rootTransform = rootTransform;
     slot.asset = std::move(asset);
     slot.deformationBounds.reset();
@@ -93,6 +98,9 @@ bool ModelInstanceSystem::destroy(ModelInstanceHandle handle)
     pSlot->asset.reset();
     pSlot->deformationBounds.reset();
     pSlot->pose = {};
+    pSlot->transitionPose = {};
+    pSlot->layerPose = {};
+    pSlot->layer = {};
     pSlot->bounds = {};
     ++pSlot->generation;
     if (pSlot->generation == 0)
@@ -117,6 +125,9 @@ void ModelInstanceSystem::clear()
         slot.asset.reset();
         slot.deformationBounds.reset();
         slot.pose = {};
+        slot.transitionPose = {};
+        slot.layerPose = {};
+        slot.layer = {};
         slot.bounds = {};
         ++slot.generation;
         if (slot.generation == 0)
@@ -204,6 +215,8 @@ bool ModelInstanceSystem::play(ModelInstanceHandle handle, const std::string &cl
         return false;
     }
     pSlot->clipIndex = *clipIndex;
+    pSlot->layer = {};
+    pSlot->transitionDuration = 0.0f;
     pSlot->clipSelected = true;
     pSlot->playbackMode = mode;
     pSlot->timeSeconds = 0.0f;
@@ -234,6 +247,8 @@ bool ModelInstanceSystem::stop(ModelInstanceHandle handle)
     pSlot->playing = false;
     pSlot->paused = false;
     pSlot->clipSelected = false;
+    pSlot->layer = {};
+    pSlot->transitionDuration = 0.0f;
     pSlot->timeSeconds = 0.0f;
     evaluate(*pSlot);
     return true;
@@ -296,20 +311,56 @@ void ModelInstanceSystem::update(float deltaSeconds)
 bool ModelInstanceSystem::sample(ModelInstanceHandle handle, uint32_t clipIndex, float timeSeconds,
     const ModelTransform &transform)
 {
+    return sampleBlended(handle, clipIndex, timeSeconds, transform, 0.0f, 0.0f);
+}
+
+bool ModelInstanceSystem::sampleBlended(ModelInstanceHandle handle, uint32_t clipIndex, float timeSeconds,
+    const ModelTransform &transform, float deltaSeconds, float transitionSeconds,
+    const ModelAnimationLayer &layer, bool restart)
+{
     Slot *pSlot = find(handle);
-    if (pSlot == nullptr || clipIndex >= pSlot->asset->clips.size() || !std::isfinite(timeSeconds) || timeSeconds < 0)
+    if (pSlot == nullptr || clipIndex >= pSlot->asset->clips.size() || !std::isfinite(timeSeconds) || timeSeconds < 0
+        || !std::isfinite(deltaSeconds) || deltaSeconds < 0
+        || !std::isfinite(transitionSeconds) || transitionSeconds < 0
+        || !std::isfinite(layer.weight) || layer.weight < 0 || layer.weight > 1
+        || (layer.weight > 0 && (layer.clipIndex >= pSlot->asset->clips.size()
+            || !std::isfinite(layer.timeSeconds) || layer.timeSeconds < 0 || !layer.mask
+            || layer.mask->size() != pSlot->asset->nodes.size()
+            || std::any_of(layer.mask->begin(), layer.mask->end(), [](float weight)
+                { return !std::isfinite(weight) || weight < 0.0f || weight > 1.0f; }))))
     {
         return false;
     }
     const float clampedTime = std::min(timeSeconds, pSlot->asset->clips[clipIndex].durationSeconds);
     const bool changed = !pSlot->clipSelected || pSlot->clipIndex != clipIndex
-        || pSlot->timeSeconds != clampedTime || pSlot->rootTransform != transform;
+        || pSlot->timeSeconds != clampedTime || pSlot->rootTransform != transform || pSlot->layer != layer;
+    const bool transition = pSlot->clipSelected && (restart || pSlot->clipIndex != clipIndex
+        || pSlot->layer.clipIndex != layer.clipIndex || pSlot->layer.mask != layer.mask);
+    if (transitionSeconds <= 0.0f)
+    {
+        pSlot->transitionDuration = 0.0f;
+    }
+    else if (transition && pSlot->pose.matrixRevision > 0)
+    {
+        // Freeze the last displayed local pose, including any interrupted blend. Never evaluate hidden actors here.
+        pSlot->transitionPose.localTransforms = pSlot->pose.localTransforms;
+        pSlot->transitionPose.morphWeights = pSlot->pose.morphWeights;
+        pSlot->transitionDuration = transitionSeconds;
+        pSlot->transitionElapsed = 0.0f;
+    }
+    const bool blending = pSlot->transitionDuration > 0.0f;
+    pSlot->transitionElapsed += deltaSeconds;
+    if (pSlot->transitionElapsed >= pSlot->transitionDuration)
+    {
+        pSlot->transitionDuration = 0.0f;
+    }
+    pSlot->layer = layer;
     pSlot->clipIndex = clipIndex;
     pSlot->clipSelected = true;
     pSlot->playing = false;
     pSlot->rootTransform = transform;
     pSlot->timeSeconds = clampedTime;
-    if (changed)
+    if (changed || blending)
     {
         evaluate(*pSlot);
     }
@@ -524,6 +575,16 @@ void ModelInstanceSystem::evaluateMatrices(const Slot &slot) const
     if (slot.clipSelected && !slot.asset->clips.empty())
     {
         evaluateModelClip(*slot.asset, slot.clipIndex, slot.timeSeconds, slot.pose);
+        if (slot.layer.weight > 0.0f)
+        {
+            evaluateModelClip(*slot.asset, slot.layer.clipIndex, slot.layer.timeSeconds, slot.layerPose);
+            blendModelPose(*slot.asset, slot.pose, slot.layerPose, slot.layer.weight, *slot.layer.mask);
+        }
+        if (slot.transitionDuration > 0.0f)
+        {
+            blendModelPose(*slot.asset, slot.pose, slot.transitionPose,
+                1.0f - slot.transitionElapsed / slot.transitionDuration);
+        }
     }
     else
     {

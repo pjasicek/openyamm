@@ -440,6 +440,40 @@ TEST_CASE("named runtime globals survive save data round trip")
     CHECK_EQ(loaded->namedGlobalVars.at("MMerge.BountyHunt.new_sorpigal.odm.Claimed"), 0);
 }
 
+TEST_CASE("consumed barrel states survive save data round trip for active and visited maps")
+{
+    using namespace OpenYAMM::Game;
+    Party party;
+    party.seed(createRegressionPartySeed());
+    GameSaveData saveData;
+    saveData.mapFileName = "oute3.odm";
+    saveData.party = party.snapshot();
+    saveData.hasOutdoorRuntimeState = true;
+    saveData.outdoorWorld.eventRuntimeState = EventRuntimeState{};
+    saveData.outdoorWorldStates["mm6:oute3.odm"] = saveData.outdoorWorld;
+    saveData.indoorScene.eventRuntimeState = EventRuntimeState{};
+    saveData.indoorScene.eventRuntimeState->decorVars[0] = 4;
+    saveData.indoorSceneStates["mm6:6d01.blv"] = saveData.indoorScene;
+
+    const std::filesystem::path savePath =
+        std::filesystem::temp_directory_path() / "openyamm_consumed_barrels_roundtrip.oysav";
+    std::string error;
+    REQUIRE(saveGameDataToPath(savePath, saveData, error));
+    const std::optional<GameSaveData> loaded = loadGameDataFromPath(savePath, error);
+    std::filesystem::remove(savePath);
+
+    REQUIRE(loaded.has_value());
+    REQUIRE(loaded->outdoorWorld.eventRuntimeState.has_value());
+    const std::array<uint8_t, 125> emptyBarrels = {};
+    CHECK_EQ(loaded->outdoorWorld.eventRuntimeState->decorVars, emptyBarrels);
+    REQUIRE(loaded->outdoorWorldStates.at("mm6:oute3.odm").eventRuntimeState.has_value());
+    CHECK_EQ(loaded->outdoorWorldStates.at("mm6:oute3.odm").eventRuntimeState->decorVars,
+        emptyBarrels);
+    REQUIRE(loaded->indoorSceneStates.at("mm6:6d01.blv").eventRuntimeState.has_value());
+    CHECK_EQ(loaded->indoorSceneStates.at("mm6:6d01.blv").eventRuntimeState->decorVars[0], 4);
+    CHECK_EQ(loaded->indoorSceneStates.at("mm6:6d01.blv").eventRuntimeState->decorVars[1], 0);
+}
+
 TEST_CASE("outdoor location reset metadata survives save data round trip")
 {
     OpenYAMM::Game::Party party = {};

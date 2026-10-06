@@ -37,6 +37,9 @@ ModelBounds modelExactPoseBounds(const ModelAsset &asset, const ModelPose &pose)
 
 void resetModelPose(const ModelAsset &asset, ModelPose &pose);
 void evaluateModelClip(const ModelAsset &asset, uint32_t clipIndex, float timeSeconds, ModelPose &pose);
+// Blend local TRS and morphs before evaluating the hierarchy. An empty mask covers every node.
+void blendModelPose(const ModelAsset &asset, ModelPose &pose, const ModelPose &other, float amount,
+    const std::vector<float> &mask = {});
 void evaluateModelHierarchy(const ModelAsset &asset, const ModelMatrix &rootMatrix, ModelPose &pose);
 void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins = true);
 }

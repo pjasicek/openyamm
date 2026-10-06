@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <span>
 
 namespace bx
 {
@@ -11,6 +12,7 @@ namespace OpenYAMM::Game
 {
 class ParticleSystem;
 class WorldFxRenderResources;
+struct WorldFxGlowBillboard;
 
 class ParticleRenderer
 {
@@ -23,6 +25,7 @@ public:
         uint16_t viewId,
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition,
-        float aspectRatio);
+        float aspectRatio,
+        std::span<const WorldFxGlowBillboard> glows);
 };
 }

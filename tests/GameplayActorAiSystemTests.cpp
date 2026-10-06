@@ -443,7 +443,7 @@ TEST_CASE("shared actor AI exposes a melee recovery window after the attack anim
     CHECK(*recoveryUpdate.state.attackCooldownSeconds > 0.0f);
 }
 
-TEST_CASE("shared actor AI preserves ranged presentation while a missile attack is in progress")
+TEST_CASE("shared actor AI preserves ranged presentation and tracks the target during windup")
 {
     GameplayActorAiSystem system;
     ActorAiFrameFacts frame = makeFrame();
@@ -472,6 +472,24 @@ TEST_CASE("shared actor AI preserves ranged presentation while a missile attack 
     const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
     REQUIRE(update.animation.animationState.has_value());
     CHECK(*update.animation.animationState == ActorAiAnimationState::AttackRanged);
+    REQUIRE(update.movementIntent.updateYaw);
+    CHECK(update.movementIntent.yawRadians == doctest::Approx(0));
+
+    frame.activeActors[0].target.currentPosition = {100, 300, 64};
+    const OpenYAMM::Game::ActorAiFrameResult moved = system.updateActors(frame);
+    REQUIRE_EQ(moved.actorUpdates.size(), 1u);
+    CHECK(moved.actorUpdates[0].movementIntent.updateYaw);
+    CHECK(moved.actorUpdates[0].movementIntent.yawRadians == doctest::Approx(std::atan2(100.0f, 0.0f)));
+    CHECK_FALSE(moved.actorUpdates[0].attackRequest.has_value());
+    CHECK(moved.projectileRequests.empty());
+
+    frame.activeActors[0].target.currentKind = ActorAiTargetKind::Actor;
+    frame.activeActors[0].target.currentActorIndex = 6;
+    frame.activeActors[0].target.currentPosition = {0, 200, 64};
+    const OpenYAMM::Game::ActorAiFrameResult infighting = system.updateActors(frame);
+    REQUIRE_EQ(infighting.actorUpdates.size(), 1u);
+    CHECK(infighting.actorUpdates[0].movementIntent.updateYaw);
+    CHECK(infighting.actorUpdates[0].movementIntent.yawRadians == doctest::Approx(std::atan2(0.0f, -100.0f)));
 }
 
 TEST_CASE("shared actor AI uses a missile attack outside melee range when the melee attack chance is certain")

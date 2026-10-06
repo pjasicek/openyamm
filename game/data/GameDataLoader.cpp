@@ -7,6 +7,7 @@
 #include "game/content/ContentManifest.h"
 #include "game/content/ContentTableComposer.h"
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/maps/MapIdentity.h"
 #include "game/maps/MapDecorationTextures.h"
 #include "game/StringUtils.h"
@@ -20,6 +21,7 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <random>
 #include <string>
 #include <string_view>
 #include <unordered_set>
@@ -4558,6 +4560,40 @@ bool GameDataLoader::loadSelectedMap(
             : m_selectedMap->indoorMapDeltaData;
         EventRuntimeState runtimeState = {};
         eventRuntime.initializeMapRuntimeState(mapDeltaData, runtimeState);
+
+        // Headless maps need the gameplay registry without loading sprite textures.
+        if (!m_mapAssetLoadSharedCache.decorationRows)
+        {
+            std::vector<std::vector<std::string>> rows;
+            if (!loadTextTableRows(assetFileSystem, engineDataTablePath("decoration_data.txt"), rows))
+            {
+                return false;
+            }
+            m_mapAssetLoadSharedCache.decorationRows = std::move(rows);
+        }
+        DecorationTable decorationTable;
+        if (!decorationTable.loadRows(*m_mapAssetLoadSharedCache.decorationRows))
+        {
+            std::cerr << "Failed to parse gameplay decoration table\n";
+            return false;
+        }
+
+        if (m_selectedMap->outdoorMapData)
+        {
+            initializeMapInteractiveDecorations(
+                m_selectedMap->outdoorMapData->entities,
+                decorationTable,
+                runtimeState.decorVars,
+                std::random_device{}());
+        }
+        else if (m_selectedMap->indoorMapData)
+        {
+            initializeMapInteractiveDecorations(
+                m_selectedMap->indoorMapData->entities,
+                decorationTable,
+                runtimeState.decorVars,
+                std::random_device{}());
+        }
         runtimeState.mapFileName = m_selectedMap->map.fileName;
         m_selectedMap->eventRuntimeState = std::move(runtimeState);
     }

@@ -2,6 +2,7 @@
 #include "engine/AssetScaleTier.h"
 #include "engine/models/GltfModelLoader.h"
 #include "engine/models/ModelInstance.h"
+#include "game/gameplay/ActorModelPresentation.h"
 
 #include <doctest/doctest.h>
 
@@ -12,6 +13,7 @@
 #include <filesystem>
 #include <fstream>
 #include <memory>
+#include <numbers>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -55,6 +57,62 @@ std::shared_ptr<OpenYAMM::Engine::ModelAsset> makeAnimatedAsset()
     asset->clips.push_back(std::move(clip));
     asset->clipIndicesByName.emplace("move", 0);
     return asset;
+}
+
+TEST_CASE("ModelAnimation blends local poses, interrupts transitions and masks actions without eager deformation")
+{
+    using namespace OpenYAMM::Engine;
+    std::shared_ptr<ModelAsset> asset = makeAnimatedAsset();
+    asset->clips.push_back(asset->clips[0]);
+    asset->clips[1].name = "hold";
+    asset->clips[1].channels[0].values = {{4, 0, 0, 0}, {4, 0, 0, 0}};
+    asset->clips[1].channels[1].values = {{0, 0, 0, -1}, {0, 0, 0, -1}};
+    ModelInstanceSystem instances;
+    const ModelInstanceHandle handle = instances.create(asset);
+    REQUIRE(instances.sample(handle, 0, 0, {}));
+    const ModelPose *pPose = instances.pose(handle, false);
+    REQUIRE(pPose != nullptr);
+    const uint64_t revision = pPose->matrixRevision;
+    REQUIRE(instances.sampleBlended(handle, 1, 0, {}, .05f, .1f));
+    CHECK(pPose->matrixRevision == revision);
+    pPose = instances.pose(handle, false);
+    CHECK(pPose->localTransforms[0].translation[0] == doctest::Approx(2));
+    CHECK(std::abs(pPose->localTransforms[0].rotation[3]) == doctest::Approx(1));
+    CHECK(std::all_of(pPose->deformedVertices.begin(), pPose->deformedVertices.end(),
+        [](const auto &node) { return node.empty(); }));
+    // Interrupt halfway through: the visible intermediate pose is the new source, so there is no pop.
+    REQUIRE(instances.sampleBlended(handle, 0, 0, {}, 0, .1f));
+    CHECK(instances.pose(handle, false)->localTransforms[0].translation[0] == doctest::Approx(2));
+    REQUIRE(instances.sampleBlended(handle, 0, 0, {}, .05f, .1f));
+    CHECK(instances.pose(handle, false)->localTransforms[0].translation[0] == doctest::Approx(1));
+    REQUIRE(instances.sampleBlended(handle, 0, 0, {}, .05f, .1f));
+    CHECK(instances.pose(handle, false)->localTransforms[0].translation[0] == doctest::Approx(0));
+    const std::shared_ptr<const std::vector<float>> mask = std::make_shared<std::vector<float>>(
+        std::initializer_list<float>{1.0f, 0.0f});
+    const ModelAnimationLayer action{1, 0, .5f, mask};
+    REQUIRE(instances.sampleBlended(handle, 0, .5f, {}, 0, 0, action));
+    pPose = instances.pose(handle, false);
+    CHECK(pPose->localTransforms[0].translation[0] == doctest::Approx(2.5));
+    CHECK(pPose->localTransforms[1].translation[0] == doctest::Approx(0));
+    CHECK((*instances.nodeMatrix(handle, "child"))[12] == doctest::Approx(2.5));
+    CHECK_FALSE(instances.sampleBlended(handle, 0, 0, {}, .1f, .1f, {1, 0, 1, {}}));
+    CHECK_FALSE(instances.sampleBlended(handle, 0, 0, {}, -1, .1f));
+    REQUIRE(instances.destroy(handle));
+    const ModelInstanceHandle recycled = instances.create(asset);
+    REQUIRE(instances.sample(recycled, 0, 0, {}));
+    CHECK(instances.pose(recycled, false)->localTransforms[0].translation[0] == doctest::Approx(0));
+}
+
+TEST_CASE("Actor model yaw wraps smoothly and gait follows travelled distance")
+{
+    using namespace OpenYAMM::Game;
+    constexpr float Degrees = std::numbers::pi_v<float> / 180.0f;
+    CHECK(advanceActorModelYaw(350 * Degrees, 10 * Degrees, .1f, 100 * Degrees)
+        == doctest::Approx(360 * Degrees));
+    CHECK(advanceActorModelYaw(0, 180 * Degrees, .1f, 540 * Degrees) == doctest::Approx(54 * Degrees));
+    CHECK(advanceActorModelYaw(1, 2, 0, 540 * Degrees) == 1);
+    CHECK(advanceActorModelGait(.9f, 30, 100) == doctest::Approx(.2f));
+    CHECK(advanceActorModelGait(.4f, 0, 100) == doctest::Approx(.4f));
 }
 
 std::filesystem::path makeTemporaryRoot()
@@ -611,7 +669,7 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
     REQUIRE_MESSAGE(loaded, loaded.error);
     REQUIRE_EQ(loaded.asset->skins.size(), 1);
     CHECK_EQ(loaded.asset->skins[0].joints.size(), 85);
-    CHECK_EQ(loaded.asset->clips.size(), 9);
+    CHECK_EQ(loaded.asset->clips.size(), 10);
     for (const ModelMaterial &material : loaded.asset->materials)
     {
         if (material.name == "Demon_Meshy_Body")
@@ -642,8 +700,8 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
             CHECK(primitive.morphTargets.empty());
         }
     }
-    const std::array<std::pair<const char *, float>, 6> nativeClips = {{{"Standing", .125f}, {"Walk_Native", 1.125f},
-        {"Attack", .75f}, {"Hit", .75f}, {"Fidget", .625f}, {"Death", 1.25f}}};
+    const std::array<std::pair<const char *, float>, 7> nativeClips = {{{"Standing", .125f}, {"Walk_Native", 1.125f},
+        {"Attack", .75f}, {"Hit", .75f}, {"Fidget", .625f}, {"Death", 1.25f}, {"Cast_FireBolt", 1.0f}}};
     for (const auto &[name, duration] : nativeClips)
     {
         const uint32_t clip = *loaded.asset->findClip(name);
@@ -677,6 +735,13 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
         CHECK(weight == 0.0f);
     }
     CHECK(instances.bounds(handle)->max[1] == doctest::Approx(1.707f).epsilon(.01));
+    REQUIRE(instances.sample(handle, *loaded.asset->findClip("Cast_FireBolt"), .65f, {}));
+    CHECK(modelMatrixVisible(*instances.nodeMatrix(handle, body)));
+    CHECK_FALSE(modelMatrixVisible(*instances.nodeMatrix(handle, ash)));
+    for (const char *socket : {"Socket_Eye_Left", "Socket_Eye_Right", "Socket_Palm_Left", "Socket_Palm_Right"})
+    {
+        CHECK(instances.nodeMatrix(handle, socket) != nullptr);
+    }
 }
 
 TEST_CASE("ModelAnimation defers crowd deformation and bounds contain every demon animation")

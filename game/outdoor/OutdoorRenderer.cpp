@@ -4924,10 +4924,14 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     }
     if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
     {
-        OutdoorBillboardRenderer::renderFxGlowBillboards(view, MainViewId, pViewMatrix);
         OutdoorBillboardRenderer::renderFxSegmentProjectiles(view, MainViewId, pViewMatrix);
         ParticleRenderer::renderParticles(view.m_worldFxRenderResources, view.m_worldFxSystem.particles(), MainViewId,
-                                          pViewMatrix, cameraPosition, aspectRatio);
+            pViewMatrix, cameraPosition, aspectRatio, view.m_worldFxSystem.glowBillboards());
+        if (view.m_gameSettings.performanceTrace)
+        {
+            // Glows share particle batches; there is no separate glow submission.
+            view.m_outdoorSpriteRenderDiagnostics.fxGlowItems += view.m_worldFxSystem.glowBillboards().size();
+        }
     }
     if (view.m_pAssetFileSystem != nullptr)
     {

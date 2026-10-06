@@ -6,6 +6,7 @@
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/import/EffectDefinitionLoader.h"
 #include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/ActorModelPresentation.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/ObjectTable.h"
@@ -15,6 +16,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numbers>
+#include <stdexcept>
 
 namespace OpenYAMM::Game
 {
@@ -376,10 +379,73 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
                 }
                 binding.clips[i] = *clip;
             }
+            const YAML::Node animation = entry["animation"];
+            if (animation)
+            {
+                const auto requireClip = [&](const char *name)
+                {
+                    const std::string clipName = animation[name].as<std::string>();
+                    const std::optional<uint32_t> clip = binding.asset->findClip(clipName);
+                    if (!clip)
+                    {
+                        throw std::runtime_error("actor animation clip not found: " + clipName);
+                    }
+                    return *clip;
+                };
+                binding.castClip = requireClip("cast");
+                binding.runClip = requireClip("run");
+                binding.strideLength = animation["stride_length"].as<float>();
+                if (!std::isfinite(binding.strideLength) || binding.strideLength <= 0.0f)
+                {
+                    throw std::runtime_error("invalid actor animation stride: " + descriptor);
+                }
+                const std::string rootName = animation["upper_body_root"].as<std::string>();
+                const std::optional<uint32_t> root = binding.asset->findNode(rootName);
+                if (!root)
+                {
+                    throw std::runtime_error("actor animation mask root not found: " + rootName);
+                }
+                std::shared_ptr<std::vector<float>> mask =
+                    std::make_shared<std::vector<float>>(binding.asset->nodes.size(), 0.0f);
+                for (uint32_t node : binding.asset->hierarchyOrder)
+                {
+                    const int32_t parent = binding.asset->nodes[node].parentIndex;
+                    (*mask)[node] = node == *root ? 1.0f : parent >= 0 ? (*mask)[parent] : 0.0f;
+                }
+                binding.upperBodyMask = std::move(mask);
+                constexpr std::array<const char *, 4> SocketNames =
+                    {"eye_left", "eye_right", "palm_left", "palm_right"};
+                for (size_t i = 0; i < SocketNames.size(); ++i)
+                {
+                    const std::string name = animation["sockets"][SocketNames[i]].as<std::string>();
+                    const std::optional<uint32_t> node = binding.asset->findNode(name);
+                    if (!node)
+                    {
+                        throw std::runtime_error("actor animation socket not found: " + name);
+                    }
+                    binding.sockets[i] = *node;
+                }
+                if (animation["ranged_hand_effect"])
+                {
+                    binding.rangedHandEffect = animation["ranged_hand_effect"].as<std::string>();
+                    const std::string name = animation["ranged_hand_socket"].as<std::string>();
+                    const std::optional<uint32_t> node = binding.asset->findNode(name);
+                    if (!node || m_namedEffectLibrary.find(binding.rangedHandEffect) == nullptr)
+                    {
+                        throw std::runtime_error("actor ranged hand effect/socket not found: " + descriptor);
+                    }
+                    binding.rangedHandSocket = *node;
+                }
+            }
             bindings.emplace(descriptor, std::move(binding));
         }
     }
     catch (const YAML::Exception &exception)
+    {
+        error = manifestPath + ": " + exception.what();
+        return false;
+    }
+    catch (const std::runtime_error &exception)
     {
         error = manifestPath + ": " + exception.what();
         return false;
@@ -389,7 +455,7 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
     return true;
 }
 
-void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world)
+void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float deltaSeconds)
 {
     if (m_actorModelBindings.empty())
     {
@@ -419,6 +485,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world)
         if (instance != m_actorModels.end()
             && (instance->second.actorId != state.actorId || instance->second.monsterId != state.monsterId))
         {
+            m_namedEffects.stop(instance->second.rangedHandEffect, EffectStopMode::Drain);
             m_models.destroy(instance->second.handle);
             m_actorModels.erase(instance);
             instance = m_actorModels.end();
@@ -435,9 +502,67 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world)
         {
             continue;
         }
-        const uint32_t clip = binding.clips[animationIndex];
+        ActorModelInstance &model = instance->second;
+        model.pBinding = &binding;
+        const float scale = binding.scale * state.visualScale
+            * (pMonster->height > 0 ? float(state.height) / pMonster->height : 1.0f);
+        model.fxScale = scale / binding.scale;
+        const float distance = std::hypot(state.preciseX - model.previousX, state.preciseY - model.previousY);
+        const bool teleported = model.initialized && distance > std::max(256.0f, scale * 8.0f);
+        const float speed = std::hypot(state.velocityX, state.velocityY);
+        if (!model.initialized || teleported)
+        {
+            m_namedEffects.stop(model.rangedHandEffect, EffectStopMode::Immediate);
+            model.rangedHandEffect = {};
+            model.yaw = state.yawRadians;
+            model.gaitPhase = 0.0f;
+        }
+        else if (!model.dying && state.animationState != ActorAiAnimationState::Dead)
+        {
+            // Visual facing only. Collision, LOS, paths and projectile aiming retain the AI's exact yaw.
+            model.yaw = advanceActorModelYaw(model.yaw, state.yawRadians, deltaSeconds,
+                3.0f * std::numbers::pi_v<float>);
+            if (binding.strideLength > 0.0f && deltaSeconds > 0.0f)
+            {
+                const float stride = binding.strideLength * (speed > scale * 2.4f ? 1.55f : 1.0f);
+                model.gaitPhase = advanceActorModelGait(model.gaitPhase, distance, stride * scale);
+            }
+        }
+        const bool moving = speed > 4.0f && !teleported;
+        const bool attacking = state.animationState == ActorAiAnimationState::AttackMelee
+            || state.animationState == ActorAiAnimationState::AttackRanged;
+        const bool casting = attacking && state.castingSpell && binding.castClip != UINT32_MAX;
+        model.rangedHandActive = state.animationState == ActorAiAnimationState::AttackRanged
+            && !state.castingSpell && !state.attackImpactTriggered && !binding.rangedHandEffect.empty();
+        const bool restart = model.initialized && (model.previousState != animationIndex
+            || model.casting != casting || (attacking && state.animationTimeTicks + 0.01f < model.previousTime));
+        if (casting && (!model.casting || restart))
+        {
+            model.castDuration = std::max(0.1f, state.animationTimeTicks / 128.0f + state.actionSeconds);
+            model.hasCastOrigin = false;
+            model.pendingRelease = false;
+            const FxRecipes::ProjectileRecipe recipe =
+                FxRecipes::classifyProjectileRecipe(int(state.castingSpellId), "", "", 0);
+            model.castColor = FxRecipes::projectileFxRecipe(recipe).colorAbgr;
+        }
+        if (model.casting && state.attackImpactTriggered && !model.previousImpact)
+        {
+            model.pendingRelease = model.hasCastOrigin && model.castOriginAge < 0.15f;
+        }
+        if (state.animationState == ActorAiAnimationState::GotHit
+            || state.animationState == ActorAiAnimationState::Dying || state.isInvisible)
+        {
+            model.pendingRelease = false;
+            model.hasCastOrigin = false;
+        }
+        uint32_t clip = casting ? binding.castClip : binding.clips[animationIndex];
         float time = std::max(state.animationTimeTicks, 0.0f) / 128.0f;
         const float duration = binding.asset->clips[clip].durationSeconds;
+        if (casting)
+        {
+            model.castProgress = std::clamp(time / model.castDuration, 0.0f, 1.0f);
+            time = model.castProgress * duration;
+        }
         const bool dying = state.animationState == ActorAiAnimationState::Dying;
         if (binding.disintegrates && dying && !instance->second.dying)
         {
@@ -452,16 +577,48 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world)
         {
             time = std::fmod(time, duration);
         }
+        Engine::ModelAnimationLayer layer;
+        bool backwardsChanged = false;
+        if (binding.strideLength > 0.0f && (state.animationState == ActorAiAnimationState::Walking
+                || (moving && attacking)))
+        {
+            uint32_t locomotion = binding.clips[size_t(ActorAiAnimationState::Walking)];
+            if (speed > scale * 2.4f)
+            {
+                locomotion = binding.runClip;
+            }
+            const bool backwards = state.velocityX * std::cos(model.yaw)
+                + state.velocityY * std::sin(model.yaw) < (model.backwards ? -0.15f : -0.35f) * speed;
+            backwardsChanged = backwards != model.backwards;
+            model.backwards = backwards;
+            const float phase = backwards ? std::fmod(1.0f - model.gaitPhase, 1.0f) : model.gaitPhase;
+            if (attacking && binding.upperBodyMask)
+            {
+                layer = {clip, time, 1.0f, binding.upperBodyMask};
+            }
+            clip = locomotion;
+            time = phase * binding.asset->clips[clip].durationSeconds;
+        }
         const Engine::ModelTransform transform = Engine::gltfModelPlacement(
             {state.preciseX, state.preciseY, state.preciseZ + binding.zOffset},
-            state.yawRadians + binding.yawOffset,
-            binding.scale * state.visualScale * (pMonster->height > 0 ? float(state.height) / pMonster->height : 1.0f));
-        m_models.sample(instance->second.handle, clip, time, transform);
+            model.yaw + binding.yawOffset, scale);
+        const float transitionSeconds = dying || state.animationState == ActorAiAnimationState::Dead
+            || teleported ? 0.0f : state.animationState == ActorAiAnimationState::GotHit ? 0.06f : 0.12f;
+        m_models.sampleBlended(model.handle, clip, time, transform, deltaSeconds, transitionSeconds,
+            layer, restart || backwardsChanged);
+        model.initialized = true;
+        model.previousX = state.preciseX;
+        model.previousY = state.preciseY;
+        model.previousTime = state.animationTimeTicks;
+        model.previousState = uint8_t(animationIndex);
+        model.casting = casting;
+        model.previousImpact = state.attackImpactTriggered;
     }
     for (auto iterator = m_actorModels.begin(); iterator != m_actorModels.end();)
     {
         if (!retained.contains(iterator->first))
         {
+            m_namedEffects.stop(iterator->second.rangedHandEffect, EffectStopMode::Drain);
             m_models.destroy(iterator->second.handle);
             iterator = m_actorModels.erase(iterator);
         }
@@ -475,6 +632,172 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world)
 bool WorldFxSystem::hasActorModel(size_t actorIndex) const
 {
     return m_actorModels.contains(actorIndex);
+}
+
+void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float deltaSeconds, bool refreshSpatialFx)
+{
+    if (m_actorModels.empty())
+    {
+        return;
+    }
+    struct Candidate
+    {
+        ActorModelInstance *pModel;
+        float distanceSquared;
+    };
+    std::array<Candidate, 8> candidates = {};
+    size_t count = 0;
+    const float yaw = world.gameplayCameraYawRadians();
+    const float forwardX = std::cos(yaw), forwardY = std::sin(yaw);
+    for (auto &[index, model] : m_actorModels)
+    {
+        model.fxCooldown = std::max(0.0f, model.fxCooldown - deltaSeconds);
+        model.castOriginAge += deltaSeconds;
+        const float dx = model.previousX - world.partyX();
+        const float dy = model.previousY - world.partyY();
+        const float distanceSquared = dx * dx + dy * dy;
+        // ponytail: eight nearby attachments use a camera cone; reuse render visibility if hidden-room FX costs grow.
+        const bool near = distanceSquared < 2048.0f * 2048.0f
+            && dx * forwardX + dy * forwardY > 0.4f * std::sqrt(distanceSquared) - 160.0f;
+        if (!near || model.dying || model.previousState == uint8_t(ActorAiAnimationState::Dead)
+            || model.pBinding == nullptr || model.pBinding->sockets[0] == UINT32_MAX)
+        {
+            model.pendingRelease = false;
+            model.hasCastOrigin = false;
+            continue;
+        }
+        size_t insert = 0;
+        while (insert < count && candidates[insert].distanceSquared <= distanceSquared)
+        {
+            ++insert;
+        }
+        if (insert < candidates.size())
+        {
+            count = std::min(count + 1, candidates.size());
+            for (size_t i = count - 1; i > insert; --i)
+            {
+                candidates[i] = candidates[i - 1];
+            }
+            candidates[insert] = {&model, distanceSquared};
+        }
+    }
+    for (auto &[index, model] : m_actorModels)
+    {
+        if (!model.rangedHandActive || std::none_of(candidates.begin(), candidates.begin() + count,
+            [&](const Candidate &candidate) { return candidate.pModel == &model; }))
+        {
+            m_namedEffects.stop(model.rangedHandEffect, EffectStopMode::Drain);
+            model.rangedHandEffect = {};
+        }
+    }
+    for (size_t i = 0; i < count; ++i)
+    {
+        ActorModelInstance &model = *candidates[i].pModel;
+        const ActorModelBinding &binding = *model.pBinding;
+        if (model.rangedHandActive)
+        {
+            const Engine::ModelMatrix *pSocket = m_models.nodeMatrix(model.handle, binding.rangedHandSocket);
+            if (pSocket != nullptr)
+            {
+                const std::array<float, 3> point = {(*pSocket)[12], (*pSocket)[13], (*pSocket)[14]};
+                if (deltaSeconds > 0.0f && !m_namedEffects.contains(model.rangedHandEffect))
+                {
+                    EffectSpawnParams params;
+                    params.position = point;
+                    params.scale = model.fxScale;
+                    params.seed = model.actorId;
+                    model.rangedHandEffect = m_namedEffects.spawn(binding.rangedHandEffect, params);
+                }
+                m_namedEffects.setTransform(model.rangedHandEffect, point, {0, 0, 0, 1}, model.fxScale);
+            }
+        }
+        if (model.casting)
+        {
+            const Engine::ModelMatrix *pLeft = m_models.nodeMatrix(model.handle, binding.sockets[2]);
+            const Engine::ModelMatrix *pRight = m_models.nodeMatrix(model.handle, binding.sockets[3]);
+            if (pLeft != nullptr && pRight != nullptr)
+            {
+                for (size_t axis = 0; axis < 3; ++axis)
+                {
+                    model.castOrigin[axis] = ((*pLeft)[12 + axis] + (*pRight)[12 + axis]) * 0.5f;
+                }
+                model.hasCastOrigin = true;
+                model.castOriginAge = 0.0f;
+            }
+        }
+        const float charge = std::clamp((model.castProgress - 0.25f) / 0.5f, 0.0f, 1.0f);
+        const float castFxScale = 2.0f * model.fxScale;
+        if (refreshSpatialFx && model.casting && model.hasCastOrigin && charge > 0.0f)
+        {
+            const float radius = (8.0f + 24.0f * charge) * castFxScale;
+            addGlowBillboard(model.castOrigin[0], model.castOrigin[1], model.castOrigin[2],
+                radius, (model.castColor & 0x00ffffffu) | 0xa0000000u);
+            const uint32_t coreColor = makeAbgr(
+                ((model.castColor & 0xffu) + 255) / 2,
+                (((model.castColor >> 8) & 0xffu) + 255) / 2,
+                (((model.castColor >> 16) & 0xffu) + 255) / 2, 240);
+            addGlowBillboard(model.castOrigin[0], model.castOrigin[1], model.castOrigin[2],
+                radius * 0.5f, coreColor);
+            addLightEmitter(model.castOrigin[0], model.castOrigin[1], model.castOrigin[2],
+                128.0f * charge * castFxScale, model.castColor, -1, RenderLightKind::GenericFx, model.actorId, false);
+        }
+        if (deltaSeconds > 0.0f && model.pendingRelease && model.hasCastOrigin)
+        {
+            FxRecipes::spawnBuffSparkles(m_particleSystem, model.actorId,
+                model.castOrigin[0], model.castOrigin[1], model.castOrigin[2], 8.0f, model.castColor);
+            model.pendingRelease = false;
+            model.hasCastOrigin = false;
+        }
+        if (deltaSeconds <= 0.0f || model.fxCooldown > 0.0f)
+        {
+            continue;
+        }
+        model.fxCooldown = 0.10f;
+        const auto spawnEmber = [&](const std::array<float, 3> &point, float size, uint32_t color,
+            const std::array<float, 3> &velocity = {0, 0, 7}, float lifetimeSeconds = 0.18f)
+        {
+            FxParticleState ember;
+            ember.x = point[0];
+            ember.y = point[1];
+            ember.z = point[2];
+            ember.size = size;
+            ember.endSize = size * 0.2f;
+            ember.velocityX = velocity[0];
+            ember.velocityY = velocity[1];
+            ember.velocityZ = velocity[2];
+            ember.motion = FxParticleMotion::Ascend;
+            ember.lifetimeSeconds = lifetimeSeconds;
+            ember.fadeOutStartSeconds = lifetimeSeconds - 0.13f;
+            ember.startColorAbgr = color;
+            ember.endColorAbgr = color & 0x00ffffffu;
+            ember.blendMode = FxParticleBlendMode::Additive;
+            ember.material = FxParticleMaterial::Ember;
+            m_particleSystem.addParticle(ember);
+        };
+        if (model.casting && model.hasCastOrigin && charge > 0.0f)
+        {
+            for (size_t spark = 0; spark < 3; ++spark)
+            {
+                const float angle = model.castProgress * 12.0f + float(model.actorId)
+                    + float(spark) * (2.0f * std::numbers::pi_v<float> / 3.0f);
+                const float x = std::cos(angle), y = std::sin(angle);
+                const float radius = (4.0f + 10.0f * charge) * castFxScale;
+                spawnEmber({model.castOrigin[0] + x * radius, model.castOrigin[1] + y * radius,
+                    model.castOrigin[2] + std::sin(angle * 2.0f) * radius * 0.5f},
+                    12.0f * castFxScale, (model.castColor & 0x00ffffffu) | 0xe0000000u,
+                    {x * 32.0f * castFxScale, y * 32.0f * castFxScale, 45.0f * castFxScale}, 0.35f);
+            }
+        }
+        for (size_t eye = 0; eye < 2; ++eye)
+        {
+            const Engine::ModelMatrix *pSocket = m_models.nodeMatrix(model.handle, binding.sockets[eye]);
+            if (pSocket == nullptr)
+            {
+                continue;
+            }
+            spawnEmber({(*pSocket)[12], (*pSocket)[13], (*pSocket)[14]}, 0.8f, 0xb02828ffu);
+        }
+    }
 }
 
 const Engine::ModelBounds *WorldFxSystem::actorModelBounds(size_t actorIndex) const
@@ -719,6 +1042,10 @@ const Engine::ModelInstanceSystem &WorldFxSystem::models() const
 
 void WorldFxSystem::syncProjectileFx(GameSession &session, float deltaSeconds, bool refreshSpatialFx)
 {
+    if (const IGameplayWorldRuntime *pWorld = session.activeWorldRuntime())
+    {
+        syncActorModelFx(*pWorld, deltaSeconds, refreshSpatialFx);
+    }
     updateProjectileTrailCooldowns(deltaSeconds);
     updatePersistentImpactLights(deltaSeconds);
     syncProjectileTrails(session, refreshSpatialFx);

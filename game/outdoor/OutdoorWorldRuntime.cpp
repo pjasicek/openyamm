@@ -13958,6 +13958,14 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.yawRadians = pActor->yawRadians;
     state.animationState = ActorAiAnimationState(pActor->animation);
     state.animationTimeTicks = pActor->animationTimeTicks;
+    state.actionSeconds = pActor->actionSeconds;
+    state.velocityX = pActor->velocityX;
+    state.velocityY = pActor->velocityY;
+    state.castingSpell = pActor->queuedAttackAbility == MonsterAttackAbility::Spell1
+        || pActor->queuedAttackAbility == MonsterAttackAbility::Spell2;
+    state.castingSpellId = pActor->queuedAttackAbility == MonsterAttackAbility::Spell1
+        ? pActor->spell1Id : pActor->spell2Id;
+    state.attackImpactTriggered = pActor->attackImpactTriggered;
     state.visualScale = pActor->shrinkRemainingSeconds > 0
         ? std::clamp(pActor->shrinkDamageMultiplier, 0.25f, 1.0f) : 1.0f;
     state.monsterId = pActor->monsterId;

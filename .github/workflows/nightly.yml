@@ -61,9 +61,16 @@ jobs:
         run: |
           is_tag=false
           version=nightly
-          android_version_name=
-          android_version_code=
+          android_version_name="nightly-$GITHUB_RUN_NUMBER.$GITHUB_RUN_ATTEMPT"
+          # One sequence for commits, nightlies and tags; published 1.0 used code 10000.
+          android_version_code=$((10000 + GITHUB_RUN_NUMBER * 100 + GITHUB_RUN_ATTEMPT))
           flatpak_branch=nightly
+
+          if (( GITHUB_RUN_NUMBER <= 0 || GITHUB_RUN_ATTEMPT <= 0 || GITHUB_RUN_ATTEMPT >= 100
+                || android_version_code <= 10000 || android_version_code > 2100000000 )); then
+            echo "::error::Invalid Android build sequence: $GITHUB_RUN_NUMBER.$GITHUB_RUN_ATTEMPT"
+            exit 1
+          fi
 
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then
             version="$GITHUB_REF_NAME"
@@ -73,7 +80,6 @@ jobs:
               exit 1
             fi
 
-            major="${BASH_REMATCH[1]}"
             minor="${BASH_REMATCH[2]}"
 
             if (( minor > 99 )); then
@@ -82,10 +88,9 @@ jobs:
             fi
 
             android_version_name="$version"
-            android_version_code=$((major * 10000 + minor * 100))
 
-            if (( android_version_code <= 0 || android_version_code > 2100000000 )); then
-              echo "::error::Tag $version produces an invalid Android version code: $android_version_code"
+            if [[ "$version" == 0.0 ]]; then
+              echo "::error::Release version must be greater than 0.0."
               exit 1
             fi
 
@@ -241,6 +246,11 @@ jobs:
           mkdir -p dist
           cp "$source_apk" "dist/$output"
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose "dist/$output"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "dist/$output" > android-package-metadata.txt
+          if ! grep -Fq "versionCode='$OPENYAMM_ANDROID_VERSION_CODE' versionName='$OPENYAMM_ANDROID_VERSION_NAME'" android-package-metadata.txt; then
+            echo "::error::APK version does not match the resolved Android package metadata."
+            exit 1
+          fi
           unzip -Z1 "dist/$output" > android-package-contents.txt
           grep -Fxq "lib/arm64-v8a/libmain.so" android-package-contents.txt
           if grep -Eq '^lib/(armeabi-v7a|x86|x86_64)/' android-package-contents.txt; then

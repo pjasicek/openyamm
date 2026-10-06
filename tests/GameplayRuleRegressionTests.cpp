@@ -6054,6 +6054,45 @@ TEST_CASE("level decoration script event id comes from legacy uEventID field")
     CHECK_EQ(outdoorEntity.spriteOverrideKey(7), 7u);
 }
 
+TEST_CASE("fresh map barrel contents use random rolls for indoor and outdoor entities")
+{
+    using namespace OpenYAMM::Game;
+    DecorationTable decorationTable;
+    REQUIRE(decorationTable.loadRows(loadSourceTabSeparatedRows("assets_dev/engine/data_tables/decoration_data.txt")));
+
+    std::vector<OutdoorEntity> outdoorEntities(130);
+    std::vector<IndoorEntity> indoorEntities(130);
+    for (size_t index = 0; index < outdoorEntities.size(); ++index)
+    {
+        outdoorEntities[index].name = "bigbarel";
+        outdoorEntities[index].x = static_cast<int>(index * 100);
+        indoorEntities[index].name = "bigbarel";
+        indoorEntities[index].x = outdoorEntities[index].x;
+    }
+    outdoorEntities[0].eventIdSecondary = 500;
+    indoorEntities[0].eventIdSecondary = 500;
+    // The primary field is an override key, not the sprite's scripted event.
+    outdoorEntities[1].eventIdPrimary = 42;
+    indoorEntities[1].eventIdPrimary = 42;
+
+    std::array<uint8_t, 125> firstVisit = {};
+    std::array<uint8_t, 125> differentGame = {};
+    std::array<uint8_t, 125> indoorVisit = {};
+    initializeMapInteractiveDecorations(outdoorEntities, decorationTable, firstVisit, 123);
+    initializeMapInteractiveDecorations(outdoorEntities, decorationTable, differentGame, 456);
+    initializeMapInteractiveDecorations(indoorEntities, decorationTable, indoorVisit, 123);
+    CHECK_EQ(firstVisit, indoorVisit);
+    CHECK_NE(firstVisit, differentGame);
+    std::set<uint8_t> contents(firstVisit.begin(), firstVisit.end());
+    const std::set<uint8_t> possibleContents = {1, 2, 3, 4, 5, 6, 7};
+    CHECK_EQ(contents, possibleContents);
+
+    firstVisit[0] = 0;
+    const std::array<uint8_t, 125> authoredState = firstVisit;
+    initializeMapInteractiveDecorations(outdoorEntities, decorationTable, firstVisit, 789);
+    CHECK_EQ(firstVisit, authoredState);
+}
+
 TEST_CASE("interactive decoration rules cover MM6 and MM7 indoor loot decorations")
 {
     auto makeDecoration = [](const std::string &internalName, const std::string &hint)
@@ -6077,6 +6116,12 @@ TEST_CASE("interactive decoration rules cover MM6 and MM7 indoor loot decoration
     CHECK_EQ(mm7BarrelSpec->family, OpenYAMM::Game::InteractiveDecorationFamily::Barrel);
     CHECK_EQ(mm7BarrelSpec->baseEventId, 268u);
     CHECK_EQ(mm7BarrelSpec->eventCount, 8u);
+
+    const std::optional<OpenYAMM::Game::InteractiveDecorationBindingSpec> mm7PedestalSpec =
+        OpenYAMM::Game::resolveInteractiveDecorationBindingSpec(makeDecoration("dec75", "pedestal"), "dec75");
+    REQUIRE(mm7PedestalSpec.has_value());
+    CHECK_EQ(mm7PedestalSpec->baseEventId, 531u);
+    CHECK_EQ(mm7PedestalSpec->initialState, 11u);
 
     const std::optional<OpenYAMM::Game::InteractiveDecorationBindingSpec> flourSackSpec =
         OpenYAMM::Game::resolveInteractiveDecorationBindingSpec(makeDecoration("floursac", "sack"), "floursac");

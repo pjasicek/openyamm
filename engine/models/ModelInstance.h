@@ -25,6 +25,16 @@ enum class ModelPlaybackMode
     Loop
 };
 
+struct ModelAnimationLayer
+{
+    uint32_t clipIndex = std::numeric_limits<uint32_t>::max();
+    float timeSeconds = 0.0f;
+    float weight = 0.0f;
+    std::shared_ptr<const std::vector<float>> mask;
+
+    bool operator==(const ModelAnimationLayer &) const = default;
+};
+
 class ModelInstanceSystem
 {
 public:
@@ -43,6 +53,9 @@ public:
     bool stop(ModelInstanceHandle handle);
     bool setTime(ModelInstanceHandle handle, float timeSeconds);
     bool sample(ModelInstanceHandle handle, uint32_t clipIndex, float timeSeconds, const ModelTransform &transform);
+    bool sampleBlended(ModelInstanceHandle handle, uint32_t clipIndex, float timeSeconds,
+        const ModelTransform &transform, float deltaSeconds, float transitionSeconds,
+        const ModelAnimationLayer &layer = {}, bool restart = false);
     void update(float deltaSeconds);
 
     const ModelAsset *asset(ModelInstanceHandle handle) const;
@@ -74,6 +87,11 @@ private:
         ModelPlaybackMode playbackMode = ModelPlaybackMode::Once;
         uint32_t clipIndex = 0;
         float timeSeconds = 0.0f;
+        ModelAnimationLayer layer;
+        ModelPose transitionPose;
+        float transitionElapsed = 0.0f;
+        float transitionDuration = 0.0f;
+        mutable ModelPose layerPose;
         ModelTransform rootTransform;
         std::shared_ptr<const ModelAsset> asset;
         std::shared_ptr<const ModelDeformationBounds> deformationBounds;

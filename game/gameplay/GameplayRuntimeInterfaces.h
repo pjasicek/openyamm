@@ -123,6 +123,13 @@ struct GameplayRuntimeActorState
     float yawRadians = 0.0f;
     ActorAiAnimationState animationState = ActorAiAnimationState::Standing;
     float animationTimeTicks = 0.0f;
+    // Presentation observes the same action clock and movement as combat; it never drives either.
+    float actionSeconds = 0.0f;
+    float velocityX = 0.0f;
+    float velocityY = 0.0f;
+    bool castingSpell = false;
+    uint32_t castingSpellId = 0;
+    bool attackImpactTriggered = false;
     float visualScale = 1.0f;
     int16_t monsterId = 0;
     int32_t mm9RudeId = 0;

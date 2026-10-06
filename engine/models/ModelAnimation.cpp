@@ -431,6 +431,32 @@ void evaluateModelClip(const ModelAsset &asset, uint32_t clipIndex, float timeSe
     }
 }
 
+void blendModelPose(const ModelAsset &asset, ModelPose &pose, const ModelPose &other, float amount,
+    const std::vector<float> &mask)
+{
+    for (size_t i = 0; i < asset.nodes.size(); ++i)
+    {
+        const float weight = amount * (mask.empty() ? 1.0f : mask[i]);
+        if (weight <= 0.0f || asset.nodes[i].usesMatrix)
+        {
+            continue;
+        }
+        ModelTransform &transform = pose.localTransforms[i];
+        const ModelTransform &target = other.localTransforms[i];
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            transform.translation[axis] += (target.translation[axis] - transform.translation[axis]) * weight;
+            transform.scale[axis] += (target.scale[axis] - transform.scale[axis]) * weight;
+        }
+        transform.rotation = interpolateQuaternion(transform.rotation, target.rotation, weight);
+        for (size_t morph = 0; morph < pose.morphWeights[i].size(); ++morph)
+        {
+            pose.morphWeights[i][morph] += (other.morphWeights[i][morph] - pose.morphWeights[i][morph]) * weight;
+        }
+        pose.localMatrices[i] = composeModelTransform(transform);
+    }
+}
+
 void evaluateModelHierarchy(const ModelAsset &asset, const ModelMatrix &rootMatrix, ModelPose &pose)
 {
     for (uint32_t nodeIndex : asset.hierarchyOrder)

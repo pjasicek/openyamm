@@ -11024,6 +11024,16 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.yawRadians = pAiState != nullptr ? pAiState->yawRadians : 0.0f;
     state.animationState = pAiState != nullptr ? pAiState->animationState : ActorAiAnimationState::Standing;
     state.animationTimeTicks = pAiState != nullptr ? pAiState->animationTimeTicks : 0.0f;
+    state.actionSeconds = pAiState != nullptr ? pAiState->actionSeconds : 0.0f;
+    state.velocityX = pAiState != nullptr ? pAiState->velocityX : 0.0f;
+    state.velocityY = pAiState != nullptr ? pAiState->velocityY : 0.0f;
+    state.castingSpell = pAiState != nullptr
+        && (pAiState->queuedAttackAbility == GameplayActorAttackAbility::Spell1
+            || pAiState->queuedAttackAbility == GameplayActorAttackAbility::Spell2);
+    state.castingSpellId = pAiState != nullptr
+        ? (pAiState->queuedAttackAbility == GameplayActorAttackAbility::Spell1
+            ? pAiState->spell1Id : pAiState->spell2Id) : 0;
+    state.attackImpactTriggered = pAiState != nullptr && pAiState->attackImpactTriggered;
     state.visualScale = pEffectState != nullptr && pEffectState->shrinkRemainingSeconds > 0
         ? std::clamp(pEffectState->shrinkDamageMultiplier, 0.25f, 1.0f) : 1.0f;
     state.monsterId = resolvedMonsterId;

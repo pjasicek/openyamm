@@ -3,7 +3,6 @@
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/indoor/IndoorGeometryUtils.h"
-#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/gameplay/TravelRuntime.h"
 #include "game/maps/MapAssetLoader.h"
 
@@ -42,100 +41,7 @@ bool hasMovingMechanism(const EventRuntimeState &eventRuntimeState)
     return false;
 }
 
-bool hasPersistedDecorationState(const std::optional<MapDeltaData> &mapDeltaData)
-{
-    if (!mapDeltaData)
-    {
-        return false;
-    }
-
-    for (uint8_t value : mapDeltaData->eventVariables.decorVars)
-    {
-        if (value != 0)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 void initializeIndoorPartyStart(IndoorPartyRuntime &partyRuntime, const IndoorMapData &indoorMapData);
-
-void seedIndoorInteractiveDecorationRuntimeStateIfNeeded(
-    const IndoorMapData &indoorMapData,
-    const DecorationBillboardSet *pDecorationBillboardSet,
-    const std::optional<MapDeltaData> &mapDeltaData,
-    std::optional<EventRuntimeState> &eventRuntimeState)
-{
-    if (pDecorationBillboardSet == nullptr || !eventRuntimeState || hasPersistedDecorationState(mapDeltaData))
-    {
-        return;
-    }
-
-    for (uint8_t value : eventRuntimeState->decorVars)
-    {
-        if (value != 0)
-        {
-            return;
-        }
-    }
-
-    uint8_t decorVarIndex = 0;
-    constexpr uint8_t MaxDecorationVarCount = 125;
-
-    for (size_t entityIndex = 0; entityIndex < indoorMapData.entities.size(); ++entityIndex)
-    {
-        const IndoorEntity &entity = indoorMapData.entities[entityIndex];
-
-        if (entity.eventIdPrimary != 0 || entity.eventIdSecondary != 0)
-        {
-            continue;
-        }
-
-        const DecorationLookupResult decoration =
-            pDecorationBillboardSet->decorationTable.resolveMapDecoration(entity.decorationListId, entity.name);
-        const DecorationEntry *pDecoration = decoration.pEntry;
-
-        if (pDecoration == nullptr)
-        {
-            continue;
-        }
-
-        const std::optional<InteractiveDecorationBindingSpec> bindingSpec =
-            resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name);
-
-        if (!bindingSpec || decorVarIndex >= MaxDecorationVarCount)
-        {
-            continue;
-        }
-
-        uint8_t initialState = bindingSpec->initialState;
-        const uint32_t seed =
-            makeInteractiveDecorationSeed(
-                entityIndex,
-                entity.decorationListId,
-                entity.x,
-                entity.y,
-                entity.z);
-
-        if (bindingSpec->useSeededInitialState)
-        {
-            initialState = static_cast<uint8_t>(seed % bindingSpec->eventCount);
-        }
-        else if (bindingSpec->family != InteractiveDecorationFamily::None)
-        {
-            initialState = initialInteractiveDecorationState(bindingSpec->family, seed);
-        }
-
-        if (initialState != 0)
-        {
-            eventRuntimeState->decorVars[decorVarIndex] = initialState;
-        }
-
-        ++decorVarIndex;
-    }
-}
 
 bool hasIndoorPressurePlateSupportFace(const IndoorMoveState &state)
 {
@@ -429,12 +335,6 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, indoorMapData);
     }
 
-    seedIndoorInteractiveDecorationRuntimeStateIfNeeded(
-        indoorMapData,
-        pIndoorDecorationBillboardSet,
-        m_mapDeltaData,
-        m_eventRuntimeState);
-
     m_partyRuntime.setParty(*m_pSessionParty);
     m_worldRuntime.setBolsterMonstersEnabled(bolsterMonstersEnabled);
     m_worldRuntime.initialize(
@@ -521,12 +421,6 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     {
         normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, indoorMapData);
     }
-
-    seedIndoorInteractiveDecorationRuntimeStateIfNeeded(
-        indoorMapData,
-        pIndoorDecorationBillboardSet,
-        m_mapDeltaData,
-        m_eventRuntimeState);
 
     m_partyRuntime.setParty(*m_pSessionParty);
     m_worldRuntime.setBolsterMonstersEnabled(bolsterMonstersEnabled);

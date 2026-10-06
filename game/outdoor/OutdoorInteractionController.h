@@ -34,7 +34,6 @@ public:
     };
 
     static void rebuildInteractiveDecorationBindings(OutdoorGameView &view);
-    static void seedInteractiveDecorationRuntimeStateIfNeeded(OutdoorGameView &view);
     static OutdoorGameView::InspectHit inspectBModelFace(
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,

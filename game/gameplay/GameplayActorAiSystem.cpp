@@ -3580,6 +3580,17 @@ bool AI_ContinueCurrentAction(ActorAiCommandContext &ai)
         actor.runtime.queuedAttackAbility,
         actor.stats.attackConstraints));
     ai.setMovementAction(ActorAiMovementAction::Stand);
+    if (!actor.runtime.attackImpactTriggered && actor.target.currentKind != ActorAiTargetKind::None
+        && actor.target.currentCanSense)
+    {
+        const float dx = actor.target.currentPosition.x - actor.movement.position.x;
+        const float dy = actor.target.currentPosition.y - actor.movement.position.y;
+        if (dx * dx + dy * dy > 0.0001f)
+        {
+            // Release already aims at the current target. Keep windup facing consistent with that aim.
+            ai.faceYaw(std::atan2(dy, dx));
+        }
+    }
     return true;
 }
 

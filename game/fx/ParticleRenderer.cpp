@@ -3,6 +3,7 @@
 #include "game/fx/FxSharedTypes.h"
 #include "game/fx/ParticleSystem.h"
 #include "game/fx/WorldFxRenderResources.h"
+#include "game/fx/WorldFxSystem.h"
 #include "game/render/TextureFiltering.h"
 
 #include <bgfx/bgfx.h>
@@ -363,7 +364,8 @@ void ParticleRenderer::renderParticles(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
-    float aspectRatio)
+    float aspectRatio,
+    std::span<const WorldFxGlowBillboard> glows)
 {
     if (!resources.isReady())
     {
@@ -372,7 +374,7 @@ void ParticleRenderer::renderParticles(
 
     const std::vector<FxParticleState> &particles = particleSystem.particles();
 
-    if (particles.empty())
+    if (particles.empty() && glows.empty())
     {
         return;
     }
@@ -384,7 +386,27 @@ void ParticleRenderer::renderParticles(
     std::array<std::vector<WorldFxParticleVertex>, ParticleMaterialCount * ParticleBlendModeCount> &batches =
         resources.particleVertexBatches();
     std::vector<const FxParticleState *> visibleParticles;
-    visibleParticles.reserve(particles.size());
+    visibleParticles.reserve(particles.size() + glows.size());
+    // Render current-frame socket glows with the shared radial texture, without accumulating simulated particles.
+    std::vector<FxParticleState> glowParticles;
+    glowParticles.reserve(glows.size());
+    for (const WorldFxGlowBillboard &glow : glows)
+    {
+        if (!glow.renderVisibleBillboard)
+        {
+            continue;
+        }
+        FxParticleState particle;
+        particle.x = glow.x;
+        particle.y = glow.y;
+        particle.z = glow.z;
+        particle.size = particle.endSize = 2.0f * glow.radius;
+        particle.lifetimeSeconds = 1.0f;
+        particle.startColorAbgr = glow.colorAbgr;
+        particle.blendMode = FxParticleBlendMode::Additive;
+        particle.material = FxParticleMaterial::SoftBlob;
+        glowParticles.push_back(particle);
+    }
     auto writeParticleQuad =
         [](WorldFxParticleVertex *pVertices,
            const bx::Vec3 &center,
@@ -431,15 +453,23 @@ void ParticleRenderer::renderParticles(
     std::array<size_t, ParticleMaterialCount * ParticleBlendModeCount> batchVertexCounts = {};
     std::array<size_t, ParticleMaterialCount * ParticleBlendModeCount> batchWriteOffsets = {};
 
-    for (const FxParticleState &particle : particles)
+    const auto appendVisible = [&](const FxParticleState &particle)
     {
         if (!shouldRenderParticle(particle, cameraPosition, cameraForward, cameraRight, cameraUp, aspectRatio))
         {
-            continue;
+            return;
         }
 
         visibleParticles.push_back(&particle);
         batchVertexCounts[batchIndex(particle.material, particle.blendMode)] += 6;
+    };
+    for (const FxParticleState &particle : particles)
+    {
+        appendVisible(particle);
+    }
+    for (const FxParticleState &particle : glowParticles)
+    {
+        appendVisible(particle);
     }
 
     bool hasVisibleParticles = false;

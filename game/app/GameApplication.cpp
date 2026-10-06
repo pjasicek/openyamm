@@ -9730,7 +9730,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
                 requestApplicationQuit();
                 return;
             }
-            worldFx.syncActorModels(*pWorldRuntime);
+            worldFx.syncActorModels(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         }
         m_gameSession.gameplayFxService().consumePendingWorldFxRequests(
             pWorldRuntime->eventRuntimeState(),

@@ -2,13 +2,18 @@
 
 #include "game/tables/SpriteTables.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
+#include <span>
 #include <string>
 
 namespace OpenYAMM::Game
 {
+struct IndoorEntity;
+struct OutdoorEntity;
+
 enum class InteractiveDecorationFamily : uint8_t
 {
     None = 0,
@@ -50,6 +55,19 @@ uint32_t makeInteractiveDecorationSeed(
     int z);
 
 uint8_t initialInteractiveDecorationState(InteractiveDecorationFamily family, uint32_t seed);
+
+// Initialize fresh map assets only; saved map state must be restored afterwards.
+void initializeMapInteractiveDecorations(
+    std::span<const IndoorEntity> entities,
+    const DecorationTable &decorationTable,
+    std::array<uint8_t, 125> &decorVars,
+    uint32_t randomSeed);
+
+void initializeMapInteractiveDecorations(
+    std::span<const OutdoorEntity> entities,
+    const DecorationTable &decorationTable,
+    std::array<uint8_t, 125> &decorVars,
+    uint32_t randomSeed);
 
 bool interactiveDecorationIsCleared(uint8_t state, uint8_t eventCount, bool hideWhenCleared);
 }

@@ -4260,7 +4260,8 @@ void IndoorRenderer::render(
         MainViewId,
         viewMatrix,
         eye,
-        static_cast<float>(viewWidth) / static_cast<float>(viewHeight));
+        static_cast<float>(viewWidth) / static_cast<float>(viewHeight),
+        m_worldFxSystem.glowBillboards());
     if (m_pAssetFileSystem != nullptr)
     {
         m_effectRenderer.render(
