@@ -26,6 +26,7 @@ class GameSession;
 class GameAudioSystem;
 class IGameplayWorldRuntime;
 class MonsterTable;
+class SpriteFrameTable;
 struct PartySpellCastResult;
 
 struct WorldFxGlowBillboard
@@ -86,7 +87,7 @@ public:
         std::string &error);
     void bindNamedEffectAudio(GameAudioSystem *pAudioSystem);
     bool configureActorModels(const Engine::AssetFileSystem &assets, const std::string &manifestPath,
-        const MonsterTable &monsters, std::string &error);
+        const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, std::string &error);
     void syncActorModels(const IGameplayWorldRuntime &world, float deltaSeconds = 0.0f);
     bool hasActorModel(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelBounds(size_t actorIndex) const;
@@ -174,8 +175,11 @@ private:
     struct ActorModelBinding
     {
         std::shared_ptr<const Engine::ModelAsset> asset;
+        uint32_t materialVariant = 0;
+        uint32_t eyeColorAbgr = 0;
         std::array<uint32_t, 8> clips = {};
         float scale = 1.0f;
+        float fxReferenceScale = 1.0f;
         float yawOffset = 0.0f;
         float zOffset = 0.0f;
         bool disintegrates = false;
@@ -186,8 +190,9 @@ private:
         std::shared_ptr<const std::vector<float>> upperBodyMask;
         // Authored non-deforming socket nodes: eyes, palms. Missing sockets simply have no attached FX.
         std::array<uint32_t, 4> sockets = {UINT32_MAX, UINT32_MAX, UINT32_MAX, UINT32_MAX};
-        std::string rangedHandEffect;
-        uint32_t rangedHandSocket = UINT32_MAX;
+        // Resolved once from Attack1/Attack2 missile tokens; physical missiles have no hand recipe.
+        std::array<std::string, 2> rangedHandEffects;
+        std::array<uint32_t, 2> rangedHandSockets = {UINT32_MAX, UINT32_MAX};
     };
     struct ActorModelInstance
     {
@@ -205,7 +210,8 @@ private:
         uint8_t previousState = 0;
         bool casting = false;
         bool rangedHandActive = false;
-        EffectHandle rangedHandEffect;
+        bool secondaryAttack = false;
+        std::array<EffectHandle, 2> rangedHandEffects;
         float fxScale = 1.0f;
         float castDuration = 0.0f;
         float castProgress = 0.0f;
@@ -222,6 +228,7 @@ private:
     std::unordered_map<std::string, ActorModelBinding> m_actorModelBindings;
     std::unordered_map<size_t, ActorModelInstance> m_actorModels;
     void syncActorModelFx(const IGameplayWorldRuntime &world, float deltaSeconds, bool refreshSpatialFx);
+    void stopActorHandFx(ActorModelInstance &model, EffectStopMode mode);
     struct ProjectileFxTrailState
     {
         bool hasPreviousPosition = false;

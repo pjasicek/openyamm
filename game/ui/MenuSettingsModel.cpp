@@ -91,6 +91,14 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.waterSpriteReflections ? "true" : "false";
     }
+    if (id == "ambient_occlusion")
+    {
+        return settings.ambientOcclusion ? "true" : "false";
+    }
+    if (id == "ambient_occlusion_strength")
+    {
+        return std::to_string(settings.ambientOcclusionStrength);
+    }
     if (id == "cinematic_grading")
     {
         return settings.cinematicGrading ? "true" : "false";
@@ -383,6 +391,26 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.waterReflectionSize = number;
+        return true;
+    }
+    if (id == "ambient_occlusion")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.ambientOcclusion = value == "true";
+        return true;
+    }
+    if (id == "ambient_occlusion_strength")
+    {
+        int number = 0;
+        const auto result = std::from_chars(value.data(), value.data() + value.size(), number);
+        if (result.ec != std::errc{} || result.ptr != value.data() + value.size() || number < 0 || number > 100)
+        {
+            return false;
+        }
+        settings.ambientOcclusionStrength = number;
         return true;
     }
     if (id == "cinematic_grading")

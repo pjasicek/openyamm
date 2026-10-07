@@ -164,6 +164,7 @@ void GameplayFxService::triggerPortraitEventFxWithoutSpeech(
         case PortraitFxEventKind::AutoNote:
         case PortraitFxEventKind::QuestComplete:
         case PortraitFxEventKind::StatIncrease:
+        case PortraitFxEventKind::StatBaseIncrease:
             runtime.audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
             break;
 
@@ -451,6 +452,10 @@ void GameplayFxService::consumePendingPortraitEventFxRequest(
 
         case PortraitFxEventKind::StatIncrease:
             runtime.playSpeechReaction(request.memberIndices.front(), SpeechId::StatBonusIncreased, false);
+            break;
+
+        case PortraitFxEventKind::StatBaseIncrease:
+            runtime.playSpeechReaction(request.memberIndices.front(), SpeechId::StatBaseIncreased, false);
             break;
 
         case PortraitFxEventKind::StatDecrease:

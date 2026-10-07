@@ -27,6 +27,7 @@ struct OutdoorMovementInput
     bool turnBasedMovementStep = false;
     bool turnBasedPhysicsStep = false;
     float movementSpeedScale = 1.0f;
+    float flyHeightDelta = 0.0f;
 };
 
 struct OutdoorPartyMovementState
@@ -151,6 +152,7 @@ private:
     OutdoorMovementEffects m_pendingEffects;
     bool m_jumpHeld = false;
     bool m_flyUpHeld = false;
+    float m_pendingFlyHeightDelta = 0.0f;
     bool m_pendingJumpPress = false;
     std::optional<float> m_pendingJumpVelocity;
     float m_pendingJumpLift = 1.0f;

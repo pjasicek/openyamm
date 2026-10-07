@@ -375,6 +375,16 @@ bool loadMaterialTexture(const cgltf_data &data, const cgltf_texture_view &view,
 
 bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::string &error)
 {
+    for (size_t index = 0; index < data.variants_count; ++index)
+    {
+        const char *pName = data.variants[index].name;
+        if (pName == nullptr || *pName == '\0' || asset.findMaterialVariant(pName))
+        {
+            error = "material variants require nonempty unique names";
+            return false;
+        }
+        asset.materialVariants.emplace_back(pName);
+    }
     asset.materials.reserve(data.materials_count);
     for (size_t materialIndex = 0; materialIndex < data.materials_count; ++materialIndex)
     {
@@ -546,8 +556,20 @@ bool loadMeshes(const cgltf_data &data, ModelAsset &asset, std::string &error)
             }
 
             ModelPrimitive primitive;
-            primitive.materialIndex = source.material != nullptr
-                ? static_cast<int>(cgltf_material_index(&data, source.material)) : -1;
+            primitive.materialIndices.assign(data.variants_count + 1, source.material != nullptr
+                ? int(cgltf_material_index(&data, source.material)) : -1);
+            std::vector<bool> mapped(data.variants_count, false);
+            for (size_t mappingIndex = 0; mappingIndex < source.mappings_count; ++mappingIndex)
+            {
+                const cgltf_material_mapping &mapping = source.mappings[mappingIndex];
+                if (mapping.variant >= mapped.size() || mapped[mapping.variant] || mapping.material == nullptr)
+                {
+                    error = "material variant mapping is invalid or duplicated";
+                    return false;
+                }
+                mapped[mapping.variant] = true;
+                primitive.materialIndices[mapping.variant + 1] = int(cgltf_material_index(&data, mapping.material));
+            }
             primitive.vertices.resize(pPosition->count);
             for (size_t vertexIndex = 0; vertexIndex < pPosition->count; ++vertexIndex)
             {
@@ -849,11 +871,14 @@ bool validateMeshLods(const ModelAsset &asset, std::string &error)
                 {
                     for (const ModelPrimitive &primitive : lower.primitives)
                     {
-                        if (primitive.materialIndex >= 0
-                            && asset.materials[primitive.materialIndex].alphaMode != ModelAlphaMode::Opaque)
+                        for (int materialIndex : primitive.materialIndices)
                         {
-                            error = "dedicated shadow LODs require opaque geometry";
-                            return false;
+                            if (materialIndex >= 0
+                                && asset.materials[materialIndex].alphaMode != ModelAlphaMode::Opaque)
+                            {
+                                error = "dedicated shadow LODs require opaque geometry";
+                                return false;
+                            }
                         }
                     }
                 }
@@ -1060,11 +1085,14 @@ ModelLoadResult GltfModelLoader::load(
     }
     std::unique_ptr<cgltf_data, CgltfDeleter> data(pParsedData);
 
-    if (data->extensions_required_count != 0)
+    for (size_t index = 0; index < data->extensions_required_count; ++index)
     {
-        result.error = "model " + virtualPath + " requires unsupported glTF extension " +
-            std::string(data->extensions_required[0]);
-        return result;
+        if (std::string_view(data->extensions_required[index]) != "KHR_materials_variants")
+        {
+            result.error = "model " + virtualPath + " requires unsupported glTF extension " +
+                std::string(data->extensions_required[index]);
+            return result;
+        }
     }
     for (size_t bufferIndex = 0; bufferIndex < data->buffers_count; ++bufferIndex)
     {

@@ -1,11 +1,13 @@
 #include "game/gameplay/InteractiveDecorationRules.h"
 
 #include "game/StringUtils.h"
+#include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/outdoor/OutdoorMapData.h"
 
 #include <algorithm>
 #include <cctype>
+#include <cstdlib>
 #include <initializer_list>
 #include <random>
 #include <string_view>
@@ -285,6 +287,78 @@ std::optional<uint16_t> resolveCrystalEventId(
 
     return resolveCrystalEventId(keys);
 }
+}
+
+const DecorationEntry *toggleableDecorationCounterpart(
+    const DecorationTable &table, const DecorationEntry &decoration)
+{
+    const std::string name = toLowerCopy(decoration.internalName);
+    const char *counterpart = nullptr;
+    if (name == "brazir2f") counterpart = "brzier00";
+    else if (name == "brzier00") counterpart = "brazir2f";
+    else if (name == "nwtrchnf") counterpart = "TrchB00";
+    else if (name == "trchb00") counterpart = "nwtrchnf";
+    return counterpart != nullptr ? table.findByInternalName(counterpart) : nullptr;
+}
+
+const DecorationEntry *runtimeDecorationEntry(
+    const DecorationTable &table, const DecorationEntry &decoration,
+    uint32_t spriteOverrideKey, const EventRuntimeState *pState)
+{
+    if (pState != nullptr)
+    {
+        const auto override = pState->spriteOverrides.find(spriteOverrideKey);
+        if (override != pState->spriteOverrides.end())
+        {
+            if (override->second.hidden) return nullptr;
+            if (override->second.textureName)
+            {
+                if (const DecorationEntry *entry = table.findByInternalName(*override->second.textureName))
+                {
+                    return entry;
+                }
+            }
+        }
+    }
+    return &decoration;
+}
+
+const DecorationEntry *indoorDecorationLightToggleTarget(
+    const IndoorMapData &map, const DecorationTable &table, size_t entityIndex,
+    const EventRuntimeState *pState)
+{
+    if (entityIndex >= map.entities.size()) return nullptr;
+    const IndoorEntity &entity = map.entities[entityIndex];
+    if (entity.scriptEventId() != 0) return nullptr;
+    const DecorationEntry *entry = table.resolveMapDecoration(entity.decorationListId, entity.name).pEntry;
+    if (entry == nullptr || toggleableDecorationCounterpart(table, *entry) == nullptr) return nullptr;
+    entry = runtimeDecorationEntry(table, *entry, entity.spriteOverrideKey(entityIndex), pState);
+    return entry != nullptr ? toggleableDecorationCounterpart(table, *entry) : nullptr;
+}
+
+bool toggleIndoorDecorationLight(
+    const IndoorMapData &map, const DecorationTable &table, size_t entityIndex,
+    EventRuntimeState &state)
+{
+    const DecorationEntry *target = indoorDecorationLightToggleTarget(map, table, entityIndex, &state);
+    if (target == nullptr) return false;
+    const IndoorEntity &entity = map.entities[entityIndex];
+    state.spriteOverrides[entity.spriteOverrideKey(entityIndex)].textureName = target->internalName;
+    const bool enabled = target->lightRadius > 0;
+    // MMMerge associates authored lights within 100 map units on each axis with the decoration.
+    for (size_t lightIndex = 0; lightIndex < map.lights.size(); ++lightIndex)
+    {
+        const IndoorLight &light = map.lights[lightIndex];
+        if (std::abs(int64_t(light.x) - entity.x) <= 100
+            && std::abs(int64_t(light.y) - entity.y) <= 100
+            && std::abs(int64_t(light.z) - entity.z) <= 100)
+        {
+            state.indoorLightsEnabled[static_cast<uint32_t>(lightIndex)] = enabled;
+        }
+    }
+    ++state.indoorLightRevision;
+    state.lastActivationResult = enabled ? "decoration light lit" : "decoration light extinguished";
+    return true;
 }
 
 std::optional<InteractiveDecorationFamily> classifyInteractiveDecorationFamily(

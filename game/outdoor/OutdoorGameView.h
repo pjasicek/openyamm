@@ -70,6 +70,7 @@ struct SDL_Window;
 
 namespace OpenYAMM::Game
 {
+class CinematicGrading;
 class GameDataRepository;
 class GameSession;
 class OutdoorPartyRuntime;
@@ -129,6 +130,7 @@ public:
         const GameSettings &settings);
     void render(int width, int height, const GameplayInputFrame &input, float deltaSeconds,
         bool preparingResources = false);
+    void setWorldPostProcessing(CinematicGrading *pPostProcessing) { m_pPostProcessing = pPostProcessing; }
     void shutdown();
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
@@ -773,6 +775,7 @@ private:
     WorldFxRenderResources m_worldFxRenderResources;
     EffectRenderer m_effectRenderer;
     Engine::ModelRenderer m_modelRenderer;
+    CinematicGrading *m_pPostProcessing = nullptr;
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightPositions = {};
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};
     std::array<float, 4> m_cachedOutdoorFxLightParams = {};

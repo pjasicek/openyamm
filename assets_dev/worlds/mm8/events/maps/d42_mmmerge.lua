@@ -11,3 +11,4 @@ ReplaceMapEvent(501, "Leave the Arena", function()
         evt.MoveToMap(17091, -12524, 1, 1024, 0, 0, 0, 8, "out02.odm")
     end
 end, "Leave the Arena")
+SetMapContextAction(501, {kind = "leave_dungeon", source = "authored", targetName = "Leave the Arena"})

@@ -1,5 +1,6 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "engine/ImageMipmaps.h"
 #include "engine/models/GltfModelLoader.h"
 #include "engine/models/ModelInstance.h"
 #include "game/gameplay/ActorModelPresentation.h"
@@ -516,6 +517,54 @@ TEST_CASE("ModelAnimation material factors retain defaults and reject invalid ro
     std::filesystem::remove_all(root);
 }
 
+TEST_CASE("ModelAnimation material variants share geometry and validate mappings and recycled instances")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path root = makeTemporaryRoot();
+    std::string json = fixtureGltf();
+    json.insert(1, R"("extensionsRequired":["KHR_materials_variants"],
+        "extensions":{"KHR_materials_variants":{"variants":[{"name":"green"},{"name":"red"}]}},)");
+    json.insert(json.find("\"attributes\""), R"("extensions":{"KHR_materials_variants":{
+        "mappings":[{"material":1,"variants":[0]},{"material":2,"variants":[1]}]}},)");
+    const size_t materialEnd = json.find("],\n  \"animations\"");
+    REQUIRE_NE(materialEnd, std::string::npos);
+    json.insert(materialEnd, R"(,{"name":"green","pbrMetallicRoughness":{"baseColorFactor":[0,1,0,1]}},
+        {"name":"red","pbrMetallicRoughness":{"baseColorFactor":[1,0,0,1]}})");
+    writeFile(root / "assets_dev/engine/models/fixture.bin", fixtureBuffer());
+    writeFile(root / "assets_dev/engine/models/fixture.gltf", json);
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", AssetScaleTier::X1));
+    ModelAssetCache cache;
+    const ModelLoadResult loaded = cache.load(assets, "engine/models/fixture.gltf");
+    REQUIRE_MESSAGE(loaded, loaded.error);
+    REQUIRE_EQ(loaded.asset->meshes[0].primitives[0].materialIndices, std::vector<int>{0, 1, 2});
+    CHECK_FALSE(loaded.asset->findMaterialVariant("missing"));
+    ModelInstanceSystem instances;
+    const ModelInstanceHandle first = instances.create(loaded.asset);
+    const ModelInstanceHandle second = instances.create(cache.load(assets, "engine/models/fixture.gltf").asset);
+    REQUIRE(instances.setMaterialVariant(first, *loaded.asset->findMaterialVariant("green")));
+    REQUIRE(instances.setMaterialVariant(second, *loaded.asset->findMaterialVariant("red")));
+    CHECK(instances.asset(first) == instances.asset(second));
+    CHECK_EQ(instances.materialVariant(first), 1);
+    CHECK_EQ(instances.materialVariant(second), 2);
+    CHECK_FALSE(instances.setMaterialVariant(first, 3));
+    REQUIRE(instances.destroy(first));
+    CHECK_FALSE(instances.setMaterialVariant(first, 0));
+    CHECK_EQ(instances.materialVariant(instances.create(loaded.asset)), 0);
+    for (const std::pair<std::string, std::string> replacement : {
+        std::pair{std::string("\"name\":\"red\""), std::string("\"name\":\"green\"")},
+        std::pair{std::string("\"variants\":[1]"), std::string("\"variants\":[0]")},
+        std::pair{std::string("\"variants\":[1]"), std::string("\"variants\":[7]")}})
+    {
+        std::string invalid = json;
+        invalid.replace(invalid.find(replacement.first), replacement.first.size(), replacement.second);
+        writeFile(root / "assets_dev/engine/models/fixture.gltf", invalid);
+        CHECK_FALSE(GltfModelLoader().load(assets, "engine/models/fixture.gltf"));
+    }
+    assets.shutdown();
+    std::filesystem::remove_all(root);
+}
+
 TEST_CASE("ModelAnimation loader reads GLB and packaged external buffers")
 {
     using namespace OpenYAMM::Engine;
@@ -679,7 +728,7 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
             CHECK_EQ(material.baseSampler.minFilter, 9987);
             CHECK_EQ(material.baseSampler.wrapS, 10497);
         }
-        else if (material.name == "Demon_Red_Iris")
+        else if (material.name == "Demon_Iris")
         {
             CHECK_EQ(material.metallic, 0.0f);
             CHECK(material.roughness == doctest::Approx(0.22f));
@@ -690,6 +739,29 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
     const uint32_t body = *loaded.asset->findNode("Demon_Native_Mesh");
     const uint32_t ash = *loaded.asset->findNode("Demon_Ash_Remains");
     const uint32_t plume = *loaded.asset->findNode("Demon_Death_Plume");
+    REQUIRE_EQ(loaded.asset->materialVariants, std::vector<std::string>{"demon_a", "demon_b", "demon_c"});
+    const std::array<std::array<uint8_t, 3>, 3> eyeColors = {{{231, 156, 156}, {250, 102, 102}, {250, 176, 62}}};
+    const uint32_t bodyMesh = loaded.asset->nodes[body].meshIndex;
+    std::vector<uint32_t> colorMeshes = loaded.asset->meshes[bodyMesh].lodMeshes;
+    colorMeshes.push_back(bodyMesh);
+    for (uint32_t mesh : colorMeshes)
+    {
+        REQUIRE(loaded.asset->meshes[mesh].primitives.size() >= 3);
+        const ModelPrimitive &iris = loaded.asset->meshes[mesh].primitives[1];
+        const ModelPrimitive &pupil = loaded.asset->meshes[mesh].primitives[2];
+        REQUIRE_EQ(iris.materialIndices.size(), 4);
+        for (size_t variant = 0; variant < eyeColors.size(); ++variant)
+        {
+            const ModelMaterial &material = loaded.asset->materials[iris.materialIndices[variant + 1]];
+            CHECK_EQ(material.name, loaded.asset->materialVariants[variant] + "_Iris");
+            for (size_t channel = 0; channel < 3; ++channel)
+            {
+                CHECK(material.baseColor[channel]
+                    == doctest::Approx(srgbToLinear(eyeColors[variant][channel] / 255.0f)));
+                CHECK(loaded.asset->materials[pupil.materialIndices[variant + 1]].baseColor[channel] < 0.005f);
+            }
+        }
+    }
     // The portable authoring effect is replaced by batched runtime particles.
     CHECK_EQ(loaded.asset->nodes[plume].meshIndex, -1);
     CHECK(loaded.asset->nodes[plume].weights.empty());

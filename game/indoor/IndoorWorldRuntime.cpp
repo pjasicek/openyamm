@@ -4447,7 +4447,7 @@ bool IndoorWorldRuntime::partyAttackActorHasLineOfSight(size_t actorIndex) const
     const GameplayWorldPoint targetPoint = {
         actorState.preciseX,
         actorState.preciseY,
-        actorState.preciseZ + std::max(48.0f, static_cast<float>(actorState.height) * 0.6f),
+        actorState.preciseZ + GameMechanics::actorTargetHeight(actorState.height),
     };
     const int16_t sourceSectorId =
         partyMoveState.eyeSectorId >= 0 ? partyMoveState.eyeSectorId : partyMoveState.sectorId;
@@ -11033,6 +11033,7 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.castingSpellId = pAiState != nullptr
         ? (pAiState->queuedAttackAbility == GameplayActorAttackAbility::Spell1
             ? pAiState->spell1Id : pAiState->spell2Id) : 0;
+    state.secondaryAttack = pAiState != nullptr && pAiState->queuedAttackAbility == GameplayActorAttackAbility::Attack2;
     state.attackImpactTriggered = pAiState != nullptr && pAiState->attackImpactTriggered;
     state.visualScale = pEffectState != nullptr && pEffectState->shrinkRemainingSeconds > 0
         ? std::clamp(pEffectState->shrinkDamageMultiplier, 0.25f, 1.0f) : 1.0f;
@@ -12256,7 +12257,7 @@ std::vector<size_t> IndoorWorldRuntime::collectVisibleMapActorIndicesWithinRadiu
         }
 
         const float viewTargetZ =
-            actorState.preciseZ + std::max(48.0f, static_cast<float>(actorState.height) * 0.6f);
+            actorState.preciseZ + GameMechanics::actorTargetHeight(actorState.height);
         if (!pointInsideViewCone(
                 viewX,
                 viewY,
@@ -13612,7 +13613,7 @@ std::vector<GameplayPartyAttackActorFacts> IndoorWorldRuntime::collectPartyAttac
             {
                 runtimeState.preciseX,
                 runtimeState.preciseY,
-                runtimeState.preciseZ + std::max(48.0f, float(runtimeState.height) * 0.6f),
+                runtimeState.preciseZ + GameMechanics::actorTargetHeight(runtimeState.height),
             },
             viewProjectionMatrix);
         bool visibleForFallback =

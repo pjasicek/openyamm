@@ -1195,10 +1195,129 @@ elements:
         scale: 0.64
         pad_x: 3.2
       notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
-    - id: SettingsVideoCinematicGradingLabel
+    - id: SettingsVideoAmbientOcclusionLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 781.3253
+      width: 220.0
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Ambient occlusion
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoAmbientOcclusionDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 797.5333
+      width: 437.3333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Add soft shading where solid surfaces meet.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoAmbientOcclusionControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 779.1044
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+      text:
+        value: '{ambient_occlusion}'
+        font: menu_lucida
+        color: '#e8d5a1'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Bind to video.ambient_occlusion; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsVideoAmbientOcclusionStrengthLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 820.2501
+      width: 220.0
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Occlusion intensity
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoAmbientOcclusionStrengthDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 836.4587
+      width: 384.9333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Adjust the strength of contact shading.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoAmbientOcclusionStrengthControl
+      anchor: top_left
+      offset_x: 400.5333
+      offset_y: 826.1083
+      width: 88.5333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+      notes: Bind to video.ambient_occlusion_strength; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior.
+    - id: SettingsVideoAmbientOcclusionStrengthValue
+      anchor: top_left
+      offset_x: 497.0667
+      offset_y: 828.2416
+      width: 26.6667
+      height: 11.7333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{ambient_occlusion_strength}%'
+        font: menu_lucida
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.67765
+        pad_x: 0.0
+      notes: Controller supplies live text.
+    - id: SettingsVideoCinematicGradingLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 859.1749
       width: 176.9835
       height: 14.0752
       z_index: 10
@@ -1215,7 +1334,7 @@ elements:
     - id: SettingsVideoCinematicGradingDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 797.5333
+      offset_y: 875.3829
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1232,7 +1351,7 @@ elements:
     - id: SettingsVideoCinematicGradingControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 779.1044
+      offset_y: 856.9540
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1254,7 +1373,7 @@ elements:
     - id: SettingsVideoCinematicStrengthLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 820.2501
+      offset_y: 898.0997
       width: 185.4085
       height: 14.0752
       z_index: 10
@@ -1271,7 +1390,7 @@ elements:
     - id: SettingsVideoCinematicStrengthDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 836.4587
+      offset_y: 914.3083
       width: 384.9333
       height: 11.5168
       z_index: 10
@@ -1288,7 +1407,7 @@ elements:
     - id: SettingsVideoCinematicStrengthControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 826.1083
+      offset_y: 903.9579
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -1299,7 +1418,7 @@ elements:
     - id: SettingsVideoCinematicStrengthValue
       anchor: top_left
       offset_x: 497.0667
-      offset_y: 828.2416
+      offset_y: 906.0912
       width: 26.6667
       height: 11.7333
       z_index: 10
@@ -1317,7 +1436,7 @@ elements:
     - id: SettingsVideoColoredLightsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 859.1749
+      offset_y: 937.0245
       width: 184.8085
       height: 14.0752
       z_index: 10
@@ -1334,7 +1453,7 @@ elements:
     - id: SettingsVideoColoredLightsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 875.3835
+      offset_y: 953.2331
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1351,7 +1470,7 @@ elements:
     - id: SettingsVideoColoredLightsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 856.9546
+      offset_y: 934.8042
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1373,7 +1492,7 @@ elements:
     - id: SettingsVideoTintingLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 898.1003
+      offset_y: 975.9499
       width: 151.1003
       height: 14.0752
       z_index: 10
@@ -1390,7 +1509,7 @@ elements:
     - id: SettingsVideoTintingDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 914.3083
+      offset_y: 992.1579
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1407,7 +1526,7 @@ elements:
     - id: SettingsVideoTintingControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 895.8794
+      offset_y: 973.7290
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1429,7 +1548,7 @@ elements:
     - id: SettingsVideoBloodSplatsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 937.0251
+      offset_y: 1014.8747
       width: 116.7835
       height: 14.0752
       z_index: 10
@@ -1446,7 +1565,7 @@ elements:
     - id: SettingsVideoBloodSplatsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 953.2336
+      offset_y: 1031.0832
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1463,7 +1582,7 @@ elements:
     - id: SettingsVideoBloodSplatsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 934.8047
+      offset_y: 1012.6543
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1485,7 +1604,7 @@ elements:
     - id: SettingsVideoMeleeHitBloodEffectsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 975.9504
+      offset_y: 1053.8000
       width: 219.1168
       height: 14.0752
       z_index: 10
@@ -1502,7 +1621,7 @@ elements:
     - id: SettingsVideoMeleeHitBloodEffectsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 992.1584
+      offset_y: 1070.0080
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1519,7 +1638,7 @@ elements:
     - id: SettingsVideoMeleeHitBloodEffectsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 973.7295
+      offset_y: 1051.5791
       width: 70.4
       height: 32.158
       z_index: 10

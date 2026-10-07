@@ -1,8 +1,19 @@
--- MMMerge map supplement: Dragonsand Dimension Door entry point and Shrine of the Gods refill state.
+-- MMMerge map supplement: Dragonsand Dimension Door and per-character Shrine of the Gods blessings.
 
-local function shrineOfGodsMapVarName(playerIndex)
-    return "ShrineOfGodsBlessed" .. tostring(playerIndex)
-end
+RegisterMapOnLoadEvent(65020, "Migrate Shrine of the Gods blessings", function()
+    -- Older saves recorded blessings by party slot instead of on the character.
+    for playerIndex = 0, 4 do
+        local name = "ShrineOfGodsBlessed" .. tostring(playerIndex)
+        if evt.GetMapVar(name, 0) ~= 0 then
+            if playerIndex < evt.GetPartyMemberCount() then
+                evt.ForPlayer(playerIndex)
+                SetPlayerBit(PlayerBit(70))
+            end
+            evt.SetMapVar(name, 0)
+        end
+    end
+    evt.ForPlayer(Players.Current)
+end)
 
 ReplaceMapEvent(103, "Shrine of the Gods", function()
     local playerIndex = evt.GetCurrentPlayerIndex()
@@ -13,12 +24,12 @@ ReplaceMapEvent(103, "Shrine of the Gods", function()
 
     evt.ForPlayer(Players.Current)
 
-    if evt.GetMapVar(shrineOfGodsMapVarName(playerIndex), 0) ~= 0 then
+    if IsPlayerBitSet(PlayerBit(70)) then
         SetValue(MajorCondition, 0)
         return
     end
 
-    evt.SetMapVar(shrineOfGodsMapVarName(playerIndex), 1)
+    SetPlayerBit(PlayerBit(70))
     AddValue(FireResistance, 20)
     AddValue(AirResistance, 20)
     AddValue(WaterResistance, 20)
@@ -36,12 +47,6 @@ ReplaceMapEvent(103, "Shrine of the Gods", function()
     evt.PlaySound(42797, 0, 0)
     evt.StatusText("+20 to all stats permanent.")
 end, "Shrine of the Gods")
-
-RegisterMapRefillHook(65020, "Reset Shrine of the Gods blessings", function()
-    for playerIndex = 0, 4 do
-        evt.SetMapVar(shrineOfGodsMapVarName(playerIndex), 0)
-    end
-end)
 
 AppendMapEvent(105, function()
     MM6.OpenDimensionDoor()

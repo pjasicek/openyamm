@@ -14,6 +14,10 @@ constexpr uint16_t FirstSunShadowView = 232;
 constexpr size_t SunShadowViews = 2;
 constexpr uint16_t FirstWaterReflectionView = 234;
 constexpr size_t MaxWaterReflections = 2;
+constexpr uint16_t AmbientOcclusionView = 245;
+constexpr uint16_t AmbientOcclusionBlurView = 246;
+constexpr uint16_t AmbientOcclusionCompositeView = 247;
+constexpr uint16_t WorldTransparentView = 248;
 constexpr uint16_t WorldGradingView = 249;
 
 // Matches the maximum normalized UV offset passed to waterReflection by both water shaders.
@@ -145,7 +149,7 @@ inline WaterReflectionScissor waterReflectionScissor(const float *pViewProjectio
     return {uint16_t(left), uint16_t(top), uint16_t(right - left), uint16_t(bottom - top)};
 }
 
-constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool grading)
+constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool grading, bool ambientOcclusion = false)
 {
     std::array<uint16_t, WorldGradingView + 1> order = {};
     size_t index = 0;
@@ -159,6 +163,13 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
     }
     order[index++] = 0;
     order[index++] = 1;
+    if (ambientOcclusion)
+    {
+        for (uint16_t view = AmbientOcclusionView; view <= WorldTransparentView; ++view)
+        {
+            order[index++] = view;
+        }
+    }
     if (grading)
     {
         order[index++] = WorldGradingView;
@@ -167,7 +178,8 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
     {
         if ((view < FirstSunShadowView || view >= FirstSunShadowView + SunShadowViews)
             && (view < FirstWaterReflectionView || view >= FirstWaterReflectionView + MaxWaterReflections * 2)
-            && (!grading || view != WorldGradingView))
+            && (!grading || view != WorldGradingView)
+            && (!ambientOcclusion || view < AmbientOcclusionView || view > WorldTransparentView))
         {
             order[index++] = view;
         }

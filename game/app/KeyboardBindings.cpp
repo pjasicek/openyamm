@@ -183,6 +183,19 @@ InputBinding mouseButtonInputBinding(uint8_t button)
     return InputBinding{InputBindingKind::MouseButton, SDL_SCANCODE_UNKNOWN, button};
 }
 
+InputBinding mouseWheelInputBinding(float delta)
+{
+    if (delta > 0.0f)
+    {
+        return InputBinding{InputBindingKind::MouseWheelUp};
+    }
+    if (delta < 0.0f)
+    {
+        return InputBinding{InputBindingKind::MouseWheelDown};
+    }
+    return {};
+}
+
 std::array<InputBinding, KeyboardActionCount> createDefaultKeyboardBindings()
 {
     std::array<InputBinding, KeyboardActionCount> bindings = {};
@@ -239,6 +252,15 @@ InputBinding parseInputBindingName(const std::string &name)
     if (normalized == "mouseleft" || normalized == "leftmouse" || normalized == "lmb")
     {
         return mouseButtonInputBinding(SDL_BUTTON_LEFT);
+    }
+
+    if (normalized == "mousewheelup" || normalized == "wheelup")
+    {
+        return mouseWheelInputBinding(1.0f);
+    }
+    if (normalized == "mousewheeldown" || normalized == "wheeldown")
+    {
+        return mouseWheelInputBinding(-1.0f);
     }
 
     const SDL_Scancode scancode = parseKeyboardBindingName(name);
@@ -299,6 +321,12 @@ std::string inputBindingName(const InputBinding &binding)
     case InputBindingKind::Keyboard:
         return keyboardBindingName(binding.scancode);
 
+    case InputBindingKind::MouseWheelUp:
+        return "MouseWheelUp";
+
+    case InputBindingKind::MouseWheelDown:
+        return "MouseWheelDown";
+
     case InputBindingKind::MouseButton:
         if (binding.mouseButton == SDL_BUTTON_LEFT)
         {
@@ -318,6 +346,12 @@ std::string inputBindingDisplayName(const InputBinding &binding)
     {
     case InputBindingKind::Keyboard:
         return keyboardBindingDisplayName(binding.scancode);
+
+    case InputBindingKind::MouseWheelUp:
+        return "Wheel Up";
+
+    case InputBindingKind::MouseWheelDown:
+        return "Wheel Down";
 
     case InputBindingKind::MouseButton:
         if (binding.mouseButton == SDL_BUTTON_LEFT)

@@ -241,6 +241,7 @@ public:
         const Character &character,
         const ItemTable *pItemTable,
         CharacterAttackMode attackMode);
+    static float actorTargetHeight(uint16_t actorHeight);
     static bool characterRangedAttackHitsArmorClass(
         int targetArmorClass,
         int attackBonus,

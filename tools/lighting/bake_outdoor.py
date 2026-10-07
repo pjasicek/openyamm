@@ -282,7 +282,7 @@ def main():
             texcoords = [(0,1),(0,0),(1,1),(1,0)]
             light = [((x/127*(terrain_size-1)+.5)/terrain_size,
                       (y/127*(terrain_size-1)+.5)/terrain_size) for x,y in corners]
-            for indices in [(0,1,2),(2,1,3)]:
+            for indices in [(0,3,2),(0,1,3)]:
                 entries.append(([points[i] for i in indices], [texcoords[i] for i in indices],
                                 [light[i] for i in indices], mat))
     objects = [make_mesh('terrain', entries, (terrain_size, terrain_size))]

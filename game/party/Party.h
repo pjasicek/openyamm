@@ -664,7 +664,7 @@ private:
     uint32_t m_hardLandingSoundCount = 0;
     uint32_t m_monsterTargetSelectionCounter = 0;
     uint32_t m_houseStockSeed = 0;
-    float m_itemEffectElapsedGameSeconds = 0.0f;
+    float m_periodicEffectElapsedGameSeconds = 0.0f;
     uint32_t m_itemWeeklyEffectSequence = 0;
     float m_lastFallDamageDistance = 0.0f;
     std::string m_lastStatus;

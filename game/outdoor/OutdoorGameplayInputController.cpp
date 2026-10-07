@@ -18,6 +18,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
+constexpr float FlyWheelHeightStep = 64.0f;
 } // namespace
 
 void OutdoorGameplayInputController::updateCameraFromInput(
@@ -118,6 +119,13 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     const bool jumpPressed = input.action(KeyboardAction::Jump).held;
     const bool flyUpPressed = input.action(KeyboardAction::FlyUp).held;
     const bool flyDownPressed = input.action(KeyboardAction::FlyDown).held;
+    const InputBindingKind wheelKind = mouseWheelInputBinding(input.mouseWheelDelta).kind;
+    const bool wheelFlyUp = flyUpPressed
+        && view.m_gameSettings.keyboard.binding(KeyboardAction::FlyUp).kind == wheelKind;
+    const bool wheelFlyDown = flyDownPressed
+        && view.m_gameSettings.keyboard.binding(KeyboardAction::FlyDown).kind == wheelKind;
+    const float flyHeightDelta = FlyWheelHeightStep * std::abs(input.mouseWheelDelta)
+        * (int(wheelFlyUp) - int(wheelFlyDown));
     const bool lookUpPressed = input.action(KeyboardAction::LookUp).held;
     const bool lookDownPressed = input.action(KeyboardAction::LookDown).held;
     const bool centerViewPressed = input.action(KeyboardAction::CenterView).held;
@@ -151,8 +159,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     allowCameraMovementInput && strafeLeftPressed,
                     allowCameraMovementInput && strafeRightPressed,
                     allowCameraMovementInput && jumpPressed,
-                    allowCameraMovementInput && flyUpPressed,
-                    allowCameraMovementInput && flyDownPressed,
+                    allowCameraMovementInput && flyUpPressed && !wheelFlyUp,
+                    allowCameraMovementInput && flyDownPressed && !wheelFlyDown,
                     runWalkModifier,
                     turboSpeed,
                     view.m_cameraYawRadians,
@@ -160,7 +168,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     !classicControls,
                     input.turnBasedMovementStep,
                     input.turnBasedPhysicsStep,
-                    input.movementSpeedScale
+                    input.movementSpeedScale,
+                    allowCameraMovementInput ? flyHeightDelta : 0.0f
                 };
                 if (view.m_pOutdoorSceneRuntime != nullptr)
                 {

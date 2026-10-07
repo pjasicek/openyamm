@@ -1707,11 +1707,6 @@ int calculateItemValue(
     const SpecialItemEnchantTable *pSpecialTable,
     int minimumValue)
 {
-    if (item.broken)
-    {
-        return 1;
-    }
-
     int value = std::max(minimumValue, itemDefinition.value);
 
     if (item.temporaryBonusRemainingSeconds > 0.0f

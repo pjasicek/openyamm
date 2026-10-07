@@ -46,6 +46,7 @@
 
 namespace OpenYAMM::Game
 {
+class CinematicGrading;
 class GameSession;
 struct GameSettings;
 struct GameplayInputFrame;
@@ -154,6 +155,7 @@ public:
     float cameraPitchRadians() const;
     bool canActivateGameplayWorldHit(const GameplayWorldHit &hit) const;
     bool activateGameplayWorldHit(const GameplayWorldHit &hit);
+    void setWorldPostProcessing(CinematicGrading *pPostProcessing) { m_pPostProcessing = pPostProcessing; }
     void shutdown();
 
 private:
@@ -729,6 +731,7 @@ private:
     WorldFxRenderResources m_worldFxRenderResources;
     EffectRenderer m_effectRenderer;
     Engine::ModelRenderer m_modelRenderer;
+    CinematicGrading *m_pPostProcessing = nullptr;
     WorldFxSystem m_worldFxSystem;
     IndoorLightingRuntime m_indoorLightingRuntime;
     std::vector<MechanismBinding> m_mechanismBindings;

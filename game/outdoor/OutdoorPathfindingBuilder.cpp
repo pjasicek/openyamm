@@ -246,8 +246,8 @@ void appendTerrainFacets(
             const PathPoint p01 = {x0, y1, z01};
             const PathPoint p11 = {x1, y1, z11};
 
-            pathFacets.push_back(buildTerrainTriangle(p00, p01, p10));
-            pathFacets.push_back(buildTerrainTriangle(p11, p10, p01));
+            pathFacets.push_back(buildTerrainTriangle(p00, p11, p10));
+            pathFacets.push_back(buildTerrainTriangle(p00, p01, p11));
             result.terrainTriangleCount += 2;
         }
     }

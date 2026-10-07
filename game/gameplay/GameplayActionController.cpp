@@ -57,7 +57,7 @@ GameplayActionController::WorldPoint actorRangedTargetPoint(
     return GameplayActionController::WorldPoint{
         .x = actor.position.x,
         .y = actor.position.y,
-        .z = actor.position.z + std::max(48.0f, static_cast<float>(actor.height) * 0.6f),
+        .z = actor.position.z + GameMechanics::actorTargetHeight(actor.height),
     };
 }
 

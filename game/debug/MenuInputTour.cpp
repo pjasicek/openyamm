@@ -189,7 +189,10 @@ void MenuInputTour::update(const std::string &path, GameplayInputFrame &input, I
     }
     else if (step.kind == "wheel")
     {
-        input.mouseWheelDelta = step.seconds;
+        SDL_Event event = {};
+        event.type = SDL_EVENT_MOUSE_WHEEL;
+        event.wheel.y = step.seconds;
+        SDL_PushEvent(&event);
     }
     else if (step.kind == "capture")
     {

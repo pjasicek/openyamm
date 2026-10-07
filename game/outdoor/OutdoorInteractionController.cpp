@@ -548,14 +548,14 @@ std::optional<float> intersectOutdoorTerrainRay(
 
             float distance = 0.0f;
 
-            if (intersectRayTriangle(rayOrigin, rayDirection, topLeft, bottomLeft, topRight, distance)
+            if (intersectRayTriangle(rayOrigin, rayDirection, topLeft, bottomRight, topRight, distance)
                 && distance < closestDistance)
             {
                 closestDistance = distance;
                 hasIntersection = true;
             }
 
-            if (intersectRayTriangle(rayOrigin, rayDirection, topRight, bottomLeft, bottomRight, distance)
+            if (intersectRayTriangle(rayOrigin, rayDirection, topLeft, bottomLeft, bottomRight, distance)
                 && distance < closestDistance)
             {
                 closestDistance = distance;
@@ -669,7 +669,7 @@ std::optional<size_t> OutdoorInteractionController::resolveClosestVisibleHostile
         const bx::Vec3 actorPoint = {
             pActor->preciseX,
             pActor->preciseY,
-            pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
+            pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height)
         };
 
         if (!projectWorldPointToScreen(
@@ -731,7 +731,7 @@ std::optional<bx::Vec3> OutdoorInteractionController::resolveSpellActionActorTar
     return bx::Vec3 {
         pActor->preciseX,
         pActor->preciseY,
-        pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
+        pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height)
     };
 }
 

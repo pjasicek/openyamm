@@ -239,6 +239,35 @@ bool GameplaySpellService::tryResolveQuickCastRequest(
         return true;
     }
 
+    if (descriptor.targetKind == PartySpellCastTargetKind::Character)
+    {
+        const Party *pParty = runtime.partyReadOnly();
+        if (pParty == nullptr)
+        {
+            return false;
+        }
+
+        request.targetCharacterIndex.reset();
+        for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+        {
+            const Character &member = pParty->members()[memberIndex];
+            if (member.health >= Party::effectiveMaximumHealth(member)
+                || member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+                || member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+                || member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
+            {
+                continue;
+            }
+
+            if (!request.targetCharacterIndex
+                || member.health < pParty->members()[*request.targetCharacterIndex].health)
+            {
+                request.targetCharacterIndex = memberIndex;
+            }
+        }
+        return request.targetCharacterIndex.has_value();
+    }
+
     if (descriptor.targetKind == PartySpellCastTargetKind::Actor)
     {
         if (pWorldRuntime != nullptr)
@@ -674,6 +703,11 @@ bool GameplaySpellService::isQuickCastable(const PartySpellDescriptor &descripto
     if (descriptor.targetKind == PartySpellCastTargetKind::None)
     {
         return true;
+    }
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::Character)
+    {
+        return isSpellId(descriptor.spellId, SpellId::Heal);
     }
 
     if (descriptor.targetKind == PartySpellCastTargetKind::Actor)

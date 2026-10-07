@@ -63,7 +63,9 @@ enum class InputBindingKind : uint8_t
 {
     None = 0,
     Keyboard,
-    MouseButton
+    MouseButton,
+    MouseWheelUp,
+    MouseWheelDown
 };
 
 struct InputBinding
@@ -90,6 +92,7 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> &keyboardBindin
 const KeyboardBindingDefinition &keyboardBindingDefinition(KeyboardAction action);
 InputBinding keyboardInputBinding(SDL_Scancode scancode);
 InputBinding mouseButtonInputBinding(uint8_t button);
+InputBinding mouseWheelInputBinding(float delta);
 std::array<InputBinding, KeyboardActionCount> createDefaultKeyboardBindings();
 SDL_Scancode parseKeyboardBindingName(const std::string &name);
 InputBinding parseInputBindingName(const std::string &name);

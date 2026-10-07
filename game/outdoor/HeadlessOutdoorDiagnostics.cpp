@@ -7462,6 +7462,19 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         };
 
+    const auto loadModelSpriteFrames = [&](SpriteFrameTable &frames, std::string &failure)
+    {
+        // Headless map loading omits billboard data; read the authoritative scales without loading textures.
+        const std::optional<std::string> contents =
+            assetFileSystem.readTextFile("Data/rendering/sprite_frame_data_common.yml");
+        if (!contents)
+        {
+            failure = "could not load common sprite-frame data";
+            return false;
+        }
+        return frames.loadFromYaml(*contents, failure);
+    };
+
     runCase("mm6_demon_actor_models_keep_simulation_and_death_rules", [&](std::string &failure)
     {
         if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
@@ -7482,20 +7495,36 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             failure = "normal monster factory did not spawn three demons";
             return false;
         }
+        SpriteFrameTable frames;
         WorldFxSystem fx;
-        if (!fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
                 "engine/effects/resource_bindings.yml", failure)
             || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
-                gameDataLoader.getMonsterTable(), failure))
+                gameDataLoader.getMonsterTable(), &frames, failure))
         {
             return false;
         }
         fx.syncActorModels(scenario.world);
-        if (fx.models().size() != 3)
+        // Other bound New Sorpigal residents (peasants) keep their own instances; counts below are relative.
+        if (!fx.hasActorModel(first) || !fx.hasActorModel(first + 1) || !fx.hasActorModel(first + 2)
+            || fx.models().size() < 3)
         {
             failure = "three ordinary actors did not acquire three model instances";
             return false;
         }
+        const size_t otherModels = fx.models().size() - 3;
+        const auto firstDemonModel = [&]()
+        {
+            for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+            {
+                if (fx.models().asset(handle)->findNode("Demon_Native_Mesh"))
+                {
+                    return handle;
+                }
+            }
+            return Engine::ModelInstanceHandle{};
+        };
         const OutdoorWorldRuntime::Snapshot initial = scenario.world.snapshot();
         for (size_t index = first; index < first + 3; ++index)
         {
@@ -7534,7 +7563,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         fx.particles().reset();
         // Moving spell actions layer the authored upper body over distance-driven legs. AI data stays authoritative.
         fx.syncActorModels(scenario.world);
-        const Engine::ModelInstanceHandle model = fx.models().handles().front();
+        const Engine::ModelInstanceHandle model = firstDemonModel();
         fx.models().pose(model, false);
         OutdoorWorldRuntime::Snapshot layered = initial;
         OutdoorWorldRuntime::MapActorState &caster = layered.mapActors[first];
@@ -7689,6 +7718,16 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             failure = "paused hand FX advanced";
             return false;
         }
+        caster.queuedAttackAbility = OutdoorWorldRuntime::MonsterAttackAbility::Attack1;
+        scenario.world.restoreSnapshot(layered);
+        fx.syncActorModels(scenario.world, .01f);
+        fx.syncProjectileFx(fxSession, .01f, false);
+        fx.updateParticles(.25f, false);
+        if (fx.namedEffects().contains(handEffect) || !fx.namedEffects().fixedSprites().empty())
+        {
+            failure = "switching to a physical attack slot retained the elemental hand effect";
+            return false;
+        }
         caster.animation = OutdoorWorldRuntime::ActorAnimation::AttackMelee;
         caster.queuedAttackAbility = OutdoorWorldRuntime::MonsterAttackAbility::Attack1;
         scenario.world.restoreSnapshot(layered);
@@ -7736,14 +7775,14 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             scenario.world.updateMapActors(1.0f / 128, -9728, -11319, 161);
         }
         fx.syncActorModels(scenario.world);
-        if (fx.hasActorModel(first) || fx.models().size() != 2)
+        if (fx.hasActorModel(first) || fx.models().size() != otherModels + 2)
         {
             failure = "NoCorpse demon remained visible after the native death timer";
             return false;
         }
         scenario.world.restoreSnapshot(initial);
         fx.syncActorModels(scenario.world);
-        if (fx.models().size() != 3)
+        if (fx.models().size() != otherModels + 3)
         {
             failure = "restoring actors did not recreate their derived model instances";
             return false;
@@ -7752,6 +7791,412 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         if (fx.models().size() != 0 || fx.hasActorModel(first) || fx.particles().particleCount() != 0)
         {
             failure = "map reset retained actor models";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_demon_actor_models_variants_share_asset_and_native_stats", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
+        {
+            failure = "could not load New Sorpigal";
+            return false;
+        }
+        RegressionScenario scenario;
+        if (!initializeRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize New Sorpigal";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t id : {502, 503, 504})
+        {
+            if (!scenario.world.summonHostileMonsterById(id, 1, -9728, -11919 + (id - 502) * 200, 161, 0))
+            {
+                failure = "native factory failed to spawn a demon variant";
+                return false;
+            }
+        }
+        WorldFxSystem fx;
+        if (!fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure))
+        {
+            return false;
+        }
+        const size_t effectAssets = fx.modelAssets().size();
+        SpriteFrameTable frames;
+        if (!loadModelSpriteFrames(frames, failure))
+        {
+            return false;
+        }
+        std::string invalidError;
+        if (fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), nullptr, invalidError)
+            || invalidError.find("valid standing sprite") == std::string::npos)
+        {
+            failure = "native scaling silently accepted missing sprite-frame data";
+            return false;
+        }
+        if (!fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        // Only the demon instances are under test; other bound residents load their own shared asset.
+        std::vector<Engine::ModelInstanceHandle> handles;
+        std::vector<const Engine::ModelAsset *> actorAssets;
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            const Engine::ModelAsset *pAsset = fx.models().asset(handle);
+            if (std::find(actorAssets.begin(), actorAssets.end(), pAsset) == actorAssets.end())
+            {
+                actorAssets.push_back(pAsset);
+            }
+            if (pAsset->findNode("Demon_Native_Mesh"))
+            {
+                handles.push_back(handle);
+            }
+        }
+        if (handles.size() != 3 || fx.modelAssets().size() != effectAssets + actorAssets.size())
+        {
+            failure = "A/B/C expected three instances and one additional actor asset; instances="
+                + std::to_string(handles.size())
+                + " assets=" + std::to_string(fx.modelAssets().size());
+            return false;
+        }
+        const std::array<int, 3> hitPoints = {100, 280, 540};
+        for (size_t i = 0; i < handles.size(); ++i)
+        {
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(first + i);
+            const Engine::ModelAsset *pAsset = fx.models().asset(handles[i]);
+            if (pActor->monsterId != 502 + i || pActor->currentHp != hitPoints[i]
+                || pAsset != fx.models().asset(handles[0]) || fx.models().materialVariant(handles[i]) != i + 1)
+            {
+                failure = "skin selection changed native stats or failed to share the model";
+                return false;
+            }
+            const uint32_t body = *pAsset->findNode("Demon_Native_Mesh");
+            const MonsterTable &monsters = gameDataLoader.getMonsterTable();
+            const SpriteFrameEntry *pFrame = frames.getFrame(
+                *frames.findFrameIndexBySpriteName(monsters.findById(502 + i)->spriteNames[0]), 0);
+            const SpriteFrameEntry *pReference = frames.getFrame(
+                *frames.findFrameIndexBySpriteName(monsters.findById(502)->spriteNames[0]), 0);
+            const Engine::ModelMatrix &matrix = *fx.models().nodeMatrix(handles[i], body);
+            const float scale = std::sqrt(matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2]);
+            if (std::abs(scale - 104.8623316f * pFrame->scale / pReference->scale) > .001f)
+            {
+                failure = "model size did not follow the native tier's standing sprite scale";
+                return false;
+            }
+            const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[body].meshIndex];
+            for (uint32_t index : mesh.lodMeshes)
+            {
+                const Engine::ModelPrimitive &iris = pAsset->meshes[index].primitives[1];
+                const int material = iris.materialIndices[i + 1];
+                if (pAsset->materials[material].name != pAsset->materialVariants[i] + "_Iris")
+                {
+                    failure = "a lower LOD retained the wrong iris material";
+                    return false;
+                }
+            }
+        }
+        return true;
+    });
+
+    runCase("mm6_pfem_actor_models_bind_town_peasants", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
+        {
+            failure = "could not load New Sorpigal";
+            return false;
+        }
+        RegressionScenario scenario;
+        if (!initializeRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize New Sorpigal";
+            return false;
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        const OutdoorWorldRuntime::Snapshot before = scenario.world.snapshot();
+        fx.syncActorModels(scenario.world);
+        std::array<size_t, 3> tiers = {};
+        for (size_t index = 0; index < before.mapActors.size(); ++index)
+        {
+            const OutdoorWorldRuntime::MapActorState &actor = before.mapActors[index];
+            const MonsterEntry *pMonster = gameDataLoader.getMonsterTable().findById(actor.monsterId);
+            const std::string name = pMonster != nullptr ? pMonster->internalName : std::string();
+            const int tier = name == "PeasantF1 A" ? 0 : name == "PeasantF1 B" ? 1 : name == "Peasantf1 C" ? 2 : -1;
+            if (tier >= 0 && !actor.isInvisible)
+            {
+                if (!fx.hasActorModel(index) || !fx.actorModelBounds(index)->valid)
+                {
+                    failure = "a visible female peasant did not acquire a valid model";
+                    return false;
+                }
+                ++tiers[size_t(tier)];
+            }
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(index);
+            if (pActor->monsterId != actor.monsterId || pActor->currentHp != actor.currentHp
+                || pActor->preciseX != actor.preciseX || pActor->preciseY != actor.preciseY
+                || pActor->animationTimeTicks != actor.animationTimeTicks)
+            {
+                failure = "peasant presentation changed actor simulation data";
+                return false;
+            }
+        }
+        std::array<size_t, 3> variants = {};
+        const Engine::ModelAsset *pAsset = nullptr;
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            const Engine::ModelAsset *pCandidate = fx.models().asset(handle);
+            if (!pCandidate->findNode("Peasant") || pCandidate->sourcePath.find("mm6_pfem") == std::string::npos)
+            {
+                continue;
+            }
+            if (pAsset != nullptr && pAsset != pCandidate)
+            {
+                failure = "female peasant tiers did not share one model asset";
+                return false;
+            }
+            pAsset = pCandidate;
+            const uint32_t variant = fx.models().materialVariant(handle);
+            if (variant < 1 || variant > 3)
+            {
+                failure = "female peasant instance has no A/B/C skin";
+                return false;
+            }
+            ++variants[variant - 1];
+        }
+        std::cout << "Sorpigal female peasants: A=" << tiers[0] << " B=" << tiers[1] << " C=" << tiers[2] << '\n';
+        if (pAsset == nullptr || variants != tiers || tiers[0] == 0)
+        {
+            failure = "female peasant skins did not follow their native A/B/C descriptors";
+            return false;
+        }
+        const std::array<std::pair<const char *, float>, 7> clips = {{{"Standing", 4.0f}, {"Walking", 1.0417f},
+            {"Attack", 0.75f}, {"Hit", 0.75f}, {"Death", 0.625f}, {"Dead", 1.0f}, {"Fidget", 0.75f}}};
+        for (const auto &[clipName, seconds] : clips)
+        {
+            const std::optional<uint32_t> clip = pAsset->findClip(clipName);
+            if (!clip || std::abs(pAsset->clips[*clip].durationSeconds - seconds) > 0.01f)
+            {
+                failure = std::string("female peasant clip missing or retimed: ") + clipName;
+                return false;
+            }
+        }
+        const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("Peasant")].meshIndex];
+        if (mesh.lodMeshes.size() != 3 || pAsset->materialVariants.size() != 3)
+        {
+            failure = "female peasant model lacks its LODs or skins";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_pman_actor_models_bind_town_peasants", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
+        {
+            failure = "could not load New Sorpigal";
+            return false;
+        }
+        RegressionScenario scenario;
+        if (!initializeRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize New Sorpigal";
+            return false;
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        const OutdoorWorldRuntime::Snapshot before = scenario.world.snapshot();
+        fx.syncActorModels(scenario.world);
+        std::array<size_t, 3> tiers = {};
+        for (size_t index = 0; index < before.mapActors.size(); ++index)
+        {
+            const OutdoorWorldRuntime::MapActorState &actor = before.mapActors[index];
+            const MonsterEntry *pMonster = gameDataLoader.getMonsterTable().findById(actor.monsterId);
+            const std::string name = pMonster != nullptr ? pMonster->internalName : std::string();
+            const int tier = name == "PeasantM1 A" ? 0 : name == "PeasantM1 B" ? 1 : name == "PeasantM1 C" ? 2 : -1;
+            if (tier >= 0 && !actor.isInvisible)
+            {
+                if (!fx.hasActorModel(index) || !fx.actorModelBounds(index)->valid)
+                {
+                    failure = "a visible male peasant did not acquire a valid model";
+                    return false;
+                }
+                ++tiers[size_t(tier)];
+            }
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(index);
+            if (pActor->monsterId != actor.monsterId || pActor->currentHp != actor.currentHp
+                || pActor->preciseX != actor.preciseX || pActor->preciseY != actor.preciseY
+                || pActor->animationTimeTicks != actor.animationTimeTicks)
+            {
+                failure = "peasant presentation changed actor simulation data";
+                return false;
+            }
+        }
+        std::array<size_t, 3> variants = {};
+        const Engine::ModelAsset *pAsset = nullptr;
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            const Engine::ModelAsset *pCandidate = fx.models().asset(handle);
+            if (!(pCandidate->findNode("Peasant") && pCandidate->sourcePath.find("mm6_pman") != std::string::npos))
+            {
+                continue;
+            }
+            if (pAsset != nullptr && pAsset != pCandidate)
+            {
+                failure = "male peasant tiers did not share one model asset";
+                return false;
+            }
+            pAsset = pCandidate;
+            const uint32_t variant = fx.models().materialVariant(handle);
+            if (variant < 1 || variant > 3)
+            {
+                failure = "male peasant instance has no A/B/C skin";
+                return false;
+            }
+            ++variants[variant - 1];
+        }
+        std::cout << "Sorpigal male peasants: A=" << tiers[0] << " B=" << tiers[1] << " C=" << tiers[2] << '\n';
+        if (pAsset == nullptr || variants != tiers || tiers[0] == 0)
+        {
+            failure = "male peasant skins did not follow their native A/B/C descriptors";
+            return false;
+        }
+        const std::array<std::pair<const char *, float>, 7> clips = {{{"Standing", 4.0f}, {"Walking", 1.0417f},
+            {"Attack", 0.75f}, {"Hit", 0.625f}, {"Death", 0.625f}, {"Dead", 1.0f}, {"Fidget", 0.75f}}};
+        for (const auto &[clipName, seconds] : clips)
+        {
+            const std::optional<uint32_t> clip = pAsset->findClip(clipName);
+            if (!clip || std::abs(pAsset->clips[*clip].durationSeconds - seconds) > 0.01f)
+            {
+                failure = std::string("male peasant clip missing or retimed: ") + clipName;
+                return false;
+            }
+        }
+        const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("Peasant")].meshIndex];
+        if (mesh.lodMeshes.size() != 3 || pAsset->materialVariants.size() != 3)
+        {
+            failure = "male peasant model lacks its LODs or skins";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_gob_actor_models_bind_sorpigal_goblins", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
+        {
+            failure = "could not load New Sorpigal";
+            return false;
+        }
+        RegressionScenario scenario;
+        if (!initializeRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize New Sorpigal";
+            return false;
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        const OutdoorWorldRuntime::Snapshot before = scenario.world.snapshot();
+        fx.syncActorModels(scenario.world);
+        std::array<size_t, 3> tiers = {};
+        for (size_t index = 0; index < before.mapActors.size(); ++index)
+        {
+            const OutdoorWorldRuntime::MapActorState &actor = before.mapActors[index];
+            const MonsterEntry *pMonster = gameDataLoader.getMonsterTable().findById(actor.monsterId);
+            const std::string name = pMonster != nullptr ? pMonster->internalName : std::string();
+            const int tier = name == "BGoblin A" ? 0 : name == "BGoblin B" ? 1 : name == "BGoblin C" ? 2 : -1;
+            if (tier >= 0 && !actor.isInvisible)
+            {
+                if (!fx.hasActorModel(index) || !fx.actorModelBounds(index)->valid)
+                {
+                    failure = "a visible goblin did not acquire a valid model";
+                    return false;
+                }
+                ++tiers[size_t(tier)];
+            }
+            const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(index);
+            if (pActor->monsterId != actor.monsterId || pActor->currentHp != actor.currentHp
+                || pActor->preciseX != actor.preciseX || pActor->preciseY != actor.preciseY
+                || pActor->animationTimeTicks != actor.animationTimeTicks)
+            {
+                failure = "peasant presentation changed actor simulation data";
+                return false;
+            }
+        }
+        std::array<size_t, 3> variants = {};
+        const Engine::ModelAsset *pAsset = nullptr;
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            const Engine::ModelAsset *pCandidate = fx.models().asset(handle);
+            if (!(pCandidate->findNode("Peasant") && pCandidate->sourcePath.find("mm6_gob") != std::string::npos))
+            {
+                continue;
+            }
+            if (pAsset != nullptr && pAsset != pCandidate)
+            {
+                failure = "goblin tiers did not share one model asset";
+                return false;
+            }
+            pAsset = pCandidate;
+            const uint32_t variant = fx.models().materialVariant(handle);
+            if (variant < 1 || variant > 3)
+            {
+                failure = "goblin instance has no A/B/C skin";
+                return false;
+            }
+            ++variants[variant - 1];
+        }
+        std::cout << "Sorpigal goblins: A=" << tiers[0] << " B=" << tiers[1] << " C=" << tiers[2] << '\n';
+        if (pAsset == nullptr || variants != tiers || tiers[0] == 0)
+        {
+            failure = "goblin skins did not follow their native A/B/C descriptors";
+            return false;
+        }
+        const std::array<std::pair<const char *, float>, 7> clips = {{{"Standing", 4.0f}, {"Walking", 1.0417f},
+            {"Attack", 0.75f}, {"Hit", 0.75f}, {"Death", 0.625f}, {"Dead", 1.0f}, {"Fidget", 0.75f}}};
+        for (const auto &[clipName, seconds] : clips)
+        {
+            const std::optional<uint32_t> clip = pAsset->findClip(clipName);
+            if (!clip || std::abs(pAsset->clips[*clip].durationSeconds - seconds) > 0.01f)
+            {
+                failure = std::string("goblin clip missing or retimed: ") + clipName;
+                return false;
+            }
+        }
+        const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("Peasant")].meshIndex];
+        if (mesh.lodMeshes.size() != 3 || pAsset->materialVariants.size() != 3)
+        {
+            failure = "goblin model lacks its LODs or skins";
             return false;
         }
         return true;
@@ -7772,7 +8217,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         }
         WorldFxSystem fx;
         if (!fx.configureActorModels(assetFileSystem, "worlds/mm6/models/sorpigal_demon_crowd.yml",
-                gameDataLoader.getMonsterTable(), failure))
+                gameDataLoader.getMonsterTable(), nullptr, failure))
         {
             return false;
         }
@@ -7836,11 +8281,13 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             failure = "indoor factory could not summon demons";
             return false;
         }
+        SpriteFrameTable frames;
         WorldFxSystem fx;
-        if (!fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
                 "engine/effects/resource_bindings.yml", failure)
             || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
-                gameDataLoader.getMonsterTable(), failure))
+                gameDataLoader.getMonsterTable(), &frames, failure))
         {
             return false;
         }

@@ -12,7 +12,21 @@
 namespace OpenYAMM::Game
 {
 struct IndoorEntity;
+struct IndoorMapData;
 struct OutdoorEntity;
+struct EventRuntimeState;
+
+const DecorationEntry *toggleableDecorationCounterpart(
+    const DecorationTable &table, const DecorationEntry &decoration);
+const DecorationEntry *runtimeDecorationEntry(
+    const DecorationTable &table, const DecorationEntry &decoration,
+    uint32_t spriteOverrideKey, const EventRuntimeState *pState);
+const DecorationEntry *indoorDecorationLightToggleTarget(
+    const IndoorMapData &map, const DecorationTable &table, size_t entityIndex,
+    const EventRuntimeState *pState);
+bool toggleIndoorDecorationLight(
+    const IndoorMapData &map, const DecorationTable &table, size_t entityIndex,
+    EventRuntimeState &state);
 
 enum class InteractiveDecorationFamily : uint8_t
 {

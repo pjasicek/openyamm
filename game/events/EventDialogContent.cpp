@@ -1045,10 +1045,12 @@ EventDialogContent buildEventDialogContent(
     const EventRuntimeState::DialogueOfferState *pCurrentOffer =
         eventRuntimeState.dialogueState.currentOffer ? &*eventRuntimeState.dialogueState.currentOffer : nullptr;
 
-    if (previousMessageCount < eventRuntimeState.messages.size())
+    // Map-event contexts replace the message list, so the previous dialog's count no longer applies.
+    const size_t firstMessageIndex = context.kind == DialogueContextKind::MapEvent ? 0u : previousMessageCount;
+    if (firstMessageIndex < eventRuntimeState.messages.size())
     {
         for (
-            size_t messageIndex = previousMessageCount;
+            size_t messageIndex = firstMessageIndex;
             messageIndex < eventRuntimeState.messages.size();
             ++messageIndex)
         {

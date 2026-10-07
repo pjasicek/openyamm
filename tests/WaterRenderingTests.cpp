@@ -481,33 +481,44 @@ TEST_CASE("water reflection scissor covers visible water and distorted samples a
     CHECK(samples > 1000);
 }
 
-TEST_CASE("sunlight shadows precede water reflections and world rendering without duplicate views")
+TEST_CASE("world post processing orders solid geometry AO transparencies grading and HUD exactly once")
 {
     for (bool grading : {false, true})
     {
-        const std::array<uint16_t, WorldGradingView + 1> order = worldRenderViewOrder(grading);
-        const auto position = [&](uint16_t view) { return std::find(order.begin(), order.end(), view); };
-        CHECK(position(0) < position(1));
-        CHECK(position(1) < position(2));
-        for (uint16_t view = FirstSunShadowView; view < FirstSunShadowView + SunShadowViews; ++view)
+        for (bool ambientOcclusion : {false, true})
         {
-            CHECK(position(view) < position(FirstWaterReflectionView));
-        }
-        for (uint16_t view = FirstWaterReflectionView;
-            view < FirstWaterReflectionView + MaxWaterReflections * 2; ++view)
-        {
-            CHECK(position(view) < position(0));
-        }
-        if (grading)
-        {
-            CHECK(position(1) < position(WorldGradingView));
-            CHECK(position(WorldGradingView) < position(2));
-        }
-        std::array<uint16_t, WorldGradingView + 1> sorted = order;
-        std::sort(sorted.begin(), sorted.end());
-        for (uint16_t view = 0; view <= WorldGradingView; ++view)
-        {
-            CHECK(sorted[view] == view);
+            const std::array<uint16_t, WorldGradingView + 1> order = worldRenderViewOrder(grading, ambientOcclusion);
+            const auto position = [&](uint16_t view) { return std::find(order.begin(), order.end(), view); };
+            CHECK(position(0) < position(1));
+            CHECK(position(1) < position(2));
+            for (uint16_t view = FirstSunShadowView; view < FirstSunShadowView + SunShadowViews; ++view)
+            {
+                CHECK(position(view) < position(FirstWaterReflectionView));
+            }
+            for (uint16_t view = FirstWaterReflectionView;
+                view < FirstWaterReflectionView + MaxWaterReflections * 2; ++view)
+            {
+                CHECK(position(view) < position(0));
+            }
+            if (ambientOcclusion)
+            {
+                CHECK(position(1) < position(AmbientOcclusionView));
+                CHECK(position(AmbientOcclusionView) < position(AmbientOcclusionBlurView));
+                CHECK(position(AmbientOcclusionBlurView) < position(AmbientOcclusionCompositeView));
+                CHECK(position(AmbientOcclusionCompositeView) < position(WorldTransparentView));
+                CHECK(position(WorldTransparentView) < position(grading ? WorldGradingView : 2));
+            }
+            if (grading)
+            {
+                CHECK(position(1) < position(WorldGradingView));
+                CHECK(position(WorldGradingView) < position(2));
+            }
+            std::array<uint16_t, WorldGradingView + 1> sorted = order;
+            std::sort(sorted.begin(), sorted.end());
+            for (uint16_t view = 0; view <= WorldGradingView; ++view)
+            {
+                CHECK(sorted[view] == view);
+            }
         }
     }
 }

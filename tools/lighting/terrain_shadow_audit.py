@@ -29,7 +29,7 @@ def main():
     for y in range(127):
         for x in range(127):
             first = y * 128 + x
-            triangles.extend([(first, first + 128, first + 1), (first + 1, first + 128, first + 129)])
+            triangles.extend([(first, first + 129, first + 1), (first, first + 128, first + 129)])
     terrain = BVHTree.FromPolygons(vertices, triangles, all_triangles=True)
     profile = json.loads((ROOT / 'level_generation/lighting/baked_outdoors/profiles/mm6_oute3.yml').read_text())
     azimuth, elevation = math.radians(profile['azimuth']), math.radians(profile['elevation'])

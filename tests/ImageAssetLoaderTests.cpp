@@ -117,6 +117,21 @@ TEST_CASE("ImageAssetLoader decodes PNG pixels through shared loader")
     CHECK(image->pixels.size() == static_cast<size_t>(image->width) * static_cast<size_t>(image->height) * 4);
 }
 
+TEST_CASE("ImageAssetLoader decodes the restored Arcomage PNG atlas with its legacy PCX name")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::string atlasPath = "engine/icons_x2/sprites.pcx";
+    const std::vector<uint8_t> bytes = readBinaryFile(sourceRoot / "assets_dev" / atlasPath);
+    REQUIRE_FALSE(bytes.empty());
+
+    const std::optional<ImagePixelsBgra> image = decodeImagePixelsBgra(bytes, atlasPath);
+    REQUIRE(image);
+    CHECK(scalePhysicalPixelsToLogical(image->width, assetScaleTierFromResolvedPath(atlasPath)) == 960);
+    CHECK(scalePhysicalPixelsToLogical(image->height, assetScaleTierFromResolvedPath(atlasPath)) == 2500);
+    CHECK(image->pixels.size() == static_cast<size_t>(image->width) * static_cast<size_t>(image->height) * 4);
+}
+
 TEST_CASE("ImageAssetLoader applies palette zero transparency without override palette")
 {
     OpenYAMM::Engine::ImageDecodeOptions options = {};

@@ -55,6 +55,7 @@ ModelInstanceHandle ModelInstanceSystem::create(
     slot.active = true;
     slot.visible = true;
     slot.outlineColorAbgr = 0;
+    slot.materialVariant = 0;
     slot.nodeMarkersVisible = false;
     slot.playing = false;
     slot.paused = false;
@@ -183,6 +184,23 @@ bool ModelInstanceSystem::setNodeMarkersVisible(ModelInstanceHandle handle, bool
     }
     pSlot->nodeMarkersVisible = visible;
     return true;
+}
+
+bool ModelInstanceSystem::setMaterialVariant(ModelInstanceHandle handle, uint32_t variant)
+{
+    Slot *pSlot = find(handle);
+    if (pSlot == nullptr || variant > pSlot->asset->materialVariants.size())
+    {
+        return false;
+    }
+    pSlot->materialVariant = variant;
+    return true;
+}
+
+uint32_t ModelInstanceSystem::materialVariant(ModelInstanceHandle handle) const
+{
+    const Slot *pSlot = find(handle);
+    return pSlot != nullptr ? pSlot->materialVariant : 0;
 }
 
 bool ModelInstanceSystem::setOutlineColor(ModelInstanceHandle handle, uint32_t colorAbgr)

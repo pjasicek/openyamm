@@ -18,6 +18,7 @@
 namespace OpenYAMM::Game
 {
 struct DecorationBillboardSet;
+class DecorationTable;
 class GameplayActorService;
 class GameplayCombatController;
 class GameplayProjectileService;
@@ -148,6 +149,7 @@ private:
     MapStatsEntry m_map;
     std::string m_mapFileName;
     const IndoorMapData *m_pIndoorMapData = nullptr;
+    const DecorationTable *m_pIndoorDecorationTable = nullptr;
     Party *m_pSessionParty = nullptr;
     std::optional<MapDeltaData> m_mapDeltaData;
     std::optional<EventRuntimeState> m_eventRuntimeState;

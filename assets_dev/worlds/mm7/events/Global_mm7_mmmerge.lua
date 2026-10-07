@@ -263,8 +263,11 @@ ReplaceGlobalEvent(804, "MMMerge Hero promotion", function()
         condition = function() return IsQBitSet(QBit(1685)) end,
     })
 
-    if result == 1 then
+    if result ~= 0 then
         RemoveFollowerNpc(393)
+    end
+
+    if result == 1 then
         ClearQBit(QBit(536))
         ClearQBit(QBit(1685))
         evt.MoveNPC(393, 941)
@@ -294,8 +297,11 @@ ReplaceGlobalEvent(807, "MMMerge Villain promotion", function()
         condition = function() return IsQBitSet(QBit(1685)) end,
     })
 
-    if result == 1 then
+    if result ~= 0 then
         RemoveFollowerNpc(393)
+    end
+
+    if result == 1 then
         ClearQBit(QBit(538))
         ClearQBit(QBit(1685))
         evt.SetNPCGreeting(357, 165)
@@ -1037,6 +1043,8 @@ end)
 
 ReplaceGlobalEvent(783, "MMMerge Cast Off to Harmondale", function()
     ClearQBit(QBit(528))
+    AddValue(History(3), 0)
+    AddValue(History(4), 0)
     evt.MoveNPC(340, 215)
     evt.SetNPCGreeting(340, 320)
     evt.SetNPCTopic(340, 3, 0)

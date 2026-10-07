@@ -3,6 +3,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/fx/WorldFxSystem.h"
 #include "game/gameplay/GameplayTorchLight.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/MapAssetLoader.h"
@@ -12,6 +13,7 @@
 #include "game/render/lighting/LightingStats.h"
 #include "game/render/IndoorStaticLighting.h"
 
+#include <algorithm>
 #include <vector>
 
 using OpenYAMM::Game::EventRuntimeState;
@@ -440,6 +442,69 @@ TEST_CASE("indoor decoration light is hidden when consumable decoration is clear
     state.decorVars[0] = 2;
     frame = runtime.buildFrame(input);
     CHECK(frame.lights.empty());
+}
+
+TEST_CASE("indoor decoration light toggles update cached light and preserve authored interactions")
+{
+    using namespace OpenYAMM::Game;
+    DecorationBillboardSet billboards;
+    REQUIRE(billboards.decorationTable.loadRows({
+        {"1", "brazir2f", "brazier", "0", "30", "40", "0", "0", "0", "0", "0", "0", "1"},
+        {"2", "brzier00", "brazier", "0", "30", "40", "256", "0", "0", "0", "0", "0", "2"},
+        {"3", "nwtrchnf", "torch", "0", "30", "40", "0", "0", "0", "0", "0", "0", "3"},
+        {"4", "TrchB00", "torch", "0", "30", "40", "256", "0", "0", "0", "0", "0", "4"}
+    }));
+    for (const char *name : {"brazir2f", "nwtrchnf"})
+    {
+        IndoorMapData map;
+        map.sectors.resize(1);
+        IndoorEntity entity;
+        entity.name = name;
+        entity.eventIdPrimary = 42;
+        map.entities.push_back(entity);
+        IndoorLight light;
+        light.x = light.y = light.z = 100;
+        light.radius = 400;
+        light.attributes = 8;
+        map.lights.push_back(light);
+        light.x = 101;
+        map.lights.push_back(light);
+        map.sectors[0].lightIds = {0, 1};
+        DecorationBillboard billboard;
+        billboard.name = name;
+        billboard.decorationId = *billboards.decorationTable.findIdByInternalName(name);
+        billboard.spriteId = billboards.decorationTable.get(billboard.decorationId)->spriteId;
+        billboard.eventIdPrimary = 42;
+        billboard.sectorId = 0;
+        billboard.height = 40;
+        billboards.billboards = {billboard};
+        EventRuntimeState state;
+        state.decorVars.fill(7);
+        IndoorLightingRuntime lighting;
+        lighting.rebuildStaticCache(map, &billboards, &state);
+        IndoorLightingFrameInput input;
+        input.pMapData = &map;
+        input.pDecorationBillboardSet = &billboards;
+        input.pEventRuntimeState = &state;
+        CHECK(lighting.buildFrame(input).lights.empty());
+        REQUIRE(toggleIndoorDecorationLight(map, billboards.decorationTable, 0, state));
+        CHECK_EQ(state.indoorLightRevision, 1u);
+        CHECK(state.indoorLightsEnabled.at(0));
+        CHECK_FALSE(state.indoorLightsEnabled.contains(1));
+        REQUIRE_EQ(lighting.buildFrame(input).lights.size(), 2u);
+        CHECK_EQ(lighting.buildFrame(input).lights.back().radius, 256.0f);
+        REQUIRE(toggleIndoorDecorationLight(map, billboards.decorationTable, 0, state));
+        CHECK_EQ(state.spriteOverrides.at(42).textureName, name);
+        CHECK_FALSE(state.indoorLightsEnabled.at(0));
+        CHECK(lighting.buildFrame(input).lights.empty());
+        CHECK(std::all_of(state.decorVars.begin(), state.decorVars.end(), [](uint8_t value) { return value == 7; }));
+        map.entities[0].eventIdSecondary = 12;
+        CHECK_FALSE(toggleIndoorDecorationLight(map, billboards.decorationTable, 0, state));
+        map.entities[0].eventIdSecondary = 0;
+        state.spriteOverrides.at(42).hidden = true;
+        CHECK_FALSE(toggleIndoorDecorationLight(map, billboards.decorationTable, 0, state));
+        CHECK_FALSE(toggleIndoorDecorationLight(map, billboards.decorationTable, 1, state));
+    }
 }
 
 TEST_CASE("indoor lighting gives Torchlight priority and boosts indoor intensity")

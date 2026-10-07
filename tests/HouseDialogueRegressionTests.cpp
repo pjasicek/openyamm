@@ -3291,6 +3291,10 @@ TEST_CASE("New Sorpigal magic shop identifies and repairs OE Misc item families"
     const size_t memberIndex = party.activeMemberIndex();
     OpenYAMM::Game::Character *pMember = party.member(memberIndex);
     REQUIRE(pMember != nullptr);
+    OpenYAMM::Game::Character *pSecondMerchant = party.member(1);
+    REQUIRE(pSecondMerchant != nullptr);
+    pMember->skills["Merchant"] = {"Merchant", 1, OpenYAMM::Game::SkillMastery::Normal};
+    pSecondMerchant->skills["Merchant"] = {"Merchant", 1, OpenYAMM::Game::SkillMastery::Normal};
     party.addGold(10000000);
 
     constexpr std::array<const char *, 10> miscEquipStats = {
@@ -3371,6 +3375,20 @@ TEST_CASE("New Sorpigal magic shop identifies and repairs OE Misc item families"
         REQUIRE(pIdentifiedItem != nullptr);
         pIdentifiedItem->broken = true;
 
+        const int basePrice = std::max(
+            1,
+            static_cast<int>(static_cast<float>(definitionIt->value) / (6.0f - pHouseEntry->priceMultiplier)));
+        const int expectedPrice = std::max({1, basePrice / 3, basePrice * 92 / 100});
+        const std::string repairHover = OpenYAMM::Game::HouseServiceRuntime::buildRepairHoverText(
+            party,
+            gameData.itemTable,
+            gameData.standardItemEnchantTable,
+            gameData.specialItemEnchantTable,
+            *pHouseEntry,
+            *pIdentifiedItem);
+        CHECK(repairHover.ends_with(std::to_string(expectedPrice) + "."));
+        const int goldBeforeRepair = party.gold();
+
         REQUIRE(OpenYAMM::Game::HouseServiceRuntime::tryRepairInventoryItem(
             party,
             gameData.itemTable,
@@ -3383,6 +3401,8 @@ TEST_CASE("New Sorpigal magic shop identifies and repairs OE Misc item families"
             statusText,
             &serviceResult));
         CHECK(serviceResult == OpenYAMM::Game::HouseServiceRuntime::ShopItemServiceResult::Success);
+        CHECK_EQ(party.gold(), goldBeforeRepair - expectedPrice);
+        CHECK_FALSE(pIdentifiedItem->broken);
 
         OpenYAMM::Game::InventoryItem removedItem = {};
         REQUIRE(party.takeItemFromMemberInventoryCell(memberIndex, gridX, gridY, removedItem));
@@ -7313,6 +7333,65 @@ TEST_CASE("MM8 permanent first character retains honorary completion for later N
     CHECK_EQ(harness.party().inventoryItemCount(628), 0);
 }
 
+TEST_CASE("MM6 Crusader turn-in dismisses Melody Silver and repairs already completed parties")
+{
+    using namespace OpenYAMM::Game;
+    constexpr uint32_t MelodyNpcId = 796;
+    constexpr uint32_t OtherFollowerNpcId = 1001;
+    constexpr uint32_t WilburNpcId = 789;
+    constexpr uint16_t CrusaderEventId = 1327;
+    const OpenYAMM::Tests::RegressionGameData data = promotionRegressionData("mm6");
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(data);
+    REQUIRE(harness.party().setMemberClassName(0, "Paladin"));
+    harness.party().addHiredNpcFollower({OtherFollowerNpcId, 7, 300});
+    harness.party().applyGlobalNpcStateTo(harness.eventRuntimeState());
+    REQUIRE(harness.executeGlobalEvent(1326));
+    REQUIRE(harness.executeGlobalEvent(1344));
+    REQUIRE(harness.party().hasQuestBit(1699));
+    REQUIRE_EQ(harness.party().snapshot().hiredNpcFollowers.size(), 2u);
+    const int initialGold = harness.party().gold();
+    const uint32_t initialExperience = harness.party().member(0)->experience;
+
+    const EventDialogContent &dialog = harness.openNpcDialogue(WilburNpcId);
+    const std::optional<size_t> action = findActionIndexByKindAndId(
+        dialog, EventDialogActionKind::NpcTopic, CrusaderEventId);
+    REQUIRE(action.has_value());
+    harness.executeAndPresent(*action);
+    CHECK_EQ(harness.party().member(0)->className, "Crusader");
+    CHECK_EQ(harness.party().gold(), initialGold + 5000);
+    CHECK_EQ(harness.party().member(0)->experience, initialExperience + 15000);
+    CHECK(harness.party().hasQuestBit(1635));
+    CHECK_FALSE(harness.party().hasQuestBit(1699));
+    CHECK_FALSE(harness.party().hasQuestBit(1112));
+    for (const std::vector<HiredNpcFollower> &followers :
+        {harness.eventRuntimeState().hiredNpcFollowers, harness.party().snapshot().hiredNpcFollowers})
+    {
+        REQUIRE_FALSE(followers.empty());
+        CHECK_EQ(followers.size(), 1u);
+        CHECK_EQ(followers.front().npcId, OtherFollowerNpcId);
+    }
+
+    // An older save can contain Melody even though the promotion has already completed.
+    harness.party().addHiredNpcFollower({MelodyNpcId, 0, 0});
+    OpenYAMM::Tests::HouseDialogueTestHarness restored(data);
+    restored.party().restoreSnapshot(harness.party().snapshot());
+    restored.party().applyGlobalNpcStateTo(restored.eventRuntimeState());
+    const EventDialogContent &repeatDialog = restored.openNpcDialogue(WilburNpcId);
+    const std::optional<size_t> repeatAction = findActionIndexByKindAndId(
+        repeatDialog, EventDialogActionKind::NpcTopic, CrusaderEventId);
+    REQUIRE(repeatAction.has_value());
+    restored.executeAndPresent(*repeatAction);
+    CHECK_EQ(restored.party().gold(), initialGold + 5000);
+    CHECK_EQ(restored.party().member(0)->experience, initialExperience + 15000);
+    for (const std::vector<HiredNpcFollower> &followers :
+        {restored.eventRuntimeState().hiredNpcFollowers, restored.party().snapshot().hiredNpcFollowers})
+    {
+        REQUIRE_FALSE(followers.empty());
+        CHECK_EQ(followers.size(), 1u);
+        CHECK_EQ(followers.front().npcId, OtherFollowerNpcId);
+    }
+}
+
 TEST_CASE("MM6 promotion sidecars keep both stages reachable for later recruits after save restoration")
 {
     const OpenYAMM::Tests::RegressionGameData data = promotionRegressionData("mm6");
@@ -7400,6 +7479,83 @@ TEST_CASE("MM6 promotion sidecars keep both stages reachable for later recruits 
         CHECK_EQ(restored.party().member(0)->experience, veteranExperience);
         CHECK_EQ(restored.party().gold(), gold);
         CHECK_EQ(restored.party().member(2)->className, test.pOtherBranch);
+    }
+}
+
+TEST_CASE("MM7 Hero and Villain turn-ins dismiss Alice on first and restored repeat completions")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData data = promotionRegressionData("mm7");
+    struct PromotionCase
+    {
+        uint16_t eventId;
+        uint32_t npcId;
+        uint32_t completionBit;
+        const char *pTarget;
+        const char *pOpposite;
+    };
+    for (const PromotionCase &test : {
+             PromotionCase{804, 356, 1592, "Hero", "Villain"},
+             PromotionCase{807, 357, 1594, "Villain", "Hero"}})
+    {
+        CAPTURE(test.eventId);
+        OpenYAMM::Tests::HouseDialogueTestHarness harness(data);
+        REQUIRE(harness.party().setMemberClassName(0, "Crusader"));
+        REQUIRE(harness.party().setMemberClassName(1, test.pOpposite));
+        harness.party().addHiredNpcFollower({1001, 7, 300});
+        harness.party().addHiredNpcFollower({393, 0, 0});
+        harness.party().applyGlobalNpcStateTo(harness.eventRuntimeState());
+        const uint32_t initialExperience = harness.party().member(0)->experience;
+
+        // An unfinished quest must keep its follower and grant no promotion reward.
+        REQUIRE(harness.executeGlobalEvent(test.eventId));
+        CHECK_EQ(harness.party().member(0)->className, "Crusader");
+        CHECK_EQ(harness.party().member(0)->experience, initialExperience);
+        CHECK_FALSE(harness.party().hasQuestBit(test.completionBit));
+        CHECK_EQ(harness.party().snapshot().hiredNpcFollowers.size(), 2u);
+
+        harness.party().setQuestBit(1685, true);
+        REQUIRE(harness.executeGlobalEvent(test.eventId));
+        CHECK_EQ(harness.party().member(0)->className, test.pTarget);
+        CHECK_EQ(harness.party().member(0)->experience, initialExperience + 80000);
+        CHECK_EQ(harness.party().member(1)->className, test.pOpposite);
+        CHECK(harness.party().hasQuestBit(test.completionBit));
+        CHECK_FALSE(harness.party().hasQuestBit(1685));
+        for (const std::vector<HiredNpcFollower> &followers :
+            {harness.eventRuntimeState().hiredNpcFollowers, harness.party().snapshot().hiredNpcFollowers})
+        {
+            REQUIRE_EQ(followers.size(), 1u);
+            CHECK_EQ(followers.front().npcId, 1001u);
+        }
+
+        // Restore an older completed save with stale Alice and a later Crusader recruit.
+        harness.party().addHiredNpcFollower({393, 0, 0});
+        REQUIRE(harness.party().setMemberClassName(3, "Crusader"));
+        OpenYAMM::Tests::HouseDialogueTestHarness restored(data);
+        restored.party().restoreSnapshot(harness.party().snapshot());
+        restored.party().applyGlobalNpcStateTo(restored.eventRuntimeState());
+        restored.eventRuntimeState().npcTopicOverrides[test.npcId][0] = test.eventId;
+        const uint32_t recruitExperience = restored.party().member(3)->experience;
+        const uint32_t veteranExperience = restored.party().member(0)->experience;
+        const int gold = restored.party().gold();
+        const int32_t reputation = restored.party().continentReputation(1);
+        const EventDialogContent &dialog = restored.openNpcDialogue(test.npcId);
+        const std::optional<size_t> action = findActionIndexByKindAndId(
+            dialog, EventDialogActionKind::NpcTopic, test.eventId);
+        REQUIRE(action.has_value());
+        restored.executeAndPresent(*action);
+        CHECK_EQ(restored.party().member(3)->className, test.pTarget);
+        CHECK_EQ(restored.party().member(3)->experience, recruitExperience + 80000);
+        CHECK_EQ(restored.party().member(0)->experience, veteranExperience);
+        CHECK_EQ(restored.party().member(1)->className, test.pOpposite);
+        CHECK_EQ(restored.party().gold(), gold);
+        CHECK_EQ(restored.party().continentReputation(1), reputation);
+        for (const std::vector<HiredNpcFollower> &followers :
+            {restored.eventRuntimeState().hiredNpcFollowers, restored.party().snapshot().hiredNpcFollowers})
+        {
+            REQUIRE_EQ(followers.size(), 1u);
+            CHECK_EQ(followers.front().npcId, 1001u);
+        }
     }
 }
 

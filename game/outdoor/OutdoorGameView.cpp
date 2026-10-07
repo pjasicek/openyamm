@@ -2722,14 +2722,14 @@ std::optional<float> intersectOutdoorTerrainRay(
 
             float distance = 0.0f;
 
-            if (intersectRayTriangle(rayOrigin, rayDirection, topLeft, bottomLeft, topRight, distance)
+            if (intersectRayTriangle(rayOrigin, rayDirection, topLeft, bottomRight, topRight, distance)
                 && distance < closestDistance)
             {
                 closestDistance = distance;
                 hasIntersection = true;
             }
 
-            if (intersectRayTriangle(rayOrigin, rayDirection, topRight, bottomLeft, bottomRight, distance)
+            if (intersectRayTriangle(rayOrigin, rayDirection, topLeft, bottomLeft, bottomRight, distance)
                 && distance < closestDistance)
             {
                 closestDistance = distance;

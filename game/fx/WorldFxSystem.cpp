@@ -11,6 +11,7 @@
 #include "game/party/SpellIds.h"
 #include "game/tables/ObjectTable.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/SpriteTables.h"
 #include "engine/AssetFileSystem.h"
 #include <yaml-cpp/yaml.h>
 
@@ -305,7 +306,7 @@ void WorldFxSystem::reset()
 }
 
 bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, const std::string &manifestPath,
-    const MonsterTable &monsters, std::string &error)
+    const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, std::string &error)
 {
     if (m_actorModelsConfigured)
     {
@@ -344,7 +345,34 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
             }
             ActorModelBinding binding;
             binding.asset = loaded.asset;
+            if (entry["skin"])
+            {
+                const std::string skin = entry["skin"].as<std::string>();
+                const std::optional<uint32_t> variant = binding.asset->findMaterialVariant(skin);
+                if (!variant)
+                {
+                    throw std::runtime_error("actor model skin not found: " + skin);
+                }
+                binding.materialVariant = *variant;
+            }
             binding.scale = entry["scale"].as<float>();
+            binding.fxReferenceScale = binding.scale;
+            if (entry["scale_reference"])
+            {
+                const auto standingScale = [&](const std::string &name)
+                {
+                    const MonsterEntry *pMonster = monsters.findByInternalName(name);
+                    const std::optional<uint16_t> frame = pMonster != nullptr && pSpriteFrames != nullptr
+                        ? pSpriteFrames->findFrameIndexBySpriteName(pMonster->spriteNames[0]) : std::nullopt;
+                    const SpriteFrameEntry *pFrame = frame ? pSpriteFrames->getFrame(*frame, 0) : nullptr;
+                    if (pFrame == nullptr || !std::isfinite(pFrame->scale) || pFrame->scale <= 0.0f)
+                    {
+                        throw std::runtime_error("actor model scale requires a valid standing sprite: " + name);
+                    }
+                    return pFrame->scale;
+                };
+                binding.scale *= standingScale(descriptor) / standingScale(entry["scale_reference"].as<std::string>());
+            }
             binding.yawOffset = entry["yaw_offset"].as<float>(0.0f);
             binding.zOffset = entry["z_offset"].as<float>(0.0f);
             const std::string deathEffect = entry["death_effect"].as<std::string>("none");
@@ -382,6 +410,16 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
             const YAML::Node animation = entry["animation"];
             if (animation)
             {
+                if (animation["eye_color"])
+                {
+                    const std::vector<int> color = animation["eye_color"].as<std::vector<int>>();
+                    if (color.size() != 3 || std::any_of(color.begin(), color.end(),
+                        [](int value) { return value < 0 || value > 255; }))
+                    {
+                        throw std::runtime_error("actor eye_color requires three sRGB bytes: " + descriptor);
+                    }
+                    binding.eyeColorAbgr = makeAbgr(uint8_t(color[0]), uint8_t(color[1]), uint8_t(color[2]), 176);
+                }
                 const auto requireClip = [&](const char *name)
                 {
                     const std::string clipName = animation[name].as<std::string>();
@@ -417,6 +455,10 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
                     {"eye_left", "eye_right", "palm_left", "palm_right"};
                 for (size_t i = 0; i < SocketNames.size(); ++i)
                 {
+                    if (!animation["sockets"][SocketNames[i]])
+                    {
+                        continue;
+                    }
                     const std::string name = animation["sockets"][SocketNames[i]].as<std::string>();
                     const std::optional<uint32_t> node = binding.asset->findNode(name);
                     if (!node)
@@ -425,17 +467,63 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
                     }
                     binding.sockets[i] = *node;
                 }
-                if (animation["ranged_hand_effect"])
+                if (animation["ranged_hand_effects"])
                 {
-                    binding.rangedHandEffect = animation["ranged_hand_effect"].as<std::string>();
-                    const std::string name = animation["ranged_hand_socket"].as<std::string>();
-                    const std::optional<uint32_t> node = binding.asset->findNode(name);
-                    if (!node || m_namedEffectLibrary.find(binding.rangedHandEffect) == nullptr)
+                    const std::vector<std::string> sockets =
+                        animation["ranged_hand_sockets"].as<std::vector<std::string>>();
+                    if (sockets.empty() || sockets.size() > 2)
                     {
-                        throw std::runtime_error("actor ranged hand effect/socket not found: " + descriptor);
+                        throw std::runtime_error("actor ranged hand effects require one or two sockets: " + descriptor);
                     }
-                    binding.rangedHandSocket = *node;
+                    for (size_t i = 0; i < sockets.size(); ++i)
+                    {
+                        const std::optional<uint32_t> node = binding.asset->findNode(sockets[i]);
+                        if (!node || (i > 0 && *node == binding.rangedHandSockets[0]))
+                        {
+                            throw std::runtime_error("actor ranged hand socket missing or duplicated: " + sockets[i]);
+                        }
+                        binding.rangedHandSockets[i] = *node;
+                    }
+                    const MonsterTable::MonsterStatsEntry *pStats = monsters.findStatsByPictureName(descriptor);
+                    if (pStats == nullptr || !animation["ranged_hand_effects"].IsMap())
+                    {
+                        throw std::runtime_error(
+                            "actor ranged hand effects require missile data and a map: " + descriptor);
+                    }
+                    for (const auto &recipe : animation["ranged_hand_effects"])
+                    {
+                        const FxRecipes::ProjectileRecipe element =
+                            FxRecipes::classifyProjectileRecipe(0, recipe.first.as<std::string>(), "", 0);
+                        const std::string effect = recipe.second.as<std::string>();
+                        if (element < FxRecipes::ProjectileRecipe::MonsterAirBolt
+                            || element > FxRecipes::ProjectileRecipe::MonsterDarkBolt
+                            || m_namedEffectLibrary.find(effect) == nullptr)
+                        {
+                            throw std::runtime_error("actor ranged hand element/effect not found: " + descriptor);
+                        }
+                        for (size_t slot = 0; slot < 2; ++slot)
+                        {
+                            const bool hasMissile = slot == 0 ? pStats->attack1HasMissile : pStats->attack2HasMissile;
+                            const std::string &token = slot == 0
+                                ? pStats->attack1MissileType : pStats->attack2MissileType;
+                            if (hasMissile && element == FxRecipes::classifyProjectileRecipe(0, token, "", 0))
+                            {
+                                if (!binding.rangedHandEffects[slot].empty())
+                                {
+                                    throw std::runtime_error("duplicate actor ranged hand element: " + descriptor);
+                                }
+                                binding.rangedHandEffects[slot] = effect;
+                            }
+                        }
+                    }
                 }
+            }
+            const MonsterTable::MonsterStatsEntry *pStats = monsters.findStatsByPictureName(descriptor);
+            if (pStats != nullptr && (pStats->hasSpell1 || pStats->hasSpell2)
+                && (binding.castClip == UINT32_MAX || binding.castClip == binding.clips[2]
+                    || binding.castClip == binding.clips[3]))
+            {
+                throw std::runtime_error("spellcasting actor model requires a distinct cast clip: " + descriptor);
             }
             bindings.emplace(descriptor, std::move(binding));
         }
@@ -453,6 +541,15 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
     m_actorModelBindings = std::move(bindings);
     m_actorModelsConfigured = true;
     return true;
+}
+
+void WorldFxSystem::stopActorHandFx(ActorModelInstance &model, EffectStopMode mode)
+{
+    for (EffectHandle &effect : model.rangedHandEffects)
+    {
+        m_namedEffects.stop(effect, mode);
+        effect = {};
+    }
 }
 
 void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float deltaSeconds)
@@ -485,7 +582,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
         if (instance != m_actorModels.end()
             && (instance->second.actorId != state.actorId || instance->second.monsterId != state.monsterId))
         {
-            m_namedEffects.stop(instance->second.rangedHandEffect, EffectStopMode::Drain);
+            stopActorHandFx(instance->second, EffectStopMode::Drain);
             m_models.destroy(instance->second.handle);
             m_actorModels.erase(instance);
             instance = m_actorModels.end();
@@ -493,6 +590,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
         if (instance == m_actorModels.end())
         {
             const Engine::ModelInstanceHandle handle = m_models.create(binding.asset);
+            m_models.setMaterialVariant(handle, binding.materialVariant);
             instance = m_actorModels.emplace(index, ActorModelInstance{handle, state.actorId, state.monsterId}).first;
         }
         retained.insert(index);
@@ -506,14 +604,13 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
         model.pBinding = &binding;
         const float scale = binding.scale * state.visualScale
             * (pMonster->height > 0 ? float(state.height) / pMonster->height : 1.0f);
-        model.fxScale = scale / binding.scale;
+        model.fxScale = scale / binding.fxReferenceScale;
         const float distance = std::hypot(state.preciseX - model.previousX, state.preciseY - model.previousY);
         const bool teleported = model.initialized && distance > std::max(256.0f, scale * 8.0f);
         const float speed = std::hypot(state.velocityX, state.velocityY);
         if (!model.initialized || teleported)
         {
-            m_namedEffects.stop(model.rangedHandEffect, EffectStopMode::Immediate);
-            model.rangedHandEffect = {};
+            stopActorHandFx(model, EffectStopMode::Immediate);
             model.yaw = state.yawRadians;
             model.gaitPhase = 0.0f;
         }
@@ -532,8 +629,14 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
         const bool attacking = state.animationState == ActorAiAnimationState::AttackMelee
             || state.animationState == ActorAiAnimationState::AttackRanged;
         const bool casting = attacking && state.castingSpell && binding.castClip != UINT32_MAX;
+        if (model.secondaryAttack != state.secondaryAttack)
+        {
+            stopActorHandFx(model, EffectStopMode::Drain);
+        }
+        model.secondaryAttack = state.secondaryAttack;
         model.rangedHandActive = state.animationState == ActorAiAnimationState::AttackRanged
-            && !state.castingSpell && !state.attackImpactTriggered && !binding.rangedHandEffect.empty();
+            && !state.castingSpell && !state.attackImpactTriggered
+            && !binding.rangedHandEffects[model.secondaryAttack].empty();
         const bool restart = model.initialized && (model.previousState != animationIndex
             || model.casting != casting || (attacking && state.animationTimeTicks + 0.01f < model.previousTime));
         if (casting && (!model.casting || restart))
@@ -543,7 +646,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
             model.pendingRelease = false;
             const FxRecipes::ProjectileRecipe recipe =
                 FxRecipes::classifyProjectileRecipe(int(state.castingSpellId), "", "", 0);
-            model.castColor = FxRecipes::projectileFxRecipe(recipe).colorAbgr;
+            model.castColor = FxRecipes::projectileRecipeColorAbgr(recipe);
         }
         if (model.casting && state.attackImpactTriggered && !model.previousImpact)
         {
@@ -618,7 +721,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
     {
         if (!retained.contains(iterator->first))
         {
-            m_namedEffects.stop(iterator->second.rangedHandEffect, EffectStopMode::Drain);
+            stopActorHandFx(iterator->second, EffectStopMode::Drain);
             m_models.destroy(iterator->second.handle);
             iterator = m_actorModels.erase(iterator);
         }
@@ -660,7 +763,9 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
         const bool near = distanceSquared < 2048.0f * 2048.0f
             && dx * forwardX + dy * forwardY > 0.4f * std::sqrt(distanceSquared) - 160.0f;
         if (!near || model.dying || model.previousState == uint8_t(ActorAiAnimationState::Dead)
-            || model.pBinding == nullptr || model.pBinding->sockets[0] == UINT32_MAX)
+            || model.pBinding == nullptr
+            || (model.pBinding->eyeColorAbgr == 0 && !model.casting && !model.rangedHandActive
+                && !model.pendingRelease))
         {
             model.pendingRelease = false;
             model.hasCastOrigin = false;
@@ -686,8 +791,7 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
         if (!model.rangedHandActive || std::none_of(candidates.begin(), candidates.begin() + count,
             [&](const Candidate &candidate) { return candidate.pModel == &model; }))
         {
-            m_namedEffects.stop(model.rangedHandEffect, EffectStopMode::Drain);
-            model.rangedHandEffect = {};
+            stopActorHandFx(model, EffectStopMode::Drain);
         }
     }
     for (size_t i = 0; i < count; ++i)
@@ -696,30 +800,37 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
         const ActorModelBinding &binding = *model.pBinding;
         if (model.rangedHandActive)
         {
-            const Engine::ModelMatrix *pSocket = m_models.nodeMatrix(model.handle, binding.rangedHandSocket);
-            if (pSocket != nullptr)
+            for (size_t hand = 0; hand < binding.rangedHandSockets.size(); ++hand)
             {
+                const Engine::ModelMatrix *pSocket = m_models.nodeMatrix(model.handle, binding.rangedHandSockets[hand]);
+                if (pSocket == nullptr)
+                {
+                    continue;
+                }
                 const std::array<float, 3> point = {(*pSocket)[12], (*pSocket)[13], (*pSocket)[14]};
-                if (deltaSeconds > 0.0f && !m_namedEffects.contains(model.rangedHandEffect))
+                if (deltaSeconds > 0.0f && !m_namedEffects.contains(model.rangedHandEffects[hand]))
                 {
                     EffectSpawnParams params;
                     params.position = point;
                     params.scale = model.fxScale;
                     params.seed = model.actorId;
-                    model.rangedHandEffect = m_namedEffects.spawn(binding.rangedHandEffect, params);
+                    model.rangedHandEffects[hand] = m_namedEffects.spawn(
+                        binding.rangedHandEffects[model.secondaryAttack], params);
                 }
-                m_namedEffects.setTransform(model.rangedHandEffect, point, {0, 0, 0, 1}, model.fxScale);
+                m_namedEffects.setTransform(model.rangedHandEffects[hand], point, {0, 0, 0, 1}, model.fxScale);
             }
         }
         if (model.casting)
         {
             const Engine::ModelMatrix *pLeft = m_models.nodeMatrix(model.handle, binding.sockets[2]);
             const Engine::ModelMatrix *pRight = m_models.nodeMatrix(model.handle, binding.sockets[3]);
-            if (pLeft != nullptr && pRight != nullptr)
+            if (pLeft != nullptr || pRight != nullptr)
             {
+                const Engine::ModelMatrix &left = pLeft != nullptr ? *pLeft : *pRight;
+                const Engine::ModelMatrix &right = pRight != nullptr ? *pRight : *pLeft;
                 for (size_t axis = 0; axis < 3; ++axis)
                 {
-                    model.castOrigin[axis] = ((*pLeft)[12 + axis] + (*pRight)[12 + axis]) * 0.5f;
+                    model.castOrigin[axis] = (left[12 + axis] + right[12 + axis]) * 0.5f;
                 }
                 model.hasCastOrigin = true;
                 model.castOriginAge = 0.0f;
@@ -795,7 +906,10 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
             {
                 continue;
             }
-            spawnEmber({(*pSocket)[12], (*pSocket)[13], (*pSocket)[14]}, 0.8f, 0xb02828ffu);
+            if (binding.eyeColorAbgr != 0)
+            {
+                spawnEmber({(*pSocket)[12], (*pSocket)[13], (*pSocket)[14]}, 0.8f, binding.eyeColorAbgr);
+            }
         }
     }
 }

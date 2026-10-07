@@ -1,4 +1,5 @@
 #include "game/render/RuntimeShader.h"
+#include "game/render/CinematicGrading.h"
 #include "game/outdoor/OutdoorRenderer.h"
 #include "game/render/WaterGeometry.h"
 
@@ -2142,9 +2143,9 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
             }
 
             vertices.push_back(topLeft);
-            vertices.push_back(bottomLeft);
+            vertices.push_back(bottomRight);
             vertices.push_back(topRight);
-            vertices.push_back(topRight);
+            vertices.push_back(topLeft);
             vertices.push_back(bottomLeft);
             vertices.push_back(bottomRight);
         }
@@ -2470,9 +2471,9 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildFilledTerrainV
             bottomRight.abgr = tileColor;
 
             vertices.push_back(topLeft);
-            vertices.push_back(bottomLeft);
+            vertices.push_back(bottomRight);
             vertices.push_back(topRight);
-            vertices.push_back(topRight);
+            vertices.push_back(topLeft);
             vertices.push_back(bottomLeft);
             vertices.push_back(bottomRight);
         }
@@ -3914,6 +3915,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                                         const bx::Vec3 &cameraRight, const bx::Vec3 &cameraUp, const float *pViewMatrix,
                                         const float *pProjectionMatrix)
 {
+    if (view.m_pPostProcessing != nullptr)
+    {
+        view.m_pPostProcessing->prepareWorldView(pViewMatrix, pProjectionMatrix);
+    }
+    const uint16_t transparentView = view.m_pPostProcessing != nullptr
+        ? view.m_pPostProcessing->transparentView(MainViewId) : MainViewId;
     const ViewFrustum frustum(pViewMatrix, pProjectionMatrix, bgfx::getCaps()->homogeneousDepth);
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
@@ -4243,7 +4250,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                 {
                     view.m_modelRenderer.bindSunShadows();
                 }
-                view.m_terrainDecorations.submit(MainViewId, batch.range, view.m_elapsedTime, meshShadows);
+                view.m_terrainDecorations.submit(transparentView, batch.range, view.m_elapsedTime, meshShadows);
             }
         }
 
@@ -4734,7 +4741,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                         {
                             view.m_modelRenderer.bindSunShadows();
                         }
-                        bgfx::submit(MainViewId,
+                        bgfx::submit(batch.translucent ? transparentView : MainViewId,
                                      usesStaticLighting ? bModelProgram
                                                         : texturedProgram,
                                      0, BGFX_DISCARD_ALL);
@@ -4784,37 +4791,37 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         const std::array<float, 4> sunColor = {1.0f * daylight, 0.94f * daylight, 0.82f * daylight, 0.0f};
         const std::array<float, 4> skyColor = {0.34f * brightness, 0.46f * brightness,
             0.56f * brightness, brightness};
-        view.m_waterRenderer.render(MainViewId, view.m_elapsedTime,
+        view.m_waterRenderer.render(transparentView, view.m_elapsedTime,
             sunDirection, sunColor, skyColor, pAtmosphereState->rainIntensity,
             view.m_gameSettings.waterMovementRipples ? &view.m_worldFxSystem.waterRipples() : nullptr);
     }
 
-    renderBloodSplats(view, MainViewId, cameraPosition, farClipDistance, useLocalFxLighting);
-    renderContextActionGeometryHighlight(view, MainViewId);
+    renderBloodSplats(view, transparentView, cameraPosition, farClipDistance, useLocalFxLighting);
+    renderContextActionGeometryHighlight(view, transparentView);
 
     if (view.m_gameSettings.shadows && (view.m_showSpriteObjects || view.m_showActors))
     {
-        OutdoorBillboardRenderer::renderFxContactShadows(view, MainViewId);
+        OutdoorBillboardRenderer::renderFxContactShadows(view, transparentView);
     }
 
     if (view.m_showSpriteObjects)
     {
-        OutdoorBillboardRenderer::renderRuntimeWorldItems(view, MainViewId, pViewMatrix, cameraPosition, frustum);
-        OutdoorBillboardRenderer::renderSpriteObjectBillboards(view, MainViewId, pViewMatrix, cameraPosition);
+        OutdoorBillboardRenderer::renderRuntimeWorldItems(view, transparentView, pViewMatrix, cameraPosition, frustum);
+        OutdoorBillboardRenderer::renderSpriteObjectBillboards(view, transparentView, pViewMatrix, cameraPosition);
     }
 
     if (view.m_showActors || view.m_showDecorationBillboards)
     {
         OutdoorBillboardRenderer::renderActorPreviewBillboards(
-            view, MainViewId, pViewMatrix, pProjectionMatrix, cameraPosition, frustum);
+            view, transparentView, pViewMatrix, pProjectionMatrix, cameraPosition, frustum);
 
         if (view.m_showActors && view.m_showActorCollisionBoxes)
         {
-            renderActorCollisionOverlays(view, MainViewId, cameraPosition);
+            renderActorCollisionOverlays(view, transparentView, cameraPosition);
         }
     }
 
-    renderPendingSpellAreaPreview(view, MainViewId, cameraPosition);
+    renderPendingSpellAreaPreview(view, transparentView, cameraPosition);
 
     {
         if (view.m_showSpawns && bgfx::isValid(view.m_spawnMarkerVertexBufferHandle) &&
@@ -4824,7 +4831,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
             bgfx::setVertexBuffer(0, view.m_spawnMarkerVertexBufferHandle, 0, view.m_spawnMarkerVertexCount);
             bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z |
                            BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_PT_LINES);
-            bgfx::submit(MainViewId, view.m_programHandle);
+            bgfx::submit(transparentView, view.m_programHandle);
         }
     }
 
@@ -4916,16 +4923,17 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
             return frustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
                 {bounds.max[0], bounds.max[1], bounds.max[2]});
         }, view.m_gameSettings.modelLods ? std::abs(pProjectionMatrix[5]) * viewHeight * 0.5f : 0.0f,
-        view.m_gameSettings.modelLodOverride);
+        view.m_gameSettings.modelLodOverride, transparentView);
     // Translucent spells need the actors and models behind them in the color buffer first.
     if (view.m_showSpriteObjects)
     {
-        OutdoorBillboardRenderer::renderRuntimeProjectiles(view, MainViewId, pViewMatrix, cameraPosition);
+        OutdoorBillboardRenderer::renderRuntimeProjectiles(view, transparentView, pViewMatrix, cameraPosition);
     }
     if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
     {
-        OutdoorBillboardRenderer::renderFxSegmentProjectiles(view, MainViewId, pViewMatrix);
-        ParticleRenderer::renderParticles(view.m_worldFxRenderResources, view.m_worldFxSystem.particles(), MainViewId,
+        OutdoorBillboardRenderer::renderFxSegmentProjectiles(view, transparentView, pViewMatrix);
+        ParticleRenderer::renderParticles(
+            view.m_worldFxRenderResources, view.m_worldFxSystem.particles(), transparentView,
             pViewMatrix, cameraPosition, aspectRatio, view.m_worldFxSystem.glowBillboards());
         if (view.m_gameSettings.performanceTrace)
         {
@@ -4940,7 +4948,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
             view.m_worldFxSystem.namedEffects(),
             view.m_worldFxSystem.namedEffectResources(),
             *view.m_pAssetFileSystem,
-            MainViewId,
+            transparentView,
             pViewMatrix,
             cameraPosition);
     }
@@ -4948,7 +4956,7 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     if (pAtmosphereState != nullptr && pAtmosphereState->gameplayOverlayAlpha > 0.001f)
     {
         renderOutdoorGameplayOverlay(
-            view, MainViewId, pAtmosphereState->gameplayOverlayAlpha, pAtmosphereState->gameplayOverlayColorAbgr);
+            view, transparentView, pAtmosphereState->gameplayOverlayAlpha, pAtmosphereState->gameplayOverlayColorAbgr);
     }
 }
 

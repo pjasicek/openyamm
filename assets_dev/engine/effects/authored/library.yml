@@ -1,6 +1,43 @@
 # Original showcase recipes; edit here. Source art: provenance.yml.
 schema: openyamm.effectLibrary.v1
 effects:
+- id: openyamm:fx/creature_fire_hand
+  display_name: Creature fire hand
+  # Original, bounded moving-emitter recipe using the existing imported MM9 fire sprite.
+  duration_seconds: 30
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite
+    start_seconds: 0
+    end_seconds: 30
+    sprite_resource: mm9:effect-sprite/weapons/firebolt
+    blend: additive
+    scale_keys:
+    - {time: 0, value: 3.5}
+    color_keys:
+    - {time: 0, rgb: [255, 205, 140], transparency: 65}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0
+    end_seconds: 30
+    sprite_resource: mm9:effect-sprite/weapons/firebolt
+    particle_space: world
+    blend: additive
+    sprites_per_emission: 2
+    emission_interval_seconds: 0.03
+    particle_lifetime_seconds: 0.18
+    emission_shape: sphere
+    radius: 1.5
+    velocity: 8
+    scale_keys:
+    - {time: 0, value: 2.0}
+    - {time: 1, value: 0.15}
+    color_keys:
+    - {time: 0, rgb: [255, 170, 80], transparency: 65}
+    - {time: 1, rgb: [200, 45, 10], transparency: 255}
+    motion_keys: []
 - id: openyamm:fx/healing_bloom
   display_name: Healing Bloom
   duration_seconds: 2.8

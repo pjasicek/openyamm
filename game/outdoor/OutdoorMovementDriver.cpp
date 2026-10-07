@@ -118,6 +118,7 @@ void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
     m_pendingEffects = {};
     m_jumpHeld = false;
     m_flyUpHeld = false;
+    m_pendingFlyHeightDelta = 0.0f;
     m_pendingJumpPress = false;
     m_pendingJumpVelocity.reset();
     m_pendingJumpLift = 1.0f;
@@ -155,6 +156,7 @@ void OutdoorMovementDriver::restoreState(
     m_pendingEffects = {};
     m_jumpHeld = false;
     m_flyUpHeld = false;
+    m_pendingFlyHeightDelta = 0.0f;
     m_pendingJumpPress = false;
     m_pendingJumpVelocity.reset();
     m_pendingJumpLift = 1.0f;
@@ -188,7 +190,7 @@ void OutdoorMovementDriver::update(
     const bool jumpPressed = input.jump && !m_jumpHeld;
     m_jumpHeld = input.jump;
     m_pendingJumpPress = m_pendingJumpPress || jumpPressed;
-    const bool flyUpPressed = input.flyUp && !m_flyUpHeld;
+    const bool flyUpPressed = (input.flyUp && !m_flyUpHeld) || input.flyHeightDelta > 0.0f;
     m_flyUpHeld = input.flyUp;
 
     if (!m_flyingAvailable)
@@ -202,6 +204,16 @@ void OutdoorMovementDriver::update(
         m_state.fallStartZ = m_state.footZ;
         m_state.fallDistance = 0.0f;
     }
+
+    if (m_partyMovementState.flying)
+    {
+        m_pendingFlyHeightDelta += input.flyHeightDelta;
+    }
+    else
+    {
+        m_pendingFlyHeightDelta = 0.0f;
+    }
+    const bool flyHeightChangeRequested = m_pendingFlyHeightDelta != 0.0f;
 
     const float cosYaw = std::cos(input.yawRadians);
     const float sinYaw = std::sin(input.yawRadians);
@@ -381,7 +393,7 @@ void OutdoorMovementDriver::update(
             m_bodyDimensions,
             moveVelocityX + impulseVelocityX,
             moveVelocityY + impulseVelocityY,
-            moveVelocityZ,
+            moveVelocityZ + m_pendingFlyHeightDelta / OutdoorMovementStepSeconds,
             jumpRequestedThisStep,
             input.flyUp,
             input.flyDown,
@@ -403,6 +415,7 @@ void OutdoorMovementDriver::update(
         }
 
         m_pendingJumpPress = false;
+        m_pendingFlyHeightDelta = 0.0f;
         m_pendingJumpVelocity.reset();
         m_pendingJumpLift = 1.0f;
 
@@ -677,7 +690,7 @@ void OutdoorMovementDriver::update(
     m_partyMovementState.activelyFlying =
         m_partyMovementState.flying
         && m_state.airborne
-        && (requestedMovementSpeedSquared > 0.01f || input.flyUp || input.flyDown);
+        && (requestedMovementSpeedSquared > 0.01f || input.flyUp || input.flyDown || flyHeightChangeRequested);
 
     if (pPerformanceDiagnostics != nullptr)
     {
@@ -775,6 +788,10 @@ void OutdoorMovementDriver::setFlying(bool active)
     }
 
     m_partyMovementState.flying = active;
+    if (!active)
+    {
+        m_pendingFlyHeightDelta = 0.0f;
+    }
 
     if (m_partyMovementState.flying)
     {
@@ -791,6 +808,7 @@ void OutdoorMovementDriver::setFlyingAvailable(bool active)
     if (!m_flyingAvailable)
     {
         m_partyMovementState.flying = false;
+        m_pendingFlyHeightDelta = 0.0f;
     }
 }
 

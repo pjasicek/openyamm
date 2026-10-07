@@ -605,7 +605,8 @@ IndoorFloorSample evaluateIndoorFloorFace(
         return {};
     }
 
-    const float height = calculateIndoorFaceHeight(*pGeometry, x, y);
+    // Edge slack must not extrapolate a sloped tile's top below its underside.
+    const float height = std::clamp(calculateIndoorFaceHeight(*pGeometry, x, y), pGeometry->minZ, pGeometry->maxZ);
     const float delta = height - z;
 
     if (delta > maxRise || delta < -maxDrop)

@@ -128,6 +128,7 @@ struct GameplayRuntimeActorState
     float velocityX = 0.0f;
     float velocityY = 0.0f;
     bool castingSpell = false;
+    bool secondaryAttack = false;
     uint32_t castingSpellId = 0;
     bool attackImpactTriggered = false;
     float visualScale = 1.0f;

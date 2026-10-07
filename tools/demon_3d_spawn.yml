@@ -1,0 +1,13 @@
+output_dir: ../output/demon_3d_review
+exit: false
+steps:
+  - expect: gameplay
+  - key: "`"
+  - text: "actor spawn 503 2 -10048 -11919 161"
+  - key: Return
+  - text: "actor spawn 504 2 -9408 -11919 161"
+  - key: Return
+  - text: "actor count 502 503 504"
+  - key: Return
+  - key: "`"
+  - expect: gameplay

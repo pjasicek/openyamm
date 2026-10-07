@@ -2425,7 +2425,7 @@ Party::Snapshot Party::snapshot() const
     snapshot.hardLandingSoundCount = m_hardLandingSoundCount;
     snapshot.monsterTargetSelectionCounter = m_monsterTargetSelectionCounter;
     snapshot.houseStockSeed = m_houseStockSeed;
-    snapshot.itemEffectElapsedGameSeconds = m_itemEffectElapsedGameSeconds;
+    snapshot.itemEffectElapsedGameSeconds = m_periodicEffectElapsedGameSeconds;
     snapshot.itemWeeklyEffectSequence = m_itemWeeklyEffectSequence;
     snapshot.lastFallDamageDistance = m_lastFallDamageDistance;
     snapshot.foundArtifactItems = m_foundArtifactItems;
@@ -2472,7 +2472,7 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_hardLandingSoundCount = snapshot.hardLandingSoundCount;
     m_monsterTargetSelectionCounter = snapshot.monsterTargetSelectionCounter;
     m_houseStockSeed = snapshot.houseStockSeed;
-    m_itemEffectElapsedGameSeconds = snapshot.itemEffectElapsedGameSeconds;
+    m_periodicEffectElapsedGameSeconds = snapshot.itemEffectElapsedGameSeconds;
     m_itemWeeklyEffectSequence = snapshot.itemWeeklyEffectSequence;
     m_lastFallDamageDistance = snapshot.lastFallDamageDistance;
     m_foundArtifactItems = snapshot.foundArtifactItems;
@@ -2546,7 +2546,7 @@ void Party::seed(const PartySeed &seed)
     m_fineGold = 0;
     m_monsterTargetSelectionCounter = 0;
     m_houseStockSeed = generateHouseStockSeed();
-    m_itemEffectElapsedGameSeconds = 0.0f;
+    m_periodicEffectElapsedGameSeconds = 0.0f;
     m_itemWeeklyEffectSequence = 0;
     m_foundArtifactItems.clear();
     m_everOwnedItemIds.clear();
@@ -5779,11 +5779,36 @@ void Party::advanceTimedStates(float deltaSeconds)
     bool buffsChanged = false;
     bool itemsChanged = false;
     constexpr float GameSecondsPerWeek = 7.0f * 24.0f * 60.0f * 60.0f;
-    m_itemEffectElapsedGameSeconds += deltaSeconds;
+    const float previousRegenerationTick =
+        std::floor(m_periodicEffectElapsedGameSeconds / OeFiveGameMinuteTickGameSeconds);
+    m_periodicEffectElapsedGameSeconds += deltaSeconds;
+    // The saved periodic clock preserves the five-minute tick phase; a week contains whole ticks.
+    const int regenerationTicks = static_cast<int>(
+        std::floor(m_periodicEffectElapsedGameSeconds / OeFiveGameMinuteTickGameSeconds) - previousRegenerationTick);
 
-    while (m_itemEffectElapsedGameSeconds >= GameSecondsPerWeek)
+    if (regenerationTicks > 0)
     {
-        m_itemEffectElapsedGameSeconds -= GameSecondsPerWeek;
+        for (Character &member : m_members)
+        {
+            const CharacterSkill *pMeditation = member.findSkill("Meditation");
+            if (pMeditation == nullptr || pMeditation->mastery == SkillMastery::None
+                || member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+                || member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+                || member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
+            {
+                continue;
+            }
+
+            const int skillLevel = std::max(0, static_cast<int>(pMeditation->level) + member.skillBonus("Meditation"));
+            const int spellPointsPerTick = regenerationSkillMultiplier(pMeditation->mastery) + skillLevel / 10;
+            member.spellPoints = std::min(
+                currentMaximumSpellPoints(member), member.spellPoints + regenerationTicks * spellPointsPerTick);
+        }
+    }
+
+    while (m_periodicEffectElapsedGameSeconds >= GameSecondsPerWeek)
+    {
+        m_periodicEffectElapsedGameSeconds -= GameSecondsPerWeek;
         applyWeeklyItemEffects();
     }
 

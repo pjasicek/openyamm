@@ -300,6 +300,7 @@ std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
         case PortraitFxEventKind::AutoNote:
         case PortraitFxEventKind::QuestComplete:
         case PortraitFxEventKind::StatIncrease:
+        case PortraitFxEventKind::StatBaseIncrease:
             return SoundId::Quest;
 
         case PortraitFxEventKind::AwardGain:

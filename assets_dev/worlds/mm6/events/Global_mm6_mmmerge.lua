@@ -223,10 +223,6 @@ ReplaceGlobalEvent(1359, "Hint", function()
     showSeerHint(2126, 473)
 end)
 
-AppendGlobalEvent(1327, function()
-    MM6.RemoveQuestFollowerUnless(1699, 796)
-end)
-
 AppendGlobalEvent(1344, function()
     MM6.AddQuestFollower(796)
 end)
@@ -354,6 +350,11 @@ for _, family in ipairs(promotionFamilies) do
         end)
     end
 end
+
+-- Attach follower departure after the promotion overrides replace their quest handlers.
+AppendGlobalEvent(1327, function()
+    MM6.RemoveQuestFollowerUnless(1699, 796)
+end)
 
 RegisterGlobalNpcEnterHook(65302, "Enroth completed promotion topics", function(context)
     for _, family in ipairs(promotionFamilies) do

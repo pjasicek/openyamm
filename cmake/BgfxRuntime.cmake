@@ -99,6 +99,7 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/water_surface.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_baked_lighting.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/sun_shadows.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/ambient_occlusion.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/model_skin.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_bmodel_lightmap.sh"
             "${OPENYAMM_BGFX_SOURCE_DIR}/examples/common/common.sh"
@@ -528,7 +529,14 @@ function(openyamm_configure_runtime_shaders)
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_cinematic_grading.sc" "fragment" "fs_cinematic_grading.bin")
 
+    foreach(shader fs_ambient_occlusion fs_ambient_occlusion_blur fs_ambient_occlusion_composite)
+        openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/${shader}.sc" "fragment" "${shader}.bin")
+    endforeach()
+
     set(runtimeShaderNames
+        fs_ambient_occlusion.bin
+        fs_ambient_occlusion_blur.bin
+        fs_ambient_occlusion_composite.bin
         vs_cinematic_grading.bin
         fs_cinematic_grading.bin
         fs_terrain_decoration_baked.bin

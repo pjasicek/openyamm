@@ -217,6 +217,22 @@ settings:
   type: toggle
   depends: water_shader
   desc: Small ripples from creatures moving on water.
+- id: ambient_occlusion
+  section: video
+  group: Colour & effects
+  name: Ambient occlusion
+  type: toggle
+  desc: Add soft shading where solid surfaces meet.
+- id: ambient_occlusion_strength
+  section: video
+  group: Colour & effects
+  name: Occlusion intensity
+  type: range
+  min: 0
+  max: 100
+  unit: '%'
+  depends: ambient_occlusion
+  desc: Adjust the strength of contact shading.
 - id: cinematic_grading
   section: video
   group: Colour & effects

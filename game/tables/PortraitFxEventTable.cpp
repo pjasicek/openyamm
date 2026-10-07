@@ -47,6 +47,11 @@ PortraitFxEventKind parsePortraitFxEventKind(const std::string &value)
         return PortraitFxEventKind::StatIncrease;
     }
 
+    if (normalized == "statbaseincrease")
+    {
+        return PortraitFxEventKind::StatBaseIncrease;
+    }
+
     if (normalized == "statdecrease")
     {
         return PortraitFxEventKind::StatDecrease;

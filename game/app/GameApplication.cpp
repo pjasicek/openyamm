@@ -2819,6 +2819,8 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     , m_lastFrameWidth(config.windowWidth)
     , m_lastFrameHeight(config.windowHeight)
 {
+    m_outdoorGameView.setWorldPostProcessing(&m_cinematicGrading);
+    m_indoorRenderer.setWorldPostProcessing(&m_cinematicGrading);
     m_gameSession.setSaveGameToPathCallback(
         [this](
             const std::filesystem::path &path,
@@ -6584,6 +6586,11 @@ bool GameApplication::activateWorldForMapFileName(const std::string &mapFileName
 bool GameApplication::initializeRenderer()
 {
     shutdownRenderer();
+    if (m_settings.effectStatsDelaySeconds >= 0.0f)
+    {
+        // Per-view GPU queries are opt-in diagnostics, never ordinary rendering overhead.
+        bgfx::setDebug(BGFX_DEBUG_PROFILER);
+    }
 
     if (!initializeDebugConsoleRenderer())
     {
@@ -8006,7 +8013,8 @@ void GameApplication::prepareGameplayRendering()
     {
         m_cinematicGrading.resetViews();
         const bool grading = m_cinematicGrading.begin(
-            width, height, m_settings.cinematicGrading, m_settings.cinematicStrength);
+            width, height, m_settings.cinematicGrading, m_settings.cinematicStrength,
+            m_settings.ambientOcclusion, m_settings.ambientOcclusionStrength);
         if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
         {
             m_outdoorGameView.render(width, height, idleInput, 0.0f, true);
@@ -9515,7 +9523,8 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
                 backgroundInput.screenWidth = width;
                 backgroundInput.screenHeight = height;
                 m_gameSession.bindCurrentGameplayInputFrame(&backgroundInput);
-                m_cinematicGrading.begin(width, height, m_settings.cinematicGrading, m_settings.cinematicStrength);
+                m_cinematicGrading.begin(width, height, m_settings.cinematicGrading, m_settings.cinematicStrength,
+                    m_settings.ambientOcclusion, m_settings.ambientOcclusionStrength);
                 pWorldRuntime->renderWorld(width, height, backgroundInput, 0.0f);
                 m_cinematicGrading.submit();
                 m_gameSession.renderGameplayUi(width, height);
@@ -9722,9 +9731,14 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
             const std::string manifestPath = m_settings.actorModelsManifest.empty()
                 ? "worlds/" + m_activeWorldManifest.id + "/models/actors.yml"
                 : m_settings.actorModelsManifest;
+            const std::optional<MapAssetInfo> &map = m_gameDataLoader.getSelectedMap();
+            const std::optional<ActorPreviewBillboardSet> *pActors = map
+                ? (m_pMapSceneRuntime->kind() == SceneKind::Outdoor
+                    ? &map->outdoorActorPreviewBillboardSet : &map->indoorActorPreviewBillboardSet) : nullptr;
+            const SpriteFrameTable *pFrames = pActors != nullptr && *pActors ? &(*pActors)->spriteFrameTable : nullptr;
             if (!worldFx.configureActorModels(*m_pAssetFileSystem,
                     manifestPath,
-                    m_gameDataLoader.getMonsterTable(), error))
+                    m_gameDataLoader.getMonsterTable(), pFrames, error))
             {
                 std::cerr << "Actor model load failed: " << error << '\n';
                 requestApplicationQuit();
@@ -9740,7 +9754,8 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         recordFrameDiagnostics(m_framePerformanceDiagnostics.postWorldNanoseconds, postWorldBeginTickCount);
         const uint64_t renderWorldBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         const float worldRenderDeltaSeconds = gameplayWorldPaused ? deltaSeconds : scaledGameplayDeltaSeconds;
-        m_cinematicGrading.begin(width, height, m_settings.cinematicGrading, m_settings.cinematicStrength);
+        m_cinematicGrading.begin(width, height, m_settings.cinematicGrading, m_settings.cinematicStrength,
+            m_settings.ambientOcclusion, m_settings.ambientOcclusionStrength);
         pWorldRuntime->renderWorld(width, height, m_gameInputSystem.frame(), worldRenderDeltaSeconds);
         m_cinematicGrading.submit();
         recordFrameDiagnostics(m_framePerformanceDiagnostics.renderWorldNanoseconds, renderWorldBeginTickCount);
@@ -10021,6 +10036,20 @@ void GameApplication::updateScreenshotCaptureFrame()
                   << " frame_texture_bytes=" << (pBgfxStats != nullptr ? pBgfxStats->textureMemoryUsed : 0)
                   << " frame_transient_vb_bytes=" << (pBgfxStats != nullptr ? pBgfxStats->transientVbUsed : 0)
                   << std::endl;
+        if (pBgfxStats != nullptr && pBgfxStats->gpuTimerFreq > 0)
+        {
+            for (uint16_t index = 0; index < pBgfxStats->numViews; ++index)
+            {
+                const bgfx::ViewStats &view = pBgfxStats->viewStats[index];
+                if (view.gpuTimeEnd > view.gpuTimeBegin)
+                {
+                    std::cout << "[GpuViewPerf] view=" << view.view
+                              << " gpu_us=" << (view.gpuTimeEnd - view.gpuTimeBegin) * 1000000
+                                  / pBgfxStats->gpuTimerFreq
+                              << " name=" << view.name << '\n';
+                }
+            }
+        }
     }
 
     if (!m_settings.screenshotPath.empty()

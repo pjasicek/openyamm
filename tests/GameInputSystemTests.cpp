@@ -193,6 +193,34 @@ TEST_CASE("release settings disable Ctrl turbo movement without suppressing modi
     CHECK_FALSE(input.turboMovementHeld());
 }
 
+TEST_CASE("game input mouse wheel bindings pulse on every scroll and respect blocked input")
+{
+    GameSettings settings = GameSettings::createDefault();
+    settings.keyboard.setBinding(KeyboardAction::FlyUp, mouseWheelInputBinding(1.0f));
+    settings.keyboard.setBinding(KeyboardAction::FlyDown, mouseWheelInputBinding(-1.0f));
+    GameInputSystem inputSystem;
+
+    for (const float delta : {1.0f, 0.5f, 2.0f, -1.0f, -0.5f, 0.0f})
+    {
+        inputSystem.updateFromEngineInput(640, 480, delta, settings);
+        const GameplayInputFrame &input = inputSystem.frame();
+        CHECK(input.action(KeyboardAction::FlyUp).held == (delta > 0.0f));
+        CHECK(input.action(KeyboardAction::FlyUp).pressed == (delta > 0.0f));
+        CHECK(input.action(KeyboardAction::FlyDown).held == (delta < 0.0f));
+        CHECK(input.action(KeyboardAction::FlyDown).pressed == (delta < 0.0f));
+        CHECK(input.mouseWheelDelta == delta);
+    }
+
+    inputSystem.updateFromEngineInput(640, 480, 1.0f, settings, true);
+    CHECK_FALSE(inputSystem.frame().action(KeyboardAction::FlyUp).held);
+    CHECK_FALSE(inputSystem.frame().action(KeyboardAction::FlyUp).pressed);
+    CHECK(inputSystem.frame().mouseWheelDelta == 0.0f);
+
+    inputSystem.updateFromEngineInput(640, 480, 1.0f, GameSettings::createDefault());
+    CHECK_FALSE(inputSystem.frame().action(KeyboardAction::FlyUp).held);
+    CHECK(inputSystem.frame().mouseWheelDelta == 1.0f);
+}
+
 TEST_CASE("game input preserves a transient key press until the next frame")
 {
     GameInputSystem inputSystem;

@@ -2870,6 +2870,12 @@ SoundId GameMechanics::resolveCharacterAttackSoundId(
     return SoundId::SwingBlunt01;
 }
 
+float GameMechanics::actorTargetHeight(uint16_t actorHeight)
+{
+    // A fixed minimum can put the aim point above a short creature's collision volume.
+    return actorHeight * 0.6f;
+}
+
 bool GameMechanics::characterRangedAttackHitsArmorClass(
     int targetArmorClass,
     int attackBonus,

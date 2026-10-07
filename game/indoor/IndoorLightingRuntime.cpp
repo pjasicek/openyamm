@@ -1031,9 +1031,11 @@ uint32_t IndoorLightingRuntime::lightColorAbgr(
 
 IndoorLightingRuntime::StaticLightCache IndoorLightingRuntime::buildStaticCache(
     const IndoorMapData &mapData,
-    const DecorationBillboardSet *pDecorationBillboardSet)
+    const DecorationBillboardSet *pDecorationBillboardSet,
+    const EventRuntimeState *pState)
 {
     StaticLightCache cache = {};
+    cache.lightRevision = pState != nullptr ? pState->indoorLightRevision : 0;
     cache.sourceIndicesBySector.resize(mapData.sectors.size());
     const std::vector<size_t> decorationDecorVarIndices =
         buildIndoorInteractiveDecorationDecorVarIndices(mapData, pDecorationBillboardSet);
@@ -1104,8 +1106,15 @@ IndoorLightingRuntime::StaticLightCache IndoorLightingRuntime::buildStaticCache(
                 continue;
             }
 
+            pDecoration = runtimeDecorationEntry(
+                pDecorationBillboardSet->decorationTable, *pDecoration, billboard.spriteOverrideKey(), pState);
+            if (pDecoration == nullptr)
+            {
+                continue;
+            }
+
             const SpriteFrameEntry *pFrame =
-                pDecorationBillboardSet->spriteFrameTable.getFrame(billboard.spriteId, 0);
+                pDecorationBillboardSet->spriteFrameTable.getFrame(pDecoration->spriteId, 0);
             float radius = 0.0f;
 
             if (pDecoration->lightRadius > 0)
@@ -1176,9 +1185,10 @@ IndoorLightingRuntime::StaticLightCache IndoorLightingRuntime::buildStaticCache(
 
 void IndoorLightingRuntime::rebuildStaticCache(
     const IndoorMapData &mapData,
-    const DecorationBillboardSet *pDecorationBillboardSet)
+    const DecorationBillboardSet *pDecorationBillboardSet,
+    const EventRuntimeState *pState)
 {
-    m_staticLightCache = buildStaticCache(mapData, pDecorationBillboardSet);
+    m_staticLightCache = buildStaticCache(mapData, pDecorationBillboardSet, pState);
 }
 
 void IndoorLightingRuntime::clearStaticCache()
@@ -1288,14 +1298,13 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
         }
     }
 
-    StaticLightCache fallbackCache = {};
-    const StaticLightCache *pStaticCache = &m_staticLightCache;
-
-    if (!pStaticCache->valid && input.pMapData != nullptr)
+    if (input.pMapData != nullptr
+        && (!m_staticLightCache.valid || m_staticLightCache.lightRevision != frame.indoorLightRevision))
     {
-        fallbackCache = buildStaticCache(*input.pMapData, input.pDecorationBillboardSet);
-        pStaticCache = &fallbackCache;
+        m_staticLightCache = buildStaticCache(
+            *input.pMapData, input.pDecorationBillboardSet, input.pEventRuntimeState);
     }
+    const StaticLightCache *pStaticCache = &m_staticLightCache;
 
     if (pStaticCache->valid)
     {

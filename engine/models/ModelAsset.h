@@ -85,7 +85,8 @@ struct ModelPrimitive
 {
     std::vector<ModelVertex> vertices;
     std::vector<uint32_t> indices;
-    int materialIndex = -1;
+    // Default material first, followed by KHR_materials_variants in asset order.
+    std::vector<int> materialIndices = {-1};
     std::vector<ModelVertexInfluences> influences;
     std::vector<ModelMorphTarget> morphTargets;
 };
@@ -169,10 +170,12 @@ struct ModelAsset
     std::vector<ModelAnimationClip> clips;
     std::unordered_map<std::string, uint32_t> nodeIndicesByName;
     std::unordered_map<std::string, uint32_t> clipIndicesByName;
+    std::vector<std::string> materialVariants;
     ModelBounds staticBounds;
 
     std::optional<uint32_t> findNode(const std::string &name) const;
     std::optional<uint32_t> findClip(const std::string &name) const;
+    std::optional<uint32_t> findMaterialVariant(const std::string &name) const;
 };
 
 float determinant3x3(const ModelMatrix &matrix);

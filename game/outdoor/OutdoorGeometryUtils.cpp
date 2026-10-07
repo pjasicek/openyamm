@@ -264,30 +264,7 @@ OutdoorBModel transformOutdoorBModel(
 
 float sampleOutdoorTerrainHeight(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 1);
-    const int sampleX1 = std::clamp(sampleX0 + 1, 0, OutdoorMapData::TerrainWidth - 1);
-    const int sampleY1 = std::clamp(sampleY0 + 1, 0, OutdoorMapData::TerrainHeight - 1);
-    const float fractionX = std::clamp(gridX - static_cast<float>(sampleX0), 0.0f, 1.0f);
-    const float fractionY = std::clamp(gridY - static_cast<float>(sampleY0), 0.0f, 1.0f);
-
-    const size_t index00 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index10 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX1);
-    const size_t index01 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index11 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX1);
-
-    const float height00 = static_cast<float>(outdoorMapData.heightMap[index00]);
-    const float height10 = static_cast<float>(outdoorMapData.heightMap[index10]);
-    const float height01 = static_cast<float>(outdoorMapData.heightMap[index01]);
-    const float height11 = static_cast<float>(outdoorMapData.heightMap[index11]);
-
-    const float topHeight = height00 + (height10 - height00) * fractionX;
-    const float bottomHeight = height01 + (height11 - height01) * fractionX;
-    const float heightSample = topHeight + (bottomHeight - topHeight) * fractionY;
-
-    return heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
+    return sampleOutdoorRenderedTerrainHeight(outdoorMapData, x, y);
 }
 
 float sampleOutdoorRenderedTerrainHeight(const OutdoorMapData &outdoorMapData, float x, float y)
@@ -313,19 +290,20 @@ float sampleOutdoorRenderedTerrainHeight(const OutdoorMapData &outdoorMapData, f
 
     float heightSample = 0.0f;
 
-    if (fractionX + fractionY <= 1.0f)
+    // Native ODM cells share the top-left / bottom-right diagonal.
+    if (fractionX >= fractionY)
     {
         heightSample =
             height00
             + (height10 - height00) * fractionX
-            + (height01 - height00) * fractionY;
+            + (height11 - height10) * fractionY;
     }
     else
     {
         heightSample =
-            height11
-            + (height10 - height11) * (1.0f - fractionY)
-            + (height01 - height11) * (1.0f - fractionX);
+            height00
+            + (height11 - height01) * fractionX
+            + (height01 - height00) * fractionY;
     }
 
     return heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
@@ -357,18 +335,18 @@ bx::Vec3 sampleOutdoorRenderedTerrainNormal(const OutdoorMapData &outdoorMapData
     const float height11 =
         static_cast<float>(outdoorMapData.heightMap[index11] * OutdoorMapData::TerrainHeightScale);
 
-    if (fractionX + fractionY <= 1.0f)
+    if (fractionX >= fractionY)
     {
         return vecNormalize({
             (height00 - height10) / tileSize,
-            (height01 - height00) / tileSize,
+            (height11 - height10) / tileSize,
             1.0f
         });
     }
 
     return vecNormalize({
         (height01 - height11) / tileSize,
-        (height11 - height10) / tileSize,
+        (height01 - height00) / tileSize,
         1.0f
     });
 }

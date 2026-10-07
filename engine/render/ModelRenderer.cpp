@@ -161,6 +161,7 @@ struct ModelRenderer::Draw
     const PrimitiveResources *pPrimitive = nullptr;
     const AssetResources *pResources = nullptr;
     const ModelMaterial *pMaterial = nullptr;
+    int materialIndex = -1;
     ModelMatrix matrix = {};
     const ModelMatrix *pCullMatrix = nullptr;
     const std::vector<ModelVertex> *pVertices = nullptr;
@@ -294,9 +295,9 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
     };
     const ModelMatrix transformedNormals = modelNormalMatrix(draw.matrix);
     AssetResources::MaterialTextures textures;
-    if (draw.pPrimitive->materialIndex >= 0)
+    if (draw.materialIndex >= 0)
     {
-        textures = draw.pResources->materialTextures[draw.pPrimitive->materialIndex];
+        textures = draw.pResources->materialTextures[draw.materialIndex];
     }
     const bgfx::TextureHandle texture = bgfx::isValid(textures.base) ? textures.base : m_whiteTextureHandle;
 
@@ -718,8 +719,8 @@ void ModelRenderer::renderSunShadows(const ModelInstanceSystem &instances, uint1
             const ModelMaterial &material = *draw.pMaterial;
             const float mask[8] = {0, 0, 0, material.baseColor[3], material.alphaCutoff,
                 material.alphaMode == ModelAlphaMode::Mask ? 1.0f : 0.0f, 0, 0};
-            const bgfx::TextureHandle texture = draw.pPrimitive->materialIndex >= 0
-                ? draw.pResources->materialTextures[draw.pPrimitive->materialIndex].base : m_whiteTextureHandle;
+            const bgfx::TextureHandle texture = draw.materialIndex >= 0
+                ? draw.pResources->materialTextures[draw.materialIndex].base : m_whiteTextureHandle;
             bgfx::setTexture(0, m_textureSamplerHandle,
                 bgfx::isValid(texture) ? texture : m_whiteTextureHandle, samplerFlags(material.baseSampler));
             bgfx::setUniform(m_materialUniformHandle, mask, 2);
@@ -787,6 +788,7 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
         {
             continue;
         }
+        const uint32_t variant = instances.materialVariant(handle);
         for (size_t nodeIndex = 0; nodeIndex < asset->nodes.size(); ++nodeIndex)
         {
             const ModelNode &node = asset->nodes[nodeIndex];
@@ -830,15 +832,16 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
                     continue;
                 }
                 const ModelMaterial *pMaterial = &defaultMaterial;
-                if (primitive.materialIndex >= 0 &&
-                    static_cast<size_t>(primitive.materialIndex) < asset->materials.size())
+                const int materialIndex = asset->meshes[meshIndex].primitives[primitiveIndex].materialIndices[variant];
+                if (materialIndex >= 0 && static_cast<size_t>(materialIndex) < asset->materials.size())
                 {
-                    pMaterial = &asset->materials[primitive.materialIndex];
+                    pMaterial = &asset->materials[materialIndex];
                 }
                 draws.push_back({
                     &primitive,
                     pResources,
                     pMaterial,
+                    materialIndex,
                     node.skinIndex >= 0 ? identityModelMatrix() : matrix,
                     &matrix,
                     !asset->meshes[meshIndex].primitives[primitiveIndex].morphTargets.empty()
@@ -865,7 +868,8 @@ void ModelRenderer::render(
     const ModelRenderLighting &lighting,
     const std::function<ModelRenderLighting(const ModelBounds &)> &lightingForBounds,
     const ModelSkyEnvironment *pSkyEnvironment,
-    const std::function<bool(const ModelBounds &)> &visibleBounds, float focalPixels, int forcedLod)
+    const std::function<bool(const ModelBounds &)> &visibleBounds, float focalPixels, int forcedLod,
+    uint16_t transparentView)
 {
     if (!bgfx::isValid(m_programHandle))
     {
@@ -935,7 +939,7 @@ void ModelRenderer::render(
     }
     for (const Draw &draw : transparentDraws)
     {
-        submit(draw, viewId, *draw.pLighting);
+        submit(draw, transparentView == UINT16_MAX ? viewId : transparentView, *draw.pLighting);
     }
     for (const ModelInstanceHandle handle : instances.handles())
     {
@@ -1099,7 +1103,6 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
         for (const ModelPrimitive &primitive : mesh.primitives)
         {
             PrimitiveResources primitiveResources;
-            primitiveResources.materialIndex = primitive.materialIndex;
             primitiveResources.indexCount = static_cast<uint32_t>(primitive.indices.size());
             if (!primitive.vertices.empty() && !primitive.indices.empty())
             {

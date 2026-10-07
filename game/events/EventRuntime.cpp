@@ -674,6 +674,7 @@ std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
         case PortraitFxEventKind::AutoNote:
         case PortraitFxEventKind::QuestComplete:
         case PortraitFxEventKind::StatIncrease:
+        case PortraitFxEventKind::StatBaseIncrease:
             return SoundId::Quest;
 
         case PortraitFxEventKind::AwardGain:
@@ -2707,12 +2708,13 @@ int32_t EventRuntime::getVariableValue(
                 return pMember != nullptr ? static_cast<int32_t>(pMember->skillPoints) : 0;
 
             case EvtVariable::MonthIs:
+                // Legacy EVT months are zero-based; the display calendar is one-based.
                 return resolveMonthFromDayOfYear(getVariableValue(
                     runtimeState,
                     decodeVariable(static_cast<uint32_t>(EvtVariable::DayOfYear)),
                     pParty,
                     std::nullopt,
-                    pSceneEventContext));
+                    pSceneEventContext)) - 1;
 
             case EvtVariable::Counter1:
             case EvtVariable::Counter2:
@@ -3114,7 +3116,11 @@ void EventRuntime::setVariableValue(
 
         if (value > previousValue)
         {
-            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatIncrease, pParty, targetMemberIndices);
+            const PortraitFxEventKind kind =
+                variable.kind == VariableKind::BaseStat || variable.kind == VariableKind::BaseResistance
+                    ? PortraitFxEventKind::StatBaseIncrease
+                    : PortraitFxEventKind::StatIncrease;
+            queuePortraitFxRequest(runtimeState, kind, pParty, targetMemberIndices);
         }
         else if (value < previousValue)
         {
@@ -3124,11 +3130,6 @@ void EventRuntime::setVariableValue(
         if ((variable.kind == VariableKind::BaseStat || variable.kind == VariableKind::BaseResistance)
             && value > previousValue)
         {
-            for (size_t memberIndex : targetMemberIndices)
-            {
-                pParty->requestSpeech(memberIndex, SpeechId::StatBaseIncreased);
-            }
-
             queuePermanentVariableStatusMessage(
                 runtimeState,
                 variable.rawId,
@@ -3667,12 +3668,12 @@ void EventRuntime::addVariableValue(
 
     if (variable.kind == VariableKind::History)
     {
-        const int32_t updatedValue = previousValue != 0 ? previousValue : (value != 0 ? 1 : 0);
-        runtimeState.variables[variable.rawId] = updatedValue;
+        // Legacy History Add records a milestone regardless of its argument (usually zero).
+        runtimeState.variables[variable.rawId] = 1;
         std::unordered_map<uint32_t, int32_t> &historyTimes =
             mutableHistoryEventTimesForActiveContinent(runtimeState);
 
-        if (updatedValue != 0 && previousValue == 0)
+        if (previousValue == 0)
         {
             historyTimes[variable.index] = std::max(1, currentGameMinutesFromRuntimeState(runtimeState));
             synchronizeLegacyHistoryMirror(runtimeState);
@@ -3833,7 +3834,11 @@ void EventRuntime::addVariableValue(
 
         if (value > 0)
         {
-            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::StatIncrease, pParty, targetMemberIndices);
+            const PortraitFxEventKind kind =
+                variable.kind == VariableKind::BaseStat || variable.kind == VariableKind::BaseResistance
+                    ? PortraitFxEventKind::StatBaseIncrease
+                    : PortraitFxEventKind::StatIncrease;
+            queuePortraitFxRequest(runtimeState, kind, pParty, targetMemberIndices);
         }
         else if (value < 0)
         {
@@ -4737,9 +4742,15 @@ const EventRuntime *readableEventRuntime(lua_State *pLuaState)
     return pExecutionContext != nullptr ? pExecutionContext->pEventRuntime : nullptr;
 }
 
-std::vector<size_t> selectedTargetMemberIndices(lua_State *pLuaState)
+std::vector<size_t> selectedTargetMemberIndices(lua_State *pLuaState, bool usePartyWideInventory = false)
 {
     LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    if (pExecutionContext != nullptr && usePartyWideInventory
+        && pExecutionContext->selector.kind == PartySelectorKind::None)
+    {
+        // Unselected inventory removal must search the same party-wide scope as Cmp/HasItem.
+        return resolveTargetMemberIndices({PartySelectorKind::All, 0}, readableParty(pLuaState));
+    }
     return pExecutionContext != nullptr ? resolveTargetMemberIndices(pExecutionContext->selector, readableParty(pLuaState))
                                         : std::vector<size_t>();
 }
@@ -6159,6 +6170,7 @@ int luaSetSprite(lua_State *pLuaState)
     }
 
     pRuntimeState->spriteOverrides[cogNumber] = std::move(spriteOverride);
+    ++pRuntimeState->indoorLightRevision;
     GAMEPLAY_DEBUG_TRACE(
         std::string("event_set_sprite")
         + " map=\"" + pRuntimeState->mapFileName + "\""
@@ -7528,12 +7540,14 @@ int luaAdd(lua_State *pLuaState)
 int luaSubtract(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const EventRuntime::VariableRef variable =
+        EventRuntime::decodeVariable(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)));
     EventRuntime::subtractVariableValue(
         *pRuntimeState,
-        EventRuntime::decodeVariable(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))),
+        variable,
         static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)),
         writableParty(pLuaState),
-        selectedTargetMemberIndices(pLuaState));
+        selectedTargetMemberIndices(pLuaState, variable.kind == EventRuntime::VariableKind::Inventory));
     return 0;
 }
 
@@ -7541,12 +7555,14 @@ int luaSet(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const EventRuntime::VariableRef variable =
+        EventRuntime::decodeVariable(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)));
     EventRuntime::setVariableValue(
         *pRuntimeState,
-        EventRuntime::decodeVariable(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))),
+        variable,
         static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)),
         writableParty(pLuaState),
-        selectedTargetMemberIndices(pLuaState),
+        selectedTargetMemberIndices(pLuaState, variable.kind == EventRuntime::VariableKind::Inventory),
         readonlySceneEventContext(pExecutionContext));
     return 0;
 }

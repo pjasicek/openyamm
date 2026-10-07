@@ -36,6 +36,16 @@ with SIGTERM, waits up to ten seconds, and kills only its own child if necessary
 `--prepare-only` creates the setup without opening a window. Failed save loads stop instead of starting a different game.
 All runs retain their records for review; delete their temporary directories when no longer needed.
 
+For a one-shot resource and per-view GPU timing diagnostic, add
+`--set debug.effect_stats_delay_seconds=12`. This opts into bgfx GPU timestamp queries and writes
+`[GpuViewPerf]` entries with view names and microseconds. Leave it unset for ordinary FPS comparisons;
+the extra timing queries themselves have a cost.
+
+Optional screen-space ambient occlusion is under Settings → Video → Colour & effects. For an isolated run,
+use `--set video.ambient_occlusion=true` and optionally `--set video.ambient_occlusion_strength=35` (0–100).
+It defaults to disabled; disabling it or setting strength to zero removes its render targets and GPU passes.
+It works independently of cinematic grading and applies to opaque world geometry and 3D models.
+
 ## Native screenshots and YAML tours
 
 The normal `main` build includes engine-native PNG capture through bgfx's screenshot callback.

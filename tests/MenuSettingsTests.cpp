@@ -72,6 +72,35 @@ TEST_CASE("menu binding reservation and equality follow native single input bind
     CHECK_FALSE(sameMenuBinding(mouseButtonInputBinding(SDL_BUTTON_LEFT), mouseButtonInputBinding(SDL_BUTTON_RIGHT)));
 }
 
+TEST_CASE("mouse wheel bindings distinguish directions and survive settings save and load")
+{
+    const InputBinding up = mouseWheelInputBinding(1.0f);
+    const InputBinding down = mouseWheelInputBinding(-1.0f);
+    CHECK(mouseWheelInputBinding(0.0f).kind == InputBindingKind::None);
+    CHECK_FALSE(reservedMenuBinding(up));
+    CHECK_FALSE(reservedMenuBinding(down));
+    CHECK(sameMenuBinding(up, parseInputBindingName("MouseWheelUp")));
+    CHECK(sameMenuBinding(down, parseInputBindingName("Wheel Down")));
+    CHECK(sameMenuBinding(up, parseInputBindingName(inputBindingName(up))));
+    CHECK(sameMenuBinding(down, parseInputBindingName(inputBindingName(down))));
+    CHECK_FALSE(sameMenuBinding(up, down));
+    CHECK_FALSE(sameMenuBinding(up, mouseButtonInputBinding(SDL_BUTTON_LEFT)));
+    CHECK(inputBindingDisplayName(up) == "Wheel Up");
+    CHECK(inputBindingDisplayName(down) == "Wheel Down");
+
+    GameSettings settings = GameSettings::createDefault();
+    settings.keyboard.setBinding(KeyboardAction::FlyUp, up);
+    settings.keyboard.setBinding(KeyboardAction::FlyDown, down);
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-wheel-settings.ini";
+    std::string error;
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded, error);
+    CHECK(sameMenuBinding(up, loaded->keyboard.binding(KeyboardAction::FlyUp)));
+    CHECK(sameMenuBinding(down, loaded->keyboard.binding(KeyboardAction::FlyDown)));
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("invert mouse Y defaults off and persists menu changes")
 {
     const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-invert-mouse-settings.ini";
@@ -143,5 +172,37 @@ TEST_CASE("enemy health settings migrate legacy toggles and roundtrip the replac
     CHECK(loaded->enemyHealthBarMode == "nearby");
     CHECK(loaded->enemyHealthBarValues == "all");
     CHECK_FALSE(loaded->enemyHealthBarDamageTrail);
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("ambient occlusion is optional and its intensity validates and persists")
+{
+    GameSettings settings = GameSettings::createDefault();
+    CHECK_FALSE(settings.ambientOcclusion);
+    CHECK(settings.ambientOcclusionStrength == 35);
+    REQUIRE(setMenuSettingValue(settings, "ambient_occlusion", "true"));
+    REQUIRE(setMenuSettingValue(settings, "ambient_occlusion_strength", "42"));
+    CHECK_FALSE(setMenuSettingValue(settings, "ambient_occlusion", "yes"));
+    for (const std::string value : {"-1", "101", "35junk", ""})
+    {
+        CHECK_FALSE(setMenuSettingValue(settings, "ambient_occlusion_strength", value));
+    }
+    CHECK(menuSettingValue(settings, "ambient_occlusion") == "true");
+    CHECK(menuSettingValue(settings, "ambient_occlusion_strength") == "42");
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-ao-settings.ini";
+    std::string error;
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded, error);
+    CHECK(loaded->ambientOcclusion);
+    CHECK(loaded->ambientOcclusionStrength == 42);
+    {
+        std::ofstream file(path);
+        file << "[video]\nambient_occlusion=false\nambient_occlusion_strength=900\n";
+    }
+    const std::optional<GameSettings> bounded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(bounded, error);
+    CHECK_FALSE(bounded->ambientOcclusion);
+    CHECK(bounded->ambientOcclusionStrength == 100);
     std::filesystem::remove(path);
 }

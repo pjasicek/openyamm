@@ -848,8 +848,14 @@ function support.removeGlobalEvent(eventId)
 end
 
 function support.replaceMapEvent(eventId, title, handler, hint)
+    local meta = ensureMetaScope("map")
+    local contextAction = meta.contextActions[eventId]
+    local openedChestIds = meta.openedChestIds[eventId]
     support.removeMapEvent(eventId)
     support.registerEvent(eventId, title, handler, hint)
+    -- Replacing behavior keeps the interaction type; repurposed events can set or clear it explicitly.
+    meta.contextActions[eventId] = contextAction
+    meta.openedChestIds[eventId] = openedChestIds
 end
 
 function support.replaceGlobalEvent(eventId, title, handler, hint)

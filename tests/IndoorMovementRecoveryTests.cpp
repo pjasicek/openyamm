@@ -4,6 +4,9 @@
 #include "game/maps/MapDeltaData.h"
 #include "tests/RegressionMapLoader.h"
 
+#include <cmath>
+#include <utility>
+
 using namespace OpenYAMM::Game;
 
 namespace
@@ -95,4 +98,61 @@ TEST_CASE("goblinwatch wall recovery cannot jump through the closed entrance cor
         false, 1.0f / 128.0f, nullptr, 43, false, nullptr, false, false, 420, 1, false, true, false, true, true);
     CHECK_LT(resolved.y, 4448.0f);
     CHECK_GE(resolved.x, -320.0f);
+}
+
+TEST_CASE("sloped indoor tile edge slack keeps support within the tile height range")
+{
+    IndoorMapData map;
+    map.vertices = {{-2040, -64, 496}, {-1928, -64, 448}, {-1928, 64, 448}, {-2040, 64, 496}};
+    IndoorFace tile;
+    tile.vertexIndices = {0, 1, 2, 3};
+    tile.facetType = 4;
+    map.faces = {tile};
+
+    for (const std::pair<float, float> &probe : {std::pair{-1927.24f, 448.0f},
+             std::pair{-2041.0f, 496.0f}, std::pair{-1984.0f, 472.0f}})
+    {
+        const IndoorFloorSample floor = sampleIndoorFloorOnFace(
+            map, map.vertices, 0, probe.first, 0, 449.854f, 50, 160);
+        REQUIRE(floor.hasFloor);
+        CHECK_EQ(floor.height, doctest::Approx(probe.second));
+    }
+}
+
+TEST_CASE("silver helm sloped platforms admit slow walking without jumping")
+{
+    using namespace OpenYAMM::Tests;
+    REQUIRE_MESSAGE(regressionMapLoaderLoaded(), regressionMapLoaderFailure());
+    GameDataLoader data = regressionMapLoader().gameDataLoader;
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(regressionMapLoader().assetFileSystem, "6d07.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    REQUIRE(loaded.indoorMapDeltaData.has_value());
+    std::optional<EventRuntimeState> events = EventRuntimeState{};
+    for (const MapDeltaDoor &door : loaded.indoorMapDeltaData->doors)
+    {
+        if (door.doorId >= 21 && door.doorId <= 27)
+        {
+            // Open has distance zero: these horizontal mechanisms are the first flight of tiles.
+            events->mechanisms[door.doorId] = RuntimeMechanismState{};
+        }
+    }
+
+    for (float speed : {96.0f, 384.0f, 768.0f})
+    {
+        CAPTURE(speed);
+        IndoorMovementController controller(*loaded.indoorMapData, &loaded.indoorMapDeltaData, &events);
+        const IndoorBodyDimensions body = {};
+        IndoorMoveState state = controller.initializeStateFromEyePosition(-1419.356f, 4787.935f, 416, body);
+        REQUIRE(state.grounded);
+        const int stepCount = int(std::ceil(1024.0f / speed * 128.0f));
+        for (int step = 0; step < stepCount; ++step)
+        {
+            state = controller.resolveMove(state, body, speed * std::cos(3.119f), speed * std::sin(3.119f),
+                false, 1.0f / 128.0f, nullptr, std::nullopt, true);
+        }
+        CHECK_LT(state.x, -2330.0f);
+        CHECK(state.grounded);
+        CHECK_EQ(state.footZ, doctest::Approx(640.0f));
+        CHECK_EQ(state.supportFaceIndex, 1520u);
+    }
 }

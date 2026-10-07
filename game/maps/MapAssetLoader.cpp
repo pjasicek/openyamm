@@ -2,6 +2,7 @@
 #include "game/render/WaterAppearance.h"
 #include "game/data/ActorNameResolver.h"
 #include "game/events/EvtEnums.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDecorationTextures.h"
@@ -2210,6 +2211,13 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
                 textureRequests,
                 billboardSet.spriteFrameTable,
                 pDecoration->spriteId);
+        }
+        if (entity.scriptEventId() == 0)
+        {
+            if (const DecorationEntry *counterpart = toggleableDecorationCounterpart(billboardSet.decorationTable, *pDecoration))
+            {
+                appendSpriteFrameTextures(textureRequests, billboardSet.spriteFrameTable, counterpart->spriteId);
+            }
         }
     }
 

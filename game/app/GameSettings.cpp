@@ -914,6 +914,18 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "ambient_occlusion"))
+    {
+        parseBoolValue(*value, settings.ambientOcclusion);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "ambient_occlusion_strength"))
+    {
+        int parsed = settings.ambientOcclusionStrength;
+        if (parseIntValue(*value, parsed))
+        {
+            settings.ambientOcclusionStrength = std::clamp(parsed, 0, 100);
+        }
+    }
     if (const std::optional<std::string> value = getIniValue(document, "video", "cinematic_grading"))
     {
         parseBoolValue(*value, settings.cinematicGrading);
@@ -1814,6 +1826,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "model_lods=" << (settings.modelLods ? "true" : "false") << '\n'
         << "sprite_outline=" << (settings.spriteOutline ? "true" : "false") << '\n'
         << "texture_filtering=" << (settings.textureFiltering ? "true" : "false") << '\n'
+        << "ambient_occlusion=" << (settings.ambientOcclusion ? "true" : "false") << '\n'
+        << "ambient_occlusion_strength=" << settings.ambientOcclusionStrength << '\n'
         << "cinematic_grading=" << (settings.cinematicGrading ? "true" : "false") << '\n'
         << "cinematic_strength=" << settings.cinematicStrength << '\n'
         << "lightmaps=" << (settings.lightmaps ? "true" : "false") << '\n'

@@ -8,6 +8,13 @@ Three original OpenYAMM recipes using CC0 artwork, integrated 2026-09-22:
 | Ember Impact | `openyamm:fx/ember_impact` | Animated fire, outward embers, ground pulse, separately fading alpha smoke |
 | Arcane Pulse | `openyamm:fx/arcane_pulse` | Purple energy knot, expanding rings, radial sparks |
 
+`openyamm:fx/creature_fire_hand` is a separate original moving-emitter recipe using the already imported
+MM9 fire-bolt sprite. It attaches to a creature socket, emits two world-space sprites at about 30 Hz and
+retains them for 180 ms. After native visibility review, sprite dimensions are five times the original hand
+recipe's values, with the same count and lifetime. Stopping emission drains that short trail. It is silent and adds no model, light
+or ribbon geometry. Its imported artwork retains the MM9 resource provenance; it is outside the CC0
+showcase artwork described below.
+
 The common `engine/effects/library.yml` and `resource_bindings.yml` import both this directory and the
 generated MM9 library. Both indoor and outdoor runtimes load those common entry points. Imports use full
 virtual asset paths; cycles/repeated imports, duplicate effect IDs and duplicate bound resource IDs fail
@@ -15,7 +22,7 @@ loading. A failed load preserves the current library. Edit `library.yml` here fo
 importer does not overwrite this directory.
 
 These effects are available to the runtime by ID. They do not replace existing spell or melee bindings.
-All recipes use the `predictable` profile, Z-up coordinates and a foot/ground-level origin. The effects
+The showcase recipes use the `predictable` profile, Z-up coordinates and a foot/ground-level origin. The effects
 are silent. Textures are 128×128: four static sprites and sixteen fireball frames, 1.25 MiB RGBA8 before
 mipmaps if all are resident. Textures load on use.
 

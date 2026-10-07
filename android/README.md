@@ -91,8 +91,19 @@ OPENYAMM_ANDROID_RELEASE_ABIS=arm64-v8a android/run_release_emulator.sh
 ```
 
 For manual public builds, bump `openyamm.android.versionName` and `openyamm.android.versionCode` in
-`android/gradle.properties`. Tagged CI builds derive both values from an `X.Y` release tag. See
+`android/gradle.properties`, or provide `OPENYAMM_ANDROID_VERSION_NAME` and `OPENYAMM_ANDROID_VERSION_CODE`.
+The code must exceed every published APK being replaced; the local defaults match the original 1.0 release
+(`1.0` / `10000`). CI uses `10000 + GITHUB_RUN_NUMBER * 100 + GITHUB_RUN_ATTEMPT` for commits, nightlies and
+tags. Tagged builds keep their `X.Y` display name; other builds use `nightly-<run>.<attempt>`.
+This allows updates from 1.0 to a nightly and from a nightly to a later tagged build.
+Keep the same workflow and signing key to preserve this sequence. See
 `android/WEB_HOSTING_CHECKLIST.md` for the hosted APK checklist.
+
+Check the workflow's version handling without building an APK:
+
+```sh
+python3 packaging/test_android_versions.py
+```
 
 ## Package CI Signing
 
@@ -101,7 +112,7 @@ The build generates `AndroidShaderPaths.h` from the CMake runtime shader list. S
 the extracted files against the APK contents and updates missing or changed shaders, including
 changes that preserve file size. User settings and saves remain in the existing external directory.
 
-CI builds the signed ARM64 release APK, verifies its signature and packaged ABI, and generates a SHA256 checksum
+CI builds the signed ARM64 release APK, verifies its signature, resolved version metadata and packaged ABI, and generates a SHA256 checksum
 before uploading it. Emulator runtime checks are run manually.
 
 The asset filter retains underscore-prefixed directories so the `_legacy/sprites_original` bake dependencies

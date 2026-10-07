@@ -122,3 +122,4 @@ ReplaceMapEvent(60, "Exit", function()
         evt.StatusText("The door is locked")
     end
 end, "Exit")
+SetMapContextAction(60, {kind = "leave_dungeon", source = "authored", targetMap = "oute3.odm", targetName = "Exit"})

@@ -100,7 +100,8 @@ class IndoorLightingRuntime
 public:
     void rebuildStaticCache(
         const IndoorMapData &mapData,
-        const DecorationBillboardSet *pDecorationBillboardSet);
+        const DecorationBillboardSet *pDecorationBillboardSet,
+        const EventRuntimeState *pState = nullptr);
     void clearStaticCache();
     IndoorLightingFrame buildFrame(const IndoorLightingFrameInput &input) const;
 
@@ -168,14 +169,16 @@ private:
     {
         std::vector<CachedLightSource> sources;
         std::vector<std::vector<uint32_t>> sourceIndicesBySector;
+        uint64_t lightRevision = 0;
         bool valid = false;
     };
 
     static StaticLightCache buildStaticCache(
         const IndoorMapData &mapData,
-        const DecorationBillboardSet *pDecorationBillboardSet);
+        const DecorationBillboardSet *pDecorationBillboardSet,
+        const EventRuntimeState *pState);
     static uint32_t lightColorAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, bool coloredLights);
 
-    StaticLightCache m_staticLightCache;
+    mutable StaticLightCache m_staticLightCache;
 };
 }

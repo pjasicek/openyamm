@@ -1,10 +1,18 @@
 #include "engine/models/ModelAsset.h"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
 namespace OpenYAMM::Engine
 {
+std::optional<uint32_t> ModelAsset::findMaterialVariant(const std::string &name) const
+{
+    const auto iterator = std::find(materialVariants.begin(), materialVariants.end(), name);
+    return iterator == materialVariants.end() ? std::nullopt
+        : std::optional<uint32_t>(uint32_t(iterator - materialVariants.begin()) + 1);
+}
+
 std::optional<uint32_t> ModelAsset::findNode(const std::string &name) const
 {
     const auto iterator = nodeIndicesByName.find(name);

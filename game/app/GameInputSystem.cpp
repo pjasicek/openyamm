@@ -379,6 +379,14 @@ void GameInputSystem::updateFromEngineInput(
                 || (binding.mouseButton == SDL_BUTTON_RIGHT && rightMouseButtonHeld)
                 || (binding.mouseButton == SDL_BUTTON_MIDDLE && middleMouseButtonHeld);
         }
+        else if (binding.kind == InputBindingKind::MouseWheelUp)
+        {
+            held = m_frame.mouseWheelDelta > 0.0f;
+        }
+        else if (binding.kind == InputBindingKind::MouseWheelDown)
+        {
+            held = m_frame.mouseWheelDelta < 0.0f;
+        }
 
         actionHeld[keyboardActionIndex(definition.action)] = held;
     }
@@ -832,6 +840,11 @@ void GameInputSystem::updateFromEngineInput(
     for (size_t actionIndex = 0; actionIndex < actionHeld.size(); ++actionIndex)
     {
         m_frame.actions[actionIndex] = buildButtonState(actionHeld[actionIndex], m_previousActionHeld[actionIndex]);
+        const InputBindingKind kind = settings.keyboard.bindings[actionIndex].kind;
+        if (kind == InputBindingKind::MouseWheelUp || kind == InputBindingKind::MouseWheelDown)
+        {
+            m_frame.actions[actionIndex].pressed = actionHeld[actionIndex];
+        }
     }
 
     m_previousKeyboardHeld = m_frame.keyboardHeld;

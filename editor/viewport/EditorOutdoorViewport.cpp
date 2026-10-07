@@ -2541,8 +2541,8 @@ std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildTerrainVertices
             const bx::Vec3 bottomRight =
                 worldPointFromTerrainGrid(gridX + 1, gridY + 1, outdoorMapData.heightMap[bottomRightIndex]);
 
-            appendProceduralTriangle(vertices, topLeft, bottomLeft, topRight, terrainOrigin, fallbackNormal);
-            appendProceduralTriangle(vertices, topRight, bottomLeft, bottomRight, terrainOrigin, fallbackNormal);
+            appendProceduralTriangle(vertices, topLeft, bottomRight, topRight, terrainOrigin, fallbackNormal);
+            appendProceduralTriangle(vertices, topLeft, bottomLeft, bottomRight, terrainOrigin, fallbackNormal);
         }
     }
 
@@ -2585,8 +2585,8 @@ std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildTerrainErrorVer
             const bx::Vec3 bottomRight =
                 worldPointFromTerrainGrid(gridX + 1, gridY + 1, outdoorMapData.heightMap[bottomRightIndex]);
 
-            appendProceduralTriangle(vertices, topLeft, bottomLeft, topRight, terrainOrigin, fallbackNormal);
-            appendProceduralTriangle(vertices, topRight, bottomLeft, bottomRight, terrainOrigin, fallbackNormal);
+            appendProceduralTriangle(vertices, topLeft, bottomRight, topRight, terrainOrigin, fallbackNormal);
+            appendProceduralTriangle(vertices, topLeft, bottomLeft, bottomRight, terrainOrigin, fallbackNormal);
         }
     }
 
@@ -2629,9 +2629,9 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedTerrainVe
                 worldPointFromTerrainGrid(gridX + 1, gridY + 1, outdoorMapData.heightMap[bottomRightIndex]);
 
             vertices.push_back({topLeft.x, topLeft.y, topLeft.z, region.u0, region.v0});
-            vertices.push_back({bottomLeft.x, bottomLeft.y, bottomLeft.z, region.u0, region.v1});
+            vertices.push_back({bottomRight.x, bottomRight.y, bottomRight.z, region.u1, region.v1});
             vertices.push_back({topRight.x, topRight.y, topRight.z, region.u1, region.v0});
-            vertices.push_back({topRight.x, topRight.y, topRight.z, region.u1, region.v0});
+            vertices.push_back({topLeft.x, topLeft.y, topLeft.z, region.u0, region.v0});
             vertices.push_back({bottomLeft.x, bottomLeft.y, bottomLeft.z, region.u0, region.v1});
             vertices.push_back({bottomRight.x, bottomRight.y, bottomRight.z, region.u1, region.v1});
         }

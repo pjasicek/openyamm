@@ -536,7 +536,7 @@ int EngineApplication::run() const
 
             if (event.type == SDL_EVENT_MOUSE_WHEEL)
             {
-                mouseWheelDelta += event.wheel.y;
+                mouseWheelDelta += event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -event.wheel.y : event.wheel.y;
             }
 
             if (m_eventCallback)

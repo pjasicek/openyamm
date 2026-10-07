@@ -91,7 +91,9 @@ def package(source, output, *, sprites=None, profile=None, dependencies=None):
         relative = path.relative_to(source)
         if any(".cook-" in part or part.endswith(".previous") for part in relative.parts):
             raise ValueError(f"Finish/recover the sprite deployment before packaging: {path}")
-        if "_legacy" in relative.parts or (sprites is not None and relative.parts[0] == "sprites_new"):
+        # Development actor payloads/bindings and render fixtures stay outside release bundles.
+        if (relative.parts[0] == "models" or "_legacy" in relative.parts
+                or (sprites is not None and relative.parts[0] == "sprites_new")):
             continue
         if path.is_symlink():
             raise ValueError(f"Resolve asset symlinks before packaging: {path}")

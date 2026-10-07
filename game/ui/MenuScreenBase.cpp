@@ -12,7 +12,6 @@
 #include <array>
 #include <cctype>
 #include <cstdint>
-#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -24,28 +23,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-struct PcxHeader
-{
-    uint8_t manufacturer = 0;
-    uint8_t version = 0;
-    uint8_t encoding = 0;
-    uint8_t bitsPerPixel = 0;
-    uint16_t xMin = 0;
-    uint16_t yMin = 0;
-    uint16_t xMax = 0;
-    uint16_t yMax = 0;
-    uint16_t hDpi = 0;
-    uint16_t vDpi = 0;
-    uint8_t colorMap[48] = {};
-    uint8_t reserved = 0;
-    uint8_t colorPlanes = 0;
-    uint16_t bytesPerLine = 0;
-    uint16_t paletteType = 0;
-    uint16_t hScreenSize = 0;
-    uint16_t vScreenSize = 0;
-    uint8_t filler[54] = {};
-};
-
 std::string toLowerCopy(const std::string &value)
 {
     std::string normalized = value;
@@ -194,201 +171,45 @@ bgfx::ProgramHandle loadProgram(const char *pVertexShaderName, const char *pFrag
     return bgfx::createProgram(vertexShader, fragmentShader, true);
 }
 
-bool decodePcxRleScanline(const std::vector<uint8_t> &bytes, size_t &offset, std::vector<uint8_t> &scanline)
-{
-    size_t writeOffset = 0;
-
-    while (writeOffset < scanline.size() && offset < bytes.size())
-    {
-        uint8_t value = bytes[offset++];
-        uint8_t count = 1;
-
-        if ((value & 0xc0) == 0xc0)
-        {
-            count = value & 0x3f;
-
-            if (offset >= bytes.size())
-            {
-                return false;
-            }
-
-            value = bytes[offset++];
-        }
-
-        for (uint8_t repeatIndex = 0; repeatIndex < count && writeOffset < scanline.size(); ++repeatIndex)
-        {
-            scanline[writeOffset++] = value;
-        }
-    }
-
-    return writeOffset == scanline.size();
-}
-
-std::optional<std::vector<uint8_t>> decodePcxPixelsBgra(const std::vector<uint8_t> &bytes, int &width, int &height)
-{
-    if (bytes.size() < sizeof(PcxHeader))
-    {
-        return std::nullopt;
-    }
-
-    PcxHeader header = {};
-    std::memcpy(&header, bytes.data(), sizeof(PcxHeader));
-
-    if (header.manufacturer != 0x0a || header.encoding != 1 || header.bitsPerPixel != 8)
-    {
-        return std::nullopt;
-    }
-
-    width = static_cast<int>(header.xMax) - static_cast<int>(header.xMin) + 1;
-    height = static_cast<int>(header.yMax) - static_cast<int>(header.yMin) + 1;
-
-    if (width <= 0 || height <= 0 || header.bytesPerLine == 0)
-    {
-        return std::nullopt;
-    }
-
-    const size_t scanlineSize = static_cast<size_t>(header.bytesPerLine) * header.colorPlanes;
-    size_t offset = sizeof(PcxHeader);
-    std::vector<uint8_t> scanline(scanlineSize);
-    std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4, 255);
-
-    std::array<uint8_t, 256 * 3> palette = {};
-    const bool hasPalette = header.colorPlanes != 1
-        || (bytes.size() >= 769 && bytes[bytes.size() - 769] == 0x0c);
-
-    if (header.colorPlanes == 1)
-    {
-        if (!hasPalette)
-        {
-            return std::nullopt;
-        }
-
-        std::memcpy(palette.data(), bytes.data() + bytes.size() - 768, 768);
-    }
-
-    for (int y = 0; y < height; ++y)
-    {
-        if (!decodePcxRleScanline(bytes, offset, scanline))
-        {
-            return std::nullopt;
-        }
-
-        for (int x = 0; x < width; ++x)
-        {
-            const size_t pixelOffset = static_cast<size_t>((y * width + x) * 4);
-            uint8_t red = 0;
-            uint8_t green = 0;
-            uint8_t blue = 0;
-
-            if (header.colorPlanes == 1)
-            {
-                const size_t paletteOffset = static_cast<size_t>(scanline[static_cast<size_t>(x)]) * 3;
-                red = palette[paletteOffset + 0];
-                green = palette[paletteOffset + 1];
-                blue = palette[paletteOffset + 2];
-            }
-            else if (header.colorPlanes == 3)
-            {
-                red = scanline[static_cast<size_t>(x)];
-                green = scanline[static_cast<size_t>(header.bytesPerLine) + static_cast<size_t>(x)];
-                blue = scanline[static_cast<size_t>(header.bytesPerLine) * 2 + static_cast<size_t>(x)];
-            }
-            else
-            {
-                return std::nullopt;
-            }
-
-            pixels[pixelOffset + 0] = blue;
-            pixels[pixelOffset + 1] = green;
-            pixels[pixelOffset + 2] = red;
-
-            const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
-            const bool isPinkKey = red >= 248 && green >= 48 && green <= 64 && blue >= 248;
-            const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
-            const bool isBlueKey = red <= 8 && green <= 8 && blue >= 248;
-            pixels[pixelOffset + 3] = (isMagentaKey || isPinkKey || isTealKey || isBlueKey) ? 0 : 255;
-        }
-    }
-
-    return pixels;
-}
-
 std::optional<std::vector<uint8_t>> loadTexturePixelsBgra(
     const std::vector<uint8_t> &bytes,
     const std::string &path,
     int &width,
     int &height)
 {
+    Engine::ImageDecodeOptions decodeOptions = {};
+    decodeOptions.applyMagentaTransparencyKey = true;
+    decodeOptions.applyTealTransparencyKey = true;
+    std::optional<Engine::ImagePixelsBgra> image = Engine::decodeImagePixelsBgra(bytes, path, decodeOptions);
+
+    if (!image)
+    {
+        return std::nullopt;
+    }
+
+    // Preserve legacy menu color keys, including PNG replacements with PCX/BMP names.
     const std::string lowerPath = toLowerCopy(path);
-
-    if (lowerPath.size() >= 4 && lowerPath.substr(lowerPath.size() - 4) == ".pcx")
+    const bool isPcx = lowerPath.ends_with(".pcx");
+    const bool isBmp = lowerPath.ends_with(".bmp");
+    if (isPcx || isBmp)
     {
-        return decodePcxPixelsBgra(bytes, width, height);
-    }
-
-    if (lowerPath.size() >= 4 && lowerPath.substr(lowerPath.size() - 4) == ".png")
-    {
-        Engine::ImageDecodeOptions decodeOptions = {};
-        decodeOptions.applyMagentaTransparencyKey = true;
-        decodeOptions.applyTealTransparencyKey = true;
-
-        const std::optional<Engine::ImagePixelsBgra> image =
-            Engine::decodeImagePixelsBgra(bytes, path, decodeOptions);
-
-        if (!image)
+        for (size_t offset = 0; offset < image->pixels.size(); offset += 4)
         {
-            return std::nullopt;
-        }
-
-        width = image->width;
-        height = image->height;
-        return image->pixels;
-    }
-
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bytes.data(), bytes.size());
-
-    if (pIoStream == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    width = pConvertedSurface->w;
-    height = pConvertedSurface->h;
-    std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
-    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixels.size());
-    SDL_DestroySurface(pConvertedSurface);
-
-    for (size_t pixelOffset = 0; pixelOffset + 3 < pixels.size(); pixelOffset += 4)
-    {
-        const uint8_t blue = pixels[pixelOffset + 0];
-        const uint8_t green = pixels[pixelOffset + 1];
-        const uint8_t red = pixels[pixelOffset + 2];
-        const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
-        const bool isPinkKey = red >= 248 && green >= 48 && green <= 64 && blue >= 248;
-        const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
-
-        if (isMagentaKey || isPinkKey || isTealKey)
-        {
-            pixels[pixelOffset + 3] = 0;
+            const uint8_t blue = image->pixels[offset];
+            const uint8_t green = image->pixels[offset + 1];
+            const uint8_t red = image->pixels[offset + 2];
+            const bool isPinkKey = red >= 248 && green >= 48 && green <= 64 && blue >= 248;
+            const bool isBlueKey = isPcx && red <= 8 && green <= 8 && blue >= 248;
+            if (isPinkKey || isBlueKey)
+            {
+                image->pixels[offset + 3] = 0;
+            }
         }
     }
 
-    return pixels;
+    width = image->width;
+    height = image->height;
+    return std::move(image->pixels);
 }
 }
 

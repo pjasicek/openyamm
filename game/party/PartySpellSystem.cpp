@@ -1029,7 +1029,7 @@ bx::Vec3 resolveActorTargetPoint(const GameplayRuntimeActorState &actor)
     return {
         actor.preciseX,
         actor.preciseY,
-        actor.preciseZ + std::max(48.0f, static_cast<float>(actor.height) * 0.6f)
+        actor.preciseZ + GameMechanics::actorTargetHeight(actor.height)
     };
 }
 
@@ -2821,7 +2821,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 if (areaSpellAffectsVisibleCreatures(spellId))
                 {
                     const float actorTargetZ =
-                        actor.preciseZ + std::max(48.0f, static_cast<float>(actor.height) * 0.6f);
+                        actor.preciseZ + GameMechanics::actorTargetHeight(actor.height);
 
                     if (!isActorPointInsideSpellView(request, actor.preciseX, actor.preciseY, actorTargetZ))
                     {

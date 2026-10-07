@@ -714,6 +714,10 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
     const bool fixed = (m_bindingGroup == "All actions" || m_bindingGroup == "System") && m_search.empty();
     const float contentHeight = std::ceil(filtered.size() / 2.0f) * 30 + (fixed ? 85 : 0);
     scrollViewport(viewport, contentHeight, m_scroll);
+    if (m_capture && mouseWheelDelta() != 0.0f)
+    {
+        acceptBinding(mouseWheelInputBinding(mouseWheelDelta()));
+    }
     setDesignClip(viewport);
     const float scale = designScale();
     for (size_t i = 0; i < filtered.size(); ++i)
@@ -753,7 +757,8 @@ void MainMenuScreen::captureBinding(KeyboardAction action)
     m_searchEditing = false;
     setTextEditing(false);
     m_capture = action;
-    confirm("Assign Key", std::string(keyboardBindingDefinition(action).label) + "\nPress a key or mouse button.",
+    confirm("Assign Key", std::string(keyboardBindingDefinition(action).label) +
+            "\nPress a key, mouse button, or scroll the wheel.",
             {"Cancel", "Clear", "Left Mouse"},
             [this, action](int choice)
             {

@@ -8,6 +8,11 @@ uniform vec4 u_gradeParams;
 void main()
 {
     vec4 original = texture2D(s_gradeScene, v_texcoord0);
+    if (u_gradeParams.x <= 0.0)
+    {
+        gl_FragColor = original;
+        return;
+    }
     vec3 uvw = clamp(original.rgb, 0.0, 1.0) * u_gradeParams.y + u_gradeParams.z;
     vec3 graded = texture3D(s_gradeLut, uvw).rgb;
     gl_FragColor = vec4(mix(original.rgb, graded, u_gradeParams.x), original.a);

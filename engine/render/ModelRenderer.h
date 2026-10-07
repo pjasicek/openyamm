@@ -59,7 +59,7 @@ public:
         const std::function<ModelRenderLighting(const ModelBounds &)> &lightingForBounds = {},
         const ModelSkyEnvironment *pSkyEnvironment = nullptr,
         const std::function<bool(const ModelBounds &)> &visibleBounds = {}, float focalPixels = 0,
-        int forcedLod = -1);
+        int forcedLod = -1, uint16_t transparentView = UINT16_MAX);
 
 private:
     struct PrimitiveResources
@@ -68,7 +68,6 @@ private:
         bgfx::VertexBufferHandle skinnedVertexBuffer = BGFX_INVALID_HANDLE;
         bgfx::IndexBufferHandle indexBuffer = BGFX_INVALID_HANDLE;
         uint32_t indexCount = 0;
-        int materialIndex = -1;
         std::array<float, 3> center = {};
     };
 

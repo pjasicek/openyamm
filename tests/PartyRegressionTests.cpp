@@ -138,6 +138,78 @@ bool hasPendingSound(const OpenYAMM::Game::Party &party, OpenYAMM::Game::SoundId
 }
 }
 
+TEST_CASE("meditation regenerates mana on Merge five-minute game ticks")
+{
+    using namespace OpenYAMM::Game;
+    Party party;
+    party.seed(createRegressionPartySeed());
+    Character *pMember = party.member(1);
+    REQUIRE(pMember != nullptr);
+    pMember->maxSpellPoints = 100;
+    pMember->spellPoints = 0;
+    pMember->skills["Meditation"] = {"Meditation", 19, SkillMastery::Normal};
+
+    SUBCASE("mastery and effective skill determine the amount")
+    {
+        pMember->itemSkillBonuses["Meditation"] = 1;
+        for (SkillMastery mastery : {SkillMastery::Normal, SkillMastery::Expert,
+                                    SkillMastery::Master, SkillMastery::Grandmaster})
+        {
+            pMember->skills["Meditation"].mastery = mastery;
+            pMember->spellPoints = 0;
+            party.advanceTimedStates(300.0f);
+            CHECK_EQ(pMember->spellPoints, static_cast<int>(mastery) + 2);
+        }
+    }
+
+    SUBCASE("partial ticks survive derived state refresh and save restoration")
+    {
+        party.advanceTimedStates(299.0f);
+        CHECK_EQ(pMember->spellPoints, 0);
+        party.refreshDerivedState();
+        Party restored;
+        restored.restoreSnapshot(party.snapshot());
+        restored.advanceTimedStates(1.0f);
+        REQUIRE(restored.member(1) != nullptr);
+        CHECK_EQ(restored.member(1)->spellPoints, 2);
+        restored.advanceTimedStates(600.0f);
+        CHECK_EQ(restored.member(1)->spellPoints, 6);
+    }
+
+    SUBCASE("waiting caps mana and crossing the weekly boundary retains the tick phase")
+    {
+        party.advanceTimedStates(7.0f * 24.0f * 3600.0f + 299.0f);
+        CHECK_EQ(pMember->spellPoints, Party::effectiveMaximumSpellPoints(*pMember));
+        pMember->spellPoints = 0;
+        party.advanceTimedStates(1.0f);
+        CHECK_EQ(pMember->spellPoints, 2);
+    }
+
+    SUBCASE("unconscious and zombie members regenerate but dead and petrified members do not")
+    {
+        for (CharacterCondition condition : {CharacterCondition::Unconscious, CharacterCondition::Zombie,
+                                            CharacterCondition::Dead, CharacterCondition::Petrified,
+                                            CharacterCondition::Eradicated})
+        {
+            pMember->conditions.reset();
+            pMember->conditions.set(static_cast<size_t>(condition));
+            pMember->spellPoints = 0;
+            party.advanceTimedStates(300.0f);
+            const bool eligible =
+                condition == CharacterCondition::Unconscious || condition == CharacterCondition::Zombie;
+            CHECK_EQ(pMember->spellPoints, eligible ? 2 : 0);
+        }
+    }
+
+    SUBCASE("unlearned meditation does not grant mana")
+    {
+        pMember->skills["Meditation"].mastery = SkillMastery::None;
+        party.advanceTimedStates(300.0f);
+        CHECK_EQ(pMember->spellPoints, 0);
+        CHECK_EQ(party.member(0)->spellPoints, 20);
+    }
+}
+
 TEST_CASE("default party seed only creates the first test member")
 {
     OpenYAMM::Game::Party party = {};

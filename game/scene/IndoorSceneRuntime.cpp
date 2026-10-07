@@ -2,6 +2,7 @@
 
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/gameplay/TravelRuntime.h"
 #include "game/maps/MapAssetLoader.h"
@@ -314,6 +315,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     : m_map(map)
     , m_mapFileName(mapFileName)
     , m_pIndoorMapData(&indoorMapData)
+    , m_pIndoorDecorationTable(pIndoorDecorationBillboardSet != nullptr ? &pIndoorDecorationBillboardSet->decorationTable : nullptr)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
@@ -401,6 +403,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     : m_map(map)
     , m_mapFileName(mapFileName)
     , m_pIndoorMapData(&indoorMapData)
+    , m_pIndoorDecorationTable(pIndoorDecorationBillboardSet != nullptr ? &pIndoorDecorationBillboardSet->decorationTable : nullptr)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
@@ -932,9 +935,6 @@ bool IndoorSceneRuntime::activateEvent(
     size_t sourceIndex,
     const std::optional<EventRuntimeState::ActiveDecorationContext> &activeDecorationContext)
 {
-    static_cast<void>(sourceKind);
-    static_cast<void>(sourceIndex);
-
     if (!m_eventRuntimeState)
     {
         return false;
@@ -942,6 +942,11 @@ bool IndoorSceneRuntime::activateEvent(
 
     if (eventId == 0)
     {
+        if (sourceKind == "entity" && m_pIndoorMapData != nullptr && m_pIndoorDecorationTable != nullptr
+            && toggleIndoorDecorationLight(*m_pIndoorMapData, *m_pIndoorDecorationTable, sourceIndex, *m_eventRuntimeState))
+        {
+            return true;
+        }
         m_eventRuntimeState->lastActivationResult = "no event on hovered target";
         return false;
     }

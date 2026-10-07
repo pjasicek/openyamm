@@ -45,6 +45,8 @@ public:
     bool contains(ModelInstanceHandle handle) const;
     bool setTransform(ModelInstanceHandle handle, const ModelTransform &transform);
     bool setVisible(ModelInstanceHandle handle, bool visible);
+    bool setMaterialVariant(ModelInstanceHandle handle, uint32_t variant);
+    uint32_t materialVariant(ModelInstanceHandle handle) const;
     bool setOutlineColor(ModelInstanceHandle handle, uint32_t colorAbgr);
     uint32_t outlineColor(ModelInstanceHandle handle) const;
     bool setNodeMarkersVisible(ModelInstanceHandle handle, bool visible);
@@ -80,6 +82,7 @@ private:
         bool active = false;
         bool visible = true;
         uint32_t outlineColorAbgr = 0;
+        uint32_t materialVariant = 0;
         bool nodeMarkersVisible = false;
         bool playing = false;
         bool paused = false;

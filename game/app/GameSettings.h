@@ -151,6 +151,8 @@ struct GameSettings
     int resolutionWidth = 1600;
     int resolutionHeight = 900;
     bool verticalSync = false;
+    bool ambientOcclusion = false;
+    int ambientOcclusionStrength = 35;
     bool cinematicGrading = true;
     int cinematicStrength = 60;
 

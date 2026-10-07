@@ -13963,6 +13963,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.velocityY = pActor->velocityY;
     state.castingSpell = pActor->queuedAttackAbility == MonsterAttackAbility::Spell1
         || pActor->queuedAttackAbility == MonsterAttackAbility::Spell2;
+    state.secondaryAttack = pActor->queuedAttackAbility == MonsterAttackAbility::Attack2;
     state.castingSpellId = pActor->queuedAttackAbility == MonsterAttackAbility::Spell1
         ? pActor->spell1Id : pActor->spell2Id;
     state.attackImpactTriggered = pActor->attackImpactTriggered;
@@ -14873,7 +14874,7 @@ std::optional<GameplayWorldPoint> OutdoorWorldRuntime::partyAttackFallbackProjec
     return GameplayWorldPoint{
         .x = pActor->preciseX,
         .y = pActor->preciseY,
-        .z = pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f),
+        .z = pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height),
     };
 }
 
@@ -14930,7 +14931,7 @@ bool OutdoorWorldRuntime::partyAttackActorHasLineOfSight(size_t actorIndex) cons
     const bx::Vec3 target = {
         pActor->preciseX,
         pActor->preciseY,
-        pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f),
+        pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height),
     };
 
     return hasClearOutdoorLineOfSight(source, target);
@@ -16884,7 +16885,7 @@ std::vector<size_t> OutdoorWorldRuntime::collectVisibleMapActorIndicesWithinRadi
             continue;
         }
 
-        const float viewTargetZ = actor.preciseZ + std::max(48.0f, static_cast<float>(actor.height) * 0.6f);
+        const float viewTargetZ = actor.preciseZ + GameMechanics::actorTargetHeight(actor.height);
         if (!outdoorPointInsideViewCone(
                 viewX,
                 viewY,

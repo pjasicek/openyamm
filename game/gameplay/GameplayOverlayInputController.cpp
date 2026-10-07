@@ -1613,6 +1613,16 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
 
     if (keyboardScreen.waitingForBinding)
     {
+        if (input.mouseWheelDelta != 0.0f)
+        {
+            view.mutableSettings().keyboard.setBinding(
+                keyboardScreen.pendingAction,
+                mouseWheelInputBinding(input.mouseWheelDelta));
+            keyboardScreen.waitingForBinding = false;
+            view.commitSettingsChange();
+            return true;
+        }
+
         const std::optional<SDL_Scancode> reboundScancode =
             firstNewlyPressedScancode(pKeyboardState, view.previousKeyboardState());
 
