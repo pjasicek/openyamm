@@ -1146,6 +1146,7 @@ void OutdoorInteractionController::rebuildInteractiveDecorationBindings(OutdoorG
         binding.baseEventId = bindingSpec->baseEventId;
         binding.eventCount = bindingSpec->eventCount;
         binding.hideWhenCleared = bindingSpec->hideWhenCleared;
+        binding.fixedEvent = bindingSpec->fixedEvent;
     }
 }
 
@@ -1201,19 +1202,9 @@ std::optional<uint16_t> OutdoorInteractionController::resolveInteractiveDecorati
         return std::nullopt;
     }
 
-    uint8_t state = pEventRuntimeState->decorVars[pBinding->decorVarIndex];
-
-    if (pBinding->hideWhenCleared && state == pBinding->eventCount)
-    {
-        return std::nullopt;
-    }
-
-    if (state >= pBinding->eventCount)
-    {
-        state = 0;
-    }
-
-    return static_cast<uint16_t>(pBinding->baseEventId + state);
+    return interactiveDecorationEventId(
+        pEventRuntimeState->decorVars[pBinding->decorVarIndex],
+        pBinding->baseEventId, pBinding->eventCount, pBinding->hideWhenCleared, pBinding->fixedEvent);
 }
 
 std::optional<std::string> OutdoorInteractionController::resolveInteractiveDecorationHoverText(

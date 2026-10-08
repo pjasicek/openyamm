@@ -119,7 +119,7 @@ TEST_CASE("screenshot launch directives are read but never persisted")
     CHECK(reloaded->effectSpawnId.empty());
     CHECK_EQ(reloaded->effectSpawnCount, 1u);
     CHECK_EQ(reloaded->effectStatsDelaySeconds, doctest::Approx(-1.0f));
-    CHECK_FALSE(reloaded->actorModels);
+    CHECK(reloaded->actorModels);    // a persisted toggle, unlike the launch directives
     CHECK(reloaded->actorModelsManifest.empty());
     CHECK_EQ(reloaded->actorSpawnId, 0);
     CHECK(reloaded->modelSpawnPath.empty());

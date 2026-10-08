@@ -3424,36 +3424,59 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "actor",
         .description = "Count or spawn ordinary table-driven monsters on the current map.",
-        .usage = "actor count <id> [ids...] | actor spawn <id> <count> <x> <y> <z> [group]",
+        .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly]",
         .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
         {
             if (!context.args.empty() && toLowerCopy(context.args[0]) == "spawn")
             {
-                if (context.args.size() < 6 || context.args.size() > 7)
+                // actor spawn <id> <count> <x> <y> <z> [group|friendly], or without a position:
+                // actor spawn <id> [count] [group|friendly] places them in front of the party.
+                const bool positioned = context.args.size() == 6 || context.args.size() == 7;
+                if (context.args.size() < 2 || context.args.size() > 7 || (!positioned && context.args.size() > 4))
                 {
-                    return commandResult(false, "Usage: actor spawn <id> <count> <x> <y> <z> [group]");
+                    return commandResult(false, "Usage: actor spawn <id> [count] [x y z] [group|friendly]");
                 }
+                const size_t modeIndex = positioned ? 6 : 3;
+                const bool hasMode = context.args.size() > modeIndex;
+                // "friendly" summons party-allied monsters (no combat), e.g. for repeatable rendering benchmarks.
+                const bool friendly = hasMode && toLowerCopy(context.args[modeIndex]) == "friendly";
                 const std::optional<int32_t> id = parseInt32Argument(context.args[1]);
-                const std::optional<int32_t> count = parseInt32Argument(context.args[2]);
-                const std::optional<float> x = parseFloatArgument(context.args[3]);
-                const std::optional<float> y = parseFloatArgument(context.args[4]);
-                const std::optional<float> z = parseFloatArgument(context.args[5]);
-                const std::optional<int32_t> group = context.args.size() == 7
-                    ? parseInt32Argument(context.args[6]) : std::optional<int32_t>(0);
+                const std::optional<int32_t> count = context.args.size() > 2
+                    ? parseInt32Argument(context.args[2]) : std::optional<int32_t>(1);
+                const std::optional<int32_t> group = hasMode && !friendly
+                    ? parseInt32Argument(context.args[modeIndex]) : std::optional<int32_t>(0);
+                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
+                std::optional<float> x;
+                std::optional<float> y;
+                std::optional<float> z;
+                if (positioned)
+                {
+                    x = parseFloatArgument(context.args[3]);
+                    y = parseFloatArgument(context.args[4]);
+                    z = parseFloatArgument(context.args[5]);
+                }
+                else if (pWorld != nullptr)
+                {
+                    constexpr float SpawnDistance = 300.0f;
+                    const float yaw = pWorld->gameplayCameraYawRadians();
+                    x = pWorld->partyX() + std::cos(yaw) * SpawnDistance;
+                    y = pWorld->partyY() + std::sin(yaw) * SpawnDistance;
+                    z = pWorld->partyFootZ();
+                }
                 if (!id || *id < 1 || *id > 32767 || !count || *count < 1 || *count > 128 || !group || *group < 0
                     || !x || !y || !z || !std::isfinite(*x) || !std::isfinite(*y) || !std::isfinite(*z))
                 {
                     return commandResult(false, "Invalid monster id, count, position or group.");
                 }
-                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
-                const bool spawned = pWorld != nullptr && pWorld->summonHostileMonsterById(
-                    int16_t(*id), uint32_t(*count), *x, *y, *z, uint32_t(*group));
+                const bool spawned = pWorld != nullptr && (friendly
+                    ? pWorld->summonFriendlyMonsterById(int16_t(*id), uint32_t(*count), 3600.0f, *x, *y, *z)
+                    : pWorld->summonHostileMonsterById(int16_t(*id), uint32_t(*count), *x, *y, *z, uint32_t(*group)));
                 return commandResult(spawned, spawned ? "Monsters spawned." : "Monster spawn failed.");
             }
             if (context.args.size() < 2 || toLowerCopy(context.args[0]) != "count")
             {
                 return commandResult(false,
-                    "Usage: actor count <id> [ids...] | actor spawn <id> <count> <x> <y> <z> [group]");
+                    "Usage: actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly]");
             }
 
             IGameplayWorldRuntime *pWorldRuntime = activeGameplayWorld();
@@ -7287,6 +7310,7 @@ void GameApplication::synchronizeSessionFromRuntime()
             m_pMapSceneRuntime->currentMapFileName(),
             m_pMapSceneRuntime->party(),
             snapshot);
+        m_gameSession.setCameraAngles(m_indoorRenderer.cameraYawRadians(), m_indoorRenderer.cameraPitchRadians());
 
         const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
@@ -8107,12 +8131,14 @@ bool GameApplication::applyCurrentSessionToRuntime(bool initializeView)
 
         if (initializeView)
         {
-            m_outdoorGameView.setCameraAngles(
-                m_gameSession.outdoorCameraYawRadians(),
-                m_gameSession.outdoorCameraPitchRadians());
+            m_outdoorGameView.setCameraAngles(m_gameSession.cameraYawRadians(), m_gameSession.cameraPitchRadians());
         }
 
         applyCurrentSettingsToActiveRuntime();
+    }
+    else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor && initializeView && m_gameSession.cameraAnglesValid())
+    {
+        m_indoorRenderer.setCameraAngles(m_gameSession.cameraYawRadians(), m_gameSession.cameraPitchRadians());
     }
 
     synchronizeSessionFromRuntime();
@@ -9744,6 +9770,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
                 requestApplicationQuit();
                 return;
             }
+            worldFx.setActorAnimationLod(m_settings.modelLods);
             worldFx.syncActorModels(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         }
         m_gameSession.gameplayFxService().consumePendingWorldFxRequests(

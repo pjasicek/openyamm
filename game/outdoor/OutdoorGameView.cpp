@@ -3722,6 +3722,11 @@ void OutdoorGameView::shutdown()
     m_terrainDecorationLightCount = 0;
     m_terrainDecorationTileNames.reset();
     m_terrainDecorationsInitializationAttempted = false;
+    m_decorationModels.clear();
+    m_decorationModelProbes.clear();
+    m_decorationModelProbeSampled.clear();
+    m_pDecorationModelProbeSource = nullptr;
+    m_decorationModelsInitializationAttempted = false;
     m_outdoorSpatialFxRuntime.reset();
     m_outdoorLightingRuntime.reset();
     m_bakedProbeCache.clear();

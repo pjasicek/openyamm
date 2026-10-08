@@ -159,7 +159,7 @@ bool ModelInstanceSystem::setTransform(ModelInstanceHandle handle, const ModelTr
     if (pSlot->rootTransform != transform)
     {
         pSlot->rootTransform = transform;
-        evaluate(*pSlot);
+        evaluate(*pSlot, false);
     }
     return true;
 }
@@ -350,8 +350,9 @@ bool ModelInstanceSystem::sampleBlended(ModelInstanceHandle handle, uint32_t cli
         return false;
     }
     const float clampedTime = std::min(timeSeconds, pSlot->asset->clips[clipIndex].durationSeconds);
-    const bool changed = !pSlot->clipSelected || pSlot->clipIndex != clipIndex
-        || pSlot->timeSeconds != clampedTime || pSlot->rootTransform != transform || pSlot->layer != layer;
+    const bool localChanged = !pSlot->clipSelected || pSlot->clipIndex != clipIndex
+        || pSlot->timeSeconds != clampedTime || pSlot->layer != layer;
+    const bool changed = localChanged || pSlot->rootTransform != transform;
     const bool transition = pSlot->clipSelected && (restart || pSlot->clipIndex != clipIndex
         || pSlot->layer.clipIndex != layer.clipIndex || pSlot->layer.mask != layer.mask);
     if (transitionSeconds <= 0.0f)
@@ -380,7 +381,7 @@ bool ModelInstanceSystem::sampleBlended(ModelInstanceHandle handle, uint32_t cli
     pSlot->timeSeconds = clampedTime;
     if (changed || blending)
     {
-        evaluate(*pSlot);
+        evaluate(*pSlot, localChanged || blending);
     }
     return true;
 }
@@ -487,6 +488,22 @@ const ModelBounds *ModelInstanceSystem::bounds(ModelInstanceHandle handle) const
     return &pSlot->bounds;
 }
 
+const ModelBounds *ModelInstanceSystem::pickingBounds(ModelInstanceHandle handle) const
+{
+    const Slot *pSlot = find(handle);
+    if (pSlot == nullptr)
+    {
+        return nullptr;
+    }
+    evaluateMatrices(*pSlot);
+    if (pSlot->pickingBoundsRevision != pSlot->pose.matrixRevision)
+    {
+        pSlot->pickingBounds = modelExactPoseBounds(*pSlot->asset, pSlot->pose, true);
+        pSlot->pickingBoundsRevision = pSlot->pose.matrixRevision;
+    }
+    return &pSlot->pickingBounds;
+}
+
 const ModelBounds *ModelInstanceSystem::cullingBounds(ModelInstanceHandle handle) const
 {
     const Slot *pSlot = find(handle);
@@ -567,8 +584,9 @@ const ModelInstanceSystem::Slot *ModelInstanceSystem::find(ModelInstanceHandle h
     return slot.active && slot.generation == handle.generation ? &slot : nullptr;
 }
 
-void ModelInstanceSystem::evaluate(Slot &slot)
+void ModelInstanceSystem::evaluate(Slot &slot, bool localPoseChanged)
 {
+    slot.localPoseDirty = slot.localPoseDirty || localPoseChanged;
     const float radius = slot.deformationBounds->motionRadius * std::max({std::abs(slot.rootTransform.scale[0]),
         std::abs(slot.rootTransform.scale[1]), std::abs(slot.rootTransform.scale[2])});
     slot.motionBounds = {slot.rootTransform.translation, slot.rootTransform.translation,
@@ -590,7 +608,7 @@ void ModelInstanceSystem::evaluateMatrices(const Slot &slot) const
     {
         return;
     }
-    if (slot.clipSelected && !slot.asset->clips.empty())
+    if (slot.localPoseDirty && slot.clipSelected && !slot.asset->clips.empty())
     {
         evaluateModelClip(*slot.asset, slot.clipIndex, slot.timeSeconds, slot.pose);
         if (slot.layer.weight > 0.0f)
@@ -604,10 +622,11 @@ void ModelInstanceSystem::evaluateMatrices(const Slot &slot) const
                 1.0f - slot.transitionElapsed / slot.transitionDuration);
         }
     }
-    else
+    else if (slot.localPoseDirty)
     {
         resetModelPose(*slot.asset, slot.pose);
     }
+    slot.localPoseDirty = false;
     evaluateModelHierarchy(*slot.asset, composeModelTransform(slot.rootTransform), slot.pose);
     ++slot.pose.matrixRevision;
     // Nonnegative, normalized skin weights keep each vertex inside the union of its joint bounds.

@@ -89,6 +89,9 @@ public:
     bool configureActorModels(const Engine::AssetFileSystem &assets, const std::string &manifestPath,
         const MonsterTable &monsters, const SpriteFrameTable *pSpriteFrames, std::string &error);
     void syncActorModels(const IGameplayWorldRuntime &world, float deltaSeconds = 0.0f);
+    // Animation LOD: actors far from the party sample their clips at 15 Hz (beyond ~14 m) and 8 Hz (beyond ~28 m).
+    // Off by default (exact clip timing, e.g. for diagnostics); the game enables it with the model LOD setting.
+    void setActorAnimationLod(bool enabled) { m_actorAnimationLod = enabled; }
     bool hasActorModel(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelBounds(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelCullingBounds(size_t actorIndex) const;
@@ -183,8 +186,15 @@ private:
         float yawOffset = 0.0f;
         float zOffset = 0.0f;
         bool disintegrates = false;
+        // Fireball burst at the body centre when dying starts (models whose native death is an explosion).
+        bool explodes = false;
         float height = 0.0f;
         uint32_t castClip = UINT32_MAX;
+        // Size of the palm cast charge glow, its sparks and light relative to the default charge.
+        float castGlowScale = 1.0f;
+        // Optional second charge glow at a held focus (e.g. a staff head), with its own size.
+        uint32_t castFocusSocket = UINT32_MAX;
+        float castFocusGlowScale = 1.0f;
         uint32_t runClip = UINT32_MAX;
         float strideLength = 0.0f;
         std::shared_ptr<const std::vector<float>> upperBodyMask;
@@ -200,6 +210,7 @@ private:
         uint32_t actorId = 0;
         int16_t monsterId = 0;
         bool dying = false;
+        float deathClipTime = -1.0f;
         bool initialized = false;
         float yaw = 0.0f;
         float previousX = 0.0f;
@@ -221,10 +232,14 @@ private:
         bool previousImpact = false;
         bool hasCastOrigin = false;
         float castOriginAge = 0.0f;
-        std::array<float, 3> castOrigin = {};
+        // Palm midpoint and/or focus socket; castOriginScales are the bindings' glow scales.
+        std::array<std::array<float, 3>, 2> castOrigins = {};
+        std::array<float, 2> castOriginScales = {};
+        size_t castOriginCount = 0;
         const ActorModelBinding *pBinding = nullptr;
     };
     bool m_actorModelsConfigured = false;
+    bool m_actorAnimationLod = false;
     std::unordered_map<std::string, ActorModelBinding> m_actorModelBindings;
     std::unordered_map<size_t, ActorModelInstance> m_actorModels;
     void syncActorModelFx(const IGameplayWorldRuntime &world, float deltaSeconds, bool refreshSpatialFx);

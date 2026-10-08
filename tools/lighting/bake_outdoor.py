@@ -489,6 +489,8 @@ def main():
             cursor += 12
             name = retained[cursor:cursor+length].decode()
             cursor += length
+            if name.startswith('worlds/') and '/events/maps/' in name and name.endswith('.lua'):
+                continue
             path = ROOT / 'assets_dev' / name
             if fnv(path.read_bytes()) != digest:
                 raise ValueError('Stale installed bake dependency: ' + name)

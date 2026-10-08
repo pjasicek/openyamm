@@ -6329,10 +6329,26 @@ TEST_CASE("interactive decoration rules cover MM6 and MM7 indoor loot decoration
     const std::optional<OpenYAMM::Game::InteractiveDecorationBindingSpec> smallBagSpec =
         OpenYAMM::Game::resolveInteractiveDecorationBindingSpec(makeDecoration("bag_A", "bag"), "bag_A");
     REQUIRE(smallBagSpec.has_value());
-    CHECK_EQ(smallBagSpec->family, OpenYAMM::Game::InteractiveDecorationFamily::LargeBag);
-    CHECK_EQ(smallBagSpec->baseEventId, 1743u);
+    CHECK_EQ(smallBagSpec->family, OpenYAMM::Game::InteractiveDecorationFamily::GoldBag);
+    CHECK_EQ(smallBagSpec->baseEventId, 1747u);
     CHECK_EQ(smallBagSpec->eventCount, 5u);
     CHECK(smallBagSpec->hideWhenCleared);
+    CHECK(smallBagSpec->fixedEvent);
+    for (uint8_t state = 0; state <= smallBagSpec->eventCount; ++state)
+    {
+        const std::optional<uint16_t> eventId = OpenYAMM::Game::interactiveDecorationEventId(
+            state, smallBagSpec->baseEventId, smallBagSpec->eventCount,
+            smallBagSpec->hideWhenCleared, smallBagSpec->fixedEvent);
+        if (state == smallBagSpec->eventCount)
+        {
+            CHECK_FALSE(eventId.has_value());
+        }
+        else
+        {
+            REQUIRE(eventId.has_value());
+            CHECK_EQ(*eventId, 1747u);
+        }
+    }
 
     const std::optional<OpenYAMM::Game::InteractiveDecorationBindingSpec> bucketSpec =
         OpenYAMM::Game::resolveInteractiveDecorationBindingSpec(makeDecoration("Bucket", "bucket"), "Bucket");
@@ -6376,7 +6392,8 @@ TEST_CASE("MM6 one-shot bags clear after empty item and gold searches")
 
     const std::string globalSource =
         loadSourceFileText("assets_dev/engine/scripts/common/event_support.lua") + "\n\n"
-        + loadSourceFileText("assets_dev/engine/events/Global.lua");
+        + loadSourceFileText("assets_dev/engine/events/Global.lua") + "\n\n"
+        + loadSourceFileText("assets_dev/engine/events/Global_mm6_gold_bags.lua");
     std::string globalError;
     const std::optional<OpenYAMM::Game::ScriptedEventProgram> globalProgram =
         OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
@@ -6411,7 +6428,11 @@ TEST_CASE("MM6 one-shot bags clear after empty item and gold searches")
             OpenYAMM::Game::EventRuntimeState::ActiveDecorationContext context = {};
             context.decorVarIndex = 0;
             context.baseEventId = bindingSpec->baseEventId;
-            context.currentEventId = static_cast<uint16_t>(bindingSpec->baseEventId + state);
+            const std::optional<uint16_t> eventId = OpenYAMM::Game::interactiveDecorationEventId(
+                state, bindingSpec->baseEventId, bindingSpec->eventCount,
+                bindingSpec->hideWhenCleared, bindingSpec->fixedEvent);
+            REQUIRE(eventId.has_value());
+            context.currentEventId = *eventId;
             context.eventCount = bindingSpec->eventCount;
             context.hideWhenCleared = bindingSpec->hideWhenCleared;
             runtimeState.activeDecorationContext = context;
@@ -6422,14 +6443,16 @@ TEST_CASE("MM6 one-shot bags clear after empty item and gold searches")
             CHECK_EQ(runtimeState.decorVars[0], bindingSpec->eventCount);
             CHECK(OpenYAMM::Game::interactiveDecorationIsCleared(
                 runtimeState.decorVars[0], bindingSpec->eventCount, bindingSpec->hideWhenCleared));
-            if (state == 0)
+            if (bindingSpec->fixedEvent || state == 4)
+            {
+                CHECK_GE(party.gold() - initialGold, 51);
+                CHECK_LE(party.gold() - initialGold, 250);
+                CHECK(runtimeState.grantedItems.empty());
+            }
+            else if (state == 0)
             {
                 REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
                 CHECK_EQ(runtimeState.statusMessages.front(), "Empty bag");
-            }
-            else if (state == 4)
-            {
-                CHECK_GT(party.gold(), initialGold);
             }
             else
             {

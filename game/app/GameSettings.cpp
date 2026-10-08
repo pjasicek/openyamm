@@ -1889,7 +1889,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "new_game_god_lich=" << (settings.newGameGodLich ? "true" : "false") << '\n'
         << "allow_incomplete_character_creation="
         << (settings.allowIncompleteCharacterCreation ? "true" : "false") << '\n'
-        << "console=" << (settings.debugConsole ? "true" : "false") << '\n';
+        << "console=" << (settings.debugConsole ? "true" : "false") << '\n'
+        << "actor_models=" << (settings.actorModels ? "true" : "false") << '\n';
 
     if (!output.good())
     {

@@ -18,20 +18,33 @@ struct Vertex
     uint32_t color;
 };
 
+// Two crossed cards, each a fan over the TerrainDecorationCutoutVertices outline of its tuft layer: the vertex
+// shader places slot x of card y from the layer's cutout (u_terrainDecorationCutout).
 std::vector<Vertex> grassMesh()
 {
     std::vector<Vertex> vertices;
-    for (int axis = 0; axis < 2; ++axis)
+    for (int card = 0; card < 2; ++card)
     {
-        const float x = axis == 0 ? 0.5f : 0.0f;
-        const float y = axis == 1 ? 0.5f : 0.0f;
-        const Vertex a = {-x, -y, 0.0f, 0.0f, 1.0f, 0xffffffff};
-        const Vertex b = {x, y, 0.0f, 1.0f, 1.0f, 0xffffffff};
-        const Vertex c = {-x, -y, 1.0f, 0.0f, 0.0f, 0xffffffff};
-        const Vertex d = {x, y, 1.0f, 1.0f, 0.0f, 0xffffffff};
-        vertices.insert(vertices.end(), {a, b, c, c, b, d});
+        for (size_t slot = 0; slot < TerrainDecorationCutoutVertices; ++slot)
+        {
+            vertices.push_back({float(slot), float(card), 0.0f, 0.0f, 0.0f, 0xffffffff});
+        }
     }
     return vertices;
+}
+
+std::vector<uint16_t> grassIndices()
+{
+    std::vector<uint16_t> indices;
+    for (uint16_t card = 0; card < 2; ++card)
+    {
+        const uint16_t first = uint16_t(card * TerrainDecorationCutoutVertices);
+        for (uint16_t slot = 1; slot + 1 < TerrainDecorationCutoutVertices; ++slot)
+        {
+            indices.insert(indices.end(), {first, uint16_t(first + slot), uint16_t(first + slot + 1)});
+        }
+    }
+    return indices;
 }
 
 std::vector<Vertex> stoneMesh()
@@ -72,9 +85,10 @@ bool TerrainDecorationRenderer::initialize(
     }
     const int columns = config.tuftAtlasGrid[0];
     const int rows = config.tuftAtlasGrid[1];
-    if (texture->width % columns != 0 || texture->height % rows != 0)
+    if (texture->width % columns != 0 || texture->height % rows != 0 || size_t(columns * rows) > MaxTuftLayers)
     {
-        std::cerr << "Terrain decoration atlas dimensions do not match its grid: " << config.tuftTexture << '\n';
+        std::cerr << "Terrain decoration atlas dimensions do not match its grid (at most " << MaxTuftLayers
+                  << " cells): " << config.tuftTexture << '\n';
         shutdown(true);
         return false;
     }
@@ -95,6 +109,20 @@ bool TerrainDecorationRenderer::initialize(
             std::copy_n(texture->pixels.data() + sourceOffset, size_t(cellWidth) * 4,
                         pixels.data() + size_t(y) * cellWidth * 4);
         }
+        // Card outline from the cell's alpha; a low threshold keeps the soft fringe the mips spread outward.
+        std::vector<uint8_t> alpha(size_t(cellWidth) * cellHeight);
+        for (size_t texel = 0; texel < alpha.size(); ++texel)
+        {
+            alpha[texel] = pixels[texel * 4 + 3];
+        }
+        const std::array<std::array<float, 2>, TerrainDecorationCutoutVertices> cutout =
+            terrainDecorationCutout(alpha, cellWidth, cellHeight, 26);
+        for (size_t slot = 0; slot < cutout.size(); ++slot)
+        {
+            const size_t index = size_t(layer) * TerrainDecorationCutoutVertices + slot;
+            m_cutouts[index / 2][(index % 2) * 2] = cutout[slot][0];
+            m_cutouts[index / 2][(index % 2) * 2 + 1] = cutout[slot][1];
+        }
         prepareBgraTexturePixelsForUploadInPlace(cellWidth, cellHeight, pixels, TextureFilterProfile::Billboard);
         updateBgraTextureArrayLayer(m_texture, uint16_t(layer), cellWidth, cellHeight, pixels, 102);
     }
@@ -106,6 +134,9 @@ bool TerrainDecorationRenderer::initialize(
     const std::vector<Vertex> stone = stoneMesh();
     m_grassMesh = bgfx::createVertexBuffer(
         bgfx::copy(grass.data(), uint32_t(grass.size() * sizeof(Vertex))), meshLayout);
+    const std::vector<uint16_t> grassFan = grassIndices();
+    m_grassIndices = bgfx::createIndexBuffer(
+        bgfx::copy(grassFan.data(), uint32_t(grassFan.size() * sizeof(uint16_t))));
     m_stoneMesh = bgfx::createVertexBuffer(
         bgfx::copy(stone.data(), uint32_t(stone.size() * sizeof(Vertex))), meshLayout);
     bgfx::VertexLayout instanceLayout;
@@ -117,7 +148,10 @@ bool TerrainDecorationRenderer::initialize(
         uint32_t(placement.instances.size() * sizeof(TerrainDecorationInstance))), instanceLayout);
     m_sampler = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     m_params = bgfx::createUniform("u_terrainDecorationParams", bgfx::UniformType::Vec4);
+    m_cutoutUniform = bgfx::createUniform("u_terrainDecorationCutout", bgfx::UniformType::Vec4,
+        uint16_t(m_cutouts.size()));
     if (!bgfx::isValid(m_texture) || !bgfx::isValid(m_instances) || !bgfx::isValid(m_grassMesh) ||
+        !bgfx::isValid(m_grassIndices) || !bgfx::isValid(m_cutoutUniform) ||
         !bgfx::isValid(m_stoneMesh) || !bgfx::isValid(m_sampler) || !bgfx::isValid(m_params))
     {
         shutdown(true);
@@ -155,6 +189,14 @@ void TerrainDecorationRenderer::shutdown(bool destroyResources)
         {
             bgfx::destroy(m_stoneMesh);
         }
+        if (bgfx::isValid(m_grassIndices))
+        {
+            bgfx::destroy(m_grassIndices);
+        }
+        if (bgfx::isValid(m_cutoutUniform))
+        {
+            bgfx::destroy(m_cutoutUniform);
+        }
         if (bgfx::isValid(m_texture))
         {
             bgfx::destroy(m_texture);
@@ -173,6 +215,8 @@ void TerrainDecorationRenderer::shutdown(bool destroyResources)
     m_instances = BGFX_INVALID_HANDLE;
     m_grassMesh = BGFX_INVALID_HANDLE;
     m_stoneMesh = BGFX_INVALID_HANDLE;
+    m_grassIndices = BGFX_INVALID_HANDLE;
+    m_cutoutUniform = BGFX_INVALID_HANDLE;
     m_texture = BGFX_INVALID_HANDLE;
     m_sampler = BGFX_INVALID_HANDLE;
     m_params = BGFX_INVALID_HANDLE;
@@ -240,9 +284,19 @@ void TerrainDecorationRenderer::submit(uint16_t viewId, const TerrainDecorationP
     bool sunShadows)
 {
     const float detailDistance = patch.stone ? std::min(m_distance, 2048.0f) : m_distance;
-    const float params[4] = {elapsedTime, detailDistance * 0.5f, detailDistance, 0.0f};
+    // w: 1 = grass cards cut to their layer's outline, 0 = stones (plain mesh).
+    const float params[4] = {elapsedTime, detailDistance * 0.5f, detailDistance, patch.stone ? 0.0f : 1.0f};
     bgfx::setUniform(m_params, params);
-    bgfx::setVertexBuffer(0, patch.stone ? m_stoneMesh : m_grassMesh);
+    if (patch.stone)
+    {
+        bgfx::setVertexBuffer(0, m_stoneMesh);
+    }
+    else
+    {
+        bgfx::setUniform(m_cutoutUniform, m_cutouts.data(), uint16_t(m_cutouts.size()));
+        bgfx::setVertexBuffer(0, m_grassMesh);
+        bgfx::setIndexBuffer(m_grassIndices);
+    }
     bgfx::setInstanceDataBuffer(m_instances, patch.first, patch.count);
     bgfx::setTexture(0, m_sampler, m_texture);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_Z | BGFX_STATE_DEPTH_TEST_LESS);

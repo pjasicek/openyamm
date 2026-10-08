@@ -1441,6 +1441,16 @@ private:
     std::shared_ptr<const PathMap> m_outdoorLandPathMapSnapshot;
     ActorPathRuntime m_actorPathRuntime;
     double m_actorPathRuntimeSeconds = 0.0;
+    // Actor detection rays (actor to party, actor to actor) are reused for 0.125-0.23 s while both ends stay within
+    // 48 units of the checked positions, like MM8's cached Nearby detection; the AI itself still steps at 128 Hz.
+    struct ActorSightCacheEntry
+    {
+        bool visible = false;
+        double checkedSeconds = 0.0;
+        std::array<float, 3> start = {};
+        std::array<float, 3> end = {};
+    };
+    mutable std::unordered_map<uint64_t, ActorSightCacheEntry> m_actorSightCache;
     size_t m_actorPathPlansThisStep = 0;
     double m_nextActorPathPlanSeconds = 0.0;
     float m_outdoorMechanismGeometryRefreshAccumulatorSeconds = 0.0f;
@@ -1501,8 +1511,9 @@ private:
         bool active,
         float partyX,
         float partyY,
-        float partyZ,
-        std::vector<int8_t> &actorLineOfSightCache) const;
+        float partyZ) const;
+    bool cachedActorLineOfSight(size_t startActorIndex, size_t endActorIndex, const bx::Vec3 &start,
+        const bx::Vec3 &end) const;
     void applyOutdoorActorAiFrameResult(
         const ActorAiFrameResult &result,
         const std::vector<bool> &activeActorMask,

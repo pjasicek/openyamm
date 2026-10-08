@@ -111,6 +111,20 @@ std::array<float, 4> interpolateQuaternion(
     return normalizedQuaternion(result);
 }
 
+// Keyframe rotations are close together: normalized lerp matches slerp within a fraction of a degree, without
+// acos/sin per channel. Pose blends keep interpolateQuaternion.
+std::array<float, 4> nlerpQuaternion(const std::array<float, 4> &left, const std::array<float, 4> &right, float amount)
+{
+    const float dot = left[0] * right[0] + left[1] * right[1] + left[2] * right[2] + left[3] * right[3];
+    const float sign = dot < 0.0f ? -1.0f : 1.0f;
+    std::array<float, 4> result = {};
+    for (size_t component = 0; component < result.size(); ++component)
+    {
+        result[component] = left[component] + (right[component] * sign - left[component]) * amount;
+    }
+    return normalizedQuaternion(result);
+}
+
 void sampleChannel(const ModelAnimationChannel &channel, float timeSeconds, ModelTransform &transform,
     std::vector<float> &weights)
 {
@@ -140,7 +154,7 @@ void sampleChannel(const ModelAnimationChannel &channel, float timeSeconds, Mode
     if (channel.target == ModelAnimationTarget::Rotation)
     {
         transform.rotation = channel.interpolation == ModelAnimationInterpolation::Step
-            ? normalizedQuaternion(left) : interpolateQuaternion(left, right, amount);
+            ? normalizedQuaternion(left) : nlerpQuaternion(left, right, amount);
         return;
     }
 
@@ -348,7 +362,7 @@ ModelBounds modelPoseBounds(const ModelAsset &asset, const ModelPose &pose, cons
     return result;
 }
 
-ModelBounds modelExactPoseBounds(const ModelAsset &asset, const ModelPose &pose)
+ModelBounds modelExactPoseBounds(const ModelAsset &asset, const ModelPose &pose, bool coarsestLod)
 {
     ModelBounds result;
     for (size_t nodeIndex = 0; nodeIndex < asset.nodes.size(); ++nodeIndex)
@@ -370,7 +384,9 @@ ModelBounds modelExactPoseBounds(const ModelAsset &asset, const ModelPose &pose)
                     pose.globalMatrices[skin.joints[i]], skin.inverseBindMatrices[i]));
             }
         }
-        for (const ModelPrimitive &primitive : asset.meshes[node.meshIndex].primitives)
+        const ModelMesh &base = asset.meshes[node.meshIndex];
+        const ModelMesh &mesh = coarsestLod && !base.lodMeshes.empty() ? asset.meshes[base.lodMeshes.back()] : base;
+        for (const ModelPrimitive &primitive : mesh.primitives)
         {
             for (size_t vertexIndex = 0; vertexIndex < primitive.vertices.size(); ++vertexIndex)
             {

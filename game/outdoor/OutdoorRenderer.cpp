@@ -2885,17 +2885,112 @@ void OutdoorRenderer::ensureTerrainDecorations(OutdoorGameView &view, const Outd
         outdoorMapData, *view.m_terrainDecorationTileNames, *config);
     if (!placement.instances.empty())
     {
+        // Grass lights per vertex (the baked vertex shader samples the lightmap); the sun-shadow fragment shaders
+        // relight per pixel.
+        const bool baked = view.m_gameSettings.lightmaps && outdoorMapData.lightingData
+            && outdoorMapData.lightingData->hasBakedSources();
         view.m_terrainDecorations.initialize(*view.m_pAssetFileSystem, *config, std::move(placement),
+            loadProgramHandle(baked ? "vs_terrain_decoration_baked" : "vs_terrain_decoration",
+                baked ? "fs_terrain_decoration_baked" : "fs_terrain_decoration"),
             loadProgramHandle("vs_terrain_decoration",
-                view.m_gameSettings.lightmaps
-                    && outdoorMapData.lightingData
-                    && outdoorMapData.lightingData->hasBakedSources()
-                    ? "fs_terrain_decoration_baked" : "fs_terrain_decoration"),
-            loadProgramHandle("vs_terrain_decoration",
-                view.m_gameSettings.lightmaps
-                    && outdoorMapData.lightingData
-                    && outdoorMapData.lightingData->hasBakedSources()
-                    ? "fs_terrain_decoration_baked_shadow" : "fs_terrain_decoration_shadow"));
+                baked ? "fs_terrain_decoration_baked_shadow" : "fs_terrain_decoration_shadow"));
+    }
+}
+
+void OutdoorRenderer::ensureDecorationModels(OutdoorGameView &view)
+{
+    if (view.m_decorationModelsInitializationAttempted || !view.m_outdoorDecorationBillboardSet
+        || view.m_pAssetFileSystem == nullptr || view.m_pOutdoorMapData == nullptr)
+    {
+        return;
+    }
+    view.m_decorationModelsInitializationAttempted = true;
+    std::string error;
+    if (!view.m_decorationModels.load(*view.m_pAssetFileSystem, view.m_pOutdoorMapData->worldId,
+            view.m_pOutdoorMapData->fileName, *view.m_outdoorDecorationBillboardSet, error))
+    {
+        std::cerr << "Decoration models failed to load: " << error << '\n';
+        view.m_decorationModels.clear();
+        return;
+    }
+    view.m_modelRenderer.preloadStatic(view.m_decorationModels.groups());
+}
+
+void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const OutdoorLightingData *pBakedLighting,
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState)
+{
+    DecorationModelSet &models = view.m_decorationModels;
+    if (models.empty() || !view.m_outdoorDecorationBillboardSet)
+    {
+        return;
+    }
+    const std::vector<DecorationBillboard> &billboards = view.m_outdoorDecorationBillboardSet->billboards;
+    // The sprite each decoration shows now (event SetSprite / hiding) selects its model.
+    models.update(billboards, [&](size_t index, bool &hidden)
+    {
+        const DecorationBillboard &billboard = billboards[index];
+        const uint16_t sprite = OutdoorInteractionController::resolveDecorationBillboardSpriteId(view, billboard, hidden);
+        hidden = hidden || OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex);
+        return sprite;
+    });
+    const bool baked = pBakedLighting != nullptr && pBakedLighting->hasBakedSources() && pAtmosphereState != nullptr;
+    if (view.m_pDecorationModelProbeSource != pBakedLighting || view.m_decorationModelProbes.size() != billboards.size())
+    {
+        view.m_decorationModelProbes.assign(billboards.size(), std::nullopt);
+        view.m_decorationModelProbeSampled.assign(billboards.size(), 0);
+        view.m_pDecorationModelProbeSource = pBakedLighting;
+    }
+    const bool sunReaches = pAtmosphereState != nullptr && !pAtmosphereState->underwater
+        && view.m_pOutdoorMapData->locationType == OutdoorLocationType::Exterior;
+    const std::array<std::array<float, 4>, 2> colors = baked
+        ? outdoorBakedLightingColors(*pAtmosphereState, view.m_gameSettings) : std::array<std::array<float, 4>, 2>{};
+    std::vector<Engine::ModelStaticGroup> &groups = models.groups();
+    const std::optional<std::pair<size_t, uint32_t>> highlighted = OutdoorBillboardRenderer::highlightedDecoration(view);
+    for (size_t group = 0; group < groups.size(); ++group)
+    {
+        Engine::ModelStaticGroup &placements = groups[group];
+        const std::vector<size_t> &billboardIndices = models.billboardIndices(group);
+        for (size_t index = 0; index < placements.placements.size(); ++index)
+        {
+            Engine::ModelStaticPlacement &placement = placements.placements[index];
+            placement.outlineColorAbgr = highlighted && highlighted->first == billboardIndices[index]
+                ? highlighted->second : 0;
+            if (!placement.visible)
+            {
+                continue;
+            }
+            const Engine::ModelBounds &bounds = placements.bounds[index];
+            const std::array<float, 3> center = {(bounds.min[0] + bounds.max[0]) * 0.5f,
+                (bounds.min[1] + bounds.max[1]) * 0.5f, (bounds.min[2] + bounds.max[2]) * 0.5f};
+            const std::array<float, 3> sample =
+                view.m_outdoorLightingRuntime.sampleLightingRgb({center[0], center[1], center[2]});
+            placement.pointLight = {sample[0], sample[1], sample[2]};
+            if (!baked)
+            {
+                placement.light = {1.0f, 1.0f, 1.0f, 1.0f};
+                continue;
+            }
+            const size_t billboard = billboardIndices[index];
+            if (view.m_decorationModelProbeSampled[billboard] == 0)
+            {
+                // Line of sight from the model's centre to the probe grid; decorations never move.
+                view.m_decorationModelProbes[billboard] = pBakedLighting->sampleProbe(center,
+                    [&](const std::array<float, 3> &point)
+                    {
+                        return view.m_pOutdoorWorldRuntime->hasClearOutdoorLineOfSight(
+                            {center[0], center[1], center[2]}, {point[0], point[1], point[2]}, true);
+                    });
+                view.m_decorationModelProbeSampled[billboard] = 1;
+            }
+            const std::optional<OutdoorLightingData::Probe> &probe = view.m_decorationModelProbes[billboard];
+            for (size_t channel = 0; channel < 3; ++channel)
+            {
+                placement.light[channel] = probe
+                    ? probe->sunIndirect[channel] * colors[0][channel] + probe->sky[channel] * colors[1][channel]
+                    : 0.25f * colors[1][channel];
+            }
+            placement.light[3] = probe && sunReaches ? probe->sunVisibility : 0.0f;
+        }
     }
 }
 
@@ -3069,6 +3164,12 @@ bool OutdoorRenderer::initializeWorldRenderResources(
             loadProgramHandle("vs_model_shadow", "fs_model_shadow")))
     {
         return false;
+    }
+    if (!view.m_modelRenderer.initializeStatic(loadProgramHandle("vs_model_instanced", "fs_model"),
+            loadProgramHandle("vs_model_shadow_instanced", "fs_model_shadow"),
+            loadProgramHandle("vs_model_instanced", "fs_model_prepassed")))
+    {
+        std::cerr << "Decoration models require renderer instancing support; decorations stay sprites.\n";
     }
     view.m_outdoorTerrainFogProgramHandle =
         loadProgramHandle("vs_outdoor_textured_fog",
@@ -3945,9 +4046,12 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
         && (!bakedSun || (outdoorBakedLightingWeights(*pAtmosphereState)[0] > 0.001f
             && view.m_gameSettings.bakedSunStrength > 0.001f))
         && view.m_pOutdoorMapData->locationType == OutdoorLocationType::Exterior;
+    ensureDecorationModels(view);
+    updateDecorationModels(view, pLightingData, pAtmosphereState);
     view.m_modelRenderer.renderSunShadows(view.m_worldFxSystem.models(), FirstSunShadowView,
         {cameraPosition.x, cameraPosition.y, cameraPosition.z}, shadowLight, sunlightShadows,
-        view.m_gameSettings.modelShadowQuality, view.m_gameSettings.modelLods);
+        view.m_gameSettings.modelShadowQuality, view.m_gameSettings.modelLods, &view.m_decorationModels.groups(),
+        view.m_elapsedTime);
     if (!view.m_modelRenderer.hasSunShadows() && !view.m_modelRenderer.hasSunShadowResources())
     {
         destroySunReceiverResources(view);
@@ -4848,7 +4952,8 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     modelLighting.fogDistances = modelFog.distances;
     modelLighting.environmentColor = {modelLighting.ambient, modelLighting.ambient, modelLighting.ambient};
     std::optional<Engine::ModelSkyEnvironment> skyEnvironment;
-    if (view.m_worldFxSystem.models().size() != 0 && pAtmosphereState != nullptr && !pAtmosphereState->underwater
+    if ((view.m_worldFxSystem.models().size() != 0 || !view.m_decorationModels.empty())
+        && pAtmosphereState != nullptr && !pAtmosphereState->underwater
         && view.m_pOutdoorMapData->locationType == OutdoorLocationType::Exterior)
     {
         const OutdoorGameView::SkyTextureHandle *pSky = ensureSkyTexture(view, pAtmosphereState->skyTextureName);
@@ -4861,12 +4966,47 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     }
     const float skyTint = pAtmosphereState != nullptr && view.m_pOutdoorWorldRuntime != nullptr
         ? Engine::srgbToLinear(float(computeOutdoorSkyTintAbgr(*view.m_pOutdoorWorldRuntime) & 255) / 255.0f) : 1.0f;
+    const std::function<bool(const Engine::ModelBounds &)> modelVisible = [&](const Engine::ModelBounds &bounds)
+    {
+        return frustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
+            {bounds.max[0], bounds.max[1], bounds.max[2]});
+    };
+    const float modelFocalPixels = view.m_gameSettings.modelLods ? std::abs(pProjectionMatrix[5]) * viewHeight * 0.5f
+        : 0.0f;
+    if (!view.m_decorationModels.empty())
+    {
+        // Placements carry their own ambient and sun visibility; the batch holds the shared sun and sky.
+        Engine::ModelRenderLighting staticLighting = modelLighting;
+        if (pLightingData != nullptr && pLightingData->hasBakedSources() && pAtmosphereState != nullptr)
+        {
+            const std::array<std::array<float, 4>, 2> colors =
+                outdoorBakedLightingColors(*pAtmosphereState, view.m_gameSettings);
+            staticLighting.lightDirection = pLightingData->sunDirection;
+            staticLighting.direct = 1.0f;
+            staticLighting.ambient = 1.0f;
+            for (size_t channel = 0; channel < 3; ++channel)
+            {
+                staticLighting.directColor[channel] = pLightingData->sunDirectResponse[channel] * colors[0][channel];
+                staticLighting.ambientColor[channel] = 1.0f;
+                staticLighting.environmentColor[channel] = skyEnvironment ? skyTint : 0.15f;
+            }
+        }
+        view.m_modelRenderer.renderStatic(view.m_decorationModels.groups(), MainViewId,
+            {cameraPosition.x, cameraPosition.y, cameraPosition.z}, staticLighting,
+            skyEnvironment ? &*skyEnvironment : nullptr, modelVisible, modelFocalPixels,
+            view.m_gameSettings.modelLodOverride, view.m_elapsedTime);
+    }
+    uint32_t modelProbeSamples = 0;
+    std::erase_if(view.m_modelProbeCache, [&](const auto &entry)
+    {
+        return !view.m_worldFxSystem.models().contains({entry.first, entry.second.generation});
+    });
     view.m_modelRenderer.render(
         view.m_worldFxSystem.models(),
         MainViewId,
         {cameraPosition.x, cameraPosition.y, cameraPosition.z},
         modelLighting,
-        [&](const Engine::ModelBounds &modelBounds)
+        [&](Engine::ModelInstanceHandle instance, const Engine::ModelBounds &modelBounds)
         {
             Engine::ModelRenderLighting selected = modelLighting;
             const bx::Vec3 center = {(modelBounds.min[0] + modelBounds.max[0]) * 0.5f,
@@ -4890,12 +5030,31 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                     throw std::runtime_error("3D models require v4 baked sunlight probes; regenerate map lighting");
                 }
                 const std::array<float, 3> position = {center.x, center.y, center.z};
-                const std::optional<OutdoorLightingData::Probe> probe = baked.sampleProbe(position,
-                    [&](const std::array<float, 3> &point)
+                // Probe sampling casts line-of-sight rays to nearby probes: reuse it until the model moves ~30 cm,
+                // re-sampling at most ModelProbeSamplesPerFrame stale instances per frame.
+                constexpr float ModelProbeRefreshDistance = 32.0f;
+                constexpr uint32_t ModelProbeSamplesPerFrame = 8;
+                OutdoorGameView::ModelProbeCacheEntry &cached = view.m_modelProbeCache[instance.index];
+                const bool known = cached.generation == instance.generation && cached.pLightingData == &baked;
+                float moved = 0.0f;
+                for (size_t axis = 0; axis < 3; ++axis)
+                {
+                    moved += (cached.center[axis] - position[axis]) * (cached.center[axis] - position[axis]);
+                }
+                if (!known || (moved > ModelProbeRefreshDistance * ModelProbeRefreshDistance
+                        && modelProbeSamples < ModelProbeSamplesPerFrame))
+                {
+                    cached.probe = baked.sampleProbe(position, [&](const std::array<float, 3> &point)
                     {
                         return view.m_pOutdoorWorldRuntime->hasClearOutdoorLineOfSight(
                             center, {point[0], point[1], point[2]}, true);
                     });
+                    cached.generation = instance.generation;
+                    cached.pLightingData = &baked;
+                    cached.center = position;
+                    modelProbeSamples += known ? 1 : 0;
+                }
+                const std::optional<OutdoorLightingData::Probe> &probe = cached.probe;
                 const std::array<std::array<float, 4>, 2> colors =
                     outdoorBakedLightingColors(*pAtmosphereState, view.m_gameSettings);
                 selected.lightDirection = baked.sunDirection;

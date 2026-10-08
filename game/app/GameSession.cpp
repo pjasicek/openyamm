@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayInteractionController.h"
 #include "game/gameplay/GameplayScreenController.h"
+#include "game/maps/MapIdentity.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 
 #include <cassert>
@@ -249,8 +250,9 @@ void GameSession::clear()
     m_indoorSceneStates.clear();
     m_namedGlobalVars.clear();
     m_gameMinutes = 9.0f * 60.0f;
-    m_outdoorCameraYawRadians = 0.0f;
-    m_outdoorCameraPitchRadians = 0.0f;
+    m_cameraYawRadians = 0.0f;
+    m_cameraPitchRadians = 0.0f;
+    m_cameraAnglesValid = false;
     m_currentSavePath.reset();
     m_pendingMapMove.reset();
     m_framePerformanceDiagnosticsEnabled = false;
@@ -1360,20 +1362,26 @@ void GameSession::applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState)
     }
 }
 
-void GameSession::setOutdoorCameraAngles(float yawRadians, float pitchRadians)
+void GameSession::setCameraAngles(float yawRadians, float pitchRadians)
 {
-    m_outdoorCameraYawRadians = yawRadians;
-    m_outdoorCameraPitchRadians = pitchRadians;
+    m_cameraYawRadians = yawRadians;
+    m_cameraPitchRadians = pitchRadians;
+    m_cameraAnglesValid = true;
 }
 
-float GameSession::outdoorCameraYawRadians() const
+float GameSession::cameraYawRadians() const
 {
-    return m_outdoorCameraYawRadians;
+    return m_cameraYawRadians;
 }
 
-float GameSession::outdoorCameraPitchRadians() const
+float GameSession::cameraPitchRadians() const
 {
-    return m_outdoorCameraPitchRadians;
+    return m_cameraPitchRadians;
+}
+
+bool GameSession::cameraAnglesValid() const
+{
+    return m_cameraAnglesValid;
 }
 
 const std::optional<std::filesystem::path> &GameSession::currentSavePath() const
@@ -1493,8 +1501,7 @@ void GameSession::captureOutdoorRuntimeState(
     }
     m_currentOutdoorWorldState = normalizedWorldSnapshot;
     m_outdoorWorldStates[mapFileName] = normalizedWorldSnapshot;
-    m_outdoorCameraYawRadians = yawRadians;
-    m_outdoorCameraPitchRadians = pitchRadians;
+    setCameraAngles(yawRadians, pitchRadians);
 }
 
 void GameSession::captureIndoorRuntimeState(
@@ -1585,8 +1592,9 @@ std::optional<GameSaveData> GameSession::buildSaveData() const
         }
     }
 
-    saveData.outdoorCameraYawRadians = m_outdoorCameraYawRadians;
-    saveData.outdoorCameraPitchRadians = m_outdoorCameraPitchRadians;
+    saveData.cameraYawRadians = m_cameraYawRadians;
+    saveData.cameraPitchRadians = m_cameraPitchRadians;
+    saveData.cameraAnglesValid = m_cameraAnglesValid;
 
     const GameplayUiController::HeldInventoryItemState &heldItem = m_gameplayUiController.heldInventoryItem();
     saveData.heldInventoryItemActive = heldItem.active;
@@ -1713,8 +1721,15 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
         m_indoorSceneStates[m_currentMapFileName] = *m_currentIndoorSceneState;
     }
 
-    m_outdoorCameraYawRadians = saveData.outdoorCameraYawRadians;
-    m_outdoorCameraPitchRadians = saveData.outdoorCameraPitchRadians;
+    for (const auto &[legacyCanonicalId, canonicalId] : data().mapStats().legacyCanonicalIdRenames())
+    {
+        migrateMapStateKey(m_outdoorWorldStates, legacyCanonicalId, canonicalId);
+        migrateMapStateKey(m_indoorSceneStates, legacyCanonicalId, canonicalId);
+    }
+
+    m_cameraYawRadians = saveData.cameraYawRadians;
+    m_cameraPitchRadians = saveData.cameraPitchRadians;
+    m_cameraAnglesValid = saveData.cameraAnglesValid;
     m_pendingMapMove.reset();
 }
 

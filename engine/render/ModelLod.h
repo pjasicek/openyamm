@@ -49,15 +49,19 @@ inline float modelProjectedPixels(const ModelBounds &bounds, const std::array<fl
     return focalPixels * diameter / std::max(std::sqrt(squared) - diameter * 0.5f, 1.0f);
 }
 
-inline uint32_t modelLodLevel(float pixels, uint32_t previous, uint32_t count, bool shadow = false)
+// Projected sizes (pixels) below which colour LODs 1..3 take over.
+constexpr std::array<float, 3> ModelLodPixels = {500, 200, 80};
+
+inline uint32_t modelLodLevel(float pixels, uint32_t previous, uint32_t count, bool shadow = false,
+    const std::array<float, 3> &colourThresholds = ModelLodPixels)
 {
     if (count <= 1)
     {
         return 0;
     }
     count = std::min(count, 4u);
-    const std::array<float, 3> thresholds = shadow ? std::array<float, 3>{256, 96, 32}
-                                                 : std::array<float, 3>{500, 200, 80};
+    // Shadow sizes are shadow-map texels: a 150-texel creature shadow keeps its silhouette with the 2k-triangle LOD.
+    const std::array<float, 3> thresholds = shadow ? std::array<float, 3>{256, 192, 64} : colourThresholds;
     uint32_t level = std::min(previous, count - 1);
     // Ten percent hysteresis avoids switches while a creature hovers around a screen-size boundary.
     while (level + 1 < count && level < thresholds.size() && pixels < thresholds[level] * 0.9f)

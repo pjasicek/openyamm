@@ -82,4 +82,12 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
     const Engine::AssetFileSystem &assets, const OutdoorMapData &map, std::string &error);
 TerrainDecorationPlacement scatterTerrainDecorations(
     const OutdoorMapData &map, const std::array<std::string, 256> &textures, const TerrainDecorationConfig &config);
+
+// Tight card outline of one tuft texture (alpha, row-major, width x height): a convex polygon of
+// TerrainDecorationCutoutVertices texture coordinates in order (u right, v down; the last vertex repeats when fewer
+// are needed) enclosing every texel with alpha >= threshold plus a small margin, within [0, 1]. A card cut to it skips
+// the transparent area that an alpha test would otherwise shade. An empty texture gives the full quad.
+constexpr size_t TerrainDecorationCutoutVertices = 8;
+std::array<std::array<float, 2>, TerrainDecorationCutoutVertices> terrainDecorationCutout(
+    const std::vector<uint8_t> &alpha, int width, int height, uint8_t threshold);
 } // namespace OpenYAMM::Game

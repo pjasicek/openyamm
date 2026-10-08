@@ -394,9 +394,12 @@ TEST_CASE("ModelAnimation glTF placement maps Y-up into OpenYAMM Z-up")
     CHECK(placement[9] + placement[13] == doctest::Approx(21.0f));
     CHECK(placement[10] + placement[14] == doctest::Approx(30.0f));
     constexpr float HalfPi = 1.5707963267948966192f;
+    // Proper rotation, not a mirror: glTF +X (a forward-facing character's left) maps to OpenYAMM -X.
+    CHECK(placement[0] + placement[12] == doctest::Approx(9.0f));
+    CHECK(determinant3x3(placement) > 0.0f);
     const ModelMatrix yawed = composeModelTransform(gltfModelPlacement({}, HalfPi, 2.0f));
     CHECK(yawed[0] == doctest::Approx(0.0f).epsilon(0.0001));
-    CHECK(yawed[1] == doctest::Approx(2.0f).epsilon(0.0001));
+    CHECK(yawed[1] == doctest::Approx(-2.0f).epsilon(0.0001));
     CHECK(yawed[6] == doctest::Approx(2.0f).epsilon(0.0001));
     CHECK(yawed[8] == doctest::Approx(-2.0f).epsilon(0.0001));
 }
@@ -951,6 +954,130 @@ TEST_CASE("ModelAnimation loader rejects self-referencing LOD metadata")
     const ModelLoadResult loaded = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
     CHECK_FALSE(loaded);
     CHECK(loaded.error.find("LOD reference") != std::string::npos);
+    assets.shutdown();
+    std::filesystem::remove_all(root);
+}
+
+TEST_CASE("ModelAnimation loader reads colour region masks and ramps and rejects incomplete ones")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path root = makeTemporaryRoot();
+    const std::string baseJson = fixtureGltf();
+    const auto withRegions = [&](const std::string &extras)
+    {
+        std::string json = baseJson;
+        const size_t animations = json.find("\"animations\"");
+        REQUIRE(animations != std::string::npos);
+        json.insert(animations, "\"images\": [{\"uri\": \"mask.png\"}], \"textures\": [{\"source\": 0}], ");
+        const size_t material = json.find("\"pbrMetallicRoughness\"");
+        REQUIRE(material != std::string::npos);
+        json.insert(material, "\"extras\": {" + extras + "}, ");
+        return json;
+    };
+    const auto ramp = [](size_t stops)
+    {
+        std::string colors;
+        for (size_t stop = 0; stop < stops; ++stop)
+        {
+            const float position = float(stop) / 15.0f;
+            colors += (stop == 0 ? "[" : ", [") + std::to_string(position) + ", 0, " + std::to_string(1 - position)
+                + "]";
+        }
+        return "{\"range\": [0.1, 0.6], \"colors\": [" + colors + "]}";
+    };
+    const std::string mask = "\"openyamm_region_mask\": {\"index\": 0}";
+    writeFile(root / "assets_dev/engine/models/fixture.bin", fixtureBuffer());
+    // Only the PNG signature is checked at load; decoding happens when the renderer uploads the image.
+    writeFile(root / "assets_dev/engine/models/mask.png", std::string("\x89PNG\r\n\x1a\n", 8));
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", AssetScaleTier::X1));
+
+    writeFile(root / "assets_dev/engine/models/fixture.gltf",
+        withRegions(mask + ", \"openyamm_region_ramps\": [" + ramp(16) + ", " + ramp(16) + "]"));
+    const ModelLoadResult loaded = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    REQUIRE_MESSAGE(loaded, loaded.error);
+    const ModelMaterial &material = loaded.asset->materials[0];
+    CHECK_EQ(material.regionMaskImageIndex, 0);
+    REQUIRE_EQ(material.regionRamps.size(), 2);
+    CHECK_EQ(material.regionRamps[1].luminanceRange[0], doctest::Approx(0.1f));
+    CHECK_EQ(material.regionRamps[1].luminanceRange[1], doctest::Approx(0.6f));
+    CHECK_EQ(material.regionRamps[0].colors[0][2], doctest::Approx(1.0f));
+    CHECK_EQ(material.regionRamps[0].colors[15][0], doctest::Approx(1.0f));
+
+    const std::array<std::pair<std::string, std::string>, 3> invalid = {{
+        {mask, "region mask and one to four ramps"},
+        {mask + ", \"openyamm_region_ramps\": [" + ramp(15) + "]", "16 colours"},
+        {"\"openyamm_region_mask\": {\"index\": 3}, \"openyamm_region_ramps\": [" + ramp(16) + "]", "no texture"},
+    }};
+    for (const auto &[extras, message] : invalid)
+    {
+        writeFile(root / "assets_dev/engine/models/fixture.gltf", withRegions(extras));
+        const ModelLoadResult rejected = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+        CHECK_FALSE(rejected);
+        CHECK_MESSAGE(rejected.error.find(message) != std::string::npos, rejected.error);
+    }
+    assets.shutdown();
+    std::filesystem::remove_all(root);
+}
+
+TEST_CASE("ModelAnimation loader reads vertex colours and static decoration material extras")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path root = makeTemporaryRoot();
+    std::string json = fixtureGltf();
+    // The normal accessor doubles as a VEC3 colour stream.
+    const size_t attributes = json.find("\"TEXCOORD_0\": 2");
+    REQUIRE(attributes != std::string::npos);
+    json.insert(attributes, "\"COLOR_0\": 1, ");
+    const size_t material = json.find("\"pbrMetallicRoughness\"");
+    REQUIRE(material != std::string::npos);
+    json.insert(material,
+        "\"extras\": {\"openyamm_wind\": 0.12, \"openyamm_translucency\": 0.35, \"openyamm_billboard\": true, "
+        "\"openyamm_specular\": 0.1, \"openyamm_uv_scroll\": [0.25, -1.5], \"openyamm_flipbook\": [4, 2, 12], "
+        "\"openyamm_flutter\": 0.1}, ");
+    writeFile(root / "assets_dev/engine/models/fixture.bin", fixtureBuffer());
+    writeFile(root / "assets_dev/engine/models/fixture.gltf", json);
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", AssetScaleTier::X1));
+    const ModelLoadResult loaded = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    REQUIRE_MESSAGE(loaded, loaded.error);
+    const ModelPrimitive &primitive = loaded.asset->meshes[0].primitives[0];
+    REQUIRE_EQ(primitive.colors.size(), primitive.vertices.size());
+    for (size_t index = 0; index < primitive.vertices.size(); ++index)
+    {
+        for (size_t channel = 0; channel < 3; ++channel)
+        {
+            const float expected = std::clamp(primitive.vertices[index].normal[channel], 0.0f, 1.0f) * 255.0f;
+            CHECK_EQ(int(primitive.colors[index][channel]), int(std::lround(expected)));
+        }
+        CHECK_EQ(int(primitive.colors[index][3]), 255);
+    }
+    const ModelMaterial &extras = loaded.asset->materials[0];
+    CHECK_EQ(extras.wind, doctest::Approx(0.12f));
+    CHECK_EQ(extras.translucency, doctest::Approx(0.35f));
+    CHECK_EQ(extras.specular, doctest::Approx(0.1f));
+    CHECK_EQ(extras.uvScroll[0], doctest::Approx(0.25f));
+    CHECK_EQ(extras.uvScroll[1], doctest::Approx(-1.5f));
+    CHECK_EQ(extras.flipbook[0], doctest::Approx(4.0f));
+    CHECK_EQ(extras.flipbook[1], doctest::Approx(2.0f));
+    CHECK_EQ(extras.flipbook[2], doctest::Approx(12.0f));
+    CHECK_EQ(extras.flutter, doctest::Approx(0.1f));
+    CHECK_EQ(loaded.asset->materials[0].specular, doctest::Approx(0.1f));
+    CHECK(extras.billboard);
+
+    const size_t translucency = json.find("0.35");
+    REQUIRE(translucency != std::string::npos);
+    json.replace(translucency, 4, "1.50");
+    writeFile(root / "assets_dev/engine/models/fixture.gltf", json);
+    const ModelLoadResult invalid = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    CHECK_FALSE(invalid);
+    CHECK(invalid.error.find("translucency") != std::string::npos);
+    json.replace(json.find("1.50"), 4, "0.35");
+    json.replace(json.find("[4, 2, 12]"), 10, "[2.5, 2, 1]");
+    writeFile(root / "assets_dev/engine/models/fixture.gltf", json);
+    const ModelLoadResult fractionalFlipbook = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    CHECK_FALSE(fractionalFlipbook);
+    CHECK(fractionalFlipbook.error.find("flipbook") != std::string::npos);
     assets.shutdown();
     std::filesystem::remove_all(root);
 }

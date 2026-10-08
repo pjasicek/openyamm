@@ -606,3 +606,65 @@ TEST_CASE("Terrain decoration view cache invalidates on motion projection and sh
     renderer.shutdown(false);
     CHECK(renderer.setView(camera, forward, right, up, 1.7778f, 0.9f));
 }
+
+TEST_CASE("Terrain decoration cutout encloses the tuft and trims transparent card area")
+{
+    // A tuft-like fan: a narrow base widening toward the top, inside a 64 x 48 cell.
+    constexpr int Width = 64;
+    constexpr int Height = 48;
+    std::vector<uint8_t> alpha(size_t(Width) * Height, 0);
+    for (int y = 4; y < Height - 2; ++y)
+    {
+        const float spread = 0.5f + 26.0f * float(Height - 2 - y) / float(Height);
+        for (int x = 0; x < Width; ++x)
+        {
+            if (std::abs(float(x) + 0.5f - Width * 0.5f) < spread)
+            {
+                alpha[size_t(y) * Width + x] = 200;
+            }
+        }
+    }
+    const auto cutout = terrainDecorationCutout(alpha, Width, Height, 26);
+    const auto inside = [&](float u, float v)
+    {
+        bool positive = false;
+        bool negative = false;
+        for (size_t index = 0; index < cutout.size(); ++index)
+        {
+            const auto &a = cutout[index];
+            const auto &b = cutout[(index + 1) % cutout.size()];
+            const float cross = (b[0] - a[0]) * (v - a[1]) - (b[1] - a[1]) * (u - a[0]);
+            positive = positive || cross > 1.0e-6f;
+            negative = negative || cross < -1.0e-6f;
+        }
+        return !(positive && negative);
+    };
+    float area = 0.0f;
+    for (size_t index = 0; index < cutout.size(); ++index)
+    {
+        const auto &a = cutout[index];
+        const auto &b = cutout[(index + 1) % cutout.size()];
+        area += a[0] * b[1] - b[0] * a[1];
+        CHECK(a[0] >= 0.0f);
+        CHECK(a[0] <= 1.0f);
+        CHECK(a[1] >= 0.0f);
+        CHECK(a[1] <= 1.0f);
+    }
+    area = std::abs(area) * 0.5f;
+    for (int y = 0; y < Height; ++y)
+    {
+        for (int x = 0; x < Width; ++x)
+        {
+            if (alpha[size_t(y) * Width + x] >= 26)
+            {
+                CHECK(inside((float(x) + 0.5f) / Width, (float(y) + 0.5f) / Height));
+            }
+        }
+    }
+    CHECK(area < 0.75f);
+    // Nothing covered: the full card.
+    const auto empty = terrainDecorationCutout(std::vector<uint8_t>(size_t(Width) * Height, 0), Width, Height, 26);
+    CHECK(empty[0][0] == 0.0f);
+    CHECK(empty[2][0] == 1.0f);
+    CHECK(empty[2][1] == 1.0f);
+}

@@ -139,7 +139,10 @@ struct GameplayRuntimeActorState
     float preciseY = 0.0f;
     float preciseZ = 0.0f;
     uint16_t radius = 0;
+    // Collision height: indoors at least 2 x radius + 2, so wide monsters fit the floor/ceiling sweep.
     uint16_t height = 0;
+    // The actor's own height (map placement or descriptor), unpadded; presentation (3D model scale) uses this.
+    uint16_t bodyHeight = 0;
     bool isDead = false;
     bool isInvisible = false;
     bool hostileToParty = false;

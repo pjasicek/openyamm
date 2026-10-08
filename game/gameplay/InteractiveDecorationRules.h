@@ -8,6 +8,7 @@
 #include <optional>
 #include <span>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -41,6 +42,7 @@ enum class InteractiveDecorationFamily : uint8_t
     Bucket,
     MightAndMagicSixTrashHeap,
     Crystal,
+    GoldBag,
 };
 
 struct InteractiveDecorationBindingSpec
@@ -50,6 +52,7 @@ struct InteractiveDecorationBindingSpec
     uint8_t initialState = 0;
     bool useSeededInitialState = false;
     bool hideWhenCleared = false;
+    bool fixedEvent = false;
     InteractiveDecorationFamily family = InteractiveDecorationFamily::None;
 };
 
@@ -84,4 +87,10 @@ void initializeMapInteractiveDecorations(
     uint32_t randomSeed);
 
 bool interactiveDecorationIsCleared(uint8_t state, uint8_t eventCount, bool hideWhenCleared);
+
+std::optional<uint16_t> interactiveDecorationEventId(
+    uint8_t state, uint16_t baseEventId, uint8_t eventCount, bool hideWhenCleared, bool fixedEvent);
+
+std::vector<bool> hiddenIndoorDecorationEntities(
+    std::span<const IndoorEntity> entities, const DecorationTable &table, const EventRuntimeState &state);
 }

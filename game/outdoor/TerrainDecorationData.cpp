@@ -6,6 +6,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <limits>
 #include <cmath>
 #include <filesystem>
 #include <stdexcept>
@@ -520,5 +521,132 @@ TerrainDecorationPlacement scatterTerrainDecorations(
         }
     }
     return result;
+}
+
+std::array<std::array<float, 2>, TerrainDecorationCutoutVertices> terrainDecorationCutout(
+    const std::vector<uint8_t> &alpha, int width, int height, uint8_t threshold)
+{
+    using Point = std::array<float, 2>;
+    std::array<Point, TerrainDecorationCutoutVertices> result = {};
+    const std::array<Point, 4> quad = {{{0.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 1.0f}, {1.0f, 0.0f}}};
+    const auto fill = [&result](const std::vector<Point> &polygon)
+    {
+        for (size_t index = 0; index < result.size(); ++index)
+        {
+            result[index] = polygon[std::min(index, polygon.size() - 1)];
+        }
+        return result;
+    };
+    if (width <= 0 || height <= 0 || alpha.size() < size_t(width) * size_t(height))
+    {
+        return fill({quad.begin(), quad.end()});
+    }
+    // Corners of the leftmost and rightmost covered texel of every row bound the covered area.
+    std::vector<Point> points;
+    for (int y = 0; y < height; ++y)
+    {
+        int first = -1;
+        int last = -1;
+        for (int x = 0; x < width; ++x)
+        {
+            if (alpha[size_t(y) * width + x] >= threshold)
+            {
+                first = first < 0 ? x : first;
+                last = x;
+            }
+        }
+        if (first >= 0)
+        {
+            for (const float row : {float(y), float(y + 1)})
+            {
+                points.push_back({float(first) / width, row / height});
+                points.push_back({float(last + 1) / width, row / height});
+            }
+        }
+    }
+    if (points.size() < 3)
+    {
+        return fill({quad.begin(), quad.end()});
+    }
+    // Convex hull (monotone chain).
+    std::sort(points.begin(), points.end());
+    const auto cross = [](const Point &o, const Point &a, const Point &b)
+    {
+        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    };
+    std::vector<Point> hull(points.size() * 2);
+    size_t count = 0;
+    for (size_t pass = 0; pass < 2; ++pass)
+    {
+        const size_t start = count;
+        for (size_t step = 0; step < points.size(); ++step)
+        {
+            const Point &point = pass == 0 ? points[step] : points[points.size() - 1 - step];
+            while (count >= start + 2 && cross(hull[count - 2], hull[count - 1], point) <= 0.0f)
+            {
+                --count;
+            }
+            hull[count++] = point;
+        }
+        --count;
+    }
+    hull.resize(count);
+    // Fewer vertices by replacing an edge with the meeting point of its neighbours' extensions, cheapest first; the
+    // polygon only grows, so it keeps enclosing the hull.
+    while (hull.size() > TerrainDecorationCutoutVertices)
+    {
+        const size_t n = hull.size();
+        float bestArea = std::numeric_limits<float>::max();
+        size_t bestEdge = n;
+        Point bestPoint = {};
+        for (size_t edge = 0; edge < n; ++edge)
+        {
+            const Point &a0 = hull[(edge + n - 1) % n];
+            const Point &a1 = hull[edge];
+            const Point &b0 = hull[(edge + 1) % n];
+            const Point &b1 = hull[(edge + 2) % n];
+            const Point da = {a1[0] - a0[0], a1[1] - a0[1]};
+            const Point db = {b0[0] - b1[0], b0[1] - b1[1]};
+            const float denominator = da[0] * db[1] - da[1] * db[0];
+            if (std::abs(denominator) < 1.0e-9f)
+            {
+                continue;
+            }
+            const float t = ((b1[0] - a0[0]) * db[1] - (b1[1] - a0[1]) * db[0]) / denominator;
+            const Point meet = {a0[0] + da[0] * t, a0[1] + da[1] * t};
+            if (t < 1.0f || meet[0] < 0.0f || meet[0] > 1.0f || meet[1] < 0.0f || meet[1] > 1.0f)
+            {
+                continue;
+            }
+            const float area = std::abs(cross(a1, meet, b0)) * 0.5f;
+            if (area < bestArea)
+            {
+                bestArea = area;
+                bestEdge = edge;
+                bestPoint = meet;
+            }
+        }
+        if (bestEdge == n)
+        {
+            return fill({quad.begin(), quad.end()});
+        }
+        hull[bestEdge] = bestPoint;
+        hull.erase(hull.begin() + long((bestEdge + 1) % n));
+    }
+    // A small outward margin covers the alpha spread of the lower mip levels.
+    Point centre = {};
+    for (const Point &point : hull)
+    {
+        centre[0] += point[0] / float(hull.size());
+        centre[1] += point[1] / float(hull.size());
+    }
+    for (Point &point : hull)
+    {
+        for (size_t axis = 0; axis < 2; ++axis)
+        {
+            point[axis] = std::clamp(centre[axis] + (point[axis] - centre[axis]) * 1.04f, 0.0f, 1.0f);
+        }
+    }
+    return fill(hull);
 }
 } // namespace OpenYAMM::Game

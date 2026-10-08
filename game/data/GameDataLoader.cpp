@@ -2342,6 +2342,21 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    std::vector<std::pair<std::string, std::string>> worldMapFiles;
+
+    for (const char *pWorldId : {"mm6", "mm7", "mm8"})
+    {
+        for (const std::string &fileName : assetFileSystem.enumerate(std::string("worlds/") + pWorldId + "/maps"))
+        {
+            worldMapFiles.emplace_back(pWorldId, fileName);
+        }
+    }
+
+    if (!m_mapStats.applyWorldOwnership(worldMapFiles))
+    {
+        return false;
+    }
+
     const std::string navigationPath = dataTablePath("map_navigation.txt");
     const std::optional<std::string> navigationContents = assetFileSystem.readTextFile(navigationPath);
 

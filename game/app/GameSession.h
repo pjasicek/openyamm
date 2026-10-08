@@ -171,9 +171,11 @@ public:
     void mergeNamedGlobalVarsFromRuntime(const EventRuntimeState &runtimeState);
     void applyNamedGlobalVarsToRuntime(EventRuntimeState &runtimeState) const;
 
-    void setOutdoorCameraAngles(float yawRadians, float pitchRadians);
-    float outdoorCameraYawRadians() const;
-    float outdoorCameraPitchRadians() const;
+    // Camera of the current scene (outdoor or indoor), saved and restored with the game.
+    void setCameraAngles(float yawRadians, float pitchRadians);
+    float cameraYawRadians() const;
+    float cameraPitchRadians() const;
+    bool cameraAnglesValid() const;
 
     const std::optional<std::filesystem::path> &currentSavePath() const;
     void setCurrentSavePath(const std::filesystem::path &path);
@@ -307,8 +309,9 @@ private:
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> m_indoorSceneStates;
     std::unordered_map<std::string, int32_t> m_namedGlobalVars;
     float m_gameMinutes = 9.0f * 60.0f;
-    float m_outdoorCameraYawRadians = 0.0f;
-    float m_outdoorCameraPitchRadians = 0.0f;
+    float m_cameraYawRadians = 0.0f;
+    float m_cameraPitchRadians = 0.0f;
+    bool m_cameraAnglesValid = false;
     std::optional<std::filesystem::path> m_currentSavePath;
     std::optional<EventRuntimeState::PendingMapMove> m_pendingMapMove;
     SaveGameToPathCallback m_saveGameToPathCallback;

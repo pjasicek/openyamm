@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -65,6 +66,7 @@ struct MapStatsEntry
 {
     int id;
     std::string worldId;
+    bool explicitWorldId = false;
     std::string canonicalId;
     std::string name;
     std::string fileName;
@@ -105,6 +107,11 @@ public:
     bool applyMergedBolsterMaps(const MergedBolsterMapTable &bolsterMaps);
     bool applyOutdoorNavigationRows(const std::vector<std::vector<std::string>> &rows);
     bool applyMergedOutdoorTravels(const MergedOutdoorTravelTable &outdoorTravels);
+    // Assigns each map without an explicit world column to the world package that ships its file
+    // (pairs of world id and file name found under worlds/<world>/maps). A file shipped by two worlds is an error.
+    bool applyWorldOwnership(const std::vector<std::pair<std::string, std::string>> &worldMapFiles);
+    // Canonical ids that older saves used for maps whose world is now resolved differently (legacy, current).
+    std::vector<std::pair<std::string, std::string>> legacyCanonicalIdRenames() const;
     const std::vector<MapStatsEntry> &getEntries() const;
     const MapStatsEntry *findById(uint32_t id) const;
     const MapStatsEntry *findByFileName(const std::string &fileName) const;

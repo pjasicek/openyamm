@@ -6,6 +6,7 @@ add_executable(openyamm_unit_tests
     AudioRegressionTests.cpp
     ArcomageRegressionTests.cpp
     ArenaRuntimeTests.cpp
+    MapWorldOwnershipTests.cpp
     ChestRegressionTests.cpp
     ContentManifestTests.cpp
     EffectSystemTests.cpp

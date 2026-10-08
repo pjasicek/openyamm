@@ -2115,6 +2115,22 @@ void OutdoorBillboardRenderer::destroyRenderAssets(OutdoorGameView &view)
     invalidateRenderAssets(view);
 }
 
+std::optional<std::pair<size_t, uint32_t>> OutdoorBillboardRenderer::highlightedDecoration(const OutdoorGameView &view)
+{
+    if (!view.settingsSnapshot().contextActionPopup)
+    {
+        return std::nullopt;
+    }
+    const GameplayWorldHit *pHit =
+        selectedContextActionWorldHit(view.m_gameSession.gameplayScreenRuntime().contextActionStateReadOnly());
+    if (pHit == nullptr || pHit->kind != GameplayWorldHitKind::EventTarget || !pHit->eventTarget.has_value()
+        || pHit->eventTarget->targetKind != GameplayWorldEventTargetKind::Decoration)
+    {
+        return std::nullopt;
+    }
+    return std::pair<size_t, uint32_t>{pHit->eventTarget->targetIndex, contextActionHighlightOutlineColor()};
+}
+
 void OutdoorBillboardRenderer::renderDecorationBillboards(
     OutdoorGameView &view,
     uint16_t viewId,
@@ -2235,7 +2251,8 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
 
         if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex)
             || hidden
-            || spriteId == 0)
+            || spriteId == 0
+            || view.m_decorationModels.modelsSprite(spriteId))
         {
             continue;
         }
@@ -2855,9 +2872,12 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             const uint16_t spriteId =
                 OutdoorInteractionController::resolveDecorationBillboardSpriteId(view, billboard, hidden);
 
+            // A 3D model stands in for every sprite that has a model binding, including one switched in by an event
+            // (SetSprite); water reflections keep the sprite.
             if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex)
                 || hidden
-                || spriteId == 0)
+                || spriteId == 0
+                || (pReflection == nullptr && view.m_decorationModels.modelsSprite(spriteId)))
             {
                 continue;
             }

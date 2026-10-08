@@ -13,6 +13,7 @@
 #include "game/outdoor/OutdoorLightingRuntime.h"
 #include "game/outdoor/OutdoorSpatialFxRuntime.h"
 #include "game/outdoor/TerrainDecorationRenderer.h"
+#include "game/maps/DecorationModelSet.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
@@ -580,6 +581,7 @@ public:
         uint16_t baseEventId = 0;
         uint8_t eventCount = 0;
         bool hideWhenCleared = false;
+        bool fixedEvent = false;
     };
 
     void showStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
@@ -775,6 +777,23 @@ private:
     WorldFxRenderResources m_worldFxRenderResources;
     EffectRenderer m_effectRenderer;
     Engine::ModelRenderer m_modelRenderer;
+    // Baked sunlight probes per 3D model instance. A probe depends only on position (line of sight to the baked
+    // probe grid), so it is re-sampled after the model moves; time-of-day colour is still applied every frame.
+    struct ModelProbeCacheEntry
+    {
+        uint32_t generation = 0;
+        const void *pLightingData = nullptr;
+        std::array<float, 3> center = {};
+        std::optional<OutdoorLightingData::Probe> probe;
+    };
+    std::unordered_map<uint32_t, ModelProbeCacheEntry> m_modelProbeCache;
+    // Decorations drawn as static 3D models, and the baked probe of each modelled decoration (by billboard index),
+    // sampled once since decorations never move.
+    DecorationModelSet m_decorationModels;
+    std::vector<std::optional<OutdoorLightingData::Probe>> m_decorationModelProbes;
+    std::vector<uint8_t> m_decorationModelProbeSampled;
+    const void *m_pDecorationModelProbeSource = nullptr;
+    bool m_decorationModelsInitializationAttempted = false;
     CinematicGrading *m_pPostProcessing = nullptr;
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightPositions = {};
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};

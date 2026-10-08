@@ -141,6 +141,7 @@ add_library(openyamm_game STATIC
     indoor/IndoorPortalVisibility.cpp
     indoor/IndoorWorldRuntime.cpp
     maps/MapAssetLoader.cpp
+    maps/DecorationModelSet.cpp
     maps/MapDecorationTextures.cpp
     maps/MapIdentity.cpp
     maps/MapRegistry.cpp

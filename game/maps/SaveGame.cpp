@@ -20,7 +20,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 83;
+constexpr uint32_t SaveVersion = 84;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -87,6 +87,7 @@ constexpr uint32_t SaveVersionOutdoorDestructibles = 81;
 constexpr uint32_t SaveVersionMm9Barrels = 82;
 constexpr uint32_t SaveVersionTemporaryEventBonuses = 83;
 constexpr uint32_t SaveVersionConsumedCorpseMarkers = 83;
+constexpr uint32_t SaveVersionIndoorCamera = 84;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -3583,8 +3584,8 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
     writeValue(writer, value.indoorScene);
     writeValue(writer, value.indoorSceneStates);
     writeValue(writer, value.savedGameMinutes);
-    writeValue(writer, value.outdoorCameraYawRadians);
-    writeValue(writer, value.outdoorCameraPitchRadians);
+    writeValue(writer, value.cameraYawRadians);
+    writeValue(writer, value.cameraPitchRadians);
     writeValue(writer, value.heldInventoryItemActive);
     writeValue(writer, value.heldInventoryItem);
     writeValue(writer, value.heldInventoryItemGrabCellOffsetX);
@@ -3598,7 +3599,7 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
 
 bool readValue(BinaryReader &reader, GameSaveData &value)
 {
-    return readValue(reader, value.currentSceneKind)
+    const bool read = readValue(reader, value.currentSceneKind)
         && readValue(reader, value.mapFileName)
         && readValue(reader, value.party)
         && (reader.version() < SaveVersionSessionNamedGlobalVars || readValue(reader, value.namedGlobalVars))
@@ -3610,8 +3611,8 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
         && readValue(reader, value.indoorScene)
         && readValue(reader, value.indoorSceneStates)
         && readValue(reader, value.savedGameMinutes)
-        && readValue(reader, value.outdoorCameraYawRadians)
-        && readValue(reader, value.outdoorCameraPitchRadians)
+        && readValue(reader, value.cameraYawRadians)
+        && readValue(reader, value.cameraPitchRadians)
         && (reader.version() < SaveVersionHeldCursorItem || readValue(reader, value.heldInventoryItemActive))
         && (reader.version() < SaveVersionHeldCursorItem || readValue(reader, value.heldInventoryItem))
         && (reader.version() < SaveVersionHeldCursorItem
@@ -3624,6 +3625,8 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
             || readValue(reader, value.requiredContentPackages))
         && readValue(reader, value.saveName)
         && readValue(reader, value.previewBmp);
+    value.cameraAnglesValid = reader.version() >= SaveVersionIndoorCamera || value.currentSceneKind == SceneKind::Outdoor;
+    return read;
 }
 }
 

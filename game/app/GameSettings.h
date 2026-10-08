@@ -196,7 +196,10 @@ struct GameSettings
     bool newGameGodLich = false;
     bool allowIncompleteCharacterCreation = false;
     bool debugConsole = true;
+    // 3D actor models instead of sprites ([debug] actor_models); persisted like the other debug toggles.
+    bool actorModels = false;
     // Launch-only directives: never persisted by saveGameSettings.
+    std::string actorModelsManifest;
     std::string screenshotPath;
     std::string menuInputTourPath;
     float screenshotDelaySeconds = 0.0f;
@@ -207,8 +210,6 @@ struct GameSettings
     float effectSpawnYawRadians = 0.0f;
     uint32_t effectSpawnCount = 1;
     float effectStatsDelaySeconds = -1.0f;
-    bool actorModels = false;
-    std::string actorModelsManifest;
     int16_t actorSpawnId = 0;
     uint32_t actorSpawnCount = 1;
     std::array<float, 3> actorSpawnPosition = {};

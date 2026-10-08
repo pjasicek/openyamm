@@ -58,6 +58,8 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float IndoorCameraVerticalFovDegrees = 60.0f;
+// Share of the ambient that reaches 3D models as a directional key light (fs_model.sc).
+constexpr float IndoorModelKeyFraction = 0.6f;
 // One legacy map unit separates distant walls without clipping tight ceilings (4 units clips Kriegspire/Korbu).
 constexpr float IndoorCameraNearClipDistance = 1.0f;
 constexpr float IndoorCameraFarClipDistance = 50000.0f;
@@ -921,6 +923,7 @@ struct IndoorInteractiveDecorationBinding
     uint16_t baseEventId = 0;
     uint8_t eventCount = 0;
     bool hideWhenCleared = false;
+    bool fixedEvent = false;
 };
 
 constexpr uint8_t InvalidInteractiveDecorationDecorVarIndex = 0xff;
@@ -932,12 +935,14 @@ void buildIndoorInteractiveDecorationBindingCaches(
     std::vector<uint8_t> &decorVarIndicesByEntity,
     std::vector<uint16_t> &baseEventIdsByEntity,
     std::vector<uint8_t> &eventCountsByEntity,
-    std::vector<uint8_t> &hideWhenClearedByEntity)
+    std::vector<uint8_t> &hideWhenClearedByEntity,
+    std::vector<uint8_t> &fixedEventByEntity)
 {
     decorVarIndicesByEntity.assign(indoorMapData.entities.size(), InvalidInteractiveDecorationDecorVarIndex);
     baseEventIdsByEntity.assign(indoorMapData.entities.size(), 0);
     eventCountsByEntity.assign(indoorMapData.entities.size(), 0);
     hideWhenClearedByEntity.assign(indoorMapData.entities.size(), 0);
+    fixedEventByEntity.assign(indoorMapData.entities.size(), 0);
 
     if (pBillboardSet == nullptr)
     {
@@ -976,6 +981,7 @@ void buildIndoorInteractiveDecorationBindingCaches(
         baseEventIdsByEntity[entityIndex] = bindingSpec->baseEventId;
         eventCountsByEntity[entityIndex] = bindingSpec->eventCount;
         hideWhenClearedByEntity[entityIndex] = bindingSpec->hideWhenCleared ? 1 : 0;
+        fixedEventByEntity[entityIndex] = bindingSpec->fixedEvent ? 1 : 0;
 
         ++decorVarIndex;
     }
@@ -986,12 +992,14 @@ std::optional<IndoorInteractiveDecorationBinding> resolveIndoorInteractiveDecora
     const std::vector<uint16_t> &baseEventIdsByEntity,
     const std::vector<uint8_t> &eventCountsByEntity,
     const std::vector<uint8_t> &hideWhenClearedByEntity,
+    const std::vector<uint8_t> &fixedEventByEntity,
     size_t targetEntityIndex)
 {
     if (targetEntityIndex >= decorVarIndicesByEntity.size()
         || targetEntityIndex >= baseEventIdsByEntity.size()
         || targetEntityIndex >= eventCountsByEntity.size()
-        || targetEntityIndex >= hideWhenClearedByEntity.size())
+        || targetEntityIndex >= hideWhenClearedByEntity.size()
+        || targetEntityIndex >= fixedEventByEntity.size())
     {
         return std::nullopt;
     }
@@ -1008,6 +1016,7 @@ std::optional<IndoorInteractiveDecorationBinding> resolveIndoorInteractiveDecora
     binding.baseEventId = baseEventIdsByEntity[targetEntityIndex];
     binding.eventCount = eventCountsByEntity[targetEntityIndex];
     binding.hideWhenCleared = hideWhenClearedByEntity[targetEntityIndex] != 0;
+    binding.fixedEvent = fixedEventByEntity[targetEntityIndex] != 0;
 
     if (binding.baseEventId == 0 || binding.eventCount == 0)
     {
@@ -1021,19 +1030,9 @@ std::optional<uint16_t> resolveIndoorInteractiveDecorationEventId(
     const EventRuntimeState &eventRuntimeState,
     const IndoorInteractiveDecorationBinding &binding)
 {
-    uint8_t state = eventRuntimeState.decorVars[binding.decorVarIndex];
-
-    if (interactiveDecorationIsCleared(state, binding.eventCount, binding.hideWhenCleared))
-    {
-        return std::nullopt;
-    }
-
-    if (state >= binding.eventCount)
-    {
-        state = 0;
-    }
-
-    return static_cast<uint16_t>(binding.baseEventId + state);
+    return interactiveDecorationEventId(
+        eventRuntimeState.decorVars[binding.decorVarIndex],
+        binding.baseEventId, binding.eventCount, binding.hideWhenCleared, binding.fixedEvent);
 }
 
 uint16_t resolveIndoorEntityScriptEventId(const IndoorEntity &entity)
@@ -2678,7 +2677,8 @@ bool IndoorRenderer::initialize(
         m_indoorInteractiveDecorationDecorVarIndicesByEntity,
         m_indoorInteractiveDecorationBaseEventIdsByEntity,
         m_indoorInteractiveDecorationEventCountsByEntity,
-        m_indoorInteractiveDecorationHideWhenClearedByEntity);
+        m_indoorInteractiveDecorationHideWhenClearedByEntity,
+        m_indoorInteractiveDecorationFixedEventByEntity);
     m_indoorActorPreviewBillboardSet = indoorActorPreviewBillboardSet;
     m_indoorSpriteObjectBillboardSet = indoorSpriteObjectBillboardSet;
     rebuildIndoorRenderMemberships();
@@ -4219,6 +4219,16 @@ void IndoorRenderer::render(
     modelLighting.ambient = lightingFrame.ambient;
     modelLighting.direct = 0.0f;
     modelLighting.environmentColor = {lightingFrame.ambient, lightingFrame.ambient, lightingFrame.ambient};
+    modelLighting.displaySpaceLighting = true;
+    {
+        // Key light from above-front-left of the camera, like the painted light on the original sprites.
+        const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+        const bx::Vec3 left = bx::normalize(bx::cross(up, viewForward));
+        const bx::Vec3 key = bx::normalize(bx::add(bx::add(bx::mul(viewForward, -0.55f), bx::mul(left, 0.45f)),
+            bx::mul(up, 0.7f)));
+        modelLighting.keyDirection = {key.x, key.y, key.z};
+        modelLighting.keyFraction = IndoorModelKeyFraction;
+    }
     IndoorFaceGeometryCache modelGeometryCache(
         m_worldFxSystem.models().size() != 0 ? m_pIndoorMapData->faces.size() : 0);
     const ViewFrustum modelFrustum(viewMatrix, projectionMatrix, bgfx::getCaps()->homogeneousDepth);
@@ -4227,7 +4237,7 @@ void IndoorRenderer::render(
         MainViewId,
         {eye.x, eye.y, eye.z},
         modelLighting,
-        [&](const Engine::ModelBounds &modelBounds)
+        [&](Engine::ModelInstanceHandle, const Engine::ModelBounds &modelBounds)
         {
             Engine::ModelRenderLighting selected = modelLighting;
             const bx::Vec3 center = {(modelBounds.min[0] + modelBounds.max[0]) * 0.5f,
@@ -5008,6 +5018,7 @@ uint16_t IndoorRenderer::inspectHitEventId(const InspectHit &inspectHit) const
                 m_indoorInteractiveDecorationBaseEventIdsByEntity,
                 m_indoorInteractiveDecorationEventCountsByEntity,
                 m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                m_indoorInteractiveDecorationFixedEventByEntity,
                 inspectHit.index);
 
         if (!binding)
@@ -5070,6 +5081,7 @@ std::optional<std::string> IndoorRenderer::resolveEventTargetHoverStatusText(con
                     m_indoorInteractiveDecorationBaseEventIdsByEntity,
                     m_indoorInteractiveDecorationEventCountsByEntity,
                     m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                    m_indoorInteractiveDecorationFixedEventByEntity,
                     inspectHit.index);
 
             if (binding)
@@ -6332,6 +6344,7 @@ void IndoorRenderer::shutdown()
     m_indoorInteractiveDecorationBaseEventIdsByEntity.clear();
     m_indoorInteractiveDecorationEventCountsByEntity.clear();
     m_indoorInteractiveDecorationHideWhenClearedByEntity.clear();
+    m_indoorInteractiveDecorationFixedEventByEntity.clear();
     m_decorationBillboardIndicesBySector.clear();
     m_staticSpriteObjectBillboardIndicesBySector.clear();
     m_houseTable.reset();
@@ -7202,6 +7215,7 @@ void IndoorRenderer::renderDecorationBillboards(
                 m_indoorInteractiveDecorationBaseEventIdsByEntity,
                 m_indoorInteractiveDecorationEventCountsByEntity,
                 m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                m_indoorInteractiveDecorationFixedEventByEntity,
                 billboard.entityIndex);
 
         if (binding
@@ -11162,6 +11176,7 @@ bool IndoorRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
                 m_indoorInteractiveDecorationBaseEventIdsByEntity,
                 m_indoorInteractiveDecorationEventCountsByEntity,
                 m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                m_indoorInteractiveDecorationFixedEventByEntity,
                 inspectHit.index);
 
         if (binding && eventId != 0)
@@ -11865,6 +11880,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                     m_indoorInteractiveDecorationBaseEventIdsByEntity,
                     m_indoorInteractiveDecorationEventCountsByEntity,
                     m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                    m_indoorInteractiveDecorationFixedEventByEntity,
                     entityIndex)
                 : std::nullopt;
 
@@ -11948,6 +11964,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                         m_indoorInteractiveDecorationBaseEventIdsByEntity,
                         m_indoorInteractiveDecorationEventCountsByEntity,
                         m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                        m_indoorInteractiveDecorationFixedEventByEntity,
                         billboard.entityIndex);
 
                 if (binding
@@ -12018,6 +12035,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                     m_indoorInteractiveDecorationBaseEventIdsByEntity,
                     m_indoorInteractiveDecorationEventCountsByEntity,
                     m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                    m_indoorInteractiveDecorationFixedEventByEntity,
                     billboard.entityIndex).has_value();
             };
 

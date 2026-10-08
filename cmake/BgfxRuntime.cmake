@@ -101,7 +101,9 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/sun_shadows.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/ambient_occlusion.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/model_skin.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/model_static.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_bmodel_lightmap.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_lighting.sh"
             "${OPENYAMM_BGFX_SOURCE_DIR}/examples/common/common.sh"
             openyamm_shaderc
         VERBATIM
@@ -494,6 +496,12 @@ function(openyamm_configure_runtime_shaders)
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_model_shadow.sc" "fragment" "fs_model_shadow.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_model_instanced.sc" "vertex" "vs_model_instanced.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_model.sc" "fragment" "fs_model_prepassed.bin" "MODEL_PREPASSED=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_model_shadow_instanced.sc" "vertex" "vs_model_shadow_instanced.bin")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_spell_area_preview.sc"
         "vertex"
         "vs_spell_area_preview.bin")
@@ -523,6 +531,10 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_terrain_decoration_baked.sc"
         "fragment"
         "fs_terrain_decoration_baked.bin")
+    # Grass lit per vertex from the baked lightmap.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_terrain_decoration.sc" "vertex" "vs_terrain_decoration_baked.bin"
+        "BAKED_SOURCES=1")
 
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_cinematic_grading.sc" "vertex" "vs_cinematic_grading.bin")
@@ -540,7 +552,7 @@ function(openyamm_configure_runtime_shaders)
         vs_cinematic_grading.bin
         fs_cinematic_grading.bin
         fs_terrain_decoration_baked.bin
-        vs_terrain_decoration.bin
+        vs_terrain_decoration.bin vs_terrain_decoration_baked.bin
         fs_terrain_decoration.bin
         vs_cubes.bin
         fs_cubes.bin
@@ -565,6 +577,7 @@ function(openyamm_configure_runtime_shaders)
         vs_model.bin
         fs_model.bin
         vs_model_shadow.bin fs_model_shadow.bin
+        vs_model_instanced.bin vs_model_shadow_instanced.bin fs_model_prepassed.bin
         vs_spell_area_preview.bin
         fs_spell_area_preview.bin
         vs_editor_preview_material.bin

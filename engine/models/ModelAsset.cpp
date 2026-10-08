@@ -140,7 +140,9 @@ ModelTransform gltfModelPlacement(
             (z - y) * HalfSqrtTwo,
             (w - x) * HalfSqrtTwo,
         },
-        .scale = {uniformScale, uniformScale, -uniformScale},
+        // glTF forward (+Z) maps to OpenYAMM +Y and up (+Y) to +Z. Negating X as well as Z keeps this a proper
+        // rotation: a single negated axis mirrored every model (right-handed props appeared in the left hand).
+        .scale = {-uniformScale, uniformScale, -uniformScale},
     };
 }
 float determinant3x3(const ModelMatrix &matrix)

@@ -115,7 +115,7 @@ def export_cards(profile, output):
             continue
         # Lua strings/comments retain legacy STR bytes and need not be UTF-8. Latin-1
         # maps bytes losslessly for this ASCII syntax scanner; it does not transcode assets.
-        text = use(script).read_bytes().decode('latin-1')
+        text = script.read_bytes().decode('latin-1')
         for index, states in sprite_states(text, script).items():
             if index not in override_keys:
                 raise ValueError('SetSprite target has no matching map entity event key: ' + str(index))

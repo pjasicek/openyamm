@@ -664,6 +664,7 @@ private:
     std::vector<uint16_t> m_indoorInteractiveDecorationBaseEventIdsByEntity;
     std::vector<uint8_t> m_indoorInteractiveDecorationEventCountsByEntity;
     std::vector<uint8_t> m_indoorInteractiveDecorationHideWhenClearedByEntity;
+    std::vector<uint8_t> m_indoorInteractiveDecorationFixedEventByEntity;
     std::vector<std::vector<size_t>> m_decorationBillboardIndicesBySector;
     std::vector<std::vector<size_t>> m_staticSpriteObjectBillboardIndicesBySector;
     std::optional<HouseTable> m_houseTable;

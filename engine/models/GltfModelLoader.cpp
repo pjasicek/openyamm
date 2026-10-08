@@ -373,6 +373,58 @@ bool loadMaterialTexture(const cgltf_data &data, const cgltf_texture_view &view,
     return true;
 }
 
+bool loadColorRegions(const cgltf_data &data, const YAML::Node &extras, ModelMaterial &material, std::string &error)
+{
+    const YAML::Node mask = extras["openyamm_region_mask"];
+    const YAML::Node ramps = extras["openyamm_region_ramps"];
+    if (!mask && !ramps)
+    {
+        return true;
+    }
+    if (!mask || !ramps || !ramps.IsSequence() || ramps.size() == 0 || ramps.size() > ModelMaxColorRegions)
+    {
+        error = "colour regions need a region mask and one to four ramps";
+        return false;
+    }
+    const int textureIndex = mask["index"] ? mask["index"].as<int>() : -1;
+    if (textureIndex < 0 || size_t(textureIndex) >= data.textures_count)
+    {
+        error = "region mask names no texture";
+        return false;
+    }
+    cgltf_texture_view view = {};
+    view.texture = &data.textures[textureIndex];
+    if (!loadMaterialTexture(data, view, material.regionMaskImageIndex, material.regionMaskSampler, error))
+    {
+        return false;
+    }
+    const auto unitValue = [](float value) { return std::isfinite(value) && value >= 0.0f && value <= 1.0f; };
+    for (const YAML::Node &node : ramps)
+    {
+        const std::vector<float> range = node["range"].as<std::vector<float>>();
+        const std::vector<std::vector<float>> colors = node["colors"].as<std::vector<std::vector<float>>>();
+        if (range.size() != 2 || !unitValue(range[0]) || !unitValue(range[1]) || range[0] >= range[1]
+            || colors.size() != ModelColorRampStops)
+        {
+            error = "colour ramp needs a luminance range lo < hi in 0..1 and 16 colours";
+            return false;
+        }
+        ModelColorRamp ramp;
+        ramp.luminanceRange = {range[0], range[1]};
+        for (size_t stop = 0; stop < ModelColorRampStops; ++stop)
+        {
+            if (colors[stop].size() != 3 || !std::all_of(colors[stop].begin(), colors[stop].end(), unitValue))
+            {
+                error = "colour ramp colours must be linear RGB in 0..1";
+                return false;
+            }
+            std::copy_n(colors[stop].begin(), 3, ramp.colors[stop].begin());
+        }
+        material.regionRamps.push_back(ramp);
+    }
+    return true;
+}
+
 bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::string &error)
 {
     for (size_t index = 0; index < data.variants_count; ++index)
@@ -409,6 +461,95 @@ bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::string &error
             return false;
         }
         material.normalScale = source.normal_texture.scale;
+        cgltf_size materialExtrasSize = 0;
+        cgltf_copy_extras_json(&data, &source.extras, nullptr, &materialExtrasSize);
+        if (materialExtrasSize > 1)
+        {
+            std::string json(materialExtrasSize, '\0');
+            if (cgltf_copy_extras_json(&data, &source.extras, json.data(), &materialExtrasSize) != cgltf_result_success)
+            {
+                error = "cannot read material " + std::to_string(materialIndex) + " extras";
+                return false;
+            }
+            try
+            {
+                const YAML::Node extras = YAML::Load(json.c_str());
+                if (!loadColorRegions(data, extras, material, error))
+                {
+                    error = "material " + std::to_string(materialIndex) + " " + error;
+                    return false;
+                }
+                if (extras["openyamm_wind"])
+                {
+                    material.wind = extras["openyamm_wind"].as<float>();
+                    if (!std::isfinite(material.wind) || material.wind < 0.0f || material.wind > 4.0f)
+                    {
+                        error = "material " + std::to_string(materialIndex) + " wind must be 0..4 metres";
+                        return false;
+                    }
+                }
+                if (extras["openyamm_billboard"])
+                {
+                    material.billboard = extras["openyamm_billboard"].as<bool>();
+                }
+                if (extras["openyamm_uv_scroll"])
+                {
+                    const std::vector<float> scroll = extras["openyamm_uv_scroll"].as<std::vector<float>>();
+                    if (scroll.size() != 2 || !std::isfinite(scroll[0]) || !std::isfinite(scroll[1]))
+                    {
+                        error = "material " + std::to_string(materialIndex) + " uv_scroll needs two finite values";
+                        return false;
+                    }
+                    std::copy_n(scroll.begin(), 2, material.uvScroll.begin());
+                }
+                if (extras["openyamm_flipbook"])
+                {
+                    const std::vector<float> flipbook = extras["openyamm_flipbook"].as<std::vector<float>>();
+                    if (flipbook.size() != 3 || !(flipbook[0] >= 1.0f && flipbook[0] <= 64.0f)
+                        || !(flipbook[1] >= 1.0f && flipbook[1] <= 64.0f) || !(flipbook[2] > 0.0f && flipbook[2] <= 120.0f)
+                        || flipbook[0] != std::floor(flipbook[0]) || flipbook[1] != std::floor(flipbook[1]))
+                    {
+                        error = "material " + std::to_string(materialIndex)
+                            + " flipbook needs integer columns and rows (1..64) and frames per second (0..120]";
+                        return false;
+                    }
+                    std::copy_n(flipbook.begin(), 3, material.flipbook.begin());
+                }
+                if (extras["openyamm_flutter"])
+                {
+                    material.flutter = extras["openyamm_flutter"].as<float>();
+                    if (!std::isfinite(material.flutter) || material.flutter < 0.0f || material.flutter > 4.0f)
+                    {
+                        error = "material " + std::to_string(materialIndex) + " flutter must be 0..4 model units";
+                        return false;
+                    }
+                }
+                if (extras["openyamm_specular"])
+                {
+                    material.specular = extras["openyamm_specular"].as<float>();
+                    if (!std::isfinite(material.specular) || material.specular < 0.0f || material.specular > 1.0f)
+                    {
+                        error = "material " + std::to_string(materialIndex) + " specular must be 0..1";
+                        return false;
+                    }
+                }
+                if (extras["openyamm_translucency"])
+                {
+                    material.translucency = extras["openyamm_translucency"].as<float>();
+                    if (!std::isfinite(material.translucency) || material.translucency < 0.0f
+                        || material.translucency > 1.0f)
+                    {
+                        error = "material " + std::to_string(materialIndex) + " translucency must be 0..1";
+                        return false;
+                    }
+                }
+            }
+            catch (const YAML::Exception &exception)
+            {
+                error = "material " + std::to_string(materialIndex) + " extras: " + exception.what();
+                return false;
+            }
+        }
         material.alphaCutoff = source.alpha_cutoff;
         switch (source.alpha_mode)
         {
@@ -580,6 +721,31 @@ bool loadMeshes(const cgltf_data &data, ModelAsset &asset, std::string &error)
                 {
                     error = "mesh " + std::to_string(meshIndex) + " contains unreadable vertex data";
                     return false;
+                }
+            }
+            if (const cgltf_accessor *pColor = findAttribute(source, cgltf_attribute_type_color))
+            {
+                if ((pColor->type != cgltf_type_vec3 && pColor->type != cgltf_type_vec4)
+                    || pColor->count != pPosition->count)
+                {
+                    error = "mesh " + std::to_string(meshIndex) + " has an invalid COLOR_0 attribute";
+                    return false;
+                }
+                const size_t components = pColor->type == cgltf_type_vec4 ? 4 : 3;
+                primitive.colors.resize(pPosition->count);
+                for (size_t vertexIndex = 0; vertexIndex < pPosition->count; ++vertexIndex)
+                {
+                    float color[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+                    if (!readAccessor(*pColor, vertexIndex, components, color))
+                    {
+                        error = "mesh " + std::to_string(meshIndex) + " contains unreadable vertex colours";
+                        return false;
+                    }
+                    for (size_t channel = 0; channel < 4; ++channel)
+                    {
+                        primitive.colors[vertexIndex][channel] =
+                            uint8_t(std::lround(std::clamp(color[channel], 0.0f, 1.0f) * 255.0f));
+                    }
                 }
             }
 

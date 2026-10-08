@@ -34,6 +34,8 @@ public:
         int16_t paletteId,
         const char *pLoadPhase = "render");
     static void invalidateRenderAssets(OutdoorGameView &view);
+    // Decoration billboard the context action points at and its outline colour (sprites and decoration models).
+    static std::optional<std::pair<size_t, uint32_t>> highlightedDecoration(const OutdoorGameView &view);
     static void destroyRenderAssets(OutdoorGameView &view);
     static void renderDecorationBillboards(
         OutdoorGameView &view,

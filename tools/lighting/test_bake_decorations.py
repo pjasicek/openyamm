@@ -55,7 +55,20 @@ class DecorationBakeTests(unittest.TestCase):
         result = self.export()
         self.assertEqual(result['counts'], dict(casters=0, skipped=1))
         self.assertEqual(result['skip_reasons'], dict(can_be_hidden=1))
-        self.assertIn('worlds/mm6/events/maps/test.lua', result['dependencies'])
+        self.assertNotIn('worlds/mm6/events/maps/test.lua', result['dependencies'])
+
+    def test_gameplay_script_edits_do_not_change_bake_dependencies(self):
+        self.script.write_text('evt.SetSprite(7, 1)\n')
+        baseline = self.export()
+        supplement = self.world / 'events/maps/test_mmmerge.lua'
+        supplement.write_text('-- Gameplay-only supplement\nevt.Add("Gold", 10)\n')
+        self.script.write_text('evt.SetSprite(7, 1)\nevt.Add("Gold", 20)\n')
+        result = self.export()
+        self.assertEqual(result, baseline)
+        self.assertFalse(any(name.endswith('.lua') for name in result['dependencies']))
+        self.assertIn('worlds/mm6/maps/test.odm', result['dependencies'])
+        self.assertIn('worlds/mm6/maps/test.scene.yml', result['dependencies'])
+        self.assertIn('worlds/mm6/sprites/tree.bmp', result['dependencies'])
 
     def test_visibility_only_names_keep_native_silhouette(self):
         baseline = self.export()['cards'][0]

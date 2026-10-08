@@ -12,6 +12,8 @@ struct OutdoorSelectedFxLights;
 class TerrainDecorationRenderer
 {
 public:
+    static constexpr size_t MaxTuftLayers = 16;
+
     // Takes ownership of both programs, including on initialization failure.
     bool initialize(const Engine::AssetFileSystem &assets, const TerrainDecorationConfig &config,
                     TerrainDecorationPlacement placement, bgfx::ProgramHandle program,
@@ -34,7 +36,12 @@ private:
     bgfx::ProgramHandle m_program = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_shadowProgram = BGFX_INVALID_HANDLE;
     bgfx::VertexBufferHandle m_instances = BGFX_INVALID_HANDLE;
+    // Two crossed cards whose corners are slots of their tuft layer's cutout (vertex x = slot, y = card).
     bgfx::VertexBufferHandle m_grassMesh = BGFX_INVALID_HANDLE;
+    bgfx::IndexBufferHandle m_grassIndices = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_cutoutUniform = BGFX_INVALID_HANDLE;
+    // Cutout texture coordinates of each atlas layer, two vertices per vec4.
+    std::array<std::array<float, 4>, MaxTuftLayers * TerrainDecorationCutoutVertices / 2> m_cutouts = {};
     bgfx::VertexBufferHandle m_stoneMesh = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle m_texture = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_sampler = BGFX_INVALID_HANDLE;

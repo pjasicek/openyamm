@@ -154,6 +154,9 @@ uint16_t interactiveDecorationBaseEventId(InteractiveDecorationFamily family)
         case InteractiveDecorationFamily::LargeBag:
             return 1743;
 
+        case InteractiveDecorationFamily::GoldBag:
+            return 1747;
+
         case InteractiveDecorationFamily::Bucket:
             return 1755;
 
@@ -195,6 +198,10 @@ uint8_t interactiveDecorationEventCount(InteractiveDecorationFamily family)
         case InteractiveDecorationFamily::LargeBag:
             return 5;
 
+        case InteractiveDecorationFamily::GoldBag:
+            // Retain the consumed marker (5) stored by the previous shared bag binding.
+            return 5;
+
         case InteractiveDecorationFamily::Bucket:
             return 4;
 
@@ -215,6 +222,7 @@ bool interactiveDecorationHidesWhenCleared(InteractiveDecorationFamily family)
 {
     return family == InteractiveDecorationFamily::FlourSack
         || family == InteractiveDecorationFamily::LargeBag
+        || family == InteractiveDecorationFamily::GoldBag
         || family == InteractiveDecorationFamily::CampFire
         || family == InteractiveDecorationFamily::Crystal;
 }
@@ -407,7 +415,12 @@ std::optional<InteractiveDecorationFamily> classifyInteractiveDecorationFamily(
         return InteractiveDecorationFamily::FlourSack;
     }
 
-    if (decorationMatchesAnyKey(keys, {"bag01", "bag_a"}))
+    if (decorationMatchesAnyKey(keys, {"bag_a"}))
+    {
+        return InteractiveDecorationFamily::GoldBag;
+    }
+
+    if (decorationMatchesAnyKey(keys, {"bag01"}))
     {
         return InteractiveDecorationFamily::LargeBag;
     }
@@ -447,6 +460,7 @@ std::optional<InteractiveDecorationBindingSpec> resolveInteractiveDecorationBind
         spec.baseEventId = baseEventId;
         spec.eventCount = eventCount;
         spec.hideWhenCleared = interactiveDecorationHidesWhenCleared(*family);
+        spec.fixedEvent = *family == InteractiveDecorationFamily::GoldBag;
         spec.family = *family;
         return spec;
     }
@@ -521,6 +535,9 @@ uint8_t initialInteractiveDecorationState(InteractiveDecorationFamily family, ui
 
         case InteractiveDecorationFamily::LargeBag:
             return static_cast<uint8_t>(1u + seed % 4u);
+
+        case InteractiveDecorationFamily::GoldBag:
+            return 1;
 
         case InteractiveDecorationFamily::Bucket:
             return static_cast<uint8_t>(1u + seed % 3u);
@@ -620,5 +637,55 @@ void initializeMapInteractiveDecorations(
 bool interactiveDecorationIsCleared(uint8_t state, uint8_t eventCount, bool hideWhenCleared)
 {
     return hideWhenCleared && eventCount != 0 && state == eventCount;
+}
+
+std::optional<uint16_t> interactiveDecorationEventId(
+    uint8_t state, uint16_t baseEventId, uint8_t eventCount, bool hideWhenCleared, bool fixedEvent)
+{
+    if (baseEventId == 0 || eventCount == 0
+        || interactiveDecorationIsCleared(state, eventCount, hideWhenCleared))
+    {
+        return std::nullopt;
+    }
+
+    return static_cast<uint16_t>(baseEventId + (fixedEvent || state >= eventCount ? 0 : state));
+}
+
+std::vector<bool> hiddenIndoorDecorationEntities(
+    std::span<const IndoorEntity> entities, const DecorationTable &table, const EventRuntimeState &state)
+{
+    std::vector<bool> hidden(entities.size(), false);
+    size_t decorVarIndex = 0;
+
+    for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
+    {
+        const IndoorEntity &entity = entities[entityIndex];
+        const auto override = state.spriteOverrides.find(entity.spriteOverrideKey(entityIndex));
+        hidden[entityIndex] = override != state.spriteOverrides.end() && override->second.hidden;
+
+        if (entity.scriptEventId() != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration = table.resolveMapDecoration(entity.decorationListId, entity.name).pEntry;
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<InteractiveDecorationBindingSpec> spec =
+            resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name);
+        if (!spec || decorVarIndex >= state.decorVars.size())
+        {
+            continue;
+        }
+
+        hidden[entityIndex] = hidden[entityIndex]
+            || interactiveDecorationIsCleared(state.decorVars[decorVarIndex], spec->eventCount, spec->hideWhenCleared);
+        ++decorVarIndex;
+    }
+
+    return hidden;
 }
 }

@@ -1,4 +1,6 @@
 #include "game/indoor/IndoorWorldRuntime.h"
+
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/gameplay/ActorVocalizationRules.h"
 #include "game/audio/ActorAudioRules.h"
 
@@ -11045,6 +11047,9 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.preciseZ = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z);
     state.radius = pAiState != nullptr ? pAiState->collisionRadius : actor.radius;
     state.height = pAiState != nullptr ? pAiState->collisionHeight : actor.height;
+    // Unpadded body height: the placed actor's own, else the descriptor's (never the padded collision height).
+    const MonsterEntry *pBodyEntry = m_pMonsterTable != nullptr ? m_pMonsterTable->findById(resolvedMonsterId) : nullptr;
+    state.bodyHeight = actor.height != 0 ? actor.height : pBodyEntry != nullptr ? pBodyEntry->height : state.height;
     state.isDead = pAiState != nullptr
         ? pAiState->motionState == ActorAiMotionState::Dead
         : actor.hp <= 0;
@@ -16346,6 +16351,13 @@ std::vector<IndoorCylinderCollision> IndoorWorldRuntime::decorationMovementColli
 
     colliders.reserve(m_pIndoorDecorationBillboardSet->billboards.size());
 
+    const EventRuntimeState *pState = eventRuntimeState();
+    const std::vector<bool> hidden = pState != nullptr
+        ? hiddenIndoorDecorationEntities(
+            m_pIndoorMapData->entities, m_pIndoorDecorationBillboardSet->decorationTable, *pState)
+        : std::vector<bool>{};
+    const MapDeltaData *pDelta = mapDeltaData();
+
     for (const DecorationBillboard &billboard : m_pIndoorDecorationBillboardSet->billboards)
     {
         if (billboard.radius <= 0 || billboard.height == 0)
@@ -16362,8 +16374,11 @@ std::vector<IndoorCylinderCollision> IndoorWorldRuntime::decorationMovementColli
         if (billboard.entityIndex < m_pIndoorMapData->entities.size())
         {
             const IndoorEntity &entity = m_pIndoorMapData->entities[billboard.entityIndex];
+            const uint16_t flags = pDelta != nullptr && billboard.entityIndex < pDelta->decorationFlags.size()
+                ? pDelta->decorationFlags[billboard.entityIndex] : entity.aiAttributes;
 
-            if ((entity.aiAttributes & LevelDecorationInvisible) != 0)
+            if ((flags & LevelDecorationInvisible) != 0
+                || (billboard.entityIndex < hidden.size() && hidden[billboard.entityIndex]))
             {
                 continue;
             }

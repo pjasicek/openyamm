@@ -32,8 +32,11 @@ struct GameSaveData
     IndoorSceneRuntime::Snapshot indoorScene;
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> indoorSceneStates;
     float savedGameMinutes = 0.0f;
-    float outdoorCameraYawRadians = 0.0f;
-    float outdoorCameraPitchRadians = 0.0f;
+    // Camera angles of the current scene (outdoor or indoor). Saves older than SaveVersionIndoorCamera stored only the
+    // outdoor camera, so for them the angles are valid only when the save was made outdoors.
+    float cameraYawRadians = 0.0f;
+    float cameraPitchRadians = 0.0f;
+    bool cameraAnglesValid = false;
     bool heldInventoryItemActive = false;
     InventoryItem heldInventoryItem = {};
     uint8_t heldInventoryItemGrabCellOffsetX = 0;

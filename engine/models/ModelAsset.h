@@ -49,6 +49,15 @@ struct ModelSampler
     int wrapT = 10497;
 };
 
+constexpr size_t ModelColorRampStops = 16;
+constexpr size_t ModelMaxColorRegions = 4;
+
+struct ModelColorRamp
+{
+    std::array<float, 2> luminanceRange = {0.0f, 1.0f};
+    std::array<std::array<float, 3>, ModelColorRampStops> colors = {};
+};
+
 struct ModelMaterial
 {
     std::string name;
@@ -67,6 +76,29 @@ struct ModelMaterial
     float alphaCutoff = 0.5f;
     bool doubleSided = false;
     bool unlit = false;
+    // Colour variants of one shared skin (glTF material extras). "openyamm_region_mask" names a texture whose R, G, B
+    // and A channels mark up to four regions; "openyamm_region_ramps" gives each region, in channel order, a linear
+    // luminance range and a linear-RGB ramp. Inside a region the base colour becomes the ramp colour at its
+    // normalised luminance, so tier variants share every image and differ only in their ramps.
+    int regionMaskImageIndex = -1;
+    ModelSampler regionMaskSampler;
+    std::vector<ModelColorRamp> regionRamps;
+    // Static decoration extras: "openyamm_wind" sways the vertex by up to this many model units at the model's top,
+    // growing with (height / model height)^2; "openyamm_billboard" turns the mesh (a quad in the model's x/up plane)
+    // about the vertical axis to face the camera, as a far impostor.
+    float wind = 0.0f;
+    bool billboard = false;
+    // "openyamm_translucency": sunlight passing through thin leaves (0..1).
+    float translucency = 0.0f;
+    // "openyamm_specular": scale of sun, point-light and sky specular (0..1); foliage cards use a small value.
+    float specular = 1.0f;
+    // Texture animation of static decorations. "openyamm_uv_scroll": [du, dv] texture units per second (flowing water);
+    // "openyamm_flipbook": [columns, rows, frames per second], frames left to right then top to bottom, looping with a
+    // per-placement phase (fire). "openyamm_flutter": cloth wave amplitude in model units; each vertex moves along
+    // its normal by amplitude x COLOR_0 alpha x a wave travelling along texture coordinate u (flags).
+    std::array<float, 2> uvScroll = {};
+    std::array<float, 3> flipbook = {};
+    float flutter = 0.0f;
 };
 
 struct ModelVertexInfluences
@@ -89,6 +121,8 @@ struct ModelPrimitive
     std::vector<int> materialIndices = {-1};
     std::vector<ModelVertexInfluences> influences;
     std::vector<ModelMorphTarget> morphTargets;
+    // glTF COLOR_0 (linear RGBA, multiplies the base colour); empty when absent. Drawn by static placements.
+    std::vector<std::array<uint8_t, 4>> colors;
 };
 
 struct ModelMesh

@@ -80,6 +80,8 @@ term into the already baked sun response or darken all bounced light using actor
 The recipe records the complete profile, Blender version and producer SHA-256. The sidecar hashes that
 recipe alongside its source inputs. This catches mismatched installation and changed runtime inputs;
 it does not introspect authoring scripts or profiles from the game executable.
+Map event Lua files are excluded from dependency records. Script edits that change baked decoration
+shadow states require a manual rebake; gameplay-only edits do not invalidate lighting.
 
 The existing sun/sky pages and total-sun/sky probe values keep their original meaning and bytes when migrating.
 Models use visibility to modulate directional direct light and use indirect-sun/sky RGB for fill. Sprite and

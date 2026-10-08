@@ -9,6 +9,8 @@
 #include <optional>
 #include <sstream>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -667,6 +669,7 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows, c
         entry.name = getColumnValue(row, NameColumn);
         entry.fileName = getColumnValue(row, FileNameColumn);
         const std::string explicitWorldId = trimCopy(getColumnValue(row, WorldIdColumn));
+        entry.explicitWorldId = !explicitWorldId.empty();
         entry.worldId = explicitWorldId.empty()
             ? inferWorldIdFromMapFileName(entry.fileName, worldId)
             : normalizeWorldId(explicitWorldId);
@@ -876,6 +879,70 @@ bool MapStats::applyMergedOutdoorTravels(const MergedOutdoorTravelTable &outdoor
     }
 
     return true;
+}
+
+bool MapStats::applyWorldOwnership(const std::vector<std::pair<std::string, std::string>> &worldMapFiles)
+{
+    std::unordered_map<std::string, std::string> ownerByFileName;
+    std::unordered_set<std::string> sharedFileNames;
+
+    for (const auto &[worldId, fileName] : worldMapFiles)
+    {
+        const std::string normalizedFileName = normalizeFileName(fileName);
+        const std::string normalizedWorldId = normalizeWorldId(worldId);
+        const auto [iterator, inserted] = ownerByFileName.emplace(normalizedFileName, normalizedWorldId);
+
+        if (!inserted && iterator->second != normalizedWorldId)
+        {
+            sharedFileNames.insert(normalizedFileName);
+        }
+    }
+
+    for (MapStatsEntry &entry : m_entries)
+    {
+        if (entry.explicitWorldId)
+        {
+            continue;
+        }
+
+        const std::string normalizedFileName = normalizeFileName(entry.fileName);
+
+        if (sharedFileNames.contains(normalizedFileName))
+        {
+            std::cerr << "MapStats map " << entry.fileName
+                      << " is shipped by more than one world; set its world id column\n";
+            return false;
+        }
+
+        const auto owner = ownerByFileName.find(normalizedFileName);
+
+        if (owner != ownerByFileName.end())
+        {
+            entry.worldId = owner->second;
+            entry.canonicalId = buildCanonicalMapId(entry.worldId, entry.fileName);
+        }
+    }
+
+    return true;
+}
+
+std::vector<std::pair<std::string, std::string>> MapStats::legacyCanonicalIdRenames() const
+{
+    std::vector<std::pair<std::string, std::string>> renames;
+
+    for (const MapStatsEntry &entry : m_entries)
+    {
+        // Before world ownership, maps without an explicit world were assigned by file name alone.
+        const std::string legacyCanonicalId =
+            buildCanonicalMapId(inferWorldIdFromMapFileName(entry.fileName, DefaultWorldId), entry.fileName);
+
+        if (!entry.explicitWorldId && legacyCanonicalId != entry.canonicalId)
+        {
+            renames.emplace_back(legacyCanonicalId, entry.canonicalId);
+        }
+    }
+
+    return renames;
 }
 
 const std::vector<MapStatsEntry> &MapStats::getEntries() const

@@ -5049,6 +5049,7 @@ void OutdoorWorldRuntime::initialize(
     m_outdoorLandPathMapSnapshot.reset();
     m_actorPathRuntime.clear();
     m_actorPathRuntimeSeconds = 0.0;
+    m_actorSightCache.clear();
     m_actorPathPlansThisStep = 0;
     m_nextActorPathPlanSeconds = 0.0;
     m_actorUpdateAccumulatorSeconds = 0.0f;
@@ -7289,6 +7290,7 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
 void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_pendingMonsterKilledEvents.clear();
+    m_actorSightCache.clear();
 
     std::unordered_map<uint32_t, EventRuntimeState::OutdoorModelMechanismDefinition>
         mapDerivedOutdoorModelMechanisms;
@@ -8308,6 +8310,43 @@ std::vector<bool> OutdoorWorldRuntime::selectOutdoorActiveActors(float partyX, f
         ActiveActorUpdateRange);
 }
 
+bool OutdoorWorldRuntime::cachedActorLineOfSight(
+    size_t startActorIndex,
+    size_t endActorIndex,
+    const bx::Vec3 &start,
+    const bx::Vec3 &end) const
+{
+    constexpr float ReuseDistance = 48.0f;
+    constexpr double ReuseSeconds = 0.125;
+    // Line of sight is symmetric; endActorIndex SIZE_MAX means the party.
+    const uint64_t first = std::min<uint64_t>(startActorIndex, endActorIndex);
+    const uint64_t second = std::max<uint64_t>(startActorIndex, endActorIndex);
+    const uint64_t key = (first << 32) ^ (second & 0xffffffffu);
+    const bool swapped = first != startActorIndex;
+    const std::array<float, 3> from = swapped ? std::array<float, 3>{end.x, end.y, end.z}
+        : std::array<float, 3>{start.x, start.y, start.z};
+    const std::array<float, 3> to = swapped ? std::array<float, 3>{start.x, start.y, start.z}
+        : std::array<float, 3>{end.x, end.y, end.z};
+    const auto near = [&](const std::array<float, 3> &left, const std::array<float, 3> &right)
+    {
+        const float dx = left[0] - right[0], dy = left[1] - right[1], dz = left[2] - right[2];
+        return dx * dx + dy * dy + dz * dz <= ReuseDistance * ReuseDistance;
+    };
+    ActorSightCacheEntry &entry = m_actorSightCache[key];
+    // Expiry is staggered per pair (0.125-0.23 s) so re-checks of a crowd spread over many AI steps.
+    const double lifetime = ReuseSeconds * (1.0 + double(key % 7) / 8.0);
+    if (entry.checkedSeconds > 0.0 && m_actorPathRuntimeSeconds - entry.checkedSeconds < lifetime
+        && near(entry.start, from) && near(entry.end, to))
+    {
+        return entry.visible;
+    }
+    entry.visible = hasClearOutdoorLineOfSight(start, end);
+    entry.checkedSeconds = std::max(m_actorPathRuntimeSeconds, 1e-9);
+    entry.start = from;
+    entry.end = to;
+    return entry.visible;
+}
+
 ActorAiFrameFacts OutdoorWorldRuntime::collectOutdoorActorAiFrameFacts(
     float deltaSeconds,
     float partyX,
@@ -8324,13 +8363,17 @@ ActorAiFrameFacts OutdoorWorldRuntime::collectOutdoorActorAiFrameFacts(
     facts.party.invisible = m_pParty != nullptr && m_pParty->hasPartyBuff(PartyBuffId::Invisibility);
     facts.party.hasDispellableBuffs = partyHasDispellableBuffs(m_pParty);
 
-    std::vector<int8_t> actorLineOfSightCache(m_mapActors.size() * m_mapActors.size(), -1);
+    // Forget sight results that have not been reused for a second (dead, removed or distant pairs).
+    std::erase_if(m_actorSightCache, [&](const auto &entry)
+    {
+        return m_actorPathRuntimeSeconds - entry.second.checkedSeconds > 1.0;
+    });
 
     for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
     {
         const bool active = actorIndex < activeActorMask.size() && activeActorMask[actorIndex];
         const std::optional<ActorAiFacts> actorFacts =
-            collectOutdoorActorAiFacts(actorIndex, active, partyX, partyY, partyZ, actorLineOfSightCache);
+            collectOutdoorActorAiFacts(actorIndex, active, partyX, partyY, partyZ);
 
         if (!actorFacts)
         {
@@ -8355,8 +8398,7 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     bool active,
     float partyX,
     float partyY,
-    float partyZ,
-    std::vector<int8_t> &actorLineOfSightCache) const
+    float partyZ) const
 {
     if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr)
     {
@@ -8370,38 +8412,10 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     {
         return std::nullopt;
     }
-    const size_t mapActorCount = m_mapActors.size();
     const auto hasClearOutdoorLineOfSight =
-        [this, mapActorCount, &actorLineOfSightCache](
-        size_t startActorIndex,
-        size_t endActorIndex,
-        const bx::Vec3 &start,
-        const bx::Vec3 &end) -> bool
+        [this](size_t startActorIndex, size_t endActorIndex, const bx::Vec3 &start, const bx::Vec3 &end) -> bool
     {
-        if (startActorIndex >= mapActorCount || endActorIndex >= mapActorCount)
-        {
-            return this->hasClearOutdoorLineOfSight(start, end);
-        }
-
-        const size_t firstActorIndex = std::min(startActorIndex, endActorIndex);
-        const size_t secondActorIndex = std::max(startActorIndex, endActorIndex);
-        const size_t cacheIndex = firstActorIndex * mapActorCount + secondActorIndex;
-
-        if (cacheIndex >= actorLineOfSightCache.size())
-        {
-            return this->hasClearOutdoorLineOfSight(start, end);
-        }
-
-        int8_t &cachedResult = actorLineOfSightCache[cacheIndex];
-
-        if (cachedResult >= 0)
-        {
-            return cachedResult != 0;
-        }
-
-        const bool hasLineOfSight = this->hasClearOutdoorLineOfSight(start, end);
-        cachedResult = hasLineOfSight ? 1 : 0;
-        return hasLineOfSight;
+        return cachedActorLineOfSight(startActorIndex, endActorIndex, start, end);
     };
 
     std::vector<OutdoorCombatTargetCandidate> combatCandidates;
@@ -13981,6 +13995,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.preciseZ = pActor->preciseZ;
     state.radius = pActor->radius;
     state.height = pActor->height;
+    state.bodyHeight = pActor->height;
     state.isDead = pActor->isDead;
     state.isInvisible = pActor->isInvisible;
     state.hostileToParty = pActor->hostileToParty;

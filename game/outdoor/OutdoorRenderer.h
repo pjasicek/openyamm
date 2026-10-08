@@ -80,6 +80,10 @@ private:
     static void submitResolvedBModelDrawGroup(OutdoorGameView &view,
         const OutdoorGameView::ResolvedBModelDrawGroup &group, uint16_t viewId, size_t frameIndex, uint32_t transform);
     static void ensureTerrainDecorations(OutdoorGameView &view, const OutdoorMapData &outdoorMapData);
+    static void ensureDecorationModels(OutdoorGameView &view);
+    // Event visibility and light of each decoration-model placement for this frame. Baked probes are sampled once.
+    static void updateDecorationModels(OutdoorGameView &view, const OutdoorLightingData *pBakedLighting,
+        const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState);
     static void initializeAnimatedWaterTileState(
         OutdoorGameView &view,
         const std::optional<OutdoorTerrainTextureAtlas> &outdoorTerrainTextureAtlas);

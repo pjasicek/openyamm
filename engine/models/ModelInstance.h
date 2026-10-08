@@ -66,6 +66,8 @@ public:
     const ModelMatrix *nodeMatrix(ModelInstanceHandle handle, uint32_t nodeIndex) const;
     const ModelMatrix *nodeMatrix(ModelInstanceHandle handle, const std::string &nodeName) const;
     const ModelBounds *bounds(ModelInstanceHandle handle) const;
+    // Pose bounds of the coarsest LOD mesh: hover/picking precision for a fraction of the skinning work.
+    const ModelBounds *pickingBounds(ModelInstanceHandle handle) const;
     const ModelBounds *cullingBounds(ModelInstanceHandle handle) const;
     const ModelBounds *motionBounds(ModelInstanceHandle handle) const;
     float playbackTime(ModelInstanceHandle handle) const;
@@ -103,6 +105,10 @@ private:
         mutable ModelBounds cullingBounds;
         ModelBounds motionBounds;
         mutable bool matricesDirty = true;
+        mutable ModelBounds pickingBounds;
+        mutable uint64_t pickingBoundsRevision = UINT64_MAX;
+        // Clip sampling/blending inputs changed; root-only moves just recompose the hierarchy.
+        mutable bool localPoseDirty = true;
         mutable bool verticesDirty = true;
         mutable bool morphVerticesDirty = true;
         mutable bool boundsDirty = true;
@@ -110,7 +116,7 @@ private:
 
     Slot *find(ModelInstanceHandle handle);
     const Slot *find(ModelInstanceHandle handle) const;
-    void evaluate(Slot &slot);
+    void evaluate(Slot &slot, bool localPoseChanged = true);
     void evaluateMatrices(const Slot &slot) const;
 
     std::vector<Slot> m_slots;

@@ -376,12 +376,13 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
             binding.yawOffset = entry["yaw_offset"].as<float>(0.0f);
             binding.zOffset = entry["z_offset"].as<float>(0.0f);
             const std::string deathEffect = entry["death_effect"].as<std::string>("none");
-            if (deathEffect != "none" && deathEffect != "disintegration")
+            if (deathEffect != "none" && deathEffect != "disintegration" && deathEffect != "explosion")
             {
                 error = "unknown actor model death effect: " + deathEffect;
                 return false;
             }
             binding.disintegrates = deathEffect == "disintegration";
+            binding.explodes = deathEffect == "explosion";
             if (binding.disintegrates)
             {
                 Engine::ModelPose rest;
@@ -431,6 +432,23 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
                     return *clip;
                 };
                 binding.castClip = requireClip("cast");
+                binding.castGlowScale = animation["cast_glow_scale"].as<float>(1.0f);
+                binding.castFocusGlowScale = animation["cast_focus_glow_scale"].as<float>(1.0f);
+                if (!std::isfinite(binding.castGlowScale) || binding.castGlowScale <= 0.0f
+                    || !std::isfinite(binding.castFocusGlowScale) || binding.castFocusGlowScale <= 0.0f)
+                {
+                    throw std::runtime_error("invalid actor cast glow scale: " + descriptor);
+                }
+                if (animation["cast_focus_socket"])
+                {
+                    const std::string name = animation["cast_focus_socket"].as<std::string>();
+                    const std::optional<uint32_t> node = binding.asset->findNode(name);
+                    if (!node)
+                    {
+                        throw std::runtime_error("actor cast focus socket not found: " + name);
+                    }
+                    binding.castFocusSocket = *node;
+                }
                 binding.runClip = requireClip("run");
                 binding.strideLength = animation["stride_length"].as<float>();
                 if (!std::isfinite(binding.strideLength) || binding.strideLength <= 0.0f)
@@ -453,13 +471,14 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
                 binding.upperBodyMask = std::move(mask);
                 constexpr std::array<const char *, 4> SocketNames =
                     {"eye_left", "eye_right", "palm_left", "palm_right"};
-                for (size_t i = 0; i < SocketNames.size(); ++i)
+                const YAML::Node sockets = animation["sockets"];
+                for (size_t i = 0; sockets && i < SocketNames.size(); ++i)
                 {
-                    if (!animation["sockets"][SocketNames[i]])
+                    if (!sockets[SocketNames[i]])
                     {
                         continue;
                     }
-                    const std::string name = animation["sockets"][SocketNames[i]].as<std::string>();
+                    const std::string name = sockets[SocketNames[i]].as<std::string>();
                     const std::optional<uint32_t> node = binding.asset->findNode(name);
                     if (!node)
                     {
@@ -603,7 +622,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
         ActorModelInstance &model = instance->second;
         model.pBinding = &binding;
         const float scale = binding.scale * state.visualScale
-            * (pMonster->height > 0 ? float(state.height) / pMonster->height : 1.0f);
+            * (pMonster->height > 0 && state.bodyHeight > 0 ? float(state.bodyHeight) / pMonster->height : 1.0f);
         model.fxScale = scale / binding.fxReferenceScale;
         const float distance = std::hypot(state.preciseX - model.previousX, state.preciseY - model.previousY);
         const bool teleported = model.initialized && distance > std::max(256.0f, scale * 8.0f);
@@ -670,11 +689,44 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
         if (binding.disintegrates && dying && !instance->second.dying)
         {
             const float height = binding.scale * state.visualScale * binding.height
-                * (pMonster->height > 0 ? float(state.height) / pMonster->height : 1.0f);
+                * (pMonster->height > 0 && state.bodyHeight > 0 ? float(state.bodyHeight) / pMonster->height : 1.0f);
             FxRecipes::spawnActorDisintegrationParticles(m_particleSystem, state.actorId,
                 state.preciseX, state.preciseY, state.preciseZ + binding.zOffset, height, time, duration);
         }
+        if (binding.explodes && dying && !instance->second.dying)
+        {
+            FxRecipes::ImpactSpawnContext explosion = {};
+            explosion.recipe = FxRecipes::ProjectileRecipe::Fireball;
+            explosion.x = state.preciseX;
+            explosion.y = state.preciseY;
+            explosion.z = state.preciseZ + binding.zOffset + float(state.height) * 0.5f;
+            FxRecipes::spawnImpactParticles(m_particleSystem, explosion);
+        }
         instance->second.dying = dying;
+        if (dying && !binding.disintegrates)
+        {
+            model.deathClipTime = time;
+        }
+        else if (state.animationState == ActorAiAnimationState::Dead && model.deathClipTime >= 0.0f)
+        {
+            // The AI switches to the corpse after the native sprite death length; a longer model death clip
+            // finishes first, then the dead clip holds.
+            const uint32_t deathClip = binding.clips[size_t(ActorAiAnimationState::Dying)];
+            model.deathClipTime += deltaSeconds;
+            if (model.deathClipTime < binding.asset->clips[deathClip].durationSeconds)
+            {
+                clip = deathClip;
+                time = model.deathClipTime;
+            }
+            else
+            {
+                model.deathClipTime = -1.0f;
+            }
+        }
+        else
+        {
+            model.deathClipTime = -1.0f;
+        }
         if ((state.animationState == ActorAiAnimationState::Standing
                 || state.animationState == ActorAiAnimationState::Walking) && duration > 0)
         {
@@ -701,6 +753,25 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
             }
             clip = locomotion;
             time = phase * binding.asset->clips[clip].durationSeconds;
+        }
+        // Animation LOD: distant actors sample their clips at 15 Hz beyond ~14 m and at the native sprite rate (8 Hz)
+        // beyond ~28 m. A per-actor phase offset spreads the updates; root motion stays per frame, and an unchanged
+        // clip time only recomposes the joint hierarchy.
+        const float partyDistance = std::hypot(state.preciseX - world.partyX(), state.preciseY - world.partyY());
+        const float sampleStep = !m_actorAnimationLod ? 0.0f
+            : partyDistance > 3000.0f ? 1.0f / 8.0f : partyDistance > 1500.0f ? 1.0f / 15.0f : 0.0f;
+        if (sampleStep > 0.0f)
+        {
+            const float offset = sampleStep * std::fmod(float(model.actorId) * 0.618034f, 1.0f);
+            const auto quantize = [&](float seconds)
+            {
+                return std::max(0.0f, std::floor((seconds + offset) / sampleStep) * sampleStep - offset);
+            };
+            time = quantize(time);
+            if (layer.weight > 0.0f)
+            {
+                layer.timeSeconds = quantize(layer.timeSeconds);
+            }
         }
         const Engine::ModelTransform transform = Engine::gltfModelPlacement(
             {state.preciseX, state.preciseY, state.preciseZ + binding.zOffset},
@@ -824,38 +895,60 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
         {
             const Engine::ModelMatrix *pLeft = m_models.nodeMatrix(model.handle, binding.sockets[2]);
             const Engine::ModelMatrix *pRight = m_models.nodeMatrix(model.handle, binding.sockets[3]);
+            const Engine::ModelMatrix *pFocus = m_models.nodeMatrix(model.handle, binding.castFocusSocket);
+            model.castOriginCount = 0;
             if (pLeft != nullptr || pRight != nullptr)
             {
                 const Engine::ModelMatrix &left = pLeft != nullptr ? *pLeft : *pRight;
                 const Engine::ModelMatrix &right = pRight != nullptr ? *pRight : *pLeft;
                 for (size_t axis = 0; axis < 3; ++axis)
                 {
-                    model.castOrigin[axis] = (left[12 + axis] + right[12 + axis]) * 0.5f;
+                    model.castOrigins[0][axis] = (left[12 + axis] + right[12 + axis]) * 0.5f;
                 }
+                model.castOriginScales[0] = binding.castGlowScale;
+                model.castOriginCount = 1;
+            }
+            if (pFocus != nullptr)
+            {
+                model.castOrigins[model.castOriginCount] = {(*pFocus)[12], (*pFocus)[13], (*pFocus)[14]};
+                model.castOriginScales[model.castOriginCount] = binding.castFocusGlowScale;
+                ++model.castOriginCount;
+            }
+            if (model.castOriginCount > 0)
+            {
                 model.hasCastOrigin = true;
                 model.castOriginAge = 0.0f;
             }
         }
         const float charge = std::clamp((model.castProgress - 0.25f) / 0.5f, 0.0f, 1.0f);
-        const float castFxScale = 2.0f * model.fxScale;
         if (refreshSpatialFx && model.casting && model.hasCastOrigin && charge > 0.0f)
         {
-            const float radius = (8.0f + 24.0f * charge) * castFxScale;
-            addGlowBillboard(model.castOrigin[0], model.castOrigin[1], model.castOrigin[2],
-                radius, (model.castColor & 0x00ffffffu) | 0xa0000000u);
             const uint32_t coreColor = makeAbgr(
                 ((model.castColor & 0xffu) + 255) / 2,
                 (((model.castColor >> 8) & 0xffu) + 255) / 2,
                 (((model.castColor >> 16) & 0xffu) + 255) / 2, 240);
-            addGlowBillboard(model.castOrigin[0], model.castOrigin[1], model.castOrigin[2],
-                radius * 0.5f, coreColor);
-            addLightEmitter(model.castOrigin[0], model.castOrigin[1], model.castOrigin[2],
-                128.0f * charge * castFxScale, model.castColor, -1, RenderLightKind::GenericFx, model.actorId, false);
+            for (size_t origin = 0; origin < model.castOriginCount; ++origin)
+            {
+                const std::array<float, 3> &point = model.castOrigins[origin];
+                const float castFxScale = 2.0f * model.fxScale * model.castOriginScales[origin];
+                const float radius = (8.0f + 24.0f * charge) * castFxScale;
+                addGlowBillboard(point[0], point[1], point[2], radius, (model.castColor & 0x00ffffffu) | 0xa0000000u);
+                addGlowBillboard(point[0], point[1], point[2], radius * 0.5f, coreColor);
+                if (origin == 0)
+                {
+                    addLightEmitter(point[0], point[1], point[2], 128.0f * charge * castFxScale, model.castColor, -1,
+                        RenderLightKind::GenericFx, model.actorId, false);
+                }
+            }
         }
         if (deltaSeconds > 0.0f && model.pendingRelease && model.hasCastOrigin)
         {
-            FxRecipes::spawnBuffSparkles(m_particleSystem, model.actorId,
-                model.castOrigin[0], model.castOrigin[1], model.castOrigin[2], 8.0f, model.castColor);
+            for (size_t origin = 0; origin < model.castOriginCount; ++origin)
+            {
+                const std::array<float, 3> &point = model.castOrigins[origin];
+                FxRecipes::spawnBuffSparkles(m_particleSystem, model.actorId, point[0], point[1], point[2], 8.0f,
+                    model.castColor);
+            }
             model.pendingRelease = false;
             model.hasCastOrigin = false;
         }
@@ -887,16 +980,21 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
         };
         if (model.casting && model.hasCastOrigin && charge > 0.0f)
         {
-            for (size_t spark = 0; spark < 3; ++spark)
+            for (size_t origin = 0; origin < model.castOriginCount; ++origin)
             {
-                const float angle = model.castProgress * 12.0f + float(model.actorId)
-                    + float(spark) * (2.0f * std::numbers::pi_v<float> / 3.0f);
-                const float x = std::cos(angle), y = std::sin(angle);
-                const float radius = (4.0f + 10.0f * charge) * castFxScale;
-                spawnEmber({model.castOrigin[0] + x * radius, model.castOrigin[1] + y * radius,
-                    model.castOrigin[2] + std::sin(angle * 2.0f) * radius * 0.5f},
-                    12.0f * castFxScale, (model.castColor & 0x00ffffffu) | 0xe0000000u,
-                    {x * 32.0f * castFxScale, y * 32.0f * castFxScale, 45.0f * castFxScale}, 0.35f);
+                const std::array<float, 3> &point = model.castOrigins[origin];
+                const float castFxScale = 2.0f * model.fxScale * model.castOriginScales[origin];
+                for (size_t spark = 0; spark < 3; ++spark)
+                {
+                    const float angle = model.castProgress * 12.0f + float(model.actorId)
+                        + float(spark) * (2.0f * std::numbers::pi_v<float> / 3.0f);
+                    const float x = std::cos(angle), y = std::sin(angle);
+                    const float radius = (4.0f + 10.0f * charge) * castFxScale;
+                    spawnEmber({point[0] + x * radius, point[1] + y * radius,
+                        point[2] + std::sin(angle * 2.0f) * radius * 0.5f},
+                        12.0f * castFxScale, (model.castColor & 0x00ffffffu) | 0xe0000000u,
+                        {x * 32.0f * castFxScale, y * 32.0f * castFxScale, 45.0f * castFxScale}, 0.35f);
+                }
             }
         }
         for (size_t eye = 0; eye < 2; ++eye)
@@ -917,7 +1015,7 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
 const Engine::ModelBounds *WorldFxSystem::actorModelBounds(size_t actorIndex) const
 {
     const auto iterator = m_actorModels.find(actorIndex);
-    return iterator != m_actorModels.end() ? m_models.bounds(iterator->second.handle) : nullptr;
+    return iterator != m_actorModels.end() ? m_models.pickingBounds(iterator->second.handle) : nullptr;
 }
 
 const Engine::ModelBounds *WorldFxSystem::actorModelCullingBounds(size_t actorIndex) const

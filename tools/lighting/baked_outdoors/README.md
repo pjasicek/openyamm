@@ -165,6 +165,19 @@ registry, texture files and the installed recipe. Missing/corrupt/stale declared
 with a regeneration error. A map without a sidecar is valid. After changing source assets, rebake;
 after changing a profile or producer, regenerate and install its new recipe and sidecar together.
 
+Map event scripts are scanned when baking to determine decoration states, but their contents are not
+lighting dependencies. Gameplay-only script edits do not invalidate a bake. If a script edit changes
+decoration visibility or silhouettes used by baked shadows, rebake that map manually.
+To remove obsolete script hashes from existing bakes without changing any lighting samples:
+
+```sh
+python3 tools/lighting/remove_map_script_dependencies.py \
+  --backup-root /tmp/openyamm-lighting-script-dependency-backups \
+  --report output/lighting_script_dependency_migration.json
+```
+
+The migration validates every retained source dependency before writing and backs up each changed sidecar.
+
 ## Checks
 
 ```sh

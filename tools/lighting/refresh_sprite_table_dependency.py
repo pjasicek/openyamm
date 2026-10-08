@@ -121,15 +121,17 @@ def main():
                 cached_hashes[name] = fnv((args.assets_root/name).read_bytes())
             if cached_hashes[name] != value:
                 raise ValueError(f'{path}: another dependency changed: {name}; rebake required')
-            if name.endswith('.lua'):
-                scripts.add(name)
+        script_directory = path.parent.parent / 'events/maps'
+        scripts.add(script_directory / (path.stem + '.lua'))
+        scripts.update(script_directory.glob(path.stem + '_*.lua'))
         output = bytearray(data)
         offset = matching[0][2]
         struct.pack_into('<Q', output, offset, new_hash)
         assert data[:offset] == output[:offset] and data[offset+8:] == output[offset+8:]
         pending.append((path, data, output, offset))
-    for name in sorted(scripts):
-        path = args.assets_root/name
+    for path in sorted(scripts):
+        if not path.is_file():
+            continue
         for states in sprite_states(path.read_bytes().decode('latin-1'), path).values():
             state_names.update(n for _, n in states if n)
     if changed_names & state_names:

@@ -524,6 +524,21 @@ struct GameApplicationTestAccess
         return application.m_outdoorGameView.cameraPitchRadians();
     }
 
+    static void setIndoorCameraAngles(GameApplication &application, float yawRadians, float pitchRadians)
+    {
+        application.m_indoorRenderer.setCameraAngles(yawRadians, pitchRadians);
+    }
+
+    static float indoorCameraYawRadians(const GameApplication &application)
+    {
+        return application.m_indoorRenderer.cameraYawRadians();
+    }
+
+    static float indoorCameraPitchRadians(const GameApplication &application)
+    {
+        return application.m_indoorRenderer.cameraPitchRadians();
+    }
+
     static GameAudioSystem &gameAudioSystem(GameApplication &application)
     {
         return application.m_gameAudioSystem;
@@ -20737,8 +20752,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             saveData.outdoorWorldStates["Data/games/out02.odm"] = saveData.outdoorWorld;
             saveData.outdoorWorldStates["Data/games/out02.odm"].gameMinutes += 12.0f;
             saveData.savedGameMinutes = saveData.outdoorWorld.gameMinutes;
-            saveData.outdoorCameraYawRadians = 1.25f;
-            saveData.outdoorCameraPitchRadians = -0.45f;
+            saveData.cameraYawRadians = 1.25f;
+            saveData.cameraPitchRadians = -0.45f;
 
             const std::filesystem::path savePath = "/tmp/openyamm_save_roundtrip.oysav";
             std::string error;
@@ -20848,8 +20863,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (std::abs(loadedSave->outdoorCameraYawRadians - 1.25f) > 0.0001f
-                || std::abs(loadedSave->outdoorCameraPitchRadians + 0.45f) > 0.0001f)
+            if (std::abs(loadedSave->cameraYawRadians - 1.25f) > 0.0001f
+                || std::abs(loadedSave->cameraPitchRadians + 0.45f) > 0.0001f)
             {
                 failure = "camera heading did not roundtrip";
                 return false;
@@ -24654,6 +24669,51 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             if (pOut02State == nullptr || !pOut02State->variables.contains(0x2345u) || pOut02State->variables[0x2345u] != 88)
             {
                 failure = "current-map out02 state did not persist across app quick load";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_quicksave_quickload_restores_indoor_camera_facing",
+        [&](std::string &failure)
+        {
+            if (!prepareSharedHeadlessGameApplication(out01QuicksaveSession, assetFileSystem, "out01.odm", false, failure)
+                || !loadHeadlessGameApplicationMap(out01QuicksaveSession.application, assetFileSystem, "d09.blv", failure))
+            {
+                return false;
+            }
+
+            GameApplication &application = out01QuicksaveSession.application;
+            GameApplicationTestAccess::setIndoorCameraAngles(application, 2.5f, -0.3f);
+            const std::filesystem::path savePath = "/tmp/openyamm_app_indoor_camera.oysav";
+
+            if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
+            {
+                failure = "application quick save failed";
+                return false;
+            }
+
+            GameApplicationTestAccess::setIndoorCameraAngles(application, 0.0f, 0.15f);
+            const bool loaded = GameApplicationTestAccess::quickLoadFromPath(application, savePath, true);
+            std::error_code removeError;
+            std::filesystem::remove(savePath, removeError);
+
+            if (!loaded || GameApplicationTestAccess::currentSceneKind(application) != SceneKind::Indoor)
+            {
+                failure = "application quick load into the indoor map failed";
+                return false;
+            }
+
+            const float yaw = GameApplicationTestAccess::indoorCameraYawRadians(application);
+            const float pitch = GameApplicationTestAccess::indoorCameraPitchRadians(application);
+
+            if (std::abs(yaw - 2.5f) > 0.001f || std::abs(pitch + 0.3f) > 0.001f)
+            {
+                failure = "indoor camera facing not restored: yaw " + std::to_string(yaw) + " pitch "
+                    + std::to_string(pitch);
                 return false;
             }
 
