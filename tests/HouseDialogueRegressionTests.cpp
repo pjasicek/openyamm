@@ -2325,15 +2325,8 @@ TEST_CASE("gate master town portal uses follower spell power")
     CHECK(overlay.bypassGameplayCasterValidation);
     CHECK(overlay.bypassTownPortalFailureChecks);
 
-    OpenYAMM::Game::PartySpellCastRequest request = {};
-    request.casterMemberIndex = overlay.casterMemberIndex;
-    request.spellId = overlay.spellId;
-    request.skillLevelOverride = overlay.skillLevelOverride;
-    request.skillMasteryOverride = overlay.skillMasteryOverride;
-    request.spendMana = overlay.spendMana;
-    request.applyRecovery = overlay.applyRecovery;
-    request.bypassGameplayCasterValidation = overlay.bypassGameplayCasterValidation;
-    request.bypassTownPortalFailureChecks = overlay.bypassTownPortalFailureChecks;
+    // The destination click casts the overlay's own request; the active member has neither the spell nor mana.
+    OpenYAMM::Game::PartySpellCastRequest request = overlay.castRequest();
     request.utilityAction = OpenYAMM::Game::PartySpellUtilityActionKind::TownPortalDestination;
     request.hasUtilityMapMove = true;
     request.utilityMapMoveMapName = "out01.odm";

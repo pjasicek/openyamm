@@ -3596,14 +3596,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
                     for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
                     {
-                        std::string label = view.activeEventDialog().actions[actionIndex].label;
-
-                        if (!view.activeEventDialog().actions[actionIndex].enabled
-                            && !view.activeEventDialog().actions[actionIndex].disabledReason.empty())
-                        {
-                            label += " [disabled]";
-                        }
-
+                        const std::string &label = view.activeEventDialog().actions[actionIndex].label;
                         std::vector<std::string> wrappedLines = topicFont
                             ? view.wrapHudTextToWidth(*topicFont, label, topicTextWidth)
                             : std::vector<std::string>{label};

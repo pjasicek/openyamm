@@ -356,6 +356,21 @@ const GameplayUiController::HouseBankState &GameplayUiController::houseBankState
     return resolvedState().houseBankState;
 }
 
+PartySpellCastRequest GameplayUiController::UtilitySpellOverlayState::castRequest() const
+{
+    PartySpellCastRequest request = {};
+    request.casterMemberIndex = casterMemberIndex;
+    request.spellId = spellId;
+    request.skillLevelOverride = skillLevelOverride;
+    request.skillMasteryOverride = skillMasteryOverride;
+    request.spendMana = spendMana;
+    request.applyRecovery = applyRecovery;
+    request.bypassRequiredMastery = bypassRequiredMastery;
+    request.bypassGameplayCasterValidation = bypassGameplayCasterValidation;
+    request.bypassTownPortalFailureChecks = bypassTownPortalFailureChecks;
+    return request;
+}
+
 GameplayUiController::UtilitySpellOverlayState &GameplayUiController::utilitySpellOverlay()
 {
     return resolvedState().utilitySpellOverlay;

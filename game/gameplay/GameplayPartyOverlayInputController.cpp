@@ -902,9 +902,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 }
 
                 const GameplayTownPortalDestination &destination = context.townPortalDestinations()[target.index];
-                PartySpellCastRequest request = {};
-                request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
-                request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+                PartySpellCastRequest request = context.utilitySpellOverlayReadOnly().castRequest();
                 request.utilityAction = PartySpellUtilityActionKind::TownPortalDestination;
                 request.hasUtilityMapMove = true;
                 request.utilityActionId = destination.id;
@@ -1086,9 +1084,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                     return;
                 }
 
-                PartySpellCastRequest request = {};
-                request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
-                request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+                PartySpellCastRequest request = context.utilitySpellOverlayReadOnly().castRequest();
                 request.utilitySlotIndex = static_cast<uint8_t>(target.index);
 
                 if (context.utilitySpellOverlayReadOnly().lloydRecallMode)
@@ -1199,9 +1195,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 return;
             }
 
-            PartySpellCastRequest request = {};
-            request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
-            request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+            PartySpellCastRequest request = context.utilitySpellOverlayReadOnly().castRequest();
 
             if (target.type == GameplayUtilitySpellPointerTargetType::TownPortalDestination)
             {
@@ -2591,9 +2585,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             {
                 if (target.type == GameplayCharacterPointerTargetType::InventoryItem)
                 {
-                    PartySpellCastRequest request = {};
-                    request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
-                    request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+                    PartySpellCastRequest request = context.utilitySpellOverlayReadOnly().castRequest();
                     request.targetItemMemberIndex =
                         pParty != nullptr ? std::optional<size_t>(selectedPartyMemberIndex) : std::nullopt;
                     request.targetInventoryGridX = target.gridX;
@@ -2604,9 +2596,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 if (target.type == GameplayCharacterPointerTargetType::EquipmentSlot)
                 {
-                    PartySpellCastRequest request = {};
-                    request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
-                    request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+                    PartySpellCastRequest request = context.utilitySpellOverlayReadOnly().castRequest();
                     request.targetItemMemberIndex =
                         pParty != nullptr ? std::optional<size_t>(selectedPartyMemberIndex) : std::nullopt;
                     request.targetEquipmentSlot = target.equipmentSlot;

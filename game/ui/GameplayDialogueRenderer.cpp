@@ -1903,17 +1903,9 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
             for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
             {
-                std::string label = showHoveredShopTopic
+                const std::string &label = showHoveredShopTopic
                     ? *hoveredHouseServiceTopicText
                     : view.activeEventDialog().actions[actionIndex].label;
-
-                if (!showHoveredShopTopic
-                    && !view.activeEventDialog().actions[actionIndex].enabled
-                    && !view.activeEventDialog().actions[actionIndex].disabledReason.empty())
-                {
-                    label += " [disabled]";
-                }
-
                 std::vector<std::string> wrappedLines = topicFont
                     ? view.wrapHudTextToWidth(*topicFont, label, topicTextWidth)
                     : std::vector<std::string>{label};

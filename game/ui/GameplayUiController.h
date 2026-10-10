@@ -438,6 +438,9 @@ public:
         std::string lloydSetPreviewRequestId;
         std::string lloydSetPreviewSpellName;
         PartySpellCastRequest lloydSetPreviewRequest = {};
+
+        // The cast this overlay completes, with the power and costs its opener chose (a Gate Master, a scroll).
+        PartySpellCastRequest castRequest() const;
     };
 
     struct StatusBarState
