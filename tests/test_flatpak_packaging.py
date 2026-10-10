@@ -79,6 +79,8 @@ while [ ! -f "$OPENYAMM_TEST_RELEASE" ]; do sleep 0.02; done
         for name in ('CMakeLists.txt', 'LICENSE', 'COPYRIGHT', 'settings_release.ini',
                      'tools/openyamm_shaderc_stubs.cpp', 'tools/cook_sprite_atlases_main.cpp',
                      'tools/SpriteAtlasEncode.cpp', 'tools/SpriteAtlasEncode.h',
+                     'tools/TextureBlockEncode.cpp', 'tools/TextureBlockEncode.h',
+                     'tools/cook_model_textures_main.cpp',
                      'tools/cook_sprite_atlases.py', 'tools/package_runtime_assets.py'):
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)

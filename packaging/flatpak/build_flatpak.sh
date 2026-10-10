@@ -316,6 +316,9 @@ prepare_source_tree()
     copy_source_entry tools/cook_sprite_atlases_main.cpp
     copy_source_entry tools/SpriteAtlasEncode.cpp
     copy_source_entry tools/SpriteAtlasEncode.h
+    copy_source_entry tools/TextureBlockEncode.cpp
+    copy_source_entry tools/TextureBlockEncode.h
+    copy_source_entry tools/cook_model_textures_main.cpp
     copy_source_entry tools/cook_sprite_atlases.py
     copy_source_entry tools/package_runtime_assets.py
     stage_flatpak_assets
