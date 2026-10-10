@@ -279,6 +279,9 @@ enum class MapLoadPurpose
     RenderSurfaces,
     ActorPreviews,
     BillboardPreviews,
+    // Decoration billboards for the lighting bake's decoration export: everything the bake needs, without the baked
+    // lighting itself (which it is about to replace, and which may be stale).
+    DecorationPlacements,
 };
 
 using MapLoadProgressPump = std::function<void()>;

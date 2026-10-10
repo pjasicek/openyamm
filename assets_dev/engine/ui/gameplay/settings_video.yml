@@ -395,7 +395,7 @@ elements:
     - id: SettingsVideoGroup2
       anchor: top_left
       offset_x: 0.0
-      offset_y: 455.7253
+      offset_y: 623.7253
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -412,7 +412,7 @@ elements:
     - id: SettingsVideoGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 755.7253
+      offset_y: 979.7253
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -921,10 +921,174 @@ elements:
         pad_x: 3.2
       notes: Bind to video.terrain_decorations; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
         controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsVideoSkyStyleLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 468.5333
+      width: 241.3915
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Sky
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoSkyStyleDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 484.7419
+      width: 397.2
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Enhanced adds a living sky and fades the distance into it; Classic keeps the original.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoSkyStyleControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 470.6586
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{sky_style}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to video.sky_style; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsVideoWeatherQualityLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 524.5333
+      width: 241.3915
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Weather
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWeatherQualityDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 540.7419
+      width: 397.2
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Density of falling rain and snow; Off hides them while the weather itself goes on.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWeatherQualityControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 526.6586
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{weather_quality}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to video.weather_quality. Controller supplies live text.
+    - id: SettingsVideoWetSurfacesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 580.5333
+      width: 288.0
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Wet surfaces
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoWetSurfacesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 596.7419
+      width: 397.2
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Rain darkens the ground and buildings, which dry slowly after it stops.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoWetSurfacesControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 578.313
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+      text:
+        value: '{wet_surfaces}'
+        font: menu_lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Apply the surface setting without reloading the map. Controller supplies live text.
     - id: SettingsVideoWaterShaderLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 481.3253
+      offset_y: 649.3253
       width: 288.0
       height: 14.0752
       z_index: 10
@@ -941,7 +1105,7 @@ elements:
     - id: SettingsVideoWaterShaderDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 497.5339
+      offset_y: 665.5339
       width: 397.2
       height: 23.0336
       z_index: 10
@@ -958,7 +1122,7 @@ elements:
     - id: SettingsVideoWaterShaderControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 479.105
+      offset_y: 647.105
       width: 70.4
       height: 32.158
       z_index: 10
@@ -979,7 +1143,7 @@ elements:
     - id: SettingsVideoWaterReflectionsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 537.3253
+      offset_y: 705.3253
       width: 288.0
       height: 14.0752
       z_index: 10
@@ -996,7 +1160,7 @@ elements:
     - id: SettingsVideoWaterReflectionsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 553.5339
+      offset_y: 721.5339
       width: 397.2
       height: 23.0336
       z_index: 10
@@ -1013,7 +1177,7 @@ elements:
     - id: SettingsVideoWaterReflectionsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 535.105
+      offset_y: 703.105
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1034,7 +1198,7 @@ elements:
     - id: SettingsVideoWaterReflectionSizeLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 593.3253
+      offset_y: 761.3253
       width: 288.0
       height: 14.0752
       z_index: 10
@@ -1051,7 +1215,7 @@ elements:
     - id: SettingsVideoWaterReflectionSizeDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 609.5339
+      offset_y: 777.5339
       width: 397.2
       height: 23.0336
       z_index: 10
@@ -1068,7 +1232,7 @@ elements:
     - id: SettingsVideoWaterReflectionSizeControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 601.2085
+      offset_y: 769.2085
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -1088,7 +1252,7 @@ elements:
     - id: SettingsVideoWaterSpriteReflectionsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 649.3253
+      offset_y: 817.3253
       width: 288.0
       height: 14.0752
       z_index: 10
@@ -1105,7 +1269,7 @@ elements:
     - id: SettingsVideoWaterSpriteReflectionsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 665.5339
+      offset_y: 833.5339
       width: 397.2
       height: 23.0336
       z_index: 10
@@ -1122,7 +1286,7 @@ elements:
     - id: SettingsVideoWaterSpriteReflectionsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 647.105
+      offset_y: 815.105
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1143,7 +1307,7 @@ elements:
     - id: SettingsVideoWaterMovementRipplesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 693.3253
+      offset_y: 861.3253
       width: 288.0
       height: 14.0752
       z_index: 10
@@ -1160,7 +1324,7 @@ elements:
     - id: SettingsVideoWaterMovementRipplesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 709.5339
+      offset_y: 877.5339
       width: 397.2
       height: 23.0336
       z_index: 10
@@ -1177,7 +1341,7 @@ elements:
     - id: SettingsVideoWaterMovementRipplesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 691.105
+      offset_y: 859.105
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1195,10 +1359,65 @@ elements:
         scale: 0.64
         pad_x: 3.2
       notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
+    - id: SettingsVideoRainRipplesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 917.3253
+      width: 288.0
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Rain ripples
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoRainRipplesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 933.5339
+      width: 397.2
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Raindrop rings on still water while it rains.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoRainRipplesControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 915.105
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+      text:
+        value: '{rain_ripples}'
+        font: menu_lucida
+        color: '#b8b8a9'
+        align_x: center
+        align_y: middle
+        scale: 0.64
+        pad_x: 3.2
+      notes: Apply the water rendering setting without reloading the map. Controller supplies live text.
     - id: SettingsVideoAmbientOcclusionLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 781.3253
+      offset_y: 1005.3253
       width: 220.0
       height: 14.0752
       z_index: 10
@@ -1215,7 +1434,7 @@ elements:
     - id: SettingsVideoAmbientOcclusionDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 797.5333
+      offset_y: 1021.5333
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1232,7 +1451,7 @@ elements:
     - id: SettingsVideoAmbientOcclusionControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 779.1044
+      offset_y: 1003.1044
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1254,7 +1473,7 @@ elements:
     - id: SettingsVideoAmbientOcclusionStrengthLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 820.2501
+      offset_y: 1044.2501
       width: 220.0
       height: 14.0752
       z_index: 10
@@ -1271,7 +1490,7 @@ elements:
     - id: SettingsVideoAmbientOcclusionStrengthDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 836.4587
+      offset_y: 1060.4587
       width: 384.9333
       height: 11.5168
       z_index: 10
@@ -1288,7 +1507,7 @@ elements:
     - id: SettingsVideoAmbientOcclusionStrengthControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 826.1083
+      offset_y: 1050.1083
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -1299,7 +1518,7 @@ elements:
     - id: SettingsVideoAmbientOcclusionStrengthValue
       anchor: top_left
       offset_x: 497.0667
-      offset_y: 828.2416
+      offset_y: 1052.2416
       width: 26.6667
       height: 11.7333
       z_index: 10
@@ -1317,7 +1536,7 @@ elements:
     - id: SettingsVideoCinematicGradingLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 859.1749
+      offset_y: 1083.1749
       width: 176.9835
       height: 14.0752
       z_index: 10
@@ -1334,7 +1553,7 @@ elements:
     - id: SettingsVideoCinematicGradingDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 875.3829
+      offset_y: 1099.3829
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1351,7 +1570,7 @@ elements:
     - id: SettingsVideoCinematicGradingControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 856.9540
+      offset_y: 1080.954
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1373,7 +1592,7 @@ elements:
     - id: SettingsVideoCinematicStrengthLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 898.0997
+      offset_y: 1122.0997
       width: 185.4085
       height: 14.0752
       z_index: 10
@@ -1390,7 +1609,7 @@ elements:
     - id: SettingsVideoCinematicStrengthDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 914.3083
+      offset_y: 1138.3083
       width: 384.9333
       height: 11.5168
       z_index: 10
@@ -1407,7 +1626,7 @@ elements:
     - id: SettingsVideoCinematicStrengthControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 903.9579
+      offset_y: 1127.9579
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -1418,7 +1637,7 @@ elements:
     - id: SettingsVideoCinematicStrengthValue
       anchor: top_left
       offset_x: 497.0667
-      offset_y: 906.0912
+      offset_y: 1130.0912
       width: 26.6667
       height: 11.7333
       z_index: 10
@@ -1436,7 +1655,7 @@ elements:
     - id: SettingsVideoColoredLightsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 937.0245
+      offset_y: 1161.0245
       width: 184.8085
       height: 14.0752
       z_index: 10
@@ -1453,7 +1672,7 @@ elements:
     - id: SettingsVideoColoredLightsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 953.2331
+      offset_y: 1177.2331
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1470,7 +1689,7 @@ elements:
     - id: SettingsVideoColoredLightsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 934.8042
+      offset_y: 1158.8042
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1492,7 +1711,7 @@ elements:
     - id: SettingsVideoTintingLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 975.9499
+      offset_y: 1199.9499
       width: 151.1003
       height: 14.0752
       z_index: 10
@@ -1509,7 +1728,7 @@ elements:
     - id: SettingsVideoTintingDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 992.1579
+      offset_y: 1216.1579
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1526,7 +1745,7 @@ elements:
     - id: SettingsVideoTintingControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 973.7290
+      offset_y: 1197.729
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1548,7 +1767,7 @@ elements:
     - id: SettingsVideoBloodSplatsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1014.8747
+      offset_y: 1238.8747
       width: 116.7835
       height: 14.0752
       z_index: 10
@@ -1565,7 +1784,7 @@ elements:
     - id: SettingsVideoBloodSplatsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1031.0832
+      offset_y: 1255.0832
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1582,7 +1801,7 @@ elements:
     - id: SettingsVideoBloodSplatsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1012.6543
+      offset_y: 1236.6543
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1604,7 +1823,7 @@ elements:
     - id: SettingsVideoMeleeHitBloodEffectsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1053.8000
+      offset_y: 1277.8
       width: 219.1168
       height: 14.0752
       z_index: 10
@@ -1621,7 +1840,7 @@ elements:
     - id: SettingsVideoMeleeHitBloodEffectsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 1070.0080
+      offset_y: 1294.008
       width: 437.3333
       height: 11.5168
       z_index: 10
@@ -1638,7 +1857,7 @@ elements:
     - id: SettingsVideoMeleeHitBloodEffectsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 1051.5791
+      offset_y: 1275.5791
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1657,6 +1876,61 @@ elements:
         pad_x: 3.2
       notes: Bind to gameplay.melee_hit_blood_effects; see contracts/settings.yml. Ranges need a track and thumb renderer;
         selection controls need native dropdown/focus behavior. Controller supplies live text.
+    - id: SettingsVideoCorpsesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1316.7248
+      width: 219.1168
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Slain creatures
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoCorpsesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1332.9328
+      width: 397.2
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Slain creatures keep their bodies, as in the original games.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoCorpsesControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 1318.8501
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{corpses}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+      notes: Bind to gameplay.corpses; see contracts/settings.yml. Ranges need a track and thumb renderer; selection
+        controls need native dropdown/focus behavior. Controller supplies live text.
   - id: SettingsVideoNavigationRule
     anchor: top_left
     offset_x: 201.6

@@ -8,6 +8,10 @@ SAMPLER2DARRAY(s_texTerrainWater, 1);
 SAMPLER2DARRAY(s_texWaterCoverage, 4);
 #elif TERRAIN_DECORATION
 SAMPLER2DARRAY(s_texColor, 0);
+#elif BMODEL_TEXTURE_ARRAY
+// A bmodel face whose texture lives in a size array (u_bmodelTextureLayer.x is its layer).
+SAMPLER2DARRAY(s_texColor, 0);
+uniform vec4 u_bmodelTextureLayer;
 #else
 SAMPLER2D(s_texColor, 0);
 #endif
@@ -28,6 +32,8 @@ uniform vec4 u_secretPulseParams;
 uniform vec4 u_waterSurfaceControl;
 
 #include "outdoor_lighting.sh"
+#include "sky_common.sh"
+#include "weather_wetness.sh"
 
 void main()
 {
@@ -106,6 +112,8 @@ void main()
     }
 #elif TERRAIN_DECORATION
     vec4 textureColor = texture2DArray(s_texColor, vec3(texcoord, v_flowInfo.x));
+#elif BMODEL_TEXTURE_ARRAY
+    vec4 textureColor = texture2DArray(s_texColor, vec3(texcoord, u_bmodelTextureLayer.x));
 #else
     vec4 textureColor = texture2D(s_texColor, texcoord);
 #endif
@@ -128,8 +136,12 @@ void main()
     // Lit per vertex (vs_terrain_decoration); decorations are never secret faces.
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z) * v_flowInfo.yzw;
     float decorationFogDistance = length(v_worldPosition - u_cameraPosition.xyz);
-    gl_FragColor = mix(textureColor, vec4(u_fogColor.rgb, getFogAlpha(decorationFogDistance)),
-        getFogRatio(decorationFogDistance));
+    float decorationFogRatio =
+        skyFogRatio(getFogRatio(decorationFogDistance), v_worldPosition, decorationFogDistance, u_fogDistances.z);
+    gl_FragColor = mix(textureColor,
+        vec4(skyFogDisplayColor(decorationFogRatio, u_fogColor.rgb, v_worldPosition),
+            getFogAlpha(decorationFogDistance)),
+        decorationFogRatio);
     return;
 #endif
 #endif
@@ -147,6 +159,12 @@ void main()
         baked + getFxLighting(v_worldPosition, 0.0)), textureColor.a);
 #else
     vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(v_worldPosition, v_sunlight), textureColor.a);
+#endif
+#if !TERRAIN_DECORATION
+    if (!terrainWater)
+    {
+        litTextureColor.rgb = applyWetness(litTextureColor.rgb, v_worldPosition);
+    }
 #endif
 
     bool classicSecret = v_texcoord1.x > 0.5 && v_texcoord1.x < 1.5;
@@ -168,8 +186,8 @@ void main()
     }
 
     float fogDistance = length(v_worldPosition - u_cameraPosition.xyz);
-    float fogRatio = getFogRatio(fogDistance);
+    float fogRatio = skyFogRatio(getFogRatio(fogDistance), v_worldPosition, fogDistance, u_fogDistances.z);
     float fogAlpha = getFogAlpha(fogDistance);
-    vec4 fogColor = vec4(u_fogColor.rgb, fogAlpha);
+    vec4 fogColor = vec4(skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition), fogAlpha);
     gl_FragColor = mix(litTextureColor, fogColor, fogRatio);
 }

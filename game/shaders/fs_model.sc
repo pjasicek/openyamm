@@ -1,6 +1,8 @@
 $input v_texcoord0, v_worldNormal, v_worldPosition, v_color0, v_texcoord1, v_flowInfo
 
 #include "common.sh"
+#include "sky_common.sh"
+#include "world_clip.sh"
 #include "sun_shadows.sh"
 
 SAMPLER2D(s_modelTexture, 0);
@@ -80,9 +82,11 @@ float modelSmoothstep(float low, float high, float value)
 void main()
 {
     // Base textures are sRGB; the sampler decodes RGB, while factors and alpha stay linear.
-    // v_flowInfo: glTF vertex colour (canopy occlusion on foliage), white on creatures.
+    // v_flowInfo.rgb: glTF vertex colour (canopy occlusion on foliage), white on creatures.
     vec4 color = texture2D(s_modelTexture, v_texcoord0) * u_modelMaterial[0] * vec4(v_flowInfo.rgb, 1.0);
 #if !MODEL_PREPASSED
+    // Water reflections keep only what is above the water plane (zero plane elsewhere).
+    clipWorldPosition(v_worldPosition);
     // MODEL_PREPASSED: the shaded pass after a depth prepass. Its equal-depth test already holds the alpha test and the
     // crossfade dither, and a shader without discard keeps the GPU's early depth rejection.
     if (u_modelMaterial[1].y > 0.5 && color.a < u_modelMaterial[1].x)
@@ -136,8 +140,9 @@ void main()
             vec3 tangent = p2 * duv1.x + p1 * duv2.x;
             vec3 bitangent = p2 * duv1.y + p1 * duv2.y;
             float inverseLength = inversesqrt(max(max(dot(tangent, tangent), dot(bitangent, bitangent)), 0.000001));
-            vec3 mapped = texture2D(s_modelNormal, v_texcoord0).xyz * 2.0 - 1.0;
-            mapped.xy *= u_modelSurface.w;
+            // z is rebuilt from x and y: cooked normal maps are two-channel (BC5, EAC RG).
+            vec2 mappedXy = texture2D(s_modelNormal, v_texcoord0).xy * 2.0 - 1.0;
+            vec3 mapped = vec3(mappedXy * u_modelSurface.w, sqrt(max(1.0 - dot(mappedXy, mappedXy), 0.0)));
             normal = modelNormalize(tangent * inverseLength * mapped.x
                 + bitangent * inverseLength * mapped.y + normal * mapped.z);
         }
@@ -169,21 +174,23 @@ void main()
                 metallic, roughness, 0.0) * lightLevel * (keyFraction * 2.2);
         }
         // u_modelPbr.w scales specular: flat leaf cards seen edge-on would otherwise catch a near-white Fresnel sheen.
-        // At zero (foliage) the sky reflection and specular lobes are skipped entirely.
-        if (u_modelPbr.w > 0.0)
+        // At zero (foliage) the sky reflection and specular lobes are skipped entirely. Negative: a specular mask, the
+        // metallic-roughness red channel times -w (a merged head and body material with matte skin).
+        float specularScale = u_modelPbr.w >= 0.0 ? u_modelPbr.w : -u_modelPbr.w * surface.r;
+        if (specularScale > 0.0)
         {
             vec3 reflected = textureCubeLod(s_modelEnvironment, reflect(-view, normal),
                 roughness * u_modelEnvironment.w).rgb;
             vec2 integrated = texture2D(s_modelEnvironmentBrdf, vec2(nv, roughness)).rg;
             shaded += reflected * u_modelEnvironment.rgb * v_color0.rgb * (f0 * integrated.x + integrated.y)
-                * u_modelPbr.w;
+                * specularScale;
         }
         shaded += color.rgb * (1.0 - metallic) * v_texcoord1.rgb;
         lightLevel += v_texcoord1.rgb;
         vec3 sunDirection = modelNormalize(u_modelLighting[0].xyz);
         vec3 sun = u_modelLighting[1].rgb * u_modelLighting[0].w * v_color0.a
             * sunShadowVisibility(v_worldPosition, modelNormalize(v_worldNormal));
-        shaded += modelBrdf(normal, view, sunDirection, color.rgb, metallic, roughness, u_modelPbr.w) * sun;
+        shaded += modelBrdf(normal, view, sunDirection, color.rgb, metallic, roughness, specularScale) * sun;
         if (u_modelPbr.z > 0.0)
         {
             // Light through thin leaves: some on the side facing away from the sun, most when looking into it.
@@ -202,7 +209,7 @@ void main()
             float radius = max(u_modelPointPositions[i].w, 0.0001);
             float attenuation = max(1.0 - dot(delta, delta) / (radius * radius), 0.0);
             vec3 point = u_modelPointColors[i].rgb * u_modelPointColors[i].w * attenuation * attenuation;
-            shaded += modelBrdf(normal, view, modelNormalize(delta), color.rgb, metallic, roughness, u_modelPbr.w) * point;
+            shaded += modelBrdf(normal, view, modelNormalize(delta), color.rgb, metallic, roughness, specularScale) * point;
             lightLevel += point;
         }
         if (u_modelLighting[1].w > 0.5)
@@ -213,7 +220,8 @@ void main()
             shaded *= pow(clamp(lightLevel, 0.0, 1.0), vec3_splat(1.2));
         }
     }
-    shaded += u_modelSurface.xyz;
+    // v_flowInfo.a scales the emission: a static material's pulse, 1 otherwise.
+    shaded += u_modelSurface.xyz * v_flowInfo.a;
     // An SDR shoulder preserves sub-0.8 values and hue while compressing specular peaks smoothly.
     float peak = max(max(shaded.r, shaded.g), shaded.b);
     float compressed = 0.8 + 0.2 * (1.0 - exp(-max(peak - 0.8, 0.0) / 0.2));
@@ -227,6 +235,7 @@ void main()
         : u_modelFog[1].x
             + (u_modelFog[1].y - u_modelFog[1].x) * modelSmoothstep(u_modelFog[2].x, u_modelFog[2].y, distance)
             + (1.0 - u_modelFog[1].y) * modelSmoothstep(u_modelFog[2].y, u_modelFog[2].z, distance);
-    fog = max(fog, u_modelFog[1].z);
-    gl_FragColor = vec4(mix(modelEncodeSrgb(shaded), u_modelFog[0].rgb, fog), color.a);
+    fog = skyFogRatio(max(fog, u_modelFog[1].z), v_worldPosition, distance, u_modelFog[2].z);
+    vec3 fogColor = skyFogDisplayColor(fog, u_modelFog[0].rgb, v_worldPosition);
+    gl_FragColor = vec4(mix(modelEncodeSrgb(shaded), fogColor, fog), color.a);
 }

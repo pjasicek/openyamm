@@ -43,6 +43,13 @@ public:
         const std::filesystem::path &basePath,
         const std::string &mapFileName
     ) const;
+    // Writes the map's 3D decoration placements as the game places them (decorations.yml), for the lighting bake:
+    // per model its asset path, and per placement the decoration entity index and the asset-to-world matrix.
+    int runExportDecorationModels(
+        const std::filesystem::path &basePath,
+        const std::string &mapFileName,
+        const std::filesystem::path &outputPath
+    ) const;
     int runVerifyOutdoorWorldItemFloor(
         const std::filesystem::path &basePath,
         const std::string &mapFileName

@@ -100,6 +100,8 @@ private:
     static const OutdoorGameView::InteractiveDecorationBinding *findInteractiveDecorationBindingForEntity(
         const OutdoorGameView &view,
         size_t entityIndex);
+    // The hint of the decoration an entity shows now (after an event SetSprite, that sprite's decoration).
+    static std::optional<std::string> resolveDecorationHint(const OutdoorGameView &view, size_t entityIndex);
     static std::optional<std::string> resolveInteractiveDecorationHoverText(
         const OutdoorGameView &view,
         size_t entityIndex);

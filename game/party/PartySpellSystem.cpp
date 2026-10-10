@@ -952,7 +952,20 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::DarkfireBolt:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Grandmaster, {30, 30, 30, 30}, {90, 90, 90, 90}, PartyBuffId::TorchLight, 0, 17, false);
         case SpellId::Lifedrain:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 80, 80, 80}, PartyBuffId::TorchLight, 3, 3, false);
+        {
+            const int damage = mastery == SkillMastery::Grandmaster ? 7 : mastery == SkillMastery::Master ? 5 : 3;
+            return makeBackendSpellRule(
+                spellId,
+                PartySpellCastTargetKind::Actor,
+                PartySpellCastEffectKind::ActorEffect,
+                SkillMastery::Normal,
+                {5, 5, 5, 5},
+                {100, 80, 80, 80},
+                PartyBuffId::TorchLight,
+                damage,
+                damage,
+                false);
+        }
         case SpellId::Levitate:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {110, 110, 110, 110}, PartyBuffId::Levitate);
         case SpellId::VampireCharm:
@@ -2586,6 +2599,10 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
         if (request.targetActorIndex)
         {
+            GameplayActorInspectState targetBefore = {};
+            const bool hasDrainTarget = spellId == SpellId::Lifedrain
+                && worldRuntime.actorInspectState(*request.targetActorIndex, 0, targetBefore);
+
             castSucceeded = worldRuntime.applyPartySpellToActor(
                 *request.targetActorIndex,
                 request.spellId,
@@ -2597,15 +2614,20 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 footZ,
                 static_cast<uint32_t>(request.casterMemberIndex));
 
-            if (castSucceeded && spellId == SpellId::Lifedrain)
+            if (castSucceeded && hasDrainTarget)
             {
-                const int healAmount =
-                    skillMastery == SkillMastery::Grandmaster
-                        ? 7 + static_cast<int>(7 * skillLevel)
-                        : skillMastery == SkillMastery::Master
-                        ? 5 + static_cast<int>(5 * skillLevel)
-                        : 3 + static_cast<int>(3 * skillLevel);
-                party.healMember(request.casterMemberIndex, std::max(1, healAmount / 3));
+                GameplayActorInspectState targetAfter = {};
+
+                if (worldRuntime.actorInspectState(*request.targetActorIndex, 0, targetAfter))
+                {
+                    const int drainedHealth = targetBefore.currentHp - targetAfter.currentHp;
+
+                    if (drainedHealth > 0
+                        && party.healMember(request.casterMemberIndex, std::max(1, drainedHealth / 3)))
+                    {
+                        appendAffectedCharacterIndex(result.affectedCharacterIndices, request.casterMemberIndex);
+                    }
+                }
             }
 
             if (castSucceeded && spellId == SpellId::Fear && skillMastery >= SkillMastery::Master)

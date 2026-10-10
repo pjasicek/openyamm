@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/outdoor/WeatherModel.h"
+
 #include <array>
 #include <cstdint>
 #include <string>
@@ -58,10 +60,9 @@ struct OutdoorWeatherProfile
     bool mergedWeatherConfigured = false;
     uint32_t mergedMapId = 0;
     bool mergedWeatherEnabled = false;
-    bool mergedRainEnabled = false;
-    bool mergedSnowEnabled = false;
-    int mergedRainChancePercent = 20;
-    int mergedSnowChancePercent = 15;
+    // Rain and snow chances for MMerge weather maps (bolster_maps.txt and weather.yml).
+    WeatherMapSettings weatherMap = {};
+    WeatherRules weatherRules = {};
     std::string mergedCustomSkyTextureName;
     std::vector<std::string> mergedSkyTextureNames;
 };

@@ -361,6 +361,7 @@ public:
         std::vector<GameplayProjectilePresentationState> &projectiles,
         std::vector<GameplayProjectileImpactPresentationState> &impacts) const;
     bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const override;
+    std::optional<uint32_t> corpseLootValue(size_t actorIndex) const override;
     bool tryStealFromActor(size_t actorIndex, uint32_t successRoll, uint32_t caughtRoll) override;
     bool actorInspectState(
         size_t actorIndex,
@@ -509,6 +510,10 @@ public:
     CorpseViewState *activeCorpseView() override;
     const CorpseViewState *activeCorpseView() const override;
     void commitActiveCorpseView() override;
+    // Rolls the actor's corpse loot once (at death, before a steal, or after loading) into its corpse view.
+    bool ensureMapActorCorpseView(size_t actorIndex);
+    // After a load: dead actors whose corpse loot was never rolled get it on the first AI update.
+    void rollPendingCorpseLoot();
     bool openMapActorCorpseView(size_t actorIndex);
     bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item) override;
     void closeActiveCorpseView() override;
@@ -834,6 +839,7 @@ private:
     std::optional<ChestViewState> m_activeChestView;
     std::optional<GameplayWorldPoint> m_pendingEventSourcePoint;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
+    bool m_corpseLootPending = false;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<MapActorAiState> m_mapActorAiStates;
     std::vector<size_t> m_actorCorpsePhysicsActorIndices;

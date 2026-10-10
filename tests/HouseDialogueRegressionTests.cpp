@@ -18,6 +18,7 @@
 #include "game/tables/MapStats.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/ui/GameplayUiController.h"
+#include "game/ui/HouseShopLayout.h"
 
 #include "tests/HouseDialogueTestHarness.h"
 #include "tests/RegressionGameData.h"
@@ -29,7 +30,9 @@
 #include <fstream>
 #include <iterator>
 #include <optional>
+#include <set>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <unordered_map>
 #include <vector>
@@ -1139,6 +1142,167 @@ TEST_CASE("generated generic actors use merged NPC names, professions, and rarit
     }
 }
 
+TEST_CASE("generated generic NPC rosters vary between games and stay stable during inspection and dialogue")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::MapStatsEntry map = {};
+    map.id = 62;
+    map.fileName = "7out01.odm";
+    map.mergedContinentId = 2;
+    std::set<std::tuple<std::string, uint32_t, uint32_t>> identities;
+
+    for (int game = 0; game < 8; ++game)
+    {
+        OpenYAMM::Game::EventRuntimeState state = {};
+        OpenYAMM::Game::refreshGenericActorNpcRoster(state, 540.0f);
+        const auto resolve = [&]()
+        {
+            return OpenYAMM::Game::resolveGenericActorDialog(
+                map.fileName, "Peasant", 51, state, gameData.npcDialogTable,
+                &gameData.mergedMonsterPortraitTable, &map, nullptr, nullptr,
+                &gameData.mergedNpcNameTable, &gameData.mergedNpcProfessionTable,
+                &gameData.mergedBolsterMapTable, &gameData.mergedBolsterMonsterTable, 322, 4);
+        };
+        const std::optional<OpenYAMM::Game::GenericActorDialogResolution> first = resolve();
+        REQUIRE(first.has_value());
+        identities.emplace(first->generatedName, first->generatedProfessionId, first->portraitPictureId);
+        const std::optional<OpenYAMM::Game::GenericActorDialogResolution> inspected = resolve();
+        REQUIRE(inspected.has_value());
+        CHECK_EQ(inspected->generatedName, first->generatedName);
+        CHECK_EQ(inspected->generatedProfessionId, first->generatedProfessionId);
+        CHECK_EQ(inspected->portraitPictureId, first->portraitPictureId);
+        OpenYAMM::Game::applyGenericActorDialogResolution(state, *first);
+        OpenYAMM::Game::refreshGenericActorNpcRoster(state, 600.0f);
+        const std::optional<OpenYAMM::Game::GenericActorDialogResolution> spoken = resolve();
+        REQUIRE(spoken.has_value());
+        CHECK_EQ(spoken->npcId, first->npcId);
+        CHECK_EQ(spoken->generatedName, first->generatedName);
+        CHECK_EQ(spoken->generatedProfessionId, first->generatedProfessionId);
+        CHECK_EQ(spoken->portraitPictureId, first->portraitPictureId);
+
+        state.npcNameOverrides[first->npcId] = "Saved Identity";
+        state.npcPictureOverrides[first->npcId] = 123;
+        state.npcProfessionOverrides[first->npcId] = 52;
+        const std::optional<OpenYAMM::Game::GenericActorDialogResolution> saved = resolve();
+        REQUIRE(saved.has_value());
+        CHECK_EQ(saved->generatedName, "Saved Identity");
+        CHECK_EQ(saved->portraitPictureId, 123u);
+        CHECK_EQ(saved->generatedProfessionId, 52u);
+    }
+    CHECK_GT(identities.size(), 1u);
+}
+
+TEST_CASE("generated generic NPC monthly refill preserves hired followers and scripted NPCs")
+{
+    constexpr float StartMinutes = 540.0f;
+    constexpr float MonthMinutes = 28 * 24 * 60;
+    OpenYAMM::Game::EventRuntimeState state = {};
+    OpenYAMM::Game::refreshGenericActorNpcRoster(state, StartMinutes);
+    const int32_t seed = state.namedMapVars.at("MMerge.RandomNPC.Seed");
+    state.generatedNpcIdsByActorKey["7out01.odm#4#51#Peasant"] = 1184;
+    state.generatedNpcIdsByActorKey["7out01.odm#5#51#Peasant"] = 1185;
+    state.npcNameOverrides[1184] = "Hired";
+    state.npcNameOverrides[1185] = "Unhired";
+    state.npcPictureOverrides[1184] = 123;
+    state.npcPictureOverrides[1185] = 124;
+    state.npcProfessionOverrides[1184] = 52;
+    state.npcProfessionOverrides[1185] = 53;
+    state.unavailableNpcIds.insert(1184);
+    state.npcNameOverrides[9] = "Scripted NPC";
+
+    OpenYAMM::Game::refreshGenericActorNpcRoster(state, StartMinutes + MonthMinutes);
+    CHECK_EQ(state.namedMapVars.at("MMerge.RandomNPC.Seed"), seed);
+    CHECK_EQ(state.generatedNpcIdsByActorKey.size(), 2u);
+    OpenYAMM::Game::refreshGenericActorNpcRoster(state, StartMinutes + MonthMinutes + 1);
+    CHECK_EQ(state.namedMapVars.at("MMerge.RandomNPC.RefillMinutes"), int32_t(StartMinutes + MonthMinutes + 1));
+    REQUIRE_EQ(state.generatedNpcIdsByActorKey.size(), 1u);
+    CHECK_EQ(state.generatedNpcIdsByActorKey.at("7out01.odm#4#51#Peasant"), 1184u);
+    CHECK_EQ(state.npcNameOverrides.at(1184), "Hired");
+    CHECK_EQ(state.npcPictureOverrides.at(1184), 123u);
+    CHECK_EQ(state.npcProfessionOverrides.at(1184), 52u);
+    CHECK_FALSE(state.npcNameOverrides.contains(1185));
+    CHECK_FALSE(state.npcPictureOverrides.contains(1185));
+    CHECK_FALSE(state.npcProfessionOverrides.contains(1185));
+    CHECK_EQ(state.npcNameOverrides.at(9), "Scripted NPC");
+    const int32_t refreshedSeed = state.namedMapVars.at("MMerge.RandomNPC.Seed");
+    OpenYAMM::Game::refreshGenericActorNpcRoster(state, StartMinutes + MonthMinutes + 2);
+    CHECK_EQ(state.namedMapVars.at("MMerge.RandomNPC.Seed"), refreshedSeed);
+}
+
+TEST_CASE("new MM6 MM7 and MM8 NPC rosters generate peasant identities with native gender and portraits")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    struct PeasantCase
+    {
+        uint32_t mapId;
+        const char *pMapFile;
+        const char *pActorName;
+        uint32_t group;
+        uint32_t monsterId;
+    };
+    const std::array<PeasantCase, 3> cases = {{
+        {151, "oute3.odm", "Peasant", 85, 577},
+        {62, "7out01.odm", "Peasant", 51, 322},
+        {2, "out02.odm", "Dark Elf Peasant", 5, 19},
+    }};
+    for (const PeasantCase &entry : cases)
+    {
+        OpenYAMM::Game::MapStatsEntry map = {};
+        map.id = entry.mapId;
+        map.fileName = entry.pMapFile;
+        OpenYAMM::Game::EventRuntimeState state = {};
+        OpenYAMM::Game::refreshGenericActorNpcRoster(state, 540.0f);
+        const std::optional<OpenYAMM::Game::GenericActorDialogResolution> resolution =
+            OpenYAMM::Game::resolveGenericActorDialog(
+                map.fileName, entry.pActorName, entry.group, state, gameData.npcDialogTable,
+                &gameData.mergedMonsterPortraitTable, &map, nullptr, nullptr,
+                &gameData.mergedNpcNameTable, &gameData.mergedNpcProfessionTable,
+                &gameData.mergedBolsterMapTable, &gameData.mergedBolsterMonsterTable, entry.monsterId, 4);
+        REQUIRE(resolution.has_value());
+        CHECK(resolution->generatedNpc);
+        CHECK_NE(resolution->portraitPictureId, 0u);
+        CHECK(std::find(gameData.mergedNpcNameTable.maleNames().begin(),
+            gameData.mergedNpcNameTable.maleNames().end(), resolution->generatedName)
+            != gameData.mergedNpcNameTable.maleNames().end());
+    }
+}
+
+TEST_CASE("legacy NPC roster migration preserves deterministic identities until monthly refill")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::MapStatsEntry map = {};
+    map.id = 62;
+    map.fileName = "7out01.odm";
+    OpenYAMM::Game::GameSaveData save = {};
+    save.savedGameMinutes = 90000.0f;
+    save.outdoorWorld.eventRuntimeState.emplace();
+    OpenYAMM::Game::EventRuntimeState &state = *save.outdoorWorld.eventRuntimeState;
+    const auto resolve = [&]()
+    {
+        return OpenYAMM::Game::resolveGenericActorDialog(
+            map.fileName, "Peasant", 51, state, gameData.npcDialogTable,
+            &gameData.mergedMonsterPortraitTable, &map, nullptr, nullptr,
+            &gameData.mergedNpcNameTable, &gameData.mergedNpcProfessionTable,
+            &gameData.mergedBolsterMapTable, &gameData.mergedBolsterMonsterTable, 322, 4);
+    };
+    const std::optional<OpenYAMM::Game::GenericActorDialogResolution> original = resolve();
+    REQUIRE(original.has_value());
+    save.indoorSceneStates["mm7:7d06.blv"].eventRuntimeState.emplace();
+    save.outdoorWorldStates["mm6:oute3.odm"].eventRuntimeState.emplace();
+    OpenYAMM::Game::migrateLegacyNpcRosters(save);
+    OpenYAMM::Game::refreshGenericActorNpcRoster(state, save.savedGameMinutes);
+    const std::optional<OpenYAMM::Game::GenericActorDialogResolution> migrated = resolve();
+    REQUIRE(migrated.has_value());
+    CHECK_EQ(migrated->generatedName, original->generatedName);
+    CHECK_EQ(migrated->generatedProfessionId, original->generatedProfessionId);
+    CHECK_EQ(migrated->portraitPictureId, original->portraitPictureId);
+    CHECK_EQ(state.namedMapVars.at("MMerge.RandomNPC.Seed"), 0);
+    CHECK_EQ(save.indoorSceneStates.at("mm7:7d06.blv").eventRuntimeState->namedMapVars
+        .at("MMerge.RandomNPC.RefillMinutes"), 90000);
+    CHECK_EQ(save.outdoorWorldStates.at("mm6:oute3.odm").eventRuntimeState->namedMapVars
+        .at("MMerge.RandomNPC.RefillMinutes"), 90000);
+}
+
 TEST_CASE("generated NPC greetings use imported first and repeat text across the merged worlds")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -1371,6 +1535,7 @@ TEST_CASE("generated follower actor state hides and survives save data round tri
     emeraldIsland.fileName = "7out01.odm";
 
     OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::refreshGenericActorNpcRoster(runtimeState, 540.0f);
     runtimeState.generatedNpcIdsByActorKey["7out01.odm#4#51#Peasant"] = 1184;
     runtimeState.npcGreetingDisplayCounts[1184] = 1;
     runtimeState.npcNameOverrides[1184] = "Aaron";
@@ -1409,6 +1574,9 @@ TEST_CASE("generated follower actor state hides and survives save data round tri
     REQUIRE(loaded->outdoorWorld.eventRuntimeState.has_value());
 
     const OpenYAMM::Game::EventRuntimeState &loadedState = *loaded->outdoorWorld.eventRuntimeState;
+    CHECK_EQ(loadedState.namedMapVars.at("MMerge.RandomNPC.Seed"),
+        runtimeState.namedMapVars.at("MMerge.RandomNPC.Seed"));
+    CHECK_EQ(loadedState.namedMapVars.at("MMerge.RandomNPC.RefillMinutes"), 540);
     CHECK_EQ(loadedState.generatedNpcIdsByActorKey.at("7out01.odm#4#51#Peasant"), 1184u);
     CHECK_EQ(loadedState.npcGreetingDisplayCounts.at(1184), 1u);
     CHECK_EQ(loadedState.npcNameOverrides.at(1184), "Aaron");
@@ -3564,14 +3732,15 @@ TEST_CASE("dwi temple service participant identity")
 TEST_CASE("dwi temple proprietor portrait uses mm8 overlay icon")
 {
     const std::filesystem::path sourceRoot = std::filesystem::path(OPENYAMM_SOURCE_DIR);
+    // Restored portraits live in the x2 icon tiers (engine/icon_packages.txt); the original icons folders are retired.
     const std::filesystem::path worldPortrait =
-        sourceRoot / "assets_dev/worlds/mm8/icons/npc1130.bmp";
+        sourceRoot / "assets_dev/worlds/mm8/icons_x2/npc1130.png";
     const std::filesystem::path uppercaseWorldPortrait =
-        sourceRoot / "assets_dev/worlds/mm8/icons/NPC1130.bmp";
+        sourceRoot / "assets_dev/worlds/mm8/icons_x2/NPC1130.png";
     const std::filesystem::path enginePortrait =
-        sourceRoot / "assets_dev/engine/icons/npc1130.bmp";
+        sourceRoot / "assets_dev/engine/icons_x2/npc1130.png";
     const std::filesystem::path uppercaseEnginePortrait =
-        sourceRoot / "assets_dev/engine/icons/NPC1130.bmp";
+        sourceRoot / "assets_dev/engine/icons_x2/NPC1130.png";
 
     REQUIRE(std::filesystem::exists(worldPortrait));
     CHECK_FALSE(std::filesystem::exists(uppercaseWorldPortrait));
@@ -3586,7 +3755,7 @@ TEST_CASE("dwi temple proprietor portrait uses mm8 overlay icon")
             | std::filesystem::perms::group_read
             | std::filesystem::perms::others_read);
 
-    CHECK_EQ(fnv1a64(readBinaryFileBytes(worldPortrait)), 0xc2f7b93995f0bd00ull);
+    CHECK_EQ(fnv1a64(readBinaryFileBytes(worldPortrait)), 0x4503bad3e143623dull);
 }
 
 TEST_CASE("dwi temple skill learning")
@@ -6218,6 +6387,29 @@ TEST_CASE("merged house movie sound bases drive mm8 house speech")
         REQUIRE(greetingSoundId.has_value());
         CHECK_EQ(*greetingSoundId, expected.expectedGreetingId);
     }
+}
+
+TEST_CASE("weapon shop keeps native item size and raises tall weapons onto the table")
+{
+    OpenYAMM::Game::HouseEntry weaponShop = {};
+    weaponShop.type = "Weapon Shop";
+    const OpenYAMM::Game::HouseShopVisualLayout layout =
+        OpenYAMM::Game::buildHouseShopVisualLayout(weaponShop, false);
+    REQUIRE_EQ(layout.slots.size(), 6u);
+
+    // Slot 4 is the lowest (top 128, floor 334); a 288-pixel polearm used to be shrunk to fit it.
+    constexpr int PolearmWidth = 53;
+    constexpr int PolearmHeight = 288;
+    const OpenYAMM::Game::HouseShopItemDrawRect polearm = OpenYAMM::Game::resolveHouseShopItemDrawRect(
+        0.0f, 0.0f, 460.0f, 344.0f, 1.0f, layout.slots[4], 4, PolearmWidth, PolearmHeight, 0, PolearmHeight - 1);
+    CHECK_EQ(polearm.width, doctest::Approx(PolearmWidth));
+    CHECK_EQ(polearm.height, doctest::Approx(PolearmHeight));
+    CHECK_EQ(polearm.y + polearm.height, doctest::Approx(334.0f));
+
+    const OpenYAMM::Game::HouseShopItemDrawRect dagger = OpenYAMM::Game::resolveHouseShopItemDrawRect(
+        0.0f, 0.0f, 460.0f, 344.0f, 1.0f, layout.slots[4], 4, 28, 120, 0, 119);
+    CHECK_EQ(dagger.height, doctest::Approx(120.0f));
+    CHECK_EQ(dagger.y, doctest::Approx(128.0f));
 }
 
 TEST_CASE("shop goodbye decision matches oe transaction and alchemy rules")

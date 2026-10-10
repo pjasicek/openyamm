@@ -1,7 +1,8 @@
 // Static model placements (decorations): instance data holds the affine matrix rows (i_data0..2), the placement
 // light (i_data3) and the point light plus LOD crossfade (i_data4).
 // [0] time seconds, wind amplitude (model units), model height (model units), billboard flag
-// [1] texture scroll u, v per second, flipbook columns, rows; [2] flipbook frames per second, flutter amplitude
+// [1] texture scroll u, v per second, flipbook columns, rows; [2] flipbook frames per second, flutter amplitude,
+// emission pulse amplitude and period (seconds)
 uniform vec4 u_modelStatic[3];
 
 mat4 modelStaticMatrix()
@@ -27,6 +28,16 @@ vec2 modelStaticTexcoord(vec2 texcoord)
         texcoord = (cell + texcoord) / u_modelStatic[1].zw;
     }
     return texcoord;
+}
+
+// Emission scale of a pulsing material (1 without a pulse), out of step between placements.
+float modelStaticPulse()
+{
+    if (u_modelStatic[2].z <= 0.0)
+    {
+        return 1.0;
+    }
+    return 1.0 + u_modelStatic[2].z * sin(6.2831853 * (u_modelStatic[0].x / u_modelStatic[2].w + modelStaticPhase()));
 }
 
 // Cloth flutter (vertex colour alpha = how free the vertex is; a wave travels along texture coordinate u).

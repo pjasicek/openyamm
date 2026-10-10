@@ -37,7 +37,9 @@ struct ModelImage
 {
     std::string name;
     std::string sourcePath;
-    std::vector<uint8_t> pngBytes;
+    // PNG, or a cooked block-compressed texture (.oytex, engine/render/CookedTexture.h) referenced by URI.
+    std::vector<uint8_t> bytes;
+    bool cooked = false;
 };
 
 // glTF sampler values; zero filter values request the renderer's linear mip filtering default.
@@ -92,13 +94,19 @@ struct ModelMaterial
     float translucency = 0.0f;
     // "openyamm_specular": scale of sun, point-light and sky specular (0..1); foliage cards use a small value.
     float specular = 1.0f;
+    // "openyamm_specular_mask": the metallic-roughness texture's red channel (unused by glTF) scales specular per
+    // texel, so a matte head and glossy armour can share one material and one draw.
+    bool specularMask = false;
     // Texture animation of static decorations. "openyamm_uv_scroll": [du, dv] texture units per second (flowing water);
     // "openyamm_flipbook": [columns, rows, frames per second], frames left to right then top to bottom, looping with a
     // per-placement phase (fire). "openyamm_flutter": cloth wave amplitude in model units; each vertex moves along
     // its normal by amplitude x COLOR_0 alpha x a wave travelling along texture coordinate u (flags).
+    // "openyamm_pulse": [amplitude, period seconds]; the emission is scaled by 1 + amplitude x sin(2 pi t / period),
+    // with the per-placement phase (glowing crystals).
     std::array<float, 2> uvScroll = {};
     std::array<float, 3> flipbook = {};
     float flutter = 0.0f;
+    std::array<float, 2> pulse = {};
 };
 
 struct ModelVertexInfluences

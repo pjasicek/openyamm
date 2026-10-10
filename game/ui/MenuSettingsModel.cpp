@@ -91,6 +91,22 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.waterSpriteReflections ? "true" : "false";
     }
+    if (id == "sky_style")
+    {
+        return skyStyleValue(settings.skyStyle);
+    }
+    if (id == "weather_quality")
+    {
+        return weatherQualityValue(settings.weatherQuality);
+    }
+    if (id == "wet_surfaces")
+    {
+        return settings.wetSurfaces ? "true" : "false";
+    }
+    if (id == "rain_ripples")
+    {
+        return settings.rainRipples ? "true" : "false";
+    }
     if (id == "ambient_occlusion")
     {
         return settings.ambientOcclusion ? "true" : "false";
@@ -122,6 +138,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     if (id == "melee_hit_blood_effects")
     {
         return settings.meleeHitBloodEffects ? "true" : "false";
+    }
+    if (id == "corpses")
+    {
+        return corpseStyleValue(settings.corpseStyle);
     }
     if (id == "sound_volume")
     {
@@ -381,6 +401,23 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
         }
         return true;
     }
+    if (id == "sky_style")
+    {
+        return (value == "enhanced" || value == "classic") && parseSkyStyleValue(value, settings.skyStyle);
+    }
+    if (id == "weather_quality")
+    {
+        return parseWeatherQualityValue(value, settings.weatherQuality);
+    }
+    if (id == "wet_surfaces" || id == "rain_ripples")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        (id == "wet_surfaces" ? settings.wetSurfaces : settings.rainRipples) = value == "true";
+        return true;
+    }
     if (id == "water_reflection_size")
     {
         int number = 0;
@@ -468,6 +505,10 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
         }
         settings.meleeHitBloodEffects = value == "true";
         return true;
+    }
+    if (id == "corpses")
+    {
+        return (value == "satchel" || value == "keep") && parseCorpseStyleValue(value, settings.corpseStyle);
     }
     if (id == "sound_volume")
     {

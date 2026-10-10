@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <utility>
 
 namespace OpenYAMM::Engine
 {
@@ -57,6 +58,9 @@ ModelInstanceHandle ModelInstanceSystem::create(
     slot.outlineColorAbgr = 0;
     slot.materialVariant = 0;
     slot.nodeMarkersVisible = false;
+    slot.attachments.clear();
+    slot.staticStandIn.reset();
+    slot.coverage = 1.0f;
     slot.playing = false;
     slot.paused = false;
     slot.clipSelected = false;
@@ -97,6 +101,8 @@ bool ModelInstanceSystem::destroy(ModelInstanceHandle handle)
     }
     pSlot->active = false;
     pSlot->asset.reset();
+    pSlot->attachments.clear();
+    pSlot->staticStandIn.reset();
     pSlot->deformationBounds.reset();
     pSlot->pose = {};
     pSlot->transitionPose = {};
@@ -212,6 +218,72 @@ bool ModelInstanceSystem::setOutlineColor(ModelInstanceHandle handle, uint32_t c
     }
     pSlot->outlineColorAbgr = colorAbgr;
     return true;
+}
+
+bool ModelInstanceSystem::setAttachments(ModelInstanceHandle handle, std::vector<ModelAttachment> attachments)
+{
+    Slot *pSlot = find(handle);
+    if (pSlot == nullptr)
+    {
+        return false;
+    }
+    for (const ModelAttachment &attachment : attachments)
+    {
+        if (attachment.asset == nullptr || attachment.nodeIndex >= pSlot->asset->nodes.size())
+        {
+            return false;
+        }
+    }
+    pSlot->attachments = std::move(attachments);
+    return true;
+}
+
+const std::vector<ModelAttachment> &ModelInstanceSystem::attachments(ModelInstanceHandle handle) const
+{
+    static const std::vector<ModelAttachment> None;
+    const Slot *pSlot = find(handle);
+    return pSlot != nullptr ? pSlot->attachments : None;
+}
+
+bool ModelInstanceSystem::setStaticStandIn(ModelInstanceHandle handle, std::shared_ptr<const ModelAsset> asset)
+{
+    Slot *pSlot = find(handle);
+    if (pSlot == nullptr)
+    {
+        return false;
+    }
+    pSlot->staticStandIn = std::move(asset);
+    return true;
+}
+
+const std::shared_ptr<const ModelAsset> &ModelInstanceSystem::staticStandIn(ModelInstanceHandle handle) const
+{
+    static const std::shared_ptr<const ModelAsset> None;
+    const Slot *pSlot = find(handle);
+    return pSlot != nullptr ? pSlot->staticStandIn : None;
+}
+
+bool ModelInstanceSystem::setCoverage(ModelInstanceHandle handle, float coverage)
+{
+    Slot *pSlot = find(handle);
+    if (pSlot == nullptr)
+    {
+        return false;
+    }
+    pSlot->coverage = std::clamp(coverage, 0.0f, 1.0f);
+    return true;
+}
+
+float ModelInstanceSystem::coverage(ModelInstanceHandle handle) const
+{
+    const Slot *pSlot = find(handle);
+    return pSlot != nullptr ? pSlot->coverage : 1.0f;
+}
+
+const ModelTransform *ModelInstanceSystem::rootTransform(ModelInstanceHandle handle) const
+{
+    const Slot *pSlot = find(handle);
+    return pSlot != nullptr ? &pSlot->rootTransform : nullptr;
 }
 
 uint32_t ModelInstanceSystem::outlineColor(ModelInstanceHandle handle) const
@@ -379,9 +451,11 @@ bool ModelInstanceSystem::sampleBlended(ModelInstanceHandle handle, uint32_t cli
     pSlot->playing = false;
     pSlot->rootTransform = transform;
     pSlot->timeSeconds = clampedTime;
-    if (changed || blending)
+    // A blend only moves while time advances: a paused world (inspect, console, dialogue) keeps its pose and palette.
+    const bool blendMoved = blending && deltaSeconds > 0.0f;
+    if (changed || blendMoved)
     {
-        evaluate(*pSlot, localChanged || blending);
+        evaluate(*pSlot, localChanged || blendMoved);
     }
     return true;
 }

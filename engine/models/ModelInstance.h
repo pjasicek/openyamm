@@ -35,6 +35,16 @@ struct ModelAnimationLayer
     bool operator==(const ModelAnimationLayer &) const = default;
 };
 
+// A rigid model carried on one node of an instance, such as a staff on its hand bone. Its mesh is in that node's space
+// (tools/split_attachment.py), so it is drawn with the node's world matrix; renderers draw it as a static placement
+// lit like its owner, instanced with every other carrier of the same model.
+struct ModelAttachment
+{
+    std::shared_ptr<const ModelAsset> asset;
+    uint32_t nodeIndex = 0;
+    uint32_t materialVariant = 0;
+};
+
 class ModelInstanceSystem
 {
 public:
@@ -50,6 +60,18 @@ public:
     bool setOutlineColor(ModelInstanceHandle handle, uint32_t colorAbgr);
     uint32_t outlineColor(ModelInstanceHandle handle) const;
     bool setNodeMarkersVisible(ModelInstanceHandle handle, bool visible);
+    bool setAttachments(ModelInstanceHandle handle, std::vector<ModelAttachment> attachments);
+    const std::vector<ModelAttachment> &attachments(ModelInstanceHandle handle) const;
+    // A static stand-in replaces the instance's own skinned draws: renderers draw this unskinned asset (same material
+    // variants) as a static placement at the instance's root transform. Used for corpses, whose pose is frozen
+    // (bakeStaticModelPose). The instance keeps its pose, bounds, attachments and picking. Null restores normal draws.
+    bool setStaticStandIn(ModelInstanceHandle handle, std::shared_ptr<const ModelAsset> asset);
+    const std::shared_ptr<const ModelAsset> &staticStandIn(ModelInstanceHandle handle) const;
+    // Fraction of the static stand-in's and attachments' pixels drawn (screen-door dissolve, 1 = solid, 0 = hidden);
+    // skinned draws ignore it.
+    bool setCoverage(ModelInstanceHandle handle, float coverage);
+    float coverage(ModelInstanceHandle handle) const;
+    const ModelTransform *rootTransform(ModelInstanceHandle handle) const;
     bool play(ModelInstanceHandle handle, const std::string &clipName, ModelPlaybackMode mode);
     bool pause(ModelInstanceHandle handle, bool paused);
     bool stop(ModelInstanceHandle handle);
@@ -86,6 +108,9 @@ private:
         uint32_t outlineColorAbgr = 0;
         uint32_t materialVariant = 0;
         bool nodeMarkersVisible = false;
+        std::vector<ModelAttachment> attachments;
+        std::shared_ptr<const ModelAsset> staticStandIn;
+        float coverage = 1.0f;
         bool playing = false;
         bool paused = false;
         bool clipSelected = false;

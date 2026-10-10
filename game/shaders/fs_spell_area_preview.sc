@@ -1,6 +1,7 @@
 $input v_texcoord0, v_depth, v_worldPosition
 
 #include "common.sh"
+#include "sky_common.sh"
 
 uniform vec4 u_fogColor;
 uniform vec4 u_fogDensities;
@@ -146,9 +147,9 @@ void main()
             u_spellAreaParams0.z);
 
     float fogDistance = length(v_worldPosition - u_cameraPosition.xyz);
-    float fogRatio = getFogRatio(fogDistance);
+    float fogRatio = skyFogRatio(getFogRatio(fogDistance), v_worldPosition, fogDistance, u_fogDistances.z);
     float fogAlpha = getFogAlpha(fogDistance);
-    vec4 fogColor = vec4(u_fogColor.rgb, fogAlpha);
+    vec4 fogColor = vec4(skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition), fogAlpha);
     vec4 markerColor = vec4(color, alpha);
     gl_FragColor = mix(markerColor, fogColor, fogRatio);
 }

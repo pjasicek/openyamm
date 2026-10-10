@@ -16,6 +16,8 @@ struct ScreenshotTourShot
     float yawRadians = 0.0f;
     float pitchRadians = 0.0f;
     float settleSeconds = -1.0f; // Negative falls back to the tour default.
+    std::optional<int> clockMinutes; // Game clock to set before the pose (time: "HH:MM").
+    std::vector<std::string> commands; // Debug console lines run before the pose, in order.
 };
 
 struct ScreenshotTour

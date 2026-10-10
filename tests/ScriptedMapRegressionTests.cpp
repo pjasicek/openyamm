@@ -1,5 +1,7 @@
 #include "doctest/doctest.h"
 
+#include "engine/SpriteAtlas.h"
+
 #include "game/events/EventRuntime.h"
 #include "game/events/EventDialogContent.h"
 #include "game/events/ISceneEventContext.h"
@@ -27,6 +29,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+TEST_SUITE_BEGIN(OpenYAMM::Tests::SharedRegressionMapSuite);
 
 namespace
 {
@@ -4034,10 +4038,10 @@ TEST_CASE("merged continent weather settings are applied to selected outdoor map
     CHECK(profile.mergedWeatherConfigured);
     CHECK_EQ(profile.mergedMapId, 4u);
     CHECK_FALSE(profile.mergedWeatherEnabled);
-    CHECK_FALSE(profile.mergedRainEnabled);
-    CHECK_FALSE(profile.mergedSnowEnabled);
-    CHECK_EQ(profile.mergedRainChancePercent, 20);
-    CHECK_EQ(profile.mergedSnowChancePercent, 15);
+    CHECK_FALSE(profile.weatherMap.rainEnabled);
+    CHECK_FALSE(profile.weatherMap.snowEnabled);
+    CHECK_EQ(profile.weatherMap.rainChancePercent, doctest::Approx(20.0f));
+    CHECK_EQ(profile.weatherMap.snowChancePercent, doctest::Approx(15.0f));
     CHECK_EQ(profile.mergedCustomSkyTextureName, "plansky3");
     REQUIRE_FALSE(profile.mergedSkyTextureNames.empty());
     CHECK_EQ(profile.mergedSkyTextureNames.front(), "plansky3");
@@ -4059,44 +4063,44 @@ TEST_CASE("merged continent weather settings are applied to selected outdoor map
 
     const OpenYAMM::Game::OutdoorWeatherProfile tularean = loadWeatherProfile("7out04.odm");
     CHECK(tularean.mergedWeatherEnabled);
-    CHECK(tularean.mergedRainEnabled);
-    CHECK_FALSE(tularean.mergedSnowEnabled);
+    CHECK(tularean.weatherMap.rainEnabled);
+    CHECK_FALSE(tularean.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile harmondale = loadWeatherProfile("7out02.odm");
     CHECK(harmondale.mergedWeatherEnabled);
-    CHECK(harmondale.mergedRainEnabled);
-    CHECK(harmondale.mergedSnowEnabled);
+    CHECK(harmondale.weatherMap.rainEnabled);
+    CHECK(harmondale.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile erathia = loadWeatherProfile("7out03.odm");
     CHECK(erathia.mergedWeatherEnabled);
-    CHECK(erathia.mergedRainEnabled);
-    CHECK(erathia.mergedSnowEnabled);
+    CHECK(erathia.weatherMap.rainEnabled);
+    CHECK(erathia.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile bracada = loadWeatherProfile("7out06.odm");
     CHECK_EQ(bracada.mergedCustomSkyTextureName, "7plansky3");
     CHECK_FALSE(bracada.mergedWeatherEnabled);
-    CHECK_FALSE(bracada.mergedRainEnabled);
-    CHECK_FALSE(bracada.mergedSnowEnabled);
+    CHECK_FALSE(bracada.weatherMap.rainEnabled);
+    CHECK_FALSE(bracada.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile nighon = loadWeatherProfile("out10.odm");
     CHECK(nighon.mergedWeatherEnabled);
-    CHECK(nighon.mergedRainEnabled);
-    CHECK(nighon.mergedSnowEnabled);
+    CHECK(nighon.weatherMap.rainEnabled);
+    CHECK(nighon.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile landOfTheGiants = loadWeatherProfile("out12.odm");
     CHECK(landOfTheGiants.mergedWeatherEnabled);
-    CHECK(landOfTheGiants.mergedRainEnabled);
-    CHECK(landOfTheGiants.mergedSnowEnabled);
+    CHECK(landOfTheGiants.weatherMap.rainEnabled);
+    CHECK(landOfTheGiants.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile kriegspire = loadWeatherProfile("outb1.odm");
     CHECK(kriegspire.mergedWeatherEnabled);
-    CHECK(kriegspire.mergedRainEnabled);
-    CHECK(kriegspire.mergedSnowEnabled);
+    CHECK(kriegspire.weatherMap.rainEnabled);
+    CHECK(kriegspire.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile frozenHighlands = loadWeatherProfile("outc1.odm");
     CHECK(frozenHighlands.mergedWeatherEnabled);
-    CHECK(frozenHighlands.mergedRainEnabled);
-    CHECK_FALSE(frozenHighlands.mergedSnowEnabled);
+    CHECK(frozenHighlands.weatherMap.rainEnabled);
+    CHECK_FALSE(frozenHighlands.weatherMap.snowEnabled);
 
     const OpenYAMM::Game::OutdoorWeatherProfile newSorpigal = loadWeatherProfile("oute3.odm");
     REQUIRE_EQ(newSorpigal.mergedSkyTextureNames.size(), 7u);
@@ -9021,9 +9025,17 @@ TEST_CASE("mm6 darkmoor actor previews preload random encounter tier textures")
         mapLoader.gameDataLoader.getMapStats().findByFileName("cd2.blv");
     REQUIRE(pMapEntry != nullptr);
 
+    // Monsters with cooked sprite atlases (engine/sprites_new) are uploaded by the shared atlas cache instead of the
+    // bitmap preview loader, so an atlas reference with an installed package counts as preloaded.
     const auto textureLoaded =
-        [&billboardSet](const std::string &textureName, int16_t paletteId) -> bool
+        [&billboardSet, &mapLoader](const std::string &textureName, int16_t paletteId) -> bool
         {
+            if (const std::optional<OpenYAMM::Engine::SpriteAtlasReference> atlas =
+                    OpenYAMM::Engine::parseSpriteAtlasReference(textureName))
+            {
+                return mapLoader.assetFileSystem.exists("engine/sprites_new/" + atlas->package + "/manifest.json");
+            }
+
             return std::any_of(
                 billboardSet.textures.begin(),
                 billboardSet.textures.end(),
@@ -9160,6 +9172,8 @@ TEST_CASE("full gameplay map load preloads object sprites that are not placed in
         {
             const OpenYAMM::Game::ResolvedSpriteTexture resolvedTexture =
                 OpenYAMM::Game::SpriteFrameTable::resolveTexture(*pFrame, octant);
+            // Restored x2 sprites replace the retired native bitmaps and are loaded by the billboard renderer
+            // (loadRestoredDecorationTexture), so they count as available without a native preload.
             const bool textureLoaded = std::any_of(
                 billboardSet.textures.begin(),
                 billboardSet.textures.end(),
@@ -9167,8 +9181,10 @@ TEST_CASE("full gameplay map load preloads object sprites that are not placed in
                 {
                     return texture.textureName == resolvedTexture.textureName
                         && texture.paletteId == pFrame->paletteId;
-                });
-            CHECK_MESSAGE(textureLoaded, resolvedTexture.textureName.c_str());
+                })
+                || mapLoader.assetFileSystem.exists("engine/decorations_x2/" + resolvedTexture.textureName + "_p"
+                    + std::to_string(pFrame->paletteId) + ".png");
+            CHECK_MESSAGE(textureLoaded, resolvedTexture.textureName << " palette " << pFrame->paletteId);
             checkedTexture = true;
         }
 
@@ -9303,8 +9319,8 @@ TEST_CASE("full gameplay New Sorpigal load keeps outdoor actor textures lazy")
 
     CHECK(decorationTextureLoaded("swrdstn", 546));
     CHECK(decorationTextureLoaded("fla3__06", 546));
+    // The exported New Sorpigal scene (oute3.scene.yml) places no ship decoration, so no shp texture is expected.
     CHECK(decorationTextureLoaded("bigbarel", 547));
-    CHECK(decorationTextureLoaded("shp1", 547));
     CHECK(decorationTextureLoaded("searka06", 873));
     CHECK(decorationTextureLoaded("searkb05", 873));
 }
@@ -9776,3 +9792,5 @@ TEST_CASE("outdoor_party_runtime_wait_advances_buff_durations_with_game_clock")
     REQUIRE(pUpdatedBuff != nullptr);
     CHECK(pUpdatedBuff->remainingSeconds == doctest::Approx(35940.0f));
 }
+
+TEST_SUITE_END();

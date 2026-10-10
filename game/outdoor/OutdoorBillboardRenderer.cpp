@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorSunlight.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
+#include "game/outdoor/OutdoorRenderer.h"
 
 #include "game/app/GameSession.h"
 #include "game/data/GameDataRepository.h"
@@ -637,6 +638,7 @@ void OutdoorBillboardRenderer::applyBillboardFogUniforms(OutdoorGameView &view, 
     bgfx::setUniform(view.m_outdoorFogColorUniformHandle, fogColor);
     bgfx::setUniform(view.m_outdoorFogDensitiesUniformHandle, fogDensities);
     bgfx::setUniform(view.m_outdoorFogDistancesUniformHandle, fogDistances);
+    OutdoorRenderer::applySkyFogUniform(view);
 }
 
 void OutdoorBillboardRenderer::appendWorldQuadVertices(
@@ -793,7 +795,7 @@ uint32_t OutdoorBillboardRenderer::computeBillboardLightContributionAbgr(
     {
         const OutdoorLightingData &lighting = *view.m_pOutdoorMapData->lightingData;
         const std::array<std::array<float, 4>, 2> colors =
-            outdoorBakedLightingColors(view.m_pOutdoorWorldRuntime->atmosphereState(), view.m_gameSettings);
+            view.bakedLightingColors(view.m_pOutdoorWorldRuntime->atmosphereState());
         const std::array<float, 3> position = {x, y, z};
         auto cached = view.m_bakedProbeCache.find(position);
         if (cached == view.m_bakedProbeCache.end())
@@ -2794,7 +2796,9 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             }
             drawItem.x = static_cast<float>(actorX);
             drawItem.y = static_cast<float>(actorY);
-            drawItem.z = static_cast<float>(actorZ);
+            // A slain creature's sprite sinks into the ground before its loot satchel appears.
+            drawItem.z = static_cast<float>(actorZ)
+                - (runtimeActorIndex ? view.m_worldFxSystem.actorCorpseSinkDepth(*runtimeActorIndex) : 0.0f);
             drawItem.heightScale =
                 pRuntimeActor != nullptr && sourceBillboardHeight > 0
                     ? static_cast<float>(actorHeight) / static_cast<float>(sourceBillboardHeight)
@@ -2873,11 +2877,11 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                 OutdoorInteractionController::resolveDecorationBillboardSpriteId(view, billboard, hidden);
 
             // A 3D model stands in for every sprite that has a model binding, including one switched in by an event
-            // (SetSprite); water reflections keep the sprite.
+            // (SetSprite). Water reflections omit it too, as they do for model actors.
             if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex)
                 || hidden
                 || spriteId == 0
-                || (pReflection == nullptr && view.m_decorationModels.modelsSprite(spriteId)))
+                || view.m_decorationModels.modelsSprite(spriteId))
             {
                 continue;
             }
@@ -3637,7 +3641,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                     view.m_elapsedTime,
                     {atmosphere.sunDirectionX, atmosphere.sunDirectionY, atmosphere.sunDirectionZ, 0.0f},
                     {daylight, 0.94f * daylight, 0.82f * daylight, 0.0f},
-                    {0.34f * brightness, 0.46f * brightness, 0.56f * brightness, brightness}, atmosphere.rainIntensity);
+                    {0.34f * brightness, 0.46f * brightness, 0.56f * brightness, brightness},
+                    view.m_weatherPresentation.rainLevel());
             }
         }
     }

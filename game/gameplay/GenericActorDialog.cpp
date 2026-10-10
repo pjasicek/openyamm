@@ -8,7 +8,10 @@
 #include <algorithm>
 #include <array>
 #include <charconv>
+#include <cmath>
 #include <cstdlib>
+#include <limits>
+#include <random>
 
 namespace OpenYAMM::Game
 {
@@ -16,6 +19,9 @@ namespace
 {
 constexpr uint32_t FirstGeneratedNpcId = 1184;
 constexpr uint32_t LastGeneratedNpcId = 1223;
+constexpr char NpcRosterSeedVariable[] = "MMerge.RandomNPC.Seed";
+constexpr char NpcRosterRefillVariable[] = "MMerge.RandomNPC.RefillMinutes";
+constexpr int32_t MinutesPerMonth = 28 * 24 * 60;
 
 uint64_t fnv1a64(const std::string &text)
 {
@@ -40,14 +46,15 @@ uint32_t resolveActorPortraitId(
     const MergedMonsterPortraitTable *pMonsterPortraitTable,
     const std::string &actorName,
     const std::string &actorKey,
-    uint32_t actorMonsterId)
+    uint32_t actorMonsterId,
+    uint32_t rosterSeed = 0)
 {
     if (pMonsterPortraitTable == nullptr)
     {
         return 0;
     }
 
-    const uint64_t seed = fnv1a64(actorKey);
+    const uint64_t seed = fnv1a64(actorKey) ^ rosterSeed;
     const std::optional<uint32_t> monsterPortrait =
         pMonsterPortraitTable->portraitForMonsterId(actorMonsterId, seed);
 
@@ -133,7 +140,8 @@ const MergedBolsterMapEntry *currentBolsterMapEntry(
 std::optional<uint32_t> generatedProfessionId(
     const std::string &actorKey,
     const MergedNpcProfessionTable &professionTable,
-    uint32_t maxRarity)
+    uint32_t maxRarity,
+    uint32_t rosterSeed)
 {
     std::vector<uint32_t> candidateIds;
 
@@ -150,13 +158,14 @@ std::optional<uint32_t> generatedProfessionId(
         return std::nullopt;
     }
 
-    return candidateIds[static_cast<size_t>(fnv1a64(actorKey + "#profession") % candidateIds.size())];
+    return candidateIds[(fnv1a64(actorKey + "#profession") ^ rosterSeed) % candidateIds.size()];
 }
 
 std::string generatedNpcName(
     const std::string &actorKey,
     const MergedNpcNameTable &nameTable,
-    const MergedBolsterMonsterEntry *pBolsterMonster)
+    const MergedBolsterMonsterEntry *pBolsterMonster,
+    uint32_t rosterSeed)
 {
     const bool useFemaleName = pBolsterMonster != nullptr
         ? pBolsterMonster->gender == "F"
@@ -168,7 +177,7 @@ std::string generatedNpcName(
         return {};
     }
 
-    return names[static_cast<size_t>(fnv1a64(actorKey + "#name") % names.size())];
+    return names[(fnv1a64(actorKey + "#name") ^ rosterSeed) % names.size()];
 }
 
 bool canGenerateNpcFromBolsterMonster(const MergedBolsterMonsterEntry *pBolsterMonster)
@@ -218,24 +227,42 @@ std::optional<GenericActorDialogResolution> resolveGeneratedActorDialog(
         return std::nullopt;
     }
 
-    const std::optional<uint32_t> professionId =
-        generatedProfessionId(actorKey, *pNpcProfessionTable, *pBolsterEntry->professionMaxRarity);
-    const std::string name = generatedNpcName(actorKey, *pNpcNameTable, pBolsterMonster);
-
-    if (!professionId.has_value() || name.empty())
-    {
-        return std::nullopt;
-    }
-
     GenericActorDialogResolution resolution = {};
     resolution.npcId = npcId;
-    resolution.portraitPictureId =
-        resolveActorPortraitId(pMonsterPortraitTable, actorName, actorKey, actorMonsterId);
     resolution.opensNpcTalk = true;
     resolution.generatedNpc = true;
     resolution.generatedActorKey = actorKey;
-    resolution.generatedName = name;
-    resolution.generatedProfessionId = *professionId;
+
+    if (runtimeState.generatedNpcIdsByActorKey.contains(actorKey))
+    {
+        const auto nameIt = runtimeState.npcNameOverrides.find(npcId);
+        const auto pictureIt = runtimeState.npcPictureOverrides.find(npcId);
+        const auto professionIt = runtimeState.npcProfessionOverrides.find(npcId);
+        if (nameIt == runtimeState.npcNameOverrides.end()
+            || pictureIt == runtimeState.npcPictureOverrides.end()
+            || professionIt == runtimeState.npcProfessionOverrides.end())
+        {
+            return std::nullopt;
+        }
+        resolution.generatedName = nameIt->second;
+        resolution.portraitPictureId = pictureIt->second;
+        resolution.generatedProfessionId = professionIt->second;
+    }
+    else
+    {
+        const auto seedIt = runtimeState.namedMapVars.find(NpcRosterSeedVariable);
+        const uint32_t rosterSeed = seedIt != runtimeState.namedMapVars.end() ? seedIt->second : 0;
+        const std::optional<uint32_t> professionId = generatedProfessionId(
+            actorKey, *pNpcProfessionTable, *pBolsterEntry->professionMaxRarity, rosterSeed);
+        resolution.generatedName = generatedNpcName(actorKey, *pNpcNameTable, pBolsterMonster, rosterSeed);
+        if (!professionId || resolution.generatedName.empty())
+        {
+            return std::nullopt;
+        }
+        resolution.generatedProfessionId = *professionId;
+        resolution.portraitPictureId =
+            resolveActorPortraitId(pMonsterPortraitTable, actorName, actorKey, actorMonsterId, rosterSeed);
+    }
     return resolution;
 }
 
@@ -420,6 +447,38 @@ bool isPlaceholderGroupNews(uint32_t newsId)
 }
 }
 
+void refreshGenericActorNpcRoster(EventRuntimeState &runtimeState, float gameMinutes)
+{
+    const int32_t currentMinute = std::max(0, int32_t(std::floor(gameMinutes)));
+    const auto refillIt = runtimeState.namedMapVars.find(NpcRosterRefillVariable);
+    if (refillIt != runtimeState.namedMapVars.end()
+        && int64_t(currentMinute) <= int64_t(refillIt->second) + MinutesPerMonth)
+    {
+        return;
+    }
+
+    for (auto actorIt = runtimeState.generatedNpcIdsByActorKey.begin();
+         actorIt != runtimeState.generatedNpcIdsByActorKey.end();)
+    {
+        const uint32_t npcId = actorIt->second;
+        if (runtimeState.unavailableNpcIds.contains(npcId))
+        {
+            ++actorIt;
+            continue;
+        }
+        runtimeState.npcNameOverrides.erase(npcId);
+        runtimeState.npcPictureOverrides.erase(npcId);
+        runtimeState.npcProfessionOverrides.erase(npcId);
+        runtimeState.npcGreetingDisplayCounts.erase(npcId);
+        actorIt = runtimeState.generatedNpcIdsByActorKey.erase(actorIt);
+    }
+
+    std::random_device randomDevice;
+    std::uniform_int_distribution<int32_t> seedDistribution(1, std::numeric_limits<int32_t>::max());
+    runtimeState.namedMapVars[NpcRosterSeedVariable] = seedDistribution(randomDevice);
+    runtimeState.namedMapVars[NpcRosterRefillVariable] = currentMinute;
+}
+
 std::optional<GenericActorDialogResolution> resolveGenericActorDialog(
     const std::string &mapFileName,
     const std::string &actorName,
@@ -441,7 +500,9 @@ std::optional<GenericActorDialogResolution> resolveGenericActorDialog(
     const std::string genericNpcName = resolveGenericNpcName(actorName, actorGroup);
     const uint32_t genericNpcId = findNpcIdByName(npcDialogTable, genericNpcName);
 
-    if (genericNpcId == 0)
+    const auto seedIt = runtimeState.namedMapVars.find(NpcRosterSeedVariable);
+    const bool randomizedRoster = seedIt != runtimeState.namedMapVars.end() && seedIt->second != 0;
+    if (genericNpcId == 0 || randomizedRoster)
     {
         const std::optional<GenericActorDialogResolution> generatedResolution =
             resolveGeneratedActorDialog(

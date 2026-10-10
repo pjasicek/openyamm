@@ -29,7 +29,9 @@ add_executable(openyamm_unit_tests
     ../game/ui/MenuSettingsModel.cpp
     ImageAssetLoaderTests.cpp
     SpriteAtlasTests.cpp
+    CookedTextureTests.cpp
     ../tools/SpriteAtlasEncode.cpp
+    ../tools/TextureBlockEncode.cpp
     NativeSpriteTextureCacheTests.cpp
     IndoorCollisionPrimitivesTests.cpp
     IndoorActorActivationTests.cpp
@@ -54,6 +56,8 @@ add_executable(openyamm_unit_tests
     Mm9TransportRouteTests.cpp
     Mm9QuestMarkerTests.cpp
     MapItemSourceTests.cpp
+    DecorationModelPlacementTests.cpp
+    StaleLightingNoteTests.cpp
     MapDecorationTexturesTests.cpp
     MapPresentationTests.cpp
     ModelAnimationTests.cpp
@@ -79,6 +83,13 @@ add_executable(openyamm_unit_tests
     ScreenManagerTests.cpp
     ScreenshotTourTests.cpp
     ../game/debug/ScreenshotTour.cpp
+    SkyStateTests.cpp
+    ../game/render/SkyPresets.cpp
+    ../game/render/SkyState.cpp
+    ../game/outdoor/OutdoorDistantSea.cpp
+    WeatherModelTests.cpp
+    ../game/outdoor/WeatherModel.cpp
+    ../game/outdoor/WeatherPresentation.cpp
     ScriptedEventTimerTests.cpp
     SpellRegressionTests.cpp
     RegressionGameData.cpp
@@ -104,7 +115,9 @@ add_executable(openyamm_unit_tests
     ../engine/FontAsset.cpp
     ../engine/ImageAssetLoader.cpp
     ../engine/ImageMipmaps.cpp
+    ../engine/render/CookedTexture.cpp
     ../engine/render/ModelEnvironment.cpp
+    ../engine/render/TextureBlockCodec.cpp
     ../engine/models/CgltfImplementation.cpp
     ../engine/models/GltfModelLoader.cpp
     ../engine/models/ModelAnimation.cpp
@@ -166,6 +179,8 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/SavePreviewImage.cpp
     ../game/maps/MapDeltaData.cpp
     ../game/maps/MapAssetLoader.cpp
+    ../game/maps/StaleLightingNote.cpp
+    ../game/maps/DecorationModelPlacement.cpp
     ../game/maps/MapDecorationTextures.cpp
     ../game/maps/MapIdentity.cpp
     ../game/maps/SaveGame.cpp
@@ -246,6 +261,7 @@ add_executable(openyamm_unit_tests
     ../game/tables/SurfaceMaterialTable.cpp
     ../game/tables/TextureFrameTable.cpp
     ../game/ui/GameplayUiController.cpp
+    ../game/ui/HouseShopLayout.cpp
     ../game/ui/SpellbookUiLayout.cpp
     ../game/ui/UiLayoutManager.cpp
     ../game/outdoor/OutdoorGeometryUtils.cpp

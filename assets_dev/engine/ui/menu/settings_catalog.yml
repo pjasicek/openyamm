@@ -172,6 +172,38 @@ settings:
   name: Terrain details
   type: toggle
   desc: Draw extra terrain decorations where available.
+- id: sky_style
+  section: video
+  group: World detail
+  name: Sky
+  type: select
+  options:
+  - - enhanced
+    - Enhanced
+  - - classic
+    - Classic
+  desc: Enhanced adds a living sky and fades the distance into it; Classic keeps the original.
+- id: weather_quality
+  section: video
+  group: World detail
+  name: Weather
+  type: select
+  options:
+  - - high
+    - High
+  - - medium
+    - Medium
+  - - low
+    - Low
+  - - 'off'
+    - 'Off'
+  desc: Density of falling rain and snow; Off hides them while the weather itself goes on.
+- id: wet_surfaces
+  section: video
+  group: World detail
+  name: Wet surfaces
+  type: toggle
+  desc: Rain darkens the ground and buildings, which dry slowly after it stops.
 - id: water_shader
   section: video
   group: Water
@@ -217,6 +249,13 @@ settings:
   type: toggle
   depends: water_shader
   desc: Small ripples from creatures moving on water.
+- id: rain_ripples
+  section: video
+  group: Water
+  name: Rain ripples
+  type: toggle
+  depends: water_shader
+  desc: Raindrop rings on still water while it rains.
 - id: ambient_occlusion
   section: video
   group: Colour & effects
@@ -273,6 +312,15 @@ settings:
   name: Melee blood effects
   type: toggle
   desc: Add blood effects when melee attacks connect.
+- id: corpses
+  section: video
+  group: Colour & effects
+  name: Slain creatures
+  type: select
+  options:
+  - - keep
+    - Keep bodies
+  desc: Slain creatures keep their bodies, as in the original games.
 - id: sound_volume
   section: audio
   group: Volume
@@ -384,6 +432,9 @@ bindings:
   group: Interaction
 - id: cast
   name: Open spellbook
+  group: Combat
+- id: pass
+  name: Pass turn (turn-based)
   group: Combat
 - id: char_cycle
   name: Next character

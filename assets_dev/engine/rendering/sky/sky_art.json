@@ -1,0 +1,20 @@
+{
+  "generator": "tools/sky/prepare_sky_art.py",
+  "art": {
+    "horizon_ring": {
+      "source": "level_generation/lighting/sky_art/codex/horizon_ring_src.png",
+      "source_sha256": "ce494295cd085c8c1cc081135931c9f0df2380ae03bb04ee88b8a87526137e96",
+      "sha256": "383c62656c9a5834481dc445346fb6fdc36fded5545798455b738d8b2134fc84"
+    },
+    "night_sky": {
+      "source": "level_generation/lighting/sky_art/codex/night_sky_src.png",
+      "source_sha256": "180292140a9260248e9ec883338e0fa6b2ff3459dfe6a4a817a2296a66368352",
+      "sha256": "080b47a740e68b6ac2b653da3bda85b4485e2af8abeba22d0afb71d0867cfb84"
+    },
+    "moon": {
+      "source": "level_generation/lighting/sky_art/codex/moon_src.png",
+      "source_sha256": "0575b85de2a2a021d4afe2cab3bbbe56dac6dafa12640f915b9c25e9eaa77a3d",
+      "sha256": "d0f0181b7fe9a270afa376133bf48af1e13bdc7079981e6db2a3fc50486426bd"
+    }
+  }
+}

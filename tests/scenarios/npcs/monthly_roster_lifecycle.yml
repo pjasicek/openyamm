@@ -1,0 +1,87 @@
+id: npcs.monthly_roster_lifecycle
+title: Generated NPC rosters persist through saves and refresh on map reentry
+world: mm8
+mode: faithful
+tags: [mm6, mm7, mm8, smoke, npc, save_load]
+steps:
+  - new_game_flow:
+      continent: jadame
+      start_map: out01.odm
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 540
+  - save_game: mm8_roster
+  - advance_game_time:
+      minutes: 40321
+  - load_map:
+      map: d31.blv
+  - load_map:
+      map: out01.odm
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 40861
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.Mercenaries.RefillMonth
+        value: 1
+  - load_game: mm8_roster
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 540
+  - new_game_flow:
+      continent: antagarich
+      start_map: 7out01.odm
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 540
+  - save_game: mm7_roster
+  - advance_game_time:
+      minutes: 40321
+  - load_map:
+      map: 7d29.blv
+  - load_map:
+      map: 7out01.odm
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 40861
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.Mercenaries.RefillMonth
+        value: 1
+  - load_game: mm7_roster
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 540
+  - new_game_flow:
+      continent: enroth
+      start_map: oute3.odm
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 540
+  - save_game: mm6_roster
+  - advance_game_time:
+      minutes: 40321
+  - load_map:
+      map: 6d07.blv
+  - load_map:
+      map: oute3.odm
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 40861
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.Mercenaries.RefillMonth
+        value: 1
+  - load_game: mm6_roster
+  - assert:
+      state_dump_named_map_var:
+        name: MMerge.RandomNPC.RefillMinutes
+        value: 540

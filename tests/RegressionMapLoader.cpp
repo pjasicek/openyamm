@@ -2,7 +2,11 @@
 
 #include "engine/AssetScaleTier.h"
 
+#include <doctest/doctest.h>
+
+#include <cstring>
 #include <filesystem>
+#include <memory>
 #include <string>
 
 namespace OpenYAMM::Tests
@@ -36,17 +40,76 @@ bool loadRegressionMapLoader(RegressionMapLoader &loader, std::string &failure)
     return true;
 }
 
+std::unique_ptr<RegressionMapLoaderState> &sharedState()
+{
+    static std::unique_ptr<RegressionMapLoaderState> state;
+    return state;
+}
+
 const RegressionMapLoaderState &regressionMapLoaderState()
 {
-    static const RegressionMapLoaderState *pState = []()
+    std::unique_ptr<RegressionMapLoaderState> &state = sharedState();
+    if (state == nullptr)
     {
-        RegressionMapLoaderState *pState = new RegressionMapLoaderState();
-        pState->loaded = loadRegressionMapLoader(pState->loader, pState->failure);
-        return pState;
-    }();
+        state = std::make_unique<RegressionMapLoaderState>();
+        state->loaded = loadRegressionMapLoader(state->loader, state->failure);
+    }
 
-    return *pState;
+    return *state;
 }
+
+// Releases the shared loader before each test outside SharedRegressionMapSuite, and at the end of the run.
+class SharedRegressionMapListener : public doctest::IReporter
+{
+public:
+    explicit SharedRegressionMapListener(const doctest::ContextOptions &)
+    {
+    }
+
+    void report_query(const doctest::QueryData &) override
+    {
+    }
+    void test_run_start() override
+    {
+    }
+    void test_run_end(const doctest::TestRunStats &) override
+    {
+        releaseRegressionMapLoader();
+    }
+    void test_case_start(const doctest::TestCaseData &testCase) override
+    {
+        if (testCase.m_test_suite == nullptr || std::strcmp(testCase.m_test_suite, SharedRegressionMapSuite) != 0)
+        {
+            releaseRegressionMapLoader();
+        }
+    }
+    void test_case_reenter(const doctest::TestCaseData &) override
+    {
+    }
+    void test_case_end(const doctest::CurrentTestCaseStats &) override
+    {
+    }
+    void test_case_exception(const doctest::TestCaseException &) override
+    {
+    }
+    void subcase_start(const doctest::SubcaseSignature &) override
+    {
+    }
+    void subcase_end() override
+    {
+    }
+    void log_assert(const doctest::AssertData &) override
+    {
+    }
+    void log_message(const doctest::MessageData &) override
+    {
+    }
+    void test_case_skipped(const doctest::TestCaseData &) override
+    {
+    }
+};
+
+REGISTER_LISTENER("shared_regression_map", 1, SharedRegressionMapListener);
 }
 
 bool regressionMapLoaderLoaded()
@@ -62,5 +125,10 @@ const std::string &regressionMapLoaderFailure()
 const RegressionMapLoader &regressionMapLoader()
 {
     return regressionMapLoaderState().loader;
+}
+
+void releaseRegressionMapLoader()
+{
+    sharedState().reset();
 }
 }

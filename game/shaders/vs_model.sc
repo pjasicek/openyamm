@@ -10,15 +10,16 @@ uniform vec4 u_modelCamera;
 
 void main()
 {
-    v_worldPosition = u_modelSkin.x > 0.5 ? modelSkinnedPosition(a_position)
-        : mul(u_model[0], vec4(a_position, 1.0)).xyz;
+    bool skinned = u_modelSkin.x > 0.5;
+    mat4 skin = skinned ? modelSkinMatrix(u_modelSkin.z) : u_model[0];
+    v_worldPosition = mul(skin, vec4(a_position, 1.0)).xyz;
     gl_Position = mul(u_viewProj, vec4(v_worldPosition, 1.0));
     v_texcoord0 = a_texcoord0;
     // Creature models carry their light in uniforms; static placements use these per-instance terms.
     v_color0 = vec4(1.0, 1.0, 1.0, 1.0);
     v_texcoord1 = vec4(0.0, 0.0, 0.0, 0.0);
     v_flowInfo = vec4(1.0, 1.0, 1.0, 1.0);
-    v_worldNormal = u_modelSkin.x > 0.5 ? modelSkinnedNormal(a_normal)
+    v_worldNormal = skinned ? normalize(mul(skin, vec4(a_normal, 0.0)).xyz)
         : mul(u_modelNormalMatrix, vec4(a_normal, 0.0)).xyz;
     if (u_modelOutline.w > 0.5)
     {

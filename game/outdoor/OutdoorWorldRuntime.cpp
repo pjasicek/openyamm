@@ -915,42 +915,6 @@ InactiveActorDeathFrame resolveInactiveActorDeathFrame(
     return result;
 }
 
-float rainIntensityValue(OutdoorWorldRuntime::RainIntensityPreset preset)
-{
-    switch (preset)
-    {
-        case OutdoorWorldRuntime::RainIntensityPreset::Light:
-            return 0.85f;
-        case OutdoorWorldRuntime::RainIntensityPreset::Medium:
-            return 1.65f;
-        case OutdoorWorldRuntime::RainIntensityPreset::Heavy:
-            return 3.65f;
-        case OutdoorWorldRuntime::RainIntensityPreset::VeryHeavy:
-            return 5.35f;
-        case OutdoorWorldRuntime::RainIntensityPreset::Off:
-        default:
-            return 0.0f;
-    }
-}
-
-const char *rainIntensityPresetName(OutdoorWorldRuntime::RainIntensityPreset preset)
-{
-    switch (preset)
-    {
-        case OutdoorWorldRuntime::RainIntensityPreset::Light:
-            return "Light";
-        case OutdoorWorldRuntime::RainIntensityPreset::Medium:
-            return "Medium";
-        case OutdoorWorldRuntime::RainIntensityPreset::Heavy:
-            return "Heavy";
-        case OutdoorWorldRuntime::RainIntensityPreset::VeryHeavy:
-            return "Very Heavy";
-        case OutdoorWorldRuntime::RainIntensityPreset::Off:
-        default:
-            return "Off";
-    }
-}
-
 uint32_t makeTintedFogColor(
     uint8_t brightness,
     bool hasFogTint,
@@ -1176,64 +1140,6 @@ std::string mergedSkyTextureNameForProfile(const OutdoorWeatherProfile &profile,
 
     const int skyIndex = std::clamp(weatherState, 0, static_cast<int>(profile.mergedSkyTextureNames.size()) - 1);
     return profile.mergedSkyTextureNames[static_cast<size_t>(skyIndex)];
-}
-
-struct MergedPrecipitationRoll
-{
-    bool snow = false;
-    bool rain = false;
-    OutdoorWorldRuntime::RainIntensityPreset rainIntensity = OutdoorWorldRuntime::RainIntensityPreset::Off;
-};
-
-OutdoorWorldRuntime::RainIntensityPreset mergedRainIntensityForRoll(int roll)
-{
-    switch (roll)
-    {
-        case 0:
-            return OutdoorWorldRuntime::RainIntensityPreset::Medium;
-        case 1:
-            return OutdoorWorldRuntime::RainIntensityPreset::Heavy;
-        default:
-            return OutdoorWorldRuntime::RainIntensityPreset::VeryHeavy;
-    }
-}
-
-MergedPrecipitationRoll mergedPrecipitationRoll(
-    const OutdoorWeatherProfile &profile,
-    int mapId,
-    int weatherDayIndex)
-{
-    uint32_t seed = 0x8f3d9a15u;
-    seed ^= static_cast<uint32_t>(std::max(mapId, 0)) * 2246822519u;
-    seed ^= static_cast<uint32_t>(std::max(weatherDayIndex, 0)) * 3266489917u;
-    std::mt19937 rng(seed);
-    std::uniform_int_distribution<int> percentDistribution(0, 99);
-
-    MergedPrecipitationRoll result = {};
-
-    if (profile.mergedSnowEnabled)
-    {
-        const int snowChance = std::clamp(profile.mergedSnowChancePercent, 0, 100);
-
-        if (percentDistribution(rng) < snowChance)
-        {
-            result.snow = true;
-            return result;
-        }
-    }
-
-    if (profile.mergedRainEnabled)
-    {
-        const int rainChance = std::clamp(profile.mergedRainChancePercent, 0, 100);
-
-        if (percentDistribution(rng) < rainChance)
-        {
-            result.rain = true;
-            result.rainIntensity = mergedRainIntensityForRoll(std::uniform_int_distribution<int>(0, 2)(rng));
-        }
-    }
-
-    return result;
 }
 
 OutdoorWorldRuntime::AtmosphereState buildAtmosphereSourceState(
@@ -4966,7 +4872,7 @@ void OutdoorWorldRuntime::initialize(
     m_atmosphereState = buildAtmosphereSourceState(map, outdoorMapData, outdoorMapDeltaData);
     m_outdoorWeatherProfile = outdoorWeatherProfile;
     m_mergedWeatherStateCacheValid = false;
-    m_mergedPrecipitationCacheValid = false;
+    m_cachedWetnessMinute = -1;
     m_timers.clear();
     m_timerDefinitionsInitialized = false;
     m_resetLegacyTimersOnInitialize = false;
@@ -5157,6 +5063,7 @@ void OutdoorWorldRuntime::initialize(
 
         m_mapActors.reserve(outdoorMapDeltaData->actors.size());
         m_mapActorCorpseViews.assign(outdoorMapDeltaData->actors.size(), std::nullopt);
+        m_corpseLootPending = true;
 
         for (size_t actorIndex = 0; actorIndex < outdoorMapDeltaData->actors.size(); ++actorIndex)
         {
@@ -7263,8 +7170,6 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
     snapshot.fireSpikeTraps = m_fireSpikeTraps;
     snapshot.bloodSplats = m_bloodSplats;
     snapshot.armageddon = m_armageddonState;
-    snapshot.hasRainIntensityOverride = m_hasRainIntensityOverride;
-    snapshot.rainIntensityPreset = m_rainIntensityPreset;
     snapshot.hasOutdoorRuntimeSaveParityFields = true;
     if (m_pOutdoorMapDeltaData != nullptr)
     {
@@ -7343,6 +7248,7 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_sessionChestSeed = snapshot.sessionChestSeed;
     m_nextActorId = snapshot.nextActorId;
     m_mapActorCorpseViews = snapshot.mapActorCorpseViews;
+    m_corpseLootPending = true;
     m_activeCorpseView = snapshot.activeCorpseView;
     m_worldItems = snapshot.worldItems;
     m_nextWorldItemId = snapshot.nextWorldItemId;
@@ -7358,8 +7264,6 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_bloodSplats = snapshot.bloodSplats;
     ++m_bloodSplatRevision;
     m_armageddonState = snapshot.armageddon;
-    m_hasRainIntensityOverride = snapshot.hasRainIntensityOverride;
-    m_rainIntensityPreset = snapshot.rainIntensityPreset;
     if (m_pOutdoorMapDeltaData != nullptr
         && (!snapshot.fullyRevealedCells.empty() || !snapshot.partiallyRevealedCells.empty()))
     {
@@ -7559,42 +7463,144 @@ const OutdoorWorldRuntime::AtmosphereState &OutdoorWorldRuntime::atmosphereState
     return m_atmosphereState;
 }
 
-OutdoorWorldRuntime::RainIntensityPreset OutdoorWorldRuntime::cycleRainIntensityPreset()
+void OutdoorWorldRuntime::setDebugSkyOverrides(const DebugSkyOverrides &overrides)
 {
-    m_hasRainIntensityOverride = true;
+    m_debugSkyOverrides = overrides;
+    m_mergedWeatherStateCacheValid = false;
+    refreshAtmosphereState();
+}
 
-    switch (m_rainIntensityPreset)
+const OutdoorWorldRuntime::DebugSkyOverrides &OutdoorWorldRuntime::debugSkyOverrides() const
+{
+    return m_debugSkyOverrides;
+}
+
+const WeatherRules &OutdoorWorldRuntime::weatherRules() const
+{
+    static const WeatherRules DefaultRules;
+    return m_outdoorWeatherProfile ? m_outdoorWeatherProfile->weatherRules : DefaultRules;
+}
+
+WeatherMapSettings OutdoorWorldRuntime::weatherMapSettings() const
+{
+    if (isMergedWeatherMap() && m_outdoorWeatherProfile->mergedWeatherEnabled)
     {
-        case RainIntensityPreset::Off:
-            m_rainIntensityPreset = RainIntensityPreset::Light;
-            break;
-        case RainIntensityPreset::Light:
-            m_rainIntensityPreset = RainIntensityPreset::Medium;
-            break;
-        case RainIntensityPreset::Medium:
-            m_rainIntensityPreset = RainIntensityPreset::Heavy;
-            break;
-        case RainIntensityPreset::Heavy:
-            m_rainIntensityPreset = RainIntensityPreset::VeryHeavy;
-            break;
-        case RainIntensityPreset::VeryHeavy:
-        default:
-            m_rainIntensityPreset = RainIntensityPreset::Off;
-            break;
+        return m_outdoorWeatherProfile->weatherMap;
     }
 
-    refreshAtmosphereState();
-    return m_rainIntensityPreset;
+    // No rolled rain or snow, but the map still has a daily calm wind.
+    WeatherMapSettings settings;
+    settings.mapId = static_cast<uint32_t>(std::max(m_mapId, 0));
+    return settings;
 }
 
-OutdoorWorldRuntime::RainIntensityPreset OutdoorWorldRuntime::rainIntensityPreset() const
+bool OutdoorWorldRuntime::isMergedWeatherMap() const
 {
-    return m_rainIntensityPreset;
+    return m_outdoorWeatherProfile.has_value()
+        && m_outdoorWeatherProfile->mergedWeatherConfigured
+        && m_outdoorWeatherProfile->mergedMapId == static_cast<uint32_t>(std::max(m_mapId, 0));
 }
 
-const char *OutdoorWorldRuntime::rainIntensityPresetName() const
+WeatherSample OutdoorWorldRuntime::rolledWeatherAt(double gameMinutes) const
 {
-    return ::OpenYAMM::Game::rainIntensityPresetName(m_rainIntensityPreset);
+    return sampleRolledWeather(weatherRules(), weatherMapSettings(), gameMinutes);
+}
+
+WeatherSample OutdoorWorldRuntime::currentWeatherSample()
+{
+    const WeatherRules &rules = weatherRules();
+    const WeatherMapSettings settings = weatherMapSettings();
+    WeatherSample sample = sampleRolledWeather(rules, settings, m_gameMinutes);
+    const int64_t wetnessMinute = static_cast<int64_t>(std::floor(m_gameMinutes));
+
+    if (wetnessMinute != m_cachedWetnessMinute || m_cachedWetnessMapId != m_mapId)
+    {
+        m_cachedWetness = sampleWetness(rules, settings, static_cast<double>(wetnessMinute));
+        m_cachedWetnessMinute = wetnessMinute;
+        m_cachedWetnessMapId = m_mapId;
+    }
+
+    sample.wetness = m_cachedWetness;
+    bool forced = false;
+    const auto hold = [&sample, &rules, &forced](PrecipitationKind kind)
+    {
+        forced = true;
+
+        if (sample.precipitation != kind)
+        {
+            sample.precipitation = kind;
+            sample.intensity = 0.0f;
+        }
+
+        sample.intensity = std::max(sample.intensity, rules.eventIntensity);
+        sample.cloudCover = std::max(sample.cloudCover, 0.6f + 0.4f * sample.intensity);
+    };
+    const auto stop = [&sample](PrecipitationKind kind)
+    {
+        if (sample.precipitation == kind)
+        {
+            sample.precipitation = PrecipitationKind::None;
+            sample.intensity = 0.0f;
+        }
+    };
+
+    if (!isMergedWeatherMap() && m_outdoorWeatherProfile.has_value())
+    {
+        if (m_outdoorWeatherProfile->defaultPrecipitation == OutdoorPrecipitationKind::Snow)
+        {
+            hold(PrecipitationKind::Snow);
+        }
+        else if (m_outdoorWeatherProfile->defaultPrecipitation == OutdoorPrecipitationKind::Rain)
+        {
+            hold(PrecipitationKind::Rain);
+        }
+    }
+
+    if (m_eventRuntimeState && m_eventRuntimeState->snowEnabled.has_value())
+    {
+        *m_eventRuntimeState->snowEnabled ? hold(PrecipitationKind::Snow) : stop(PrecipitationKind::Snow);
+    }
+
+    if (m_eventRuntimeState && m_eventRuntimeState->rainEnabled.has_value())
+    {
+        *m_eventRuntimeState->rainEnabled ? hold(PrecipitationKind::Rain) : stop(PrecipitationKind::Rain);
+    }
+
+    if (m_debugSkyOverrides.precipitation.has_value())
+    {
+        forced = true;
+        sample.precipitation = *m_debugSkyOverrides.precipitation;
+        sample.intensity = sample.precipitation != PrecipitationKind::None
+            ? std::clamp(m_debugSkyOverrides.precipitationIntensity, 0.0f, 1.0f) : 0.0f;
+        sample.cloudCover = sample.precipitation != PrecipitationKind::None
+            ? std::max(sample.cloudCover, 0.6f + 0.4f * sample.intensity) : sample.cloudCover;
+    }
+
+    if (forced && sample.precipitation == PrecipitationKind::Rain)
+    {
+        // Held rain has no rolled history to soak surfaces from; treat it as having fallen for a while.
+        sample.wetness = std::max(sample.wetness, std::min(1.0f, sample.intensity * 1.6f));
+    }
+
+    sample.storm = sample.precipitation == PrecipitationKind::Rain && sample.intensity >= rules.stormThreshold;
+
+    if (m_debugSkyOverrides.storm.has_value())
+    {
+        sample.storm = *m_debugSkyOverrides.storm && sample.precipitation == PrecipitationKind::Rain;
+    }
+
+    if (m_debugSkyOverrides.wind.has_value())
+    {
+        sample.windX = m_debugSkyOverrides.wind->first;
+        sample.windY = m_debugSkyOverrides.wind->second;
+    }
+
+    if (isIndoorMap())
+    {
+        sample = {};
+    }
+
+    return sample;
 }
 
 void OutdoorWorldRuntime::advanceGameMinutes(float minutes)
@@ -7639,22 +7645,7 @@ void OutdoorWorldRuntime::applyInitialWeatherProfile()
     }
 
     const OutdoorWeatherProfile &profile = *m_outdoorWeatherProfile;
-
-    if (profile.defaultPrecipitation == OutdoorPrecipitationKind::Snow)
-    {
-        m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
-        m_atmosphereState.weatherFlags |= MapWeatherSnowing;
-    }
-    else if (profile.defaultPrecipitation == OutdoorPrecipitationKind::Rain)
-    {
-        m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
-        m_atmosphereState.weatherFlags |= MapWeatherRaining;
-    }
-    else
-    {
-        m_atmosphereState.weatherFlags &= ~(MapWeatherSnowing | MapWeatherRaining);
-    }
-
+    applyPrecipitationState(currentWeatherSample());
     m_atmosphereState.redFog = profile.redFog;
     m_atmosphereState.alwaysDark = profile.alwaysDark;
     m_atmosphereState.alwaysLight = profile.alwaysLight;
@@ -7700,17 +7691,55 @@ int OutdoorWorldRuntime::cachedMergedWeatherState(const OutdoorWeatherProfile &p
     return m_cachedMergedWeatherState;
 }
 
+int OutdoorWorldRuntime::mergedLadderState(const OutdoorWeatherProfile &profile, const WeatherSample &sample)
+{
+    const int stateCount = static_cast<int>(profile.mergedSkyTextureNames.size());
+
+    if (m_debugSkyOverrides.mergedWeatherState.has_value() && stateCount > 0)
+    {
+        return std::clamp(*m_debugSkyOverrides.mergedWeatherState, 0, stateCount - 1);
+    }
+
+    if (!profile.mergedWeatherEnabled)
+    {
+        return cachedMergedWeatherState(profile);
+    }
+
+    return weatherLadderState(cachedMergedWeatherState(profile), stateCount, sample,
+        profile.weatherRules.stormThreshold);
+}
+
+void OutdoorWorldRuntime::applyPrecipitationState(const WeatherSample &sample)
+{
+    m_atmosphereState.precipitation = sample.precipitation;
+    m_atmosphereState.precipitationIntensity = sample.intensity;
+    m_atmosphereState.cloudCover = sample.cloudCover;
+    m_atmosphereState.windX = sample.windX;
+    m_atmosphereState.windY = sample.windY;
+    m_atmosphereState.storm = sample.storm;
+    m_atmosphereState.wetness = sample.wetness;
+    m_atmosphereState.weatherFlags &= ~(MapWeatherSnowing | MapWeatherRaining);
+
+    if (sample.precipitation == PrecipitationKind::Snow)
+    {
+        m_atmosphereState.weatherFlags |= MapWeatherSnowing;
+    }
+    else if (sample.precipitation == PrecipitationKind::Rain)
+    {
+        m_atmosphereState.weatherFlags |= MapWeatherRaining;
+    }
+}
+
 bool OutdoorWorldRuntime::applyMergedWeatherProfile()
 {
-    if (!m_outdoorWeatherProfile.has_value()
-        || !m_outdoorWeatherProfile->mergedWeatherConfigured
-        || m_outdoorWeatherProfile->mergedMapId != static_cast<uint32_t>(std::max(m_mapId, 0)))
+    if (!isMergedWeatherMap())
     {
         return false;
     }
 
     const OutdoorWeatherProfile &profile = *m_outdoorWeatherProfile;
-    const int weatherState = cachedMergedWeatherState(profile);
+    const WeatherSample sample = currentWeatherSample();
+    const int weatherState = mergedLadderState(profile, sample);
     const std::string skyTextureName = mergedSkyTextureNameForProfile(profile, weatherState);
 
     if (!skyTextureName.empty())
@@ -7727,65 +7756,34 @@ bool OutdoorWorldRuntime::applyMergedWeatherProfile()
     m_atmosphereState.fogTintGreen = profile.fogTintRgb[1];
     m_atmosphereState.fogTintBlue = profile.fogTintRgb[2];
     m_atmosphereState.underwater = profile.underwater;
+    applyPrecipitationState(sample);
 
     if (!profile.mergedWeatherEnabled)
     {
-        m_atmosphereState.weatherFlags &= ~(MapWeatherSnowing | MapWeatherRaining);
-        m_atmosphereState.rainIntensity = 0.0f;
         applyAlwaysFoggyProfile(m_atmosphereState, profile);
         syncAtmosphereStateToMapDelta();
         return false;
     }
 
-    const int skyCount = static_cast<int>(profile.mergedSkyTextureNames.size());
-    const int fogThreshold = skyCount / 3;
+    // MMerge fog thickens up the clear-to-storm ladder; clouds and rain move along it smoothly.
+    const int stateCount = static_cast<int>(profile.mergedSkyTextureNames.size());
+    const float fogPosition = m_debugSkyOverrides.mergedWeatherState.has_value()
+        ? static_cast<float>(weatherState)
+        : weatherFogLadderPosition(cachedMergedWeatherState(profile), stateCount, sample,
+            profile.weatherRules.stormThreshold);
+    const WeatherFogDistances fog = weatherLadderFog(fogPosition, stateCount);
 
-    if (weatherState > fogThreshold)
+    if (fog.foggy)
     {
-        const int divisor = std::max(weatherState, 1);
         m_atmosphereState.weatherFlags |= MapWeatherFoggy;
-        m_atmosphereState.fogWeakDistance = (4096 / divisor) * 2;
-        m_atmosphereState.fogStrongDistance = (8096 / divisor) * 2;
+        m_atmosphereState.fogWeakDistance = fog.weakDistance;
+        m_atmosphereState.fogStrongDistance = fog.strongDistance;
     }
     else
     {
         m_atmosphereState.weatherFlags &= ~MapWeatherFoggy;
         m_atmosphereState.fogWeakDistance = 0;
         m_atmosphereState.fogStrongDistance = 0;
-    }
-
-    const int precipitationDayIndex = weatherDayIndexForMinutes(m_gameMinutes);
-
-    if (!m_mergedPrecipitationCacheValid
-        || m_cachedMergedPrecipitationMapId != m_mapId
-        || m_cachedMergedPrecipitationDayIndex != precipitationDayIndex)
-    {
-        const MergedPrecipitationRoll precipitationRoll =
-            mergedPrecipitationRoll(profile, m_mapId, precipitationDayIndex);
-        m_cachedMergedSnow = precipitationRoll.snow;
-        m_cachedMergedRain = precipitationRoll.rain;
-        m_cachedMergedRainIntensity = precipitationRoll.rainIntensity;
-        m_cachedMergedPrecipitationMapId = m_mapId;
-        m_cachedMergedPrecipitationDayIndex = precipitationDayIndex;
-        m_mergedPrecipitationCacheValid = true;
-    }
-
-    if (m_cachedMergedSnow)
-    {
-        m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
-        m_atmosphereState.weatherFlags |= MapWeatherSnowing;
-        m_atmosphereState.rainIntensity = 0.0f;
-    }
-    else if (m_cachedMergedRain)
-    {
-        m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
-        m_atmosphereState.weatherFlags |= MapWeatherRaining;
-        m_atmosphereState.rainIntensity = rainIntensityValue(m_cachedMergedRainIntensity);
-    }
-    else
-    {
-        m_atmosphereState.weatherFlags &= ~(MapWeatherSnowing | MapWeatherRaining);
-        m_atmosphereState.rainIntensity = 0.0f;
     }
 
     applyAlwaysFoggyProfile(m_atmosphereState, profile);
@@ -7925,38 +7923,15 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
 
         applyAlwaysFoggyProfile(m_atmosphereState, *m_outdoorWeatherProfile);
 
-        if (m_outdoorWeatherProfile->mergedWeatherConfigured
-            && m_outdoorWeatherProfile->mergedMapId == static_cast<uint32_t>(std::max(m_mapId, 0)))
+        if (isMergedWeatherMap())
         {
             applyMergedWeatherProfile();
         }
     }
 
-    if (m_eventRuntimeState && m_eventRuntimeState->snowEnabled.has_value())
-    {
-        if (*m_eventRuntimeState->snowEnabled)
-        {
-            m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
-            m_atmosphereState.weatherFlags |= MapWeatherSnowing;
-        }
-        else
-        {
-            m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
-        }
-    }
-
-    if (m_eventRuntimeState && m_eventRuntimeState->rainEnabled.has_value())
-    {
-        if (*m_eventRuntimeState->rainEnabled)
-        {
-            m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
-            m_atmosphereState.weatherFlags |= MapWeatherRaining;
-        }
-        else
-        {
-            m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
-        }
-    }
+    // Rolled weather, then scene, event and debug overrides; enclosed maps have none.
+    const WeatherSample weatherSample = currentWeatherSample();
+    applyPrecipitationState(weatherSample);
 
     if (m_eventRuntimeState && m_eventRuntimeState->outdoorFogWeakDistanceOverride.has_value())
     {
@@ -7966,37 +7941,11 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
             m_eventRuntimeState->outdoorFogStrongDistanceOverride.value_or(m_atmosphereState.fogStrongDistance);
     }
 
-    if ((m_atmosphereState.weatherFlags & MapWeatherRaining) != 0)
+    if (m_debugSkyOverrides.fogDistances.has_value())
     {
-        if (m_atmosphereState.rainIntensity <= 0.0f)
-        {
-            m_atmosphereState.rainIntensity = rainIntensityValue(RainIntensityPreset::Medium);
-        }
-    }
-    else
-    {
-        m_atmosphereState.rainIntensity = 0.0f;
-    }
-
-    if (m_hasRainIntensityOverride)
-    {
-        if (m_rainIntensityPreset != RainIntensityPreset::Off)
-        {
-            m_atmosphereState.weatherFlags &= ~MapWeatherSnowing;
-            m_atmosphereState.weatherFlags |= MapWeatherRaining;
-            m_atmosphereState.rainIntensity = rainIntensityValue(m_rainIntensityPreset);
-        }
-        else
-        {
-            m_atmosphereState.weatherFlags &= ~MapWeatherRaining;
-            m_atmosphereState.rainIntensity = 0.0f;
-        }
-    }
-
-    if (enclosedEnvironment)
-    {
-        m_atmosphereState.weatherFlags &= ~(MapWeatherSnowing | MapWeatherRaining);
-        m_atmosphereState.rainIntensity = 0.0f;
+        m_atmosphereState.weatherFlags |= MapWeatherFoggy;
+        m_atmosphereState.fogWeakDistance = m_debugSkyOverrides.fogDistances->first;
+        m_atmosphereState.fogStrongDistance = m_debugSkyOverrides.fogDistances->second;
     }
 
     const float minutesOfDay = std::fmod(std::max(m_gameMinutes, 0.0), 1440.0);
@@ -8049,32 +7998,58 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
         applyAuthoredDayNightFogProfile(m_atmosphereState, *m_outdoorWeatherProfile);
     }
 
-    if (m_outdoorWeatherProfile.has_value()
-        && m_outdoorWeatherProfile->mergedWeatherConfigured
-        && m_outdoorWeatherProfile->mergedMapId == static_cast<uint32_t>(std::max(m_mapId, 0)))
+    if (isMergedWeatherMap())
     {
-        const int weatherState = cachedMergedWeatherState(*m_outdoorWeatherProfile);
+        const int weatherState = mergedLadderState(*m_outdoorWeatherProfile, weatherSample);
         const std::string skyTextureName = mergedSkyTextureNameForProfile(*m_outdoorWeatherProfile, weatherState);
         m_atmosphereState.skyTextureName = !skyTextureName.empty()
             ? skyTextureName
             : m_atmosphereState.sourceSkyTextureName;
+        m_atmosphereState.weatherSkyTextureName = m_atmosphereState.skyTextureName;
+
+        if (m_outdoorWeatherProfile->mergedCustomSkyTextureName.empty()
+            && !m_outdoorWeatherProfile->mergedSkyTextureNames.empty())
+        {
+            m_atmosphereState.mergedWeatherState = weatherState;
+            m_atmosphereState.mergedWeatherStateCount =
+                static_cast<int>(m_outdoorWeatherProfile->mergedSkyTextureNames.size());
+        }
+        else
+        {
+            m_atmosphereState.mergedWeatherState = -1;
+            m_atmosphereState.mergedWeatherStateCount = 0;
+        }
     }
     else
     {
         m_atmosphereState.skyTextureName = enclosedEnvironment
             ? m_atmosphereState.sourceSkyTextureName
             : resolveRenderedSkyTextureName(m_atmosphereState.sourceSkyTextureName, minutesOfDay);
+        m_atmosphereState.weatherSkyTextureName = m_atmosphereState.sourceSkyTextureName;
+        m_atmosphereState.mergedWeatherState = -1;
+        m_atmosphereState.mergedWeatherStateCount = 0;
     }
 
     if (m_mapId == DaggerWoundIslandMapId)
     {
         m_atmosphereState.skyTextureName = "sunsetclouds";
+        m_atmosphereState.weatherSkyTextureName = "sunsetclouds";
+        m_atmosphereState.mergedWeatherState = -1;
     }
 
     if (m_eventRuntimeState && m_eventRuntimeState->outdoorSkyTextureOverride.has_value())
     {
         m_atmosphereState.sourceSkyTextureName = *m_eventRuntimeState->outdoorSkyTextureOverride;
         m_atmosphereState.skyTextureName = *m_eventRuntimeState->outdoorSkyTextureOverride;
+        m_atmosphereState.weatherSkyTextureName = *m_eventRuntimeState->outdoorSkyTextureOverride;
+        m_atmosphereState.mergedWeatherState = -1;
+    }
+
+    if (m_debugSkyOverrides.skyTextureName.has_value())
+    {
+        m_atmosphereState.skyTextureName = *m_debugSkyOverrides.skyTextureName;
+        m_atmosphereState.weatherSkyTextureName = *m_debugSkyOverrides.skyTextureName;
+        m_atmosphereState.mergedWeatherState = -1;
     }
 
     if (m_atmosphereState.alwaysLight)
@@ -10750,6 +10725,7 @@ void OutdoorWorldRuntime::updateMm9FoundPlayerEvents(
 
 void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ)
 {
+    rollPendingCorpseLoot();
     if (deltaSeconds <= 0.0f || m_pMonsterTable == nullptr)
     {
         return;
@@ -14370,46 +14346,9 @@ bool OutdoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successR
         return false;
     }
 
-    if (actorIndex >= m_mapActorCorpseViews.size())
+    if (!ensureMapActorCorpseView(actorIndex))
     {
-        m_mapActorCorpseViews.resize(actorIndex + 1);
-    }
-
-    if (!m_mapActorCorpseViews[actorIndex].has_value())
-    {
-        std::vector<uint32_t> guaranteedItemIds;
-
-        if (actor.specialItemId != 0)
-        {
-            guaranteedItemIds.push_back(actor.specialItemId);
-        }
-
-        if (m_eventRuntimeState)
-        {
-            const auto extraItemIterator =
-                m_eventRuntimeState->actorExtraItemOverrides.find(static_cast<uint32_t>(actorIndex));
-
-            if (extraItemIterator != m_eventRuntimeState->actorExtraItemOverrides.end())
-            {
-                guaranteedItemIds.insert(
-                    guaranteedItemIds.end(),
-                    extraItemIterator->second.begin(),
-                    extraItemIterator->second.end());
-            }
-        }
-
-        GameplayCorpseViewState corpse =
-            buildMonsterCorpseView(
-                actor.displayName,
-                actor.proceduralDeathLoot
-                    ? gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, actor.bolsterRewardMultiplier)
-                    : MonsterTable::LootPrototype {},
-                m_pItemTable,
-                m_pParty,
-                guaranteedItemIds);
-        corpse.fromSummonedMonster = false;
-        corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
-        m_mapActorCorpseViews[actorIndex] = std::move(corpse);
+        return false;
     }
 
     GameplayCorpseViewState &corpse = *m_mapActorCorpseViews[actorIndex];
@@ -15270,9 +15209,10 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
 
         if (pStats != nullptr)
         {
-            if (actorIndex >= m_mapActorCorpseViews.size())
+            // The corpse's loot is rolled at death: its loot satchel shows what it holds.
+            if (actorShouldLeaveCorpse(m_pMonsterTable, actor))
             {
-                m_mapActorCorpseViews.resize(actorIndex + 1);
+                ensureMapActorCorpseView(actorIndex);
             }
 
             if (emitAudio)
@@ -17124,16 +17064,9 @@ void OutdoorWorldRuntime::commitActiveCorpseView()
     }
 }
 
-bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+bool OutdoorWorldRuntime::ensureMapActorCorpseView(size_t actorIndex)
 {
-    if (actorIndex >= m_mapActors.size())
-    {
-        return false;
-    }
-
-    const MapActorState &actor = m_mapActors[actorIndex];
-
-    if (!actor.isDead || actor.isInvisible || !actorShouldLeaveCorpse(m_pMonsterTable, actor))
+    if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr)
     {
         return false;
     }
@@ -17143,86 +17076,122 @@ bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
         m_mapActorCorpseViews.resize(actorIndex + 1);
     }
 
+    if (m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        return true;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    std::vector<uint32_t> guaranteedItemIds;
+    if (actor.specialItemId != 0)
+    {
+        guaranteedItemIds.push_back(actor.specialItemId);
+    }
+
+    if (m_eventRuntimeState)
+    {
+        const auto extraItemIterator =
+            m_eventRuntimeState->actorExtraItemOverrides.find(static_cast<uint32_t>(actorIndex));
+
+        if (extraItemIterator != m_eventRuntimeState->actorExtraItemOverrides.end())
+        {
+            guaranteedItemIds.insert(
+                guaranteedItemIds.end(),
+                extraItemIterator->second.begin(),
+                extraItemIterator->second.end());
+        }
+    }
+
+    CorpseViewState corpse =
+        buildMonsterCorpseView(
+            actor.displayName,
+            actor.proceduralDeathLoot
+                ? gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, actor.bolsterRewardMultiplier)
+                : MonsterTable::LootPrototype {},
+            m_pItemTable,
+            m_pParty,
+            guaranteedItemIds);
+
+    for (const GameplayChestItemState &item : corpse.items)
+    {
+        const uint32_t itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
+
+        if (!item.isGold && gameplayDebugTraceItemLooksQuestRelevant(itemId, m_pItemTable))
+        {
+            GAMEPLAY_DEBUG_TRACE(
+                "corpse_contains_quest_item scene_kind=outdoor map=\"" + mapName() + "\""
+                + " actor_index=" + std::to_string(actorIndex)
+                + " actor_id=" + std::to_string(actor.actorId)
+                + " monster_id=" + std::to_string(actor.monsterId)
+                + " name=\"" + actor.displayName + "\""
+                + " corpse_index=" + std::to_string(actorIndex)
+                + " item_id=" + std::to_string(itemId)
+                + gameplayDebugTraceItemSummary(itemId, m_pItemTable));
+        }
+    }
+
+    corpse.fromSummonedMonster = false;
+    corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
+    m_mapActorCorpseViews[actorIndex] = std::move(corpse);
+    return true;
+}
+
+void OutdoorWorldRuntime::rollPendingCorpseLoot()
+{
+    if (!m_corpseLootPending)
+    {
+        return;
+    }
+
+    m_corpseLootPending = false;
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        const MapActorState &actor = m_mapActors[actorIndex];
+
+        if (actor.isDead && !actor.isInvisible && actorShouldLeaveCorpse(m_pMonsterTable, actor))
+        {
+            ensureMapActorCorpseView(actorIndex);
+        }
+    }
+}
+
+std::optional<uint32_t> OutdoorWorldRuntime::corpseLootValue(size_t actorIndex) const
+{
+    if (actorIndex >= m_mapActorCorpseViews.size() || !m_mapActorCorpseViews[actorIndex])
+    {
+        return std::nullopt;
+    }
+
+    return Game::corpseLootValue(*m_mapActorCorpseViews[actorIndex], m_pItemTable, m_pParty);
+}
+
+bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+
+    if (!actor.isDead || actor.isInvisible || !actorShouldLeaveCorpse(m_pMonsterTable, actor)
+        || !ensureMapActorCorpseView(actorIndex))
+    {
+        return false;
+    }
+
     if (isConsumedCorpseView(m_mapActorCorpseViews[actorIndex]))
     {
         m_mapActors[actorIndex].isInvisible = true;
         return false;
-    }
-
-    if (!m_mapActorCorpseViews[actorIndex].has_value())
-    {
-        if (m_pMonsterTable == nullptr)
-        {
-            return false;
-        }
-
-        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
-
-        if (pStats == nullptr)
-        {
-            return false;
-        }
-
-        std::vector<uint32_t> guaranteedItemIds;
-        if (actor.specialItemId != 0)
-        {
-            guaranteedItemIds.push_back(actor.specialItemId);
-        }
-
-        if (m_eventRuntimeState)
-        {
-            const auto extraItemIterator =
-                m_eventRuntimeState->actorExtraItemOverrides.find(static_cast<uint32_t>(actorIndex));
-
-            if (extraItemIterator != m_eventRuntimeState->actorExtraItemOverrides.end())
-            {
-                guaranteedItemIds.insert(
-                    guaranteedItemIds.end(),
-                    extraItemIterator->second.begin(),
-                    extraItemIterator->second.end());
-            }
-        }
-
-        CorpseViewState corpse =
-            buildMonsterCorpseView(
-                actor.displayName,
-                actor.proceduralDeathLoot
-                    ? gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, actor.bolsterRewardMultiplier)
-                    : MonsterTable::LootPrototype {},
-                m_pItemTable,
-                m_pParty,
-                guaranteedItemIds);
-
-        for (const GameplayChestItemState &item : corpse.items)
-        {
-            const uint32_t itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
-
-            if (!item.isGold && gameplayDebugTraceItemLooksQuestRelevant(itemId, m_pItemTable))
-            {
-                GAMEPLAY_DEBUG_TRACE(
-                    "corpse_contains_quest_item scene_kind=outdoor map=\"" + mapName() + "\""
-                    + " actor_index=" + std::to_string(actorIndex)
-                    + " actor_id=" + std::to_string(actor.actorId)
-                    + " monster_id=" + std::to_string(actor.monsterId)
-                    + " name=\"" + actor.displayName + "\""
-                    + " corpse_index=" + std::to_string(actorIndex)
-                    + " item_id=" + std::to_string(itemId)
-                    + gameplayDebugTraceItemSummary(itemId, m_pItemTable));
-            }
-        }
-
-        if (corpse.items.empty())
-        {
-            corpse.fromSummonedMonster = false;
-            corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
-            m_mapActors[actorIndex].isInvisible = true;
-            m_mapActorCorpseViews[actorIndex] = std::move(corpse);
-            return false;
-        }
-
-        corpse.fromSummonedMonster = false;
-        corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
-        m_mapActorCorpseViews[actorIndex] = std::move(corpse);
     }
 
     m_activeCorpseView = *m_mapActorCorpseViews[actorIndex];

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/ImageAssetLoader.h"
+#include "engine/render/TextureBlockCodec.h"
 #include "game/render/BillboardOpacityMask.h"
 #include "game/render/SpriteAtlasMipmaps.h"
 
@@ -13,17 +14,6 @@ constexpr uint32_t SpriteAtlasCookVersion = 2;
 constexpr int SpriteAtlasCookTextureLimit = 4096;
 constexpr size_t SpriteAtlasCookHeaderBytes = 72;
 constexpr size_t SpriteAtlasCookByteLimit = 256 * 1024 * 1024;
-
-// Stable on-disk ids; never serialize bgfx's enum ordinals.
-enum class SpriteAtlasCodec : uint64_t
-{
-    Bc7 = 1,
-    Bc4 = 2,
-    Bc5 = 3,
-    Etc2Rgba = 4,
-    EacR = 5,
-    EacRg = 6
-};
 
 struct SpriteAtlasSourcePage
 {
@@ -41,15 +31,14 @@ struct SpriteAtlasTextureLevel
 
 struct PreparedSpriteAtlasPage
 {
-    SpriteAtlasCodec baseCodec = SpriteAtlasCodec::Bc7;
-    SpriteAtlasCodec maskCodec = SpriteAtlasCodec::Bc4;
+    Engine::TextureBlockCodec baseCodec = Engine::TextureBlockCodec::Bc7;
+    Engine::TextureBlockCodec maskCodec = Engine::TextureBlockCodec::Bc4;
     std::vector<SpriteAtlasTextureLevel> levels;
     std::unordered_map<std::string, std::array<int, 4>> rectangles;
     std::unordered_map<std::string, BillboardOpacityMask> opacity;
 };
 
-bgfx::TextureFormat::Enum spriteAtlasTextureFormat(SpriteAtlasCodec codec);
-size_t spriteAtlasBlockBytes(SpriteAtlasCodec codec, int width, int height);
+size_t spriteAtlasBlockBytes(Engine::TextureBlockCodec codec, int width, int height);
 // Peak compressed input + decompression buffer + parsed page; bounded before scheduling worker jobs.
 size_t cookedSpriteAtlasPreparationBytes(std::span<const uint8_t> header, size_t fileBytes);
 uint64_t spriteAtlasContentHash(std::span<const uint8_t> bytes);

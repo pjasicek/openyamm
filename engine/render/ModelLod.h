@@ -16,6 +16,9 @@ struct ModelLodView
     int shadowCascade = -1;
     bool enabled = true;
     int forcedLevel = -1;
+    // A secondary view (a water reflection) picks levels from the current LOD hysteresis and crossfade state but
+    // leaves that state to the main view.
+    bool keepState = false;
 };
 
 inline float modelBoundsDiameter(const ModelBounds &bounds)
@@ -51,6 +54,8 @@ inline float modelProjectedPixels(const ModelBounds &bounds, const std::array<fl
 
 // Projected sizes (pixels) below which colour LODs 1..3 take over.
 constexpr std::array<float, 3> ModelLodPixels = {500, 200, 80};
+// Coarser switch sizes for static stand-ins (frozen corpses): one LOD step earlier than a live creature.
+constexpr std::array<float, 3> ModelStandInLodPixels = {750, 300, 120};
 
 inline uint32_t modelLodLevel(float pixels, uint32_t previous, uint32_t count, bool shadow = false,
     const std::array<float, 3> &colourThresholds = ModelLodPixels)

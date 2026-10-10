@@ -264,10 +264,12 @@ TEST_CASE("EffectDefinitionLoader composes authored showcase with MM9 for all le
         const auto definitions = loader.load("engine/effects/library.yml", error);
         INFO(world, ": ", error);
         REQUIRE(definitions.has_value());
-        REQUIRE_EQ(definitions->size(), 40);
+        // Five authored recipes (three showcase, two creature hand/staff emitters) and the MM9 library.
+        REQUIRE_EQ(definitions->size(), 42);
         Game::EffectLibrary library;
         REQUIRE(library.replace(*definitions, error));
         REQUIRE(library.find("mm9:spell_reaver") != nullptr);
+        REQUIRE(library.find("openyamm:fx/creature_dark_staff") != nullptr);
         Game::EffectResourceLibrary resources;
         Engine::ModelAssetCache models;
         REQUIRE(resources.load(assets, "engine/effects/resource_bindings.yml", *definitions, error, &models));

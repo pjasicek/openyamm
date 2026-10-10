@@ -116,6 +116,44 @@ TEST_CASE("Actor model yaw wraps smoothly and gait follows travelled distance")
     CHECK(advanceActorModelGait(.4f, 0, 100) == doctest::Approx(.4f));
 }
 
+TEST_CASE("Loot satchel tiers follow the corpse's loot value, and the satchel appears as the body dissolves")
+{
+    using namespace OpenYAMM::Game;
+    CHECK(corpseSatchelTier(0) == 0);
+    CHECK(corpseSatchelTier(1) == 1);
+    CHECK(corpseSatchelTier(99) == 1);
+    CHECK(corpseSatchelTier(100) == 2);
+    CHECK(corpseSatchelTier(749) == 2);
+    CHECK(corpseSatchelTier(750) == 3);
+    CHECK(corpseSatchelTier(2999) == 3);
+    CHECK(corpseSatchelTier(3000) == 4);
+    CHECK(corpseSatchelTier(7999) == 4);
+    CHECK(corpseSatchelTier(8000) == 5);
+    CHECK(corpseSatchelTier(14999) == 5);
+    CHECK(corpseSatchelTier(15000) == 6);
+    CHECK(corpseSatchelTier(1000000) == 6);
+
+    const CorpseSinkPresentation resting = corpseSinkPresentation(CorpseRestSeconds * 0.5f);
+    CHECK(resting.depthFraction == 0.0f);
+    CHECK(resting.coverage == 1.0f);
+    CHECK(resting.satchelCoverage == 0.0f);
+    CHECK_FALSE(resting.gone);
+    // Body and satchel cross over: the satchel is fully shown while the body is still dissolving.
+    const CorpseSinkPresentation shown = corpseSinkPresentation(CorpseRestSeconds + CorpseSatchelAppearSeconds);
+    CHECK(shown.satchelCoverage == 1.0f);
+    CHECK(shown.satchelScale == doctest::Approx(1.0f));
+    CHECK(shown.coverage > 0.0f);
+    CHECK(shown.coverage < 1.0f);
+    CHECK_FALSE(shown.gone);
+    CHECK(corpseSinkPresentation(CorpseRestSeconds + CorpseSatchelAppearSeconds * 0.75f).satchelScale > 1.0f);
+    const CorpseSinkPresentation sunk = corpseSinkPresentation(CorpseRestSeconds + CorpseSinkSeconds);
+    CHECK(sunk.gone);
+    CHECK(sunk.coverage == 0.0f);
+    CHECK(sunk.depthFraction == 1.0f);
+    CHECK(sunk.satchelCoverage == 1.0f);
+    CHECK(CorpseRestSeconds + CorpseSinkSeconds <= 1.0f);
+}
+
 std::filesystem::path makeTemporaryRoot()
 {
     const uint64_t ticks = static_cast<uint64_t>(
@@ -1004,6 +1042,22 @@ TEST_CASE("ModelAnimation loader reads colour region masks and ramps and rejects
     CHECK_EQ(material.regionRamps[0].colors[0][2], doctest::Approx(1.0f));
     CHECK_EQ(material.regionRamps[0].colors[15][0], doctest::Approx(1.0f));
 
+    CHECK_FALSE(material.specularMask);
+
+    // A specular mask reads the metallic-roughness red channel, so it needs that texture.
+    std::string masked = withRegions("\"openyamm_specular_mask\": true");
+    writeFile(root / "assets_dev/engine/models/fixture.gltf", masked);
+    const ModelLoadResult unmasked = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    CHECK_FALSE(unmasked);
+    CHECK_MESSAGE(unmasked.error.find("specular mask needs") != std::string::npos, unmasked.error);
+    const size_t factor = masked.find("\"baseColorFactor\"");
+    REQUIRE(factor != std::string::npos);
+    masked.insert(factor, "\"metallicRoughnessTexture\": {\"index\": 0}, ");
+    writeFile(root / "assets_dev/engine/models/fixture.gltf", masked);
+    const ModelLoadResult specularMasked = GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    REQUIRE_MESSAGE(specularMasked, specularMasked.error);
+    CHECK(specularMasked.asset->materials[0].specularMask);
+
     const std::array<std::pair<std::string, std::string>, 3> invalid = {{
         {mask, "region mask and one to four ramps"},
         {mask + ", \"openyamm_region_ramps\": [" + ramp(15) + "]", "16 colours"},
@@ -1080,4 +1134,81 @@ TEST_CASE("ModelAnimation loader reads vertex colours and static decoration mate
     CHECK(fractionalFlipbook.error.find("flipbook") != std::string::npos);
     assets.shutdown();
     std::filesystem::remove_all(root);
+}
+
+TEST_CASE("ModelAnimation bakes a frozen skinned pose into a static asset that matches CPU skinning")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", AssetScaleTier::X1));
+    const ModelLoadResult loaded = GltfModelLoader().load(assets, "worlds/mm6/models/mm6_ckt.glb");
+    REQUIRE_MESSAGE(loaded, loaded.error);
+    const ModelAsset &asset = *loaded.asset;
+    const std::optional<uint32_t> dead = asset.findClip("Dead");
+    REQUIRE(dead);
+    ModelPose pose;
+    resetModelPose(asset, pose);
+    evaluateModelClip(asset, *dead, asset.clips[*dead].durationSeconds, pose);
+    evaluateModelHierarchy(asset, identityModelMatrix(), pose);
+    const std::shared_ptr<ModelAsset> baked = bakeStaticModelPose(asset, pose);
+    deformModelPose(asset, pose);
+    REQUIRE(baked->skins.empty());
+    REQUIRE(baked->clips.empty());
+    CHECK(baked->staticBounds.valid);
+    CHECK_EQ(baked->materialVariants, asset.materialVariants);
+    size_t compared = 0;
+    for (size_t nodeIndex = 0; nodeIndex < asset.nodes.size(); ++nodeIndex)
+    {
+        const ModelNode &node = asset.nodes[nodeIndex];
+        if (node.meshIndex < 0 || node.skinIndex < 0)
+        {
+            continue;
+        }
+        const ModelNode &bakedNode = baked->nodes.at(baked->nodeIndicesByName.at(node.name));
+        CHECK_EQ(bakedNode.skinIndex, -1);
+        CHECK_EQ(bakedNode.matrix, identityModelMatrix());
+        const ModelMesh &bakedMesh = baked->meshes.at(size_t(bakedNode.meshIndex));
+        CHECK_EQ(bakedMesh.lodMeshes.size(), asset.meshes[size_t(node.meshIndex)].lodMeshes.size());
+        for (size_t primitive = 0; primitive < bakedMesh.primitives.size(); ++primitive)
+        {
+            const std::vector<ModelVertex> &expected = pose.deformedVertices[nodeIndex][primitive];
+            const std::vector<ModelVertex> &actual = bakedMesh.primitives[primitive].vertices;
+            REQUIRE_EQ(actual.size(), expected.size());
+            for (size_t vertex = 0; vertex < actual.size(); ++vertex)
+            {
+                for (size_t axis = 0; axis < 3; ++axis)
+                {
+                    REQUIRE(std::abs(actual[vertex].position[axis] - expected[vertex].position[axis]) < 1.0e-4f);
+                }
+            }
+            compared += actual.size();
+            CHECK(bakedMesh.primitives[primitive].influences.empty());
+        }
+    }
+    CHECK_GT(compared, 1000u);
+    for (size_t meshIndex = 0; meshIndex < baked->meshes.size(); ++meshIndex)
+    {
+        for (const ModelPrimitive &primitive : baked->meshes[meshIndex].primitives)
+        {
+            for (const uint32_t index : primitive.indices)
+            {
+                REQUIRE_LT(index, primitive.vertices.size());
+            }
+            for (const int material : primitive.materialIndices)
+            {
+                REQUIRE((material >= -1 && material < int(baked->materials.size())));
+            }
+            for (const ModelVertex &vertex : primitive.vertices)
+            {
+                const float length = std::sqrt(vertex.normal[0] * vertex.normal[0] + vertex.normal[1] * vertex.normal[1]
+                    + vertex.normal[2] * vertex.normal[2]);
+                REQUIRE_MESSAGE(std::abs(length - 1.0f) < 1.0e-3f, "mesh " << meshIndex << " normal length " << length);
+                for (size_t axis = 0; axis < 3; ++axis)
+                {
+                    REQUIRE(std::isfinite(vertex.position[axis]));
+                }
+            }
+        }
+    }
 }

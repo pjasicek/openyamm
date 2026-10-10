@@ -10,6 +10,8 @@
 #include "game/render/lighting/RenderLight.h"
 
 #include <array>
+#include <map>
+#include <tuple>
 #include <cstdint>
 #include <unordered_map>
 #include <unordered_set>
@@ -92,6 +94,15 @@ public:
     // Animation LOD: actors far from the party sample their clips at 15 Hz (beyond ~14 m) and 8 Hz (beyond ~28 m).
     // Off by default (exact clip timing, e.g. for diagnostics); the game enables it with the model LOD setting.
     void setActorAnimationLod(bool enabled) { m_actorAnimationLod = enabled; }
+    // Loot satchels (the default "corpses" setting): a slain creature's body, model or sprite, sinks and dissolves once
+    // it has come to rest, and a satchel sized by its loot value takes its place (none for an empty corpse). Hover,
+    // picking and sprite hiding then go through the satchel, as through an actor model. Off keeps the bodies.
+    bool configureCorpseSatchels(const Engine::AssetFileSystem &assets, std::string &error);
+    void setCorpseSatchels(bool enabled);
+    void syncCorpseSatchels(const IGameplayWorldRuntime &world, float deltaSeconds);
+    // World units a sinking corpse sprite is lowered by (0 when it is not sinking).
+    float actorCorpseSinkDepth(size_t actorIndex) const;
+    // True when a model or a loot satchel presents this actor (its sprite is not drawn).
     bool hasActorModel(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelBounds(size_t actorIndex) const;
     const Engine::ModelBounds *actorModelCullingBounds(size_t actorIndex) const;
@@ -180,6 +191,10 @@ private:
         std::shared_ptr<const Engine::ModelAsset> asset;
         uint32_t materialVariant = 0;
         uint32_t eyeColorAbgr = 0;
+        // Cast charge colour instead of the spell's element colour (0 = the element's).
+        uint32_t castColorAbgr = 0;
+        // Rigid models carried on nodes (actors.yml `attachments`): a staff split out of the body, a boss's weapon.
+        std::vector<Engine::ModelAttachment> attachments;
         std::array<uint32_t, 8> clips = {};
         float scale = 1.0f;
         float fxReferenceScale = 1.0f;
@@ -204,6 +219,9 @@ private:
         std::array<std::string, 2> rangedHandEffects;
         std::array<uint32_t, 2> rangedHandSockets = {UINT32_MAX, UINT32_MAX};
     };
+    // Static copy of a model frozen in its Dead clip at timeSeconds, baked on the first corpse that holds that pose.
+    std::shared_ptr<const Engine::ModelAsset> corpseAsset(const std::shared_ptr<const Engine::ModelAsset> &asset,
+        uint32_t deadClip, float timeSeconds);
     struct ActorModelInstance
     {
         Engine::ModelInstanceHandle handle;
@@ -211,6 +229,8 @@ private:
         int16_t monsterId = 0;
         bool dying = false;
         float deathClipTime = -1.0f;
+        // Drawn through its binding's baked corpse (static stand-in) once the Dead clip has reached its end.
+        bool corpseStandIn = false;
         bool initialized = false;
         float yaw = 0.0f;
         float previousX = 0.0f;
@@ -241,7 +261,28 @@ private:
     bool m_actorModelsConfigured = false;
     bool m_actorAnimationLod = false;
     std::unordered_map<std::string, ActorModelBinding> m_actorModelBindings;
+    // Baked corpse poses by (source asset, Dead clip, held time in ms).
+    std::map<std::tuple<const Engine::ModelAsset *, uint32_t, uint32_t>, std::shared_ptr<const Engine::ModelAsset>>
+        m_corpseAssets;
     std::unordered_map<size_t, ActorModelInstance> m_actorModels;
+    struct CorpseSatchel
+    {
+        uint32_t actorId = 0;
+        // Seconds since the body came to rest (-1 while it is still dying).
+        float restSeconds = -1.0f;
+        // World units the body sinks: its height at rest.
+        float sinkDepth = 0.0f;
+        // The body is gone; the satchel, if any, presents the actor.
+        bool gone = false;
+        Engine::ModelInstanceHandle handle;
+        uint32_t tier = 0;
+        float yaw = 0.0f;
+    };
+    // The satchel presenting an actor whose body is gone, or null.
+    const CorpseSatchel *goneCorpse(size_t actorIndex) const;
+    bool m_corpseSatchels = false;
+    std::array<std::shared_ptr<const Engine::ModelAsset>, 6> m_satchelAssets;
+    std::unordered_map<size_t, CorpseSatchel> m_corpseSatchelStates;
     void syncActorModelFx(const IGameplayWorldRuntime &world, float deltaSeconds, bool refreshSpatialFx);
     void stopActorHandFx(ActorModelInstance &model, EffectStopMode mode);
     struct ProjectileFxTrailState

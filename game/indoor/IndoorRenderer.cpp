@@ -26,6 +26,7 @@
 #include "game/ui/EnemyHealthBarRenderer.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/render/QuestMarkerGeometry.h"
+#include "game/render/SkyRenderer.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpriteObjectDefs.h"
@@ -60,6 +61,17 @@ namespace
 constexpr float IndoorCameraVerticalFovDegrees = 60.0f;
 // Share of the ambient that reaches 3D models as a directional key light (fs_model.sc).
 constexpr float IndoorModelKeyFraction = 0.6f;
+// Decorations stand in for flat, painted sprites: a softer key light keeps them close to the sprite's even look.
+constexpr float IndoorDecorationKeyFraction = 0.35f;
+// Scale of the sprite light a decoration model receives. A model's visible surface averages well below one of its
+// light (faces turning from the camera and the key light, Fresnel, baked vertex occlusion) where a painted sprite
+// shows all of it; measured against the sprites they replace (dungeon_content_20261009), this makes the models
+// display about as bright as their sprites.
+constexpr float IndoorDecorationExposure = 1.8f;
+// Share of the creatures' sky/environment reflection that decoration models get. Indoors that reflection is their
+// only specular, and on glossy props (iron torches) it read as white glints; kept faint until indoor models get
+// proper local shading.
+constexpr float IndoorDecorationReflection = 0.1f;
 // One legacy map unit separates distant walls without clipping tight ceilings (4 units clips Kriegspire/Korbu).
 constexpr float IndoorCameraNearClipDistance = 1.0f;
 constexpr float IndoorCameraFarClipDistance = 50000.0f;
@@ -2341,6 +2353,17 @@ IndoorRenderer::TexturedVertex IndoorRenderer::interpolateTexturedVertex(
     return result;
 }
 
+void IndoorRenderer::setBillboardFogColor(const float *pFogColor)
+{
+    bgfx::setUniform(m_billboardFogColorUniformHandle, pFogColor);
+
+    if (bgfx::isValid(m_skyFogUniformHandle))
+    {
+        const SkyFogUniformValues flatFog = {};
+        bgfx::setUniform(m_skyFogUniformHandle, flatFog.data(), SkyFogUniformVectors);
+    }
+}
+
 void IndoorRenderer::refreshBakedStaticLight(
     const std::vector<BakedStaticLightSource> &bakedStaticLightSources,
     bool coloredLights,
@@ -2679,6 +2702,22 @@ bool IndoorRenderer::initialize(
         m_indoorInteractiveDecorationEventCountsByEntity,
         m_indoorInteractiveDecorationHideWhenClearedByEntity,
         m_indoorInteractiveDecorationFixedEventByEntity);
+    if (pAssetFileSystem != nullptr && m_indoorDecorationBillboardSet)
+    {
+        std::string error;
+        // A wall-mounted model (torch bracket) hangs on the nearest wall of its sector or the sectors beside it.
+        const DecorationModelSet::WallFinder wallFinder =
+            [this](const DecorationBillboard &billboard, float height)
+            {
+                return findIndoorDecorationWall(*m_pIndoorMapData, billboard.x, billboard.y, billboard.z, height);
+            };
+        if (!m_decorationModels.load(*pAssetFileSystem, map.worldId, map.fileName, *m_indoorDecorationBillboardSet,
+                error, wallFinder))
+        {
+            std::cerr << "IndoorRenderer: decoration models failed to load: " << error << '\n';
+            m_decorationModels.clear();
+        }
+    }
     m_indoorActorPreviewBillboardSet = indoorActorPreviewBillboardSet;
     m_indoorSpriteObjectBillboardSet = indoorSpriteObjectBillboardSet;
     rebuildIndoorRenderMemberships();
@@ -2909,11 +2948,19 @@ bool IndoorRenderer::initialize(
     }
     m_worldFxRenderResources.setParticleProgramHandle(loadProgram("vs_particle", "fs_particle"));
     ParticleRenderer::initializeResources(m_worldFxRenderResources);
-    if (!m_modelRenderer.initialize(loadProgram("vs_model", "fs_model")))
+    if (!m_modelRenderer.initialize(loadProgram("vs_model", "fs_model"), BGFX_INVALID_HANDLE,
+            loadProgram("vs_model_skinned_instanced", "fs_model")))
     {
         std::cerr << "IndoorRenderer: failed to initialize model renderer\n";
         shutdown();
         return false;
+    }
+    // Static instancing draws carried attachments (staves, weapons) indoors.
+    if (!m_modelRenderer.initializeStatic(loadProgram("vs_model_instanced", "fs_model"),
+            loadProgram("vs_model_shadow_instanced", "fs_model_shadow"),
+            loadProgram("vs_model_instanced", "fs_model_prepassed")))
+    {
+        std::cerr << "IndoorRenderer: model attachments require renderer instancing support\n";
     }
     m_textureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     m_indoorLightPositionsUniformHandle =
@@ -2932,6 +2979,7 @@ bool IndoorRenderer::initialize(
     m_billboardOutlineParamsUniformHandle =
         bgfx::createUniform("u_billboardOutlineParams", bgfx::UniformType::Vec4);
     m_billboardFogColorUniformHandle = bgfx::createUniform("u_fogColor", bgfx::UniformType::Vec4);
+    m_skyFogUniformHandle = bgfx::createUniform("u_skyFog", bgfx::UniformType::Vec4, SkyFogUniformVectors);
     m_billboardFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
     m_billboardFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
 
@@ -3815,6 +3863,7 @@ void IndoorRenderer::render(
     {
         preloadAtlasAnimations();
         m_modelRenderer.preload(m_worldFxSystem.models());
+        m_modelRenderer.preloadStatic(m_decorationModels.groups());
         m_effectRenderer.preload(m_worldFxSystem.namedEffects(), m_worldFxSystem.namedEffectResources(),
             *m_pAssetFileSystem);
     }
@@ -4218,7 +4267,7 @@ void IndoorRenderer::render(
     Engine::ModelRenderLighting modelLighting;
     modelLighting.ambient = lightingFrame.ambient;
     modelLighting.direct = 0.0f;
-    modelLighting.environmentColor = {lightingFrame.ambient, lightingFrame.ambient, lightingFrame.ambient};
+    modelLighting.environmentScale = {1.0f, 1.0f, 1.0f};
     modelLighting.displaySpaceLighting = true;
     {
         // Key light from above-front-left of the camera, like the painted light on the original sprites.
@@ -4232,6 +4281,26 @@ void IndoorRenderer::render(
     IndoorFaceGeometryCache modelGeometryCache(
         m_worldFxSystem.models().size() != 0 ? m_pIndoorMapData->faces.size() : 0);
     const ViewFrustum modelFrustum(viewMatrix, projectionMatrix, bgfx::getCaps()->homogeneousDepth);
+    const float modelFocalPixels = settings.modelLods ? std::abs(projectionMatrix[5]) * viewHeight * 0.5f : 0.0f;
+    if (!m_decorationModels.empty())
+    {
+        // Each placement's ambient carries the light its sprite would receive (updateDecorationModels); the key
+        // light shapes it as it shapes the creatures.
+        updateDecorationModels(renderVisibleSectorMask, lightingFrame, pContextActionState, pLightingStats);
+        Engine::ModelRenderLighting decorationLighting = modelLighting;
+        decorationLighting.keyFraction = IndoorDecorationKeyFraction;
+        decorationLighting.ambient = IndoorDecorationExposure;
+        // The reflection is ambient x environmentScale; a creature's is the frame ambient.
+        const float sheen = lightingFrame.ambient * IndoorDecorationReflection / IndoorDecorationExposure;
+        decorationLighting.environmentScale = {sheen, sheen, sheen};
+        m_modelRenderer.renderStatic(m_decorationModels.groups(), MainViewId, {eye.x, eye.y, eye.z},
+            decorationLighting, nullptr,
+            [&](const Engine::ModelBounds &bounds)
+            {
+                return modelFrustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
+                    {bounds.max[0], bounds.max[1], bounds.max[2]});
+            }, modelFocalPixels, settings.modelLodOverride, float(SDL_GetTicks()) * 0.001f, transparentView);
+    }
     m_modelRenderer.render(
         m_worldFxSystem.models(),
         MainViewId,
@@ -4258,8 +4327,7 @@ void IndoorRenderer::render(
         {
             return modelFrustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
                 {bounds.max[0], bounds.max[1], bounds.max[2]});
-        }, settings.modelLods ? std::abs(projectionMatrix[5]) * viewHeight * 0.5f : 0.0f,
-        settings.modelLodOverride, transparentView);
+        }, modelFocalPixels, settings.modelLodOverride, transparentView);
     if (collectRenderDiagnostics)
     {
         m_indoorPerformanceDiagnostics.renderParticleNanoseconds += SDL_GetTicksNS() - modelBeginTickCount;
@@ -6346,6 +6414,7 @@ void IndoorRenderer::shutdown()
     m_indoorInteractiveDecorationHideWhenClearedByEntity.clear();
     m_indoorInteractiveDecorationFixedEventByEntity.clear();
     m_decorationBillboardIndicesBySector.clear();
+    m_decorationModels.clear();
     m_staticSpriteObjectBillboardIndicesBySector.clear();
     m_houseTable.reset();
     m_mechanismBindings.clear();
@@ -6379,6 +6448,7 @@ void IndoorRenderer::shutdown()
         m_billboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardFogColorUniformHandle = BGFX_INVALID_HANDLE;
+        m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
         m_wireframeVertexBufferHandle = BGFX_INVALID_HANDLE;
@@ -6541,6 +6611,12 @@ void IndoorRenderer::shutdown()
     {
         bgfx::destroy(m_billboardFogColorUniformHandle);
         m_billboardFogColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_skyFogUniformHandle))
+    {
+        bgfx::destroy(m_skyFogUniformHandle);
+        m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_billboardFogDensitiesUniformHandle))
@@ -7137,6 +7213,119 @@ void IndoorRenderer::renderBloodSplats(
     bgfx::submit(viewId, m_indoorLitProgramHandle);
 }
 
+uint16_t IndoorRenderer::resolveDecorationBillboardSpriteId(const DecorationBillboard &billboard, bool &hidden) const
+{
+    hidden = false;
+
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+
+    if (!m_indoorDecorationBillboardSet || !eventRuntimeState.has_value())
+    {
+        return billboard.spriteId;
+    }
+
+    const std::optional<IndoorInteractiveDecorationBinding> binding =
+        resolveIndoorInteractiveDecorationBinding(
+            m_indoorInteractiveDecorationDecorVarIndicesByEntity,
+            m_indoorInteractiveDecorationBaseEventIdsByEntity,
+            m_indoorInteractiveDecorationEventCountsByEntity,
+            m_indoorInteractiveDecorationHideWhenClearedByEntity,
+            m_indoorInteractiveDecorationFixedEventByEntity,
+            billboard.entityIndex);
+
+    if (binding
+        && interactiveDecorationIsCleared(
+            eventRuntimeState->decorVars[binding->decorVarIndex],
+            binding->eventCount,
+            binding->hideWhenCleared))
+    {
+        hidden = true;
+        return billboard.spriteId;
+    }
+
+    const uint32_t overrideKey = billboard.spriteOverrideKey();
+    const auto overrideIterator = eventRuntimeState->spriteOverrides.find(overrideKey);
+
+    if (overrideIterator == eventRuntimeState->spriteOverrides.end())
+    {
+        return billboard.spriteId;
+    }
+
+    hidden = overrideIterator->second.hidden;
+
+    if (!overrideIterator->second.textureName.has_value() || overrideIterator->second.textureName->empty())
+    {
+        return billboard.spriteId;
+    }
+
+    if (const DecorationEntry *pDecoration =
+            m_indoorDecorationBillboardSet->decorationTable.findByInternalName(*overrideIterator->second.textureName))
+    {
+        return pDecoration->spriteId;
+    }
+
+    if (const std::optional<uint16_t> spriteId =
+            m_indoorDecorationBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(
+                *overrideIterator->second.textureName))
+    {
+        return *spriteId;
+    }
+
+    return billboard.spriteId;
+}
+
+void IndoorRenderer::updateDecorationModels(const std::vector<uint8_t> &visibleSectorMask,
+    const IndoorLightingFrame &lightingFrame, const GameplayContextActionState *pContextActionState,
+    LightingStats *pLightingStats)
+{
+    if (m_decorationModels.empty() || !m_indoorDecorationBillboardSet)
+    {
+        return;
+    }
+    const std::vector<DecorationBillboard> &billboards = m_indoorDecorationBillboardSet->billboards;
+    // The sprite each decoration shows now selects its model; sectors the portal walk did not reach hide theirs.
+    m_decorationModels.update(billboards, [&](size_t index, bool &hidden)
+    {
+        const DecorationBillboard &billboard = billboards[index];
+        const uint16_t sprite = resolveDecorationBillboardSpriteId(billboard, hidden);
+        hidden = hidden || !isRenderSectorVisible(billboard.sectorId, visibleSectorMask);
+        return sprite;
+    });
+    m_decorationModels.animate(float(SDL_GetTicks()) * 0.001f);
+    const GameplayWorldHit *pContextActionHit = selectedContextActionWorldHit(pContextActionState);
+    std::vector<Engine::ModelStaticGroup> &groups = m_decorationModels.groups();
+    for (size_t group = 0; group < groups.size(); ++group)
+    {
+        Engine::ModelStaticGroup &placements = groups[group];
+        const std::vector<size_t> &billboardIndices = m_decorationModels.billboardIndices(group);
+        for (size_t index = 0; index < placements.placements.size(); ++index)
+        {
+            Engine::ModelStaticPlacement &placement = placements.placements[index];
+            if (!placement.visible)
+            {
+                continue;
+            }
+            const DecorationBillboard &billboard = billboards[billboardIndices[index]];
+            placement.outlineColorAbgr = contextActionHighlightsIndoorEntity(pContextActionHit, billboard.entityIndex)
+                ? contextActionHighlightOutlineColor() : 0;
+            // The light the sprite would receive, as the placement's ambient: a model is as bright as the sprite it
+            // replaces (a self-lit flame sprite, such as a torch, at exactly one).
+            const Engine::ModelBounds &bounds = placements.bounds[index];
+            const bx::Vec3 center = {(bounds.min[0] + bounds.max[0]) * 0.5f, (bounds.min[1] + bounds.max[1]) * 0.5f,
+                (bounds.min[2] + bounds.max[2]) * 0.5f};
+            bool hidden = false;
+            const SpriteFrameEntry *pFrame = m_indoorDecorationBillboardSet->spriteFrameTable.getFrame(
+                resolveDecorationBillboardSpriteId(billboard, hidden), 0);
+            const std::array<float, 4> light = pFrame != nullptr
+                ? billboardLightingUniform(lightingFrame, *pFrame, center, billboard.sectorId,
+                    billboardLightingCacheKey(1, billboard.entityIndex), pLightingStats)
+                : std::array<float, 4>{1.0f, 1.0f, 1.0f, 0.0f};
+            placement.light = {light[0], light[1], light[2], 0.0f};
+            placement.pointLight = {};
+        }
+    }
+}
+
 void IndoorRenderer::renderDecorationBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
@@ -7198,67 +7387,6 @@ void IndoorRenderer::renderDecorationBillboards(
     std::vector<BillboardDrawItem> drawItems;
     drawItems.reserve(m_indoorDecorationBillboardSet->billboards.size());
     const GameplayWorldHit *pContextActionHit = selectedContextActionWorldHit(pContextActionState);
-    const auto resolveBillboardSpriteId = [this](const DecorationBillboard &billboard, bool &hidden)
-    {
-        hidden = false;
-
-        const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
-
-        if (!m_indoorDecorationBillboardSet || !eventRuntimeState.has_value())
-        {
-            return billboard.spriteId;
-        }
-
-        const std::optional<IndoorInteractiveDecorationBinding> binding =
-            resolveIndoorInteractiveDecorationBinding(
-                m_indoorInteractiveDecorationDecorVarIndicesByEntity,
-                m_indoorInteractiveDecorationBaseEventIdsByEntity,
-                m_indoorInteractiveDecorationEventCountsByEntity,
-                m_indoorInteractiveDecorationHideWhenClearedByEntity,
-                m_indoorInteractiveDecorationFixedEventByEntity,
-                billboard.entityIndex);
-
-        if (binding
-            && interactiveDecorationIsCleared(
-                eventRuntimeState->decorVars[binding->decorVarIndex],
-                binding->eventCount,
-                binding->hideWhenCleared))
-        {
-            hidden = true;
-            return billboard.spriteId;
-        }
-
-        const uint32_t overrideKey = billboard.spriteOverrideKey();
-        const auto overrideIterator = eventRuntimeState->spriteOverrides.find(overrideKey);
-
-        if (overrideIterator == eventRuntimeState->spriteOverrides.end())
-        {
-            return billboard.spriteId;
-        }
-
-        hidden = overrideIterator->second.hidden;
-
-        if (!overrideIterator->second.textureName.has_value() || overrideIterator->second.textureName->empty())
-        {
-            return billboard.spriteId;
-        }
-
-        if (const DecorationEntry *pDecoration =
-                m_indoorDecorationBillboardSet->decorationTable.findByInternalName(*overrideIterator->second.textureName))
-        {
-            return pDecoration->spriteId;
-        }
-
-        if (const std::optional<uint16_t> spriteId =
-                m_indoorDecorationBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(
-                    *overrideIterator->second.textureName))
-        {
-            return *spriteId;
-        }
-
-        return billboard.spriteId;
-    };
-
     const auto appendDecorationBillboardDrawItem =
         [&](const DecorationBillboard &billboard)
     {
@@ -7277,9 +7405,10 @@ void IndoorRenderer::renderDecorationBillboards(
         }
 
         bool hidden = false;
-        const uint16_t spriteId = resolveBillboardSpriteId(billboard, hidden);
+        const uint16_t spriteId = resolveDecorationBillboardSpriteId(billboard, hidden);
 
-        if (hidden || spriteId == 0)
+        // A 3D model draws this decoration (updateDecorationModels).
+        if (hidden || spriteId == 0 || m_decorationModels.modelsSprite(spriteId))
         {
             return;
         }
@@ -7549,7 +7678,7 @@ void IndoorRenderer::renderDecorationBillboards(
                 bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
                 bgfx::setUniform(m_billboardOverrideColorUniformHandle, overrideColor);
                 bgfx::setUniform(m_billboardOutlineParamsUniformHandle, outlineParams);
-                bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+                setBillboardFogColor(fogColor);
                 bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
                 bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
                 bgfx::setState(
@@ -7645,7 +7774,7 @@ void IndoorRenderer::renderDecorationBillboards(
         bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
         bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
         bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
-        bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+        setBillboardFogColor(fogColor);
         bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
         bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
         bgfx::setState(
@@ -7850,7 +7979,8 @@ void IndoorRenderer::renderActorPreviewBillboards(
             drawItem.actorIndex = billboard.actorIndex;
             drawItem.x = billboard.x;
             drawItem.y = billboard.y;
-            drawItem.z = billboard.z;
+            // A slain creature's sprite sinks into the floor before its loot satchel appears.
+            drawItem.z = billboard.z - int(std::lround(m_worldFxSystem.actorCorpseSinkDepth(billboard.actorIndex)));
             drawItem.sectorId = billboard.sectorId;
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
@@ -8154,7 +8284,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
                 bgfx::setUniform(m_billboardOverrideColorUniformHandle, overrideColor);
                 bgfx::setUniform(m_billboardOutlineParamsUniformHandle, outlineParams);
-                bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+                setBillboardFogColor(fogColor);
                 bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
                 bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
                 // Test world depth without letting soft outline pixels block the coplanar body draw.
@@ -8236,7 +8366,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
         bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
         bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
         bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
-        bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+        setBillboardFogColor(fogColor);
         bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
         bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
         bgfx::setState(
@@ -8409,7 +8539,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
         bgfx::setUniform(m_billboardAmbientUniformHandle, ambient);
         bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearUniform);
         bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearUniform);
-        bgfx::setUniform(m_billboardFogColorUniformHandle, clearUniform);
+        setBillboardFogColor(clearUniform);
         bgfx::setUniform(m_billboardFogDensitiesUniformHandle, clearUniform);
         bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
         bgfx::setState(IndoorBillboardOverlayDrawState);
@@ -9061,7 +9191,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 bgfx::setUniform(m_billboardAmbientUniformHandle, litAmbient);
                 bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
                 bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
-                bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+                setBillboardFogColor(fogColor);
                 bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
                 bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
                 bgfx::setState(litBillboardBatch.drawState);
@@ -9219,7 +9349,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 bgfx::setUniform(m_billboardAmbientUniformHandle, ambient);
                 bgfx::setUniform(m_billboardOverrideColorUniformHandle, overrideColor);
                 bgfx::setUniform(m_billboardOutlineParamsUniformHandle, outlineParams);
-                bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+                setBillboardFogColor(fogColor);
                 bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
                 bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
                 bgfx::setState(
@@ -9346,7 +9476,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
         bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
         bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
-        bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+        setBillboardFogColor(fogColor);
         bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
         bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
         bgfx::setState(drawState);
@@ -9942,6 +10072,30 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
             waterReflectionView(billboardView, reflection.view.data(), reflection.height);
             renderDecorationBillboards(reflection.worldView, billboardView, reflection.camera,
                 visibility.visibleSectorMask, visibility.frustumsBySector, lighting, nullptr, nullptr, &reflection);
+            if (!m_decorationModels.empty())
+            {
+                // 3D decorations as lit in the main view (their placements keep last frame's light and visibility),
+                // clipped at the water plane.
+                Engine::ModelRenderLighting decorationLighting;
+                decorationLighting.ambient = 1.0f;
+                decorationLighting.direct = 0.0f;
+                const float sheen = lighting.ambient * IndoorDecorationReflection;
+                decorationLighting.environmentScale = {sheen, sheen, sheen};
+                decorationLighting.displaySpaceLighting = true;
+                static const Engine::ModelInstanceSystem NoModels;
+                const ViewFrustum modelFrustum(reflection.view.data(), reflection.projection.data(),
+                    bgfx::getCaps()->homogeneousDepth);
+                m_modelRenderer.renderReflection(NoModels, m_decorationModels.groups(), reflection.worldView,
+                    {reflection.camera.x, reflection.camera.y, reflection.camera.z}, decorationLighting,
+                    decorationLighting, {}, nullptr,
+                    [&](const Engine::ModelBounds &bounds)
+                    {
+                        return bounds.max[2] >= reflection.height && modelFrustum.intersectsBounds(
+                            {bounds.min[0], bounds.min[1], bounds.min[2]},
+                            {bounds.max[0], bounds.max[1], bounds.max[2]});
+                    }, std::abs(reflection.projection[5]) * float(reflection.size) * 0.5f,
+                    float(SDL_GetTicks()) * 0.001f);
+            }
             renderActorPreviewBillboards(reflection.worldView, billboardView, reflection.projection.data(), reflection.camera,
                 visibility.visibleSectorMask, lighting, false, nullptr, nullptr, nullptr, nullptr, &reflection);
         }
@@ -11870,9 +12024,27 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         }
     }
 
+    // Entities drawn by a 3D decoration model pick through its triangles below, not this coarse box.
+    std::vector<uint8_t> entityHasModel(indoorMapData.entities.size(), 0);
+    if (m_indoorDecorationBillboardSet && !m_decorationModels.empty())
+    {
+        const std::vector<DecorationBillboard> &billboards = m_indoorDecorationBillboardSet->billboards;
+        for (size_t index = 0; index < billboards.size(); ++index)
+        {
+            if (billboards[index].entityIndex < entityHasModel.size() && m_decorationModels.drawsBillboard(index))
+            {
+                entityHasModel[billboards[index].entityIndex] = 1;
+            }
+        }
+    }
+
     for (size_t entityIndex = 0; entityIndex < indoorMapData.entities.size(); ++entityIndex)
     {
         const IndoorEntity &entity = indoorMapData.entities[entityIndex];
+        if (entityHasModel[entityIndex] != 0)
+        {
+            continue;
+        }
         const std::optional<IndoorInteractiveDecorationBinding> binding =
             eventRuntimeState
                 ? resolveIndoorInteractiveDecorationBinding(
@@ -11948,67 +12120,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 return texture.opacityMask.isOpaqueNormalized(normalizedU, normalizedV);
             };
 
-        const auto resolveDecorationBillboardSpriteId =
-            [this, &eventRuntimeState](const DecorationBillboard &billboard, bool &hidden)
-            {
-                hidden = false;
-
-                if (!m_indoorDecorationBillboardSet || !eventRuntimeState.has_value())
-                {
-                    return billboard.spriteId;
-                }
-
-                const std::optional<IndoorInteractiveDecorationBinding> binding =
-                    resolveIndoorInteractiveDecorationBinding(
-                        m_indoorInteractiveDecorationDecorVarIndicesByEntity,
-                        m_indoorInteractiveDecorationBaseEventIdsByEntity,
-                        m_indoorInteractiveDecorationEventCountsByEntity,
-                        m_indoorInteractiveDecorationHideWhenClearedByEntity,
-                        m_indoorInteractiveDecorationFixedEventByEntity,
-                        billboard.entityIndex);
-
-                if (binding
-                    && interactiveDecorationIsCleared(
-                        eventRuntimeState->decorVars[binding->decorVarIndex],
-                        binding->eventCount,
-                        binding->hideWhenCleared))
-                {
-                    hidden = true;
-                    return billboard.spriteId;
-                }
-
-                const uint32_t overrideKey = billboard.spriteOverrideKey();
-                const auto overrideIterator = eventRuntimeState->spriteOverrides.find(overrideKey);
-
-                if (overrideIterator == eventRuntimeState->spriteOverrides.end())
-                {
-                    return billboard.spriteId;
-                }
-
-                hidden = overrideIterator->second.hidden;
-
-                if (!overrideIterator->second.textureName.has_value() || overrideIterator->second.textureName->empty())
-                {
-                    return billboard.spriteId;
-                }
-
-                if (const DecorationEntry *pDecoration =
-                        m_indoorDecorationBillboardSet->decorationTable.findByInternalName(
-                            *overrideIterator->second.textureName))
-                {
-                    return pDecoration->spriteId;
-                }
-
-                if (const std::optional<uint16_t> spriteId =
-                        m_indoorDecorationBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(
-                            *overrideIterator->second.textureName))
-                {
-                    return *spriteId;
-                }
-
-                return billboard.spriteId;
-            };
-
         const auto decorationHasInteraction =
             [this, &eventRuntimeState](const DecorationBillboard &billboard)
             {
@@ -12051,8 +12162,99 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 return pDecoration != nullptr && !pDecoration->hint.empty();
             };
 
-        for (const DecorationBillboard &billboard : m_indoorDecorationBillboardSet->billboards)
+        // The sprite's opaque pixels under the ray, on its camera-facing plane.
+        const auto decorationSpriteHit =
+            [&](const DecorationBillboard &billboard, uint16_t spriteId, float &distance) -> bool
+            {
+                const uint32_t animationOffsetTicks =
+                    animationTimeTicks + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
+                const SpriteFrameEntry *pFrame =
+                    m_indoorDecorationBillboardSet->spriteFrameTable.getFrame(spriteId, animationOffsetTicks);
+
+                if (pFrame == nullptr)
+                {
+                    return false;
+                }
+
+                const float facingRadians = static_cast<float>(billboard.facing) * Pi / 180.0f;
+                const float angleToCamera = std::atan2(
+                    static_cast<float>(billboard.y) - m_cameraPositionY,
+                    static_cast<float>(billboard.x) - m_cameraPositionX);
+                const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
+                const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+                const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+                const BillboardTextureHandle *pTexture =
+                    findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+                if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
+                {
+                    return false;
+                }
+
+                const float spriteScale = std::max(pFrame->scale, 0.01f);
+                const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+                const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+                const bx::Vec3 center = {
+                    static_cast<float>(billboard.x),
+                    static_cast<float>(billboard.y),
+                    static_cast<float>(billboard.z) + worldHeight * 0.5f
+                };
+                const bx::Vec3 planeNormal = {
+                    -cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
+                    -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
+                    -cameraRight.x * cameraUp.y + cameraRight.y * cameraUp.x
+                };
+                const float denominator = vecDot(rayDirection, planeNormal);
+
+                if (std::fabs(denominator) <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                distance = vecDot(vecSubtract(center, rayOrigin), planeNormal) / denominator;
+
+                if (distance <= InspectRayEpsilon
+                    || (distance >= bestDistance && (bestHit.kind != "face" || distance > bestDistance + 8.0f)))
+                {
+                    return false;
+                }
+
+                const bx::Vec3 hitPoint = {
+                    rayOrigin.x + rayDirection.x * distance,
+                    rayOrigin.y + rayDirection.y * distance,
+                    rayOrigin.z + rayDirection.z * distance
+                };
+                const bx::Vec3 localDelta = vecSubtract(hitPoint, center);
+                const float localX = vecDot(localDelta, cameraRight);
+                const float localY = vecDot(localDelta, cameraUp);
+                const float halfWidth = worldWidth * 0.5f;
+                const float halfHeight = worldHeight * 0.5f;
+
+                if (std::fabs(localX) > halfWidth || std::fabs(localY) > halfHeight)
+                {
+                    return false;
+                }
+
+                float normalizedU = (localX + halfWidth) / worldWidth;
+                const float normalizedV = (halfHeight - localY) / worldHeight;
+
+                if (resolvedTexture.mirrored)
+                {
+                    normalizedU = 1.0f - normalizedU;
+                }
+
+                if (!isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV))
+                {
+                    return false;
+                }
+
+                return true;
+            };
+
+        for (size_t billboardIndex = 0; billboardIndex < m_indoorDecorationBillboardSet->billboards.size();
+             ++billboardIndex)
         {
+            const DecorationBillboard &billboard = m_indoorDecorationBillboardSet->billboards[billboardIndex];
             if (!isRenderSectorVisible(billboard.sectorId, visibleSectorMask))
             {
                 continue;
@@ -12071,84 +12273,19 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 continue;
             }
 
-            const uint32_t animationOffsetTicks =
-                animationTimeTicks + static_cast<uint32_t>(std::abs(billboard.x + billboard.y));
-            const SpriteFrameEntry *pFrame =
-                m_indoorDecorationBillboardSet->spriteFrameTable.getFrame(spriteId, animationOffsetTicks);
-
-            if (pFrame == nullptr)
+            float distance = 0.0f;
+            if (m_decorationModels.drawsBillboard(billboardIndex))
             {
-                continue;
+                // The model's own triangles, as precise as the sprite's opaque pixels were.
+                if (!m_decorationModels.raycast(billboardIndex, {rayOrigin.x, rayOrigin.y, rayOrigin.z},
+                        {rayDirection.x, rayDirection.y, rayDirection.z}, distance)
+                    || distance <= InspectRayEpsilon
+                    || (distance >= bestDistance && (bestHit.kind != "face" || distance > bestDistance + 8.0f)))
+                {
+                    continue;
+                }
             }
-
-            const float facingRadians = static_cast<float>(billboard.facing) * Pi / 180.0f;
-            const float angleToCamera = std::atan2(
-                static_cast<float>(billboard.y) - m_cameraPositionY,
-                static_cast<float>(billboard.x) - m_cameraPositionX);
-            const float octantAngle = facingRadians - angleToCamera + Pi + (Pi / 8.0f);
-            const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
-            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
-            const BillboardTextureHandle *pTexture =
-                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
-
-            if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
-            {
-                continue;
-            }
-
-            const float spriteScale = std::max(pFrame->scale, 0.01f);
-            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
-            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-            const bx::Vec3 center = {
-                static_cast<float>(billboard.x),
-                static_cast<float>(billboard.y),
-                static_cast<float>(billboard.z) + worldHeight * 0.5f
-            };
-            const bx::Vec3 planeNormal = {
-                -cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
-                -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
-                -cameraRight.x * cameraUp.y + cameraRight.y * cameraUp.x
-            };
-            const float denominator = vecDot(rayDirection, planeNormal);
-
-            if (std::fabs(denominator) <= InspectRayEpsilon)
-            {
-                continue;
-            }
-
-            const float distance = vecDot(vecSubtract(center, rayOrigin), planeNormal) / denominator;
-
-            if (distance <= InspectRayEpsilon
-                || (distance >= bestDistance && (bestHit.kind != "face" || distance > bestDistance + 8.0f)))
-            {
-                continue;
-            }
-
-            const bx::Vec3 hitPoint = {
-                rayOrigin.x + rayDirection.x * distance,
-                rayOrigin.y + rayDirection.y * distance,
-                rayOrigin.z + rayDirection.z * distance
-            };
-            const bx::Vec3 localDelta = vecSubtract(hitPoint, center);
-            const float localX = vecDot(localDelta, cameraRight);
-            const float localY = vecDot(localDelta, cameraUp);
-            const float halfWidth = worldWidth * 0.5f;
-            const float halfHeight = worldHeight * 0.5f;
-
-            if (std::fabs(localX) > halfWidth || std::fabs(localY) > halfHeight)
-            {
-                continue;
-            }
-
-            float normalizedU = (localX + halfWidth) / worldWidth;
-            const float normalizedV = (halfHeight - localY) / worldHeight;
-
-            if (resolvedTexture.mirrored)
-            {
-                normalizedU = 1.0f - normalizedU;
-            }
-
-            if (!isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV))
+            else if (!decorationSpriteHit(billboard, spriteId, distance))
             {
                 continue;
             }
@@ -12211,11 +12348,12 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             [&](const RuntimeActorBillboard &actor, float &distance, bool &billboardTested) -> bool
             {
                 billboardTested = false;
+                // A model or loot satchel owns picking; an empty one (a sunk corpse without loot) is not picked.
                 const Engine::ModelBounds *pBounds = m_worldFxSystem.actorModelCullingBounds(actor.actorIndex);
-                if (pBounds != nullptr && pBounds->valid)
+                if (pBounds != nullptr)
                 {
                     billboardTested = true;
-                    if (!intersectRayAabb(rayOrigin, rayDirection,
+                    if (!pBounds->valid || !intersectRayAabb(rayOrigin, rayDirection,
                         {pBounds->min[0], pBounds->min[1], pBounds->min[2]},
                         {pBounds->max[0], pBounds->max[1], pBounds->max[2]}, distance))
                     {

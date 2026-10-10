@@ -8,6 +8,7 @@
 #include "game/maps/MapDecorationTextures.h"
 #include "game/maps/MapIdentity.h"
 #include "game/maps/MapPresentation.h"
+#include "game/maps/StaleLightingNote.h"
 #include "game/maps/OutdoorSceneYml.h"
 #include "game/maps/TerrainTileData.h"
 #include "game/indoor/IndoorGeometryUtils.h"
@@ -352,8 +353,7 @@ OutdoorWeatherProfile buildOutdoorWeatherProfile(
         profile.denseFogChance = 0;
         profile.mergedWeatherConfigured = false;
         profile.mergedWeatherEnabled = false;
-        profile.mergedRainEnabled = false;
-        profile.mergedSnowEnabled = false;
+        profile.weatherMap = {};
     }
 
     return profile;
@@ -4459,7 +4459,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     const bool loadActorPreviews = loadFullPresentation
         || purpose == MapLoadPurpose::ActorPreviews
         || purpose == MapLoadPurpose::BillboardPreviews;
-    const bool loadDecorationBillboards = loadFullPresentation || purpose == MapLoadPurpose::BillboardPreviews;
+    const bool loadDecorationBillboards = loadFullPresentation || purpose == MapLoadPurpose::BillboardPreviews
+        || purpose == MapLoadPurpose::DecorationPlacements;
     const bool loadSpriteObjectBillboards = loadFullPresentation;
 
     std::vector<OutdoorBitmapTexture> decorationTextures;
@@ -4649,7 +4650,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
             const std::optional<std::string> lightingDataFileName =
                 buildLightingDataFileName(map.fileName);
-            const std::optional<std::string> lightingDataPath = lightingDataFileName
+            const std::optional<std::string> lightingDataPath =
+                lightingDataFileName && purpose != MapLoadPurpose::DecorationPlacements
                 ? findAssetPath(assetFileSystem, map.worldId, *lightingDataFileName)
                 : std::nullopt;
 
@@ -4686,16 +4688,30 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetInfo.outdoorMapData->lightmapBrightnessScale);
                 }
 
+                // A bake older than a source it was baked from (a model or binding changed since) still loads during
+                // development; the stale bakes are noted for a re-bake before release (StaleLightingNote.h).
+                std::vector<std::string> staleSources;
                 for (const OutdoorLightingData::Dependency &dependency : lightingData->dependencies)
                 {
                     const std::optional<std::vector<uint8_t>> bytes =
                         assetFileSystem.readBinaryFile(dependency.path);
                     if (!bytes || outdoorLightingContentHash(*bytes) != dependency.hash)
                     {
-                        std::cerr << "Stale baked lighting dependency: " << dependency.path
-                                  << "; regenerate " << *lightingDataPath << '\n';
-                        return std::nullopt;
+                        staleSources.push_back(dependency.path);
                     }
+                }
+                if (!staleSources.empty())
+                {
+                    std::cerr << "Stale baked lighting: " << *lightingDataPath << " is older than "
+                              << staleSources.front() << (staleSources.size() > 1 ? " and others" : "")
+                              << "; re-bake it before release\n";
+                }
+                if (assetFileSystem.resolvePhysicalPath(*lightingDataPath)
+                    && !assetFileSystem.getDevelopmentRoot().empty()
+                    && !updateStaleLightingNote(assetFileSystem.getDevelopmentRoot() / StaleLightingNoteFileName,
+                        *lightingDataPath, staleSources))
+                {
+                    std::cerr << "Could not update " << StaleLightingNoteFileName << '\n';
                 }
                 assetInfo.lightingDataPath = *lightingDataPath;
                 assetInfo.lightingDataSize = lightingDataBytes->size();

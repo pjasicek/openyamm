@@ -787,7 +787,9 @@ TEST_CASE("merged character presentation-only reactions have no speech sounds")
     OpenYAMM::Game::SpeechReactionTable speechReactionTable;
     REQUIRE(speechReactionTable.loadFromRows(loadRows("character_speech_events.txt")));
 
-    const std::array<OpenYAMM::Game::SpeechId, 8> portraitOnlySpeechIds = {{
+    // The merged voice table's "Thanks" slot holds "no" for most MM7/MM8 voices, and the original games play
+    // no voice for these service and progress reactions.
+    const std::array<OpenYAMM::Game::SpeechId, 23> portraitOnlySpeechIds = {{
         OpenYAMM::Game::SpeechId::Shoot,
         OpenYAMM::Game::SpeechId::AttackHit,
         OpenYAMM::Game::SpeechId::AttackMiss,
@@ -796,6 +798,21 @@ TEST_CASE("merged character presentation-only reactions have no speech sounds")
         OpenYAMM::Game::SpeechId::StatBaseIncreased,
         OpenYAMM::Game::SpeechId::QuestGot,
         OpenYAMM::Game::SpeechId::AwardGot,
+        OpenYAMM::Game::SpeechId::ThankYou,
+        OpenYAMM::Game::SpeechId::SkillIncreased,
+        OpenYAMM::Game::SpeechId::TempleHeal,
+        OpenYAMM::Game::SpeechId::TempleDonate,
+        OpenYAMM::Game::SpeechId::TravelBoat,
+        OpenYAMM::Game::SpeechId::TravelHorse,
+        OpenYAMM::Game::SpeechId::ItemSold,
+        OpenYAMM::Game::SpeechId::BankDeposit,
+        OpenYAMM::Game::SpeechId::Bribe,
+        OpenYAMM::Game::SpeechId::HireNpc,
+        OpenYAMM::Game::SpeechId::TavernTip,
+        OpenYAMM::Game::SpeechId::ShopItemBought,
+        OpenYAMM::Game::SpeechId::SkillLearned,
+        OpenYAMM::Game::SpeechId::SkillMasteryIncreased,
+        OpenYAMM::Game::SpeechId::JoinedGuild,
     }};
 
     for (OpenYAMM::Game::SpeechId speechId : portraitOnlySpeechIds)

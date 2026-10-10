@@ -63,6 +63,9 @@ public:
     bool canBeginPlayerAction(const Party &party) const;
     bool beginPlayerActionOrFinishMovement(Party &party);
     bool applyPlayerAction(Party &party, size_t memberIndex, float recoverySeconds);
+    // Pass ends the party's movement phase, or spends the ready member's action without acting.
+    bool canPassTurn(const Party &party) const;
+    bool passTurn(Party &party, float recoverySeconds);
     void storeMemberTurnRecovery(size_t memberIndex, float recoverySeconds);
 
     void registerPendingAction();

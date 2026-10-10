@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdio>
 #include <functional>
 #include <limits>
@@ -33,32 +34,11 @@ constexpr uint32_t LastMercenaryNpcId = 310;
 constexpr uint32_t FirstMercenaryRosterId = 42;
 constexpr uint32_t PlaceholderNpcProfessionId = 0;
 constexpr uint32_t MercenaryStartingGoldEquivalent = 0;
+constexpr char MercenaryRefillMonthVariable[] = "MMerge.Mercenaries.RefillMonth";
 
 constexpr std::array<uint32_t, 8> JadameBaseClassIds = {5, 8, 16, 20, 38, 40, 44, 48};
 constexpr std::array<uint32_t, 10> AntagarichBaseClassIds = {0, 4, 12, 16, 22, 26, 30, 34, 42, 48};
 constexpr std::array<uint32_t, 7> EnrothBaseClassIds = {0, 4, 12, 16, 26, 42, 48};
-
-uint32_t hashStep(uint32_t value, uint32_t input)
-{
-    value ^= input + 0x9e3779b9u + (value << 6) + (value >> 2);
-    return value;
-}
-
-uint32_t generationSeed(const MapStatsEntry &map, uint32_t npcId, const Party &party)
-{
-    uint32_t seed = 0x4d455243u;
-    seed = hashStep(seed, static_cast<uint32_t>(std::max(0, map.id)));
-    seed = hashStep(seed, map.mergedContinentId);
-    seed = hashStep(seed, npcId);
-
-    for (const Character &member : party.members())
-    {
-        seed = hashStep(seed, member.level);
-        seed = hashStep(seed, member.rosterId);
-    }
-
-    return seed;
-}
 
 uint32_t averagePartyLevel(const Party &party)
 {
@@ -1066,7 +1046,7 @@ EventRuntimeState::GeneratedMercenaryRecruit generateMercenary(
     uint32_t houseId,
     const MercenaryRecruitmentTables &tables)
 {
-    std::mt19937 rng(generationSeed(map, npcId, party));
+    std::mt19937 rng(std::random_device{}());
     const std::string className = chooseClassName(
         map.mergedContinentId,
         party,
@@ -1205,6 +1185,7 @@ bool refreshMercenaryRecruitmentForCurrentMap(
     const MapStatsEntry &map,
     Party &party,
     EventRuntimeState &runtimeState,
+    float gameMinutes,
     const MercenaryRecruitmentTables &tables)
 {
     if (tables.pHouseTable == nullptr)
@@ -1218,6 +1199,12 @@ bool refreshMercenaryRecruitmentForCurrentMap(
     {
         return false;
     }
+
+    const int32_t currentMonth = std::max(0, int32_t(std::floor(gameMinutes / (28 * 24 * 60))));
+    const auto [monthIt, firstVisit] =
+        runtimeState.namedMapVars.try_emplace(MercenaryRefillMonthVariable, currentMonth);
+    const bool refill = firstVisit || monthIt->second != currentMonth;
+    monthIt->second = currentMonth;
 
     for (uint32_t npcId = FirstMercenaryNpcId; npcId <= LastMercenaryNpcId; ++npcId)
     {
@@ -1233,7 +1220,12 @@ bool refreshMercenaryRecruitmentForCurrentMap(
         EventRuntimeState::GeneratedMercenaryRecruit *pRecruit = nullptr;
         const auto recruitIt = runtimeState.generatedMercenaryRecruitsByNpcId.find(npcId);
 
-        if (recruitIt != runtimeState.generatedMercenaryRecruitsByNpcId.end())
+        if (!refill && recruitIt == runtimeState.generatedMercenaryRecruitsByNpcId.end())
+        {
+            continue;
+        }
+
+        if (!refill)
         {
             pRecruit = &recruitIt->second;
         }
@@ -1241,7 +1233,8 @@ bool refreshMercenaryRecruitmentForCurrentMap(
         {
             EventRuntimeState::GeneratedMercenaryRecruit recruit =
                 generateMercenary(map, party, npcId, *houseId, tables);
-            pRecruit = &runtimeState.generatedMercenaryRecruitsByNpcId.emplace(npcId, std::move(recruit)).first->second;
+            pRecruit = &runtimeState.generatedMercenaryRecruitsByNpcId
+                .insert_or_assign(npcId, std::move(recruit)).first->second;
         }
 
         pRecruit->houseId = *houseId;

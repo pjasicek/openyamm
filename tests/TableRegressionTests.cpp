@@ -212,10 +212,14 @@ void checkFirstSpriteFrameTexture(
 
     const OpenYAMM::Game::ResolvedSpriteTexture texture = OpenYAMM::Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
     CHECK_EQ(texture.textureName, expectedTextureName);
-    CHECK(std::filesystem::exists(
-        std::filesystem::path(OPENYAMM_SOURCE_DIR)
-        / "assets_dev/engine/sprites"
-        / expectedAssetFileName));
+    // Billboards load the restored engine/decorations_x2/<texture>_p<palette>.png first and fall back to the native
+    // sprite (game/maps/MapDecorationTextures.cpp); either must exist.
+    const std::filesystem::path engineRoot = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine";
+    const std::filesystem::path restoredPath = engineRoot / "decorations_x2"
+        / (expectedTextureName + "_p" + std::to_string(pFrame->paletteId) + ".png");
+    CAPTURE(restoredPath.string());
+    CHECK((std::filesystem::exists(restoredPath)
+        || std::filesystem::exists(engineRoot / "sprites" / expectedAssetFileName)));
 }
 }
 
@@ -604,14 +608,14 @@ TEST_CASE("merged house movie metadata drives videos and proprietor portraits")
     const std::filesystem::path mm7WorldRoot = assetRoot / "worlds/mm7";
     const std::filesystem::path mm8WorldRoot = assetRoot / "worlds/mm8";
     CHECK(std::filesystem::exists(mm6WorldRoot / "videos/Houses/temprich.ogv"));
-    CHECK(std::filesystem::exists(mm7WorldRoot / "icons" / "npc0527.bmp"));
+    CHECK(std::filesystem::exists(mm7WorldRoot / "icons_x2" / "npc0527.png"));
     CHECK(std::filesystem::exists(mm7WorldRoot / "videos/Houses/elf weapon smith.ogv"));
     CHECK(std::filesystem::exists(mm7WorldRoot / "videos/Transitions/out06 red dwarf mines.ogv"));
-    CHECK(std::filesystem::exists(engineRoot / "icons" / "npc1582.bmp"));
+    CHECK(std::filesystem::exists(engineRoot / "icons_x2" / "npc1582.png"));
     CHECK(std::filesystem::exists(mm8WorldRoot / "videos/Houses/ltemple.ogv"));
     CHECK_FALSE(std::filesystem::exists(engineRoot / "videos"));
-    CHECK(std::filesystem::exists(mm8WorldRoot / "icons/npc1465.bmp"));
-    CHECK(std::filesystem::exists(mm8WorldRoot / "icons/npc1325.bmp"));
+    CHECK(std::filesystem::exists(mm8WorldRoot / "icons_x2/npc1465.png"));
+    CHECK(std::filesystem::exists(mm8WorldRoot / "icons_x2/npc1325.png"));
 }
 
 TEST_CASE("character doll weapon anchors follow MMerge hold offsets")
@@ -629,15 +633,15 @@ TEST_CASE("character doll weapon anchors follow MMerge hold offsets")
 
 TEST_CASE("outdoor minimap icons are world-owned")
 {
+    // Runtime icons live in the x2 tiers (engine/icon_packages.txt); the native icons folders are retired.
     const std::filesystem::path assetRoot = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev";
-    const std::filesystem::path engineIcons = assetRoot / "engine/icons";
-    const std::filesystem::path mm6Icons = assetRoot / "worlds/mm6/icons";
-    const std::filesystem::path mm7Icons = assetRoot / "worlds/mm7/icons";
-    const std::filesystem::path mm8Icons = assetRoot / "worlds/mm8/icons";
+    const std::filesystem::path engineIcons = assetRoot / "engine/icons_x2";
+    const std::filesystem::path mm6Icons = assetRoot / "worlds/mm6/icons_x2";
+    const std::filesystem::path mm7Icons = assetRoot / "worlds/mm7/icons_x2";
+    const std::filesystem::path mm8Icons = assetRoot / "worlds/mm8/icons_x2";
 
     const std::pair<std::filesystem::path, const char *> expectedWorldIcons[] = {
-        {mm6Icons, "outc1.bmp"},
-        {mm6Icons, "6outside.bmp"},
+        {mm6Icons, "outc1.png"},
         {mm7Icons, "7out15.bmp"},
         {mm7Icons, "out14.bmp"},
         {mm8Icons, "out06.bmp"},
@@ -660,37 +664,37 @@ TEST_CASE("outdoor minimap icons are world-owned")
     }
 
     const char *engineForbiddenIcons[] = {
-        "out06.bmp",
-        "out13.bmp",
-        "outc1.bmp",
-        "7out15.bmp",
-        "elema.bmp",
-        "pbp.bmp",
-        "outside.bmp",
-        "6outside.bmp",
-        "7outside.bmp",
-    };
+        "out06", "out13", "outc1", "7out15", "elema", "pbp", "outside", "6outside", "7outside"};
 
     for (const char *iconName : engineForbiddenIcons)
     {
-        CHECK_FALSE(std::filesystem::exists(engineIcons / iconName));
+        CAPTURE(iconName);
+        CHECK_FALSE(std::filesystem::exists(engineIcons / (std::string(iconName) + ".bmp")));
+        CHECK_FALSE(std::filesystem::exists(engineIcons / (std::string(iconName) + ".png")));
     }
 }
 
 TEST_CASE("mm8 icons do not duplicate engine-owned icons")
 {
     const std::filesystem::path assetRoot = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev";
-    const std::filesystem::path engineIcons = assetRoot / "engine/icons";
-    const std::filesystem::path mm8Icons = assetRoot / "worlds/mm8/icons";
+    // The x2 tiers mix .png and .bmp, so duplicates are compared by name without extension.
+    const std::filesystem::path engineIcons = assetRoot / "engine/icons_x2";
+    const std::filesystem::path mm8Icons = assetRoot / "worlds/mm8/icons_x2";
+    const auto lowercaseStem = [](const std::filesystem::path &path)
+    {
+        return lowercaseFileName(path.stem());
+    };
 
     std::set<std::string> engineIconNames;
     for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(engineIcons))
     {
         if (entry.is_regular_file())
         {
-            engineIconNames.insert(lowercaseFileName(entry.path()));
+            engineIconNames.insert(lowercaseStem(entry.path()));
         }
     }
+
+    REQUIRE_FALSE(engineIconNames.empty());
 
     for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(mm8Icons))
     {
@@ -699,14 +703,18 @@ TEST_CASE("mm8 icons do not duplicate engine-owned icons")
             continue;
         }
 
-        CHECK_FALSE(engineIconNames.contains(lowercaseFileName(entry.path())));
+        CAPTURE(entry.path().filename().string());
+        CHECK_FALSE(engineIconNames.contains(lowercaseStem(entry.path())));
     }
 }
 
 TEST_CASE("mm8 screen backgrounds remain the engine defaults")
 {
+    // The committed x2 restorations of the shared backgrounds; MM8 must not override them in its own tier.
     const std::filesystem::path engineIcons =
-        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/icons";
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/icons_x2";
+    const std::filesystem::path mm8Icons =
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/icons_x2";
 
     struct ExpectedBackground
     {
@@ -716,15 +724,17 @@ TEST_CASE("mm8 screen backgrounds remain the engine defaults")
     };
 
     const ExpectedBackground expectedBackgrounds[] = {
-        {"title.pcx", 826904u, 0xacb405aa6d8fa528ull},
-        {"makeme.pcx", 712504u, 0x00f643e26313af10ull},
-        {"restmain.bmp", 235318u, 0x31067b73f0375f04ull},
+        {"title.png", 11289334u, 0xf2eaa200f5055b1full},
+        {"makeme.png", 2232131u, 0x7020f24aa5b69870ull},
+        {"restmain.png", 1199029u, 0x071ded18c33711a4ull},
     };
 
     for (const ExpectedBackground &expectedBackground : expectedBackgrounds)
     {
         const std::filesystem::path path = engineIcons / expectedBackground.fileName;
+        CAPTURE(expectedBackground.fileName);
         REQUIRE(std::filesystem::exists(path));
+        CHECK_FALSE(std::filesystem::exists(mm8Icons / expectedBackground.fileName));
         CHECK_EQ(std::filesystem::file_size(path), expectedBackground.fileSize);
         CHECK_EQ(fnv1a64(readSourceBinaryFile(path)), expectedBackground.fnvHash);
         CHECK_EQ(

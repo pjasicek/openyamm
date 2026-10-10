@@ -208,7 +208,8 @@ GameplayActorService::DirectSpellImpactResult GameplayActorService::resolveDirec
 
     if (resolvedSpellId == SpellId::SpiritLash
         || resolvedSpellId == SpellId::PrismaticLight
-        || resolvedSpellId == SpellId::SoulDrinker)
+        || resolvedSpellId == SpellId::SoulDrinker
+        || resolvedSpellId == SpellId::Lifedrain)
     {
         result.disposition = DirectSpellImpactDisposition::ApplyDamage;
         result.visualKind = DirectSpellImpactVisualKind::ActorUpperBody;

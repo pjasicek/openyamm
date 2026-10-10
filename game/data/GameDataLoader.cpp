@@ -32,6 +32,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr bool VerboseMapLoadLogging = false;
+constexpr const char *WeatherRulesPath = "engine/rendering/weather/weather.yml";
 
 double millisecondsFromNanoseconds(uint64_t nanoseconds)
 {
@@ -1838,6 +1839,21 @@ bool GameDataLoader::loadMapByFileNameForHeadlessGameplay(
     }
 
     return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::HeadlessGameplay);
+}
+
+bool GameDataLoader::loadMapByFileNameForDecorationPlacements(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &fileName
+)
+{
+    const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findByFileName(fileName);
+
+    if (!selectedMap)
+    {
+        return false;
+    }
+
+    return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::DecorationPlacements);
 }
 
 const std::vector<LoadedTableSummary> &GameDataLoader::getLoadedTables() const
@@ -4803,11 +4819,33 @@ bool GameDataLoader::loadSelectedMap(
     return true;
 }
 
+const WeatherRules &GameDataLoader::weatherRules(const Engine::AssetFileSystem &assetFileSystem)
+{
+    if (!m_weatherRules)
+    {
+        m_weatherRules.emplace();
+        const std::optional<std::string> text = assetFileSystem.readTextFile(WeatherRulesPath);
+        std::string errorMessage = text ? std::string() : std::string("file not found");
+
+        if (!text || !m_weatherRules->loadFromYaml(*text, errorMessage))
+        {
+            std::cerr << "Cannot load " << WeatherRulesPath << ": " << errorMessage << '\n';
+        }
+    }
+
+    return *m_weatherRules;
+}
+
 void GameDataLoader::applyMergedContinentSettingsToSelectedMap(const Engine::AssetFileSystem &assetFileSystem)
 {
     if (!m_selectedMap || !m_selectedMap->outdoorMapData || !m_selectedMap->outdoorMapDeltaData)
     {
         return;
+    }
+
+    if (m_selectedMap->outdoorWeatherProfile)
+    {
+        m_selectedMap->outdoorWeatherProfile->weatherRules = weatherRules(assetFileSystem);
     }
 
     const MergedBolsterMapEntry *pBolsterMap =
@@ -4855,10 +4893,10 @@ void GameDataLoader::applyMergedContinentSettingsToSelectedMap(const Engine::Ass
     profile.mergedWeatherConfigured = true;
     profile.mergedMapId = static_cast<uint32_t>(m_selectedMap->map.id);
     profile.mergedWeatherEnabled = pBolsterMap->weather;
-    profile.mergedRainEnabled = pBolsterMap->weather && pBolsterMap->rain;
-    profile.mergedSnowEnabled = pBolsterMap->weather && pBolsterMap->snow;
-    profile.mergedRainChancePercent = 20;
-    profile.mergedSnowChancePercent = 15;
+    profile.weatherRules = weatherRules(assetFileSystem);
+    profile.weatherMap = resolveWeatherMapSettings(profile.weatherRules, profile.mergedMapId,
+        m_selectedMap->map.fileName, pBolsterMap->weather && pBolsterMap->rain,
+        pBolsterMap->weather && pBolsterMap->snow);
     profile.mergedCustomSkyTextureName = resolveMergedSkyTextureNameCached(pBolsterMap->customSky);
     profile.mergedSkyTextureNames.clear();
 

@@ -267,6 +267,7 @@ uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32
         ^ (chestId + 1u) * 2654435761u
         ^ (salt + 1u) * 2246822519u;
 }
+}
 
 int chestItemValue(
     const GameplayChestItemState &item,
@@ -294,6 +295,8 @@ int chestItemValue(
         pSpecialItemEnchantTable) * std::max(1u, item.quantity);
 }
 
+namespace
+{
 int generateGoldAmount(int treasureLevel, std::mt19937 &rng)
 {
     switch (treasureLevel)

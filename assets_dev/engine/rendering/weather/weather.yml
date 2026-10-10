@@ -1,0 +1,85 @@
+# Outdoor weather rules. See level_generation/lighting/WEATHER_PLAN.md.
+# MMerge bolster_maps.txt decides which maps have weather and which of them can snow; this file decides how often,
+# how strongly and for how long it rains or snows there. Game time: one game minute is two real seconds.
+version: 1
+
+# Daily chance (percent) of a rain or snow spell starting on a weather-enabled map, before the month multiplier.
+# Snow is rolled first on snow-capable maps; a day without snow can still roll rain.
+chances: {rain: 20, snow: 15}
+
+# Month multipliers, January to December (28-day months).
+month_multipliers:
+  rain: [0.7, 0.8, 1.2, 1.4, 1.3, 0.9, 0.7, 0.7, 1.0, 1.3, 1.4, 0.9]
+  snow: [1.8, 1.6, 1.0, 0.4, 0.1, 0.0, 0.0, 0.0, 0.2, 0.6, 1.2, 1.8]
+
+# Per-map chance overrides (map file name), replacing the global chances before the month multiplier.
+# rain/snow set the chance; a snow chance only applies to maps bolster_maps.txt lets snow.
+maps:
+  7out13.odm: {rain: 30}  # Tatalia: swamp and lowland humidity
+  outc3.odm: {rain: 30}   # Mire of the Damned
+  out14.odm: {rain: 28}   # Avlee: wet forest
+  out09.odm: {rain: 28}   # Evenmorn Island
+  oute2.odm: {rain: 26}   # Misty Islands
+  outb1.odm: {snow: 30}   # Kriegspire: snowfields
+  out12.odm: {snow: 25}   # The Land of the Giants
+  out08.odm: {rain: 10}   # Ravage Roaming: cracked barren wastes
+
+# A spell's peak intensity (0-1) is picked by weight; wind and fog scale with it.
+intensities:
+  - {name: light, value: 0.25, weight: 30}
+  - {name: medium, value: 0.5, weight: 40}
+  - {name: heavy, value: 0.8, weight: 20}
+  - {name: very_heavy, value: 1.0, weight: 10}
+
+# Spell shape in game minutes. Intensity rises over ramp_up, holds near the peak with slow gusty variation, and eases
+# off over ramp_down. Clouds gather cloud_lead minutes before the first drops and linger cloud_linger after the last.
+rain: {min_minutes: 120, max_minutes: 540, ramp_up: [20, 60], ramp_down: [30, 90]}
+snow: {min_minutes: 180, max_minutes: 720, ramp_up: [30, 80], ramp_down: [40, 120]}
+cloud_lead: 60
+cloud_linger: 75
+# Relative variation of intensity during the spell (0 = steady), and its period in game minutes.
+variation: {amount: 0.25, period_minutes: [35, 80]}
+
+# Event SetRain / SetSnow (for example the Frozen Highlands) holds this intensity.
+event_intensity: 0.55
+
+# Rain at or above this intensity is a thunderstorm: storm sky, thunder and lightning.
+storm_threshold: 0.72
+# Average seconds between lightning strikes at full storm strength; fewer as the storm weakens.
+strike_interval_seconds: [6, 22]
+
+# Surfaces soak through after this many game minutes of medium rain and dry out over dry_minutes.
+wet_minutes: 40
+dry_minutes: 180
+
+# Wind in world units per second (about 105 units per metre). Calm wind is rolled per day; precipitation adds to it.
+wind:
+  calm: [30, 160]
+  rain: 320
+  snow: 280
+  # Real-time gusts vary the wind between these multiples of the daily wind.
+  gust_range: [0.6, 1.6]
+
+# Real seconds for the shown precipitation to fade from none to full (map loads and clock jumps snap instead).
+fade_seconds: 40
+
+# Sounds: the Might and Magic IX rain, thunder and wind recordings, copied unchanged into engine scope
+# (engine/audio/weather/SOURCES.md). Rain loops cross-fade by intensity and the wind loop follows the wind speed;
+# thunder picks a random variant for the strike distance and plays after the flash. The originals are peak
+# normalised, so volume levels them: rain sits under footsteps and speech, near thunder is the loudest.
+sounds:
+  rain_light: {files: [engine/audio/weather/rain_light.wav], volume: 0.5}
+  rain_heavy: {files: [engine/audio/weather/rain_heavy.wav], volume: 0.25}
+  wind: {files: [engine/audio/weather/wind_strong.wav], volume: 0.3}
+  thunder_near:
+    files: [engine/audio/weather/thunder_near_1.wav, engine/audio/weather/thunder_near_2.wav,
+            engine/audio/weather/thunder_near_3.wav, engine/audio/weather/thunder_near_4.wav]
+    volume: 0.85
+  thunder_middle:
+    files: [engine/audio/weather/thunder_middle_1.wav, engine/audio/weather/thunder_middle_2.wav,
+            engine/audio/weather/thunder_middle_3.wav, engine/audio/weather/thunder_middle_4.wav]
+    volume: 0.8
+  thunder_far:
+    files: [engine/audio/weather/thunder_far_1.wav, engine/audio/weather/thunder_far_2.wav,
+            engine/audio/weather/thunder_far_3.wav, engine/audio/weather/thunder_far_4.wav]
+    volume: 0.9

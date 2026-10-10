@@ -683,6 +683,61 @@ bool GameplayScreenRuntime::mobileFlightControlsAvailable() const
         && pParty->hasPartyBuff(PartyBuffId::Fly);
 }
 
+bool GameplayScreenRuntime::passTurnBasedTurn()
+{
+    Party *pParty = party();
+
+    if (pParty == nullptr)
+    {
+        return false;
+    }
+
+    // As in the original, passing costs the active member's melee attack recovery.
+    const Character *pMember = pParty->activeMember();
+    const float recoverySeconds = pMember != nullptr
+        ? GameMechanics::buildCharacterAttackProfile(
+            *pMember,
+            itemTable(),
+            spellTable(),
+            characterAttackTuningFromSettings(settingsSnapshot())).meleeRecoverySeconds
+        : 0.0f;
+    return turnBasedCombatRuntime().passTurn(*pParty, recoverySeconds);
+}
+
+bool GameplayScreenRuntime::contextActionButtonVisible() const
+{
+    const GameplayContextActionState &actions = contextActionStateReadOnly();
+    return actions.visible && actions.primaryIndex < actions.actions.size()
+        && (settingsSnapshot().contextActionPopup
+            || actions.actions[actions.primaryIndex].kind == GameplayContextActionKind::DropHeldItem);
+}
+
+std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRuntime::resolveMobilePassTurnButton(
+    int width,
+    int height) const
+{
+    const Party *pParty = partyReadOnly();
+
+    if (pParty == nullptr
+        || currentHudScreenState() != GameplayHudScreenState::Gameplay
+        || pendingSpellTargetActive()
+        || findHudLayoutElement("OutdoorMobileContextActionButton") == nullptr
+        || !turnBasedCombatRuntime().canPassTurn(*pParty))
+    {
+        return std::nullopt;
+    }
+
+    std::optional<ResolvedHudLayoutElement> rect =
+        resolveHudLayoutElement("OutdoorMobileContextActionButton", width, height, 0, 0);
+
+    if (rect && contextActionButtonVisible())
+    {
+        rect->y -= rect->height + 4.0f * rect->scale;
+    }
+
+    return rect;
+}
+
 const char *GameplayScreenRuntime::mobileInspectLayoutId() const
 {
     return currentHudScreenState() == GameplayHudScreenState::Gameplay
@@ -733,12 +788,13 @@ std::vector<GameplayTouchControl> GameplayScreenRuntime::mobileTouchControls(int
     {
         append("ObsidianTurnPlate");
     }
-    const GameplayContextActionState &actions = contextActionStateReadOnly();
-    if (actions.visible && actions.primaryIndex < actions.actions.size()
-        && (settingsSnapshot().contextActionPopup
-            || actions.actions[actions.primaryIndex].kind == GameplayContextActionKind::DropHeldItem))
+    if (contextActionButtonVisible())
     {
         append("OutdoorMobileContextActionButton");
+    }
+    if (const std::optional<ResolvedHudLayoutElement> passRect = resolveMobilePassTurnButton(width, height))
+    {
+        controls.push_back({GameplayTouchRole::Hud, passRect->x, passRect->y, passRect->width, passRect->height});
     }
     if (mobileFlightControlsAvailable())
     {

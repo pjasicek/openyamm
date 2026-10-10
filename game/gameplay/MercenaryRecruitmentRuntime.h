@@ -46,5 +46,6 @@ bool refreshMercenaryRecruitmentForCurrentMap(
     const MapStatsEntry &map,
     Party &party,
     EventRuntimeState &runtimeState,
+    float gameMinutes,
     const MercenaryRecruitmentTables &tables);
 }

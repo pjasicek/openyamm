@@ -724,18 +724,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
         if (context.turnBasedCombatRuntime().active()
             && isActionNewlyPressed(context, KeyboardAction::Pass, config.pInputFrame, config.pKeyboardState))
         {
-            Party *pParty = context.party();
-            if (pParty != nullptr)
-            {
-                if (context.turnBasedCombatRuntime().stage() == TurnBasedCombatStage::Movement)
-                {
-                    context.turnBasedCombatRuntime().finishMovementPhase();
-                }
-                else if (context.turnBasedCombatRuntime().canBeginPlayerAction(*pParty))
-                {
-                    context.turnBasedCombatRuntime().applyPlayerAction(*pParty, pParty->activeMemberIndex(), 0.0f);
-                }
-            }
+            context.passTurnBasedTurn();
         }
 
         const bool isQuickCastPressed =

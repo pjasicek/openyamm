@@ -77,4 +77,11 @@ ChestTrapOpenResult resolveChestTrapOpen(
     const SpecialItemEnchantTable *pSpecialItemEnchantTable);
 
 void applyChestTrapOpenResultToParty(Party &party, const ChestTrapOpenResult &result);
+
+// Value of one chest or corpse entry: its gold, or the item's value with enchantments times its quantity.
+int chestItemValue(
+    const GameplayChestItemState &item,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable);
 }

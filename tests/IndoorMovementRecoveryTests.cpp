@@ -7,6 +7,8 @@
 #include <cmath>
 #include <utility>
 
+TEST_SUITE_BEGIN(OpenYAMM::Tests::SharedRegressionMapSuite);
+
 using namespace OpenYAMM::Game;
 
 namespace
@@ -156,3 +158,5 @@ TEST_CASE("silver helm sloped platforms admit slow walking without jumping")
         CHECK_EQ(state.supportFaceIndex, 1520u);
     }
 }
+
+TEST_SUITE_END();

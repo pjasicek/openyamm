@@ -3,16 +3,21 @@
 #include "game/render/SpriteAtlasCache.h"
 #include "game/render/NativeSpriteTextureCache.h"
 #include "game/render/TextureFiltering.h"
+#include "game/render/SkyRenderer.h"
 #include "game/render/WaterRenderer.h"
+#include "game/render/WeatherRenderer.h"
 
 #include "game/app/GameSettings.h"
 #include "game/fx/WorldFxRenderResources.h"
 #include "game/fx/WorldFxSystem.h"
 #include "game/fx/EffectRenderer.h"
 #include "game/outdoor/OutdoorCollisionData.h"
+#include "game/outdoor/OutdoorDistantSea.h"
 #include "game/outdoor/OutdoorLightingRuntime.h"
 #include "game/outdoor/OutdoorSpatialFxRuntime.h"
 #include "game/outdoor/TerrainDecorationRenderer.h"
+#include "game/outdoor/WeatherAudio.h"
+#include "game/outdoor/WeatherPresentation.h"
 #include "game/maps/DecorationModelSet.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/tables/MapStats.h"
@@ -99,6 +104,52 @@ class OutdoorGameView
     : public IGameplayOverlaySceneAdapter
 {
 public:
+    // Runtime-only debug switches for the console `render` command (profiling); everything draws by default.
+    struct RenderLayers
+    {
+        bool terrain = true;
+        bool bmodels = true;
+        bool sky = true;
+        bool water = true;
+        bool grass = true;
+        bool decorationModels = true;
+        bool decorationSprites = true;
+        bool actors = true;
+        bool creatureModels = true;
+        bool effects = true;
+    };
+    void setRenderLayers(const RenderLayers &layers);
+    // Debug `sky preset`: forces an Enhanced sky preset by name; empty restores automatic selection.
+    void setDebugSkyPreset(const std::string &presetName);
+    void setDebugSkyTheme(const std::optional<std::string> &themeName);
+    // The next Enhanced sky update jumps to its target instead of cross-fading.
+    void snapSky();
+    // The Enhanced sky for the current frame, or nullptr while the Classic sky is drawn.
+    const SkyFrameState *enhancedSkyFrame() const;
+    // Weather as shown this frame: faded precipitation, gusting wind and lightning.
+    const WeatherPresentation &weatherPresentation() const;
+    // The next weather update jumps to the current weather instead of fading (debug `weather` commands).
+    void snapWeather();
+    void forceLightningStrike(LightningDistance distance);
+    const SkyPresetLibrary *skyPresetLibrary() const;
+    // Terrain square for the Enhanced map-edge fog and the sea past it, for the current camera height.
+    SkySurroundings skySurroundings() const;
+    // Baked sun/sky light colours (u_bakedLighting), hue-tinted by the Enhanced sky when it is active.
+    std::array<std::array<float, 4>, 2> bakedLightingColors(
+        const OutdoorWorldRuntime::AtmosphereState &atmosphere) const;
+    void setStaticFoliageVisible(bool visible)
+    {
+        m_modelRenderer.setStaticFoliageVisible(visible);
+    }
+    void setSkinnedInstancing(bool enabled)
+    {
+        m_modelRenderer.setSkinnedInstancing(enabled);
+    }
+    const RenderLayers &renderLayers() const
+    {
+        return m_renderLayers;
+    }
+
     OutdoorGameView(GameSession &gameSession, SpriteAtlasCache &spriteAtlasCache,
         NativeSpriteTextureCache &nativeSpriteCache);
     ~OutdoorGameView();
@@ -216,6 +267,8 @@ private:
         float u;
         float v;
         float secretPulse;
+        // Layer of the face's texture in its size array (BModelTextureArray); 0 when the texture is not arrayed.
+        float textureLayer;
         float flowUPerSecond;
         float flowVPerSecond;
         float lavaFlow;
@@ -282,16 +335,35 @@ private:
         std::string textureName;
         SurfaceMaterialSemantic surfaceSemantic = SurfaceMaterialSemantic::GenericAnimated;
         uint32_t waterColorAbgr = 0;
+        // Animated textures keep one 2D texture per frame. A single-frame texture of a lightmapped map lives in a
+        // size array instead (arrayIndex into m_bmodelTextureArrays, arrayLayer) and has no 2D texture.
         std::vector<bgfx::TextureHandle> frameTextureHandles;
+        int32_t arrayIndex = -1;
+        uint16_t arrayLayer = 0;
+        // Physical size of the first frame's texture.
+        uint16_t width = 0;
+        uint16_t height = 0;
         std::vector<uint32_t> frameLengthTicks;
         std::vector<bool> frameHasPartialAlphaPixels;
         uint32_t animationLengthTicks = 0;
+    };
+
+    // All single-frame bmodel textures of one size, as layers with their own mip chains.
+    struct BModelTextureArray
+    {
+        bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
+        uint16_t width = 0;
+        uint16_t height = 0;
+        uint16_t layers = 0;
     };
 
     struct ResolvedBModelDrawGroup
     {
         bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
         uint32_t vertexCount = 0;
+        // A lightmapped group of every arrayed material of one size (arrayIndex >= 0; layers per vertex), or the faces
+        // of one material (animationIndex).
+        int32_t arrayIndex = -1;
         size_t animationIndex = static_cast<size_t>(-1);
         bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
         bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
@@ -708,10 +780,33 @@ private:
     bgfx::ProgramHandle m_outdoorTexturedFogShadowProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_outdoorTerrainShadowProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_outdoorBModelShadowProgramHandle = BGFX_INVALID_HANDLE;
+    // The same programs sampling arrayed bmodel textures (per-vertex layer, or u_bmodelTextureLayer for one face).
+    bgfx::ProgramHandle m_outdoorBModelLightmapArrayProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_outdoorBModelShadowArrayProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_outdoorTexturedFogArrayProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_outdoorTexturedFogShadowArrayProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_bmodelTextureLayerUniformHandle = BGFX_INVALID_HANDLE;
     TerrainDecorationRenderer m_terrainDecorations;
     WaterRenderer m_waterRenderer;
+    SkyRenderer m_skyRenderer;
+    bool m_skyRendererInitializeAttempted = false;
+    bool m_enhancedSkyActive = false;
+    float m_lastSkyStateElapsedTime = -1.0f;
+    WeatherPresentation m_weatherPresentation;
+    WeatherRenderer m_weatherRenderer;
+    bool m_weatherRendererInitializeAttempted = false;
+    float m_lastWeatherElapsedTime = -1.0f;
+    float m_weatherFrameSeconds = 0.0f;
+    double m_lastWeatherGameMinutes = 0.0;
+    WeatherAudio m_weatherAudio;
+    std::string m_debugSkyPreset;
+    std::optional<std::string> m_debugSkyTheme;
+    OutdoorDistantSea m_distantSea;
+    // Eye position of the frame being rendered, for the distant sea.
+    std::array<float, 3> m_skyCameraPosition = {};
     bgfx::UniformHandle m_worldClipPlaneUniformHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_waterSurfaceControlUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_wetnessUniformHandle = BGFX_INVALID_HANDLE;
     struct TerrainDecorationBatch
     {
         TerrainDecorationPatch range;
@@ -746,6 +841,7 @@ private:
     bgfx::UniformHandle m_outdoorSunlightUniformHandle;
     std::array<float, 4> m_outdoorSunlight = {0.0f, 0.0f, 0.0f, 1.0f};
     bgfx::UniformHandle m_outdoorFogColorUniformHandle;
+    bgfx::UniformHandle m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_outdoorFogDensitiesUniformHandle;
     bgfx::UniformHandle m_outdoorFogDistancesUniformHandle;
     bgfx::UniformHandle m_outdoorCameraPositionUniformHandle;
@@ -766,6 +862,7 @@ private:
     std::vector<TexturedTerrainChunk> m_texturedTerrainChunks;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
     std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
+    std::vector<BModelTextureArray> m_bmodelTextureArrays;
     std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
     std::vector<BModelWorldRenderChunk> m_bmodelWorldRenderChunks;
@@ -879,6 +976,7 @@ private:
     float m_cameraDistance;
     float m_cameraOrthoScale;
     float m_mouseRotateSpeed = 0.0045f;
+    RenderLayers m_renderLayers;
     bool m_showFilledTerrain;
     float m_lastFootstepX;
     float m_lastFootstepY;

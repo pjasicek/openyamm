@@ -132,6 +132,8 @@ public:
     bool playSpeech(const Character &character, SpeechId speechId, uint32_t seed = 0, uint32_t speakerKey = 0);
     const SpeechReactionEntry *findSpeechReaction(SpeechId speechId) const;
     void stopSoundInstance(uint64_t instanceId);
+    // Volume of a playing instance relative to its group, so sound-volume changes still apply.
+    void setSoundInstanceVolume(uint64_t instanceId, PlaybackGroup group, float volume);
     void setSoundInstancePosition(uint64_t instanceId, const WorldPosition &position);
     void stopGroup(PlaybackGroup group);
     void stopAllPlayback();

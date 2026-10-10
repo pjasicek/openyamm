@@ -9,6 +9,7 @@
 #include "engine/AssetScaleTier.h"
 #include "engine/render/ModelRenderer.h"
 #include "game/indoor/IndoorMapData.h"
+#include "game/maps/DecorationModelSet.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/render/IndoorStaticLighting.h"
 #include "game/indoor/IndoorPortalGraph.h"
@@ -159,6 +160,7 @@ public:
     void shutdown();
 
 private:
+    void setBillboardFogColor(const float *pFogColor);
     struct TerrainVertex
     {
         float x;
@@ -420,6 +422,12 @@ private:
     std::optional<std::string> resolveEntityDecorationHoverStatusText(const InspectHit &inspectHit) const;
     std::optional<std::string> resolveEventTargetHoverStatusText(const InspectHit &inspectHit) const;
     void updateCameraFromInput(const GameplayInputFrame &input, float deltaSeconds, bool allowWorldInput);
+    // The sprite a decoration shows now (event SetSprite), and whether it is hidden (cleared or event-hidden).
+    uint16_t resolveDecorationBillboardSpriteId(const DecorationBillboard &billboard, bool &hidden) const;
+    // Places, hides and lights the 3D decoration models for this frame: visible in the rendered sectors, as bright
+    // as the sprite each replaces, outlined when the context action highlights its decoration.
+    void updateDecorationModels(const std::vector<uint8_t> &visibleSectorMask, const IndoorLightingFrame &lightingFrame,
+        const GameplayContextActionState *pContextActionState, LightingStats *pLightingStats);
     void renderDecorationBillboards(
         uint16_t viewId,
         const float *pViewMatrix,
@@ -666,6 +674,8 @@ private:
     std::vector<uint8_t> m_indoorInteractiveDecorationHideWhenClearedByEntity;
     std::vector<uint8_t> m_indoorInteractiveDecorationFixedEventByEntity;
     std::vector<std::vector<size_t>> m_decorationBillboardIndicesBySector;
+    // Decorations drawn as static 3D models (worlds/<world>/models/indoor_decorations.yml).
+    DecorationModelSet m_decorationModels;
     std::vector<std::vector<size_t>> m_staticSpriteObjectBillboardIndicesBySector;
     std::optional<HouseTable> m_houseTable;
     std::optional<ChestTable> m_chestTable;
@@ -694,6 +704,8 @@ private:
     bgfx::UniformHandle m_billboardOverrideColorUniformHandle;
     bgfx::UniformHandle m_billboardOutlineParamsUniformHandle;
     bgfx::UniformHandle m_billboardFogColorUniformHandle;
+    // Shared outdoor sky-fog uniform; indoors it stays zero so billboards keep their flat fog colour.
+    bgfx::UniformHandle m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_billboardFogDensitiesUniformHandle;
     bgfx::UniformHandle m_billboardFogDistancesUniformHandle;
     float m_elapsedTime;

@@ -266,6 +266,8 @@ private:
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void updateScreenshotCaptureFrame();
     bool applyScreenshotTourShotPose(const ScreenshotTourShot &shot);
+    bool advanceDebugGameMinutes(float minutes);
+    bool setDebugClockMinute(int targetMinute);
     void advanceScreenshotTourAfterCapture(size_t shotIndex, bool success);
     bool logFramePerformanceDiagnostics(uint32_t currentTick);
     void logFrameHitchDiagnostics(const FramePerformanceDiagnostics &diagnostics) const;
@@ -292,6 +294,11 @@ private:
     std::unique_ptr<IMapSceneRuntime> m_pMapSceneRuntime;
     Engine::AssetFileSystem *m_pAssetFileSystem;
     bool m_quickSaveLatch = false;
+    // Console `render` profiling switches: decoration-model foliage, and a frozen world (no actor/time updates) so a
+    // view stays identical while layers are measured.
+    bool m_renderFoliage = true;
+    bool m_renderInstancing = true;
+    bool m_renderFreezeWorld = false;
     bool m_quickLoadLatch = false;
     bool m_doubleSpeedActive = false;
     bool m_advanceTimeLatch = false;

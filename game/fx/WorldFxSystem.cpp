@@ -291,7 +291,10 @@ void WorldFxSystem::reset()
     m_namedEffectResources.clear();
     m_actorModels.clear();
     m_actorModelBindings.clear();
+    m_corpseAssets.clear();
     m_actorModelsConfigured = false;
+    m_corpseSatchelStates.clear();
+    m_satchelAssets = {};
     m_models.clear();
     m_modelAssets.clear();
     m_glowBillboards.clear();
@@ -354,6 +357,42 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
                     throw std::runtime_error("actor model skin not found: " + skin);
                 }
                 binding.materialVariant = *variant;
+            }
+            const YAML::Node attachments = entry["attachments"];
+            for (size_t attachmentIndex = 0; attachments && attachmentIndex < attachments.size(); ++attachmentIndex)
+            {
+                const YAML::Node item = attachments[attachmentIndex];
+                const Engine::ModelLoadResult carried = m_modelAssets.load(assets, item["model"].as<std::string>());
+                if (!carried)
+                {
+                    error = carried.error;
+                    return false;
+                }
+                const std::optional<uint32_t> node = binding.asset->findNode(item["node"].as<std::string>());
+                if (!node || !carried.asset->skins.empty())
+                {
+                    error = "actor attachment needs a node of the actor and an unskinned model: " + descriptor;
+                    return false;
+                }
+                Engine::ModelAttachment attachment{carried.asset, *node, 0};
+                // Without its own skin, an item split from the body follows the carrier's skin (same variant names).
+                if (item["skin"])
+                {
+                    const std::optional<uint32_t> variant =
+                        carried.asset->findMaterialVariant(item["skin"].as<std::string>());
+                    if (!variant)
+                    {
+                        error = "actor attachment skin not found: " + item["skin"].as<std::string>();
+                        return false;
+                    }
+                    attachment.materialVariant = *variant;
+                }
+                else if (entry["skin"])
+                {
+                    attachment.materialVariant =
+                        carried.asset->findMaterialVariant(entry["skin"].as<std::string>()).value_or(0);
+                }
+                binding.attachments.push_back(std::move(attachment));
             }
             binding.scale = entry["scale"].as<float>();
             binding.fxReferenceScale = binding.scale;
@@ -420,6 +459,16 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets, 
                         throw std::runtime_error("actor eye_color requires three sRGB bytes: " + descriptor);
                     }
                     binding.eyeColorAbgr = makeAbgr(uint8_t(color[0]), uint8_t(color[1]), uint8_t(color[2]), 176);
+                }
+                if (animation["cast_color"])
+                {
+                    const std::vector<int> color = animation["cast_color"].as<std::vector<int>>();
+                    if (color.size() != 3 || std::any_of(color.begin(), color.end(),
+                        [](int value) { return value < 0 || value > 255; }))
+                    {
+                        throw std::runtime_error("actor cast_color requires three sRGB bytes: " + descriptor);
+                    }
+                    binding.castColorAbgr = makeAbgr(uint8_t(color[0]), uint8_t(color[1]), uint8_t(color[2]), 255);
                 }
                 const auto requireClip = [&](const char *name)
                 {
@@ -597,6 +646,10 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
             continue;
         }
         const ActorModelBinding &binding = bindingIterator->second;
+        if (goneCorpse(index) != nullptr)
+        {
+            continue;   // sunk; its loot satchel presents the actor
+        }
         auto instance = m_actorModels.find(index);
         if (instance != m_actorModels.end()
             && (instance->second.actorId != state.actorId || instance->second.monsterId != state.monsterId))
@@ -610,6 +663,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
         {
             const Engine::ModelInstanceHandle handle = m_models.create(binding.asset);
             m_models.setMaterialVariant(handle, binding.materialVariant);
+            m_models.setAttachments(handle, binding.attachments);
             instance = m_actorModels.emplace(index, ActorModelInstance{handle, state.actorId, state.monsterId}).first;
         }
         retained.insert(index);
@@ -665,7 +719,8 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
             model.pendingRelease = false;
             const FxRecipes::ProjectileRecipe recipe =
                 FxRecipes::classifyProjectileRecipe(int(state.castingSpellId), "", "", 0);
-            model.castColor = FxRecipes::projectileRecipeColorAbgr(recipe);
+            model.castColor = binding.castColorAbgr != 0 ? binding.castColorAbgr
+                : FxRecipes::projectileRecipeColorAbgr(recipe);
         }
         if (model.casting && state.attackImpactTriggered && !model.previousImpact)
         {
@@ -773,13 +828,31 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
                 layer.timeSeconds = quantize(layer.timeSeconds);
             }
         }
+        const float sink = actorCorpseSinkDepth(index);
+        m_models.setCoverage(model.handle, sink > 0.0f
+            ? corpseSinkPresentation(m_corpseSatchelStates.at(index).restSeconds).coverage : 1.0f);
         const Engine::ModelTransform transform = Engine::gltfModelPlacement(
-            {state.preciseX, state.preciseY, state.preciseZ + binding.zOffset},
+            {state.preciseX, state.preciseY, state.preciseZ + binding.zOffset - sink},
             model.yaw + binding.yawOffset, scale);
         const float transitionSeconds = dying || state.animationState == ActorAiAnimationState::Dead
             || teleported ? 0.0f : state.animationState == ActorAiAnimationState::GotHit ? 0.06f : 0.12f;
         m_models.sampleBlended(model.handle, clip, time, transform, deltaSeconds, transitionSeconds,
             layer, restart || backwardsChanged);
+        // A corpse no longer moves once the death clip has finished and its Dead clip is held (past its end, or the
+        // corpse's clock stopped: dead actors are not updated). It is then drawn as a static instance of the baked pose
+        // (instanced with every corpse of its model, no skinning, coarser LODs); picking and loot still use the actor
+        // instance, whose frozen pose matches the bake.
+        const uint32_t deadClip = binding.clips[size_t(ActorAiAnimationState::Dead)];
+        const float deadDuration = binding.asset->clips[deadClip].durationSeconds;
+        const bool corpseStandIn = state.animationState == ActorAiAnimationState::Dead && model.deathClipTime < 0.0f
+            && clip == deadClip && layer.weight == 0.0f && model.initialized
+            && (time >= deadDuration || state.animationTimeTicks == model.previousTime);
+        if (corpseStandIn != model.corpseStandIn)
+        {
+            m_models.setStaticStandIn(model.handle,
+                corpseStandIn ? corpseAsset(binding.asset, deadClip, std::min(time, deadDuration)) : nullptr);
+            model.corpseStandIn = corpseStandIn;
+        }
         model.initialized = true;
         model.previousX = state.preciseX;
         model.previousY = state.preciseY;
@@ -803,9 +876,175 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float de
     }
 }
 
+std::shared_ptr<const Engine::ModelAsset> WorldFxSystem::corpseAsset(
+    const std::shared_ptr<const Engine::ModelAsset> &asset, uint32_t deadClip, float timeSeconds)
+{
+    // Keyed by the held time in milliseconds: a corpse shows its Dead clip at 0 s (actor clock stopped at death) or at
+    // its end, so a model gets one or two bakes.
+    const uint32_t milliseconds = uint32_t(std::lround(timeSeconds * 1000.0f));
+    std::shared_ptr<const Engine::ModelAsset> &baked = m_corpseAssets[{asset.get(), deadClip, milliseconds}];
+    if (baked == nullptr)
+    {
+        Engine::ModelPose pose;
+        Engine::resetModelPose(*asset, pose);
+        Engine::evaluateModelClip(*asset, deadClip, float(milliseconds) / 1000.0f, pose);
+        Engine::evaluateModelHierarchy(*asset, Engine::identityModelMatrix(), pose);
+        baked = Engine::bakeStaticModelPose(*asset, pose);
+    }
+    return baked;
+}
+
+bool WorldFxSystem::configureCorpseSatchels(const Engine::AssetFileSystem &assets, std::string &error)
+{
+    if (m_satchelAssets[0] != nullptr)
+    {
+        return true;
+    }
+    for (size_t tier = 0; tier < m_satchelAssets.size(); ++tier)
+    {
+        const std::string path = "engine/models/loot_satchel_t" + std::to_string(tier + 1) + ".glb";
+        const Engine::ModelLoadResult loaded = m_modelAssets.load(assets, path);
+        if (!loaded)
+        {
+            error = loaded.error;
+            m_satchelAssets = {};
+            return false;
+        }
+        m_satchelAssets[tier] = loaded.asset;
+    }
+    return true;
+}
+
+void WorldFxSystem::setCorpseSatchels(bool enabled)
+{
+    if (enabled == m_corpseSatchels)
+    {
+        return;
+    }
+    m_corpseSatchels = enabled;
+    for (const auto &[index, corpse] : m_corpseSatchelStates)
+    {
+        m_models.destroy(corpse.handle);
+    }
+    m_corpseSatchelStates.clear();
+}
+
+void WorldFxSystem::syncCorpseSatchels(const IGameplayWorldRuntime &world, float deltaSeconds)
+{
+    if (!m_corpseSatchels || m_satchelAssets[0] == nullptr)
+    {
+        return;
+    }
+    // GLB metres to world units, as the creature models. The satchels are authored at their in-game widths
+    // (0.5-1.25 m, the size of the game's dropped items, so grass does not hide them).
+    constexpr float UnitsPerMetre = 105.0f;
+    for (auto iterator = m_corpseSatchelStates.begin(); iterator != m_corpseSatchelStates.end();)
+    {
+        CorpseSatchel &corpse = iterator->second;
+        GameplayRuntimeActorState state;
+        const bool fallen = world.actorRuntimeState(iterator->first, state) && !state.isInvisible
+            && state.actorId == corpse.actorId && (state.isDead || state.animationState == ActorAiAnimationState::Dying
+                || state.animationState == ActorAiAnimationState::Dead);
+        if (!fallen)
+        {
+            m_models.destroy(corpse.handle);
+            iterator = m_corpseSatchelStates.erase(iterator);
+        }
+        else
+        {
+            ++iterator;
+        }
+    }
+    for (size_t index = 0; index < world.mapActorCount(); ++index)
+    {
+        GameplayRuntimeActorState state;
+        if (!world.actorRuntimeState(index, state) || state.isInvisible
+            || (!state.isDead && state.animationState != ActorAiAnimationState::Dying
+                && state.animationState != ActorAiAnimationState::Dead))
+        {
+            continue;
+        }
+        const std::optional<uint32_t> lootValue = world.corpseLootValue(index);
+        auto found = m_corpseSatchelStates.find(index);
+        if (found == m_corpseSatchelStates.end())
+        {
+            CorpseSatchel corpse;
+            corpse.actorId = state.actorId;
+            corpse.yaw = std::fmod(float(state.actorId) * 2.399963f, 2.0f * std::numbers::pi_v<float>);
+            // A corpse first seen at rest (a loaded map) shows its satchel at once; a fresh death plays out.
+            if (state.animationState == ActorAiAnimationState::Dead && lootValue)
+            {
+                corpse.restSeconds = CorpseRestSeconds + std::max(CorpseSinkSeconds, CorpseSatchelAppearSeconds);
+                corpse.gone = true;
+            }
+            found = m_corpseSatchelStates.emplace(index, corpse).first;
+        }
+        CorpseSatchel &corpse = found->second;
+        if (!corpse.gone)
+        {
+            // At rest: a model once its death clip has finished and its corpse pose is held, a sprite in its dead frame.
+            // Without rolled loot (no corpse view), the body stays.
+            const auto model = m_actorModels.find(index);
+            const bool atRest = model != m_actorModels.end() ? model->second.corpseStandIn
+                : state.animationState == ActorAiAnimationState::Dead;
+            if (corpse.restSeconds < 0.0f && atRest && lootValue)
+            {
+                const Engine::ModelBounds *pPose =
+                    model != m_actorModels.end() ? m_models.cullingBounds(model->second.handle) : nullptr;
+                const float height = pPose != nullptr && pPose->valid ? pPose->max[2] - state.preciseZ
+                    : float(state.bodyHeight > 0 ? state.bodyHeight : state.height);
+                corpse.sinkDepth = std::max(height, 16.0f) + 8.0f;
+                corpse.restSeconds = 0.0f;
+            }
+            else if (corpse.restSeconds >= 0.0f)
+            {
+                corpse.restSeconds += deltaSeconds;
+            }
+            corpse.gone = corpse.restSeconds >= 0.0f && corpseSinkPresentation(corpse.restSeconds).gone;
+        }
+        else
+        {
+            corpse.restSeconds += deltaSeconds;
+        }
+        // The satchel appears as the body starts to dissolve.
+        const uint32_t tier = corpse.restSeconds >= CorpseRestSeconds && lootValue ? corpseSatchelTier(*lootValue) : 0;
+        if (tier != corpse.tier)
+        {
+            m_models.destroy(corpse.handle);
+            corpse.handle = tier > 0 ? m_models.create(m_satchelAssets[tier - 1]) : Engine::ModelInstanceHandle {};
+            m_models.setStaticStandIn(corpse.handle, tier > 0 ? m_satchelAssets[tier - 1] : nullptr);
+            corpse.tier = tier;
+        }
+        if (tier > 0)
+        {
+            const CorpseSinkPresentation presentation = corpseSinkPresentation(corpse.restSeconds);
+            m_models.setCoverage(corpse.handle, presentation.satchelCoverage);
+            m_models.setTransform(corpse.handle, Engine::gltfModelPlacement(
+                {state.preciseX, state.preciseY, state.preciseZ - 2.0f}, corpse.yaw,
+                UnitsPerMetre * presentation.satchelScale));
+        }
+    }
+}
+
+float WorldFxSystem::actorCorpseSinkDepth(size_t actorIndex) const
+{
+    const auto found = m_corpseSatchelStates.find(actorIndex);
+    if (found == m_corpseSatchelStates.end() || found->second.restSeconds < 0.0f || found->second.gone)
+    {
+        return 0.0f;
+    }
+    return corpseSinkPresentation(found->second.restSeconds).depthFraction * found->second.sinkDepth;
+}
+
+const WorldFxSystem::CorpseSatchel *WorldFxSystem::goneCorpse(size_t actorIndex) const
+{
+    const auto found = m_corpseSatchelStates.find(actorIndex);
+    return found != m_corpseSatchelStates.end() && found->second.gone ? &found->second : nullptr;
+}
+
 bool WorldFxSystem::hasActorModel(size_t actorIndex) const
 {
-    return m_actorModels.contains(actorIndex);
+    return m_actorModels.contains(actorIndex) || goneCorpse(actorIndex) != nullptr;
 }
 
 void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float deltaSeconds, bool refreshSpatialFx)
@@ -1012,26 +1251,52 @@ void WorldFxSystem::syncActorModelFx(const IGameplayWorldRuntime &world, float d
     }
 }
 
+// A sunk corpse without loot has no satchel: its bounds are empty, so nothing is picked there.
+namespace
+{
+const Engine::ModelBounds NoActorModelBounds = {};
+}
+
 const Engine::ModelBounds *WorldFxSystem::actorModelBounds(size_t actorIndex) const
 {
+    if (const CorpseSatchel *pCorpse = goneCorpse(actorIndex))
+    {
+        const Engine::ModelBounds *pBounds = m_models.pickingBounds(pCorpse->handle);
+        return pBounds != nullptr ? pBounds : &NoActorModelBounds;
+    }
     const auto iterator = m_actorModels.find(actorIndex);
     return iterator != m_actorModels.end() ? m_models.pickingBounds(iterator->second.handle) : nullptr;
 }
 
 const Engine::ModelBounds *WorldFxSystem::actorModelCullingBounds(size_t actorIndex) const
 {
+    if (const CorpseSatchel *pCorpse = goneCorpse(actorIndex))
+    {
+        const Engine::ModelBounds *pBounds = m_models.motionBounds(pCorpse->handle);
+        return pBounds != nullptr ? pBounds : &NoActorModelBounds;
+    }
     const auto iterator = m_actorModels.find(actorIndex);
     return iterator != m_actorModels.end() ? m_models.motionBounds(iterator->second.handle) : nullptr;
 }
 
 const Engine::ModelBounds *WorldFxSystem::actorModelPoseBounds(size_t actorIndex) const
 {
+    if (const CorpseSatchel *pCorpse = goneCorpse(actorIndex))
+    {
+        const Engine::ModelBounds *pBounds = m_models.cullingBounds(pCorpse->handle);
+        return pBounds != nullptr ? pBounds : &NoActorModelBounds;
+    }
     const auto iterator = m_actorModels.find(actorIndex);
     return iterator != m_actorModels.end() ? m_models.cullingBounds(iterator->second.handle) : nullptr;
 }
 
 void WorldFxSystem::setActorModelOutline(size_t actorIndex, uint32_t colorAbgr)
 {
+    if (const CorpseSatchel *pCorpse = goneCorpse(actorIndex))
+    {
+        m_models.setOutlineColor(pCorpse->handle, colorAbgr);
+        return;
+    }
     const auto iterator = m_actorModels.find(actorIndex);
     if (iterator != m_actorModels.end())
     {

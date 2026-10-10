@@ -40,6 +40,38 @@ enum class MonsterProjectileVisuals
     Sprites
 };
 
+enum class SkyStyle
+{
+    Enhanced,
+    Classic
+};
+
+bool parseSkyStyleValue(const std::string &value, SkyStyle &result);
+std::string skyStyleValue(SkyStyle style);
+
+// Slain creatures: Satchel sinks the body after its death and leaves a loot satchel sized by what it holds; Keep leaves
+// the bodies on the ground (each one a creature model or sprite to draw).
+enum class CorpseStyle
+{
+    Satchel,
+    Keep
+};
+
+bool parseCorpseStyleValue(const std::string &value, CorpseStyle &result);
+std::string corpseStyleValue(CorpseStyle style);
+
+// Rain and snow particle density; Off hides precipitation (weather, sound and gameplay are unchanged).
+enum class WeatherQuality
+{
+    Off,
+    Low,
+    Medium,
+    High
+};
+
+bool parseWeatherQualityValue(const std::string &value, WeatherQuality &result);
+std::string weatherQualityValue(WeatherQuality quality);
+
 struct GameSettings
 {
     struct KeyboardSettings
@@ -132,7 +164,14 @@ struct GameSettings
     bool waterShader = true;
     bool waterReflections = true;
     bool waterSpriteReflections = false;
+    SkyStyle skyStyle = SkyStyle::Enhanced;
+    // Enhanced sky render resolution relative to the view (0.25-1); the Android profile uses 0.5.
+    float skyResolutionScale = 1.0f;
     bool waterMovementRipples = true;
+    WeatherQuality weatherQuality = WeatherQuality::High;
+    // Rain rings on water (with the water shader) and darker, glossier surfaces while wet.
+    bool rainRipples = true;
+    bool wetSurfaces = true;
     int waterReflectionSize = 512;
     std::string terrainFiltering = "anisotropic";
     std::string terrainAnisotropy = "8x";
@@ -227,6 +266,7 @@ struct GameSettings
     bool enemyHealthBarDamageTrail = true;
     bool questMarkers = true;
     bool meleeHitBloodEffects = false;
+    CorpseStyle corpseStyle = CorpseStyle::Keep;
 #if defined(__ANDROID__)
     bool contextActionPopup = true;
 #else

@@ -13,6 +13,7 @@
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SpellSchool.h"
+#include "game/render/SkyClock.h"
 #include "game/render/TextureFiltering.h"
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
@@ -2944,7 +2945,7 @@ void GameApplication::registerDebugConsoleCommands()
             std::ostringstream out;
             out << "Commands: help, cls, map, loc, setup breach, event <id>, "
                 << "actor count <monster-id> [monster-id...], "
-                << "time [advance [days]], "
+                << "time [advance [days]] | time set HH:MM, sky [...], "
                 << "qbit get|set|clear <id> [id...], qbit dump [active|all|filter], "
                 << "npc greeting get|reset|set <npc-id> [greeting-id], "
                 << "global get|set|clear <name> [value], global dump [filter], "
@@ -3424,7 +3425,7 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "actor",
         .description = "Count or spawn ordinary table-driven monsters on the current map.",
-        .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly]",
+        .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly] | actor kill <radius>",
         .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
         {
             if (!context.args.empty() && toLowerCopy(context.args[0]) == "spawn")
@@ -3473,10 +3474,34 @@ void GameApplication::registerDebugConsoleCommands()
                     : pWorld->summonHostileMonsterById(int16_t(*id), uint32_t(*count), *x, *y, *z, uint32_t(*group)));
                 return commandResult(spawned, spawned ? "Monsters spawned." : "Monster spawn failed.");
             }
+            if (context.args.size() == 2 && toLowerCopy(context.args[0]) == "kill")
+            {
+                // Kills every living actor within <radius> of the party through the normal damage path, so the
+                // death, corpse and loot rules run as in combat (corpse rendering cost checks).
+                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
+                const std::optional<float> radius = parseFloatArgument(context.args[1]);
+                if (pWorld == nullptr || !radius || *radius <= 0.0f)
+                {
+                    return commandResult(false, "Usage: actor kill <radius>");
+                }
+                size_t killed = 0;
+                for (size_t actorIndex = 0; actorIndex < pWorld->mapActorCount(); ++actorIndex)
+                {
+                    GameplayRuntimeActorState state = {};
+                    if (!pWorld->actorRuntimeState(actorIndex, state) || state.isDead
+                        || std::hypot(state.preciseX - pWorld->partyX(), state.preciseY - pWorld->partyY()) > *radius)
+                    {
+                        continue;
+                    }
+                    killed += pWorld->applyReflectedDamageToActor(state.actorId, 1000000, CombatDamageType::Physical, 0)
+                        ? 1 : 0;
+                }
+                return commandResult(true, "Actors killed: " + std::to_string(killed));
+            }
             if (context.args.size() < 2 || toLowerCopy(context.args[0]) != "count")
             {
-                return commandResult(false,
-                    "Usage: actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly]");
+                return commandResult(false, "Usage: actor count <id> [ids...] | actor spawn <id> [count] [x y z] "
+                    "[group|friendly] | actor kill <radius>");
             }
 
             IGameplayWorldRuntime *pWorldRuntime = activeGameplayWorld();
@@ -3594,8 +3619,8 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "time",
-        .description = "Show or advance the current game date.",
-        .usage = "time [advance [days]]",
+        .description = "Show, advance or set the current game time.",
+        .usage = "time [advance [days]] | time set HH:MM",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
             constexpr float MinutesPerDay = 24.0f * 60.0f;
@@ -3607,9 +3632,24 @@ void GameApplication::registerDebugConsoleCommands()
 
             const std::string action = toLowerCopy(context.args[0]);
 
+            if (action == "set")
+            {
+                const std::optional<int> targetMinute =
+                    context.args.size() >= 2 ? parseClockMinutes(context.args[1]) : std::nullopt;
+
+                if (!targetMinute)
+                {
+                    return commandResult(false, "Usage: time set HH:MM");
+                }
+
+                return setDebugClockMinute(*targetMinute)
+                    ? commandResult(true, "Current date: " + formatDebugGameDate(m_gameSession.gameMinutes()))
+                    : commandResult(false, "Time set unavailable.");
+            }
+
             if (action != "advance" && action != "add" && action != "day")
             {
-                return commandResult(false, "Usage: time [advance [days]]");
+                return commandResult(false, "Usage: time [advance [days]] | time set HH:MM");
             }
 
             std::optional<int32_t> days = 1;
@@ -3624,30 +3664,330 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(false, "Invalid day count.");
             }
 
-            const float minutes = static_cast<float>(*days) * MinutesPerDay;
-
-            if (m_pMapSceneRuntime != nullptr)
+            if (!advanceDebugGameMinutes(static_cast<float>(*days) * MinutesPerDay))
             {
-                if (!m_gameplayController.advanceGameMinutes(minutes))
-                {
-                    return commandResult(false, "Time advance unavailable.");
-                }
-
-                synchronizeSessionFromRuntime();
-            }
-            else
-            {
-                m_gameSession.setGameMinutes(m_gameSession.gameMinutes() + minutes);
-
-                std::optional<Party> &partyState = m_gameSession.partyState();
-
-                if (partyState)
-                {
-                    partyState->advanceTimedStates(minutes * 60.0f);
-                }
+                return commandResult(false, "Time advance unavailable.");
             }
 
             return commandResult(true, "Current date: " + formatDebugGameDate(m_gameSession.gameMinutes()));
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "weather",
+        .description = "Show, force or forecast outdoor rain, snow, wind and storms (not saved).",
+        .usage = "weather [status | rain|snow <0-1|light|medium|heavy|very_heavy> | clear | auto"
+            " | wind <degrees> <speed>|auto | storm <on|off|auto> | strike [near|middle|far] | forecast [hours]]",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            if (m_pMapSceneRuntime == nullptr || m_pMapSceneRuntime->kind() != SceneKind::Outdoor
+                || m_pOutdoorWorldRuntime == nullptr)
+            {
+                return commandResult(false, "No active outdoor map.");
+            }
+
+            OutdoorWorldRuntime::DebugSkyOverrides overrides = m_pOutdoorWorldRuntime->debugSkyOverrides();
+            const WeatherRules &rules = m_pOutdoorWorldRuntime->weatherRules();
+            const std::string action = context.args.empty() ? "status" : toLowerCopy(context.args[0]);
+            const std::string value = context.args.size() >= 2 ? toLowerCopy(context.args[1]) : "";
+            bool changed = true;
+
+            if ((action == "rain" || action == "snow") && !value.empty())
+            {
+                std::optional<float> intensity = rules.namedIntensity(value);
+                intensity = intensity ? intensity : parseFloatArgument(value);
+
+                if (!intensity || *intensity < 0.0f || *intensity > 1.0f)
+                {
+                    return commandResult(false, "Usage: weather " + action + " <0-1|light|medium|heavy|very_heavy>");
+                }
+
+                overrides.precipitation = action == "rain" ? PrecipitationKind::Rain : PrecipitationKind::Snow;
+                overrides.precipitationIntensity = *intensity;
+            }
+            else if (action == "clear")
+            {
+                overrides.precipitation = PrecipitationKind::None;
+            }
+            else if (action == "auto")
+            {
+                overrides.precipitation.reset();
+                overrides.wind.reset();
+                overrides.storm.reset();
+            }
+            else if (action == "wind" && value == "auto")
+            {
+                overrides.wind.reset();
+            }
+            else if (action == "wind" && context.args.size() >= 3)
+            {
+                const std::optional<float> degrees = parseFloatArgument(context.args[1]);
+                const std::optional<float> speed = parseFloatArgument(context.args[2]);
+
+                if (!degrees || !speed || *speed < 0.0f)
+                {
+                    return commandResult(false, "Usage: weather wind <degrees> <speed in units per second>");
+                }
+
+                const float radians = *degrees * 3.14159265f / 180.0f;
+                overrides.wind = std::pair<float, float>(std::cos(radians) * *speed, std::sin(radians) * *speed);
+            }
+            else if (action == "storm" && (value == "on" || value == "off" || value == "auto"))
+            {
+                overrides.storm = value == "auto" ? std::nullopt : std::optional<bool>(value == "on");
+            }
+            else if (action == "strike")
+            {
+                const LightningDistance distance = value == "near" ? LightningDistance::Near
+                    : value == "far" ? LightningDistance::Far : LightningDistance::Middle;
+                m_outdoorGameView.forceLightningStrike(distance);
+                return commandResult(true, "Lightning strike.");
+            }
+            else if (action == "forecast")
+            {
+                const std::optional<int32_t> hours = value.empty() ? std::optional<int32_t>(24)
+                    : parseInt32Argument(value);
+
+                if (!hours || *hours <= 0 || *hours > 24 * 28)
+                {
+                    return commandResult(false, "Usage: weather forecast [hours, 1-672]");
+                }
+
+                // The rolled weather only: event and debug overrides are not forecast.
+                std::ostringstream out;
+                const double start = std::floor(m_pOutdoorWorldRuntime->gameMinutes() / 60.0) * 60.0;
+
+                for (int32_t hour = 0; hour < *hours; ++hour)
+                {
+                    const double minutes = start + hour * 60.0;
+                    const WeatherSample sample = m_pOutdoorWorldRuntime->rolledWeatherAt(minutes);
+                    const int hourOfDay = static_cast<int>(std::fmod(minutes, 1440.0) / 60.0);
+                    out << (hour > 0 ? "\n" : "") << "day " << static_cast<int>(minutes / 1440.0) << ' '
+                        << (hourOfDay < 10 ? "0" : "") << hourOfDay << ":00 "
+                        << (sample.precipitation == PrecipitationKind::Rain ? "rain"
+                            : sample.precipitation == PrecipitationKind::Snow ? "snow" : "dry")
+                        << ' ' << sample.intensity << " cloud=" << sample.cloudCover
+                        << (sample.storm ? " storm" : "");
+                }
+
+                return commandResult(true, out.str());
+            }
+            else if (action == "status")
+            {
+                changed = false;
+            }
+            else
+            {
+                return commandResult(false, "Unknown weather command. Type 'help weather'.");
+            }
+
+            if (changed)
+            {
+                m_pOutdoorWorldRuntime->setDebugSkyOverrides(overrides);
+                // Visual checks want the requested weather at once, not a fade.
+                m_outdoorGameView.snapWeather();
+                m_outdoorGameView.snapSky();
+            }
+
+            const OutdoorWorldRuntime::AtmosphereState &atmosphere = m_pOutdoorWorldRuntime->atmosphereState();
+            const WeatherPresentation &shown = m_outdoorGameView.weatherPresentation();
+            const float windSpeed = std::hypot(atmosphere.windX, atmosphere.windY);
+            const float windDegrees = std::atan2(atmosphere.windY, atmosphere.windX) * 180.0f / 3.14159265f;
+            std::ostringstream out;
+            out << "precipitation="
+                << (atmosphere.precipitation == PrecipitationKind::Rain ? "rain"
+                    : atmosphere.precipitation == PrecipitationKind::Snow ? "snow" : "none")
+                << " intensity=" << atmosphere.precipitationIntensity
+                << " shown_rain=" << shown.rainLevel() << " shown_snow=" << shown.snowLevel()
+                << " cloud_cover=" << atmosphere.cloudCover << " storm=" << (atmosphere.storm ? 1 : 0)
+                << " wetness=" << atmosphere.wetness << " wind=" << windSpeed << "@" << windDegrees << "deg"
+                << " quality=" << weatherQualityValue(m_settings.weatherQuality)
+                << (overrides.precipitation || overrides.wind || overrides.storm ? " (debug override)" : "");
+            return commandResult(true, out.str());
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "sky",
+        .description = "Show or override outdoor sky and weather visuals (not saved).",
+        .usage = "sky [weather <n|auto> | name <texture|auto> | fog <weak> <strong> | fog auto"
+            " | style <enhanced|classic> | preset <name|auto> | theme <name|none|auto> | clear]"
+            " (rain and snow: see 'weather')",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            if (m_pMapSceneRuntime == nullptr || m_pMapSceneRuntime->kind() != SceneKind::Outdoor
+                || m_pOutdoorWorldRuntime == nullptr)
+            {
+                return commandResult(false, "No active outdoor map.");
+            }
+
+            OutdoorWorldRuntime::DebugSkyOverrides overrides = m_pOutdoorWorldRuntime->debugSkyOverrides();
+            const std::string action = context.args.empty() ? "" : toLowerCopy(context.args[0]);
+            const std::string value = context.args.size() >= 2 ? toLowerCopy(context.args[1]) : "";
+
+            if (action == "weather" && !value.empty())
+            {
+                const std::optional<int32_t> state = parseInt32Argument(value);
+
+                if (value != "auto" && !state)
+                {
+                    return commandResult(false, "Usage: sky weather <n|auto>");
+                }
+
+                overrides.mergedWeatherState = value == "auto" ? std::nullopt : std::optional<int>(*state);
+            }
+            else if (action == "name" && !value.empty())
+            {
+                overrides.skyTextureName = value == "auto" ? std::nullopt : std::optional<std::string>(value);
+            }
+            else if (action == "fog" && value == "auto")
+            {
+                overrides.fogDistances.reset();
+            }
+            else if (action == "fog" && context.args.size() >= 3)
+            {
+                const std::optional<int32_t> weak = parseInt32Argument(context.args[1]);
+                const std::optional<int32_t> strong = parseInt32Argument(context.args[2]);
+
+                if (!weak || !strong || *weak < 0 || *strong <= *weak)
+                {
+                    return commandResult(false, "Usage: sky fog <weak> <strong> (0 <= weak < strong)");
+                }
+
+                overrides.fogDistances = std::pair<int32_t, int32_t>(*weak, *strong);
+            }
+            else if (action == "style" && !value.empty())
+            {
+                if (!parseSkyStyleValue(value, m_settings.skyStyle))
+                {
+                    return commandResult(false, "Usage: sky style <enhanced|classic>");
+                }
+
+                applyCurrentSettingsToActiveRuntime();
+            }
+            else if (action == "preset" && !value.empty())
+            {
+                const SkyPresetLibrary *pLibrary = m_outdoorGameView.skyPresetLibrary();
+
+                if (value != "auto" && (pLibrary == nullptr || pLibrary->find(value) == nullptr))
+                {
+                    return commandResult(false, "Unknown sky preset (Enhanced sky must be active).");
+                }
+
+                m_outdoorGameView.setDebugSkyPreset(value == "auto" ? std::string() : value);
+            }
+            else if (action == "theme" && !value.empty())
+            {
+                const SkyPresetLibrary *pLibrary = m_outdoorGameView.skyPresetLibrary();
+
+                if (value != "auto" && value != "none" && (pLibrary == nullptr || pLibrary->findTheme(value) == nullptr))
+                {
+                    return commandResult(false, "Unknown sky theme (Enhanced sky must be active).");
+                }
+
+                m_outdoorGameView.setDebugSkyTheme(value == "auto" ? std::nullopt
+                    : std::optional<std::string>(value == "none" ? std::string() : value));
+            }
+            else if (action == "clear")
+            {
+                overrides.mergedWeatherState.reset();
+                overrides.skyTextureName.reset();
+                overrides.fogDistances.reset();
+                m_outdoorGameView.setDebugSkyPreset({});
+                m_outdoorGameView.setDebugSkyTheme(std::nullopt);
+            }
+            else if (!action.empty())
+            {
+                return commandResult(false, "Unknown sky command. Type 'help sky'.");
+            }
+
+            if (!action.empty())
+            {
+                m_pOutdoorWorldRuntime->setDebugSkyOverrides(overrides);
+                // Visual checks want the requested sky at once, not a weather cross-fade.
+                m_outdoorGameView.snapSky();
+            }
+
+            using AtmosphereState = OutdoorWorldRuntime::AtmosphereState;
+            const AtmosphereState &atmosphere = m_pOutdoorWorldRuntime->atmosphereState();
+            std::ostringstream out;
+            out << "weather_sky=" << atmosphere.weatherSkyTextureName
+                << " classic_sky=" << atmosphere.skyTextureName
+                << " merged_weather=" << atmosphere.mergedWeatherState << "/" << atmosphere.mergedWeatherStateCount
+                << " foggy=" << ((atmosphere.weatherFlags & AtmosphereState::WeatherFoggy) != 0 ? 1 : 0)
+                << " fog=" << atmosphere.fogWeakDistance << ".." << atmosphere.fogStrongDistance
+                << " cloud_cover=" << atmosphere.cloudCover
+                << " night=" << (atmosphere.isNight ? 1 : 0)
+                << " style=" << skyStyleValue(m_settings.skyStyle);
+
+            if (const SkyFrameState *pSky = m_outdoorGameView.enhancedSkyFrame(); pSky != nullptr)
+            {
+                out << " preset=" << pSky->presetName
+                    << " theme=" << (pSky->themeName.empty() ? "none" : pSky->themeName)
+                    << " haze=" << pSky->fogAmount << " sky_mix=" << pSky->skyMix;
+            }
+
+            return commandResult(true, out.str());
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "render",
+        .description = "Profiling: show or switch outdoor render layers and renderer settings (not saved).",
+        .usage = "render [<layer> on|off|toggle] | render lod <-1..3>",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            OutdoorGameView::RenderLayers layers = m_outdoorGameView.renderLayers();
+            // Layers of the outdoor view, then renderer settings applied like a settings change (not saved).
+            const std::vector<std::pair<std::string, bool *>> switches = {
+                {"terrain", &layers.terrain}, {"bmodels", &layers.bmodels}, {"sky", &layers.sky},
+                {"water", &layers.water}, {"grass", &layers.grass}, {"deco_models", &layers.decorationModels},
+                {"deco_sprites", &layers.decorationSprites}, {"actors", &layers.actors},
+                {"creature_models", &layers.creatureModels}, {"effects", &layers.effects},
+                {"foliage", &m_renderFoliage}, {"instancing", &m_renderInstancing}, {"shadows", &m_settings.shadows},
+                {"ao", &m_settings.ambientOcclusion}, {"grading", &m_settings.cinematicGrading},
+                {"model_lods", &m_settings.modelLods}, {"lightmaps", &m_settings.lightmaps},
+                {"freeze", &m_renderFreezeWorld}};
+            const auto describe = [&]()
+            {
+                std::ostringstream out;
+                for (const auto &[name, pValue] : switches)
+                {
+                    out << name << '=' << (*pValue ? "on" : "off") << ' ';
+                }
+                out << "lod=" << m_settings.modelLodOverride;
+                return out.str();
+            };
+            if (context.args.empty())
+            {
+                return commandResult(true, describe());
+            }
+            const std::string layer = toLowerCopy(context.args[0]);
+            if (layer == "lod" && context.args.size() == 2)
+            {
+                const std::optional<int32_t> level = parseInt32Argument(context.args[1]);
+                if (!level || *level < -1 || *level > 3)
+                {
+                    return commandResult(false, "Usage: render lod <-1..3>");
+                }
+                m_settings.modelLodOverride = *level;
+            }
+            else
+            {
+                const auto found = std::find_if(switches.begin(), switches.end(),
+                    [&layer](const auto &entry) { return entry.first == layer; });
+                const std::string action = context.args.size() == 2 ? toLowerCopy(context.args[1]) : "toggle";
+                if (found == switches.end() || context.args.size() > 2
+                    || (action != "on" && action != "off" && action != "toggle"))
+                {
+                    return commandResult(false, "Usage: render [<layer> on|off|toggle] | render lod <-1..3>; " + describe());
+                }
+                *found->second = action == "toggle" ? !*found->second : action == "on";
+            }
+            m_outdoorGameView.setRenderLayers(layers);
+            m_outdoorGameView.setStaticFoliageVisible(m_renderFoliage);
+            m_outdoorGameView.setSkinnedInstancing(m_renderInstancing);
+            applyCurrentSettingsToActiveRuntime();
+            // Logged so a profiling run can split its per-second frame statistics by configuration.
+            std::cout << "[RenderLayers] " << describe() << std::endl;
+            return commandResult(true, describe());
         }});
 
     m_debugConsole.registerCommand({
@@ -9739,7 +10079,8 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
             || m_gameSession.sharedWorldInteractionBlockedThisFrame()
             || debugConsoleFreezesGameplay
             || screenshotTourActive
-            || rightMouseInspectPauseActive;
+            || rightMouseInspectPauseActive
+            || m_renderFreezeWorld;
 
         if (!gameplayWorldPaused)
         {
@@ -9751,6 +10092,19 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         const uint64_t postWorldBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         WorldFxSystem &worldFx = m_pMapSceneRuntime->kind() == SceneKind::Outdoor
             ? m_outdoorGameView.worldFxSystem() : m_indoorRenderer.worldFxSystem();
+        if (m_settings.corpseStyle == CorpseStyle::Satchel)
+        {
+            std::string error;
+            if (!worldFx.configureCorpseSatchels(*m_pAssetFileSystem, error))
+            {
+                std::cerr << "Loot satchel load failed: " << error << '\n';
+                requestApplicationQuit();
+                return;
+            }
+        }
+        worldFx.setCorpseSatchels(m_settings.corpseStyle == CorpseStyle::Satchel);
+        // Before the models: a corpse whose body is gone has no actor model to update.
+        worldFx.syncCorpseSatchels(*pWorldRuntime, gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         if (m_settings.actorModels)
         {
             std::string error;
@@ -10176,11 +10530,68 @@ void GameApplication::updateScreenshotCaptureFrame()
         });
 }
 
+bool GameApplication::advanceDebugGameMinutes(float minutes)
+{
+    if (m_pMapSceneRuntime != nullptr)
+    {
+        if (!m_gameplayController.advanceGameMinutes(minutes))
+        {
+            return false;
+        }
+
+        synchronizeSessionFromRuntime();
+        return true;
+    }
+
+    m_gameSession.setGameMinutes(m_gameSession.gameMinutes() + minutes);
+    std::optional<Party> &partyState = m_gameSession.partyState();
+
+    if (partyState)
+    {
+        partyState->advanceTimedStates(minutes * 60.0f);
+    }
+
+    return true;
+}
+
+bool GameApplication::setDebugClockMinute(int targetMinute)
+{
+    // Always move forward so timers and the daily weather rollover see an ordinary time advance.
+    const float minuteOfDay = std::fmod(std::max(m_gameSession.gameMinutes(), 0.0f), float(SkyMinutesPerDay));
+    float delta = float(targetMinute) - minuteOfDay;
+
+    if (delta < 0.0f)
+    {
+        delta += float(SkyMinutesPerDay);
+    }
+
+    return delta <= 0.0f || advanceDebugGameMinutes(delta);
+}
+
 bool GameApplication::applyScreenshotTourShotPose(const ScreenshotTourShot &shot)
 {
     if (m_pMapSceneRuntime == nullptr)
     {
         return false;
+    }
+
+    if (shot.clockMinutes && !setDebugClockMinute(*shot.clockMinutes))
+    {
+        return false;
+    }
+
+    for (const std::string &command : shot.commands)
+    {
+        // Echo the command's console output so tour logs record what each shot saw (sky status, overrides).
+        const size_t countBefore = m_debugConsole.totalMessageCount();
+        m_debugConsole.executeLine(command);
+        const std::vector<DebugConsole::Message> &messages = m_debugConsole.messages();
+        const size_t added = std::min(m_debugConsole.totalMessageCount() - countBefore, messages.size());
+
+        for (size_t index = messages.size() - added; index < messages.size(); ++index)
+        {
+            std::cout << "Screenshot tour console: " << messages[index].text << '\n';
+        }
     }
 
     if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor)

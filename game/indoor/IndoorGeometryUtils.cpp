@@ -2244,4 +2244,100 @@ std::optional<int16_t> findIndoorSectorForPoint(
 
     return bestAboveSectorId;
 }
+
+std::optional<DecorationWallContact> findIndoorWallContact(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    const bx::Vec3 &point,
+    float reach
+)
+{
+    std::optional<DecorationWallContact> best;
+    float bestDistance = reach;
+    IndoorFaceGeometryData geometry;
+    for (size_t faceId = 0; faceId < indoorMapData.faces.size(); ++faceId)
+    {
+        // Faces of any kind (rounded cave walls are often classed as ceilings or floors) whose bounds are in reach.
+        const IndoorFace &face = indoorMapData.faces[faceId];
+        if (face.isPortal || face.vertexIndices.size() < 3)
+        {
+            continue;
+        }
+        bool near = true;
+        for (size_t axis = 0; axis < 3 && near; ++axis)
+        {
+            float low = std::numeric_limits<float>::max();
+            float high = std::numeric_limits<float>::lowest();
+            for (const uint16_t index : face.vertexIndices)
+            {
+                if (index < vertices.size())
+                {
+                    const float value = float(axis == 0 ? vertices[index].x
+                        : axis == 1 ? vertices[index].y : vertices[index].z);
+                    low = std::min(low, value);
+                    high = std::max(high, value);
+                }
+            }
+            const float coordinate = axis == 0 ? point.x : axis == 1 ? point.y : point.z;
+            near = coordinate >= low - bestDistance && coordinate <= high + bestDistance;
+        }
+        if (!near || !buildIndoorFaceGeometry(indoorMapData, vertices, faceId, geometry) || geometry.isPortal
+            || geometry.vertices.size() < 3)
+        {
+            continue;
+        }
+        const float horizontal = std::sqrt(geometry.normal.x * geometry.normal.x
+            + geometry.normal.y * geometry.normal.y);
+        if (horizontal < 0.7f)
+        {
+            continue;
+        }
+        // The nearest point of the face: the foot on its plane when inside the polygon, else on an edge.
+        const float offset = bx::dot(bx::sub(point, geometry.vertices.front()), geometry.normal);
+        bx::Vec3 nearest = bx::sub(point, bx::mul(geometry.normal, offset));
+        if (!isPointInsideIndoorPolygonProjected(nearest, geometry.vertices, geometry.normal))
+        {
+            float nearestEdge = std::numeric_limits<float>::max();
+            for (size_t index = 0; index < geometry.vertices.size(); ++index)
+            {
+                const bx::Vec3 &a = geometry.vertices[index];
+                const bx::Vec3 edge = bx::sub(geometry.vertices[(index + 1) % geometry.vertices.size()], a);
+                const float lengthSquared = bx::dot(edge, edge);
+                const float t = lengthSquared > 0.0f
+                    ? std::clamp(bx::dot(bx::sub(point, a), edge) / lengthSquared, 0.0f, 1.0f) : 0.0f;
+                const bx::Vec3 candidate = bx::add(a, bx::mul(edge, t));
+                const float distance = bx::length(bx::sub(point, candidate));
+                if (distance < nearestEdge)
+                {
+                    nearestEdge = distance;
+                    nearest = candidate;
+                }
+            }
+        }
+        const float distance = bx::length(bx::sub(point, nearest));
+        if (distance >= bestDistance)
+        {
+            continue;
+        }
+        const float side = offset < 0.0f ? -1.0f : 1.0f;
+        bestDistance = distance;
+        best = DecorationWallContact{{nearest.x, nearest.y},
+            {side * geometry.normal.x / horizontal, side * geometry.normal.y / horizontal}};
+    }
+    return best;
+}
+
+std::optional<DecorationWallContact> findIndoorDecorationWall(
+    const IndoorMapData &indoorMapData,
+    int x,
+    int y,
+    int z,
+    float height
+)
+{
+    // A wall sprite (torch) stands about on its wall; anything farther is not hanging on it.
+    constexpr float Reach = 64.0f;
+    return findIndoorWallContact(indoorMapData, indoorMapData.vertices,
+        {float(x), float(y), float(z) + height * 0.5f}, Reach);
+}
 }

@@ -357,6 +357,16 @@ bool DebugConsole::freezesGameplay() const
     return m_enabled && m_freezeGameplay;
 }
 
+const std::vector<DebugConsole::Message> &DebugConsole::messages() const
+{
+    return m_messages;
+}
+
+size_t DebugConsole::totalMessageCount() const
+{
+    return m_totalMessageCount;
+}
+
 void DebugConsole::addMessage(MessageKind kind, const std::string &message)
 {
     if (message.empty())
@@ -365,6 +375,7 @@ void DebugConsole::addMessage(MessageKind kind, const std::string &message)
     }
 
     m_messages.push_back({kind, message});
+    ++m_totalMessageCount;
 
     if (m_messages.size() > MaxMessages)
     {
@@ -1732,7 +1743,8 @@ void DebugConsole::renderHelpText() const
     ImGui::TextDisabled("Common commands");
     ImGui::BulletText("help");
     ImGui::BulletText("map");
-    ImGui::BulletText("time [advance [days]]");
+    ImGui::BulletText("time [advance [days]] | time set HH:MM");
+    ImGui::BulletText("sky [weather|name|fog|rain|clear ...]");
     ImGui::BulletText("event <id>");
     ImGui::BulletText("qbit get|set|clear <id>");
     ImGui::BulletText("qbit dump [active|all|filter]");

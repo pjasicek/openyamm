@@ -3766,6 +3766,7 @@ void IndoorWorldRuntime::initialize(
     m_materializedChestViews.clear();
     m_activeChestView.reset();
     m_mapActorCorpseViews.clear();
+    m_corpseLootPending = true;
     m_activeCorpseView.reset();
     m_mapActorAiStates.clear();
     m_actorCorpsePhysicsActorIndices.clear();
@@ -3854,6 +3855,7 @@ void IndoorWorldRuntime::initialize(
     m_materializedChestViews.clear();
     m_activeChestView.reset();
     m_mapActorCorpseViews.clear();
+    m_corpseLootPending = true;
     m_activeCorpseView.reset();
     m_mapActorAiStates.clear();
     m_actorCorpsePhysicsActorIndices.clear();
@@ -5370,9 +5372,14 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
                 aiState.velocityY = 0.0f;
                 aiState.velocityZ = 0.0f;
             }
-            else if (indoorActorCorpsePhysicsNeedsStep(actor, aiState))
+            else
             {
-                activateIndoorActorCorpsePhysics(update.actorIndex);
+                // The corpse's loot is rolled at death: its loot satchel shows what it holds.
+                ensureMapActorCorpseView(update.actorIndex);
+                if (indoorActorCorpsePhysicsNeedsStep(actor, aiState))
+                {
+                    activateIndoorActorCorpsePhysics(update.actorIndex);
+                }
             }
 
             if (actorPhysicsApplied.empty() && !m_actorCorpsePhysicsActorIndices.empty())
@@ -9843,6 +9850,7 @@ void IndoorWorldRuntime::updateActorAi(float deltaSeconds)
 
     const uint64_t syncBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
     syncMapActorAiStates();
+    rollPendingCorpseLoot();
     recordDiagnostics(m_actorAiPerformanceDiagnostics.syncStateNanoseconds, syncBeginTickCount);
 
     const uint64_t activationBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
@@ -10177,9 +10185,13 @@ void IndoorWorldRuntime::updateTurnBasedPausedActorAnimations(float deltaSeconds
                 aiState.velocityY = 0.0f;
                 aiState.velocityZ = 0.0f;
             }
-            else if (indoorActorCorpsePhysicsNeedsStep(actor, aiState))
+            else
             {
-                activateIndoorActorCorpsePhysics(actorIndex);
+                ensureMapActorCorpseView(actorIndex);
+                if (indoorActorCorpsePhysicsNeedsStep(actor, aiState))
+                {
+                    activateIndoorActorCorpsePhysics(actorIndex);
+                }
             }
         }
     }
@@ -11099,50 +11111,9 @@ bool IndoorWorldRuntime::tryStealFromActor(size_t actorIndex, uint32_t successRo
         return false;
     }
 
-    if (actorIndex >= m_mapActorCorpseViews.size())
+    if (!ensureMapActorCorpseView(actorIndex))
     {
-        m_mapActorCorpseViews.resize(actorIndex + 1);
-    }
-
-    if (!m_mapActorCorpseViews[actorIndex].has_value())
-    {
-        std::vector<uint32_t> guaranteedItemIds;
-
-        if (actor.carriedItemId != 0)
-        {
-            guaranteedItemIds.push_back(actor.carriedItemId);
-        }
-
-        if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
-        {
-            const auto extraItemIterator =
-                (*m_pEventRuntimeState)->actorExtraItemOverrides.find(static_cast<uint32_t>(actorIndex));
-
-            if (extraItemIterator != (*m_pEventRuntimeState)->actorExtraItemOverrides.end())
-            {
-                guaranteedItemIds.insert(
-                    guaranteedItemIds.end(),
-                    extraItemIterator->second.begin(),
-                    extraItemIterator->second.end());
-            }
-        }
-
-        const std::string title = actor.name.empty() ? pStats->name : actor.name;
-        const float rewardMultiplier = actorIndex < m_mapActorAiStates.size()
-            ? m_mapActorAiStates[actorIndex].bolsterRewardMultiplier
-            : 1.0f;
-        GameplayCorpseViewState corpse =
-            buildMonsterCorpseView(
-                title,
-                actor.proceduralDeathLoot
-                    ? gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, rewardMultiplier)
-                    : MonsterTable::LootPrototype {},
-                m_pItemTable,
-                m_pParty,
-                guaranteedItemIds);
-        corpse.fromSummonedMonster = false;
-        corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
-        m_mapActorCorpseViews[actorIndex] = std::move(corpse);
+        return false;
     }
 
     GameplayCorpseViewState &corpse = *m_mapActorCorpseViews[actorIndex];
@@ -15017,6 +14988,126 @@ void IndoorWorldRuntime::commitActiveCorpseView()
 }
 
 
+bool IndoorWorldRuntime::ensureMapActorCorpseView(size_t actorIndex)
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size() || m_pMonsterTable == nullptr)
+    {
+        return false;
+    }
+
+    if (actorIndex >= m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews.resize(actorIndex + 1);
+    }
+
+    if (m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        return true;
+    }
+
+    const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pStats = findIndoorActorStats(m_pMonsterTable, actor);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    std::vector<uint32_t> guaranteedItemIds;
+    if (actor.carriedItemId != 0)
+    {
+        guaranteedItemIds.push_back(actor.carriedItemId);
+    }
+
+    if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
+    {
+        const auto extraItemIterator =
+            (*m_pEventRuntimeState)->actorExtraItemOverrides.find(static_cast<uint32_t>(actorIndex));
+
+        if (extraItemIterator != (*m_pEventRuntimeState)->actorExtraItemOverrides.end())
+        {
+            guaranteedItemIds.insert(
+                guaranteedItemIds.end(),
+                extraItemIterator->second.begin(),
+                extraItemIterator->second.end());
+        }
+    }
+
+    const std::string &title = actor.name.empty() ? pStats->name : actor.name;
+    const float rewardMultiplier = actorIndex < m_mapActorAiStates.size()
+        ? m_mapActorAiStates[actorIndex].bolsterRewardMultiplier
+        : 1.0f;
+    CorpseViewState corpse =
+        buildMonsterCorpseView(
+            title,
+            actor.proceduralDeathLoot
+                ? gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, rewardMultiplier)
+                : MonsterTable::LootPrototype {},
+            m_pItemTable,
+            m_pParty,
+            guaranteedItemIds);
+
+    for (const GameplayChestItemState &item : corpse.items)
+    {
+        const uint32_t itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
+
+        if (!item.isGold && gameplayDebugTraceItemLooksQuestRelevant(itemId, m_pItemTable))
+        {
+            GAMEPLAY_DEBUG_TRACE(
+                "corpse_contains_quest_item scene_kind=indoor map=\"" + mapName() + "\""
+                + " actor_index=" + std::to_string(actorIndex)
+                + " monster_id=" + std::to_string(resolveIndoorActorStatsId(actor))
+                + " name=\"" + title + "\""
+                + " corpse_index=" + std::to_string(actorIndex)
+                + " item_id=" + std::to_string(itemId)
+                + gameplayDebugTraceItemSummary(itemId, m_pItemTable));
+        }
+    }
+
+    corpse.fromSummonedMonster = false;
+    corpse.sourceIndex = uint32_t(actorIndex);
+    m_mapActorCorpseViews[actorIndex] = std::move(corpse);
+    return true;
+}
+
+void IndoorWorldRuntime::rollPendingCorpseLoot()
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (!m_corpseLootPending || pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    m_corpseLootPending = false;
+
+    for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
+    {
+        const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+        const MapActorAiState *pAiState =
+            actorIndex < m_mapActorAiStates.size() ? &m_mapActorAiStates[actorIndex] : nullptr;
+
+        if (actor.hp <= 0 && pAiState != nullptr && pAiState->motionState == ActorAiMotionState::Dead
+            && (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) == 0
+            && actorShouldLeaveCorpse(m_pMonsterTable, actor))
+        {
+            ensureMapActorCorpseView(actorIndex);
+        }
+    }
+}
+
+std::optional<uint32_t> IndoorWorldRuntime::corpseLootValue(size_t actorIndex) const
+{
+    if (actorIndex >= m_mapActorCorpseViews.size() || !m_mapActorCorpseViews[actorIndex])
+    {
+        return std::nullopt;
+    }
+
+    return Game::corpseLootValue(*m_mapActorCorpseViews[actorIndex], m_pItemTable, m_pParty);
+}
+
 bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -15036,94 +15127,16 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
         || (pAiState->motionState != ActorAiMotionState::Dying
             && pAiState->motionState != ActorAiMotionState::Dead)
         || !actorShouldLeaveCorpse(m_pMonsterTable, actor)
-        || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+        || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0
+        || !ensureMapActorCorpseView(actorIndex))
     {
         return false;
-    }
-
-    if (actorIndex >= m_mapActorCorpseViews.size())
-    {
-        m_mapActorCorpseViews.resize(actorIndex + 1);
     }
 
     if (isConsumedCorpseView(m_mapActorCorpseViews[actorIndex]))
     {
         pMapDeltaData->actors[actorIndex].attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
         return false;
-    }
-
-    if (!m_mapActorCorpseViews[actorIndex].has_value())
-    {
-        const MonsterTable::MonsterStatsEntry *pStats = findIndoorActorStats(m_pMonsterTable, actor);
-
-        if (pStats == nullptr)
-        {
-            return false;
-        }
-
-        std::vector<uint32_t> guaranteedItemIds;
-        if (actor.carriedItemId != 0)
-        {
-            guaranteedItemIds.push_back(actor.carriedItemId);
-        }
-
-        if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
-        {
-            const auto extraItemIterator =
-                (*m_pEventRuntimeState)->actorExtraItemOverrides.find(static_cast<uint32_t>(actorIndex));
-
-            if (extraItemIterator != (*m_pEventRuntimeState)->actorExtraItemOverrides.end())
-            {
-                guaranteedItemIds.insert(
-                    guaranteedItemIds.end(),
-                    extraItemIterator->second.begin(),
-                    extraItemIterator->second.end());
-            }
-        }
-
-        const std::string &title = actor.name.empty() ? pStats->name : actor.name;
-        const float rewardMultiplier = actorIndex < m_mapActorAiStates.size()
-            ? m_mapActorAiStates[actorIndex].bolsterRewardMultiplier
-            : 1.0f;
-        CorpseViewState corpse =
-            buildMonsterCorpseView(
-                title,
-                actor.proceduralDeathLoot
-                    ? gameplayBolsterLootPrototype(pStats->loot, pStats->hitPoints, rewardMultiplier)
-                    : MonsterTable::LootPrototype {},
-                m_pItemTable,
-                m_pParty,
-                guaranteedItemIds);
-
-        for (const GameplayChestItemState &item : corpse.items)
-        {
-            const uint32_t itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
-
-            if (!item.isGold && gameplayDebugTraceItemLooksQuestRelevant(itemId, m_pItemTable))
-            {
-                GAMEPLAY_DEBUG_TRACE(
-                    "corpse_contains_quest_item scene_kind=indoor map=\"" + mapName() + "\""
-                    + " actor_index=" + std::to_string(actorIndex)
-                    + " monster_id=" + std::to_string(resolveIndoorActorStatsId(actor))
-                    + " name=\"" + title + "\""
-                    + " corpse_index=" + std::to_string(actorIndex)
-                    + " item_id=" + std::to_string(itemId)
-                    + gameplayDebugTraceItemSummary(itemId, m_pItemTable));
-            }
-        }
-
-        if (corpse.items.empty())
-        {
-            corpse.fromSummonedMonster = false;
-            corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
-            pMapDeltaData->actors[actorIndex].attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
-            m_mapActorCorpseViews[actorIndex] = std::move(corpse);
-            return false;
-        }
-
-        corpse.fromSummonedMonster = false;
-        corpse.sourceIndex = uint32_t(actorIndex);
-        m_mapActorCorpseViews[actorIndex] = std::move(corpse);
     }
 
     m_activeCorpseView = *m_mapActorCorpseViews[actorIndex];

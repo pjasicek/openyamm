@@ -72,29 +72,13 @@ private:
 };
 }
 
-bgfx::TextureFormat::Enum spriteAtlasTextureFormat(SpriteAtlasCodec codec)
+size_t spriteAtlasBlockBytes(Engine::TextureBlockCodec codec, int width, int height)
 {
-    switch (codec)
-    {
-    case SpriteAtlasCodec::Bc7: return bgfx::TextureFormat::BC7;
-    case SpriteAtlasCodec::Bc4: return bgfx::TextureFormat::BC4;
-    case SpriteAtlasCodec::Bc5: return bgfx::TextureFormat::BC5;
-    case SpriteAtlasCodec::Etc2Rgba: return bgfx::TextureFormat::ETC2A;
-    case SpriteAtlasCodec::EacR: return bgfx::TextureFormat::EACR11;
-    case SpriteAtlasCodec::EacRg: return bgfx::TextureFormat::EACRG11;
-    }
-    throw std::runtime_error("Unknown cooked sprite atlas codec");
-}
-
-size_t spriteAtlasBlockBytes(SpriteAtlasCodec codec, int width, int height)
-{
-    spriteAtlasTextureFormat(codec);
     if (width <= 0 || height <= 0 || width > SpriteAtlasCookTextureLimit || height > SpriteAtlasCookTextureLimit)
     {
         throw std::runtime_error("Invalid cooked sprite texture dimensions");
     }
-    const size_t blockSize = codec == SpriteAtlasCodec::Bc4 || codec == SpriteAtlasCodec::EacR ? 8 : 16;
-    return size_t((width + 3) / 4) * ((height + 3) / 4) * blockSize;
+    return Engine::textureBlockBytes(codec, width, height);
 }
 
 size_t cookedSpriteAtlasPreparationBytes(std::span<const uint8_t> header, size_t fileBytes)
@@ -222,15 +206,15 @@ PreparedSpriteAtlasPage decodeCookedSpriteAtlasPage(std::span<const uint8_t> byt
         throw std::runtime_error("Cooked sprite atlas page/channel mismatch");
     }
     PreparedSpriteAtlasPage result;
-    result.baseCodec = SpriteAtlasCodec(header.integer());
-    result.maskCodec = SpriteAtlasCodec(header.integer());
+    result.baseCodec = Engine::TextureBlockCodec(header.integer());
+    result.maskCodec = Engine::TextureBlockCodec(header.integer());
     const bool desktop = atlas.textureProfile == "desktop";
-    const SpriteAtlasCodec expectedMask = atlas.maskChannels == 4
-        ? (desktop ? SpriteAtlasCodec::Bc7 : SpriteAtlasCodec::Etc2Rgba)
-        : atlas.maskChannels == 2 ? (desktop ? SpriteAtlasCodec::Bc5 : SpriteAtlasCodec::EacRg)
-        : (desktop ? SpriteAtlasCodec::Bc4 : SpriteAtlasCodec::EacR);
+    const Engine::TextureBlockCodec expectedMask = atlas.maskChannels == 4
+        ? (desktop ? Engine::TextureBlockCodec::Bc7 : Engine::TextureBlockCodec::Etc2Rgba)
+        : atlas.maskChannels == 2 ? (desktop ? Engine::TextureBlockCodec::Bc5 : Engine::TextureBlockCodec::EacRg)
+        : (desktop ? Engine::TextureBlockCodec::Bc4 : Engine::TextureBlockCodec::EacR);
     if (atlas.schemaVersion != 2 || (atlas.textureProfile != "desktop" && atlas.textureProfile != "android")
-        || result.baseCodec != (desktop ? SpriteAtlasCodec::Bc7 : SpriteAtlasCodec::Etc2Rgba)
+        || result.baseCodec != (desktop ? Engine::TextureBlockCodec::Bc7 : Engine::TextureBlockCodec::Etc2Rgba)
         || result.maskCodec != expectedMask)
     {
         throw std::runtime_error("Cooked sprite atlas texture profile mismatch");

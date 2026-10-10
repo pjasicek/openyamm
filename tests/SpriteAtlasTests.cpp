@@ -569,16 +569,16 @@ TEST_CASE("sprite atlas GPU encoders retain color alpha and each independent mas
             source.mips.levels.push_back(level);
             const Game::PreparedSpriteAtlasPage encoded = Game::compressSpriteAtlasPage(source, channels, profile);
             std::vector<uint8_t> decoded(8 * 4 * 4);
-            const auto decode = [&](Game::SpriteAtlasCodec codec, const std::vector<uint8_t> &blocks)
+            const auto decode = [&](Engine::TextureBlockCodec codec, const std::vector<uint8_t> &blocks)
             {
                 std::vector<uint64_t> input(blocks.size() / 8);
                 std::memcpy(input.data(), blocks.data(), blocks.size());
                 std::vector<uint32_t> output(8 * 4);
                 switch (codec)
                 {
-                case Game::SpriteAtlasCodec::Bc7: DecodeBc7(input.data(), output.data(), 8, 4); break;
-                case Game::SpriteAtlasCodec::Bc4: DecodeBc4(input.data(), output.data(), 8, 4); break;
-                case Game::SpriteAtlasCodec::Bc5:
+                case Engine::TextureBlockCodec::Bc7: DecodeBc7(input.data(), output.data(), 8, 4); break;
+                case Engine::TextureBlockCodec::Bc4: DecodeBc4(input.data(), output.data(), 8, 4); break;
+                case Engine::TextureBlockCodec::Bc5:
                 {
                     std::array<uint8_t, 8 * 4 * 2> rg;
                     for (int x = 0; x < 8; x += 4)
@@ -591,9 +591,9 @@ TEST_CASE("sprite atlas GPU encoders retain color alpha and each independent mas
                     }
                     break;
                 }
-                case Game::SpriteAtlasCodec::Etc2Rgba: DecodeRGBA(input.data(), output.data(), 8, 4); break;
-                case Game::SpriteAtlasCodec::EacR: DecodeR(input.data(), output.data(), 8, 4); break;
-                case Game::SpriteAtlasCodec::EacRg: DecodeRG(input.data(), output.data(), 8, 4); break;
+                case Engine::TextureBlockCodec::Etc2Rgba: DecodeRGBA(input.data(), output.data(), 8, 4); break;
+                case Engine::TextureBlockCodec::EacR: DecodeR(input.data(), output.data(), 8, 4); break;
+                case Engine::TextureBlockCodec::EacRg: DecodeRG(input.data(), output.data(), 8, 4); break;
                 }
                 std::memcpy(decoded.data(), output.data(), decoded.size());
             };

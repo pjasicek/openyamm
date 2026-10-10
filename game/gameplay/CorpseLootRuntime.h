@@ -34,6 +34,9 @@ GameplayCorpseViewState buildMonsterCorpseView(
 // A present view with no remaining items is the persistent equivalent of the legacy Removed actor state.
 bool isConsumedCorpseView(const std::optional<GameplayCorpseViewState> &corpseView);
 
+// Gold plus the value of each item (with its enchantments) left in a corpse; the loot satchel's tier follows it.
+uint32_t corpseLootValue(const GameplayCorpseViewState &corpse, const ItemTable *pItemTable, const Party *pParty);
+
 GameplayCorpseAutoLootResult autoLootActiveCorpseView(
     IGameplayWorldRuntime &worldRuntime,
     Party &party,

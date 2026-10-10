@@ -636,6 +636,12 @@ public:
     }
     virtual size_t mapActorCount() const = 0;
     virtual bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const = 0;
+    // Gold plus item value left in a dead actor's corpse (its loot is rolled at death); nullopt without corpse loot.
+    virtual std::optional<uint32_t> corpseLootValue(size_t actorIndex) const
+    {
+        (void)actorIndex;
+        return std::nullopt;
+    }
     virtual bool tryStealFromActor(size_t actorIndex, uint32_t successRoll, uint32_t caughtRoll)
     {
         (void)actorIndex;

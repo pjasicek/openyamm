@@ -97,6 +97,10 @@ public:
     std::vector<GameplayTouchControl> mobileTouchControls(int width, int height) const;
     const char *mobileInspectLayoutId() const;
     bool mobileInspectControlAvailable() const;
+    bool contextActionButtonVisible() const;
+    bool passTurnBasedTurn();
+    // Android turn-based Pass strip: the context action slot, or directly above a visible context action.
+    std::optional<ResolvedHudLayoutElement> resolveMobilePassTurnButton(int width, int height) const;
     float partyX() const;
     float partyY() const;
     float partyFootZ() const;

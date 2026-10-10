@@ -3,13 +3,16 @@
 #include "engine/BgfxContext.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/ImageMipmaps.h"
+#include "engine/render/CookedTexture.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
 #include <string_view>
+#include <tuple>
 #include <utility>
 
 namespace OpenYAMM::Engine
@@ -129,10 +132,56 @@ uint32_t samplerFlags(const ModelSampler &sampler)
     return flags;
 }
 
+// A cooked texture is uploaded as it was prepared offline. It must match how the material samples it, and the GPU
+// must support its codec (each platform's package carries its own texture profile); there is no RGBA fallback.
+bgfx::TextureHandle createCookedTexture(const ModelImage &image, ImageMipSemantic semantic,
+    uint8_t alphaCutoff, bool mips)
+{
+    CookedTexture cooked;
+    try
+    {
+        cooked = decodeCookedTexture(image.bytes);
+    }
+    catch (const std::exception &exception)
+    {
+        throw std::runtime_error("Cannot upload model texture " + image.sourcePath + ": " + exception.what());
+    }
+    if (cooked.semantic != semantic || cooked.alphaCutoff != alphaCutoff || (cooked.levels > 1) != mips)
+    {
+        throw std::runtime_error("Cooked model texture " + image.sourcePath
+            + " was prepared for another use (semantic, alpha cutoff or mips); re-cook the model");
+    }
+    const bgfx::TextureFormat::Enum format = textureBlockFormat(cooked.codec);
+    const bool srgb = semantic == ImageMipSemantic::Srgb;
+    const uint16_t required = srgb ? BGFX_CAPS_FORMAT_TEXTURE_2D_SRGB : BGFX_CAPS_FORMAT_TEXTURE_2D;
+    if ((bgfx::getCaps()->formats[format] & required) == 0)
+    {
+        throw std::runtime_error("The GPU cannot sample " + std::string(textureBlockCodecName(cooked.codec))
+            + (srgb ? " (sRGB)" : "") + " textures, used by " + image.sourcePath
+            + "; install the asset package built for this platform's texture profile");
+    }
+    if (cooked.width > bgfx::getCaps()->limits.maxTextureSize || cooked.height > bgfx::getCaps()->limits.maxTextureSize)
+    {
+        throw std::runtime_error("Cooked model texture exceeds the GPU size limit: " + image.sourcePath);
+    }
+    const bgfx::TextureHandle texture = bgfx::createTexture2D(cooked.width, cooked.height, cooked.levels > 1, 1,
+        format, srgb ? BGFX_TEXTURE_SRGB : BGFX_TEXTURE_NONE,
+        bgfx::copy(cooked.blocks.data(), uint32_t(cooked.blocks.size())));
+    if (!bgfx::isValid(texture))
+    {
+        throw std::runtime_error("Cannot allocate model texture: " + image.sourcePath);
+    }
+    return texture;
+}
+
 bgfx::TextureHandle createTexture(const ModelImage &image, ImageMipSemantic semantic,
     uint8_t alphaCutoff, bool mips)
 {
-    const std::optional<ImagePixelsBgra> decoded = decodeImagePixelsBgra(image.pngBytes, image.sourcePath);
+    if (image.cooked)
+    {
+        return createCookedTexture(image, semantic, alphaCutoff, mips);
+    }
+    const std::optional<ImagePixelsBgra> decoded = decodeImagePixelsBgra(image.bytes, image.sourcePath);
     if (!decoded || decoded->width <= 0 || decoded->height <= 0
         || decoded->width > bgfx::getCaps()->limits.maxTextureSize
         || decoded->height > bgfx::getCaps()->limits.maxTextureSize)
@@ -206,6 +255,34 @@ uint64_t cullState(const ModelMaterial &material, const ModelMatrix &matrix)
 
 // Static placement instance data: three affine matrix rows, then light, then point light and LOD crossfade.
 constexpr uint16_t StaticInstanceStride = 5 * 4 * sizeof(float);
+// Instanced skinned creature: ambient light and sun visibility, then the joint palette row (w).
+constexpr uint16_t SkinnedInstanceStride = 2 * 4 * sizeof(float);
+
+// u_modelEnvironment: sky reflection colour (the ambient light times the environment scale) and the cube's last mip.
+std::array<float, 4> modelEnvironmentUniform(const ModelRenderLighting &lighting, float maxLod)
+{
+    std::array<float, 4> environment = {0, 0, 0, maxLod};
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        environment[channel] = lighting.ambientColor[channel] * lighting.ambient * lighting.environmentScale[channel];
+    }
+    return environment;
+}
+
+// Lighting that instanced skinned draws share; the rest (ambient light and sun visibility) is per instance.
+bool sameSharedLighting(const ModelRenderLighting &left, const ModelRenderLighting &right)
+{
+    return left.lightDirection == right.lightDirection && left.directColor == right.directColor
+        && left.environmentScale == right.environmentScale
+        && left.displaySpaceLighting == right.displaySpaceLighting && left.keyDirection == right.keyDirection
+        && left.keyFraction == right.keyFraction;
+}
+
+// u_modelPbr.w: the specular scale, negated when the metallic-roughness red channel masks it per texel.
+float modelSpecularUniform(const ModelMaterial &material)
+{
+    return material.specularMask ? -material.specular : material.specular;
+}
 
 float matrixScale(const ModelMatrix &matrix)
 {
@@ -319,55 +396,109 @@ bool ModelRenderer::bindGeometry(const Draw &draw)
     return true;
 }
 
+uint32_t ModelRenderer::jointPaletteRow(const Draw &draw)
+{
+    constexpr uint32_t JointsPerRow = 128;
+    constexpr uint16_t PaletteWidth = JointsPerRow * 4;
+    const ModelSkin &skin = *draw.pSkin;
+    const uint32_t count = uint32_t(skin.joints.size());
+    if (count == 0)
+    {
+        throw std::runtime_error("Skinned model has no joints");
+    }
+    const uint32_t rows = (count + JointsPerRow - 1) / JointsPerRow;
+    JointSlot &slot = m_jointSlots[draw.pCullMatrix];
+    if (slot.owner != draw.instance || slot.rows != rows)
+    {
+        releaseJointRows(slot.row, slot.rows);
+        slot = {draw.instance};
+    }
+    if (slot.rows == 0)
+    {
+        // First fit; a full palette doubles. Rows other skins already used this frame stay valid: bgfx destroys the
+        // old texture only after the frame, and every slot re-uploads into the new one.
+        uint32_t row = 0;
+        while (row + rows <= m_jointRowsUsed.size()
+            && std::find(m_jointRowsUsed.begin() + row, m_jointRowsUsed.begin() + row + rows, 1)
+                != m_jointRowsUsed.begin() + row + rows)
+        {
+            ++row;
+        }
+        if (row + rows > m_jointRowsUsed.size())
+        {
+            const uint32_t limit = bgfx::getCaps()->limits.maxTextureSize;
+            uint32_t height = std::max<uint32_t>(64, uint32_t(m_jointRowsUsed.size()));
+            while (height < row + rows)
+            {
+                height *= 2;
+            }
+            if (height > limit || PaletteWidth > limit
+                || !bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::RGBA32F,
+                    BGFX_SAMPLER_POINT | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP))
+            {
+                throw std::runtime_error("GPU cannot hold the model joint palette");
+            }
+            if (bgfx::isValid(m_jointPalette))
+            {
+                bgfx::destroy(m_jointPalette);
+            }
+            m_jointPalette = bgfx::createTexture2D(PaletteWidth, uint16_t(height), false, 1,
+                bgfx::TextureFormat::RGBA32F, BGFX_SAMPLER_POINT | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+            if (!bgfx::isValid(m_jointPalette))
+            {
+                throw std::runtime_error("Cannot allocate model joint palette");
+            }
+            m_jointRowsUsed.resize(height, 0);
+            for (auto &[pMatrix, other] : m_jointSlots)
+            {
+                other.revision = 0;
+            }
+        }
+        std::fill_n(m_jointRowsUsed.begin() + row, rows, 1);
+        slot.row = row;
+        slot.rows = rows;
+        slot.revision = 0;
+    }
+    if (slot.revision != draw.pPose->matrixRevision || slot.revision == 0)
+    {
+        // Written straight into bgfx-owned memory: no per-frame allocation or extra copy.
+        const uint16_t width = rows == 1 ? uint16_t(count * 4) : PaletteWidth;
+        const bgfx::Memory *pMemory = bgfx::alloc(uint32_t(width) * rows * 4 * sizeof(float));
+        std::fill_n(pMemory->data, pMemory->size, uint8_t(0));
+        ModelMatrix *pMatrices = reinterpret_cast<ModelMatrix *>(pMemory->data);
+        for (size_t index = 0; index < count; ++index)
+        {
+            pMatrices[index] = multiplyModelMatrices(
+                draw.pPose->globalMatrices[skin.joints[index]], skin.inverseBindMatrices[index]);
+        }
+        bgfx::updateTexture2D(m_jointPalette, 0, 0, 0, uint16_t(slot.row), width, uint16_t(rows), pMemory);
+        slot.revision = draw.pPose->matrixRevision;
+    }
+    return slot.row;
+}
+
+void ModelRenderer::releaseJointRows(uint32_t row, uint32_t rows)
+{
+    if (rows != 0 && row + rows <= m_jointRowsUsed.size())
+    {
+        std::fill_n(m_jointRowsUsed.begin() + row, rows, 0);
+    }
+}
+
+uint64_t ModelRenderer::colorCullState(const ModelMaterial &material, const ModelMatrix &matrix) const
+{
+    return m_reflectionPass ? 0 : cullState(material, matrix);
+}
+
 void ModelRenderer::bindSkin(const Draw &draw)
 {
     float params[4] = {};
     if (draw.pSkin != nullptr)
     {
-        const ModelSkin &skin = *draw.pSkin;
-        const uint32_t count = uint32_t(skin.joints.size());
-        SkinPalette &palette = m_skinPalettes[draw.pCullMatrix];
-        if (palette.owner != draw.instance)
-        {
-            if (bgfx::isValid(palette.texture))
-            {
-                bgfx::destroy(palette.texture);
-            }
-            palette = {draw.instance, BGFX_INVALID_HANDLE, 0};
-        }
-        if (!bgfx::isValid(palette.texture))
-        {
-            if (count == 0 || count * 2 > bgfx::getCaps()->limits.maxTextureSize
-                || !bgfx::isTextureValid(0, false, 1, bgfx::TextureFormat::RGBA32F,
-                    BGFX_SAMPLER_POINT | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP))
-            {
-                throw std::runtime_error("GPU cannot sample this model's joint palette");
-            }
-            palette.texture = bgfx::createTexture2D(4, uint16_t(count * 2), false, 1,
-                bgfx::TextureFormat::RGBA32F, BGFX_SAMPLER_POINT | BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-            if (!bgfx::isValid(palette.texture))
-            {
-                throw std::runtime_error("Cannot allocate model joint palette");
-            }
-        }
-        if (palette.revision != draw.pPose->matrixRevision)
-        {
-            // Written straight into bgfx-owned memory: no per-frame allocation or extra copy.
-            const bgfx::Memory *pMemory = bgfx::alloc(uint32_t(count * 2 * sizeof(ModelMatrix)));
-            ModelMatrix *pMatrices = reinterpret_cast<ModelMatrix *>(pMemory->data);
-            for (size_t index = 0; index < count; ++index)
-            {
-                pMatrices[index] = multiplyModelMatrices(
-                    draw.pPose->globalMatrices[skin.joints[index]], skin.inverseBindMatrices[index]);
-                pMatrices[count + index] = modelNormalMatrix(pMatrices[index]);
-            }
-            bgfx::updateTexture2D(palette.texture, 0, 0, 0, 0, 4, uint16_t(count * 2), pMemory);
-            palette.revision = draw.pPose->matrixRevision;
-        }
+        params[2] = float(jointPaletteRow(draw));
         params[0] = 1;
-        params[1] = 1.0f / (count * 2);
-        params[2] = float(count);
-        bgfx::setTexture(5, m_skinSamplerHandle, palette.texture);
+        params[1] = 1.0f / float(m_jointRowsUsed.size());
+        bgfx::setTexture(5, m_skinSamplerHandle, m_jointPalette);
     }
     else
     {
@@ -410,7 +541,7 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
     const bool hasNormal = bgfx::isValid(textures.normal);
     const float surface[4] = {material.emissive[0], material.emissive[1], material.emissive[2],
         hasNormal ? material.normalScale : -1.0f};
-    const float pbr[4] = {material.metallic, material.roughness, material.translucency, material.specular};
+    const float pbr[4] = {material.metallic, material.roughness, material.translucency, modelSpecularUniform(material)};
     bgfx::setTexture(1, m_normalSamplerHandle, hasNormal ? textures.normal : m_whiteTextureHandle,
         samplerFlags(material.normalSampler));
     bgfx::setTexture(2, m_metallicRoughnessSamplerHandle,
@@ -430,18 +561,20 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
         bgfx::setUniform(m_pointColorsUniformHandle, lighting.pointColors.data(), pointCount);
         bgfx::setUniform(m_lightingUniformHandle, lightingValues, 4);
         bgfx::setUniform(m_normalMatrixUniformHandle, transformedNormals.data());
-        const float environment[4] = {lighting.environmentColor[0], lighting.environmentColor[1],
-            lighting.environmentColor[2], m_environmentMaxLod};
-        bgfx::setUniform(m_environmentUniformHandle, environment);
+        const std::array<float, 4> environment = modelEnvironmentUniform(lighting, m_environmentMaxLod);
+        bgfx::setUniform(m_environmentUniformHandle, environment.data());
     }
     bgfx::setUniform(m_surfaceUniformHandle, surface);
     bgfx::setUniform(m_materialUniformHandle, materialValues, 2);
     bindColorRegions(material, textures);
     bgfx::setTexture(3, m_environmentSamplerHandle, m_environmentTextureHandle);
     bgfx::setTexture(4, m_environmentBrdfSamplerHandle, m_environmentBrdfTextureHandle);
-    bindSunShadows();
+    if (hasSunShadows())
+    {
+        bindSunShadows();
+    }
     const uint64_t state = material.alphaMode == ModelAlphaMode::Blend ? BlendState : OpaqueState;
-    if (draw.outlineColorAbgr != 0)
+    if (draw.outlineColorAbgr != 0 && !m_reflectionPass)
     {
         const float outline[4] = {float(draw.outlineColorAbgr & 255) / 255,
             float((draw.outlineColorAbgr >> 8) & 255) / 255, float((draw.outlineColorAbgr >> 16) & 255) / 255, 1};
@@ -455,8 +588,208 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
         const float noOutline[4] = {};
         bgfx::setUniform(m_outlineUniformHandle, noOutline);
     }
-    bgfx::setState(state | cullState(material, *draw.pCullMatrix));
+    bgfx::setState(state | colorCullState(material, *draw.pCullMatrix));
     bgfx::submit(viewId, m_programHandle);
+}
+
+void ModelRenderer::submitInstancedSkinned(std::vector<Draw> &draws, uint16_t viewId)
+{
+    // Palette rows first: allocating one may grow the palette, and every draw below reads the final texture.
+    std::vector<uint32_t> rows(draws.size());
+    for (size_t index = 0; index < draws.size(); ++index)
+    {
+        rows[index] = jointPaletteRow(draws[index]);
+    }
+    // One run per primitive, material and winding; inside a run the creatures stay in front-to-back order.
+    std::vector<uint32_t> order(draws.size());
+    for (uint32_t index = 0; index < order.size(); ++index)
+    {
+        order[index] = index;
+    }
+    const auto mirrored = [](const Draw &draw)
+    {
+        return determinant3x3(*draw.pCullMatrix) < 0;
+    };
+    const auto runKey = [&](uint32_t index)
+    {
+        const Draw &draw = draws[index];
+        return std::make_tuple(draw.pPrimitive, draw.materialIndex, mirrored(draw));
+    };
+    std::stable_sort(order.begin(), order.end(), [&](uint32_t left, uint32_t right)
+    {
+        return runKey(left) < runKey(right);
+    });
+
+    const ModelRenderLighting &shared = *draws.front().pLighting;
+    // Ambient and sun strength arrive per instance (v_color0), as on static placements.
+    const float lightingValues[16] = {
+        shared.lightDirection[0], shared.lightDirection[1], shared.lightDirection[2], 1.0f,
+        shared.directColor[0], shared.directColor[1], shared.directColor[2],
+        shared.displaySpaceLighting ? 1.0f : 0.0f,
+        1.0f, 1.0f, 1.0f, 1.0f,
+        shared.keyDirection[0] * shared.keyFraction, shared.keyDirection[1] * shared.keyFraction,
+        shared.keyDirection[2] * shared.keyFraction, 0.0f,
+    };
+    const float environment[4] = {shared.environmentScale[0], shared.environmentScale[1], shared.environmentScale[2],
+        m_environmentMaxLod};
+    const float skin[4] = {1.0f, 1.0f / float(m_jointRowsUsed.size()), 0.0f, 0.0f};
+    const float noOutline[4] = {};
+    bgfx::setUniform(m_lightingUniformHandle, lightingValues, 4);
+    bgfx::setUniform(m_environmentUniformHandle, environment);
+    bgfx::setUniform(m_skinParamsHandle, skin);
+    bgfx::setUniform(m_outlineUniformHandle, noOutline);
+    std::vector<Draw> leftover;
+    for (size_t first = 0; first < order.size();)
+    {
+        size_t end = first + 1;
+        while (end < order.size() && runKey(order[end]) == runKey(order[first]))
+        {
+            ++end;
+        }
+        const uint32_t count = uint32_t(end - first);
+        if (bgfx::getAvailInstanceDataBuffer(count, SkinnedInstanceStride) < count)
+        {
+            for (size_t slot = first; slot < end; ++slot)
+            {
+                leftover.push_back(draws[order[slot]]);
+            }
+            first = end;
+            continue;
+        }
+        bgfx::InstanceDataBuffer buffer;
+        bgfx::allocInstanceDataBuffer(&buffer, count, SkinnedInstanceStride);
+        float *pData = reinterpret_cast<float *>(buffer.data);
+        for (size_t slot = first; slot < end; ++slot)
+        {
+            const ModelRenderLighting &lighting = *draws[order[slot]].pLighting;
+            for (size_t channel = 0; channel < 3; ++channel)
+            {
+                pData[channel] = lighting.ambientColor[channel] * lighting.ambient;
+                pData[4 + channel] = 0.0f;
+            }
+            pData[3] = lighting.direct;
+            pData[7] = float(rows[order[slot]]);
+            pData += 8;
+        }
+        const Draw &draw = draws[order[first]];
+        bindStaticMaterial(*draw.pResources, *draw.pMaterial, draw.materialIndex, 0.0f, false);
+        bgfx::setTexture(3, m_environmentSamplerHandle, m_environmentTextureHandle);
+        bgfx::setTexture(4, m_environmentBrdfSamplerHandle, m_environmentBrdfTextureHandle);
+        bgfx::setTexture(5, m_skinSamplerHandle, m_jointPalette);
+        if (hasSunShadows())
+        {
+            bindSunShadows();
+        }
+        bgfx::setVertexBuffer(0, draw.pPrimitive->skinnedVertexBuffer);
+        bgfx::setIndexBuffer(draw.pPrimitive->indexBuffer, 0, draw.pPrimitive->indexCount);
+        bgfx::setInstanceDataBuffer(&buffer);
+        bgfx::setState(OpaqueState | colorCullState(*draw.pMaterial, *draw.pCullMatrix));
+        bgfx::submit(viewId, m_skinnedInstancedProgramHandle);
+        first = end;
+    }
+    m_lastSubmit = {};
+    // Out of instance memory this frame: the rest draw one by one.
+    for (const Draw &draw : leftover)
+    {
+        submit(draw, viewId, *draw.pLighting);
+    }
+}
+
+void ModelRenderer::collectAttachments(const ModelInstanceSystem &instances)
+{
+    std::vector<ModelStaticGroup> groups;
+    std::vector<std::vector<ModelInstanceHandle>> owners;
+    std::vector<bool> standIns;
+    const auto groupFor = [&](const std::shared_ptr<const ModelAsset> &asset, uint32_t variant, bool standIn)
+    {
+        size_t group = 0;
+        while (group < groups.size() && (groups[group].asset != asset || groups[group].variant != variant))
+        {
+            ++group;
+        }
+        if (group == groups.size())
+        {
+            groups.push_back({asset, variant});
+            owners.emplace_back();
+            standIns.push_back(standIn);
+            if (standIn)
+            {
+                groups.back().lodPixels = ModelStandInLodPixels;
+            }
+        }
+        return group;
+    };
+    for (const ModelInstanceHandle handle : instances.handles())
+    {
+        if (!instances.isVisible(handle))
+        {
+            continue;
+        }
+        const std::shared_ptr<const ModelAsset> &standIn = instances.staticStandIn(handle);
+        const ModelTransform *pRoot = instances.rootTransform(handle);
+        if (standIn != nullptr && pRoot != nullptr)
+        {
+            const size_t group = groupFor(standIn, instances.materialVariant(handle), true);
+            ModelStaticPlacement placement;
+            placement.matrix = composeModelTransform(*pRoot);
+            placement.outlineColorAbgr = instances.outlineColor(handle);
+            placement.coverage = instances.coverage(handle);
+            groups[group].bounds.push_back(groups[group].placementBounds(placement));
+            groups[group].placements.push_back(placement);
+            owners[group].push_back(handle);
+        }
+        for (const ModelAttachment &attachment : instances.attachments(handle))
+        {
+            const ModelMatrix *pMatrix = instances.nodeMatrix(handle, attachment.nodeIndex);
+            if (pMatrix == nullptr || !modelMatrixVisible(*pMatrix))
+            {
+                continue;
+            }
+            const size_t group = groupFor(attachment.asset, attachment.materialVariant, false);
+            ModelStaticPlacement placement;
+            placement.matrix = *pMatrix;
+            placement.outlineColorAbgr = instances.outlineColor(handle);
+            placement.coverage = instances.coverage(handle);
+            groups[group].bounds.push_back(groups[group].placementBounds(placement));
+            groups[group].placements.push_back(placement);
+            owners[group].push_back(handle);
+        }
+    }
+    // Each carrier keeps its LOD hysteresis and crossfade from the previous frame's placement.
+    for (size_t group = 0; group < groups.size(); ++group)
+    {
+        groups[group].lodLevels.resize(groups[group].placements.size());
+        groups[group].fades.resize(groups[group].placements.size());
+        for (size_t previous = 0; previous < m_attachmentGroups.size(); ++previous)
+        {
+            const ModelStaticGroup &old = m_attachmentGroups[previous];
+            if (old.asset != groups[group].asset || old.variant != groups[group].variant)
+            {
+                continue;
+            }
+            std::unordered_map<uint32_t, size_t> oldSlots;
+            for (size_t slot = 0; slot < m_attachmentOwners[previous].size() && slot < old.lodLevels.size(); ++slot)
+            {
+                const ModelInstanceHandle owner = m_attachmentOwners[previous][slot];
+                oldSlots[owner.index] = slot;
+            }
+            for (size_t slot = 0; slot < owners[group].size(); ++slot)
+            {
+                const auto found = oldSlots.find(owners[group][slot].index);
+                if (found != oldSlots.end() && m_attachmentOwners[previous][found->second] == owners[group][slot])
+                {
+                    groups[group].lodLevels[slot] = old.lodLevels[found->second];
+                    if (found->second < old.fades.size())
+                    {
+                        groups[group].fades[slot] = old.fades[found->second];
+                    }
+                }
+            }
+        }
+    }
+    m_attachmentGroups = std::move(groups);
+    m_attachmentOwners = std::move(owners);
+    m_attachmentStandIns = std::move(standIns);
 }
 
 std::vector<ModelRenderer::StaticBatch> ModelRenderer::collectStaticBatches(
@@ -498,18 +831,35 @@ std::vector<ModelRenderer::StaticBatch> ModelRenderer::collectStaticBatches(
                 {
                     continue;
                 }
-                uint8_t &level = group.lodLevels[index][slot];
+                uint8_t keptLevel = group.lodLevels[index][slot];
+                uint8_t &level = view.keepState ? keptLevel : group.lodLevels[index][slot];
                 const uint8_t previous = level;
                 const float pixels = shadow ? modelBoundsDiameter(bounds) * view.orthographicPixelsPerUnit
                     : modelProjectedPixels(bounds, view.camera, view.focalPixels);
                 level = uint8_t(view.enabled && (shadow || view.focalPixels > 0)
                     ? modelLodLevel(pixels, level, count, shadow, group.lodPixels) : 0);
+                if (!shadow && group.placements[index].colorLevel >= 0)
+                {
+                    level = uint8_t(std::min(uint32_t(group.placements[index].colorLevel), count - 1));
+                }
                 if (!shadow && view.forcedLevel >= 0)
                 {
                     level = uint8_t(std::min(uint32_t(view.forcedLevel), count - 1));
                 }
+                // A dissolving placement casts its full shadow until it is gone.
+                const float coverage = group.placements[index].coverage;
+                if (coverage <= 0.0f)
+                {
+                    continue;
+                }
+                if (!shadow && coverage < 1.0f)
+                {
+                    batches[first + level].placements.push_back(index);
+                    batches[first + level].fades.push_back(std::clamp(coverage, 0.001f, 0.999f));
+                    continue;
+                }
                 float progress = 1.0f;
-                if (!shadow)
+                if (!shadow && !view.keepState)
                 {
                     // A level change crossfades from the level shown before; the first sight of a placement does not.
                     ModelStaticFade &fade = group.fades[index];
@@ -582,7 +932,7 @@ void ModelRenderer::bindStaticMaterial(const AssetResources &resources, const Mo
         samplerFlags(material.baseSampler));
     const float staticValues[12] = {timeSeconds, material.wind, resources.height, material.billboard ? 1.0f : 0.0f,
         material.uvScroll[0], material.uvScroll[1], material.flipbook[0], material.flipbook[1],
-        material.flipbook[2], material.flutter, 0.0f, 0.0f};
+        material.flipbook[2], material.flutter, material.pulse[0], material.pulse[1]};
     bgfx::setUniform(m_staticUniformHandle, staticValues, 3);
     if (shadow)
     {
@@ -601,7 +951,7 @@ void ModelRenderer::bindStaticMaterial(const AssetResources &resources, const Mo
     const bool hasNormal = bgfx::isValid(textures.normal);
     const float surface[4] = {material.emissive[0], material.emissive[1], material.emissive[2],
         hasNormal ? material.normalScale : -1.0f};
-    const float pbr[4] = {material.metallic, material.roughness, material.translucency, material.specular};
+    const float pbr[4] = {material.metallic, material.roughness, material.translucency, modelSpecularUniform(material)};
     bgfx::setTexture(1, m_normalSamplerHandle, hasNormal ? textures.normal : m_whiteTextureHandle,
         samplerFlags(material.normalSampler));
     bgfx::setTexture(2, m_metallicRoughnessSamplerHandle,
@@ -642,7 +992,7 @@ void ModelRenderer::renderStatic(
     const ModelRenderLighting &lighting,
     const ModelSkyEnvironment *pSkyEnvironment,
     const std::function<bool(const ModelBounds &)> &visibleBounds, float focalPixels, int forcedLod,
-    float timeSeconds)
+    float timeSeconds, uint16_t transparentView)
 {
     if (!bgfx::isValid(m_staticProgramHandle) || groups.empty())
     {
@@ -652,7 +1002,7 @@ void ModelRenderer::renderStatic(
     m_lastSubmit = {};
     prepareEnvironment(pSkyEnvironment);
     std::vector<StaticBatch> sorted = collectStaticBatches(groups, visibleBounds,
-        {cameraPosition, focalPixels, 0, -1, true, forcedLod}, timeSeconds);
+        {cameraPosition, focalPixels, 0, -1, true, forcedLod, m_reflectionPass}, timeSeconds);
     if (sorted.empty())
     {
         return;
@@ -667,13 +1017,19 @@ void ModelRenderer::renderStatic(
         lighting.keyDirection[0] * lighting.keyFraction, lighting.keyDirection[1] * lighting.keyFraction,
         lighting.keyDirection[2] * lighting.keyFraction, 0,
     };
-    const float environment[4] = {lighting.environmentColor[0], lighting.environmentColor[1],
-        lighting.environmentColor[2], m_environmentMaxLod};
+    const std::array<float, 4> environment = modelEnvironmentUniform(lighting, m_environmentMaxLod);
     const float noOutline[4] = {};
     bgfx::setUniform(m_fogUniformHandle, fog.data(), 3);
+    bgfx::setUniform(m_skyFogUniformHandle, lighting.skyFog.data(), uint16_t(lighting.skyFog.size()));
     bgfx::setUniform(m_cameraUniformHandle, camera);
+    if (!hasSunShadows())
+    {
+        // Without shadow maps the shaders only read the (zero) enable flag; uniforms persist across draws, so it is
+        // set once here instead of re-sending the shadow matrices and textures with every draw.
+        bgfx::setUniform(m_shadowParamsUniformHandle, m_shadowParams.data(), 4);
+    }
     bgfx::setUniform(m_lightingUniformHandle, lightingValues, 4);
-    bgfx::setUniform(m_environmentUniformHandle, environment);
+    bgfx::setUniform(m_environmentUniformHandle, environment.data());
     // Nearest placements first inside each instanced draw, so depth testing rejects what they hide.
     for (StaticBatch &batch : sorted)
     {
@@ -716,7 +1072,7 @@ void ModelRenderer::renderStatic(
     };
     // Hover outlines first, without depth writes: the shell is pushed out along the normals (outline flag 2), and the
     // model drawn after it covers all but the rim.
-    for (size_t index = 0; index < sorted.size(); ++index)
+    for (size_t index = 0; index < sorted.size() && !m_reflectionPass; ++index)
     {
         const StaticBatch &batch = sorted[index];
         for (size_t slot = 0; slot < batch.placements.size(); ++slot)
@@ -776,7 +1132,9 @@ void ModelRenderer::renderStatic(
             const PrimitiveResources &primitive = mesh.primitives[primitiveIndex];
             int materialIndex = -1;
             const ModelMaterial &material = materialFor(batch, primitiveIndex, materialIndex);
-            if (material.alphaMode != ModelAlphaMode::Mask || batch.level != 0 || !bgfx::isValid(primitive.vertexBuffer)
+            if (material.alphaMode != ModelAlphaMode::Mask || batch.level != 0 || !m_staticFoliageVisible
+                || m_reflectionPass
+                || !bgfx::isValid(primitive.vertexBuffer)
                 || !bgfx::isValid(primitive.indexBuffer))
             {
                 continue;
@@ -807,22 +1165,47 @@ void ModelRenderer::renderStatic(
             }
             int materialIndex = -1;
             const ModelMaterial &material = materialFor(batch, primitiveIndex, materialIndex);
+            if (!m_staticFoliageVisible && material.alphaMode == ModelAlphaMode::Mask)
+            {
+                continue;
+            }
             bindStaticMaterial(*batch.pResources, material, materialIndex, timeSeconds, false);
             bgfx::setTexture(3, m_environmentSamplerHandle, m_environmentTextureHandle);
             bgfx::setTexture(4, m_environmentBrdfSamplerHandle, m_environmentBrdfTextureHandle);
-            bindSunShadows();
+            if (hasSunShadows())
+            {
+                bindSunShadows();
+            }
             bgfx::setVertexBuffer(0, primitive.vertexBuffer);
             bgfx::setIndexBuffer(primitive.indexBuffer, 0, primitive.indexCount);
             bgfx::setInstanceDataBuffer(&instanceData[index]);
-            const bool prepassed = material.alphaMode == ModelAlphaMode::Mask && batch.level == 0;
+            const bool prepassed = material.alphaMode == ModelAlphaMode::Mask && batch.level == 0 && !m_reflectionPass;
             const uint64_t state = material.alphaMode == ModelAlphaMode::Blend ? BlendState
                 : prepassed ? PrepassedState : OpaqueState;
-            bgfx::setState(state | cullState(material, batch.pGroup->placements[batch.placements.front()].matrix));
+            bgfx::setState(state
+                | colorCullState(material, batch.pGroup->placements[batch.placements.front()].matrix));
             // Alpha-tested materials shade with the discard-free program: the prepass depth already holds the cutout.
-            bgfx::submit(viewId, prepassed ? m_staticPrepassedProgramHandle : m_staticProgramHandle);
+            const uint16_t submitView = material.alphaMode == ModelAlphaMode::Blend && transparentView != UINT16_MAX
+                ? transparentView : viewId;
+            bgfx::submit(submitView, prepassed ? m_staticPrepassedProgramHandle : m_staticProgramHandle);
         }
     }
     m_lastSubmit = {};
+}
+
+void ModelRenderer::renderReflection(const ModelInstanceSystem &instances,
+    const std::vector<ModelStaticGroup> &staticGroups, uint16_t viewId, const std::array<float, 3> &cameraPosition,
+    const ModelRenderLighting &staticLighting, const ModelRenderLighting &lighting,
+    const std::function<ModelRenderLighting(ModelInstanceHandle, const ModelBounds &)> &lightingForBounds,
+    const ModelSkyEnvironment *pSkyEnvironment, const std::function<bool(const ModelBounds &)> &visibleBounds,
+    float focalPixels, float timeSeconds)
+{
+    m_reflectionPass = true;
+    renderStatic(staticGroups, viewId, cameraPosition, staticLighting, pSkyEnvironment, visibleBounds, focalPixels, -1,
+        timeSeconds);
+    render(instances, viewId, cameraPosition, lighting, lightingForBounds, pSkyEnvironment, visibleBounds,
+        focalPixels, -1, viewId);
+    m_reflectionPass = false;
 }
 
 void ModelRenderer::submitNodeMarkers(const ModelPose &pose, uint16_t viewId) const
@@ -887,7 +1270,8 @@ void ModelRenderer::submitNodeMarkers(const ModelPose &pose, uint16_t viewId) co
     }
 }
 
-bool ModelRenderer::initialize(bgfx::ProgramHandle programHandle, bgfx::ProgramHandle shadowProgramHandle)
+bool ModelRenderer::initialize(bgfx::ProgramHandle programHandle, bgfx::ProgramHandle shadowProgramHandle,
+    bgfx::ProgramHandle skinnedInstancedProgramHandle)
 {
     if (!bgfx::isValid(programHandle) || !BgfxContext::isBgfxInitialized())
     {
@@ -896,6 +1280,14 @@ bool ModelRenderer::initialize(bgfx::ProgramHandle programHandle, bgfx::ProgramH
     shutdown(true);
     m_programHandle = programHandle;
     m_shadowProgramHandle = shadowProgramHandle;
+    if ((bgfx::getCaps()->supported & BGFX_CAPS_INSTANCING) != 0)
+    {
+        m_skinnedInstancedProgramHandle = skinnedInstancedProgramHandle;
+    }
+    else if (bgfx::isValid(skinnedInstancedProgramHandle))
+    {
+        bgfx::destroy(skinnedInstancedProgramHandle);
+    }
     m_shadowSamplers[0] = bgfx::createUniform("s_sunShadowNear", bgfx::UniformType::Sampler);
     m_shadowSamplers[1] = bgfx::createUniform("s_sunShadowFar", bgfx::UniformType::Sampler);
     m_shadowMatricesUniformHandle = bgfx::createUniform("u_sunShadowMatrices", bgfx::UniformType::Mat4, 2);
@@ -912,6 +1304,7 @@ bool ModelRenderer::initialize(bgfx::ProgramHandle programHandle, bgfx::ProgramH
     m_pointPositionsUniformHandle = bgfx::createUniform("u_modelPointPositions", bgfx::UniformType::Vec4, 12);
     m_pointColorsUniformHandle = bgfx::createUniform("u_modelPointColors", bgfx::UniformType::Vec4, 12);
     m_fogUniformHandle = bgfx::createUniform("u_modelFog", bgfx::UniformType::Vec4, 3);
+    m_skyFogUniformHandle = bgfx::createUniform("u_skyFog", bgfx::UniformType::Vec4, ModelSkyFogVectors);
     m_cameraUniformHandle = bgfx::createUniform("u_modelCamera", bgfx::UniformType::Vec4);
     m_outlineUniformHandle = bgfx::createUniform("u_modelOutline", bgfx::UniformType::Vec4);
     m_textureSamplerHandle = bgfx::createUniform("s_modelTexture", bgfx::UniformType::Sampler);
@@ -938,7 +1331,8 @@ bool ModelRenderer::initialize(bgfx::ProgramHandle programHandle, bgfx::ProgramH
         && bgfx::isValid(m_environmentSamplerHandle) && bgfx::isValid(m_environmentBrdfSamplerHandle)
         && bgfx::isValid(m_environmentUniformHandle)
         && bgfx::isValid(m_normalSamplerHandle) && bgfx::isValid(m_surfaceUniformHandle) &&
-        bgfx::isValid(m_fogUniformHandle) && bgfx::isValid(m_cameraUniformHandle)
+        bgfx::isValid(m_fogUniformHandle) && bgfx::isValid(m_skyFogUniformHandle)
+        && bgfx::isValid(m_cameraUniformHandle)
         && bgfx::isValid(m_outlineUniformHandle) &&
         bgfx::isValid(m_textureSamplerHandle) && bgfx::isValid(m_materialUniformHandle) &&
         bgfx::isValid(m_regionUniformHandle) && bgfx::isValid(m_regionMaskSamplerHandle)
@@ -1016,6 +1410,10 @@ void ModelRenderer::shutdown(bool destroyGpu)
         {
             bgfx::destroy(m_fogUniformHandle);
         }
+        if (bgfx::isValid(m_skyFogUniformHandle))
+        {
+            bgfx::destroy(m_skyFogUniformHandle);
+        }
         if (bgfx::isValid(m_cameraUniformHandle))
         {
             bgfx::destroy(m_cameraUniformHandle);
@@ -1065,7 +1463,8 @@ void ModelRenderer::shutdown(bool destroyGpu)
             bgfx::destroy(m_shadowProgramHandle);
         }
         for (const bgfx::ProgramHandle handle :
-            {m_staticProgramHandle, m_staticShadowProgramHandle, m_staticPrepassedProgramHandle})
+            {m_staticProgramHandle, m_staticShadowProgramHandle, m_staticPrepassedProgramHandle,
+                m_skinnedInstancedProgramHandle})
         {
             if (bgfx::isValid(handle))
             {
@@ -1084,6 +1483,7 @@ void ModelRenderer::shutdown(bool destroyGpu)
     m_staticProgramHandle = BGFX_INVALID_HANDLE;
     m_staticShadowProgramHandle = BGFX_INVALID_HANDLE;
     m_staticPrepassedProgramHandle = BGFX_INVALID_HANDLE;
+    m_skinnedInstancedProgramHandle = BGFX_INVALID_HANDLE;
     m_staticUniformHandle = BGFX_INVALID_HANDLE;
     m_shadowSamplers = {{BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE}};
     m_shadowMatricesUniformHandle = BGFX_INVALID_HANDLE;
@@ -1108,6 +1508,7 @@ void ModelRenderer::shutdown(bool destroyGpu)
     m_skinParamsHandle = BGFX_INVALID_HANDLE;
     m_surfaceUniformHandle = BGFX_INVALID_HANDLE;
     m_fogUniformHandle = BGFX_INVALID_HANDLE;
+    m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
     m_cameraUniformHandle = BGFX_INVALID_HANDLE;
     m_outlineUniformHandle = BGFX_INVALID_HANDLE;
 }
@@ -1143,16 +1544,15 @@ void ModelRenderer::destroyDeformedBuffers(bool destroyGpu)
                 bgfx::destroy(buffer.handle);
             }
         }
-        for (const auto &[pMatrix, palette] : m_skinPalettes)
+        if (bgfx::isValid(m_jointPalette))
         {
-            if (bgfx::isValid(palette.texture))
-            {
-                bgfx::destroy(palette.texture);
-            }
+            bgfx::destroy(m_jointPalette);
         }
     }
     m_deformedVertexBuffers.clear();
-    m_skinPalettes.clear();
+    m_jointSlots.clear();
+    m_jointRowsUsed.clear();
+    m_jointPalette = BGFX_INVALID_HANDLE;
     m_lodStates.clear();
 }
 
@@ -1192,6 +1592,8 @@ void ModelRenderer::renderSunShadows(const ModelInstanceSystem &instances, uint1
     m_shadowParams[0][0] = 0;
     const float lengthSquared = lightDirection[0] * lightDirection[0] + lightDirection[1] * lightDirection[1]
         + lightDirection[2] * lightDirection[2];
+    collectAttachments(instances);
+    const bool attachmentCasters = !m_attachmentGroups.empty() && bgfx::isValid(m_staticShadowProgramHandle);
     const bool staticCasters = pStaticGroups != nullptr && !pStaticGroups->empty()
         && bgfx::isValid(m_staticShadowProgramHandle);
     if (!enabled || settings.size == 0 || !bgfx::isValid(m_shadowProgramHandle)
@@ -1226,14 +1628,23 @@ void ModelRenderer::renderSunShadows(const ModelInstanceSystem &instances, uint1
         });
     }
     std::array<std::vector<StaticBatch>, ModelSunShadowCascades> staticBatches;
-    if (staticCasters)
+    for (size_t index = 0; index < cascades.size(); ++index)
     {
-        for (size_t index = 0; index < cascades.size(); ++index)
+        const auto inCascade = [&](const ModelBounds &bounds)
         {
-            staticBatches[index] = collectStaticBatches(*pStaticGroups, [&](const ModelBounds &bounds)
-            {
-                return modelSunShadowIntersects(cascades[index], bounds);
-            }, {cameraPosition, 0, settings.size / (2.0f * settings.radii[index]), int(index), lods}, timeSeconds);
+            return modelSunShadowIntersects(cascades[index], bounds);
+        };
+        const ModelLodView cascadeView = {cameraPosition, 0, settings.size / (2.0f * settings.radii[index]),
+            int(index), lods};
+        if (staticCasters)
+        {
+            staticBatches[index] = collectStaticBatches(*pStaticGroups, inCascade, cascadeView, timeSeconds);
+        }
+        if (attachmentCasters)
+        {
+            std::vector<StaticBatch> carried = collectStaticBatches(m_attachmentGroups, inCascade, cascadeView,
+                timeSeconds);
+            staticBatches[index].insert(staticBatches[index].end(), carried.begin(), carried.end());
         }
     }
     if (cascadeDraws[0].empty() && cascadeDraws[1].empty() && staticBatches[0].empty() && staticBatches[1].empty())
@@ -1357,16 +1768,20 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
         bgfx::destroy(entry.second.handle);
         return true;
     });
-    std::erase_if(m_skinPalettes, [&](const auto &entry)
+    std::erase_if(m_jointSlots, [&](const auto &entry)
     {
-        if (instances.contains(entry.second.owner))
+        if (instances.contains(entry.second.owner) && instances.staticStandIn(entry.second.owner) == nullptr)
         {
             return false;
         }
-        bgfx::destroy(entry.second.texture);
+        releaseJointRows(entry.second.row, entry.second.rows);
         return true;
     });
     static const ModelMaterial defaultMaterial;
+    if (view.shadowCascade < 0 && !view.keepState)
+    {
+        m_instanceColorLevels.clear();
+    }
     std::vector<Draw> draws;
     for (const ModelInstanceHandle handle : instances.handles())
     {
@@ -1383,6 +1798,10 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
         if (pBounds == nullptr || !pBounds->valid || (visibleBounds && !visibleBounds(*pBounds)))
         {
             continue;
+        }
+        if (instances.staticStandIn(handle) != nullptr)
+        {
+            continue;   // drawn as a static placement by collectAttachments
         }
         const std::shared_ptr<const ModelAsset> asset = instances.sharedAsset(handle);
         const ModelPose *pPose = instances.pose(handle, false);
@@ -1412,7 +1831,9 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
             {
                 state = {handle};
             }
-            uint32_t &level = shadow ? state.shadow[size_t(view.shadowCascade)] : state.color;
+            uint32_t keptLevel = shadow ? state.shadow[size_t(view.shadowCascade)] : state.color;
+            uint32_t &level = view.keepState ? keptLevel
+                : shadow ? state.shadow[size_t(view.shadowCascade)] : state.color;
             const uint32_t count = shadow && !base.shadowMeshes.empty()
                 ? uint32_t(base.shadowMeshes.size()) : uint32_t(base.lodMeshes.size() + 1);
             const float pixels = shadow ? modelBoundsDiameter(*pBounds) * view.orthographicPixelsPerUnit
@@ -1422,6 +1843,11 @@ std::vector<ModelRenderer::Draw> ModelRenderer::collectDraws(const ModelInstance
             if (!shadow && view.forcedLevel >= 0)
             {
                 level = std::min(uint32_t(view.forcedLevel), count - 1);
+            }
+            if (!shadow && !view.keepState)
+            {
+                uint32_t &carried = m_instanceColorLevels[handle.index];
+                carried = std::max(carried, level);
             }
             const uint32_t meshIndex = shadow && !base.shadowMeshes.empty() ? base.shadowMeshes[level]
                 : level == 0 ? uint32_t(node.meshIndex) : base.lodMeshes[level - 1];
@@ -1478,6 +1904,10 @@ void ModelRenderer::render(
     {
         return;
     }
+    if (instances.size() == 0 && m_reflectionPass)
+    {
+        return;
+    }
     if (instances.size() == 0)
     {
         pruneUnusedAssets();
@@ -1492,14 +1922,21 @@ void ModelRenderer::render(
     const std::array<std::array<float, 4>, 3> fog = {lighting.fogColor, lighting.fogDensities, lighting.fogDistances};
     const float camera[4] = {cameraPosition[0], cameraPosition[1], cameraPosition[2], 0};
     bgfx::setUniform(m_fogUniformHandle, fog.data(), 3);
+    bgfx::setUniform(m_skyFogUniformHandle, lighting.skyFog.data(), uint16_t(lighting.skyFog.size()));
     bgfx::setUniform(m_cameraUniformHandle, camera);
+    if (!hasSunShadows())
+    {
+        // Without shadow maps the shaders only read the (zero) enable flag; uniforms persist across draws, so it is
+        // set once here instead of re-sending the shadow matrices and textures with every draw.
+        bgfx::setUniform(m_shadowParamsUniformHandle, m_shadowParams.data(), 4);
+    }
     std::unordered_map<uint32_t, ModelRenderLighting> instanceLighting;
     std::vector<Draw> opaqueDraws;
     std::vector<Draw> transparentDraws;
     // Scene consumers own the environment, even outside the camera. Loading renders prewarm it too.
     prepareEnvironment(pSkyEnvironment);
     std::vector<Draw> draws = collectDraws(instances, visibleBounds,
-        {cameraPosition, focalPixels, 0, -1, true, forcedLod});
+        {cameraPosition, focalPixels, 0, -1, true, forcedLod, m_reflectionPass});
     for (Draw &draw : draws)
     {
         auto found = instanceLighting.find(draw.instance.index);
@@ -1550,9 +1987,87 @@ void ModelRenderer::render(
         {
             return left.distanceSquared > right.distanceSquared;
         });
+    // The instanced draws bind materials like static placements, so they also need the static programs' uniforms.
+    if (bgfx::isValid(m_skinnedInstancedProgramHandle) && bgfx::isValid(m_staticUniformHandle) && m_skinnedInstancing)
+    {
+        // Skinned creatures lit only by the shared sun and their own ambient draw instanced; point-lit, outlined
+        // and morphing ones keep their own draws (directional point lights and outline shells are per draw).
+        std::vector<Draw> instanced;
+        std::vector<Draw> single;
+        for (const Draw &draw : opaqueDraws)
+        {
+            const bool eligible = draw.pSkin != nullptr && draw.outlineColorAbgr == 0
+                && draw.pLighting->pointCount == 0
+                && (instanced.empty() || sameSharedLighting(*instanced.front().pLighting, *draw.pLighting));
+            (eligible ? instanced : single).push_back(draw);
+        }
+        if (!instanced.empty())
+        {
+            submitInstancedSkinned(instanced, viewId);
+        }
+        opaqueDraws = std::move(single);
+    }
     for (const Draw &draw : opaqueDraws)
     {
         submit(draw, viewId, *draw.pLighting);
+    }
+    collectAttachments(instances);
+    if (!m_attachmentGroups.empty() && bgfx::isValid(m_staticProgramHandle))
+    {
+        // Each attachment takes its carrier's light (ambient, sun visibility, and its point lights as undirected
+        // light at the attachment) and colour LOD level.
+        const ModelRenderLighting *pShared = nullptr;
+        for (size_t group = 0; group < m_attachmentGroups.size(); ++group)
+        {
+            for (size_t slot = 0; slot < m_attachmentGroups[group].placements.size(); ++slot)
+            {
+                const ModelInstanceHandle owner = m_attachmentOwners[group][slot];
+                auto found = instanceLighting.find(owner.index);
+                if (found == instanceLighting.end())
+                {
+                    const ModelBounds *pBounds = instances.cullingBounds(owner);
+                    found = instanceLighting.emplace(owner.index, lightingForBounds && pBounds != nullptr
+                        ? lightingForBounds(owner, *pBounds) : lighting).first;
+                }
+                const ModelRenderLighting &carrier = found->second;
+                pShared = pShared != nullptr ? pShared : &carrier;
+                ModelStaticPlacement &placement = m_attachmentGroups[group].placements[slot];
+                const std::array<float, 3> position = {placement.matrix[12], placement.matrix[13],
+                    placement.matrix[14]};
+                for (size_t channel = 0; channel < 3; ++channel)
+                {
+                    placement.light[channel] = carrier.ambientColor[channel] * carrier.ambient;
+                }
+                placement.light[3] = carrier.direct;
+                for (uint32_t light = 0; light < std::min(carrier.pointCount, 12u); ++light)
+                {
+                    float distanceSquared = 0.0f;
+                    for (size_t axis = 0; axis < 3; ++axis)
+                    {
+                        const float delta = carrier.pointPositions[light * 4 + axis] - position[axis];
+                        distanceSquared += delta * delta;
+                    }
+                    const float radius = std::max(carrier.pointPositions[light * 4 + 3], 0.0001f);
+                    const float attenuation = std::max(1.0f - distanceSquared / (radius * radius), 0.0f);
+                    for (size_t channel = 0; channel < 3; ++channel)
+                    {
+                        placement.pointLight[channel] += carrier.pointColors[light * 4 + channel]
+                            * carrier.pointColors[light * 4 + 3] * attenuation * attenuation;
+                    }
+                }
+                const auto level = m_instanceColorLevels.find(owner.index);
+                placement.colorLevel = !m_attachmentStandIns[group] && level != m_instanceColorLevels.end()
+                    ? int32_t(level->second) : -1;   // a stand-in picks its own level by projected size
+            }
+        }
+        ModelRenderLighting shared = *pShared;
+        shared.ambient = 1.0f;
+        shared.ambientColor = {1.0f, 1.0f, 1.0f};
+        shared.direct = 1.0f;
+        shared.pointCount = 0;
+        renderStatic(m_attachmentGroups, viewId, cameraPosition, shared, pSkyEnvironment, visibleBounds, focalPixels,
+            forcedLod, float(std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch())
+                .count() - m_attachmentClockOrigin), transparentView);
     }
     for (const Draw &draw : transparentDraws)
     {
@@ -1560,7 +2075,7 @@ void ModelRenderer::render(
     }
     for (const ModelInstanceHandle handle : instances.handles())
     {
-        if (instances.isVisible(handle) && instances.areNodeMarkersVisible(handle))
+        if (!m_reflectionPass && instances.isVisible(handle) && instances.areNodeMarkersVisible(handle))
         {
             const ModelBounds *pBounds = instances.cullingBounds(handle);
             if (pBounds == nullptr || (pBounds->valid && visibleBounds && !visibleBounds(*pBounds)))
@@ -1688,7 +2203,7 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
             }
         }
         const ModelImage &image = asset->images.at(imageIndex);
-        const std::string_view bytes(reinterpret_cast<const char *>(image.pngBytes.data()), image.pngBytes.size());
+        const std::string_view bytes(reinterpret_cast<const char *>(image.bytes.data()), image.bytes.size());
         const uint64_t key = (std::hash<std::string_view>()(bytes) ^ (uint64_t(bytes.size()) * 0x9e3779b97f4a7c15ull))
             + (uint64_t(semantic) << 56) + (uint64_t(alphaCutoff) << 48) + (mips ? 1ull << 47 : 0) + 1;
         SharedTexture &shared = m_sharedTextures[key];

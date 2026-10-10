@@ -1,6 +1,7 @@
 $input v_texcoord0, v_color0, v_depth, v_worldPosition
 
 #include "common.sh"
+#include "sky_common.sh"
 #include "world_clip.sh"
 
 SAMPLER2D(s_texColor, 0);
@@ -85,6 +86,8 @@ void main()
     {
         discard;
     }
-    vec3 color = mix(u_billboardOverrideColor.rgb, u_fogColor.rgb, clamp(fogRatio(v_depth), 0.0, 1.0));
+    float outlineFogRatio = clamp(skyFogRatio(fogRatio(v_depth), v_worldPosition, v_depth, u_fogDistances.z), 0.0, 1.0);
+    vec3 color = mix(u_billboardOverrideColor.rgb,
+        skyFogDisplayColor(outlineFogRatio, u_fogColor.rgb, v_worldPosition), outlineFogRatio);
     gl_FragColor = vec4(color, coverage * v_color0.a * u_billboardOverrideColor.a);
 }

@@ -104,6 +104,8 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/model_static.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_bmodel_lightmap.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_lighting.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/sky_common.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/weather_wetness.sh"
             "${OPENYAMM_BGFX_SOURCE_DIR}/examples/common/common.sh"
             openyamm_shaderc
         VERBATIM
@@ -400,6 +402,22 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_shadowmaps_texture.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_weather.sc" "vertex" "vs_weather.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_weather.sc" "fragment" "fs_weather.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_weather.sc" "vertex" "vs_weather_snow.bin" "WEATHER_SNOW=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_weather.sc" "fragment" "fs_weather_snow.bin" "WEATHER_SNOW=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_weather.sc" "vertex" "vs_weather_curtain.bin" "WEATHER_CURTAIN=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_weather.sc" "fragment" "fs_weather_curtain.bin" "WEATHER_CURTAIN=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_weather.sc" "vertex" "vs_weather_splash.bin" "WEATHER_SPLASH=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_weather.sc" "fragment" "fs_weather_splash.bin" "WEATHER_SPLASH=1")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_water.sc" "vertex" "vs_water.bin")
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_water.sc" "fragment" "fs_water.bin")
@@ -432,6 +450,17 @@ function(openyamm_configure_runtime_shaders)
         openyamm_compile_bgfx_shader(
             "${CMAKE_SOURCE_DIR}/game/shaders/${lightmapShader}.sc"
             "${lightmapShaderType}" "${lightmapShader}.bin")
+    endforeach()
+    # Bmodel materials sampled from per-size texture arrays (static lightmapped groups, per-face draws).
+    foreach(arrayShader fs_outdoor_bmodel_lightmap fs_outdoor_bmodel_baked fs_outdoor_textured_fog)
+        openyamm_compile_bgfx_shader(
+            "${CMAKE_SOURCE_DIR}/game/shaders/${arrayShader}.sc"
+            "fragment" "${arrayShader}_array.bin" "BMODEL_TEXTURE_ARRAY=1")
+    endforeach()
+    foreach(arrayShader fs_outdoor_bmodel_baked fs_outdoor_textured_fog)
+        openyamm_compile_bgfx_shader(
+            "${CMAKE_SOURCE_DIR}/game/shaders/${arrayShader}.sc"
+            "fragment" "${arrayShader}_array_shadow.bin" "BMODEL_TEXTURE_ARRAY=1$<SEMICOLON>SUN_SHADOWS=1")
     endforeach()
     # Ordinary scenes keep the original receiver-free programs; enable mesh receivers only with live casters.
     foreach(shadowShader fs_outdoor_textured_fog fs_outdoor_terrain_fog fs_outdoor_bmodel_baked
@@ -502,6 +531,8 @@ function(openyamm_configure_runtime_shaders)
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_model_shadow_instanced.sc" "vertex" "vs_model_shadow_instanced.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_model_skinned_instanced.sc" "vertex" "vs_model_skinned_instanced.bin")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_spell_area_preview.sc"
         "vertex"
         "vs_spell_area_preview.bin")
@@ -541,6 +572,11 @@ function(openyamm_configure_runtime_shaders)
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_cinematic_grading.sc" "fragment" "fs_cinematic_grading.bin")
 
+    openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/vs_sky.sc" "vertex" "vs_sky.bin")
+    openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/fs_sky.sc" "fragment" "fs_sky.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_sky_upscale.sc" "fragment" "fs_sky_upscale.bin")
+
     foreach(shader fs_ambient_occlusion fs_ambient_occlusion_blur fs_ambient_occlusion_composite)
         openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/${shader}.sc" "fragment" "${shader}.bin")
     endforeach()
@@ -551,6 +587,9 @@ function(openyamm_configure_runtime_shaders)
         fs_ambient_occlusion_composite.bin
         vs_cinematic_grading.bin
         fs_cinematic_grading.bin
+        vs_sky.bin
+        fs_sky.bin
+        fs_sky_upscale.bin
         fs_terrain_decoration_baked.bin
         vs_terrain_decoration.bin vs_terrain_decoration_baked.bin
         fs_terrain_decoration.bin
@@ -561,6 +600,8 @@ function(openyamm_configure_runtime_shaders)
         fs_shadowmaps_texture.bin
         fs_menu_tint.bin
         vs_water.bin fs_water.bin fs_indoor_water.bin fs_water_ripples.bin fs_indoor_water_ripples.bin
+        vs_weather.bin fs_weather.bin vs_weather_snow.bin fs_weather_snow.bin vs_weather_curtain.bin
+        fs_weather_curtain.bin vs_weather_splash.bin fs_weather_splash.bin
         vs_outdoor_textured_fog.bin
         vs_outdoor_billboard_lit.bin
         fs_outdoor_textured_fog.bin
@@ -577,7 +618,7 @@ function(openyamm_configure_runtime_shaders)
         vs_model.bin
         fs_model.bin
         vs_model_shadow.bin fs_model_shadow.bin
-        vs_model_instanced.bin vs_model_shadow_instanced.bin fs_model_prepassed.bin
+        vs_model_instanced.bin vs_model_shadow_instanced.bin fs_model_prepassed.bin vs_model_skinned_instanced.bin
         vs_spell_area_preview.bin
         fs_spell_area_preview.bin
         vs_editor_preview_material.bin
@@ -588,7 +629,9 @@ function(openyamm_configure_runtime_shaders)
         fs_outdoor_bmodel_baked.bin fs_outdoor_terrain_baked.bin
         fs_outdoor_textured_fog_shadow.bin fs_outdoor_terrain_fog_shadow.bin
         fs_outdoor_bmodel_baked_shadow.bin fs_outdoor_terrain_baked_shadow.bin
-        fs_terrain_decoration_shadow.bin fs_terrain_decoration_baked_shadow.bin)
+        fs_terrain_decoration_shadow.bin fs_terrain_decoration_baked_shadow.bin
+        fs_outdoor_bmodel_lightmap_array.bin fs_outdoor_bmodel_baked_array.bin fs_outdoor_textured_fog_array.bin
+        fs_outdoor_bmodel_baked_array_shadow.bin fs_outdoor_textured_fog_array_shadow.bin)
 
     # Android startup extracts exactly the shaders that this build produces.
     set_property(GLOBAL PROPERTY OPENYAMM_RUNTIME_SHADER_NAMES "${runtimeShaderNames}")

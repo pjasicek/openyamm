@@ -577,6 +577,89 @@ bool setBakedLightingSetting(
     return false;
 }
 
+bool parseSkyStyleValue(const std::string &value, SkyStyle &result)
+{
+    const std::string normalized = toLowerCopy(trimCopy(value));
+
+    if (normalized == "enhanced")
+    {
+        result = SkyStyle::Enhanced;
+        return true;
+    }
+
+    if (normalized == "classic")
+    {
+        result = SkyStyle::Classic;
+        return true;
+    }
+
+    return false;
+}
+
+std::string skyStyleValue(SkyStyle style)
+{
+    return style == SkyStyle::Classic ? "classic" : "enhanced";
+}
+
+bool parseCorpseStyleValue(const std::string &value, CorpseStyle &result)
+{
+    const std::string normalized = toLowerCopy(trimCopy(value));
+
+    if (normalized == "satchel")
+    {
+        result = CorpseStyle::Satchel;
+        return true;
+    }
+
+    if (normalized == "keep")
+    {
+        result = CorpseStyle::Keep;
+        return true;
+    }
+
+    return false;
+}
+
+std::string corpseStyleValue(CorpseStyle style)
+{
+    return style == CorpseStyle::Keep ? "keep" : "satchel";
+}
+
+bool parseWeatherQualityValue(const std::string &value, WeatherQuality &result)
+{
+    static const std::array<std::pair<const char *, WeatherQuality>, 4> Values = {{
+        {"off", WeatherQuality::Off}, {"low", WeatherQuality::Low}, {"medium", WeatherQuality::Medium},
+        {"high", WeatherQuality::High}}};
+    const std::string lowered = toLowerCopy(trimCopy(value));
+
+    for (const auto &[pName, quality] : Values)
+    {
+        if (lowered == pName)
+        {
+            result = quality;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::string weatherQualityValue(WeatherQuality quality)
+{
+    switch (quality)
+    {
+        case WeatherQuality::Off:
+            return "off";
+        case WeatherQuality::Low:
+            return "low";
+        case WeatherQuality::Medium:
+            return "medium";
+        case WeatherQuality::High:
+        default:
+            return "high";
+    }
+}
+
 std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, std::string &error)
 {
     std::ifstream input(path);
@@ -830,6 +913,11 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "corpses"))
+    {
+        parseCorpseStyleValue(*value, settings.corpseStyle);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "video", "blood_splats"))
     {
         bool parsed = settings.bloodSplats;
@@ -953,6 +1041,30 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
     if (const std::optional<std::string> value = getIniValue(document, "video", "water_sprite_reflections"))
     {
         parseBoolValue(*value, settings.waterSpriteReflections);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "sky_style"))
+    {
+        parseSkyStyleValue(*value, settings.skyStyle);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "weather_quality"))
+    {
+        parseWeatherQualityValue(*value, settings.weatherQuality);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "rain_ripples"))
+    {
+        parseBoolValue(*value, settings.rainRipples);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "wet_surfaces"))
+    {
+        parseBoolValue(*value, settings.wetSurfaces);
+    }
+    if (const std::optional<std::string> value = getIniValue(document, "video", "sky_resolution_scale"))
+    {
+        float parsed = settings.skyResolutionScale;
+        if (parseFloatValue(*value, parsed) && std::isfinite(parsed))
+        {
+            settings.skyResolutionScale = std::clamp(parsed, 0.25f, 1.0f);
+        }
     }
     if (const std::optional<std::string> value = getIniValue(document, "video", "cinematic_strength"))
     {
@@ -1782,6 +1894,7 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "enemy_health_bar_damage_trail=" << (settings.enemyHealthBarDamageTrail ? "true" : "false") << '\n'
         << "quest_markers=" << (settings.questMarkers ? "true" : "false") << '\n'
         << "melee_hit_blood_effects=" << (settings.meleeHitBloodEffects ? "true" : "false") << '\n'
+        << "corpses=" << corpseStyleValue(settings.corpseStyle) << '\n'
         << "context_action_popup=" << (settings.contextActionPopup ? "true" : "false") << "\n\n"
         << "[startup]\n"
         << "start_in_main_menu=" << (settings.startInMainMenu ? "true" : "false") << '\n'
@@ -1841,6 +1954,11 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "water_movement_ripples=" << (settings.waterMovementRipples ? "true" : "false") << '\n'
         << "water_sprite_reflections=" << (settings.waterSpriteReflections ? "true" : "false") << '\n'
         << "water_reflection_size=" << std::clamp(settings.waterReflectionSize, 128, 2048) << '\n'
+        << "sky_style=" << skyStyleValue(settings.skyStyle) << '\n'
+        << "sky_resolution_scale=" << std::clamp(settings.skyResolutionScale, 0.25f, 1.0f) << '\n'
+        << "weather_quality=" << weatherQualityValue(settings.weatherQuality) << '\n'
+        << "rain_ripples=" << (settings.rainRipples ? "true" : "false") << '\n'
+        << "wet_surfaces=" << (settings.wetSurfaces ? "true" : "false") << '\n'
         << "terrain_filtering=" << settings.terrainFiltering << '\n'
         << "terrain_anisotropy=" << settings.terrainAnisotropy << '\n'
         << "bmodel_filtering=" << settings.bmodelFiltering << '\n'

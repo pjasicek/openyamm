@@ -446,6 +446,7 @@ enum class GameplayHudPointerTargetType
     TriggerButton,
     CastButton,
     TurnBasedToggleButton,
+    PassTurnButton,
     ContextActionButton,
     MinimapZoomInButton,
     MinimapZoomOutButton,

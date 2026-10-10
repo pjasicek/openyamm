@@ -1,5 +1,7 @@
 #include "game/debug/ScreenshotTour.h"
 
+#include "game/render/SkyClock.h"
+
 #include <yaml-cpp/yaml.h>
 
 #include <cmath>
@@ -207,6 +209,37 @@ std::optional<ScreenshotTour> loadScreenshotTour(const std::filesystem::path &to
             {
                 error = "screenshot tour shot '" + shot.name + "' settle_seconds must be finite in [0, 600]";
                 return std::nullopt;
+            }
+        }
+
+        if (const YAML::Node timeNode = shotNode["time"]; timeNode)
+        {
+            shot.clockMinutes = timeNode.IsScalar() ? parseClockMinutes(timeNode.as<std::string>()) : std::nullopt;
+
+            if (!shot.clockMinutes)
+            {
+                error = "screenshot tour shot '" + shot.name + "' time must be \"HH:MM\"";
+                return std::nullopt;
+            }
+        }
+
+        if (const YAML::Node commandsNode = shotNode["commands"]; commandsNode)
+        {
+            if (!commandsNode.IsSequence())
+            {
+                error = "screenshot tour shot '" + shot.name + "' commands must be a list of console lines";
+                return std::nullopt;
+            }
+
+            for (const YAML::Node &commandNode : commandsNode)
+            {
+                if (!commandNode.IsScalar() || commandNode.as<std::string>().empty())
+                {
+                    error = "screenshot tour shot '" + shot.name + "' has an empty or non-text command";
+                    return std::nullopt;
+                }
+
+                shot.commands.push_back(commandNode.as<std::string>());
             }
         }
 

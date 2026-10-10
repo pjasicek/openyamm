@@ -1,5 +1,6 @@
 #include "game/render/RuntimeShader.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/outdoor/OutdoorSunlight.h"
 
 #include "game/app/GameSession.h"
 #include "engine/BgfxContext.h"
@@ -11,7 +12,6 @@
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplayInputFrame.h"
-#include "game/gameplay/MercenaryRecruitmentRuntime.h"
 #include "game/gameplay/GameplaySpellActionController.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -216,29 +216,6 @@ constexpr int JournalRevealWidth = 88;
 constexpr int JournalRevealHeight = 88;
 constexpr int JournalRevealBytesPerRow = 11;
 constexpr float JournalMapWorldHalfExtent = 32768.0f;
-enum class HouseShopVerticalAlign
-{
-    Center,
-    Top,
-    Bottom,
-    Baseline
-};
-
-struct HouseShopSlotLayout
-{
-    float x = 0.0f;
-    float y = 0.0f;
-    float width = 0.0f;
-    float height = 0.0f;
-    float baselineY = 0.0f;
-    HouseShopVerticalAlign verticalAlign = HouseShopVerticalAlign::Center;
-};
-
-struct HouseShopVisualLayout
-{
-    std::string backgroundAsset;
-    std::vector<HouseShopSlotLayout> slots;
-};
 
 bool decodeBmpBytesToBgra(
     const std::vector<uint8_t> &bmpBytes,
@@ -296,255 +273,6 @@ void clampJournalMapState(GameplayUiController::JournalScreenState &journalScree
         journalScreen.mapCenterY,
         -maxOffset,
         maxOffset);
-}
-
-struct HouseShopItemDrawRect
-{
-    size_t slotIndex = std::numeric_limits<size_t>::max();
-    float x = 0.0f;
-    float y = 0.0f;
-    float width = 0.0f;
-    float height = 0.0f;
-};
-
-bool isHouseType(const HouseEntry &houseEntry, const char *pTypeName)
-{
-    return houseEntry.type == pTypeName;
-}
-
-HouseShopVisualLayout buildHouseShopVisualLayout(const HouseEntry &houseEntry, bool spellbookMode)
-{
-    HouseShopVisualLayout layout = {};
-
-    if (spellbookMode)
-    {
-        layout.backgroundAsset = "MAGSHELF";
-
-        for (size_t index = 0; index < 6; ++index)
-        {
-            HouseShopSlotLayout topRowSlot = {};
-            topRowSlot.x = 6.0f + static_cast<float>(index) * 75.0f;
-            topRowSlot.y = 56.0f;
-            topRowSlot.width = 74.0f;
-            topRowSlot.height = 132.0f;
-            topRowSlot.verticalAlign = HouseShopVerticalAlign::Bottom;
-            layout.slots.push_back(topRowSlot);
-        }
-
-        for (size_t index = 0; index < 6; ++index)
-        {
-            HouseShopSlotLayout bottomRowSlot = {};
-            bottomRowSlot.x = 6.0f + static_cast<float>(index) * 75.0f;
-            bottomRowSlot.y = 199.0f;
-            bottomRowSlot.width = 74.0f;
-            bottomRowSlot.height = 128.0f;
-            bottomRowSlot.verticalAlign = HouseShopVerticalAlign::Bottom;
-            layout.slots.push_back(bottomRowSlot);
-        }
-
-        return layout;
-    }
-
-    if (isHouseType(houseEntry, "Weapon Shop"))
-    {
-        layout.backgroundAsset = "WEPNTABL";
-        constexpr std::array<float, 6> weaponTopOffsets = {88.0f, 34.0f, 112.0f, 58.0f, 128.0f, 46.0f};
-
-        for (size_t index = 0; index < weaponTopOffsets.size(); ++index)
-        {
-            HouseShopSlotLayout slot = {};
-            slot.x = 25.0f + static_cast<float>(index) * 70.0f;
-            slot.y = weaponTopOffsets[index];
-            slot.width = 70.0f;
-            slot.height = 334.0f - weaponTopOffsets[index];
-            slot.verticalAlign = HouseShopVerticalAlign::Top;
-            layout.slots.push_back(slot);
-        }
-
-        return layout;
-    }
-
-    if (isHouseType(houseEntry, "Armor Shop"))
-    {
-        layout.backgroundAsset = "ARMORY";
-
-        for (size_t index = 0; index < 4; ++index)
-        {
-            HouseShopSlotLayout topRowSlot = {};
-            topRowSlot.x = 34.0f + static_cast<float>(index) * 105.0f;
-            topRowSlot.y = 8.0f;
-            topRowSlot.width = 105.0f;
-            topRowSlot.height = 90.0f;
-            topRowSlot.verticalAlign = HouseShopVerticalAlign::Bottom;
-            layout.slots.push_back(topRowSlot);
-        }
-
-        for (size_t index = 0; index < 4; ++index)
-        {
-            HouseShopSlotLayout bottomRowSlot = {};
-            bottomRowSlot.x = 34.0f + static_cast<float>(index) * 105.0f;
-            bottomRowSlot.y = 126.0f;
-            bottomRowSlot.width = 105.0f;
-            bottomRowSlot.height = 190.0f;
-            bottomRowSlot.verticalAlign = HouseShopVerticalAlign::Top;
-            layout.slots.push_back(bottomRowSlot);
-        }
-
-        return layout;
-    }
-
-    if (isHouseType(houseEntry, "Magic Shop"))
-    {
-        layout.backgroundAsset = "GENSHELF";
-
-        for (size_t index = 0; index < 6; ++index)
-        {
-            HouseShopSlotLayout topRowSlot = {};
-            topRowSlot.x = 6.0f + static_cast<float>(index) * 75.0f;
-            topRowSlot.y = 63.0f;
-            topRowSlot.width = 74.0f;
-            topRowSlot.height = 132.0f;
-            topRowSlot.baselineY = 201.0f;
-            topRowSlot.verticalAlign = HouseShopVerticalAlign::Baseline;
-            layout.slots.push_back(topRowSlot);
-        }
-
-        for (size_t index = 0; index < 6; ++index)
-        {
-            HouseShopSlotLayout bottomRowSlot = {};
-            bottomRowSlot.x = 6.0f + static_cast<float>(index) * 75.0f;
-            bottomRowSlot.y = 192.0f;
-            bottomRowSlot.width = 74.0f;
-            bottomRowSlot.height = 128.0f;
-            bottomRowSlot.baselineY = 324.0f;
-            bottomRowSlot.verticalAlign = HouseShopVerticalAlign::Baseline;
-            layout.slots.push_back(bottomRowSlot);
-        }
-
-        return layout;
-    }
-
-    if (isHouseType(houseEntry, "Alchemist"))
-    {
-        layout.backgroundAsset = "GENSHELF";
-
-        for (size_t index = 0; index < 6; ++index)
-        {
-            HouseShopSlotLayout topRowSlot = {};
-            topRowSlot.x = 6.0f + static_cast<float>(index) * 75.0f;
-            topRowSlot.y = 63.0f;
-            topRowSlot.width = 74.0f;
-            topRowSlot.height = 132.0f;
-            topRowSlot.baselineY = 201.0f;
-            topRowSlot.verticalAlign = HouseShopVerticalAlign::Baseline;
-            layout.slots.push_back(topRowSlot);
-        }
-
-        for (size_t index = 0; index < 6; ++index)
-        {
-            HouseShopSlotLayout bottomRowSlot = {};
-            bottomRowSlot.x = 6.0f + static_cast<float>(index) * 75.0f;
-            bottomRowSlot.y = 192.0f;
-            bottomRowSlot.width = 74.0f;
-            bottomRowSlot.height = 128.0f;
-            bottomRowSlot.baselineY = 324.0f;
-            bottomRowSlot.verticalAlign = HouseShopVerticalAlign::Baseline;
-            layout.slots.push_back(bottomRowSlot);
-        }
-
-        return layout;
-    }
-
-    if (isHouseType(houseEntry, "Elemental Guild")
-        || isHouseType(houseEntry, "Self Guild")
-        || isHouseType(houseEntry, "Light Guild")
-        || isHouseType(houseEntry, "Dark Guild")
-        || houseEntry.type.find(" Guild") != std::string::npos
-        || isHouseType(houseEntry, "Spell Shop"))
-    {
-        layout.backgroundAsset = "MAGSHELF";
-
-        for (size_t row = 0; row < 2; ++row)
-        {
-            for (size_t column = 0; column < 8; ++column)
-            {
-                HouseShopSlotLayout slot = {};
-                slot.x = 14.0f + static_cast<float>(column) * 54.0f;
-                slot.y = row == 0 ? 74.0f : 214.0f;
-                slot.width = 48.0f;
-                slot.height = 92.0f;
-                slot.verticalAlign = HouseShopVerticalAlign::Top;
-                layout.slots.push_back(slot);
-            }
-        }
-
-        return layout;
-    }
-
-    return layout;
-}
-
-HouseShopItemDrawRect resolveHouseShopItemDrawRect(
-    float frameX,
-    float frameY,
-    float frameWidth,
-    float frameHeight,
-    float frameScale,
-    const HouseShopSlotLayout &slot,
-    size_t slotIndex,
-    int textureWidth,
-    int textureHeight,
-    int opaqueMinY,
-    int opaqueMaxY)
-{
-    HouseShopItemDrawRect result = {};
-    result.slotIndex = slotIndex;
-
-    if (textureWidth <= 0 || textureHeight <= 0)
-    {
-        return result;
-    }
-
-    const float scaleX = frameWidth / 460.0f;
-    const float scaleY = frameHeight / 344.0f;
-    const float slotX = frameX + slot.x * scaleX;
-    const float slotY = frameY + slot.y * scaleY;
-    const float slotWidth = slot.width * scaleX;
-    const float slotHeight = slot.height * scaleY;
-    const float fitScale = std::min(
-        slotWidth / static_cast<float>(textureWidth),
-        slotHeight / static_cast<float>(textureHeight));
-    const float itemScale = std::min(frameScale, fitScale);
-    const float itemWidth = static_cast<float>(textureWidth) * itemScale;
-    const float itemHeight = static_cast<float>(textureHeight) * itemScale;
-    const float opaqueTop = static_cast<float>(std::max(0, opaqueMinY)) * itemScale;
-    const float opaqueBottom = static_cast<float>(std::max(0, opaqueMaxY + 1)) * itemScale;
-
-    result.width = itemWidth;
-    result.height = itemHeight;
-    result.x = std::round(slotX + (slotWidth - itemWidth) * 0.5f);
-
-    switch (slot.verticalAlign)
-    {
-        case HouseShopVerticalAlign::Top:
-            result.y = std::round(slotY - opaqueTop);
-            break;
-
-        case HouseShopVerticalAlign::Bottom:
-            result.y = std::round(slotY + slotHeight - opaqueBottom);
-            break;
-
-        case HouseShopVerticalAlign::Baseline:
-            result.y = std::round(frameY + slot.baselineY * scaleY - opaqueBottom);
-            break;
-
-        case HouseShopVerticalAlign::Center:
-        default:
-            result.y = std::round(slotY + (slotHeight - itemHeight) * 0.5f);
-            break;
-    }
-
-    return result;
 }
 
 bool tryParseScrollSpellId(const InventoryItem &item, const ItemTable *pItemTable, uint32_t &spellId)
@@ -2977,6 +2705,10 @@ bool OutdoorGameView::initialize(
     }
     m_map = map;
     m_pOutdoorMapData = &outdoorMapData;
+    m_distantSea = outdoorLandMask
+        ? measureOutdoorDistantSea(outdoorMapData, *outdoorLandMask,
+            outdoorTerrainTextureAtlas ? &*outdoorTerrainTextureAtlas : nullptr)
+        : OutdoorDistantSea{};
     m_outdoorDecorationBillboardSet = outdoorDecorationBillboardSet;
     m_outdoorActorPreviewBillboardSet = outdoorActorPreviewBillboardSet;
     m_outdoorSpriteObjectBillboardSet = outdoorSpriteObjectBillboardSet;
@@ -2997,28 +2729,6 @@ bool OutdoorGameView::initialize(
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     EventRuntimeState *pMutableEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState();
     timingLogger.stage("view state assigned");
-
-    if (pMutableEventRuntimeState != nullptr && m_pOutdoorPartyRuntime != nullptr)
-    {
-        refreshMercenaryRecruitmentForCurrentMap(
-            map,
-            m_pOutdoorPartyRuntime->party(),
-            *pMutableEventRuntimeState,
-            MercenaryRecruitmentTables{
-                .pHouseTable = &data.houseTable(),
-                .pNpcNameTable = &data.mergedNpcNameTable(),
-                .pCharacterSelectionTable = &data.mergedCharacterSelectionTable(),
-                .pCharacterDollTable = &data.characterDollTable(),
-                .pClassSkillTable = &data.classSkillTable(),
-                .pClassMultiplierTable = &data.classMultiplierTable(),
-                .pRaceStartingStatsTable = &data.raceStartingStatsTable(),
-                .pItemTable = &data.itemTable(),
-                .pStandardItemEnchantTable = &data.standardItemEnchantTable(),
-                .pSpecialItemEnchantTable = &data.specialItemEnchantTable(),
-                .pSpellTable = &data.spellTable(),
-            });
-    }
-    timingLogger.stage("mercenary recruitment refreshed");
 
     const EventRuntimeState *pEventRuntimeState = pMutableEventRuntimeState;
     screenRuntime.resetOverlayInteractionState(
@@ -3152,11 +2862,14 @@ bool OutdoorGameView::initialize(
     m_outdoorSunlightUniformHandle = bgfx::createUniform("u_outdoorSunlight", bgfx::UniformType::Vec4);
     m_worldClipPlaneUniformHandle = bgfx::createUniform("u_worldClipPlane", bgfx::UniformType::Vec4);
     m_waterSurfaceControlUniformHandle = bgfx::createUniform("u_waterSurfaceControl", bgfx::UniformType::Vec4);
+    m_wetnessUniformHandle = bgfx::createUniform("u_wetness", bgfx::UniformType::Vec4);
     m_outdoorFogColorUniformHandle = bgfx::createUniform("u_fogColor", bgfx::UniformType::Vec4);
+    m_skyFogUniformHandle = bgfx::createUniform("u_skyFog", bgfx::UniformType::Vec4, SkyFogUniformVectors);
     m_outdoorFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
     m_outdoorFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
     m_outdoorCameraPositionUniformHandle = bgfx::createUniform("u_cameraPosition", bgfx::UniformType::Vec4);
     m_secretPulseParamsUniformHandle = bgfx::createUniform("u_secretPulseParams", bgfx::UniformType::Vec4);
+    m_bmodelTextureLayerUniformHandle = bgfx::createUniform("u_bmodelTextureLayer", bgfx::UniformType::Vec4);
     m_spellAreaPreviewParams0UniformHandle = bgfx::createUniform("u_spellAreaParams0", bgfx::UniformType::Vec4);
     m_spellAreaPreviewParams1UniformHandle = bgfx::createUniform("u_spellAreaParams1", bgfx::UniformType::Vec4);
     m_spellAreaPreviewColorAUniformHandle = bgfx::createUniform("u_spellAreaColorA", bgfx::UniformType::Vec4);
@@ -3185,11 +2898,13 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_outdoorSunlightUniformHandle)
         || !bgfx::isValid(m_worldClipPlaneUniformHandle)
         || !bgfx::isValid(m_waterSurfaceControlUniformHandle)
+        || !bgfx::isValid(m_wetnessUniformHandle)
         || !bgfx::isValid(m_outdoorFogColorUniformHandle)
         || !bgfx::isValid(m_outdoorFogDensitiesUniformHandle)
         || !bgfx::isValid(m_outdoorFogDistancesUniformHandle)
         || !bgfx::isValid(m_outdoorCameraPositionUniformHandle)
         || !bgfx::isValid(m_secretPulseParamsUniformHandle)
+        || !bgfx::isValid(m_bmodelTextureLayerUniformHandle)
         || (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData
             && !bgfx::isValid(m_bmodelLightmapSamplerHandle))
         || (m_gameSettings.lightmaps && m_pOutdoorMapData->lightingData
@@ -3741,6 +3456,7 @@ void OutdoorGameView::shutdown()
         m_waterRenderer.shutdown();
         m_worldClipPlaneUniformHandle = BGFX_INVALID_HANDLE;
         m_waterSurfaceControlUniformHandle = BGFX_INVALID_HANDLE;
+        m_wetnessUniformHandle = BGFX_INVALID_HANDLE;
         m_programHandle = BGFX_INVALID_HANDLE;
         m_screenTintProgramHandle = BGFX_INVALID_HANDLE;
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
@@ -3753,6 +3469,12 @@ void OutdoorGameView::shutdown()
         m_outdoorTerrainShadowProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorBModelShadowProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorBModelLightmapProgramHandle = BGFX_INVALID_HANDLE;
+        m_outdoorBModelLightmapArrayProgramHandle = BGFX_INVALID_HANDLE;
+        m_outdoorBModelShadowArrayProgramHandle = BGFX_INVALID_HANDLE;
+        m_outdoorTexturedFogArrayProgramHandle = BGFX_INVALID_HANDLE;
+        m_outdoorTexturedFogShadowArrayProgramHandle = BGFX_INVALID_HANDLE;
+        m_bmodelTextureLayerUniformHandle = BGFX_INVALID_HANDLE;
+        m_bmodelTextureArrays.clear();
         m_outdoorForcePerspectiveProgramHandle = BGFX_INVALID_HANDLE;
         m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_terrainTextureArrayHandle = BGFX_INVALID_HANDLE;
@@ -3778,6 +3500,7 @@ void OutdoorGameView::shutdown()
         m_bloodSplatVertexCount = 0;
         m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
         m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
+        m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorCameraPositionUniformHandle = BGFX_INVALID_HANDLE;
@@ -3814,7 +3537,8 @@ void OutdoorGameView::shutdown()
     }
 
     m_waterRenderer.shutdown();
-    for (bgfx::UniformHandle *pUniform : {&m_worldClipPlaneUniformHandle, &m_waterSurfaceControlUniformHandle})
+    for (bgfx::UniformHandle *pUniform :
+        {&m_worldClipPlaneUniformHandle, &m_waterSurfaceControlUniformHandle, &m_wetnessUniformHandle})
     {
         if (bgfx::isValid(*pUniform))
         {
@@ -3856,7 +3580,9 @@ void OutdoorGameView::shutdown()
     ParticleRenderer::shutdownResources(m_worldFxRenderResources);
 
     for (bgfx::ProgramHandle *pProgram : {&m_outdoorTerrainShadowProgramHandle,
-        &m_outdoorTexturedFogShadowProgramHandle, &m_outdoorBModelShadowProgramHandle})
+        &m_outdoorTexturedFogShadowProgramHandle, &m_outdoorBModelShadowProgramHandle,
+        &m_outdoorBModelLightmapArrayProgramHandle, &m_outdoorBModelShadowArrayProgramHandle,
+        &m_outdoorTexturedFogArrayProgramHandle, &m_outdoorTexturedFogShadowArrayProgramHandle})
     {
         if (bgfx::isValid(*pProgram))
         {
@@ -3999,6 +3725,12 @@ void OutdoorGameView::shutdown()
         m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
     }
 
+    if (bgfx::isValid(m_skyFogUniformHandle))
+    {
+        bgfx::destroy(m_skyFogUniformHandle);
+        m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
     if (bgfx::isValid(m_outdoorFogDensitiesUniformHandle))
     {
         bgfx::destroy(m_outdoorFogDensitiesUniformHandle);
@@ -4015,6 +3747,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_outdoorCameraPositionUniformHandle);
         m_outdoorCameraPositionUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_bmodelTextureLayerUniformHandle))
+    {
+        bgfx::destroy(m_bmodelTextureLayerUniformHandle);
+        m_bmodelTextureLayerUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_secretPulseParamsUniformHandle))
@@ -4074,6 +3812,14 @@ void OutdoorGameView::shutdown()
         animation.animationLengthTicks = 0;
     }
 
+    for (const BModelTextureArray &array : m_bmodelTextureArrays)
+    {
+        if (bgfx::isValid(array.handle))
+        {
+            bgfx::destroy(array.handle);
+        }
+    }
+    m_bmodelTextureArrays.clear();
     m_texturedBModelBatches.clear();
     m_bmodelTextureAnimations.clear();
     for (ResolvedBModelDrawGroup &group : m_resolvedBModelDrawGroups)
@@ -4183,6 +3929,20 @@ void OutdoorGameView::shutdown()
     m_cachedSkyVertices.clear();
     m_cachedSkyTextureName.clear();
     m_lastSkyUpdateElapsedTime = -1.0f;
+    m_skyRenderer.state().snap();
+    m_enhancedSkyActive = false;
+    m_lastSkyStateElapsedTime = -1.0f;
+    m_weatherPresentation.snap();
+    m_lastWeatherElapsedTime = -1.0f;
+
+    if (m_pGameAudioSystem != nullptr)
+    {
+        m_weatherAudio.stop(*m_pGameAudioSystem);
+    }
+    else
+    {
+        m_weatherAudio.forget();
+    }
     m_bmodelLineVertexCount = 0;
     m_bmodelCollisionVertexCount = 0;
     m_bmodelFaceCount = 0;
@@ -4896,6 +4656,99 @@ void OutdoorGameView::showStatusBarEvent(const std::string &text, float duration
     setStatusBarEvent(text, durationSeconds);
 }
 
+void OutdoorGameView::setRenderLayers(const RenderLayers &layers)
+{
+    m_renderLayers = layers;
+    m_showFilledTerrain = layers.terrain;
+    m_showBModels = layers.bmodels;
+    m_showDecorationBillboards = layers.decorationSprites;
+    m_showActors = layers.actors;
+    m_showSpriteObjects = layers.effects;
+}
+
+void OutdoorGameView::setDebugSkyPreset(const std::string &presetName)
+{
+    m_debugSkyPreset = presetName;
+}
+
+void OutdoorGameView::setDebugSkyTheme(const std::optional<std::string> &themeName)
+{
+    m_debugSkyTheme = themeName;
+}
+
+void OutdoorGameView::snapSky()
+{
+    m_skyRenderer.state().snap();
+}
+
+const WeatherPresentation &OutdoorGameView::weatherPresentation() const
+{
+    return m_weatherPresentation;
+}
+
+void OutdoorGameView::snapWeather()
+{
+    m_weatherPresentation.snap();
+}
+
+void OutdoorGameView::forceLightningStrike(LightningDistance distance)
+{
+    m_weatherPresentation.forceStrike(distance);
+}
+
+const SkyFrameState *OutdoorGameView::enhancedSkyFrame() const
+{
+    return m_enhancedSkyActive ? &m_skyRenderer.frame() : nullptr;
+}
+
+std::array<std::array<float, 4>, 2> OutdoorGameView::bakedLightingColors(
+    const OutdoorWorldRuntime::AtmosphereState &atmosphere) const
+{
+    std::array<std::array<float, 4>, 2> colors = outdoorBakedLightingColors(atmosphere, m_gameSettings);
+
+    if (const SkyFrameState *pSky = enhancedSkyFrame(); pSky != nullptr)
+    {
+        // Half the sun disc's colour: warm low sun without turning noon terrain yellow.
+        const SkyColor &disc = pSky->value(SkyValue::SunDisc);
+        const std::array<float, 3> sunTint = {
+            0.5f + 0.5f * disc[0], 0.5f + 0.5f * disc[1], 0.5f + 0.5f * disc[2]};
+        applyOutdoorBakedLightingTint(colors, sunTint, pSky->value(SkyValue::AmbientTint));
+    }
+
+    applyOutdoorWeatherLighting(colors, m_weatherPresentation.cloudCover(), m_weatherPresentation.lightningFlash());
+    return colors;
+}
+
+SkySurroundings OutdoorGameView::skySurroundings() const
+{
+    if (m_pOutdoorMapData == nullptr || m_pOutdoorMapData->noTerrain)
+    {
+        return {};
+    }
+
+    constexpr float HalfSize = 0.5f * OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainTileSize;
+    SkySurroundings surroundings = {};
+    surroundings.mapEdge = {HalfSize, 0.0f, 0.0f};
+    surroundings.seaSideWeights = m_distantSea.sideWeights;
+    surroundings.camera = {m_skyCameraPosition[2] - m_distantSea.seaLevel, m_skyCameraPosition[0],
+        m_skyCameraPosition[1]};
+    // The water shader's base colour: the tile's water colour under the ambient light.
+    const float brightness = m_pOutdoorWorldRuntime != nullptr
+        ? m_pOutdoorWorldRuntime->atmosphereState().ambientBrightness : 1.0f;
+
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        surroundings.seaColorDisplay[channel] = m_distantSea.waterColorDisplay[channel] * brightness;
+    }
+
+    return surroundings;
+}
+
+const SkyPresetLibrary *OutdoorGameView::skyPresetLibrary() const
+{
+    return m_skyRenderer.isReady() ? &m_skyRenderer.library() : nullptr;
+}
+
 void OutdoorGameView::setSettingsSnapshot(const GameSettings &settings)
 {
     m_gameSettings = settings;
@@ -5386,7 +5239,7 @@ void OutdoorGameView::LightmappedBModelVertex::init()
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::TexCoord1, 1, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord1, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord3, 4, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord4, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)

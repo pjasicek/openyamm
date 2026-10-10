@@ -2,6 +2,7 @@
 
 #include "engine/models/ModelAsset.h"
 
+#include <memory>
 #include <vector>
 
 namespace OpenYAMM::Engine
@@ -44,4 +45,9 @@ void blendModelPose(const ModelAsset &asset, ModelPose &pose, const ModelPose &o
     const std::vector<float> &mask = {});
 void evaluateModelHierarchy(const ModelAsset &asset, const ModelMatrix &rootMatrix, ModelPose &pose);
 void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins = true);
+// A static copy of `asset` frozen in `pose` (hierarchy evaluated with an identity root): every mesh node's mesh and its
+// colour and shadow LOD chains are skinned (or moved by the node's matrix) and morphed into asset-root space, on
+// unparented identity nodes without skins, clips or morph targets. Materials, images and variants are copied, so
+// renderers share the source's textures. Used for corpses (ModelInstanceSystem::setStaticStandIn).
+std::shared_ptr<ModelAsset> bakeStaticModelPose(const ModelAsset &asset, const ModelPose &pose);
 }

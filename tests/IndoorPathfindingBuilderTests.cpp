@@ -10,6 +10,8 @@
 #include <utility>
 #include <vector>
 
+TEST_SUITE_BEGIN(OpenYAMM::Tests::SharedRegressionMapSuite);
+
 using OpenYAMM::Game::FaceAttribute;
 using OpenYAMM::Game::IndoorFace;
 using OpenYAMM::Game::IndoorFaceGeometryCache;
@@ -700,3 +702,5 @@ TEST_CASE("naga vault actors enter the hallway over its low threshold")
     CHECK(state.grounded);
     CHECK_EQ(state.footZ, doctest::Approx(follow.target.z));
 }
+
+TEST_SUITE_END();

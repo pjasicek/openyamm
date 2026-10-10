@@ -1,0 +1,25 @@
+{
+  "generator": "tools/sky/generate_cloud_layers.py",
+  "layers": {
+    "clouds_cumulus": {
+      "size": 1024,
+      "seed": 7000,
+      "sha256": "3bb5f9597578056dea84355001f3eac0280f41d9655b6e2263a8b65bf4c884fa"
+    },
+    "clouds_stratus": {
+      "size": 1024,
+      "seed": 7001,
+      "sha256": "b4939d4b44c86f6a30d8baf6af0e54134fb59033b436a57adcf0c467dd10f75b"
+    },
+    "clouds_cirrus": {
+      "size": 1024,
+      "seed": 7002,
+      "sha256": "9fc590b513e3c127520d2619210782fa985b8ddc09a92ca9a3b7622558dc51d8"
+    },
+    "clouds_storm": {
+      "size": 1024,
+      "seed": 7003,
+      "sha256": "f44eff1efc2bd1c0120b78f516e1b7324fa3b41e2d88b0eba578e7f934c47f0e"
+    }
+  }
+}

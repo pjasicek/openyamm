@@ -1,0 +1,477 @@
+{
+ "generator": "tools/sky/derive_legacy_skies.py",
+ "skies": {
+  "6plansky1": {
+   "source": "level_generation/lighting/sky_art/hd_masters/6plansky1.png",
+   "source_sha256": "970e66e5d77fb539dde933b39664d28438895375d2c8476a263dc797ee4a4ebf",
+   "layer_sha256": "423ee78d39ceabfd40fd22b380d56f95017577b2df9b6dce0611bc0a273370a6",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.29,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.18558918438059208,
+    0.2950248037375021,
+    0.5507282782752272
+   ],
+   "mean_srgb": [
+    0.31513226086436735,
+    0.37251286493760155,
+    0.5468231221250769
+   ]
+  },
+  "6sky02": {
+   "source": "level_generation/lighting/sky_art/hd_masters/6sky02.png",
+   "source_sha256": "6f4ed335fb8666a771c01b7e5d8e73a2818f539378e55ca140d63b3123dc4335",
+   "layer_sha256": "e9f28aa16a6f4e6f1af8f473c4ca237f80ec3f678a3d7c8b271c7b67f775f511",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.14,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.285020451099256,
+    0.30083264427042794,
+    0.44950412404972107
+   ],
+   "mean_srgb": [
+    0.55180001734159,
+    0.45694817989678965,
+    0.45758850337160806
+   ]
+  },
+  "6sky03": {
+   "source": "level_generation/lighting/sky_art/hd_masters/6sky03.png",
+   "source_sha256": "4a2f7e5d0b2e3e0b5cfa39e5ca384335ff0f062fa16ee1f3df320c4f1a0c9db3",
+   "layer_sha256": "d98d95d642ca2df70d95e579dee9a8a2b59dc46a37901566d2f270dbd80510f9",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.22,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.13075820434563493,
+    0.2779495103953368,
+    0.6980171711109794
+   ],
+   "mean_srgb": [
+    0.292767474956301,
+    0.44996010656280844,
+    0.7209697088292217
+   ]
+  },
+  "6sky04": {
+   "source": "level_generation/lighting/sky_art/hd_masters/6sky04.png",
+   "source_sha256": "5821d6a9f72e5f49902f6cf53d4d221dea0450b3a9ce3516e2d52124cc19b7ce",
+   "layer_sha256": "8e1b909c6ed69a8f3ba334f45e0c6cea41dffef59ae49d840c54e65f1cfcde1f",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.27,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.18308633414352962,
+    0.21234540531663146,
+    0.3529214990260086
+   ],
+   "mean_srgb": [
+    0.44566414419227035,
+    0.4593829125629301,
+    0.5356924951811818
+   ]
+  },
+  "6sky06": {
+   "source": "level_generation/lighting/sky_art/hd_masters/6sky06.png",
+   "source_sha256": "c80b01d8c784d1cca38dbe9e82a689fe57b87ef1a5248702a984c62b4772a0f0",
+   "layer_sha256": "97af08477cdb8e27c997c2560cfe8d4743bcef4a71df757e88807608d684fd3a",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.32,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.12241590658619692,
+    0.2723429571001353,
+    0.6766731004225863
+   ],
+   "mean_srgb": [
+    0.343557826392404,
+    0.3963309174537375,
+    0.6762006413180585
+   ]
+  },
+  "6sky12": {
+   "source": "level_generation/lighting/sky_art/hd_masters/6sky12.png",
+   "source_sha256": "9132cd0ea15b84182c994d1fbf6874e80ece6aa0dcd1dd9bc6fd8f6c54677d73",
+   "layer_sha256": "0ff3673d5e0143dce552846978bf1634c2f31152fdc64e76b15ab54a29f700bf",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.11,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.23161828379655972,
+    0.2988771933700141,
+    0.7030269442904851
+   ],
+   "mean_srgb": [
+    0.4535961368197985,
+    0.4839486786640159,
+    0.7422782931173688
+   ]
+  },
+  "6sky19": {
+   "source": "level_generation/lighting/sky_art/hd_masters/6sky19.png",
+   "source_sha256": "20ac77db23aa338ca4a2bb1b0da89985a9e187385c4d08e69876eeddfcad6dbd",
+   "layer_sha256": "18c68530cc8ceedcb3c9a52d65d1961405b565d911a07785620f561dfab2f681",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.0,
+   "full_coverage": true,
+   "fixed_look": false,
+   "background_srgb": null,
+   "mean_srgb": [
+    0.4626744989853835,
+    0.3838847218875159,
+    0.3485508301256254
+   ]
+  },
+  "7plansky3": {
+   "source": "level_generation/lighting/sky_art/hd_masters/7plansky3.png",
+   "source_sha256": "2251663843645b645e0c774e5cd7db252eafa1e32e43b772731e33ced0c95814",
+   "layer_sha256": "9967d9bb1631c45e817bbaede70907918372448c835677d27efda470f00211e1",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.04,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.1794516070127734,
+    0.2872373913443544,
+    0.5464174659533322
+   ],
+   "mean_srgb": [
+    0.22675568909067287,
+    0.3148544784460164,
+    0.5453195810356278
+   ]
+  },
+  "7sky01": {
+   "source": "level_generation/lighting/sky_art/hd_masters/7sky01.png",
+   "source_sha256": "2ac9df9cbafbe63bcf132d3408c94e476f56ed4db0becbdfa9bb2f12830f86a2",
+   "layer_sha256": "1b7a87987e73e4100ef736b7945a43e236a27c4646ce0ee360c91629810dee17",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.17,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.17259230119583152,
+    0.2872732874659204,
+    0.5576822220573201
+   ],
+   "mean_srgb": [
+    0.30257716377166544,
+    0.37066615278502457,
+    0.5531223873380776
+   ]
+  },
+  "7sky02": {
+   "source": "level_generation/lighting/sky_art/hd_masters/7sky02.png",
+   "source_sha256": "32e60e96dcd7a37bead4be1b5681d9e0c8c119b48a4703849eb3fe60cc371769",
+   "layer_sha256": "a61f095cd474b58bcf0905c25d00e12485c34b10f85d077c0ad1af4ba5dd17e8",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.13,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.2819906404251996,
+    0.3008970147216218,
+    0.429399116631753
+   ],
+   "mean_srgb": [
+    0.5208359484813763,
+    0.45389754506206487,
+    0.45207266889884046
+   ]
+  },
+  "7sky04": {
+   "source": "level_generation/lighting/sky_art/hd_masters/7sky04.png",
+   "source_sha256": "5be86f9ada630a356caff5faa9f5e810d5abf2f3176c90658c83005917a5e0f5",
+   "layer_sha256": "9e54f81ca2c4617e3a6d9e07f32e2376413514677321a095027d4ef273cbe085",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.23,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.17007439274452565,
+    0.20147781183082503,
+    0.3394251088067059
+   ],
+   "mean_srgb": [
+    0.43268060033454836,
+    0.4472972693478528,
+    0.5229096912814245
+   ]
+  },
+  "cloudsabove": {
+   "source": "level_generation/lighting/sky_art/hd_masters/cloudsabove.png",
+   "source_sha256": "b0d1b02186651a95a354d6cef4cd35fbf2fdb2bfc8ec60185cf294e39187d524",
+   "layer_sha256": "bc3d44776a84cc4ef21e12cf2d93324aaf3a7afdfb231bb12883cdb95b1fc514",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.31,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.32025982124297475,
+    0.31933456067937693,
+    0.461416990824565
+   ],
+   "mean_srgb": [
+    0.559987280238181,
+    0.5114840995022513,
+    0.5700963885897764
+   ]
+  },
+  "plansky1": {
+   "source": "level_generation/lighting/sky_art/hd_masters/plansky1.png",
+   "source_sha256": "d320a728a5c02637fbe86f1b366faa634dce618619c9de6210671f89bb265ccc",
+   "layer_sha256": "a756eda0673cc27c7f955f65b70b9e910e7c88a4ea967ef2f7cb7509d04df0f8",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.17,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.4936263931687182,
+    0.6030908951537514,
+    0.685616152325014
+   ],
+   "mean_srgb": [
+    0.5771084457153595,
+    0.644130692967864,
+    0.6946013002954515
+   ]
+  },
+  "plansky3": {
+   "source": "level_generation/lighting/sky_art/hd_masters/plansky3.png",
+   "source_sha256": "6253b1a3c7e1a05cdba2ecbf764fddb5e6f100b4d4bd81a8e499b157b6dad66e",
+   "layer_sha256": "1ce193db94ee5846742d7d11363363a202d5e83d04698b307b0d5b2621189535",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.06,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.4862583798507504,
+    0.6015806306497574,
+    0.6874101003879798
+   ],
+   "mean_srgb": [
+    0.5244366990990774,
+    0.6209634245185709,
+    0.6955092240146331
+   ]
+  },
+  "sky01": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky01.png",
+   "source_sha256": "34d0f8984fc5582aee1fde231e376d111a622e4e09b36ca25a6e8ce8d22d3232",
+   "layer_sha256": "26713fe81192710144dda614adbbad0efde60a41db60e65ef44b0cfc2715bd66",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.0,
+   "full_coverage": true,
+   "fixed_look": false,
+   "background_srgb": null,
+   "mean_srgb": [
+    0.7991725790886156,
+    0.8439522265147456,
+    0.8111579119859859
+   ]
+  },
+  "sky02": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky02.png",
+   "source_sha256": "0feef388d45ebe9493913005d5b22996279a0b20a66386f35c191f817ddec0dd",
+   "layer_sha256": "00888c78df9ad2981ca80449da0d28583b1ecb3d434fbf7418b4626731a8e884",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.09,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.27662562151399345,
+    0.29299507355050236,
+    0.41955466782728756
+   ],
+   "mean_srgb": [
+    0.4526754853834044,
+    0.39816689059492333,
+    0.42360263591012026
+   ]
+  },
+  "sky03": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky03.png",
+   "source_sha256": "dad19147cc85c553420af681d3b0f8817549e817f4256547445cafdd1ac6a477",
+   "layer_sha256": "358353055141386bed1ea003391286d3d0ec30bb8283faf1658947be2c74d7a0",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.11,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.3712864786453669,
+    0.4354382994154115,
+    0.6211407614727688
+   ],
+   "mean_srgb": [
+    0.5227048148160035,
+    0.5756235984598786,
+    0.7569074114292238
+   ]
+  },
+  "sky04": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky04.png",
+   "source_sha256": "3180dc7e1b0a079cb4f6ecb61de9b753572ca62d0e5ae200bcdf7405cb05061b",
+   "layer_sha256": "b93859b5f8a07a37a0a9a62735fbc91a802a74ac066f4b30b6a277e9a43bf131",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.0,
+   "full_coverage": true,
+   "fixed_look": false,
+   "background_srgb": null,
+   "mean_srgb": [
+    0.527811015679734,
+    0.606742348852278,
+    0.7677921945683915
+   ]
+  },
+  "sky05": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky05.png",
+   "source_sha256": "ff7993a091cb48a825b012d0adec6a38d52a141d09dcc7178673ede181563a13",
+   "layer_sha256": "d3a1995987b4b889b516e6401137abff8557eaf534fe610a76bb80c02c31f26f",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.3,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.7170517416213652,
+    0.7864669410827455,
+    0.9715291520334698
+   ],
+   "mean_srgb": [
+    0.7980815353442572,
+    0.8226333407311595,
+    0.8999418502439491
+   ]
+  },
+  "sky06": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky06.png",
+   "source_sha256": "832de2dc0d14d4f43da45a3d83ddd15ffbd47e82f47b7b87d00e8505f7157820",
+   "layer_sha256": "752de372111bd507456a6318ee9caad17b14598972a8e3b734ffac94e8cf22a9",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.27,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.2678334006472884,
+    0.37105560521686215,
+    0.5875746595537512
+   ],
+   "mean_srgb": [
+    0.4307317482552504,
+    0.45581867458343167,
+    0.5977627060398631
+   ]
+  },
+  "sky12": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky12.png",
+   "source_sha256": "ef367cdeacab066d464df503c61c3fc03535f385f8fccab229a4eb3945047c34",
+   "layer_sha256": "50d786f93893390917a7765be6f89e57e8b51090f2d7fbe3c3147a3e05571cfd",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.14,
+   "full_coverage": false,
+   "fixed_look": false,
+   "background_srgb": [
+    0.21409410715562988,
+    0.2932010771089963,
+    0.6802611246258905
+   ],
+   "mean_srgb": [
+    0.42216002876470676,
+    0.46010159104416776,
+    0.7073327160391063
+   ]
+  },
+  "sky19": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sky19.png",
+   "source_sha256": "3b62447d6ac76549efe7b518b5087528589e20005d0ab7eea85265ec7ef49e80",
+   "layer_sha256": "63945d57da4867b7e2c3164ce43716239611759a5639db40cd3422b459f9f04b",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.0,
+   "full_coverage": true,
+   "fixed_look": false,
+   "background_srgb": null,
+   "mean_srgb": [
+    0.46666487683151014,
+    0.3899595417704358,
+    0.355347470644778
+   ]
+  },
+  "skycity01": {
+   "source": "level_generation/lighting/sky_art/hd_masters/skycity01.png",
+   "source_sha256": "c0b70443bd435e827c0d182c9e134de9cf8ec2d270cdb5e8663372cab1b35045",
+   "layer_sha256": "2aa4191e749c9090e7f86951a4dab053c2230d9d4d37b2d16e18b2311bc34b3c",
+   "logical_width": 256,
+   "hd_master": true,
+   "seam_ratio": 0.0,
+   "full_coverage": true,
+   "fixed_look": false,
+   "background_srgb": null,
+   "mean_srgb": [
+    0.7502681570819811,
+    0.7967614722466866,
+    0.9294808125691448
+   ]
+  },
+  "stormclds": {
+   "source": "level_generation/lighting/sky_art/hd_masters/stormclds.png",
+   "source_sha256": "98940b56b5c1f3db88dbcf9b8156236e86d5b144ae6e922f979685f1f3571bde",
+   "layer_sha256": "e88eedf94822c02446eeb948a5aeab70bdc0b09a83a6cb361b13c17c8f742459",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.0,
+   "full_coverage": true,
+   "fixed_look": false,
+   "background_srgb": null,
+   "mean_srgb": [
+    0.5016174143802504,
+    0.551136107816454,
+    0.6575552919856474
+   ]
+  },
+  "sunsetclouds": {
+   "source": "level_generation/lighting/sky_art/hd_masters/sunsetclouds.png",
+   "source_sha256": "72d168b8d63b74d494b7bccb34eb2389e4ec579548f9525864172c092a301e0b",
+   "layer_sha256": "00219fc342155f0c08bdff36bcd6126714dc21ab8f6b51baec6e11e2cc71c5e2",
+   "logical_width": 512,
+   "hd_master": true,
+   "seam_ratio": 0.0,
+   "full_coverage": true,
+   "fixed_look": true,
+   "background_srgb": null,
+   "mean_srgb": [
+    0.3882467092886674,
+    0.2432228090231084,
+    0.24420658197973152
+   ]
+  }
+ }
+}

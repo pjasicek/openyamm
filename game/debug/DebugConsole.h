@@ -92,6 +92,9 @@ public:
 
     void addMessage(MessageKind kind, const std::string &message);
     void clearMessages();
+    const std::vector<Message> &messages() const;
+    // Messages added since construction, including ones already dropped from the bounded history.
+    size_t totalMessageCount() const;
     void executeLine(const std::string &line);
     void render(int width, int height);
     int handleInputTextCallback(ImGuiInputTextCallbackData *pData);
@@ -125,6 +128,7 @@ private:
 
     std::unordered_map<std::string, CommandDefinition> m_commands;
     std::vector<Message> m_messages;
+    size_t m_totalMessageCount = 0;
     std::vector<std::string> m_history;
     std::vector<ItemOption> m_itemOptions;
     std::vector<MapOption> m_mapOptions;

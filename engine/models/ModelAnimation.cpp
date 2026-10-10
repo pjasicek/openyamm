@@ -578,4 +578,131 @@ void deformModelPose(const ModelAsset &asset, ModelPose &pose, bool deformSkins)
         }
     }
 }
+
+std::shared_ptr<ModelAsset> bakeStaticModelPose(const ModelAsset &asset, const ModelPose &pose)
+{
+    auto baked = std::make_shared<ModelAsset>();
+    baked->sourcePath = asset.sourcePath + "#static_pose";
+    baked->images = asset.images;
+    baked->materials = asset.materials;
+    baked->materialVariants = asset.materialVariants;
+    for (size_t nodeIndex = 0; nodeIndex < asset.nodes.size(); ++nodeIndex)
+    {
+        const ModelNode &node = asset.nodes[nodeIndex];
+        if (node.meshIndex < 0 || !modelMatrixVisible(pose.globalMatrices[nodeIndex]))
+        {
+            continue;
+        }
+        std::vector<ModelMatrix> joints;
+        std::vector<ModelMatrix> jointNormals;
+        if (node.skinIndex >= 0)
+        {
+            const ModelSkin &skin = asset.skins[node.skinIndex];
+            for (size_t i = 0; i < skin.joints.size(); ++i)
+            {
+                joints.push_back(
+                    multiplyModelMatrices(pose.globalMatrices[skin.joints[i]], skin.inverseBindMatrices[i]));
+                jointNormals.push_back(modelNormalMatrix(joints.back()));
+            }
+        }
+        const ModelMatrix &nodeMatrix = pose.globalMatrices[nodeIndex];
+        const ModelMatrix nodeNormal = modelNormalMatrix(nodeMatrix);
+        const std::vector<float> &morphWeights = pose.morphWeights[nodeIndex];
+        const auto bakeMesh = [&](uint32_t sourceMesh)
+        {
+            ModelMesh mesh = asset.meshes[sourceMesh];
+            mesh.weights.clear();
+            mesh.lodMeshes.clear();
+            mesh.shadowMeshes.clear();
+            for (ModelPrimitive &primitive : mesh.primitives)
+            {
+                const bool morphs =
+                    !primitive.morphTargets.empty() && primitive.morphTargets.size() == morphWeights.size();
+                for (size_t vertexIndex = 0; vertexIndex < primitive.vertices.size(); ++vertexIndex)
+                {
+                    ModelVertex &vertex = primitive.vertices[vertexIndex];
+                    std::array<float, 3> position = morphs ? morphPosition(primitive, morphWeights, vertexIndex)
+                        : vertex.position;
+                    std::array<float, 3> normal = vertex.normal;
+                    if (morphs)
+                    {
+                        for (size_t target = 0; target < morphWeights.size(); ++target)
+                        {
+                            const ModelMorphTarget &morph = primitive.morphTargets[target];
+                            for (size_t axis = 0; axis < 3 && !morph.normals.empty(); ++axis)
+                            {
+                                normal[axis] += morphWeights[target] * morph.normals[vertexIndex][axis];
+                            }
+                        }
+                    }
+                    std::array<float, 3> outNormal = {};
+                    if (node.skinIndex >= 0 && vertexIndex < primitive.influences.size())
+                    {
+                        const ModelVertexInfluences &influences = primitive.influences[vertexIndex];
+                        vertex.position = skinPosition(position, influences, joints);
+                        for (size_t i = 0; i < influences.weights.size(); ++i)
+                        {
+                            const float weight = influences.weights[i];
+                            const ModelMatrix &matrix = jointNormals[influences.joints[i]];
+                            for (size_t axis = 0; axis < 3 && weight != 0.0f; ++axis)
+                            {
+                                outNormal[axis] += weight * (matrix[axis] * normal[0] + matrix[4 + axis] * normal[1]
+                                    + matrix[8 + axis] * normal[2]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (size_t axis = 0; axis < 3; ++axis)
+                        {
+                            vertex.position[axis] = nodeMatrix[axis] * position[0] + nodeMatrix[4 + axis] * position[1]
+                                + nodeMatrix[8 + axis] * position[2] + nodeMatrix[12 + axis];
+                            outNormal[axis] = nodeNormal[axis] * normal[0] + nodeNormal[4 + axis] * normal[1]
+                                + nodeNormal[8 + axis] * normal[2];
+                        }
+                    }
+                    const float length = std::sqrt(outNormal[0] * outNormal[0] + outNormal[1] * outNormal[1]
+                        + outNormal[2] * outNormal[2]);
+                    vertex.normal = length > 0.0f
+                        ? std::array<float, 3>{outNormal[0] / length, outNormal[1] / length, outNormal[2] / length}
+                        : vertex.normal;
+                }
+                primitive.influences.clear();
+                primitive.morphTargets.clear();
+            }
+            baked->meshes.push_back(std::move(mesh));
+            return uint32_t(baked->meshes.size() - 1);
+        };
+        const ModelMesh &source = asset.meshes[node.meshIndex];
+        const uint32_t base = bakeMesh(uint32_t(node.meshIndex));
+        std::vector<uint32_t> lods;
+        std::vector<uint32_t> shadows;
+        for (const uint32_t lod : source.lodMeshes)
+        {
+            lods.push_back(bakeMesh(lod));
+        }
+        for (const uint32_t shadow : source.shadowMeshes)
+        {
+            shadows.push_back(bakeMesh(shadow));
+        }
+        baked->meshes[base].lodMeshes = std::move(lods);
+        baked->meshes[base].shadowMeshes = std::move(shadows);
+        for (const ModelPrimitive &primitive : baked->meshes[base].primitives)
+        {
+            for (const ModelVertex &vertex : primitive.vertices)
+            {
+                includePoint(baked->staticBounds, vertex.position);
+            }
+        }
+        ModelNode bakedNode;
+        bakedNode.name = node.name;
+        bakedNode.meshIndex = int(base);
+        bakedNode.matrix = identityModelMatrix();   // poses read node.matrix (the loader always fills it)
+        const uint32_t bakedIndex = uint32_t(baked->nodes.size());
+        baked->nodeIndicesByName[node.name] = bakedIndex;
+        baked->hierarchyOrder.push_back(bakedIndex);
+        baked->nodes.push_back(std::move(bakedNode));
+    }
+    return baked;
+}
 }

@@ -2,6 +2,7 @@
 #include "engine/models/ModelAnimation.h"
 
 #include "engine/AssetFileSystem.h"
+#include "engine/render/CookedTexture.h"
 
 #include <cgltf/cgltf.h>
 #include <yaml-cpp/yaml.h>
@@ -291,14 +292,14 @@ bool loadImages(
                 error = "embedded model image " + std::to_string(imageIndex) + " has no buffer data";
                 return false;
             }
-            image.pngBytes.assign(pBytes, pBytes + source.buffer_view->size);
+            image.bytes.assign(pBytes, pBytes + source.buffer_view->size);
             image.sourcePath = virtualPath + "#image" + std::to_string(imageIndex);
         }
         else if (source.uri != nullptr)
         {
             if (!isSafeRelativeUri(source.uri) || std::string_view(source.uri).starts_with("data:"))
             {
-                error = "model image URI must be a package-relative PNG path: " + std::string(source.uri);
+                error = "model image URI must be a package-relative PNG or .oytex path: " + std::string(source.uri);
                 return false;
             }
             image.sourcePath = joinedVirtualPath(virtualPath, source.uri);
@@ -308,16 +309,17 @@ bool loadImages(
                 error = "model image was not found: " + image.sourcePath;
                 return false;
             }
-            image.pngBytes = *bytes;
+            image.bytes = *bytes;
+            image.cooked = hasCookedTextureSignature(image.bytes);
         }
         else
         {
             error = "model image " + std::to_string(imageIndex) + " has neither URI nor buffer view";
             return false;
         }
-        if (!hasPngSignature(image.pngBytes))
+        if (!image.cooked && !hasPngSignature(image.bytes))
         {
-            error = "model image is not a PNG: " + image.sourcePath;
+            error = "model image is neither a PNG nor a cooked texture: " + image.sourcePath;
             return false;
         }
         asset.images.push_back(std::move(image));
@@ -524,12 +526,35 @@ bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::string &error
                         return false;
                     }
                 }
+                if (extras["openyamm_pulse"])
+                {
+                    const std::vector<float> pulse = extras["openyamm_pulse"].as<std::vector<float>>();
+                    if (pulse.size() != 2 || !(pulse[0] > 0.0f && pulse[0] <= 1.0f)
+                        || !(pulse[1] >= 0.1f && pulse[1] <= 60.0f))
+                    {
+                        error = "material " + std::to_string(materialIndex)
+                            + " pulse needs an amplitude (0..1] and a period of 0.1..60 seconds";
+                        return false;
+                    }
+                    std::copy_n(pulse.begin(), 2, material.pulse.begin());
+                }
                 if (extras["openyamm_specular"])
                 {
                     material.specular = extras["openyamm_specular"].as<float>();
                     if (!std::isfinite(material.specular) || material.specular < 0.0f || material.specular > 1.0f)
                     {
                         error = "material " + std::to_string(materialIndex) + " specular must be 0..1";
+                        return false;
+                    }
+                }
+                if (extras["openyamm_specular_mask"])
+                {
+                    material.specularMask = extras["openyamm_specular_mask"].as<bool>();
+                    if (material.specularMask
+                        && source.pbr_metallic_roughness.metallic_roughness_texture.texture == nullptr)
+                    {
+                        error = "material " + std::to_string(materialIndex)
+                            + " specular mask needs a metallic-roughness texture";
                         return false;
                     }
                 }

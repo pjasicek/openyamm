@@ -563,6 +563,21 @@ bool TurnBasedCombatRuntime::beginPlayerActionOrFinishMovement(Party &party)
     return canBeginPlayerAction(party) && !hasPendingActions();
 }
 
+bool TurnBasedCombatRuntime::canPassTurn(const Party &party) const
+{
+    return (m_active && m_stage == TurnBasedCombatStage::Movement) || canBeginPlayerAction(party);
+}
+
+bool TurnBasedCombatRuntime::passTurn(Party &party, float recoverySeconds)
+{
+    if (m_active && m_stage == TurnBasedCombatStage::Movement)
+    {
+        return finishMovementPhase();
+    }
+
+    return canBeginPlayerAction(party) && applyPlayerAction(party, party.activeMemberIndex(), recoverySeconds);
+}
+
 bool TurnBasedCombatRuntime::applyPlayerAction(Party &party, size_t memberIndex, float recoverySeconds)
 {
     if (!m_active)

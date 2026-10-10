@@ -9,7 +9,6 @@
 #include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
-#include "game/gameplay/MercenaryRecruitmentRuntime.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/SavePreviewImage.h"
@@ -919,6 +918,10 @@ std::optional<GenericActorDialogResolution> resolveIndoorActorDialog(
     const GameplayActorInspectState &inspectState,
     size_t actorIndex)
 {
+    if (actor.npcId > 0)
+    {
+        return std::nullopt;
+    }
     return resolveGenericActorDialog(
         map ? map->fileName : std::string(),
         inspectState.displayName,
@@ -980,27 +983,6 @@ bool IndoorGameView::initialize(
     m_gameSession.gameplayScreenRuntime().bindSettings(&m_settings);
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     EventRuntimeState *pMutableEventRuntimeState = m_pIndoorSceneRuntime->worldRuntime().eventRuntimeState();
-
-    if (pMutableEventRuntimeState != nullptr)
-    {
-        refreshMercenaryRecruitmentForCurrentMap(
-            map,
-            sceneRuntime.partyRuntime().party(),
-            *pMutableEventRuntimeState,
-            MercenaryRecruitmentTables{
-                .pHouseTable = &data.houseTable(),
-                .pNpcNameTable = &data.mergedNpcNameTable(),
-                .pCharacterSelectionTable = &data.mergedCharacterSelectionTable(),
-                .pCharacterDollTable = &data.characterDollTable(),
-                .pClassSkillTable = &data.classSkillTable(),
-                .pClassMultiplierTable = &data.classMultiplierTable(),
-                .pRaceStartingStatsTable = &data.raceStartingStatsTable(),
-                .pItemTable = &data.itemTable(),
-                .pStandardItemEnchantTable = &data.standardItemEnchantTable(),
-                .pSpecialItemEnchantTable = &data.specialItemEnchantTable(),
-                .pSpellTable = &data.spellTable(),
-            });
-    }
 
     const EventRuntimeState *pEventRuntimeState = pMutableEventRuntimeState;
     screenRuntime.resetOverlayInteractionState(

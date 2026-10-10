@@ -1,5 +1,6 @@
 
 #include "common.sh"
+#include "sky_common.sh"
 #include "world_clip.sh"
 
 SAMPLER2D(s_texColor, 0);
@@ -235,7 +236,7 @@ void main()
         discard;
     }
 
-    float fogRatio = getFogRatio(v_depth);
-    vec3 foggedColor = mix(fragmentColor.rgb, u_fogColor.rgb, fogRatio);
+    float fogRatio = skyFogRatio(getFogRatio(v_depth), v_worldPosition, v_depth, u_fogDistances.z);
+    vec3 foggedColor = mix(fragmentColor.rgb, skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition), fogRatio);
     gl_FragColor = vec4(foggedColor, fragmentColor.a);
 }

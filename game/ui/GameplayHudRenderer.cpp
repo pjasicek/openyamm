@@ -341,6 +341,32 @@ void renderContextAction(GameplayScreenRuntime &context, int width, int height)
     }
 }
 
+void renderPassTurnButton(GameplayScreenRuntime &context, int width, int height)
+{
+    const std::optional<GameplayResolvedHudLayoutElement> buttonRect =
+        context.resolveMobilePassTurnButton(width, height);
+
+    if (!buttonRect)
+    {
+        return;
+    }
+
+    const bool pressed =
+        context.interactionState().gameplayHudClickLatch
+        && context.interactionState().gameplayHudPressedTarget.type == GameplayHudPointerTargetType::PassTurnButton;
+    GameplayUiSkin::renderPanel(context, *buttonRect, false, 0.32f);
+
+    UiLayoutManager::LayoutElement labelLayout = {};
+    labelLayout.fontName = "Fondamento";
+    labelLayout.textColorAbgr = pressed ? GameplayUiSkin::Gold : GameplayUiSkin::Ivory;
+    labelLayout.textAlignX = UiLayoutManager::TextAlignX::Center;
+    labelLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
+    labelLayout.textScale = 0.4166667f;
+    const std::string label =
+        context.turnBasedCombatRuntime().stage() == TurnBasedCombatStage::Movement ? "End Movement" : "Pass Turn";
+    renderCenteredContextActionLabelLines(context, labelLayout, *buttonRect, {label});
+}
+
 } // namespace
 
 void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int width, int height)
@@ -472,5 +498,6 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
     {
         renderContextAction(context, width, height);
     }
+    renderPassTurnButton(context, width, height);
 }
 } // namespace OpenYAMM::Game

@@ -345,4 +345,30 @@ TEST_CASE("turn based runtime keeps movement phase open until explicit movement 
     runtime.update(&party, nullptr, 0.016f);
     CHECK(runtime.stage() == OpenYAMM::Game::TurnBasedCombatStage::Wait);
 }
+
+TEST_CASE("turn based pass spends the ready member's action and ends movement")
+{
+    OpenYAMM::Game::Party party = makeTurnBasedParty(2);
+    OpenYAMM::Game::TurnBasedCombatRuntime runtime = {};
+
+    CHECK_FALSE(runtime.canPassTurn(party));
+    REQUIRE(runtime.begin(party, nullptr));
+    runtime.update(&party, nullptr, 0.6f);
+    REQUIRE(runtime.stage() == OpenYAMM::Game::TurnBasedCombatStage::Attack);
+
+    CHECK(runtime.canPassTurn(party));
+    CHECK(runtime.passTurn(party, 5.0f));
+    runtime.update(&party, nullptr, 0.016f);
+    CHECK_EQ(party.activeMemberIndex(), 1);
+
+    CHECK(runtime.passTurn(party, 5.0f));
+    runtime.update(&party, nullptr, 0.016f);
+    REQUIRE(runtime.stage() == OpenYAMM::Game::TurnBasedCombatStage::Movement);
+
+    CHECK(runtime.canPassTurn(party));
+    CHECK(runtime.passTurn(party, 5.0f));
+    runtime.update(&party, nullptr, 0.016f);
+    CHECK(runtime.stage() == OpenYAMM::Game::TurnBasedCombatStage::Wait);
+    CHECK_FALSE(runtime.canPassTurn(party));
+}
 } // namespace OpenYAMM::Tests

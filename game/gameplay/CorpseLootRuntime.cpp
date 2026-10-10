@@ -1,4 +1,5 @@
 #include "game/gameplay/CorpseLootRuntime.h"
+#include "game/gameplay/ChestRuntime.h"
 
 #include "game/audio/SoundIds.h"
 #include "game/debug/GameplayDebugTrace.h"
@@ -385,6 +386,18 @@ GameplayCorpseViewState buildMonsterCorpseView(
 bool isConsumedCorpseView(const std::optional<GameplayCorpseViewState> &corpseView)
 {
     return corpseView.has_value() && corpseView->items.empty();
+}
+
+uint32_t corpseLootValue(const GameplayCorpseViewState &corpse, const ItemTable *pItemTable, const Party *pParty)
+{
+    uint32_t value = 0;
+    for (const GameplayChestItemState &item : corpse.items)
+    {
+        value += uint32_t(std::max(0, chestItemValue(item, pItemTable,
+            pParty != nullptr ? pParty->standardItemEnchantTable() : nullptr,
+            pParty != nullptr ? pParty->specialItemEnchantTable() : nullptr)));
+    }
+    return value;
 }
 
 GameplayCorpseAutoLootResult autoLootActiveCorpseView(

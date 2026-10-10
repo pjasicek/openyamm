@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <bitset>
 #include <cctype>
+#include <cmath>
 #include <cstdint>
 #include <cstring>
 #include <fstream>
@@ -20,7 +21,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 84;
+constexpr uint32_t SaveVersion = 85;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -88,6 +89,8 @@ constexpr uint32_t SaveVersionMm9Barrels = 82;
 constexpr uint32_t SaveVersionTemporaryEventBonuses = 83;
 constexpr uint32_t SaveVersionConsumedCorpseMarkers = 83;
 constexpr uint32_t SaveVersionIndoorCamera = 84;
+// Weather comes from the game-time weather model; the outdoor rain-intensity override is no longer saved.
+constexpr uint32_t SaveVersionWeatherModel = 85;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -3413,6 +3416,15 @@ bool readValue(BinaryReader &reader, GameplayProjectileService::Snapshot &value)
         && readValue(reader, value.projectileImpacts);
 }
 
+// Saves before SaveVersionWeatherModel stored a debug rain-intensity override (flag and preset byte); the weather
+// model replaces it, so older saves read and drop it.
+bool skipRetiredRainIntensityOverride(BinaryReader &reader)
+{
+    bool hasOverride = false;
+    uint8_t preset = 0;
+    return readValue(reader, hasOverride) && readValue(reader, preset);
+}
+
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::AtmosphereState &value)
 {
     writeValue(writer, value.sourceSkyTextureName);
@@ -3487,8 +3499,6 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::Snapshot &value
     writeValue(writer, value.gameplayOverlayPeakAlpha);
     writeValue(writer, value.gameplayOverlayColorAbgr);
     writeValue(writer, value.armageddon);
-    writeValue(writer, value.hasRainIntensityOverride);
-    writeValue(writer, value.rainIntensityPreset);
     writeValue(writer, value.bloodSplats);
     writeValue(writer, value.faceAttributes);
     writeValue(writer, value.searchedLootPropSourceIds);
@@ -3531,8 +3541,7 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::Snapshot &value)
                 && readValue(reader, value.gameplayOverlayPeakAlpha)
                 && readValue(reader, value.gameplayOverlayColorAbgr)
                 && readValue(reader, value.armageddon)
-                && readValue(reader, value.hasRainIntensityOverride)
-                && readValue(reader, value.rainIntensityPreset)
+                && (reader.version() >= SaveVersionWeatherModel || skipRetiredRainIntensityOverride(reader))
                 && readValue(reader, value.bloodSplats)))
         && (reader.version() < SaveVersionOutdoorFaceAttributes
             || readValue(reader, value.faceAttributes))
@@ -3855,6 +3864,40 @@ std::vector<uint32_t> persistentSaveItemIds(const GameSaveData &data)
 }
 }
 
+void migrateLegacyNpcRosters(GameSaveData &data)
+{
+    const float gameMinutes = data.savedGameMinutes > 0.0f ? data.savedGameMinutes
+        : (data.currentSceneKind == SceneKind::Outdoor ? data.outdoorWorld.gameMinutes
+                                                     : data.indoorScene.worldRuntime.gameMinutes);
+    const int32_t currentMinute = std::max(0, int32_t(std::floor(gameMinutes)));
+    const auto migrate = [currentMinute](std::optional<EventRuntimeState> &state)
+    {
+        if (!state)
+        {
+            return;
+        }
+        // Legacy map hashes are seed zero; keep the whole saved roster until its next monthly refill.
+        if (state->namedMapVars.try_emplace("MMerge.RandomNPC.Seed", 0).second)
+        {
+            state->namedMapVars["MMerge.RandomNPC.RefillMinutes"] = currentMinute;
+        }
+        if (!state->generatedMercenaryRecruitsByNpcId.empty())
+        {
+            state->namedMapVars.try_emplace("MMerge.Mercenaries.RefillMonth", currentMinute / (28 * 24 * 60));
+        }
+    };
+    migrate(data.outdoorWorld.eventRuntimeState);
+    migrate(data.indoorScene.eventRuntimeState);
+    for (auto &[mapFileName, snapshot] : data.outdoorWorldStates)
+    {
+        migrate(snapshot.eventRuntimeState);
+    }
+    for (auto &[mapFileName, snapshot] : data.indoorSceneStates)
+    {
+        migrate(snapshot.eventRuntimeState);
+    }
+}
+
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion)
 {
     if (sourceSaveVersion >= SaveVersionConsumedCorpseMarkers)
@@ -4090,6 +4133,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
     }
 
     migrateLegacyConsumedCorpseMarkers(data, version);
+    migrateLegacyNpcRosters(data);
 
     return data;
 }

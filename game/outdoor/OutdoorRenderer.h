@@ -31,6 +31,8 @@ public:
         bool warnOnCacheMiss = true);
     static void invalidateSkyResources(OutdoorGameView &view);
     static void destroySkyResources(OutdoorGameView &view);
+    // Sets u_skyFog for the following fog shaders (zero, i.e. flat fog, for Classic).
+    static void applySkyFogUniform(const OutdoorGameView &view);
 
     static void renderWorldPasses(
         OutdoorGameView &view,
@@ -77,6 +79,27 @@ private:
         const bx::Vec3 &cameraPosition, const bx::Vec3 &cameraForward, const bx::Vec3 &cameraRight,
         const bx::Vec3 &cameraUp, float farClipDistance, const OutdoorLightingRuntime &bModelLighting,
         const OutdoorSelectedFxLights &globalBModelLights, bool useLocalBModelLighting);
+    // Shared lighting of the frame's 3D models: creatures (per-model terms from creatureModelLighting) and decoration
+    // placements (which carry their own ambient light and sun visibility).
+    struct ModelSceneLighting
+    {
+        Engine::ModelRenderLighting creatures;
+        Engine::ModelRenderLighting decorations;
+        std::optional<Engine::ModelSkyEnvironment> sky;
+        // Linear multiplier of the sky reflection, per channel.
+        std::array<float, 3> skyTint = {1.0f, 1.0f, 1.0f};
+    };
+    static ModelSceneLighting modelSceneLighting(OutdoorGameView &view,
+        const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
+        float farClipDistance);
+    // A creature's lighting: baked probes (sampled at most a few creatures per frame), nearby lights and sky.
+    static Engine::ModelRenderLighting creatureModelLighting(OutdoorGameView &view, const ModelSceneLighting &scene,
+        const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const OutdoorLightingData *pLightingData,
+        Engine::ModelInstanceHandle instance, const Engine::ModelBounds &modelBounds, uint32_t &modelProbeSamples);
+    // Whether a resolved bmodel group has a texture to draw this frame, and which animation frame (arrayed groups and
+    // arrayed materials are single-frame).
+    static bool resolvedBModelGroupFrame(const OutdoorGameView &view,
+        const OutdoorGameView::ResolvedBModelDrawGroup &group, uint32_t elapsedTicks, size_t &frameIndex);
     static void submitResolvedBModelDrawGroup(OutdoorGameView &view,
         const OutdoorGameView::ResolvedBModelDrawGroup &group, uint16_t viewId, size_t frameIndex, uint32_t transform);
     static void ensureTerrainDecorations(OutdoorGameView &view, const OutdoorMapData &outdoorMapData);
@@ -125,6 +148,12 @@ private:
         const OutdoorMapData &outdoorMapData,
         const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet);
     static void applyOutdoorSurfaceUniforms(OutdoorGameView &view);
+    // Advances the Enhanced sky state for this frame; Classic leaves it inactive.
+    static void updateEnhancedSky(OutdoorGameView &view, const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState);
+    static void updateWeather(OutdoorGameView &view, const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState);
+    static void renderWeather(OutdoorGameView &view, uint16_t viewId,
+        const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState, const bx::Vec3 &cameraPosition,
+        const float *pProjectionMatrix, uint16_t viewHeight);
     static void bindBakedSunShadows(OutdoorGameView &view, uint32_t sunPageIndex);
     static void ensureSunShadowPrograms(OutdoorGameView &view);
     static void applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition);

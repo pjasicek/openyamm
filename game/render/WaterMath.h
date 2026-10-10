@@ -14,6 +14,8 @@ constexpr uint16_t FirstSunShadowView = 232;
 constexpr size_t SunShadowViews = 2;
 constexpr uint16_t FirstWaterReflectionView = 234;
 constexpr size_t MaxWaterReflections = 2;
+// Reduced-resolution Enhanced sky, rendered before the main sky view upscales it.
+constexpr uint16_t SkyImageView = 238;
 constexpr uint16_t AmbientOcclusionView = 245;
 constexpr uint16_t AmbientOcclusionBlurView = 246;
 constexpr uint16_t AmbientOcclusionCompositeView = 247;
@@ -161,6 +163,7 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
     {
         order[index++] = view;
     }
+    order[index++] = SkyImageView;
     order[index++] = 0;
     order[index++] = 1;
     if (ambientOcclusion)
@@ -178,6 +181,7 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
     {
         if ((view < FirstSunShadowView || view >= FirstSunShadowView + SunShadowViews)
             && (view < FirstWaterReflectionView || view >= FirstWaterReflectionView + MaxWaterReflections * 2)
+            && view != SkyImageView
             && (!grading || view != WorldGradingView)
             && (!ambientOcclusion || view < AmbientOcclusionView || view > WorldTransparentView))
         {

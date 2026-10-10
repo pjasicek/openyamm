@@ -24,5 +24,6 @@ void main()
     }
     v_color0 = i_data3;
     v_texcoord1 = i_data4;
-    v_flowInfo = a_color0;
+    // Alpha (the flutter weight here) carries the emission scale to the fragment shader.
+    v_flowInfo = vec4(a_color0.rgb, modelStaticPulse());
 }

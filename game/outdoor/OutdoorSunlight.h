@@ -56,6 +56,40 @@ inline std::array<std::array<float, 4>, 2> outdoorBakedLightingColors(
     return colors;
 }
 
+// Enhanced sky hue for the baked sun and sky terms. Both tints are normalised to unit luminance so only the hue moves;
+// day/night brightness stays with outdoorBakedLightingWeights.
+inline void applyOutdoorBakedLightingTint(std::array<std::array<float, 4>, 2> &colors,
+    const std::array<float, 3> &sunTint, const std::array<float, 3> &skyTint)
+{
+    const auto normalised = [](const std::array<float, 3> &tint)
+    {
+        const float luminance = std::max(0.2126f * tint[0] + 0.7152f * tint[1] + 0.0722f * tint[2], 0.001f);
+        return std::array<float, 3>{tint[0] / luminance, tint[1] / luminance, tint[2] / luminance};
+    };
+    const std::array<float, 3> sun = normalised(sunTint);
+    const std::array<float, 3> sky = normalised(skyTint);
+
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        colors[0][channel] *= sun[channel];
+        colors[1][channel] *= sky[channel];
+    }
+}
+
+// Rain clouds hide the sun and dim the sky light; a lightning flash lights everything for a moment.
+inline void applyOutdoorWeatherLighting(std::array<std::array<float, 4>, 2> &colors, float rainCloudCover,
+    float lightningFlash)
+{
+    const float cloud = std::clamp(rainCloudCover, 0.0f, 1.0f);
+    const float flash = std::clamp(lightningFlash, 0.0f, 1.0f);
+
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        colors[0][channel] *= 1.0f - 0.7f * cloud;
+        colors[1][channel] = colors[1][channel] * (1.0f - 0.25f * cloud) + 1.4f * flash;
+    }
+}
+
 inline float outdoorBillboardBaseLight(const std::array<float, 4> &sunlight)
 {
     // A billboard has no fixed world-space facing. Use the horizontal-ground response for its base light.

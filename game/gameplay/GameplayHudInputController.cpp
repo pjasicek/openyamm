@@ -368,6 +368,12 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
             {
                 return {GameplayHudPointerTargetType::TurnBasedToggleButton};
             }
+            if (const std::optional<GameplayResolvedHudLayoutElement> passRect =
+                    context.resolveMobilePassTurnButton(config.screenWidth, config.screenHeight);
+                passRect && context.isPointerInsideResolvedElement(*passRect, pointerX, pointerY))
+            {
+                return {GameplayHudPointerTargetType::PassTurnButton};
+            }
             const GameplayContextActionState &contextActionState = context.contextActionStateReadOnly();
             const bool hasDropHeldItemAction =
                 contextActionState.visible
@@ -636,6 +642,9 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 {
                     context.toggleTurnBasedMode();
                 }
+                break;
+            case GameplayHudPointerTargetType::PassTurnButton:
+                context.passTurnBasedTurn();
                 break;
             case GameplayHudPointerTargetType::ContextActionButton:
             {

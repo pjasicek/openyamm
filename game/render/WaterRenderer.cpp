@@ -99,6 +99,7 @@ bool WaterRenderer::initialize(const Engine::AssetFileSystem &assets, std::vecto
     m_spriteSampler = bgfx::createUniform("s_waterSprite", bgfx::UniformType::Sampler);
     m_reflectionSampler = bgfx::createUniform("s_waterReflection", bgfx::UniformType::Sampler);
     m_params = bgfx::createUniform("u_waterParams", bgfx::UniformType::Vec4);
+    m_rain = bgfx::createUniform("u_waterRain", bgfx::UniformType::Vec4);
     m_sunDirection = bgfx::createUniform("u_waterSunDirection", bgfx::UniformType::Vec4);
     m_sunColor = bgfx::createUniform("u_waterSunColor", bgfx::UniformType::Vec4);
     m_skyColor = bgfx::createUniform("u_waterSkyColor", bgfx::UniformType::Vec4);
@@ -458,6 +459,7 @@ void WaterRenderer::renderBillboard(uint16_t viewId, std::span<const WaterVertex
     const std::array<float, 4> timedSunDirection = {sunDirection[0], sunDirection[1], sunDirection[2], seconds};
     bgfx::setTransform(identity);
     bgfx::setUniform(m_params, params.data());
+    bgfx::setUniform(m_rain, m_rainRings.data());
     bgfx::setUniform(m_sunDirection, timedSunDirection.data());
     bgfx::setUniform(m_sunColor, sunColor.data());
     bgfx::setUniform(m_skyColor, skyColor.data());
@@ -483,6 +485,11 @@ void WaterRenderer::appendBillboardGeometry(std::vector<WaterVertex> &vertices, 
     }
 }
 
+void WaterRenderer::setRainRings(float amount, int layers)
+{
+    m_rainRings = {std::clamp(amount, 0.0f, 1.0f), static_cast<float>(std::clamp(layers, 0, 2)), 0.0f, 0.0f};
+}
+
 void WaterRenderer::prepareRippleResources(const WaterRippleRuntime *pRipples)
 {
     if (pRipples != nullptr && pRipples->enabled() && !bgfx::isValid(m_rippleProgram)
@@ -504,6 +511,7 @@ void WaterRenderer::submitSurface(const Surface &surface, uint16_t viewId, float
         reflectionScale,
         bgfx::getCaps()->originBottomLeft ? 1.0f : -1.0f, rainIntensity};
     bgfx::setUniform(m_params, params.data());
+    bgfx::setUniform(m_rain, m_rainRings.data());
     float identity[16];
     bx::mtxIdentity(identity);
     bgfx::setTransform(identity);
@@ -583,7 +591,7 @@ void WaterRenderer::shutdown()
         }
     }
     for (bgfx::UniformHandle *pUniform : {&m_normalSampler, &m_spriteSampler, &m_reflectionSampler,
-        &m_coverageSampler, &m_params, &m_sunDirection, &m_sunColor, &m_skyColor, &m_reflectionMatrix,
+        &m_coverageSampler, &m_params, &m_rain, &m_sunDirection, &m_sunColor, &m_skyColor, &m_reflectionMatrix,
         &m_cameraPosition, &m_indoorLightPositions, &m_indoorLightColors, &m_indoorLightParams,
         &m_rippleRings, &m_rippleParams})
     {

@@ -29,6 +29,8 @@ struct GenericActorDialogResolution
     uint32_t generatedProfessionId = 0;
 };
 
+void refreshGenericActorNpcRoster(EventRuntimeState &runtimeState, float gameMinutes);
+
 std::optional<GenericActorDialogResolution> resolveGenericActorDialog(
     const std::string &mapFileName,
     const std::string &actorName,

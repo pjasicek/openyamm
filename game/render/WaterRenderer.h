@@ -89,6 +89,8 @@ public:
         const std::array<float, 4> &skyColor, float rainIntensity);
     void appendBillboardGeometry(std::vector<WaterVertex> &vertices, const std::string &textureName,
         const BillboardQuad &quad, bool mirrored) const;
+    // Outdoor raindrop rings on still water: 0-1 share of drop cells, and 0-2 overlapping ring layers.
+    void setRainRings(float amount, int layers);
 
 private:
     struct Surface
@@ -128,6 +130,8 @@ private:
     bgfx::UniformHandle m_spriteSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_reflectionSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_params = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_rain = BGFX_INVALID_HANDLE;
+    std::array<float, 4> m_rainRings = {};
     bgfx::UniformHandle m_sunDirection = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_sunColor = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_skyColor = BGFX_INVALID_HANDLE;

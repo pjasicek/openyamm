@@ -13,7 +13,9 @@ add_library(openyamm_engine
     models/ModelAnimation.cpp
     models/ModelAsset.cpp
     models/ModelInstance.cpp
+    render/CookedTexture.cpp
     render/ModelRenderer.cpp
+    render/TextureBlockCodec.cpp
     render/ModelEnvironment.cpp
     SpriteAtlas.cpp
     EngineApplication.cpp
@@ -50,4 +52,5 @@ target_link_libraries(openyamm_engine
         ${OPENYAMM_LUA_TARGET}
     PRIVATE
         freetype
+        libzstd_static
 )

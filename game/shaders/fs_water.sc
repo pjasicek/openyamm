@@ -1,6 +1,7 @@
 $input v_worldPosition, v_worldNormal, v_texcoord0, v_texcoord1, v_color0
 
 #include "common.sh"
+#include "sky_common.sh"
 
 #include "water_surface.sh"
 #include "world_clip.sh"
@@ -14,6 +15,46 @@ uniform vec4 u_waterSkyColor;
 uniform vec4 u_fogColor;
 uniform vec4 u_fogDensities;
 uniform vec4 u_fogDistances;
+// x: rain ring amount (0 = none), y: ring layers (0-2).
+uniform vec4 u_waterRain;
+
+float rainHash(vec2 position)
+{
+    vec3 hash = fract(vec3(position.xyx) * 0.1031);
+    hash += dot(hash, hash.yzx + 33.33);
+    return fract((hash.x + hash.y) * hash.z);
+}
+
+// Raindrop rings: each grid cell may hold one drop per cycle, landing at a random spot and spreading as a ring.
+// Returns the surface slope; heavier rain fills more cells.
+vec2 rainRingSlope(vec2 worldPosition, float time, float amount, float layers)
+{
+    vec2 slope = vec2_splat(0.0);
+
+    for (int layer = 0; layer < 2; ++layer)
+    {
+        if (float(layer) < layers)
+        {
+            vec2 grid = worldPosition / 90.0 + float(layer) * vec2(0.37, 0.71);
+            vec2 cell = floor(grid);
+            float seed = rainHash(cell + float(layer) * 19.7);
+            float cycle = time * 1.15 + seed * 7.0;
+            float age = fract(cycle);
+            vec2 drop = cell + floor(cycle) * vec2(1.37, 2.11);
+
+            if (rainHash(drop + 0.5) < amount)
+            {
+                vec2 offset = fract(grid) - (vec2(rainHash(drop + 3.1), rainHash(drop + 5.7)) * 0.5 + 0.25);
+                float distance = length(offset);
+                float profile = (distance - age * 0.3) * 28.0;
+                float crest = profile * exp(-profile * profile) * (1.0 - age) * (1.0 - age);
+                slope += offset / max(distance, 0.001) * crest;
+            }
+        }
+    }
+
+    return slope;
+}
 
 float safeSmoothstep(float start, float end, float value)
 {
@@ -55,8 +96,18 @@ void main()
         // Stretch turbulence along gravity into flowing strands rather than pool-like round wavelets.
         uv *= vec2(4.0, 0.5);
     }
+    // Rain roughens the waves and, on still water near the camera, rings where drops land.
     vec3 normal = waterWaveNormal(uv, baseNormal, tangent, bitangent,
-        (flowingFace ? 0.95 : 0.35) + u_waterParams.w * 0.15);
+        (flowingFace ? 0.95 : 0.35) + u_waterParams.w * 0.6);
+    if (u_waterRain.x > 0.0 && falling <= 0.01)
+    {
+        float ringFade = 1.0 - safeSmoothstep(1500.0, 3200.0, length(v_worldPosition - u_cameraPosition.xyz));
+        if (ringFade > 0.0)
+        {
+            vec2 slope = rainRingSlope(v_worldPosition.xy, u_waterParams.x, u_waterRain.x, u_waterRain.y);
+            normal = normalize(normal - (tangent * slope.x + bitangent * slope.y) * (0.9 * ringFade));
+        }
+    }
 #if WATER_MOVEMENT_RIPPLES
     float movementSheen;
     normal = waterMovementNormal(v_worldPosition, normal, normalize(v_worldNormal), movementSheen);
@@ -108,7 +159,9 @@ void main()
                 * safeSmoothstep(u_fogDistances.y, u_fogDistances.z, distanceToCamera);
         alpha = 1.0 - safeSmoothstep(u_fogDistances.y, u_fogDistances.z, distanceToCamera);
     }
-    gl_FragColor = mix(vec4(color, 1.0), vec4(u_fogColor.rgb, alpha), fogRatio);
+    fogRatio = skyWaterFogRatio(fogRatio, v_worldPosition, distanceToCamera, u_fogDistances.z);
+    vec3 fogColor = skyFogDisplayColor(fogRatio, u_fogColor.rgb, v_worldPosition);
+    gl_FragColor = mix(vec4(color, 1.0), vec4(fogColor, alpha), fogRatio);
     gl_FragColor.a *= coverage;
     if (flowingSprite)
     {

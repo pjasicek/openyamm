@@ -9,6 +9,10 @@ add_library(openyamm_game STATIC
     render/RuntimeShader.cpp
     render/CinematicGrading.cpp
     render/WaterRenderer.cpp
+    render/WeatherRenderer.cpp
+    render/SkyPresets.cpp
+    render/SkyState.cpp
+    render/SkyRenderer.cpp
     app/ScreenManager.cpp
     app/GameInputSystem.cpp
     app/ProfilingControl.cpp
@@ -141,7 +145,9 @@ add_library(openyamm_game STATIC
     indoor/IndoorPortalVisibility.cpp
     indoor/IndoorWorldRuntime.cpp
     maps/MapAssetLoader.cpp
+    maps/DecorationModelPlacement.cpp
     maps/DecorationModelSet.cpp
+    maps/StaleLightingNote.cpp
     maps/MapDecorationTextures.cpp
     maps/MapIdentity.cpp
     maps/MapRegistry.cpp
@@ -176,6 +182,9 @@ add_library(openyamm_game STATIC
     outdoor/OutdoorPathfindingBuilder.cpp
     outdoor/OutdoorPartyRuntime.cpp
     outdoor/OutdoorWorldRuntime.cpp
+    outdoor/WeatherAudio.cpp
+    outdoor/WeatherModel.cpp
+    outdoor/WeatherPresentation.cpp
     party/Party.cpp
     party/EventSpellBuffs.cpp
     party/LloydsBeaconRuntime.cpp
@@ -208,7 +217,9 @@ add_library(openyamm_game STATIC
     tables/SurfaceMaterialTable.cpp
     tables/TextureFrameTable.cpp
     outdoor/OutdoorGameView.cpp
+    outdoor/OutdoorDistantSea.cpp
     ui/GameplayDialogueRenderer.cpp
+    ui/HouseShopLayout.cpp
     ui/EnemyHealthBarRenderer.cpp
     ui/GameplayHudRenderer.cpp
     ui/GameplayUiSkin.cpp
@@ -397,10 +408,16 @@ if (NOT CMAKE_CROSSCOMPILING)
     add_executable(openyamm_sprite_atlas_cook EXCLUDE_FROM_ALL
         ../tools/cook_sprite_atlases_main.cpp
         ../tools/SpriteAtlasEncode.cpp
+        ../tools/TextureBlockEncode.cpp
         render/SpriteAtlasCook.cpp
         render/SpriteAtlasMipmaps.cpp)
     target_include_directories(openyamm_sprite_atlas_cook PRIVATE ${CMAKE_SOURCE_DIR})
     target_link_libraries(openyamm_sprite_atlas_cook PRIVATE openyamm_engine libzstd_static openyamm_atlas_encoders)
+    add_executable(openyamm_model_texture_cook EXCLUDE_FROM_ALL
+        ../tools/cook_model_textures_main.cpp
+        ../tools/TextureBlockEncode.cpp)
+    target_include_directories(openyamm_model_texture_cook PRIVATE ${CMAKE_SOURCE_DIR})
+    target_link_libraries(openyamm_model_texture_cook PRIVATE openyamm_engine libzstd_static openyamm_atlas_encoders)
     if (IS_DIRECTORY "${CMAKE_SOURCE_DIR}/assets_source/engine/sprites_new")
         add_custom_target(openyamm_cook_sprite_atlases
             COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/cook_sprite_atlases.py"

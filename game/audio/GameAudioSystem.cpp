@@ -1411,6 +1411,11 @@ bool GameAudioSystem::isExclusiveGroup(PlaybackGroup group)
         || group == PlaybackGroup::HouseSpeech;
 }
 
+void GameAudioSystem::setSoundInstanceVolume(uint64_t instanceId, PlaybackGroup group, float volume)
+{
+    m_audioSystem.setClipVolume(instanceId, playbackGroupVolume(group) * volume);
+}
+
 void GameAudioSystem::stopSoundInstance(uint64_t instanceId)
 {
     if (instanceId == 0)

@@ -356,6 +356,12 @@ int runApplication(int argc, char **argv)
         return diagnostics.runDumpOutdoorNavigation(argv[0], arguments[1]);
     }
 
+    if (arguments.size() == 3 && arguments[0] == "--headless-export-decoration-models")
+    {
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
+        return diagnostics.runExportDecorationModels(argv[0], arguments[1], arguments[2]);
+    }
+
     if (arguments.size() == 2 && arguments[0] == "--headless-verify-outdoor-world-item-floor")
     {
         OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);

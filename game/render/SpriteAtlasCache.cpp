@@ -265,8 +265,8 @@ PreparedSpriteAtlasPage SpriteAtlasCache::preparePage(const Engine::AssetFileSys
 void SpriteAtlasCache::publishPage(Package &package, int index, PreparedSpriteAtlasPage prepared)
 {
     Page &page = package.pages.at(index);
-    const bgfx::TextureFormat::Enum baseFormat = spriteAtlasTextureFormat(prepared.baseCodec);
-    const bgfx::TextureFormat::Enum maskFormat = spriteAtlasTextureFormat(prepared.maskCodec);
+    const bgfx::TextureFormat::Enum baseFormat = Engine::textureBlockFormat(prepared.baseCodec);
+    const bgfx::TextureFormat::Enum maskFormat = Engine::textureBlockFormat(prepared.maskCodec);
     for (bgfx::TextureFormat::Enum format : {baseFormat, maskFormat})
     {
         const uint32_t caps = bgfx::getCaps()->formats[format];

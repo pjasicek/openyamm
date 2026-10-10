@@ -1,3 +1,4 @@
+#include "game/maps/DecorationModelSet.h"
 #include "game/data/ActorNameResolver.h"
 #include "game/outdoor/HeadlessOutdoorDiagnostics.h"
 #include "game/StringUtils.h"
@@ -60,8 +61,10 @@
 #include "game/SpriteObjectDefs.h"
 
 #include <SDL3/SDL.h>
+#include <yaml-cpp/yaml.h>
 
 #include <fstream>
+#include <iomanip>
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -4292,6 +4295,95 @@ int HeadlessGameplayDiagnostics::runProfileFullMapLoad(
     return 0;
 }
 
+int HeadlessGameplayDiagnostics::runExportDecorationModels(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName,
+    const std::filesystem::path &outputPath
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Decoration model export failed: could not initialize asset file system\n";
+        return 1;
+    }
+    GameDataLoader gameDataLoader;
+    // Decoration billboards without the baked lighting this export feeds (it may be stale while a bake is due).
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem)
+        || !gameDataLoader.loadMapByFileNameForDecorationPlacements(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Decoration model export failed: could not load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+    const std::optional<MapAssetInfo> &map = gameDataLoader.getSelectedMap();
+    const bool indoor = map && map->indoorMapData && map->indoorDecorationBillboardSet;
+    if (!map || (!indoor && (!map->outdoorMapData || !map->outdoorDecorationBillboardSet)))
+    {
+        std::cerr << "Decoration model export failed: not a map with decorations\n";
+        return 1;
+    }
+    const DecorationBillboardSet &decorations =
+        indoor ? *map->indoorDecorationBillboardSet : *map->outdoorDecorationBillboardSet;
+    // Indoor wall-mounted models hang on their walls as in the game (IndoorRenderer).
+    DecorationModelSet::WallFinder wallFinder;
+    if (indoor)
+    {
+        wallFinder = [&](const DecorationBillboard &billboard, float height)
+        {
+            return findIndoorDecorationWall(*map->indoorMapData, billboard.x, billboard.y, billboard.z, height);
+        };
+    }
+    const std::string &worldId = indoor ? map->map.worldId : map->outdoorMapData->worldId;
+    const std::string &mapFile = indoor ? map->map.fileName : map->outdoorMapData->fileName;
+    DecorationModelSet models;
+    std::string error;
+    if (!models.load(assetFileSystem, worldId, mapFile, decorations, error, wallFinder))
+    {
+        std::cerr << "Decoration model export failed: " << error << '\n';
+        return 1;
+    }
+    std::ofstream out(outputPath);
+    out << std::setprecision(9);
+    // Matrices are column-major (OpenYAMM world units, Z up) and map glTF asset space to the world. unmounted lists
+    // the entities (and positions) of wall-mounted bindings without a wall in reach.
+    const std::vector<DecorationBillboard> &billboards = decorations.billboards;
+    out << "{\"map\": \"" << mapFile << "\", \"unmounted\": [";
+    for (size_t index = 0; index < models.unmountedBillboards().size(); ++index)
+    {
+        const DecorationBillboard &billboard = billboards[models.unmountedBillboards()[index]];
+        out << (index == 0 ? "" : ", ") << "{\"entity\": " << billboard.entityIndex << ", \"position\": ["
+            << billboard.x << ", " << billboard.y << ", " << billboard.z << "]}";
+    }
+    out << "], \"models\": [";
+    for (size_t group = 0; group < models.groups().size(); ++group)
+    {
+        const Engine::ModelStaticGroup &modelGroup = models.groups()[group];
+        out << (group == 0 ? "" : ",") << "\n {\"model\": \"" << modelGroup.asset->sourcePath
+            << "\", \"variant\": " << modelGroup.variant << ", \"placements\": [";
+        for (size_t slot = 0; slot < modelGroup.placements.size(); ++slot)
+        {
+            const size_t billboard = models.billboardIndices(group)[slot];
+            out << (slot == 0 ? "" : ",") << "\n  {\"entity\": " << billboards[billboard].entityIndex
+                << ", \"matrix\": [";
+            for (size_t index = 0; index < 16; ++index)
+            {
+                out << (index == 0 ? "" : ", ") << modelGroup.placements[slot].matrix[index];
+            }
+            out << "]}";
+        }
+        out << "]}";
+    }
+    out << "\n]}\n";
+    if (!out)
+    {
+        std::cerr << "Decoration model export failed: cannot write " << outputPath << '\n';
+        return 1;
+    }
+    std::cout << "Exported " << models.groups().size() << " decoration models to " << outputPath << '\n';
+    return 0;
+}
+
 int HeadlessGameplayDiagnostics::runDumpOutdoorNavigation(
     const std::filesystem::path &basePath,
     const std::string &mapFileName
@@ -7874,7 +7966,30 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 handles.push_back(handle);
             }
         }
-        if (handles.size() != 3 || fx.modelAssets().size() != effectAssets + actorAssets.size())
+        // Every distinct model listed in actors.yml (actors and their attachments) loads once; models of residents
+        // absent from this map load without instances.
+        size_t boundModels = 0;
+        {
+            const std::optional<std::string> yaml = assetFileSystem.readTextFile("worlds/mm6/models/actors.yml");
+            std::vector<std::string> models;
+            std::istringstream lines(yaml ? *yaml : std::string());
+            for (std::string line; std::getline(lines, line);)
+            {
+                const size_t key = line.find("model: ");
+                const size_t start = line.find_first_not_of(' ');
+                const bool listed = start != std::string::npos
+                    && (start == key || (line.compare(start, 2, "- ") == 0 && start + 2 == key));
+                if (key != std::string::npos && listed
+                    && std::find(models.begin(), models.end(), line.substr(key + 7)) == models.end())
+                {
+                    models.push_back(line.substr(key + 7));
+                }
+            }
+            boundModels = models.size();
+        }
+        const bool demonShared = !handles.empty() && std::all_of(handles.begin(), handles.end(),
+            [&](Engine::ModelInstanceHandle handle) { return fx.models().asset(handle) == fx.models().asset(handles[0]); });
+        if (handles.size() != 3 || !demonShared || fx.modelAssets().size() != effectAssets + boundModels)
         {
             failure = "A/B/C expected three instances and one additional actor asset; instances="
                 + std::to_string(handles.size())
@@ -8118,6 +8233,776 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         return true;
     });
 
+    runCase("mm6_decoration_models_map_new_sorpigal", [&](std::string &failure)
+    {
+        // The full map load builds the decoration billboards that headless gameplay loads skip.
+        if (!gameDataLoader.loadMapByFileName(assetFileSystem, "oute3.odm")
+            || !gameDataLoader.getSelectedMap()->outdoorDecorationBillboardSet)
+        {
+            failure = "could not load New Sorpigal decorations";
+            return false;
+        }
+        const DecorationBillboardSet &decorations = *gameDataLoader.getSelectedMap()->outdoorDecorationBillboardSet;
+        DecorationModelSet models;
+        if (!models.load(assetFileSystem, "mm6", "oute3.odm", decorations, failure))
+        {
+            return false;
+        }
+        // Native world height of each sprite, the binding's height jitter and LOD0 triangle budget.
+        struct Expected
+        {
+            float height;
+            float jitter;
+            size_t triangles;
+            size_t placements;
+        };
+        const std::unordered_map<std::string, Expected> expected = {
+            {"6tree01", {531.0f, 0.12f, 8000, 213}}, {"6tree02", {662.0f, 0.12f, 8000, 103}},
+            {"6tree19", {312.0f, 0.12f, 8000, 18}}, {"6tree05", {604.0f, 0.12f, 8000, 16}},
+            {"6tree03", {363.0f, 0.12f, 8000, 13}}, {"6tree04", {493.0f, 0.12f, 8000, 8}},
+            {"6tree06", {576.0f, 0.12f, 8000, 6}}, {"tree06a", {576.0f, 0.12f, 8000, 9}},
+            {"6rock01", {99.0f, 0.15f, 2500, 41}}, {"bigbarel", {117.0f, 0.0f, 1500, 4}},
+            {"6flower02", {67.0f, 0.15f, 1500, 16}}, {"6flower07", {76.0f, 0.15f, 1500, 16}},
+            {"ckfyr00", {222.0f, 0.0f, 3000, 5}}, {"sta1a", {266.0f, 0.0f, 8000, 3}},
+            {"swrdstn", {174.0f, 0.0f, 4800, 1}},
+            {"bouy0", {172.0f, 0.0f, 2500, 1}}, {"searka01", {67.0f, 0.0f, 2500, 1}},
+            {"searkb01", {89.0f, 0.0f, 2500, 1}}, {"fla3__01", {256.0f, 0.0f, 600, 1}}};
+        std::unordered_map<std::string, size_t> placed;
+        for (size_t group = 0; group < models.groups().size(); ++group)
+        {
+            const Engine::ModelStaticGroup &placements = models.groups()[group];
+            if (placements.placements.empty())
+            {
+                continue; // Shown only after an event sprite switch (the stone after the sword is pulled).
+            }
+            const Engine::ModelAsset &asset = *placements.asset;
+            for (const Engine::ModelNode &node : asset.nodes)
+            {
+                if (node.meshIndex < 0)
+                {
+                    continue;
+                }
+                const Engine::ModelMesh &mesh = asset.meshes[node.meshIndex];
+                size_t triangles = 0;
+                for (const Engine::ModelPrimitive &primitive : mesh.primitives)
+                {
+                    triangles += primitive.indices.size() / 3;
+                }
+                const std::string name = decorations.decorationTable.get(
+                    decorations.billboards[models.billboardIndices(group).front()].decorationId)->internalName;
+                const auto found = expected.find(name);
+                if (found == expected.end() || mesh.lodMeshes.empty() || triangles > found->second.triangles)
+                {
+                    failure = "decoration model " + name + " is unexpected, lacks LODs or exceeds its budget";
+                    return false;
+                }
+            }
+            for (size_t index = 0; index < placements.placements.size(); ++index)
+            {
+                const DecorationBillboard &billboard = decorations.billboards[models.billboardIndices(group)[index]];
+                const std::string name = decorations.decorationTable.get(billboard.decorationId)->internalName;
+                const Expected &want = expected.at(name);
+                const Engine::ModelBounds &bounds = placements.bounds[index];
+                const float height = bounds.max[2] - bounds.min[2];
+                // Standing on the decoration's ground point (rocks sink a few units), at the sprite's height.
+                if (!models.modelsSprite(billboard.spriteId)
+                    || std::abs(bounds.min[2] - float(billboard.z)) > 12.0f
+                    || height < want.height * (1.0f - want.jitter) - 2.0f
+                    || height > want.height * (1.0f + want.jitter) + 2.0f
+                    || std::abs((bounds.min[0] + bounds.max[0]) * 0.5f - float(billboard.x)) > want.height
+                    || std::abs((bounds.min[1] + bounds.max[1]) * 0.5f - float(billboard.y)) > want.height)
+                {
+                    failure = "decoration model " + name + " is misplaced or mis-sized";
+                    return false;
+                }
+                ++placed[name];
+            }
+        }
+        for (const auto &[name, want] : expected)
+        {
+            if (placed[name] != want.placements)
+            {
+                failure = "decoration " + name + " has " + std::to_string(placed[name]) + " model placements";
+                return false;
+            }
+        }
+        for (size_t index = 0; index < decorations.billboards.size(); ++index)
+        {
+            const std::string name = decorations.decorationTable.get(decorations.billboards[index].decorationId)
+                ->internalName;
+            if (models.modelsSprite(decorations.billboards[index].spriteId) != expected.contains(name))
+            {
+                failure = "decoration " + name + " sprite replacement does not match the bindings";
+                return false;
+            }
+        }
+        // An event switch to an unbound sprite removes the model; switching back restores the same placement.
+        size_t switched = SIZE_MAX;
+        for (size_t index = 0; index < decorations.billboards.size() && switched == SIZE_MAX; ++index)
+        {
+            if (models.modelsSprite(decorations.billboards[index].spriteId))
+            {
+                switched = index;
+            }
+        }
+        const auto placementCount = [&]()
+        {
+            size_t count = 0;
+            for (const Engine::ModelStaticGroup &group : models.groups())
+            {
+                count += group.placements.size();
+            }
+            return count;
+        };
+        const size_t before = placementCount();
+        const auto shown = [&](uint16_t switchedSprite)
+        {
+            return [&, switchedSprite](size_t index, bool &hidden)
+            {
+                hidden = false;
+                return index == switched ? switchedSprite : decorations.billboards[index].spriteId;
+            };
+        };
+        models.update(decorations.billboards, shown(0));
+        const size_t removed = placementCount();
+        models.update(decorations.billboards, shown(decorations.billboards[switched].spriteId));
+        if (removed + 1 != before || placementCount() != before)
+        {
+            failure = "a decoration sprite switch does not move its model placement";
+            return false;
+        }
+        // Picking a food tree's fruit (SetSprite tree06a -> 6tree06) switches to the fruitless model of the same tree
+        // with exactly the same placement.
+        const DecorationEntry *pEmpty = decorations.decorationTable.findByInternalName("6tree06");
+        const auto findPlacement = [&](size_t billboard) -> const Engine::ModelStaticPlacement *
+        {
+            for (size_t group = 0; group < models.groups().size(); ++group)
+            {
+                const std::vector<size_t> &indices = models.billboardIndices(group);
+                for (size_t index = 0; index < indices.size(); ++index)
+                {
+                    if (indices[index] == billboard)
+                    {
+                        return &models.groups()[group].placements[index];
+                    }
+                }
+            }
+            return nullptr;
+        };
+        size_t fruited = SIZE_MAX;
+        for (size_t index = 0; index < decorations.billboards.size() && fruited == SIZE_MAX; ++index)
+        {
+            if (decorations.decorationTable.get(decorations.billboards[index].decorationId)->internalName == "tree06a")
+            {
+                fruited = index;
+            }
+        }
+        if (pEmpty == nullptr || fruited == SIZE_MAX || findPlacement(fruited) == nullptr)
+        {
+            failure = "New Sorpigal food trees are missing";
+            return false;
+        }
+        const Engine::ModelMatrix fruitedMatrix = findPlacement(fruited)->matrix;
+        const std::shared_ptr<const Engine::ModelAsset> fruitedAsset = [&]()
+        {
+            for (size_t group = 0; group < models.groups().size(); ++group)
+            {
+                const std::vector<size_t> &indices = models.billboardIndices(group);
+                if (std::find(indices.begin(), indices.end(), fruited) != indices.end())
+                {
+                    return models.groups()[group].asset;
+                }
+            }
+            return std::shared_ptr<const Engine::ModelAsset>();
+        }();
+        switched = fruited;
+        models.update(decorations.billboards, shown(pEmpty->spriteId));
+        const Engine::ModelStaticPlacement *pPicked = findPlacement(fruited);
+        bool otherAsset = false;
+        for (size_t group = 0; group < models.groups().size(); ++group)
+        {
+            const std::vector<size_t> &indices = models.billboardIndices(group);
+            if (std::find(indices.begin(), indices.end(), fruited) != indices.end())
+            {
+                otherAsset = models.groups()[group].asset != fruitedAsset;
+            }
+        }
+        if (pPicked == nullptr || !otherAsset || pPicked->matrix != fruitedMatrix)
+        {
+            failure = "picking a food tree does not switch to the same tree without fruit";
+            return false;
+        }
+        // Pulling the sword (SetSprite swrdstn -> swrdstx) leaves the same boulder in place: same position and yaw,
+        // and a scale within 1 % (both models share the boulder; the heights are bound as 174 and 83).
+        const DecorationEntry *pEmptyStone = decorations.decorationTable.findByInternalName("swrdstx");
+        size_t sword = SIZE_MAX;
+        for (size_t index = 0; index < decorations.billboards.size() && sword == SIZE_MAX; ++index)
+        {
+            if (decorations.decorationTable.get(decorations.billboards[index].decorationId)->internalName == "swrdstn")
+            {
+                sword = index;
+            }
+        }
+        if (pEmptyStone == nullptr || sword == SIZE_MAX || findPlacement(sword) == nullptr)
+        {
+            failure = "the sword in the stone is missing";
+            return false;
+        }
+        const Engine::ModelMatrix swordMatrix = findPlacement(sword)->matrix;
+        switched = sword;
+        models.update(decorations.billboards, shown(pEmptyStone->spriteId));
+        const Engine::ModelStaticPlacement *pPulled = findPlacement(sword);
+        const auto scaleOf = [](const Engine::ModelMatrix &matrix)
+        {
+            return std::sqrt(matrix[0] * matrix[0] + matrix[1] * matrix[1] + matrix[2] * matrix[2]);
+        };
+        if (pPulled == nullptr || std::abs(pPulled->matrix[12] - swordMatrix[12]) > 0.01f
+            || std::abs(pPulled->matrix[13] - swordMatrix[13]) > 0.01f
+            || std::abs(pPulled->matrix[14] - swordMatrix[14]) > 0.01f
+            || std::abs(scaleOf(pPulled->matrix) / scaleOf(swordMatrix) - 1.0f) > 0.01f)
+        {
+            failure = "pulling the sword does not keep the same boulder in place";
+            return false;
+        }
+        for (size_t group = 0; group < models.groups().size(); ++group)
+        {
+            const std::vector<size_t> &indices = models.billboardIndices(group);
+            if (indices.size() != models.groups()[group].placements.size()
+                || indices.size() != models.groups()[group].bounds.size())
+            {
+                failure = "decoration model placements and their billboards are misaligned after a switch";
+                return false;
+            }
+        }
+        return true;
+    });
+
+    runCase("mm6_decoration_models_keep_native_animation", [&](std::string &failure)
+    {
+        // A decoration whose native sprite animates (flames, water, flags) needs an animated model, or the binding
+        // records the choice with still: true; outdoor and indoor bindings alike.
+        const std::optional<std::string> outdoorManifest =
+            assetFileSystem.readTextFile("worlds/mm6/models/decorations.yml");
+        const std::optional<std::string> indoorManifest =
+            assetFileSystem.readTextFile("worlds/mm6/models/indoor_decorations.yml");
+        if (!outdoorManifest || !indoorManifest || !gameDataLoader.loadMapByFileName(assetFileSystem, "oute3.odm")
+            || !gameDataLoader.getSelectedMap()->outdoorDecorationBillboardSet)
+        {
+            failure = "could not load the MM6 decoration bindings and tables";
+            return false;
+        }
+        const DecorationBillboardSet &tables = *gameDataLoader.getSelectedMap()->outdoorDecorationBillboardSet;
+        Engine::ModelAssetCache assets;
+        size_t animated = 0;
+        std::vector<YAML::Node> entries;
+        for (const std::string *pManifest : {&*outdoorManifest, &*indoorManifest})
+        {
+            for (const YAML::Node &entry : YAML::Load(*pManifest)["decorations"])
+            {
+                entries.push_back(entry);
+            }
+        }
+        for (const YAML::Node &entry : entries)
+        {
+            const std::string name = entry["name"].as<std::string>();
+            const DecorationEntry *pDecoration = tables.decorationTable.findByInternalName(name);
+            const SpriteFrameEntry *pFrame =
+                pDecoration != nullptr ? tables.spriteFrameTable.getFrame(pDecoration->spriteId, 0) : nullptr;
+            if (pFrame == nullptr)
+            {
+                failure = "decoration " + name + " has no native sprite";
+                return false;
+            }
+            if (!SpriteFrameTable::hasFlag(pFrame->flags, SpriteFrameFlag::HasMore) || entry["still"].as<bool>(false))
+            {
+                continue;
+            }
+            const Engine::ModelLoadResult loaded = assets.load(assetFileSystem, entry["model"].as<std::string>());
+            if (!loaded)
+            {
+                failure = loaded.error;
+                return false;
+            }
+            const bool moves = entry["swing"].IsDefined() || std::any_of(loaded.asset->materials.begin(),
+                loaded.asset->materials.end(), [](const Engine::ModelMaterial &material)
+                {
+                    return material.flipbook[0] > 0.0f || material.uvScroll != std::array<float, 2>{}
+                        || material.flutter > 0.0f || material.wind > 0.0f || material.pulse[0] > 0.0f;
+                });
+            if (!moves)
+            {
+                failure = "decoration " + name + " animates natively but its model does not (or set still: true)";
+                return false;
+            }
+            ++animated;
+        }
+        if (animated < 10)
+        {
+            failure = "only " + std::to_string(animated) + " natively animated decorations are bound";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_decoration_models_indoor_wall_torches", [&](std::string &failure)
+    {
+        // Goblinwatch: every wall torch hangs on its wall and faces the room, or (no wall in reach) stands free at
+        // its native position; each picks by its triangles, the flame card from the side as well (it turns toward
+        // the viewer).
+        if (!gameDataLoader.loadMapByFileName(assetFileSystem, "6d01.blv")
+            || !gameDataLoader.getSelectedMap()->indoorMapData
+            || !gameDataLoader.getSelectedMap()->indoorDecorationBillboardSet)
+        {
+            failure = "could not load Goblinwatch decorations";
+            return false;
+        }
+        const IndoorMapData &indoorMap = *gameDataLoader.getSelectedMap()->indoorMapData;
+        const DecorationBillboardSet &decorations = *gameDataLoader.getSelectedMap()->indoorDecorationBillboardSet;
+        DecorationModelSet models;
+        if (!models.load(assetFileSystem, "mm6", "6d01.blv", decorations, failure,
+                [&](const DecorationBillboard &billboard, float height)
+                {
+                    return findIndoorDecorationWall(indoorMap, billboard.x, billboard.y, billboard.z, height);
+                }))
+        {
+            return false;
+        }
+        if (!models.unmountedBillboards().empty())
+        {
+            failure = std::to_string(models.unmountedBillboards().size()) + " wall torches have no wall in reach";
+            return false;
+        }
+        size_t torches = 0;
+        size_t freeStanding = 0;
+        for (size_t index = 0; index < decorations.billboards.size(); ++index)
+        {
+            const DecorationBillboard &billboard = decorations.billboards[index];
+            const std::string name = decorations.decorationTable.get(billboard.decorationId)->internalName;
+            if (name != "6torch01" && name != "torchnf")
+            {
+                continue;
+            }
+            ++torches;
+            const std::optional<DecorationWallContact> wall =
+                findIndoorDecorationWall(indoorMap, billboard.x, billboard.y, billboard.z, 128.0f);
+            if (!models.drawsBillboard(index))
+            {
+                failure = "Goblinwatch torch " + std::to_string(index) + " is not drawn by a model";
+                return false;
+            }
+            const auto findPlacement = [&]() -> const Engine::ModelStaticPlacement *
+            {
+                for (size_t group = 0; group < models.groups().size(); ++group)
+                {
+                    const std::vector<size_t> &indices = models.billboardIndices(group);
+                    const auto found = std::find(indices.begin(), indices.end(), index);
+                    if (found != indices.end())
+                    {
+                        return &models.groups()[group].placements[size_t(found - indices.begin())];
+                    }
+                }
+                return nullptr;
+            };
+            const Engine::ModelStaticPlacement *pPlacement = findPlacement();
+            const Engine::ModelMatrix &matrix = pPlacement->matrix;
+            const float scale = std::sqrt(matrix[8] * matrix[8] + matrix[9] * matrix[9] + matrix[10] * matrix[10]);
+            const std::array<float, 3> front = {matrix[8] / scale, matrix[9] / scale, matrix[10] / scale};
+            if (!wall)
+            {
+                ++freeStanding;
+                if (std::abs(matrix[12] - float(billboard.x)) > 0.5f
+                    || std::abs(matrix[13] - float(billboard.y)) > 0.5f)
+                {
+                    failure = "free-standing Goblinwatch torch " + std::to_string(index) + " moved";
+                    return false;
+                }
+            }
+            else
+            {
+                const float awayFromWall = (matrix[12] - wall->point[0]) * wall->normal[0]
+                    + (matrix[13] - wall->point[1]) * wall->normal[1];
+                if (front[0] * wall->normal[0] + front[1] * wall->normal[1] < 0.99f || awayFromWall < 4.0f
+                    || awayFromWall > 40.0f)
+                {
+                    failure = "Goblinwatch torch " + std::to_string(index) + " does not face away from its wall";
+                    return false;
+                }
+            }
+            // Head on at the clamp, and along the wall at flame height (only the turned flame card is there).
+            float distance = 0.0f;
+            const float z = float(billboard.z);
+            // The model is scaled to the sprite's height in map units: the clamp is at 34, the flame at 72-128.
+            const bool headOn = models.raycast(index, {matrix[12] + front[0] * 150.0f, matrix[13] + front[1] * 150.0f,
+                z + 34.0f}, {-front[0], -front[1], 0.0f}, distance);
+            const std::array<float, 2> along = {-front[1], front[0]};
+            float side = 0.0f;
+            const bool fromSide = models.raycast(index, {matrix[12] + along[0] * 150.0f,
+                matrix[13] + along[1] * 150.0f, z + 100.0f}, {-along[0], -along[1], 0.0f}, side);
+            const bool lit = name == "6torch01";
+            if (!headOn || distance > 150.0f || (lit && (!fromSide || std::abs(side - 150.0f) > 2.0f)))
+            {
+                failure = "Goblinwatch torch " + std::to_string(index) + " does not pick by its model";
+                return false;
+            }
+        }
+        // One Goblinwatch torch (entity 141) stands away from any wall in the original map.
+        if (torches < 80 || freeStanding != 1)
+        {
+            failure = "Goblinwatch has " + std::to_string(torches) + " torches, " + std::to_string(freeStanding)
+                + " free-standing";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_pmn2_actor_models_bind_free_haven_mages", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "outc2.odm"))
+        {
+            failure = "could not load Free Haven";
+            return false;
+        }
+        RegressionScenario scenario;
+        if (!initializeRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize Free Haven";
+            return false;
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        const OutdoorWorldRuntime::Snapshot before = scenario.world.snapshot();
+        fx.syncActorModels(scenario.world);
+        std::array<size_t, 3> tiers = {};
+        for (size_t index = 0; index < before.mapActors.size(); ++index)
+        {
+            const OutdoorWorldRuntime::MapActorState &actor = before.mapActors[index];
+            const MonsterEntry *pMonster = gameDataLoader.getMonsterTable().findById(actor.monsterId);
+            const std::string name = pMonster != nullptr ? pMonster->internalName : std::string();
+            const int tier = name == "PeasantM2 A" ? 0 : name == "PeasantM2 B" ? 1 : name == "PeasantM2 C" ? 2 : -1;
+            if (tier >= 0 && !actor.isInvisible)
+            {
+                if (!fx.hasActorModel(index) || !fx.actorModelBounds(index)->valid)
+                {
+                    failure = "a visible mage did not acquire a valid model";
+                    return false;
+                }
+                ++tiers[size_t(tier)];
+            }
+        }
+        const Engine::ModelAsset *pAsset = nullptr;
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            const Engine::ModelAsset *pCandidate = fx.models().asset(handle);
+            if (pCandidate->sourcePath.find("mm6_pmn2") != std::string::npos)
+            {
+                pAsset = pCandidate;
+            }
+        }
+        std::cout << "Free Haven mages: A=" << tiers[0] << " B=" << tiers[1] << " C=" << tiers[2] << '\n';
+        if (pAsset == nullptr || tiers[0] + tiers[1] + tiers[2] == 0)
+        {
+            failure = "no Free Haven mage used the pmn2 model";
+            return false;
+        }
+        // Native attack/hit timing; Cast is the attack (a distinct clip is required for spellcasters).
+        const std::array<std::pair<const char *, float>, 8> clips = {{{"Standing", 2.0f}, {"Walking", 1.0417f},
+            {"Running", 0.6667f}, {"Attack", 0.75f}, {"Cast", 0.75f}, {"Hit", 0.75f}, {"Death", 1.0f},
+            {"Dead", 0.0417f}}};
+        for (const auto &[clipName, seconds] : clips)
+        {
+            const std::optional<uint32_t> clip = pAsset->findClip(clipName);
+            if (!clip || std::abs(pAsset->clips[*clip].durationSeconds - seconds) > 0.01f)
+            {
+                failure = std::string("mage clip missing or retimed: ") + clipName;
+                return false;
+            }
+        }
+        const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("Mage")].meshIndex];
+        if (mesh.lodMeshes.size() != 3 || !pAsset->findNode("Socket_Staff_Head"))
+        {
+            failure = "mage model lacks its LODs or the staff-head socket";
+            return false;
+        }
+        // Red/green/blue tiers (and the violet boss tier) recolour one shared skin: shared base image and region mask,
+        // different ramps. The staff is an attachment on the Staff bone.
+        std::array<size_t, 3> variants = {};
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            if (fx.models().asset(handle) == pAsset)
+            {
+                const uint32_t variant = fx.models().materialVariant(handle);
+                if (variant < 1 || variant > 3)
+                {
+                    failure = "mage instance has no A/B/C skin";
+                    return false;
+                }
+                ++variants[variant - 1];
+                const std::vector<Engine::ModelAttachment> &carried = fx.models().attachments(handle);
+                if (carried.size() != 1 || carried[0].nodeIndex != *pAsset->findNode("Staff")
+                    || carried[0].asset->sourcePath.find("mm6_pmn2_staff") == std::string::npos)
+                {
+                    failure = "mage does not carry its staff on the Staff bone";
+                    return false;
+                }
+            }
+        }
+        std::vector<const Engine::ModelMaterial *> recoloured;
+        for (const Engine::ModelMaterial &material : pAsset->materials)
+        {
+            if (!material.regionRamps.empty())
+            {
+                recoloured.push_back(&material);
+            }
+        }
+        if (variants != tiers || pAsset->materialVariants.size() != 4 || recoloured.size() != 4
+            || recoloured[0]->imageIndex != recoloured[1]->imageIndex
+            || recoloured[1]->imageIndex != recoloured[2]->imageIndex
+            || recoloured[0]->regionMaskImageIndex < 0
+            || recoloured[0]->regionMaskImageIndex != recoloured[2]->regionMaskImageIndex
+            || recoloured[0]->regionRamps[0].colors == recoloured[1]->regionRamps[0].colors)
+        {
+            failure = "mage tiers do not use three colour ramps of one shared skin";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_gua_actor_models_bind_new_sorpigal_guards", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
+        {
+            failure = "could not load New Sorpigal";
+            return false;
+        }
+        RegressionScenario scenario;
+        if (!initializeRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize New Sorpigal";
+            return false;
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        const OutdoorWorldRuntime::Snapshot before = scenario.world.snapshot();
+        fx.syncActorModels(scenario.world);
+        size_t guards = 0;
+        for (size_t index = 0; index < before.mapActors.size(); ++index)
+        {
+            const OutdoorWorldRuntime::MapActorState &actor = before.mapActors[index];
+            const MonsterEntry *pMonster = gameDataLoader.getMonsterTable().findById(actor.monsterId);
+            const std::string name = pMonster != nullptr ? pMonster->internalName : std::string();
+            if (name.rfind("Guard ", 0) == 0 && name.size() == 7 && !actor.isInvisible)
+            {
+                if (!fx.hasActorModel(index) || !fx.actorModelBounds(index)->valid)
+                {
+                    failure = "a visible guard did not acquire a valid model";
+                    return false;
+                }
+                ++guards;
+            }
+        }
+        const Engine::ModelAsset *pAsset = nullptr;
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            const Engine::ModelAsset *pCandidate = fx.models().asset(handle);
+            if (pCandidate->sourcePath.find("mm6_gua") != std::string::npos)
+            {
+                pAsset = pCandidate;
+            }
+        }
+        std::cout << "New Sorpigal guards with models: " << guards << '\n';
+        if (pAsset == nullptr || guards == 0)
+        {
+            failure = "no New Sorpigal guard used the gua model";
+            return false;
+        }
+        // Native 750 ms attack/hit (six 125 ms entries); Standing is a held one-second pose.
+        const std::array<std::pair<const char *, float>, 7> clips = {{{"Standing", 1.0f}, {"Walking", 1.0417f},
+            {"Running", 0.625f}, {"Attack", 0.75f}, {"Hit", 0.75f}, {"Death", 1.0f}, {"Dead", 0.0417f}}};
+        for (const auto &[clipName, seconds] : clips)
+        {
+            const std::optional<uint32_t> clip = pAsset->findClip(clipName);
+            if (!clip || std::abs(pAsset->clips[*clip].durationSeconds - seconds) > 0.01f)
+            {
+                failure = std::string("guard clip missing or retimed: ") + clipName;
+                return false;
+            }
+        }
+        const Engine::ModelMesh &mesh = pAsset->meshes[pAsset->nodes[*pAsset->findNode("Guard")].meshIndex];
+        if (mesh.lodMeshes.size() != 3 || !pAsset->findNode("Halberd"))
+        {
+            failure = "guard model lacks its LODs or the Halberd joint";
+            return false;
+        }
+        // The halberd is an attachment on the Halberd joint (tiers may carry different weapons).
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            if (fx.models().asset(handle) != pAsset)
+            {
+                continue;
+            }
+            const std::vector<Engine::ModelAttachment> &carried = fx.models().attachments(handle);
+            if (carried.size() != 1 || carried[0].nodeIndex != *pAsset->findNode("Halberd")
+                || carried[0].asset->sourcePath.find("mm6_gua_halberd") == std::string::npos)
+            {
+                failure = "guard does not carry its halberd on the Halberd joint";
+                return false;
+            }
+        }
+        // Guard/lieutenant/captain recolour one shared skin (body and head merged into one atlas by
+        // tools/merge_head_material.py): the three tier materials share base image and mask, differing only in ramps.
+        std::vector<const Engine::ModelMaterial *> recoloured;
+        for (const Engine::ModelMaterial &material : pAsset->materials)
+        {
+            if (!material.regionRamps.empty())
+            {
+                recoloured.push_back(&material);
+            }
+        }
+        if (pAsset->materialVariants.size() != 3 || recoloured.size() != 3)
+        {
+            failure = "guard model does not have three merged body/head tier materials";
+            return false;
+        }
+        size_t sharing = 0;
+        for (const Engine::ModelMaterial *pA : recoloured)
+        {
+            for (const Engine::ModelMaterial *pB : recoloured)
+            {
+                if (pA != pB && pA->imageIndex == pB->imageIndex && pA->regionMaskImageIndex >= 0
+                    && pA->regionMaskImageIndex == pB->regionMaskImageIndex
+                    && pA->regionRamps[0].colors != pB->regionRamps[0].colors)
+                {
+                    ++sharing;
+                }
+            }
+        }
+        if (sharing != 6)
+        {
+            failure = "guard tiers do not use different ramps over one shared skin";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_pmn2_actor_spell_charge_glows_at_staff_head", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
+        {
+            failure = "could not load New Sorpigal";
+            return false;
+        }
+        RegressionScenario scenario;
+        if (!initializeRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize New Sorpigal";
+            return false;
+        }
+        // Apprentice (Fire Bolt), Journeyman (Ice Bolt), Mage (Lightning Bolt).
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId = 610; monsterId <= 612; ++monsterId)
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, -9728 + (monsterId - 610) * 300, -11919, 161, 0))
+            {
+                failure = "could not spawn a mage";
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        GameDataRepository fxData;
+        fxData.bind(gameDataLoader);
+        GameSession fxSession;
+        fxSession.bindDataRepository(&fxData);
+        fxSession.bindActiveWorldRuntime(&scenario.world);
+        const OutdoorWorldRuntime::Snapshot initial = scenario.world.snapshot();
+        for (size_t tier = 0; tier < 3; ++tier)
+        {
+            // Headless camera sits at the origin facing +X: only the caster placed in front gets attachment FX.
+            OutdoorWorldRuntime::Snapshot pose = initial;
+            OutdoorWorldRuntime::MapActorState &caster = pose.mapActors[first + tier];
+            caster.preciseX = 400;
+            caster.preciseY = 0;
+            caster.animation = OutdoorWorldRuntime::ActorAnimation::AttackRanged;
+            caster.queuedAttackAbility = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
+            caster.animationTimeTicks = 64;
+            caster.actionSeconds = .25f;
+            scenario.world.restoreSnapshot(pose);
+            fx.particles().reset();
+            fx.clearSpatialFx();
+            fx.syncActorModels(scenario.world, .02f);
+            fx.syncProjectileFx(fxSession, .1f, true);
+            const Engine::ModelMatrix *pSocket = nullptr;
+            std::array<float, 3> palms = {};
+            for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+            {
+                const Engine::ModelMatrix *pCandidate = fx.models().nodeMatrix(handle, "Socket_Staff_Head");
+                if (pCandidate != nullptr && std::hypot((*pCandidate)[12] - 400.0f, (*pCandidate)[13]) < 150.0f)
+                {
+                    pSocket = pCandidate;
+                    const Engine::ModelMatrix *pLeft = fx.models().nodeMatrix(handle, "Socket_Palm_Left");
+                    const Engine::ModelMatrix *pRight = fx.models().nodeMatrix(handle, "Socket_Palm_Right");
+                    for (size_t axis = 0; axis < 3; ++axis)
+                    {
+                        palms[axis] = ((*pLeft)[12 + axis] + (*pRight)[12 + axis]) * 0.5f;
+                    }
+                }
+            }
+            // Outer glow + core at the palm midpoint (default size) and at the staff head (cast_focus_glow_scale).
+            if (pSocket == nullptr || fx.glowBillboards().size() != 4)
+            {
+                failure = "a casting mage had no staff-head socket or not both charge glows (tier "
+                    + std::to_string(tier) + ", glows " + std::to_string(fx.glowBillboards().size()) + ")";
+                return false;
+            }
+            const WorldFxGlowBillboard &palmGlow = fx.glowBillboards()[0];
+            const WorldFxGlowBillboard &glow = fx.glowBillboards()[2];
+            if (std::hypot(glow.x - (*pSocket)[12], glow.y - (*pSocket)[13], glow.z - (*pSocket)[14]) > 0.5f
+                || std::hypot(palmGlow.x - palms[0], palmGlow.y - palms[1], palmGlow.z - palms[2]) > 0.5f
+                || std::abs(glow.radius - palmGlow.radius * 0.6f) > 0.01f)
+            {
+                failure = "spell charge glows are not at the palms and the staff head at their sizes";
+                return false;
+            }
+            const int red = int(glow.colorAbgr & 0xffu);
+            const int green = int((glow.colorAbgr >> 8) & 0xffu);
+            const int blue = int((glow.colorAbgr >> 16) & 0xffu);
+            const bool element = tier == 0 ? red > blue + 80 : tier == 1 ? blue > red + 40 : red > blue + 80 && green > blue + 40;
+            std::cout << "Mage tier " << tier << " glow rgb=" << red << ',' << green << ',' << blue
+                      << " staff head radius=" << glow.radius << " palm radius=" << palmGlow.radius << '\n';
+            if (!element)
+            {
+                failure = "spell charge glow does not follow the spell element";
+                return false;
+            }
+        }
+        return true;
+    });
+
     runCase("mm6_gob_actor_models_bind_sorpigal_goblins", [&](std::string &failure)
     {
         if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "oute3.odm"))
@@ -8190,6 +9075,15 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
             ++variants[variant - 1];
+            // The sword is an attachment on the Sword bone and follows the goblin's skin.
+            const std::vector<Engine::ModelAttachment> &carried = fx.models().attachments(handle);
+            if (carried.size() != 1 || carried[0].nodeIndex != *pCandidate->findNode("Sword")
+                || carried[0].asset->sourcePath.find("mm6_gob_sword") == std::string::npos
+                || carried[0].materialVariant != variant)
+            {
+                failure = "goblin does not carry its sword in its own skin";
+                return false;
+            }
         }
         std::cout << "Sorpigal goblins: A=" << tiers[0] << " B=" << tiers[1] << " C=" << tiers[2] << '\n';
         if (pAsset == nullptr || variants != tiers || tiers[0] == 0)
@@ -8197,8 +9091,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             failure = "goblin skins did not follow their native A/B/C descriptors";
             return false;
         }
-        const std::array<std::pair<const char *, float>, 7> clips = {{{"Standing", 4.0f}, {"Walking", 1.0417f},
-            {"Attack", 0.75f}, {"Hit", 0.75f}, {"Death", 0.625f}, {"Dead", 1.0f}, {"Fidget", 0.75f}}};
+        const std::array<std::pair<const char *, float>, 9> clips = {{{"Standing", 4.0f}, {"Walking", 1.0417f},
+            {"Running", 0.625f}, {"Attack", 0.875f}, {"Hit", 0.8333f}, {"Death", 1.2083f}, {"Dead", 1.0f},
+            {"Fidget", 0.75f}, {"Cast_FireBolt", 0.75f}}};
         for (const auto &[clipName, seconds] : clips)
         {
             const std::optional<uint32_t> clip = pAsset->findClip(clipName);
@@ -8324,7 +9219,670 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
         }
-        return fx.models().size() == 3;
+        // Placed actors with their own bindings (e.g. the temple's guards) also get models; count the demons only.
+        size_t demonModels = 0;
+        for (size_t index = 0; index < scenario.world.mapActorCount(); ++index)
+        {
+            GameplayRuntimeActorState state;
+            demonModels += fx.hasActorModel(index) && scenario.world.actorRuntimeState(index, state)
+                && state.monsterId == 502 ? 1 : 0;
+        }
+        return demonModels == 3;
+    });
+
+    runCase("mm6_wdm_actor_model_tiers_follow_sprite_scales", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {499, 500, 501})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon flying demon " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);      // exact posed mesh
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "flying demon tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // Native frame scales: wd1fly 0.70, wd2fly 0.75, wd3fly 0.80. Tier A's native fly frames stand 200 units tall.
+        const float ratioB = heights[1] / heights[0];
+        const float ratioC = heights[2] / heights[0];
+        if (std::abs(ratioB - 0.75f / 0.7f) > 0.01f || std::abs(ratioC - 0.8f / 0.7f) > 0.01f
+            || heights[0] < 160.0f || heights[0] > 260.0f)
+        {
+            failure = "flying demon tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not follow the native frame scales";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_cob_actor_model_tiers_follow_sprite_scales", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {493, 494, 495})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon cobra " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);      // exact posed mesh
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "cobra tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // Native frame scales: coastaa 0.65, cobstaa 0.60, cocstaa 0.70. Tier A's native side frame stands 132 units tall.
+        const float ratioB = heights[1] / heights[0];
+        const float ratioC = heights[2] / heights[0];
+        if (std::abs(ratioB - 0.6f / 0.65f) > 0.01f || std::abs(ratioC - 0.7f / 0.65f) > 0.01f
+            || heights[0] < 100.0f || heights[0] > 170.0f)
+        {
+            failure = "cobra tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not follow the native frame scales";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_ooz_actor_model_tiers_share_a_glossy_skin", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {589, 590, 591})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon ooze " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        for (size_t tier = 0; tier < 3; ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "ooze tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            // Native side view oozwaa2: 295 px long at frame scale 0.7 (all tiers) = 206 units.
+            const float length = std::max(pBounds->max[0] - pBounds->min[0], pBounds->max[1] - pBounds->min[1]);
+            if (length < 180.0f || length > 235.0f)
+            {
+                failure = "ooze tier " + std::to_string(tier) + " is " + std::to_string(length) + " units long";
+                return false;
+            }
+        }
+        const Engine::ModelAsset *pAsset = nullptr;
+        for (const Engine::ModelInstanceHandle handle : fx.models().handles())
+        {
+            if (fx.models().asset(handle)->sourcePath.find("mm6_ooz") != std::string::npos)
+            {
+                pAsset = fx.models().asset(handle);
+            }
+        }
+        if (pAsset == nullptr)
+        {
+            failure = "no ooze used the ooz model";
+            return false;
+        }
+        // Native 750 ms walk/attack/hit/fidget, 625 ms death; Standing pulses over one second; B/C spit (Cast).
+        const std::array<std::pair<const char *, float>, 9> clips = {{{"Standing", 1.0f}, {"Walking", 0.75f},
+            {"Running", 0.5f}, {"Attack", 0.75f}, {"Cast", 0.75f}, {"Hit", 0.75f}, {"Death", 0.625f},
+            {"Dead", 0.0417f}, {"Fidget", 0.75f}}};
+        for (const auto &[clipName, seconds] : clips)
+        {
+            const std::optional<uint32_t> clip = pAsset->findClip(clipName);
+            if (!clip || std::abs(pAsset->clips[*clip].durationSeconds - seconds) > 0.01f)
+            {
+                failure = std::string("ooze clip missing or retimed: ") + clipName;
+                return false;
+            }
+        }
+        // Green/red/ochre tiers: one shared skin and mask, three ramps; wet slime keeps specular (0.7).
+        std::vector<const Engine::ModelMaterial *> recoloured;
+        for (const Engine::ModelMaterial &material : pAsset->materials)
+        {
+            if (!material.regionRamps.empty())
+            {
+                recoloured.push_back(&material);
+            }
+        }
+        if (pAsset->materialVariants.size() != 3 || recoloured.size() != 3
+            || recoloured[0]->imageIndex != recoloured[1]->imageIndex
+            || recoloured[0]->regionMaskImageIndex < 0
+            || recoloured[0]->regionMaskImageIndex != recoloured[2]->regionMaskImageIndex
+            || recoloured[0]->regionRamps[0].colors == recoloured[1]->regionRamps[0].colors
+            || std::abs(recoloured[0]->specular - 0.7f) > 0.01f)
+        {
+            failure = "ooze tiers do not share one glossy (specular 0.7) skin with three ramps";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_seas_actor_model_tiers_follow_sprite_scales", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {625, 626, 627})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon sea serpent " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);      // exact posed mesh
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "sea serpent tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // Native frame scales: seassta 2.2, sebssta 2.2, secssta 2.8. Tier A's native stand frame is 528 units tall.
+        const float ratioB = heights[1] / heights[0];
+        const float ratioC = heights[2] / heights[0];
+        if (std::abs(ratioB - 1.0f) > 0.01f || std::abs(ratioC - 2.8f / 2.2f) > 0.01f
+            || heights[0] < 440.0f || heights[0] > 620.0f)
+        {
+            failure = "sea serpent tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not follow the native frame scales";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_hydra_actor_model_tiers_follow_sprite_scales", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {559, 560, 561})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon hydra " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);      // exact posed mesh
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "hydra tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // Native frame scales: hydfid 1.3, hy2fid 1.45, hy3fid 1.6. Tier A's native stand frame is 273 units tall.
+        const float ratioB = heights[1] / heights[0];
+        const float ratioC = heights[2] / heights[0];
+        if (std::abs(ratioB - 1.45f / 1.3f) > 0.01f || std::abs(ratioC - 1.6f / 1.3f) > 0.01f
+            || heights[0] < 220.0f || heights[0] > 330.0f)
+        {
+            failure = "hydra tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not follow the native frame scales";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_titan_actor_model_tiers_share_the_native_height", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {640, 641, 642})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon titan " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "titan tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // ttn1sta, ttn2sta and ttn3sta share frame scale 1.4; the native stand frame is 374 px x 1.4 = 524 units.
+        if (std::abs(heights[1] - heights[0]) > 1.0f || std::abs(heights[2] - heights[0]) > 1.0f
+            || heights[0] < 470.0f || heights[0] > 580.0f)
+        {
+            failure = "titan tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not match the native stand frame";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_thief_actor_model_tiers_share_the_native_height", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {637, 638, 639})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon thief " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "thief tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // thfstaa, th2staa and th3staa share frame scale 0.7; the native stand frame is 245 px x 0.7 = 171.5 units.
+        if (std::abs(heights[1] - heights[0]) > 1.0f || std::abs(heights[2] - heights[0]) > 1.0f
+            || heights[0] < 150.0f || heights[0] > 195.0f)
+        {
+            failure = "thief tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not match the native stand frame";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_werewolf_actor_model_tiers_share_the_native_height", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {643, 644, 645})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon werewolf " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "werewolf tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // wstand, wstand2 and wstand3 share frame scale 0.9; the native stand frame is 246 px x 0.9 = 221 units.
+        if (std::abs(heights[1] - heights[0]) > 1.0f || std::abs(heights[2] - heights[0]) > 1.0f
+            || heights[0] < 195.0f || heights[0] > 250.0f)
+        {
+            failure = "werewolf tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not match the native stand frame";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_cleric_actor_model_tiers_share_the_native_height", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {490, 491, 492})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon cleric " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "cleric tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // cl1sta, cl2sta and cl3sta share frame scale 0.7; the native stand frame is 248 px x 0.7 = 173.6 units (the
+        // staff reaches slightly above the head).
+        if (std::abs(heights[1] - heights[0]) > 1.0f || std::abs(heights[2] - heights[0]) > 1.0f
+            || heights[0] < 150.0f || heights[0] > 200.0f)
+        {
+            failure = "cleric tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not match the native stand frame";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_skeleton_actor_model_tiers_share_the_native_height", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "6d07.blv"))
+        {
+            failure = "could not load the New Sorpigal temple";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize the temple";
+            return false;
+        }
+        const size_t first = scenario.world.mapActorCount();
+        for (int16_t monsterId : {628, 629, 630})
+        {
+            if (!scenario.world.summonHostileMonsterById(monsterId, 1, 0, 0, 0, 0))
+            {
+                failure = "could not summon skeleton " + std::to_string(monsterId);
+                return false;
+            }
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        std::array<float, 3> heights = {};
+        for (size_t tier = 0; tier < heights.size(); ++tier)
+        {
+            const Engine::ModelBounds *pBounds = fx.actorModelBounds(first + tier);
+            if (pBounds == nullptr || !pBounds->valid)
+            {
+                failure = "skeleton tier " + std::to_string(tier) + " has no posed model";
+                return false;
+            }
+            heights[tier] = pBounds->max[2] - pBounds->min[2];
+        }
+        // skesta, ske2st and ske3st share frame scale 0.7; the native stand frame is 273 px x 0.7 = 191 units.
+        if (std::abs(heights[1] - heights[0]) > 1.0f || std::abs(heights[2] - heights[0]) > 1.0f
+            || heights[0] < 170.0f || heights[0] > 215.0f)
+        {
+            failure = "skeleton tier heights " + std::to_string(heights[0]) + " / " + std::to_string(heights[1])
+                + " / " + std::to_string(heights[2]) + " do not match the native stand frame";
+            return false;
+        }
+        return true;
+    });
+
+    runCase("mm6_demon_actor_models_hive_placed_actors", [&](std::string &failure)
+    {
+        if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "hive.blv"))
+        {
+            failure = "could not load The Hive";
+            return false;
+        }
+        if (gameDataLoader.getSelectedMap()->map.worldId != "mm6")
+        {
+            failure = "The Hive resolved to world " + gameDataLoader.getSelectedMap()->map.worldId
+                + "; its actor models are bound in the mm6 world";
+            return false;
+        }
+        IndoorRegressionScenario scenario;
+        if (!initializeIndoorRegressionScenario(gameDataLoader, *gameDataLoader.getSelectedMap(), scenario))
+        {
+            failure = "could not initialize The Hive";
+            return false;
+        }
+        SpriteFrameTable frames;
+        WorldFxSystem fx;
+        if (!loadModelSpriteFrames(frames, failure)
+            || !fx.loadNamedEffectLibrary(assetFileSystem, "engine/effects/library.yml",
+                "engine/effects/resource_bindings.yml", failure)
+            || !fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
+                gameDataLoader.getMonsterTable(), &frames, failure))
+        {
+            return false;
+        }
+        fx.syncActorModels(scenario.world);
+        size_t demons = 0;
+        for (size_t index = 0; index < scenario.world.mapActorCount(); ++index)
+        {
+            GameplayRuntimeActorState state;
+            if (!scenario.world.actorRuntimeState(index, state) || state.monsterId < 499 || state.monsterId > 504)
+            {
+                continue;
+            }
+            ++demons;
+            if (!state.isInvisible && !fx.hasActorModel(index))
+            {
+                failure = "placed Hive demon " + std::to_string(index) + " (monster "
+                    + std::to_string(state.monsterId) + ") has no model";
+                return false;
+            }
+        }
+        if (demons == 0)
+        {
+            failure = "The Hive has no placed demons";
+            return false;
+        }
+        return true;
     });
 
     for (bool indoors : {false, true})
@@ -20737,8 +22295,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             saveData.outdoorWorld.armageddon.shakeSequence = 3;
             saveData.outdoorWorld.armageddon.cameraShakeYawRadians = 0.04f;
             saveData.outdoorWorld.armageddon.cameraShakePitchRadians = -0.05f;
-            saveData.outdoorWorld.hasRainIntensityOverride = true;
-            saveData.outdoorWorld.rainIntensityPreset = OutdoorWorldRuntime::RainIntensityPreset::Off;
             OutdoorWorldRuntime::BloodSplatState savedBloodSplat = {};
             savedBloodSplat.sourceActorId = savedActor.actorId;
             savedBloodSplat.x = 1.0f;
@@ -20853,8 +22409,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 || loadedSave->outdoorWorld.armageddon.casterMemberIndex != 1
                 || loadedSave->outdoorWorld.armageddon.shakeStepsRemaining != 2
                 || loadedSave->outdoorWorld.armageddon.shakeSequence != 3
-                || !loadedSave->outdoorWorld.hasRainIntensityOverride
-                || loadedSave->outdoorWorld.rainIntensityPreset != OutdoorWorldRuntime::RainIntensityPreset::Off
                 || loadedSave->outdoorWorld.bloodSplats.size() != 1
                 || loadedSave->outdoorWorld.bloodSplats[0].vertices.empty()
                 || std::abs(loadedSave->outdoorWorld.bloodSplats[0].vertices[0].v - 0.75f) > 0.01f)
@@ -21038,8 +22592,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             if (restoredWorld.bloodSplatCount() != 1
-                || !restoredWorld.isArmageddonActive()
-                || restoredWorld.rainIntensityPreset() != OutdoorWorldRuntime::RainIntensityPreset::Off)
+                || !restoredWorld.isArmageddonActive())
             {
                 failure = "restored outdoor world extended runtime state did not apply";
                 return false;
@@ -21106,7 +22659,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             snapshot.gameMinutes = 3.0f * 60.0f + 30.0f;
             scenario.world.restoreSnapshot(snapshot);
             const OutdoorWorldRuntime::AtmosphereState &night = scenario.world.atmosphereState();
-            const std::array<float, 4> nightSunlight = buildOutdoorSunlight(*modifiedMap.outdoorMapData, night);
+            // These cases check the atmosphere-driven path; maps with baked lighting would bypass it.
+            const std::array<float, 4> nightSunlight =
+                buildOutdoorSunlight(*modifiedMap.outdoorMapData, night, false);
             if (!night.isNight || std::abs(nightSunlight[3] - 0.255634f) > 0.001f
                 || nightSunlight[0] != 0.0f || nightSunlight[2] != 0.0f
                 || std::abs(outdoorBillboardBaseLight(nightSunlight) - nightSunlight[3]) > 0.001f
@@ -21202,7 +22757,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     snapshot.gameMinutes = minutes;
                     scenario.world.restoreSnapshot(snapshot);
                     const OutdoorWorldRuntime::AtmosphereState &atmosphere = scenario.world.atmosphereState();
-                    const std::array<float, 4> sunlight = buildOutdoorSunlight(*modifiedMap.outdoorMapData, atmosphere);
+                    const std::array<float, 4> sunlight =
+                        buildOutdoorSunlight(*modifiedMap.outdoorMapData, atmosphere, false);
                     if (atmosphere.isNight == alwaysLight
                         || std::abs(sunlight[3] - (alwaysLight ? 0.69f : 0.15f)) > 0.001f
                         || (!alwaysLight && (sunlight[0] != 0.0f || sunlight[2] != 0.0f))

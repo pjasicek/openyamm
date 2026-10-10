@@ -13,6 +13,8 @@
 #include <optional>
 #include <vector>
 
+TEST_SUITE_BEGIN(OpenYAMM::Tests::SharedRegressionMapSuite);
+
 using OpenYAMM::Game::FaceAttribute;
 using OpenYAMM::Game::MapDeltaData;
 using OpenYAMM::Game::MapBoundaryEdge;
@@ -1376,3 +1378,5 @@ TEST_CASE("BModel-world cooked navigation merges marked coplanar triangle pairs"
     CHECK_EQ(result.pathMap.facets()[0].vertices.size(), 4);
     CHECK(result.pathMap.floorAt({50.0f, 50.0f, 32.0f}).hasFloor);
 }
+
+TEST_SUITE_END();

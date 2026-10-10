@@ -9,7 +9,9 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <set>
 #include <string>
+#include <tuple>
 
 namespace
 {
@@ -129,6 +131,7 @@ TEST_CASE("MMerge-style mercenary recruits are generated into current-map recrui
         map,
         harness.party(),
         harness.eventRuntimeState(),
+        540.0f,
         makeRecruitmentTables(gameData));
 
     REQUIRE(placed);
@@ -155,6 +158,52 @@ TEST_CASE("MMerge-style mercenary recruits are generated into current-map recrui
     CHECK(harness.eventRuntimeState().npcPictureOverrides.at(npcId) == recruitIt->second.npcPictureId);
 }
 
+TEST_CASE("Generated mercenaries vary between games and refresh once per calendar month")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    const OpenYAMM::Game::MapStatsEntry map = makeRavenshoreMap();
+    const OpenYAMM::Game::MercenaryRecruitmentTables tables = makeRecruitmentTables(gameData);
+    std::set<std::tuple<std::string, std::string, uint32_t>> identities;
+    for (int game = 0; game < 8; ++game)
+    {
+        OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+        OpenYAMM::Game::EventRuntimeState &state = harness.eventRuntimeState();
+        REQUIRE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+            map, harness.party(), state, 540.0f, tables));
+        const OpenYAMM::Game::EventRuntimeState::GeneratedMercenaryRecruit first =
+            state.generatedMercenaryRecruitsByNpcId.begin()->second;
+        identities.emplace(first.character.name, first.character.className, first.npcPictureId);
+        REQUIRE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+            map, harness.party(), state, 28 * 24 * 60 - 1.0f, tables));
+        CHECK_EQ(state.generatedMercenaryRecruitsByNpcId.at(first.npcId).character.name, first.character.name);
+        CHECK_EQ(state.generatedMercenaryRecruitsByNpcId.at(first.npcId).character.className,
+            first.character.className);
+        CHECK_EQ(state.generatedMercenaryRecruitsByNpcId.at(first.npcId).npcPictureId, first.npcPictureId);
+        REQUIRE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+            map, harness.party(), state, 28 * 24 * 60.0f, tables));
+        CHECK_EQ(state.namedMapVars.at("MMerge.Mercenaries.RefillMonth"), 1);
+        REQUIRE_EQ(state.generatedMercenaryRecruitsByNpcId.size(), 1u);
+        const OpenYAMM::Game::EventRuntimeState::GeneratedMercenaryRecruit refreshed =
+            state.generatedMercenaryRecruitsByNpcId.at(first.npcId);
+        REQUIRE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+            map, harness.party(), state, 28 * 24 * 60 + 1.0f, tables));
+        CHECK_EQ(state.generatedMercenaryRecruitsByNpcId.at(first.npcId).character.name, refreshed.character.name);
+
+        REQUIRE(harness.party().addAdventurersInnMember(refreshed.character, refreshed.portraitPictureId));
+        state.generatedMercenaryRecruitsByNpcId.erase(first.npcId);
+        state.unavailableNpcIds.insert(first.npcId);
+        CHECK_FALSE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+            map, harness.party(), state, 28 * 24 * 60 + 2.0f, tables));
+        REQUIRE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+            map, harness.party(), state, 2 * 28 * 24 * 60.0f, tables));
+        CHECK_FALSE(state.generatedMercenaryRecruitsByNpcId.contains(first.npcId));
+        REQUIRE_EQ(harness.party().adventurersInnMembers().size(), 1u);
+        CHECK_EQ(harness.party().adventurersInnMembers().front().character.name, refreshed.character.name);
+    }
+    CHECK_GT(identities.size(), 1u);
+}
+
 TEST_CASE("Generated mercenary residents can join the party through shared house dialogue")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
@@ -167,6 +216,7 @@ TEST_CASE("Generated mercenary residents can join the party through shared house
         map,
         harness.party(),
         harness.eventRuntimeState(),
+        540.0f,
         makeRecruitmentTables(gameData)));
 
     const OpenYAMM::Game::EventRuntimeState::GeneratedMercenaryRecruit recruit =
@@ -217,6 +267,7 @@ TEST_CASE("Generated mercenary recruits persist in event runtime saves")
     state.npcHouseOverrides[recruit.npcId] = recruit.houseId;
     state.npcNameOverrides[recruit.npcId] = recruit.character.name;
     state.npcPictureOverrides[recruit.npcId] = recruit.npcPictureId;
+    state.namedMapVars["MMerge.Mercenaries.RefillMonth"] = 0;
 
     OpenYAMM::Game::GameSaveData saveData = {};
     saveData.hasOutdoorRuntimeState = true;
@@ -243,4 +294,22 @@ TEST_CASE("Generated mercenary recruits persist in event runtime saves")
     CHECK(loadedRecruit.portraitPictureId == recruit.portraitPictureId);
     CHECK(loadedRecruit.npcPictureId == recruit.npcPictureId);
     CHECK(loadedState.npcHouseOverrides.at(recruit.npcId) == recruit.houseId);
+    CHECK_EQ(loadedState.namedMapVars.at("MMerge.Mercenaries.RefillMonth"), 0);
+
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    OpenYAMM::Game::EventRuntimeState restoredState = loadedState;
+    REQUIRE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+        makeRavenshoreMap(), harness.party(), restoredState, 540.0f, makeRecruitmentTables(gameData)));
+    CHECK_EQ(restoredState.generatedMercenaryRecruitsByNpcId.at(recruit.npcId).character.name, recruit.character.name);
+
+    saveData.outdoorWorld.eventRuntimeState->namedMapVars.erase("MMerge.Mercenaries.RefillMonth");
+    saveData.savedGameMinutes = 90000.0f;
+    OpenYAMM::Game::migrateLegacyNpcRosters(saveData);
+    REQUIRE(OpenYAMM::Game::refreshMercenaryRecruitmentForCurrentMap(
+        makeRavenshoreMap(), harness.party(), *saveData.outdoorWorld.eventRuntimeState,
+        saveData.savedGameMinutes, makeRecruitmentTables(gameData)));
+    CHECK_EQ(saveData.outdoorWorld.eventRuntimeState->generatedMercenaryRecruitsByNpcId.at(recruit.npcId)
+        .character.name, recruit.character.name);
 }

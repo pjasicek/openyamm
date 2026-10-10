@@ -348,6 +348,29 @@ TEST_CASE("water shoreline coverage preserves opaque land, open water and partia
     CHECK_THROWS_AS(waterCoverageFromOverlay(overlay, 3, 2), std::invalid_argument);
 }
 
+TEST_CASE("sky style defaults to enhanced, round-trips through settings and the menu")
+{
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.skyStyle == SkyStyle::Enhanced);
+    CHECK(menuSettingValue(settings, "sky_style") == "enhanced");
+    REQUIRE(setMenuSettingValue(settings, "sky_style", "classic"));
+    CHECK(settings.skyStyle == SkyStyle::Classic);
+    CHECK(menuSettingValue(settings, "sky_style") == "classic");
+    CHECK_FALSE(setMenuSettingValue(settings, "sky_style", "Classic"));
+    CHECK_FALSE(setMenuSettingValue(settings, "sky_style", "fancy"));
+
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-sky-style-settings.ini";
+    std::string error;
+    CHECK(settings.skyResolutionScale == 1.0f);
+    settings.skyResolutionScale = 0.5f;
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> reloaded = loadGameSettings(path, error);
+    REQUIRE(reloaded);
+    CHECK(reloaded->skyStyle == SkyStyle::Classic);
+    CHECK(reloaded->skyResolutionScale == doctest::Approx(0.5f));
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("menu water controls accept supported quality values and reject invalid edits")
 {
     GameSettings settings = GameSettings::createDefault();
@@ -491,6 +514,7 @@ TEST_CASE("world post processing orders solid geometry AO transparencies grading
             const auto position = [&](uint16_t view) { return std::find(order.begin(), order.end(), view); };
             CHECK(position(0) < position(1));
             CHECK(position(1) < position(2));
+            CHECK(position(SkyImageView) < position(0));
             for (uint16_t view = FirstSunShadowView; view < FirstSunShadowView + SunShadowViews; ++view)
             {
                 CHECK(position(view) < position(FirstWaterReflectionView));
