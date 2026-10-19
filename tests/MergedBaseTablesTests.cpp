@@ -546,6 +546,31 @@ TEST_CASE("Russian character stat descriptions preserve canonical lookup keys")
     CHECK(pMight->description.find("Сила") != std::string::npos);
 }
 
+TEST_CASE("Russian skill descriptions preserve canonical lookup keys")
+{
+    OpenYAMM::Game::CharacterInspectTable inspectTable;
+
+    REQUIRE(inspectTable.loadSkillRows(loadRows("ru/skill_des.txt")));
+
+    const OpenYAMM::Game::SkillInspectEntry *pStaff = inspectTable.getSkill("Staff");
+    REQUIRE(pStaff != nullptr);
+    CHECK_EQ(pStaff->name, "Staff");
+    CHECK(pStaff->description.find("Посохи") != std::string::npos);
+    CHECK(pStaff->grandmasterDescription.find("рукопашным боем") != std::string::npos);
+}
+
+TEST_CASE("Russian class descriptions preserve canonical lookup keys")
+{
+    OpenYAMM::Game::CharacterInspectTable inspectTable;
+
+    REQUIRE(inspectTable.loadClassRows(loadRows("ru/class.txt")));
+
+    const OpenYAMM::Game::ClassInspectEntry *pKnight = inspectTable.getClass("Knight");
+    REQUIRE(pKnight != nullptr);
+    CHECK_EQ(pKnight->name, "Knight");
+    CHECK(pKnight->description.find("воинскому искусству") != std::string::npos);
+}
+
 TEST_CASE("race skill rules grant minimum caps and honor class-kind exceptions")
 {
     const OpenYAMM::Game::ClassSkillTable classSkillTable = loadClassSkillTableWithRaceRules();

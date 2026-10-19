@@ -12,6 +12,7 @@
 #include "game/maps/ActorModelManifest.h"
 #include "game/maps/MapIdentity.h"
 #include "game/maps/MapDecorationTextures.h"
+#include "game/localization/LocalizedTableOverlay.h"
 #include "game/StringUtils.h"
 
 #include <algorithm>
@@ -4066,8 +4067,9 @@ bool GameDataLoader::loadFirstTextTableRows(
     std::vector<std::vector<std::string>> &rows
 )
 {
-    for (const std::string &virtualPath : virtualPaths)
+    for (size_t pathIndex = 0; pathIndex < virtualPaths.size(); ++pathIndex)
     {
+        const std::string &virtualPath = virtualPaths[pathIndex];
         const std::optional<std::string> fileContents = assetFileSystem.readTextFile(virtualPath);
 
         if (!fileContents)
@@ -4092,6 +4094,23 @@ bool GameDataLoader::loadFirstTextTableRows(
 
         if (!rows.empty())
         {
+            for (size_t overlayIndex = pathIndex + 1; overlayIndex > 0; --overlayIndex)
+            {
+                const std::string overlayPath = virtualPaths[overlayIndex - 1] + ".overlay.yml";
+                const std::optional<std::string> overlayContents = assetFileSystem.readTextFile(overlayPath);
+                if (!overlayContents)
+                {
+                    continue;
+                }
+
+                std::string errorMessage;
+                if (!applyLocalizedTableOverlay(*overlayContents, rows, errorMessage))
+                {
+                    std::cerr << "Failed to apply localized table overlay " << overlayPath
+                              << ": " << errorMessage << '\n';
+                    return false;
+                }
+            }
             return true;
         }
     }

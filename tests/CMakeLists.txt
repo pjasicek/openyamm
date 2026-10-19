@@ -30,9 +30,11 @@ add_executable(openyamm_unit_tests
     GameplayProjectileServiceTests.cpp
     FontAssetTests.cpp
     LocalizationCatalogTests.cpp
+    LocalizedTableOverlayTests.cpp
     MenuSettingsTests.cpp
     ../game/ui/MenuSettingsModel.cpp
     ../game/localization/LocalizationCatalog.cpp
+    ../game/localization/LocalizedTableOverlay.cpp
     ImageAssetLoaderTests.cpp
     SpriteAtlasTests.cpp
     CookedTextureTests.cpp
