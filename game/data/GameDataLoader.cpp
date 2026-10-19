@@ -4230,7 +4230,7 @@ bool GameDataLoader::loadSpellTable(const Engine::AssetFileSystem &assetFileSyst
 
     const std::string spellsPath = localizedEngineDataTablePath(assetFileSystem, "spells.txt");
 
-    if (!loadTextTableRows(assetFileSystem, spellsPath, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedEngineDataTablePaths("spells.txt"), rows))
     {
         return false;
     }
@@ -4250,7 +4250,7 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
 
     const std::string itemsPath = localizedEngineDataTablePath(assetFileSystem, "items.txt");
 
-    if (!loadTextTableRows(assetFileSystem, itemsPath, baseItemRows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedEngineDataTablePaths("items.txt"), baseItemRows))
     {
         return false;
     }
