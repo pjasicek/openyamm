@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "engine/Utf8.h"
 
 #include <array>
 
@@ -159,9 +160,9 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
             const float available = textWidth / fontScale - ui.measureHudTextWidth(*font, values) - 8;
             if (ui.measureHudTextWidth(*font, label) > available)
             {
-                while (label.size() > 1 && ui.measureHudTextWidth(*font, label + "...") > available)
+                while (Engine::utf8Length(label) > 1 && ui.measureHudTextWidth(*font, label + "...") > available)
                 {
-                    label.pop_back();
+                    Engine::eraseLastUtf8CodePoint(label);
                 }
                 label += "...";
             }

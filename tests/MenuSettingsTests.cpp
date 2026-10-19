@@ -4,6 +4,21 @@
 
 using namespace OpenYAMM::Game;
 
+TEST_CASE("localization language defaults to Russian and persists supported values")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-language-settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK_EQ(settings.language, "ru");
+
+    settings.language = "en";
+    REQUIRE(saveGameSettings(path, settings, error));
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+    CHECK_EQ(loaded->language, "en");
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("creature shadow quality and LOD settings validate and persist")
 {
     GameSettings settings = GameSettings::createDefault();

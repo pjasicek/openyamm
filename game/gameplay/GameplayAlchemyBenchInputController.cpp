@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayAlchemyBenchView.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "engine/Utf8.h"
 
 #include <SDL3/SDL.h>
 
@@ -454,11 +455,11 @@ void editRecipeSearch(
     constexpr size_t MaxSearchLength = 24;
     const std::string before = state.recipeSearch;
 
-    for (char character : input.textInput)
+    for (const Engine::Utf8CodePoint &point : Engine::decodeUtf8(input.textInput))
     {
-        if (character >= 32 && character < 127 && state.recipeSearch.size() < MaxSearchLength)
+        if (point.value >= 32 && Engine::utf8Length(state.recipeSearch) < MaxSearchLength)
         {
-            state.recipeSearch.push_back(character);
+            state.recipeSearch.append(input.textInput, point.byteOffset, point.byteLength);
         }
     }
 
@@ -466,7 +467,7 @@ void editRecipeSearch(
     {
         if (!state.recipeSearch.empty())
         {
-            state.recipeSearch.pop_back();
+            Engine::eraseLastUtf8CodePoint(state.recipeSearch);
         }
     }
 

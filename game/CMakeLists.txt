@@ -119,6 +119,7 @@ add_library(openyamm_game STATIC
     content/ContentTableComposer.cpp
     items/InventoryItemUseRuntime.cpp
     items/AlchemyBenchRuntime.cpp
+    localization/LocalizationCatalog.cpp
     items/InventoryItemMixingRuntime.cpp
     maps/IndoorSceneYml.cpp
     maps/MapItemSourceYml.cpp

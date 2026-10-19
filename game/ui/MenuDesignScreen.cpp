@@ -3,6 +3,7 @@
 #include "game/audio/GameAudioSystem.h"
 #include "game/audio/SoundIds.h"
 #include "game/render/WaterMath.h"
+#include "engine/Utf8.h"
 
 #include <algorithm>
 #include <cmath>
@@ -20,23 +21,24 @@ const std::string ArtRoot = "hud_x2/menus/omenu_";
 
 std::string menuEncoding(const std::string &text)
 {
-    char *pEncoded = SDL_iconv_string("WINDOWS-1252", "UTF-8", text.c_str(), text.size() + 1);
-    if (pEncoded == nullptr)
-    {
-        return text; // Existing imported game names may already be CP1252.
-    }
-    const std::string result(pEncoded);
-    SDL_free(pEncoded);
-    return result;
+    // Text rendering accepts UTF-8 directly. Invalid standalone bytes are still
+    // interpreted as legacy single-byte input by the shared decoder.
+    return text;
 }
 } // namespace
 
 MenuDesignScreen::MenuDesignScreen(const Engine::AssetFileSystem &assetFileSystem, bool overGameplay,
-                                   GameAudioSystem *pAudio)
+                                   GameAudioSystem *pAudio, const std::string &language)
     : MenuScreenBase(assetFileSystem), m_overGameplay(overGameplay), m_pAudio(pAudio)
 {
+    m_localization.load(assetFileSystem, language);
     setRenderViewId(MenuDesignView);
     setClearBackground(!overGameplay);
+}
+
+const LocalizationCatalog &MenuDesignScreen::localization() const
+{
+    return m_localization;
 }
 
 bool MenuDesignScreen::rendersOverGameplay() const
@@ -272,7 +274,7 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
 {
     const int faceHeight = std::max(1, fontHeight(font));
     float scale = designScale() * logicalSize / faceHeight;
-    std::string encoded = menuEncoding(text);
+    std::string encoded = menuEncoding(m_localization.translate(text));
     if (encoded.find('\n') == std::string::npos && rect.height < logicalSize * designScale() * 1.9f)
     {
         const float width = measureTextWidth(font, encoded, scale);
@@ -288,7 +290,7 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
         {
             while (!encoded.empty() && measureTextWidth(font, encoded + "...", scale) > rect.width + 0.5f)
             {
-                encoded.pop_back();
+                Engine::eraseLastUtf8CodePoint(encoded);
             }
             encoded += "...";
         }
@@ -344,14 +346,15 @@ void MenuDesignScreen::label(const std::string &id, const std::string &text, uin
     rect.x += padding;
     rect.width = std::max(1.0f, rect.width - padding * 2);
     const float size = fontHeight(pElement->fontName) * pElement->textScale;
+    const std::string &localizedText = m_localization.translate(text);
     if (pElement->textAlignX == UiLayoutManager::TextAlignX::Right)
     {
         const float width =
-            measureTextWidth(pElement->fontName, menuEncoding(text), pElement->textScale * designScale());
+            measureTextWidth(pElement->fontName, menuEncoding(localizedText), pElement->textScale * designScale());
         rect.x += std::max(0.0f, rect.width - width);
         rect.width = std::min(rect.width, width);
     }
-    textInRect(rect, text, pElement->fontName, size, color ? color : pElement->textColorAbgr,
+    textInRect(rect, localizedText, pElement->fontName, size, color ? color : pElement->textColorAbgr,
                pElement->textAlignX == UiLayoutManager::TextAlignX::Center);
 }
 

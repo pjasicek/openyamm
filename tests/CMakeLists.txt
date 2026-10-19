@@ -29,8 +29,10 @@ add_executable(openyamm_unit_tests
     AwardRuntimeTests.cpp
     GameplayProjectileServiceTests.cpp
     FontAssetTests.cpp
+    LocalizationCatalogTests.cpp
     MenuSettingsTests.cpp
     ../game/ui/MenuSettingsModel.cpp
+    ../game/localization/LocalizationCatalog.cpp
     ImageAssetLoaderTests.cpp
     SpriteAtlasTests.cpp
     CookedTextureTests.cpp
@@ -102,6 +104,7 @@ add_executable(openyamm_unit_tests
     SpellbookUiLayoutTests.cpp
     TableRegressionTests.cpp
     TextTableTests.cpp
+    Utf8Tests.cpp
     TerrainDecorationTests.cpp
     OutdoorMeadowTests.cpp
     ../game/outdoor/TerrainDecorationData.cpp
@@ -139,6 +142,7 @@ add_executable(openyamm_unit_tests
     ../game/render/SpriteAtlasCook.cpp
     ../game/render/NativeSpriteTextureCache.cpp
     ../engine/TextTable.cpp
+    ../engine/Utf8.cpp
     ../game/render/TextureFiltering.cpp
     ../game/arcomage/ArcomageAi.cpp
     ../game/arcomage/ArcomageLoader.cpp

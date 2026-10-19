@@ -1,6 +1,7 @@
 #include "game/ui/screens/LoadGameScreen.h"
 
 #include "game/maps/SaveGame.h"
+#include "engine/Utf8.h"
 
 #include <SDL3/SDL.h>
 
@@ -85,18 +86,25 @@ std::string monthName(int month)
     return names[std::clamp(month, 1, 12) - 1];
 }
 
-std::string formatClock(const CivilTime &time)
+std::string formatClock(const CivilTime &time, const LocalizationCatalog &localization)
 {
     char buffer[32] = {};
+    if (localization.language() == "ru")
+    {
+        std::snprintf(buffer, sizeof(buffer), "%s %02d:%02d",
+                      localization.translate(weekdayName(time.dayOfWeek)).c_str(), time.hour24, time.minute);
+        return buffer;
+    }
     std::snprintf(buffer, sizeof(buffer), "%s %02d:%02d%s", weekdayName(time.dayOfWeek).c_str(), time.hour12,
                   time.minute, time.isPm ? "PM" : "AM");
     return buffer;
 }
 
-std::string formatDate(const CivilTime &time)
+std::string formatDate(const CivilTime &time, const LocalizationCatalog &localization)
 {
     char buffer[64] = {};
-    std::snprintf(buffer, sizeof(buffer), "%d %s %d", time.day, monthName(time.month).c_str(), time.year);
+    std::snprintf(buffer, sizeof(buffer), "%d %s %d", time.day,
+                  localization.translate(monthName(time.month)).c_str(), time.year);
     return buffer;
 }
 
@@ -173,8 +181,8 @@ bool decodeBmpBytesToBgra(const std::vector<uint8_t> &bmpBytes, int &width, int 
 
 LoadGameScreen::LoadGameScreen(const Engine::AssetFileSystem &assetFileSystem, const GameDataRepository &gameData,
                                LoadAction loadAction, CancelAction cancelAction, bool fromGameplay,
-                               GameAudioSystem *pAudio)
-    : MenuDesignScreen(assetFileSystem, fromGameplay, pAudio), m_pGameData(&gameData),
+                               GameAudioSystem *pAudio, const std::string &language)
+    : MenuDesignScreen(assetFileSystem, fromGameplay, pAudio, language), m_pGameData(&gameData),
       m_loadAction(std::move(loadAction)), m_cancelAction(std::move(cancelAction)), m_fromGameplay(fromGameplay)
 {
 }
@@ -230,8 +238,8 @@ void LoadGameScreen::configureSave(SaveAction action, const std::string &locatio
     m_currentLocation = location;
     m_saveName = location;
     const CivilTime time = civilTimeFromGameMinutes(gameMinutes);
-    m_currentDate = formatDate(time);
-    m_currentClock = formatClock(time);
+    m_currentDate = formatDate(time, localization());
+    m_currentClock = formatClock(time, localization());
     if (!previewBmp.empty())
     {
         decodeBmpBytesToBgra(previewBmp, m_previewWidth, m_previewHeight, m_previewPixels);
@@ -248,17 +256,18 @@ void LoadGameScreen::handleSdlEvent(const SDL_Event &event)
     }
     if (event.type == SDL_EVENT_TEXT_INPUT)
     {
-        for (const unsigned char character : std::string(event.text.text))
+        const std::string input = event.text.text;
+        for (const Engine::Utf8CodePoint &point : Engine::decodeUtf8(input))
         {
-            if (character >= 32 && character < 127 && m_saveName.size() < 40)
+            if (point.value >= 32 && Engine::utf8Length(m_saveName) < 40)
             {
-                m_saveName += char(character);
+                m_saveName.append(input, point.byteOffset, point.byteLength);
             }
         }
     }
     if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_BACKSPACE && !m_saveName.empty())
     {
-        m_saveName.pop_back();
+        Engine::eraseLastUtf8CodePoint(m_saveName);
     }
     if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_RETURN && !event.key.repeat)
     {
@@ -647,8 +656,8 @@ void LoadGameScreen::refreshSaveSlots()
         slot.locationName = saveData->mapFileName;
         slot.populated = true;
         const CivilTime civilTime = civilTimeFromGameMinutes(saveData->savedGameMinutes);
-        slot.weekdayClockText = formatClock(civilTime);
-        slot.dateText = formatDate(civilTime);
+        slot.weekdayClockText = formatClock(civilTime, localization());
+        slot.dateText = formatDate(civilTime, localization());
         std::error_code timestampError;
         const std::filesystem::file_time_type modified = entry.last_write_time(timestampError);
         if (!timestampError)

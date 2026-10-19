@@ -2,6 +2,7 @@
 
 #include "game/ui/MenuScreenBase.h"
 #include "game/ui/UiLayoutManager.h"
+#include "game/localization/LocalizationCatalog.h"
 
 #include <functional>
 #include <unordered_set>
@@ -14,7 +15,7 @@ class MenuDesignScreen : public MenuScreenBase
 {
   public:
     explicit MenuDesignScreen(const Engine::AssetFileSystem &assetFileSystem, bool overGameplay = false,
-                              GameAudioSystem *pAudio = nullptr);
+                              GameAudioSystem *pAudio = nullptr, const std::string &language = "en");
     bool rendersOverGameplay() const override;
     bool textInputActive() const override;
 
@@ -50,6 +51,7 @@ class MenuDesignScreen : public MenuScreenBase
     void revealFocus(const Rect &viewport, float &scroll) const;
     void scrollViewport(const Rect &viewport, float contentHeight, float &scroll, float wheelStep = 33);
     UiLayoutManager m_designLayouts;
+    const LocalizationCatalog &localization() const;
 
   private:
     std::string m_designScreen;
@@ -65,6 +67,7 @@ class MenuDesignScreen : public MenuScreenBase
     GameAudioSystem *m_pAudio = nullptr;
     bool m_textEditing = false;
     std::optional<Rect> m_designClip;
+    LocalizationCatalog m_localization;
     struct Confirmation
     {
         std::string title;

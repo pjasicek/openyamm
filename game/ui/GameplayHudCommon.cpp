@@ -3,6 +3,7 @@
 #include "engine/AssetScaleTier.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/ParallelFor.h"
+#include "engine/Utf8.h"
 #include "game/maps/MapIdentity.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
@@ -1711,20 +1712,24 @@ GameplayHudFontLayer GameplayHudCommon::hudFontMainLayer(const GameplayHudFontDa
 float GameplayHudCommon::measureHudTextWidth(const GameplayHudFontData &font, const std::string &text)
 {
     float widthPixels = 0.0f;
-    uint8_t previous = 0;
+    uint16_t previous = 0;
 
-    for (unsigned char character : text)
+    size_t utf8Offset = 0;
+    while (utf8Offset < text.size())
     {
-        if (character == '\r' || character == '\n')
+        const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, utf8Offset);
+        if (point.value == '\r' || point.value == '\n')
         {
             break;
         }
 
-        if (character < font.firstChar || character > font.lastChar)
+        const std::optional<uint16_t> resolvedGlyph = font.glyphForCodePoint(point.value);
+        if (!resolvedGlyph)
         {
             widthPixels += static_cast<float>(font.atlasCellWidth);
             continue;
         }
+        const uint16_t character = *resolvedGlyph;
 
         const GameplayHudFontGlyphMetricsData &glyphMetrics = font.glyphMetrics[character];
         widthPixels += font.kerning(previous, character) + glyphMetrics.advance();
@@ -1743,7 +1748,7 @@ std::string GameplayHudCommon::clampHudTextToWidth(
 
     while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth)
     {
-        clampedText.pop_back();
+        Engine::eraseLastUtf8CodePoint(clampedText);
     }
 
     return clampedText;
@@ -1852,28 +1857,32 @@ void GameplayHudCommon::renderHudFontLayer(
     }
 
     float penX = textX;
-    uint8_t previous = 0;
+    uint16_t previous = 0;
 
-    for (unsigned char character : text)
+    size_t utf8Offset = 0;
+    while (utf8Offset < text.size())
     {
-        if (character == '\r' || character == '\n')
+        const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, utf8Offset);
+        if (point.value == '\r' || point.value == '\n')
         {
             break;
         }
 
-        if (character < font.firstChar || character > font.lastChar)
+        const std::optional<uint16_t> resolvedGlyph = font.glyphForCodePoint(point.value);
+        if (!resolvedGlyph)
         {
             penX += static_cast<float>(font.atlasCellWidth) * fontScale;
             continue;
         }
+        const uint16_t character = *resolvedGlyph;
 
         const GameplayHudFontGlyphMetricsData &glyphMetrics = font.glyphMetrics[character];
         penX += (font.kerning(previous, character) + glyphMetrics.leftSpacing) * fontScale;
 
         if (glyphMetrics.width > 0)
         {
-            const int cellX = (character % 16) * (font.atlasCellWidth + 2 * font.atlasPadding);
-            const int cellY = (character / 16) * (font.fontHeight + 2 * font.atlasPadding);
+            const int cellX = (character % font.atlasColumns) * (font.atlasCellWidth + 2 * font.atlasPadding);
+            const int cellY = (character / font.atlasColumns) * (font.fontHeight + 2 * font.atlasPadding);
             const float u0 = static_cast<float>(cellX) / static_cast<float>(font.atlasWidth / font.atlasScale);
             const float v0 = static_cast<float>(cellY) / static_cast<float>(font.atlasHeight / font.atlasScale);
             const float u1 = static_cast<float>(cellX + glyphMetrics.width + 2 * font.atlasPadding)

@@ -58,7 +58,8 @@ public:
         bool includeGodLichCandidate,
         bool allowIncompleteCharacterCreation,
         ContinueAction continueAction,
-        BackAction backAction);
+        BackAction backAction,
+        const std::string &language = "en");
 
     AppMode mode() const override;
     void prepareForFirstFrame();

@@ -7057,6 +7057,7 @@ bool GameApplication::loadGameData(Engine::AssetFileSystem &assetFileSystem)
     m_gameDataLoader.setInitialMapFileName(m_activeWorldManifest.start.mapFileName);
 
     loadOrCreateSettings();
+    m_gameDataLoader.setLanguage(m_settings.language);
 
     if (!m_gameAudioSystem.initializeMenuAudio(assetFileSystem))
     {
@@ -7088,6 +7089,7 @@ bool GameApplication::ensureCommonGameDataLoaded()
     }
 
     m_gameDataLoader.setActiveWorldId(m_activeWorldManifest.id);
+    m_gameDataLoader.setLanguage(m_settings.language);
     m_gameDataLoader.setInitialMapFileName(m_activeWorldManifest.start.mapFileName);
 
     if (!m_gameDataLoader.loadCommonForGameplay(*m_pAssetFileSystem))
@@ -8159,7 +8161,7 @@ void GameApplication::beginLoadingOverlay(LoadingOverlayScreen::Presentation pre
 
     if (m_pLoadingOverlayScreen == nullptr)
     {
-        m_pLoadingOverlayScreen = std::make_unique<LoadingOverlayScreen>(*m_pAssetFileSystem);
+        m_pLoadingOverlayScreen = std::make_unique<LoadingOverlayScreen>(*m_pAssetFileSystem, m_settings.language);
     }
 
     m_pLoadingOverlayScreen->setPresentation(presentation);
@@ -9615,7 +9617,7 @@ void GameApplication::openLoadGameScreen(bool returnToGameplayMenu, const std::s
                 openMainMenuScreen();
             }
         },
-        returnToGameplayMenu, &m_gameAudioSystem);
+        returnToGameplayMenu, &m_gameAudioSystem, m_settings.language);
 
 
     if (!m_mainMenuChildScreensPrepared)
@@ -9654,7 +9656,8 @@ void GameApplication::openNewGameScreen(const std::string &source)
         [this]()
         {
             openMainMenuScreen();
-        });
+        },
+        m_settings.language);
 
 
     if (!m_mainMenuChildScreensPrepared)

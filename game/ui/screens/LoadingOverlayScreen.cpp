@@ -25,8 +25,8 @@ constexpr int ProgressStepCount = 20;
 constexpr float LoadingHourglassSpeed = 4.0f;
 }
 
-LoadingOverlayScreen::LoadingOverlayScreen(const Engine::AssetFileSystem &assetFileSystem)
-    : MenuDesignScreen(assetFileSystem)
+LoadingOverlayScreen::LoadingOverlayScreen(const Engine::AssetFileSystem &assetFileSystem, const std::string &language)
+    : MenuDesignScreen(assetFileSystem, false, nullptr, language)
 {
     // Loading can start after world, HUD or menu draws have already been submitted.
     // Cover them with the retained screen or loading artwork on every loading frame.

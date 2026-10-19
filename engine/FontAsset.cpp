@@ -173,6 +173,16 @@ uint32_t cp1252CodePoint(int character)
     return character >= 128 && character < 160 ? Extended[character - 128] : uint32_t(character);
 }
 
+std::vector<uint32_t> russianCodePoints()
+{
+    std::vector<uint32_t> result = {0x401, 0x451};
+    for (uint32_t codePoint = 0x410; codePoint <= 0x44f; ++codePoint)
+    {
+        result.push_back(codePoint);
+    }
+    return result;
+}
+
 void allocateAtlas(FontAtlasImage &image, bool white = false)
 {
     FontAtlas &atlas = image.atlas;
@@ -191,8 +201,10 @@ void copyBitmapGlyph(const BitmapFont &font, int character, FontAtlasImage &imag
 {
     FontAtlas &atlas = image.atlas;
     const int scale = atlas.atlasScale;
-    const int cellX = (character % 16) * (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * scale;
-    const int cellY = (character / 16) * (atlas.fontHeight + 2 * atlas.atlasPadding) * scale;
+    const int cellX = (character % atlas.atlasColumns)
+        * (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * scale;
+    const int cellY = (character / atlas.atlasColumns)
+        * (atlas.fontHeight + 2 * atlas.atlasPadding) * scale;
     const int width = font.glyphMetrics[character].width;
     for (int y = 0; y < font.fontHeight * scale; ++y)
     {
@@ -268,6 +280,14 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     atlas.atlasScale = 1;
     atlas.firstChar = 32;
     atlas.lastChar = 255;
+    for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
+    {
+        const uint32_t codePoint = cp1252CodePoint(character);
+        if (codePoint != 0)
+        {
+            atlas.glyphsByCodePoint[codePoint] = static_cast<uint16_t>(character);
+        }
+    }
     if (!bytes || bytes->empty() || bytes->size() > 32 * 1024 * 1024 || FT_Init_FreeType(&font.library) != 0 ||
         FT_New_Memory_Face(font.library, bytes->data(), FT_Long(bytes->size()), 0, &font.face) != 0 ||
         !FT_IS_SCALABLE(font.face) || FT_Select_Charmap(font.face, FT_ENCODING_UNICODE) != 0 ||
@@ -305,6 +325,20 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             return std::nullopt;
         }
     }
+
+    const std::optional<std::vector<uint8_t>> outlineCyrillicBytes =
+        assetFileSystem.readBinaryFile("fonts/truetype/alegreya_variable.ttf");
+    FreeTypeFace outlineCyrillicFallback;
+    if (!outlineCyrillicBytes || outlineCyrillicBytes->empty()
+        || FT_Init_FreeType(&outlineCyrillicFallback.library) != 0
+        || FT_New_Memory_Face(outlineCyrillicFallback.library, outlineCyrillicBytes->data(),
+                              FT_Long(outlineCyrillicBytes->size()), 0, &outlineCyrillicFallback.face) != 0
+        || FT_Select_Charmap(outlineCyrillicFallback.face, FT_ENCODING_UNICODE) != 0
+        || FT_Set_Pixel_Sizes(outlineCyrillicFallback.face, 0, atlas.fontHeight * atlas.atlasScale) != 0)
+    {
+        error = "Unable to open Cyrillic fallback font";
+        return std::nullopt;
+    }
     for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
     {
         const uint32_t point = cp1252CodePoint(character);
@@ -329,6 +363,27 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
         metrics.outlineAdvance = pGlyph->linearHoriAdvance / 65536.0f;
         atlas.atlasCellWidth = std::max(atlas.atlasCellWidth, metrics.width);
     }
+    for (const uint32_t codePoint : russianCodePoints())
+    {
+        FT_Face sourceFace = FT_Get_Char_Index(font.face, codePoint) != 0 ? font.face : outlineCyrillicFallback.face;
+        if (atlas.glyphCount >= int(FontAtlas::MaximumGlyphCount)
+            || FT_Load_Char(sourceFace, codePoint, FT_LOAD_TARGET_LIGHT | FT_LOAD_NO_BITMAP) != 0)
+        {
+            error = "Unable to measure Cyrillic outline glyph: " + std::to_string(codePoint);
+            return std::nullopt;
+        }
+        const int glyphIndex = atlas.glyphCount++;
+        const FT_GlyphSlot pGlyph = sourceFace->glyph;
+        const float divisor = 64.0f * atlas.atlasScale;
+        FontGlyphMetrics &metrics = atlas.glyphMetrics[glyphIndex];
+        metrics.leftSpacing = int(std::floor(pGlyph->metrics.horiBearingX / divisor));
+        metrics.width = int(std::ceil((pGlyph->metrics.horiBearingX + pGlyph->metrics.width) / divisor))
+            - metrics.leftSpacing;
+        metrics.rightSpacing = int(std::round(pGlyph->advance.x / divisor)) - metrics.leftSpacing - metrics.width;
+        metrics.outlineAdvance = pGlyph->linearHoriAdvance / 65536.0f;
+        atlas.atlasCellWidth = std::max(atlas.atlasCellWidth, metrics.width);
+        atlas.glyphsByCodePoint[codePoint] = static_cast<uint16_t>(glyphIndex);
+    }
     if (FT_HAS_KERNING(font.face))
     {
         for (int previous = atlas.firstChar; previous <= atlas.lastChar; ++previous)
@@ -341,13 +396,17 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
                                &adjustment);
                 if (adjustment.x != 0)
                 {
-                    atlas.kerningPairs[uint16_t(previous * 256 + current)] = adjustment.x / (64.0f * atlas.atlasScale);
+                    const uint64_t key = (uint64_t(previous) << 32) | uint32_t(current);
+                    atlas.kerningPairs[key] = adjustment.x / (64.0f * atlas.atlasScale);
                 }
             }
         }
     }
-    atlas.atlasWidth = (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * 16 * atlas.atlasScale;
-    atlas.atlasHeight = (atlas.fontHeight + 2 * atlas.atlasPadding) * 16 * atlas.atlasScale;
+    atlas.atlasWidth =
+        (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * atlas.atlasColumns * atlas.atlasScale;
+    const int outlineAtlasRows = (atlas.glyphCount + atlas.atlasColumns - 1) / atlas.atlasColumns;
+    atlas.atlasHeight =
+        (atlas.fontHeight + 2 * atlas.atlasPadding) * outlineAtlasRows * atlas.atlasScale;
     if (atlas.atlasWidth > 8192 || atlas.atlasHeight > 8192)
     {
         error = "Outline atlas exceeds texture limit";
@@ -382,8 +441,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             error = "Outline glyph exceeds cell: " + std::to_string(point);
             return std::nullopt;
         }
-        const int cellX = (character % 16) * width;
-        const int cellY = (character / 16) * height;
+        const int cellX = (character % atlas.atlasColumns) * width;
+        const int cellY = (character / atlas.atlasColumns) * height;
         for (unsigned int y = 0; y < raster.rows; ++y)
         {
             const uint8_t *pRow =
@@ -397,6 +456,45 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
                 image.shadowPixels[offset + 3] = pRow[x];
             }
         }
+    }
+    int outlineCyrillicGlyphIndex = 256;
+    for (const uint32_t codePoint : russianCodePoints())
+    {
+        FT_Face sourceFace = FT_Get_Char_Index(font.face, codePoint) != 0 ? font.face : outlineCyrillicFallback.face;
+        if (FT_Load_Char(sourceFace, codePoint, FT_LOAD_TARGET_LIGHT | FT_LOAD_NO_BITMAP) != 0
+            || FT_Render_Glyph(sourceFace->glyph, FT_RENDER_MODE_NORMAL) != 0)
+        {
+            error = "Unable to render Cyrillic outline glyph: " + std::to_string(codePoint);
+            return std::nullopt;
+        }
+        const FT_GlyphSlot pGlyph = sourceFace->glyph;
+        const FT_Bitmap &raster = pGlyph->bitmap;
+        const int scale = atlas.atlasScale;
+        const int cellWidth = (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * scale;
+        const int cellHeight = (atlas.fontHeight + 2 * atlas.atlasPadding) * scale;
+        const FontGlyphMetrics &metrics = atlas.glyphMetrics[outlineCyrillicGlyphIndex];
+        const int originX = (atlas.atlasPadding - metrics.leftSpacing) * scale + pGlyph->bitmap_left;
+        const int originY = (baseline + atlas.atlasPadding) * scale - pGlyph->bitmap_top;
+        const int cellX = (outlineCyrillicGlyphIndex % atlas.atlasColumns) * cellWidth;
+        const int cellY = (outlineCyrillicGlyphIndex / atlas.atlasColumns) * cellHeight;
+        if (raster.pixel_mode != FT_PIXEL_MODE_GRAY || originX < 0 || originY < 0
+            || originX + int(raster.width) > cellWidth || originY + int(raster.rows) > cellHeight)
+        {
+            error = "Cyrillic outline glyph exceeds atlas cell: " + std::to_string(codePoint);
+            return std::nullopt;
+        }
+        for (unsigned int y = 0; y < raster.rows; ++y)
+        {
+            const uint8_t *pRow = raster.buffer + (raster.pitch >= 0 ? y : raster.rows - 1 - y)
+                * size_t(std::abs(raster.pitch));
+            for (unsigned int x = 0; x < raster.width; ++x)
+            {
+                const size_t offset = (size_t(cellY + originY + y) * atlas.atlasWidth + cellX + originX + x) * 4;
+                atlas.mainAtlasPixels[offset + 3] = pRow[x];
+                image.shadowPixels[offset + 3] = pRow[x];
+            }
+        }
+        ++outlineCyrillicGlyphIndex;
     }
     return image;
 }
@@ -419,8 +517,16 @@ std::optional<FontAtlasImage> loadFontAtlas(
     FontAtlas &atlas = image.atlas;
     atlas.firstChar = bitmap->firstChar;
     atlas.lastChar = bitmap->lastChar;
+    for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
+    {
+        const uint32_t codePoint = cp1252CodePoint(character);
+        if (codePoint != 0)
+        {
+            atlas.glyphsByCodePoint[codePoint] = static_cast<uint16_t>(character);
+        }
+    }
     atlas.fontHeight = bitmap->fontHeight;
-    atlas.glyphMetrics = bitmap->glyphMetrics;
+    std::copy(bitmap->glyphMetrics.begin(), bitmap->glyphMetrics.end(), atlas.glyphMetrics.begin());
     atlas.atlasCellWidth = 1;
     for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
     {
@@ -429,8 +535,10 @@ std::optional<FontAtlasImage> loadFontAtlas(
     atlas.atlasScale = 4;
     // Includes reconstructed italic overhangs (notably Z-caron) and the one-pixel shadow.
     atlas.atlasPadding = 5;
-    atlas.atlasWidth = (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * 16 * atlas.atlasScale;
-    atlas.atlasHeight = (atlas.fontHeight + 2 * atlas.atlasPadding) * 16 * atlas.atlasScale;
+    atlas.atlasWidth =
+        (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * atlas.atlasColumns * atlas.atlasScale;
+    atlas.atlasHeight = (atlas.fontHeight + 2 * atlas.atlasPadding)
+        * ((atlas.glyphCount + atlas.atlasColumns - 1) / atlas.atlasColumns) * atlas.atlasScale;
     if (atlas.atlasWidth > 8192 || atlas.atlasHeight > 8192)
     {
         error = "font atlas exceeds 8192 pixels";
@@ -501,6 +609,50 @@ std::optional<FontAtlasImage> loadFontAtlas(
         return std::nullopt;
     }
 
+    const std::optional<std::vector<uint8_t>> cyrillicBytes =
+        assetFileSystem.readBinaryFile("fonts/truetype/alegreya_variable.ttf");
+    FreeTypeFace cyrillicFont;
+    if (!cyrillicBytes || cyrillicBytes->empty()
+        || FT_Init_FreeType(&cyrillicFont.library) != 0
+        || FT_New_Memory_Face(cyrillicFont.library, cyrillicBytes->data(), FT_Long(cyrillicBytes->size()), 0,
+                              &cyrillicFont.face) != 0
+        || FT_Select_Charmap(cyrillicFont.face, FT_ENCODING_UNICODE) != 0
+        || FT_Set_Pixel_Sizes(cyrillicFont.face, 0, atlas.fontHeight * atlas.atlasScale) != 0)
+    {
+        error = "Unable to open Cyrillic fallback font";
+        return std::nullopt;
+    }
+
+    for (const uint32_t codePoint : russianCodePoints())
+    {
+        if (atlas.glyphCount >= int(FontAtlas::MaximumGlyphCount)
+            || FT_Load_Char(cyrillicFont.face, codePoint, FT_LOAD_NO_HINTING | FT_LOAD_NO_BITMAP) != 0)
+        {
+            error = "Unable to measure Cyrillic fallback glyph: " + std::to_string(codePoint);
+            return std::nullopt;
+        }
+        const int glyphIndex = atlas.glyphCount++;
+        const FT_GlyphSlot pGlyph = cyrillicFont.face->glyph;
+        const float divisor = 64.0f * atlas.atlasScale;
+        FontGlyphMetrics &metrics = atlas.glyphMetrics[glyphIndex];
+        metrics.leftSpacing = int(std::floor(pGlyph->metrics.horiBearingX / divisor));
+        metrics.width = int(std::ceil((pGlyph->metrics.horiBearingX + pGlyph->metrics.width) / divisor))
+            - metrics.leftSpacing;
+        metrics.rightSpacing = int(std::round(pGlyph->advance.x / divisor)) - metrics.leftSpacing - metrics.width;
+        metrics.outlineAdvance = pGlyph->linearHoriAdvance / 65536.0f;
+        atlas.atlasCellWidth = std::max(atlas.atlasCellWidth, metrics.width);
+        atlas.glyphsByCodePoint[codePoint] = static_cast<uint16_t>(glyphIndex);
+    }
+
+    atlas.atlasWidth = (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * atlas.atlasColumns * atlas.atlasScale;
+    const int atlasRows = (atlas.glyphCount + atlas.atlasColumns - 1) / atlas.atlasColumns;
+    atlas.atlasHeight = (atlas.fontHeight + 2 * atlas.atlasPadding) * atlasRows * atlas.atlasScale;
+    if (atlas.atlasWidth > 8192 || atlas.atlasHeight > 8192)
+    {
+        error = "font atlas exceeds 8192 pixels";
+        return std::nullopt;
+    }
+
     allocateAtlas(image);
     for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
     {
@@ -527,8 +679,10 @@ std::optional<FontAtlasImage> loadFontAtlas(
         const int originX = pGlyph->bitmap_left
             + (atlas.atlasPadding - atlas.glyphMetrics[character].leftSpacing) * scale;
         const int originY = (baseline + atlas.atlasPadding) * scale - pGlyph->bitmap_top;
-        const int cellX = (character % 16) * (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * scale;
-        const int cellY = (character / 16) * (atlas.fontHeight + 2 * atlas.atlasPadding) * scale;
+        const int cellX = (character % atlas.atlasColumns)
+            * (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * scale;
+        const int cellY = (character / atlas.atlasColumns)
+            * (atlas.fontHeight + 2 * atlas.atlasPadding) * scale;
         if (raster.width != 0 && raster.rows != 0
             && (raster.pixel_mode != FT_PIXEL_MODE_GRAY || originX < 0 || originY < 0
                 || originX + int(raster.width) > width || originY + int(raster.rows) > height))
@@ -560,6 +714,57 @@ std::optional<FontAtlasImage> loadFontAtlas(
                 }
             }
         }
+    }
+
+    int cyrillicGlyphIndex = 256;
+    for (const uint32_t codePoint : russianCodePoints())
+    {
+        if (FT_Load_Char(cyrillicFont.face, codePoint, FT_LOAD_NO_HINTING | FT_LOAD_NO_BITMAP) != 0
+            || FT_Render_Glyph(cyrillicFont.face->glyph, FT_RENDER_MODE_NORMAL) != 0)
+        {
+            error = "Unable to rasterize Cyrillic fallback glyph: " + std::to_string(codePoint);
+            return std::nullopt;
+        }
+        const FT_GlyphSlot pGlyph = cyrillicFont.face->glyph;
+        const FT_Bitmap &raster = pGlyph->bitmap;
+        const int scale = atlas.atlasScale;
+        const FontGlyphMetrics &metrics = atlas.glyphMetrics[cyrillicGlyphIndex];
+        const int cellWidth = (atlas.atlasCellWidth + 2 * atlas.atlasPadding) * scale;
+        const int cellHeight = (atlas.fontHeight + 2 * atlas.atlasPadding) * scale;
+        const int originX = pGlyph->bitmap_left + (atlas.atlasPadding - metrics.leftSpacing) * scale;
+        const int originY = (baseline + atlas.atlasPadding) * scale - pGlyph->bitmap_top;
+        const int cellX = (cyrillicGlyphIndex % atlas.atlasColumns) * cellWidth;
+        const int cellY = (cyrillicGlyphIndex / atlas.atlasColumns) * cellHeight;
+        if (raster.pixel_mode != FT_PIXEL_MODE_GRAY || originX < 0 || originY < 0
+            || originX + int(raster.width) > cellWidth || originY + int(raster.rows) > cellHeight)
+        {
+            error = "Cyrillic fallback glyph exceeds atlas cell: " + std::to_string(codePoint);
+            return std::nullopt;
+        }
+        for (unsigned int y = 0; y < raster.rows; ++y)
+        {
+            const uint8_t *pRow = raster.buffer + (raster.pitch >= 0 ? y : raster.rows - 1 - y)
+                * size_t(std::abs(raster.pitch));
+            for (unsigned int x = 0; x < raster.width; ++x)
+            {
+                const size_t offset = (size_t(cellY + originY + y) * atlas.atlasWidth + cellX + originX + x) * 4;
+                if (blackInk)
+                {
+                    image.shadowPixels[offset + 3] = pRow[x];
+                }
+                else
+                {
+                    atlas.mainAtlasPixels[offset + 3] = pRow[x];
+                    if (synthesizeShadow && originX + int(x) + scale < cellWidth
+                        && originY + int(y) + scale < cellHeight)
+                    {
+                        const size_t shadowOffset = offset + (size_t(scale) * atlas.atlasWidth + scale) * 4;
+                        image.shadowPixels[shadowOffset + 3] = pRow[x];
+                    }
+                }
+            }
+        }
+        ++cyrillicGlyphIndex;
     }
     return image;
 }

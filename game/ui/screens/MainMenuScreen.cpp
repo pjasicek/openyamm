@@ -4,6 +4,7 @@
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/ui/MenuSettingsModel.h"
 #include "game/ui/screens/LoadGameScreen.h"
+#include "engine/Utf8.h"
 
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
@@ -41,7 +42,7 @@ std::string lower(std::string value)
 MainMenuScreen::MainMenuScreen(const Engine::AssetFileSystem &assets, const GameDataRepository &gameData,
                                GameAudioSystem *pAudio, const GameSettings &settings, Actions actions, bool paused,
                                std::string location, std::string date)
-    : MenuDesignScreen(assets, paused, pAudio), m_actions(std::move(actions)), m_gameData(gameData),
+    : MenuDesignScreen(assets, paused, pAudio, settings.language), m_actions(std::move(actions)), m_gameData(gameData),
       m_committed(settings), m_draft(settings), m_location(std::move(location)), m_date(std::move(date)),
       m_paused(paused)
 {
@@ -83,16 +84,20 @@ void MainMenuScreen::loadCatalog()
     const YAML::Node catalog = YAML::Load(*text);
     for (const YAML::Node &item : catalog["sections"])
     {
-        m_sections.push_back({item["id"].as<std::string>(), item["name"].as<std::string>()});
+        const std::string name = item["name"].as<std::string>();
+        m_sections.push_back({item["id"].as<std::string>(), localization().translate(name)});
     }
     for (const YAML::Node &item : catalog["settings"])
     {
         Setting setting;
         setting.id = item["id"].as<std::string>();
         setting.section = item["section"].as<std::string>();
-        setting.group = item["group"].as<std::string>();
-        setting.name = item["name"].as<std::string>();
-        setting.description = item["desc"].as<std::string>();
+        const std::string group = item["group"].as<std::string>();
+        const std::string name = item["name"].as<std::string>();
+        const std::string description = item["desc"].as<std::string>();
+        setting.group = localization().translate(group);
+        setting.name = localization().translate(name);
+        setting.description = localization().translate(description);
         setting.type = item["type"].as<std::string>();
         setting.unit = item["unit"].as<std::string>("");
         setting.depends = item["depends"].as<std::string>("");
@@ -102,7 +107,8 @@ void MainMenuScreen::loadCatalog()
         {
             for (const YAML::Node &option : item["options"])
             {
-                setting.options.emplace_back(option[0].as<std::string>(), option[1].as<std::string>());
+                const std::string label = option[1].as<std::string>();
+                setting.options.emplace_back(option[0].as<std::string>(), localization().translate(label));
             }
         }
         menuSettingValue(m_draft, setting.id); // An unknown catalog field is an installation error.
@@ -122,8 +128,10 @@ void MainMenuScreen::loadCatalog()
         {
             if (definition.implemented && definition.iniKey == id)
             {
+                const std::string name = item["name"].as<std::string>();
+                const std::string group = item["group"].as<std::string>();
                 m_bindings.push_back(
-                    {definition.action, id, item["name"].as<std::string>(), item["group"].as<std::string>()});
+                    {definition.action, id, localization().translate(name), localization().translate(group)});
                 found = true;
             }
         }
@@ -775,7 +783,8 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
             filtered.push_back(&binding);
         }
     }
-    const bool fixed = (m_bindingGroup == "All actions" || m_bindingGroup == "System") && m_search.empty();
+    const bool fixed =
+        (m_bindingGroup == "All actions" || m_bindingGroup == localization().translate("System")) && m_search.empty();
     const float contentHeight = std::ceil(filtered.size() / 2.0f) * 30 + (fixed ? 85 : 0);
     scrollViewport(viewport, contentHeight, m_scroll);
     if (m_capture && mouseWheelDelta() != 0.0f)
@@ -927,7 +936,7 @@ void MainMenuScreen::handleSdlEvent(const SDL_Event &event)
         }
         if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_BACKSPACE && !m_search.empty())
         {
-            m_search.pop_back();
+            Engine::eraseLastUtf8CodePoint(m_search);
             m_scroll = 0;
         }
     }

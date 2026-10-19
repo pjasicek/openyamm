@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -28,6 +29,8 @@ struct FontGlyphMetrics
 // faces use screen pixels.
 struct FontAtlas
 {
+    static constexpr size_t MaximumGlyphCount = 512;
+
     int firstChar = 0;
     int lastChar = 0;
     int fontHeight = 0;
@@ -36,13 +39,31 @@ struct FontAtlas
     int atlasHeight = 0;
     int atlasScale = 1;
     int atlasPadding = 0;
-    std::array<FontGlyphMetrics, 256> glyphMetrics = {{}};
-    std::unordered_map<uint16_t, float> kerningPairs;
+    int glyphCount = 256;
+    int atlasColumns = 16;
+    std::array<FontGlyphMetrics, MaximumGlyphCount> glyphMetrics = {{}};
+    std::unordered_map<uint32_t, uint16_t> glyphsByCodePoint;
+    std::unordered_map<uint64_t, float> kerningPairs;
     std::vector<uint8_t> mainAtlasPixels;
 
-    float kerning(uint8_t previous, uint8_t current) const
+    std::optional<uint16_t> glyphForCodePoint(uint32_t codePoint) const
     {
-        const auto found = kerningPairs.find(uint16_t(previous) * 256 + current);
+        const auto found = glyphsByCodePoint.find(codePoint);
+        if (found != glyphsByCodePoint.end())
+        {
+            return found->second;
+        }
+        if (codePoint <= 255 && int(codePoint) >= firstChar && int(codePoint) <= lastChar)
+        {
+            return static_cast<uint16_t>(codePoint);
+        }
+        return std::nullopt;
+    }
+
+    float kerning(uint16_t previous, uint16_t current) const
+    {
+        const uint64_t key = (uint64_t(previous) << 32) | current;
+        const auto found = kerningPairs.find(key);
         return found == kerningPairs.end() ? 0.0f : found->second;
     }
 };

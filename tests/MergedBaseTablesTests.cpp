@@ -534,6 +534,18 @@ TEST_CASE("character inspect table loads class descriptions")
     CHECK(pWarriorMage->description.find("first Archer promotion") != std::string::npos);
 }
 
+TEST_CASE("Russian character stat descriptions preserve canonical lookup keys")
+{
+    OpenYAMM::Game::CharacterInspectTable inspectTable;
+
+    REQUIRE(inspectTable.loadStatRows(loadRows("ru/stats.txt")));
+
+    const OpenYAMM::Game::StatInspectEntry *pMight = inspectTable.getStat("Might");
+    REQUIRE(pMight != nullptr);
+    CHECK_EQ(pMight->name, "Might");
+    CHECK(pMight->description.find("Сила") != std::string::npos);
+}
+
 TEST_CASE("race skill rules grant minimum caps and honor class-kind exceptions")
 {
     const OpenYAMM::Game::ClassSkillTable classSkillTable = loadClassSkillTableWithRaceRules();

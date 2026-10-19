@@ -54,7 +54,8 @@ struct FontFixture
     }
 };
 
-int textWidth(const std::array<Engine::FontGlyphMetrics, 256> &metrics, const std::string &text)
+template<size_t Size>
+int textWidth(const std::array<Engine::FontGlyphMetrics, Size> &metrics, const std::string &text)
 {
     int width = 0;
     for (unsigned char character : text)
@@ -96,6 +97,26 @@ TEST_CASE("menu outline fonts load independently of legacy metrics")
         CHECK(image->atlas.atlasScale == 1);
         CHECK(image->atlas.glyphMetrics['W'].advance() > image->atlas.glyphMetrics['i'].advance());
         CHECK(image->atlas.glyphMetrics[' '].advance() > 0);
+        const std::optional<uint16_t> cyrillicA = image->atlas.glyphForCodePoint(0x410);
+        CHECK(cyrillicA);
+        CHECK(image->atlas.glyphForCodePoint(0x451));
+        if (cyrillicA)
+        {
+            const int cellWidth = image->atlas.atlasCellWidth + 2 * image->atlas.atlasPadding;
+            const int cellHeight = image->atlas.fontHeight + 2 * image->atlas.atlasPadding;
+            const int cellX = (*cyrillicA % image->atlas.atlasColumns) * cellWidth;
+            const int cellY = (*cyrillicA / image->atlas.atlasColumns) * cellHeight;
+            size_t cyrillicInk = 0;
+            for (int y = 0; y < cellHeight; ++y)
+            {
+                for (int x = 0; x < cellWidth; ++x)
+                {
+                    const size_t offset = (size_t(cellY + y) * image->atlas.atlasWidth + cellX + x) * 4;
+                    cyrillicInk += image->atlas.mainAtlasPixels[offset + 3] > 0;
+                }
+            }
+            CHECK(cyrillicInk > 0);
+        }
         bool fractionalAdvance = false;
         for (const Engine::FontGlyphMetrics &metrics : image->atlas.glyphMetrics)
         {
@@ -137,8 +158,8 @@ TEST_CASE("menu outline font atlas rasterizes at display size with antialiased "
             for (unsigned char character : std::string("Wil\xc9\xe9"))
             {
                 CAPTURE(character);
-                const int cellX = character % 16 * cellWidth;
-                const int cellY = character / 16 * cellHeight;
+                const int cellX = character % font.atlasColumns * cellWidth;
+                const int cellY = character / font.atlasColumns * cellHeight;
                 size_t ink = 0;
                 size_t antialiased = 0;
                 bool sameShadow = true;
@@ -188,7 +209,7 @@ TEST_CASE("enemy label font loads its authored semibold weight and rejects inval
     REQUIRE_MESSAGE(semibold, error);
     CHECK(semibold->atlas.fontHeight == 24);
     CHECK(textWidth(semibold->atlas.glyphMetrics, "Guardian of VARN 617/617") * 0.42f < 144.0f);
-    CHECK(semibold->atlas.mainAtlasPixels.size() < 2 * 1024 * 1024);
+    CHECK(semibold->atlas.mainAtlasPixels.size() < 4 * 1024 * 1024);
 
     const auto writeWeight = [&](int weight)
     {
@@ -343,10 +364,14 @@ TEST_CASE("font atlas TTF preserves native layout and rasterizes all CP1252 cell
     REQUIRE_MESSAGE(ttf, error);
     CHECK(ttf->atlas.fontHeight == height);
     CHECK(ttf->atlas.atlasScale == 4);
-    CHECK(ttf->atlas.atlasWidth == (cellWidth + 10) * 16 * 4);
-    CHECK(ttf->atlas.atlasHeight == (height + 10) * 16 * 4);
+    CHECK(ttf->atlas.atlasCellWidth >= cellWidth);
+    CHECK(ttf->atlas.atlasWidth == (ttf->atlas.atlasCellWidth + 10) * ttf->atlas.atlasColumns * 4);
+    CHECK(ttf->atlas.atlasHeight == (height + 10)
+        * ((ttf->atlas.glyphCount + ttf->atlas.atlasColumns - 1) / ttf->atlas.atlasColumns) * 4);
     CHECK(ttf->atlas.firstChar == (*bytes)[0]);
     CHECK(ttf->atlas.lastChar == (*bytes)[1]);
+    CHECK(ttf->atlas.glyphForCodePoint(0x410));
+    CHECK(ttf->atlas.glyphForCodePoint(0x451));
     for (int character = 0; character < 256; ++character)
     {
         const Engine::FontGlyphMetrics &replacement = ttf->atlas.glyphMetrics[character];
@@ -384,8 +409,8 @@ TEST_CASE("font atlas TTF preserves native layout and rasterizes all CP1252 cell
     {
         CHECK(mainInkCount > 1000);
         // Obsidian uses tintable ivory ink; the restored l retains its native stroke and has no shifted shadow.
-        const int cellX = (108 % 16) * (ttf->atlas.atlasCellWidth + 10) * 4;
-        const int cellY = (108 / 16) * (height + 10) * 4;
+        const int cellX = (108 % ttf->atlas.atlasColumns) * (ttf->atlas.atlasCellWidth + 10) * 4;
+        const int cellY = (108 / ttf->atlas.atlasColumns) * (height + 10) * 4;
         bool coverageMatches = true;
         for (int y = 0; y < (height + 10) * 4; ++y)
         {

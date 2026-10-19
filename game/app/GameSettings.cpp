@@ -716,6 +716,15 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "localization", "language"))
+    {
+        const std::string language = toLowerCopy(trimCopy(*value));
+        if (language == "en" || language == "ru")
+        {
+            settings.language = language;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "assets", "root"))
     {
         settings.assetRoot = trimCopy(*value);
@@ -1911,6 +1920,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
     output
         << "[assets]\n"
         << "root=" << settings.assetRoot << "\n\n"
+        << "[localization]\n"
+        << "language=" << settings.language << "\n\n"
         << "[audio]\n"
         << "sound_volume=" << std::clamp(settings.soundVolume, 0, 9) << '\n'
         << "music_volume=" << std::clamp(settings.musicVolume, 0, 9) << '\n'

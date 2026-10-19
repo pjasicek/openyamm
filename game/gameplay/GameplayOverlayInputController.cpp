@@ -13,6 +13,7 @@
 #include "game/ui/KeyboardScreenLayout.h"
 #include "game/ui/GameplayJournalMapUi.h"
 #include "game/ui/HouseShopLayout.h"
+#include "engine/Utf8.h"
 
 #include <SDL3/SDL.h>
 
@@ -106,16 +107,16 @@ void appendSaveGameTextInput(std::string &buffer, const std::string &textInput)
 {
     static constexpr size_t MaximumSaveGameTextLength = 30;
 
-    for (const char character : textInput)
+    for (const Engine::Utf8CodePoint &point : Engine::decodeUtf8(textInput))
     {
-        if (buffer.size() >= MaximumSaveGameTextLength)
+        if (Engine::utf8Length(buffer) >= MaximumSaveGameTextLength)
         {
             break;
         }
 
-        if (isSaveGameTextInputCharacter(character))
+        if (point.value >= 128 || isSaveGameTextInputCharacter(static_cast<char>(point.value)))
         {
-            buffer.push_back(character);
+            buffer.append(textInput, point.byteOffset, point.byteLength);
         }
     }
 }
@@ -135,7 +136,7 @@ bool eraseSaveGameEditCharacter(GameplayUiController::SaveGameScreenState &saveG
         return false;
     }
 
-    saveGameScreen.editBuffer.pop_back();
+    Engine::eraseLastUtf8CodePoint(saveGameScreen.editBuffer);
     saveGameScreen.errorText.clear();
     return true;
 }

@@ -6,6 +6,7 @@
 #include "game/party/SkillData.h"
 #include "game/party/SpeechIds.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "engine/Utf8.h"
 
 #include <algorithm>
 #include <array>
@@ -26,7 +27,6 @@ namespace
 using StatId = NewGameScreen::StatId;
 using CreationCandidate = NewGameScreen::CreationCandidate;
 
-constexpr const char *PcNamesTablePath = "engine/data_tables/english/pc_names.txt";
 constexpr uint32_t DefaultCreationCharacterDataId = 1;
 constexpr const char *DefaultCreationClassName = "Knight";
 constexpr uint32_t DebugGodLichCharacterDataId = 27;
@@ -512,12 +512,13 @@ std::string portraitTextureNameForEntry(const CharacterDollEntry &entry)
     return buffer;
 }
 
-bool isPrintableNameCharacter(char character)
+bool isPrintableNameCodePoint(uint32_t codePoint)
 {
-    return std::isalnum(static_cast<unsigned char>(character)) != 0
-        || character == ' '
-        || character == '\''
-        || character == '-';
+    return codePoint >= 128
+        || std::isalnum(static_cast<unsigned char>(codePoint)) != 0
+        || codePoint == ' '
+        || codePoint == '\''
+        || codePoint == '-';
 }
 
 std::string characterCreationSkillDisplayName(const std::string &skillName)
@@ -542,8 +543,8 @@ std::string characterCreationSkillDisplayName(const std::string &skillName)
 NewGameScreen::NewGameScreen(const Engine::AssetFileSystem &assetFileSystem, GameAudioSystem *pGameAudioSystem,
                              const GameDataRepository &gameData, bool debugGodLichRoster, bool includeGodLichCandidate,
                              bool allowIncompleteCharacterCreation, ContinueAction continueAction,
-                             BackAction backAction)
-    : MenuDesignScreen(assetFileSystem, false, pGameAudioSystem), m_pGameAudioSystem(pGameAudioSystem),
+                             BackAction backAction, const std::string &language)
+    : MenuDesignScreen(assetFileSystem, false, pGameAudioSystem, language), m_pGameAudioSystem(pGameAudioSystem),
       m_pGameData(&gameData), m_debugGodLichRoster(debugGodLichRoster),
       m_includeGodLichCandidate(includeGodLichCandidate),
       m_allowIncompleteCharacterCreation(allowIncompleteCharacterCreation), m_continueAction(std::move(continueAction)),
@@ -630,11 +631,16 @@ void NewGameScreen::handleSdlEvent(const SDL_Event &event)
             return;
         }
 
-        for (size_t i = 0; pText[i] != '\0' && m_state.nameEditBuffer.size() < MaximumNameLength; ++i)
+        const std::string input = pText;
+        for (const Engine::Utf8CodePoint &point : Engine::decodeUtf8(input))
         {
-            if (isPrintableNameCharacter(pText[i]))
+            if (Engine::utf8Length(m_state.nameEditBuffer) >= MaximumNameLength)
             {
-                m_state.nameEditBuffer.push_back(pText[i]);
+                break;
+            }
+            if (isPrintableNameCodePoint(point.value))
+            {
+                m_state.nameEditBuffer.append(input, point.byteOffset, point.byteLength);
             }
         }
 
@@ -1115,7 +1121,7 @@ void NewGameScreen::deleteNameEditCharacter()
 {
     if (m_state.nameEditing && !m_state.nameEditBuffer.empty())
     {
-        m_state.nameEditBuffer.pop_back();
+        Engine::eraseLastUtf8CodePoint(m_state.nameEditBuffer);
     }
 }
 
@@ -1162,7 +1168,12 @@ void NewGameScreen::ensurePcNamesLoaded()
     }
 
     m_pcNamesLoaded = true;
-    const std::optional<std::string> tableText = assetFileSystem().readTextFile(PcNamesTablePath);
+    const std::string localizedPath = "engine/data_tables/" + localization().language() + "/pc_names.txt";
+    std::optional<std::string> tableText = assetFileSystem().readTextFile(localizedPath);
+    if (!tableText && localization().language() != "en")
+    {
+        tableText = assetFileSystem().readTextFile("engine/data_tables/english/pc_names.txt");
+    }
 
     if (!tableText.has_value())
     {
@@ -1398,12 +1409,17 @@ std::vector<std::string> NewGameScreen::wrapTextToWidth(
 
                 while (!word.empty() && measureTextWidth(fontName, word, scale) > maxWidth)
                 {
-                    size_t splitLength = 1;
+                    const std::vector<Engine::Utf8CodePoint> points = Engine::decodeUtf8(word);
+                    size_t splitLength = points.front().byteLength;
 
-                    while (splitLength < word.size()
-                        && measureTextWidth(fontName, word.substr(0, splitLength + 1), scale) <= maxWidth)
+                    for (size_t pointIndex = 1; pointIndex < points.size(); ++pointIndex)
                     {
-                        ++splitLength;
+                        const size_t candidateLength = points[pointIndex].byteOffset + points[pointIndex].byteLength;
+                        if (measureTextWidth(fontName, word.substr(0, candidateLength), scale) > maxWidth)
+                        {
+                            break;
+                        }
+                        splitLength = candidateLength;
                     }
 
                     lines.push_back(word.substr(0, splitLength));
@@ -2095,7 +2111,8 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     continentKey[0] = char(std::toupper(continentKey[0]));
     const UiLayoutManager::LayoutElement *pStart =
         m_designLayouts.findElement("ContinentSelection" + continentKey + "Start");
-    label("CharacterCreationContinent", m_selectedContinent.name + " - " + pStart->labelText);
+    label("CharacterCreationContinent",
+          localization().translate(m_selectedContinent.name) + " — " + localization().translate(pStart->labelText));
     const Rect nameRect = designRect("CharacterCreationNameField");
     if (m_state.nameEditing && (keyPressed(SDL_SCANCODE_TAB) || (leftMouseJustPressed() && !pointerInside(nameRect))))
     {
@@ -2207,7 +2224,10 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         }
     }
     label("CharacterCreationVoiceValue",
-          "Voice " + std::to_string(m_state.selectedVoiceId) + " - " + selectedCandidate().raceName);
+          localization().format(
+              "Voice {voice_number} — {race_name}",
+              {{"voice_number", std::to_string(m_state.selectedVoiceId)},
+               {"race_name", localization().translate(selectedCandidate().raceName)}}));
     const CharacterDollEntry *pEntry = selectedCharacterEntry();
     if (pEntry != nullptr)
     {
@@ -2239,7 +2259,9 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     }
     const bool grantedSkills = isGodLichSelected();
     label("CharacterCreationBonusPoolValue",
-          grantedSkills ? "Preset" : std::to_string(currentBonusPool()) + " points left");
+          grantedSkills
+              ? "Preset"
+              : localization().format("{points} points left", {{"points", std::to_string(currentBonusPool())}}));
     label("CharacterCreationAttributeHelp",
           grantedSkills ? "Attributes are fixed for this preset." : "Spend all bonus points before beginning.");
     for (size_t index = 0; index < size_t(StatId::Count); ++index)
@@ -2371,7 +2393,10 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     Rect summary = designRect("CharacterCreationPartySummary");
     const Rect lastSlot = designRect(PartySlotButtonLayoutIds[std::min(m_partySize, size_t(4))]);
     summary.x = lastSlot.x + lastSlot.width + 15 * designScale();
-    textInRect(summary, std::to_string(m_partySize) + " / 5 adventurers\n" + std::to_string(ready) + " ready",
+    textInRect(summary,
+               localization().format(
+                   "{party_count} / 5 adventurers\n{ready_count} ready",
+                   {{"party_count", std::to_string(m_partySize)}, {"ready_count", std::to_string(ready)}}),
                "menu_lucida", 9.6f, 0xffa6b9b7u);
     label("CharacterCreationReadiness", m_state.statusMessage.empty()
                                             ? ready == m_partySize

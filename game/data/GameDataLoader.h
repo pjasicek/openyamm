@@ -47,6 +47,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -64,6 +65,7 @@ class GameDataLoader
 {
 public:
     void setActiveWorldId(const std::string &worldId);
+    void setLanguage(const std::string &language);
     void setInitialMapFileName(const std::string &fileName);
     // Actor models (settings `actor_models`): the merged models/actors.yml of every mounted world, or only
     // overrideManifestPath when it is set. Map loads then skip the sprites of the monsters they bind.
@@ -231,11 +233,22 @@ private:
         const std::string &virtualPath,
         std::vector<std::vector<std::string>> &rows
     );
+    std::vector<std::string> localizedDataTablePaths(std::string_view fileName) const;
+    std::string localizedDataTablePath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        std::string_view fileName
+    ) const;
+    std::vector<std::string> localizedEngineDataTablePaths(std::string_view fileName) const;
+    std::string localizedEngineDataTablePath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        std::string_view fileName
+    ) const;
 
     bool ensureActorModelManifest(const Engine::AssetFileSystem &assetFileSystem);
 
     std::vector<LoadedTableSummary> m_loadedTables;
     std::string m_activeWorldId = "mm8";
+    std::string m_language = "en";
     bool m_actorModelsEnabled = false;
     std::string m_actorModelManifestOverride;
     std::shared_ptr<const ActorModelManifest> m_pActorModelManifest;

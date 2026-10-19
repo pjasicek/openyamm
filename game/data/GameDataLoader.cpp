@@ -693,11 +693,6 @@ std::string engineDataTablePath(std::string_view fileName)
     return "engine/data_tables/" + std::string(fileName);
 }
 
-std::string engineEnglishDataTablePath(std::string_view fileName)
-{
-    return "engine/data_tables/english/" + std::string(fileName);
-}
-
 size_t countChestItemSlots(const MapDeltaChest &chest)
 {
     size_t occupiedSlots = 0;
@@ -1499,6 +1494,65 @@ void GameDataLoader::setActiveWorldId(const std::string &worldId)
     m_activeWorldId = normalizedWorldId;
 }
 
+void GameDataLoader::setLanguage(const std::string &language)
+{
+    m_language = toLowerCopy(language) == "ru" ? "ru" : "en";
+}
+
+std::vector<std::string> GameDataLoader::localizedDataTablePaths(std::string_view fileName) const
+{
+    std::vector<std::string> paths;
+    if (m_language != "en")
+    {
+        paths.push_back("engine/data_tables/" + m_language + "/" + std::string(fileName));
+    }
+    paths.push_back("engine/data_tables/english/" + std::string(fileName));
+    return paths;
+}
+
+std::string GameDataLoader::localizedDataTablePath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    std::string_view fileName
+) const
+{
+    const std::vector<std::string> paths = localizedDataTablePaths(fileName);
+    for (const std::string &path : paths)
+    {
+        if (assetFileSystem.exists(path))
+        {
+            return path;
+        }
+    }
+    return paths.back();
+}
+
+std::vector<std::string> GameDataLoader::localizedEngineDataTablePaths(std::string_view fileName) const
+{
+    std::vector<std::string> paths;
+    if (m_language != "en")
+    {
+        paths.push_back("engine/data_tables/" + m_language + "/" + std::string(fileName));
+    }
+    paths.push_back(engineDataTablePath(fileName));
+    return paths;
+}
+
+std::string GameDataLoader::localizedEngineDataTablePath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    std::string_view fileName
+) const
+{
+    const std::vector<std::string> paths = localizedEngineDataTablePaths(fileName);
+    for (const std::string &path : paths)
+    {
+        if (assetFileSystem.exists(path))
+        {
+            return path;
+        }
+    }
+    return paths.back();
+}
+
 void GameDataLoader::setActorModels(bool enabled, const std::string &overrideManifestPath)
 {
     if (m_actorModelsEnabled != enabled || m_actorModelManifestOverride != overrideManifestPath)
@@ -1787,7 +1841,7 @@ bool GameDataLoader::loadInternal(
     const std::vector<std::string> tablePaths = {
         engineDataTablePath("spells.txt"),
         engineDataTablePath("random_items.txt"),
-        engineEnglishDataTablePath("scroll.txt")
+        localizedDataTablePath(assetFileSystem, "scroll.txt")
     };
 
     for (const std::string &tablePath : tablePaths)
@@ -2574,7 +2628,7 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     std::vector<std::vector<std::string>> placedMonsterRows;
 
-    const std::string placeMonPath = engineEnglishDataTablePath("place_mon.txt");
+    const std::string placeMonPath = localizedDataTablePath(assetFileSystem, "place_mon.txt");
 
     if (!loadTextTableRows(assetFileSystem, placeMonPath, placedMonsterRows))
     {
@@ -2788,7 +2842,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineDataTablePath("npc_greet.txt")},
+            localizedEngineDataTablePaths("npc_greet.txt"),
             greetingRows))
     {
         return false;
@@ -2798,7 +2852,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineDataTablePath("npc_topic_text.txt")},
+            localizedEngineDataTablePaths("npc_topic_text.txt"),
             textRows))
     {
         return false;
@@ -2808,7 +2862,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineDataTablePath("npc_topic.txt")},
+            localizedEngineDataTablePaths("npc_topic.txt"),
             topicRows))
     {
         return false;
@@ -2818,7 +2872,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineDataTablePath("npc.txt")},
+            localizedEngineDataTablePaths("npc.txt"),
             npcRows))
     {
         return false;
@@ -2828,7 +2882,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineDataTablePath("npc_news.txt")},
+            localizedEngineDataTablePaths("npc_news.txt"),
             newsRows))
     {
         return false;
@@ -2838,7 +2892,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineEnglishDataTablePath("npc_group.txt")},
+            localizedDataTablePaths("npc_group.txt"),
             groupRows))
     {
         return false;
@@ -3117,7 +3171,7 @@ bool GameDataLoader::loadAwardTable(const Engine::AssetFileSystem &assetFileSyst
     std::vector<std::vector<std::string>> awardRows;
     std::vector<std::vector<std::string>> aliasRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("awards.txt")}, awardRows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("awards.txt"), awardRows))
     {
         std::cerr << "Failed to read award table\n";
         return false;
@@ -3125,7 +3179,7 @@ bool GameDataLoader::loadAwardTable(const Engine::AssetFileSystem &assetFileSyst
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineEnglishDataTablePath("award_display_aliases.txt")},
+            localizedDataTablePaths("award_display_aliases.txt"),
             aliasRows))
     {
         std::cerr << "Failed to read award display alias table\n";
@@ -3145,13 +3199,13 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 {
     std::vector<std::vector<std::string>> questRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("quests.txt")}, questRows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("quests.txt"), questRows))
     {
         std::cerr << "Failed to read journal quest table\n";
         return false;
     }
 
-    const std::string questOverlayPath = engineEnglishDataTablePath("quests_overlay.txt");
+    const std::string questOverlayPath = localizedDataTablePath(assetFileSystem, "quests_overlay.txt");
     if (const std::optional<std::string> overlayContents = assetFileSystem.readTextFile(questOverlayPath))
     {
         const std::optional<Engine::TextTable> overlayTable =
@@ -3171,7 +3225,7 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 
     std::vector<std::vector<std::string>> historyRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("history.txt")}, historyRows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("history.txt"), historyRows))
     {
         std::cerr << "Failed to read journal history table\n";
         return false;
@@ -3179,7 +3233,7 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 
     std::vector<std::vector<std::string>> autonoteRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("autonote.txt")}, autonoteRows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("autonote.txt"), autonoteRows))
     {
         std::cerr << "Failed to read journal autonote table\n";
         return false;
@@ -3199,7 +3253,7 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 
     std::vector<std::vector<std::string>> mm7HistoryRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("mm7_history.txt")}, mm7HistoryRows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("mm7_history.txt"), mm7HistoryRows))
     {
         std::cerr << "Failed to read MM7 journal history table\n";
         return false;
@@ -3354,7 +3408,7 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
 {
     std::vector<std::vector<std::string>> statRows;
 
-    const std::string statsPath = engineEnglishDataTablePath("stats.txt");
+    const std::string statsPath = localizedDataTablePath(assetFileSystem, "stats.txt");
 
     if (!loadTextTableRows(assetFileSystem, statsPath, statRows))
     {
@@ -3364,7 +3418,7 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
 
     std::vector<std::vector<std::string>> skillRows;
 
-    const std::string skillDesPath = engineEnglishDataTablePath("skill_des.txt");
+    const std::string skillDesPath = localizedDataTablePath(assetFileSystem, "skill_des.txt");
 
     if (!loadTextTableRows(assetFileSystem, skillDesPath, skillRows))
     {
@@ -3374,7 +3428,7 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
 
     std::vector<std::vector<std::string>> classRows;
 
-    const std::string classPath = engineEnglishDataTablePath("class.txt");
+    const std::string classPath = localizedDataTablePath(assetFileSystem, "class.txt");
 
     if (!loadTextTableRows(assetFileSystem, classPath, classRows))
     {
@@ -3417,7 +3471,7 @@ bool GameDataLoader::loadReadableScrollTable(const Engine::AssetFileSystem &asse
 {
     std::vector<std::vector<std::string>> baseRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("scroll.txt")}, baseRows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("scroll.txt"), baseRows))
     {
         std::cerr << "Failed to read readable scroll table\n";
         return false;
@@ -3495,7 +3549,7 @@ bool GameDataLoader::loadPotionMixingTable(const Engine::AssetFileSystem &assetF
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("potion.txt")}, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("potion.txt"), rows))
     {
         return false;
     }
@@ -3513,7 +3567,7 @@ bool GameDataLoader::loadPotionNoteTable(const Engine::AssetFileSystem &assetFil
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("potnotes.txt")}, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("potnotes.txt"), rows))
     {
         return false;
     }
@@ -3531,7 +3585,7 @@ bool GameDataLoader::loadTransitionTable(const Engine::AssetFileSystem &assetFil
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("trans.txt")}, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedDataTablePaths("trans.txt"), rows))
     {
         return false;
     }
@@ -3559,7 +3613,7 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
     const auto loadBaseTable =
         [this, &assetFileSystem](const char *pFileName, auto &table, const char *pDisplayName) -> bool
         {
-            const std::string tablePath = engineDataTablePath(pFileName);
+            const std::string tablePath = localizedEngineDataTablePath(assetFileSystem, pFileName);
             std::vector<std::vector<std::string>> rows;
 
             if (!loadTextTableRows(assetFileSystem, tablePath, rows))
@@ -3577,6 +3631,27 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             return true;
         };
 
+    const auto loadLocalizedBaseTable =
+        [this, &assetFileSystem](const char *pFileName, auto &table, const char *pDisplayName) -> bool
+        {
+            const std::string tablePath = localizedDataTablePath(assetFileSystem, pFileName);
+            std::vector<std::vector<std::string>> rows;
+
+            if (!loadTextTableRows(assetFileSystem, tablePath, rows))
+            {
+                std::cerr << "Failed to read localized merged base table: " << tablePath << '\n';
+                return false;
+            }
+
+            if (!table.loadFromRows(rows))
+            {
+                std::cerr << "Failed to parse localized merged base table: " << pDisplayName << '\n';
+                return false;
+            }
+
+            return true;
+        };
+
     const auto loadComposedKeyedTable =
         [this, &assetFileSystem, &mountedWorlds](
             const char *pFileName,
@@ -3585,7 +3660,7 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             auto &table,
             const char *pDisplayName) -> bool
         {
-            const std::string tablePath = engineDataTablePath(pFileName);
+            const std::string tablePath = localizedEngineDataTablePath(assetFileSystem, pFileName);
             std::vector<std::vector<std::string>> baseRows;
 
             if (!loadTextTableRows(assetFileSystem, tablePath, baseRows))
@@ -3790,8 +3865,8 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             "house_rules.txt",
             m_mergedHouseRuleTable,
             "House rules.txt")
-        && loadBaseTable(
-            "english/mm7_history.txt",
+        && loadLocalizedBaseTable(
+            "mm7_history.txt",
             m_mergedMm7HistoryTable,
             "MM7history.txt")
         && loadBaseTable(
@@ -4134,7 +4209,7 @@ bool GameDataLoader::loadSpellTable(const Engine::AssetFileSystem &assetFileSyst
 {
     std::vector<std::vector<std::string>> rows;
 
-    const std::string spellsPath = engineDataTablePath("spells.txt");
+    const std::string spellsPath = localizedEngineDataTablePath(assetFileSystem, "spells.txt");
 
     if (!loadTextTableRows(assetFileSystem, spellsPath, rows))
     {
@@ -4154,7 +4229,7 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
 {
     std::vector<std::vector<std::string>> baseItemRows;
 
-    const std::string itemsPath = engineDataTablePath("items.txt");
+    const std::string itemsPath = localizedEngineDataTablePath(assetFileSystem, "items.txt");
 
     if (!loadTextTableRows(assetFileSystem, itemsPath, baseItemRows))
     {

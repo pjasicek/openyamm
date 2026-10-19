@@ -1,4 +1,5 @@
 #include "game/ui/MenuScreenBase.h"
+#include "engine/Utf8.h"
 #include "engine/BgfxContext.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/render/CookedTexture.h"
@@ -694,16 +695,17 @@ bool MenuScreenBase::drawText(
 
     uint32_t glyphCount = 0;
 
-    for (unsigned char character : text)
+    size_t utf8Offset = 0;
+    while (utf8Offset < text.size())
     {
-        if (character == '\r' || character == '\n')
+        const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, utf8Offset);
+        if (point.value == '\r' || point.value == '\n')
         {
             break;
         }
 
-        if (character >= pFont->firstChar
-            && character <= pFont->lastChar
-            && pFont->glyphMetrics[character].width > 0)
+        const std::optional<uint16_t> glyph = pFont->glyphForCodePoint(point.value);
+        if (glyph && pFont->glyphMetrics[*glyph].width > 0)
         {
             ++glyphCount;
         }
@@ -738,21 +740,25 @@ bool MenuScreenBase::drawText(
         bgfx::allocTransientVertexBuffer(&shadowBuffer, vertexCount, MenuVertex::ms_layout);
         MenuVertex *pShadowVertices = reinterpret_cast<MenuVertex *>(shadowBuffer.data);
         float penX = pixelX + shadowOffset;
-        uint8_t previous = 0;
+        uint16_t previous = 0;
         uint32_t vertexIndex = 0;
 
-        for (unsigned char character : text)
+        size_t shadowUtf8Offset = 0;
+        while (shadowUtf8Offset < text.size())
         {
-            if (character == '\r' || character == '\n')
+            const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, shadowUtf8Offset);
+            if (point.value == '\r' || point.value == '\n')
             {
                 break;
             }
 
-            if (character < pFont->firstChar || character > pFont->lastChar)
+            const std::optional<uint16_t> resolvedGlyph = pFont->glyphForCodePoint(point.value);
+            if (!resolvedGlyph)
             {
                 penX += static_cast<float>(pFont->atlasCellWidth) * scale;
                 continue;
             }
+            const uint16_t character = *resolvedGlyph;
 
             const FontGlyphMetrics &glyphMetrics = pFont->glyphMetrics[character];
             penX += (glyphMetrics.leftSpacing + pFont->kerning(previous, character)) * scale;
@@ -760,8 +766,10 @@ bool MenuScreenBase::drawText(
 
             if (glyphMetrics.width > 0)
             {
-                const int cellX = (character % 16) * (pFont->atlasCellWidth + 2 * pFont->atlasPadding);
-                const int cellY = (character / 16) * (pFont->fontHeight + 2 * pFont->atlasPadding);
+                const int cellX = (character % pFont->atlasColumns) *
+                    (pFont->atlasCellWidth + 2 * pFont->atlasPadding);
+                const int cellY = (character / pFont->atlasColumns) *
+                    (pFont->fontHeight + 2 * pFont->atlasPadding);
                 const float u0 = static_cast<float>(cellX) / static_cast<float>(pFont->atlasWidth / pFont->atlasScale);
                 const float v0 = static_cast<float>(cellY) / static_cast<float>(pFont->atlasHeight / pFont->atlasScale);
                 const float u1 = static_cast<float>(cellX + glyphMetrics.width + 2 * pFont->atlasPadding)
@@ -799,21 +807,25 @@ bool MenuScreenBase::drawText(
     bgfx::allocTransientVertexBuffer(&vertexBuffer, vertexCount, MenuVertex::ms_layout);
     MenuVertex *pVertices = reinterpret_cast<MenuVertex *>(vertexBuffer.data);
     float penX = pixelX;
-    uint8_t previous = 0;
+    uint16_t previous = 0;
     uint32_t vertexIndex = 0;
 
-    for (unsigned char character : text)
+    size_t mainUtf8Offset = 0;
+    while (mainUtf8Offset < text.size())
     {
-        if (character == '\r' || character == '\n')
+        const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, mainUtf8Offset);
+        if (point.value == '\r' || point.value == '\n')
         {
             break;
         }
 
-        if (character < pFont->firstChar || character > pFont->lastChar)
+        const std::optional<uint16_t> resolvedGlyph = pFont->glyphForCodePoint(point.value);
+        if (!resolvedGlyph)
         {
             penX += static_cast<float>(pFont->atlasCellWidth) * scale;
             continue;
         }
+        const uint16_t character = *resolvedGlyph;
 
         const FontGlyphMetrics &glyphMetrics = pFont->glyphMetrics[character];
         penX += (glyphMetrics.leftSpacing + pFont->kerning(previous, character)) * scale;
@@ -821,8 +833,10 @@ bool MenuScreenBase::drawText(
 
         if (glyphMetrics.width > 0)
         {
-            const int cellX = (character % 16) * (pFont->atlasCellWidth + 2 * pFont->atlasPadding);
-            const int cellY = (character / 16) * (pFont->fontHeight + 2 * pFont->atlasPadding);
+            const int cellX = (character % pFont->atlasColumns) *
+                (pFont->atlasCellWidth + 2 * pFont->atlasPadding);
+            const int cellY = (character / pFont->atlasColumns) *
+                (pFont->fontHeight + 2 * pFont->atlasPadding);
             const float u0 = static_cast<float>(cellX) / static_cast<float>(pFont->atlasWidth / pFont->atlasScale);
             const float v0 = static_cast<float>(cellY) / static_cast<float>(pFont->atlasHeight / pFont->atlasScale);
             const float u1 = static_cast<float>(cellX + glyphMetrics.width + 2 * pFont->atlasPadding)
@@ -866,20 +880,24 @@ float MenuScreenBase::measureTextWidth(const std::string &fontName, const std::s
     }
 
     float widthPixels = 0.0f;
-    uint8_t previous = 0;
+    uint16_t previous = 0;
 
-    for (unsigned char character : text)
+    size_t utf8Offset = 0;
+    while (utf8Offset < text.size())
     {
-        if (character == '\r' || character == '\n')
+        const Engine::Utf8CodePoint point = Engine::nextUtf8CodePoint(text, utf8Offset);
+        if (point.value == '\r' || point.value == '\n')
         {
             break;
         }
 
-        if (character < pFont->firstChar || character > pFont->lastChar)
+        const std::optional<uint16_t> resolvedGlyph = pFont->glyphForCodePoint(point.value);
+        if (!resolvedGlyph)
         {
             widthPixels += static_cast<float>(pFont->atlasCellWidth) * scale;
             continue;
         }
+        const uint16_t character = *resolvedGlyph;
 
         const FontGlyphMetrics &glyphMetrics = pFont->glyphMetrics[character];
         widthPixels += (glyphMetrics.advance() + pFont->kerning(previous, character)) * scale;

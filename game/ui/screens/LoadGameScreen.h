@@ -21,7 +21,7 @@ class LoadGameScreen : public MenuDesignScreen
 
     LoadGameScreen(const Engine::AssetFileSystem &assetFileSystem, const GameDataRepository &gameData,
                    LoadAction loadAction, CancelAction cancelAction, bool fromGameplay = false,
-                   GameAudioSystem *pAudio = nullptr);
+                   GameAudioSystem *pAudio = nullptr, const std::string &language = "en");
 
     AppMode mode() const override;
     void prepareForFirstFrame();

@@ -3,6 +3,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "engine/Utf8.h"
 
 #include <algorithm>
 #include <cmath>
@@ -83,9 +84,9 @@ std::string fitContextActionLabel(
 
     std::string fitted = text;
 
-    while (fitted.size() > 4)
+    while (Engine::utf8Length(fitted) > 4)
     {
-        fitted.pop_back();
+        Engine::eraseLastUtf8CodePoint(fitted);
         const std::string candidate = fitted + "...";
 
         if (context.measureHudTextWidth(fontName, candidate) * textScale <= maxWidth)

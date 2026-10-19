@@ -121,6 +121,7 @@ struct GameSettings
 
     std::string settingsProfileName;
     uint32_t settingsProfileVersion = 0;
+    std::string language = "ru";
 
     int soundVolume = 9;
     int musicVolume = 9;
