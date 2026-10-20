@@ -18,6 +18,7 @@ const T &requireBound(const T *pValue)
 
 void GameDataRepository::clear()
 {
+    m_pLocalizationCatalog = nullptr;
     m_pMapStats = nullptr;
     m_pMonsterTable = nullptr;
     m_pMonsterProjectileTable = nullptr;
@@ -75,6 +76,7 @@ void GameDataRepository::clear()
 
 void GameDataRepository::bind(const GameDataLoader &loader)
 {
+    m_pLocalizationCatalog = &loader.getLocalizationCatalog();
     m_pMapStats = &loader.getMapStats();
     m_pMonsterTable = &loader.getMonsterTable();
     m_pMonsterProjectileTable = &loader.getMonsterProjectileTable();
@@ -129,6 +131,11 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pMergedComplexItemPictureTable = &loader.getMergedComplexItemPictureTable();
     m_pMergedTeacherTopicTable = &loader.getMergedTeacherTopicTable();
     m_pMergedTeacherAutonoteTable = &loader.getMergedTeacherAutonoteTable();
+}
+
+const LocalizationCatalog &GameDataRepository::localizationCatalog() const
+{
+    return requireBound(m_pLocalizationCatalog);
 }
 
 bool GameDataRepository::isBound() const

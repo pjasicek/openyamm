@@ -17,6 +17,7 @@
 #include "game/items/ItemEnchantTables.h"
 #include "game/tables/ItemTable.h"
 #include "game/maps/MapAssetLoader.h"
+#include "game/localization/LocalizationCatalog.h"
 #include "game/maps/MapRegistry.h"
 #include "game/mm9/Mm9MapTransition.h"
 #include "game/mm9/Mm9TeacherSchedule.h"
@@ -94,6 +95,7 @@ public:
         const std::string &fileName
     );
     const std::vector<LoadedTableSummary> &getLoadedTables() const;
+    const LocalizationCatalog &getLocalizationCatalog() const;
     const std::optional<MapAssetInfo> &getSelectedMap() const;
     size_t releaseSelectedMapRenderSourcePixels();
     bool selectedMapRenderSourcePixelsReleased() const;
@@ -263,6 +265,7 @@ private:
     std::unordered_map<std::string, std::optional<std::string>> m_scriptBitmapPathByKey;
     std::unordered_map<std::string, std::optional<MapAssetBitmapPixelsResult>> m_scriptBitmapPixelsByKey;
     MapRegistry m_mapRegistry;
+    LocalizationCatalog m_localizationCatalog;
     MapStats m_mapStats;
     MonsterTable m_monsterTable;
     MonsterProjectileTable m_monsterProjectileTable;

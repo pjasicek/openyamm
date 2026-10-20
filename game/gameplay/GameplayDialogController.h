@@ -38,6 +38,7 @@ class Mm9SkillTrainerTable;
 class Mm9TransportRouteTable;
 struct HouseEntry;
 class GameplayScreenRuntime;
+class LocalizationCatalog;
 
 class GameplayDialogController
 {
@@ -73,6 +74,7 @@ public:
         const MergedTeacherAutonoteTable *pTeacherAutonoteTable = nullptr;
         bool dialogueHudActive = false;
         const SpellTable *pSpellTable = nullptr;
+        const LocalizationCatalog *pLocalizationCatalog = nullptr;
     };
 
     struct Result

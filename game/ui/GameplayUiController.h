@@ -19,6 +19,8 @@
 
 namespace OpenYAMM::Game
 {
+class LocalizationCatalog;
+
 class GameplayUiController
 {
 public:
@@ -71,6 +73,7 @@ public:
     };
 
     static bool houseShopModeSupportsItemInspection(HouseShopMode mode);
+    void bindLocalizationCatalog(const LocalizationCatalog *pLocalizationCatalog);
 
     enum class InventoryNestedOverlayMode
     {
@@ -663,5 +666,6 @@ private:
 
     State m_state;
     State *m_pExternalState = nullptr;
+    const LocalizationCatalog *m_pLocalizationCatalog = nullptr;
 };
 }

@@ -4008,7 +4008,8 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
         context.pNewsProfessionTopicTable,
         context.pNpcBtbTable,
         context.pTeacherTopicTable,
-        context.pContinentSettingTable
+        context.pContinentSettingTable,
+        context.pLocalizationCatalog
     ));
 
     if (context.eventRuntimeState.pendingDialogueContext.has_value()

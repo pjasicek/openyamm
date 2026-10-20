@@ -22,11 +22,13 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <initializer_list>
 #include <iostream>
 #include <optional>
 #include <random>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -36,6 +38,46 @@ namespace
 {
 constexpr bool VerboseMapLoadLogging = false;
 constexpr const char *WeatherRulesPath = "engine/rendering/weather/weather.yml";
+
+void registerLocalizedTableTranslations(
+    LocalizationCatalog &catalog,
+    const std::vector<std::vector<std::string>> &sourceRows,
+    const std::vector<std::vector<std::string>> &localizedRows,
+    std::initializer_list<size_t> columns)
+{
+    std::unordered_map<std::string, const std::vector<std::string> *> localizedRowsByKey;
+    for (const std::vector<std::string> &row : localizedRows)
+    {
+        if (!row.empty() && !row.front().empty())
+        {
+            localizedRowsByKey[row.front()] = &row;
+        }
+    }
+
+    for (const std::vector<std::string> &sourceRow : sourceRows)
+    {
+        if (sourceRow.empty())
+        {
+            continue;
+        }
+
+        const std::unordered_map<std::string, const std::vector<std::string> *>::const_iterator localizedIterator =
+            localizedRowsByKey.find(sourceRow.front());
+        if (localizedIterator == localizedRowsByKey.end())
+        {
+            continue;
+        }
+
+        const std::vector<std::string> &localizedRow = *localizedIterator->second;
+        for (size_t column : columns)
+        {
+            if (column < sourceRow.size() && column < localizedRow.size())
+            {
+                catalog.addExactTranslation(sourceRow[column], localizedRow[column]);
+            }
+        }
+    }
+}
 
 double millisecondsFromNanoseconds(uint64_t nanoseconds)
 {
@@ -1652,6 +1694,11 @@ bool GameDataLoader::loadInternal(
     m_scriptBitmapPathByKey.clear();
     m_scriptBitmapPixelsByKey.clear();
 
+    if (!m_localizationCatalog.load(assetFileSystem, m_language))
+    {
+        return false;
+    }
+
     if (!loadMapStats(assetFileSystem))
     {
         return false;
@@ -1950,6 +1997,11 @@ bool GameDataLoader::loadMapByFileNameForDecorationPlacements(
 const std::vector<LoadedTableSummary> &GameDataLoader::getLoadedTables() const
 {
     return m_loadedTables;
+}
+
+const LocalizationCatalog &GameDataLoader::getLocalizationCatalog() const
+{
+    return m_localizationCatalog;
 }
 
 const std::optional<MapAssetInfo> &GameDataLoader::getSelectedMap() const
@@ -2897,6 +2949,26 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
             groupRows))
     {
         return false;
+    }
+
+    if (m_language != "en")
+    {
+        std::vector<std::vector<std::string>> sourceGreetingRows;
+        std::vector<std::vector<std::string>> sourceTextRows;
+        std::vector<std::vector<std::string>> sourceTopicRows;
+        std::vector<std::vector<std::string>> sourceNewsRows;
+        if (!loadTextTableRows(assetFileSystem, engineDataTablePath("npc_greet.txt"), sourceGreetingRows)
+            || !loadTextTableRows(assetFileSystem, engineDataTablePath("npc_topic_text.txt"), sourceTextRows)
+            || !loadTextTableRows(assetFileSystem, engineDataTablePath("npc_topic.txt"), sourceTopicRows)
+            || !loadTextTableRows(assetFileSystem, engineDataTablePath("npc_news.txt"), sourceNewsRows))
+        {
+            return false;
+        }
+
+        registerLocalizedTableTranslations(m_localizationCatalog, sourceGreetingRows, greetingRows, {1, 2});
+        registerLocalizedTableTranslations(m_localizationCatalog, sourceTextRows, textRows, {1});
+        registerLocalizedTableTranslations(m_localizationCatalog, sourceTopicRows, topicRows, {1});
+        registerLocalizedTableTranslations(m_localizationCatalog, sourceNewsRows, newsRows, {1});
     }
 
     if (!m_npcDialogTable.loadGreetingsFromRows(greetingRows)

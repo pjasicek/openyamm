@@ -1,5 +1,7 @@
 #include "game/ui/GameplayUiController.h"
 
+#include "game/localization/LocalizationCatalog.h"
+
 #include <algorithm>
 #include <iostream>
 #include <optional>
@@ -7,6 +9,11 @@
 
 namespace OpenYAMM::Game
 {
+void GameplayUiController::bindLocalizationCatalog(const LocalizationCatalog *pLocalizationCatalog)
+{
+    m_pLocalizationCatalog = pLocalizationCatalog;
+}
+
 namespace
 {
 const std::vector<std::string> GameplayLayoutFiles = {
@@ -590,7 +597,9 @@ void GameplayUiController::setStatusBarEvent(
         return;
     }
 
-    state.statusBar.eventText = text;
+    state.statusBar.eventText = m_pLocalizationCatalog != nullptr
+        ? m_pLocalizationCatalog->translateText(text)
+        : text;
     state.statusBar.eventRemainingSeconds = std::max(0.0f, durationSeconds);
     state.statusBar.eventPriority = priority;
 }
@@ -616,7 +625,9 @@ void GameplayUiController::setStatusBarHoverText(const std::string &text)
         return;
     }
 
-    state.statusBar.hoverText = text;
+    state.statusBar.hoverText = m_pLocalizationCatalog != nullptr
+        ? m_pLocalizationCatalog->translateText(text)
+        : text;
 }
 
 void GameplayUiController::clearStatusBarHoverText()
@@ -655,6 +666,21 @@ void GameplayUiController::clearEventDialog()
 
 void GameplayUiController::setEventDialogContent(const EventDialogContent &content)
 {
-    resolvedState().eventDialog.content = content;
+    EventDialogContent localizedContent = content;
+    if (m_pLocalizationCatalog != nullptr)
+    {
+        localizedContent.houseTitle = m_pLocalizationCatalog->translateText(localizedContent.houseTitle);
+        localizedContent.title = m_pLocalizationCatalog->translateText(localizedContent.title);
+        for (std::string &line : localizedContent.lines)
+        {
+            line = m_pLocalizationCatalog->translateText(line);
+        }
+        for (EventDialogAction &action : localizedContent.actions)
+        {
+            action.label = m_pLocalizationCatalog->translateText(action.label);
+            action.disabledReason = m_pLocalizationCatalog->translateText(action.disabledReason);
+        }
+    }
+    resolvedState().eventDialog.content = std::move(localizedContent);
 }
 }

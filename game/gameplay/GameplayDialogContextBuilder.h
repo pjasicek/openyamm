@@ -15,6 +15,7 @@ class Mm9RudeDialogueTable;
 class Mm9MapTransitionTable;
 class Mm9SkillTrainerTable;
 class Mm9TransportRouteTable;
+class LocalizationCatalog;
 
 inline GameplayDialogController::Context buildGameplayDialogContext(
     GameplayUiController &uiController,
@@ -45,7 +46,8 @@ inline GameplayDialogController::Context buildGameplayDialogContext(
     const MergedContinentSettingTable *pContinentSettingTable = nullptr,
     const MergedTeacherTopicTable *pTeacherTopicTable = nullptr,
     const MergedTeacherAutonoteTable *pTeacherAutonoteTable = nullptr,
-    const SpellTable *pSpellTable = nullptr)
+    const SpellTable *pSpellTable = nullptr,
+    const LocalizationCatalog *pLocalizationCatalog = nullptr)
 {
     GameplayDialogController::Context context = {
         uiController,
@@ -76,7 +78,8 @@ inline GameplayDialogController::Context buildGameplayDialogContext(
         pTeacherTopicTable,
         pTeacherAutonoteTable,
         dialogueHudActive,
-        pSpellTable
+        pSpellTable,
+        pLocalizationCatalog
     };
     return context;
 }

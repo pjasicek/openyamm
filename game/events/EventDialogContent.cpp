@@ -1,5 +1,7 @@
 #include "game/events/EventDialogContent.h"
 
+#include "game/localization/LocalizationCatalog.h"
+
 #include "game/events/ISceneEventContext.h"
 #include "game/gameplay/ArenaRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
@@ -983,7 +985,8 @@ EventDialogContent buildEventDialogContent(
     const MergedNewsProfessionTopicTable *pNewsProfessionTopicTable,
     const MergedNpcBtbTable *pNpcBtbTable,
     const MergedTeacherTopicTable *pTeacherTopicTable,
-    const MergedContinentSettingTable *pContinentSettingTable
+    const MergedContinentSettingTable *pContinentSettingTable,
+    const LocalizationCatalog *pLocalizationCatalog
 )
 {
     EventDialogContent dialog = {};
@@ -1054,8 +1057,10 @@ EventDialogContent buildEventDialogContent(
             messageIndex < eventRuntimeState.messages.size();
             ++messageIndex)
         {
-            const std::vector<std::string> wrappedLines =
-                wrapDialogText(eventRuntimeState.messages[messageIndex], MaxLineWidth);
+            const std::string message = pLocalizationCatalog != nullptr
+                ? pLocalizationCatalog->translateText(eventRuntimeState.messages[messageIndex])
+                : eventRuntimeState.messages[messageIndex];
+            const std::vector<std::string> wrappedLines = wrapDialogText(message, MaxLineWidth);
             eventMessageLines.insert(eventMessageLines.end(), wrappedLines.begin(), wrappedLines.end());
         }
     }

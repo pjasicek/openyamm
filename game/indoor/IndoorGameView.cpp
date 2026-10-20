@@ -2339,7 +2339,8 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
         &m_gameSession.data().mergedContinentSettingTable(),
         &m_gameSession.data().mergedTeacherTopicTable(),
         &m_gameSession.data().mergedTeacherAutonoteTable(),
-        &m_gameSession.data().spellTable());
+        &m_gameSession.data().spellTable(),
+        &m_gameSession.data().localizationCatalog());
 }
 
 } // namespace OpenYAMM::Game

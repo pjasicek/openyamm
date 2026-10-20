@@ -1329,7 +1329,8 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         &view.data().mergedContinentSettingTable(),
         &view.data().mergedTeacherTopicTable(),
         &view.data().mergedTeacherAutonoteTable(),
-        &view.data().spellTable());
+        &view.data().spellTable(),
+        &view.data().localizationCatalog());
 }
 
 void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &view)

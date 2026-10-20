@@ -18,6 +18,7 @@
 namespace OpenYAMM::Game
 {
 class Party;
+class LocalizationCatalog;
 class MergedNpcProfessionTable;
 class MergedNewsProfessionTopicTable;
 class MergedNpcBtbTable;
@@ -162,6 +163,7 @@ EventDialogContent buildEventDialogContent(
     const MergedNewsProfessionTopicTable *pNewsProfessionTopicTable = nullptr,
     const MergedNpcBtbTable *pNpcBtbTable = nullptr,
     const MergedTeacherTopicTable *pTeacherTopicTable = nullptr,
-    const MergedContinentSettingTable *pContinentSettingTable = nullptr
+    const MergedContinentSettingTable *pContinentSettingTable = nullptr,
+    const LocalizationCatalog *pLocalizationCatalog = nullptr
 );
 }

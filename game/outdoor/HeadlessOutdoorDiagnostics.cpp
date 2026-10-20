@@ -2079,7 +2079,8 @@ EventDialogContent buildHeadlessDialog(
         &gameDataLoader.getMergedNewsProfessionTopicTable(),
         &gameDataLoader.getMergedNpcBtbTable(),
         nullptr,
-        &gameDataLoader.getMergedContinentSettingTable()
+        &gameDataLoader.getMergedContinentSettingTable(),
+        &gameDataLoader.getLocalizationCatalog()
     );
 }
 
@@ -3767,7 +3768,8 @@ EventDialogContent buildScenarioDialog(
         &gameDataLoader.getMergedNewsProfessionTopicTable(),
         &gameDataLoader.getMergedNpcBtbTable(),
         nullptr,
-        &gameDataLoader.getMergedContinentSettingTable()
+        &gameDataLoader.getMergedContinentSettingTable(),
+        &gameDataLoader.getLocalizationCatalog()
     );
 }
 

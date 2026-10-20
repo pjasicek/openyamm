@@ -565,7 +565,8 @@ GameplayDialogController::Context GameplayScreenRuntime::buildDialogContext(Even
         &m_session.data().mergedContinentSettingTable(),
         &m_session.data().mergedTeacherTopicTable(),
         &m_session.data().mergedTeacherAutonoteTable(),
-        &m_session.data().spellTable());
+        &m_session.data().spellTable(),
+        &m_session.data().localizationCatalog());
 }
 
 void GameplayScreenRuntime::presentActiveEventDialog()
@@ -3805,6 +3806,9 @@ void GameplayScreenRuntime::renderLayoutLabel(
 {
     HudLayoutElement renderedLayout = layout;
     ResolvedHudLayoutElement renderedRect = resolved;
+    const std::string localizedLabel = m_session.hasDataRepository()
+        ? m_session.data().localizationCatalog().translateText(label)
+        : label;
     const GameplayInputFrame *pInput = currentGameplayInputFrame();
     const HudLayoutElement *pButton = &layout;
     while (pButton != nullptr && !pButton->interactive)
@@ -3823,7 +3827,7 @@ void GameplayScreenRuntime::renderLayoutLabel(
     GameplayHudCommon::renderLayoutLabel(
         renderedLayout,
         renderedRect,
-        label,
+        localizedLabel,
         [this](const std::string &fontName) -> const GameplayHudFontData *
         {
             const std::optional<HudFontHandle> font = uiRuntime().findHudFont(fontName);

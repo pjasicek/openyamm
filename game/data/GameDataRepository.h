@@ -2,6 +2,7 @@
 
 #include "game/arcomage/ArcomageTypes.h"
 #include "game/items/ItemEnchantTables.h"
+#include "game/localization/LocalizationCatalog.h"
 #include "game/mm9/Mm9MapTransition.h"
 #include "game/mm9/Mm9TeacherSchedule.h"
 #include "game/mm9/Mm9QuestMarkers.h"
@@ -50,6 +51,7 @@ public:
     void clear();
     void bind(const GameDataLoader &loader);
     bool isBound() const;
+    const LocalizationCatalog &localizationCatalog() const;
 
     const MapStats &mapStats() const;
     const std::vector<MapStatsEntry> &mapEntries() const;
@@ -108,6 +110,7 @@ public:
     const MergedTeacherAutonoteTable &mergedTeacherAutonoteTable() const;
 
 private:
+    const LocalizationCatalog *m_pLocalizationCatalog = nullptr;
     const MapStats *m_pMapStats = nullptr;
     const MonsterTable *m_pMonsterTable = nullptr;
     const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;

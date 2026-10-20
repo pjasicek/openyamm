@@ -6817,7 +6817,8 @@ void GameApplication::presentPendingInputPromptDialogResult(size_t previousMessa
         &m_gameDataLoader.getMergedNewsProfessionTopicTable(),
         &m_gameDataLoader.getMergedNpcBtbTable(),
         nullptr,
-        &m_gameDataLoader.getMergedContinentSettingTable());
+        &m_gameDataLoader.getMergedContinentSettingTable(),
+        &m_gameDataLoader.getLocalizationCatalog());
 
 }
 

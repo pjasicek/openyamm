@@ -199,6 +199,10 @@ void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
     m_mm9QuestMarkerCache.clear();
     ++m_mm9QuestMarkerMapRevision;
     m_gameplayUiRuntime.bindDataRepository(pDataRepository);
+    m_gameplayUiController.bindLocalizationCatalog(
+        pDataRepository != nullptr && pDataRepository->isBound()
+            ? &pDataRepository->localizationCatalog()
+            : nullptr);
     GameMechanics::bindClassMultiplierTable(
         pDataRepository != nullptr && pDataRepository->isBound() ? &pDataRepository->classMultiplierTable() : nullptr);
 
