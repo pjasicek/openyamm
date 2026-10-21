@@ -2472,28 +2472,11 @@ bool GameDataLoader::isDataRow(const std::vector<std::string> &row)
 
 bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem)
 {
-    const std::string mapStatsPath = dataTablePath("map_stats.txt");
-    const std::optional<std::string> fileContents = assetFileSystem.readTextFile(mapStatsPath);
-
-    if (!fileContents)
-    {
-        std::cerr << "Failed to read typed gameplay table: " << mapStatsPath << '\n';
-        return false;
-    }
-
-    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*fileContents);
-
-    if (!parsedTable)
-    {
-        std::cerr << "Failed to parse typed gameplay table: " << mapStatsPath << '\n';
-        return false;
-    }
-
     std::vector<std::vector<std::string>> rows;
-
-    for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
+    if (!loadFirstTextTableRows(assetFileSystem, localizedEngineDataTablePaths("map_stats.txt"), rows))
     {
-        rows.push_back(parsedTable->getRow(rowIndex));
+        std::cerr << "Failed to read typed gameplay table: " << dataTablePath("map_stats.txt") << '\n';
+        return false;
     }
 
     if (!m_mapStats.loadFromRows(rows, DefaultWorldId))
@@ -2553,7 +2536,10 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     const std::string monsterDataPath = engineDataTablePath("monster_data.txt");
 
-    if (!loadTextTableRows(assetFileSystem, monsterDataPath, baseMonsterDataRows))
+    if (!loadFirstTextTableRows(
+            assetFileSystem,
+            localizedEngineDataTablePaths("monster_data.txt"),
+            baseMonsterDataRows))
     {
         return false;
     }
@@ -2731,7 +2717,7 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
     std::vector<std::vector<std::string>> rows;
     const std::string sourcePath = dataTablePath("house_data.txt");
 
-    if (!loadTextTableRows(assetFileSystem, sourcePath, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, localizedEngineDataTablePaths("house_data.txt"), rows))
     {
         return false;
     }
@@ -4507,10 +4493,12 @@ bool GameDataLoader::loadItemEnchantTables(const Engine::AssetFileSystem &assetF
 {
     std::vector<std::vector<std::string>> standardRows;
     std::vector<std::vector<std::string>> specialRows;
+    std::vector<std::vector<std::string>> semanticStandardRows;
+    std::vector<std::vector<std::string>> semanticSpecialRows;
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineDataTablePath("standard_item_enchants.txt")},
+            localizedEngineDataTablePaths("standard_item_enchants.txt"),
             standardRows))
     {
         std::cerr << "Failed to read standard item enchant table: STDITEMS.TXT\n";
@@ -4519,14 +4507,23 @@ bool GameDataLoader::loadItemEnchantTables(const Engine::AssetFileSystem &assetF
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {engineDataTablePath("special_item_enchants.txt")},
+            localizedEngineDataTablePaths("special_item_enchants.txt"),
             specialRows))
     {
         std::cerr << "Failed to read special item enchant table: SPCITEMS.TXT\n";
         return false;
     }
 
-    if (!m_standardItemEnchantTable.load(standardRows) || !m_specialItemEnchantTable.load(specialRows))
+    if (!loadTextTableRows(
+            assetFileSystem,
+            engineDataTablePath("standard_item_enchants.txt"),
+            semanticStandardRows)
+        || !loadTextTableRows(
+            assetFileSystem,
+            engineDataTablePath("special_item_enchants.txt"),
+            semanticSpecialRows)
+        || !m_standardItemEnchantTable.load(standardRows, semanticStandardRows)
+        || !m_specialItemEnchantTable.load(specialRows, semanticSpecialRows))
     {
         std::cerr << "Failed to parse item enchant tables: STDITEMS / SPCITEMS\n";
         return false;

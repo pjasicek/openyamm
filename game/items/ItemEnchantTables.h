@@ -143,6 +143,9 @@ class StandardItemEnchantTable
 {
 public:
     bool load(const std::vector<std::vector<std::string>> &rows);
+    bool load(
+        const std::vector<std::vector<std::string>> &localizedRows,
+        const std::vector<std::vector<std::string>> &semanticRows);
     const std::vector<StandardItemEnchantEntry> &entries() const;
     const StandardItemEnchantEntry *get(uint16_t enchantId) const;
 
@@ -154,6 +157,9 @@ class SpecialItemEnchantTable
 {
 public:
     bool load(const std::vector<std::vector<std::string>> &rows);
+    bool load(
+        const std::vector<std::vector<std::string>> &localizedRows,
+        const std::vector<std::vector<std::string>> &semanticRows);
     const std::vector<SpecialItemEnchantEntry> &entries() const;
     const SpecialItemEnchantEntry *get(uint16_t enchantId) const;
 

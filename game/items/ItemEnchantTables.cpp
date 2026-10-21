@@ -583,20 +583,35 @@ ItemEnchantPriceModifier parsePriceModifier(const std::string &value)
 
 bool StandardItemEnchantTable::load(const std::vector<std::vector<std::string>> &rows)
 {
+    return load(rows, rows);
+}
+
+bool StandardItemEnchantTable::load(
+    const std::vector<std::vector<std::string>> &localizedRows,
+    const std::vector<std::vector<std::string>> &semanticRows)
+{
     m_entries.clear();
 
-    for (const std::vector<std::string> &row : rows)
+    if (localizedRows.size() != semanticRows.size())
     {
+        return false;
+    }
+
+    for (size_t rowIndex = 0; rowIndex < localizedRows.size(); ++rowIndex)
+    {
+        const std::vector<std::string> &row = localizedRows[rowIndex];
+        const std::vector<std::string> &semanticRow = semanticRows[rowIndex];
         const std::string statName = getCell(row, 0);
         const std::string suffix = getCell(row, 1);
+        const std::string semanticStatName = getCell(semanticRow, 0);
 
-        if (statName.empty() || suffix.empty() || statName == "Bonus Stat")
+        if (statName.empty() || suffix.empty() || semanticStatName == "Bonus Stat")
         {
             continue;
         }
 
         StandardItemEnchantEntry entry = {};
-        entry.kind = parseStandardEnchantKind(statName);
+        entry.kind = parseStandardEnchantKind(semanticStatName);
         entry.statName = statName;
         entry.suffix = suffix;
 
@@ -629,20 +644,36 @@ const StandardItemEnchantEntry *StandardItemEnchantTable::get(uint16_t enchantId
 
 bool SpecialItemEnchantTable::load(const std::vector<std::vector<std::string>> &rows)
 {
+    return load(rows, rows);
+}
+
+bool SpecialItemEnchantTable::load(
+    const std::vector<std::vector<std::string>> &localizedRows,
+    const std::vector<std::vector<std::string>> &semanticRows)
+{
     m_entries.clear();
 
-    for (const std::vector<std::string> &row : rows)
+    if (localizedRows.size() != semanticRows.size())
     {
+        return false;
+    }
+
+    for (size_t rowIndex = 0; rowIndex < localizedRows.size(); ++rowIndex)
+    {
+        const std::vector<std::string> &row = localizedRows[rowIndex];
+        const std::vector<std::string> &semanticRow = semanticRows[rowIndex];
         const std::string name = getCell(row, 0);
         const std::string suffix = getCell(row, 1);
+        const std::string semanticName = getCell(semanticRow, 0);
+        const std::string semanticSuffix = getCell(semanticRow, 1);
 
-        if (name.empty() || suffix.empty() || name == "Bonus Stat")
+        if (name.empty() || suffix.empty() || semanticName == "Bonus Stat")
         {
             continue;
         }
 
         SpecialItemEnchantEntry entry = {};
-        entry.kind = parseSpecialEnchantKind(suffix);
+        entry.kind = parseSpecialEnchantKind(semanticSuffix);
         entry.name = name;
         entry.suffix = suffix;
 
@@ -655,7 +686,7 @@ bool SpecialItemEnchantTable::load(const std::vector<std::vector<std::string>> &
         const std::string rarityText = getCell(row, 15);
         entry.rarityLevel = rarityText.empty() ? 0 : rarityText[0];
         entry.description = getCell(row, 16);
-        entry.displayAsPrefix = !toLowerCopy(entry.suffix).starts_with("of ");
+        entry.displayAsPrefix = !toLowerCopy(semanticSuffix).starts_with("of ");
         m_entries.push_back(std::move(entry));
     }
 

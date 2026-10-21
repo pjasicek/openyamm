@@ -1,6 +1,7 @@
 add_executable(openyamm_unit_tests
     AssetFileSystemTests.cpp
     ItemVisualTests.cpp
+    ItemEnchantTableLocalizationTests.cpp
     ActorPathRuntimeTests.cpp
     ActorCrowdingTests.cpp
     AudioRegressionTests.cpp
