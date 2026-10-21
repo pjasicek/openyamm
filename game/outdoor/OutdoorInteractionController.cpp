@@ -1923,7 +1923,8 @@ std::string OutdoorInteractionController::resolveActorInspectDisplayName(
     // MMerge assigns NPC_ID to the monster; the original display path then uses NameAndTitle(NPC).
     return view.data().mergedNpcProfessionTable().nameAndTitle(
         resolution->generatedName,
-        resolution->generatedProfessionId);
+        resolution->generatedProfessionId,
+        view.data().localizationCatalog().language());
 }
 
 GameplayWorldHit OutdoorInteractionController::translateInspectHitToGameplayWorldHit(

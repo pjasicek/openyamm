@@ -951,7 +951,8 @@ std::string generatedActorDisplayTitle(
 
     return gameSession.data().mergedNpcProfessionTable().nameAndTitle(
         resolution.generatedName,
-        resolution.generatedProfessionId);
+        resolution.generatedProfessionId,
+        gameSession.data().localizationCatalog().language());
 }
 }
 

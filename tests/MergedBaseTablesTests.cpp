@@ -496,6 +496,33 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(transportLocationTable.entries()[0].mapName, "Out03.odm");
 }
 
+TEST_CASE("Russian NPC profession and random name tables preserve localized display forms")
+{
+    OpenYAMM::Game::MergedNpcProfessionTable professionTable;
+    OpenYAMM::Game::MergedNpcProfessionTable englishProfessionTable;
+    OpenYAMM::Game::MergedNpcNameTable nameTable;
+
+    REQUIRE(professionTable.loadFromRows(loadRows("ru/npc_professions.txt")));
+    REQUIRE(englishProfessionTable.loadFromRows(loadRows("npc_professions.txt")));
+    REQUIRE(nameTable.loadFromRows(loadRows("ru/npc_names.txt")));
+
+    CHECK_EQ(professionTable.entries().size(), 78u);
+    const OpenYAMM::Game::MergedNpcProfessionEntry *pSmithProfession = professionTable.get(1u);
+    const OpenYAMM::Game::MergedNpcProfessionEntry *pPiperProfession = professionTable.get(43u);
+    REQUIRE(pSmithProfession != nullptr);
+    REQUIRE(pPiperProfession != nullptr);
+    CHECK_EQ(pSmithProfession->profession, "кузнец");
+    CHECK_EQ(pPiperProfession->profession, "волынщик");
+    CHECK_EQ(professionTable.nameAndTitle("Аарон", 1u, "ru"), "Аарон — кузнец");
+    CHECK_EQ(englishProfessionTable.nameAndTitle("Aaron", 1u), "Aaron the Smith");
+    CHECK_EQ(nameTable.maleNameCount(), 540u);
+    CHECK_EQ(nameTable.femaleNameCount(), 310u);
+    CHECK_EQ(nameTable.maleNames().front(), "Аарон");
+    CHECK_EQ(nameTable.maleNames()[1], "Эйб");
+    CHECK_EQ(nameTable.maleNames()[72], "Брайан");
+    CHECK_EQ(nameTable.femaleNames().front(), "Элис");
+}
+
 TEST_CASE("race skill rules apply additive effective caps without changing class caps")
 {
     const OpenYAMM::Game::ClassSkillTable classSkillTable = loadClassSkillTableWithRaceRules();

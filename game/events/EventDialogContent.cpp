@@ -1383,7 +1383,10 @@ EventDialogContent buildEventDialogContent(
         else if (pNpc != nullptr && !pNpc->name.empty())
         {
             dialog.title = pNpcProfessionTable != nullptr
-                ? pNpcProfessionTable->nameAndTitle(pNpc->name, pNpc->professionId)
+                ? pNpcProfessionTable->nameAndTitle(
+                    pNpc->name,
+                    pNpc->professionId,
+                    pLocalizationCatalog != nullptr ? pLocalizationCatalog->language() : "en")
                 : pNpc->name;
         }
         else if (pGreeting != nullptr && !pGreeting->owner.empty())
