@@ -83,7 +83,7 @@ private:
         uint32_t colorAbgr = 0xffffffffu,
         float scale = 1.0f);
     void updateHumanInput(const LogicalLayout &layout, const std::vector<HandCardPlacement> &handPlacements);
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     void updateAndroidHumanInput(
         const LogicalLayout &layout,
         const std::vector<HandCardPlacement> &handPlacements);
@@ -115,7 +115,7 @@ private:
     ArcomageAi m_ai;
     ArcomageState m_state = {};
     mutable std::optional<size_t> m_hoveredHandIndex;
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     std::optional<size_t> m_androidPressedHandIndex;
 #endif
     bool m_escapeLatch = false;

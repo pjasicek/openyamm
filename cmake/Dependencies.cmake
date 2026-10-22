@@ -1,6 +1,7 @@
 include_guard(GLOBAL)
 
 include(FetchContent)
+include(${CMAKE_CURRENT_LIST_DIR}/SdlCocoaClipboard.cmake)
 
 if (POLICY CMP0169)
     cmake_policy(SET CMP0169 OLD)
@@ -64,6 +65,7 @@ function(openyamm_configure_sdl3)
 
     if (DEFINED OPENYAMM_SDL3_SOURCE_DIR AND IS_DIRECTORY "${OPENYAMM_SDL3_SOURCE_DIR}")
         add_subdirectory("${OPENYAMM_SDL3_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/sdl3")
+        openyamm_patch_sdl3_cocoa_clipboard()
         return()
     endif()
 
@@ -73,6 +75,7 @@ function(openyamm_configure_sdl3)
         URL_HASH ${OPENYAMM_SDL3_URL_HASH}
     )
     FetchContent_MakeAvailable(sdl3)
+    openyamm_patch_sdl3_cocoa_clipboard()
 endfunction()
 
 # Monocypher (BSD-2-Clause or CC0): Ed25519 checks of the updater's signed release manifests.
@@ -151,6 +154,10 @@ function(openyamm_configure_lua)
         )
 
         target_compile_features(openyamm_lua PUBLIC c_std_99)
+
+        if (IOS)
+            target_compile_definitions(openyamm_lua PRIVATE LUA_USE_IOS)
+        endif()
 
         if (UNIX)
             target_link_libraries(openyamm_lua PUBLIC m)
@@ -315,8 +322,10 @@ function(openyamm_fetch_bgfx_stack)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-gl-uniform-cache)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-gles-unpack-row-length)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-d3d11-compressed-updates)
+    openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-metal-compressed-updates)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-anisotropy-level)
     openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-gl-msaa-depth-resolve)
+    openyamm_patch_bgfx("${bgfxSourceDir}" bgfx-metal-ios-depth-format)
 
     if (NOT TARGET openyamm_bgfx_headers)
         add_library(openyamm_bgfx_headers INTERFACE)

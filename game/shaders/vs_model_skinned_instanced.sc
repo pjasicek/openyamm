@@ -14,7 +14,7 @@ uniform vec4 u_modelScroll;
 // palette is already in world space, so there is no model matrix.
 void main()
 {
-    mat4 skin = modelSkinMatrix(i_data1.w);
+    mat4 skin = modelSkinMatrix(i_data1.w, a_weight, a_indices, a_texcoord3, a_texcoord5);
     v_worldPosition = mul(skin, vec4(a_position, 1.0)).xyz;
     gl_Position = mul(u_viewProj, vec4(v_worldPosition, 1.0));
     v_texcoord0 = a_texcoord0 + u_modelScroll.xy;

@@ -783,7 +783,7 @@ int DebugConsole::mapOptionSearchScore(const MapOption &map, const std::string &
 
 void DebugConsole::renderConsoleWindow(int width, int height)
 {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     renderMobileConsoleWindow(width, height);
     return;
 #endif

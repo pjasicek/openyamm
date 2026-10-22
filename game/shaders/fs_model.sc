@@ -102,18 +102,19 @@ void modelPointLight(vec4 positionRadius, vec4 colorIntensity, vec3 worldPositio
     vec3 delta = positionRadius.xyz - worldPosition;
     float radius = max(positionRadius.w, 0.0001);
     float attenuation = max(1.0 - dot(delta, delta) / (radius * radius), 0.0);
-    vec3 point = colorIntensity.rgb * colorIntensity.w * attenuation * attenuation;
+    // "point" is a reserved word in the HLSL front end the Metal shader build goes through.
+    vec3 pointLight = colorIntensity.rgb * colorIntensity.w * attenuation * attenuation;
     if (specularOnly)
     {
         if (specularScale > 0.0)
         {
             highlights += modelSpecular(normal, view, modelNormalize(delta), base, metallic, roughness, specularScale)
-                * point;
+                * pointLight;
         }
         return;
     }
-    shaded += modelBrdf(normal, view, modelNormalize(delta), base, metallic, roughness, specularScale) * point;
-    lightLevel += point;
+    shaded += modelBrdf(normal, view, modelNormalize(delta), base, metallic, roughness, specularScale) * pointLight;
+    lightLevel += pointLight;
 }
 
 // Ordered 4x4 dither threshold in [0, 1) for screen-door LOD crossfades.

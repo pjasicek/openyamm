@@ -519,7 +519,7 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
 
     if (includeControls)
     {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
         const bool mobileGroundTargetConfirmSpell =
             isSpellId(pendingTargetState.spellId, SpellId::MeteorShower)
             || isSpellId(pendingTargetState.spellId, SpellId::Starburst);

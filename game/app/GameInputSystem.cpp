@@ -68,6 +68,15 @@ void suppressButtonWhileHeld(bool physicalHeld, bool &logicalHeld, bool &suppres
 
 void GameInputSystem::handleSdlEvent(const SDL_Event &event)
 {
+#if !defined(__ANDROID__) && !defined(OPENYAMM_IOS)
+    if ((event.type == SDL_EVENT_MOUSE_BUTTON_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_UP)
+        && event.button.button >= SDL_BUTTON_LEFT && event.button.button <= SDL_BUTTON_RIGHT)
+    {
+        m_pendingMouseButtonEvents[event.button.button - SDL_BUTTON_LEFT].push_back(event.button);
+        return;
+    }
+#endif
+
     if (event.type == SDL_EVENT_TEXT_INPUT)
     {
         if (event.text.text != nullptr)
@@ -91,7 +100,7 @@ void GameInputSystem::handleSdlEvent(const SDL_Event &event)
         }
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     if (event.type == SDL_EVENT_MOUSE_MOTION && event.motion.which != SDL_TOUCH_MOUSEID)
     {
         m_mobilePointerPosition.reset();
@@ -312,7 +321,14 @@ void GameInputSystem::updateFromEngineInput(
     m_frame.pointerX = pointerX;
     m_frame.pointerY = pointerY;
 
-#if defined(__ANDROID__)
+    const bool physicalLeftMouseButtonHeld = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const bool physicalRightMouseButtonHeld = (mouseButtons & SDL_BUTTON_RMASK) != 0;
+    const bool physicalMiddleMouseButtonHeld = (mouseButtons & SDL_BUTTON_MMASK) != 0;
+    bool leftMouseButtonHeld = !blockGameplayInput && physicalLeftMouseButtonHeld;
+    bool rightMouseButtonHeld = !blockGameplayInput && physicalRightMouseButtonHeld;
+    bool middleMouseButtonHeld = !blockGameplayInput && physicalMiddleMouseButtonHeld;
+
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     if (m_mobilePointerPosition)
     {
         m_frame.pointerX = (*m_mobilePointerPosition)[0] * static_cast<float>(screenWidth);
@@ -320,7 +336,35 @@ void GameInputSystem::updateFromEngineInput(
     }
 #endif
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(OPENYAMM_IOS)
+    // A quick click, such as a trackpad tap, can press and release between two frames, and the polled state then
+    // misses it. Apply queued button events one per frame at their own positions: the UI derives clicks and drags
+    // from the held state of consecutive frames.
+    const auto applyPendingMouseButton =
+        [this, blockGameplayInput](size_t buttonIndex, bool suppressed, bool &held)
+        {
+            std::deque<SDL_MouseButtonEvent> &events = m_pendingMouseButtonEvents[buttonIndex];
+
+            if (blockGameplayInput || suppressed)
+            {
+                events.clear();
+                return;
+            }
+
+            if (!events.empty())
+            {
+                const SDL_MouseButtonEvent event = events.front();
+                events.pop_front();
+                held = event.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
+                m_frame.pointerX = event.x;
+                m_frame.pointerY = event.y;
+            }
+        };
+
+    applyPendingMouseButton(0, m_suppressLeftMouseButtonUntilReleased, leftMouseButtonHeld);
+    applyPendingMouseButton(1, m_suppressMiddleMouseButtonUntilReleased, middleMouseButtonHeld);
+    applyPendingMouseButton(2, m_suppressRightMouseButtonUntilReleased, rightMouseButtonHeld);
+
     SDL_Window *pMouseLookWindow = SDL_GetMouseFocus();
 
     if (pMouseLookWindow == nullptr)
@@ -342,7 +386,7 @@ void GameInputSystem::updateFromEngineInput(
     float relativeMouseX = 0.0f;
     float relativeMouseY = 0.0f;
     SDL_GetRelativeMouseState(&relativeMouseX, &relativeMouseY);
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     m_frame.relativeMouseX = 0.0f;
     m_frame.relativeMouseY = 0.0f;
 #else
@@ -351,13 +395,6 @@ void GameInputSystem::updateFromEngineInput(
     m_frame.relativeMouseY = blockGameplayInput ? 0.0f
         : (settings.invertMouseY ? -relativeMouseY : relativeMouseY) * mouseSensitivityScale;
 #endif
-
-    const bool physicalLeftMouseButtonHeld = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-    const bool physicalRightMouseButtonHeld = (mouseButtons & SDL_BUTTON_RMASK) != 0;
-    const bool physicalMiddleMouseButtonHeld = (mouseButtons & SDL_BUTTON_MMASK) != 0;
-    bool leftMouseButtonHeld = !blockGameplayInput && physicalLeftMouseButtonHeld;
-    bool rightMouseButtonHeld = !blockGameplayInput && physicalRightMouseButtonHeld;
-    bool middleMouseButtonHeld = !blockGameplayInput && physicalMiddleMouseButtonHeld;
 
     suppressButtonWhileHeld(
         physicalLeftMouseButtonHeld,
@@ -417,7 +454,7 @@ void GameInputSystem::updateFromEngineInput(
         actionHeld[keyboardActionIndex(definition.action)] = held;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     const bool useMobileGameplayTouchControls = mobileGameplayTouchControlsEnabled && !blockGameplayInput;
     const bool useMobileJumpGesture = useMobileGameplayTouchControls && mobileJumpGestureEnabled;
     const auto setMobileActionHeld =

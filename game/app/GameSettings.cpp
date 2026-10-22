@@ -463,8 +463,9 @@ GameSettings GameSettings::createDefault()
     settings.assetScaleProfile.preferRestoredIcons = true;
     // These are the only defaults: release packages ship no settings file, and a player's settings.ini holds only
     // their own choices. The surface texture tier is the one cooked tier the packages carry per platform
-    // (tools/cook_surface_textures.py), x4 on desktop and x2 on Android.
-#if defined(__ANDROID__)
+    // (tools/cook_surface_textures.py), x4 on desktop and x2 on Android. iOS GPUs have no BC formats, so iOS uses the
+    // Android packages (ASTC/ETC2, x2 surfaces) and the Android defaults.
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     settings.assetScaleProfile.textures = Engine::AssetScaleTier::X2;
     settings.soundVolume = 2;
     settings.voiceVolume = 2;

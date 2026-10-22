@@ -17,21 +17,22 @@ mat4 modelJointMatrix(float row, float joint)
 
 // Linear-blend skin matrix of up to eight influences, fetched once and shared by position and normal. Joints carry
 // rotation, translation and uniform scale, so the blended matrix also transforms normals (renormalized after).
-mat4 modelSkinMatrix(float row)
+// Attributes are parameters: HLSL and Metal pass vertex inputs to main, not as globals.
+mat4 modelSkinMatrix(float row, vec4 weights, uvec4 indices, vec4 weights2, uvec4 indices2)
 {
-    mat4 skin = a_weight[0] * modelJointMatrix(row, float(a_indices[0]));
+    mat4 skin = weights[0] * modelJointMatrix(row, float(indices[0]));
     for (int index = 1; index < 4; ++index)
     {
-        if (a_weight[index] > 0.0)
+        if (weights[index] > 0.0)
         {
-            skin += a_weight[index] * modelJointMatrix(row, float(a_indices[index]));
+            skin += weights[index] * modelJointMatrix(row, float(indices[index]));
         }
     }
     for (int index = 0; index < 4; ++index)
     {
-        if (a_texcoord3[index] > 0.0)
+        if (weights2[index] > 0.0)
         {
-            skin += a_texcoord3[index] * modelJointMatrix(row, float(a_texcoord5[index]));
+            skin += weights2[index] * modelJointMatrix(row, float(indices2[index]));
         }
     }
     return skin;

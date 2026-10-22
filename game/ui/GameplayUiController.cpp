@@ -11,7 +11,7 @@ namespace
 {
 const std::vector<std::string> GameplayLayoutFiles = {
     "Data/ui/gameplay/gameplay.yml",
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     "Data/ui/gameplay/touch_controls.yml",
 #endif
     "Data/ui/gameplay/chest.yml",

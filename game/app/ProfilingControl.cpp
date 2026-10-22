@@ -14,7 +14,7 @@
 #include <unistd.h>
 #endif
 
-#if defined(__GNUC__) && !defined(__ANDROID__) && !defined(_WIN32)
+#if defined(__GNUC__) && defined(__linux__) && !defined(__ANDROID__)
 extern "C" void __gmon_start__(void) __attribute__((weak));
 extern "C" void moncontrol(int mode) __attribute__((weak));
 #endif
@@ -163,7 +163,7 @@ private:
 
 void setGprofProfilingEnabled(bool enabled)
 {
-#if defined(__GNUC__) && !defined(__ANDROID__) && !defined(_WIN32)
+#if defined(__GNUC__) && defined(__linux__) && !defined(__ANDROID__)
     static bool profilingEnabled = true;
 
     if (__gmon_start__ != nullptr && moncontrol != nullptr && profilingEnabled != enabled)

@@ -661,7 +661,8 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
     {
         requestDelete();
     }
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(OPENYAMM_IOS)
+    // Phones pick no folders here; on iOS, Finder and the Files app reach the saves in the app's Documents folder.
     if (!saving)
     {
         if (action(prefix + "ImportButton", m_folderPick == nullptr))

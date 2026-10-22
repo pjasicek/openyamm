@@ -8,6 +8,11 @@ function(openyamm_configure_ffmpeg)
     find_program(OPENYAMM_FFMPEG_MAKE_PROGRAM make REQUIRED)
 
     if (NOT DEFINED OPENYAMM_FFMPEG_SOURCE_DIR OR OPENYAMM_FFMPEG_SOURCE_DIR STREQUAL "")
+        # The checkout may live outside the build tree (FETCHCONTENT_SOURCE_DIR_FFMPEG).
+        FetchContent_GetProperties(ffmpeg SOURCE_DIR OPENYAMM_FFMPEG_SOURCE_DIR)
+    endif()
+
+    if (OPENYAMM_FFMPEG_SOURCE_DIR STREQUAL "")
         set(OPENYAMM_FFMPEG_SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/ffmpeg-src")
     endif()
 
@@ -100,6 +105,36 @@ function(openyamm_configure_ffmpeg)
             --ranlib=${CMAKE_RANLIB}
             --strip=${CMAKE_STRIP}
             --nm=${CMAKE_NM}
+        )
+    elseif (IOS)
+        if (CMAKE_OSX_SYSROOT MATCHES "[Ss]imulator")
+            set(openyammFfmpegIosTarget "arm64-apple-ios${CMAKE_OSX_DEPLOYMENT_TARGET}-simulator")
+        else()
+            set(openyammFfmpegIosTarget "arm64-apple-ios${CMAKE_OSX_DEPLOYMENT_TARGET}")
+        endif()
+        list(APPEND openyammFfmpegConfigureArgs
+            --enable-cross-compile
+            --target-os=darwin
+            --arch=aarch64
+            --cc=${CMAKE_C_COMPILER}
+            --ar=${CMAKE_AR}
+            --ranlib=${CMAKE_RANLIB}
+            --sysroot=${CMAKE_OSX_SYSROOT}
+            "--extra-cflags=-target ${openyammFfmpegIosTarget}"
+            "--extra-ldflags=-target ${openyammFfmpegIosTarget}"
+        )
+    elseif (APPLE)
+        # Build for the SDK, architecture and deployment target of the rest of the macOS build.
+        set(openyammFfmpegAppleFlags "-isysroot ${CMAKE_OSX_SYSROOT}")
+        if (NOT CMAKE_OSX_ARCHITECTURES STREQUAL "")
+            string(APPEND openyammFfmpegAppleFlags " -arch ${CMAKE_OSX_ARCHITECTURES}")
+        endif()
+        if (NOT CMAKE_OSX_DEPLOYMENT_TARGET STREQUAL "")
+            string(APPEND openyammFfmpegAppleFlags " -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+        endif()
+        list(APPEND openyammFfmpegConfigureArgs
+            "--extra-cflags=${openyammFfmpegAppleFlags}"
+            "--extra-ldflags=${openyammFfmpegAppleFlags}"
         )
     endif()
 

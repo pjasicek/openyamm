@@ -27,7 +27,7 @@ constexpr float PlayCardMoveToTableSeconds = 7.0f * AnimationTickSeconds;
 constexpr float DiscardCardAnimationSeconds = 14.0f * AnimationTickSeconds;
 constexpr float AiTurnDelaySeconds = 0.75f;
 constexpr float ResultAutoCloseSeconds = 1.0f;
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
 constexpr float AndroidDiscardSwipeDistance = 40.0f;
 #endif
 constexpr uint32_t GrayTintColorAbgr = 0xff9c9c9cu;
@@ -206,7 +206,7 @@ void ArcomageScreen::drawScreen(float deltaSeconds)
         drawScreenText(layout, ArrusFontName, hoverText, LogicalWidth * 0.5f, 458.0f, true);
     }
 
-#if !defined(__ANDROID__)
+#if !defined(__ANDROID__) && !defined(OPENYAMM_IOS)
     if (m_state.mustDiscard)
     {
         drawScreenText(layout, ArrusFontName, "Right-click a card to discard.", LogicalWidth * 0.5f, 306.0f, true);
@@ -713,13 +713,13 @@ void ArcomageScreen::updateHumanInput(
 
     if (!m_hoveredHandIndex.has_value() || m_pLibrary == nullptr)
     {
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
         updateAndroidHumanInput(layout, handPlacements);
 #endif
         return;
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     updateAndroidHumanInput(layout, handPlacements);
 #else
     if (leftMouseJustPressed())
@@ -752,7 +752,7 @@ void ArcomageScreen::updateHumanInput(
     }
 }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
 void ArcomageScreen::updateAndroidHumanInput(
     const LogicalLayout &layout,
     const std::vector<HandCardPlacement> &handPlacements)

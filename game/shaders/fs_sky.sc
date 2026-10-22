@@ -146,10 +146,11 @@ vec3 belowHorizonFog(vec3 direction, float belowMode)
     return sea > 0.0 ? mix(horizon, skyDistantSeaDisplay(direction, horizon), sea) : horizon;
 }
 
-float skyDither()
+// The pixel position is a parameter: the Metal shader build sees gl_FragCoord only inside main().
+float skyDither(vec2 pixel)
 {
     // Breaks up 8-bit banding in the smooth gradient.
-    return (fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) / 255.0;
+    return (fract(sin(dot(pixel, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) / 255.0;
 }
 
 void main()
@@ -163,7 +164,7 @@ void main()
     // pixels are covered by terrain anyway: skip the sky layers.
     if (fogBelowHorizon && direction.z <= -0.012)
     {
-        gl_FragColor = vec4(belowHorizonFog(direction, belowMode) + skyDither(), 1.0);
+        gl_FragColor = vec4(belowHorizonFog(direction, belowMode) + skyDither(gl_FragCoord.xy), 1.0);
         return;
     }
 
@@ -257,5 +258,5 @@ void main()
         display = mix(display, belowHorizonFog(direction, belowMode), 1.0 - smoothstep(-0.012, 0.004, direction.z));
     }
 
-    gl_FragColor = vec4(display + skyDither(), 1.0);
+    gl_FragColor = vec4(display + skyDither(gl_FragCoord.xy), 1.0);
 }

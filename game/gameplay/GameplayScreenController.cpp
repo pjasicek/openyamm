@@ -697,7 +697,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         && !activeEventDialog
         && !hasActiveLootView
         && !houseShopActive;
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     const bool allowPortraitPointerInput =
         config.allowGameplayPointerInput
         || input.leftMouseButton.held
@@ -782,7 +782,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
     }
 
     const bool allowGameplayHudPointerInput =
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
         config.allowGameplayPointerInput
         || input.leftMouseButton.held
         || context.interactionState().gameplayHudClickLatch;

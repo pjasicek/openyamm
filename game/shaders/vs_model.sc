@@ -15,7 +15,7 @@ uniform vec4 u_modelSector;
 void main()
 {
     bool skinned = u_modelSkin.x > 0.5;
-    mat4 skin = skinned ? modelSkinMatrix(u_modelSkin.z) : u_model[0];
+    mat4 skin = skinned ? modelSkinMatrix(u_modelSkin.z, a_weight, a_indices, a_texcoord3, a_texcoord5) : u_model[0];
     v_worldPosition = mul(skin, vec4(a_position, 1.0)).xyz;
     gl_Position = mul(u_viewProj, vec4(v_worldPosition, 1.0));
     v_texcoord0 = a_texcoord0 + u_modelScroll.xy;

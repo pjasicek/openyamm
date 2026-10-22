@@ -160,6 +160,9 @@ The MM9 world payload is currently local and is excluded from the portable check
 The engine uses C++20, SDL3, bgfx, PhysicsFS, FFmpeg, and Lua. Gameplay tables
 use tab-separated text, and scene and UI layouts use YAML.
 
+Native macOS and iPhone/iPad builds (Metal renderer, `.app` bundles, the touch
+interface on iOS): see [Building for macOS and iOS](BUILDING-APPLE.md).
+
 Requirements:
 
 - CMake 3.22 or newer

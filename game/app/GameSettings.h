@@ -313,7 +313,7 @@ struct GameSettings
     bool meleeHitFlash = false;
     // Small camera turn along the blow on critical hits and kills.
     bool meleeCameraKick = false;
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     bool contextActionPopup = true;
 #else
     bool contextActionPopup = false;

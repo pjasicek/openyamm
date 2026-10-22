@@ -299,7 +299,7 @@ set_property(
 
 if (NOT OPENYAMM_RUNTIME_SHADER_PATH STREQUAL "")
     set(openyammBgfxShaderDir "${OPENYAMM_RUNTIME_SHADER_PATH}")
-elseif (ANDROID OR WIN32)
+elseif (ANDROID OR WIN32 OR APPLE)
     set(openyammBgfxShaderDir "runtime/shaders")
 else()
     set(openyammBgfxShaderDir "${OPENYAMM_RUNTIME_SHADER_DIR}")
@@ -350,6 +350,12 @@ if (OPENYAMM_BUILD_DESKTOP_EXECUTABLE)
     )
 
     target_compile_features(openyamm PRIVATE cxx_std_20)
+
+    if (APPLE)
+        target_sources(openyamm PRIVATE app/AppleBundlePaths.cpp)
+        include(AppleBundle)
+        openyamm_configure_apple_bundle(openyamm)
+    endif()
 
     if (OPENYAMM_ENABLE_GPROF_SAMPLING)
         if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR NOT UNIX OR APPLE)

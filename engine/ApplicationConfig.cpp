@@ -2,14 +2,48 @@
 
 #include "engine/AssetPaths.h"
 
+#if defined(__APPLE__)
+#include <SDL3/SDL_filesystem.h>
+
+#include <filesystem>
+#endif
+
 namespace OpenYAMM::Engine
 {
+namespace
+{
+#if defined(__APPLE__)
+// An app bundle with packaged assets (Contents/Resources/assets, assets/ in an iOS bundle) is self-contained. Otherwise
+// iOS reads assets/ from its working directory, the Documents folder, and macOS uses the development tree.
+std::string defaultAppleAssetRoot()
+{
+    if (const char *pBasePath = SDL_GetBasePath())
+    {
+        const std::filesystem::path bundledAssetRoot = std::filesystem::path(pBasePath) / "assets";
+
+        if (std::filesystem::is_directory(bundledAssetRoot))
+        {
+            return bundledAssetRoot.string();
+        }
+    }
+
+#if defined(OPENYAMM_IOS)
+    return "assets";
+#else
+    return AssetPaths::getDevelopmentAssetRoot();
+#endif
+}
+#endif
+}
+
 ApplicationConfig ApplicationConfig::createDefault()
 {
     ApplicationConfig config;
     config.appName = "OpenYAMM";
 #if defined(__ANDROID__)
     config.assetRoot = "assets";
+#elif defined(__APPLE__)
+    config.assetRoot = defaultAppleAssetRoot();
 #else
     config.assetRoot = AssetPaths::getDevelopmentAssetRoot();
 #endif

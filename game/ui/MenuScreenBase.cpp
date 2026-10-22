@@ -65,6 +65,10 @@ std::filesystem::path getShaderPath(bgfx::RendererType::Enum rendererType, const
         rendererDirectory = "spirv";
         break;
 
+    case bgfx::RendererType::Metal:
+        rendererDirectory = "metal";
+        break;
+
     default:
         return {};
     }

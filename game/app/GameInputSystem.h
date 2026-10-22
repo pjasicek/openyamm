@@ -7,6 +7,7 @@
 
 #include <array>
 #include <cstdint>
+#include <deque>
 #include <optional>
 #include <span>
 #include <string>
@@ -76,6 +77,8 @@ private:
     std::string m_pendingTextInput;
     std::array<uint16_t, SDL_SCANCODE_COUNT> m_pendingKeyboardPressCounts = {};
     std::array<bool, SDL_SCANCODE_COUNT> m_previousKeyboardHeld = {};
+    // Left, middle and right button events not yet applied to a frame.
+    std::array<std::deque<SDL_MouseButtonEvent>, 3> m_pendingMouseButtonEvents = {};
     std::array<bool, KeyboardActionCount> m_previousActionHeld = {};
     std::array<MobileTouchPoint, 8> m_mobileTouches = {};
     bool m_mobilePendingHudTap = false;

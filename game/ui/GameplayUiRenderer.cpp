@@ -1076,7 +1076,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         }
     }
 
-#if defined(__ANDROID__)
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     if (hudScreenState == GameplayHudScreenState::Gameplay)
     {
         const GameplayInputFrame *pInputFrame = context.currentGameplayInputFrame();

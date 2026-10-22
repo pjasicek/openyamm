@@ -3,6 +3,9 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_properties.h>
 #include <SDL3/SDL_video.h>
+#if defined(__APPLE__)
+#include <SDL3/SDL_metal.h>
+#endif
 
 #include <cstdarg>
 #include <cstdint>
@@ -32,6 +35,8 @@ bgfx::RendererType::Enum selectRendererType(bool useNoopRenderer)
     return bgfx::RendererType::OpenGLES;
 #elif defined(OPENYAMM_USE_VULKAN)
     return bgfx::RendererType::Vulkan;
+#elif defined(__APPLE__)
+    return bgfx::RendererType::Metal;
 #else
     return bgfx::RendererType::OpenGL;
 #endif
@@ -206,6 +211,18 @@ bool BgfxContext::initialize(
     init.type = selectRendererType(useNoopRenderer);
     init.vendorId = BGFX_PCI_ID_NONE;
     init.platformData = resolvePlatformData(pWindow);
+#if defined(__APPLE__)
+    if (!useNoopRenderer)
+    {
+        m_pMetalView = SDL_Metal_CreateView(pWindow);
+        if (m_pMetalView == nullptr)
+        {
+            std::cerr << "SDL_Metal_CreateView failed: " << SDL_GetError() << '\n';
+            return false;
+        }
+        init.platformData.nwh = SDL_Metal_GetLayer(m_pMetalView);
+    }
+#endif
     init.resolution.width = static_cast<uint32_t>(windowWidth);
     init.resolution.height = static_cast<uint32_t>(windowHeight);
     init.resolution.reset = bgfxResetFlags(verticalSync, maxAnisotropy);
@@ -214,6 +231,10 @@ bool BgfxContext::initialize(
     if (!bgfx::init(init))
     {
         std::cerr << "bgfx::init failed.\n";
+#if defined(__APPLE__)
+        SDL_Metal_DestroyView(m_pMetalView);
+        m_pMetalView = nullptr;
+#endif
         return false;
     }
 
@@ -257,6 +278,13 @@ void BgfxContext::shutdown()
     }
 
     bgfx::shutdown();
+#if defined(__APPLE__)
+    if (m_pMetalView != nullptr)
+    {
+        SDL_Metal_DestroyView(m_pMetalView);
+        m_pMetalView = nullptr;
+    }
+#endif
     m_isInitialized = false;
     m_verticalSync = false;
     m_maxAnisotropy = 1;

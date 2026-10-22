@@ -1,0 +1,12 @@
+diff --git a/src/renderer_mtl.cpp b/src/renderer_mtl.cpp
+--- a/src/renderer_mtl.cpp
++++ b/src/renderer_mtl.cpp
+@@ -3313,7 +3313,7 @@ static_assert(BX_COUNTOF(s_accessNames) == Access::Count, "Invalid s_accessNames
+ 			else
+ 			{
+ 				const bimg::ImageBlockInfo& blockInfo = bimg::getBlockInfo(bimg::TextureFormat::Enum(m_textureFormat) );
+-				rectpitch = (_rect.m_width / blockInfo.blockWidth)*blockInfo.blockSize;
++				rectpitch = ( (_rect.m_width + blockInfo.blockWidth - 1) / blockInfo.blockWidth)*blockInfo.blockSize;
+ 			}
+ 		}
+ 		const uint32_t srcpitch  = UINT16_MAX == _pitch ? rectpitch : _pitch;

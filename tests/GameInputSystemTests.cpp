@@ -10,6 +10,114 @@
 
 using namespace OpenYAMM::Game;
 
+#if !defined(__ANDROID__)
+namespace
+{
+SDL_Event mouseButtonEvent(SDL_EventType type, uint8_t button, float x, float y)
+{
+    SDL_Event event = {};
+    event.type = type;
+    event.button.button = button;
+    event.button.x = x;
+    event.button.y = y;
+    return event;
+}
+}
+
+TEST_CASE("game input preserves a quick trackpad tap and its mouse action")
+{
+    GameInputSystem inputSystem;
+    GameSettings settings = {};
+    settings.keyboard.setBinding(KeyboardAction::Attack, mouseButtonInputBinding(SDL_BUTTON_LEFT));
+    inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_DOWN, SDL_BUTTON_LEFT, 100.0f, 200.0f));
+    inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_UP, SDL_BUTTON_LEFT, 100.0f, 200.0f));
+
+    inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+    CHECK(inputSystem.frame().leftMouseButton.held);
+    CHECK(inputSystem.frame().leftMouseButton.pressed);
+    CHECK(inputSystem.frame().actions[keyboardActionIndex(KeyboardAction::Attack)].pressed);
+
+    inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+    CHECK_FALSE(inputSystem.frame().leftMouseButton.held);
+    CHECK(inputSystem.frame().leftMouseButton.released);
+    CHECK(inputSystem.frame().actions[keyboardActionIndex(KeyboardAction::Attack)].released);
+
+    inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+    CHECK_FALSE(inputSystem.frame().leftMouseButton.pressed);
+    CHECK_FALSE(inputSystem.frame().leftMouseButton.released);
+}
+
+TEST_CASE("game input preserves drag start and release positions between frames")
+{
+    GameInputSystem inputSystem;
+    GameSettings settings = {};
+    inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_DOWN, SDL_BUTTON_LEFT, 100.0f, 200.0f));
+    inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_UP, SDL_BUTTON_LEFT, 300.0f, 400.0f));
+
+    inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+    CHECK(inputSystem.frame().leftMouseButton.pressed);
+    CHECK(inputSystem.frame().pointerX == 100.0f);
+    CHECK(inputSystem.frame().pointerY == 200.0f);
+
+    inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+    CHECK(inputSystem.frame().leftMouseButton.released);
+    CHECK(inputSystem.frame().pointerX == 300.0f);
+    CHECK(inputSystem.frame().pointerY == 400.0f);
+}
+
+TEST_CASE("game input preserves repeated taps and secondary button taps")
+{
+    for (const uint8_t button : {SDL_BUTTON_LEFT, SDL_BUTTON_MIDDLE, SDL_BUTTON_RIGHT})
+    {
+        GameInputSystem inputSystem;
+        GameSettings settings = {};
+
+        for (int tap = 0; tap < 2; ++tap)
+        {
+            inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_DOWN, button, 100.0f, 200.0f));
+            inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_UP, button, 100.0f, 200.0f));
+        }
+
+        for (int frame = 0; frame < 4; ++frame)
+        {
+            inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+            const GameplayButtonInputState &state = button == SDL_BUTTON_LEFT
+                ? inputSystem.frame().leftMouseButton
+                : button == SDL_BUTTON_RIGHT
+                    ? inputSystem.frame().rightMouseButton
+                    : inputSystem.frame().middleMouseButton;
+            CHECK(state.pressed == (frame % 2 == 0));
+            CHECK(state.released == (frame % 2 == 1));
+        }
+    }
+}
+
+TEST_CASE("game input discards queued taps when input is blocked or a screen suppresses the mouse")
+{
+    GameInputSystem inputSystem;
+    GameSettings settings = {};
+    inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_DOWN, SDL_BUTTON_LEFT, 100.0f, 200.0f));
+    inputSystem.handleSdlEvent(mouseButtonEvent(SDL_EVENT_MOUSE_BUTTON_UP, SDL_BUTTON_LEFT, 100.0f, 200.0f));
+
+    SUBCASE("blocked input")
+    {
+        inputSystem.updateFromEngineInput(640, 480, 0.0f, settings, true);
+    }
+
+    SUBCASE("screen transition")
+    {
+        inputSystem.suppressMouseButtonsUntilReleased();
+    }
+
+    for (int frame = 0; frame < 3; ++frame)
+    {
+        inputSystem.updateFromEngineInput(640, 480, 0.0f, settings);
+        CHECK_FALSE(inputSystem.frame().leftMouseButton.pressed);
+        CHECK_FALSE(inputSystem.frame().leftMouseButton.released);
+    }
+}
+#endif
+
 #if defined(__ANDROID__)
 TEST_CASE("Android inventory close stores held items and preserves them when all packs are full")
 {

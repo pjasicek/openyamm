@@ -1,0 +1,52 @@
+// OpenYAMM local SDL 3.4.2 fix: snapshot the advertised UTF-8 formats once.
+// NSPasteboardItem.types can change between queries. Counting one list and
+// copying a later list can publish uninitialized pointers or overrun the buffer.
+static char **GetMimeTypes(int *pnformats)
+{
+    *pnformats = 0;
+    NSArray<NSPasteboardItem *> *items = [[NSPasteboard generalPasteboard] pasteboardItems];
+    if ([items count] == 0) {
+        return NULL;
+    }
+
+    NSMutableArray<NSData *> *formats = [NSMutableArray array];
+    for (NSPasteboardItem *item in items) {
+        for (NSString *type in [item types]) {
+            if (@available(macOS 11.0, *)) {
+                NSString *mimeType = [[UTType typeWithIdentifier:type] preferredMIMEType];
+                NSData *encodedMimeType = [mimeType dataUsingEncoding:NSUTF8StringEncoding];
+                if (encodedMimeType) {
+                    [formats addObject:encodedMimeType];
+                }
+            }
+            NSData *encodedIdentifier = [type dataUsingEncoding:NSUTF8StringEncoding];
+            if (encodedIdentifier) {
+                [formats addObject:encodedIdentifier];
+            }
+        }
+    }
+
+    const int nformats = (int)[formats count];
+    size_t formatsSize = 0;
+    for (NSData *format in formats) {
+        formatsSize += [format length] + 1;
+    }
+
+    char **new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * sizeof(char *) + formatsSize);
+    if (!new_mime_types) {
+        return NULL;
+    }
+
+    char *stringPointer = (char *)(new_mime_types + nformats + 1);
+    int index = 0;
+    for (NSData *format in formats) {
+        const size_t length = [format length];
+        SDL_memcpy(stringPointer, [format bytes], length);
+        stringPointer[length] = '\0';
+        new_mime_types[index++] = stringPointer;
+        stringPointer += length + 1;
+    }
+    new_mime_types[nformats] = NULL;
+    *pnformats = nformats;
+    return new_mime_types;
+}

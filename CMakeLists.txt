@@ -6,6 +6,17 @@ if (WIN32)
     enable_language(RC)
 endif()
 
+# SDL's Cocoa/UIKit backends are Objective-C and bgfx's Metal renderer is Objective-C++.
+if (APPLE)
+    enable_language(OBJC OBJCXX)
+    set(CMAKE_OBJCXX_STANDARD 20)
+    set(CMAKE_OBJCXX_STANDARD_REQUIRED ON)
+endif()
+
+if (IOS)
+    add_compile_definitions(OPENYAMM_IOS=1)
+endif()
+
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 4.0 AND NOT DEFINED CMAKE_POLICY_VERSION_MINIMUM)
     set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 endif()
@@ -75,9 +86,10 @@ openyamm_configure_monocypher()
 include(SpriteAtlasCodecs)
 
 set(OPENYAMM_RUNTIME_SHADER_DIR "${CMAKE_BINARY_DIR}/runtime/shaders")
-set(OPENYAMM_BGFX_SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/bgfx-src")
-set(OPENYAMM_BX_SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/bx-src")
-set(OPENYAMM_BIMG_SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/bimg-src")
+# The checkouts may live outside the build tree (FETCHCONTENT_SOURCE_DIR_<NAME>, as packaging/apple/build_ios.sh uses).
+FetchContent_GetProperties(bgfx SOURCE_DIR OPENYAMM_BGFX_SOURCE_DIR)
+FetchContent_GetProperties(bx SOURCE_DIR OPENYAMM_BX_SOURCE_DIR)
+FetchContent_GetProperties(bimg SOURCE_DIR OPENYAMM_BIMG_SOURCE_DIR)
 openyamm_configure_bgfx_runtime()
 openyamm_configure_runtime_shaders()
 
@@ -103,7 +115,7 @@ endif()
 if (CMAKE_CROSSCOMPILING)
     set(OPENYAMM_HOST_SPRITE_ATLAS_COOK "" CACHE FILEPATH "Host sprite atlas cooker used while cross-compiling.")
     set(OPENYAMM_RELEASE_COOKER "${OPENYAMM_HOST_SPRITE_ATLAS_COOK}")
-    if (NOT ANDROID)
+    if (NOT ANDROID AND NOT IOS)
         find_package(Python3 3.11 REQUIRED COMPONENTS Interpreter)
     endif()
 else()
@@ -131,7 +143,8 @@ set(OPENYAMM_RELEASE_STAGE_DIR "${OPENYAMM_RELEASE_ROOT_DIR}/$<CONFIG>/OpenYAMM"
 set(OPENYAMM_RELEASE_ARCHIVE_PATH
     "${OPENYAMM_RELEASE_ROOT_DIR}/OpenYAMM-${openyammReleasePlatform}-$<CONFIG>${openyammReleaseArchiveSuffix}")
 
-if (OPENYAMM_BUILD_DESKTOP_EXECUTABLE)
+# iOS packages its assets into the app bundle instead (packaging/apple/build_ios.sh).
+if (OPENYAMM_BUILD_DESKTOP_EXECUTABLE AND NOT IOS)
     # The versioned installation of packaging/UPDATER_PLAN.md 9.1 as a zip (Windows) or tar.gz (Linux).
     add_custom_target(openyamm_release_package
         COMMAND "${CMAKE_COMMAND}"
