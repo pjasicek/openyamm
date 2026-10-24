@@ -2765,6 +2765,12 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
           [this](int width, int height, float mouseWheelDelta, float deltaSeconds)
           {
               renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+              m_heldItemCursor.update(
+                  !m_loadingOverlayActive
+                  && m_screenManager.activeScreen() == nullptr
+                  && m_gameSession.activeWorldRuntime() != nullptr
+                  && !m_debugConsole.enabled()
+                  && m_gameSession.gameplayUiController().heldInventoryItem().active);
               drawLoadingOverlay();
               updateScreenshotCaptureFrame();
           },
@@ -7011,6 +7017,7 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 
 void GameApplication::shutdownApplication()
 {
+    m_heldItemCursor.shutdown();
     setGameplayProfilingEnabled(false);
     m_screenManager.setActiveScreen(nullptr);
     m_pLoadingOverlayScreen.reset();

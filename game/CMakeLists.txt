@@ -6,6 +6,7 @@ FetchContent_GetProperties(imgui SOURCE_DIR OPENYAMM_IMGUI_SOURCE_DIR)
 FetchContent_GetProperties(bgfx SOURCE_DIR OPENYAMM_BGFX_FETCH_SOURCE_DIR)
 
 add_library(openyamm_game STATIC
+    ui/GameplayHeldItemCursor.cpp
     render/RuntimeShader.cpp
     render/CinematicGrading.cpp
     render/WaterRenderer.cpp
