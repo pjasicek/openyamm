@@ -2139,7 +2139,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         {
             return;
         }
-        helpTitle = pHelp->name;
+        helpTitle = localization().translate(displaySkillName(skill));
         helpBody = pHelp->description;
         helpAnchor = rect;
         const Character character = buildCharacter();
@@ -2155,7 +2155,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
             const uint32_t color = availability == 1   ? GameplayUiSkin::Low
                                    : availability == 2 ? GameplayUiSkin::Penalty
                                                        : 0xffffffffu;
-            helpMasteries.emplace_back(name + ": " + description, color);
+            helpMasteries.emplace_back(localization().translate(name) + ": " + description, color);
         };
         mastery(SkillMastery::Expert, "Expert", pHelp->expertDescription);
         mastery(SkillMastery::Master, "Master", pHelp->masterDescription);
@@ -2218,7 +2218,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     {
         if (const ClassInspectEntry *pHelp = m_pGameData->characterInspectTable().getClass(selectedClassName()))
         {
-            helpTitle = pHelp->name;
+            helpTitle = localization().translate(displayClassName(selectedClassName()));
             helpBody = pHelp->description;
             helpAnchor = designRect("CharacterCreationClassValue");
         }
@@ -2283,7 +2283,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         {
             if (const StatInspectEntry *pHelp = m_pGameData->characterInspectTable().getStat(StatLabels[index]))
             {
-                helpTitle = pHelp->name;
+                helpTitle = localization().translate(StatLabels[index]);
                 helpBody = pHelp->description;
                 helpAnchor = designRect(StatLabelLayoutIds[index]);
             }

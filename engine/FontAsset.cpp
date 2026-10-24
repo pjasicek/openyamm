@@ -639,7 +639,8 @@ std::optional<FontAtlasImage> loadFontAtlas(
         metrics.width = int(std::ceil((pGlyph->metrics.horiBearingX + pGlyph->metrics.width) / divisor))
             - metrics.leftSpacing;
         metrics.rightSpacing = int(std::round(pGlyph->advance.x / divisor)) - metrics.leftSpacing - metrics.width;
-        metrics.outlineAdvance = pGlyph->linearHoriAdvance / 65536.0f;
+        // Advances use logical pixels, just like the legacy metrics, rather than atlas pixels.
+        metrics.outlineAdvance = pGlyph->linearHoriAdvance / (65536.0f * atlas.atlasScale);
         atlas.atlasCellWidth = std::max(atlas.atlasCellWidth, metrics.width);
         atlas.glyphsByCodePoint[codePoint] = static_cast<uint16_t>(glyphIndex);
     }

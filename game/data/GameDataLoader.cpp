@@ -2728,6 +2728,18 @@ bool GameDataLoader::loadHouseTable(const Engine::AssetFileSystem &assetFileSyst
         return false;
     }
 
+    if (m_language != "en")
+    {
+        std::vector<std::vector<std::string>> sourceRows;
+        if (!loadTextTableRows(assetFileSystem, engineDataTablePath("house_data.txt"), sourceRows))
+        {
+            return false;
+        }
+
+        // Map event hints and context actions also refer to the original house names.
+        registerLocalizedTableTranslations(m_localizationCatalog, sourceRows, rows, {5});
+    }
+
     std::vector<WorldManifest> mountedWorlds;
     std::string manifestError;
     const WorldManifest activeWorldManifest =

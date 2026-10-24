@@ -8,6 +8,7 @@
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
+#include "game/ui/InventoryBookDoubleClick.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -140,6 +141,7 @@ public:
         uint8_t grabCellOffsetY = 0;
         float grabOffsetX = 0.0f;
         float grabOffsetY = 0.0f;
+        InventoryBookDoubleClick bookDoubleClick;
     };
 
     struct ItemInspectOverlayState

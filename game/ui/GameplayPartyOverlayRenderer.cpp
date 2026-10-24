@@ -9544,7 +9544,9 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             label = replaceAllText(label, "{food}", std::to_string(party.food()));
             label = replaceAllText(label, "{character_name}", pCharacter != nullptr ? pCharacter->name : "");
             label = replaceAllText(label, "{character_class}", pCharacter != nullptr
-                ? "the " + displayClassName(!pCharacter->className.empty() ? pCharacter->className : pCharacter->role)
+                ? replaceAllText(context.localizeHudText("the {class}"), "{class}",
+                    context.localizeHudText(displayClassName(
+                        !pCharacter->className.empty() ? pCharacter->className : pCharacter->role)))
                 : "");
             label = replaceAllText(
                 label,
@@ -9558,7 +9560,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 label,
                 "{character_class_race}",
                 pCharacter != nullptr
-                    ? displayClassName(!pCharacter->className.empty() ? pCharacter->className : pCharacter->role)
+                    ? context.localizeHudText(displayClassName(
+                        !pCharacter->className.empty() ? pCharacter->className : pCharacter->role))
                     : "");
             label = replaceAllText(
                 label,

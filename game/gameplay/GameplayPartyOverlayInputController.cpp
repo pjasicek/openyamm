@@ -1678,6 +1678,18 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         };
     const uint64_t nowTicks = SDL_GetTicks();
 
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem = context.heldInventoryItem();
+    heldInventoryItem.bookDoubleClick.update(selectedPartyMemberIndex, nowTicks, input.pointerX, input.pointerY);
+
+    if (!heldInventoryItem.active || isReadOnlyAdventurersInnView
+        || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
+        || context.utilitySpellOverlayReadOnly().active || input.rightMouseButton.pressed
+        || input.mobileTouchDragStarted || input.mobileTouchDragActive || input.mobileTouchDragReleased
+        || input.action(KeyboardAction::CharCycle).pressed)
+    {
+        heldInventoryItem.bookDoubleClick.cancel();
+    }
+
     if (pParty == nullptr
         || context.isAdventurersInnCharacterSourceActive()
         || (context.interactionState().pendingCharacterDismissMemberIndex.has_value()
@@ -2560,6 +2572,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
          screenHeight,
          &clearPendingCharacterDismiss,
          &resolveCharacterInventoryGrid,
+         &input,
          isReadOnlyAdventurersInnView,
          selectedPartyMemberIndex,
          selectedPartyMemberCanAct](
@@ -2567,6 +2580,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             float activationX,
             float activationY)
         {
+            const bool readHeldBook = target.type == GameplayCharacterPointerTargetType::InventoryCell
+                && context.heldInventoryItem().active && context.heldInventoryItem().bookDoubleClick.pending()
+                && target.gridX >= context.heldInventoryItem().item.gridX
+                && target.gridX < context.heldInventoryItem().item.gridX + context.heldInventoryItem().item.width
+                && target.gridY >= context.heldInventoryItem().item.gridY
+                && target.gridY < context.heldInventoryItem().item.gridY + context.heldInventoryItem().item.height;
+            context.heldInventoryItem().bookDoubleClick.cancel();
             const bool isInventorySpellTargetMode =
                 context.utilitySpellOverlayReadOnly().active
                 && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
@@ -2890,6 +2910,33 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             }
 
             const size_t memberIndex = selectedPartyMemberIndex;
+
+            if (readHeldBook)
+            {
+                const InventoryItem originalBook = context.heldInventoryItem().item;
+                context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
+
+                // A refused book belongs back in the cell vacated by the first click.
+                if (context.heldInventoryItem().active)
+                {
+                    std::optional<InventoryItem> replacedItem;
+
+                    if (pParty->tryPlaceItemInMemberInventoryCell(
+                            memberIndex, originalBook, originalBook.gridX, originalBook.gridY, replacedItem))
+                    {
+                        if (replacedItem.has_value())
+                        {
+                            setHeldItem(*replacedItem);
+                        }
+                        else
+                        {
+                            clearHeldItem();
+                        }
+                    }
+                }
+
+                return;
+            }
 
             if (target.type == GameplayCharacterPointerTargetType::EquipmentSlot)
             {
@@ -3235,6 +3282,17 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 computeInventoryItemScreenRect(gridMetrics, heldItem, itemWidth, itemHeight);
             context.heldInventoryItem().grabOffsetX = activationX - itemRect.x;
             context.heldInventoryItem().grabOffsetY = activationY - itemRect.y;
+
+            if (!input.mobileTouchDragStarted
+                && InventoryItemUseRuntime::classifyItemUse(
+                    heldItem,
+                    *context.itemTable(),
+                    context.mergedPotionSettingTable(),
+                    context.mergedReagentSettingTable()) == InventoryItemUseAction::LearnSpell)
+            {
+                context.heldInventoryItem().bookDoubleClick.arm(
+                    memberIndex, SDL_GetTicks(), activationX, activationY, 6.0f * gridMetrics.scale);
+            }
         };
 
     GameplayOverlayInteractionState &interactionState = context.interactionState();

@@ -2555,6 +2555,7 @@ void GameplayScreenRuntime::resetSpellbookOverlayInteractionState()
 
 void GameplayScreenRuntime::resetCharacterOverlayInteractionState()
 {
+    heldInventoryItem().bookDoubleClick.cancel();
     interactionState().characterClickLatch = false;
     interactionState().characterMemberCycleLatch = false;
     interactionState().characterPressedTarget = {};
@@ -3797,6 +3798,13 @@ float GameplayScreenRuntime::characterSkillsContentHeight(int width, int height)
     return contentHeight;
 }
 
+std::string GameplayScreenRuntime::localizeHudText(const std::string &text) const
+{
+    return m_session.hasDataRepository()
+        ? m_session.data().localizationCatalog().translateText(text)
+        : text;
+}
+
 void GameplayScreenRuntime::renderLayoutLabel(
     const HudLayoutElement &layout,
     const ResolvedHudLayoutElement &resolved,
@@ -3806,9 +3814,7 @@ void GameplayScreenRuntime::renderLayoutLabel(
 {
     HudLayoutElement renderedLayout = layout;
     ResolvedHudLayoutElement renderedRect = resolved;
-    const std::string localizedLabel = m_session.hasDataRepository()
-        ? m_session.data().localizationCatalog().translateText(label)
-        : label;
+    const std::string localizedLabel = localizeHudText(label);
     const GameplayInputFrame *pInput = currentGameplayInputFrame();
     const HudLayoutElement *pButton = &layout;
     while (pButton != nullptr && !pButton->interactive)

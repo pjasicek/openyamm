@@ -335,7 +335,7 @@ void renderContextAction(GameplayScreenRuntime &context, int width, int height)
             fitContextActionLabelLines(
                 context,
                 labelLayout.fontName,
-                action.label,
+                context.localizeHudText(action.label),
                 std::max(1.0f, labelRect.width - 6.0f * labelRect.scale),
                 labelLayout.textScale * labelRect.scale);
         renderCenteredContextActionLabelLines(context, labelLayout, labelRect, labelLines);

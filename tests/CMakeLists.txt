@@ -53,6 +53,7 @@ add_executable(openyamm_unit_tests
     IndoorPortalVisibilityTests.cpp
     IndoorRenderRevisionTests.cpp
     InventoryEquipRegressionTests.cpp
+    InventoryBookDoubleClickTests.cpp
     LegacyLuaExportTests.cpp
     MapStatsRegressionTests.cpp
     MapDeltaDataTests.cpp
@@ -357,6 +358,7 @@ target_link_libraries(openyamm_unit_tests
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libswresample.a"
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libswscale.a"
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libavutil.a"
+        $<$<PLATFORM_ID:Windows>:bcrypt>
 )
 
 add_dependencies(openyamm_unit_tests openyamm_ffmpeg_build)

@@ -1,4 +1,5 @@
 #include "game/localization/LocalizationCatalog.h"
+#include "game/party/SkillData.h"
 #include "game/ui/GameplayUiController.h"
 
 #include "engine/AssetFileSystem.h"
@@ -31,6 +32,26 @@ TEST_CASE("Russian localization catalog translates known UI text and preserves u
     CHECK_EQ(
         catalog.format("Voice {voice_number} — {race_name}", {{"voice_number", "3"}, {"race_name", "Человек"}}),
         "Голос 3 — Человек");
+}
+
+TEST_CASE("Russian localization covers every displayed character skill name")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+
+    Game::LocalizationCatalog catalog;
+    REQUIRE(catalog.load(assetFileSystem, "ru"));
+    for (const std::string &skill : Game::allCanonicalSkillNames())
+    {
+        const std::string displayName = Game::displaySkillName(skill);
+        INFO(displayName);
+        CHECK_NE(catalog.translate(displayName), displayName);
+    }
+    CHECK_EQ(catalog.translate(Game::displaySkillName("LeatherArmor")), "Кожаные доспехи");
+    CHECK_EQ(catalog.translate(Game::displaySkillName("ChainArmor")), "Кольчуга");
+    CHECK_EQ(catalog.translate(Game::displaySkillName("RepairItem")), "Ремонт");
+    CHECK_EQ(catalog.translate(Game::displaySkillName("Bodybuilding")), "Бодибилдинг");
 }
 
 TEST_CASE("English localization catalog uses source text")

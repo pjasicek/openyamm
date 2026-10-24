@@ -61,7 +61,8 @@ void appendLearnedEventEffect(
 
     if (pEffect != nullptr && pScreenRuntime->isAutonoteUnlocked(pEffect->autonoteId))
     {
-        *payload.eventTargetStatusText += " (" + pEffect->effect + ")";
+        *payload.eventTargetStatusText = pScreenRuntime->localizeHudText(*payload.eventTargetStatusText)
+            + " (" + pScreenRuntime->localizeHudText(pEffect->effect) + ")";
     }
 }
 

@@ -382,6 +382,7 @@ public:
         float y,
         float quadWidth,
         float quadHeight) const;
+    std::string localizeHudText(const std::string &text) const;
     void renderLayoutLabel(
         const HudLayoutElement &layout,
         const ResolvedHudLayoutElement &resolved,

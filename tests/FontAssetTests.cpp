@@ -372,6 +372,15 @@ TEST_CASE("font atlas TTF preserves native layout and rasterizes all CP1252 cell
     CHECK(ttf->atlas.lastChar == (*bytes)[1]);
     CHECK(ttf->atlas.glyphForCodePoint(0x410));
     CHECK(ttf->atlas.glyphForCodePoint(0x451));
+    for (uint32_t codePoint = 0x410; codePoint <= 0x44f; ++codePoint)
+    {
+        const std::optional<uint16_t> glyph = ttf->atlas.glyphForCodePoint(codePoint);
+        REQUIRE(glyph);
+        const Engine::FontGlyphMetrics &metrics = ttf->atlas.glyphMetrics[*glyph];
+        const int logicalAdvance = metrics.leftSpacing + metrics.width + metrics.rightSpacing;
+        CHECK(metrics.advance() > 0);
+        CHECK(std::abs(metrics.advance() - logicalAdvance) <= 0.51f);
+    }
     for (int character = 0; character < 256; ++character)
     {
         const Engine::FontGlyphMetrics &replacement = ttf->atlas.glyphMetrics[character];
