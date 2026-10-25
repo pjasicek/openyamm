@@ -255,15 +255,31 @@ TEST_CASE("Android item drags preserve pickup, drop, pointer and inspection")
             event(input, SDL_EVENT_FINGER_DOWN, 2, width - 60, 40);
             update(input);
             CHECK(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.pressed);
             CHECK_FALSE(input.frame().leftMouseButton.held);
+            update(input);
+            CHECK(input.frame().rightMouseButton.held);
+            CHECK_FALSE(input.frame().rightMouseButton.pressed);
+
             event(input, SDL_EVENT_FINGER_DOWN, 3, width / 3, height / 3);
             update(input);
             CHECK(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.pressed);
             CHECK(pointerAt(input, width / 3, height / 3));
             event(input, SDL_EVENT_FINGER_UP, 3, width / 3, height / 3);
+            update(input);
+            CHECK(input.frame().rightMouseButton.held);
+
+            event(input, SDL_EVENT_FINGER_DOWN, 4, width / 2, height / 2);
+            event(input, SDL_EVENT_FINGER_UP, 4, width / 2, height / 2);
+            update(input);
+            CHECK(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.pressed);
+            CHECK(pointerAt(input, width / 2, height / 2));
+
             event(input, SDL_EVENT_FINGER_UP, 2, width - 60, 40);
             update(input);
-            CHECK_FALSE(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.released);
         }
     }
 }
