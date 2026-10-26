@@ -402,6 +402,8 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
     {
         status = context.interactionState().dialogueStatusHint;
     }
+    // Measure and wrap the same localized text that renderLayoutLabel draws.
+    status = context.localizeHudText(status);
     if (!status.empty() && (state == GameplayHudScreenState::Gameplay || state == GameplayHudScreenState::Character
         || state == GameplayHudScreenState::Dialogue || state == GameplayHudScreenState::Chest
         || state == GameplayHudScreenState::Spellbook))

@@ -2964,7 +2964,8 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
         }
 
         registerLocalizedTableTranslations(m_localizationCatalog, sourceGreetingRows, greetingRows, {1, 2});
-        registerLocalizedTableTranslations(m_localizationCatalog, sourceTextRows, textRows, {1});
+        registerLocalizedTableTranslations(
+            m_localizationCatalog, NpcDialogTable::normalizeTextRows(sourceTextRows), textRows, {1});
         registerLocalizedTableTranslations(m_localizationCatalog, sourceTopicRows, topicRows, {1});
         registerLocalizedTableTranslations(m_localizationCatalog, sourceNewsRows, newsRows, {1});
     }
@@ -4164,6 +4165,11 @@ bool GameDataLoader::loadFirstTextTableRows(
 
         if (!rows.empty())
         {
+            // Legacy NPC text can span unquoted physical rows. Translate the complete logical record.
+            if (std::filesystem::path(virtualPath).filename() == "npc_topic_text.txt")
+            {
+                rows = NpcDialogTable::normalizeTextRows(rows);
+            }
             for (size_t overlayIndex = pathIndex + 1; overlayIndex > 0; --overlayIndex)
             {
                 const std::string overlayPath = virtualPaths[overlayIndex - 1] + ".overlay.yml";
@@ -4297,6 +4303,7 @@ bool GameDataLoader::loadMonsterProjectileTable(const Engine::AssetFileSystem &a
 bool GameDataLoader::loadSpellTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
+    std::vector<std::vector<std::string>> canonicalRows;
 
     const std::string spellsPath = localizedEngineDataTablePath(assetFileSystem, "spells.txt");
 
@@ -4305,7 +4312,12 @@ bool GameDataLoader::loadSpellTable(const Engine::AssetFileSystem &assetFileSyst
         return false;
     }
 
-    if (!m_spellTable.loadFromRows(rows))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("spells.txt"), canonicalRows))
+    {
+        return false;
+    }
+
+    if (!m_spellTable.loadFromRows(rows, canonicalRows))
     {
         std::cerr << "Failed to parse spell table: " << spellsPath << '\n';
         return false;

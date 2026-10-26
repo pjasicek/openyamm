@@ -1,5 +1,6 @@
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayDialogueLayout.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/HouseShopLayout.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -255,13 +256,6 @@ struct DialogueBodyTextMetrics
     float fontScale = 1.0f;
 };
 
-float snappedHudFontScale(float scale);
-
-float dialogueTitleLineAdvance(const GameplayScreenRuntime::HudFontHandle &font, float fontScale)
-{
-    return static_cast<float>(std::max(1, font.fontHeight - 3)) * fontScale;
-}
-
 float renderWrappedCenteredDialogueTitle(
     GameplayScreenRuntime &view,
     const GameplayScreenRuntime::HudLayoutElement &layout,
@@ -273,42 +267,29 @@ float renderWrappedCenteredDialogueTitle(
         return 0.0f;
     }
 
-    const std::optional<GameplayScreenRuntime::HudFontHandle> font = view.findHudFont(layout.fontName);
+    const DialogueTitleTextLayout textLayout =
+        resolveDialogueTitleTextLayout(view, layout, resolved.width, resolved.scale, label);
 
-    if (!font)
+    if (textLayout.lines.empty())
     {
         view.renderLayoutLabel(layout, resolved, label);
         return resolved.height;
     }
 
-    const float fontScale = snappedHudFontScale(resolved.scale * std::max(0.1f, layout.textScale));
-    const float textWidthScaled =
-        std::max(0.0f, resolved.width - std::abs(layout.textPadX * resolved.scale) * 2.0f);
-    const float textWrapWidth = textWidthScaled / std::max(1.0f, fontScale);
-    std::vector<std::string> wrappedLines = view.wrapHudTextToWidth(*font, label, textWrapWidth);
-
-    if (wrappedLines.empty())
-    {
-        wrappedLines.push_back(label);
-    }
-
-    const float lineHeight = static_cast<float>(font->fontHeight) * fontScale;
-    const float lineAdvance = dialogueTitleLineAdvance(*font, fontScale);
-    const float textHeight = lineHeight + static_cast<float>(wrappedLines.size() - 1) * lineAdvance;
-    const float startY = resolved.y + std::max(0.0f, (resolved.height - textHeight) * 0.5f);
+    const float startY = resolved.y + std::max(0.0f, (resolved.height - textLayout.height) * 0.5f);
     GameplayScreenRuntime::HudLayoutElement lineLayout = layout;
     lineLayout.textAlignX = UiLayoutManager::TextAlignX::Center;
     lineLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
 
-    for (size_t lineIndex = 0; lineIndex < wrappedLines.size(); ++lineIndex)
+    for (size_t lineIndex = 0; lineIndex < textLayout.lines.size(); ++lineIndex)
     {
         GameplayScreenRuntime::ResolvedHudLayoutElement resolvedLine = resolved;
-        resolvedLine.y = startY + static_cast<float>(lineIndex) * lineAdvance;
-        resolvedLine.height = lineHeight;
-        view.renderLayoutLabel(lineLayout, resolvedLine, wrappedLines[lineIndex]);
+        resolvedLine.y = startY + static_cast<float>(lineIndex) * textLayout.lineAdvance;
+        resolvedLine.height = textLayout.lineHeight;
+        view.renderLayoutLabel(lineLayout, resolvedLine, textLayout.lines[lineIndex]);
     }
 
-    return textHeight;
+    return textLayout.height;
 }
 
 PointerRenderInput pointerRenderInput(const GameplayScreenRuntime &view)
@@ -1830,11 +1811,12 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
             for (const std::string &sourceLine : view.activeEventDialog().lines)
             {
-                std::vector<std::string> lineParts = view.wrapHudTextToWidth(*topicFont, sourceLine, textWrapWidth);
+                const std::string localizedLine = view.localizeHudText(sourceLine);
+                std::vector<std::string> lineParts = view.wrapHudTextToWidth(*topicFont, localizedLine, textWrapWidth);
 
                 if (lineParts.empty())
                 {
-                    lineParts.push_back(sourceLine);
+                    lineParts.push_back(localizedLine);
                 }
 
                 wrappedLines.insert(wrappedLines.end(), lineParts.begin(), lineParts.end());
@@ -1903,9 +1885,9 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
             for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
             {
-                const std::string &label = showHoveredShopTopic
+                const std::string label = view.localizeHudText(showHoveredShopTopic
                     ? *hoveredHouseServiceTopicText
-                    : view.activeEventDialog().actions[actionIndex].label;
+                    : view.activeEventDialog().actions[actionIndex].label);
                 std::vector<std::string> wrappedLines = topicFont
                     ? view.wrapHudTextToWidth(*topicFont, label, topicTextWidth)
                     : std::vector<std::string>{label};

@@ -1054,9 +1054,9 @@ TEST_CASE("AssetFileSystem rejects ambiguous case fallback while preserving exac
 {
     using namespace OpenYAMM::Engine;
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
-    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
-    writeTextFile(assetRoot / "engine/ui/Icon.txt", "first");
-    writeTextFile(assetRoot / "engine/ui/iCon.txt", "second");
+    // ZIP entries remain case-sensitive even when the host filesystem cannot store both spellings.
+    const std::filesystem::path assetRoot = temporaryRoot / "assets";
+    writeZipFile(assetRoot / "engine.zip", {{"ui/Icon.txt", "first"}, {"ui/iCon.txt", "second"}});
     {
         AssetFileSystem assets;
         REQUIRE(assets.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1));

@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/SpriteAtlas.h"
@@ -8888,7 +8889,8 @@ TEST_CASE("full gameplay map load preloads unplaced item sprites but no missile 
     CHECK_FALSE(preloaded(*pMissile));
 }
 
-TEST_CASE("MM9 quest and miscellaneous items resolve dedicated WorldItem sprites")
+TEST_CASE("MM9 quest and miscellaneous items resolve dedicated WorldItem sprites"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
     const OpenYAMM::Game::MapAssetInfo *pLoadedMap = loadCachedIndoorMapWithCompanionOptions(

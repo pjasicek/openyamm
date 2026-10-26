@@ -2,6 +2,7 @@
 
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameplayMapNotes.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/HouseServiceRuntime.h"
@@ -13,6 +14,7 @@
 #include "game/ui/KeyboardScreenLayout.h"
 #include "game/ui/GameplayJournalMapUi.h"
 #include "game/ui/HouseShopLayout.h"
+#include "game/ui/GameplayDialogueLayout.h"
 #include "engine/Utf8.h"
 
 #include <SDL3/SDL.h>
@@ -2090,7 +2092,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         requestedJournalView = JournalShortcutView::Notes;
     }
 
-    if (requestedJournalView != JournalShortcutView::None)
+    if (requestedJournalView != JournalShortcutView::None && !journalScreen.mapNoteEditActive)
     {
         if (!view.interactionState().journalToggleLatch)
         {
@@ -2220,7 +2222,16 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             }
         };
 
-    if (journalScreen.view == GameplayUiController::JournalView::Map)
+    if (journalScreen.mapNoteEditActive)
+    {
+        appendGameplayMapNoteText(journalScreen.mapNoteEditBuffer, input.textInput);
+        for (uint16_t i = 0; i < input.scancodePressCount(SDL_SCANCODE_BACKSPACE); ++i)
+        {
+            Engine::eraseLastUtf8CodePoint(journalScreen.mapNoteEditBuffer);
+        }
+    }
+
+    if (journalScreen.view == GameplayUiController::JournalView::Map && !journalScreen.mapNoteEditActive)
     {
         if (zoomInPressed && !view.interactionState().journalMapKeyZoomLatch)
         {
@@ -2265,7 +2276,16 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
     {
         if (!view.interactionState().closeOverlayLatch)
         {
-            view.closeJournalOverlay();
+            if (journalScreen.mapNoteEditActive || journalScreen.mapNotePlacementActive)
+            {
+                journalScreen.mapNoteEditActive = false;
+                journalScreen.mapNotePlacementActive = false;
+                journalScreen.mapNoteEditBuffer.clear();
+            }
+            else
+            {
+                view.closeJournalOverlay();
+            }
             latchGameplayMenuEscape(view);
             view.interactionState().closeOverlayLatch = true;
         }
@@ -2289,7 +2309,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
     const HudPointerState journalPointerState = pointerStateFromInput(input);
     const GameplayJournalPointerTarget noneJournalTarget = {};
-    const EventRuntimeState *pJournalEventRuntimeState =
+    EventRuntimeState *pJournalEventRuntimeState =
         view.worldRuntime() != nullptr ? view.worldRuntime()->eventRuntimeState() : nullptr;
     const std::string normalizedCurrentMapFileName =
         gameplayJournalNormalizeMapFileName(view.currentMapFileName());
@@ -2336,6 +2356,20 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             pJournalMinimapState
         ](float pointerX, float pointerY) -> GameplayJournalPointerTarget
         {
+            if (journalScreen.mapNoteEditActive || journalScreen.mapNotePlacementActive)
+            {
+                if (journalScreen.mapNoteEditActive)
+                {
+                    const GameplayJournalPointerTarget save = resolveJournalTarget("JournalMapSaveNoteButton",
+                        GameplayJournalPointerTargetType::MapSaveNoteButton, pointerX, pointerY);
+                    if (save.type != GameplayJournalPointerTargetType::None)
+                    {
+                        return save;
+                    }
+                }
+                return resolveJournalTarget("JournalMapCancelNoteButton",
+                    GameplayJournalPointerTargetType::MapCancelNoteButton, pointerX, pointerY);
+            }
             static const std::pair<const char *, GameplayJournalPointerTargetType> CommonTargets[] = {
                 {"JournalMainViewMap", GameplayJournalPointerTargetType::MainMapView},
                 {"JournalMainViewQuests", GameplayJournalPointerTargetType::MainQuestsView},
@@ -2344,6 +2378,9 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                 {"JournalCloseButton", GameplayJournalPointerTargetType::CloseButton},
             };
             static const std::pair<const char *, GameplayJournalPointerTargetType> MapTargets[] = {
+                {"JournalMapAddNoteButton", GameplayJournalPointerTargetType::MapAddNoteButton},
+                {"JournalMapEditNoteButton", GameplayJournalPointerTargetType::MapEditNoteButton},
+                {"JournalMapDeleteNoteButton", GameplayJournalPointerTargetType::MapDeleteNoteButton},
                 {"JournalMapZoomInButton", GameplayJournalPointerTargetType::MapZoomInButton},
                 {"JournalMapZoomOutButton", GameplayJournalPointerTargetType::MapZoomOutButton},
             };
@@ -2506,7 +2543,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
     }
 
     const auto activateJournalTarget =
-        [&view, &journalScreen, &adjustPage, pJournalMinimapState](const GameplayJournalPointerTarget &target)
+        [&view, &journalScreen, &adjustPage, pJournalMinimapState, pJournalEventRuntimeState,
+            &normalizedCurrentMapFileName](const GameplayJournalPointerTarget &target)
         {
             switch (target.type)
             {
@@ -2608,6 +2646,61 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
                 journalScreen.hoveredMapNoteId = target.noteId;
                 break;
 
+            case GameplayJournalPointerTargetType::MapAddNoteButton:
+                if (pJournalEventRuntimeState != nullptr)
+                {
+                    journalScreen.mapNotePlacementActive = true;
+                    journalScreen.mapDragActive = false;
+                    journalScreen.selectedMapNoteId = 0;
+                }
+                break;
+
+            case GameplayJournalPointerTargetType::MapEditNoteButton:
+                if (pJournalEventRuntimeState != nullptr)
+                {
+                    const EventRuntimeState::RuntimeMapNote *pNote = findEditableGameplayMapNote(
+                        *pJournalEventRuntimeState, journalScreen.selectedMapNoteId, normalizedCurrentMapFileName);
+                    if (pNote != nullptr)
+                    {
+                        journalScreen.mapNoteEditActive = true;
+                        journalScreen.mapNoteEditId = pNote->id;
+                        journalScreen.mapNoteEditX = pNote->x;
+                        journalScreen.mapNoteEditY = pNote->y;
+                        journalScreen.mapNoteEditBuffer = pNote->text;
+                    }
+                }
+                break;
+
+            case GameplayJournalPointerTargetType::MapDeleteNoteButton:
+                if (pJournalEventRuntimeState != nullptr && deleteGameplayUserMapNote(*pJournalEventRuntimeState,
+                    journalScreen.selectedMapNoteId, normalizedCurrentMapFileName))
+                {
+                    journalScreen.selectedMapNoteId = 0;
+                    journalScreen.hoveredMapNoteId = 0;
+                }
+                break;
+
+            case GameplayJournalPointerTargetType::MapSaveNoteButton:
+                if (pJournalEventRuntimeState != nullptr && journalScreen.mapNoteEditActive)
+                {
+                    const uint32_t id = saveGameplayUserMapNote(*pJournalEventRuntimeState,
+                        journalScreen.mapNoteEditId, normalizedCurrentMapFileName,
+                        journalScreen.mapNoteEditX, journalScreen.mapNoteEditY, journalScreen.mapNoteEditBuffer);
+                    if (id != 0)
+                    {
+                        journalScreen.selectedMapNoteId = id;
+                        journalScreen.mapNoteEditActive = false;
+                        journalScreen.mapNoteEditBuffer.clear();
+                    }
+                }
+                break;
+
+            case GameplayJournalPointerTargetType::MapCancelNoteButton:
+                journalScreen.mapNoteEditActive = false;
+                journalScreen.mapNotePlacementActive = false;
+                journalScreen.mapNoteEditBuffer.clear();
+                break;
+
             case GameplayJournalPointerTargetType::CloseButton:
                 view.closeJournalOverlay();
                 break;
@@ -2640,12 +2733,44 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             case GameplayJournalPointerTargetType::NotesMiscButton:
             case GameplayJournalPointerTargetType::NotesTrainerButton:
             case GameplayJournalPointerTargetType::MapNote:
+            case GameplayJournalPointerTargetType::MapAddNoteButton:
+            case GameplayJournalPointerTargetType::MapEditNoteButton:
+            case GameplayJournalPointerTargetType::MapDeleteNoteButton:
+            case GameplayJournalPointerTargetType::MapSaveNoteButton:
+            case GameplayJournalPointerTargetType::MapCancelNoteButton:
             case GameplayJournalPointerTargetType::CloseButton:
                 return false;
             }
 
             return false;
         };
+
+    if (journalScreen.mapNoteEditActive
+        && (input.scancodePressCount(SDL_SCANCODE_RETURN) != 0
+            || input.scancodePressCount(SDL_SCANCODE_KP_ENTER) != 0))
+    {
+        activateJournalTarget({GameplayJournalPointerTargetType::MapSaveNoteButton});
+        return true;
+    }
+
+    const bool notePositionInsideMap = pJournalMinimapState == nullptr
+        || (journalScreen.mapCursorWorldX >= pJournalMinimapState->worldMinX
+            && journalScreen.mapCursorWorldX <= pJournalMinimapState->worldMaxX
+            && journalScreen.mapCursorWorldY >= pJournalMinimapState->worldMinY
+            && journalScreen.mapCursorWorldY <= pJournalMinimapState->worldMaxY);
+    if (journalScreen.mapNotePlacementActive && input.leftMouseButton.held
+        && !view.interactionState().journalClickLatch && journalScreen.mapCursorWorldValid && notePositionInsideMap)
+    {
+        journalScreen.mapNoteEditX = static_cast<int32_t>(std::lround(journalScreen.mapCursorWorldX));
+        journalScreen.mapNoteEditY = static_cast<int32_t>(std::lround(journalScreen.mapCursorWorldY));
+        journalScreen.mapNoteEditId = 0;
+        journalScreen.mapNoteEditBuffer.clear();
+        journalScreen.mapNotePlacementActive = false;
+        journalScreen.mapNoteEditActive = true;
+        view.interactionState().journalClickLatch = true;
+        view.interactionState().journalPressedTarget = noneJournalTarget;
+        return true;
+    }
 
     if (journalScreen.mapDragActive)
     {
@@ -2716,7 +2841,8 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             return true;
         }
 
-        if (journalScreen.view == GameplayUiController::JournalView::Map && pressedTarget == noneJournalTarget)
+        if (journalScreen.view == GameplayUiController::JournalView::Map && pressedTarget == noneJournalTarget
+            && !journalScreen.mapNoteEditActive && !journalScreen.mapNotePlacementActive)
         {
             const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
 
@@ -3597,6 +3723,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                     const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
                     const float sectionGap = 8.0f * panelScale;
                     const float houseTitleToPortraitGap = 2.0f * panelScale;
+                    const float titleBoundsWidth = std::max(1.0f, resolvedEventDialog->width - 8.0f * panelScale);
                     const GameplayScreenRuntime::HudLayoutElement *pNpcPortraitLayout =
                         view.findHudLayoutElement("DialogueNpcPortrait");
                     const GameplayScreenRuntime::HudLayoutElement *pHouseTitleLayout =
@@ -3674,7 +3801,18 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                         const float houseTitleHeight = resolvedHouseTitleTemplate
                             ? resolvedHouseTitleTemplate->height
                             : 20.0f * panelScale;
-                        contentY += houseTitleHeight + houseTitleToPortraitGap;
+                        const std::string &houseTitle = isTransitionDialog
+                            ? view.activeEventDialog().title
+                            : (!view.activeEventDialog().houseTitle.empty()
+                                ? view.activeEventDialog().houseTitle
+                                : pHostHouseEntry->name);
+                        const DialogueTitleTextLayout titleTextLayout = resolveDialogueTitleTextLayout(
+                            view,
+                            *pEffectiveHouseTitleLayout,
+                            titleBoundsWidth,
+                            resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->scale : panelScale,
+                            houseTitle);
+                        contentY += std::max(houseTitleHeight, titleTextLayout.height) + houseTitleToPortraitGap;
                     }
 
                     contentY = std::max(contentY, portraitBaseY);
@@ -3686,7 +3824,13 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                         && pNpcNameLayout != nullptr
                         && !view.activeEventDialog().title.empty())
                     {
-                        nextContentY = portraitY + nameOffsetY + nameHeight;
+                        const DialogueTitleTextLayout nameTextLayout = resolveDialogueTitleTextLayout(
+                            view,
+                            *pNpcNameLayout,
+                            titleBoundsWidth,
+                            resolvedNpcNameTemplate ? resolvedNpcNameTemplate->scale : panelScale,
+                            view.activeEventDialog().title);
+                        nextContentY = portraitY + nameOffsetY + std::max(nameHeight, nameTextLayout.height);
                     }
 
                     contentY = nextContentY + (isTransitionDialog ? 15.0f * panelScale : sectionGap);
@@ -3695,7 +3839,8 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
                     for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
                     {
-                        const std::string &label = view.activeEventDialog().actions[actionIndex].label;
+                        const std::string label =
+                            view.localizeHudText(view.activeEventDialog().actions[actionIndex].label);
                         std::vector<std::string> wrappedLines = topicFont
                             ? view.wrapHudTextToWidth(*topicFont, label, topicTextWidth)
                             : std::vector<std::string>{label};

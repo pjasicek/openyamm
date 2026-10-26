@@ -2134,6 +2134,11 @@ void GameplayScreenRuntime::openJournalOverlay()
 
     GameplayUiController::JournalScreenState &journalScreen = uiController().journalScreen();
     journalScreen.active = true;
+    journalScreen.selectedMapNoteId = 0;
+    journalScreen.hoveredMapNoteId = 0;
+    journalScreen.mapNotePlacementActive = false;
+    journalScreen.mapNoteEditActive = false;
+    journalScreen.mapNoteEditBuffer.clear();
     journalScreen.view = GameplayUiController::JournalView::Map;
     journalScreen.notesCategory = GameplayUiController::JournalNotesCategory::Potion;
     journalScreen.questPage = 0;
@@ -2178,6 +2183,9 @@ void GameplayScreenRuntime::closeJournalOverlay()
     GameplayUiController::JournalScreenState &journalScreen = uiController().journalScreen();
     const bool wasActive = journalScreen.active;
     journalScreen.active = false;
+    journalScreen.mapNotePlacementActive = false;
+    journalScreen.mapNoteEditActive = false;
+    journalScreen.mapNoteEditBuffer.clear();
     journalScreen.hoverAnimationElapsedSeconds = 0.0f;
     journalScreen.mapDragActive = false;
     journalScreen.mapDragStartMouseX = 0.0f;

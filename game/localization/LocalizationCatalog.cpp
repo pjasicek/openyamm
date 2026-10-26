@@ -185,8 +185,29 @@ std::string LocalizationCatalog::translateText(const std::string &source) const
             size_t resultOffset = 0;
             while ((resultOffset = result.find(placeholder, resultOffset)) != std::string::npos)
             {
-                result.replace(resultOffset, placeholder.size(), value.second);
-                resultOffset += value.second.size();
+                std::string localizedValue = translate(value.second);
+                if (value.first == "classes")
+                {
+                    // Promotion requirements can list any number of alternative classes.
+                    localizedValue.clear();
+                    size_t classOffset = 0;
+                    while (classOffset < value.second.size())
+                    {
+                        const size_t commaOffset = value.second.find(", ", classOffset);
+                        const size_t orOffset = value.second.find(" or ", classOffset);
+                        const size_t separatorOffset = std::min(commaOffset, orOffset);
+                        localizedValue += translate(value.second.substr(classOffset, separatorOffset - classOffset));
+                        if (separatorOffset == std::string::npos)
+                        {
+                            break;
+                        }
+                        const std::string separator = separatorOffset == orOffset ? " or " : ", ";
+                        localizedValue += translate(separator);
+                        classOffset = separatorOffset + separator.size();
+                    }
+                }
+                result.replace(resultOffset, placeholder.size(), localizedValue);
+                resultOffset += localizedValue.size();
             }
         }
         return result;

@@ -478,6 +478,55 @@ TEST_CASE("ModelAnimation instances have independent clocks and generation-check
     CHECK_NE(replacement.generation, first.generation);
 }
 
+TEST_CASE("ModelAnimation reused slots discard node rotations from the previous model")
+{
+    using namespace OpenYAMM::Engine;
+    const std::shared_ptr<ModelAsset> asset = makeAnimatedAsset();
+    ModelInstanceSystem instances;
+    const ModelInstanceHandle first = instances.create(asset);
+    REQUIRE(instances.setNodeRotations(first, {{1, {0.0f, 0.0f, std::sqrt(0.5f), std::sqrt(0.5f)}}}));
+    REQUIRE(instances.nodeMatrix(first, 0) != nullptr);
+    CHECK((*instances.nodeMatrix(first, 0))[13] == doctest::Approx(1.0f));
+
+    bool clearAll = false;
+    SUBCASE("destroy")
+    {
+        clearAll = false;
+    }
+    SUBCASE("clear")
+    {
+        clearAll = true;
+    }
+    const auto release = [&]()
+    {
+        if (clearAll)
+        {
+            instances.clear();
+        }
+        else
+        {
+            REQUIRE(instances.destroy(instances.handles().front()));
+        }
+    };
+    release();
+    const ModelInstanceHandle replacement = instances.create(asset);
+    REQUIRE(replacement.index == first.index);
+    REQUIRE(instances.nodeMatrix(replacement, 0) != nullptr);
+    REQUIRE((*instances.nodeMatrix(replacement, 0))[12] == doctest::Approx(1.0f));
+    CHECK((*instances.nodeMatrix(replacement, 0))[13] == doctest::Approx(0.0f));
+
+    REQUIRE(instances.setNodeRotations(replacement, {{1, {0.0f, 0.0f, 1.0f, 0.0f}}}));
+    release();
+    const std::shared_ptr<ModelAsset> smaller = std::make_shared<ModelAsset>();
+    smaller->nodes.resize(1);
+    smaller->nodes[0].matrix = identityModelMatrix();
+    smaller->hierarchyOrder = {0};
+    const ModelInstanceHandle smallerHandle = instances.create(smaller);
+    REQUIRE(smallerHandle.index == first.index);
+    REQUIRE(instances.nodeMatrix(smallerHandle, 0) != nullptr);
+    CHECK(*instances.nodeMatrix(smallerHandle, 0) == identityModelMatrix());
+}
+
 TEST_CASE("ModelAnimation loader reads external glTF buffers through AssetFileSystem")
 {
     using namespace OpenYAMM::Engine;
@@ -848,7 +897,7 @@ TEST_CASE("ModelAnimation skinning applies inverse bind, all influences, morphs 
     CHECK(conservative.max[0] >= exact.max[0]);
 }
 
-TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visibility")
+TEST_CASE("ModelAnimation MM6 demon loads native clips for runtime burn presentation")
 {
     using namespace OpenYAMM::Engine;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -876,9 +925,11 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
     }
     ModelInstanceSystem instances;
     const ModelInstanceHandle handle = instances.create(loaded.asset);
+    REQUIRE(loaded.asset->findNode("Demon_Native_Mesh").has_value());
+    REQUIRE(loaded.asset->findNode("Demon_Death_Plume").has_value());
     const uint32_t body = *loaded.asset->findNode("Demon_Native_Mesh");
-    const uint32_t ash = *loaded.asset->findNode("Demon_Ash_Remains");
     const uint32_t plume = *loaded.asset->findNode("Demon_Death_Plume");
+    CHECK_FALSE(loaded.asset->findNode("Demon_Ash_Remains").has_value());
     REQUIRE_EQ(loaded.asset->materialVariants, std::vector<std::string>{"demon_a", "demon_b", "demon_c"});
     const std::array<std::array<uint8_t, 3>, 3> eyeColors = {{{231, 156, 156}, {250, 102, 102}, {250, 176, 62}}};
     const uint32_t bodyMesh = loaded.asset->nodes[body].meshIndex;
@@ -913,14 +964,15 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
         }
     }
     const std::array<std::pair<const char *, float>, 7> nativeClips = {{{"Standing", .125f}, {"Walk_Native", 1.125f},
-        {"Attack", .75f}, {"Hit", .75f}, {"Fidget", .625f}, {"Death", 1.25f}, {"Cast_FireBolt", 1.0f}}};
+        {"Attack", .75f}, {"Hit", .75f}, {"Fidget", .625f}, {"Death", 1.5625f}, {"Cast_FireBolt", 1.0f}}};
     for (const auto &[name, duration] : nativeClips)
     {
+        REQUIRE(loaded.asset->findClip(name).has_value());
         const uint32_t clip = *loaded.asset->findClip(name);
         CHECK(loaded.asset->clips[clip].durationSeconds == doctest::Approx(duration));
         REQUIRE(instances.sample(handle, clip, duration * .5f, gltfModelPlacement({1, 2, 3}, 0, 100)));
-        // After 375 ms the body is hidden; runtime particles do not contribute to pick bounds.
-        CHECK(instances.bounds(handle)->valid == (std::string(name) != "Death"));
+        // Visibility is now owned by WorldFxSystem's burn, not by zero-scale keys or an authored ash mesh.
+        CHECK(instances.bounds(handle)->valid);
         for (const auto &node : instances.pose(handle)->deformedVertices)
         {
             for (const auto &primitive : node)
@@ -936,12 +988,11 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
             }
         }
     }
-    REQUIRE(instances.sample(handle, *loaded.asset->findClip("Ash_Remains"), 0, {}));
-    CHECK_FALSE(modelMatrixVisible(*instances.nodeMatrix(handle, body)));
-    CHECK(modelMatrixVisible(*instances.nodeMatrix(handle, ash)));
+    REQUIRE(loaded.asset->findClip("Dead").has_value());
+    REQUIRE(instances.sample(handle, *loaded.asset->findClip("Dead"), 0, {}));
+    CHECK(modelMatrixVisible(*instances.nodeMatrix(handle, body)));
     REQUIRE(instances.sample(handle, *loaded.asset->findClip("Standing"), 0, {}));
     CHECK(modelMatrixVisible(*instances.nodeMatrix(handle, body)));
-    CHECK_FALSE(modelMatrixVisible(*instances.nodeMatrix(handle, ash)));
     for (float weight : instances.pose(handle)->morphWeights[plume])
     {
         CHECK(weight == 0.0f);
@@ -949,7 +1000,6 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and resets death visi
     CHECK(instances.bounds(handle)->max[1] == doctest::Approx(1.707f).epsilon(.01));
     REQUIRE(instances.sample(handle, *loaded.asset->findClip("Cast_FireBolt"), .65f, {}));
     CHECK(modelMatrixVisible(*instances.nodeMatrix(handle, body)));
-    CHECK_FALSE(modelMatrixVisible(*instances.nodeMatrix(handle, ash)));
     for (const char *socket : {"Socket_Eye_Left", "Socket_Eye_Right", "Socket_Palm_Left", "Socket_Palm_Right"})
     {
         CHECK(instances.nodeMatrix(handle, socket) != nullptr);
@@ -1036,7 +1086,7 @@ TEST_CASE("ModelAnimation demon LOD meshes share the rig and retain posed bounds
     const ModelMesh &mesh = asset.meshes[asset.nodes[nodeIndex].meshIndex];
     REQUIRE(mesh.lodMeshes.size() == 3);
     REQUIRE(mesh.shadowMeshes.size() == 4);
-    const std::array<size_t, 4> triangles = {16474, 8237, 2980, 1019};
+    const std::array<size_t, 4> triangles = {9060, 4512, 1623, 552};
     for (size_t level = 0; level < 4; ++level)
     {
         const uint32_t meshIndex = level == 0 ? uint32_t(asset.nodes[nodeIndex].meshIndex) : mesh.lodMeshes[level - 1];

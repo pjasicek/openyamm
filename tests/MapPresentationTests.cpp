@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/ImageAssetLoader.h"
@@ -115,7 +116,8 @@ TEST_CASE("outdoor map presentation crop and flips preserve saved exploration co
     CHECK(flipped.y == doctest::Approx(cropped.y));
 }
 
-TEST_CASE("promoted MM9 map catalog and PCX asset are runtime decodable")
+TEST_CASE("promoted MM9 map catalog and PCX asset are runtime decodable"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
     const std::filesystem::path assetRoot = sourceRoot / "assets_dev" / "worlds" / "mm9" / "ui" / "maps";

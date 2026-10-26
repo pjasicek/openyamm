@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <stdexcept>
 #include <string_view>
@@ -1746,7 +1747,10 @@ std::string GameplayHudCommon::clampHudTextToWidth(
 {
     std::string clampedText = text;
 
-    while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth)
+    // Content-sized labels round-trip through scaling and padding before reaching this comparison.
+    // A few float rounding errors must not remove an entire glyph from an otherwise exact fit.
+    const float widthTolerance = std::max(1.0f, std::abs(maxWidth)) * 4 * std::numeric_limits<float>::epsilon();
+    while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth + widthTolerance)
     {
         Engine::eraseLastUtf8CodePoint(clampedText);
     }
@@ -1945,7 +1949,14 @@ void GameplayHudCommon::renderLayoutLabel(
 
     if (!pFont->smooth && fontScale >= 1.0f)
     {
-        fontScale = snappedHudFontScale(fontScale);
+        const float snappedScale = snappedHudFontScale(fontScale);
+        const float textWidth = measureHudTextWidth(*pFont, label);
+        const float paddedTextWidth = textWidth + std::abs(layout.textPadX) * 2.0f;
+        // Keep a fitted label intact when snapping up would cut off its final glyphs.
+        if (paddedTextWidth * snappedScale <= resolved.width)
+        {
+            fontScale = snappedScale;
+        }
     }
 
     const float labelHeightPixels = static_cast<float>(pFont->fontHeight) * fontScale;

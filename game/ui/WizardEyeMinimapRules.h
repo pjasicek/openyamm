@@ -2,8 +2,13 @@
 
 namespace OpenYAMM::Game
 {
-inline bool wizardEyeShowsActorMarker(bool isDead, bool hasDetectedParty, bool hostileToParty)
+inline bool wizardEyeShowsActorMarker(bool isDead, bool hasDetectedParty, bool hostileToParty, bool corpseHasLoot)
 {
-    return isDead || hasDetectedParty || !hostileToParty;
+    if (isDead)
+    {
+        return corpseHasLoot;
+    }
+
+    return hasDetectedParty || !hostileToParty;
 }
 }

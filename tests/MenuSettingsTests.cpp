@@ -288,7 +288,9 @@ TEST_CASE("graphics quality presets match the shipped profiles and report custom
     std::string error;
     const std::optional<GameSettings> desktop = loadGameSettings(root / "settings_release.ini", error);
     REQUIRE_MESSAGE(desktop, error);
-    CHECK(menuSettingValue(*desktop, "graphics_quality") == "high");
+    // The shipped desktop profile enables ambient occlusion, which is outside the High preset.
+    CHECK(desktop->ambientOcclusion);
+    CHECK(menuSettingValue(*desktop, "graphics_quality") == "custom");
     const std::optional<GameSettings> android = loadGameSettings(root / "android/settings.ini", error);
     REQUIRE_MESSAGE(android, error);
     CHECK(menuSettingValue(*android, "graphics_quality") == "low");

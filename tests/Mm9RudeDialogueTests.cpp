@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/AssetFileSystem.h"
@@ -260,7 +261,8 @@ TEST_CASE("MM9 RUDE quest handoff rows close dialogue")
     CHECK(selection.response.empty());
 }
 
-TEST_CASE("MM9 Keith Bloodaxe quest acceptance grants the Yobboe quest key before handoff close")
+TEST_CASE("MM9 Keith Bloodaxe quest acceptance grants the Yobboe quest key before handoff close"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -497,7 +499,8 @@ TEST_CASE("MM9 RUDE quest-key actions queue shared quest presentation when an ov
     CHECK_EQ(runtimeState.pendingSounds.front().soundId, static_cast<uint32_t>(OpenYAMM::Game::SoundId::Quest));
 }
 
-TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its completion keys")
+TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its completion keys"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -531,7 +534,8 @@ TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its comple
     CHECK(party.hasQuestBit(90475));
 }
 
-TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items")
+TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     const std::string supportLua = loadSourceText("assets_dev/engine/scripts/common/event_support.lua");
     const std::string commonLua = loadSourceText("assets_dev/worlds/mm9/events/common/mm9_common.lua");
@@ -579,7 +583,8 @@ TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items")
     CHECK(grantedItemId(10302));
 }
 
-TEST_CASE("MM9 hire dialogue swaps hire and dismiss topics through ordinary RUDE key conditions")
+TEST_CASE("MM9 hire dialogue swaps hire and dismiss topics through ordinary RUDE key conditions"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -977,7 +982,8 @@ TEST_CASE("MM9 RUDE rejects keys outside its declared namespace")
     CHECK_FALSE(table.errors().empty());
 }
 
-TEST_CASE("MM9 world RUDE assets load as one validated package")
+TEST_CASE("MM9 world RUDE assets load as one validated package"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -997,7 +1003,8 @@ TEST_CASE("MM9 world RUDE assets load as one validated package")
     CHECK(table.npcName(436) == "Old Man");
 }
 
-TEST_CASE("Every source MM9 RUDE skill-training row has a core trainer mapping")
+TEST_CASE("Every source MM9 RUDE skill-training row has a core trainer mapping"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -1029,7 +1036,8 @@ TEST_CASE("Every source MM9 RUDE skill-training row has a core trainer mapping")
     CHECK(trainerRowCount == 115);
 }
 
-TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay")
+TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -1619,7 +1627,8 @@ TEST_CASE("MM9 monster overlay leaves legacy monster rows unchanged")
     CHECK_EQ(pLegacyTroglodyte->name, "Troglodyte Soldier");
 }
 
-TEST_CASE("MM9 world quest overlay augments the shared journal without replacing base quests")
+TEST_CASE("MM9 world quest overlay augments the shared journal without replacing base quests"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -1906,7 +1915,8 @@ TEST_CASE("MM9 world quest overlay augments the shared journal without replacing
         }));
 }
 
-TEST_CASE("Bootcamp MM9 dialogue actors retain source object and RUDE identities")
+TEST_CASE("Bootcamp MM9 dialogue actors retain source object and RUDE identities"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Game::OutdoorSceneYmlLoader loader = {};
     std::string errorMessage;

@@ -6496,6 +6496,8 @@ bool GameApplication::applicationTextInputActive() const
     const GameplayUiController::SaveGameScreenState &saveGameScreen = gameplayScreenRuntime.saveGameScreenState();
 
     return (saveGameScreen.active && saveGameScreen.editActive)
+        || (gameplayScreenRuntime.journalScreenStateReadOnly().active
+            && gameplayScreenRuntime.journalScreenStateReadOnly().mapNoteEditActive)
         || gameplayScreenRuntime.houseBankState().inputActive()
         || GameplayUiController::alchemyBenchSearchActive(gameplayScreenRuntime.characterScreenReadOnly());
 }
@@ -9575,7 +9577,7 @@ void GameApplication::openSaveGameScreen()
     }
     std::unique_ptr<LoadGameScreen> pScreen = std::make_unique<LoadGameScreen>(
         *m_pAssetFileSystem, m_gameSession.data(), LoadGameScreen::LoadAction{}, [this]() { openPauseMenuScreen(); },
-        true, &m_gameAudioSystem);
+        true, &m_gameAudioSystem, m_settings.language);
     std::string location = m_gameSession.currentMapFileName();
     if (const std::optional<MapAssetInfo> &map = m_gameDataLoader.getSelectedMap())
     {

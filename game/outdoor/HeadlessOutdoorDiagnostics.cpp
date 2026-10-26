@@ -7529,7 +7529,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     }
 
     const std::string mapFileName = "out01.odm";
-    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
 
     if (suiteName != "indoor")
     {
@@ -7545,15 +7544,20 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             return 1;
         }
 
-        if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+        const std::optional<MapAssetInfo> &initialMap = gameDataLoader.getSelectedMap();
+        if (!initialMap || !initialMap->outdoorMapData || !initialMap->outdoorMapDeltaData)
         {
             std::cerr << "Regression suite failed: selected map is not an outdoor map\n";
             return 1;
         }
     }
 
+    // Cases load other maps through the shared loader. Keep the Dagger Wound fixture alive and unchanged;
+    // a reference to its optional follows replacements and may become empty after a failed load.
+    const std::optional<MapAssetInfo> selectedMap = gameDataLoader.getSelectedMap();
     int passedCount = 0;
     int failedCount = 0;
+    int skippedCount = 0;
     const char *pFilter = std::getenv("OPENYAMM_REGRESSION_FILTER");
     const std::string caseFilter = pFilter != nullptr ? pFilter : "";
 
@@ -7567,6 +7571,19 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             if (!caseFilter.empty() && caseName.find(caseFilter) == std::string::npos)
             {
+                return;
+            }
+
+            const bool missingMm8Models = caseName.starts_with("mm8_")
+                && caseName.find("_actor_models_") != std::string::npos
+                && !assetFileSystem.exists("worlds/mm8/models/actors.yml");
+            const bool missingMm9 = caseName == "outdoor_thjorad_destructible_trigger_destroys_cavein"
+                && !assetFileSystem.exists("worlds/mm9/world.yml");
+            if (missingMm8Models || missingMm9)
+            {
+                std::cout << "[SKIP] " << caseName << " - optional "
+                    << (missingMm9 ? "MM9 world" : "MM8 model") << " package is not installed\n";
+                ++skippedCount;
                 return;
             }
 
@@ -8436,7 +8453,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         std::string invalidError;
         if (fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
                 gameDataLoader.getMonsterTable(), nullptr, invalidError)
-            || invalidError.find("valid standing sprite") == std::string::npos)
+            || fx.actorModelsConfigured() || invalidError.find("valid standing sprite") == std::string::npos)
         {
             failure = "native scaling silently accepted missing sprite-frame data";
             return false;
@@ -8444,6 +8461,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         if (!fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
                 gameDataLoader.getMonsterTable(), &frames, failure))
         {
+            return false;
+        }
+        if (!fx.actorModelsConfigured())
+        {
+            failure = "actor model configuration did not commit after a valid retry";
             return false;
         }
         fx.syncActorModels(scenario.world);
@@ -10836,16 +10858,17 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
         }
-        // Green/red/ochre tiers: one shared skin and mask, three ramps; wet slime keeps specular (0.7).
+        // Green/red/ochre tiers share the skin and mask; the current wet material uses texture-masked specular.
         const std::vector<const Engine::ModelMaterial *> recoloured = recolouredTierMaterials(*pAsset);
         if (pAsset->materialVariants.size() != 3 || recoloured.size() != 3
             || recoloured[0]->imageIndex != recoloured[1]->imageIndex
             || recoloured[0]->regionMaskImageIndex < 0
             || recoloured[0]->regionMaskImageIndex != recoloured[2]->regionMaskImageIndex
             || recoloured[0]->regionRamps[0].colors == recoloured[1]->regionRamps[0].colors
-            || std::abs(recoloured[0]->specular - 0.7f) > 0.01f)
+            || std::any_of(recoloured.begin(), recoloured.end(), [](const Engine::ModelMaterial *pMaterial)
+                { return std::abs(pMaterial->specular - 1.0f) > 0.01f || !pMaterial->specularMask; }))
         {
-            failure = "ooze tiers do not share one glossy (specular 0.7) skin with three ramps";
+            failure = "ooze tiers do not share a texture-masked glossy skin with three ramps";
             return false;
         }
         return true;
@@ -14053,7 +14076,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 runtime.partyRuntime().teleportPartyPosition(-661.0f, -1059.0f, -39.0f);
 
                 const IndoorSceneRuntime::Snapshot snapshot = runtime.snapshot();
-                const std::filesystem::path savePath = "/tmp/openyamm_indoor_runtime_roundtrip.oysav";
+                const std::filesystem::path savePath =
+                    std::filesystem::temp_directory_path() / "openyamm_indoor_runtime_roundtrip.oysav";
                 GameSaveData saveData = {};
                 saveData.currentSceneKind = SceneKind::Indoor;
                 saveData.mapFileName = loadedMap->map.fileName;
@@ -17756,7 +17780,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         );
 
-        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount
+            << " skipped=" << skippedCount << '\n';
         return failedCount == 0 ? 0 : 1;
     }
 
@@ -17846,7 +17871,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 }
             }
 
-            const std::filesystem::path savePath = "/tmp/openyamm_destructible_roundtrip.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_destructible_roundtrip.oysav";
             GameSaveData saveData = {};
             saveData.currentSceneKind = SceneKind::Outdoor;
             saveData.mapFileName = modifiedMap.map.fileName;
@@ -18394,7 +18420,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         );
 
-        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount
+            << " skipped=" << skippedCount << '\n';
         return failedCount == 0 ? 0 : 1;
     }
 
@@ -26643,7 +26670,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             saveData.cameraYawRadians = 1.25f;
             saveData.cameraPitchRadians = -0.45f;
 
-            const std::filesystem::path savePath = "/tmp/openyamm_save_roundtrip.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_save_roundtrip.oysav";
             std::string error;
 
             if (!saveGameDataToPath(savePath, saveData, error))
@@ -29016,7 +29044,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplication &application = out02ViewSession.application;
 
-            const std::filesystem::path autosavePath = "/tmp/openyamm_edge_travel_cancel_autosave.oysav";
+            const std::filesystem::path autosavePath =
+                std::filesystem::temp_directory_path() / "openyamm_edge_travel_cancel_autosave.oysav";
             std::error_code removeError;
             std::filesystem::remove(autosavePath, removeError);
             GameApplicationTestAccess::setAutosavePath(application, autosavePath);
@@ -29270,7 +29299,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             const uint32_t qbitRawId = 458768;
             pEventRuntimeState->variables[qbitRawId] = 7;
 
-            const std::filesystem::path savePath = "/tmp/openyamm_app_quicksave_state.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_quicksave_state.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -29454,7 +29484,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             pEventRuntimeState->unavailableNpcIds.insert(32);
 
-            const std::filesystem::path savePath = "/tmp/openyamm_app_empty_house.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_empty_house.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -30439,7 +30470,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             pOut02State->variables[0x2345u] = 88;
 
-            const std::filesystem::path savePath = "/tmp/openyamm_app_cross_map.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_cross_map.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -30498,7 +30530,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplication &application = out01QuicksaveSession.application;
             GameApplicationTestAccess::setIndoorCameraAngles(application, 2.5f, -0.3f);
-            const std::filesystem::path savePath = "/tmp/openyamm_app_indoor_camera.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_indoor_camera.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -31328,7 +31361,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         }
     );
 
-    std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+    std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount
+        << " skipped=" << skippedCount << '\n';
     return failedCount == 0 ? 0 : 1;
 }
 }

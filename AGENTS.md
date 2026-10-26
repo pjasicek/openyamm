@@ -23,6 +23,8 @@ These rules apply to all AI-generated contributions in this repository.
 
 ## Workflow
 
+- User instruction (2026-10-25), applying to this and subsequent chats: builds are postponed while the user is
+  playing. Do not build or rebuild until the user explicitly resumes builds; use source/data checks meanwhile.
 - Use the local OpenEnroth checkout at `reference/OpenEnroth-git/`; do not search OpenEnroth on the web when local
   reference is available.
 - For original MM8 engine behavior research (pathing, collision, AI updates, timing or optimizations), use Rizin as

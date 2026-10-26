@@ -41,8 +41,20 @@ TEST_CASE("Wizard Eye actor markers include corpses, detected hostiles, and frie
 {
     using OpenYAMM::Game::wizardEyeShowsActorMarker;
 
-    CHECK(wizardEyeShowsActorMarker(true, false, true));
-    CHECK(wizardEyeShowsActorMarker(false, true, true));
-    CHECK(wizardEyeShowsActorMarker(false, false, false));
-    CHECK_FALSE(wizardEyeShowsActorMarker(false, false, true));
+    CHECK(wizardEyeShowsActorMarker(true, false, true, true));
+    CHECK(wizardEyeShowsActorMarker(false, true, true, false));
+    CHECK(wizardEyeShowsActorMarker(false, false, false, false));
+    CHECK_FALSE(wizardEyeShowsActorMarker(false, false, true, false));
+}
+
+TEST_CASE("Wizard Eye hides empty corpses even for detected or friendly actors")
+{
+    using OpenYAMM::Game::wizardEyeShowsActorMarker;
+
+    CHECK_FALSE(wizardEyeShowsActorMarker(true, false, true, false));
+    CHECK_FALSE(wizardEyeShowsActorMarker(true, true, true, false));
+    CHECK_FALSE(wizardEyeShowsActorMarker(true, false, false, false));
+    CHECK_FALSE(wizardEyeShowsActorMarker(true, true, false, false));
+    CHECK(wizardEyeShowsActorMarker(true, true, true, true));
+    CHECK(wizardEyeShowsActorMarker(true, false, false, true));
 }

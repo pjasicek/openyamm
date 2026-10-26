@@ -62,6 +62,7 @@ ModelInstanceHandle ModelInstanceSystem::create(
     slot.materialVariant = 0;
     slot.nodeMarkersVisible = false;
     slot.attachments.clear();
+    slot.nodeRotations.clear();
     slot.staticStandIn.reset();
     slot.coverage = 1.0f;
     slot.playing = false;

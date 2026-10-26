@@ -38,7 +38,9 @@ struct SpellEntry
 class SpellTable
 {
 public:
-    bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
+    bool loadFromRows(
+        const std::vector<std::vector<std::string>> &rows,
+        const std::vector<std::vector<std::string>> &canonicalRows = {});
     const SpellEntry *findById(int id) const;
     const SpellEntry *findByName(const std::string &name) const;
     const std::vector<SpellEntry> &entries() const;

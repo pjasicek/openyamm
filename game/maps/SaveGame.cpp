@@ -21,7 +21,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 88;
+constexpr uint32_t SaveVersion = 89;
+constexpr uint32_t SaveVersionUserMapNotes = 89;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -2001,6 +2002,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState::RuntimeMapNote &v
     writeValue(writer, value.mapFileName);
     writeValue(writer, value.text);
     writeValue(writer, value.active);
+    writeValue(writer, value.userCreated);
 }
 
 bool readValue(BinaryReader &reader, EventRuntimeState::RuntimeMapNote &value)
@@ -2024,8 +2026,10 @@ bool readValue(BinaryReader &reader, EventRuntimeState::RuntimeMapNote &value)
         value.mapFileName.clear();
     }
 
+    value.userCreated = false;
     return readValue(reader, value.text)
-        && readValue(reader, value.active);
+        && readValue(reader, value.active)
+        && (reader.version() < SaveVersionUserMapNotes || readValue(reader, value.userCreated));
 }
 
 void writeValue(BinaryWriter &writer, const EventRuntimeState::ChestItemRequest &value)

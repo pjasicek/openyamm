@@ -322,6 +322,7 @@ struct EventRuntimeState
         std::string mapFileName;
         std::string text;
         bool active = false;
+        bool userCreated = false;
     };
 
     struct SavedLocation

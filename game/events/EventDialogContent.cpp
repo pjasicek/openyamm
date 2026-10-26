@@ -332,7 +332,8 @@ std::string generatedNpcGreetingText(
     const MergedContinentSettingTable *pContinentSettingTable,
     float currentGameMinutes,
     bool npcIsHired,
-    bool seenGreeting)
+    bool seenGreeting,
+    const LocalizationCatalog *pLocalizationCatalog)
 {
     const std::optional<std::string> groupNews =
         generatedNpcGroupNewsText(runtimeState, npcDialogTable, npc.id, pCurrentMap);
@@ -357,7 +358,8 @@ std::string generatedNpcGreetingText(
     const int requiredReputation = personality.creed == "Dark"
         ? personality.requiredReputation : -personality.requiredReputation;
     return text ? formatNpcProfessionText(
-        *text, npc, profession, pParty, reputation, requiredReputation, currentGameMinutes) : std::string();
+        *text, npc, profession, pParty, reputation, requiredReputation, currentGameMinutes,
+        pLocalizationCatalog) : std::string();
 }
 
 std::string lowerTransitionTitle(const std::string &title)
@@ -844,7 +846,8 @@ std::string formatNpcProfessionText(
     const Party *pParty,
     int effectiveReputation,
     std::optional<int> requiredReputation,
-    float currentGameMinutes)
+    float currentGameMinutes,
+    const LocalizationCatalog *pLocalizationCatalog)
 {
     const Character *pActiveMember = pParty != nullptr ? pParty->activeMember() : nullptr;
     if (pActiveMember == nullptr && pParty != nullptr)
@@ -855,7 +858,9 @@ std::string formatNpcProfessionText(
     const std::string memberName = pActiveMember != nullptr ? pActiveMember->name : "traveler";
     const std::string className = pActiveMember != nullptr ? pActiveMember->className : "traveler";
     const uint32_t hour = static_cast<uint32_t>(std::max(0.0f, currentGameMinutes) / 60.0f) % 24u;
-    const std::string timeOfDay = hour <= 8u ? "morning" : (hour <= 16u ? "afternoon" : "evening");
+    const std::string timeOfDaySource = hour <= 8u ? "morning" : (hour <= 16u ? "afternoon" : "evening");
+    const std::string timeOfDay = pLocalizationCatalog != nullptr
+        ? pLocalizationCatalog->translate(timeOfDaySource) : timeOfDaySource;
     const std::array<std::pair<std::string, std::string>, 14> replacements = {{
         {"%01", npc.name},
         {"%02", memberName},
@@ -1448,7 +1453,7 @@ EventDialogContent buildEventDialogContent(
                         std::string greeting = generatedNpcGreetingText(
                             npcRuntimeState, *pNpc, *pNpcDialogTable, *pProfession, *pPersonality,
                             pCurrentMap, pParty, pWorldRuntime, pContinentSettingTable,
-                            currentGameMinutes, npcIsHired, greetingDisplayCount != 0);
+                            currentGameMinutes, npcIsHired, greetingDisplayCount != 0, pLocalizationCatalog);
                         if (!greeting.empty())
                         {
                             eventRuntimeState.npcGreetingDisplayCounts[pNpc->id] = greetingDisplayCount + 1;

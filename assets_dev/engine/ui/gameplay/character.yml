@@ -117,7 +117,7 @@ elements:
     anchor: bottom_Left
     offset_x: 16
     offset_y: -118
-    width: 75
+    width: 116
     height: 26
     z_index: 300
     interactive: true
@@ -136,9 +136,9 @@ elements:
       scale: 0.416667
   - id: CharacterSkillsButton
     anchor: bottom_Left
-    offset_x: 106
+    offset_x: 136
     offset_y: -118
-    width: 75
+    width: 76
     height: 26
     z_index: 300
     interactive: true
@@ -157,9 +157,9 @@ elements:
       scale: 0.416667
   - id: CharacterInventoryButton
     anchor: bottom_Left
-    offset_x: 196
+    offset_x: 216
     offset_y: -118
-    width: 75
+    width: 86
     height: 26
     z_index: 300
     interactive: true
@@ -178,9 +178,9 @@ elements:
       scale: 0.416667
   - id: CharacterAwardsButton
     anchor: bottom_Left
-    offset_x: 286
+    offset_x: 306
     offset_y: -118
-    width: 75
+    width: 70
     height: 26
     z_index: 300
     interactive: true
@@ -199,9 +199,9 @@ elements:
       scale: 0.416667
   - id: CharacterExitButton
     anchor: bottom_left
-    offset_x: 376
+    offset_x: 380
     offset_y: -118
-    width: 75
+    width: 71
     height: 26
     z_index: 300
     interactive: true
@@ -1069,9 +1069,9 @@ elements:
           align_y: middle
       - id: CharacterSkillsWeaponsLevelHeader
         anchor: top_left
-        offset_x: 176
+        offset_x: 196
         offset_y: 0
-        width: 48
+        width: 28
         height: 16
         text:
           value: Level
@@ -1113,9 +1113,9 @@ elements:
               geometry.
         - id: CharacterSkillsMagicLevelHeader
           anchor: below
-          offset_x: 156
+          offset_x: 176
           offset_y: 12
-          width: 48
+          width: 28
           height: 16
           text:
             value: Level
@@ -1139,9 +1139,9 @@ elements:
           align_y: middle
       - id: CharacterSkillsArmorLevelHeader
         anchor: top_left
-        offset_x: 394
+        offset_x: 414
         offset_y: 0
-        width: 48
+        width: 28
         height: 16
         text:
           value: Level
@@ -1183,9 +1183,9 @@ elements:
               geometry.
         - id: CharacterSkillsMiscLevelHeader
           anchor: below
-          offset_x: 156
+          offset_x: 176
           offset_y: 12
-          width: 48
+          width: 28
           height: 16
           text:
             value: Level

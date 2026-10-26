@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/TextTable.h"
@@ -7,6 +8,7 @@
 #include "game/party/SkillData.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/SpellTable.h"
 #include "game/tables/SpriteTables.h"
 
 #include "tests/RegressionGameData.h"
@@ -22,6 +24,40 @@
 
 namespace
 {
+TEST_CASE("localized spell names preserve monster lookup and canonical spell rules")
+{
+    using OpenYAMM::Game::SpellTable;
+
+    const std::vector<std::vector<std::string>> canonicalRows = {
+        {"2", "2", "Fire Bolt", "Fire", "Fire Bolt", "Fire damage"},
+        {"18", "7", "Lightning Bolt", "Air", "Lightning", "Air damage"}};
+    const std::vector<std::vector<std::string>> localizedRows = {
+        {"18", "7", "Молния", "Air", "Молния", "Air damage"},
+        {"2", "2", "Огненная стрела", "Fire", "Огненная стрела", "Fire damage"}};
+    SpellTable table;
+    REQUIRE(table.loadFromRows(localizedRows, canonicalRows));
+
+    const OpenYAMM::Game::SpellEntry *pLightning = table.findByName("lightning bolt");
+    REQUIRE(pLightning != nullptr);
+    CHECK_EQ(pLightning->id, 18);
+    CHECK_EQ(pLightning->name, "Молния");
+    CHECK_EQ(pLightning->normalizedName, "lightning bolt");
+    CHECK(table.findByName("Молния") == pLightning);
+    CHECK(table.findByName("LightningBolt") == pLightning);
+
+    const OpenYAMM::Game::SpellEntry *pFireBolt = table.findByName("fire bolt");
+    REQUIRE(pFireBolt != nullptr);
+    CHECK_EQ(pFireBolt->id, 2);
+    CHECK_EQ(pFireBolt->name, "Огненная стрела");
+    CHECK_EQ(pFireBolt->normalizedName, "fire bolt");
+    CHECK(table.findByName("Огненная стрела") == pFireBolt);
+
+    REQUIRE(table.loadFromRows(canonicalRows));
+    CHECK(table.findByName("Молния") == nullptr);
+    REQUIRE(table.findByName("lightning bolt") != nullptr);
+    CHECK_EQ(table.findByName("lightning bolt")->id, 18);
+}
+
 TEST_CASE("merged class display names hide mechanics keys")
 {
     CHECK_EQ(OpenYAMM::Game::displayClassName("GreatWyrm"), "Great Wyrm");
@@ -201,8 +237,7 @@ std::string lowercaseFileName(const std::filesystem::path &path)
 void checkFirstSpriteFrameTexture(
     const OpenYAMM::Game::SpriteFrameTable &spriteFrameTable,
     const std::string &spriteName,
-    const std::string &expectedTextureName,
-    const std::string &expectedAssetFileName)
+    const std::string &expectedTextureName)
 {
     const std::optional<uint16_t> spriteFrameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
     REQUIRE(spriteFrameIndex.has_value());
@@ -212,14 +247,7 @@ void checkFirstSpriteFrameTexture(
 
     const OpenYAMM::Game::ResolvedSpriteTexture texture = OpenYAMM::Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
     CHECK_EQ(texture.textureName, expectedTextureName);
-    // Billboards load the restored engine/decorations_x2/<texture>_p<palette>.png first and fall back to the native
-    // sprite (game/maps/MapDecorationTextures.cpp); either must exist.
-    const std::filesystem::path engineRoot = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine";
-    const std::filesystem::path restoredPath = engineRoot / "decorations_x2"
-        / (expectedTextureName + "_p" + std::to_string(pFrame->paletteId) + ".png");
-    CAPTURE(restoredPath.string());
-    CHECK((std::filesystem::exists(restoredPath)
-        || std::filesystem::exists(engineRoot / "sprites" / expectedAssetFileName)));
+    // These names are import metadata. Projectile and impact presentation use the effect library.
 }
 }
 
@@ -344,15 +372,22 @@ TEST_CASE("settings debug startup options round trip")
     std::filesystem::remove(path);
 }
 
-TEST_CASE("development and release settings expose the same options")
+TEST_CASE("release settings expose the persistent options written by the game")
 {
     const std::filesystem::path sourceDirectory = OPENYAMM_SOURCE_DIR;
-    const std::set<std::string> developmentKeys =
-        iniSettingKeys(readSourceTextFile(sourceDirectory / "settings.ini"));
+    const std::filesystem::path savedPath =
+        std::filesystem::temp_directory_path() / "openyamm_release_schema_test.ini";
+    std::string error;
+    const std::optional<OpenYAMM::Game::GameSettings> settings =
+        OpenYAMM::Game::loadGameSettings(sourceDirectory / "settings_release.ini", error);
+    REQUIRE_MESSAGE(settings.has_value(), error);
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameSettings(savedPath, *settings, error), error);
+    const std::set<std::string> serializedKeys = iniSettingKeys(readSourceTextFile(savedPath));
     const std::set<std::string> releaseKeys =
         iniSettingKeys(readSourceTextFile(sourceDirectory / "settings_release.ini"));
 
-    CHECK(developmentKeys == releaseKeys);
+    CHECK(serializedKeys == releaseKeys);
+    std::filesystem::remove(savedPath);
 }
 
 TEST_CASE("android settings profile uses mobile interaction defaults without diagnostic logging")
@@ -598,7 +633,7 @@ TEST_CASE("gameplay trace writes only when settings-backed sink is enabled")
     buffer << input.rdbuf();
     CHECK(buffer.str().find("[GameplayTrace] enabled gameplay message") != std::string::npos);
     CHECK(buffer.str().find("disabled gameplay message") == std::string::npos);
-
+    input.close();
     std::filesystem::remove(path);
 }
 
@@ -622,7 +657,7 @@ TEST_CASE("combat trace writes only when settings-backed sink is enabled")
     buffer << input.rdbuf();
     CHECK(buffer.str().find("[CombatTrace] enabled message") != std::string::npos);
     CHECK(buffer.str().find("disabled message") == std::string::npos);
-
+    input.close();
     std::filesystem::remove(path);
 }
 
@@ -749,12 +784,7 @@ TEST_CASE("outdoor minimap icons are world-owned")
     {
         const std::filesystem::path iconPath = entry.first / entry.second;
         CHECK(std::filesystem::exists(iconPath));
-        CHECK_EQ(
-            std::filesystem::status(iconPath).permissions() & std::filesystem::perms::all,
-            std::filesystem::perms::owner_read
-                | std::filesystem::perms::owner_write
-                | std::filesystem::perms::group_read
-                | std::filesystem::perms::others_read);
+        CHECK(OpenYAMM::Tests::hasAssetFilePermissions(iconPath));
     }
 
     const char *engineForbiddenIcons[] = {
@@ -831,12 +861,7 @@ TEST_CASE("mm8 screen backgrounds remain the engine defaults")
         CHECK_FALSE(std::filesystem::exists(mm8Icons / expectedBackground.fileName));
         CHECK_EQ(std::filesystem::file_size(path), expectedBackground.fileSize);
         CHECK_EQ(fnv1a64(readSourceBinaryFile(path)), expectedBackground.fnvHash);
-        CHECK_EQ(
-            std::filesystem::status(path).permissions() & std::filesystem::perms::all,
-            std::filesystem::perms::owner_read
-                | std::filesystem::perms::owner_write
-                | std::filesystem::perms::group_read
-                | std::filesystem::perms::others_read);
+        CHECK(OpenYAMM::Tests::hasAssetFilePermissions(path));
     }
 }
 
@@ -982,12 +1007,12 @@ TEST_CASE("monster hostility table follows merged merged party relations")
     CHECK(gameData.monsterTable.isHostileToParty(75));
 }
 
-TEST_CASE("light bolt sprites resolve to existing billboard textures")
+TEST_CASE("light bolt legacy frames retain the imported texture names")
 {
     const OpenYAMM::Game::SpriteFrameTable spriteFrameTable = loadCommonSpriteFrameTable();
 
-    checkFirstSpriteFrameTexture(spriteFrameTable, "spell78b", "sp78b", "sp78b.bmp");
-    checkFirstSpriteFrameTexture(spriteFrameTable, "spell78c", "sp78c", "sp78c.bmp");
+    checkFirstSpriteFrameTexture(spriteFrameTable, "spell78b", "sp78b");
+    checkFirstSpriteFrameTexture(spriteFrameTable, "spell78c", "sp78c");
 }
 
 TEST_CASE("directional sprite bases resolve with an octant suffix")

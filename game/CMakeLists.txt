@@ -350,6 +350,8 @@ if (OPENYAMM_BUILD_DESKTOP_EXECUTABLE)
     )
 
     target_compile_features(openyamm PRIVATE cxx_std_20)
+    set(OPENYAMM_DESKTOP_OUTPUT_NAME "openyamm" CACHE STRING "Desktop executable filename without extension")
+    set_target_properties(openyamm PROPERTIES OUTPUT_NAME "${OPENYAMM_DESKTOP_OUTPUT_NAME}")
 
     if (OPENYAMM_ENABLE_GPROF_SAMPLING)
         if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR NOT UNIX OR APPLE)

@@ -3,13 +3,16 @@
 /build-gprof/
 /build-prof/
 /build-windows-cross/
+/build-windows-release/
 /build-flatpak-release/
 /build_release/
 /out/
 /AI Files/
 /.idea/
 /.vscode/
+/.vs/
 .DS_Store
+._*
 /test_img/
 /script_dumps/*
 __pycache__/
@@ -25,6 +28,7 @@ __pycache__/
 
 # Local captures, packaged builds, user configuration and authoring archives.
 /output/
+/assets_dev/STALE_LIGHTING_BAKES.txt
 /logs/
 /.codex
 /.codex-log/

@@ -175,11 +175,11 @@ std::string formatRemainingDuration(float remainingSeconds)
     return std::to_string(seconds) + "s";
 }
 
-std::string formatCharacterDetailDuration(float remainingSeconds)
+std::string formatCharacterDetailDuration(const GameplayScreenRuntime &context, float remainingSeconds)
 {
     if (std::isinf(remainingSeconds))
     {
-        return "Constant";
+        return context.localizeHudText("Constant");
     }
     const int totalSeconds = std::max(0, int(std::lround(remainingSeconds)));
     const int hours = totalSeconds / 3600;
@@ -189,22 +189,22 @@ std::string formatCharacterDetailDuration(float remainingSeconds)
 
     if (hours > 0)
     {
-        parts.push_back(std::to_string(hours) + (hours == 1 ? " Hour" : " Hours"));
+        parts.push_back(context.localizeHudText(std::to_string(hours) + (hours == 1 ? " Hour" : " Hours")));
     }
 
     if (minutes > 0)
     {
-        parts.push_back(std::to_string(minutes) + (minutes == 1 ? " Minute" : " Minutes"));
+        parts.push_back(context.localizeHudText(std::to_string(minutes) + (minutes == 1 ? " Minute" : " Minutes")));
     }
 
     if (hours == 0 && seconds > 0)
     {
-        parts.push_back(std::to_string(seconds) + (seconds == 1 ? " Second" : " Seconds"));
+        parts.push_back(context.localizeHudText(std::to_string(seconds) + (seconds == 1 ? " Second" : " Seconds")));
     }
 
     if (parts.empty())
     {
-        return "0 Seconds";
+        return context.localizeHudText("0 Seconds");
     }
 
     std::string result;
@@ -285,18 +285,6 @@ constexpr std::array<CharacterStatRowDefinition, 26> CharacterStatRows = {{
     {"BodyResistance", "CharacterStatBodyResistanceLabel", "CharacterStatBodyResistanceValue"},
 }};
 
-std::string skillPageMasteryDisplayName(SkillMastery mastery)
-{
-    const std::string displayName = masteryDisplayName(mastery);
-
-    if (displayName == "Grandmaster")
-    {
-        return "Grand";
-    }
-
-    return displayName;
-}
-
 void appendCharacterSkillUiRows(
     const Character &character,
     std::vector<CharacterSkillUiRow> &rows,
@@ -320,7 +308,7 @@ void appendCharacterSkillUiRows(
 
         if (pSkill->mastery != SkillMastery::None && pSkill->mastery != SkillMastery::Normal)
         {
-            row.label += " " + skillPageMasteryDisplayName(pSkill->mastery);
+            row.label = masteryDisplayName(pSkill->mastery) + ": " + row.label;
         }
 
         row.level = std::to_string(pSkill->level);
@@ -424,7 +412,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
         if (skill.mastery != SkillMastery::None && skill.mastery != SkillMastery::Normal)
         {
-            row.label += " " + skillPageMasteryDisplayName(skill.mastery);
+            row.label = masteryDisplayName(skill.mastery) + ": " + row.label;
         }
 
         row.level = std::to_string(skill.level);
@@ -656,7 +644,8 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
 
             if (std::string_view(row.pStatName) == "Experience")
             {
-                const std::string supplement = GameMechanics::buildExperienceInspectSupplement(*pCharacter);
+                const std::string supplement =
+                    context.localizeHudText(GameMechanics::buildExperienceInspectSupplement(*pCharacter));
 
                 if (!supplement.empty())
                 {
@@ -1015,17 +1004,19 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
         characterAttackTuningFromSettings(context.settingsSnapshot()));
 
     overlay.active = true;
-    const std::string characterName = pCharacter->name.empty() ? "Member" : pCharacter->name;
+    const std::string characterName = pCharacter->name.empty() ? context.localizeHudText("Member") : pCharacter->name;
     const std::string characterClass =
-        displayClassName(!pCharacter->className.empty() ? pCharacter->className : pCharacter->role);
-    overlay.title = characterClass.empty() ? characterName : characterName + " the " + characterClass;
+        context.localizeHudText(displayClassName(
+            !pCharacter->className.empty() ? pCharacter->className : pCharacter->role));
+    overlay.title = characterClass.empty() ? characterName
+        : characterName + " " + context.localizeHudText("the " + characterClass);
     overlay.body.clear();
     overlay.portraitTextureName = defaultCharacterPortraitTextureName(*pCharacter);
     overlay.hitPointsText = std::to_string(summary.health.current) + " / " + std::to_string(summary.health.maximum);
     overlay.spellPointsText =
         std::to_string(summary.spellPoints.current) + " / " + std::to_string(summary.spellPoints.maximum);
-    overlay.conditionText = summary.conditionText;
-    overlay.quickSpellText = summary.quickSpellText;
+    overlay.conditionText = context.localizeHudText(summary.conditionText);
+    overlay.quickSpellText = context.localizeHudText(summary.quickSpellText);
     overlay.activeSpells.clear();
 
     struct CharacterBuffInspectLine
@@ -1059,8 +1050,8 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
             }
 
             GameplayUiController::CharacterDetailOverlayState::ActiveSpellLine line = {};
-            line.name = buffLine.pLabel;
-            line.duration = formatCharacterDetailDuration(pBuff->remainingSeconds);
+            line.name = context.localizeHudText(buffLine.pLabel);
+            line.duration = formatCharacterDetailDuration(context, pBuff->remainingSeconds);
             overlay.activeSpells.push_back(std::move(line));
         }
     }

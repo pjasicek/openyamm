@@ -5,6 +5,7 @@
 #include "game/ui/GameplayUiSkin.h"
 
 #include "engine/ImageAssetLoader.h"
+#include "engine/Utf8.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/AwardRuntime.h"
@@ -628,6 +629,11 @@ std::string journalMapCoordinatesText(
     const GameplayUiController::JournalScreenState &journalScreen,
     const EventRuntimeState::RuntimeMapNote *pActiveNote)
 {
+    if (journalScreen.mapNoteEditActive)
+    {
+        return "x: " + std::to_string(journalScreen.mapNoteEditX)
+            + "  y: " + std::to_string(journalScreen.mapNoteEditY);
+    }
     if (pActiveNote != nullptr)
     {
         return "x: " + std::to_string(pActiveNote->x) + "  y: " + std::to_string(pActiveNote->y);
@@ -675,7 +681,34 @@ void renderJournalMapTextFields(
 
     if (pNoteLayout != nullptr && noteResolved)
     {
-        context.renderLayoutLabel(*pNoteLayout, *noteResolved, pActiveNote != nullptr ? pActiveNote->text : "");
+        std::string text = pActiveNote != nullptr ? pActiveNote->text : "";
+        if (journalScreen.mapNotePlacementActive)
+        {
+            text = context.localizeHudText("Choose a point on the map");
+        }
+        else if (journalScreen.mapNoteEditActive)
+        {
+            text = journalScreen.mapNoteEditBuffer + "_";
+        }
+        GameplayScreenRuntime::HudLayoutElement noteLayout = *pNoteLayout;
+        const float textWidth = context.measureHudTextWidth(noteLayout.fontName, text) * noteLayout.textScale;
+        const float availableWidth = noteResolved->width / noteResolved->scale;
+        if (textWidth > availableWidth && textWidth > 0.0f)
+        {
+            noteLayout.textScale *= availableWidth / textWidth;
+        }
+        if (journalScreen.mapNoteEditActive || (pActiveNote != nullptr && pActiveNote->userCreated))
+        {
+            const float fontScale = noteResolved->scale * noteLayout.textScale;
+            const float fontHeight = float(context.hudFontHeight(noteLayout.fontName)) * fontScale;
+            context.renderHudTextLine(noteLayout.fontName, noteLayout.textColorAbgr, text,
+                noteResolved->x + noteLayout.textPadX * fontScale,
+                noteResolved->y + (noteResolved->height - fontHeight) * 0.5f, fontScale);
+        }
+        else
+        {
+            context.renderLayoutLabel(noteLayout, *noteResolved, text, false);
+        }
     }
 
     if (pCoordsLayout != nullptr && coordsResolved)
@@ -2093,18 +2126,6 @@ const CharacterDollEntry *resolveCharacterDollEntry(
     return pCharacterDollTable->getCharacter(1);
 }
 
-std::string skillPageMasteryDisplayName(SkillMastery mastery)
-{
-    const std::string displayName = masteryDisplayName(mastery);
-
-    if (displayName == "Grandmaster")
-    {
-        return "Grand";
-    }
-
-    return displayName;
-}
-
 void appendCharacterSkillUiRows(
     const Character &character,
     std::vector<CharacterSkillUiRow> &rows,
@@ -2128,7 +2149,7 @@ void appendCharacterSkillUiRows(
 
         if (pSkill->mastery != SkillMastery::None && pSkill->mastery != SkillMastery::Normal)
         {
-            row.label += " " + skillPageMasteryDisplayName(pSkill->mastery);
+            row.label = masteryDisplayName(pSkill->mastery) + ": " + row.label;
         }
 
         row.level = std::to_string(pSkill->level);
@@ -2190,7 +2211,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
         if (skill.mastery != SkillMastery::None && skill.mastery != SkillMastery::Normal)
         {
-            row.label += " " + skillPageMasteryDisplayName(skill.mastery);
+            row.label = masteryDisplayName(skill.mastery) + ": " + row.label;
         }
 
         row.level = std::to_string(skill.level);
@@ -4317,15 +4338,46 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
         const EventRuntimeState::RuntimeMapNote *pActiveMapNote =
             activeJournalMapNote(pEventRuntimeState, normalizedCurrentMapFileName, journalScreen);
 
-        if (pMapTitleLayout != nullptr && mapTitleResolved && pWorldRuntime != nullptr)
+        const EventRuntimeState::RuntimeMapNote *pSelectedNote = findVisibleRuntimeMapNote(
+            pEventRuntimeState, normalizedCurrentMapFileName, journalScreen.selectedMapNoteId);
+        const bool editingNote = journalScreen.mapNoteEditActive;
+        const bool placingNote = journalScreen.mapNotePlacementActive;
+        if (editingNote || placingNote)
         {
-            context.renderLayoutLabel(*pMapTitleLayout, *mapTitleResolved, pWorldRuntime->mapName());
+            if (editingNote)
+            {
+                GameplayUiSkin::renderButton(context, "JournalMapSaveNoteButton", width, height);
+            }
+            GameplayUiSkin::renderButton(context, "JournalMapCancelNoteButton", width, height);
+        }
+        else
+        {
+            GameplayUiSkin::renderButton(context, "JournalMapAddNoteButton", width, height,
+                false, pEventRuntimeState != nullptr);
+            const bool editable = pSelectedNote != nullptr && pSelectedNote->userCreated;
+            GameplayUiSkin::renderButton(context, "JournalMapEditNoteButton", width, height, false, editable);
+            GameplayUiSkin::renderButton(context, "JournalMapDeleteNoteButton", width, height, false, editable);
         }
 
+        if (pMapTitleLayout != nullptr && mapTitleResolved && pWorldRuntime != nullptr)
+        {
+            GameplayScreenRuntime::HudLayoutElement titleLayout = *pMapTitleLayout;
+            const std::string title = context.localizeHudText(pWorldRuntime->mapName());
+            const float titleWidth = context.measureHudTextWidth(titleLayout.fontName, title);
+            const float paddedWidth = titleWidth + std::abs(titleLayout.textPadX) * 2.0f;
+            if (paddedWidth > 0.0f && mapTitleResolved->scale > 0.0f)
+            {
+                // Fit the complete localized name before the label renderer clamps its text.
+                titleLayout.textScale = std::min(titleLayout.textScale,
+                    mapTitleResolved->width / (mapTitleResolved->scale * paddedWidth));
+            }
+            context.renderLayoutLabel(titleLayout, *mapTitleResolved, title);
+        }
+
+        GameplayMinimapState minimapState = {};
+        const bool hasMinimapState = context.tryGetGameplayMinimapState(minimapState);
         if (mapResolved)
         {
-            GameplayMinimapState minimapState = {};
-            const bool hasMinimapState = context.tryGetGameplayMinimapState(minimapState);
             const std::string mapTextureName = hasMinimapState && !minimapState.vectorBackground
                 ? minimapState.textureName
                 : toLowerCopy(std::filesystem::path(context.currentMapFileName()).stem().string());
@@ -4538,6 +4590,21 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             }
         }
 
+        if (editingNote && mapResolved)
+        {
+            const GameplayJournalMapPoint point = gameplayJournalWorldToScreen(
+                float(journalScreen.mapNoteEditX), float(journalScreen.mapNoteEditY),
+                mapResolved->x, mapResolved->y, mapResolved->width, mapResolved->height,
+                journalScreen, hasMinimapState ? &minimapState : nullptr);
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> pin = loadHudTexture("map-pin2");
+            if (pin)
+            {
+                const float pinWidth = float(pin->width) * mapResolved->scale;
+                const float pinHeight = float(pin->height) * mapResolved->scale;
+                submitJournalTextureClipped(context, *pin, point.x - pinWidth * 0.5f, point.y - pinHeight * 0.5f,
+                    pinWidth, pinHeight, *mapResolved);
+            }
+        }
         renderJournalMapTextFields(context, journalScreen, width, height, pActiveMapNote);
     }
     else if (pTitleLayout != nullptr && titleResolved && pTextLayout != nullptr && textResolved && bodyFont)
@@ -8003,9 +8070,10 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     {
         titleText.clear();
 
-        for (char character : overlay.title)
+        for (const Engine::Utf8CodePoint &character : Engine::decodeUtf8(overlay.title))
         {
-            const std::string candidateText = titleText + character;
+            const std::string candidateText = titleText
+                + overlay.title.substr(character.byteOffset, character.byteLength);
 
             if (context.measureHudTextWidth(*pTitleFont, candidateText) > maxTitleWidth)
             {
@@ -8028,7 +8096,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     float statsY = std::round(rootRect.y + 35.0f * popupScale);
     renderHudText(
         *pBodyFont,
-        "Hit Points : " + overlay.hitPointsText,
+        context.localizeHudText("Hit Points") + ": " + overlay.hitPointsText,
         statsX,
         statsY,
         bodyFontScale,
@@ -8036,7 +8104,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     statsY += statsLineAdvance;
     renderHudText(
         *pBodyFont,
-        "Spell Points : " + overlay.spellPointsText,
+        context.localizeHudText("Spell Points") + ": " + overlay.spellPointsText,
         statsX,
         statsY,
         bodyFontScale,
@@ -8044,7 +8112,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     statsY += statsLineAdvance;
     renderHudText(
         *pBodyFont,
-        "Condition: " + overlay.conditionText,
+        context.localizeHudText("Condition") + ": " + overlay.conditionText,
         statsX,
         statsY,
         bodyFontScale,
@@ -8052,7 +8120,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     statsY += statsLineAdvance;
     renderHudText(
         *pBodyFont,
-        "Quick Spell: " + overlay.quickSpellText,
+        context.localizeHudText("Quick Spell") + ": " + overlay.quickSpellText,
         statsX,
         statsY,
         bodyFontScale,
@@ -8062,7 +8130,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     const float activeSpellsHeaderY = std::round(rootRect.y + 100.0f * popupScale);
     renderHudText(
         *pBodyFont,
-        "Active Spells:",
+        context.localizeHudText("Active Spells:"),
         activeSpellsHeaderX,
         activeSpellsHeaderY,
         bodyFontScale,
@@ -8076,7 +8144,7 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     {
         renderHudText(
             *pSpellValueFont,
-            "None",
+            context.localizeHudText("None"),
             spellNameX,
             spellRowY,
             spellValueFontScale,
@@ -9867,7 +9935,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 UiLayoutManager::LayoutElement nameLayout = {};
                 nameLayout.fontName = "Lucida";
                 nameLayout.textScale = 1.0f;
-                const float textWidth = context.measureHudTextWidth("Lucida", row.label);
+                const std::string localizedLabel = context.localizeHudText(row.label);
+                const float textWidth = context.measureHudTextWidth("Lucida", localizedLabel);
                 if (textWidth > 0)
                 {
                     nameLayout.textScale = std::min(1.0f, (nameWidth / resolvedRegion->scale - 1.0f) / textWidth);
@@ -9881,7 +9950,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 nameResolved.width = nameWidth;
                 nameResolved.height = rowHeightPixels;
                 nameResolved.scale = resolvedRegion->scale;
-                context.renderLayoutLabel(nameLayout, nameResolved, row.label, false,
+                context.renderLayoutLabel(nameLayout, nameResolved, localizedLabel, false,
                     skillViewport ? &*skillViewport : nullptr);
 
                 if (!row.level.empty())

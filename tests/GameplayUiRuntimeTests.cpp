@@ -2,12 +2,76 @@
 #include "engine/ImageAssetLoader.h"
 #include "game/data/GameDataLoader.h"
 #include "game/ui/GameplayUiRuntime.h"
+#include "game/ui/GameplayHudCommon.h"
 
 #include <doctest/doctest.h>
 
 #include <algorithm>
 #include <array>
 #include <filesystem>
+#include <cmath>
+
+TEST_CASE("HUD label retains the final Cyrillic glyph after content width rounding")
+{
+    using namespace OpenYAMM::Game;
+    GameplayHudFontData font;
+    const std::string label = "Дерево";
+    const std::array<uint32_t, 5> codePoints = {0x414, 0x435, 0x440, 0x432, 0x43e};
+    for (size_t i = 0; i < codePoints.size(); ++i)
+    {
+        font.glyphsByCodePoint[codePoints[i]] = uint16_t(i + 1);
+        font.glyphMetrics[i + 1].outlineAdvance = 7.3f;
+    }
+    const float width = GameplayHudCommon::measureHudTextWidth(font, label);
+    const float roundedDown = std::nextafter(width, 0.0f);
+    CHECK(GameplayHudCommon::clampHudTextToWidth(font, label, roundedDown) == label);
+    for (int viewportWidth : {640, 853, 1024, 1280, 1366, 1920, 2560, 3840})
+    {
+        const float uiScale = viewportWidth / 640.0f;
+        const float textScale = uiScale * 0.75f;
+        const float plateWidth = width * textScale + 16 * uiScale;
+        const float availableWidth = (plateWidth - 16 * uiScale) / textScale;
+        CHECK(GameplayHudCommon::clampHudTextToWidth(font, label, availableWidth) == label);
+    }
+    CHECK(GameplayHudCommon::clampHudTextToWidth(font, label, width - 1.0f) == "Дерев");
+    CHECK(GameplayHudCommon::clampHudTextToWidth(font, label, 0).empty());
+}
+
+TEST_CASE("HUD font snapping preserves fitted labels at fractional viewport scales")
+{
+    using namespace OpenYAMM;
+    using namespace OpenYAMM::Game;
+    GameplayHudFontData font;
+    font.fontHeight = 17;
+    font.glyphsByCodePoint[0x44f] = 1;
+    font.glyphMetrics[1].outlineAdvance = 10.0f;
+    const std::string label = "яяяяяяяяяя";
+    UiLayoutManager::LayoutElement layout = {};
+    layout.textScale = 1.0f;
+    GameplayResolvedHudLayoutElement resolved = {};
+    resolved.scale = 1.95f;
+    resolved.height = 36.0f;
+
+    for (float availableWidth : {196.0f, 201.0f})
+    {
+        resolved.width = availableWidth;
+        size_t renderedLayers = 0;
+        GameplayHudCommon::renderLayoutLabel(
+            layout,
+            resolved,
+            label,
+            [&font](const std::string &) { return &font; },
+            [&](const GameplayHudFontData &, const GameplayHudFontLayer &, const std::string &text,
+                float, float, float scale)
+            {
+                CHECK(text == label);
+                CHECK(scale == doctest::Approx(availableWidth < 200.0f ? 1.95f : 2.0f));
+                CHECK(GameplayHudCommon::measureHudTextWidth(font, text) * scale <= availableWidth);
+                ++renderedLayers;
+            });
+        CHECK(renderedLayers == 2);
+    }
+}
 
 TEST_CASE("dimensional travel uses original artwork and matching continent hover regions")
 {

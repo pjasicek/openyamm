@@ -133,7 +133,8 @@ std::string formatNpcProfessionText(
     const Party *pParty,
     int effectiveReputation = 0,
     std::optional<int> requiredReputation = std::nullopt,
-    float currentGameMinutes = 0.0f);
+    float currentGameMinutes = 0.0f,
+    const LocalizationCatalog *pLocalizationCatalog = nullptr);
 
 uint32_t npcBtbDialogueAccessVariableKey(uint32_t npcId);
 uint32_t npcBtbDialogueAccessDay(float currentGameMinutes);

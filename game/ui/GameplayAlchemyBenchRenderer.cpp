@@ -128,7 +128,9 @@ public:
         const float fontScale = area->scale * std::max(0.1f, pStyle->textScale);
         const float lineHeight = static_cast<float>(m_context.hudFontHeight(pStyle->fontName)) * fontScale;
 
-        for (const std::string &line : m_context.wrapHudTextToWidth(pStyle->fontName, value, area->width / fontScale))
+        const std::string localizedValue = m_context.localizeHudText(value);
+        for (const std::string &line :
+            m_context.wrapHudTextToWidth(pStyle->fontName, localizedValue, area->width / fontScale))
         {
             // Lines past the element's bottom would run into the buttons below.
             if (lineY + lineHeight > area->y + area->height + 0.5f)
@@ -263,7 +265,7 @@ std::string statusHeadline(const GameplayAlchemyBenchModel &model)
     return "";
 }
 
-std::string statusBody(const GameplayAlchemyBenchModel &model)
+std::string statusBody(const GameplayScreenRuntime &context, const GameplayAlchemyBenchModel &model)
 {
     const std::string alchemist = model.alchemistName.empty() ? "Nobody in the party" : model.alchemistName;
     const std::string mastery = model.alchemist.mastery == SkillMastery::None
@@ -282,9 +284,10 @@ std::string statusBody(const GameplayAlchemyBenchModel &model)
                 ? "Needs " + GameplayAlchemyBenchView::masteryName(model.preview.requiredMastery)
                     + " Alchemy. Safe for " + alchemist + "."
                 : "Safe to mix.";
+            body = context.localizeHudText(body);
             if (model.preview.returnsBottle)
             {
-                body += " The empty bottle is returned.";
+                body += " " + context.localizeHudText("The empty bottle is returned.");
             }
             return body;
         }
@@ -310,17 +313,18 @@ std::string countList(const std::vector<AlchemyItemCount> &counts, const ItemTab
     return list;
 }
 
-std::string chainBody(const GameplayAlchemyBenchModel &model, const ItemTable &itemTable)
+std::string chainBody(
+    const GameplayScreenRuntime &context, const GameplayAlchemyBenchModel &model, const ItemTable &itemTable)
 {
     const AlchemyChainPlan &chain = *model.chain;
 
     if (model.chainMode)
     {
-        std::string body = "Uses: " + countList(chain.used, itemTable) + ".";
+        std::string body = context.localizeHudText("Uses: " + countList(chain.used, itemTable) + ".");
 
         if (!chain.brewedFirst.empty())
         {
-            body += " Brews first: " + countList(chain.brewedFirst, itemTable) + ".";
+            body += " " + context.localizeHudText("Brews first: " + countList(chain.brewedFirst, itemTable) + ".");
         }
 
         return body;
@@ -345,7 +349,7 @@ std::string chainBody(const GameplayAlchemyBenchModel &model, const ItemTable &i
                 });
             return name + " needs "
                 + (entry != model.book.entries.end()
-                    ? GameplayAlchemyBenchView::masteryName(entry->requiredMastery) : std::string("more"))
+                    ? GameplayAlchemyBenchView::masteryName(entry->requiredMastery) : std::string("higher mastery"))
                 + " Alchemy.";
         }
         case AlchemyChainBlock::None:
@@ -697,14 +701,14 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
             const float lineY = painter.paragraph("AlchemyBenchStatus",
                 model->chainMode ? "Brew chain" : "Can't brew yet",
                 model->chainMode ? GameplayUiSkin::Bonus : GameplayUiSkin::Penalty, status->y);
-            painter.paragraph("AlchemyBenchStatus", chainBody(*model, *pItemTable), DimTextColor,
+            painter.paragraph("AlchemyBenchStatus", chainBody(context, *model, *pItemTable), DimTextColor,
                 lineY + 3 * status->scale);
         }
         else
         {
             const float lineY = painter.paragraph("AlchemyBenchStatus", statusHeadline(*model),
                 statusColor(preview.outcome), status->y);
-            painter.paragraph("AlchemyBenchStatus", statusBody(*model), DimTextColor, lineY + 3 * status->scale);
+            painter.paragraph("AlchemyBenchStatus", statusBody(context, *model), DimTextColor, lineY + 3 * status->scale);
         }
     }
 
@@ -713,7 +717,8 @@ void GameplayAlchemyBenchRenderer::render(GameplayScreenRuntime &context, int wi
     const std::string mixAllLabel = model->chainMode ? "Brew All" : "Mix All";
     painter.button("AlchemyBenchMixButton", mixLabel, GameplayAlchemyBenchView::mixEnabled(*model));
     painter.button("AlchemyBenchMixAllButton",
-        model->mixAllCount > 1 ? mixAllLabel + " (" + std::to_string(model->mixAllCount) + ")" : mixAllLabel,
+        model->mixAllCount > 1
+            ? context.localizeHudText(mixAllLabel) + " (" + std::to_string(model->mixAllCount) + ")" : mixAllLabel,
         model->mixAllCount > 1);
     painter.button("AlchemyBenchClearButton", "Clear", state.targetItemId != 0 || state.heldItemId != 0);
     painter.button("AlchemyBenchCloseButton", "Close", true);

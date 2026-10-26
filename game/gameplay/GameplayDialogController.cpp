@@ -3455,7 +3455,10 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             *pNpc,
             *pProfession,
             context.pParty,
-            effectiveReputationForContext(context)));
+            effectiveReputationForContext(context),
+            std::nullopt,
+            context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f,
+            context.pLocalizationCatalog));
 
         EventRuntimeState::DialogueOfferState offerState = {};
         offerState.kind = DialogueOfferKind::NpcHire;
@@ -3653,7 +3656,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                     context.pParty,
                     effectiveReputationForContext(context),
                     std::nullopt,
-                    context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f));
+                    context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f,
+                    context.pLocalizationCatalog));
             }
         }
 
@@ -3719,7 +3723,9 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                             effectiveReputationForContext(context),
                             pBtbEntry != nullptr
                                 ? std::optional<int>(requiredNpcReputationForBtb(*pBtbEntry))
-                                : std::nullopt)
+                                : std::nullopt,
+                            context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f,
+                            context.pLocalizationCatalog)
                         : *text);
             }
         }

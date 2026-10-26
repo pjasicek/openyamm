@@ -355,6 +355,12 @@ public:
         float mapDragStartCenterY = 0.0f;
         uint32_t selectedMapNoteId = 0;
         uint32_t hoveredMapNoteId = 0;
+        bool mapNotePlacementActive = false;
+        bool mapNoteEditActive = false;
+        uint32_t mapNoteEditId = 0;
+        int32_t mapNoteEditX = 0;
+        int32_t mapNoteEditY = 0;
+        std::string mapNoteEditBuffer;
         float mapCursorWorldX = 0.0f;
         float mapCursorWorldY = 0.0f;
         bool mapCursorWorldValid = false;

@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/AssetFileSystem.h"
@@ -1461,7 +1462,12 @@ TEST_CASE("outdoor scenes preserve authored day and night fog profiles")
     CHECK_EQ(fogProfile.weakDistance, doctest::Approx(64.0f));
     CHECK_EQ(fogProfile.strongDistance, doctest::Approx(11520.0f));
 
-    sceneError.clear();
+}
+
+TEST_CASE("MM9 scenes preserve authored fog and lighting overrides" * OpenYAMM::Tests::requiresMm9Assets())
+{
+    OpenYAMM::Game::OutdoorSceneYmlLoader sceneLoader;
+    std::string sceneError;
     const std::optional<OpenYAMM::Game::OutdoorSceneData> drangheimBaseScene = sceneLoader.loadFromText(
         loadSourceFileText("assets_dev/worlds/mm9/maps/drangheim.scene.yml"),
         sceneError);
@@ -2055,7 +2061,7 @@ TEST_CASE("mm6 Dragoons Caverns flour sack states use MMMerge food search and cl
         REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
         CHECK_EQ(
             runtimeState.statusMessages.front(),
-            foundFood > 0 ? "You found " + std::to_string(foundFood) + " food!" : "Empty sack");
+            foundFood > 0 ? "You find " + std::to_string(foundFood) + " food" : "Empty sack");
         CHECK_EQ(runtimeState.decorVars[0], bindingSpec->eventCount);
         CHECK(OpenYAMM::Game::interactiveDecorationIsCleared(
             runtimeState.decorVars[0],
@@ -2178,7 +2184,8 @@ TEST_CASE("mm7 shoals scene overlay combines always dark fog with underwater tin
     CHECK_EQ(mergedScene.environment.mapExtraBitsRaw, 0x54u);
 }
 
-TEST_CASE("thjorad mine scene imports CaveIn as a typed destructible with its touch trigger")
+TEST_CASE("thjorad mine scene imports CaveIn as a typed destructible with its touch trigger"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     const std::filesystem::path scenePath =
         std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/maps/thjoradmine.scene.yml";

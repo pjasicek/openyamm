@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "game/audio/SoundIds.h"
@@ -3877,17 +3878,11 @@ TEST_CASE("dwi temple proprietor portrait uses mm8 overlay icon")
         sourceRoot / "assets_dev/engine/icons_x2/NPC1130.png";
 
     REQUIRE(std::filesystem::exists(worldPortrait));
-    CHECK_FALSE(std::filesystem::exists(uppercaseWorldPortrait));
+    CHECK_FALSE(OpenYAMM::Tests::hasExactFileName(uppercaseWorldPortrait));
     CHECK_FALSE(std::filesystem::exists(enginePortrait));
     CHECK_FALSE(std::filesystem::exists(uppercaseEnginePortrait));
 
-    const std::filesystem::perms portraitPermissions = std::filesystem::status(worldPortrait).permissions();
-    CHECK_EQ(
-        portraitPermissions & std::filesystem::perms::all,
-        std::filesystem::perms::owner_read
-            | std::filesystem::perms::owner_write
-            | std::filesystem::perms::group_read
-            | std::filesystem::perms::others_read);
+    CHECK(OpenYAMM::Tests::hasAssetFilePermissions(worldPortrait));
 
     CHECK_EQ(fnv1a64(readBinaryFileBytes(worldPortrait)), 0x4503bad3e143623dull);
 }

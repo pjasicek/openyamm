@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "game/maps/MapItemSourceYml.h"
@@ -393,6 +394,10 @@ TEST_CASE("MM9 loot-container presentation resolves through the shared chest tab
     REQUIRE(chestTable.get(chest.chestTypeId) != nullptr);
     CHECK_EQ(chestTable.get(chest.chestTypeId)->textureName, "mm9_treasure_bag");
 
+}
+
+TEST_CASE("MM9 loot-container icons exist in the world package" * OpenYAMM::Tests::requiresMm9Assets())
+{
     const std::filesystem::path iconRoot =
         std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/icons";
     CHECK(std::filesystem::exists(iconRoot / "mm9_chest.png"));

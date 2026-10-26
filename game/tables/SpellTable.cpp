@@ -89,7 +89,9 @@ bool isNumericString(const std::string &value)
 }
 }
 
-bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
+bool SpellTable::loadFromRows(
+    const std::vector<std::vector<std::string>> &rows,
+    const std::vector<std::vector<std::string>> &canonicalRows)
 {
     m_entries.clear();
     m_entryIndexById.clear();
@@ -131,6 +133,27 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         m_entryIndexByNormalizedName[entry.normalizedName] = m_entries.size();
         m_entryIndexByNormalizedName[compactName(entry.name)] = m_entries.size();
         m_entries.push_back(std::move(entry));
+    }
+
+    // Display names are translated; monster descriptors and spell rules use the base table's names.
+    // Match by id because translated tables need not retain the base row order.
+    for (const std::vector<std::string> &row : canonicalRows)
+    {
+        if (row.size() < 3 || !isNumericString(row[0]))
+        {
+            continue;
+        }
+
+        const auto entryIt = m_entryIndexById.find(std::stoi(row[0]));
+        if (entryIt == m_entryIndexById.end())
+        {
+            continue;
+        }
+
+        SpellEntry &entry = m_entries[entryIt->second];
+        entry.normalizedName = canonicalLegacySpellAlias(normalizeName(row[2]));
+        m_entryIndexByNormalizedName[entry.normalizedName] = entryIt->second;
+        m_entryIndexByNormalizedName[compactName(row[2])] = entryIt->second;
     }
 
     return !m_entries.empty();

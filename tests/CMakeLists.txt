@@ -23,6 +23,7 @@ add_executable(openyamm_unit_tests
     MeleeContactEffectsTests.cpp
     GameplayBolsterRuntimeTests.cpp
     GameplaySaveLoadUiSupportTests.cpp
+    GameplayMapNotesTests.cpp
     AlchemyBenchRegressionTests.cpp
     GameplayRuleRegressionTests.cpp
     GameInputSystemTests.cpp
@@ -377,6 +378,7 @@ add_executable(openyamm_runtime_tests
     RegressionGameData.cpp
     NewGameScreenTests.cpp
     GameplayUiRuntimeTests.cpp
+    GameplayMapNotesInputTests.cpp
     GameplaySpellServiceTests.cpp
     IndoorActorDetectionRuntimeTests.cpp
     IndoorActorFlyingRuntimeTests.cpp
