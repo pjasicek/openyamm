@@ -1251,6 +1251,7 @@ void GameplayUiRenderer::renderMobileInspectButton(GameplayScreenRuntime &contex
 
     const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
     const bool inspectHeld = pInput != nullptr && pInput->rightMouseButton.held;
+    const bool inspectLocked = pInput != nullptr && pInput->mobileInspectLocked;
     const std::optional<GameplayResolvedHudLayoutElement> resolved = resolveLayout(
         context,
         pLayout->id,
@@ -1265,6 +1266,7 @@ void GameplayUiRenderer::renderMobileInspectButton(GameplayScreenRuntime &contex
     }
 
     context.prepareHudView(width, height);
-    GameplayUiSkin::renderIconButton(context, *resolved, pLayout->primaryAsset, false, inspectHeld, inspectHeld);
+    GameplayUiSkin::renderIconButton(
+        context, *resolved, pLayout->primaryAsset, false, inspectHeld && !inspectLocked, inspectLocked);
 }
 } // namespace OpenYAMM::Game

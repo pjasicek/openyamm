@@ -29,6 +29,7 @@ struct GameplayInputFrame
     float relativeMouseY = 0.0f;
     std::string textInput;
     bool mobileJoystickActive = false;
+    bool mobileInspectLocked = false;
     bool turnBasedMovementStep = false;
     bool turnBasedPhysicsStep = false;
     // Real frame time for keyboard turning and looking, which the original allows even while turn-based movement

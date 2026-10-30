@@ -204,6 +204,7 @@ TEST_CASE("Android item drags preserve pickup, drop, pointer and inspection")
         {
             SDL_Event touch = {};
             touch.type = type;
+            touch.tfinger.timestamp = SDL_GetTicksNS();
             touch.tfinger.fingerID = finger;
             touch.tfinger.x = x / width;
             touch.tfinger.y = y / height;
@@ -255,17 +256,93 @@ TEST_CASE("Android item drags preserve pickup, drop, pointer and inspection")
             event(input, SDL_EVENT_FINGER_DOWN, 2, width - 60, 40);
             update(input);
             CHECK(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.pressed);
             CHECK_FALSE(input.frame().leftMouseButton.held);
+            update(input);
+            CHECK(input.frame().rightMouseButton.held);
+            CHECK_FALSE(input.frame().rightMouseButton.pressed);
+
             event(input, SDL_EVENT_FINGER_DOWN, 3, width / 3, height / 3);
             update(input);
             CHECK(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.pressed);
             CHECK(pointerAt(input, width / 3, height / 3));
             event(input, SDL_EVENT_FINGER_UP, 3, width / 3, height / 3);
+            update(input);
+            CHECK(input.frame().rightMouseButton.held);
+
+            event(input, SDL_EVENT_FINGER_DOWN, 4, width / 2, height / 2);
+            event(input, SDL_EVENT_FINGER_UP, 4, width / 2, height / 2);
+            update(input);
+            CHECK(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.pressed);
+            CHECK(pointerAt(input, width / 2, height / 2));
+
             event(input, SDL_EVENT_FINGER_UP, 2, width - 60, 40);
             update(input);
-            CHECK_FALSE(input.frame().rightMouseButton.held);
+            CHECK(input.frame().rightMouseButton.released);
         }
     }
+}
+
+TEST_CASE("Android inspect button can latch right mouse input")
+{
+    const int width = 1600;
+    const int height = 900;
+    const std::array<GameplayTouchControl, 1> controls = {{
+        {GameplayTouchRole::Inspect, float(width - 100), 10, 80, 60}}};
+    const auto event = [&](GameInputSystem &input, uint32_t type, int finger, float x, float y)
+    {
+        SDL_Event touch = {};
+        touch.type = type;
+        touch.tfinger.timestamp = SDL_GetTicksNS();
+        touch.tfinger.fingerID = finger;
+        touch.tfinger.x = x / width;
+        touch.tfinger.y = y / height;
+        input.handleSdlEvent(touch);
+    };
+    const auto update = [&](GameInputSystem &input)
+    {
+        input.updateFromEngineInput(
+            width, height, 0, GameSettings{}, false, false, false, false, true, false, controls);
+    };
+    const auto pointerAt = [&](const GameInputSystem &input, float x, float y)
+    {
+        return std::abs(input.frame().pointerX - x) < 0.01f
+            && std::abs(input.frame().pointerY - y) < 0.01f;
+    };
+
+    GameInputSystem input;
+    event(input, SDL_EVENT_FINGER_DOWN, 1, width - 60, 40);
+    update(input);
+    CHECK(input.frame().rightMouseButton.pressed);
+    CHECK_FALSE(input.frame().mobileInspectLocked);
+
+    SDL_Delay(670);
+    update(input);
+    CHECK(input.frame().rightMouseButton.held);
+    CHECK(input.frame().mobileInspectLocked);
+
+    event(input, SDL_EVENT_FINGER_UP, 1, width - 60, 40);
+    update(input);
+    CHECK(input.frame().rightMouseButton.held);
+    CHECK(input.frame().mobileInspectLocked);
+
+    event(input, SDL_EVENT_FINGER_DOWN, 2, 500, 300);
+    event(input, SDL_EVENT_FINGER_UP, 2, 500, 300);
+    update(input);
+    CHECK(input.frame().rightMouseButton.pressed);
+    CHECK(pointerAt(input, 500, 300));
+    CHECK(input.frame().mobileInspectLocked);
+
+    event(input, SDL_EVENT_FINGER_DOWN, 3, width - 60, 40);
+    update(input);
+    SDL_Delay(670);
+    update(input);
+    CHECK_FALSE(input.frame().mobileInspectLocked);
+    event(input, SDL_EVENT_FINGER_UP, 3, width - 60, 40);
+    update(input);
+    CHECK(input.frame().rightMouseButton.released);
 }
 
 TEST_CASE("Android overlay taps click on release and long presses inspect")

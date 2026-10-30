@@ -28,6 +28,7 @@ constexpr float MobileDebugConsoleGestureTopEdgeNormalized = 0.055f;
 constexpr float MobileDebugConsoleGestureMinDragNormalized = 0.14f;
 constexpr float MobileDebugConsoleGestureMaxHorizontalNormalized = 0.09f;
 constexpr uint64_t MobileLongPressInspectNanoseconds = 400'000'000ULL;
+constexpr uint64_t MobileInspectToggleNanoseconds = 650'000'000ULL;
 
 GameplayButtonInputState buildButtonState(bool held, bool previousHeld)
 {
@@ -457,6 +458,12 @@ void GameInputSystem::updateFromEngineInput(
 #if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     const bool useMobileGameplayTouchControls = mobileGameplayTouchControlsEnabled && !blockGameplayInput;
     const bool useMobileJumpGesture = useMobileGameplayTouchControls && mobileJumpGestureEnabled;
+
+    if (!mobileInspectControlEnabled || blockGameplayInput)
+    {
+        m_mobileInspectLocked = false;
+    }
+
     const auto setMobileActionHeld =
         [&settings, &actionHeld, this](KeyboardAction action)
         {
@@ -527,8 +534,11 @@ void GameInputSystem::updateFromEngineInput(
             return MobileTouchRole::None;
         };
 
-    bool inspectModifierHeld = false;
+    bool inspectButtonHeld = false;
     bool longPressInspectHeld = false;
+    bool inspectTargetPressed = false;
+    float inspectTargetPressX = 0.0f;
+    float inspectTargetPressY = 0.0f;
     const uint64_t nowNanoseconds = SDL_GetTicksNS();
 
     for (MobileTouchPoint &touch : m_mobileTouches)
@@ -561,14 +571,62 @@ void GameInputSystem::updateFromEngineInput(
             && mobileInspectButtonAt(touchLogicalX(touch.startX), touchLogicalY(touch.startY)))
         {
             touch.role = MobileTouchRole::InspectModifier;
+            touch.inspectToggleCandidate = true;
         }
 
         if (!blockGameplayInput
             && mobileInspectControlEnabled
             && touch.role == MobileTouchRole::InspectModifier)
         {
-            inspectModifierHeld = true;
+            inspectButtonHeld = true;
         }
+    }
+
+    if (inspectButtonHeld)
+    {
+        for (MobileTouchPoint &touch : m_mobileTouches)
+        {
+            if (!touch.active || touch.role != MobileTouchRole::InspectModifier || !touch.inspectToggleCandidate)
+            {
+                continue;
+            }
+
+            const bool hasOtherTouch = std::any_of(
+                m_mobileTouches.begin(),
+                m_mobileTouches.end(),
+                [&touch](const MobileTouchPoint &other)
+                {
+                    return &other != &touch
+                        && other.active
+                        && other.role != MobileTouchRole::DebugConsoleGesture;
+                });
+
+            if (hasOtherTouch)
+            {
+                touch.inspectToggleCandidate = false;
+                continue;
+            }
+
+            if (touch.startTimestampNanoseconds != 0
+                && nowNanoseconds >= touch.startTimestampNanoseconds
+                && nowNanoseconds - touch.startTimestampNanoseconds >= MobileInspectToggleNanoseconds)
+            {
+                m_mobileInspectLocked = !m_mobileInspectLocked;
+                touch.inspectToggleCandidate = false;
+            }
+        }
+    }
+
+    m_frame.mobileInspectLocked = m_mobileInspectLocked;
+    const bool inspectModifierHeld = inspectButtonHeld || m_mobileInspectLocked;
+
+    if (inspectModifierHeld && m_mobilePendingHudTap)
+    {
+        inspectTargetPressed = true;
+        inspectTargetPressX = m_mobilePendingHudTapX * static_cast<float>(screenWidth);
+        inspectTargetPressY = m_mobilePendingHudTapY * static_cast<float>(screenHeight);
+        m_mobilePendingHudTap = false;
+        m_mobilePendingHudRelease = false;
     }
 
     if (inspectModifierHeld)
@@ -579,6 +637,13 @@ void GameInputSystem::updateFromEngineInput(
                 && touch.role != MobileTouchRole::InspectModifier
                 && touch.role != MobileTouchRole::DebugConsoleGesture)
             {
+                if (!inspectTargetPressed && touch.role != MobileTouchRole::InspectTarget)
+                {
+                    inspectTargetPressed = true;
+                    inspectTargetPressX = touch.x * static_cast<float>(screenWidth);
+                    inspectTargetPressY = touch.y * static_cast<float>(screenHeight);
+                }
+
                 touch.role = MobileTouchRole::InspectTarget;
             }
         }
@@ -824,7 +889,12 @@ void GameInputSystem::updateFromEngineInput(
 
     if (inspectModifierHeld || longPressInspectHeld)
     {
-        if (hasInspectTargetTouch)
+        if (inspectTargetPressed)
+        {
+            m_frame.pointerX = inspectTargetPressX;
+            m_frame.pointerY = inspectTargetPressY;
+        }
+        else if (hasInspectTargetTouch)
         {
             m_frame.pointerX = inspectTargetX;
             m_frame.pointerY = inspectTargetY;
@@ -942,6 +1012,13 @@ void GameInputSystem::updateFromEngineInput(
 
     m_frame.leftMouseButton = buildButtonState(leftMouseButtonHeld, m_previousLeftMouseButtonHeld);
     m_frame.rightMouseButton = buildButtonState(rightMouseButtonHeld, m_previousRightMouseButtonHeld);
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
+    if (inspectTargetPressed && rightMouseButtonHeld)
+    {
+        // A new target touch is a new right-click even while the magnifier keeps the button logically held.
+        m_frame.rightMouseButton.pressed = true;
+    }
+#endif
     m_frame.middleMouseButton = buildButtonState(middleMouseButtonHeld, m_previousMiddleMouseButtonHeld);
 
     for (size_t actionIndex = 0; actionIndex < actionHeld.size(); ++actionIndex)
@@ -986,5 +1063,11 @@ void GameInputSystem::suppressMouseButtonsUntilReleased()
     m_previousLeftMouseButtonHeld = false;
     m_previousRightMouseButtonHeld = false;
     m_previousMiddleMouseButtonHeld = false;
+    m_mobileInspectLocked = false;
+
+    for (MobileTouchPoint &touch : m_mobileTouches)
+    {
+        touch.inspectToggleCandidate = false;
+    }
 }
 } // namespace OpenYAMM::Game
