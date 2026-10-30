@@ -2327,6 +2327,11 @@ int32_t EventRuntime::getVariableValue(
 
     if (variable.kind == VariableKind::AutoNote)
     {
+        if (pParty != nullptr)
+        {
+            return pParty->autonoteValue(variable.index);
+        }
+
         const std::unordered_map<uint32_t, int32_t>::const_iterator iterator = runtimeState.variables.find(variable.rawId);
         return iterator != runtimeState.variables.end() ? iterator->second : 0;
     }
@@ -2879,7 +2884,14 @@ void EventRuntime::setVariableValue(
     if (variable.kind == VariableKind::AutoNote)
     {
         const int32_t normalizedValue = value != 0 ? value : 0;
-        runtimeState.variables[variable.rawId] = normalizedValue;
+        if (pParty != nullptr)
+        {
+            pParty->setAutonoteValue(variable.index, normalizedValue);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = normalizedValue;
+        }
 
         if (normalizedValue != 0 && previousValue == 0)
         {
@@ -3658,7 +3670,14 @@ void EventRuntime::addVariableValue(
     if (variable.kind == VariableKind::AutoNote)
     {
         const int32_t updatedValue = previousValue != 0 ? previousValue : value;
-        runtimeState.variables[variable.rawId] = updatedValue;
+        if (pParty != nullptr)
+        {
+            pParty->setAutonoteValue(variable.index, updatedValue);
+        }
+        else
+        {
+            runtimeState.variables[variable.rawId] = updatedValue;
+        }
 
         if (updatedValue != 0 && previousValue == 0)
         {
@@ -4117,7 +4136,14 @@ void EventRuntime::subtractVariableValue(
     {
         if (value > 0)
         {
-            runtimeState.variables[variable.rawId] = 0;
+            if (pParty != nullptr)
+            {
+                pParty->setAutonoteValue(variable.index, 0);
+            }
+            else
+            {
+                runtimeState.variables[variable.rawId] = 0;
+            }
         }
 
         return;

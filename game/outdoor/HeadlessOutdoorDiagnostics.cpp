@@ -29973,7 +29973,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             constexpr uint32_t TeacherHouseId = 371;
             constexpr uint32_t TeacherNpcId = 373;
             constexpr uint32_t TeacherTopicId = 388;
-            constexpr uint32_t AutoNoteRawId = ((128u + (TeacherTopicId - 300u)) << 16) | 0x00E1u;
+            constexpr uint32_t AutonoteId = 128u + (TeacherTopicId - 300u);
             const HouseEntry *pTeacherHouse = houseTable.get(TeacherHouseId);
 
             if (pTeacherHouse == nullptr)
@@ -29998,7 +29998,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (pEventRuntimeState->variables.contains(AutoNoteRawId))
+            if (pWorld->party()->autonoteValue(AutonoteId) != 0)
             {
                 failure = "teacher autonote was already unlocked before house entry";
                 return false;
@@ -30031,9 +30031,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const auto noteIt = pEventRuntimeState->variables.find(AutoNoteRawId);
-
-            if (noteIt == pEventRuntimeState->variables.end() || noteIt->second == 0)
+            if (pWorld->party()->autonoteValue(AutonoteId) == 0)
             {
                 failure = "teacher autonote was not unlocked on house entry";
                 return false;
@@ -30426,6 +30424,86 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            return true;
+        }
+    );
+
+    runCase(
+        "app_sorpigal_storage_chests_survive_refill_and_save_roundtrip",
+        [&](std::string &failure)
+        {
+            SharedHeadlessApplicationSession storageSession(m_config);
+            if (!prepareSharedHeadlessGameApplication(
+                    storageSession, assetFileSystem, "oute3.odm", false, failure))
+            {
+                return false;
+            }
+            GameApplication &application = storageSession.application;
+            OutdoorWorldRuntime &world = *GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorWorldRuntime::Snapshot state = world.snapshot();
+            if (state.chests.size() <= 3)
+            {
+                failure = "bridge chests are missing";
+                return false;
+            }
+            state.materializedChestViews.resize(state.chests.size());
+            state.openedChestFlags.resize(state.chests.size());
+            for (uint32_t chestId : {1u, 2u, 3u})
+            {
+                GameplayChestViewState view;
+                view.chestId = chestId;
+                view.gridWidth = 9;
+                view.gridHeight = 9;
+                state.materializedChestViews[chestId] = view;
+                state.openedChestFlags[chestId] = 1;
+                state.chests[chestId].flags = 6;
+            }
+            GameplayChestItemState item;
+            item.item = ItemGenerator::makeInventoryItem(
+                1, GameApplicationTestAccess::gameDataLoader(application).getItemTable(), ItemGenerationMode::ChestLoot);
+            item.itemId = item.item.objectDescriptionId;
+            item.quantity = 1;
+            item.gridX = 2;
+            item.gridY = 3;
+            state.materializedChestViews[2]->items.push_back(item);
+            const int32_t previousRespawnCount = state.locationInfo.respawnCount;
+            state.locationInfo.lastRespawnDay = 1;
+            state.gameMinutes = 2000.0f * 24.0f * 60.0f;
+            world.restoreSnapshot(state);
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "oute3.odm", failure))
+            {
+                return false;
+            }
+            const auto storageIsIntact = [&]()
+            {
+                const OutdoorWorldRuntime::Snapshot current =
+                    GameApplicationTestAccess::outdoorWorldRuntime(application)->snapshot();
+                return current.locationInfo.respawnCount == previousRespawnCount + 1
+                    && current.materializedChestViews.size() > 3
+                    && !current.materializedChestViews[1]
+                    && current.materializedChestViews[2] && current.materializedChestViews[3]
+                    && current.materializedChestViews[2]->items.size() == 1
+                    && current.materializedChestViews[2]->items[0].itemId == item.itemId
+                    && current.materializedChestViews[2]->items[0].gridX == 2
+                    && current.materializedChestViews[2]->items[0].gridY == 3
+                    && current.materializedChestViews[3]->items.empty();
+            };
+            if (!storageIsIntact())
+            {
+                failure = "map refill did not preserve both storage chests while resetting ordinary loot";
+                return false;
+            }
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_sorpigal_storage.oysav";
+            const bool saved = GameApplicationTestAccess::quickSaveToPath(application, savePath);
+            const bool loaded = saved && GameApplicationTestAccess::quickLoadFromPath(application, savePath, true);
+            std::error_code removeError;
+            std::filesystem::remove(savePath, removeError);
+            if (!loaded || !storageIsIntact())
+            {
+                failure = "storage chest inventory did not survive application save/load";
+                return false;
+            }
             return true;
         }
     );

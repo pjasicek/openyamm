@@ -77,8 +77,9 @@ TEST_CASE("menu settings validate input and preserve unrelated game configuratio
 TEST_CASE("menu binding reservation and equality follow native single input bindings")
 {
     CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_ESCAPE)));
+    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F5)));
     CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F9)));
-    CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F10)));
+    CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F10)));
     CHECK(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_5)));
     CHECK_FALSE(reservedMenuBinding(keyboardInputBinding(SDL_SCANCODE_F2)));
     CHECK_FALSE(reservedMenuBinding(mouseButtonInputBinding(SDL_BUTTON_LEFT)));

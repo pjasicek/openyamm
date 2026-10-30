@@ -2228,7 +2228,9 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
 
         if (floor.hasFloor && !flying && resolvedFootZ < floor.height)
         {
-            if (ceiling.hasCeiling)
+            // A rising body can still be slightly below the next floor at a ramp seam.
+            // Reject the correction only when the body cannot fit above that floor.
+            if (ceiling.hasCeiling && floor.height + body.height > ceiling.height)
             {
                 recordInvalidPosition(
                     IndoorMoveInvalidPositionReason::CeilingFloorCrush,

@@ -28,6 +28,7 @@ struct GameplayInputFrame
     float relativeMouseY = 0.0f;
     std::string textInput;
     bool mobileJoystickActive = false;
+    bool autoRunActive = false;
     bool turnBasedMovementStep = false;
     bool turnBasedPhysicsStep = false;
     float movementSpeedScale = 1.0f;

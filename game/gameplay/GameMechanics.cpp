@@ -321,6 +321,69 @@ bool hasCondition(const Character &character, CharacterCondition condition)
     return character.conditions.test(static_cast<size_t>(condition));
 }
 
+int resolveCharacterActualPrimaryStatValue(const Character &character, uint32_t rawStatId);
+
+int conditionPrimaryStatPercent(CharacterCondition condition, uint32_t rawStatId)
+{
+    const bool mental = rawStatId == 0x28 || rawStatId == 0x29;
+    const bool luck = rawStatId == 0x2D;
+
+    switch (condition)
+    {
+        case CharacterCondition::PoisonWeak:
+            return mental || luck ? 100 : 75;
+        case CharacterCondition::PoisonMedium:
+            return luck ? 100 : mental ? 75 : 50;
+        case CharacterCondition::PoisonSevere:
+            return luck ? 100 : mental ? 50 : 25;
+        case CharacterCondition::DiseaseWeak:
+            return mental || luck ? 100 : 60;
+        case CharacterCondition::DiseaseMedium:
+            return luck ? 100 : mental ? 60 : 30;
+        case CharacterCondition::DiseaseSevere:
+            return luck ? 100 : mental ? 30 : 10;
+        case CharacterCondition::Fear:
+            return mental || rawStatId == 0x2C ? 50 : rawStatId == 0x27 || rawStatId == 0x2B ? 120 : 100;
+        case CharacterCondition::Drunk:
+            if (mental)
+            {
+                return 25;
+            }
+            return luck ? 200 : rawStatId == 0x2C ? 10 : rawStatId == 0x2B ? 20 : 50;
+        case CharacterCondition::Insane:
+            if (mental)
+            {
+                return 10;
+            }
+            return rawStatId == 0x27 ? 200 : rawStatId == 0x2A ? 150 : rawStatId == 0x2B ? 120 : 100;
+        case CharacterCondition::Zombie:
+            return mental ? 1 : rawStatId == 0x2B || rawStatId == 0x2C ? 50 : 100;
+        default:
+            return 100;
+    }
+}
+
+int conditionAdjustedPrimaryStat(const Character &character, uint32_t rawStatId, int baseValue)
+{
+    if (character.conditions.none() || hasCondition(character, CharacterCondition::Dead)
+        || hasCondition(character, CharacterCondition::Petrified)
+        || hasCondition(character, CharacterCondition::Eradicated))
+    {
+        return baseValue;
+    }
+
+    double adjustedValue = baseValue;
+    for (size_t index = 0; index < CharacterConditionCount; ++index)
+    {
+        if (character.conditions.test(index))
+        {
+            adjustedValue = adjustedValue
+                * conditionPrimaryStatPercent(static_cast<CharacterCondition>(index), rawStatId) / 100.0;
+        }
+    }
+    return static_cast<int>(adjustedValue);
+}
+
 bool isDragonClass(const Character &character)
 {
     const std::string canonicalClass = canonicalClassName(character.className);
@@ -1248,9 +1311,7 @@ std::optional<int> resolveRangedAttack(const Character &character, const Equippe
         return std::nullopt;
     }
 
-    const int accuracy = static_cast<int>(character.accuracy)
-        + character.permanentBonuses.accuracy
-        + character.magicalBonuses.accuracy;
+    const int accuracy = resolveCharacterActualPrimaryStatValue(character, 0x2C);
     const int attack = parameterBonus(accuracy)
         + itemDamageModifier(*equippedItems.pBow)
         + resolveRangedAttackSkillBonus(character, equippedItems)
@@ -1515,14 +1576,14 @@ int resolveCharacterSheetBasePrimaryStatValue(
         + resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
 }
 
-int resolveCharacterSheetActualPrimaryStatValue(
-    const Character &character,
-    uint32_t rawStatId,
-    const CharacterStatBonuses &equippedItemBonuses)
+int resolveCharacterActualPrimaryStatValue(const Character &character, uint32_t rawStatId)
 {
-    return resolveCharacterSheetBasePrimaryStatValue(character, rawStatId, equippedItemBonuses)
-        + resolveCharacterPrimaryStatMagicalBonusValue(character, rawStatId)
-        - resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
+    // Item bonuses are already part of magicalBonuses. Conditions scale the native stat only.
+    const uint32_t actualStatId = rawStatId >= 0x20 && rawStatId <= 0x26 ? rawStatId + 7 : rawStatId;
+    return conditionAdjustedPrimaryStat(
+        character, actualStatId, resolveCharacterPrimaryStatBaseValue(character, actualStatId))
+        + resolveCharacterPrimaryStatPermanentBonusValue(character, actualStatId)
+        + resolveCharacterPrimaryStatMagicalBonusValue(character, actualStatId);
 }
 
 std::string resolveConditionText(const Character &character)
@@ -1731,9 +1792,7 @@ float resolveAttackRecoverySeconds(
             * armorRecoveryMultiplier(character, armorSkillName)));
     }
 
-    const int actualSpeed = static_cast<int>(character.speed)
-        + character.permanentBonuses.speed
-        + character.magicalBonuses.speed;
+    const int actualSpeed = resolveCharacterActualPrimaryStatValue(character, 0x2B);
     const int playerSpeedRecoveryReduction = parameterBonus(actualSpeed);
     int weaponSkillRecoveryReduction = 0;
 
@@ -2039,16 +2098,31 @@ int GameMechanics::calculateEffectiveCharacterMaxHealth(
 {
     int maximum = character.maxHealth + character.permanentBonuses.maxHealth + character.magicalBonuses.maxHealth;
 
-    if (character.levelModifier != 0)
+    if (character.levelModifier + character.itemLevelBonus != 0)
     {
         Character baseCharacter = character;
         baseCharacter.levelModifier = 0;
 
         Character adjustedCharacter = baseCharacter;
-        adjustedCharacter.level = levelWithModifier(character.level, character.levelModifier);
+        adjustedCharacter.level = levelWithModifier(
+            character.level, character.levelModifier + character.itemLevelBonus);
 
         maximum += calculateBaseCharacterMaxHealth(adjustedCharacter, pClassMultiplierTable)
             - calculateBaseCharacterMaxHealth(baseCharacter, pClassMultiplierTable);
+    }
+
+    const int adjustedEndurance = conditionAdjustedPrimaryStat(character, 0x2A, character.endurance);
+    if (adjustedEndurance != static_cast<int>(character.endurance))
+    {
+        Character baseline = character;
+        baseline.level = levelWithModifier(character.level, character.levelModifier + character.itemLevelBonus);
+        baseline.endurance = std::max(0, static_cast<int>(character.endurance)
+            + character.permanentBonuses.endurance + character.magicalBonuses.endurance);
+        Character adjusted = baseline;
+        adjusted.endurance = std::max(0, adjustedEndurance
+            + character.permanentBonuses.endurance + character.magicalBonuses.endurance);
+        maximum += calculateBaseCharacterMaxHealth(adjusted, pClassMultiplierTable)
+            - calculateBaseCharacterMaxHealth(baseline, pClassMultiplierTable);
     }
 
     return std::max(1, maximum);
@@ -2061,16 +2135,37 @@ int GameMechanics::calculateEffectiveCharacterMaxSpellPoints(
     int maximum =
         character.maxSpellPoints + character.permanentBonuses.maxSpellPoints + character.magicalBonuses.maxSpellPoints;
 
-    if (character.levelModifier != 0)
+    if (character.levelModifier + character.itemLevelBonus != 0)
     {
         Character baseCharacter = character;
         baseCharacter.levelModifier = 0;
 
         Character adjustedCharacter = baseCharacter;
-        adjustedCharacter.level = levelWithModifier(character.level, character.levelModifier);
+        adjustedCharacter.level = levelWithModifier(
+            character.level, character.levelModifier + character.itemLevelBonus);
 
         maximum += calculateBaseCharacterMaxSpellPoints(adjustedCharacter, pClassMultiplierTable)
             - calculateBaseCharacterMaxSpellPoints(baseCharacter, pClassMultiplierTable);
+    }
+
+    const int adjustedIntellect = conditionAdjustedPrimaryStat(character, 0x28, character.intellect);
+    const int adjustedPersonality = conditionAdjustedPrimaryStat(character, 0x29, character.personality);
+    if (adjustedIntellect != static_cast<int>(character.intellect)
+        || adjustedPersonality != static_cast<int>(character.personality))
+    {
+        Character baseline = character;
+        baseline.level = levelWithModifier(character.level, character.levelModifier + character.itemLevelBonus);
+        baseline.intellect = std::max(0, static_cast<int>(character.intellect)
+            + character.permanentBonuses.intellect + character.magicalBonuses.intellect);
+        baseline.personality = std::max(0, static_cast<int>(character.personality)
+            + character.permanentBonuses.personality + character.magicalBonuses.personality);
+        Character adjusted = baseline;
+        adjusted.intellect = std::max(0, adjustedIntellect
+            + character.permanentBonuses.intellect + character.magicalBonuses.intellect);
+        adjusted.personality = std::max(0, adjustedPersonality
+            + character.permanentBonuses.personality + character.magicalBonuses.personality);
+        maximum += calculateBaseCharacterMaxSpellPoints(adjusted, pClassMultiplierTable)
+            - calculateBaseCharacterMaxSpellPoints(baseline, pClassMultiplierTable);
     }
 
     return std::max(0, maximum);
@@ -2179,7 +2274,10 @@ int GameMechanics::resolveCharacterDisplayedActualPrimaryStat(
             pItemTable,
             pStandardItemEnchantTable,
             pSpecialItemEnchantTable)
-        + resolveCharacterPrimaryStatMagicalBonusValue(character, rawStatId);
+        + resolveCharacterPrimaryStatMagicalBonusValue(character, rawStatId)
+        + conditionAdjustedPrimaryStat(character, rawStatId >= 0x20 && rawStatId <= 0x26 ? rawStatId + 7 : rawStatId,
+            resolveCharacterPrimaryStatBaseValue(character, rawStatId))
+        - resolveCharacterPrimaryStatBaseValue(character, rawStatId);
 }
 
 CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
@@ -2205,13 +2303,13 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
     const int baseSpeed = resolveCharacterSheetBasePrimaryStatValue(character, 0x24, equippedItemBonuses);
     const int baseLuck = resolveCharacterSheetBasePrimaryStatValue(character, 0x26, equippedItemBonuses);
 
-    const int actualMight = resolveCharacterSheetActualPrimaryStatValue(character, 0x27, equippedItemBonuses);
-    const int actualIntellect = resolveCharacterSheetActualPrimaryStatValue(character, 0x28, equippedItemBonuses);
-    const int actualPersonality = resolveCharacterSheetActualPrimaryStatValue(character, 0x29, equippedItemBonuses);
-    const int actualEndurance = resolveCharacterSheetActualPrimaryStatValue(character, 0x2A, equippedItemBonuses);
-    const int actualAccuracy = resolveCharacterSheetActualPrimaryStatValue(character, 0x2C, equippedItemBonuses);
-    const int actualSpeed = resolveCharacterSheetActualPrimaryStatValue(character, 0x2B, equippedItemBonuses);
-    const int actualLuck = resolveCharacterSheetActualPrimaryStatValue(character, 0x2D, equippedItemBonuses);
+    const int actualMight = resolveCharacterActualPrimaryStatValue(character, 0x27);
+    const int actualIntellect = resolveCharacterActualPrimaryStatValue(character, 0x28);
+    const int actualPersonality = resolveCharacterActualPrimaryStatValue(character, 0x29);
+    const int actualEndurance = resolveCharacterActualPrimaryStatValue(character, 0x2A);
+    const int actualAccuracy = resolveCharacterActualPrimaryStatValue(character, 0x2C);
+    const int actualSpeed = resolveCharacterActualPrimaryStatValue(character, 0x2B);
+    const int actualLuck = resolveCharacterActualPrimaryStatValue(character, 0x2D);
 
     summary.might = makeSheetValue(baseMight, actualMight);
     summary.intellect = makeSheetValue(baseIntellect, actualIntellect);
@@ -2240,8 +2338,8 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
     const int armorActual = std::max(0, armorBase + character.magicalBonuses.armorClass);
     summary.armorClass = makeSheetValue(std::max(0, armorBase), armorActual);
 
-    const int displayedActualLevel = character.levelModifier != 0
-        ? static_cast<int>(levelWithModifier(character.level, character.levelModifier))
+    const int displayedActualLevel = character.levelModifier + character.itemLevelBonus != 0
+        ? static_cast<int>(levelWithModifier(character.level, character.levelModifier + character.itemLevelBonus))
         : static_cast<int>(maximumTrainableLevelFromExperience(character));
     summary.level = makeSheetValue(static_cast<int>(character.level), displayedActualLevel);
 
@@ -2490,9 +2588,7 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
         rangedRecoveryMode,
         attackTuning);
 
-    const int actualMight = static_cast<int>(character.might)
-        + character.permanentBonuses.might
-        + character.magicalBonuses.might;
+    const int actualMight = resolveCharacterActualPrimaryStatValue(character, 0x27);
     const int meleeMightBonus = parameterBonus(actualMight);
     profile.meleeMinDamage = std::max(
         1,
@@ -3099,9 +3195,7 @@ int GameMechanics::resolveCharacterIncomingDamage(
         resistance = directResistance(&CharacterResistanceSet::dark);
     }
 
-    const int luckBonus = parameterBonus(static_cast<int>(character.luck)
-        + character.permanentBonuses.luck
-        + character.magicalBonuses.luck);
+    const int luckBonus = parameterBonus(resolveCharacterActualPrimaryStatValue(character, 0x2D));
 
     if (resistance + luckBonus > 0)
     {
@@ -3265,18 +3359,14 @@ std::optional<CharacterCondition> GameMechanics::displayedCondition(const Charac
         return CharacterCondition::Fear;
     }
 
-    if (hasCondition(character, CharacterCondition::DiseaseSevere)
-        || hasCondition(character, CharacterCondition::DiseaseMedium)
-        || hasCondition(character, CharacterCondition::DiseaseWeak))
+    for (CharacterCondition condition : {CharacterCondition::DiseaseSevere, CharacterCondition::DiseaseMedium,
+                                        CharacterCondition::DiseaseWeak, CharacterCondition::PoisonSevere,
+                                        CharacterCondition::PoisonMedium, CharacterCondition::PoisonWeak})
     {
-        return CharacterCondition::DiseaseSevere;
-    }
-
-    if (hasCondition(character, CharacterCondition::PoisonSevere)
-        || hasCondition(character, CharacterCondition::PoisonMedium)
-        || hasCondition(character, CharacterCondition::PoisonWeak))
-    {
-        return CharacterCondition::PoisonSevere;
+        if (hasCondition(character, condition))
+        {
+            return condition;
+        }
     }
 
     if (hasCondition(character, CharacterCondition::Weak))

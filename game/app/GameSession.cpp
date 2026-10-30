@@ -237,6 +237,7 @@ void GameSession::clear()
     m_gameplayProjectileService.clear();
     m_gameplayFxService.clear();
     m_turnBasedCombatRuntime.reset();
+    m_autoRun.reset();
     m_turnBasedPendingWorldActions = 0;
     m_turnBasedFrameTraceState = {};
     m_gameplayUiRuntime.clear();
@@ -480,6 +481,7 @@ void GameSession::bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime)
 {
     if (m_pActiveWorldRuntime != pWorldRuntime)
     {
+        m_autoRun.reset();
         m_turnBasedCombatRuntime.end(
             m_pActiveWorldRuntime != nullptr ? m_pActiveWorldRuntime->party() : nullptr,
             m_pActiveWorldRuntime);
@@ -873,9 +875,18 @@ void GameSession::updateGameplay(
             !standardWorldInputBlocked
             && !pendingSpellTargetActive
             && !rightMouseInspectPauseActive;
-        float worldMovementDeltaSeconds = rightMouseInspectPauseActive ? 0.0f : deltaSeconds;
+        const bool gameplayWorldPaused =
+            modalWorldInputBlocked
+            || pendingSpellTargetActive
+            || m_sharedWorldInteractionBlockedThisFrame
+            || rightMouseInspectPauseActive;
+        // Party recovery and timed states must stop whenever the actor simulation is paused.
+        float worldMovementDeltaSeconds = gameplayWorldPaused ? 0.0f : deltaSeconds;
+        m_autoRun.update(worldInput,
+            allowWorldMovementInput && !m_turnBasedCombatRuntime.active()
+                && !m_sharedWorldInteractionBlockedThisFrame && SDL_GetKeyboardFocus() != nullptr);
         bool turnBasedMovementStep = false;
-        if (m_turnBasedCombatRuntime.active() && !rightMouseInspectPauseActive)
+        if (m_turnBasedCombatRuntime.active() && !gameplayWorldPaused)
         {
             turnBasedMovementStep = m_turnBasedCombatRuntime.noteMovementInput(worldInput, deltaSeconds);
             worldMovementDeltaSeconds = m_turnBasedCombatRuntime.movementDeltaSecondsForFrame(deltaSeconds);
@@ -903,12 +914,6 @@ void GameSession::updateGameplay(
                 m_lastGameplayUpdateFramePerformanceDiagnostics.worldMovement = *pWorldMovementDiagnostics;
             }
         }
-
-        const bool gameplayWorldPaused =
-            modalWorldInputBlocked
-            || pendingSpellTargetActive
-            || m_sharedWorldInteractionBlockedThisFrame
-            || rightMouseInspectPauseActive;
 
         const Party *pTurnBasedParty = pWorldRuntime->party();
         const bool turnBasedWorldPaused =
@@ -1120,6 +1125,7 @@ void GameSession::updateMm9QuestMarkerCache()
 
 void GameSession::clearSharedInputFrameResult(bool blockWorldInput)
 {
+    m_autoRun.reset();
     m_sharedInputFrameResult = {};
     m_sharedInputFrameResult.worldInputBlocked = blockWorldInput;
     m_sharedWorldInteractionBlockedThisFrame = blockWorldInput;

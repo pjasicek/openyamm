@@ -1802,45 +1802,77 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 return;
             }
 
-            const float topicFontScale = snappedHudFontScale(
-                resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->scale : panelScale);
-            const float topicLineHeight = static_cast<float>(topicFont->fontHeight) * topicFontScale;
             const float textWidth = std::max(0.0f, panelInnerWidth - 5.0f * panelScale);
-            const float textWrapWidth = std::max(0.0f, textWidth / std::max(1.0f, topicFontScale));
-            std::vector<std::string> wrappedLines;
+            float availableBottom = resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY;
 
-            for (const std::string &sourceLine : view.activeEventDialog().lines)
+            // The confirmation controls sit inside the sidebar's lower area.
+            for (const char *buttonId : {"DialogueOkButton", "DialogueGoodbyeButton"})
             {
-                const std::string localizedLine = view.localizeHudText(sourceLine);
-                std::vector<std::string> lineParts = view.wrapHudTextToWidth(*topicFont, localizedLine, textWrapWidth);
-
-                if (lineParts.empty())
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> button =
+                    view.resolveHudLayoutElement(buttonId, width, height, 0.0f, 0.0f);
+                if (button)
                 {
-                    lineParts.push_back(localizedLine);
+                    availableBottom = std::min(availableBottom, button->y - sectionGap);
                 }
-
-                wrappedLines.insert(wrappedLines.end(), lineParts.begin(), lineParts.end());
             }
 
-            const float availableBottom = resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY;
-            float lineY = contentY;
-            GameplayScreenRuntime::HudLayoutElement transitionTextLayout = *pTransitionTextLayout;
-            transitionTextLayout.textAlignY = UiLayoutManager::TextAlignY::Top;
-
-            for (const std::string &line : wrappedLines)
+            const float availableHeight = std::floor(availableBottom) - std::ceil(contentY);
+            if (textWidth <= 1.0f || availableHeight <= 0.0f)
             {
-                if (lineY + topicLineHeight > availableBottom)
+                return;
+            }
+
+            float topicFontScale = snappedHudFontScale(
+                (resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->scale : panelScale)
+                * std::max(0.1f, pTransitionTextLayout->textScale));
+            float topicLineHeight = 0.0f;
+            std::vector<std::string> wrappedLines;
+            std::vector<std::string> localizedLines;
+            for (const std::string &sourceLine : view.activeEventDialog().lines)
+            {
+                localizedLines.push_back(view.localizeHudText(sourceLine));
+            }
+
+            // Rewrap at the fitted scale so the complete description remains visible.
+            for (;;)
+            {
+                wrappedLines.clear();
+                const float textWrapWidth = (textWidth - 1.0f) / topicFontScale;
+                for (const std::string &line : localizedLines)
+                {
+                    std::vector<std::string> lineParts = view.wrapHudTextToWidth(*topicFont, line, textWrapWidth);
+                    if (lineParts.empty())
+                    {
+                        lineParts.push_back(line);
+                    }
+                    wrappedLines.insert(wrappedLines.end(), lineParts.begin(), lineParts.end());
+                }
+                topicLineHeight = static_cast<float>(topicFont->fontHeight) * topicFontScale;
+                const float textHeight = static_cast<float>(wrappedLines.size()) * topicLineHeight;
+                float widestLine = 0.0f;
+                for (const std::string &line : wrappedLines)
+                {
+                    widestLine = std::max(widestLine, view.measureHudTextWidth(*topicFont, line) * topicFontScale);
+                }
+                if (textHeight <= availableHeight && widestLine <= textWidth - 1.0f)
                 {
                     break;
                 }
+                const float fitRatio = std::min(
+                    availableHeight / std::max(1.0f, textHeight),
+                    (textWidth - 1.0f) / std::max(1.0f, widestLine));
+                topicFontScale *= 0.99f * fitRatio;
+            }
 
-                GameplayScreenRuntime::ResolvedHudLayoutElement resolvedLine = {};
-                resolvedLine.x = std::round(panelInnerX + (panelInnerWidth - textWidth) * 0.5f);
-                resolvedLine.y = std::round(lineY);
-                resolvedLine.width = textWidth;
-                resolvedLine.height = topicLineHeight;
-                resolvedLine.scale = topicFontScale;
-                view.renderLayoutLabel(transitionTextLayout, resolvedLine, line);
+            const GameplayHudFontLayer main = view.hudFontMainLayer(*topicFont, pTransitionTextLayout->textColorAbgr);
+            float lineY = std::ceil(contentY);
+            for (const std::string &line : wrappedLines)
+            {
+                const float lineWidth = view.measureHudTextWidth(*topicFont, line) * topicFontScale;
+                const float lineX = std::round(panelInnerX + (panelInnerWidth - lineWidth) * 0.5f);
+                view.renderHudFontLayer(*topicFont, topicFont->shadowTextureHandle, line,
+                    lineX, std::floor(lineY), topicFontScale);
+                view.renderHudFontLayer(*topicFont, main, line, lineX, std::floor(lineY), topicFontScale);
                 lineY += topicLineHeight;
             }
 

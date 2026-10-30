@@ -2487,6 +2487,7 @@ Party::Snapshot Party::snapshot() const
     snapshot.explosiveMixes = m_explosiveMixes;
     snapshot.continentReputations = m_continentReputations;
     snapshot.questBits = m_questBits;
+    snapshot.autonotes = m_autonotes;
     snapshot.eventVariables = m_eventVariables;
     snapshot.npcTopicOverrides = m_npcTopicOverrides;
     snapshot.npcGroupNews = m_npcGroupNews;
@@ -2535,6 +2536,7 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_explosiveMixes = snapshot.explosiveMixes;
     m_continentReputations = snapshot.continentReputations;
     m_questBits = snapshot.questBits;
+    m_autonotes = snapshot.autonotes;
     m_eventVariables = snapshot.eventVariables;
     m_npcTopicOverrides = snapshot.npcTopicOverrides;
     m_npcGroupNews = snapshot.npcGroupNews;
@@ -2606,6 +2608,7 @@ void Party::seed(const PartySeed &seed)
     m_explosiveMixes.clear();
     m_continentReputations.clear();
     m_questBits.clear();
+    m_autonotes.clear();
     m_eventVariables.clear();
     m_npcTopicOverrides.clear();
     m_npcGroupNews.clear();
@@ -4032,6 +4035,29 @@ bool Party::hasRosterMember(uint32_t rosterId) const
 bool Party::hasQuestBit(uint32_t questBitId) const
 {
     return questBitId != 0 && m_questBits.contains(questBitId);
+}
+
+int32_t Party::autonoteValue(uint32_t autonoteId) const
+{
+    const std::unordered_map<uint32_t, int32_t>::const_iterator found = m_autonotes.find(autonoteId);
+    return found != m_autonotes.end() ? found->second : 0;
+}
+
+void Party::setAutonoteValue(uint32_t autonoteId, int32_t value)
+{
+    if (autonoteId == 0)
+    {
+        return;
+    }
+
+    if (value != 0)
+    {
+        m_autonotes[autonoteId] = value;
+    }
+    else
+    {
+        m_autonotes.erase(autonoteId);
+    }
 }
 
 void Party::setQuestBit(uint32_t questBitId, bool value)
@@ -6518,7 +6544,9 @@ bool Party::healMember(size_t memberIndex, int amount)
 {
     Character *pMember = member(memberIndex);
 
-    if (pMember == nullptr || amount <= 0)
+    if (pMember == nullptr || amount <= 0
+        || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+        || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
     {
         return false;
     }
@@ -6922,6 +6950,7 @@ void Party::rebuildMagicalBonusesFromBuffs()
         member.magicalConditionImmunities = {};
         member.merchantBonus = 0;
         member.weaponEnchantmentDamageBonus = 0;
+        member.itemLevelBonus = 0;
         member.vampiricHealFraction = 0.0f;
         member.physicalAttackDisabled = false;
         member.physicalDamageImmune = false;

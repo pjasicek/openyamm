@@ -4,6 +4,7 @@
 
 #include "tests/RegressionGameData.h"
 
+#include <array>
 #include <random>
 
 namespace
@@ -15,6 +16,116 @@ const OpenYAMM::Tests::RegressionGameData &requireRegressionGameData()
         OpenYAMM::Tests::regressionGameDataFailure().c_str());
     return OpenYAMM::Tests::regressionGameData();
 }
+}
+
+TEST_CASE("conditions affect character sheet and combat through the same primary stats")
+{
+    using namespace OpenYAMM::Game;
+    Character character = {};
+    character.health = 100;
+    character.might = 100;
+    character.endurance = 100;
+    character.intellect = 100;
+    character.personality = 100;
+    character.speed = 100;
+    character.accuracy = 100;
+    character.luck = 100;
+    character.permanentBonuses.might = 7;
+    character.magicalBonuses.might = 13;
+
+    struct ExpectedConditionStats
+    {
+        CharacterCondition condition;
+        int physical;
+        int mental;
+    };
+    const std::array<ExpectedConditionStats, 6> cases = {{
+        {CharacterCondition::PoisonWeak, 75, 100},
+        {CharacterCondition::PoisonMedium, 50, 75},
+        {CharacterCondition::PoisonSevere, 25, 50},
+        {CharacterCondition::DiseaseWeak, 60, 100},
+        {CharacterCondition::DiseaseMedium, 30, 60},
+        {CharacterCondition::DiseaseSevere, 10, 30},
+    }};
+    const CharacterAttackProfile healthy = GameMechanics::buildCharacterAttackProfile(character, nullptr, nullptr);
+    for (const ExpectedConditionStats &expected : cases)
+    {
+        CAPTURE(expected.physical);
+        CAPTURE(expected.mental);
+        character.conditions.reset();
+        character.conditions.set(static_cast<size_t>(expected.condition));
+        const CharacterSheetSummary sheet = GameMechanics::buildCharacterSheetSummary(character, nullptr);
+        CHECK_EQ(sheet.might.base, 107);
+        CHECK_EQ(sheet.might.actual, expected.physical + 20);
+        CHECK_EQ(sheet.endurance.actual, expected.physical);
+        CHECK_EQ(sheet.speed.actual, expected.physical);
+        CHECK_EQ(sheet.accuracy.actual, expected.physical);
+        CHECK_EQ(sheet.intellect.actual, expected.mental);
+        CHECK_EQ(sheet.personality.actual, expected.mental);
+        CHECK_EQ(sheet.luck.actual, 100);
+        CHECK(GameMechanics::displayedCondition(character) == expected.condition);
+        CHECK_EQ(GameMechanics::resolveCharacterDisplayedActualPrimaryStat(character, 0x27, nullptr),
+            sheet.might.actual);
+        const CharacterAttackProfile sick = GameMechanics::buildCharacterAttackProfile(character, nullptr, nullptr);
+        CHECK_EQ(sick.meleeAttackBonus, sheet.combat.attack);
+        CHECK_LT(sick.meleeAttackBonus, healthy.meleeAttackBonus);
+        CHECK_LT(sick.meleeMinDamage, healthy.meleeMinDamage);
+        CHECK_GE(sick.meleeRecoverySeconds, healthy.meleeRecoverySeconds);
+    }
+
+    character.conditions.reset();
+    character.conditions.set(static_cast<size_t>(CharacterCondition::PoisonWeak));
+    character.conditions.set(static_cast<size_t>(CharacterCondition::DiseaseWeak));
+    CHECK_EQ(GameMechanics::buildCharacterSheetSummary(character, nullptr).might.actual, 65);
+    character.conditions.set(static_cast<size_t>(CharacterCondition::Petrified));
+    CHECK_EQ(GameMechanics::buildCharacterSheetSummary(character, nullptr).might.actual, 120);
+}
+
+TEST_CASE("weakness halves attack damage without reducing primary stats")
+{
+    using namespace OpenYAMM::Game;
+    Character character = {};
+    character.health = 100;
+    character.might = 100;
+    character.equippedItemEffectFlags.insert("PerfectAccuracy");
+    std::mt19937 healthyRng(41u);
+    const CharacterAttackResult healthy = GameMechanics::resolveCharacterAttackAgainstArmorClass(
+        character, nullptr, nullptr, 0, 100.0f, healthyRng);
+    REQUIRE(healthy.hit);
+    character.conditions.set(static_cast<size_t>(CharacterCondition::Weak));
+    CHECK_EQ(GameMechanics::buildCharacterSheetSummary(character, nullptr).might.actual, 100);
+    std::mt19937 weakRng(41u);
+    const CharacterAttackResult weak = GameMechanics::resolveCharacterAttackAgainstArmorClass(
+        character, nullptr, nullptr, 0, 100.0f, weakRng);
+    REQUIRE(weak.hit);
+    CHECK_EQ(weak.damage, healthy.damage / 2);
+}
+
+TEST_CASE("condition resource penalties are reversible without changing stored base resources")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Character character = {};
+    character.className = "Cleric";
+    character.level = 20;
+    character.endurance = 100;
+    character.personality = 100;
+    GameMechanics::refreshCharacterBaseResources(character, true, &gameData.classMultiplierTable);
+    const int healthyHealth = character.maxHealth;
+    const int healthyMana = character.maxSpellPoints;
+
+    character.conditions.set(static_cast<size_t>(CharacterCondition::DiseaseSevere));
+    CHECK_LT(GameMechanics::calculateEffectiveCharacterMaxHealth(character, &gameData.classMultiplierTable),
+        healthyHealth);
+    CHECK_LT(GameMechanics::calculateEffectiveCharacterMaxSpellPoints(character, &gameData.classMultiplierTable),
+        healthyMana);
+    CHECK_EQ(character.maxHealth, healthyHealth);
+    CHECK_EQ(character.maxSpellPoints, healthyMana);
+    character.conditions.reset();
+    CHECK_EQ(GameMechanics::calculateEffectiveCharacterMaxHealth(character, &gameData.classMultiplierTable),
+        healthyHealth);
+    CHECK_EQ(GameMechanics::calculateEffectiveCharacterMaxSpellPoints(character, &gameData.classMultiplierTable),
+        healthyMana);
 }
 
 TEST_CASE("character sheet uses equipped items for combat and armor class")

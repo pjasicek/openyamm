@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayInputController.h"
+#include "game/gameplay/GameplayAutoRun.h"
 #include "game/gameplay/GameplayScreenState.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayProjectileService.h"
@@ -290,6 +291,7 @@ private:
     GameplayFxService m_gameplayFxService;
     GameplaySpellService m_gameplaySpellService;
     TurnBasedCombatRuntime m_turnBasedCombatRuntime;
+    GameplayAutoRun m_autoRun;
     size_t m_turnBasedPendingWorldActions = 0;
     GameplayScreenRuntime m_gameplayScreenRuntime;
     GameplayDialogController m_gameplayDialogController;

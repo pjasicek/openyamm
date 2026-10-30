@@ -853,7 +853,7 @@ bool tryRegisterTrainerNote(
     const MapStatsEntry *pCurrentMap,
     const MergedBolsterMapTable *pBolsterMapTable,
     const IGameplayWorldRuntime *pWorldRuntime,
-    const Party *pParty)
+    Party *pParty)
 {
     const std::optional<MasteryTeacherTopicDefinition> teacherTopic =
         resolveMasteryTeacherTopic(topicId, pTeacherTopicTable);
@@ -879,12 +879,19 @@ bool tryRegisterTrainerNote(
     }
 
     const uint32_t rawId = (*autonoteId << 16) | AutoNoteVariableTag;
-    const auto variableIt = eventRuntimeState.variables.find(rawId);
+    const EventRuntime::VariableRef variable = EventRuntime::decodeVariable(rawId);
     bool changed = false;
 
-    if (variableIt == eventRuntimeState.variables.end() || variableIt->second == 0)
+    if (EventRuntime::getVariableValue(eventRuntimeState, variable, pParty, std::nullopt) == 0)
     {
-        eventRuntimeState.variables[rawId] = 1;
+        if (pParty != nullptr)
+        {
+            pParty->setAutonoteValue(*autonoteId, 1);
+        }
+        else
+        {
+            eventRuntimeState.variables[rawId] = 1;
+        }
         changed = true;
     }
 
@@ -1131,7 +1138,7 @@ void registerTrainerNotesForNpc(
     const MapStatsEntry *pCurrentMap,
     const MergedBolsterMapTable *pBolsterMapTable,
     const IGameplayWorldRuntime *pWorldRuntime,
-    const Party *pParty)
+    Party *pParty)
 {
     EventRuntimeState npcRuntimeState = eventRuntimeState;
 
@@ -1705,8 +1712,6 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
                 || professionId == NpcProfessionId::ExpertHealer
                 || professionId == NpcProfessionId::MasterHealer)
             {
-                restorePartyHealth(*context.pParty);
-
                 if (professionId == NpcProfessionId::ExpertHealer)
                 {
                     for (uint32_t condition = 0; condition < static_cast<uint32_t>(CharacterCondition::Dead);
@@ -1721,6 +1726,7 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
                     restorePartyMana(*context.pParty);
                 }
 
+                restorePartyHealth(*context.pParty);
                 applied = true;
             }
             break;
@@ -1848,7 +1854,14 @@ void grantGuildMembership(
 
     if (offer.autonoteId != 0)
     {
-        runtimeState.variables[autonoteVariableKey(offer.autonoteId)] = 1;
+        if (pParty != nullptr)
+        {
+            pParty->setAutonoteValue(offer.autonoteId, 1);
+        }
+        else
+        {
+            runtimeState.variables[autonoteVariableKey(offer.autonoteId)] = 1;
+        }
     }
 }
 

@@ -220,16 +220,17 @@ TEST_CASE("Obsidian arc antialiasing retains stroke coverage with a screen pixel
     }
 }
 
-TEST_CASE("Obsidian minimap and rest clocks share midnight noon and rounding rules")
+TEST_CASE("Obsidian minimap and rest clocks share 24-hour format and rounding rules")
 {
-    CHECK(formatGameplayClock(0) == "12:00 am");
-    CHECK(formatGameplayClock(-1) == "12:00 am");
-    CHECK(formatGameplayClock(570) == "9:30 am");
-    CHECK(formatGameplayClock(719) == "11:59 am");
-    CHECK(formatGameplayClock(720) == "12:00 pm");
-    CHECK(formatGameplayClock(1439) == "11:59 pm");
-    CHECK(formatGameplayClock(1439.6f) == "12:00 am");
-    CHECK(formatGameplayClock(1440 + 570) == "9:30 am");
+    CHECK(formatGameplayClock(0) == "00:00");
+    CHECK(formatGameplayClock(-1) == "00:00");
+    CHECK(formatGameplayClock(570) == "09:30");
+    CHECK(formatGameplayClock(719) == "11:59");
+    CHECK(formatGameplayClock(720) == "12:00");
+    CHECK(formatGameplayClock(969) == "16:09");
+    CHECK(formatGameplayClock(1439) == "23:59");
+    CHECK(formatGameplayClock(1439.6f) == "00:00");
+    CHECK(formatGameplayClock(1440 + 570) == "09:30");
 }
 
 TEST_CASE("circular minimap clips crossing lines with both endpoints outside")

@@ -68,7 +68,8 @@ std::optional<ArenaChallenge> generateArenaChallenge(
     int maximumPartyLevel = 1;
     for (const Character &member : party.members())
     {
-        maximumPartyLevel = std::max(maximumPartyLevel, int(member.level) + member.levelModifier);
+        maximumPartyLevel = std::max(
+            maximumPartyLevel, int(member.level) + member.levelModifier + member.itemLevelBonus);
     }
 
     const int minimumLevel = std::clamp(

@@ -159,4 +159,92 @@ TEST_CASE("silver helm sloped platforms admit slow walking without jumping")
     }
 }
 
+TEST_CASE("alamos ramp seam releases an airborne party below the next floor")
+{
+    using namespace OpenYAMM::Tests;
+    REQUIRE_MESSAGE(regressionMapLoaderLoaded(), regressionMapLoaderFailure());
+    GameDataLoader data = regressionMapLoader().gameDataLoader;
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(regressionMapLoader().assetFileSystem, "cd1.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    IndoorMovementController controller(*loaded.indoorMapData, &loaded.indoorMapDeltaData, &loaded.eventRuntimeState);
+    const IndoorBodyDimensions body = {};
+
+    // Saved at the corridor/ramp seam: rejecting every physics step used to preserve
+    // this upward velocity forever, blocking walking, falling and further jumps.
+    IndoorMoveState state = {};
+    state.x = -1229.6986083984375f;
+    state.y = 9217.0673828125f;
+    state.footZ = -840.734375f;
+    state.verticalVelocity = 460.0f;
+    state.sectorId = state.eyeSectorId = 115;
+    const IndoorMoveState resolved = controller.resolveMove(state, body, 0, 0, false, 1.0f / 128.0f);
+    CHECK(resolved.grounded);
+    CHECK_EQ(resolved.supportFaceIndex, 2605u);
+    CHECK_EQ(resolved.footZ, doctest::Approx(-833.0673828125f));
+    CHECK_EQ(resolved.verticalVelocity, 0.0f);
+
+    const IndoorMoveState jumped = controller.resolveMove(resolved, body, 0, 0, true, 1.0f / 128.0f);
+    CHECK_FALSE(jumped.grounded);
+    CHECK_GT(jumped.footZ, resolved.footZ);
+    CHECK_GT(jumped.verticalVelocity, 0.0f);
+
+    state = resolved;
+    for (int step = 0; step < 40; ++step)
+    {
+        state = controller.resolveMove(state, body, 0, 384, false, 1.0f / 128.0f);
+    }
+    CHECK_GT(state.y, 9325.0f);
+    const float junctionX = state.x;
+    for (int step = 0; step < 32; ++step)
+    {
+        state = controller.resolveMove(state, body, 384, 0, false, 1.0f / 128.0f);
+    }
+    CHECK_GT(state.x, junctionX + 80.0f);
+}
+
+TEST_CASE("indoor floor correction checks actual headroom below a ceiling")
+{
+    for (const int16_t ceilingHeight : {256, 150})
+    {
+        CAPTURE(ceilingHeight);
+        IndoorMapData map = recoveryRoom();
+        map.vertices.insert(map.vertices.end(), {
+            {-512, -512, ceilingHeight}, {-512, 512, ceilingHeight},
+            {512, 512, ceilingHeight}, {512, -512, ceilingHeight}
+        });
+        IndoorFace ceiling;
+        ceiling.vertexIndices = {8, 9, 10, 11};
+        ceiling.facetType = 5;
+        ceiling.roomNumber = 1;
+        map.faces.push_back(ceiling);
+        IndoorSector &sector = map.sectors[1];
+        sector.ceilingFaceIds = {2};
+        sector.ceilingCount = 1;
+        sector.faceIds.push_back(2);
+        sector.nonBspFaceIds.push_back(2);
+        sector.faceCount = sector.nonBspFaceCount = 3;
+        std::optional<MapDeltaData> delta = MapDeltaData{};
+        std::optional<EventRuntimeState> events = EventRuntimeState{};
+        IndoorMovementController controller(map, &delta, &events);
+        IndoorMoveState state = {};
+        state.x = 128.0f;
+        state.footZ = -4.0f;
+        state.verticalVelocity = 460.0f;
+        state.sectorId = state.eyeSectorId = 1;
+        const IndoorMoveState resolved = controller.resolveMove(state, {}, 0, 0, false, 1.0f / 128.0f);
+
+        if (ceilingHeight >= state.eyeHeight)
+        {
+            CHECK(resolved.grounded);
+            CHECK_EQ(resolved.footZ, 0.0f);
+            CHECK_EQ(resolved.verticalVelocity, 0.0f);
+        }
+        else
+        {
+            CHECK_FALSE(resolved.grounded);
+            CHECK_EQ(resolved.footZ, state.footZ);
+        }
+    }
+}
+
 TEST_SUITE_END();

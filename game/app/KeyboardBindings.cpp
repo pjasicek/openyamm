@@ -75,6 +75,8 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
         {InputBindingKind::Keyboard, SDL_SCANCODE_HOME, 0}, true},
     {KeyboardAction::DoubleSpeed, "double_speed", "Double Speed", KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F2, 0}, true},
+    {KeyboardAction::AutoRun, "auto_run", "Auto Run", KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_T, 0}, true},
 }};
 
 const std::array<KeyboardScancodeName, 54> KeyboardScancodeNames = {{

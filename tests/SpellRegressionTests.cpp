@@ -1124,6 +1124,98 @@ TEST_CASE("heal reports the selected character for portrait spell FX")
     CHECK_GT(pTarget->health, 1);
 }
 
+TEST_CASE("ordinary healing spells preserve death but wake unconscious characters")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const SpellId spells[] = {SpellId::Heal, SpellId::SharedLife, SpellId::PowerCure};
+    const CharacterCondition conditions[] = {
+        CharacterCondition::Dead,
+        CharacterCondition::Eradicated,
+        CharacterCondition::Unconscious,
+    };
+
+    for (SpellId spellId : spells)
+    {
+        for (CharacterCondition condition : conditions)
+        {
+            CAPTURE(spellIdValue(spellId));
+            CAPTURE(static_cast<size_t>(condition));
+            Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+            OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+            worldRuntime.bindParty(&party);
+            Character *pTarget = party.member(1);
+            REQUIRE(pTarget != nullptr);
+            pTarget->health = -1;
+            REQUIRE(party.applyMemberCondition(1, condition));
+            pTarget->conditionStartGameMinutes[static_cast<size_t>(condition)] = 42.0f;
+            const std::bitset<CharacterConditionCount> initialConditions = pTarget->conditions;
+            const std::array<float, CharacterConditionCount> initialConditionTimes = pTarget->conditionStartGameMinutes;
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = 0;
+            request.spellId = spellIdValue(spellId);
+            if (spellId == SpellId::Heal)
+            {
+                request.targetCharacterIndex = 1;
+            }
+            request.skillLevelOverride = 5;
+            request.skillMasteryOverride = SkillMastery::Grandmaster;
+            request.spendMana = false;
+            request.applyRecovery = false;
+
+            const PartySpellCastResult result = PartySpellSystem::castSpell(
+                party, worldRuntime, gameData.spellTable, request);
+            REQUIRE(result.succeeded());
+
+            if (condition == CharacterCondition::Unconscious)
+            {
+                CHECK_GT(pTarget->health, 0);
+                CHECK_FALSE(pTarget->conditions.test(static_cast<size_t>(condition)));
+                CHECK_EQ(pTarget->conditionStartGameMinutes[static_cast<size_t>(condition)], 0.0f);
+            }
+            else
+            {
+                CHECK_EQ(pTarget->health, -1);
+                CHECK(pTarget->conditions == initialConditions);
+                CHECK(pTarget->conditionStartGameMinutes == initialConditionTimes);
+            }
+        }
+    }
+}
+
+TEST_CASE("resurrection spells still revive dead characters")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const SpellId spells[] = {SpellId::RaiseDead, SpellId::Resurrection};
+
+    for (SpellId spellId : spells)
+    {
+        CAPTURE(spellIdValue(spellId));
+        Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+        OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+        worldRuntime.bindParty(&party);
+        Character *pTarget = party.member(1);
+        REQUIRE(pTarget != nullptr);
+        pTarget->health = -1;
+        REQUIRE(party.applyMemberCondition(1, CharacterCondition::Dead));
+
+        PartySpellCastRequest request = {};
+        request.casterMemberIndex = 0;
+        request.spellId = spellIdValue(spellId);
+        request.targetCharacterIndex = 1;
+        request.skillLevelOverride = 5;
+        request.skillMasteryOverride = SkillMastery::Grandmaster;
+        request.spendMana = false;
+        request.applyRecovery = false;
+
+        REQUIRE(PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request).succeeded());
+        CHECK_GT(pTarget->health, 0);
+        CHECK_FALSE(pTarget->conditions.test(static_cast<size_t>(CharacterCondition::Dead)));
+    }
+}
+
 TEST_CASE("party spell backend skips character targeting for mastery-wide character buffs")
 {
     struct MasteryWideBuffCase

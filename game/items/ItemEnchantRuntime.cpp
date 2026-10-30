@@ -475,6 +475,7 @@ void applySpecialEnchantBonus(Character &member, SpecialItemEnchantKind kind)
             break;
 
         case SpecialItemEnchantKind::Power:
+            member.itemLevelBonus += 5;
             break;
 
         case SpecialItemEnchantKind::AirMagic:

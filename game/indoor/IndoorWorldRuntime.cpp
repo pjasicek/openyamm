@@ -6824,30 +6824,30 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
         const GameplayProjectileService::ProjectileDirectActorImpact &impact =
             *frameResult.directActorImpact;
 
+        int appliedDamage = impact.damage;
+        const MonsterTable::MonsterStatsEntry *pStats = nullptr;
+        if (impact.actorIndex < pMapDeltaData->actors.size() && m_pMonsterTable != nullptr)
+        {
+            pStats = m_pMonsterTable->findStatsById(
+                resolveIndoorActorStatsId(pMapDeltaData->actors[impact.actorIndex]));
+        }
+
+        if (pStats != nullptr)
+        {
+            std::mt19937 rng(
+                projectile.projectileId
+                ^ static_cast<uint32_t>(impact.actorId * 2654435761u)
+                ^ static_cast<uint32_t>(std::max(0, impact.damage)));
+            appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+                impact.damage,
+                projectile.damageType,
+                monsterResistanceForDamageType(*pStats, projectile.damageType),
+                monsterHourOfPowerResistanceBonus(m_mapActorAiStates, impact.actorIndex),
+                rng);
+        }
+
         if (impact.applyPartyProjectileDamage)
         {
-            int appliedDamage = impact.damage;
-            const MonsterTable::MonsterStatsEntry *pStats = nullptr;
-            if (impact.actorIndex < pMapDeltaData->actors.size() && m_pMonsterTable != nullptr)
-            {
-                pStats = m_pMonsterTable->findStatsById(
-                    resolveIndoorActorStatsId(pMapDeltaData->actors[impact.actorIndex]));
-            }
-
-            if (pStats != nullptr)
-            {
-                std::mt19937 rng(
-                    projectile.projectileId
-                    ^ static_cast<uint32_t>(impact.actorId * 2654435761u)
-                    ^ static_cast<uint32_t>(std::max(0, impact.damage)));
-                appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
-                    impact.damage,
-                    projectile.damageType,
-                    monsterResistanceForDamageType(*pStats, projectile.damageType),
-                    monsterHourOfPowerResistanceBonus(m_mapActorAiStates, impact.actorIndex),
-                    rng);
-            }
-
             const int beforeHp =
                 impact.actorIndex < pMapDeltaData->actors.size() ? pMapDeltaData->actors[impact.actorIndex].hp : 0;
             applyPartyAttackMeleeDamage(
@@ -6885,10 +6885,10 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
         {
             MapDeltaActor &targetActor = pMapDeltaData->actors[impact.actorIndex];
             const int16_t resolvedMonsterId = resolveIndoorActorStatsId(targetActor);
-            const int appliedDamage = applyMonsterDamageEventHooks(
+            appliedDamage = applyMonsterDamageEventHooks(
                 impact.actorIndex,
                 resolvedMonsterId,
-                impact.damage,
+                appliedDamage,
                 projectile.damageType);
             const int previousHp = targetActor.hp;
             targetActor.hp = static_cast<int16_t>(
@@ -7042,28 +7042,28 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
 
                 if (targetActor.hp > 0 && actorHit.damage > 0)
                 {
+                    int appliedDamage = actorHit.damage;
+                    const MonsterTable::MonsterStatsEntry *pStats =
+                        m_pMonsterTable != nullptr
+                            ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(targetActor))
+                            : nullptr;
+
+                    if (pStats != nullptr)
+                    {
+                        std::mt19937 rng(
+                            projectile.projectileId
+                            ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
+                            ^ static_cast<uint32_t>(std::max(0, actorHit.damage)));
+                        appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+                            actorHit.damage,
+                            projectile.damageType,
+                            monsterResistanceForDamageType(*pStats, projectile.damageType),
+                            monsterHourOfPowerResistanceBonus(m_mapActorAiStates, actorHit.actorIndex),
+                            rng);
+                    }
+
                     if (projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Party)
                     {
-                        int appliedDamage = actorHit.damage;
-                        const MonsterTable::MonsterStatsEntry *pStats =
-                            m_pMonsterTable != nullptr
-                                ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(targetActor))
-                                : nullptr;
-
-                        if (pStats != nullptr)
-                        {
-                            std::mt19937 rng(
-                                projectile.projectileId
-                                ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
-                                ^ static_cast<uint32_t>(std::max(0, actorHit.damage)));
-                            appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
-                                actorHit.damage,
-                                projectile.damageType,
-                                monsterResistanceForDamageType(*pStats, projectile.damageType),
-                                monsterHourOfPowerResistanceBonus(m_mapActorAiStates, actorHit.actorIndex),
-                                rng);
-                        }
-
                         const int previousHp = targetActor.hp;
                         applyPartyAttackMeleeDamage(
                             actorHit.actorIndex,
@@ -7090,10 +7090,10 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                     else
                     {
                         const int16_t resolvedMonsterId = resolveIndoorActorStatsId(targetActor);
-                        const int appliedDamage = applyMonsterDamageEventHooks(
+                        appliedDamage = applyMonsterDamageEventHooks(
                             actorHit.actorIndex,
                             resolvedMonsterId,
-                            actorHit.damage,
+                            appliedDamage,
                             projectile.damageType);
                         const int previousHp = targetActor.hp;
                         targetActor.hp =

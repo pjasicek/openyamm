@@ -13,9 +13,8 @@ inline std::string formatGameplayClock(float gameMinutes)
     const int minuteOfDay = totalMinutes % 1440;
     const int hour24 = minuteOfDay / 60;
     const int minute = minuteOfDay % 60;
-    const int hour12 = hour24 == 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
     char timeText[16] = {};
-    std::snprintf(timeText, sizeof(timeText), "%d:%02d %s", hour12, minute, hour24 >= 12 ? "pm" : "am");
+    std::snprintf(timeText, sizeof(timeText), "%02d:%02d", hour24, minute);
     return timeText;
 }
 }

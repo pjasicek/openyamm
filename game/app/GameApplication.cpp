@@ -11,6 +11,7 @@
 #include "game/gameplay/ReputationRuntime.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/outdoor/OutdoorChestPersistence.h"
 #include "game/items/ItemGenerator.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
@@ -7527,6 +7528,11 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             m_pOutdoorWorldRuntime->restoreSnapshot(*pSavedOutdoorState);
         }
         OutdoorWorldRuntime::Snapshot outdoorTimeSnapshot = m_pOutdoorWorldRuntime->snapshot();
+        if (outdoorTimedRespawn && pSavedOutdoorState != nullptr && selectedMap->outdoorMapDeltaData)
+        {
+            preserveOutdoorStorageChests(
+                outdoorTimeSnapshot, *pSavedOutdoorState, selectedMap->outdoorMapDeltaData->chests);
+        }
         outdoorTimeSnapshot.gameMinutes = m_gameSession.gameMinutes();
         if (!restoreSavedOutdoorState || outdoorTimeSnapshot.locationInfo.lastRespawnDay <= 0)
         {
@@ -7540,6 +7546,12 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             outdoorTimeSnapshot.partiallyRevealedCells = pSavedOutdoorState->partiallyRevealedCells;
             if (outdoorTimeSnapshot.eventRuntimeState)
             {
+                // Map annotations are exploration knowledge and survive a population/loot refill.
+                if (pSavedOutdoorState->eventRuntimeState)
+                {
+                    outdoorTimeSnapshot.eventRuntimeState->runtimeMapNotes =
+                        pSavedOutdoorState->eventRuntimeState->runtimeMapNotes;
+                }
                 outdoorTimeSnapshot.eventRuntimeState->processedMapRespawnCount =
                     previousOutdoorProcessedRespawnCount;
             }
@@ -7777,6 +7789,12 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             }
             if (indoorTimeSnapshot.eventRuntimeState)
             {
+                // Preserve the same exploration knowledge as the visible map outlines.
+                if (pSavedIndoorState->eventRuntimeState)
+                {
+                    indoorTimeSnapshot.eventRuntimeState->runtimeMapNotes =
+                        pSavedIndoorState->eventRuntimeState->runtimeMapNotes;
+                }
                 indoorTimeSnapshot.eventRuntimeState->processedMapRespawnCount =
                     previousIndoorProcessedRespawnCount;
             }
@@ -8913,7 +8931,7 @@ void GameApplication::updateQuickSaveInput()
 {
     const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
 
-    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F9))
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F5))
     {
         if (!m_quickSaveLatch)
         {
@@ -8926,7 +8944,7 @@ void GameApplication::updateQuickSaveInput()
         m_quickSaveLatch = false;
     }
 
-    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F10))
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F9))
     {
         if (!m_quickLoadLatch)
         {
@@ -8975,7 +8993,7 @@ void GameApplication::updateGameplayTraceSnapshotHotkeys()
     const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
     const bool startPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F3);
     const bool endPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F4);
-    const bool markerPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F5);
+    const bool markerPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F6);
     const bool forwardHeld =
         inputFrame.action(KeyboardAction::Forward).held
         || inputFrame.isScancodeHeld(SDL_SCANCODE_W);

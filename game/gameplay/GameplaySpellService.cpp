@@ -505,6 +505,13 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
     const GameplayScreenState::PendingSpellTargetState &pendingTargetState =
         m_session.gameplayScreenState().pendingSpellTarget();
 
+    const auto localize = [this](const std::string &text)
+    {
+        return m_session.hasDataRepository()
+            ? m_session.data().localizationCatalog().translateText(text)
+            : text;
+    };
+
     std::string prompt =
         pendingTargetState.targetKind == PartySpellCastTargetKind::Actor
             ? "Select actor for "
@@ -516,6 +523,7 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
             ? "Select target for "
             : "Select target for ";
     prompt += pendingTargetState.spellName;
+    prompt = localize(prompt);
 
     if (includeControls)
     {
@@ -526,27 +534,27 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
 
         if (mobileGroundTargetConfirmSpell)
         {
-            prompt += "  Drag target  Spell button cast  Pause cancel";
+            prompt += "  " + localize("Drag target  Spell button cast  Pause cancel");
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::Character)
         {
-            prompt += "  Tap portrait  Pause cancel";
+            prompt += "  " + localize("Tap portrait  Pause cancel");
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::CharacterOrWorldTarget)
         {
-            prompt += "  Tap target  Pause cancel";
+            prompt += "  " + localize("Tap target  Pause cancel");
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::Actor
             || pendingTargetState.targetKind == PartySpellCastTargetKind::ActorOrCharacter)
         {
-            prompt += "  Tap target  Pause cancel";
+            prompt += "  " + localize("Tap target  Pause cancel");
         }
         else
         {
-            prompt += "  Tap target  Pause cancel";
+            prompt += "  " + localize("Tap target  Pause cancel");
         }
 #else
-        prompt += "  LMB cast  Esc cancel";
+        prompt += "  " + localize("LMB cast  Esc cancel");
 #endif
     }
 

@@ -13660,7 +13660,8 @@ void IndoorRenderer::updateCameraFromInput(
         IndoorPartyRuntime &partyRuntime = m_pSceneRuntime->partyRuntime();
         const IndoorWorldRuntime &worldRuntime = m_pSceneRuntime->worldRuntime();
         const bool running =
-            runWalkModifier ? !partyRuntime.alwaysRunEnabled() : partyRuntime.alwaysRunEnabled();
+            input.autoRunActive
+            || (runWalkModifier ? !partyRuntime.alwaysRunEnabled() : partyRuntime.alwaysRunEnabled());
         const float turboScale = turboPressed ? turboMultiplier : 1.0f;
         const float runScale = running ? runForwardMultiplier : 1.0f;
         const float inputSpeedScale = std::clamp(input.movementSpeedScale, 0.0f, 1.0f);

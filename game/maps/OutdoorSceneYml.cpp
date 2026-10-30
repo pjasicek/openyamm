@@ -1672,6 +1672,7 @@ bool parseOutdoorChest(
 
     if (!readScalarNode(chestNode, "chest_type_id", chest.chestTypeId, errorMessage)
         || !readScalarNode(chestNode, "flags", chest.flags, errorMessage)
+        || !readScalarNode(chestNode, "preserve_on_refill", chest.preserveOnRefill, errorMessage, false)
         || !readScalarNode(chestNode, "raw_items_hex", rawItemsHex, errorMessage, false))
     {
         return false;
@@ -2949,6 +2950,37 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
         {
             errorMessage = "initial_state must be a map";
             return false;
+        }
+
+        const YAML::Node chestPolicyOverridesNode = initialStateNode["chest_policy_overrides"];
+        if (chestPolicyOverridesNode)
+        {
+            if (!chestPolicyOverridesNode.IsSequence())
+            {
+                errorMessage = "initial_state.chest_policy_overrides must be a sequence";
+                return false;
+            }
+            for (const YAML::Node &overrideNode : chestPolicyOverridesNode)
+            {
+                if (!overrideNode.IsMap())
+                {
+                    errorMessage = "chest policy override entry must be a map";
+                    return false;
+                }
+                size_t chestIndex = 0;
+                bool preserveOnRefill = false;
+                if (!readScalarNode(overrideNode, "chest_index", chestIndex, errorMessage)
+                    || !readScalarNode(overrideNode, "preserve_on_refill", preserveOnRefill, errorMessage))
+                {
+                    return false;
+                }
+                if (chestIndex >= sceneData.initialState.chests.size())
+                {
+                    errorMessage = "chest policy override chest_index is out of range";
+                    return false;
+                }
+                sceneData.initialState.chests[chestIndex].preserveOnRefill = preserveOnRefill;
+            }
         }
 
         const YAML::Node actorPositionOverridesNode = initialStateNode["actor_position_overrides"];

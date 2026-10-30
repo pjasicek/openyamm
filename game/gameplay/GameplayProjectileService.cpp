@@ -1882,6 +1882,12 @@ bool GameplayProjectileService::isProjectileSourceFriendlyToActor(
         return !facts.targetHostileToParty || facts.targetPartyControlled;
     }
 
+    // A party-controlled target no longer belongs to its original monster faction.
+    if (facts.targetPartyControlled)
+    {
+        return false;
+    }
+
     if (!facts.sourceMonsterKnown)
     {
         return false;

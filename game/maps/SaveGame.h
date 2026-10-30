@@ -50,6 +50,8 @@ struct GameSaveData
 
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion);
 void migrateLegacyNpcRosters(GameSaveData &data);
+void migrateLegacyAutonotes(GameSaveData &data);
+void migrateLegacySnakeTempleLift(GameSaveData &data);
 bool saveGameDataToPath(const std::filesystem::path &path, const GameSaveData &data, std::string &error);
 std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &path, std::string &error);
 std::unordered_map<std::string, uint32_t> collectRequiredContentPackages(

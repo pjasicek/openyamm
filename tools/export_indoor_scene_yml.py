@@ -948,6 +948,9 @@ def normalize_mm6_indoor_face_attributes(blv_model: dict[str, object], face_inde
 
 
 def build_scene_model(blv_model: dict[str, object], dlv_model: dict[str, object], source_world: str) -> dict[str, object]:
+    if source_world == "mm6" and blv_model["path"].stem.lower() == "6t8":
+        repair_snake_temple_lift(dlv_model["doors"], blv_model["vertices"])
+
     location_time = dlv_model["location_time"]
     face_attribute_overrides: list[dict[str, int]] = []
 
@@ -1028,6 +1031,18 @@ def build_scene_model(blv_model: dict[str, object], dlv_model: dict[str, object]
             "variables": dlv_model["variables"],
         },
     }
+
+
+def repair_snake_temple_lift(doors: list[dict[str, object]], vertices: list[dict[str, int]]) -> None:
+    # Faces 490/779 share this lower-edge vertex. The legacy door omits it, leaving a triangular hole as it lowers.
+    for door in doors:
+        if door["door_id"] != 3 or 821 in door["vertex_ids"]:
+            continue
+        door["vertex_ids"].append(821)
+        for axis in ("x", "y", "z"):
+            door[f"{axis}_offsets"].append(vertices[821][axis])
+        door["num_vertices"] = len(door["vertex_ids"])
+        door["num_offsets"] = len(door["x_offsets"])
 
 
 def render_scene_yaml(scene_model: dict[str, object]) -> str:

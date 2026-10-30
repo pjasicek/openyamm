@@ -141,11 +141,11 @@ std::string attackRecoveryInspectSupplement(
     return "Recovery time: " + std::to_string(recoveryTicksFromSeconds(profile.rangedRecoverySeconds));
 }
 
-std::string formatRemainingDuration(float remainingSeconds)
+std::string formatRemainingDuration(const GameplayScreenRuntime &context, float remainingSeconds)
 {
     if (std::isinf(remainingSeconds))
     {
-        return "Constant";
+        return context.localizeHudText("Constant");
     }
     const int totalSeconds = std::max(0, int(std::lround(remainingSeconds)));
     const int hours = totalSeconds / 3600;
@@ -156,23 +156,25 @@ std::string formatRemainingDuration(float remainingSeconds)
     {
         if (minutes > 0)
         {
-            return std::to_string(hours) + "h " + std::to_string(minutes) + "m";
+            return context.localizeHudText(std::to_string(hours) + "h") + " "
+                + context.localizeHudText(std::to_string(minutes) + "m");
         }
 
-        return std::to_string(hours) + "h";
+        return context.localizeHudText(std::to_string(hours) + "h");
     }
 
     if (minutes > 0)
     {
         if (seconds > 0 && minutes < 5)
         {
-            return std::to_string(minutes) + "m " + std::to_string(seconds) + "s";
+            return context.localizeHudText(std::to_string(minutes) + "m") + " "
+                + context.localizeHudText(std::to_string(seconds) + "s");
         }
 
-        return std::to_string(minutes) + "m";
+        return context.localizeHudText(std::to_string(minutes) + "m");
     }
 
-    return std::to_string(seconds) + "s";
+    return context.localizeHudText(std::to_string(seconds) + "s");
 }
 
 std::string formatCharacterDetailDuration(const GameplayScreenRuntime &context, float remainingSeconds)
@@ -567,6 +569,7 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
     if (width <= 0
         || height <= 0
         || !context.characterScreenReadOnly().open
+        || context.characterScreenReadOnly().alchemyBench.active
         || context.partyReadOnly() == nullptr
         || context.isAdventurersInnScreenActive()
         || context.characterInspectTable() == nullptr)
@@ -851,6 +854,12 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
         overlay.sourceWidth = rect.width;
         overlay.sourceHeight = rect.height;
     };
+    const auto buffName = [&context](const char *pName)
+    {
+        const SpellTable *pSpells = context.spellTable();
+        const SpellEntry *pSpell = pSpells != nullptr ? pSpells->findByName(pName) : nullptr;
+        return pSpell != nullptr ? pSpell->name : context.localizeHudText(pName);
+    };
     if (context.interactionState().personalBuffPopupMember)
     {
         const size_t member = *context.interactionState().personalBuffPopupMember;
@@ -865,8 +874,8 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
                 const CharacterBuffState *pBuff = pParty->characterBuff(member, static_cast<CharacterBuffId>(b));
                 if (pBuff != nullptr)
                 {
-                    appendPopupBodyLine(overlay.body, std::string(GameplayPersonalBuffNames[b]) + " - "
-                        + formatRemainingDuration(pBuff->remainingSeconds));
+                    appendPopupBodyLine(overlay.body, buffName(GameplayPersonalBuffNames[b]) + " - "
+                        + formatRemainingDuration(context, pBuff->remainingSeconds));
                 }
             }
             if (!overlay.body.empty())
@@ -891,20 +900,20 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
         {
             continue;
         }
-        overlay.title = "Active Party Buffs";
+        overlay.title = context.localizeHudText("Active Party Buffs");
         overlay.body.clear();
         for (PartyBuffId id : sortedGameplayBuffs(*pParty))
         {
             const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[size_t(id)];
             if (definition.presentation == panel)
             {
-                appendPopupBodyLine(overlay.body, std::string(definition.pName) + " - "
-                    + formatRemainingDuration(pParty->partyBuff(id)->remainingSeconds));
+                appendPopupBodyLine(overlay.body, buffName(definition.pName) + " - "
+                    + formatRemainingDuration(context, pParty->partyBuff(id)->remainingSeconds));
             }
         }
         if (overlay.body.empty())
         {
-            overlay.body = "No active buffs";
+            overlay.body = context.localizeHudText("No active buffs");
         }
         anchor(*rect);
         return;
@@ -923,11 +932,11 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
     if (inspected)
     {
         const PartyBuffState *pBuff = pParty->partyBuff(inspected->id);
-        overlay.title = GameplayBuffHudDefinitions[size_t(inspected->id)].pName;
-        overlay.body = formatRemainingDuration(pBuff->remainingSeconds);
+        overlay.title = buffName(GameplayBuffHudDefinitions[size_t(inspected->id)].pName);
+        overlay.body = formatRemainingDuration(context, pBuff->remainingSeconds);
         if (pBuff->power > 0)
         {
-            appendPopupBodyLine(overlay.body, "Power: " + std::to_string(pBuff->power));
+            appendPopupBodyLine(overlay.body, context.localizeHudText("Power: " + std::to_string(pBuff->power)));
         }
         anchor(inspected->rect);
     }

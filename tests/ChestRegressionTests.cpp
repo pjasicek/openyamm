@@ -8,6 +8,7 @@
 #include "game/items/ItemRuntime.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/OutdoorSceneYml.h"
+#include "game/outdoor/OutdoorChestPersistence.h"
 #include "game/tables/ChestTable.h"
 
 #include "tests/RegressionGameData.h"
@@ -648,6 +649,86 @@ TEST_CASE("chest level seven random placeholder generates a guaranteed rare item
     const OpenYAMM::Game::ItemDefinition *pItemDefinition = gameData.itemTable.get(pGeneratedItem->itemId);
     REQUIRE(pItemDefinition != nullptr);
     CHECK(OpenYAMM::Game::ItemRuntime::isRareItem(*pItemDefinition));
+}
+
+TEST_CASE("outdoor refill preserves storage inventory and grid without preserving ordinary loot")
+{
+    using namespace OpenYAMM::Game;
+    std::vector<MapDeltaChest> definitions(3);
+    definitions[1].preserveOnRefill = true;
+    definitions[2].preserveOnRefill = true;
+    OutdoorWorldRuntime::Snapshot fresh;
+    fresh.chests = definitions;
+    fresh.chests[0].rawItems = {10};
+    OutdoorWorldRuntime::Snapshot saved;
+    saved.chests.resize(3);
+    saved.chests[0].rawItems = {99};
+    saved.chests[1].rawItems = {42};
+    saved.chests[1].inventoryMatrix = {0, 1, -1};
+    saved.openedChestFlags = {1, 1, 0};
+    saved.materializedChestViews.resize(3);
+    GameplayChestViewState view;
+    view.chestId = 1;
+    view.gridWidth = 9;
+    view.gridHeight = 9;
+    GameplayChestItemState item;
+    item.itemId = 123;
+    item.quantity = 2;
+    view.items.push_back(item);
+    saved.materializedChestViews[1] = view;
+    // An emptied storage chest must also stay empty after another refill.
+    saved.materializedChestViews[2] = GameplayChestViewState{};
+
+    preserveOutdoorStorageChests(fresh, saved, definitions);
+
+    CHECK(fresh.chests[0].rawItems == std::vector<uint8_t>{10});
+    CHECK((fresh.openedChestFlags == std::vector<uint8_t>{0, 1, 0}));
+    CHECK(fresh.chests[1].rawItems == saved.chests[1].rawItems);
+    CHECK(fresh.chests[1].inventoryMatrix == saved.chests[1].inventoryMatrix);
+    REQUIRE(fresh.materializedChestViews[1].has_value());
+    REQUIRE(fresh.materializedChestViews[1]->items.size() == 1);
+    CHECK(fresh.materializedChestViews[1]->items[0].itemId == 123);
+    CHECK(fresh.materializedChestViews[1]->items[0].quantity == 2);
+    CHECK_FALSE(fresh.materializedChestViews[0].has_value());
+    REQUIRE(fresh.materializedChestViews[2].has_value());
+    CHECK(fresh.materializedChestViews[2]->items.empty());
+
+    OutdoorWorldRuntime::Snapshot nextRefill;
+    nextRefill.chests = definitions;
+    preserveOutdoorStorageChests(nextRefill, fresh, definitions);
+    REQUIRE(nextRefill.materializedChestViews[1].has_value());
+    CHECK(nextRefill.materializedChestViews[1]->items[0].itemId == 123);
+    REQUIRE(nextRefill.materializedChestViews[2].has_value());
+    CHECK(nextRefill.materializedChestViews[2]->items.empty());
+}
+
+TEST_CASE("New Sorpigal bridge storage policy preserves only native chests two and three")
+{
+    using namespace OpenYAMM::Game;
+    OutdoorSceneData scene = loadOutdoorScene("assets_dev/worlds/mm6/maps/oute3.scene.yml");
+    const std::vector<MapDeltaChest> originalChests = scene.initialState.chests;
+    std::ifstream overlayFile(std::filesystem::path(OPENYAMM_SOURCE_DIR)
+        / "assets_dev/worlds/mm6/maps/oute3.scene.2.yml");
+    REQUIRE(overlayFile.good());
+    std::ostringstream overlayText;
+    overlayText << overlayFile.rdbuf();
+    OutdoorSceneYmlLoader loader;
+    std::string error;
+    REQUIRE_MESSAGE(loader.applyOverlayFromText(scene, overlayText.str(), error), error.c_str());
+    REQUIRE(scene.initialState.chests.size() == originalChests.size());
+    for (size_t index = 0; index < originalChests.size(); ++index)
+    {
+        CHECK(scene.initialState.chests[index].preserveOnRefill == (index == 2 || index == 3));
+        CHECK(scene.initialState.chests[index].rawItems == originalChests[index].rawItems);
+        CHECK(scene.initialState.chests[index].flags == originalChests[index].flags);
+    }
+
+    const std::string invalidOverlay =
+        "format_version: 1\nkind: outdoor_scene_overlay\nsource: {geometry_file: oute3.odm}\n"
+        "initial_state:\n  chest_policy_overrides:\n"
+        "    - {chest_index: 200, preserve_on_refill: true}\n";
+    CHECK_FALSE(loader.applyOverlayFromText(scene, invalidOverlay, error));
+    CHECK(error == "chest policy override chest_index is out of range");
 }
 
 TEST_CASE("Ravenshore hidden tree chest retains its guaranteed artifact")

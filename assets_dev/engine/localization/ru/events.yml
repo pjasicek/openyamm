@@ -1,5 +1,16 @@
 language: ru
 translations:
+  Teleporter: Телепорт
+  "Memory Crystal Beta": "Кристалл памяти «Бета»"
+  # Interactive objects in the Monolith (MM6).
+  "Strange tree": "Странное дерево"
+  "Strange rock": "Странная скала"
+  "Monolith": "Монолит"
+  "Nice Flower": "Красивый цветок"
+  "Druid statue": "Статуя друида"
+  "Sacred Pool": "Священный водоем"
+  "Evil Altar": "Алтарь зла"
+  "Wolf Altar": "Алтарь Волка"
   # Shared MM6-MM8 decoration hints; keep canonical table hints for interaction rules.
   "A Sword in a Stone": "Меч в камне"
   "barrel": "Бочка"
@@ -138,8 +149,15 @@ translations:
   Bones: Кости
   Wine Rack: Стойка для вина
   Door: Дверь
+  'Door ': Дверь
   Button: Кнопка
+  Lever: Рычаг
   Switch: Переключатель
+  Sign: Табличка
+  Podium: Подиум
+  Crystal: Кристалл
+  Forcefield: Силовое поле
+  Mural: Настенная роспись
   Fountain: Фонтан
   Bed: Кровать
   Bench: Скамейка
@@ -212,23 +230,23 @@ translations:
   ? '"Etched into the tree a message reads:                                                                                                                                                                                                                              The
     fifth is twice the second, five letters in all I reckon!"'
   : '«На дереве вырезано следующее сообщение:                                                                                                                                                                                                                              Пятая
-    буква в два раза длиннее второй, всего, по-моему, пять букв!»'
+    буква в два раза дальше второй, а всего пять букв!»'
   ? '"Etched into the tree a message reads:                                                                                                                                                                                                                              The
     first is half the forth plus one, better hurry or you''ll be done!"'
   : '«На дереве вырезано следующее сообщение:                                                                                                                                                                                                                              Первое
     — это половина четвертого плюс один, лучше поторопись, а то тебе конец!»'
   ? '"Etched into the tree a message reads:                                                                                                                                                                                                                              The
     forth is eight from the end, Archibald really is your friend!"'
-  : '«На дереве вырезано следующее послание:                                                                                                                                                                                                                              Четвертый
-    — восьмой от конца, Арчибальд — действительно твой друг!»'
+  : '«На дереве вырезано следующее послание:                                                                                                                                                                                                                              Четвёртая
+    — девятая от конца алфавита, Арчибальд — действительно твой друг!»'
   ? '"Etched into the tree a message reads:                                                                                                                                                                                                                              The
     second is next to the third, oh so pretty like a bird!"'
-  : '«На дереве вырезано следующее послание:                                                                                                                                                                                                                              Второе
-    находится рядом с третьим, о, как это красиво, словно птичка!»'
+  : '«На дереве вырезано следующее послание:                                                                                                                                                                                                                              Вторая
+    следует за третьей, о, как это красиво, словно птичка!»'
   ? '"Etched into the tree a message reads:                                                                                                                                                                                                                              The
     third is the first of twenty six, A through Z you''ll have to mix!"'
-  : '«На дереве вырезано следующее послание:                                                                                                                                                                                                                              Третий
-    — первый из двадцати шести, от А до Я тебе придётся смешивать!»'
+  : '«На дереве вырезано следующее послание:                                                                                                                                                                                                                              Третья
+    — первая из двадцати шести букв английского алфавита, от A до Z тебе придётся их сочетать!»'
   ? '"Expert Perception is the key and the doors of Baa will let you be.                                                                                                                                                                                                                  The
     Spiral then each head, talk to Baa or you''ll be dead."'
   : «Мнение эксперта — это ключ, и двери Баа откроются перед тобой.                                                                                                                                                                                                                  Затем
@@ -2672,7 +2690,7 @@ translations:
     I believe he''s still living in Silver Cove.'
   : 'Джон Так может научить вас освоить навык обучения.
 
-    По-моему, он до сих пор живёт в Силвер-Коув.'
+    По-моему, он до сих пор живёт в Серебряной бухте.'
   Join you! Ha! I admire your audacity. Yes�admire it a great deal. Very well. You have my respect. I will go with you.: Присоединиться
     к тебе! Ха! Я восхищаюсь твоей смелостью. Да… восхищаюсь ею безмерно. Хорошо. Ты заслужил моё уважение. Я пойду с тобой.
   ? Judging from the tactics employed by the Regnan pirates, I suspect that Blackwell Cooper is involved. Cooper is an old�shall
@@ -3489,7 +3507,7 @@ translations:
     Её уроки помогут вам достичь уровня «Эксперт» в владении этим дальнобойным оружием.
 
     Она живёт в деревне «Кровавая капля» на островах «Рана кинжала».'
-  Silver Cove: Сильвер-Коув
+  Silver Cove: Серебряная бухта
   ? 'Slicker Silvertongue refused my order?
 
     This must be treason!

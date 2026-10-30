@@ -824,7 +824,8 @@ void OutdoorMovementDriver::setFlyingAvailable(bool active)
 
 bool OutdoorMovementDriver::isEffectiveRunning(const OutdoorMovementInput &input) const
 {
-    return input.runWalkModifier ? !m_partyMovementState.running : m_partyMovementState.running;
+    return input.autoRunActive
+        || (input.runWalkModifier ? !m_partyMovementState.running : m_partyMovementState.running);
 }
 
 bool OutdoorMovementDriver::isRunningMovement(const OutdoorMovementInput &input) const

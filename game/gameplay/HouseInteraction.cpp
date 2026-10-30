@@ -316,34 +316,42 @@ uint32_t guildMembershipRuntimeVariableKey(uint32_t guildType)
 
 std::optional<uint32_t> skillGuildMembershipType(const HouseEntry &houseEntry)
 {
-    if (houseEntry.name == "Buccaneers' Lair")
+    if (houseEntry.worldId != "mm6")
     {
-        return 16;
+        return std::nullopt;
     }
 
-    if (houseEntry.name == "Protection Services")
+    // Membership belongs to the guild type and branch, independently of its translated display name.
+    if (isHouseType(houseEntry, "Thieves guild") || isHouseType(houseEntry, "Thieves Guild"))
     {
-        return 17;
+        switch (houseEntry.typeIndex)
+        {
+            case 1:
+            case 2:
+                return 16;
+            case 3:
+            case 4:
+                return 17;
+            case 5:
+            case 6:
+                return 18;
+        }
     }
 
-    if (houseEntry.name == "Smugglers' Guild")
+    if (isHouseType(houseEntry, "Merc Guild"))
     {
-        return 18;
-    }
-
-    if (houseEntry.name == "Blades' End")
-    {
-        return 19;
-    }
-
-    if (houseEntry.name == "Duelists' Edge")
-    {
-        return 20;
-    }
-
-    if (houseEntry.name == "Berserkers' Fury")
-    {
-        return 21;
+        switch (houseEntry.typeIndex)
+        {
+            case 1:
+            case 5:
+                return 19;
+            case 2:
+            case 4:
+                return 20;
+            case 3:
+            case 6:
+                return 21;
+        }
     }
 
     return std::nullopt;

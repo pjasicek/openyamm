@@ -28,6 +28,7 @@ struct OutdoorMovementInput
     bool turnBasedPhysicsStep = false;
     float movementSpeedScale = 1.0f;
     float flyHeightDelta = 0.0f;
+    bool autoRunActive = false;
 };
 
 struct OutdoorPartyMovementState

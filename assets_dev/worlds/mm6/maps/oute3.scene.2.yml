@@ -1,0 +1,12 @@
+format_version: 1
+kind: outdoor_scene_overlay
+source:
+  geometry_file: oute3.odm
+initial_state:
+  chest_policy_overrides:
+    # Native crates flanking the western bridge on the road to Castle Ironfist.
+    # Event 76 / model 28: (-19696, -10016); event 77 / model 27: (-19696, -10944).
+    - chest_index: 2
+      preserve_on_refill: true
+    - chest_index: 3
+      preserve_on_refill: true

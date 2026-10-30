@@ -111,6 +111,48 @@ TEST_CASE("MM6 promotion dialogue translates complete replies for all six class 
     }
 }
 
+TEST_CASE("MM6 cobra egg replies translate legacy Lua text with and without an egg")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    Game::GameDataLoader data;
+    data.setLanguage("ru");
+    REQUIRE(data.loadCommonForGameplay(assets));
+
+    // Read the generated handler so the check includes its original legacy punctuation bytes.
+    const std::optional<std::string> globalLua = assets.readTextFile("events/Global.lua");
+    REQUIRE(globalLua.has_value());
+    const size_t handlerStart = globalLua->find("RegisterGlobalEvent(1625,");
+    REQUIRE_NE(handlerStart, std::string::npos);
+    const size_t handlerEnd = globalLua->find("RegisterGlobalEvent(", handlerStart + 1);
+    REQUIRE_NE(handlerEnd, std::string::npos);
+    size_t offset = handlerStart;
+    for (uint32_t textId : {2020u, 2019u})
+    {
+        const std::string prefix = "evt.SetMessage(\"";
+        const size_t messageStart = globalLua->find(prefix, offset);
+        REQUIRE_LT(messageStart, handlerEnd);
+        const size_t textStart = messageStart + prefix.size();
+        const size_t textEnd = globalLua->find("\")", textStart);
+        REQUIRE_LT(textEnd, handlerEnd);
+        std::string message = globalLua->substr(textStart, textEnd - textStart);
+        size_t newline = 0;
+        while ((newline = message.find("\\n", newline)) != std::string::npos)
+        {
+            message.replace(newline, 2, "\n");
+            ++newline;
+        }
+        CAPTURE(textId);
+        const std::optional<std::string> expected = data.getNpcDialogTable().getText(textId);
+        REQUIRE(expected.has_value());
+        CHECK_NE(*expected, message);
+        CHECK_NE(expected->find("кобр"), std::string::npos);
+        CHECK_EQ(data.getLocalizationCatalog().translateText(message), *expected);
+        offset = textEnd + 2;
+    }
+}
+
 TEST_CASE("Russian and English game tables resolve all implemented monster spells")
 {
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;

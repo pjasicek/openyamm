@@ -2241,8 +2241,7 @@ TEST_CASE("mm6 obelisk dialogs reopen after collection and other dialogs")
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         runtimeState.messages = {"Previous dialog"};
         CHECK_FALSE(party.hasQuestBit(obelisk.questBit));
-        const uint32_t autonoteVariable = (obelisk.autonoteId << 16) | 0x00e1u;
-        CHECK(runtimeState.variables.find(autonoteVariable) == runtimeState.variables.end());
+        CHECK_EQ(party.autonoteValue(obelisk.autonoteId), 0);
 
         for (int visit = 0; visit < 2; ++visit)
         {
@@ -2268,9 +2267,7 @@ TEST_CASE("mm6 obelisk dialogs reopen after collection and other dialogs")
             REQUIRE(eventRuntime.executeEventById(
                 localEventProgram, std::nullopt, obelisk.eventId, runtimeState, &party, nullptr, 2));
             CHECK(party.hasQuestBit(obelisk.questBit));
-            const auto autonoteIt = runtimeState.variables.find(autonoteVariable);
-            REQUIRE(autonoteIt != runtimeState.variables.end());
-            CHECK_EQ(autonoteIt->second, obelisk.autonoteId);
+            CHECK_EQ(party.autonoteValue(obelisk.autonoteId), obelisk.autonoteId);
             if (visit == 0)
             {
                 REQUIRE_EQ(runtimeState.portraitFxRequests.size(), 1u);
@@ -7296,9 +7293,12 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         const std::optional<OpenYAMM::Game::ScriptedEventProgram> localEventProgram =
             loadMm6MapOverlayProgram(OPENYAMM_SOURCE_DIR, "cd1", "cd1_mmmerge", error);
         REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
+        CHECK_EQ(localEventProgram->getHint(59), std::optional<std::string>("Memory Crystal Beta"));
 
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
+        // Reading the fifth-letter clue must not bypass the password plate.
+        runtimeState.mapVars[6] = 1;
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 69, runtimeState, nullptr, nullptr));
         REQUIRE(runtimeState.pendingInputPrompt.has_value());
         CHECK_EQ(runtimeState.pendingInputPrompt->continueStep, 4);
@@ -7312,7 +7312,12 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
             nullptr,
             nullptr,
             23));
+        CHECK_EQ(runtimeState.mapVars[8], 1u);
         CHECK_EQ(runtimeState.mapVars[6], 1u);
+
+        // A solved password plate stays open on subsequent visits.
+        REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 69, runtimeState, nullptr, nullptr));
+        CHECK_FALSE(runtimeState.pendingInputPrompt.has_value());
     }
 
     {

@@ -4274,6 +4274,45 @@ TEST_CASE("mm6 skill guilds require membership and expose their original skills"
         "Armsmaster") != pBerserkersFury->offeredSkills.end());
 }
 
+TEST_CASE("mm6 skill guild membership and services do not depend on translated names")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const std::array<uint16_t, 12> membershipVariables = {
+        0x8010u, 0x8010u, 0x8011u, 0x8011u, 0x8012u, 0x8012u,
+        0x8013u, 0x8014u, 0x8015u, 0x8014u, 0x8013u, 0x8015u};
+
+    for (size_t index = 0; index < membershipVariables.size(); ++index)
+    {
+        const uint32_t houseId = 191 + static_cast<uint32_t>(index);
+        CAPTURE(houseId);
+        const OpenYAMM::Game::HouseEntry *pHouse = gameData.houseTable.get(houseId);
+        REQUIRE(pHouse != nullptr);
+        OpenYAMM::Game::HouseEntry translatedHouse = *pHouse;
+        translatedHouse.name = "Translated guild name";
+        OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+        const float openingMinutes = static_cast<float>(pHouse->openHour) * 60.0f;
+
+        for (bool isMember : {false, true})
+        {
+            CAPTURE(isMember);
+            harness.party().setEventVariableValue(membershipVariables[index], isMember ? 1 : 0);
+            const std::vector<OpenYAMM::Game::HouseActionOption> actions =
+                OpenYAMM::Game::buildHouseActionOptions(
+                    translatedHouse,
+                    &harness.party(),
+                    &gameData.classSkillTable,
+                    &harness.worldRuntime(),
+                    openingMinutes,
+                    OpenYAMM::Game::DialogueMenuId::None);
+            CHECK_FALSE(findHouseActionById(actions, OpenYAMM::Game::HouseActionId::GuildBuySpellbooks).has_value());
+            const std::optional<OpenYAMM::Game::HouseActionOption> learn =
+                findHouseActionById(actions, OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu);
+            REQUIRE(learn.has_value());
+            CHECK_EQ(learn->enabled, isMember);
+        }
+    }
+}
+
 TEST_CASE("dwi training service uses active member")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -4857,11 +4896,7 @@ TEST_CASE("mastery teacher not enough gold")
     CHECK_EQ(dialog.actions.front().label, "You don't have enough gold!");
 
     constexpr uint32_t MergedMasterIdentifyItemAutonoteId = 162;
-    constexpr uint32_t MergedMasterIdentifyItemAutonoteVariable =
-        (MergedMasterIdentifyItemAutonoteId << 16) | 0x00e1u;
-    const auto noteIt = harness.eventRuntimeState().variables.find(MergedMasterIdentifyItemAutonoteVariable);
-    REQUIRE(noteIt != harness.eventRuntimeState().variables.end());
-    CHECK_EQ(noteIt->second, 1);
+    CHECK_EQ(harness.party().autonoteValue(MergedMasterIdentifyItemAutonoteId), 1);
 }
 
 TEST_CASE("teacher topic with explicit autonote also creates merged teacher map note")
@@ -4879,11 +4914,7 @@ TEST_CASE("teacher topic with explicit autonote also creates merged teacher map 
     CHECK(dialogHasActionLabel(dialog, "Master Identify Item"));
 
     constexpr uint32_t MergedMasterIdentifyItemAutonoteId = 162;
-    constexpr uint32_t MergedMasterIdentifyItemAutonoteVariable =
-        (MergedMasterIdentifyItemAutonoteId << 16) | 0x00e1u;
-    const auto variableIt = harness.eventRuntimeState().variables.find(MergedMasterIdentifyItemAutonoteVariable);
-    REQUIRE(variableIt != harness.eventRuntimeState().variables.end());
-    CHECK_EQ(variableIt->second, 1);
+    CHECK_EQ(harness.party().autonoteValue(MergedMasterIdentifyItemAutonoteId), 1);
 
     constexpr uint32_t MasterIdentifyItemMapNoteId = 2224;
     const auto noteIt = harness.eventRuntimeState().runtimeMapNotes.find(MasterIdentifyItemMapNoteId);
@@ -5366,8 +5397,6 @@ TEST_CASE("mastery teacher topics are identified from merged table and vanilla r
 
 TEST_CASE("vanilla mm8 blaster teacher gap remains a mastery teacher")
 {
-    constexpr uint32_t ExpertBlasterAutonoteVariable = (344u << 16) | 0x00e1u;
-
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
 
@@ -5386,9 +5415,7 @@ TEST_CASE("vanilla mm8 blaster teacher gap remains a mastery teacher")
     REQUIRE_FALSE(offerDialog.actions.empty());
     CHECK_EQ(offerDialog.actions.front().label, "Become Expert in Blaster for 2000 gold");
 
-    const auto noteIt = harness.eventRuntimeState().variables.find(ExpertBlasterAutonoteVariable);
-    REQUIRE(noteIt != harness.eventRuntimeState().variables.end());
-    CHECK_NE(noteIt->second, 0);
+    CHECK_NE(harness.party().autonoteValue(344u), 0);
 }
 
 TEST_CASE("teacher topic without explicit autonote creates merged teacher map note")
@@ -5417,7 +5444,6 @@ TEST_CASE("mm6 guild membership topic opens native guild offer")
 {
     constexpr uint16_t ElementalGuildMembershipVariable = 0x800eu;
     constexpr uint32_t ElementalGuildAutonoteId = 564;
-    constexpr uint32_t ElementalGuildAutonoteVariable = (ElementalGuildAutonoteId << 16) | 0x00e1u;
 
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
@@ -5443,9 +5469,7 @@ TEST_CASE("mm6 guild membership topic opens native guild offer")
     CHECK_EQ(harness.party().gold(), initialGold - 100);
     CHECK_EQ(harness.party().eventVariableValue(ElementalGuildMembershipVariable), 1);
 
-    const auto noteIt = harness.eventRuntimeState().variables.find(ElementalGuildAutonoteVariable);
-    REQUIRE(noteIt != harness.eventRuntimeState().variables.end());
-    CHECK_EQ(noteIt->second, 1);
+    CHECK_EQ(harness.party().autonoteValue(ElementalGuildAutonoteId), 1);
 }
 
 TEST_CASE("mm7 guild membership topic opens native guild offer")
@@ -5477,7 +5501,6 @@ TEST_CASE("mm6 smuggler guild membership topic opens native guild offer")
 {
     constexpr uint16_t SmugglerGuildMembershipVariable = 0x8012u;
     constexpr uint32_t SmugglerGuildAutonoteId = 631;
-    constexpr uint32_t SmugglerGuildAutonoteVariable = (SmugglerGuildAutonoteId << 16) | 0x00e1u;
 
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
@@ -5501,16 +5524,13 @@ TEST_CASE("mm6 smuggler guild membership topic opens native guild offer")
     CHECK_EQ(harness.party().gold(), initialGold - 50);
     CHECK_EQ(harness.party().eventVariableValue(SmugglerGuildMembershipVariable), 1);
 
-    const auto noteIt = harness.eventRuntimeState().variables.find(SmugglerGuildAutonoteVariable);
-    REQUIRE(noteIt != harness.eventRuntimeState().variables.end());
-    CHECK_EQ(noteIt->second, 1);
+    CHECK_EQ(harness.party().autonoteValue(SmugglerGuildAutonoteId), 1);
 }
 
 TEST_CASE("mm6 blades end guild membership topic opens native guild offer")
 {
     constexpr uint16_t BladesEndGuildMembershipVariable = 0x8013u;
     constexpr uint32_t BladesEndGuildAutonoteId = 632;
-    constexpr uint32_t BladesEndGuildAutonoteVariable = (BladesEndGuildAutonoteId << 16) | 0x00e1u;
 
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
@@ -5534,9 +5554,7 @@ TEST_CASE("mm6 blades end guild membership topic opens native guild offer")
     CHECK_EQ(harness.party().gold(), initialGold - 25);
     CHECK_EQ(harness.party().eventVariableValue(BladesEndGuildMembershipVariable), 1);
 
-    const auto noteIt = harness.eventRuntimeState().variables.find(BladesEndGuildAutonoteVariable);
-    REQUIRE(noteIt != harness.eventRuntimeState().variables.end());
-    CHECK_EQ(noteIt->second, 1);
+    CHECK_EQ(harness.party().autonoteValue(BladesEndGuildAutonoteId), 1);
 }
 
 TEST_CASE("actual roster join rohani")
@@ -8122,11 +8140,7 @@ TEST_CASE("event teacher hint sets autonote and note fx")
 
     REQUIRE(harness.executeGlobalEvent(430));
 
-    constexpr uint32_t SpearMasterAutoNoteRawId = (102u << 16) | 0x00e1u;
-    const auto noteIt = harness.eventRuntimeState().variables.find(SpearMasterAutoNoteRawId);
-
-    REQUIRE(noteIt != harness.eventRuntimeState().variables.end());
-    CHECK_NE(noteIt->second, 0);
+    CHECK_NE(harness.party().autonoteValue(102u), 0);
 
     bool sawAutoNoteFx = false;
 

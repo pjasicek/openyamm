@@ -180,9 +180,9 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
     const MergedPotionSettingEntry *pHeldPotionSetting = potionSettingTable.getByItemId(heldItemId);
     const MergedPotionSettingEntry *pTargetPotionSetting = potionSettingTable.getByItemId(targetItemId);
 
-    if (heldItemId == RechargePotionItemId)
+    if (heldItemId == RechargePotionItemId && isWandItem(*pTargetDefinition))
     {
-        if (!isWandItem(*pTargetDefinition) || targetItem.broken)
+        if (targetItem.broken)
         {
             return {};
         }

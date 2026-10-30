@@ -128,6 +128,7 @@ struct Character
     float recoverySecondsRemaining = 0.0f;
     int armorClassModifier = 0;
     int levelModifier = 0;
+    int itemLevelBonus = 0; // Rebuilt from equipped items; not saved with temporary level modifiers.
     int ageModifier = 0;
     std::unordered_set<uint32_t> playerBits;
     uint32_t npcs2 = 0;
@@ -320,6 +321,7 @@ public:
         std::unordered_set<uint32_t> everOwnedItemIds;
         std::unordered_map<uint32_t, int32_t> continentReputations;
         std::unordered_set<uint32_t> questBits;
+        std::unordered_map<uint32_t, int32_t> autonotes;
         std::unordered_map<uint16_t, int32_t> eventVariables;
         std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> npcTopicOverrides;
         std::unordered_map<uint32_t, uint32_t> npcGroupNews;
@@ -399,6 +401,8 @@ public:
     void requestDamageImpactSoundForMember(size_t memberIndex);
     void requestSpeech(size_t memberIndex, SpeechId speechId);
     bool hasQuestBit(uint32_t questBitId) const;
+    int32_t autonoteValue(uint32_t autonoteId) const;
+    void setAutonoteValue(uint32_t autonoteId, int32_t value);
     void setQuestBit(uint32_t questBitId, bool value);
     uint64_t dialogueEligibilityRevision() const;
     void applyGlobalNpcStateTo(EventRuntimeState &runtimeState) const;
@@ -680,6 +684,7 @@ private:
     std::unordered_set<uint64_t> m_explosiveMixes;
     std::unordered_map<uint32_t, int32_t> m_continentReputations;
     std::unordered_set<uint32_t> m_questBits;
+    std::unordered_map<uint32_t, int32_t> m_autonotes;
     uint64_t m_dialogueEligibilityRevision = 1;
     uint32_t m_arcomageWinCount = 0;
     uint32_t m_arcomageLossCount = 0;

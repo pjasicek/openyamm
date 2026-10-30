@@ -761,6 +761,25 @@ TEST_CASE("summoned actor projectiles do not collide with party allies")
     CHECK(service.isProjectileSourceFriendlyToActor(projectile, facts));
 }
 
+TEST_CASE("monster projectiles can hit party summons despite their original faction")
+{
+    GameplayProjectileService service;
+    const GameplayProjectileService::ProjectileState projectile = makeActorProjectile();
+    GameplayProjectileService::ProjectileActorRelationFacts facts = {};
+    facts.sourceMonsterKnown = true;
+    facts.sourceMonsterFriendlyToTarget = true;
+    CHECK(service.isProjectileSourceFriendlyToActor(projectile, facts));
+
+    facts.targetPartyControlled = true;
+    const bool friendly = service.isProjectileSourceFriendlyToActor(projectile, facts);
+    CHECK_FALSE(friendly);
+
+    GameplayProjectileService::ProjectileCollisionActorFacts target = {};
+    target.actorId = projectile.sourceId + 1;
+    target.friendlyToProjectileSource = friendly;
+    CHECK(service.canProjectileCollideWithActor(projectile, target));
+}
+
 TEST_CASE("fire spike spawn limits are mastery based and actor trigger chooses nearest hostile")
 {
     GameplayProjectileService service;

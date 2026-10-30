@@ -1,6 +1,7 @@
 #include "game/maps/SaveGame.h"
 
 #include "game/events/EvtEnums.h"
+#include "game/events/EventRuntime.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/ItemTable.h"
 
@@ -21,7 +22,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 89;
+constexpr uint32_t SaveVersion = 90;
+constexpr uint32_t SaveVersionPartyAutonotes = 90;
 constexpr uint32_t SaveVersionUserMapNotes = 89;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
@@ -1043,6 +1045,7 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.unavailableNpcIds);
     writeValue(writer, value.hiredNpcFollowers);
     writeValue(writer, value.explosiveMixes);
+    writeValue(writer, value.autonotes);
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
@@ -1086,7 +1089,8 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.npcItemOverrides))
         && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.unavailableNpcIds))
         && (reader.version() < SaveVersionPartyHiredNpcFollowers || readValue(reader, value.hiredNpcFollowers))
-        && (reader.version() < SaveVersionPartyExplosiveMixes || readValue(reader, value.explosiveMixes));
+        && (reader.version() < SaveVersionPartyExplosiveMixes || readValue(reader, value.explosiveMixes))
+        && (reader.version() < SaveVersionPartyAutonotes || readValue(reader, value.autonotes));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)
@@ -4060,6 +4064,119 @@ void migrateLegacyNpcRosters(GameSaveData &data)
     }
 }
 
+void migrateLegacyAutonotes(GameSaveData &data)
+{
+    // Autonotes used to live in the map where they were learned. Collect every surviving note once,
+    // then remove the old entries so map reloads and refills no longer own the party's knowledge.
+    const auto migrateState = [&data](std::optional<EventRuntimeState> &state)
+    {
+        if (!state)
+        {
+            return;
+        }
+
+        for (auto iterator = state->variables.begin(); iterator != state->variables.end();)
+        {
+            const EventRuntime::VariableRef variable = EventRuntime::decodeVariable(iterator->first);
+            if (variable.kind != EventRuntime::VariableKind::AutoNote || variable.index == 0)
+            {
+                ++iterator;
+                continue;
+            }
+
+            if (iterator->second != 0)
+            {
+                data.party.autonotes.try_emplace(variable.index, iterator->second);
+            }
+            iterator = state->variables.erase(iterator);
+        }
+    };
+
+    if (data.hasOutdoorRuntimeState)
+    {
+        migrateState(data.outdoorWorld.eventRuntimeState);
+    }
+    if (data.hasIndoorSceneState)
+    {
+        migrateState(data.indoorScene.eventRuntimeState);
+    }
+    for (auto &[mapName, snapshot] : data.outdoorWorldStates)
+    {
+        (void)mapName;
+        migrateState(snapshot.eventRuntimeState);
+    }
+    for (auto &[mapName, snapshot] : data.indoorSceneStates)
+    {
+        (void)mapName;
+        migrateState(snapshot.eventRuntimeState);
+    }
+}
+
+void migrateLegacySnakeTempleLift(GameSaveData &data)
+{
+    const auto migrateSnapshot = [](const std::string &mapName, IndoorSceneRuntime::Snapshot &snapshot)
+    {
+        const std::string name = toLowerCopy(mapName);
+        if ((name != "6t8.blv" && name != "mm6:6t8.blv") || !snapshot.mapDeltaData)
+        {
+            return;
+        }
+
+        for (MapDeltaDoor &door : snapshot.mapDeltaData->doors)
+        {
+            // Match the old content exactly; preserve the saved mechanism state and progress.
+            if (door.doorId != 3 || door.moveLength != 696 || door.directionZ != -65536
+                || door.vertexIds != std::vector<uint16_t>{848, 844, 853, 845, 857, 847}
+                || door.xOffsets != std::vector<int16_t>{-1152, -1280, -1028, -1280, -1280, -1028}
+                || door.yOffsets != std::vector<int16_t>{1152, 1152, 1408, 1280, 1408, 1152}
+                || door.zOffsets != std::vector<int16_t>{700, 700, 700, 700, 700, 700})
+            {
+                continue;
+            }
+
+            // The shared lower corner of rear wall faces 490/779 must descend with the platform.
+            door.vertexIds.push_back(821);
+            door.xOffsets.push_back(-1152);
+            door.yOffsets.push_back(1408);
+            door.zOffsets.push_back(700);
+            door.numVertices = 7;
+            door.numOffsets = 7;
+
+            std::vector<int16_t> &raw = snapshot.mapDeltaData->doorsData;
+            raw.clear();
+            for (const MapDeltaDoor &savedDoor : snapshot.mapDeltaData->doors)
+            {
+                for (const uint16_t id : savedDoor.vertexIds)
+                {
+                    raw.push_back(int16_t(id));
+                }
+                for (const uint16_t id : savedDoor.faceIds)
+                {
+                    raw.push_back(int16_t(id));
+                }
+                for (const uint16_t id : savedDoor.sectorIds)
+                {
+                    raw.push_back(int16_t(id));
+                }
+                raw.insert(raw.end(), savedDoor.deltaUs.begin(), savedDoor.deltaUs.end());
+                raw.insert(raw.end(), savedDoor.deltaVs.begin(), savedDoor.deltaVs.end());
+                raw.insert(raw.end(), savedDoor.xOffsets.begin(), savedDoor.xOffsets.end());
+                raw.insert(raw.end(), savedDoor.yOffsets.begin(), savedDoor.yOffsets.end());
+                raw.insert(raw.end(), savedDoor.zOffsets.begin(), savedDoor.zOffsets.end());
+            }
+        }
+    };
+
+    if (data.hasIndoorSceneState)
+    {
+        migrateSnapshot(data.mapFileName, data.indoorScene);
+    }
+    for (auto &[mapName, snapshot] : data.indoorSceneStates)
+    {
+        migrateSnapshot(mapName, snapshot);
+    }
+}
+
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion)
 {
     if (sourceSaveVersion >= SaveVersionConsumedCorpseMarkers)
@@ -4296,6 +4413,11 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
 
     migrateLegacyConsumedCorpseMarkers(data, version);
     migrateLegacyNpcRosters(data);
+    migrateLegacySnakeTempleLift(data);
+    if (version < SaveVersionPartyAutonotes)
+    {
+        migrateLegacyAutonotes(data);
+    }
 
     return data;
 }

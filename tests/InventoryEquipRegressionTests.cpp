@@ -576,6 +576,46 @@ TEST_CASE("inventory item use potions and horseshoe apply the expected effects")
     CHECK_EQ(pMember->skillPoints, 5u);
 }
 
+TEST_CASE("localized horseshoes from all three worlds grant skill points instead of equipping")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+
+    std::vector<std::vector<std::string>> rows;
+    for (const uint32_t itemId : {656u, 1448u, 2083u})
+    {
+        std::vector<std::string> row(17);
+        row[0] = std::to_string(itemId);
+        row[2] = "Подкова";
+        row[4] = "N / A";
+        row[5] = "Misc";
+        rows.push_back(row);
+    }
+
+    OpenYAMM::Game::ItemTable items;
+    REQUIRE(items.load(assets, rows, {}));
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    const uint32_t initialSkillPoints = party.member(0)->skillPoints;
+
+    for (const uint32_t itemId : {656u, 1448u, 2083u})
+    {
+        CAPTURE(itemId);
+        OpenYAMM::Game::InventoryItem item = {};
+        item.objectDescriptionId = itemId;
+        const uint32_t skillPointsBefore = party.member(0)->skillPoints;
+        CHECK(OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(item, items)
+            == OpenYAMM::Game::InventoryItemUseAction::UseHorseshoe);
+        const OpenYAMM::Game::InventoryItemUseResult result =
+            OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(party, 0, item, items, nullptr);
+        CHECK(result.handled);
+        CHECK(result.consumed);
+        CHECK_EQ(party.member(0)->skillPoints, skillPointsBefore + 2);
+    }
+    CHECK_EQ(party.member(0)->skillPoints, initialSkillPoints + 6);
+}
+
 TEST_CASE("item generator unique rare item marks party and does not repeat")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -945,6 +985,68 @@ TEST_CASE("artifact shield blocks condition application")
         CHECK_FALSE(party.applyMemberCondition(0, condition));
         CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(condition)));
     }
+}
+
+TEST_CASE("Power enchant raises effective level and resources only while equipped and intact")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const std::optional<uint16_t> enchantId =
+        findSpecialEnchantId(gameData.specialItemEnchantTable, SpecialItemEnchantKind::Power);
+    REQUIRE(enchantId.has_value());
+
+    Party party = makeRegressionParty(gameData);
+    Character *pMember = party.member(1);
+    REQUIRE(pMember != nullptr);
+    pMember->equipment = {};
+    pMember->equipmentRuntime = {};
+    pMember->level = 5;
+    pMember->levelModifier = 0;
+    party.refreshDerivedState();
+
+    const CharacterSheetSummary baseline = GameMechanics::buildCharacterSheetSummary(
+        *pMember, &gameData.itemTable);
+    const uint32_t experience = pMember->experience;
+    const uint32_t skillPoints = pMember->skillPoints;
+    const int health = pMember->health;
+    const int spellPoints = pMember->spellPoints;
+    pMember->equipment.mainHand = 79;
+    pMember->equipmentRuntime.mainHand.specialEnchantId = *enchantId;
+    party.refreshDerivedState();
+    party.refreshDerivedState();
+
+    const CharacterSheetSummary enchanted = GameMechanics::buildCharacterSheetSummary(
+        *pMember, &gameData.itemTable);
+    CHECK_EQ(enchanted.level.base, 5);
+    CHECK_EQ(enchanted.level.actual, 10);
+    CHECK_GT(enchanted.health.maximum, baseline.health.maximum);
+    CHECK_GT(enchanted.spellPoints.maximum, baseline.spellPoints.maximum);
+    CHECK_EQ(pMember->levelModifier, 0);
+    CHECK_EQ(pMember->experience, experience);
+    CHECK_EQ(pMember->skillPoints, skillPoints);
+    CHECK_EQ(pMember->health, health);
+    CHECK_EQ(pMember->spellPoints, spellPoints);
+
+    pMember->levelModifier = 20;
+    party.refreshDerivedState();
+    CHECK_EQ(GameMechanics::buildCharacterSheetSummary(*pMember, &gameData.itemTable).level.actual, 30);
+    pMember->levelModifier = 0;
+
+    SUBCASE("broken equipment")
+    {
+        pMember->equipmentRuntime.mainHand.broken = true;
+    }
+    SUBCASE("removed equipment")
+    {
+        pMember->equipment.mainHand = 0;
+        pMember->equipmentRuntime.mainHand = {};
+    }
+    party.refreshDerivedState();
+    const CharacterSheetSummary removed = GameMechanics::buildCharacterSheetSummary(
+        *pMember, &gameData.itemTable);
+    CHECK_EQ(removed.level.actual, baseline.level.actual);
+    CHECK_EQ(removed.health.maximum, baseline.health.maximum);
+    CHECK_EQ(removed.spellPoints.maximum, baseline.spellPoints.maximum);
 }
 
 TEST_CASE("special antidotes enchant blocks poison application")

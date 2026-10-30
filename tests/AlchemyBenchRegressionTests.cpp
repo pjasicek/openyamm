@@ -1,11 +1,16 @@
 #include "doctest/doctest.h"
 
 #include "game/items/AlchemyBenchRuntime.h"
+#include "game/events/EventRuntime.h"
+#include "game/maps/SaveGame.h"
 #include "game/party/Party.h"
 
 #include "tests/RegressionGameData.h"
 
 #include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <iterator>
 #include <set>
 
 namespace
@@ -130,6 +135,77 @@ TEST_CASE("alchemy bench gathers ingredients from every pack")
     CHECK_EQ(ingredients[2].itemId, CureWoundsItemId);
     CHECK_EQ(ingredients[2].count, 2u);
     CHECK_EQ(ingredients[2].bestPower, 9u);
+}
+
+TEST_CASE("recharge potion mixes with cure poison in either order")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    constexpr uint32_t CurePoisonItemId = 226;
+    constexpr uint32_t RechargeItemId = 233;
+    constexpr uint32_t SwiftPotionItemId = 250;
+
+    for (const uint32_t heldItemId : {CurePoisonItemId, RechargeItemId})
+    {
+        CAPTURE(heldItemId);
+        InventoryItem heldItem = {};
+        heldItem.objectDescriptionId = heldItemId;
+        heldItem.standardEnchantPower = 12;
+        InventoryItem targetItem = {};
+        targetItem.objectDescriptionId = heldItemId == CurePoisonItemId ? RechargeItemId : CurePoisonItemId;
+        targetItem.standardEnchantPower = 8;
+
+        const InventoryItemMixResult result = InventoryItemMixingRuntime::mixItems(
+            heldItem, targetItem, SkillMastery::Grandmaster, 10,
+            gameData.itemTable, gameData.potionMixingTable,
+            gameData.mergedPotionSettingTable, gameData.mergedReagentSettingTable,
+            &gameData.potionNoteTable);
+
+        CHECK(result.handled);
+        CHECK(result.success);
+        CHECK_EQ(result.action, InventoryItemMixAction::PotionMix);
+        CHECK(result.heldItemConsumed);
+        CHECK(result.returnsBottle);
+        CHECK_EQ(targetItem.objectDescriptionId, SwiftPotionItemId);
+        CHECK_EQ(targetItem.standardEnchantPower, 10u);
+    }
+}
+
+TEST_CASE("pure luck mixes stoneskin with luck boost and records its recipe in either order")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    constexpr uint32_t StoneskinItemId = 234;
+    constexpr uint32_t LuckBoostItemId = 255;
+    constexpr uint32_t PureLuckItemId = 264;
+    constexpr uint32_t SwiftPotionItemId = 250;
+
+    for (const uint32_t heldItemId : {StoneskinItemId, LuckBoostItemId})
+    {
+        const uint32_t targetItemId = heldItemId == StoneskinItemId ? LuckBoostItemId : StoneskinItemId;
+        InventoryItem heldItem = {};
+        heldItem.objectDescriptionId = heldItemId;
+        heldItem.standardEnchantPower = 12;
+        InventoryItem targetItem = {};
+        targetItem.objectDescriptionId = targetItemId;
+        targetItem.standardEnchantPower = 8;
+        const InventoryItemMixResult result = InventoryItemMixingRuntime::mixItems(
+            heldItem, targetItem, SkillMastery::Grandmaster, 10,
+            gameData.itemTable, gameData.potionMixingTable,
+            gameData.mergedPotionSettingTable, gameData.mergedReagentSettingTable,
+            &gameData.potionNoteTable);
+
+        REQUIRE(result.success);
+        CHECK_EQ(targetItem.objectDescriptionId, PureLuckItemId);
+        CHECK_EQ(result.unlockedAutonoteId, 79u);
+    }
+
+    for (const uint32_t heldItemId : {StoneskinItemId, SwiftPotionItemId})
+    {
+        const uint32_t targetItemId = heldItemId == StoneskinItemId ? SwiftPotionItemId : StoneskinItemId;
+        const auto combination = gameData.potionMixingTable.potionCombination(heldItemId, targetItemId);
+        REQUIRE(combination.has_value());
+        CHECK_NE(combination->resultItemId, PureLuckItemId);
+        CHECK_FALSE(gameData.potionNoteTable.autonoteIdForMix(targetItemId, heldItemId).has_value());
+    }
 }
 
 TEST_CASE("alchemy bench book lists reagent recipes and only noted potion recipes")
@@ -455,4 +531,129 @@ TEST_CASE("alchemy chain planner names the step that blocks a chain")
         knownBook(party, tables, {HasteNoteId, CureDiseaseNoteId}), 4, tables).plan(HasteItemId, 1);
     CHECK_EQ(tooHard.block, AlchemyChainBlock::NeedsMastery);
     CHECK_EQ(tooHard.blockItemId, HasteItemId);
+}
+
+TEST_CASE("alchemy black potion discoveries survive a fresh map and a save round trip")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 10, SkillMastery::Grandmaster);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    EventRuntimeState mapState = {};
+    const std::vector<uint32_t> blackPotions = {266, 267, 268, 270};
+
+    for (uint32_t itemId : blackPotions)
+    {
+        const std::vector<uint32_t> notes = AlchemyBenchRuntime::potionNoteIds(itemId, tables);
+        REQUIRE_FALSE(notes.empty());
+        const auto found = std::find_if(gameData.potionNoteTable.entries().begin(),
+            gameData.potionNoteTable.entries().end(), [&notes](const PotionNoteTable::Entry &entry)
+            {
+                return entry.autonoteId == notes.front();
+            });
+        REQUIRE(found != gameData.potionNoteTable.entries().end());
+        addItem(party, 0, found->targetItemId);
+        addItem(party, 0, found->heldItemId);
+        const AlchemyMixOutcome outcome =
+            AlchemyBenchRuntime::mix(party, {found->targetItemId, found->heldItemId}, tables);
+        REQUIRE(outcome.result.success);
+        CHECK_EQ(outcome.resultItem.objectDescriptionId, itemId);
+        REQUIRE_NE(outcome.result.unlockedAutonoteId, 0u);
+        EventRuntime::setVariableValue(mapState,
+            EventRuntime::decodeVariable((outcome.result.unlockedAutonoteId << 16) | 0x00e1u), 1, &party, {0});
+    }
+
+    CHECK(mapState.variables.empty());
+    mapState = {};
+    for (uint32_t itemId : blackPotions)
+    {
+        const uint32_t noteId = AlchemyBenchRuntime::potionNoteIds(itemId, tables).front();
+        CHECK_NE(EventRuntime::getVariableValue(mapState,
+            EventRuntime::decodeVariable((noteId << 16) | 0x00dfu), &party), 0);
+    }
+
+    GameSaveData save = {};
+    save.party = party.snapshot();
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "openyamm_black_potion_discoveries.oysav";
+    std::string error;
+    REQUIRE(saveGameDataToPath(path, save, error));
+    const std::optional<GameSaveData> loaded = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    Party restored = makeParty(gameData, 1);
+    restored.restoreSnapshot(loaded->party);
+    const AlchemyBook book = AlchemyBenchRuntime::buildBook(tables, {}, SkillMastery::Grandmaster,
+        [&restored](uint32_t noteId) { return restored.autonoteValue(noteId) != 0; });
+    for (uint32_t itemId : blackPotions)
+    {
+        CHECK(findEntry(book, itemId) != nullptr);
+    }
+}
+
+TEST_CASE("alchemy autonotes share party state across event runtimes and can be cleared")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    EventRuntimeState outdoor = {};
+    EventRuntimeState indoor = {};
+    const EventRuntime::VariableRef note = EventRuntime::decodeVariable((HasteNoteId << 16) | 0x00e1u);
+    EventRuntime::addVariableValue(outdoor, note, HasteNoteId, &party, {0});
+    CHECK_EQ(EventRuntime::getVariableValue(indoor, note, &party), HasteNoteId);
+    EventRuntime::addVariableValue(indoor, note, 1, &party, {0});
+    CHECK(indoor.portraitFxRequests.empty());
+    EventRuntime::subtractVariableValue(indoor, note, 1, &party, {0});
+    CHECK_EQ(EventRuntime::getVariableValue(outdoor, note, &party), 0);
+    EventRuntime::setVariableValue(indoor, note, 1, &party, {0});
+    party.seed(PartySeed{});
+    CHECK_EQ(party.autonoteValue(HasteNoteId), 0);
+}
+
+TEST_CASE("alchemy version 89 saves migrate autonotes from active and visited maps")
+{
+    GameSaveData save = {};
+    save.hasOutdoorRuntimeState = true;
+    save.hasIndoorSceneState = true;
+    save.outdoorWorld.eventRuntimeState = EventRuntimeState{};
+    save.indoorScene.eventRuntimeState = EventRuntimeState{};
+    save.outdoorWorld.eventRuntimeState->variables[(HasteNoteId << 16) | 0x00e1u] = 1;
+    save.indoorScene.eventRuntimeState->variables[(CureDiseaseNoteId << 16) | 0x00dfu] = CureDiseaseNoteId;
+    save.outdoorWorldStates["mm6:oute3.odm"].eventRuntimeState = EventRuntimeState{};
+    save.outdoorWorldStates.at("mm6:oute3.odm").eventRuntimeState->variables[(70u << 16) | 0x00e1u] = 1;
+    save.indoorSceneStates["mm6:6d01.blv"].eventRuntimeState = EventRuntimeState{};
+    EventRuntimeState &visited = *save.indoorSceneStates.at("mm6:6d01.blv").eventRuntimeState;
+    visited.variables[(71u << 16) | 0x00e1u] = 1;
+    visited.variables[(72u << 16) | 0x00e1u] = 0;
+    visited.variables[0x00e1u] = 9; // Unindexed stat comparison is not an autonote.
+    constexpr uint64_t Marker = 0x12345678abcdef01ull;
+    save.party.explosiveMixes.insert(Marker);
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "openyamm_alchemy_v89.oysav";
+    std::string error;
+    REQUIRE(saveGameDataToPath(path, save, error));
+    std::ifstream input(path, std::ios::binary);
+    std::string bytes((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
+    input.close();
+    const size_t markerOffset = bytes.find(std::string(reinterpret_cast<const char *>(&Marker), sizeof(Marker)));
+    REQUIRE(markerOffset != std::string::npos);
+    // Version 90 appends the autonote map to Party::Snapshot; this fixture has an empty map.
+    bytes.erase(markerOffset + sizeof(Marker), sizeof(uint64_t));
+    const uint32_t version = 89;
+    std::memcpy(bytes.data() + 8, &version, sizeof(version));
+    std::ofstream output(path, std::ios::binary | std::ios::trunc);
+    output.write(bytes.data(), std::streamsize(bytes.size()));
+    output.close();
+    const std::optional<GameSaveData> loaded = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    CHECK_EQ(loaded->party.autonotes.at(HasteNoteId), 1);
+    CHECK_EQ(loaded->party.autonotes.at(CureDiseaseNoteId), CureDiseaseNoteId);
+    CHECK_EQ(loaded->party.autonotes.at(70), 1);
+    CHECK_EQ(loaded->party.autonotes.at(71), 1);
+    CHECK_FALSE(loaded->party.autonotes.contains(72));
+    CHECK(loaded->outdoorWorld.eventRuntimeState->variables.empty());
+    CHECK(loaded->indoorScene.eventRuntimeState->variables.empty());
+    const EventRuntimeState &migrated = *loaded->indoorSceneStates.at("mm6:6d01.blv").eventRuntimeState;
+    CHECK_EQ(migrated.variables.size(), 1u);
+    CHECK_EQ(migrated.variables.at(0x00e1u), 9);
 }

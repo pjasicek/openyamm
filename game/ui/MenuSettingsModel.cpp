@@ -863,8 +863,8 @@ bool reservedMenuBinding(const InputBinding &binding)
     {
         return false;
     }
-    return binding.scancode == SDL_SCANCODE_ESCAPE || binding.scancode == SDL_SCANCODE_F9 ||
-           binding.scancode == SDL_SCANCODE_F10 || binding.scancode == SDL_SCANCODE_GRAVE ||
+    return binding.scancode == SDL_SCANCODE_ESCAPE || binding.scancode == SDL_SCANCODE_F5 ||
+           binding.scancode == SDL_SCANCODE_F9 || binding.scancode == SDL_SCANCODE_GRAVE ||
            (binding.scancode >= SDL_SCANCODE_1 && binding.scancode <= SDL_SCANCODE_5);
 }
 } // namespace OpenYAMM::Game

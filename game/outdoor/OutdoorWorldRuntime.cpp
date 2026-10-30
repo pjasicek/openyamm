@@ -13313,27 +13313,27 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
 
         bool killed = false;
         int appliedDamage = impact.damage;
+        const MonsterTable::MonsterStatsEntry *pStats =
+            m_pMonsterTable != nullptr
+                ? m_pMonsterTable->findStatsById(m_mapActors[impact.actorIndex].monsterId)
+                : nullptr;
+
+        if (pStats != nullptr)
+        {
+            std::mt19937 rng(
+                projectile.projectileId
+                ^ static_cast<uint32_t>(impact.actorId * 2654435761u)
+                ^ static_cast<uint32_t>(std::max(0, impact.damage)));
+            appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+                impact.damage,
+                projectile.damageType,
+                monsterResistanceForDamageType(*pStats, projectile.damageType),
+                monsterHourOfPowerResistanceBonus(m_mapActors[impact.actorIndex]),
+                rng);
+        }
+
         if (impact.applyPartyProjectileDamage)
         {
-            const MonsterTable::MonsterStatsEntry *pStats =
-                m_pMonsterTable != nullptr
-                    ? m_pMonsterTable->findStatsById(m_mapActors[impact.actorIndex].monsterId)
-                    : nullptr;
-
-            if (pStats != nullptr)
-            {
-                std::mt19937 rng(
-                    projectile.projectileId
-                    ^ static_cast<uint32_t>(impact.actorId * 2654435761u)
-                    ^ static_cast<uint32_t>(std::max(0, impact.damage)));
-                appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
-                    impact.damage,
-                    projectile.damageType,
-                    monsterResistanceForDamageType(*pStats, projectile.damageType),
-                    monsterHourOfPowerResistanceBonus(m_mapActors[impact.actorIndex]),
-                    rng);
-            }
-
             const int beforeHp = m_mapActors[impact.actorIndex].currentHp;
             applyPartyAttackToMapActor(
                 impact.actorIndex,
@@ -13363,7 +13363,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
         {
             applyMonsterAttackToMapActor(
                 impact.actorIndex,
-                impact.damage,
+                appliedDamage,
                 projectile.sourceId);
         }
     }
@@ -13402,28 +13402,28 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
             }
 
             bool killed = false;
+            int appliedDamage = actorHit.damage;
+            const MonsterTable::MonsterStatsEntry *pStats =
+                m_pMonsterTable != nullptr
+                    ? m_pMonsterTable->findStatsById(m_mapActors[actorHit.actorIndex].monsterId)
+                    : nullptr;
+
+            if (pStats != nullptr)
+            {
+                std::mt19937 rng(
+                    projectile.projectileId
+                    ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
+                    ^ static_cast<uint32_t>(std::max(0, actorHit.damage)));
+                appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+                    actorHit.damage,
+                    projectile.damageType,
+                    monsterResistanceForDamageType(*pStats, projectile.damageType),
+                    monsterHourOfPowerResistanceBonus(m_mapActors[actorHit.actorIndex]),
+                    rng);
+            }
+
             if (projectile.sourceKind == ProjectileState::SourceKind::Party)
             {
-                int appliedDamage = actorHit.damage;
-                const MonsterTable::MonsterStatsEntry *pStats =
-                    m_pMonsterTable != nullptr
-                        ? m_pMonsterTable->findStatsById(m_mapActors[actorHit.actorIndex].monsterId)
-                        : nullptr;
-
-                if (pStats != nullptr)
-                {
-                    std::mt19937 rng(
-                        projectile.projectileId
-                        ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
-                        ^ static_cast<uint32_t>(std::max(0, actorHit.damage)));
-                    appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
-                        actorHit.damage,
-                        projectile.damageType,
-                        monsterResistanceForDamageType(*pStats, projectile.damageType),
-                        monsterHourOfPowerResistanceBonus(m_mapActors[actorHit.actorIndex]),
-                        rng);
-                }
-
                 const int beforeHp = m_mapActors[actorHit.actorIndex].currentHp;
                 applyPartyAttackToMapActor(
                     actorHit.actorIndex,
@@ -13447,7 +13447,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
             }
             else
             {
-                applyMonsterAttackToMapActor(actorHit.actorIndex, actorHit.damage, projectile.sourceId);
+                applyMonsterAttackToMapActor(actorHit.actorIndex, appliedDamage, projectile.sourceId);
             }
 
             if (areaImpact.logHits)

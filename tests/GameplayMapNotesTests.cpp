@@ -121,6 +121,8 @@ TEST_CASE("player map note placement round trips through zoomed indoor and outdo
 TEST_CASE("player map notes load version 88 automatic notes as read only")
 {
     GameSaveData save = {};
+    constexpr uint64_t PartyTailMarker = 0x12345678abcdef01ull;
+    save.party.explosiveMixes.insert(PartyTailMarker);
     save.mapFileName = "oute3.odm";
     save.hasOutdoorRuntimeState = true;
     save.outdoorWorld.eventRuntimeState = EventRuntimeState {};
@@ -140,6 +142,11 @@ TEST_CASE("player map notes load version 88 automatic notes as read only")
     REQUIRE(labelOffset != std::string::npos);
     // Version 89 adds one ownership bool after active. Remove it to reproduce the version 88 layout.
     bytes.erase(labelOffset + teacher.text.size() + sizeof(bool), sizeof(bool));
+    const size_t partyTailOffset = bytes.find(
+        std::string(reinterpret_cast<const char *>(&PartyTailMarker), sizeof(PartyTailMarker)));
+    REQUIRE(partyTailOffset != std::string::npos);
+    // Version 90 adds the party's autonote map, empty in this fixture.
+    bytes.erase(partyTailOffset + sizeof(PartyTailMarker), sizeof(uint64_t));
     const uint32_t version = 88;
     std::memcpy(bytes.data() + 8, &version, sizeof(version));
     std::ofstream output(path, std::ios::binary | std::ios::trunc);

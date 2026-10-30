@@ -1,6 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "game/app/GameInputSystem.h"
+#include "game/gameplay/GameplayAutoRun.h"
 #include "game/ui/GameplayUiController.h"
 
 #if defined(__ANDROID__)
@@ -9,6 +10,92 @@
 #endif
 
 using namespace OpenYAMM::Game;
+
+TEST_CASE("Auto run toggles once per press and preserves mouse look")
+{
+    GameplayAutoRun autoRun;
+    GameplayInputFrame input;
+    CHECK(GameSettings{}.keyboard.keyboardBinding(KeyboardAction::AutoRun) == SDL_SCANCODE_T);
+    input.actions[keyboardActionIndex(KeyboardAction::AutoRun)] = {true, true, false};
+    autoRun.update(input, true);
+    CHECK(input.autoRunActive);
+    CHECK(input.action(KeyboardAction::Forward).held);
+
+    input = {};
+    input.actions[keyboardActionIndex(KeyboardAction::AutoRun)].held = true;
+    input.relativeMouseX = 17.0f;
+    input.relativeMouseY = -4.0f;
+    autoRun.update(input, true);
+    CHECK(input.autoRunActive);
+    CHECK(input.action(KeyboardAction::Forward).held);
+    CHECK(input.relativeMouseX == 17.0f);
+    CHECK(input.relativeMouseY == -4.0f);
+
+    input = {};
+    autoRun.update(input, true);
+    CHECK(input.autoRunActive);
+
+    input = {};
+    input.actions[keyboardActionIndex(KeyboardAction::AutoRun)] = {true, true, false};
+    autoRun.update(input, true);
+    CHECK_FALSE(input.autoRunActive);
+    CHECK_FALSE(input.action(KeyboardAction::Forward).held);
+}
+
+TEST_CASE("Manual movement cancels auto run until it is explicitly enabled again")
+{
+    for (const KeyboardAction action : {KeyboardAction::Forward, KeyboardAction::Backward,
+             KeyboardAction::Left, KeyboardAction::Right, KeyboardAction::Jump,
+             KeyboardAction::FlyUp, KeyboardAction::FlyDown, KeyboardAction::Land})
+    {
+        GameplayAutoRun autoRun;
+        GameplayInputFrame input;
+        input.actions[keyboardActionIndex(KeyboardAction::AutoRun)].pressed = true;
+        autoRun.update(input, true);
+        REQUIRE(input.autoRunActive);
+
+        input = {};
+        input.actions[keyboardActionIndex(action)].held = true;
+        autoRun.update(input, true);
+        CHECK_FALSE(input.autoRunActive);
+        CHECK(input.action(action).held);
+        CHECK(input.action(KeyboardAction::Forward).held == (action == KeyboardAction::Forward));
+
+        input = {};
+        autoRun.update(input, true);
+        CHECK_FALSE(input.autoRunActive);
+        CHECK_FALSE(input.action(KeyboardAction::Forward).held);
+    }
+}
+
+TEST_CASE("Blocked gameplay and session reset cancel auto run")
+{
+    for (const bool blocked : {false, true})
+    {
+        GameplayAutoRun autoRun;
+        GameplayInputFrame input;
+        input.actions[keyboardActionIndex(KeyboardAction::AutoRun)].pressed = true;
+        autoRun.update(input, true);
+        REQUIRE(input.autoRunActive);
+
+        input = {};
+        if (blocked)
+        {
+            input.actions[keyboardActionIndex(KeyboardAction::AutoRun)].pressed = true;
+            autoRun.update(input, false);
+            CHECK_FALSE(input.autoRunActive);
+        }
+        else
+        {
+            autoRun.reset();
+        }
+
+        input = {};
+        autoRun.update(input, true);
+        CHECK_FALSE(input.autoRunActive);
+        CHECK_FALSE(input.action(KeyboardAction::Forward).held);
+    }
+}
 
 #if defined(__ANDROID__)
 TEST_CASE("Android inventory close stores held items and preserves them when all packs are full")

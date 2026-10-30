@@ -815,7 +815,7 @@ void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewpor
         const float y = viewport.y + (std::ceil(filtered.size() / 2.0f) * 30 + 8 - m_scroll) * scale;
         textInRect({viewport.x + 5 * scale, y, viewport.width, 24 * scale}, "Fixed shortcuts", "fondamento", 14);
         textInRect({viewport.x + 5 * scale, y + 25 * scale, viewport.width, 50 * scale},
-                   "F9  Quicksave       F10  Quickload\n1-5  Select party member       Escape  Open / close menu",
+                   "F5  Quicksave       F9  Quickload\n1-5  Select party member       Escape  Open / close menu",
                    "menu_lucida", 11);
     }
     if (filtered.empty() && !fixed)

@@ -1373,6 +1373,7 @@ struct RestDateText
     int day = 1;
     int month = 1;
     int year = RestStartingYear;
+    const char *pWeekday = "Monday";
 };
 
 RestDateText formatRestDateText(float gameMinutes)
@@ -1382,6 +1383,9 @@ RestDateText formatRestDateText(float gameMinutes)
     result.year = RestStartingYear + totalDays / (RestDaysPerMonth * RestMonthsPerYear);
     result.month = 1 + (totalDays / RestDaysPerMonth) % RestMonthsPerYear;
     result.day = 1 + totalDays % RestDaysPerMonth;
+    constexpr std::array<const char *, 7> WeekdayNames = {
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    result.pWeekday = WeekdayNames[totalDays % WeekdayNames.size()];
     return result;
 }
 
@@ -2872,6 +2876,7 @@ void GameplayPartyOverlayRenderer::renderRestOverlay(GameplayScreenRuntime &cont
         {
             std::string label = pLayout->labelText;
             label = replaceAllText(label, "{time}", timeText);
+            label = replaceAllText(label, "{weekday}", context.localizeHudText(dateText.pWeekday));
             label = replaceAllText(label, "{day_num}", std::to_string(dateText.day));
             label = replaceAllText(label, "{month_num}", std::to_string(dateText.month));
             label = replaceAllText(label, "{year_num}", std::to_string(dateText.year));
@@ -4715,13 +4720,11 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             std::vector<std::string> noteTexts;
             const JournalAutonoteTable *pJournalAutonoteTable = context.journalAutonoteTable();
 
-            if (pJournalAutonoteTable != nullptr && pEventRuntimeState != nullptr)
+            if (pJournalAutonoteTable != nullptr)
             {
                 for (const JournalAutonoteEntry &entry : pJournalAutonoteTable->entries())
                 {
-                    const auto variableIt = pEventRuntimeState->variables.find(entry.noteBit);
-
-                    if (variableIt == pEventRuntimeState->variables.end() || variableIt->second == 0)
+                    if (!context.isAutonoteUnlocked(entry.noteBit >> 16))
                     {
                         continue;
                     }

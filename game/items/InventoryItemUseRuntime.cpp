@@ -18,6 +18,8 @@ constexpr int MinutesPerDay = 24 * 60;
 constexpr int DaysPerMonth = 28;
 constexpr uint32_t GreenAppleItemId = 655;
 constexpr uint32_t HorseshoeItemId = 656;
+constexpr uint32_t Mm7HorseshoeItemId = 1448;
+constexpr uint32_t Mm6HorseshoeItemId = 2083;
 constexpr uint32_t DimensionDoorScrollItemId = 190;
 constexpr uint32_t ChargedConnectorStoneItemId = 624;
 constexpr uint32_t DischargedConnectorStoneItemId = 625;
@@ -809,7 +811,9 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::ReadMessageScroll;
     }
 
-    if (item.objectDescriptionId == HorseshoeItemId || itemNameEquals(*pItemDefinition, "horseshoe"))
+    if (item.objectDescriptionId == HorseshoeItemId
+        || item.objectDescriptionId == Mm7HorseshoeItemId
+        || item.objectDescriptionId == Mm6HorseshoeItemId)
     {
         return InventoryItemUseAction::UseHorseshoe;
     }
