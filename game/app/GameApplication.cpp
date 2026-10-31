@@ -43,6 +43,7 @@
 #include "game/ui/screens/NewGameScreen.h"
 #include "game/ui/screens/WinGameScreen.h"
 #include "engine/BgfxContext.h"
+#include "engine/TextCatalogue.h"
 #include "engine/TextTable.h"
 
 #include <imgui.h>
@@ -8007,6 +8008,17 @@ bool GameApplication::activateWorldForMap(const MapStatsEntry &map)
                 << map.fileName
                 << '\n';
             return false;
+        }
+
+        // The new world's catalogue may read shared text its own way, such as a town name.
+        try
+        {
+            Engine::loadTextCatalogue(*m_pAssetFileSystem, Engine::interfaceLanguageId());
+        }
+        catch (const std::runtime_error &exception)
+        {
+            std::cerr << "GameApplication: interface language not reloaded for " << targetWorldId << ": "
+                      << exception.what() << '\n';
         }
 
         m_gameSession.gameplayScreenRuntime().clearSharedUiRuntime();

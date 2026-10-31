@@ -1,4 +1,5 @@
 #include "game/ui/MenuSettingsModel.h"
+#include "engine/TextCatalogue.h"
 #include "game/render/CombatActorHealthBarPolicy.h"
 #include <algorithm>
 #include <array>
@@ -72,6 +73,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     if (id == "combat_log")
     {
         return settings.combatLog ? "true" : "false";
+    }
+    if (id == "language")
+    {
+        return settings.language;
     }
     if (id == "enemy_health_bars")
     {
@@ -392,6 +397,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.combatLog = value == "true";
+        return true;
+    }
+    if (id == "language")
+    {
+        if (!Engine::validLanguageId(value))
+        {
+            return false;
+        }
+        settings.language = value;
         return true;
     }
     if (id == "enemy_health_bars")

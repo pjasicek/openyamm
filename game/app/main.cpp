@@ -382,6 +382,7 @@ void applySettingsConfigOverridesIfConfigured(
     config.hitchThresholdMilliseconds = settings->hitchThresholdMilliseconds;
     config.verticalSync = settings->verticalSync;
     config.installedContent.acceptModifiedPacks = settings->keepModifiedPacks;
+    config.interfaceLanguage = settings->language;
 }
 
 // settings.ini in the user data folder (the working directory by then), or the defaults.

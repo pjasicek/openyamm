@@ -1,4 +1,5 @@
 #include "game/app/GameSettings.h"
+#include "engine/TextCatalogue.h"
 #include "game/render/CombatActorHealthBarPolicy.h"
 
 #include <algorithm>
@@ -1052,6 +1053,14 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 #endif
+
+    if (const std::optional<std::string> value = getIniValue(document, "interface", "language"))
+    {
+        if (Engine::validLanguageId(*value))
+        {
+            settings.language = *value;
+        }
+    }
 
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "enemy_health_bars"))
     {
@@ -2330,6 +2339,8 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("rarity_glow", settings.rarityGlow);
     serializer.add("follower_panel", boolValue(settings.followerPanel));
     serializer.add("minimap_zoom", std::clamp(settings.minimapZoom, 0, 2));
+    serializer.section("interface");
+    serializer.add("language", settings.language);
     serializer.section("startup");
     serializer.add("start_in_main_menu", boolValue(settings.startInMainMenu));
     serializer.add("save_file", settings.startupSaveFile);
