@@ -579,6 +579,67 @@ std::string encodeCodePageText(std::string_view utf8Text, const std::string &enc
     return result;
 }
 
+std::string encodeTypedText(std::string_view utf8Text)
+{
+    std::string result;
+
+    for (size_t index = 0; index < utf8Text.size();)
+    {
+        const uint8_t first = static_cast<uint8_t>(utf8Text[index]);
+        const size_t length = first >= 0xf0 ? 4 : first >= 0xe0 ? 3 : first >= 0xc0 ? 2 : 1;
+
+        try
+        {
+            result += encodeCodePageText(utf8Text.substr(index, length), g_encoding);
+        }
+        catch (const std::runtime_error &)
+        {
+            // A character the code page lacks, or no UTF-8: left out.
+        }
+
+        index += length;
+    }
+
+    return result;
+}
+
+std::string lowercaseCodePageText(std::string_view text, const std::string &encoding)
+{
+    std::string result(text);
+
+    for (char &character : result)
+    {
+        const uint8_t byte = static_cast<uint8_t>(character);
+
+        if (byte < 0x80)
+        {
+            character = static_cast<char>(std::tolower(byte));
+            continue;
+        }
+
+        // Capitals of the Latin-1 and Cyrillic blocks, and those of the code pages' other letters.
+        const uint32_t upper = codePageCharacter(encoding, byte);
+        const uint32_t lower = (upper >= 0x00c0 && upper <= 0x00de && upper != 0x00d7)
+                || (upper >= 0x0410 && upper <= 0x042f)
+            ? upper + 0x20
+            : upper >= 0x0400 && upper <= 0x040f ? upper + 0x50
+            : upper == 0x0152 || upper == 0x0160 || upper == 0x017d || upper == 0x0490 ? upper + 1
+            : upper == 0x0178 ? 0x00ff
+            : 0;
+
+        for (int candidate = 0x80; lower != 0 && candidate <= 0xff; ++candidate)
+        {
+            if (codePageCharacter(encoding, uint8_t(candidate)) == lower)
+            {
+                character = static_cast<char>(candidate);
+                break;
+            }
+        }
+    }
+
+    return result;
+}
+
 std::vector<InterfaceLanguage> availableInterfaceLanguages(const AssetFileSystem &assetFileSystem)
 {
     std::vector<InterfaceLanguage> languages = {{EnglishLanguageId, "English", Windows1252}};

@@ -267,3 +267,17 @@ TEST_CASE("code page text: windows-1251 Cyrillic, windows-1252 Latin and the cha
     CHECK_THROWS_AS(encodeCodePageText("Caf\xc3\xa9", "windows-1251"), std::runtime_error);
     CHECK_THROWS_AS(encodeCodePageText("x", "koi8-r"), std::runtime_error);
 }
+
+TEST_CASE("typed text goes into the interface language's code page and lowercases there")
+{
+    CHECK(Engine::encodeTypedText("Caf\xc3\xa9 \xf0\x9f\x99\x82!") == "Caf\xe9 !");
+    CHECK(Engine::lowercaseCodePageText("EGG \xc9\x8a\xd7", "windows-1252") == "egg \xe9\x9a\xd7");
+
+    CatalogueFixture fixture;
+    fixture.write("an egg\tяйцо\n");
+    fixture.load();
+    CHECK(Engine::encodeTypedText("Яйцо Ёжика \xc3\xa9") == cyrillic("Яйцо Ёжика "));
+    CHECK(Engine::lowercaseCodePageText(cyrillic("ЯЙЦО Ёж Ґ"), "windows-1251") == cyrillic("яйцо ёж ґ"));
+    CHECK(Engine::lowercaseCodePageText(Engine::encodeTypedText("ЯЙЦО"), Engine::interfaceTextEncoding())
+        == localizeDisplayText("an egg"));
+}

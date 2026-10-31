@@ -66,4 +66,11 @@ uint32_t codePageCharacter(const std::string &encoding, uint8_t byte);
 // UTF-8 text in the bytes of a code page; std::runtime_error when the text is not UTF-8 or has a character the code
 // page lacks.
 std::string encodeCodePageText(std::string_view utf8Text, const std::string &encoding);
+
+// Text the player types (UTF-8) in the bytes of the interface language's code page, without the characters it lacks.
+std::string encodeTypedText(std::string_view utf8Text);
+
+// Text in the bytes of a code page with its capitals lowercased: ASCII and the code page's own letters (Cyrillic in
+// windows-1251, the accented Latin letters in windows-1252).
+std::string lowercaseCodePageText(std::string_view text, const std::string &encoding);
 }
