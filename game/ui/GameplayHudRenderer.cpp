@@ -1,7 +1,9 @@
 #include "game/ui/GameplayHudRenderer.h"
 
+#include "engine/TextCatalogue.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiSkin.h"
 
 #include <algorithm>
@@ -72,10 +74,13 @@ std::optional<GameplayHudTextureHandle> loadContextActionIcon(
 std::string fitContextActionLabel(
     GameplayScreenRuntime &context,
     const std::string &fontName,
-    const std::string &text,
+    const std::string &sourceText,
     float maxWidth,
     float textScale)
 {
+    // Shorten the translated label: halves of the English text are not catalogue entries.
+    const std::string text(Engine::localizeDisplayText(sourceText));
+
     if (text.empty() || context.measureHudTextWidth(fontName, text) * textScale <= maxWidth)
     {
         return text;
@@ -113,10 +118,13 @@ std::string trimContextActionLabelPart(const std::string &text)
 std::vector<std::string> fitContextActionLabelLines(
     GameplayScreenRuntime &context,
     const std::string &fontName,
-    const std::string &text,
+    const std::string &sourceText,
     float maxWidth,
     float textScale)
 {
+    // Split the translated label: halves of the English text are not catalogue entries.
+    const std::string text(Engine::localizeDisplayText(sourceText));
+
     if (text.empty())
     {
         return {};

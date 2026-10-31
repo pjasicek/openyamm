@@ -1,5 +1,7 @@
 #include "game/ui/screens/NewGameScreen.h"
 
+#include "engine/ImageAssetLoader.h"
+#include "engine/TextCatalogue.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameMechanics.h"
@@ -1390,11 +1392,13 @@ int NewGameScreen::bonusPoolForState(const CreationState &state) const
 
 std::vector<std::string> NewGameScreen::wrapTextToWidth(
     const std::string &fontName,
-    const std::string &text,
+    const std::string &sourceText,
     float maxWidth,
     float scale)
 {
     std::vector<std::string> lines;
+    // Wrap the translation: the catalogue holds whole descriptions, not their wrapped English lines.
+    const std::string text(Engine::localizeDisplayText(sourceText));
 
     if (text.empty())
     {

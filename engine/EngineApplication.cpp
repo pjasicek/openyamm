@@ -1,6 +1,7 @@
 #include "engine/BgfxContext.h"
 #include "engine/EngineApplication.h"
 #include "engine/ImageAssetLoader.h"
+#include "engine/TextCatalogue.h"
 
 #include <SDL3/SDL.h>
 
@@ -918,12 +919,29 @@ bool EngineApplication::initializeAssetFileSystem(AssetFileSystem &assetFileSyst
         basePath = pBasePathChars;
     }
 
-    return assetFileSystem.initialize(
-        basePath,
-        m_config.assetRoot,
-        m_config.assetScaleTier,
-        m_config.assetScaleProfile,
-        m_config.activeWorldId,
-        m_config.installedContent);
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId,
+            m_config.installedContent))
+    {
+        return false;
+    }
+
+    // Before any font loads: the language's descriptors choose faces that draw its alphabet.
+    try
+    {
+        loadTextCatalogue(assetFileSystem, m_config.interfaceLanguage);
+    }
+    catch (const std::runtime_error &exception)
+    {
+        std::cerr << "Interface language " << m_config.interfaceLanguage << " not loaded: " << exception.what()
+                  << '\n';
+        loadTextCatalogue(assetFileSystem, EnglishLanguageId);
+    }
+
+    return true;
 }
 }

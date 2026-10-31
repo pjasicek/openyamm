@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 
+#include "engine/TextCatalogue.h"
 #include "game/gameplay/SavePreviewImage.h"
 #include "game/maps/SaveGame.h"
 #include "game/StringUtils.h"
@@ -86,7 +87,9 @@ std::string formatClock(const CivilTime &time)
 
 std::string formatDate(const CivilTime &time)
 {
-    return std::string(MonthNames[time.month]) + " " + std::to_string(time.day) + ", " + std::to_string(time.year);
+    // "Jan %d, %d" is too short to be a catalogue pattern, so the date goes through its template here.
+    return Engine::formatDisplayText(std::string(MonthNames[time.month]) + " %d, %d",
+        {std::to_string(time.day), std::to_string(time.year)});
 }
 
 std::string friendlySaveFileLabel(const std::filesystem::path &path)

@@ -30,6 +30,8 @@ struct ApplicationConfig
     AssetScaleTier assetScaleTier;
     AssetScaleProfile assetScaleProfile;
     InstalledContentOptions installedContent;
+    // The interface language (Engine::loadTextCatalogue); "en" for English.
+    std::string interfaceLanguage = "en";
     int windowWidth;
     int windowHeight;
     WindowMode windowMode;

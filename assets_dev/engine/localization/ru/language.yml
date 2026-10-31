@@ -1,0 +1,5 @@
+# Russian interface: strings.tsv translates OpenYAMM's own interface text; game text (dialogue, items, quests) stays
+# English unless a Russian pack adds it. The faces in fonts/truetype draw Cyrillic with Alegreya (SIL OFL, see
+# ../../fonts/truetype/alegreya_ofl.txt) in the bytes of windows-1251.
+name: Русский
+encoding: windows-1251

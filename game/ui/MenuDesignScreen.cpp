@@ -1,6 +1,7 @@
 #include "game/ui/MenuDesignScreen.h"
 
 #include "engine/FontAsset.h"
+#include "engine/TextCatalogue.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/audio/SoundIds.h"
 #include "game/render/WaterMath.h"
@@ -295,7 +296,8 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
 {
     const int faceHeight = std::max(1, fontHeight(font));
     float scale = designScale() * logicalSize / faceHeight;
-    std::string encoded = menuEncoding(text);
+    // Fit and shorten the translation: it is usually longer than its English text.
+    std::string encoded(Engine::localizeDisplayText(menuEncoding(text)));
     if (encoded.find('\n') == std::string::npos && rect.height < logicalSize * designScale() * 1.9f)
     {
         const float width = measureTextWidth(font, encoded, scale);
@@ -370,8 +372,9 @@ void MenuDesignScreen::label(const std::string &id, const std::string &text, uin
     const float size = fontHeight(pElement->fontName) * pElement->textScale;
     if (pElement->textAlignX == UiLayoutManager::TextAlignX::Right)
     {
-        const float width =
-            measureTextWidth(pElement->fontName, menuEncoding(text), pElement->textScale * designScale());
+        // Measure the translation: it is usually wider than its English text.
+        const std::string presented(Engine::localizeDisplayText(menuEncoding(text)));
+        const float width = measureTextWidth(pElement->fontName, presented, pElement->textScale * designScale());
         rect.x += std::max(0.0f, rect.width - width);
         rect.width = std::min(rect.width, width);
     }

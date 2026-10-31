@@ -1,5 +1,7 @@
 #include "game/ui/screens/WinGameScreen.h"
 
+#include "engine/TextCatalogue.h"
+
 #include <SDL3/SDL.h>
 
 #include <algorithm>
@@ -78,7 +80,8 @@ std::vector<std::string> WinGameScreen::wrapText(
     float scale)
 {
     std::vector<std::string> lines;
-    std::istringstream input(text);
+    // Wrap the translation: the catalogue holds the whole ending text, not its wrapped English lines.
+    std::istringstream input{std::string(Engine::localizeDisplayText(text))};
     std::string word;
     std::string currentLine;
 

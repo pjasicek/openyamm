@@ -1,4 +1,5 @@
 #include "game/events/EventDialogContent.h"
+#include "engine/TextCatalogue.h"
 
 #include "game/events/ISceneEventContext.h"
 #include "game/gameplay/ArenaRuntime.h"
@@ -617,7 +618,8 @@ std::vector<std::string> wrapDialogText(const std::string &text, size_t width)
     std::vector<std::string> lines;
     std::string currentLine;
 
-    for (char character : text)
+    // The catalogue holds each message whole, line breaks included, so translate it before splitting.
+    for (char character : Engine::localizeDisplayText(text))
     {
         if (character == '\r')
         {
@@ -847,6 +849,12 @@ std::string formatNpcProfessionText(
     std::optional<int> requiredReputation,
     float currentGameMinutes)
 {
+    // Localize the template before substitution; inserted names and labels are localized separately.
+    const auto localized = [](const std::string &value)
+    {
+        return std::string(Engine::localizeDisplayText(value));
+    };
+    text = localized(text);
     const Character *pActiveMember = pParty != nullptr ? pParty->activeMember() : nullptr;
     if (pActiveMember == nullptr && pParty != nullptr)
     {

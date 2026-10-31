@@ -43,6 +43,7 @@
 #include "game/ui/screens/NewGameScreen.h"
 #include "game/ui/screens/WinGameScreen.h"
 #include "engine/BgfxContext.h"
+#include "engine/TextCatalogue.h"
 #include "engine/TextTable.h"
 
 #include <imgui.h>
@@ -2190,7 +2191,8 @@ std::vector<DebugAwardEntry> loadDebugAwardEntries(const Engine::AssetFileSystem
 
 std::string normalizePromptAnswer(const std::string &value)
 {
-    return toLowerCopy(trimCopy(value));
+    // Typed text is in the interface language's code page, so are the answers' translations.
+    return Engine::lowercaseCodePageText(trimCopy(value), Engine::interfaceTextEncoding());
 }
 
 std::string traceInputPromptQuoted(const std::string &value)
@@ -7229,7 +7231,9 @@ bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
         if (event.text.text != nullptr && m_pendingInputText.size() < MaxPendingInputLength)
         {
             const size_t remaining = MaxPendingInputLength - m_pendingInputText.size();
-            m_pendingInputText.append(event.text.text, std::min(remaining, std::strlen(event.text.text)));
+            // One byte a character, drawn by the interface fonts: the interface language's code page.
+            const std::string typed = Engine::encodeTypedText(event.text.text);
+            m_pendingInputText.append(typed, 0, std::min(remaining, typed.size()));
             GAMEPLAY_DEBUG_TRACE(
                 "input_prompt_text_input text=" + traceInputPromptQuoted(event.text.text)
                 + " current=" + traceInputPromptQuoted(m_pendingInputText));
@@ -7371,7 +7375,11 @@ void GameApplication::updatePendingInputPrompt()
         }
     }
 
-    const std::string statusText = "Answer: " + m_pendingInputText + "_";
+    // Only the label is translated: the typed text is the player's own, no catalogue value.
+    std::string statusText(Engine::localizeDisplayText("Answer: %s_"));
+    const size_t typedText = statusText.find("%s");
+    statusText = typedText == std::string::npos ? "Answer: " + m_pendingInputText + "_"
+        : statusText.replace(typedText, 2, m_pendingInputText);
 
     if (statusText != m_pendingInputStatusText)
     {
@@ -7418,8 +7426,11 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
     {
         const std::string &answer = answers[answerIndex];
         const std::string normalizedAnswer = normalizePromptAnswer(answer);
+        // The answer in the interface language counts as well as the English one.
+        const std::string normalizedTranslation =
+            normalizePromptAnswer(std::string(Engine::localizeDisplayText(answer)));
 
-        if (!answer.empty() && normalizedAnswer == normalizedInput)
+        if (!answer.empty() && (normalizedAnswer == normalizedInput || normalizedTranslation == normalizedInput))
         {
             matchedAnswer = true;
             matchedAnswerIndex = answerIndex;
@@ -8007,6 +8018,17 @@ bool GameApplication::activateWorldForMap(const MapStatsEntry &map)
                 << map.fileName
                 << '\n';
             return false;
+        }
+
+        // The new world's catalogue may read shared text its own way, such as a town name.
+        try
+        {
+            Engine::loadTextCatalogue(*m_pAssetFileSystem, Engine::interfaceLanguageId());
+        }
+        catch (const std::runtime_error &exception)
+        {
+            std::cerr << "GameApplication: interface language not reloaded for " << targetWorldId << ": "
+                      << exception.what() << '\n';
         }
 
         m_gameSession.gameplayScreenRuntime().clearSharedUiRuntime();

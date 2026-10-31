@@ -1,4 +1,5 @@
 #include "game/ui/GameplayPartyOverlayRenderer.h"
+#include "engine/TextCatalogue.h"
 #include "game/items/InventoryBags.h"
 #include "game/ui/InventoryBagOverview.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
@@ -947,8 +948,10 @@ struct JournalStoryPage
 };
 
 JournalStackedPageEntry wrapJournalParagraphs(const GameplayScreenRuntime &context,
-    const auto &font, const std::string &text, float width)
+    const auto &font, const std::string &sourceText, float width)
 {
+    // The catalogue holds each note whole, line breaks included, so translate it before splitting.
+    const std::string text(Engine::localizeDisplayText(sourceText));
     JournalStackedPageEntry result;
     size_t start = 0;
     do
@@ -1203,7 +1206,9 @@ size_t utilityOverlayMaxLloydBeaconSlots(const Character *pCharacter)
 
 std::string formatUtilityDurationText(float remainingSeconds)
 {
-    return lloydsBeaconRemainingDurationText(remainingSeconds);
+    // "7d" is too short to be a catalogue pattern, so the number goes through its unit's template ("%dd").
+    const std::string text = lloydsBeaconRemainingDurationText(remainingSeconds);
+    return Engine::formatDisplayText("%d" + text.substr(text.size() - 1), {text.substr(0, text.size() - 1)});
 }
 
 void renderHudLines(
@@ -2539,7 +2544,8 @@ std::string joinNonEmptyTexts(const std::vector<std::string> &parts)
             result += ", ";
         }
 
-        result += part;
+        // Each part is its own catalogue entry; the joined list is not.
+        result += Engine::localizeDisplayText(part);
     }
 
     return result.empty() ? "-" : result;
@@ -5680,7 +5686,8 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
         {
             const LloydBeacon &beacon = *pCaster->lloydsBeacons[index];
             primaryText = beacon.locationName.empty() ? beacon.mapName : beacon.locationName;
-            secondaryText = formatUtilityDurationText(beacon.remainingSeconds) + " remaining";
+            secondaryText = Engine::formatDisplayText(
+                "%s remaining", {formatUtilityDurationText(beacon.remainingSeconds)});
             primaryColor = textColor;
             secondaryColor = makeAbgrColor(122, 204, 136);
         }
@@ -6284,7 +6291,10 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
         }
         if (!setDescription.empty())
         {
-            itemSpecialDetail += (itemSpecialDetail.empty() ? std::string {} : "\n") + setDescription;
+            // Each line is its own catalogue entry, so translate both before joining them.
+            itemSpecialDetail = itemSpecialDetail.empty() ? setDescription
+                : std::string(Engine::localizeDisplayText(itemSpecialDetail)) + "\n"
+                    + std::string(Engine::localizeDisplayText(setDescription));
         }
 
         // A Workshop mod fitted to it.
@@ -10931,26 +10941,27 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 AdventurersInnColumn1Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
                 170.0f,
                 16.0f);
+            // Labels shorter than four letters cannot be catalogue patterns, so they take their template here.
             renderInnLabel(
-                "HP: " + std::to_string(pCharacter->health),
+                Engine::formatDisplayText("HP: %d", {std::to_string(pCharacter->health)}),
                 AdventurersInnColumn1X + uiViewport.x / baseScale,
                 AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
                 170.0f,
                 16.0f);
             renderInnLabel(
-                "AC: " + armorClassValue,
+                Engine::formatDisplayText("AC: %s", {armorClassValue}),
                 AdventurersInnColumn1X + uiViewport.x / baseScale,
                 AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
                 170.0f,
                 16.0f);
             renderInnLabel(
-                "Attack: " + formatSignedValue(attackValue),
+                Engine::formatDisplayText("Attack: %s", {formatSignedValue(attackValue)}),
                 AdventurersInnColumn1X + uiViewport.x / baseScale,
                 AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 4.0f + uiViewport.y / baseScale,
                 170.0f,
                 16.0f);
             renderInnLabel(
-                "Shoot: " + formatSignedValue(shootValue),
+                Engine::formatDisplayText("Shoot: %s", {formatSignedValue(shootValue)}),
                 AdventurersInnColumn1X + uiViewport.x / baseScale,
                 AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 5.0f + uiViewport.y / baseScale,
                 170.0f,
@@ -10981,19 +10992,19 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 130.0f,
                 16.0f);
             renderInnLabel(
-                "SP: " + std::to_string(pCharacter->spellPoints),
+                Engine::formatDisplayText("SP: %d", {std::to_string(pCharacter->spellPoints)}),
                 AdventurersInnColumn2X + uiViewport.x / baseScale,
                 AdventurersInnColumn2Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
                 130.0f,
                 16.0f);
             renderInnLabel(
-                "Dmg: " + meleeDamageValue,
+                Engine::formatDisplayText("Dmg: %s", {meleeDamageValue}),
                 AdventurersInnColumn2X + uiViewport.x / baseScale,
                 AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
                 130.0f,
                 16.0f);
             renderInnLabel(
-                "Dmg: " + rangedDamageValue,
+                Engine::formatDisplayText("Dmg: %s", {rangedDamageValue}),
                 AdventurersInnColumn2X + uiViewport.x / baseScale,
                 AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
                 130.0f,

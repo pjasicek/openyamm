@@ -56,6 +56,15 @@ settings:
   name: Skip event cutscenes
   type: toggle
   desc: Skip event movies. Leave off for a first adventure.
+- id: language
+  section: interface
+  group: Language
+  name: Interface language
+  type: select
+  options:
+  - [en, English]
+  - [ru, Russian]
+  desc: Menus, labels and messages. Applies the next time the game starts.
 - id: combat_text
   section: interface
   group: Combat messages

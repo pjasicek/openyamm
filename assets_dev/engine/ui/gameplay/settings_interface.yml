@@ -431,7 +431,7 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Combat messages
+        value: Language
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -441,7 +441,24 @@ elements:
     - id: SettingsInterfaceGroup1
       anchor: top_left
       offset_x: 0.0
-      offset_y: 146.6426
+      offset_y: 68.792
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Combat messages
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsInterfaceGroup2
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 215.4346
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -455,10 +472,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsInterfaceGroup2
+    - id: SettingsInterfaceGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 293.2852
+      offset_y: 362.0772
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -472,10 +489,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsInterfaceGroup3
+    - id: SettingsInterfaceGroup4
       anchor: top_left
       offset_x: 0.0
-      offset_y: 401.0025
+      offset_y: 469.7945
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -489,10 +506,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsInterfaceGroup4
+    - id: SettingsInterfaceGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 520.2366
+      offset_y: 589.0286
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -506,10 +523,63 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsInterfaceCombatTextLabel
+    - id: SettingsInterfaceLanguageLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 25.6
+      width: 395.2
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Interface language
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceLanguageDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 41.8085
+      width: 395.2
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Menus, labels and messages. Applies the next time the game starts.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceLanguageControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 27.7293
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{language}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+    - id: SettingsInterfaceCombatTextLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 94.392
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -526,7 +596,7 @@ elements:
     - id: SettingsInterfaceCombatTextDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 41.8085
+      offset_y: 110.6005
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -543,7 +613,7 @@ elements:
     - id: SettingsInterfaceCombatTextControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 23.3837
+      offset_y: 92.1756
       width: 70.4
       height: 32.158
       z_index: 10
@@ -555,7 +625,7 @@ elements:
     - id: SettingsInterfaceCombatLogLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 64.5253
+      offset_y: 133.3173
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -572,7 +642,7 @@ elements:
     - id: SettingsInterfaceCombatLogDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 80.7338
+      offset_y: 149.5258
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -589,7 +659,7 @@ elements:
     - id: SettingsInterfaceCombatLogControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 62.309
+      offset_y: 131.1009
       width: 70.4
       height: 32.158
       z_index: 10
@@ -601,7 +671,7 @@ elements:
     - id: SettingsInterfaceShowHitsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 103.4506
+      offset_y: 172.2426
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -618,7 +688,7 @@ elements:
     - id: SettingsInterfaceShowHitsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 119.6591
+      offset_y: 188.4511
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -635,7 +705,7 @@ elements:
     - id: SettingsInterfaceShowHitsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 101.2343
+      offset_y: 170.0262
       width: 70.4
       height: 32.158
       z_index: 10
@@ -647,7 +717,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 172.2426
+      offset_y: 241.0346
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -664,7 +734,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 188.4511
+      offset_y: 257.2431
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -681,7 +751,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarsControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 174.3719
+      offset_y: 243.1639
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -700,7 +770,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarValuesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 211.1679
+      offset_y: 279.9599
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -717,7 +787,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarValuesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 227.3764
+      offset_y: 296.1684
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -734,7 +804,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarValuesControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 213.2972
+      offset_y: 282.0892
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -753,7 +823,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarDamageTrailLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 250.0932
+      offset_y: 318.8852
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -770,7 +840,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarDamageTrailDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 266.3017
+      offset_y: 335.0937
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -787,7 +857,7 @@ elements:
     - id: SettingsInterfaceEnemyHealthBarDamageTrailControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 247.8768
+      offset_y: 316.6688
       width: 70.4
       height: 32.158
       z_index: 10
@@ -799,7 +869,7 @@ elements:
     - id: SettingsInterfaceQuestMarkersLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 318.8852
+      offset_y: 387.6772
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -816,7 +886,7 @@ elements:
     - id: SettingsInterfaceQuestMarkersDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 335.0937
+      offset_y: 403.8857
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -833,7 +903,7 @@ elements:
     - id: SettingsInterfaceQuestMarkersControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 316.6689
+      offset_y: 385.4608
       width: 70.4
       height: 32.158
       z_index: 10
@@ -845,7 +915,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 357.8105
+      offset_y: 426.6025
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -862,7 +932,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 374.019
+      offset_y: 442.811
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -879,7 +949,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 355.5942
+      offset_y: 424.3861
       width: 70.4
       height: 32.158
       z_index: 10
@@ -891,7 +961,7 @@ elements:
     - id: SettingsInterfacePartyFrameLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 426.6025
+      offset_y: 495.3945
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -908,7 +978,7 @@ elements:
     - id: SettingsInterfacePartyFrameDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 442.811
+      offset_y: 511.603
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -925,7 +995,7 @@ elements:
     - id: SettingsInterfacePartyFrameControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 424.3862
+      offset_y: 493.1782
       width: 70.4
       height: 32.158
       z_index: 10
@@ -937,7 +1007,7 @@ elements:
     - id: SettingsInterfacePotionButtonsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 465.5278
+      offset_y: 534.3198
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -954,7 +1024,7 @@ elements:
     - id: SettingsInterfacePotionButtonsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 481.7363
+      offset_y: 550.5283
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -971,7 +1041,7 @@ elements:
     - id: SettingsInterfacePotionButtonsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 469.0699
+      offset_y: 537.8619
       width: 70.4
       height: 32.158
       z_index: 10
@@ -983,7 +1053,7 @@ elements:
     - id: SettingsInterfaceRarityGlowLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 545.8366
+      offset_y: 614.6286
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -1000,7 +1070,7 @@ elements:
     - id: SettingsInterfaceRarityGlowDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 562.0451
+      offset_y: 630.8371
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -1017,7 +1087,7 @@ elements:
     - id: SettingsInterfaceRarityGlowControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 547.9659
+      offset_y: 616.7579
       width: 110.9333
       height: 23.4667
       z_index: 10

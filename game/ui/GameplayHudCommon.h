@@ -16,6 +16,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -311,7 +312,7 @@ public:
     // Might and Magic's inline text colour: "\f" and five digits of an R5G6B5 colour; "\f00000" returns to the
     // line's own colour. True when a code starts at `index`; `colorAbgr` is then its colour, or nothing for the line's
     // own.
-    static bool readTextColorCode(const std::string &text, size_t index, std::optional<uint32_t> &colorAbgr);
+    static bool readTextColorCode(std::string_view text, size_t index, std::optional<uint32_t> &colorAbgr);
     // Reopens a colour still open at the end of a wrapped line at the start of the next.
     static void carryTextColorsAcrossLines(std::vector<std::string> &lines);
     static float measureHudTextWidth(const GameplayHudFontData &font, const std::string &text);

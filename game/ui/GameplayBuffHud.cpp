@@ -1,5 +1,6 @@
 #include "game/ui/GameplayBuffHud.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "engine/TextCatalogue.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/SkillData.h"
 #include "game/rules/GameRules.h"
@@ -258,8 +259,11 @@ void renderGameplayBuffHud(GameplayScreenRuntime &context, int width, int height
             {rect.x + 3.2f * rect.scale, rect.y + 1.6f * rect.scale, 19.2f * rect.scale,
                 19.2f * rect.scale, rect.scale});
         const int seconds = static_cast<int>(std::ceil(pBuff->remainingSeconds));
-        const std::string duration = seconds >= 3600 ? std::to_string((seconds + 3599) / 3600) + "h"
-            : seconds >= 60 ? std::to_string((seconds + 59) / 60) + "m" : std::to_string(seconds) + "s";
+        // "5h" is too short to be a catalogue pattern, so the timer takes its unit's template here.
+        const std::string duration = seconds >= 3600
+            ? Engine::formatDisplayText("%dh", {std::to_string((seconds + 3599) / 3600)})
+            : seconds >= 60 ? Engine::formatDisplayText("%dm", {std::to_string((seconds + 59) / 60)})
+            : Engine::formatDisplayText("%ds", {std::to_string(seconds)});
         UiLayoutManager::LayoutElement timer;
         timer.fontName = "SMALLNUM";
         timer.textColorAbgr = seconds < 30 ? GameplayUiSkin::Low : GameplayUiSkin::Ivory;

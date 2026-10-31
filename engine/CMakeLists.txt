@@ -30,6 +30,7 @@ add_library(openyamm_engine
     SpriteAtlas.cpp
     EngineApplication.cpp
     scripting/LuaStateOwner.cpp
+    TextCatalogue.cpp
     TextTable.cpp
     # meshoptimizer (MIT, shipped with bgfx): vertex cache order of loaded model triangles.
     ${OPENYAMM_BGFX_SOURCE_DIR}/3rdparty/meshoptimizer/src/allocator.cpp

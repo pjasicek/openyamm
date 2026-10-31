@@ -171,6 +171,9 @@ struct GameSettings
     // "member" selects a party member, as in MAW and the original games, and Shift with the Bag keys opens a bag;
     // "bag" swaps them. A party of one opens bags either way.
     std::string bagNumberKeys = "member";
+    // The interface language: "en", or the id of a language the assets install (engine/localization/<id>, see
+    // Engine::availableInterfaceLanguages). It applies at the next start.
+    std::string language = "en";
     bool flipOnExit = false;
     int mouseSensitivity = 100;
     bool invertMouseY = false;
