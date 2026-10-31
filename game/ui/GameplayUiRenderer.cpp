@@ -7,6 +7,7 @@
 #include "game/ui/GameplayQuickItems.h"
 #include "game/ui/GameplayUiRenderer.h"
 
+#include "engine/TextCatalogue.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -1183,7 +1184,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         label("ObsidianTurnPhase", turn.stage() == TurnBasedCombatStage::Movement ? "Movement"
             : turn.stage() == TurnBasedCombatStage::Attack ? "Attack" : "Waiting");
         label("ObsidianTurnDetail", turn.stage() == TurnBasedCombatStage::Movement
-            ? std::to_string(turn.movementActionPoints()) + " AP" : "Turn based");
+            ? Engine::formatDisplayText("%d AP", {std::to_string(turn.movementActionPoints())}) : "Turn based");
     }
 
     flushQueuedHudQuads();

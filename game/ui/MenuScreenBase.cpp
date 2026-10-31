@@ -2,6 +2,7 @@
 #include "engine/BgfxContext.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/render/CookedTexture.h"
+#include "engine/TextCatalogue.h"
 #include "game/render/TextureFiltering.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -18,6 +19,7 @@
 #include <iostream>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -682,8 +684,11 @@ bool MenuScreenBase::drawText(
     float scale,
     bool drawShadow)
 {
+    // The interface language's catalogue holds whole texts, colour codes included: translate before drawing.
+    const std::string_view displayText = Engine::localizeDisplayText(text);
+
     // Colour codes split the line into runs, each drawn in its own colour; the caller's alpha still applies.
-    if (text.find('\f') != std::string::npos)
+    if (displayText.find('\f') != std::string_view::npos)
     {
         std::optional<uint32_t> runColor;
         std::string run;
@@ -698,11 +703,12 @@ bool MenuScreenBase::drawText(
             run.clear();
         };
 
-        for (size_t index = 0; index < text.size() && text[index] != '\r' && text[index] != '\n'; ++index)
+        for (size_t index = 0; index < displayText.size() && displayText[index] != '\r' && displayText[index] != '\n';
+            ++index)
         {
             std::optional<uint32_t> codeColor;
 
-            if (GameplayHudCommon::readTextColorCode(text, index, codeColor))
+            if (GameplayHudCommon::readTextColorCode(displayText, index, codeColor))
             {
                 drawRun();
                 runColor = codeColor;
@@ -710,7 +716,7 @@ bool MenuScreenBase::drawText(
             }
             else
             {
-                run.push_back(text[index]);
+                run.push_back(displayText[index]);
             }
         }
 
@@ -734,7 +740,7 @@ bool MenuScreenBase::drawText(
 
     uint32_t glyphCount = 0;
 
-    for (unsigned char character : text)
+    for (unsigned char character : displayText)
     {
         if (character == '\r' || character == '\n')
         {
@@ -781,7 +787,7 @@ bool MenuScreenBase::drawText(
         uint8_t previous = 0;
         uint32_t vertexIndex = 0;
 
-        for (unsigned char character : text)
+        for (unsigned char character : displayText)
         {
             if (character == '\r' || character == '\n')
             {
@@ -842,7 +848,7 @@ bool MenuScreenBase::drawText(
     uint8_t previous = 0;
     uint32_t vertexIndex = 0;
 
-    for (unsigned char character : text)
+    for (unsigned char character : displayText)
     {
         if (character == '\r' || character == '\n')
         {
@@ -908,10 +914,12 @@ float MenuScreenBase::measureTextWidth(const std::string &fontName, const std::s
     float widthPixels = 0.0f;
     uint8_t previous = 0;
     std::optional<uint32_t> ignoredColor;
+    // The interface language's catalogue holds whole texts, colour codes included: translate before measuring.
+    const std::string_view displayText = Engine::localizeDisplayText(text);
 
-    for (size_t index = 0; index < text.size(); ++index)
+    for (size_t index = 0; index < displayText.size(); ++index)
     {
-        const unsigned char character = static_cast<unsigned char>(text[index]);
+        const unsigned char character = static_cast<unsigned char>(displayText[index]);
 
         if (character == '\r' || character == '\n')
         {
@@ -919,7 +927,7 @@ float MenuScreenBase::measureTextWidth(const std::string &fontName, const std::s
         }
 
         // Colour codes take no room.
-        if (GameplayHudCommon::readTextColorCode(text, index, ignoredColor))
+        if (GameplayHudCommon::readTextColorCode(displayText, index, ignoredColor))
         {
             index += GameplayHudCommon::TextColorCodeLength - 1;
             continue;

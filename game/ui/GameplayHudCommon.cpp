@@ -3,6 +3,7 @@
 #include "engine/AssetScaleTier.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/ParallelFor.h"
+#include "engine/TextCatalogue.h"
 #include "game/maps/MapIdentity.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
@@ -1347,8 +1348,9 @@ std::optional<FontSource> resolveFontSource(
     FontSource source;
     source.fontName = fontName;
     source.pixelHeight = pixelHeight;
-    const std::optional<std::string> descriptorText =
-        assetFileSystem.readTextFile("fonts/truetype/" + toLowerCopy(fontName) + ".yml");
+    // The interface language's descriptor may make a legacy face an independent outline face with its alphabet.
+    const std::optional<std::string> descriptorText = assetFileSystem.readTextFile(
+        Engine::localizedAssetPath(assetFileSystem, "fonts/truetype/" + toLowerCopy(fontName) + ".yml"));
     if (descriptorText)
     {
         try
@@ -1708,7 +1710,7 @@ GameplayHudFontLayer GameplayHudCommon::hudFontMainLayer(const GameplayHudFontDa
         : GameplayHudFontLayer(font.tintTextureHandle, colorAbgr | 0xff000000u);
 }
 
-bool GameplayHudCommon::readTextColorCode(const std::string &text, size_t index, std::optional<uint32_t> &colorAbgr)
+bool GameplayHudCommon::readTextColorCode(std::string_view text, size_t index, std::optional<uint32_t> &colorAbgr)
 {
     if (index + TextColorCodeLength > text.size() || text[index] != '\f')
     {
@@ -1745,10 +1747,12 @@ float GameplayHudCommon::measureHudTextWidth(const GameplayHudFontData &font, co
     float widthPixels = 0.0f;
     uint8_t previous = 0;
     std::optional<uint32_t> ignoredColor;
+    // The interface language's catalogue holds whole texts, colour codes included: translate before measuring.
+    const std::string_view displayText = Engine::localizeDisplayText(text);
 
-    for (size_t index = 0; index < text.size(); ++index)
+    for (size_t index = 0; index < displayText.size(); ++index)
     {
-        const unsigned char character = static_cast<unsigned char>(text[index]);
+        const unsigned char character = static_cast<unsigned char>(displayText[index]);
 
         if (character == '\r' || character == '\n')
         {
@@ -1756,7 +1760,7 @@ float GameplayHudCommon::measureHudTextWidth(const GameplayHudFontData &font, co
         }
 
         // Colour codes take no room.
-        if (readTextColorCode(text, index, ignoredColor))
+        if (readTextColorCode(displayText, index, ignoredColor))
         {
             index += TextColorCodeLength - 1;
             continue;
@@ -1781,7 +1785,8 @@ std::string GameplayHudCommon::clampHudTextToWidth(
     const std::string &text,
     float maxWidth)
 {
-    std::string clampedText = text;
+    // Shorten the translation: the start of an English text is no catalogue entry.
+    std::string clampedText(Engine::localizeDisplayText(text));
 
     while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth)
     {
@@ -1796,14 +1801,17 @@ std::vector<std::string> GameplayHudCommon::wrapHudTextToWidth(
     const std::string &text,
     float maxWidth)
 {
-    if (text.empty())
+    // Wrap the translation: wrapped first, the English lines would each be looked up, and lines are no entries.
+    const std::string localizedText(Engine::localizeDisplayText(text));
+
+    if (localizedText.empty())
     {
         return {""};
     }
 
     if (maxWidth <= 0.0f)
     {
-        return {text};
+        return {localizedText};
     }
 
     std::vector<std::string> lines;
@@ -1844,7 +1852,7 @@ std::vector<std::string> GameplayHudCommon::wrapHudTextToWidth(
             }
         };
 
-    for (char character : text)
+    for (char character : localizedText)
     {
         if (character == '\r')
         {
@@ -1922,17 +1930,19 @@ void GameplayHudCommon::renderHudFontLayer(
     // Colour codes recolour the main layer through the tint atlas; the shadow stays as it is.
     const bool shadow = layer.textureHandle.idx == font.shadowTextureHandle.idx;
     std::optional<uint32_t> runColor;
+    // The interface language's catalogue holds whole texts, colour codes included: translate before drawing.
+    const std::string_view displayText = Engine::localizeDisplayText(text);
 
-    for (size_t index = 0; index < text.size(); ++index)
+    for (size_t index = 0; index < displayText.size(); ++index)
     {
-        const unsigned char character = static_cast<unsigned char>(text[index]);
+        const unsigned char character = static_cast<unsigned char>(displayText[index]);
 
         if (character == '\r' || character == '\n')
         {
             break;
         }
 
-        if (readTextColorCode(text, index, runColor))
+        if (readTextColorCode(displayText, index, runColor))
         {
             index += TextColorCodeLength - 1;
             continue;

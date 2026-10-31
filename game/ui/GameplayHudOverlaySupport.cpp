@@ -1,5 +1,6 @@
 #include "game/ui/GameplayBuffHud.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
+#include "engine/TextCatalogue.h"
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -204,7 +205,7 @@ std::string formatCharacterDetailDuration(float remainingSeconds)
 {
     if (std::isinf(remainingSeconds))
     {
-        return "Constant";
+        return std::string(Engine::localizeDisplayText("Constant"));
     }
     const int totalSeconds = std::max(0, int(std::lround(remainingSeconds)));
     const int hours = totalSeconds / 3600;
@@ -212,24 +213,27 @@ std::string formatCharacterDetailDuration(float remainingSeconds)
     const int seconds = totalSeconds % 60;
     std::vector<std::string> parts;
 
+    // Each part is its own catalogue entry; the joined duration is not.
     if (hours > 0)
     {
-        parts.push_back(std::to_string(hours) + (hours == 1 ? " Hour" : " Hours"));
+        parts.push_back(Engine::formatDisplayText(hours == 1 ? "%d Hour" : "%d Hours", {std::to_string(hours)}));
     }
 
     if (minutes > 0)
     {
-        parts.push_back(std::to_string(minutes) + (minutes == 1 ? " Minute" : " Minutes"));
+        parts.push_back(
+            Engine::formatDisplayText(minutes == 1 ? "%d Minute" : "%d Minutes", {std::to_string(minutes)}));
     }
 
     if (hours == 0 && seconds > 0)
     {
-        parts.push_back(std::to_string(seconds) + (seconds == 1 ? " Second" : " Seconds"));
+        parts.push_back(
+            Engine::formatDisplayText(seconds == 1 ? "%d Second" : "%d Seconds", {std::to_string(seconds)}));
     }
 
     if (parts.empty())
     {
-        return "0 Seconds";
+        return Engine::formatDisplayText("%d Seconds", {"0"});
     }
 
     std::string result;
@@ -468,34 +472,35 @@ std::string GameplayHudOverlaySupport::formatRemainingDuration(float remainingSe
 {
     if (std::isinf(remainingSeconds))
     {
-        return "Constant";
+        return std::string(Engine::localizeDisplayText("Constant"));
     }
     const int totalSeconds = std::max(0, int(std::lround(remainingSeconds)));
     const int hours = totalSeconds / 3600;
     const int minutes = (totalSeconds % 3600) / 60;
     const int seconds = totalSeconds % 60;
 
+    // Durations are drawn inside longer lines, so each takes its translation here.
     if (hours > 0)
     {
         if (minutes > 0)
         {
-            return std::to_string(hours) + "h " + std::to_string(minutes) + "m";
+            return Engine::formatDisplayText("%dh %dm", {std::to_string(hours), std::to_string(minutes)});
         }
 
-        return std::to_string(hours) + "h";
+        return Engine::formatDisplayText("%dh", {std::to_string(hours)});
     }
 
     if (minutes > 0)
     {
         if (seconds > 0 && minutes < 5)
         {
-            return std::to_string(minutes) + "m " + std::to_string(seconds) + "s";
+            return Engine::formatDisplayText("%dm %ds", {std::to_string(minutes), std::to_string(seconds)});
         }
 
-        return std::to_string(minutes) + "m";
+        return Engine::formatDisplayText("%dm", {std::to_string(minutes)});
     }
 
-    return std::to_string(seconds) + "s";
+    return Engine::formatDisplayText("%ds", {std::to_string(seconds)});
 }
 
 bool GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromRenderedHudItems(
@@ -695,7 +700,8 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
 
             overlay.active = true;
             overlay.title = relabelled && !relabelled->popupTitle.empty() ? relabelled->popupTitle : pEntry->name;
-            overlay.body = pEntry != nullptr ? pEntry->description : std::string();
+            // The description and its supplements are separate catalogue entries, so translate each before joining.
+            overlay.body = pEntry != nullptr ? std::string(Engine::localizeDisplayText(pEntry->description)) : std::string();
 
             if (pStatParty != nullptr)
             {
@@ -711,7 +717,7 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
 
                 if (!supplement.empty())
                 {
-                    overlay.body += "\n" + supplement;
+                    overlay.body += "\n" + std::string(Engine::localizeDisplayText(supplement));
                 }
             }
 
@@ -720,7 +726,7 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
 
             if (!recoverySupplement.empty())
             {
-                overlay.body += "\n\n" + recoverySupplement;
+                overlay.body += "\n\n" + std::string(Engine::localizeDisplayText(recoverySupplement));
             }
 
             overlay.sourceX = rowRect.x;
@@ -953,19 +959,20 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
                 {
                     const std::string duration =
                         formatBuffDuration(*pParty, pBuff->spellId, pBuff->remainingSeconds, formatRemainingDuration);
-                    appendPopupBodyLine(overlay.body,
-                        personalBuffName(context.spellTable(), *pParty, *pCharacter, b, *pBuff) + " - " + duration);
+                    appendPopupBodyLine(overlay.body, Engine::formatDisplayText("%s - %s",
+                        {personalBuffName(context.spellTable(), *pParty, *pCharacter, b, *pBuff), duration}));
                 }
             }
 
             for (const GameplayPotionEffectLine &line : gameplayPotionEffectLines(*pCharacter, context.spellTable()))
             {
-                appendPopupBodyLine(overlay.body, line.name + " - " + formatRemainingDuration(line.remainingSeconds));
+                appendPopupBodyLine(overlay.body,
+                    Engine::formatDisplayText("%s - %s", {line.name, formatRemainingDuration(line.remainingSeconds)}));
             }
 
             for (const GameplayAuraLine &line : gameplayUnslottedAuraLines(*pParty, *pCharacter, context.spellTable()))
             {
-                appendPopupBodyLine(overlay.body, line.name + " - " + line.heldText);
+                appendPopupBodyLine(overlay.body, Engine::formatDisplayText("%s - %s", {line.name, line.heldText}));
             }
             if (!overlay.body.empty())
             {
@@ -1032,8 +1039,9 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
             if (definition.presentation == panel)
             {
                 const PartyBuffState &buff = *pParty->partyBuff(id);
-                appendPopupBodyLine(overlay.body, std::string(definition.pName) + " - "
-                    + formatBuffDuration(*pParty, buff.spellId, buff.remainingSeconds, formatRemainingDuration));
+                appendPopupBodyLine(overlay.body, Engine::formatDisplayText("%s - %s",
+                    {definition.pName,
+                        formatBuffDuration(*pParty, buff.spellId, buff.remainingSeconds, formatRemainingDuration)}));
             }
         }
         if (overlay.body.empty())
@@ -1065,7 +1073,7 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
         overlay.body = formatBuffDuration(*pParty, pBuff->spellId, pBuff->remainingSeconds, formatRemainingDuration);
         if (pBuff->power > 0)
         {
-            appendPopupBodyLine(overlay.body, "Power: " + std::to_string(pBuff->power));
+            appendPopupBodyLine(overlay.body, Engine::formatDisplayText("Power: %d", {std::to_string(pBuff->power)}));
         }
         anchor(inspected->rect);
     }

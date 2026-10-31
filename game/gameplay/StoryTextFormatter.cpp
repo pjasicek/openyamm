@@ -1,5 +1,6 @@
 #include "game/gameplay/StoryTextFormatter.h"
 
+#include "engine/TextCatalogue.h"
 #include "game/party/Party.h"
 
 #include <algorithm>
@@ -20,7 +21,8 @@ std::string memberNameOrFallback(const Party &party, size_t memberIndex)
 
     if (pMember == nullptr || pMember->name.empty())
     {
-        return "Adventurer";
+        // Names go into text that is already translated.
+        return std::string(Engine::localizeDisplayText("Adventurer"));
     }
 
     return pMember->name;
@@ -43,23 +45,24 @@ std::string formatHistoryDate(int32_t unlockedGameMinutes)
 
 std::string StoryTextFormatter::format(const std::string &text, const Party &party, int32_t unlockedGameMinutes)
 {
+    const std::string localizedText(Engine::localizeDisplayText(text));
     std::string result;
-    result.reserve(text.size() + 32);
+    result.reserve(localizedText.size() + 32);
 
-    for (size_t index = 0; index < text.size(); ++index)
+    for (size_t index = 0; index < localizedText.size(); ++index)
     {
-        if (text[index] != '%' || index + 2 >= text.size())
+        if (localizedText[index] != '%' || index + 2 >= localizedText.size())
         {
-            result.push_back(text[index]);
+            result.push_back(localizedText[index]);
             continue;
         }
 
-        const char first = text[index + 1];
-        const char second = text[index + 2];
+        const char first = localizedText[index + 1];
+        const char second = localizedText[index + 2];
 
         if (first < '0' || first > '9' || second < '0' || second > '9')
         {
-            result.push_back(text[index]);
+            result.push_back(localizedText[index]);
             continue;
         }
 

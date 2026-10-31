@@ -1,5 +1,6 @@
 #include "game/ui/EnemyHealthBarRenderer.h"
 
+#include "engine/TextCatalogue.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
@@ -171,7 +172,8 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
         const std::optional<GameplayHudFontHandle> font = ui.findHudFont(GameplayUiSkin::CombatFontName);
         if (font)
         {
-            std::string label = focused ? actor.displayName : std::string();
+            // Translate the name before trimming: "Name cur/max" and "Na..." are not catalogue entries.
+            std::string label = focused ? std::string(Engine::localizeDisplayText(actor.displayName)) : std::string();
             const std::string values = showValues
                 ? std::to_string(actor.currentHp) + "/" + std::to_string(actor.maxHp) : std::string();
             const float textScale = hudScale * std::max(distanceScale, 0.6f);
