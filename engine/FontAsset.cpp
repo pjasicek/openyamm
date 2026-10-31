@@ -1,6 +1,7 @@
 #include "engine/FontAsset.h"
 
 #include "engine/AssetFileSystem.h"
+#include "engine/TextCatalogue.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -224,24 +225,32 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
         error = "Invalid outline font name";
         return std::nullopt;
     }
-    const std::optional<std::string> descriptorText = assetFileSystem.readTextFile("fonts/truetype/" + name + ".yml");
+    // An interface language may bring its own descriptor: a face that has its alphabet, in its code page.
+    const std::optional<std::string> descriptorText =
+        assetFileSystem.readTextFile(localizedAssetPath(assetFileSystem, "fonts/truetype/" + name + ".yml"));
     FontAtlasImage image;
     FontAtlas &atlas = image.atlas;
     std::string file;
+    std::string encoding;
     int baseline = 0;
     std::optional<int> weight;
+    // A face standing in for another may draw its glyphs on a smaller em than the logical line height it fills.
+    float emScale = 1.0f;
     try
     {
         const YAML::Node descriptor = YAML::Load(descriptorText.value_or(""));
         file = descriptor["file"].as<std::string>();
+        encoding = descriptor["encoding"].as<std::string>();
         atlas.fontHeight = descriptor["logical_height"].as<int>();
         baseline = descriptor["baseline"].as<int>();
         if (descriptor["weight"])
         {
             weight = descriptor["weight"].as<int>();
         }
+        emScale = descriptor["em_scale"].as<float>(1.0f);
         if (descriptor["metrics"].as<std::string>() != "freetype" ||
-            descriptor["encoding"].as<std::string>() != "windows-1252" || file.empty() ||
+            (encoding != "windows-1252" && encoding != "windows-1251") || !(emScale >= 0.5f && emScale <= 1.0f) ||
+            file.empty() ||
             file.find_first_of("/\\") != std::string::npos || atlas.fontHeight < 8 || atlas.fontHeight > 64 ||
             baseline < 0 || baseline > atlas.fontHeight || (weight && (*weight < 1 || *weight > 1000)))
         {
@@ -263,7 +272,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     atlas.fontHeight = pixelHeight > 0 ? pixelHeight : logicalHeight;
     baseline = int(std::lround(float(baseline) * atlas.fontHeight / logicalHeight));
     atlas.atlasPadding = int(std::ceil(8.0f * atlas.fontHeight / logicalHeight)) + 1;
-    const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile("fonts/truetype/" + file);
+    const std::optional<std::vector<uint8_t>> bytes =
+        assetFileSystem.readBinaryFile(localizedAssetPath(assetFileSystem, "fonts/truetype/" + file));
     FreeTypeFace font;
     atlas.atlasScale = 1;
     atlas.firstChar = 32;
@@ -271,7 +281,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     if (!bytes || bytes->empty() || bytes->size() > 32 * 1024 * 1024 || FT_Init_FreeType(&font.library) != 0 ||
         FT_New_Memory_Face(font.library, bytes->data(), FT_Long(bytes->size()), 0, &font.face) != 0 ||
         !FT_IS_SCALABLE(font.face) || FT_Select_Charmap(font.face, FT_ENCODING_UNICODE) != 0 ||
-        FT_Set_Pixel_Sizes(font.face, 0, atlas.fontHeight * atlas.atlasScale) != 0)
+        FT_Set_Pixel_Sizes(font.face, 0,
+            std::max(1, int(std::lround(float(atlas.fontHeight * atlas.atlasScale) * emScale)))) != 0)
     {
         error = "Unable to open outline font: " + file;
         return std::nullopt;
@@ -307,7 +318,7 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     }
     for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
     {
-        const uint32_t point = cp1252CodePoint(character);
+        const uint32_t point = codePageCharacter(encoding, uint8_t(character));
         if (point == 0)
         {
             continue;
@@ -336,9 +347,9 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             for (int current = atlas.firstChar; current <= atlas.lastChar; ++current)
             {
                 FT_Vector adjustment{};
-                FT_Get_Kerning(font.face, FT_Get_Char_Index(font.face, cp1252CodePoint(previous)),
-                               FT_Get_Char_Index(font.face, cp1252CodePoint(current)), FT_KERNING_UNFITTED,
-                               &adjustment);
+                FT_Get_Kerning(font.face, FT_Get_Char_Index(font.face, codePageCharacter(encoding, uint8_t(previous))),
+                               FT_Get_Char_Index(font.face, codePageCharacter(encoding, uint8_t(current))),
+                               FT_KERNING_UNFITTED, &adjustment);
                 if (adjustment.x != 0)
                 {
                     atlas.kerningPairs[uint16_t(previous * 256 + current)] = adjustment.x / (64.0f * atlas.atlasScale);
@@ -356,7 +367,7 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     allocateAtlas(image, true);
     for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
     {
-        const uint32_t point = cp1252CodePoint(character);
+        const uint32_t point = codePageCharacter(encoding, uint8_t(character));
         if (point == 0)
         {
             continue;
@@ -426,6 +437,49 @@ std::optional<FontAtlasImage> loadFontAtlas(
     {
         atlas.atlasCellWidth = std::max(atlas.atlasCellWidth, atlas.glyphMetrics[character].width);
     }
+
+    const std::string name = normalizedFontName(fontName);
+    if (name.empty() || name.find_first_not_of("abcdefghijklmnopqrstuvwxyz0123456789_-") != std::string::npos)
+    {
+        error = "invalid TTF replacement name";
+        return std::nullopt;
+    }
+    // An interface language may bring its own descriptor, such as one for the FNT of an edition in its alphabet.
+    const std::string descriptorPath = localizedAssetPath(assetFileSystem, "fonts/truetype/" + name + ".yml");
+    const std::optional<std::string> descriptorText = assetFileSystem.readTextFile(descriptorPath);
+    if (!descriptorText)
+    {
+        error = "missing TTF descriptor: " + descriptorPath;
+        return std::nullopt;
+    }
+
+    YAML::Node descriptor;
+    try
+    {
+        descriptor = YAML::Load(*descriptorText);
+    }
+    catch (const YAML::Exception &exception)
+    {
+        error = "invalid TTF descriptor: " + descriptorPath + ": " + exception.what();
+        return std::nullopt;
+    }
+
+    // "glyphs: bitmap" keeps the FNT's own pixels: a localized edition's FNT has glyphs, such as Cyrillic in its
+    // windows-1251 bytes, that the CP1252 outlines lack.
+    if (descriptor["glyphs"].as<std::string>("outline") == "bitmap")
+    {
+        atlas.atlasScale = 1;
+        atlas.atlasPadding = 0;
+        atlas.atlasWidth = atlas.atlasCellWidth * 16;
+        atlas.atlasHeight = atlas.fontHeight * 16;
+        allocateAtlas(image);
+        for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
+        {
+            copyBitmapGlyph(*bitmap, character, image);
+        }
+        return image;
+    }
+
     atlas.atlasScale = 4;
     // Includes reconstructed italic overhangs (notably Z-caron) and the one-pixel shadow.
     atlas.atlasPadding = 5;
@@ -437,27 +491,12 @@ std::optional<FontAtlasImage> loadFontAtlas(
         return std::nullopt;
     }
 
-    const std::string name = normalizedFontName(fontName);
-    if (name.empty() || name.find_first_not_of("abcdefghijklmnopqrstuvwxyz0123456789_-") != std::string::npos)
-    {
-        error = "invalid TTF replacement name";
-        return std::nullopt;
-    }
-    const std::string descriptorPath = "fonts/truetype/" + name + ".yml";
-    const std::optional<std::string> descriptorText = assetFileSystem.readTextFile(descriptorPath);
-    if (!descriptorText)
-    {
-        error = "missing TTF descriptor: " + descriptorPath;
-        return std::nullopt;
-    }
-
     std::string fileName;
     int baseline = 0;
     bool blackInk = false;
     bool synthesizeShadow = true;
     try
     {
-        const YAML::Node descriptor = YAML::Load(*descriptorText);
         fileName = descriptor["file"].as<std::string>();
         baseline = descriptor["baseline"].as<int>();
         const std::string presentation = descriptor["presentation"].as<std::string>("tintable-with-shadow");
@@ -483,7 +522,7 @@ std::optional<FontAtlasImage> loadFontAtlas(
         return std::nullopt;
     }
 
-    const std::string fontPath = "fonts/truetype/" + fileName;
+    const std::string fontPath = localizedAssetPath(assetFileSystem, "fonts/truetype/" + fileName);
     const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile(fontPath);
     if (!bytes || bytes->empty() || bytes->size() > 32 * 1024 * 1024)
     {

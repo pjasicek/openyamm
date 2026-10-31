@@ -1,5 +1,6 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/FontAsset.h"
+#include "engine/TextCatalogue.h"
 #include "game/ui/UiLayoutManager.h"
 
 #include <doctest/doctest.h>
@@ -439,4 +440,85 @@ TEST_CASE("UTF-8 text converts to the CP1252 bytes of the legacy faces without t
     // CP1252 has no arrow; a name imported as CP1252 is not valid UTF-8 and stays as it is.
     CHECK(Engine::utf8ToCp1252("a \xE2\x86\x92 b") == "a ? b");
     CHECK(Engine::utf8ToCp1252("Caf\xE9") == "Caf\xE9");
+}
+
+TEST_CASE("an outline face in windows-1251 draws Cyrillic in the bytes of that code page")
+{
+    FontFixture fixture;
+    const auto write = [&](const char *pName, const char *pEncoding, const char *pExtra = "")
+    {
+        std::ofstream(fixture.root / "engine/fonts/truetype" / (std::string(pName) + ".yml"))
+            << "file: alegreya_variable.ttf\nmetrics: freetype\nweight: 400\nlogical_height: 19\nbaseline: 14\n"
+            << "encoding: " << pEncoding << "\n" << pExtra;
+        fixture.assets.refreshLookupCache();
+    };
+    write("latin_test", "windows-1252");
+    write("cyrillic_test", "windows-1251");
+    std::string error;
+    const auto latin = Engine::loadTrueTypeFontAtlas(fixture.assets, "latin_test", error);
+    REQUIRE_MESSAGE(latin, error);
+    const auto cyrillic = Engine::loadTrueTypeFontAtlas(fixture.assets, "cyrillic_test", error);
+    REQUIRE_MESSAGE(cyrillic, error);
+    // Byte 0xd8 is Ø in windows-1252 and Ш in windows-1251; ASCII is the same in both.
+    CHECK(cyrillic->atlas.glyphMetrics[0xd8].advance() > latin->atlas.glyphMetrics[0xd8].advance());
+    CHECK(cyrillic->atlas.glyphMetrics['W'].advance() == doctest::Approx(latin->atlas.glyphMetrics['W'].advance()));
+    // Byte 0x98 is unassigned in windows-1251.
+    CHECK(cyrillic->atlas.glyphMetrics[0x98].advance() == 0.0f);
+
+    write("cyrillic_test", "windows-1251", "em_scale: 0.9\n");
+    const auto smaller = Engine::loadTrueTypeFontAtlas(fixture.assets, "cyrillic_test", error);
+    REQUIRE_MESSAGE(smaller, error);
+    CHECK(smaller->atlas.glyphMetrics[0xd8].advance() < cyrillic->atlas.glyphMetrics[0xd8].advance());
+    write("cyrillic_test", "windows-1251", "em_scale: 0.3\n");
+    CHECK_FALSE(Engine::loadTrueTypeFontAtlas(fixture.assets, "cyrillic_test", error));
+    write("cyrillic_test", "koi8-r");
+    CHECK_FALSE(Engine::loadTrueTypeFontAtlas(fixture.assets, "cyrillic_test", error));
+}
+
+TEST_CASE("the interface language's font descriptor replaces the face's own")
+{
+    FontFixture fixture;
+    std::filesystem::create_directories(fixture.root / "engine/localization/ru/fonts/truetype");
+    std::ofstream(fixture.root / "engine/localization/ru/language.yml") << "name: Russian\nencoding: windows-1251\n";
+    std::ofstream(fixture.root / "engine/localization/ru/fonts/truetype/arrus.yml")
+        << "file: alegreya_variable.ttf\nmetrics: freetype\nlogical_height: 19\nbaseline: 14\n"
+        << "encoding: windows-1251\n";
+    fixture.assets.refreshLookupCache();
+    std::string error;
+    // In English arrus is a legacy face, not an independent outline face.
+    Engine::loadTextCatalogue(fixture.assets, Engine::EnglishLanguageId);
+    CHECK_FALSE(Engine::loadTrueTypeFontAtlas(fixture.assets, "arrus", error));
+    Engine::loadTextCatalogue(fixture.assets, "ru");
+    const auto arrus = Engine::loadTrueTypeFontAtlas(fixture.assets, "arrus", error);
+    Engine::loadTextCatalogue(fixture.assets, Engine::EnglishLanguageId);
+    REQUIRE_MESSAGE(arrus, error);
+    CHECK(arrus->atlas.glyphMetrics[0xd8].advance() > arrus->atlas.glyphMetrics['O'].advance());
+}
+
+TEST_CASE("a bitmap glyph descriptor keeps a legacy face's own FNT pixels")
+{
+    FontFixture fixture;
+    const std::optional<std::vector<uint8_t>> bytes = fixture.assets.readBinaryFile("fonts/arrus.fnt");
+    REQUIRE(bytes);
+    // A localized edition's FNT carries glyphs, such as Cyrillic, that the CP1252 outlines lack.
+    std::ofstream(fixture.root / "engine/fonts/truetype/arrus.yml") << "glyphs: bitmap\n";
+    fixture.assets.refreshLookupCache();
+    std::string error;
+    const std::optional<Engine::FontAtlasImage> arrus = Engine::loadFontAtlas(fixture.assets, *bytes, "Arrus", error);
+    REQUIRE_MESSAGE(arrus, error);
+    CHECK(arrus->atlas.atlasScale == 1);
+    CHECK(arrus->atlas.atlasPadding == 0);
+    CHECK(arrus->atlas.atlasWidth == arrus->atlas.atlasCellWidth * 16);
+    CHECK(arrus->atlas.atlasHeight == arrus->atlas.fontHeight * 16);
+    const std::string text = "Begin Adventure";
+    CHECK(textWidth(arrus->atlas.glyphMetrics, text) == textWidth(fntGlyphMetrics(*bytes), text));
+    size_t ink = 0;
+    size_t shadow = 0;
+    for (size_t offset = 3; offset < arrus->atlas.mainAtlasPixels.size(); offset += 4)
+    {
+        ink += arrus->atlas.mainAtlasPixels[offset] == 255 ? 1 : 0;
+        shadow += arrus->shadowPixels[offset] == 255 ? 1 : 0;
+    }
+    CHECK(ink > 0);
+    CHECK(shadow > 0);
 }

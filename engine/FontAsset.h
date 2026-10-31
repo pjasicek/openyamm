@@ -58,8 +58,9 @@ struct FontAtlasImage
 std::string utf8ToCp1252(const std::string &text);
 
 // A legacy face: its outlines come from fonts/truetype/<name>.yml and the font file it names, while the original FNT
-// supplies the layout metrics and the reserved symbol glyphs (CP1252 bytes without a character). A missing or invalid
-// replacement returns an explicit error.
+// supplies the layout metrics and the reserved symbol glyphs (CP1252 bytes without a character). A descriptor saying
+// "glyphs: bitmap" keeps the FNT's own pixels instead. The interface language's copy of the descriptor and font file
+// (localizedAssetPath) wins. A missing or invalid replacement returns an explicit error.
 std::optional<FontAtlasImage> loadFontAtlas(
     const AssetFileSystem &assetFileSystem,
     const std::vector<uint8_t> &bitmapBytes,
@@ -68,7 +69,9 @@ std::optional<FontAtlasImage> loadFontAtlas(
 
 // Independent outline faces use their own advances, without requiring a legacy
 // FNT. Rasterize at the requested display height; zero uses the descriptor's
-// logical height.
+// logical height. The descriptor names the code page of the bytes it draws (windows-1252, or windows-1251 for
+// Cyrillic) and may shrink the em within the line (em_scale, 0.5-1); the interface language's copy of the descriptor
+// and font file wins.
 std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &assetFileSystem, const std::string &fontName,
                                                     std::string &error, int pixelHeight = 0);
 }
