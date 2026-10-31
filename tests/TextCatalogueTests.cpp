@@ -70,6 +70,18 @@ TEST_CASE("text catalogue draws Cyrillic and Yo in their windows-1251 bytes")
     CHECK(localizeDisplayText("out01.odm") == "out01.odm");
 }
 
+TEST_CASE("a language's catalogue files load in name order, a later file's entry winning")
+{
+    CatalogueFixture fixture;
+    fixture.write("Name\tИмя\nTree\tДерево\n");
+    fixture.write("Tree\tДрево\nWell\tКолодец\n", "engine/localization/ru/zz_game_text.tsv");
+    fixture.write("Well\tИсточник\n", "engine/localization/ru/notes.txt");
+    fixture.load();
+    CHECK(localizeDisplayText("Name") == cyrillic("Имя"));
+    CHECK(localizeDisplayText("Tree") == cyrillic("Древо"));
+    CHECK(localizeDisplayText("Well") == cyrillic("Колодец"));
+}
+
 TEST_CASE("text catalogue keeps quoted multiline entries whole")
 {
     CatalogueFixture fixture;

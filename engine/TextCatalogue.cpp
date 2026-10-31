@@ -628,10 +628,25 @@ void loadTextCatalogue(const AssetFileSystem &assetFileSystem, const std::string
 
     std::map<std::string, std::string, std::less<>> catalogue;
     size_t entries = 0;
+    // Every .tsv of the language folder but the world's, in name order: a later file's entry wins.
+    std::vector<std::string> files;
 
-    if (const std::optional<std::string> shared = assetFileSystem.readTextFile(languagePath(language, "strings.tsv")))
+    for (const std::string &entry : assetFileSystem.enumerate("localization/" + language))
     {
-        entries = readCatalogueEntries(*shared, definition->encoding, catalogue);
+        if (entry.ends_with(".tsv") && entry != "world_strings.tsv")
+        {
+            files.push_back(entry);
+        }
+    }
+
+    std::sort(files.begin(), files.end());
+
+    for (const std::string &file : files)
+    {
+        if (const std::optional<std::string> shared = assetFileSystem.readTextFile(languagePath(language, file)))
+        {
+            entries += readCatalogueEntries(*shared, definition->encoding, catalogue);
+        }
     }
 
     // The active world's files overlay the engine's at the same paths, so its catalogue has a name of its own.

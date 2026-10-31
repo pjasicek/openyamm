@@ -27,9 +27,10 @@ bool validLanguageId(std::string_view id);
 // English, which needs no files, followed by the languages the mounted assets offer, by id.
 std::vector<InterfaceLanguage> availableInterfaceLanguages(const AssetFileSystem &assetFileSystem);
 
-// Makes `language` the interface language. Its catalogue is engine/localization/<language>/strings.tsv, and the active
-// world's worlds/<world>/localization/<language>/world_strings.tsv adds entries of its own that win over shared ones (a
-// town name read differently in each world). English, or a language without language.yml, clears the catalogue. Call it again
+// Makes `language` the interface language. Its catalogue is every .tsv file in engine/localization/<language>, such as
+// strings.tsv for the interface and game_text.tsv for the game's own text, read in name order (a later file's entry
+// wins), and the active world's worlds/<world>/localization/<language>/world_strings.tsv adds entries of its own that
+// win over shared ones (a town name read differently in each world). English, or a language without language.yml, clears the catalogue. Call it again
 // after the active world changes. A malformed catalogue throws std::runtime_error and keeps the previous one.
 //
 // A catalogue is UTF-8 tab-separated text: the English text, then its translation, quoted when it spans lines. An
