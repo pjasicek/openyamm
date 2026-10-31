@@ -68,6 +68,7 @@
 #include <limits>
 #include <random>
 #include <stdexcept>
+#include <unordered_set>
 #include <utility>
 
 namespace OpenYAMM::Game
@@ -4229,6 +4230,23 @@ void IndoorWorldRuntime::initialize(
 void IndoorWorldRuntime::bindRenderer(IndoorRenderer *pRenderer)
 {
     m_pRenderer = pRenderer;
+
+    // Monsters spawned before the renderer was bound (a map's on-load script summoning them) got no frames: the map
+    // did not preload them. Load them now, with the tier a model is sized from (scale_reference).
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+    if (pRenderer != nullptr && pMapDeltaData != nullptr)
+    {
+        std::unordered_set<int16_t> monsterIds;
+        for (const MapDeltaActor &actor : pMapDeltaData->actors)
+        {
+            const int16_t monsterId = resolveIndoorActorStatsId(actor);
+            if (monsterId > 0 && monsterIds.insert(monsterId).second)
+            {
+                pRenderer->ensureMonsterVisualResources(monsterId);
+            }
+        }
+    }
+
     // The renderer's actor frames gain the frames of summoned monsters the map did not preload; use them from now on.
     if (pRenderer != nullptr && pRenderer->actorSpriteFrameTable() != nullptr)
     {
