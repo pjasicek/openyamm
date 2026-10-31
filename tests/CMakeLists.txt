@@ -149,6 +149,7 @@ add_executable(openyamm_unit_tests
     RegressionGameData.cpp
     SpellbookUiLayoutTests.cpp
     TableRegressionTests.cpp
+    TextCatalogueTests.cpp
     TextTableTests.cpp
     TerrainDecorationTests.cpp
     OutdoorMeadowTests.cpp
@@ -194,6 +195,7 @@ add_executable(openyamm_unit_tests
     ../game/render/SpriteAtlasMipmaps.cpp
     ../game/render/SpriteAtlasCook.cpp
     ../game/render/NativeSpriteTextureCache.cpp
+    ../engine/TextCatalogue.cpp
     ../engine/TextTable.cpp
     ../game/render/TextureFiltering.cpp
     ../game/arcomage/ArcomageAi.cpp
