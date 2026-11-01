@@ -11,6 +11,7 @@
 #include "game/fx/SpellAuraEffectBindings.h"
 #include "game/fx/WaterRippleRuntime.h"
 #include "game/fx/import/EffectResourceLibrary.h"
+#include "game/gameplay/ActorModelPresentation.h"
 #include "game/render/ShieldDomeRenderer.h"
 #include "game/render/lighting/RenderLight.h"
 
@@ -395,6 +396,8 @@ private:
         float standingHeight = 0.0f;
         uint32_t castClip = UINT32_MAX;
         uint32_t runClip = UINT32_MAX;
+        // actors.yml `animation.sprint`: optional longer-strided clip for speeds the run would only play too fast.
+        uint32_t sprintClip = UINT32_MAX;
         // actors.yml `animation.look`: nodes, root to tip (neck, head), that share a turn toward the party's eyes over
         // the clip, and the turn's limits in radians. Empty when the model does not look.
         std::vector<uint32_t> lookNodes;
@@ -443,12 +446,17 @@ private:
         float strideLength = 0.0f;
         // Running clip stride (actors.yml `run_stride_length`); defaults to 1.55 x the walking stride.
         float runStrideLength = 0.0f;
-        // Authored speeds of the walking and running clips (stride over clip length, model units per second), which
-        // with the AI's hurry choose between them (actorModelRuns).
-        float walkSpeed = 0.0f;
-        float runSpeed = 0.0f;
+        // Sprint clip stride (actors.yml `sprint_stride_length`, required with `sprint`).
+        float sprintStrideLength = 0.0f;
+        // Authored speeds of the walking, running and sprinting clips (stride over clip length, model units per
+        // second; 0 without a sprint), which with the AI's hurry choose between them (actorModelGait).
+        std::array<float, 3> gaitSpeeds = {};
+
+        // The clip and stride of a locomotion gait (UINT32_MAX and 0 for a missing sprint).
+        uint32_t gaitClip(ActorModelGait gait) const;
+        float gaitStride(ActorModelGait gait) const;
         // actors.yml `animation.gait_rate: [min, max]`: the locomotion clip's playback rate range relative to authored
-        // (actorModelGaitDistance; default [0, 0]: follows the distance); max 0 is uncapped.
+        // (actorModelGaitDistance; default [0, ActorModelDefaultMaxGaitRate]); max 0 is uncapped.
         float minGaitRate = 0.0f;
         float maxGaitRate = 0.0f;
         // actors.yml `animation.blend_seconds`: blend length of every clip change except into dying (negative = the
@@ -481,8 +489,8 @@ private:
         // The syncActorModels pass that last kept this model.
         uint32_t syncPass = 0;
         bool dying = false;
-        // Locomotion plays the running clip (actorModelRuns, kept between frames for its hysteresis).
-        bool running = false;
+        // Locomotion clip playing (actorModelGait, kept between frames for its hysteresis).
+        ActorModelGait gait = ActorModelGait::Walk;
         float deathClipTime = -1.0f;
         // Seconds since the burn death started (ActorBurnDeath), -1 when not burning; flames owed and spawned so far.
         float burnSeconds = -1.0f;

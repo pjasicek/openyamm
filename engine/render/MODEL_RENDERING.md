@@ -142,7 +142,8 @@ per creature, which is what instancing (section 4) batches.
       cast: {impact: 0.75, glow: [staff_head], color: [176, 70, 255]}   # colour instead of the projectile's
       attack_melee: {impact: 0.70}
     look: {nodes: [neck, Head], max_yaw_degrees: 60, max_pitch_degrees: 35}   # optional head turn, see below
-    # also: cast, run, stride_length, upper_body_root, eye_color (sockets eye_left/eye_right)
+    # also: cast, run, stride_length, run_stride_length, sprint + sprint_stride_length (optional faster gait),
+    # gait_rate, upper_body_root, eye_color (sockets eye_left/eye_right); gaits: CREATURE_POSTPROCESS.md step 3
   clips: {standing: …, walking: …, attack_melee: …, attack_ranged: …, hit: …, dying: …, dead: …, fidget: …}
 ```
 

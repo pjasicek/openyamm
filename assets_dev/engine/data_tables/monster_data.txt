@@ -104,9 +104,9 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 100	Centaur	Centaur A	11	45	6	231	35%5d6+L1Bow	1	N	Med	Aggress	3	275	100	x	0	Phys	2D4+2	ArrowF	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	15	0
 101	Centaur Warrior	Centaur B	14	61	12	336	25%5d8+L2Bow	1	N	Med	Aggress	3	285	90	x	0	Phys	2D4+4	ArrowF	0	0	0	0	10	"Shield,E,4"	0	0	0	0	0	0	0	0	0	0	0	20	0
 102	Centaur Warlord	Centaur C	18	86	20	504	35%5d10+L3Bow	1	N	Short	Aggress	3	295	90	x	0	Phys	2D4+6	ArrowF	0	0	0	0	10	"Shield,M,7"	0	0	0	0	0	0	0	0	0	0	0	25	0
-103	Efreeti Soldier	Efreeti A	45	337	0	2475	50%10D20+L4Sword	0	N	Med	Suicidal	2	300	70	0	0	Fire	7D8	0	0	0	0	0	10	"Fireball,M,5"	0	0	Imm	5	0	5	Imm	0	5	0	0	20	0
-104	Efreeti Knight	Efreeti B	55	467	0	3575	50%10D20+L4Sword	0	N	Med	Suicidal	2	310	70	0	0	Fire	9D8	0	0	0	0	0	20	"Fireball,M,7"	0	0	Imm	10	0	10	Imm	0	10	0	0	30	0
-105	Efreeti Lord	Efreeti C	65	617	0	4875	50%10D20+L5Sword	0	N	Med	Suicidal	2	330	70	2	0	Fire	10D8	0	0	0	0	0	30	"Fireball,M,9"	0	0	Imm	20	0	20	Imm	0	20	0	0	40	0
+103	Efreeti Soldier	Efreeti A	45	337	0	2475	50%10D20+L4Sword	0	Y	Med	Suicidal	2	300	70	0	0	Fire	7D8	0	0	0	0	0	10	"Fireball,M,5"	0	0	Imm	5	0	5	Imm	0	5	0	0	20	0
+104	Efreeti Knight	Efreeti B	55	467	0	3575	50%10D20+L4Sword	0	Y	Med	Suicidal	2	310	70	0	0	Fire	9D8	0	0	0	0	0	20	"Fireball,M,7"	0	0	Imm	10	0	10	Imm	0	10	0	0	30	0
+105	Efreeti Lord	Efreeti C	65	617	0	4875	50%10D20+L5Sword	0	Y	Med	Suicidal	2	330	70	2	0	Fire	10D8	0	0	0	0	0	30	"Fireball,M,9"	0	0	Imm	20	0	20	Imm	0	20	0	0	40	0
 106	Ogre Mage Apprentice	Ogre Mage A	20	100	14	600	25%10D4+L2Scroll	1	N	Med	Suicidal	3	200	100	0	0	Phys	4D4+4	0	30	Fire	4D4	Fire	20	"Fire Bolt,E,5"	0	0	5	5	5	5	5	5	5	0	5	0	0
 107	Ogre Mage 	Ogre Mage B	28	162	18	1064	30%10D6+L3Scroll	1	N	Med	Suicidal	3	220	90	0	Curse	Phys	6D4+6	0	30	Water	6D4	Water	20	"Poison Spray,E,7"	0	0	10	10	10	10	10	10	10	0	10	0	0
 108	Ogre Magi	Ogre Mage C	35	227	30	1575	35%10D10+L7Scroll	1	N	Short	Suicidal	3	240	80	0	Curse	Phys	9D4+8	0	30	Air	8D4	Air	20	"Lightning Bolt,M,7"	0	0	15	15	15	15	15	15	15	0	15	0	0

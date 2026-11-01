@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstdint>
 #include <iterator>
@@ -68,24 +69,54 @@ inline float actorModelGaitMisfit(float speed, float clipSpeed)
     return rate >= 0.0f ? rate : -2.0f * rate;
 }
 
-// Whether a moving 3D actor plays its run clip rather than its walk: the one that suits its speed better
-// (actorModelGaitMisfit), with a small preference from what the AI is doing (hurrying, pursuing or fleeing at its doubled
-// speed: run; wandering: walk). So a chaser whose run would play in slow motion walks, and a small fast wanderer trots
-// instead of scurrying. The clip playing now keeps an 8 % margin, so a speed near the boundary does not flicker. Speeds
-// are in model units per second; authored speed is the clip's stride over its length.
-inline bool actorModelRuns(float speed, float walkSpeed, float runSpeed, bool hurrying, bool running)
+// Locomotion clips of a 3D actor: its walk, its run and an optional sprint (actors.yml `sprint`), each authored for a
+// speed (its stride over its length).
+enum class ActorModelGait : uint8_t
 {
-    if (!(speed > 0.0f) || !(walkSpeed > 0.0f) || !(runSpeed > 0.0f))
+    Walk,
+    Run,
+    Sprint
+};
+
+// Highest playback rate of a locomotion clip over its authored speed, unless its binding's `gait_rate` sets another
+// (max 0: uncapped). Faster bodies slide their feet a little rather than pedalling: people and animals go faster mostly
+// by longer strides, so a clip far above its rate reads as frantic skipping. A body meant to go much faster needs a
+// longer-strided clip (its sprint), not a quicker one.
+inline constexpr float ActorModelDefaultMaxGaitRate = 2.0f;
+
+// The locomotion clip that suits a moving 3D actor's speed best (actorModelGaitMisfit), with a small preference from
+// what the AI is doing (hurrying, pursuing or fleeing at its doubled speed: run or sprint; wandering: walk). So a chaser
+// whose run would play in slow motion walks, a small fast wanderer trots instead of scurrying, and a chaser too fast
+// for its run sprints. The clip playing now keeps an 8 % margin, so a speed near a boundary does not flicker. Speeds
+// are in model units per second; clipSpeeds are walk, run and sprint (0: the model has no such clip).
+inline ActorModelGait actorModelGait(float speed, const std::array<float, 3> &clipSpeeds, bool hurrying,
+    ActorModelGait current)
+{
+    if (!(speed > 0.0f) || !(clipSpeeds[0] > 0.0f) || !(clipSpeeds[1] > 0.0f))
     {
-        return hurrying;
+        return hurrying ? ActorModelGait::Run : ActorModelGait::Walk;
     }
     const float preference = std::log(1.25f);
     const float hold = std::log(1.08f);
-    const float walkMisfit = actorModelGaitMisfit(speed, walkSpeed) - (hurrying ? 0.0f : preference)
-        - (running ? 0.0f : hold);
-    const float runMisfit = actorModelGaitMisfit(speed, runSpeed) - (hurrying ? preference : 0.0f)
-        - (running ? hold : 0.0f);
-    return runMisfit < walkMisfit;
+    ActorModelGait best = ActorModelGait::Walk;
+    float bestMisfit = 0.0f;
+    for (size_t index = 0; index < clipSpeeds.size(); ++index)
+    {
+        if (!(clipSpeeds[index] > 0.0f))
+        {
+            continue;
+        }
+        const ActorModelGait gait = ActorModelGait(index);
+        const bool suitsHurry = (gait != ActorModelGait::Walk) == hurrying;
+        const float misfit = actorModelGaitMisfit(speed, clipSpeeds[index]) - (suitsHurry ? preference : 0.0f)
+            - (gait == current ? hold : 0.0f);
+        if (index == 0 || misfit < bestMisfit)
+        {
+            best = gait;
+            bestMisfit = misfit;
+        }
+    }
+    return best;
 }
 
 // Loot satchel tier (1-6) for a corpse holding this much gold plus item value; 0 (no satchel) for an empty corpse.

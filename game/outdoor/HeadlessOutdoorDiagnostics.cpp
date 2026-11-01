@@ -13390,7 +13390,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         const std::optional<uint32_t> body = pBody->findNode("Bedraggled");
         if (!body || pBody->meshes[pBody->nodes[*body].meshIndex].lodMeshes.size() != 3
             || !pBody->findNode("B_R_Finger42") || pBody->findClip("Attack") || pBody->findClip("Cast")
-            || pBody->clips.size() != 6)
+            // Six native clips plus the 2026-10-31 gait rollout's Walk2.
+            || pBody->clips.size() != 7 || !pBody->findClip("Walk2"))
         {
             failure = "Bedraggled Human lacks fitted hands/LODs or gained an unapproved combat clip";
             return false;
@@ -14131,7 +14132,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         const Engine::ModelPose *pPose = fx.models().pose(model, false);
         Engine::ModelPose castPose, walkingPose;
         const std::optional<uint32_t> castClip = pAsset->findClip("Cast_FireBolt");
-        const std::optional<uint32_t> walkClip = pAsset->findClip("Walking");
+        // The bound walk (actors.yml), since the 2026-10-31 gait rollout Walk2.
+        const std::optional<uint32_t> walkClip = pAsset->findClip("Walk2");
         if (!castClip || !walkClip)
         {
             failure = "demon cast/locomotion clips are missing";
@@ -15797,7 +15799,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         };
         using Animation = OutdoorWorldRuntime::ActorAnimation;
         const std::array<std::pair<Animation, const char *>, 4> neighbours = {{{Animation::Standing, "Standing"},
-            {Animation::Walking, "Running"}, {Animation::AttackMelee, "Attack"}, {Animation::Bored, "Fidget"}}};
+            {Animation::Walking, "Jog"}, {Animation::AttackMelee, "Attack"}, {Animation::Bored, "Fidget"}}};
         for (const auto &[state, clipName] : neighbours)
         {
             OutdoorWorldRuntime::Snapshot pose = before;
@@ -15805,7 +15807,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             actor.animation = state;
             actor.animationTimeTicks = 32;
             actor.actionSeconds = 0.5f;
-            // Twice the Ogre's 200 wander speed: it pursues, so the model runs (actorModelRuns).
+            // A pursuing Ogre at 400 units/s plays its Jog (actorModelGait; the run since the 2026-10-31 sprint pilot).
             actor.velocityX = state == Animation::Walking ? 400.0f : 0.0f;
             actor.aiState = state == Animation::Walking ? OutdoorWorldRuntime::ActorAiState::Pursuing
                 : OutdoorWorldRuntime::ActorAiState::Standing;
@@ -17434,7 +17436,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         pose(bored, 0.0f, 0.1f);
         pose(bored, 0.75f, 0.75f);
         pose(OutdoorWorldRuntime::ActorAnimation::Walking, 0.0f, 0.1f);
-        return expect("walking after the native fidget", "Walking", -1.0f);
+        // The bound walk (actors.yml), since the 2026-10-31 gait rollout Walk2.
+        return expect("walking after the native fidget", "Walk2", -1.0f);
     });
 
     runCase("mm6_cleric_actor_ranged_attack_launches_from_staff_head", [&](std::string &failure)

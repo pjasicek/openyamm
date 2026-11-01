@@ -272,30 +272,41 @@ TEST_CASE("Actor model yaw wraps smoothly and gait follows travelled distance")
     CHECK(advanceActorModelGait(.4f, 0, 100) == doctest::Approx(.4f));
 }
 
-TEST_CASE("Actor model locomotion prefers walking to wander and running to chase, within each clip's authored speed")
+TEST_CASE("Actor model locomotion prefers walking to wander and running or sprinting to chase, within each clip's authored speed")
 {
     using namespace OpenYAMM::Game;
+    constexpr ActorModelGait Walk = ActorModelGait::Walk;
+    constexpr ActorModelGait Run = ActorModelGait::Run;
+    constexpr ActorModelGait Sprint = ActorModelGait::Sprint;
     // MM8 Necromancer: walk 0.93 m/s, run 1.16 m/s authored; it wanders at 1.77 and chases at 3.54.
-    CHECK_FALSE(actorModelRuns(1.77f, .93f, 1.16f, false, false));
-    CHECK(actorModelRuns(3.54f, .93f, 1.16f, true, false));
+    CHECK(actorModelGait(1.77f, {.93f, 1.16f, 0}, false, Walk) == Walk);
+    CHECK(actorModelGait(3.54f, {.93f, 1.16f, 0}, true, Walk) == Run);
     // Pirate Mage chasing at 1.01 m/s: its 5.44 m/s run would crawl at a fifth of its rate, so it walks.
-    CHECK_FALSE(actorModelRuns(1.01f, 1.77f, 5.44f, true, false));
+    CHECK(actorModelGait(1.01f, {1.77f, 5.44f, 0}, true, Walk) == Walk);
     // Pirate Warrior chasing at 3.15 m/s: a 1.59 m/s walk at 2x beats a 5.29 m/s sprint in slow motion at 0.6x.
-    CHECK_FALSE(actorModelRuns(3.15f, 1.59f, 5.29f, true, false));
-    CHECK(actorModelRuns(3.15f, 1.59f, 3.5f, true, false));
+    CHECK(actorModelGait(3.15f, {1.59f, 5.29f, 0}, true, Walk) == Walk);
+    CHECK(actorModelGait(3.15f, {1.59f, 3.5f, 0}, true, Walk) == Run);
     // Dire Wolf wandering at 1.16 m/s: its 0.34 m/s walk would scurry at 3.4x, so it trots its 0.77 m/s run.
-    CHECK(actorModelRuns(1.16f, .34f, .77f, false, false));
+    CHECK(actorModelGait(1.16f, {.34f, .77f, 0}, false, Walk) == Run);
     // Near the boundary (1.357 m/s for these clips, wandering) the clip playing now holds; without speeds the hurry
     // decides.
-    CHECK(actorModelRuns(1.36f, .5f, 2.0f, false, true));
-    CHECK_FALSE(actorModelRuns(1.36f, .5f, 2.0f, false, false));
-    CHECK(actorModelRuns(0, 1, 2, true, false));
+    CHECK(actorModelGait(1.36f, {.5f, 2.0f, 0}, false, Run) == Run);
+    CHECK(actorModelGait(1.36f, {.5f, 2.0f, 0}, false, Walk) == Walk);
+    CHECK(actorModelGait(0, {1, 2, 0}, true, Walk) == Run);
+    // A chaser at twice its run's speed (MAW's fast melee monsters) sprints when it has a sprint twice as long; at
+    // 1.3x of the run it keeps running, and the sprint holds its margin near the boundary (run x1.59).
+    CHECK(actorModelGait(4.0f, {1, 2, 4}, true, Run) == Sprint);
+    CHECK(actorModelGait(2.6f, {1, 2, 4}, true, Run) == Run);
+    CHECK(actorModelGait(3.12f, {1, 2, 4}, true, Sprint) == Sprint);
+    CHECK(actorModelGait(3.12f, {1, 2, 4}, true, Run) == Run);
     // By default the gait advances by the distance travelled, however fast, so the feet do not slide.
     CHECK(actorModelGaitDistance(5, 50, .1f, 1) == doctest::Approx(5));
     CHECK(actorModelGaitDistance(100, 50, .1f, 1) == doctest::Approx(100));
     // A flier drifting slowly keeps beating at its minimum rate and glides past its maximum.
     CHECK(actorModelGaitDistance(1, 50, .1f, 1, .8f, 1.5f) == doctest::Approx(4));
     CHECK(actorModelGaitDistance(100, 50, .1f, 1, .8f, 1.5f) == doctest::Approx(7.5f));
+    // The default ceiling: a walker at 5x its clip pedals at 2x and slides the rest.
+    CHECK(actorModelGaitDistance(25, 50, .1f, 1, 0, ActorModelDefaultMaxGaitRate) == doctest::Approx(10));
 }
 
 TEST_CASE("Actor model gait keeps pace and turns along a wall that slows its body")
@@ -1103,7 +1114,9 @@ TEST_CASE("ModelAnimation MM6 demon loads all native clips and keeps its body fo
     REQUIRE_MESSAGE(loaded, loaded.error);
     REQUIRE_EQ(loaded.asset->skins.size(), 1);
     CHECK_EQ(loaded.asset->skins[0].joints.size(), 85);
-    CHECK_EQ(loaded.asset->clips.size(), 10);
+    // Ten native clips plus the 2026-10-31 gait rollout's Walk2, Jog and Sprint.
+    CHECK_EQ(loaded.asset->clips.size(), 13);
+    CHECK(loaded.asset->findClip("Sprint"));
     for (const ModelMaterial &material : loaded.asset->materials)
     {
         if (material.name == "Demon_Meshy_Body")

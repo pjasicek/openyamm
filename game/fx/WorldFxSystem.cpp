@@ -493,6 +493,18 @@ void syncAmbientEffect(EffectSystem &effects, const EffectLibrary &library, cons
 }
 }
 
+uint32_t WorldFxSystem::ActorModelBinding::gaitClip(ActorModelGait gait) const
+{
+    return gait == ActorModelGait::Walk ? clips[size_t(ActorAiAnimationState::Walking)]
+        : gait == ActorModelGait::Run ? runClip : sprintClip;
+}
+
+float WorldFxSystem::ActorModelBinding::gaitStride(ActorModelGait gait) const
+{
+    return gait == ActorModelGait::Walk ? strideLength
+        : gait == ActorModelGait::Run ? runStrideLength : sprintStrideLength;
+}
+
 WorldFxSystem::WorldFxSystem()
 {
     m_namedEffects.setModelRuntime(
@@ -935,16 +947,29 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
             binding.runClip = requireClip("run");
             binding.strideLength = animation["stride_length"].as<float>();
             binding.runStrideLength = animation["run_stride_length"].as<float>(binding.strideLength * 1.55f);
+            if (animation["sprint"])
+            {
+                binding.sprintClip = requireClip("sprint");
+                if (!animation["sprint_stride_length"])
+                {
+                    throw std::runtime_error("actor animation sprint needs sprint_stride_length: " + descriptor);
+                }
+                binding.sprintStrideLength = animation["sprint_stride_length"].as<float>();
+            }
             if (!std::isfinite(binding.strideLength) || binding.strideLength <= 0.0f
-                || !std::isfinite(binding.runStrideLength) || binding.runStrideLength <= 0.0f)
+                || !std::isfinite(binding.runStrideLength) || binding.runStrideLength <= 0.0f
+                || !std::isfinite(binding.sprintStrideLength) || binding.sprintStrideLength < 0.0f
+                || (binding.sprintClip != UINT32_MAX && binding.sprintStrideLength == 0.0f))
             {
                 throw std::runtime_error("invalid actor animation stride: " + descriptor);
             }
-            const float walkSeconds =
-                binding.asset->clips[binding.clips[size_t(ActorAiAnimationState::Walking)]].durationSeconds;
-            const float runSeconds = binding.asset->clips[binding.runClip].durationSeconds;
-            binding.walkSpeed = walkSeconds > 0.0f ? binding.strideLength / walkSeconds : 0.0f;
-            binding.runSpeed = runSeconds > 0.0f ? binding.runStrideLength / runSeconds : 0.0f;
+            for (const ActorModelGait gait : {ActorModelGait::Walk, ActorModelGait::Run, ActorModelGait::Sprint})
+            {
+                const uint32_t gaitClip = binding.gaitClip(gait);
+                const float seconds = gaitClip != UINT32_MAX ? binding.asset->clips[gaitClip].durationSeconds : 0.0f;
+                binding.gaitSpeeds[size_t(gait)] = seconds > 0.0f ? binding.gaitStride(gait) / seconds : 0.0f;
+            }
+            binding.maxGaitRate = ActorModelDefaultMaxGaitRate;
             if (const YAML::Node gaitRate = animation["gait_rate"])
             {
                 if (!gaitRate.IsSequence() || gaitRate.size() != 2)
@@ -1437,12 +1462,10 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             {
                 if (gaitSpeed > 4.0f)
                 {
-                    model.running = actorModelRuns(gaitSpeed / scale, binding.walkSpeed, binding.runSpeed,
-                        state.hurrying, model.running);
+                    model.gait = actorModelGait(gaitSpeed / scale, binding.gaitSpeeds, state.hurrying, model.gait);
                 }
-                const float stride = model.running ? binding.runStrideLength : binding.strideLength;
-                const uint32_t gaitClip =
-                    model.running ? binding.runClip : binding.clips[size_t(ActorAiAnimationState::Walking)];
+                const float stride = binding.gaitStride(model.gait);
+                const uint32_t gaitClip = binding.gaitClip(model.gait);
                 // A body slowed by collision keeps part of its intended gait (actorModelGaitSpeed).
                 const float gaitDistance =
                     std::max(distance, ActorModelHinderedGaitShare * state.intendedSpeed * deltaSeconds);
@@ -1639,8 +1662,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             && (state.animationState == ActorAiAnimationState::Walking || (moving && attacking));
         if (locomoting)
         {
-            const uint32_t locomotion =
-                model.running ? binding.runClip : binding.clips[size_t(ActorAiAnimationState::Walking)];
+            const uint32_t locomotion = binding.gaitClip(model.gait);
             const bool backwards = state.velocityX * std::cos(model.yaw)
                 + state.velocityY * std::sin(model.yaw) < (model.backwards ? -0.15f : -0.35f) * speed;
             backwardsChanged = backwards != model.backwards;
