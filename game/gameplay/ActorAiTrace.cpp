@@ -6,9 +6,9 @@
 #include "game/events/ISceneEventContext.h"
 
 #include <algorithm>
-#include <charconv>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <utility>
 
 namespace OpenYAMM::Game
@@ -112,10 +112,12 @@ std::string formatFixed(float value, int decimals)
 
 bool parseOverrideValue(std::string_view text, float &value, std::string &error)
 {
-    float parsed = 0.0f;
-    const std::from_chars_result result = std::from_chars(text.data(), text.data() + text.size(), parsed);
+    // std::strtof, not std::from_chars: Android's libc++ has no floating-point from_chars.
+    const std::string terminated(text);
+    char *pEnd = nullptr;
+    const float parsed = terminated.empty() ? 0.0f : std::strtof(terminated.c_str(), &pEnd);
 
-    if (result.ec != std::errc() || result.ptr != text.data() + text.size())
+    if (terminated.empty() || pEnd != terminated.c_str() + terminated.size() || !std::isfinite(parsed))
     {
         error = "'" + std::string(text) + "' is not a number";
         return false;
