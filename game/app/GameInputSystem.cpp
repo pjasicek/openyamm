@@ -536,6 +536,9 @@ void GameInputSystem::updateFromEngineInput(
 
     bool inspectModifierHeld = false;
     bool longPressInspectHeld = false;
+    bool inspectTargetPressed = false;
+    float inspectTargetPressX = 0.0f;
+    float inspectTargetPressY = 0.0f;
     const uint64_t nowNanoseconds = SDL_GetTicksNS();
 
     for (MobileTouchPoint &touch : m_mobileTouches)
@@ -578,6 +581,15 @@ void GameInputSystem::updateFromEngineInput(
         }
     }
 
+    if (inspectModifierHeld && m_mobilePendingHudTap)
+    {
+        inspectTargetPressed = true;
+        inspectTargetPressX = m_mobilePendingHudTapX * static_cast<float>(screenWidth);
+        inspectTargetPressY = m_mobilePendingHudTapY * static_cast<float>(screenHeight);
+        m_mobilePendingHudTap = false;
+        m_mobilePendingHudRelease = false;
+    }
+
     if (inspectModifierHeld)
     {
         for (MobileTouchPoint &touch : m_mobileTouches)
@@ -586,6 +598,13 @@ void GameInputSystem::updateFromEngineInput(
                 && touch.role != MobileTouchRole::InspectModifier
                 && touch.role != MobileTouchRole::DebugConsoleGesture)
             {
+                if (!inspectTargetPressed && touch.role != MobileTouchRole::InspectTarget)
+                {
+                    inspectTargetPressed = true;
+                    inspectTargetPressX = touch.x * static_cast<float>(screenWidth);
+                    inspectTargetPressY = touch.y * static_cast<float>(screenHeight);
+                }
+
                 touch.role = MobileTouchRole::InspectTarget;
             }
         }
@@ -831,7 +850,12 @@ void GameInputSystem::updateFromEngineInput(
 
     if (inspectModifierHeld || longPressInspectHeld)
     {
-        if (hasInspectTargetTouch)
+        if (inspectTargetPressed)
+        {
+            m_frame.pointerX = inspectTargetPressX;
+            m_frame.pointerY = inspectTargetPressY;
+        }
+        else if (hasInspectTargetTouch)
         {
             m_frame.pointerX = inspectTargetX;
             m_frame.pointerY = inspectTargetY;
@@ -949,6 +973,13 @@ void GameInputSystem::updateFromEngineInput(
 
     m_frame.leftMouseButton = buildButtonState(leftMouseButtonHeld, m_previousLeftMouseButtonHeld);
     m_frame.rightMouseButton = buildButtonState(rightMouseButtonHeld, m_previousRightMouseButtonHeld);
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
+    if (inspectTargetPressed && rightMouseButtonHeld)
+    {
+        // A new target touch is a new right-click even while the magnifier keeps the button logically held.
+        m_frame.rightMouseButton.pressed = true;
+    }
+#endif
     m_frame.middleMouseButton = buildButtonState(middleMouseButtonHeld, m_previousMiddleMouseButtonHeld);
 
     for (size_t actionIndex = 0; actionIndex < actionHeld.size(); ++actionIndex)
