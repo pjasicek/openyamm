@@ -22,6 +22,12 @@ bool mawIsAddedSkill(const std::string &canonicalSkill)
         || canonicalSkill == "Retaliation";
 }
 
+bool mawIsSoloMasterySkill(const std::string &canonicalSkill)
+{
+    return std::find(MawSoloMasterySkills.begin(), MawSoloMasterySkills.end(), canonicalSkill)
+        != MawSoloMasterySkills.end();
+}
+
 bool mawIsHorizontalSkill(const std::string &canonicalSkill)
 {
     static const std::array<const char *, 8> NonHorizontal = {

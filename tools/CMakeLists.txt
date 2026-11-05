@@ -40,6 +40,7 @@ add_library(openyamm_indoor_source STATIC
     ../game/indoor/IndoorMovers.cpp
     ../game/indoor/IndoorMapData.cpp
     ../game/indoor/IndoorPortalGraph.cpp
+    ../game/indoor/IndoorSectorFaceGrid.cpp
     ../game/maps/MapDeltaData.cpp
 )
 

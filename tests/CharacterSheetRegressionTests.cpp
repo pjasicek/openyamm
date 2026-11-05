@@ -4,6 +4,7 @@
 
 #include "tests/RegressionGameData.h"
 
+#include <optional>
 #include <random>
 
 namespace
@@ -422,5 +423,36 @@ TEST_CASE("experience inspect supplement reports shortfall and maximum trainable
     CHECK_EQ(OpenYAMM::Game::GameMechanics::maximumTrainableLevelFromExperience(character), 7u);
     CHECK_EQ(
         OpenYAMM::Game::GameMechanics::buildExperienceInspectSupplement(character),
-        "Ariel is eligible to train up to level 7.");
+        "Ariel is eligible to train up to level 7. Ariel needs 7000 more experience for level 8.");
+}
+
+TEST_CASE("primary stat bonuses follow the MM8 table and report the next threshold")
+{
+    using OpenYAMM::Game::GameMechanics;
+
+    CHECK_EQ(GameMechanics::primaryStatBonus(0), -6);
+    CHECK_EQ(GameMechanics::primaryStatBonus(13), 0);
+    CHECK_EQ(GameMechanics::primaryStatBonus(15), 1);
+    CHECK_EQ(GameMechanics::primaryStatBonus(51), 9);
+    CHECK_EQ(GameMechanics::primaryStatBonus(75), 10);
+    CHECK_EQ(GameMechanics::primaryStatBonus(500), 30);
+
+    CHECK_EQ(GameMechanics::nextPrimaryStatBonusValue(-4), std::optional<int>(0));
+    CHECK_EQ(GameMechanics::nextPrimaryStatBonusValue(13), std::optional<int>(15));
+    CHECK_EQ(GameMechanics::nextPrimaryStatBonusValue(51), std::optional<int>(75));
+    CHECK_EQ(GameMechanics::nextPrimaryStatBonusValue(499), std::optional<int>(500));
+    CHECK_FALSE(GameMechanics::nextPrimaryStatBonusValue(500).has_value());
+}
+
+TEST_CASE("resistance and monster effect chances average the MM8 rolls")
+{
+    using OpenYAMM::Game::GameMechanics;
+
+    CHECK_EQ(GameMechanics::averageResistedDamageShare(0), doctest::Approx(0.0f));
+    CHECK_EQ(GameMechanics::averageResistedDamageShare(-5), doctest::Approx(0.0f));
+    // Resistance 30: each roll halves with even odds, keeping 1/2 + 1/8 + 1/32 + 1/128 + 1/256 of the hit.
+    CHECK_EQ(GameMechanics::averageResistedDamageShare(30), doctest::Approx(1.0f - 0.66796875f));
+    CHECK_EQ(GameMechanics::monsterEffectResistChance(0), doctest::Approx(0.0f));
+    CHECK_EQ(GameMechanics::monsterEffectResistChance(10), doctest::Approx(0.25f));
+    CHECK_EQ(GameMechanics::monsterEffectResistChance(30), doctest::Approx(0.5f));
 }

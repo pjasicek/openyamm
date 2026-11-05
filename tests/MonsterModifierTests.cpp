@@ -4,6 +4,9 @@
 #include "game/gameplay/GameplayActorModifiers.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayProjectileService.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/gameplay/MonsterSpellSupport.h"
+#include "game/party/SpellIds.h"
 #include "game/tables/MonsterModifiers.h"
 
 #include <algorithm>
@@ -136,7 +139,11 @@ TEST_CASE("the catalogue lists every modifier with its parameters and defaults")
     CHECK(findMonsterModifierInfo("stagger") != nullptr);
     CHECK(findMonsterModifierInfo("telegraphed_attack") != nullptr);
     CHECK(findMonsterModifierInfo("sounds") != nullptr);
-    CHECK(monsterModifierCatalogue().size() == 10);
+    CHECK(findMonsterModifierInfo("skirmisher") != nullptr);
+    CHECK(findMonsterModifierInfo("mm9_ai") != nullptr);
+    CHECK(findMonsterModifierInfo("spell_conditions") != nullptr);
+    CHECK(findMonsterModifierInfo("reposition") != nullptr);
+    CHECK(monsterModifierCatalogue().size() == 14);
 }
 
 TEST_CASE("homing steering turns at most the turn rate, keeps the speed and settles on the target")
@@ -373,6 +380,177 @@ TEST_CASE("blink candidates lie within the jump range and turn away from the thr
 
     CHECK(firstHalfAway > secondHalfAway);
     CHECK(GameplayActorModifiers::blinkCandidates(request, 16) == candidates);
+}
+
+TEST_CASE("skirmisher parses with its defaults and becomes the tactics footwork")
+{
+    MonsterModifierTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n"
+        "  9111: [skirmisher]\n"
+        "  9237: [{skirmisher: {strafe_attack_chance: 0.95, evade_chance: 0.25, taunt_seconds: 0.9}}]\n", "mm9",
+        9000, 9999, error),
+        error);
+    REQUIRE(table.find(9111)->skirmisher);
+    CHECK(table.find(9111)->skirmisher->strafeAttackChance == doctest::Approx(0.8f));
+    CHECK(table.find(9111)->skirmisher->evadeChance == doctest::Approx(0.4f));
+    CHECK(table.find(9237)->skirmisher->strafeAttackChance == doctest::Approx(0.95f));
+    CHECK(table.find(9111)->skirmisher->tauntSeconds == 0.0f);
+    CHECK(table.find(9237)->skirmisher->tauntChance == doctest::Approx(0.4f));
+
+    ActorBehaviorCatalog catalog;
+    REQUIRE(catalog.applyMonsterModifiers(table, error));
+    const ActorTacticsFacts *pTactics = catalog.tacticsForMonster(9237);
+    REQUIRE(pTactics != nullptr);
+    CHECK(pTactics->skirmish);
+    CHECK(pTactics->evadeChance == doctest::Approx(0.25f));
+    CHECK(pTactics->evadeSeconds == doctest::Approx(2.0f));
+    CHECK(pTactics->tauntSeconds == doctest::Approx(0.9f));
+    CHECK_FALSE(pTactics->keepsRangedBand());
+}
+
+TEST_CASE("reposition parses with its defaults and errors and becomes tactics")
+{
+    MonsterModifierTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n"
+        "  9157: [reposition]\n"
+        "  9158: [{reposition: {leash_radius: 512, candidates: 4, back_off_distance: 256}}]\n", "mm9", 9000, 9999,
+        error),
+        error);
+    REQUIRE(table.find(9157)->reposition);
+    const RepositionModifier &defaults = *table.find(9157)->reposition;
+    CHECK(defaults.lostSightSeconds == doctest::Approx(2.0f));
+    CHECK(defaults.leashRadius == doctest::Approx(1024.0f));
+    CHECK(defaults.searchDistance == doctest::Approx(640.0f));
+    CHECK(defaults.candidates == 8);
+    CHECK(defaults.maxSightChecks == 12);
+    CHECK(defaults.retrySeconds == doctest::Approx(2.0f));
+    CHECK(defaults.backOffTriggerDistance == doctest::Approx(640.0f));
+    CHECK(defaults.backOffClosingSpeed == doctest::Approx(200.0f));
+    CHECK(defaults.backOffDistance == doctest::Approx(384.0f));
+    CHECK(defaults.backOffCooldownSeconds == doctest::Approx(5.0f));
+    CHECK(table.find(9158)->reposition->leashRadius == doctest::Approx(512.0f));
+    CHECK(table.find(9158)->reposition->candidates == 4);
+    CHECK(table.find(9158)->reposition->backOffDistance == doctest::Approx(256.0f));
+
+    const auto mm9Error = [](const std::string &body)
+    {
+        MonsterModifierTable errors;
+        std::string message;
+        CHECK_FALSE(errors.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n" + body, "mm9", 9000,
+            9999, message));
+        return message;
+    };
+    CHECK(mm9Error("  9157: [{reposition: {candidates: 2.5}}]\n").find("whole numbers") != std::string::npos);
+    CHECK(mm9Error("  9157: [{reposition: {candidates: 17}}]\n").find("must be a number in") != std::string::npos);
+    CHECK(mm9Error("  9157: [{reposition: {leash: 5}}]\n").find("no parameter") != std::string::npos);
+
+    // Tactics of its own (a monster without the modifier has none).
+    ActorBehaviorCatalog catalog;
+    REQUIRE(catalog.applyMonsterModifiers(table, error));
+    const ActorTacticsFacts *pTactics = catalog.tacticsForMonster(9158);
+    REQUIRE(pTactics != nullptr);
+    REQUIRE(pTactics->reposition);
+    CHECK(pTactics->reposition->leashRadius == doctest::Approx(512.0f));
+    CHECK_FALSE(pTactics->skirmish);
+    CHECK(catalog.tacticsForMonster(9156) == nullptr);
+}
+
+TEST_CASE("spell_conditions parse with their defaults and errors")
+{
+    MonsterModifierTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n"
+        "  9209: [{spell_conditions: {spell1: weak, spell2: cursed}}]\n"
+        "  9162: [{spell_conditions: {spell1: afraid, chance: 0.5}}]\n", "mm9", 9000, 9999, error),
+        error);
+    REQUIRE(table.find(9209)->spellConditions);
+    CHECK(table.find(9209)->spellConditions->spell1 == MonsterSpecialAttackKind::Weak);
+    CHECK(table.find(9209)->spellConditions->spell2 == MonsterSpecialAttackKind::Curse);
+    CHECK(table.find(9209)->spellConditions->chance == doctest::Approx(1.0f));
+    CHECK(table.find(9162)->spellConditions->spell1 == MonsterSpecialAttackKind::Fear);
+    CHECK(table.find(9162)->spellConditions->spell2 == MonsterSpecialAttackKind::None);
+    CHECK(table.find(9162)->spellConditions->chance == doctest::Approx(0.5f));
+
+    const auto mm9Error = [](const std::string &body)
+    {
+        MonsterModifierTable errors;
+        std::string message;
+        CHECK_FALSE(errors.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n" + body, "mm9", 9000,
+            9999, message));
+        return message;
+    };
+    CHECK(mm9Error("  9162: [spell_conditions]\n").find("needs a condition") != std::string::npos);
+    CHECK(mm9Error("  9162: [{spell_conditions: {spell1: frozen}}]\n").find("must be one of") != std::string::npos);
+    CHECK(mm9Error("  9116: [special_attack_chance]\n").find("unknown") != std::string::npos);
+
+    // A monster's combat info: the modifiers, a slot a ruleset replaced, a monster without them.
+    GameplayCombatActorInfo info;
+    applyHitConditionModifiers(table.find(9209), false, true, info);
+    CHECK(info.spell1Condition == MonsterSpecialAttackKind::Weak);
+    CHECK(info.spell2Condition == MonsterSpecialAttackKind::None);
+    GameplayCombatActorInfo plain;
+    applyHitConditionModifiers(nullptr, false, false, plain);
+    CHECK(plain.spell1Condition == MonsterSpecialAttackKind::None);
+}
+
+TEST_CASE("Paralyze and Fear are castable monster spells only with a condition for their slot")
+{
+    MonsterModifierTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadWorldYaml("schema: openyamm.monsterModifiers.v1\nmonsters:\n"
+        "  9230: [{spell_conditions: {spell1: paralyzed}}]\n", "mm9", 9000, 9999, error),
+        error);
+    const MonsterModifierSet *pOculus = table.find(9230);
+    CHECK(monsterConditionSpellCastSupported("paralyze", pOculus, 1));
+    CHECK_FALSE(monsterConditionSpellCastSupported("paralyze", pOculus, 2));
+    CHECK_FALSE(monsterConditionSpellCastSupported("paralyze", nullptr, 1));
+    CHECK_FALSE(monsterConditionSpellCastSupported("dark grasp", pOculus, 1));
+    CHECK(isKnownUnsupportedMonsterSpellName("Paralyze"));
+    CHECK(isKnownUnsupportedMonsterSpellName("Fear"));
+    CHECK_FALSE(isMonsterProjectileSpellName("paralyze"));
+
+    // The cast carries only the condition: no damage.
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectilePartyImpactDamageInput input;
+    input.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Actor;
+    input.hasMonsterFacts = true;
+    input.monsterAbility = GameplayProjectileService::MonsterAttackAbility::Spell1;
+    input.spellId = int(spellIdValue(SpellId::Paralyze));
+    input.spell1Damage.skillLevel = 10;
+    input.spell1Damage.skillMastery = SkillMastery::Expert;
+    CHECK(service.resolveProjectilePartyImpactDamage(input) == 0);
+    input.spellId = int(spellIdValue(SpellId::DarkGrasp));
+    CHECK(service.resolveProjectilePartyImpactDamage(input) >= 1);
+}
+
+TEST_CASE("a monster's Sparks fires a volley by mastery over a 60 degree fan")
+{
+    const uint32_t sparks = spellIdValue(SpellId::Sparks);
+    CHECK(monsterSpellProjectileCount(sparks, SkillMastery::None) == 3);
+    CHECK(monsterSpellProjectileCount(sparks, SkillMastery::Normal) == 3);
+    CHECK(monsterSpellProjectileCount(sparks, SkillMastery::Expert) == 5);
+    CHECK(monsterSpellProjectileCount(sparks, SkillMastery::Master) == 7);
+    CHECK(monsterSpellProjectileCount(sparks, SkillMastery::Grandmaster) == 9);
+    CHECK(monsterSpellProjectileCount(spellIdValue(SpellId::FireBolt), SkillMastery::Grandmaster) == 1);
+    CHECK(monsterSpellProjectileCount(spellIdValue(SpellId::PoisonSpray), SkillMastery::Grandmaster) == 1);
+
+    // A single shot flies at the target; a volley spreads evenly from -30 to +30 degrees off the line to it.
+    const std::array<float, 3> source = {0.0f, 0.0f, 50.0f};
+    const std::array<float, 3> target = {1000.0f, 0.0f, 80.0f};
+    CHECK(monsterSpellVolleyTarget(source, target, 1, 0) == target);
+    const auto bearing = [&](uint32_t index)
+    {
+        const std::array<float, 3> shot = monsterSpellVolleyTarget(source, target, 5, index);
+        CHECK(shot[2] == doctest::Approx(80.0f));
+        CHECK(std::hypot(shot[0], shot[1]) == doctest::Approx(1000.0f));
+        return std::atan2(shot[1], shot[0]) * 180.0f / Pi;
+    };
+    CHECK(bearing(0) == doctest::Approx(-30.0f));
+    CHECK(bearing(1) == doctest::Approx(-15.0f));
+    CHECK(std::abs(bearing(2)) < 0.01f);
+    CHECK(bearing(4) == doctest::Approx(30.0f));
 }
 
 TEST_CASE("kites_party becomes the tactics ranged band and conflicts with one set there")

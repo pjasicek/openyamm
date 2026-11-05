@@ -323,6 +323,28 @@ struct ScenarioGameApplicationAccess
         application.applyRulesMapLeave();
     }
 
+    static bool applyAiArena(
+        GameApplication &application, const AiArena &arena, const std::filesystem::path &logPath, std::string &error)
+    {
+        return application.applyAiArena(arena, logPath, error);
+    }
+
+    static const ActorAiTrace &aiTrace(const GameApplication &application)
+    {
+        return application.m_aiArenaTrace;
+    }
+
+    // Poses the actors' 3D models as a frame of the game does (headless: the animation trace's presentation).
+    static bool syncActorModels(GameApplication &application, IGameplayWorldRuntime &world, float deltaSeconds)
+    {
+        return application.syncActorModels(world, deltaSeconds, deltaSeconds);
+    }
+
+    static const std::vector<size_t> &aiArenaActorIndices(const GameApplication &application)
+    {
+        return application.m_aiArenaActorIndices;
+    }
+
     static void bindPartyDependencies(const GameApplication &application, Party &party)
     {
         application.bindPartyDependencies(party);
@@ -1113,6 +1135,16 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
             static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
         }
 
+        // An arena poses its monsters' models as the window does, so it plays as the window plays: a model's
+        // missile leaves from its release socket (WorldFxSystem::actorLaunchPoint). trace_animation only adds the
+        // `anim` lines.
+        if (pWorldRuntime->actorAiTrace() != nullptr
+            && !ScenarioGameApplicationAccess::syncActorModels(m_application, *pWorldRuntime, deltaSeconds))
+        {
+            failure = "actor models failed to load";
+            return false;
+        }
+
         elapsedSeconds += deltaSeconds;
         remainingSeconds -= deltaSeconds;
 
@@ -1146,6 +1178,25 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
 
     pWorldRuntime->setScenarioPartyActorCollisionEnabled(true);
     result.finalPose = currentPose();
+    return true;
+}
+
+bool ScenarioRuntimeDriver::waterStatus(ScenarioWaterStatus &status, std::string &failure)
+{
+    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+
+    if (pSceneRuntime == nullptr || pSceneRuntime->kind() != SceneKind::Indoor)
+    {
+        failure = "the water assertion needs an indoor map";
+        return false;
+    }
+
+    const IndoorPartyRuntime &partyRuntime = static_cast<IndoorSceneRuntime *>(pSceneRuntime)->partyRuntime();
+    status.state = indoorSwimStateName(partyRuntime.swimState());
+    status.eyeUnder = partyRuntime.eyeUnderWater();
+    status.breath = partyRuntime.breathFraction().value_or(1.0f);
+    status.drowningTicks = partyRuntime.drowningTicks();
+    status.footZ = partyRuntime.movementState().footZ;
     return true;
 }
 
@@ -1302,6 +1353,29 @@ bool ScenarioRuntimeDriver::spawnActor(int16_t monsterId, uint32_t count, float 
     }
 
     return true;
+}
+
+bool ScenarioRuntimeDriver::applyAiArena(
+    const AiArena &arena, const std::filesystem::path &logPath, std::string &failure)
+{
+    if ((ScenarioGameApplicationAccess::mapSceneRuntime(m_application) == nullptr
+            || currentMapFileName() != arena.map)
+        && !loadMap(arena.map, failure))
+    {
+        return false;
+    }
+
+    return ScenarioGameApplicationAccess::applyAiArena(m_application, arena, logPath, failure);
+}
+
+const ActorAiTrace &ScenarioRuntimeDriver::aiTrace() const
+{
+    return ScenarioGameApplicationAccess::aiTrace(m_application);
+}
+
+const std::vector<size_t> &ScenarioRuntimeDriver::aiArenaActorIndices() const
+{
+    return ScenarioGameApplicationAccess::aiArenaActorIndices(m_application);
 }
 
 bool ScenarioRuntimeDriver::setRulesetOptions(const std::string &optionIds, std::string &failure)
@@ -2241,6 +2315,7 @@ bool ScenarioRuntimeDriver::craftItem(
     std::optional<EquipmentSlot> wornSlot,
     uint32_t materialItemId,
     bool all,
+    size_t choice,
     bool &crafted,
     std::string &reason,
     std::string &failure)
@@ -2295,8 +2370,9 @@ bool ScenarioRuntimeDriver::craftItem(
     GameplayUiController::CraftingBenchState &bench = runtime.characterScreen().alchemyBench.crafting;
     bench.target = target;
     bench.material = material->key;
+    bench.choice = choice;
     const std::optional<CraftingTables> tables = GameplayCraftingBenchView::tables(runtime);
-    const CraftPlan preview = tables ? CraftingRuntime::plan(*pParty, *target, material->key, 1, false,
+    const CraftPlan preview = tables ? CraftingRuntime::plan(*pParty, *target, material->key, 1, false, choice,
                                            GameplayCraftingBenchView::rules(runtime), *tables)
                                      : CraftPlan{};
     reason = preview.result.reason;
@@ -2433,10 +2509,7 @@ ScenarioInteractionResult ScenarioRuntimeDriver::pickCenterInteractionTarget(boo
 
     GameplayWorldPickRequest pickRequest = buildCenterPickRequest();
     pickRequest.ignoreActors = ignoreActors;
-    const IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
-    result.hit = pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor
-        ? pWorldRuntime->pickKeyboardInteractionTarget(pickRequest)
-        : pWorldRuntime->pickMouseInteractionTarget(pickRequest);
+    result.hit = GameplayInteractionController::pickKeyboardUseTarget(*pWorldRuntime, pickRequest);
     result.picked = result.hit.hasHit;
     return result;
 }
@@ -2851,6 +2924,16 @@ std::optional<size_t> ScenarioRuntimeDriver::quickItemRingMember() const
     return state.quickItemRingOpen ? std::optional<size_t>(state.quickItemRingMember) : std::nullopt;
 }
 
+std::pair<std::string, size_t> ScenarioRuntimeDriver::quickItemPopup() const
+{
+    const GameplayOverlayInteractionState &state =
+        ScenarioGameApplicationAccess::gameSession(m_application).gameplayScreenRuntime().interactionState();
+    const std::string kind = state.quickItemPopup == QuickItemPopupKind::Potions ? "potions"
+        : state.quickItemPopup == QuickItemPopupKind::Scrolls                   ? "scrolls"
+                                                                                : "none";
+    return {kind, state.quickItemPopupMember};
+}
+
 ScenarioDialogSnapshot ScenarioRuntimeDriver::activeDialogSnapshot() const
 {
     const GameplayScreenRuntime &screenRuntime =
@@ -2979,6 +3062,16 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure)
         if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
         {
             static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
+        }
+
+        // An arena poses its monsters' models as the window does, so it plays as the window plays: a model's
+        // missile leaves from its release socket (WorldFxSystem::actorLaunchPoint). trace_animation only adds the
+        // `anim` lines.
+        if (pWorldRuntime->actorAiTrace() != nullptr
+            && !ScenarioGameApplicationAccess::syncActorModels(m_application, *pWorldRuntime, deltaSeconds))
+        {
+            failure = "actor models failed to load";
+            return false;
         }
 
         remaining -= deltaSeconds;

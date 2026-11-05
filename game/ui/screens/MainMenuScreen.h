@@ -70,6 +70,9 @@ class MainMenuScreen : public MenuDesignScreen
     void drawScreen(float deltaSeconds) override;
     void drawHome();
     void drawSettings(float deltaSeconds);
+    // A slider's position (0-1) while the left button drags it: grabbed by a press inside its track and held until
+    // release, so the pointer may leave the track and both ends are reachable.
+    std::optional<float> sliderDragPosition(const std::string &id, const Rect &rect, bool enabled);
     void drawKeyboard(const std::string &prefix, const Rect &viewport);
     // The loot filter's window over Settings (MainMenuLootFilter.cpp, level_generation/ui/maw_loot_progress_20261025
     // view A): it edits the ruleset draft's filter, applied with the other settings.
@@ -123,6 +126,8 @@ class MainMenuScreen : public MenuDesignScreen
     bool m_lootFilterOpen = false;
     float m_displaySeconds = 0;
     float m_scroll = 0;
+    // The settings slider the left button grabbed; it follows the pointer until release (sliderDragPosition).
+    std::string m_draggedSlider;
     GameUpdater *m_pUpdater = nullptr;
     bool m_updatesStarted = false;
     bool m_followingUpdate = false;

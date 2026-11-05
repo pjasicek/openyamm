@@ -199,10 +199,7 @@ support.varTag = support.varTag or {
     CyberneticsSkill = 0x0144,
 }
 
-support.houseId = support.houseId or {
-    ThroneroomWinGood = 600,
-    ThroneroomWinEvil = 601,
-}
+support.houseId = support.houseId or {}
 
 support.houseAction = support.houseAction or {
     TempleHeal = 1,
@@ -229,6 +226,8 @@ support.houseAction = support.houseAction or {
     TransportRoute = 22,
     ExtraExit = 23,
     LorettaPriceFixing = 24,
+    OpenTeacherLedgerMenu = 33,
+    BuyTeacherLedger = 34,
 }
 
 support.faceAttribute = support.faceAttribute or {
@@ -1292,6 +1291,10 @@ function support.advanceGameMinutes(minutes)
     evt.AdvanceGameMinutes(minutes or 0)
 end
 
+function support.restAndHealParty()
+    evt.RestAndHealParty()
+end
+
 function support.getRuntimeVariable(variableId)
     return evt.GetRuntimeVariable(variableId)
 end
@@ -1691,6 +1694,7 @@ CurrentGameMinutes = support.currentGameMinutes
 NPCText = support.npcText
 CurrentContinent = support.currentContinent
 AdvanceGameMinutes = support.advanceGameMinutes
+RestAndHealParty = support.restAndHealParty
 GetRuntimeVariable = support.getRuntimeVariable
 SetRuntimeVariable = support.setRuntimeVariable
 CurrentEventSpellId = support.currentEventSpellId

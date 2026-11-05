@@ -421,7 +421,8 @@ GameplayActionController::WorldPoint dragonBreathSourcePoint(
 
 CharacterAttackMode choosePartyAttackMode(
     const CharacterAttackProfile &profile,
-    bool targetInMeleeRange)
+    bool targetInMeleeRange,
+    bool eyeUnderWater)
 {
     // A dragon bites a target in melee range and breathes at anything further.
     if (profile.hasDragonBreath && profile.rangedAttackBonus.has_value() && !targetInMeleeRange)
@@ -444,7 +445,8 @@ CharacterAttackMode choosePartyAttackMode(
         return CharacterAttackMode::Melee;
     }
 
-    if (profile.hasBow && profile.rangedAttackBonus.has_value())
+    // No bow, crossbow or thrown weapon is fired with the eye under a scene water volume (MM9 object.lto 0x100b3ede).
+    if (profile.hasBow && profile.rangedAttackBonus.has_value() && !eyeUnderWater)
     {
         return CharacterAttackMode::Bow;
     }
@@ -1065,16 +1067,23 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
 
     const float targetDistance = target ? actorDistanceFromParty(*target, config.partyPosition) : 0.0f;
     const bool targetInMeleeRange = target.has_value() && targetDistance <= CharacterMeleeAttackDistance;
-    const bool worldTargetInMeleeRange = config.pWorldRuntime != nullptr
+    // A world target a blow damages: a destructible BModel or face, or a destructible decoration (an entity).
+    const bool bModelTargetHit = config.pWorldRuntime != nullptr
         && config.directTargetBModelIndex.has_value()
-        && config.pWorldRuntime->isPartyAttackMeleeBModelTarget(*config.directTargetBModelIndex)
+        && config.pWorldRuntime->isPartyAttackMeleeBModelTarget(*config.directTargetBModelIndex);
+    const bool entityTargetHit = config.pWorldRuntime != nullptr
+        && config.directTargetEntityIndex.has_value()
+        && config.pWorldRuntime->isPartyAttackMeleeEntityTarget(*config.directTargetEntityIndex);
+    const bool worldTargetInMeleeRange = (bModelTargetHit || entityTargetHit)
         && config.directWorldTargetDistance <= CharacterMeleeAttackDistance;
     const CharacterAttackTuning attackTuning = config.pRuntime != nullptr
         ? characterAttackTuningFromSettings(config.pRuntime->settingsSnapshot())
         : CharacterAttackTuning{};
     const CharacterAttackProfile attackProfile =
         GameMechanics::buildCharacterAttackProfile(*pAttacker, config.pItemTable, config.pSpellTable, attackTuning);
-    const CharacterAttackMode attackMode = choosePartyAttackMode(attackProfile, targetInMeleeRange);
+    const bool eyeUnderWater =
+        config.pWorldRuntime != nullptr && config.pWorldRuntime->partyBreathFraction().has_value();
+    const CharacterAttackMode attackMode = choosePartyAttackMode(attackProfile, targetInMeleeRange, eyeUnderWater);
     std::mt19937 rng = buildPartyAttackRng(config, actingMemberIndex, result.targetActorIndex);
     CharacterAttackResult attack = {};
 
@@ -1269,15 +1278,18 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             }
         }
         else if (worldTargetInMeleeRange
-            && config.directTargetBModelIndex
             && attack.hit
             && attack.damage > 0
             && config.pWorldRuntime != nullptr)
         {
             appliedMeleeDamage = attack.damage;
-            attacked = config.pWorldRuntime->applyPartyAttackMeleeBModelDamage(
-                *config.directTargetBModelIndex,
-                attack.damage);
+            attacked = bModelTargetHit
+                ? config.pWorldRuntime->applyPartyAttackMeleeBModelDamage(
+                    *config.directTargetBModelIndex,
+                    attack.damage)
+                : config.pWorldRuntime->applyPartyAttackMeleeEntityDamage(
+                    *config.directTargetEntityIndex,
+                    attack.damage);
         }
 
         // A miss shows the blow passing the target; the swing sound already plays.

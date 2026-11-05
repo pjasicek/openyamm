@@ -268,6 +268,33 @@ TEST_CASE("alchemy bench fills bottles and leaves non-reacting items in place")
     CHECK(pCureDisease->masteryAllows);
 }
 
+TEST_CASE("alchemy bench fills the bottle even when the reagent was picked first")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 2, SkillMastery::Normal);
+    addItem(party, 0, WidowsweepBerriesItemId);
+    addItem(party, 0, BottleItemId);
+    const AlchemyBenchTables tables = benchTables(gameData);
+
+    const AlchemyMixOutcome filled =
+        AlchemyBenchRuntime::mix(party, {WidowsweepBerriesItemId, BottleItemId}, tables);
+    REQUIRE(filled.result.handled);
+    CHECK(filled.result.success);
+    CHECK_EQ(party.inventoryItemCount(BottleItemId), 0);
+    CHECK_EQ(party.inventoryItemCount(WidowsweepBerriesItemId), 0);
+    CHECK_EQ(party.inventoryItemCount(CureWoundsItemId), 1);
+
+    // The potion keeps the bottle's two cells, not the reagent's one.
+    const Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    const auto potionIt = std::find_if(pMember->inventory.begin(), pMember->inventory.end(),
+        [](const InventoryItem &item) { return item.objectDescriptionId == CureWoundsItemId; });
+    REQUIRE(potionIt != pMember->inventory.end());
+    CHECK_EQ(potionIt->width, 1u);
+    CHECK_EQ(potionIt->height, 2u);
+}
+
 TEST_CASE("alchemy bench counts pairs of the same item")
 {
     const std::vector<AlchemyIngredient> ingredients = {{CureWoundsItemId, AlchemyIngredientKind::Potion, 5, 0}};

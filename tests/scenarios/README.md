@@ -48,13 +48,18 @@ healed after each blow, and compares the average damage and recovery with a reco
 member's attack spell for the run and lets the attack cast it; the weapon-attack bounds count swings and shots, which a
 spell cast is not: `maw_assassin_attack_spell.yml`); `spawn_actor: {monster_id, near_party: true}` summons beside the party;
 `damage_actor: {..., expect: refused}` passes when the hit does nothing; and a scenario's ruleset takes
-`friendly_fire: true` (or the option id `friendlyfire`) so hits on townsfolk count.
+`friendly_fire: true` (or the option id `friendlyfire`) so hits on townsfolk count. A ruleset also takes `bow_disabled: true`
+(or the option ids `nobow` and `bow`, also for `set_ruleset`), MAW's Bow preference, which `assert: {ruleset: {...,
+bow_disabled}}` checks; `assert: {projectiles: {source: party, ...}}` counts the party's live missiles instead of
+the actors' (`maw_bow_disabled.yml`).
 
 For spells and auras: `cast_spell: {member_index, spell_id, skill, mastery: 1-4, actor_index, target_member, scroll,
 expect}` casts through the party's spell system with full mana and no recovery (skill and mastery set the spell's
 school first; `scroll: true` reads it from a scroll at that power instead), and projectiles fly on with
 `advance_runtime`; `assert: {actor_count: {..., shrunk: bool, hurt: bool}}` also filters by Shrinking Ray and by
-missing HP; `assert: {buff: {spell_id, present, member_index}}` checks a party or member buff the spell set.
+missing HP; `assert: {buff: {spell_id, present, member_index}}` checks a party or member buff the spell set, and
+`assert: {condition: {name, present, member_index}}` a member's condition by its `party_attack` name (any member
+without an index; `mm7/emerald_island_cast_off_rest.yml`).
 `party_charge: {actor_index, status, advance_seconds, min_moved}` runs the Knight Charge action at the actor: `status`
 is the line the rules must give ("none" without a charge), then the run advances and the party must have moved at
 least `min_moved` units (`maw_knight_charge.yml`). `assert: {actor_count: {..., hostile: bool}}` also filters by
@@ -71,10 +76,10 @@ kill experience (`maw_ally_kills.yml`, `standard_ally_kills.yml`). `assert: {dia
 of the open dialog's text and `assert: {journal_map_note: {map, id, text, present}}` a journal map pin
 (`maw_bounty.yml`). `press_action: {action, seconds}` also takes any key binding by its settings name (`attack`,
 `cast_ready`, `follower_1`, ...), held for one frame by default, and `setup_shortcut: {kind: hire_follower, id}` hires
-an NPC as a follower (`follower_keys.yml`). `assert: {quick_item_ring: {open, member_index}}` checks the potion radial's ring
-(`potion_slot_keys.yml`). Each run
-saves into its own temporary folder (`openyamm_scenario_saves/<id>-<random>`), removed when it ends, so parallel runs
-of one scenario do not share saves.
+an NPC as a follower (`follower_keys.yml`). `assert: {quick_item_ring: {open, member_index}}` checks the potion
+radial's ring and `assert: {quick_item_popup: {kind, member_index}}` the basebar's potion or scroll popup
+(`potion_slot_keys.yml`). Each run saves into its own temporary folder (`openyamm_scenario_saves/<id>-<random>`),
+removed when it ends, so parallel runs of one scenario do not share saves.
 
 For loads that must fail: `save_game: {name, required_package_schema: {package, schema}}` rewrites the save to need a
 content package schema the game does not have, and `load_game: {name, expect_failure: true}` passes only when the
@@ -87,3 +92,14 @@ as the quicksave, from a scratch working folder so the real `saves/quicksave.oys
 (`maw_quick_load_warning.yml`).
 Scenarios read the local `settings.ini` but always run with the Immortal cheat off, so a `party_health` check gives the
 same answer on every machine (`mm6/abandoned_temple_cage_trap.yml`).
+
+For swimming (scene `water_volumes`, devdocs/INDOOR_OPEN_SKY.md "Swimming"): `assert: {water: {state, eye_under,
+breath_min, breath_max, drowning_ticks_min, drowning_ticks_max, foot_z_min, foot_z_max}}` checks the party's water
+state (`dry`, `wading`, `falling`, `bed`, `submerged`, `surface`, `surface_jump`), its breath (1 full, 1 with the eye
+out), the drowning ticks taken on this map and its feet's height; the swim keys are `movement_segment`'s `jump`,
+`fly_up`, `fly_down` with the pitch from `start` (Verhoffin Ruins' `scenario_swim.yml`).
+
+For monster AI (AI arenas, [mm9/ai/README.md](mm9/ai/README.md)): `ai_arena: {path, log}` sets an arena up (the map's
+actors hidden, the arena's monsters spawned, the party placed, the decision trace on), `assert: {ai_trace:
+{actor_index | arena_monster, decision | event, target, min_count, max_count, within_seconds, after, before, report}}`
+counts decision trace lines and `ai_trace_dump: {actor_index | arena_monster, decisions_only, last}` prints them.

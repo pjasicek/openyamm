@@ -13,9 +13,17 @@ namespace
 {
 constexpr float PathEpsilon = 0.0001f;
 constexpr int32_t MaxPathGridCellSpan = 4096;
+constexpr int64_t MaxSpatialCellsPerFacet = 4096;
 constexpr uint64_t PathGridScanCostRatio = 8;
 // The top of a flyer's body is traced this far below its height, clear of a ceiling it touches.
 constexpr float FlyingBodyTopClearance = 4.0f;
+// A step's underside is a ceiling face with the step's tread at most this far above it (MM9's slab treads: 15-16).
+constexpr float StepSlabMaxThickness = 24.0f;
+// A riser's top meets its tread within this height, and the tread is looked for this far past the riser's face.
+constexpr float RiserTreadHeightTolerance = 2.0f;
+constexpr float RiserTreadProbeDistance = 4.0f;
+// A riser faces the body's move within 60 degrees (cos 60).
+constexpr float RiserMinimumFacing = 0.5f;
 
 PathPoint pointAdd(const PathPoint &left, const PathPoint &right)
 {
@@ -548,6 +556,9 @@ void PathMap::clear()
     m_floorFacetIndices.clear();
     m_spatialGrid.clear();
     m_floorGrid.clear();
+    m_spatialGridFacets.clear();
+    m_floorGridFacets.clear();
+    m_largeSpatialFacets.clear();
     ++m_revision;
 }
 
@@ -989,6 +1000,80 @@ bool PathMap::isSteppableRiser(const FacetGeometry &geometry, float fromFloorZ, 
     return riserHeight > 0.0f && geometry.bounds.maxZ <= fromFloorZ + riserHeight + PathEpsilon;
 }
 
+bool PathMap::isClimbedStepFace(
+    const PathFacet &facet,
+    const FacetGeometry &geometry,
+    const PathPoint &from,
+    const PathPoint &to,
+    const PathObject &object) const
+{
+    if (!isSteppableRiser(geometry, from.z, object.riserHeight))
+    {
+        return false;
+    }
+
+    const float topZ = geometry.bounds.maxZ;
+
+    if (facet.kind == PathFacetKind::Ceiling || geometry.normal.z < -0.5f)
+    {
+        // A slab step's underside: its tread lies just above it.
+        PathPoint centre = {};
+
+        for (const PathPoint &vertex : facet.vertices)
+        {
+            centre = pointAdd(centre, vertex);
+        }
+
+        centre = pointScale(centre, 1.0f / static_cast<float>(facet.vertices.size()));
+        const PathFloorSample tread = floorAt({centre.x, centre.y, topZ + StepSlabMaxThickness});
+        return tread.hasFloor && !tread.inVoid && tread.z >= topZ - PathEpsilon;
+    }
+
+    const float horizontalLength =
+        std::sqrt(geometry.normal.x * geometry.normal.x + geometry.normal.y * geometry.normal.y);
+    const float moveLength = xyDistance(from, to);
+
+    // A riser faces the way the body climbs or descends. A stair's side (its stringer) runs along that way and
+    // still keeps the body off.
+    if (horizontalLength <= PathEpsilon
+        || moveLength <= PathEpsilon
+        || std::fabs(geometry.normal.x * (to.x - from.x) + geometry.normal.y * (to.y - from.y))
+            < RiserMinimumFacing * horizontalLength * moveLength)
+    {
+        return false;
+    }
+
+    // A riser: a tread meets its top edge on one side. A railing or a parapet has none and still blocks.
+    PathPoint topEdge = {};
+    float topVertexCount = 0.0f;
+
+    for (const PathPoint &vertex : facet.vertices)
+    {
+        if (vertex.z >= topZ - RiserTreadHeightTolerance)
+        {
+            topEdge = pointAdd(topEdge, vertex);
+            topVertexCount += 1.0f;
+        }
+    }
+
+    topEdge = pointScale(topEdge, 1.0f / topVertexCount);
+    const float awayX = geometry.normal.x / horizontalLength * RiserTreadProbeDistance;
+    const float awayY = geometry.normal.y / horizontalLength * RiserTreadProbeDistance;
+
+    for (const float side : {1.0f, -1.0f})
+    {
+        const PathFloorSample tread =
+            floorAt({topEdge.x + awayX * side, topEdge.y + awayY * side, topZ + RiserTreadHeightTolerance});
+
+        if (tread.hasFloor && !tread.inVoid && std::fabs(tread.z - topZ) <= RiserTreadHeightTolerance)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 PathTraceResult PathMap::traceLineInternal(
     const PathPoint &from,
     const PathPoint &to,
@@ -1319,6 +1404,10 @@ PathTraceResult PathMap::traceWalkBody(
     const float highOffset = std::max(object.radius, object.height - object.radius);
     const PathPoint highFrom = {from.x, from.y, from.z + highOffset};
     const PathPoint highTo = {to.x, to.y, to.z + highOffset};
+    // A squat body (wider than it is tall), indoors: its upper sphere sits at its radius. It would reach down into the
+    // stair the low probes climb (the next tread's riser, a slab step's underside) and need 2R of headroom where the
+    // body is H tall: the obstacle loop skips both.
+    const bool squatBody = object.riserHeight > 0.0f && object.height < 2.0f * object.radius;
     if (highOffset > object.radius + PathEpsilon)
     {
         result = traceLineInternal(highFrom, highTo, object.radius, true, &cache);
@@ -1350,6 +1439,15 @@ PathTraceResult PathMap::traceWalkBody(
         // that same riser while the feet are still on the lower floor.
         if (facet.kind == PathFacetKind::Wall
             && geometry.bounds.maxZ <= from.z + std::max(0.0f, object.stepHeight) + PathEpsilon)
+        {
+            continue;
+        }
+
+        // A squat body's sphere reaches 2R up and down to its feet: it ignores what lies wholly over its head and the
+        // steps it climbs.
+        if (squatBody
+            && (geometry.bounds.minZ >= std::max(from.z, to.z) + object.height - PathEpsilon
+                || isClimbedStepFace(facet, geometry, from, to, object)))
         {
             continue;
         }
@@ -1746,6 +1844,28 @@ void PathMap::candidateFacetsForBounds(
         ++scratch.markId;
     }
 
+    const auto consider = [&](size_t facetIndex)
+    {
+        if (facetIndex >= m_geometry.size())
+        {
+            return;
+        }
+
+        if (scratch.marks[facetIndex] != scratch.markId
+            && (pEntry != nullptr || boundsOverlap(bounds, m_geometry[facetIndex].bounds)))
+        {
+            scratch.marks[facetIndex] = scratch.markId;
+            if (pEntry != nullptr)
+            {
+                pEntry->facets.push_back(facetIndex);
+            }
+            if (boundsOverlap(bounds, m_geometry[facetIndex].bounds))
+            {
+                candidates.push_back(facetIndex);
+            }
+        }
+    };
+
     for (int32_t cellX = minCellX; cellX <= maxCellX; ++cellX)
     {
         for (int32_t cellY = minCellY; cellY <= maxCellY; ++cellY)
@@ -1759,29 +1879,19 @@ void PathMap::candidateFacetsForBounds(
                     continue;
                 }
 
-                for (size_t facetIndex : cellIt->second)
+                for (size_t facetIndex : std::span<const size_t>(
+                         m_spatialGridFacets.data() + cellIt->second.offset, cellIt->second.count))
                 {
-                    if (facetIndex >= m_geometry.size())
-                    {
-                        continue;
-                    }
-
-                    if (scratch.marks[facetIndex] != scratch.markId
-                        && (pEntry != nullptr || boundsOverlap(bounds, m_geometry[facetIndex].bounds)))
-                    {
-                        scratch.marks[facetIndex] = scratch.markId;
-                        if (pEntry != nullptr)
-                        {
-                            pEntry->facets.push_back(facetIndex);
-                        }
-                        if (boundsOverlap(bounds, m_geometry[facetIndex].bounds))
-                        {
-                            candidates.push_back(facetIndex);
-                        }
-                    }
+                    consider(facetIndex);
                 }
             }
         }
+    }
+
+    // Facets spanning more cells than MaxSpatialCellsPerFacet are in no cell: every query tests them by bounds.
+    for (size_t facetIndex : m_largeSpatialFacets)
+    {
+        consider(facetIndex);
     }
 }
 
@@ -1804,7 +1914,7 @@ std::span<const size_t> PathMap::candidateFloorFacetsForPoint(float x, float y) 
         return {};
     }
 
-    return cellIt->second;
+    return std::span<const size_t>(m_floorGridFacets.data() + cellIt->second.offset, cellIt->second.count);
 }
 
 void PathMap::rebuildGeometry()
@@ -1837,11 +1947,19 @@ void PathMap::rebuildSpatialGrid()
 {
     m_spatialGrid.clear();
     m_floorGrid.clear();
+    m_spatialGridFacets.clear();
+    m_floorGridFacets.clear();
+    m_largeSpatialFacets.clear();
 
     if (m_gridCellSize <= PathEpsilon || m_geometry.empty())
     {
         return;
     }
+
+    std::vector<std::pair<GridCellKey, size_t>> spatialEntries;
+    std::vector<std::pair<FloorCellKey, size_t>> floorEntries;
+    spatialEntries.reserve(m_geometry.size() * 4);
+    floorEntries.reserve(m_geometry.size());
 
     for (size_t index = 0; index < m_geometry.size(); ++index)
     {
@@ -1871,13 +1989,25 @@ void PathMap::rebuildSpatialGrid()
             continue;
         }
 
-        for (int32_t cellX = minCellX; cellX <= maxCellX; ++cellX)
+        const int64_t spatialCells = (int64_t(maxCellX) - minCellX + 1) * (int64_t(maxCellY) - minCellY + 1)
+            * (int64_t(maxCellZ) - minCellZ + 1);
+
+        if (spatialCells > MaxSpatialCellsPerFacet)
         {
-            for (int32_t cellY = minCellY; cellY <= maxCellY; ++cellY)
+            // A huge facet (an open-air map's sky lid, its sea floor) listed in each of its cells cost a region-sized
+            // map ~100 ms per rebuild; queries test the few of them by bounds instead.
+            m_largeSpatialFacets.push_back(index);
+        }
+        else
+        {
+            for (int32_t cellX = minCellX; cellX <= maxCellX; ++cellX)
             {
-                for (int32_t cellZ = minCellZ; cellZ <= maxCellZ; ++cellZ)
+                for (int32_t cellY = minCellY; cellY <= maxCellY; ++cellY)
                 {
-                    m_spatialGrid[{cellX, cellY, cellZ}].push_back(index);
+                    for (int32_t cellZ = minCellZ; cellZ <= maxCellZ; ++cellZ)
+                    {
+                        spatialEntries.push_back({{cellX, cellY, cellZ}, index});
+                    }
                 }
             }
         }
@@ -1891,9 +2021,51 @@ void PathMap::rebuildSpatialGrid()
         {
             for (int32_t cellY = minCellY; cellY <= maxCellY; ++cellY)
             {
-                m_floorGrid[{cellX, cellY}].push_back(index);
+                floorEntries.push_back({{cellX, cellY}, index});
             }
         }
+    }
+
+    // Grouped by cell, each cell's facets ascending as they were added.
+    std::sort(spatialEntries.begin(), spatialEntries.end(),
+        [](const std::pair<GridCellKey, size_t> &left, const std::pair<GridCellKey, size_t> &right)
+        {
+            return std::tie(left.first.x, left.first.y, left.first.z, left.second)
+                < std::tie(right.first.x, right.first.y, right.first.z, right.second);
+        });
+    std::sort(floorEntries.begin(), floorEntries.end(),
+        [](const std::pair<FloorCellKey, size_t> &left, const std::pair<FloorCellKey, size_t> &right)
+        {
+            return std::tie(left.first.x, left.first.y, left.second) < std::tie(right.first.x, right.first.y, right.second);
+        });
+
+    m_spatialGridFacets.reserve(spatialEntries.size());
+    m_floorGridFacets.reserve(floorEntries.size());
+
+    for (size_t begin = 0; begin < spatialEntries.size();)
+    {
+        size_t end = begin;
+        const GridCellKey &key = spatialEntries[begin].first;
+        while (end < spatialEntries.size() && spatialEntries[end].first == key)
+        {
+            m_spatialGridFacets.push_back(spatialEntries[end].second);
+            ++end;
+        }
+        m_spatialGrid.emplace(key, GridRange{uint32_t(m_spatialGridFacets.size() - (end - begin)), uint32_t(end - begin)});
+        begin = end;
+    }
+
+    for (size_t begin = 0; begin < floorEntries.size();)
+    {
+        size_t end = begin;
+        const FloorCellKey &key = floorEntries[begin].first;
+        while (end < floorEntries.size() && floorEntries[end].first == key)
+        {
+            m_floorGridFacets.push_back(floorEntries[end].second);
+            ++end;
+        }
+        m_floorGrid.emplace(key, GridRange{uint32_t(m_floorGridFacets.size() - (end - begin)), uint32_t(end - begin)});
+        begin = end;
     }
 }
 

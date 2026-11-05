@@ -509,7 +509,7 @@ TEST_CASE("MAW item resistance enchantments and Shielding cut damage on their ow
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
 
-    // A +100 fire enchantment halves fire damage at any level; as a sheet resistance it would cut about 5 %.
+    // A +100 fire enchantment halves fire damage at any level; as a sheet resistance it cuts less at level 150.
     MawMitigationInputs hit;
     hit.damage = 1000;
     hit.attackerLevel = 150;
@@ -518,7 +518,8 @@ TEST_CASE("MAW item resistance enchantments and Shielding cut damage on their ow
     CHECK(mawMitigatedDamage(hit) == doctest::Approx(500).epsilon(0.002));
     hit.itemResistances[0] = 0;
     hit.resistances[0] = 100;
-    CHECK(mawMitigatedDamage(hit) == doctest::Approx(1000 / (100.0 / 1900 + 1)).epsilon(0.002));
+    // Resistances are divided by 100 + the attacker's level (MAW 249b00da; 100 + 12 L before).
+    CHECK(mawMitigatedDamage(hit) == doctest::Approx(1000 / (100.0 / 250 + 1)).epsilon(0.002));
 
     // The best resistance enchantment per element counts, not their sum.
     EquippedItemRuntimeState state;
@@ -762,10 +763,10 @@ TEST_CASE("a promotion to Lich changes only the class when asked (A6.5)")
 
     REQUIRE(party.setMemberClassName(0, "Lich", true));
     CHECK_EQ(party.members()[0].className, "Lich");
-    CHECK_FALSE(party.members()[0].permanentImmunities.dark);
+    CHECK_EQ(party.members()[0].baseResistances.fire, 0);
 
     REQUIRE(party.setMemberClassName(1, "Lich"));
-    CHECK(party.members()[1].permanentImmunities.dark);
+    CHECK_EQ(party.members()[1].baseResistances.fire, 20);
 }
 
 TEST_CASE("MAW monsters take the map's level on every resolve, bosses inside their band (A3.2, A3.5)")
@@ -1562,7 +1563,7 @@ TEST_CASE("MAW dimension map drops read the monster level capped at 255 (audit A
     CHECK_EQ(mapDrops(1000), capped);
 }
 
-TEST_CASE("MAW's Crafting Cube moves a Plane of Earth map among the outdoor maps (audit ALC-15)")
+TEST_CASE("MAW's Crafting Cube moves a Plane of Earth map among the indoor maps (audit ALC-15, MAW 54f1ef13)")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
     const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
@@ -1608,7 +1609,7 @@ TEST_CASE("MAW's Crafting Cube moves a Plane of Earth map among the outdoor maps
         const MapStatsEntry *pTarget = mapStats.findById(MawDimensionMap::fromFields(result.target.rulesetFields).mapId);
         REQUIRE(pTarget != nullptr);
         INFO(pTarget->fileName);
-        CHECK(pTarget->fileName.ends_with(".odm"));
+        CHECK(pTarget->fileName.ends_with(".blv"));
     }
 }
 
@@ -2350,10 +2351,12 @@ TEST_CASE("MAW special bosses hatch Broodlings and affix bosses as they die (L3.
     const size_t brood = world.addActor(bossActor(2, 195, MawBossAffix::Broodling, 600));
     const size_t small = world.addActor(bossActor(3, 193, MawBossAffix::Broodling, 700));
     const size_t god = world.addActor(bossActor(4, 195, MawBossAffix::Omnipotent, 800));
+    // The later affixes hatch nothing.
+    const size_t later = world.addActor(bossActor(5, 195, MawBossAffix::Skilled, 900));
     monsters.updateMonsters(world, 0.016f);
     CHECK(world.spawns.empty());
 
-    for (const size_t index : {lord, brood, small, god})
+    for (const size_t index : {lord, brood, small, god, later})
     {
         world.actor(index).isDead = true;
         world.actor(index).currentHp = 0;

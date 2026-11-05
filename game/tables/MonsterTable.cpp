@@ -1132,7 +1132,9 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.experience = row.size() > 6 && !row[6].empty() ? parseTableInteger(row[6]) : 0;
         entry.attack1Type = row.size() > 17 ? row[17] : std::string();
         entry.bloodSplatOnDeath = row.size() > 8 && !row[8].empty() && row[8] != "0";
-        entry.canFly = row.size() > 9 && !row[9].empty() && toLowerCopy(row[9]) == "y";
+        const std::string flyCell = row.size() > 9 ? toLowerCopy(row[9]) : std::string();
+        entry.canFly = flyCell.find('y') != std::string::npos;
+        entry.swims = flyCell.find('s') != std::string::npos;
         entry.movementType = row.size() > 10 ? parseMovementType(row[10]) : MonsterMovementType::Short;
         entry.aiType = row.size() > 11 ? parseAiType(row[11]) : MonsterAiType::Suicide;
         entry.treasureDefinition = row[7];

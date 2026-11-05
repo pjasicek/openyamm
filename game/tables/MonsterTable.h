@@ -4,9 +4,11 @@
 #include "game/tables/MonsterModifiers.h"
 #include "game/tables/MonsterRelationAddOns.h"
 #include "game/tables/MonsterShields.h"
+#include "game/tables/MonsterSpecialAttackKind.h"
 
 #include <array>
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -14,6 +16,8 @@
 
 namespace OpenYAMM::Game
 {
+class ActorModelManifest;
+
 // Flags of MonsterStatsEntry::attackPreferences: whom a monster prefers to attack. The table gives them as a number or
 // as MM6/MM7 letters (K, P, A, D, C, S, R, T, M for classes, X/O/F for male/female, H, E, W, G for races).
 inline constexpr uint32_t MonsterAttackPreferenceKnight = 0x0001;
@@ -33,33 +37,6 @@ inline constexpr uint32_t MonsterAttackPreferenceDwarf = 0x2000;
 inline constexpr uint32_t MonsterAttackPreferenceGoblin = 0x4000;
 
 class MergedBolsterMonsterTable;
-
-enum class MonsterSpecialAttackKind : uint8_t
-{
-    None,
-    Curse,
-    Weak,
-    Sleep,
-    Fear,
-    Drunk,
-    Insane,
-    PoisonWeak,
-    PoisonMedium,
-    PoisonSevere,
-    DiseaseWeak,
-    DiseaseMedium,
-    DiseaseSevere,
-    Paralyze,
-    Unconscious,
-    Dead,
-    Petrify,
-    Eradicate,
-    BreakAny,
-    BreakArmor,
-    BreakWeapon,
-    Aging,
-    ManaDrain,
-};
 
 enum class MonsterKind : uint32_t
 {
@@ -191,6 +168,9 @@ public:
         MonsterSpecialAttackKind specialAttackKind = MonsterSpecialAttackKind::None;
         int specialAttackLevel = 0;
         bool canFly = false;
+        // Fly column "S" (with Y: "YS"): MM9's AISwimFly swimmers (Sea Monsters, the Spores, Fish). On a map with
+        // scene water volumes one that starts in the water swims in it, bound to it; elsewhere it flies (Y) or walks.
+        bool swims = false;
         MonsterMovementType movementType = MonsterMovementType::Short;
         MonsterAiType aiType = MonsterAiType::Suicide;
         std::string attack1MissileType;
@@ -331,6 +311,16 @@ public:
     {
         return m_modifiers.empty() ? nullptr : m_modifiers.find(monsterId);
     }
+    // The 3D models the monsters are drawn as (worlds' actors.yml), when actor models are on: their attack clips time
+    // the monsters' attacks where no sprite contact frame does (resolveActorAttackTiming). Null with models off.
+    void setActorModels(std::shared_ptr<const ActorModelManifest> pActorModels)
+    {
+        m_pActorModels = std::move(pActorModels);
+    }
+    const ActorModelManifest *actorModels() const
+    {
+        return m_pActorModels.get();
+    }
     const std::vector<MonsterEntry> &getEntries() const;
     const std::unordered_map<int, MonsterStatsEntry> &statsEntries() const;
     // A world's own missile tokens (worlds/<world>/monster_projectiles.yml): an attack naming one is ranged, as one
@@ -356,6 +346,7 @@ private:
     MonsterRelationAddOns m_relationAddOns;
     MonsterShieldTable m_shields;
     MonsterModifierTable m_modifiers;
+    std::shared_ptr<const ActorModelManifest> m_pActorModels;
     std::vector<MeleeHitMaterial> m_meleeHitMaterials;
     // Indexed like m_entries.
     std::vector<size_t> m_meleeHitMaterialIndexByEntry;

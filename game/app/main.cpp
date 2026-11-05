@@ -83,6 +83,7 @@ void printUsage(std::ostream &stream, const char *pProgram)
            << "  --headless-validate-actor-models [--all-worlds]\n"
            << "  --headless-profile-map-load-full <map>\n"
            << "  --headless-dump-outdoor-navigation <map>\n"
+           << "  --headless-check-indoor-reachability <map.blv> <pairs.yml> <output.yml>\n"
            << "  --headless-export-decoration-models <map> <output-directory>\n"
            << "  --headless-export-indoor-bake-scene <map.blv> <output.json>\n"
            << "  --headless-verify-outdoor-world-item-floor <map>\n"
@@ -617,6 +618,12 @@ int runGame(int argc, char **argv, OpenYAMM::Engine::LogFile &logFile)
     {
         OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
         return diagnostics.runDumpOutdoorNavigation(argv[0], arguments[1]);
+    }
+
+    if (arguments.size() == 4 && arguments[0] == "--headless-check-indoor-reachability")
+    {
+        OpenYAMM::Game::HeadlessGameplayDiagnostics diagnostics(config);
+        return diagnostics.runCheckIndoorReachability(argv[0], arguments[1], arguments[2], arguments[3]);
     }
 
     if (arguments.size() == 3 && arguments[0] == "--headless-export-decoration-models")

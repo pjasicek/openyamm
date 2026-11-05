@@ -40,6 +40,7 @@
 #include "game/tables/JournalHistoryTable.h"
 #include "game/tables/JournalQuestTable.h"
 #include "game/gameplay/GameplayScreenState.h"
+#include "game/gameplay/GameplayTalkCamera.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
@@ -949,6 +950,7 @@ private:
     float m_cameraTargetZ;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
+    GameplayTalkCamera m_talkCamera;
     float m_cameraEyeHeight;
     float m_cameraDistance;
     float m_cameraOrthoScale;

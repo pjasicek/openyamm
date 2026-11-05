@@ -98,7 +98,7 @@ struct SectorDetectionFixture
     // Three sectors in a row along X, joined by full-height portals at X=0 and X=2048: [-8192,0], [0,2048] and
     // [2048,4096]. Each wall is an opaque full-height face in sector 1. Actors stand in sector 1.
     SectorDetectionFixture(int partyX, const std::vector<DetectionWall> &walls,
-        const std::vector<std::array<int, 2>> &actorPositions)
+        const std::vector<std::array<int, 2>> &actorPositions, bool neighbourWakes = true)
     {
         const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
         REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm6"));
@@ -136,6 +136,7 @@ struct SectorDetectionFixture
         {
             delta->actors.push_back(goblin(position[0], position[1], 0, 1));
         }
+        map.actorNeighbourWakes = neighbourWakes;
         createScene(delta);
         pScene->partyRuntime().teleportPartyPosition(partyX, 0, 0);
         for (size_t actorIndex = 0; actorIndex < actorPositions.size(); ++actorIndex)
@@ -270,7 +271,7 @@ private:
 };
 }
 
-TEST_CASE("indoor detection needs sight beyond hearing range, also within the same or a neighbouring sector")
+TEST_CASE("indoor detection needs sight, also within the same or a neighbouring sector")
 {
     int partyX = -256;
     int16_t partySectorId = 1;
@@ -336,54 +337,29 @@ TEST_CASE("indoor detection sees across portals within one sight-check interval"
     CHECK_EQ(fixture.detected(0), !blockingWall);
 }
 
-TEST_CASE("indoor detection hears the party through a wall only at close range")
+TEST_CASE("indoor detection does not hear the party through a close wall")
 {
-    int actorX = -800;
-    bool heard = true;
-    SUBCASE("within hearing range")
-    {
-        actorX = -800;
-        heard = true;
-    }
-    SUBCASE("beyond hearing range")
-    {
-        actorX = -1024;
-        heard = false;
-    }
-    SectorDetectionFixture fixture(-400, {DetectionWall{}}, {{actorX, 0}});
+    SectorDetectionFixture fixture(-400, {DetectionWall{}}, {{-600, 0}});
     REQUIRE_FALSE(fixture.pScene->worldRuntime().hasIndoorCombatLineOfSight(
-        {float(actorX), 0, 108.75f}, 1, {-400, 0, 96}, 1));
-    fixture.pScene->worldRuntime().updateActorAi(1.0f / 128);
-    CHECK_EQ(fixture.detected(0), heard);
+        {-600, 0, 108.75f}, 1, {-400, 0, 96}, 1));
     fixture.advance(1);
-    CHECK_EQ(fixture.detected(0), heard);
+    CHECK_FALSE(fixture.detected(0));
 }
 
-TEST_CASE("indoor hearing stays on the party's own floor")
+TEST_CASE("indoor detection does not reach through a ceiling to the room above")
 {
-    int upperFloorZ = 240;
-    bool heard = true;
-    SUBCASE("floor within the height band")
-    {
-        upperFloorZ = 240;
-        heard = true;
-    }
-    SUBCASE("floor above the height band")
-    {
-        upperFloorZ = 320;
-        heard = false;
-    }
-    SectorDetectionFixture fixture(upperFloorZ);
+    SectorDetectionFixture fixture(240);
     fixture.advance(1);
-    CHECK_EQ(fixture.detected(0), heard);
+    CHECK_FALSE(fixture.detected(0));
 }
 
 TEST_CASE("indoor detection wakes the visible neighbours of the actor that noticed the party, without chaining")
 {
     // Actor 0 sees the party through the portal. A wall at X=-512 (Y -512..-150) hides actors 1 and 2 from the
-    // party; actor 1 is 430 units from actor 0 and in its view, and actor 2 is 290 units from actor 1 only.
+    // party; actor 1 is 430 units from actor 0 and in its view, and actor 2 is 814 units from actor 1 but beyond the
+    // wake radius of actor 0.
     const std::vector<DetectionWall> walls = {{-512, -512, -150}};
-    std::vector<std::array<int, 2>> actors = {{-400, 50}, {-650, -300}, {-900, -450}};
+    std::vector<std::array<int, 2>> actors = {{-400, 50}, {-650, -300}, {-1450, -450}};
     bool sightedActor = true;
     SUBCASE("an actor notices the party")
     {
@@ -403,8 +379,10 @@ TEST_CASE("indoor detection wakes the visible neighbours of the actor that notic
 
 TEST_CASE("indoor party damage wakes the struck actor's visible neighbours")
 {
-    // Actors 0 and 1 are hidden from the party by the wall. Actor 2 is beyond the wake radius of actor 0.
-    SectorDetectionFixture fixture(1024, {{-512, -512, -150}}, {{-650, -300}, {-900, -450}, {-1500, -300}});
+    // Every actor is hidden from the party by the wall. Actor 2 is beyond the wake radius of actor 0; actor 3 is
+    // 856 units from it.
+    SectorDetectionFixture fixture(
+        1024, {{-512, -512, -150}}, {{-650, -300}, {-900, -450}, {-2300, -450}, {-1500, -400}});
     fixture.advance(0.25f);
     REQUIRE_FALSE(fixture.detected(0));
     REQUIRE_FALSE(fixture.detected(1));
@@ -415,6 +393,39 @@ TEST_CASE("indoor party damage wakes the struck actor's visible neighbours")
     CHECK(fixture.detected(0));
     CHECK(fixture.detected(1));
     CHECK_FALSE(fixture.detected(2));
+    CHECK(fixture.detected(3));
+}
+
+TEST_CASE("indoor wakes stay off on a map whose scene turns them off")
+{
+    // Scene `actor_detection: {wakes: none}` (MM9's outdoor regions): the struck actor alone notices the party.
+    SectorDetectionFixture fixture(1024, {{-512, -512, -150}}, {{-650, -300}, {-900, -450}}, false);
+    fixture.advance(0.25f);
+    REQUIRE(fixture.pScene->worldRuntime().applyPartyAttackMeleeDamage(
+        0, 1, {1024, 0, 96}, ShieldAttackTier::Physical));
+    fixture.pScene->worldRuntime().updateActorAi(1.0f / 128);
+    CHECK(fixture.detected(0));
+    CHECK_FALSE(fixture.detected(1));
+}
+
+TEST_CASE("indoor wakes rouse every visible neighbour in range, without a count limit")
+{
+    std::vector<std::array<int, 2>> actors = {{-650, -300}};
+    for (int index = 0; index < 8; ++index)
+    {
+        actors.push_back({-800 - index * 100, -350});
+    }
+    SectorDetectionFixture fixture(1024, {{-512, -512, -150}}, actors);
+    fixture.advance(0.25f);
+    REQUIRE_FALSE(fixture.detected(0));
+    REQUIRE(fixture.pScene->worldRuntime().applyPartyAttackMeleeDamage(
+        0, 1, {1024, 0, 96}, ShieldAttackTier::Physical));
+    fixture.pScene->worldRuntime().updateActorAi(1.0f / 128);
+    for (size_t actorIndex = 0; actorIndex < actors.size(); ++actorIndex)
+    {
+        CAPTURE(actorIndex);
+        CHECK(fixture.detected(actorIndex));
+    }
 }
 
 TEST_CASE("indoor detection stays blocked by walls along the Goblinwatch entrance walk")

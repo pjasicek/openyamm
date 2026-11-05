@@ -76,6 +76,14 @@ std::string lightGridQualityValue(LightGridQuality quality);
 bool parseAntialiasingValue(const std::string &value, int &samples);
 std::string antialiasingValue(int samples);
 
+// A turn-based speed factor: one of "1", "1.5", "2", "3" or "4".
+bool parseTurnBasedSpeedValue(const std::string &value, float &speed);
+std::string turnBasedSpeedValue(float speed);
+
+// The repeated voice line interval in milliseconds: one of "0", "500", "1000", "2000", "3000", "5000" or "10000".
+bool parseRepeatedVoiceLineIntervalValue(const std::string &value, int &intervalMs);
+std::string repeatedVoiceLineIntervalValue(int intervalMs);
+
 // One key of settings.ini, in the writer's section order.
 struct SettingsEntry
 {
@@ -165,6 +173,8 @@ struct GameSettings
 
     TurnRateMode turnRate = TurnRateMode::Smooth;
     bool walksound = true;
+    // A party member does not say the same voice line again within this many milliseconds; 0 keeps every repeat.
+    int repeatedVoiceLineIntervalMs = 0;
     bool showHits = true;
     bool alwaysRun = true;
     // What the number keys do on the inventory page and in shops and chests when a ruleset gives bags (MAW):
@@ -174,6 +184,9 @@ struct GameSettings
     bool flipOnExit = false;
     int mouseSensitivity = 100;
     bool invertMouseY = false;
+    // The left button's Attack or Use (by the control preset) uses what is under the cursor when it can be used, and
+    // attacks otherwise.
+    bool smartClick = false;
     ControlScheme controlScheme = ControlScheme::Modern;
     bool bloodSplats = true;
     bool coloredLights = true;
@@ -304,7 +317,16 @@ struct GameSettings
     std::string screenshotPath;
     std::string menuInputTourPath;
     float screenshotDelaySeconds = 0.0f;
+    // A burst from screenshot_path: this many captures (1: the single capture), one every screenshotBurstIntervalMs
+    // of real time from the delay, written as <stem>_000<ext>, <stem>_001<ext> ... (tools/RUN_GAME.md).
+    uint32_t screenshotBurstCount = 1;
+    float screenshotBurstIntervalMs = 100.0f;
     std::string screenshotTourPath;
+    // An AI arena (tests/scenarios/mm9/ai/README.md) set up once gameplay starts.
+    std::string aiArenaPath;
+    // Indoor hole view (tools/indoor_hole_sweep.py): the main view clears to magenta, an open sky's faces draw as faces
+    // (no sky pass), no fog and no view distance limit, so every pixel no face covers shows magenta.
+    bool indoorHoleView = false;
     // Game time per real second (slow motion below 1), for capturing fast effects such as projectiles.
     float timeScale = 1.0f;
     std::string effectSpawnId;
@@ -325,6 +347,10 @@ struct GameSettings
     int keyboardInteractionDepth = 512;
     int mouseInteractionDepth = 512;
     bool combatText = true;
+    // Turn-based combat plays faster by these factors: the monsters' turns, and the party's attacks in flight
+    // (GrayFace MM8Patch TurnBasedSpeed and TurnBasedPartySpeed). The party's own movement stage stays at 1.
+    float turnBasedMonsterSpeed = 1.0f;
+    float turnBasedPartySpeed = 1.0f;
     // The combat log button and its docked log of hits (MAW GAPS H.3); off, nothing is recorded.
     bool combatLog = true;
     std::string enemyHealthBarMode = "combat";
@@ -335,8 +361,12 @@ struct GameSettings
     bool saveListNewestFirst = false;
     // Obsidian basebar frame behind the gameplay party portraits; fullscreen overlays always draw their own strip.
     bool partyFrame = true;
-    // The round potion quick-slot button at each gameplay portrait; the Potion Wheel key opens the ring without it.
-    bool potionButtons = true;
+    // The quick item rings: the round button at each gameplay portrait opening its ring of six quick slots, and the
+    // Potion Wheel key opening the active member's ring. Off by default (user, 2026-11-02): the basebar's potion and
+    // scroll buttons replace them, and the Potions key opens the potion popup instead.
+    bool quickItemRings = false;
+    // The potion and scroll buttons on the party basebar's end ornaments, opening the paused popups.
+    bool basebarItemButtons = true;
     bool meleeHitBloodEffects = true;
     // Melee hit impact sound by struck material and a brief hitstop on the target (GameplayActorHitFeedback).
     bool meleeHitFeedback = true;

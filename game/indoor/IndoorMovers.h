@@ -86,6 +86,14 @@ struct IndoorLadderFrame
 };
 
 IndoorLadderFrame indoorLadderFrame(const IndoorLadder &ladder);
+// Whether a body in this state may take hold of the ladder at all: standing, or in the air on a `grabInAir` ladder;
+// never in the frame it jumps.
+bool indoorLadderGrabAllowed(const IndoorLadder &ladder, bool grounded, bool jumpRequested);
+// A leaning ladder: its top is not straight above its bottom. It is climbed along the line from bottom to top; an
+// upright ladder's line is the vertical through its bottom, so every test below is the same for it as before.
+bool indoorLadderLeans(const IndoorLadder &ladder);
+// The strip's centre line at a foot height, clamped to the strip's bottom and top.
+bx::Vec3 indoorLadderLinePoint(const IndoorLadder &ladder, float footZ);
 // The body may grab the ladder: in front of the strip within reach, within its width and height, moving toward it.
 bool indoorLadderCanGrab(
     const IndoorLadder &ladder,
@@ -95,6 +103,18 @@ bool indoorLadderCanGrab(
 
 inline constexpr float IndoorLadderClimbSpeed = 192.0f;
 inline constexpr float IndoorLadderRunClimbSpeed = 288.0f;
+// How far in front of the strip a climber's body is held, and how far under the top one taken at the top starts.
+inline constexpr float IndoorLadderHoldGap = 4.0f;
+inline constexpr float IndoorLadderTopEntryDrop = 16.0f;
+
+// A `grabAtTop` ladder: a standing body within reach of `top_exit`, at its height, walking toward the strip's top.
+bool indoorLadderCanGrabAtTop(
+    const IndoorLadder &ladder,
+    const IndoorMoverBody &body,
+    float desiredVelocityX,
+    float desiredVelocityY);
+// Where a body taken at the top is held (x, y and foot height): in front of the strip, just under its top.
+bx::Vec3 indoorLadderTopEntryPosition(const IndoorLadder &ladder, const IndoorMoverBody &body);
 
 struct IndoorLadderClimbStep
 {
@@ -106,7 +126,9 @@ struct IndoorLadderClimbStep
     bool detach = false;
 };
 
-// One climbing step from the player's movement (world velocity) and the Fly Up/Down input (+1, -1, 0).
+// One climbing step from the player's movement (world velocity) and the Fly Up/Down input (+1, -1, 0). On a leaning
+// ladder the step also moves the body along the line as it rises or descends. On a `grabAtTop` ladder, walking toward
+// `top_exit` climbs and walking away from it descends when the movement is not toward or away from the strip.
 IndoorLadderClimbStep indoorLadderClimbStep(
     const IndoorLadder &ladder,
     const IndoorMoverBody &body,

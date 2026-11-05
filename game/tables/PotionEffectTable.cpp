@@ -530,6 +530,16 @@ bool PotionEffectTable::loadFromYaml(const std::string &text, std::string &error
         m_combatRecoveryOnlyNearEnemies = rules["combat_recovery"]
             && rules["combat_recovery"]["only_when_enemies_near"]
             && rules["combat_recovery"]["only_when_enemies_near"].as<bool>();
+        const std::string payer = rules["combat_recovery"] && rules["combat_recovery"]["payer"]
+            ? rules["combat_recovery"]["payer"].as<std::string>()
+            : "drinker";
+
+        if (payer != "drinker" && payer != "active")
+        {
+            throw PotionParseError{"rules.combat_recovery.payer must be drinker or active"};
+        }
+
+        m_combatRecoveryActiveMemberPays = payer == "active";
         m_allRecipesKnown = rules["all_recipes_known"] && rules["all_recipes_known"].as<bool>();
         const YAML::Node potions = root["potions"];
 
@@ -620,6 +630,11 @@ float PotionEffectTable::combatRecoveryTicks() const
 bool PotionEffectTable::combatRecoveryOnlyNearEnemies() const
 {
     return m_combatRecoveryOnlyNearEnemies;
+}
+
+bool PotionEffectTable::combatRecoveryActiveMemberPays() const
+{
+    return m_combatRecoveryActiveMemberPays;
 }
 
 bool PotionEffectTable::allRecipesKnown() const

@@ -1,6 +1,12 @@
 #pragma once
 
+#include "game/audio/WorldAmbientSounds.h"
+#include "game/events/MechanismAudioProfile.h"
 #include "game/indoor/IndoorFog.h"
+#include "game/indoor/IndoorModelLighting.h"
+#include "game/indoor/IndoorDaylight.h"
+#include "game/indoor/IndoorOpenSky.h"
+#include "game/indoor/IndoorWater.h"
 #include "game/maps/MapPresentation.h"
 
 #include <array>
@@ -9,6 +15,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -230,6 +237,85 @@ struct IndoorLadder
     float reach = 48.0f;
     // Where the party stands after climbing off at the top.
     std::array<float, 3> topExit = {0.0f, 0.0f, 0.0f};
+    // A body in the air (jumping or falling) may grab it too, not only one standing (MM9's climbing poles).
+    bool grabInAir = false;
+    // A body standing at `top_exit` and walking toward the top takes hold there and climbs down (the way down from a
+    // floor that has no other one, Drangheim City's TowerLadder1).
+    bool grabAtTop = false;
+};
+
+// A scene `footstep_sounds` entry: the walking and running sounds on floors drawn with these textures (an MM9
+// open-air map's grass, rock, wood; devdocs/INDOOR_OPEN_SKY.md "Footsteps").
+// A door's own sounds (the scene door's `sounds` block).
+struct IndoorDoorSounds
+{
+    uint32_t doorId = 0;
+    MechanismAudioProfile profile = {};
+};
+
+// A door an MM9 monster opens by walking into it (the scene door's `ai_open`; MM9's AITriggerable doors): the doors it
+// opens with it and its opening time (move_length / open_speed: MM9's DoorOpenTime).
+struct IndoorAiDoor
+{
+    uint32_t doorId = 0;
+    std::vector<uint32_t> opensDoorIds;
+    float openSeconds = 0.0f;
+};
+
+// Scene `destructibles` (devdocs/INDOOR_DESTRUCTIBLES.md): a wall, window or prop that breaks. Its faces are the
+// faces of its cog; its prop the decorations of its decoration cog (evt.SetSprite's key). Party weapons and missiles
+// damage its faces; Lua damages or destroys it by its id (evt.DamageDestructible). Destroyed, its faces turn
+// invisible and untouchable, its prop goes, its sound and debris effect play at its centre and its map event runs.
+struct IndoorDestructible
+{
+    uint32_t id = 0;                    // the save state's key (EventRuntimeState::destructibles): MM9's object index
+    std::string name;
+    uint16_t cog = 0;
+    uint16_t decorationCog = 0;
+    int hp = 1;
+    bool damageEnabled = true;
+    bool triggerDestroyOnly = false;    // only evt.DestroyDestructible breaks it
+    std::string sound;
+    std::string effect;                 // an effect library id; empty: none
+    float effectScale = 1.0f;
+    std::array<float, 3> center = {};
+    uint16_t destroyedEvent = 0;
+    uint16_t damagedEvent = 0;          // runs on the first damage (MM9's DamageTrigger)
+};
+
+// Scene `pulsing_lights` (devdocs/INDOOR_PULSING_LIGHTS.md): MM9's GlowingLight, a dynamic point light
+// whose intensity and radius each follow a sine between their min and max at their own frequency (cycles per second)
+// and phase (cycles). evt.SetLight(lightKey, on) switches it (EventRuntimeState::indoorLightsEnabled); unset, it is on
+// when startOn.
+struct IndoorPulsingLight
+{
+    uint32_t lightKey = 0;
+    std::array<float, 3> position = {};
+    std::array<uint8_t, 3> color = {255, 255, 255};
+    std::array<float, 4> intensity = {1.0f, 1.0f, 0.0f, 0.0f};     // min, max, frequency, phase
+    std::array<float, 4> radius = {0.0f, 0.0f, 0.0f, 0.0f};        // min, max, frequency, phase
+    bool startOn = true;
+};
+
+struct IndoorFootstepSound
+{
+    std::vector<std::string> textureNames;      // lower case
+    uint32_t walkSoundId = 0;
+    uint32_t runSoundId = 0;
+};
+
+// Scene `terrain` (devdocs/INDOOR_OPEN_SKY.md "Terrain"): an open-air map's ground faces drawn from blended library
+// materials (TerrainMaterialSet) instead of their textures.
+struct IndoorTerrain
+{
+    // The material file in worlds/<world>/terrain_materials/ (OutdoorTerrainMaterialConfig's format; its weights
+    // cover the 65 536-unit map frame as on an outdoor map).
+    std::string materials;
+    std::vector<std::string> textureNames;      // lower case, sorted
+    // `grass`: a terrain decoration file (worlds/<world>/terrain_decorations/<map>.yml format, by virtual path) whose
+    // first grass rule and plant library give tufts over the terrain's grass layers (the materials with a meadow
+    // strength); empty for none. devdocs/INDOOR_OPEN_SKY.md "Terrain".
+    std::string grass;
 };
 
 struct IndoorPartyStartPoint
@@ -269,6 +355,54 @@ struct IndoorMapData
     std::vector<IndoorLadder> ladders;
     // The scene's fog (disabled for every map without it).
     IndoorFog fog;
+    // The scene's model lighting (disabled for every map without it).
+    IndoorModelLighting modelLighting;
+    // The scene's open sky (disabled for every map without it).
+    IndoorOpenSky openSky;
+    // The scene's daylight on the sectors open to the sky (disabled for every map without it).
+    IndoorDaylight daylight;
+    // The scene's footstep sounds by floor texture (empty for every map without them: the stone hall sound).
+    std::vector<IndoorFootstepSound> footstepSounds;
+    // The scene's terrain faces (none for every map without them).
+    std::optional<IndoorTerrain> terrain;
+    // The scene doors' own sounds, sorted by door id (empty for every MM6-MM8 map: their doors sound as the map's
+    // environment).
+    std::vector<IndoorDoorSounds> doorSounds;
+    // The doors MM9 monsters open (scene `ai_open`), sorted by door id, and their faces (face index, door id), sorted
+    // (empty for every MM6-MM8 map).
+    std::vector<IndoorAiDoor> aiDoors;
+    std::vector<std::pair<uint16_t, uint32_t>> aiDoorFaces;
+    // Scene `party_movement: {steep_slopes: block}`: the party climbs no floor steeper than a monster can (an MM9
+    // open-air map's cliffs); false keeps MM6-MM8's party, which climbs any slope.
+    bool partySteepSlopesBlock = false;
+    // Scene `actor_barriers: {faces: [...]}`: invisible, untouchable faces that block monsters' movement only (MM9's
+    // AIBarrier brushes along bridges and ledges). Nothing else collides with them.
+    std::vector<uint16_t> actorBarrierFaceIds;
+    // Scene `actor_movement: {drops: follow}`: monsters walk off ledges of any height after their target and plan
+    // paths down them (MM9's monsters, devdocs/mm9_rework/MM9_MONSTER_JUMP_RE.md); without it they keep MM6-MM8's
+    // limit of IndoorActorMaxDropHeight.
+    bool actorDropsFollow = false;
+    // Scene `actor_detection: {wakes: none}` clears it: a monster that notices the party, or is hit by it, then wakes
+    // none of its neighbours (wakeIndoorActorNeighbours). Off for MM9's converted outdoor regions, whose open
+    // country is no room of a dungeon; every MM6-MM8 map keeps it.
+    bool actorNeighbourWakes = true;
+    // Scene `static_lights: {sides: front}`: a static light adds nothing to a face it stands behind (more than
+    // IndoorStaticLightBehindTolerance behind the face's plane), so a room's lights no longer show on the outside of
+    // its walls where their reach crosses a doorway (MM9's lights, baked with shadows in MM9;
+    // devdocs/INDOOR_OPEN_SKY.md "Static lights"). Without it (`both`) MM6-MM8's angle-free static light is unchanged.
+    bool staticLightsFrontOnly = false;
+    // Scene `water_volumes`: MM9's deep water, swum and dived in (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md).
+    // Empty for every map without them: no water state, breath or swimming.
+    std::vector<IndoorWaterVolume> waterVolumes;
+    // Scene `destructibles`, sorted by id (empty for every MM6-MM8 map).
+    std::vector<IndoorDestructible> destructibles;
+    // Per face: 1 for a face of a destructible (its cog), which party missiles and blows hit even while it is
+    // invisible (MM9's RayHit boxes round Sturmford's drawbridge chains); empty without destructibles.
+    std::vector<uint8_t> destructibleFaceMask;
+    // Scene `pulsing_lights` (empty for every MM6-MM8 map).
+    std::vector<IndoorPulsingLight> pulsingLights;
+    // Scene `ambient_sounds` (devdocs/AMBIENT_SOUNDS.md; empty for every MM6-MM8 map).
+    std::vector<WorldAmbientSound> ambientSounds;
     uint32_t doorCount = 0;
     size_t sectorCount = 0;
     size_t spriteCount = 0;
@@ -278,8 +412,23 @@ struct IndoorMapData
 
 std::vector<uint32_t> resolveIndoorLightReferenceIds(const IndoorMapData &indoorMapData, int32_t rawReferenceId);
 
+// A standing destructible's face (not yet untouchable): hit by missiles and blows even when invisible.
+inline bool indoorDestructibleHitFace(const IndoorMapData &indoorMapData, size_t faceIndex, uint32_t attributes)
+{
+    return faceIndex < indoorMapData.destructibleFaceMask.size() && indoorMapData.destructibleFaceMask[faceIndex] != 0
+        && !hasFaceAttribute(attributes, FaceAttribute::Untouchable);
+}
+
 // The face's translucency, or null when it is opaque (always null on a map without translucent faces).
 const IndoorFaceTranslucency *findIndoorFaceTranslucency(const IndoorMapData &indoorMapData, size_t faceIndex);
+
+// The footstep sounds of the face's texture, or null (always null on a map without footstep sounds).
+const IndoorFootstepSound *findIndoorFootstepSound(const IndoorMapData &indoorMapData, size_t faceIndex);
+// The door's own sounds, or null when it sounds as the map's environment.
+const MechanismAudioProfile *findIndoorDoorSounds(const IndoorMapData &indoorMapData, uint32_t doorId);
+// The door an MM9 monster opens by walking into this face (null for every other face).
+const IndoorAiDoor *findIndoorAiDoorByFace(const IndoorMapData &indoorMapData, size_t faceIndex);
+const IndoorAiDoor *findIndoorAiDoor(const IndoorMapData &indoorMapData, uint32_t doorId);
 
 // The door's mover definition, or null for an ordinary linear door (always null on a map without them).
 const IndoorMoverDefinition *findIndoorMoverDefinition(const IndoorMapData &indoorMapData, uint32_t doorId);

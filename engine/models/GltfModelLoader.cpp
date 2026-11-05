@@ -1075,6 +1075,118 @@ bool loadMeshes(const cgltf_data &data, ModelAsset &asset, std::string &error)
     return true;
 }
 
+// A "card" material turns each primitive about its own centre (ModelMaterial::billboardCard). Exporters often put
+// all of a model's flame cards in one primitive (MM9's chandeliers: eight cards for four candles), which would turn
+// them all about the model's centre; each connected group of triangles (vertices joined by index or by position)
+// becomes a primitive of its own, in the authored triangle order. Static primitives only.
+void splitCardPrimitives(ModelAsset &asset)
+{
+    for (ModelMesh &mesh : asset.meshes)
+    {
+        std::vector<ModelPrimitive> primitives;
+        for (ModelPrimitive &primitive : mesh.primitives)
+        {
+            const int material = primitive.materialIndices.empty() ? -1 : primitive.materialIndices.front();
+            const bool card = material >= 0 && size_t(material) < asset.materials.size()
+                && asset.materials[size_t(material)].billboardCard;
+            if (!card || !primitive.influences.empty() || !primitive.morphTargets.empty()
+                || primitive.indices.size() < 6)
+            {
+                primitives.push_back(std::move(primitive));
+                continue;
+            }
+            const size_t vertexCount = primitive.vertices.size();
+            std::vector<uint32_t> parents(vertexCount);
+            for (uint32_t index = 0; index < vertexCount; ++index)
+            {
+                parents[index] = index;
+            }
+            const auto root = [&parents](uint32_t index)
+            {
+                while (parents[index] != index)
+                {
+                    parents[index] = parents[parents[index]];
+                    index = parents[index];
+                }
+                return index;
+            };
+            const auto join = [&](uint32_t a, uint32_t b)
+            {
+                parents[root(a)] = root(b);
+            };
+            for (size_t index = 0; index + 2 < primitive.indices.size(); index += 3)
+            {
+                join(primitive.indices[index], primitive.indices[index + 1]);
+                join(primitive.indices[index], primitive.indices[index + 2]);
+            }
+            // Vertices at one position (a quad exported as two unshared triangles) belong together.
+            std::vector<uint32_t> order(vertexCount);
+            for (uint32_t index = 0; index < vertexCount; ++index)
+            {
+                order[index] = index;
+            }
+            std::sort(order.begin(), order.end(), [&primitive](uint32_t a, uint32_t b)
+            {
+                return primitive.vertices[a].position < primitive.vertices[b].position;
+            });
+            for (size_t index = 1; index < order.size(); ++index)
+            {
+                if (primitive.vertices[order[index]].position == primitive.vertices[order[index - 1]].position)
+                {
+                    join(order[index], order[index - 1]);
+                }
+            }
+            // The groups in the order of their first triangle.
+            std::vector<int> groupOfRoot(vertexCount, -1);
+            std::vector<std::vector<uint32_t>> groupTriangles;
+            for (size_t index = 0; index + 2 < primitive.indices.size(); index += 3)
+            {
+                const uint32_t group = root(primitive.indices[index]);
+                if (groupOfRoot[group] < 0)
+                {
+                    groupOfRoot[group] = int(groupTriangles.size());
+                    groupTriangles.emplace_back();
+                }
+                groupTriangles[size_t(groupOfRoot[group])].push_back(uint32_t(index));
+            }
+            if (groupTriangles.size() <= 1)
+            {
+                primitives.push_back(std::move(primitive));
+                continue;
+            }
+            for (const std::vector<uint32_t> &triangles : groupTriangles)
+            {
+                ModelPrimitive part;
+                part.materialIndices = primitive.materialIndices;
+                std::vector<uint32_t> remap(vertexCount, std::numeric_limits<uint32_t>::max());
+                for (uint32_t triangle : triangles)
+                {
+                    for (uint32_t corner = 0; corner < 3; ++corner)
+                    {
+                        const uint32_t vertex = primitive.indices[triangle + corner];
+                        if (remap[vertex] == std::numeric_limits<uint32_t>::max())
+                        {
+                            remap[vertex] = uint32_t(part.vertices.size());
+                            part.vertices.push_back(primitive.vertices[vertex]);
+                            if (!primitive.colors.empty())
+                            {
+                                part.colors.push_back(primitive.colors[vertex]);
+                            }
+                            if (!primitive.burnOrder.empty())
+                            {
+                                part.burnOrder.push_back(primitive.burnOrder[vertex]);
+                            }
+                        }
+                        part.indices.push_back(remap[vertex]);
+                    }
+                }
+                primitives.push_back(std::move(part));
+            }
+        }
+        mesh.primitives = std::move(primitives);
+    }
+}
+
 bool loadNodes(const cgltf_data &data, ModelAsset &asset, std::string &error)
 {
     asset.nodes.resize(data.nodes_count);
@@ -1456,6 +1568,70 @@ void calculateStaticBounds(ModelAsset &asset)
 }
 }
 
+std::optional<std::unordered_map<std::string, float>> readGltfClipDurations(
+    const AssetFileSystem &assetFileSystem, const std::string &virtualPath)
+{
+    std::unique_ptr<AssetReadStream> pStream = assetFileSystem.openReadStream(virtualPath);
+    if (pStream == nullptr || !pStream->isOpen())
+    {
+        return std::nullopt;
+    }
+    // A binary glTF: the 12-byte header, then the JSON chunk (its length and type, then the text). Only the JSON is
+    // read; a text glTF is all JSON.
+    std::vector<char> json;
+    uint32_t header[5] = {};
+    const int64_t headerBytes = pStream->read(header, sizeof(header));
+    constexpr uint32_t GlbMagic = 0x46546c67;
+    constexpr uint32_t JsonChunkType = 0x4e4f534a;
+    if (headerBytes == int64_t(sizeof(header)) && header[0] == GlbMagic)
+    {
+        if (header[4] != JsonChunkType || header[3] == 0 || header[3] > uint32_t(pStream->length()))
+        {
+            return std::nullopt;
+        }
+        json.resize(header[3]);
+    }
+    else
+    {
+        if (pStream->length() <= 0 || !pStream->seek(0))
+        {
+            return std::nullopt;
+        }
+        json.resize(size_t(pStream->length()));
+    }
+    if (pStream->read(json.data(), json.size()) != int64_t(json.size()))
+    {
+        return std::nullopt;
+    }
+    cgltf_options options = {};
+    options.type = cgltf_file_type_gltf;
+    cgltf_data *pParsedData = nullptr;
+    if (cgltf_parse(&options, json.data(), json.size(), &pParsedData) != cgltf_result_success
+        || pParsedData == nullptr)
+    {
+        return std::nullopt;
+    }
+    std::unique_ptr<cgltf_data, CgltfDeleter> data(pParsedData);
+    std::unordered_map<std::string, float> durations;
+    for (size_t animationIndex = 0; animationIndex < data->animations_count; ++animationIndex)
+    {
+        const cgltf_animation &animation = data->animations[animationIndex];
+        float duration = 0.0f;
+        for (size_t samplerIndex = 0; samplerIndex < animation.samplers_count; ++samplerIndex)
+        {
+            const cgltf_accessor *pInput = animation.samplers[samplerIndex].input;
+            if (pInput != nullptr && pInput->has_max && std::isfinite(pInput->max[0]))
+            {
+                duration = std::max(duration, pInput->max[0]);
+            }
+        }
+        // Named as the loader names them.
+        durations[animation.name != nullptr && animation.name[0] != '\0'
+            ? std::string(animation.name) : "clip_" + std::to_string(animationIndex)] = duration;
+    }
+    return durations;
+}
+
 ModelLoadResult GltfModelLoader::load(
     const AssetFileSystem &assetFileSystem,
     const std::string &virtualPath
@@ -1541,6 +1717,7 @@ ModelLoadResult GltfModelLoader::load(
         return result;
     }
     applyCreatureEdgeDarkening(*asset, authoredEdgeDarkening);
+    splitCardPrimitives(*asset);
     calculateStaticBounds(*asset);
     result.asset = std::move(asset);
     return result;

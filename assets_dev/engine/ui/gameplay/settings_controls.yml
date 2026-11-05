@@ -424,7 +424,7 @@ elements:
     - id: SettingsControlsKeyboardButton
       anchor: top_left
       offset_x: 0.0
-      offset_y: 382.0522
+      offset_y: 420.9775
       width: 118.6501
       height: 20.2667
       z_index: 10
@@ -467,7 +467,7 @@ elements:
     - id: SettingsControlsGroup2
       anchor: top_left
       offset_x: 0.0
-      offset_y: 226.9514
+      offset_y: 265.8767
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -484,7 +484,7 @@ elements:
     - id: SettingsControlsGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 295.7434
+      offset_y: 334.6687
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -551,10 +551,56 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-    - id: SettingsControlsMouseSensitivityLabel
+    - id: SettingsControlsSmartClickLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 105.9088
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Smart left click
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsControlsSmartClickDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 122.1173
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Left-click talks, opens, picks up or uses what is under the cursor, and attacks anywhere else.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsControlsSmartClickControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 103.6925
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsControlsMouseSensitivityLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 144.8341
       width: 382.9333
       height: 14.0752
       z_index: 10
@@ -571,7 +617,7 @@ elements:
     - id: SettingsControlsMouseSensitivityDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 122.1173
+      offset_y: 161.0426
       width: 382.9333
       height: 11.5168
       z_index: 10
@@ -588,7 +634,7 @@ elements:
     - id: SettingsControlsMouseSensitivityControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 111.7715
+      offset_y: 150.6968
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -597,7 +643,7 @@ elements:
     - id: SettingsControlsMouseSensitivityValue
       anchor: top_left
       offset_x: 497.0666
-      offset_y: 113.9048
+      offset_y: 152.8301
       width: 26.6667
       height: 11.7333
       z_index: 10
@@ -614,7 +660,7 @@ elements:
     - id: SettingsControlsTurnRateLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 144.8341
+      offset_y: 183.7594
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -631,7 +677,7 @@ elements:
     - id: SettingsControlsTurnRateDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 161.0426
+      offset_y: 199.9679
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -648,7 +694,7 @@ elements:
     - id: SettingsControlsTurnRateControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 146.9634
+      offset_y: 185.8887
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -667,7 +713,7 @@ elements:
     - id: SettingsControlsInvertMouseYLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 183.7594
+      offset_y: 222.6847
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -684,7 +730,7 @@ elements:
     - id: SettingsControlsInvertMouseYDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 199.9679
+      offset_y: 238.8932
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -701,7 +747,7 @@ elements:
     - id: SettingsControlsInvertMouseYControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 181.543
+      offset_y: 220.4683
       width: 70.4
       height: 32.158
       z_index: 10
@@ -713,7 +759,7 @@ elements:
     - id: SettingsControlsAlwaysRunLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 252.5514
+      offset_y: 291.4767
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -730,7 +776,7 @@ elements:
     - id: SettingsControlsAlwaysRunDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 268.7599
+      offset_y: 307.6852
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -747,7 +793,7 @@ elements:
     - id: SettingsControlsAlwaysRunControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 250.335
+      offset_y: 289.2604
       width: 70.4
       height: 32.158
       z_index: 10
@@ -759,7 +805,7 @@ elements:
     - id: SettingsControlsBagNumberKeysLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 321.3434
+      offset_y: 360.2687
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -776,7 +822,7 @@ elements:
     - id: SettingsControlsBagNumberKeysDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 337.5519
+      offset_y: 376.4772
       width: 395.2
       height: 23.0336
       z_index: 10
@@ -794,7 +840,7 @@ elements:
     - id: SettingsControlsBagNumberKeysControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 329.2311
+      offset_y: 368.1564
       width: 110.9333
       height: 23.4667
       z_index: 10

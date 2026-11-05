@@ -1,7 +1,7 @@
 -- MMMerge map supplement: Control Center blaster training terminal.
 
 ReplaceMapEvent(61, "Computer Terminal", function()
-    evt.SetTexture(-2927, "trekscon")
+    evt.SetTexture(-2912, "trekscon")
     SetQBit(QBit(1300)) -- Control Center blaster terminal was read.
 
     for playerIndex = 0, evt.GetPartyMemberCount() - 1 do

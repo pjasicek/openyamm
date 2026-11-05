@@ -640,7 +640,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
-    Game::MapStats mapStats = {};
+    Game::MapStats &mapStats = data.mapStats;
 
     if (!mapStats.loadFromRows(mapStatsRows))
     {
@@ -661,6 +661,21 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
     if (!mapStats.applyWorldOwnership(worldMapFiles))
     {
         failure = "could not apply map world ownership for regression tests";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> navigationRows;
+
+    std::vector<std::vector<std::string>> outdoorTravelRows;
+    Game::MergedOutdoorTravelTable outdoorTravels = {};
+
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("map_navigation.txt"), navigationRows, failure)
+        || !loadTextTableRows(assetFileSystem, engineDataTablePath("outdoor_travels.txt"), outdoorTravelRows, failure)
+        || !mapStats.applyOutdoorNavigationRows(navigationRows)
+        || !mapStats.applyMergedBolsterMaps(data.mergedBolsterMapTable)
+        || !outdoorTravels.loadFromRows(outdoorTravelRows))
+    {
+        failure = "could not apply map navigation, bolster maps or outdoor travels for regression tests";
         return false;
     }
 
@@ -726,6 +741,12 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
     }
 
     data.houseTable.applyMapWorlds(mapStats);
+
+    if (!mapStats.applyMergedOutdoorTravels(outdoorTravels))
+    {
+        failure = "could not apply merged outdoor travels for regression tests";
+        return false;
+    }
 
     Game::ArcomageLoader arcomageLoader;
 

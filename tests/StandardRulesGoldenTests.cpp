@@ -1,5 +1,6 @@
 #include "doctest/doctest.h"
 #include "engine/TextTable.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
@@ -101,10 +102,16 @@ Party makeTestParty(bool weak, int ageModifier)
     member.maxSpellPoints = 300;
     member.spellPoints = 10;
     member.ageModifier = ageModifier;
+    // A ready active member pays each drink's recovery, as in the original games; the tester cannot act.
+    Character payer = {};
+    payer.name = "Payer";
+    payer.maxHealth = 100;
+    payer.health = 100;
     PartySeed seed = {};
-    seed.members = {member};
+    seed.members = {member, payer};
     Party party = {};
     party.seed(seed);
+    party.setActiveMemberIndex(1);
     for (CharacterCondition condition : {CharacterCondition::Cursed, CharacterCondition::Asleep, CharacterCondition::Fear,
              CharacterCondition::Insane, CharacterCondition::PoisonMedium, CharacterCondition::DiseaseWeak,
              CharacterCondition::Paralyzed, CharacterCondition::Petrified, CharacterCondition::Drunk})
@@ -161,6 +168,46 @@ TEST_CASE("standard party spell numbers match the pinned golden table")
     CHECK_EQ(checked, 444u);
 }
 
+TEST_CASE("a standard drink costs the active member 100 ticks of recovery, as in the original games")
+{
+    REQUIRE_MESSAGE(
+        OpenYAMM::Tests::regressionGameDataLoaded(),
+        OpenYAMM::Tests::regressionGameDataFailure().c_str());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    Character member = {};
+    member.maxHealth = 100;
+    member.health = 10;
+    PartySeed seed = {};
+    seed.members = {member, member, member};
+    Party party = {};
+    party.seed(seed);
+    party.setActiveMemberIndex(1);
+    const auto drinkCureWounds = [&](size_t drinkerIndex)
+    {
+        InventoryItem potion = {};
+        potion.objectDescriptionId = 222;
+        potion.standardEnchantPower = 10;
+        return InventoryItemUseRuntime::useItemOnMember(party, drinkerIndex, potion, gameData.itemTable,
+            &gameData.readableScrollTable, &gameData.mergedPotionSettingTable);
+    };
+
+    // Out of combat too: the active member pays, not the drinker.
+    CHECK(drinkCureWounds(0).consumed);
+    CHECK_EQ(party.members()[0].health, 30);
+    CHECK_EQ(party.members()[0].recoverySecondsRemaining, 0.0f);
+    CHECK_EQ(party.members()[1].recoverySecondsRemaining, doctest::Approx(ticksToRecoverySeconds(100)));
+
+    // A recovering active member: the first ready member pays.
+    CHECK(drinkCureWounds(1).consumed);
+    CHECK_EQ(party.members()[0].recoverySecondsRemaining, doctest::Approx(ticksToRecoverySeconds(100)));
+
+    // Nobody ready: no drink.
+    party.applyRecoveryToMember(2, 1.0f);
+    const InventoryItemUseResult refused = drinkCureWounds(2);
+    CHECK_FALSE(refused.consumed);
+    CHECK_EQ(refused.statusText, "Player must be active to consume the potion");
+}
+
 TEST_CASE("standard potion drinks match the pinned golden results")
 {
     REQUIRE_MESSAGE(
@@ -191,6 +238,7 @@ TEST_CASE("standard potion drinks match the pinned golden results")
 
                 for (int drink = 0; drink < 2; ++drink)
                 {
+                    party.member(1)->recoverySecondsRemaining = 0.0f;
                     const InventoryItemUseResult result = InventoryItemUseRuntime::useItemOnMember(
                         party,
                         0,

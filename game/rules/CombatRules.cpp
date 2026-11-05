@@ -256,6 +256,11 @@ float CombatRules::partyMissileHomingTurnRate() const
     return 0.0f;
 }
 
+bool CombatRules::bowDisabled() const
+{
+    return false;
+}
+
 float CombatRules::monsterMissileHomingLockRate(uint32_t) const
 {
     return 0.0f;

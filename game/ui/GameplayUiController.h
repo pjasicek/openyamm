@@ -15,6 +15,7 @@
 #include <filesystem>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -22,6 +23,7 @@
 namespace OpenYAMM::Game
 {
 struct RulesetProgressSummary;
+struct TrainerEntry;
 
 class GameplayUiController
 {
@@ -189,6 +191,8 @@ public:
         CharacterInspectMasteryLine master = {};
         CharacterInspectMasteryLine grandmaster = {};
         int skillBonus = 0;
+        // A paragraph after the skill bonus (the rules' trainer hint), with colour codes.
+        std::string footer;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -398,6 +402,12 @@ public:
         float mapDragStartCenterX = 0.0f;
         float mapDragStartCenterY = 0.0f;
         uint32_t selectedMapNoteId = 0;
+        // Typing a personal map note (a right click on the map): the note, its text so far, and whether the right
+        // click created it (cancelling removes it then).
+        bool mapNoteEditing = false;
+        uint32_t mapNoteEditId = 0;
+        std::string mapNoteEditText;
+        bool mapNoteEditNew = false;
         uint32_t hoveredMapNoteId = 0;
         float mapCursorWorldX = 0.0f;
         float mapCursorWorldY = 0.0f;
@@ -422,6 +432,16 @@ public:
         uint32_t auraSelected = 0;
         size_t auraScroll = 0;
         bool auraMoveMenuOpen = false;
+        // The Trainers notes' finder (GameplayJournalTrainers.h): the continent shown (0 until the category opens on
+        // the party's), the mastery filter (a SkillMastery, 0 for all), the list's page, and the trainer whose map is
+        // shown with that map's zoom step and centre (world units).
+        uint32_t trainerContinent = 0;
+        uint8_t trainerMastery = 0;
+        size_t trainerPage = 0;
+        std::shared_ptr<const TrainerEntry> trainerShown;
+        int trainerMapZoomStep = 0;
+        float trainerMapCenterX = 0.0f;
+        float trainerMapCenterY = 0.0f;
     };
 
     struct QuickReferenceScreenState
@@ -464,6 +484,9 @@ public:
         size_t materialScrollRow = 0;
         // A gem batch draws on the lowest tier that still raises the item.
         bool cheapestGems = true;
+        // The option picked when the step offers several (the Pearl: which enchantment goes); back to the first
+        // whenever the item or the material changes.
+        size_t choice = 0;
         // Apply was pressed on a step that destroys something; the next press confirms it.
         bool confirmPending = false;
         // Merge was pressed; the next press merges the chosen gem's tier.
@@ -548,6 +571,7 @@ public:
     static bool characterScreenSupportsInspection(const CharacterScreenState &screen);
     // Typing goes to the alchemy bench's recipe search or the inventory's item search instead of hotkeys.
     static bool characterScreenSearchActive(const CharacterScreenState &screen);
+    // Typing goes to the journal: its notes search, or a personal map note being written.
     static bool journalSearchActive(const JournalScreenState &screen);
 
     struct InventoryNestedOverlayState
@@ -566,6 +590,26 @@ public:
         HouseShopMode mode = HouseShopMode::None;
         // Which of a guild's spellbook shelves is open (HouseServiceRuntime::spellbookShelfSchools).
         uint32_t spellbookShelf = 0;
+    };
+
+    // A stable's or boat's Schedule popup over the house dialogue; the selected departure is a weekday (0 Monday)
+    // and one of its routes.
+    struct TransportScheduleState
+    {
+        bool active = false;
+        uint32_t houseId = 0;
+        std::optional<int> selectedDay;
+        uint32_t selectedRouteIndex = 0;
+        // The press a release completes, and whether each input was held last frame (all held when the popup opens,
+        // so the click or key that opened it does nothing more).
+        int pressedTarget = -1;
+        bool pointerHeld = true;
+        bool upHeld = true;
+        bool downHeld = true;
+        bool leftHeld = true;
+        bool rightHeld = true;
+        bool acceptHeld = true;
+        bool escapeHeld = true;
     };
 
     struct HouseShopVisitState
@@ -599,7 +643,6 @@ public:
         bool applyRecovery = true;
         bool bypassRequiredMastery = false;
         bool bypassGameplayCasterValidation = false;
-        bool bypassTownPortalFailureChecks = false;
         bool lloydRecallMode = false;
         bool lloydSetPreviewCapturePending = false;
         bool lloydSetPreviewScreenshotRequested = false;
@@ -659,6 +702,7 @@ public:
         InventoryNestedOverlayState inventoryNestedOverlay = {};
         HouseShopOverlayState houseShopOverlay = {};
         HouseShopVisitState houseShopVisit = {};
+        TransportScheduleState transportSchedule = {};
         HouseBankState houseBankState = {};
         UtilitySpellOverlayState utilitySpellOverlay = {};
         StatusBarState statusBar = {};
@@ -765,6 +809,10 @@ public:
     void closeInventoryNestedOverlay();
     void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode, uint32_t spellbookShelf = 0);
     void closeHouseShopOverlay();
+    TransportScheduleState &transportSchedule();
+    const TransportScheduleState &transportSchedule() const;
+    void openTransportSchedule(uint32_t houseId);
+    void closeTransportSchedule();
     void beginHouseShopVisit(uint32_t houseId);
     void markHouseShopTransactionPerformed(uint32_t houseId);
     bool houseShopTransactionPerformed(uint32_t houseId) const;

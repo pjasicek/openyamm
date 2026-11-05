@@ -2494,6 +2494,7 @@ void GameplayUiRuntime::resetPortraitPresentationState(size_t memberCount)
     m_portraitPresentationState.lastAnimationUpdateTicks = 0;
     m_portraitPresentationState.memberSpeechCooldownUntilTicks.assign(memberCount, 0);
     m_portraitPresentationState.memberCombatSpeechCooldownUntilTicks.assign(memberCount, 0);
+    m_portraitPresentationState.memberSpeechLastPlayedTicks.assign(memberCount, {});
 }
 
 GameplayPortraitPresentationState &GameplayUiRuntime::portraitPresentationState()

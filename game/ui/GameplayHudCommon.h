@@ -85,6 +85,8 @@ struct GameplayHudFontData : Engine::FontAtlas
     bgfx::TextureHandle shadowTextureHandle = BGFX_INVALID_HANDLE;
     // The main atlas with white glyphs, tinted at draw time; the main atlas itself when its glyphs are white.
     bgfx::TextureHandle tintTextureHandle = BGFX_INVALID_HANDLE;
+    // A Unicode face's textures belong to the atlas it shares with the other sizes of its raster height.
+    bool sharedTextures = false;
 };
 
 enum class GameplayHudTextureColorMode

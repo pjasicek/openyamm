@@ -10,6 +10,8 @@
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/QuickItemSlots.h"
 #include "game/party/Party.h"
+#include "game/party/SkillData.h"
+#include "game/party/SpellSchool.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/ItemRules.h"
 #include "game/tables/ItemTable.h"
@@ -109,13 +111,13 @@ std::optional<GameplayResolvedHudLayoutElement> faceRect(GameplayScreenRuntime &
 }
 
 // The round button at a portrait's upper right, outside the mana arc: about 40 degrees above the horizontal from the
-// face's centre, one radius past the arc's outer edge, and short of the next portrait's HP arc. None while the
-// Potion buttons setting hides them.
+// face's centre, one radius past the arc's outer edge, and short of the next portrait's HP arc. None unless the
+// Quick item rings setting shows them.
 std::optional<Circle> buttonCircle(GameplayScreenRuntime &context, int width, int height, size_t member)
 {
     const std::optional<GameplayResolvedHudLayoutElement> face = faceRect(context, width, height, member);
 
-    if (!face || !context.settingsSnapshot().potionButtons)
+    if (!face || !context.settingsSnapshot().quickItemRings)
     {
         return std::nullopt;
     }
@@ -228,49 +230,33 @@ std::vector<PickerRow> pickerRows(GameplayScreenRuntime &context, const Party &p
         return rows;
     }
 
-    const int bags = bagCount(party);
-
-    for (const Character &member : party.members())
+    for (const QuickItemSlots::PartyItemKind &kind : QuickItemSlots::partyItemKinds(party, *pItemTable,
+             context.mergedPotionSettingTable(), context.mergedReagentSettingTable(), bagCount(party)))
     {
-        for (int bag = 0; bag < bags; ++bag)
+        const ItemDefinition *pDefinition = pItemTable->get(kind.itemId);
+
+        if (pDefinition == nullptr)
         {
-            for (const InventoryItem &item : InventoryBags::itemsInBag(member, uint8_t(bag)))
+            continue;
+        }
+
+        PickerRow row;
+        row.itemId = kind.itemId;
+        row.power = kind.power;
+        row.count = kind.count;
+        row.scroll = kind.scroll;
+        row.name = pDefinition->name;
+        row.icon = pDefinition->iconName;
+
+        for (size_t carrier : kind.carriers)
+        {
+            if (const Character *pCarrier = party.member(carrier))
             {
-                const ItemDefinition *pDefinition = pItemTable->get(item.objectDescriptionId);
-
-                if (pDefinition == nullptr
-                    || !QuickItemSlots::canHold(item, *pItemTable, context.mergedPotionSettingTable(),
-                        context.mergedReagentSettingTable()))
-                {
-                    continue;
-                }
-
-                auto row = std::find_if(rows.begin(), rows.end(), [&item](const PickerRow &candidate)
-                    {
-                        return candidate.itemId == item.objectDescriptionId
-                            && candidate.power == item.standardEnchantPower;
-                    });
-
-                if (row == rows.end())
-                {
-                    PickerRow added;
-                    added.itemId = item.objectDescriptionId;
-                    added.power = item.standardEnchantPower;
-                    added.scroll = pDefinition->equipStat != "Bottle";
-                    added.name = pDefinition->name;
-                    added.icon = pDefinition->iconName;
-                    rows.push_back(std::move(added));
-                    row = rows.end() - 1;
-                }
-
-                ++row->count;
-
-                if (std::find(row->carriers.begin(), row->carriers.end(), member.name) == row->carriers.end())
-                {
-                    row->carriers.push_back(member.name);
-                }
+                row.carriers.push_back(pCarrier->name);
             }
         }
+
+        rows.push_back(std::move(row));
     }
 
     std::sort(rows.begin(), rows.end(), [](const PickerRow &left, const PickerRow &right)
@@ -393,7 +379,7 @@ private:
 };
 
 // The member's state as the hub says it: ready, recovering (and who gives the next drink, where drinks cost
-// recovery: MAW), or nobody ready.
+// recovery), or nobody ready.
 std::string hubState(GameplayScreenRuntime &context, const Party &party, size_t member)
 {
     const Character *pMember = party.member(member);
@@ -413,7 +399,8 @@ std::string hubState(GameplayScreenRuntime &context, const Party &party, size_t 
         return "recovering";
     }
 
-    const std::optional<size_t> payer = InventoryItemUseRuntime::drinkRecoveryPayer(party, member);
+    const std::optional<size_t> payer =
+        InventoryItemUseRuntime::drinkRecoveryPayer(*context.mergedPotionSettingTable(), party, member);
     const Character *pPayer = payer ? party.member(*payer) : nullptr;
     return pPayer != nullptr ? "next fed by " + pPayer->name : "nobody ready";
 }
@@ -582,6 +569,831 @@ bool handlePickerInput(GameplayScreenRuntime &context, const GameplayInputFrame 
 
     return true;
 }
+
+// The basebar's potion and scroll buttons and their popups (level_generation/ui/potion_scroll_popups_20261102, A):
+// a medallion on each end ornament of the party frame, scrolls on the left and potions on the right (user,
+// 2026-11-02). Each opens a list of what the party carries over the paused game; a click drinks the potion or reads
+// the scroll as the chosen member, exactly as one dropped on their portrait from the inventory. Sizes are the study's
+// 1600x900 pixels times `k`, the frame's height over its 195 pixels there.
+constexpr float StudyBasebarHeight = 195.0f;
+constexpr char PotionButtonIcon[] = "item178";
+constexpr char ScrollButtonIcon[] = "item202";
+constexpr uint32_t Brass = abgr(0xa8915c);
+constexpr uint32_t BrassDark = abgr(0x6f5f3a);
+constexpr uint32_t RowFill = abgr(0x111c1b, 0xd8);
+constexpr uint32_t RowBorder = abgr(0x263027);
+constexpr uint32_t Good = abgr(0x8fe08a);
+constexpr uint32_t HealthFill = abgr(0x7fd27a);
+constexpr uint32_t HealthGhost = abgr(0xb7f2a8, 0x90);
+constexpr uint32_t ManaFill = abgr(0x79b5f0);
+constexpr uint32_t ManaGhost = abgr(0xb4d8ff, 0x90);
+constexpr uint32_t BarTrack = abgr(0x142020);
+constexpr uint32_t BarBorder = abgr(0x3b4639);
+// The popup: its width and the top of its room (below the top HUD) in the study's pixels, and its contents' scale.
+constexpr float PopupWidth = 1000.0f;
+constexpr float PopupTop = 140.0f;
+constexpr float PopupScale = 1.3f;
+constexpr char NameFont[] = "Arrus";
+
+std::optional<GameplayResolvedHudLayoutElement> basebarRect(GameplayScreenRuntime &context, int width, int height)
+{
+    return context.resolveHudLayoutElement("OutdoorGameplayBasebar", width, height, 0, 0);
+}
+
+// Where a popup's button sits: in the socket of the frame's end ornament (scrolls left, potions right).
+std::optional<Circle> itemButtonAnchor(GameplayScreenRuntime &context, int width, int height, QuickItemPopupKind kind)
+{
+    const std::optional<GameplayResolvedHudLayoutElement> bar = basebarRect(context, width, height);
+
+    if (!bar)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayUiSkin::PartyBasebarSocket socket =
+        GameplayUiSkin::partyBasebarSocket(*bar, kind == QuickItemPopupKind::Potions);
+
+    // With the frame hidden there is no ornament to hold them: closer to the portraits and a little lower (user,
+    // 2026-11-02), just outside where the frame's border would be.
+    if (!context.settingsSnapshot().partyFrame)
+    {
+        const float inset = socket.radius * 0.45f;
+        const float x = kind == QuickItemPopupKind::Potions ? bar->x + bar->width + inset : bar->x - inset;
+        return Circle{x, bar->y + bar->height * 0.64f, socket.radius};
+    }
+
+    return Circle{socket.x, socket.y, socket.radius};
+}
+
+// Whether the frame is drawn with its sockets, so a button is only its icon in the carved socket.
+bool itemButtonsInSockets(GameplayScreenRuntime &context)
+{
+    return context.settingsSnapshot().partyFrame && GameplayUiSkin::partyBasebarHasSockets(context);
+}
+
+// The button itself: none while the Potion and scroll buttons setting hides them.
+std::optional<Circle> itemButtonCircle(GameplayScreenRuntime &context, int width, int height, QuickItemPopupKind kind)
+{
+    if (!context.settingsSnapshot().basebarItemButtons)
+    {
+        return std::nullopt;
+    }
+
+    return itemButtonAnchor(context, width, height, kind);
+}
+
+// One entry of a popup: a kind of potion or scroll at one strength.
+struct PopupEntry
+{
+    uint32_t itemId = 0;
+    uint16_t power = 0;
+    size_t count = 0;
+    std::string name;
+    std::string icon;
+    std::vector<size_t> carriers;
+};
+
+std::vector<PopupEntry> popupEntries(GameplayScreenRuntime &context, const Party &party, QuickItemPopupKind kind)
+{
+    std::vector<PopupEntry> entries;
+    const ItemTable *pItemTable = context.itemTable();
+
+    if (pItemTable == nullptr || kind == QuickItemPopupKind::None)
+    {
+        return entries;
+    }
+
+    for (const QuickItemSlots::PartyItemKind &item : QuickItemSlots::partyItemKinds(party, *pItemTable,
+             context.mergedPotionSettingTable(), context.mergedReagentSettingTable(), bagCount(party)))
+    {
+        const ItemDefinition *pDefinition = pItemTable->get(item.itemId);
+
+        if (pDefinition == nullptr || item.scroll != (kind == QuickItemPopupKind::Scrolls))
+        {
+            continue;
+        }
+
+        entries.push_back({item.itemId, item.power, item.count, pDefinition->name, pDefinition->iconName,
+            item.carriers});
+    }
+
+    std::sort(entries.begin(), entries.end(), [](const PopupEntry &left, const PopupEntry &right)
+        {
+            return std::tie(left.name, left.power) < std::tie(right.name, right.power);
+        });
+    return entries;
+}
+
+size_t popupItemCount(GameplayScreenRuntime &context, const Party &party, QuickItemPopupKind kind)
+{
+    size_t count = 0;
+
+    for (const PopupEntry &entry : popupEntries(context, party, kind))
+    {
+        count += entry.count;
+    }
+
+    return count;
+}
+
+// The popup, centred over the scene above the frame (user, 2026-11-02: symmetric, roomy and readable, no dimming): the
+// header (title, the member, their HP and SP, Close), a hint line, the entries in two columns with a scrollbar, and
+// for potions the footer describing the hovered one. Its contents are drawn in `k`, the study's pixels at
+// PopupScale.
+struct PopupLayout
+{
+    Box panel;
+    Box close;
+    Box memberChip;
+    Box bars;
+    Box list;
+    Box track;
+    Box footer;
+    float rowHeight = 0;
+    float rowGap = 0;
+    float columnWidth = 0;
+    float columnGap = 0;
+    size_t visibleRows = 0;
+    float k = 1;
+};
+
+// `entries` sizes the list: the panel ends below its last row, up to the room between the top HUD and the frame, and
+// sits in the middle of that room.
+std::optional<PopupLayout> popupLayout(GameplayScreenRuntime &context, int width, int height, QuickItemPopupKind kind,
+    size_t entries)
+{
+    const std::optional<GameplayResolvedHudLayoutElement> bar = basebarRect(context, width, height);
+
+    if (!bar)
+    {
+        return std::nullopt;
+    }
+
+    PopupLayout layout;
+    const float base = bar->height / StudyBasebarHeight;
+    const float k = base * PopupScale;
+    layout.k = k;
+    const float top = PopupTop * base;
+    const float bottom = bar->y - 10 * base;
+    const float panelWidth = std::min(PopupWidth * base, float(width) - 8 * base);
+    const float footerHeight = kind == QuickItemPopupKind::Potions ? 84 * k : 0;
+    const float chrome = 92 * k + footerHeight + (footerHeight > 0 ? 6 * k : 12 * k);
+    // Whole rows only: as many as the entries need (at least two) and the room allows.
+    const float rowPitch = 52 * k;
+    const size_t fitting = size_t(std::max(1.0f, std::floor((bottom - top - chrome + 4 * k) / rowPitch + 0.01f)));
+    const size_t rows = std::min(std::clamp<size_t>((entries + 1) / 2, 2, 8), fitting);
+    const float panelHeight = chrome + float(rows) * rowPitch - 4 * k;
+    layout.panel = {(float(width) - panelWidth) / 2, top + std::max(0.0f, (bottom - top - panelHeight) / 2),
+        panelWidth, panelHeight};
+    const Box &panel = layout.panel;
+    layout.close = {panel.x + panel.width - 16 * k - 96 * k, panel.y + 14 * k, 96 * k, 36 * k};
+    layout.memberChip = {panel.x + 150 * k, panel.y + 9 * k, 200 * k, 46 * k};
+    layout.bars = {layout.memberChip.x + layout.memberChip.width + 16 * k, panel.y + 18 * k, 112 * k, 29 * k};
+    layout.footer = {panel.x, panel.y + panel.height - footerHeight, panel.width, footerHeight};
+    layout.list = {panel.x + 12 * k, panel.y + 92 * k, panel.width - 38 * k,
+        panel.height - 92 * k - footerHeight - (footerHeight > 0 ? 6 * k : 12 * k)};
+    layout.rowHeight = 48 * k;
+    layout.rowGap = 4 * k;
+    layout.columnGap = 8 * k;
+    layout.columnWidth = (layout.list.width - layout.columnGap) / 2;
+    layout.visibleRows = rows;
+    layout.track = {panel.x + panel.width - 18 * k, layout.list.y, 6 * k,
+        layout.visibleRows * (layout.rowHeight + layout.rowGap) - layout.rowGap};
+    return layout;
+}
+
+size_t popupRowCount(size_t entries)
+{
+    return (entries + 1) / 2;
+}
+
+size_t popupMaxScroll(const PopupLayout &layout, size_t entries)
+{
+    const size_t rows = popupRowCount(entries);
+    return rows > layout.visibleRows ? rows - layout.visibleRows : 0;
+}
+
+// The entry's box when it is in view.
+std::optional<Box> popupEntryBox(const PopupLayout &layout, size_t index, size_t scroll)
+{
+    const size_t row = index / 2;
+
+    if (row < scroll || row >= scroll + layout.visibleRows)
+    {
+        return std::nullopt;
+    }
+
+    return Box{layout.list.x + float(index % 2) * (layout.columnWidth + layout.columnGap),
+        layout.list.y + float(row - scroll) * (layout.rowHeight + layout.rowGap), layout.columnWidth,
+        layout.rowHeight};
+}
+
+// The six quick-slot chips a right click opens over an entry: a click puts the entry's kind in that slot of the
+// member's (or takes it out again).
+Box keyChip(const Box &entry, size_t slot, float k)
+{
+    const float chip = 26 * k;
+    const float gap = 4 * k;
+    const float right = entry.x + entry.width - 8 * k;
+    return {right - float(QuickItemSlotCount - slot) * (chip + gap) + gap, entry.y + (entry.height - chip) / 2, chip,
+        chip};
+}
+
+std::string carrierNames(const Party &party, const std::vector<size_t> &carriers)
+{
+    std::string names;
+
+    for (size_t carrier : carriers)
+    {
+        if (const Character *pCarrier = party.member(carrier))
+        {
+            names += (names.empty() ? "" : ", ") + pCarrier->name;
+        }
+    }
+
+    return names;
+}
+
+// The school a scroll's spell belongs to, as its skill names it ("FireMagic"), and that school's colour.
+std::optional<std::pair<std::string, uint32_t>> scrollSchool(const ItemTable &itemTable, uint32_t itemId)
+{
+    static const std::array<std::pair<const char *, uint32_t>, 9> Schools = {{
+        {"FireMagic", abgr(0xff8a4a)}, {"AirMagic", abgr(0xbfe3ff)}, {"WaterMagic", abgr(0x5aa8ff)},
+        {"EarthMagic", abgr(0xb9935a)}, {"SpiritMagic", abgr(0xf0e6b0)}, {"MindMagic", abgr(0xc49aff)},
+        {"BodyMagic", abgr(0x7fe0a0)}, {"LightMagic", abgr(0xfff3c0)}, {"DarkMagic", abgr(0x9a7fb0)},
+    }};
+    const ItemDefinition *pDefinition = itemTable.get(itemId);
+    const std::optional<uint32_t> spellId =
+        pDefinition != nullptr ? InventoryItemUseRuntime::scrollSpellId(*pDefinition) : std::nullopt;
+    const std::optional<std::string> skill = spellId ? resolveMagicSkillName(*spellId) : std::nullopt;
+
+    if (!skill)
+    {
+        return std::nullopt;
+    }
+
+    for (const auto &[name, colour] : Schools)
+    {
+        if (*skill == name)
+        {
+            return std::pair<std::string, uint32_t>{displaySkillName(*skill), colour};
+        }
+    }
+
+    return std::pair<std::string, uint32_t>{displaySkillName(*skill), Muted};
+}
+
+void closePopup(GameplayScreenRuntime &context)
+{
+    GameplayOverlayInteractionState &state = context.interactionState();
+    state.quickItemPopup = QuickItemPopupKind::None;
+    state.quickItemPopupHovered.reset();
+    state.quickItemPopupKeyEntry.reset();
+}
+
+void togglePopup(GameplayScreenRuntime &context, const Party &party, QuickItemPopupKind kind)
+{
+    GameplayOverlayInteractionState &state = context.interactionState();
+
+    if (state.quickItemPopup == kind)
+    {
+        closePopup(context);
+        return;
+    }
+
+    closeRing(context);
+    closePopup(context);
+    state.quickItemPopup = kind;
+    state.quickItemPopupMember = party.activeMemberIndex();
+    state.quickItemPopupScroll = 0;
+}
+
+void renderItemButtons(GameplayScreenRuntime &context, const Party &party, int width, int height)
+{
+    const Painter paint(context);
+    const QuickItemPopupKind open = context.interactionState().quickItemPopup;
+
+    for (const QuickItemPopupKind kind : {QuickItemPopupKind::Scrolls, QuickItemPopupKind::Potions})
+    {
+        const std::optional<Circle> button = itemButtonCircle(context, width, height, kind);
+
+        if (!button)
+        {
+            continue;
+        }
+
+        // Only the icon (user, 2026-11-02), greyed when the party carries none. In the ornament's socket the carving is
+        // the button; with the frame hidden a round obsidian plate of its own stands in its place.
+        const size_t count = popupItemCount(context, party, kind);
+
+        if (itemButtonsInSockets(context))
+        {
+            if (open == kind)
+            {
+                paint.ring({button->x, button->y, button->radius * 0.97f}, 4.0f, true);
+            }
+        }
+        else
+        {
+            paint.disc(*button, abgr(0x0b1414));
+            paint.disc({button->x, button->y, button->radius * 0.86f}, abgr(0x14201f));
+            paint.ring(*button, 6.0f, open == kind);
+        }
+
+        const bool potions = kind == QuickItemPopupKind::Potions;
+        const float iconSize = button->radius * 1.7f;
+        paint.icon(potions ? PotionButtonIcon : ScrollButtonIcon, {button->x - iconSize / 2, button->y - iconSize / 2,
+            iconSize, iconSize}, count == 0);
+    }
+}
+
+// A meter of the header: the value, a striped gain the hovered potion would add, and the numbers beside it.
+void renderPopupBar(const Painter &paint, const Box &box, int value, int maximum, int gain, uint32_t fill,
+    uint32_t ghost, float k)
+{
+    paint.fill(box, BarTrack);
+    paint.frame(box, std::max(1.0f, k), BarBorder);
+
+    if (maximum <= 0)
+    {
+        paint.text(TextFont, 11 * k, Muted, "no SP", box.x + box.width + 8 * k, box.y - 2 * k);
+        return;
+    }
+
+    const float inner = box.width - 2 * k;
+    const float filled = inner * std::clamp(float(value) / float(maximum), 0.0f, 1.0f);
+    paint.fill({box.x + k, box.y + k, filled, box.height - 2 * k}, fill);
+
+    if (gain > 0)
+    {
+        const float extra = std::min(inner - filled, inner * float(gain) / float(maximum));
+        paint.fill({box.x + k + filled, box.y + k, extra, box.height - 2 * k}, ghost);
+    }
+
+    paint.text(TextFont, 11 * k, Ivory, std::to_string(value) + " / " + std::to_string(maximum),
+        box.x + box.width + 8 * k, box.y - 2 * k);
+}
+
+void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, int height)
+{
+    const GameplayOverlayInteractionState &state = context.interactionState();
+    const QuickItemPopupKind kind = state.quickItemPopup;
+    const std::vector<PopupEntry> entries = popupEntries(context, party, kind);
+    const std::optional<PopupLayout> layout = popupLayout(context, width, height, kind, entries.size());
+    const std::optional<GameplayResolvedHudLayoutElement> bar = basebarRect(context, width, height);
+    const Character *pMember = party.member(state.quickItemPopupMember);
+    const ItemTable *pItemTable = context.itemTable();
+
+    if (!layout || !bar || pMember == nullptr || pItemTable == nullptr)
+    {
+        return;
+    }
+
+    const Painter paint(context);
+    const float k = layout->k;
+    const bool potions = kind == QuickItemPopupKind::Potions;
+
+    // The member's portrait gets the selected rim, thicker, when it is not the active member's.
+    if (state.quickItemPopupMember != party.activeMemberIndex())
+    {
+        const std::string rimId = "ObsidianPc" + std::to_string(state.quickItemPopupMember + 1) + "Rim";
+        const UiLayoutManager::LayoutElement *pRim = context.findHudLayoutElement(rimId);
+        const std::optional<GameplayResolvedHudLayoutElement> rim =
+            context.resolveHudLayoutElement(rimId, width, height, 0, 0);
+
+        if (pRim != nullptr && pRim->meterArc && rim)
+        {
+            GameplayUiSkin::renderArc(context, *rim, 3.0f, pRim->meterArc->startDegrees,
+                pRim->meterArc->sweepDegrees, GameplayUiSkin::ArcMaterial::SelectedRim);
+        }
+    }
+
+    const Box &panel = layout->panel;
+    const Box outer = {panel.x - 4 * k, panel.y - 4 * k, panel.width + 8 * k, panel.height + 8 * k};
+    paint.fill(outer, abgr(0x1a1f1a, 0xf0));
+    paint.frame(outer, std::max(1.0f, k), BrassDark);
+    paint.fill(panel, PanelFill);
+    paint.frame(panel, std::max(1.0f, k), Brass);
+
+    // Header: title, the member, their HP and SP, Close.
+    paint.text("Fondamento", 30 * k, Ivory, potions ? "Potions" : "Scrolls", panel.x + 16 * k, panel.y + 15 * k);
+    const Box &chip = layout->memberChip;
+    paint.fill(chip, abgr(0x0d1716));
+    paint.frame(chip, std::max(1.0f, k), ChipBorder);
+
+    if (const std::optional<GameplayHudTextureHandle> portrait =
+            context.gameplayUiRuntime().ensureHudTextureLoaded(context.resolvePortraitTextureName(*pMember)))
+    {
+        context.gameplayUiRuntime().submitHudTexturedEllipse(portrait->textureHandle, chip.x + 4 * k, chip.y + 3 * k,
+            34 * k, 40 * k);
+    }
+
+    paint.text("Fondamento", 19 * k, Label, paint.fitted("Fondamento", 19 * k, pMember->name, chip.width - 52 * k),
+        chip.x + 46 * k, chip.y + 4 * k);
+    paint.text(TextFont, 11 * k, Muted,
+        std::string(potions ? "drinks" : "reads") + "  \xB7  " + hubState(context, party, state.quickItemPopupMember),
+        chip.x + 46 * k, chip.y + 27 * k);
+
+    const std::optional<size_t> hovered =
+        state.quickItemPopupHovered && *state.quickItemPopupHovered < entries.size() ? state.quickItemPopupHovered
+                                                                                     : std::nullopt;
+    PotionPreview preview;
+
+    if (potions && hovered && context.mergedPotionSettingTable() != nullptr)
+    {
+        InventoryItem item;
+        item.objectDescriptionId = entries[*hovered].itemId;
+        item.standardEnchantPower = entries[*hovered].power;
+        preview = InventoryItemUseRuntime::previewPotion(party, state.quickItemPopupMember, item,
+            *context.mergedPotionSettingTable());
+    }
+
+    const Box &bars = layout->bars;
+    renderPopupBar(paint, {bars.x, bars.y, bars.width, 12 * k}, pMember->health,
+        Party::effectiveMaximumHealth(*pMember), preview.healthGain, HealthFill, HealthGhost, k);
+    renderPopupBar(paint, {bars.x, bars.y + 17 * k, bars.width, 12 * k}, pMember->spellPoints,
+        Party::effectiveMaximumSpellPoints(*pMember), preview.spellPointGain, ManaFill, ManaGhost, k);
+
+    const Box &close = layout->close;
+    paint.fill(close, ChipFill);
+    paint.frame(close, std::max(1.0f, k), ChipOnBorder);
+    paint.text("Fondamento", 19 * k, abgr(0xe8d1a4), "Close", close.x + close.width / 2, close.y + 7 * k, 1);
+    paint.fill({panel.x, panel.y + 64 * k, panel.width, std::max(1.0f, k)}, abgr(0x3a4234));
+
+    // The hint line.
+    paint.text(TextFont, 12 * k, Muted, potions ? "Click a portrait below to choose who drinks"
+                                                : "Click a portrait below to choose who reads",
+        panel.x + 16 * k, panel.y + 68 * k);
+    paint.text(TextFont, 12 * k, Muted, "Right-click: put on a quick slot", panel.x + panel.width - 16 * k,
+        panel.y + 68 * k, 2);
+
+    // The entries, two to a row.
+    const size_t scroll = std::min(state.quickItemPopupScroll, popupMaxScroll(*layout, entries.size()));
+    const MergedPotionSettingTable *pPotionTable = context.mergedPotionSettingTable();
+
+    for (size_t index = 0; index < entries.size(); ++index)
+    {
+        const std::optional<Box> box = popupEntryBox(*layout, index, scroll);
+
+        if (!box)
+        {
+            continue;
+        }
+
+        const PopupEntry &entry = entries[index];
+        bool idle = false;
+
+        if (potions && pPotionTable != nullptr)
+        {
+            InventoryItem item;
+            item.objectDescriptionId = entry.itemId;
+            item.standardEnchantPower = entry.power;
+            idle = InventoryItemUseRuntime::previewPotion(party, state.quickItemPopupMember, item, *pPotionTable)
+                       .noEffectNow();
+        }
+
+        const bool hot = hovered == index || state.quickItemPopupKeyEntry == index;
+        paint.fill(*box, hot ? ChipOnFill : RowFill);
+        paint.frame(*box, std::max(1.0f, k), hot ? ChipOnBorder : RowBorder);
+        paint.icon(entry.icon, {box->x + 4 * k, box->y + 2 * k, 44 * k, 44 * k}, idle);
+        const float textX = box->x + 56 * k;
+        const std::string countText = "x" + std::to_string(entry.count);
+        const float countWidth = paint.width(TextFont, 14 * k, countText);
+        paint.text(NameFont, 16 * k, idle ? Muted : Ivory,
+            paint.fitted(NameFont, 16 * k, entry.name, box->width - 66 * k - countWidth), textX, box->y + 6 * k);
+        paint.text(TextFont, 14 * k, Ivory, countText, box->x + box->width - 10 * k, box->y + 15 * k, 2);
+        const std::string carriers = carrierNames(party, entry.carriers);
+        float subX = textX;
+
+        if (potions)
+        {
+            const std::string sub = "strength " + std::to_string(entry.power) + "  \xB7  " + carriers;
+            const std::string fitted = paint.fitted(TextFont, 11 * k, sub, box->width - 70 * k - countWidth
+                - (idle ? paint.width(TextFont, 11 * k, "  \xB7  no effect now") : 0));
+            paint.text(TextFont, 11 * k, Muted, fitted, subX, box->y + 28 * k);
+
+            if (idle)
+            {
+                subX += paint.width(TextFont, 11 * k, fitted);
+                paint.text(TextFont, 11 * k, Warn, "  \xB7  no effect now", subX, box->y + 28 * k);
+            }
+        }
+        else
+        {
+            const std::optional<std::pair<std::string, uint32_t>> school = scrollSchool(*pItemTable, entry.itemId);
+
+            if (school)
+            {
+                paint.disc({subX + 3.5f * k, box->y + 34 * k, 3.5f * k}, school->second);
+                subX += 11 * k;
+            }
+
+            paint.text(TextFont, 11 * k, Muted,
+                paint.fitted(TextFont, 11 * k, (school ? school->first + "  \xB7  " : std::string()) + carriers,
+                    box->width - 80 * k - countWidth),
+                subX, box->y + 28 * k);
+        }
+
+        // The member's quick slots holding this kind.
+        float pinX = box->x + 2 * k;
+
+        for (size_t slot = 0; slot < QuickItemSlotCount; ++slot)
+        {
+            if (pMember->quickItemSlots[slot].itemId == entry.itemId)
+            {
+                const Box pin = {pinX, box->y + 2 * k, 15 * k, 15 * k};
+                paint.fill(pin, abgr(0x1c2524));
+                paint.frame(pin, std::max(1.0f, k), abgr(0x6b6a4e));
+                paint.text(TextFont, 10 * k, Gold, std::to_string(slot + 1), pin.x + pin.width / 2, pin.y + 1 * k, 1);
+                pinX += 17 * k;
+            }
+        }
+
+        // The quick-slot chooser over the entry.
+        if (state.quickItemPopupKeyEntry == index)
+        {
+            const Box first = keyChip(*box, 0, k);
+            const Box strip = {first.x - 82 * k, box->y + 3 * k, box->x + box->width - 4 * k - (first.x - 82 * k),
+                box->height - 6 * k};
+            paint.fill(strip, abgr(0x0b1212, 0xf4));
+            paint.frame(strip, std::max(1.0f, k), ChipOnBorder);
+            paint.text(TextFont, 11 * k, Body, "Quick slot", strip.x + 8 * k, strip.y + strip.height / 2 - 7 * k);
+
+            for (size_t slot = 0; slot < QuickItemSlotCount; ++slot)
+            {
+                const Box chipBox = keyChip(*box, slot, k);
+                const bool on = pMember->quickItemSlots[slot].itemId == entry.itemId;
+                paint.fill(chipBox, on ? ChipOnFill : ChipFill);
+                paint.frame(chipBox, std::max(1.0f, k), on ? ChipOnBorder : ChipBorder);
+                paint.text(TextFont, 13 * k, on ? Ivory : Body, std::to_string(slot + 1),
+                    chipBox.x + chipBox.width / 2, chipBox.y + 5 * k, 1);
+            }
+        }
+    }
+
+    if (entries.empty())
+    {
+        paint.text(TextFont, 14 * k, Muted, potions ? "The party carries no potion" : "The party carries no scroll",
+            layout->list.x + 8 * k, layout->list.y + 10 * k);
+    }
+
+    const size_t maxScroll = popupMaxScroll(*layout, entries.size());
+
+    if (maxScroll > 0)
+    {
+        const Box &track = layout->track;
+        paint.fill(track, Track);
+        const float thumb = track.height * float(layout->visibleRows) / float(popupRowCount(entries.size()));
+        const float offset = (track.height - thumb) * float(scroll) / float(maxScroll);
+        paint.fill({track.x - k, track.y + offset, track.width + 2 * k, thumb}, abgr(0x6a8dac));
+    }
+
+    // Potions: the hovered one's effect on the member.
+    if (!potions || layout->footer.height <= 0)
+    {
+        return;
+    }
+
+    const Box &footer = layout->footer;
+    paint.fill({footer.x, footer.y, footer.width, std::max(1.0f, k)}, abgr(0x3a4234));
+
+    if (!hovered)
+    {
+        paint.text(TextFont, 13 * k, Muted, "Point at a potion to see what it does for " + pMember->name,
+            footer.x + 16 * k, footer.y + 32 * k);
+        return;
+    }
+
+    const PopupEntry &entry = entries[*hovered];
+    const int bags = bagCount(party);
+    const std::optional<QuickItemSlots::PartyLocation> source = QuickItemSlots::findPartyItemOfPower(
+        party, state.quickItemPopupMember, entry.itemId, entry.power, bags);
+    const Character *pSource = source ? party.member(source->memberIndex) : nullptr;
+    paint.text("Fondamento", 19 * k, Label, entry.name, footer.x + 16 * k, footer.y + 12 * k);
+    paint.text(TextFont, 13 * k, Muted, "strength " + std::to_string(entry.power)
+            + (pSource != nullptr ? "  \xB7  from " + pSource->name + "'s pack" : std::string()),
+        footer.x + 24 * k + paint.width("Fondamento", 19 * k, entry.name), footer.y + 17 * k);
+    float x = footer.x + 16 * k;
+    const float y = footer.y + 46 * k;
+    const auto say = [&](const std::string &text, uint32_t colour)
+    {
+        paint.text(TextFont, 13 * k, colour, text, x, y);
+        x += paint.width(TextFont, 13 * k, text);
+    };
+
+    if (preview.noEffectNow())
+    {
+        say("No effect on " + pMember->name + " now", Warn);
+        return;
+    }
+
+    if (preview.healthGain > 0)
+    {
+        say(pMember->name + " ", Body);
+        say("+" + std::to_string(preview.healthGain) + " HP", Good);
+        say(" (" + std::to_string(preview.healthBefore) + " to "
+                + std::to_string(preview.healthBefore + preview.healthGain) + " of "
+                + std::to_string(preview.healthMaximum) + ")   ",
+            Muted);
+    }
+
+    if (preview.spellPointGain > 0)
+    {
+        say(preview.healthGain > 0 ? "" : pMember->name + " ", Body);
+        say("+" + std::to_string(preview.spellPointGain) + " SP", Good);
+        say(" (" + std::to_string(preview.spellPointsBefore) + " to "
+                + std::to_string(preview.spellPointsBefore + preview.spellPointGain) + " of "
+                + std::to_string(preview.spellPointsMaximum) + ")   ",
+            Muted);
+    }
+
+    for (CharacterCondition condition : preview.cures)
+    {
+        say("Cures " + GameMechanics::conditionName(condition) + "   ", Good);
+    }
+
+    if (preview.healthGain == 0 && preview.spellPointGain == 0 && preview.cures.empty())
+    {
+        const ItemDefinition *pDefinition = pItemTable->get(entry.itemId);
+        // The item's description, without its inventory hint ("(To drink, pick the potion up ...)").
+        std::string notes = pDefinition != nullptr ? pDefinition->notes : std::string();
+        notes = notes.substr(0, notes.find("  (To "));
+        notes = notes.substr(0, notes.find(" (To "));
+        say(!notes.empty() ? paint.fitted(TextFont, 13 * k, notes, footer.width - 48 * k) : pMember->name + " drinks it",
+            Body);
+    }
+}
+
+// The popup's clicks, wheel and keys while it is open; it takes every click (the game is paused under it).
+bool handlePopupInput(GameplayScreenRuntime &context, const GameplayInputFrame &input, Party &party, int width,
+    int height, bool pointerAllowed, bool escapePressed)
+{
+    GameplayOverlayInteractionState &state = context.interactionState();
+    const QuickItemPopupKind kind = state.quickItemPopup;
+    const std::vector<PopupEntry> entries = popupEntries(context, party, kind);
+    const std::optional<PopupLayout> layout = popupLayout(context, width, height, kind, entries.size());
+
+    if (!layout || party.member(state.quickItemPopupMember) == nullptr)
+    {
+        closePopup(context);
+        return false;
+    }
+
+    const size_t maxScroll = popupMaxScroll(*layout, entries.size());
+    state.quickItemPopupScroll = std::min(state.quickItemPopupScroll, maxScroll);
+    const float x = input.pointerX;
+    const float y = input.pointerY;
+    std::optional<size_t> under;
+
+    for (size_t index = 0; pointerAllowed && index < entries.size(); ++index)
+    {
+        const std::optional<Box> box = popupEntryBox(*layout, index, state.quickItemPopupScroll);
+
+        if (box && box->contains(x, y))
+        {
+            under = index;
+        }
+    }
+
+    state.quickItemPopupHovered = under;
+
+    if (escapePressed)
+    {
+        if (state.quickItemPopupKeyEntry)
+        {
+            state.quickItemPopupKeyEntry.reset();
+        }
+        else
+        {
+            closePopup(context);
+        }
+
+        state.menuToggleLatch = true;
+        return true;
+    }
+
+    if (pointerAllowed && layout->panel.contains(x, y) && input.mouseWheelDelta != 0)
+    {
+        state.quickItemPopupKeyEntry.reset();
+        state.quickItemPopupScroll = input.mouseWheelDelta > 0
+            ? (state.quickItemPopupScroll > 0 ? state.quickItemPopupScroll - 1 : 0)
+            : std::min(state.quickItemPopupScroll + 1, maxScroll);
+    }
+
+    const bool left = pointerAllowed && input.leftMouseButton.pressed;
+    const bool right = pointerAllowed && input.rightMouseButton.pressed;
+
+    if (!left && !right)
+    {
+        return state.quickItemClickLatch && (input.leftMouseButton.held || input.rightMouseButton.held);
+    }
+
+    state.quickItemClickLatch = true;
+    Character &member = *party.member(state.quickItemPopupMember);
+
+    // The quick-slot chooser takes the click first; anywhere else just closes it.
+    if (state.quickItemPopupKeyEntry)
+    {
+        const size_t entryIndex = *state.quickItemPopupKeyEntry;
+        const std::optional<Box> box = entryIndex < entries.size()
+            ? popupEntryBox(*layout, entryIndex, state.quickItemPopupScroll)
+            : std::nullopt;
+        state.quickItemPopupKeyEntry.reset();
+
+        for (size_t slot = 0; box && left && slot < QuickItemSlotCount; ++slot)
+        {
+            if (keyChip(*box, slot, layout->k).contains(x, y))
+            {
+                QuickItemSlot &quickSlot = member.quickItemSlots[slot];
+                quickSlot.itemId = quickSlot.itemId == entries[entryIndex].itemId ? 0 : entries[entryIndex].itemId;
+                return true;
+            }
+        }
+
+        if (box && box->contains(x, y))
+        {
+            return true;
+        }
+    }
+
+    if (left && layout->close.contains(x, y))
+    {
+        closePopup(context);
+        return true;
+    }
+
+    // The buttons: the open one closes its popup, the other switches to its own.
+    for (const QuickItemPopupKind buttonKind : {QuickItemPopupKind::Scrolls, QuickItemPopupKind::Potions})
+    {
+        const std::optional<Circle> button = itemButtonCircle(context, width, height, buttonKind);
+
+        if (left && button && button->contains(x, y))
+        {
+            const size_t member = state.quickItemPopupMember;
+            togglePopup(context, party, buttonKind);
+
+            if (state.quickItemPopup != QuickItemPopupKind::None)
+            {
+                state.quickItemPopupMember = member;
+            }
+
+            return true;
+        }
+    }
+
+    // A portrait chooses who drinks or reads.
+    for (size_t index = 0; index < std::min<size_t>(5, party.members().size()); ++index)
+    {
+        const std::optional<GameplayResolvedHudLayoutElement> face = faceRect(context, width, height, index);
+
+        if (left && face && x >= face->x && x < face->x + face->width && y >= face->y && y < face->y + face->height)
+        {
+            state.quickItemPopupMember = index;
+            return true;
+        }
+    }
+
+    if (left && maxScroll > 0 && layout->track.contains(x, y))
+    {
+        const float position = (y - layout->track.y) / std::max(1.0f, layout->track.height);
+        state.quickItemPopupScroll = std::min(size_t(std::lround(position * float(maxScroll))), maxScroll);
+        return true;
+    }
+
+    if (under)
+    {
+        const PopupEntry &entry = entries[*under];
+
+        if (right)
+        {
+            state.quickItemPopupKeyEntry = *under;
+            return true;
+        }
+
+        const size_t user = state.quickItemPopupMember;
+        const std::optional<QuickItemSlots::PartyLocation> location =
+            QuickItemSlots::findPartyItemOfPower(party, user, entry.itemId, entry.power, bagCount(party));
+
+        // The popup closes first: a scroll's spell then takes its target over the running game, as one read from
+        // the inventory does.
+        closePopup(context);
+
+        if (location)
+        {
+            context.itemService().useCarriedItem(context, user, *location);
+        }
+
+        return true;
+    }
+
+    // A click away closes the popup.
+    if (!layout->panel.contains(x, y))
+    {
+        closePopup(context);
+    }
+
+    return true;
+}
 }
 
 bool GameplayQuickItems::ringOpen(GameplayScreenRuntime &context)
@@ -589,10 +1401,20 @@ bool GameplayQuickItems::ringOpen(GameplayScreenRuntime &context)
     return context.interactionState().quickItemRingOpen;
 }
 
+bool GameplayQuickItems::popupOpen(GameplayScreenRuntime &context)
+{
+    return context.interactionState().quickItemPopup != QuickItemPopupKind::None;
+}
+
+bool GameplayQuickItems::needsCursor(GameplayScreenRuntime &context)
+{
+    return ringOpen(context) || popupOpen(context);
+}
+
 bool GameplayQuickItems::takesPointer(GameplayScreenRuntime &context)
 {
     const GameplayOverlayInteractionState &state = context.interactionState();
-    return state.quickItemRingOpen || state.quickItemClickLatch;
+    return state.quickItemRingOpen || state.quickItemPopup != QuickItemPopupKind::None || state.quickItemClickLatch;
 }
 
 bool GameplayQuickItems::takesPointerAction(GameplayScreenRuntime &context, KeyboardAction action)
@@ -614,6 +1436,13 @@ void GameplayQuickItems::renderHud(GameplayScreenRuntime &context, int width, in
     const Painter paint(context);
     const GameplayOverlayInteractionState &state = context.interactionState();
     const size_t members = std::min<size_t>(5, pParty->members().size());
+    renderItemButtons(context, *pParty, width, height);
+
+    if (state.quickItemPopup != QuickItemPopupKind::None)
+    {
+        renderPopup(context, *pParty, width, height);
+        return;
+    }
 
     // The buttons: a small round obsidian plate showing a miniature of slot 1's item (user, 2026-10-25), greyed with
     // its party-wide count when nobody carries one; an empty black socket when slot 1 is empty (user).
@@ -741,6 +1570,7 @@ bool GameplayQuickItems::handleHudInput(GameplayScreenRuntime &context, const Ga
     if (!allowInput || pParty == nullptr)
     {
         closeRing(context);
+        closePopup(context);
         state.quickItemWheelHeld = false;
         state.quickItemClickLatch = false;
         return false;
@@ -768,10 +1598,47 @@ bool GameplayQuickItems::handleHudInput(GameplayScreenRuntime &context, const Ga
         return std::nullopt;
     };
 
-    // The wheel key: a tap opens the active member's ring (or closes it), a hold uses the slot it is released over.
-    const GameplayButtonInputState &wheel = input.action(KeyboardAction::QuickItemWheel);
+    // Escape closes the popup, else the picker, else the ring.
+    const bool escape = input.isScancodeHeld(SDL_SCANCODE_ESCAPE);
+    const bool escapePressed = escape && !state.quickItemEscapeHeld;
+    state.quickItemEscapeHeld = escape;
 
-    if (wheel.pressed && !state.quickItemWheelHeld)
+    // The Potions key opens the potion popup (the active member's ring with the quick item rings on), the Scrolls key
+    // the scroll popup; each closes its own.
+    const GameplayButtonInputState &wheel = input.action(KeyboardAction::QuickItemWheel);
+    const bool rings = context.settingsSnapshot().quickItemRings;
+
+    if (input.action(KeyboardAction::ScrollPopup).pressed)
+    {
+        togglePopup(context, *pParty, QuickItemPopupKind::Scrolls);
+    }
+    else if (!rings && wheel.pressed)
+    {
+        togglePopup(context, *pParty, QuickItemPopupKind::Potions);
+    }
+
+    if (state.quickItemPopup != QuickItemPopupKind::None)
+    {
+        return handlePopupInput(context, input, *pParty, width, height, pointerAllowed, escapePressed);
+    }
+
+    // The basebar's buttons open their popups.
+    for (const QuickItemPopupKind kind : {QuickItemPopupKind::Scrolls, QuickItemPopupKind::Potions})
+    {
+        const std::optional<Circle> button = itemButtonCircle(context, width, height, kind);
+
+        if (pointerAllowed && input.leftMouseButton.pressed && button
+            && button->contains(input.pointerX, input.pointerY))
+        {
+            togglePopup(context, *pParty, kind);
+            state.quickItemClickLatch = true;
+            return true;
+        }
+    }
+
+    // The wheel key (quick item rings on): a tap opens the active member's ring (or closes it), a hold uses the slot it
+    // is released over.
+    if (rings && wheel.pressed && !state.quickItemWheelHeld)
     {
         state.quickItemWheelHeld = true;
         state.quickItemWheelPressedTicks = SDL_GetTicks();
@@ -805,11 +1672,6 @@ bool GameplayQuickItems::handleHudInput(GameplayScreenRuntime &context, const Ga
     state.quickItemHoveredSlot =
         state.quickItemRingOpen && pointerAllowed && !state.quickItemPickerSlot ? hoveredSlot() : std::nullopt;
 
-    // Escape closes the picker first, then the ring.
-    const bool escape = input.isScancodeHeld(SDL_SCANCODE_ESCAPE);
-    const bool escapePressed = escape && !state.quickItemEscapeHeld;
-    state.quickItemEscapeHeld = escape;
-
     if (state.quickItemRingOpen && escapePressed)
     {
         if (state.quickItemPickerSlot)
@@ -821,6 +1683,7 @@ bool GameplayQuickItems::handleHudInput(GameplayScreenRuntime &context, const Ga
             closeRing(context);
         }
 
+        state.menuToggleLatch = true;
         return true;
     }
 

@@ -399,7 +399,6 @@ GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellR
         request.skillMasteryOverride = selection.skillMasteryOverride;
         request.bypassRequiredMastery = selection.bypassRequiredMastery;
         request.bypassGameplayCasterValidation = selection.bypassGameplayCasterValidation;
-        request.bypassTownPortalFailureChecks = selection.bypassTownPortalFailureChecks;
         request.spendMana = selection.spendMana;
         request.applyRecovery = selection.applyRecovery;
     }
@@ -432,7 +431,6 @@ GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellR
             overlay.skillMasteryOverride = request.skillMasteryOverride;
             overlay.bypassRequiredMastery = request.bypassRequiredMastery;
             overlay.bypassGameplayCasterValidation = request.bypassGameplayCasterValidation;
-            overlay.bypassTownPortalFailureChecks = request.bypassTownPortalFailureChecks;
             overlay.spendMana = request.spendMana;
             overlay.applyRecovery = request.applyRecovery;
         }

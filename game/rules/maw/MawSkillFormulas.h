@@ -52,6 +52,13 @@ struct MawManaShieldResult
 // A hit after Mana Shield, and the spell points it took (calcManaShield, COMBAT_SPEC.md §7.6).
 MawManaShieldResult mawManaShield(int damage, int spellPoints, double manaShieldSkill, SkillMastery mastery);
 
+// The utility skills a party of one masters by base level alone (1, 4, 7 and 10), whatever the class allows
+// (MAW's partySharedSkills, S:2126-2168).
+inline constexpr std::array<const char *, 7> MawSoloMasterySkills = {
+    "IdentifyItem", "Merchant", "RepairItem", "Perception", "DisarmTraps", "IdentifyMonster", "Alchemy",
+};
+bool mawIsSoloMasterySkill(const std::string &canonicalSkill);
+
 // The base levels at which Cover, Mana Shield, Enlightenment and Retaliation become Expert, Master and Grandmaster on
 // their own (S:176-181, 322-335); nothing for every other skill.
 std::optional<std::array<uint32_t, 3>> mawSkillMasteryLadder(const std::string &canonicalSkill, MawSkillMode mode);

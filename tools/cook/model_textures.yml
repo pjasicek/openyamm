@@ -46,6 +46,13 @@ classes:
   # Creatures and their attachments (2026-10-21, user decision after the MM8 creature audit): full-size normal maps on
   # desktop, weak Meshy relief lifted (MM8 bodies were at a 90th percentile tilt of about 0.1, 6 degrees, so their
   # normal maps barely relit anything), and sharpened colour mips, which the game samples at most viewing distances.
+  # A world's own ground items (MM9, 2026-11-05): the engine ground items' caps below. Before the creature class, which
+  # would also match this path.
+  - match: "worlds/*/world_items/models/*.glb"
+    quality: hero
+    max_size: {desktop: 512, android: 512}
+    role_max_size: {normal: 256, metallic_roughness: 256}
+    reduce: true
   - match: "worlds/*/models/*.glb"
     quality: hero
     max_size: {desktop: 2048, android: 2048}

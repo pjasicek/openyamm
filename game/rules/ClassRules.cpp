@@ -15,8 +15,27 @@ std::optional<int> ClassRules::baseMaxSpellPoints(const Character &, const Class
     return std::nullopt;
 }
 
-void ClassRules::applyClassBonuses(Character &) const
+namespace
 {
+constexpr uint32_t VampireRace = 1;
+constexpr uint32_t UndeadRace = 6;
+} // namespace
+
+void ClassRules::applyClassBonuses(Character &member) const
+{
+    // MMerge MiscTweaks.lua (races 6 and 1, the executable's own Lich rule switched off); MM7 gives a Lich Mind and
+    // Body by class (OE Character.cpp), which the class check keeps for a Lich whose race did not change.
+    const std::string canonicalClass = canonicalClassName(member.className);
+
+    if (member.raceId == UndeadRace || canonicalClass == "Lich")
+    {
+        member.magicalImmunities.mind = true;
+        member.magicalImmunities.body = true;
+    }
+    else if (member.raceId == VampireRace || canonicalClass == "Vampire" || canonicalClass == "Nosferatu")
+    {
+        member.magicalImmunities.mind = true;
+    }
 }
 
 bool ClassRules::learnsSpellsFromBooks(const Character &) const
@@ -59,8 +78,19 @@ std::vector<uint32_t> ClassRules::mercenaryClassKinds(uint32_t, std::vector<uint
     return offeredKinds;
 }
 
-std::vector<std::string> ClassRules::raceNotes(const Character &) const
+// The race's immunities from applyClassBonuses, for the party creation race card.
+std::vector<std::string> ClassRules::raceNotes(const Character &character) const
 {
+    if (character.raceId == UndeadRace)
+    {
+        return {"Immune to Mind and Body magic."};
+    }
+
+    if (character.raceId == VampireRace)
+    {
+        return {"Immune to Mind magic."};
+    }
+
     return {};
 }
 

@@ -6,6 +6,7 @@
 #include "game/app/GameSettings.h"
 #include "game/gameplay/GameplayHudInputController.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/gameplay/GameplayScreenController.h"
@@ -13,6 +14,8 @@
 #include "game/gameplay/GameplaySpellActionController.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/party/Party.h"
+#include "game/party/SpeechIds.h"
 #include "game/ui/GameplayQuickItems.h"
 
 #include <SDL3/SDL.h>
@@ -282,8 +285,10 @@ void GameplayInputController::handleStandardUiHotkeys(
         }
     }
 
+    // Escape closes the quick item popup or ring first (GameplayQuickItems).
     const bool canToggleMenu =
         !activeEventDialog
+        && !GameplayQuickItems::needsCursor(context)
         && !hasActiveLootView
         && !characterScreenOpen
         && !spellbookActive
@@ -591,7 +596,43 @@ void GameplayInputController::handleSharedGameplayHotkeys(
         context.interactionState().alwaysRunToggleLatch = false;
         context.interactionState().adventurersInnToggleLatch = false;
         context.interactionState().turnBasedToggleLatch = false;
+        context.interactionState().yellLatch = false;
         return;
+    }
+
+    // Yell: nearby villagers flee for two seconds and the party drops Invisibility; not in turn-based combat
+    // (OE Party::yell, Io/KeyboardInputHandler). The active member yells again only once the last yell has finished;
+    // each yell restarts the face animation.
+    if (config.canToggleAlwaysRun
+        && isActionHeld(context, KeyboardAction::Yell, config.pInputFrame, config.pKeyboardState))
+    {
+        if (!context.interactionState().yellLatch)
+        {
+            context.interactionState().yellLatch = true;
+            Party *pParty = context.party();
+            IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+
+            if (pParty != nullptr
+                && pWorldRuntime != nullptr
+                && !context.turnBasedCombatRuntime().active()
+                && !context.isMemberSpeechPlaying(pParty->activeMemberIndex(), SpeechId::Yell))
+            {
+                constexpr float YellRadius = 512.0f;
+                constexpr float YellFleeSeconds = 2.0f;
+                pParty->clearPartyBuff(PartyBuffId::Invisibility);
+                pWorldRuntime->scareNearbyPeasants(YellRadius, YellFleeSeconds);
+                const Character *pActive = pParty->activeMember();
+
+                if (pActive != nullptr && GameMechanics::canAct(*pActive))
+                {
+                    context.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::Yell, true);
+                }
+            }
+        }
+    }
+    else
+    {
+        context.interactionState().yellLatch = false;
     }
 
     if (config.canToggleAlwaysRun
@@ -616,9 +657,13 @@ void GameplayInputController::handleSharedGameplayHotkeys(
         context.interactionState().alwaysRunToggleLatch = false;
     }
 
+    // The keypad's Enter toggles too while the key is the default Enter; a rebound key replaces both.
+    const InputBinding combatBinding = context.settingsSnapshot().keyboard.binding(KeyboardAction::Combat);
+    const bool combatOnEnter =
+        combatBinding.kind == InputBindingKind::Keyboard && combatBinding.scancode == SDL_SCANCODE_RETURN;
     const bool combatKeyHeld =
         isActionHeld(context, KeyboardAction::Combat, config.pInputFrame, config.pKeyboardState)
-        || isScancodeHeld(SDL_SCANCODE_KP_ENTER, config.pInputFrame, config.pKeyboardState);
+        || (combatOnEnter && isScancodeHeld(SDL_SCANCODE_KP_ENTER, config.pInputFrame, config.pKeyboardState));
     const bool combatPressed =
         config.canToggleAlwaysRun
         && combatKeyHeld;

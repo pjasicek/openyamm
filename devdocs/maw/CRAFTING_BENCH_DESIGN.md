@@ -264,7 +264,7 @@ special pools, Hourglass strength, Celestial rescale, rarity) are **the same fun
 - A craft's random stream is `hash(saveCraftSeed, item.craftSeed, item.craftCount, operationId, applicationIndex)`.
   Preview reads it; apply uses the same values and then increments `craftCount`.
 - This keeps MAW's promises (fixed before you commit, unchanged by reloading, different after any other craft on the
-  item) and extends them to the Pearl and the element potions. It also removes MAW's seed collisions and identical
+  item) and extends them to the element potions (the Pearl rolls nothing: the player picks, §6.4). It also removes MAW's seed collisions and identical
   outcomes for Mirror copies (the copy gets a fresh `craftSeed`).
 - No global random state is touched, so crafting cannot perturb loot rolls.
 
@@ -286,7 +286,10 @@ per stat, not per text line. Extra lines the operation adds:
 
 - Gems: each base enchant with its cap at this tier ("Might +103 / 106"), the chosen one marked; for batches the gems
   used per tier.
-- Hourglass, Eye, Enchant Item, Pearl, element potions: the exact rolled result (§6.2), not a range.
+- Hourglass, Eye, Enchant Item, element potions: the exact rolled result (§6.2), not a range.
+- Pearl: with two or more enchantments, "Remove which enchantment?" and one clickable row per enchantment (base
+  enchantments with their strength, then the special), the first picked by default; the panel shows the item
+  without the picked one. Picking another drops a pending confirmation, so Confirm names the current pick.
 - Crafting Cube and Pandora's Cube: the cap and how many more uses reach it.
 - Emerald: the new base name and the level requirement change.
 - Orbs: what moves where ("Affix 'Cheat Death' moves into the orb"). Overwrites need confirmation (§6.6).
@@ -436,7 +439,7 @@ No new screen id, no Lua hook (crafting is rules, not content), no global RNG ch
 ## 12. Deviations from MAW to record
 
 From CRAFTING.md §10, the design fixes: the Hourglass preview drift and the Eye preview gate (one function);
-unseeded Pearl and element potions (seeded); tooltip-performed crafting and its shop/chest reach (explicit apply on
+the Pearl's random pick (the player picks) and unseeded element potions (seeded); tooltip-performed crafting and its shop/chest reach (explicit apply on
 party items only); table-dependent slot multipliers (2H axes always ×2); Pandora's Cube on rings and amulets
 (refused); silent orb overwrite (confirmation); the Mirror's lost identified flag (kept); the Emerald closing house
 screens (no); U limits (Combine across all storage, choice of tier); level checks against the owner; silent failures

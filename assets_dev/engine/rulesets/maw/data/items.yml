@@ -38,20 +38,20 @@ artifacts:
   501: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {Might: 3}, on_hit: {kind: Dark, damage: 1}}  # Glomenthal
   502: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {AirResistance: 1.76}, skills: {Armsmaster: 1.24}}  # Terminus
   503: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Endurance: 1.5, Luck: 1.5}, on_hit: {kind: Physical, damage: 0.8, versus: {Ogre: 2}}}  # Judicious Measure
-  504: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 32, stats: {Might: 3}, on_hit: {kind: Water, damage: 0.6}}  # Elderaxe
+  504: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 32, stats: {Might: 3}, on_hit: {kind: Water, damage: 0.6}, attack_delay: 0.9}  # Elderaxe
   505: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 57, stats: {FireResistance: 3}, on_hit: {kind: Fire, damage: 1}}  # Volcano
-  506: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 34, stats: {Endurance: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Wyrm Spitter
+  506: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 34, stats: {Endurance: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}, attack_delay: 0.9}  # Wyrm Spitter
   507: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 36, stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}, on_hit: {kind: Body, damage: 1}}  # Guardian
   508: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 24, on_hit: {kind: Body, damage: 0.5}}  # Foulfang
   509: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Personality: 3}}  # Scepter of Kings
   510: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 24, stats: {Might: 1.5, Endurance: 1.5}, on_hit: {kind: Body, damage: 1}}  # Breaker
   511: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 33}  # Staff of the Swamp
-  512: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 28, stats: {Accuracy: 1.67}, skills: {Bow: 1.33}}  # Longseeker
+  512: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 28, stats: {Accuracy: 1.67}, skills: {Bow: 1.33}, attack_delay: 0.9}  # Longseeker
   513: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 36, reference_ac: 36, stats: {Endurance: 3}}  # Serendine's Preservation
   514: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 50, reference_ac: 50, stats: {Might: 0.23, Intellect: 0.23, Personality: 0.23, Speed: 0.23, Accuracy: 0.23, Endurance: 0.23, Luck: 0.23, FireResistance: 0.23, AirResistance: 0.23, WaterResistance: 0.23, EarthResistance: 0.23, MindResistance: 0.23, BodyResistance: 0.23}}  # Glomenmail
   515: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 80, reference_ac: 80, stats: {Speed: 1.5, Accuracy: 1.5}, attack_delay: 0.9}  # Supreme Plate
   517: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 3, reference_ac: 3, skills: {DisarmTraps: 1, Bow: 1, Armsmaster: 1}}  # Fleetfingers
-  518: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Speed: 3}}  # Herald's Boots
+  518: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Speed: 3}, attack_delay: 0.9}  # Herald's Boots
   519: {drop: 1, base: flat, slot_mult: 0.75, stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75}}  # Ring of Planes
   520: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, stats: {Personality: 1.5, Intellect: 1.5}}  # Drogg's Helm
   521: {drop: 1, base: flat, slot_mult: 1.875, stats: {Intellect: 3}, spell_bonus: [DarkMagic]}  # Crown of Final Dominion
@@ -98,7 +98,7 @@ artifacts:
   1326: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 17, stats: {Might: 3, Speed: -1.04}}  # Titan's Belt
   1327: {drop: 1, base: armor, slot_mult: 1, printed_ac: 15, reference_ac: 17, stats: {Speed: 1.5, Luck: 1.5, FireResistance: -0.9, AirResistance: -0.9, WaterResistance: -0.9, EarthResistance: -0.9, MindResistance: -0.9, BodyResistance: -0.9}}  # Twilight
   1328: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 24, stats: {Accuracy: 2.25, ArmorClass: -0.38}, skills: {Bow: 0.75}}  # Ania Selving
-  1329: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 48, stats: {Speed: -1.2}, spell_bonus: [MindMagic, BodyMagic]}  # Justice
+  1329: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 48, stats: {Speed: -1.2}, on_hit: {kind: Physical, damage: 0.8, versus: {Undead: 2}}, spell_bonus: [MindMagic, BodyMagic]}  # Justice
   1330: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 30, stats: {Might: 3, AirResistance: -4}, spell_bonus: [SpiritMagic]}  # Mekorig's Hammer
   1331: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 23, reference_ac: 23, stats: {Speed: 1.2, Accuracy: 0.6, AirResistance: 1.2}}  # Hermes' Sandals
   1332: {drop: 1, base: armor, slot_mult: 1, printed_ac: 12, reference_ac: 12, stats: {Intellect: -0.6, Personality: -0.6}}  # Cloak of the Sheep
@@ -144,7 +144,7 @@ artifacts:
   # Artifacts that never drop (quest, placed and shop items): they scale like the rest (IT:2679-2700) but no drop
   # turns into them (drop: 0).
   516: {drop: 0, base: armor, slot_mult: 1, printed_ac: 24, reference_ac: 24, spell_bonus: [SpiritMagic, BodyMagic, MindMagic]}  # Eclipse
-  532: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 15, rung: 3.5, stats: {Might: 1.5, Speed: 1.5}}  # Lightning Crossbow
+  532: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 15, rung: 3.5, stats: {Might: 1.5, Speed: 1.5}, attack_delay: 0.9}  # Lightning Crossbow
   538: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 18, on_hit: {kind: Physical, damage: 0.8, versus: {Elemental: 2}}}  # Mace of the Sun
   539: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 26, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Ebonest
   540: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 36, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Sword of Whistlebone

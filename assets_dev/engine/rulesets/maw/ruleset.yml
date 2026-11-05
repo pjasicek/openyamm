@@ -56,13 +56,13 @@ rulesPanel:
       values: [×1.00, ×1.00, 1–3, —]
       description: The intended experience. Every map has bosses with special abilities.
     hard:
-      values: [×1.29, ×1.11, 1–4, +10 %]
+      values: [×1.27, ×1.12, 1–4, +10 %]
       description: Larger groups and better loot. Attacking while flying ends Fly on most maps.
     hell:
-      values: [×1.58, ×1.23, 1–4, +20 %]
+      values: [×1.55, ×1.24, 1–4, +20 %]
       description: As Hard; melee monsters outdoors can also gain a ranged attack.
     nightmare:
-      values: [×1.93, ×1.41, 2–4, +40 %]
+      values: [×1.90, ×1.45, 2–4, +40 %]
       description: >-
         Saving costs food, and Lloyd's Beacon and Town Portal fail near enemies; dungeons left below 65 % cleared
         revive their dead.
@@ -209,10 +209,18 @@ tables:
     append: content/place_mon_names.txt
     keyColumn: 0
     headerRow: 0
+  # Ascension replaces Learning and Alchemy the MM6 Diplomacy teachers: topic names, teacher speeches and hints, and
+  # the Scholar, Teacher, Instructor, Counselor, Barrister and Negotiator descriptions
+  # (zzMAW_SkillTextCompatibility.lua, MAW 2f8ff014 and later).
   - table: npc_topic.txt
     mode: override
     path: content/npc_topic_patch.txt
     append: content/npc_topic_respec.txt
+    keyColumn: 0
+    headerRow: 0
+  - table: npc_topic_text.txt
+    mode: override
+    path: content/npc_topic_text_patch.txt
     keyColumn: 0
     headerRow: 0
   - table: class_starting_skills.txt

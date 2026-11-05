@@ -38,6 +38,7 @@ namespace OpenYAMM::Game
 class GameSession;
 class GameAudioSystem;
 class IGameplayWorldRuntime;
+class ActorAiTrace;
 struct GameplayRuntimeActorState;
 struct GameplayWorldItemPresentationState;
 enum class ActorAiAnimationState : uint8_t;
@@ -125,6 +126,12 @@ public:
     // it turns to face the party and finishes its pose blend; every other model holds still.
     void syncActorModels(const IGameplayWorldRuntime &world, float deltaSeconds = 0.0f,
         std::optional<size_t> liveActorIndex = std::nullopt, float liveDeltaSeconds = 0.0f);
+    // Animation tracing (an AI arena's `trace_animation`): syncActorModels reports each traced actor's clips, rate and
+    // crossfades to the trace. Null (the default) reports nothing.
+    void setAnimationTrace(ActorAiTrace *pTrace)
+    {
+        m_pAnimationTrace = pTrace;
+    }
     // Shield domes of active actor behaviour wards (ActorBehaviorRuntime::wardDisplays): they grow in when raised,
     // swell and fade when they lapse, and ripple where projectiles hit them.
     void syncShieldDomes(const IGameplayWorldRuntime &world, float deltaSeconds);
@@ -443,6 +450,10 @@ private:
         std::array<ActionEvent, 3> actionEvents;
         // Behaviour script clip roles (actors.yml `script_clips`): role name -> clip index.
         std::unordered_map<std::string, uint32_t> scriptClips;
+        // The `backpedal` and `backpedal_run` script clips (MM9 models): walking and running backwards, played forwards
+        // instead of the walk or run reversed while the actor backs away. UINT32_MAX without them.
+        uint32_t backpedalClip = UINT32_MAX;
+        uint32_t backpedalRunClip = UINT32_MAX;
         float strideLength = 0.0f;
         // Running clip stride (actors.yml `run_stride_length`); defaults to 1.55 x the walking stride.
         float runStrideLength = 0.0f;
@@ -507,7 +518,18 @@ private:
         float previousX = 0.0f;
         float previousY = 0.0f;
         float gaitPhase = 0.0f;
+        // Distance the body covered that the gait has not advanced by yet (smoothActorModelGaitDistance).
+        float gaitTravelLead = 0.0f;
         bool backwards = false;
+        // The legs of the attack playing (advanceActorModelAttackLegs), how long the AI has stood, and whether the last
+        // frame showed a gait (ActorModelStandGraceSeconds).
+        ActorModelAttackLegs attackLegs;
+        float standSeconds = 0.0f;
+        bool presentedGait = false;
+        // How long actorModelGait has chosen another gait than `gait` (holdActorModelGait), and whether the last frame
+        // showed a gait at all (under an attack too).
+        float gaitHeldSeconds = 0.0f;
+        bool locomoted = false;
         float previousTime = 0.0f;
         uint8_t previousState = 0;
         bool casting = false;
@@ -647,8 +669,16 @@ private:
         const ActorModelBinding::Socket &socket) const;
     // Colour, glow and effect of a charge that just started (chargeResolved), from the projectile it will release.
     void resolveActorCharge(ActorModelInstance &model) const;
+    // talking: the actor is the party's dialogue partner (an MM9 one looks at the party only then or when it holds it).
     void updateActorLook(ActorModelInstance &model, const GameplayRuntimeActorState &state,
-        const IGameplayWorldRuntime &world, float scale, float partyDistance, float deltaSeconds, bool canLook);
+        const IGameplayWorldRuntime &world, float scale, float partyDistance, float deltaSeconds, bool canLook,
+        bool talking);
+    // The frame syncActorModels is about to sample, for the animation trace: a crossfade starts when sampleBlended
+    // will start one (restart, or a new main or layer clip).
+    void traceActorAnimation(size_t actorIndex, const ActorModelInstance &model, uint32_t clip, float time,
+        const Engine::ModelAnimationLayer &layer, bool reversed, bool restart, float transitionSeconds, float speed,
+        float deltaSeconds) const;
+    ActorAiTrace *m_pAnimationTrace = nullptr;
     struct ProjectileFxTrailState
     {
         bool hasPreviousPosition = false;

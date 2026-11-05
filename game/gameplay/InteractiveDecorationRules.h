@@ -146,6 +146,13 @@ void renumberLegacyCampFireDecorVars(
     EventRuntimeState &state, const std::string &mapFileName, std::span<const OutdoorEntity> entities,
     const DecorationTable &table, const Party &party);
 
+// A saved state of the map still marked legacySmallBarrelDecorVars (MM6's small barrels were casks): gives each
+// unopened small barrel a stat barrel's colour, leaves the opened ones empty, then clears the mark.
+void refillLegacySmallBarrels(
+    EventRuntimeState &state, std::span<const IndoorEntity> entities, const DecorationTable &table);
+void refillLegacySmallBarrels(
+    EventRuntimeState &state, std::span<const OutdoorEntity> entities, const DecorationTable &table);
+
 // Every member's base stats and base resistances, to tell whether a decoration's event (a barrel, a cauldron) raised
 // one: compare a snapshot before the event with one after.
 std::vector<int64_t> partyBaseStatSnapshot(const Party &party);

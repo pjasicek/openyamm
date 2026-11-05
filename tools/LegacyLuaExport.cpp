@@ -2040,6 +2040,57 @@ std::optional<std::string> resolveInstructionText(
     return std::nullopt;
 }
 
+// A few MMerge MM6 maps number their faces differently from the original maps their EVT face references were written
+// for (the original scripts use the same numbers), so the reference lands on an unrelated face. Each entry here was
+// matched by hand to the face the event means: the clicked gate, screen, altar or skylight.
+uint32_t correctedMm6FaceReference(const LegacyLuaExportLookups &lookups, uint32_t reference)
+{
+    if (reference <= static_cast<uint32_t>(std::numeric_limits<int32_t>::max()))
+    {
+        return reference;
+    }
+
+    const std::string map = toLowerCopy(std::filesystem::path(lookups.sourceMapFile.value_or("")).stem().string());
+    const int64_t face = -(static_cast<int64_t>(reference) - (static_cast<int64_t>(UINT32_MAX) + 1));
+    int64_t corrected = face;
+
+    if (map == "6d08")
+    {
+        // Shadow Guild: the plate indicator light and the genie gate (event 26's face), not a floor and a ceiling.
+        if (face == 833 || face == 1079)
+        {
+            corrected = face - 1;
+        }
+    }
+    else if (map == "sci-fi")
+    {
+        // Control Center: the nine computer terminal screens (TREKSCRN).
+        if (face == 2899 || face == 2903 || face == 2905 || face == 2911 || face == 2914 || face == 2921
+            || face == 2927 || face == 2930 || face == 2933)
+        {
+            corrected = face - 15;
+        }
+    }
+    else if (map == "6d17")
+    {
+        // The Wolf Altar's five faces (event 54), not two floors elsewhere and the entrance room.
+        if (face >= 5081 && face <= 5085)
+        {
+            corrected = face - 4;
+        }
+    }
+    else if (map == "6t4")
+    {
+        // The day/night skylight over the main hall, not a wall strip.
+        if (face == 79)
+        {
+            corrected = 45;
+        }
+    }
+
+    return static_cast<uint32_t>(-corrected);
+}
+
 LegacyLuaInstruction decodeInstruction(
     uint16_t eventId,
     const EvtInstruction &instruction,
@@ -2340,6 +2391,12 @@ LegacyLuaInstruction decodeInstruction(
         {
             decoded.arguments[0] = 0u - decoded.arguments[0];
         }
+    }
+
+    if ((decoded.operation == LegacyLuaOperation::SetTexture || decoded.operation == LegacyLuaOperation::SetFacetBit)
+        && !decoded.arguments.empty() && version == LegacyEventVersion::Mm6)
+    {
+        decoded.arguments[0] = correctedMm6FaceReference(lookups, decoded.arguments[0]);
     }
 
     return decoded;
@@ -12461,14 +12518,16 @@ bool isAuditedMm6PressureTrap(uint16_t eventId, const LegacyLuaExportLookups &lo
 {
     const std::string map = toLowerCopy(std::filesystem::path(lookups.sourceMapFile.value_or("")).stem().string());
     // These physical plates also maintain trap/puzzle state, or apply direct surface damage.
-    // Bypassing a puzzle plate must bypass its state changes as well as its spell casts.
+    // Bypassing a puzzle plate must bypass its state changes as well as its spell casts, so only plates whose state
+    // is a penalty or a fired-once memo belong here, never a plate the puzzle needs stepped on.
     if (map == "6d03")
     {
         return eventId == 21; // Guild Key disarms the Fireball plate.
     }
     if (map == "6d08")
     {
-        return eventId == 22 || eventId == 23 || eventId == 25 || eventId == 32; // Puzzle plates and spikes.
+        // Shadow Guild: the reset floor and the spikes. Plates 22/23 are a pair the genie gate needs.
+        return eventId == 25 || eventId == 32;
     }
     if (map == "sci-fi")
     {

@@ -140,84 +140,6 @@ std::optional<std::string> readFirstExistingText(
     return std::nullopt;
 }
 
-bool loadMountedWorldManifests(
-    const Engine::AssetFileSystem &assetFileSystem,
-    std::vector<WorldManifest> &manifests,
-    std::string &errorMessage)
-{
-    manifests.clear();
-    errorMessage.clear();
-
-    for (const std::string &worldPackageId : assetFileSystem.enumerate("worlds"))
-    {
-        const std::string normalizedPackageId = normalizeWorldId(worldPackageId);
-
-        if (normalizedPackageId.empty())
-        {
-            continue;
-        }
-
-        const std::string manifestPath = "worlds/" + normalizedPackageId + "/world.yml";
-        std::string manifestError;
-        const std::optional<WorldManifest> manifest =
-            loadWorldManifest(assetFileSystem, manifestPath, normalizedPackageId, manifestError);
-
-        if (!manifest)
-        {
-            if (assetFileSystem.exists(manifestPath))
-            {
-                errorMessage = "failed to load " + manifestPath + ": " + manifestError;
-                return false;
-            }
-
-            continue;
-        }
-
-        if (manifest->id != normalizedPackageId)
-        {
-            errorMessage = "manifest id '" + manifest->id + "' does not match package path '"
-                + normalizedPackageId + "'";
-            return false;
-        }
-
-        manifests.push_back(*manifest);
-    }
-
-    std::sort(
-        manifests.begin(),
-        manifests.end(),
-        [](const WorldManifest &left, const WorldManifest &right)
-        {
-            return left.id < right.id;
-        });
-
-    std::unordered_set<std::string> mountedPackageIds = {"engine"};
-
-    for (const WorldManifest &manifest : manifests)
-    {
-        if (!mountedPackageIds.insert(manifest.id).second)
-        {
-            errorMessage = "duplicate mounted content package id: " + manifest.id;
-            return false;
-        }
-    }
-
-    for (const WorldManifest &manifest : manifests)
-    {
-        for (const std::string &dependency : manifest.dependencies)
-        {
-            if (!mountedPackageIds.contains(dependency))
-            {
-                errorMessage = "mounted content package '" + manifest.id + "' requires missing package '"
-                    + dependency + "'";
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
 std::optional<std::string> readExistingTexts(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &candidates,
@@ -1583,11 +1505,13 @@ bool GameDataLoader::ensureActorModelManifest(const Engine::AssetFileSystem &ass
     if (!m_actorModelsEnabled)
     {
         m_pActorModelManifest.reset();
+        m_monsterTable.setActorModels(nullptr);
         return true;
     }
     if (m_pActorModelManifest != nullptr && m_actorModelManifestWorldId == m_activeWorldId
         && m_actorModelManifestGeneration == assetFileSystem.contentGeneration())
     {
+        m_monsterTable.setActorModels(m_pActorModelManifest);
         return true;
     }
     std::vector<std::string> paths;
@@ -1615,9 +1539,12 @@ bool GameDataLoader::ensureActorModelManifest(const Engine::AssetFileSystem &ass
     {
         std::cerr << "Actor model manifest failed to load: " << error << '\n';
         m_pActorModelManifest.reset();
+        m_monsterTable.setActorModels(nullptr);
         return false;
     }
     m_pActorModelManifest = std::move(pManifest);
+    // The models' attack clips time the monsters' attacks (resolveActorAttackTiming).
+    m_monsterTable.setActorModels(m_pActorModelManifest);
     m_actorModelManifestWorldId = m_activeWorldId;
     m_actorModelManifestGeneration = assetFileSystem.contentGeneration();
     return true;
@@ -1833,6 +1760,11 @@ bool GameDataLoader::loadInternal(
     }
 
     if (!applyMergedRuntimeTables())
+    {
+        return false;
+    }
+
+    if (!loadTrainerDirectory(assetFileSystem))
     {
         return false;
     }
@@ -2206,6 +2138,59 @@ const MergedTeacherTopicTable &GameDataLoader::getMergedTeacherTopicTable() cons
 const MergedTeacherAutonoteTable &GameDataLoader::getMergedTeacherAutonoteTable() const
 {
     return m_mergedTeacherAutonoteTable;
+}
+
+const TrainerDirectory &GameDataLoader::getTrainerDirectory() const
+{
+    return m_trainerDirectory;
+}
+
+bool GameDataLoader::loadTrainerDirectory(const Engine::AssetFileSystem &assetFileSystem)
+{
+    TrainerPlaceTable places;
+    std::vector<std::vector<std::string>> rows;
+    std::string error;
+    const std::string placesPath = engineDataTablePath("trainer_places.txt");
+
+    if (!loadTextTableRows(assetFileSystem, placesPath, rows) || !places.loadFromRows(rows, error))
+    {
+        std::cerr << "Failed to load " << placesPath << (error.empty() ? "" : ": " + error) << '\n';
+        return false;
+    }
+
+    // A world's own teachers' houses (world.yml: table trainer_places, mode append).
+    std::string manifestError;
+    const WorldManifest manifest = loadActiveWorldManifestOrDefault(assetFileSystem, m_activeWorldId, manifestError);
+
+    for (const TableContributionDefinition &contribution : manifest.tableContributions)
+    {
+        if (contribution.table != "trainer_places" || contribution.mode != TableContributionMode::Append)
+        {
+            continue;
+        }
+
+        const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+
+        if (!loadTextTableRows(assetFileSystem, path, rows) || !places.loadFromRows(rows, error))
+        {
+            std::cerr << "Failed to load " << path << (error.empty() ? "" : ": " + error) << '\n';
+            return false;
+        }
+    }
+
+    TeacherLedgerSettings ledger;
+    const std::string ledgerPath = engineDataTablePath("teacher_ledger.yml");
+    const std::optional<std::string> ledgerText = readRulesetDataFile(assetFileSystem, ledgerPath);
+
+    if (!ledgerText || !ledger.loadFromYaml(*ledgerText, error))
+    {
+        std::cerr << "Failed to load " << ledgerPath << (error.empty() ? "" : ": " + error) << '\n';
+        return false;
+    }
+
+    m_trainerDirectory = TrainerDirectory::build(m_npcDialogTable, m_mergedTeacherTopicTable,
+        m_mergedTeacherAutonoteTable, m_houseTable, m_mapStats, std::move(places), std::move(ledger));
+    return true;
 }
 
 const MergedNpcProfessionTable &GameDataLoader::getMergedNpcProfessionTable() const
@@ -4688,6 +4673,19 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
         return false;
     }
 
+    // A mounted world's own items (MM9) bind their models in the world package; an icon bound twice fails.
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        const std::string worldBindingsPath = "worlds/" + manifest.id + "/world_items/items.yml";
+
+        if (assetFileSystem.exists(worldBindingsPath)
+            && !loadItemModelBindings(assetFileSystem, worldBindingsPath, groundModels, groundModelError))
+        {
+            std::cerr << "Failed to load ground item models: " << groundModelError << '\n';
+            return false;
+        }
+    }
+
     m_itemTable.setGroundModels(groundModels);
     return true;
 }
@@ -5001,6 +4999,7 @@ bool GameDataLoader::loadSelectedMap(
     m_lastReleasedMapRenderSourcePixelBytes = 0;
 
     applyMergedContinentSettingsToSelectedMap(assetFileSystem);
+    applyOpenSkyWeatherToSelectedMap(assetFileSystem);
     timingLogger.stage("continent settings applied");
 
     const std::string localScriptBaseName = mapScriptBaseName(selectedMap->fileName);
@@ -5405,6 +5404,27 @@ const WeatherRules &GameDataLoader::weatherRules(const Engine::AssetFileSystem &
     }
 
     return *m_weatherRules;
+}
+
+void GameDataLoader::applyOpenSkyWeatherToSelectedMap(const Engine::AssetFileSystem &assetFileSystem)
+{
+    if (!m_selectedMap || !m_selectedMap->indoorMapData)
+    {
+        return;
+    }
+
+    const IndoorOpenSky &sky = m_selectedMap->indoorMapData->openSky;
+
+    if (!sky.enabled || (!sky.weatherRain && !sky.weatherSnow))
+    {
+        return;
+    }
+
+    OutdoorWeatherProfile profile = {};
+    profile.weatherRules = weatherRules(assetFileSystem);
+    profile.weatherMap = resolveWeatherMapSettings(profile.weatherRules, static_cast<uint32_t>(m_selectedMap->map.id),
+        m_selectedMap->map.fileName, sky.weatherRain, sky.weatherSnow);
+    m_selectedMap->outdoorWeatherProfile = std::move(profile);
 }
 
 void GameDataLoader::applyMergedContinentSettingsToSelectedMap(const Engine::AssetFileSystem &assetFileSystem)

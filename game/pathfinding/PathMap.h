@@ -114,6 +114,10 @@ private:
     std::span<const size_t> candidateFloorFacetsForPoint(float x, float y) const;
     // A face the walking body's low probes may touch because it will climb it (PathObject::riserHeight).
     bool isSteppableRiser(const FacetGeometry &geometry, float fromFloorZ, float riserHeight) const;
+    // A riser with its tread on top, or a step's underside with its tread just above, within riserHeight of the feet:
+    // a squat body's upper sphere passes it, as the low probes do (traceWalkBody).
+    bool isClimbedStepFace(const PathFacet &facet, const FacetGeometry &geometry, const PathPoint &from,
+        const PathPoint &to, const PathObject &object) const;
     PathTraceResult traceLineInternal(
         const PathPoint &from,
         const PathPoint &to,
@@ -141,8 +145,19 @@ private:
     std::vector<PathFacet> m_facets;
     std::vector<FacetGeometry> m_geometry;
     std::vector<size_t> m_floorFacetIndices;
-    std::unordered_map<GridCellKey, std::vector<size_t>, GridCellKeyHash> m_spatialGrid;
-    std::unordered_map<FloorCellKey, std::vector<size_t>, FloorCellKeyHash> m_floorGrid;
+    // A cell's facets: a range of m_spatialGridFacets (m_floorGridFacets), ascending. Built from one sorted list of
+    // (cell, facet) pairs: per-cell vectors cost a region-sized map (20 000 faces) ~100 ms on every rebuild.
+    struct GridRange
+    {
+        uint32_t offset = 0;
+        uint32_t count = 0;
+    };
+    std::unordered_map<GridCellKey, GridRange, GridCellKeyHash> m_spatialGrid;
+    std::vector<size_t> m_spatialGridFacets;
+    std::unordered_map<FloorCellKey, GridRange, FloorCellKeyHash> m_floorGrid;
+    std::vector<size_t> m_floorGridFacets;
+    // Facets in no spatial cell (too large for them, rebuildSpatialGrid): each spatial query tests them.
+    std::vector<size_t> m_largeSpatialFacets;
     size_t m_revision = 0;
     float m_gridCellSize = 0.0f;
 };

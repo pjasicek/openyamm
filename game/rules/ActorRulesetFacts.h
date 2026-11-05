@@ -39,6 +39,9 @@ struct ActorRulesetFacts
     uint8_t doomSpecialAttack = 0;
     // The party's hits on a Regenerating boss: it regenerates once hit, slower with each (MAW's mapvars.regenerating).
     uint16_t regeneratingHits = 0;
+    // A Cryptic boss's hidden affix, the one it fights with (MAW's bossData Skills); 0 for every other boss, whose
+    // bossAffix is its own.
+    uint8_t crypticAffix = 0;
 
     bool empty() const
     {

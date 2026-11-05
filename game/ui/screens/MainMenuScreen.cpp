@@ -74,6 +74,15 @@ std::string rulesetSettingValue(const RulesetOptions &options, const std::string
     {
         return flag(options.preferences.disintegration);
     }
+    if (id == "ruleset_trainer_hints")
+    {
+        return flag(options.preferences.trainerHints);
+    }
+    if (id == "ruleset_bow")
+    {
+        // On: the bow shoots (the preference is stored the other way round, as MAW's disableBow).
+        return flag(!options.preferences.bowDisabled);
+    }
     if (id == "ruleset_loot_filter")
     {
         // The whole filter, so a changed kind or "stay on the ground" counts as a change too.
@@ -105,6 +114,14 @@ void setRulesetSettingValue(RulesetOptions &options, const std::string &id, cons
     else if (id == "ruleset_disintegrate")
     {
         options.preferences.disintegration = value == "true";
+    }
+    else if (id == "ruleset_trainer_hints")
+    {
+        options.preferences.trainerHints = value == "true";
+    }
+    else if (id == "ruleset_bow")
+    {
+        options.preferences.bowDisabled = value != "true";
     }
     else if (id == "ruleset_loot_filter")
     {
@@ -1265,10 +1282,9 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
                 drawSolidRect({stepX(current) - 4, y - 7, 8, 14}, 0xff7bbad8u);
             }
             int chosen = -1;
-            if (enabled && !modalOpen() && pointerInside(rect) && leftMouseDown())
+            if (const std::optional<float> position = sliderDragPosition(id, rect, enabled))
             {
-                const float position = std::clamp((mouseX() - rect.x) / rect.width, 0.0f, 1.0f);
-                chosen = int(std::round(position * float(count - 1)));
+                chosen = int(std::round(*position * float(count - 1)));
             }
             if (enabled && focused(id))
             {
@@ -1293,11 +1309,10 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
             drawSolidRect({rect.x, y - 2, rect.width, 4}, 0xff273629u);
             drawSolidRect({rect.x, y - 2, rect.width * fraction, 4}, 0xff6a93acu);
             drawSolidRect({rect.x + rect.width * fraction - 4, y - 7, 8, 14}, 0xff7bbad8u);
-            if (enabled && !modalOpen() && pointerInside(rect) && leftMouseDown())
+            if (const std::optional<float> position = sliderDragPosition(id, rect, enabled))
             {
-                const float position = std::clamp((mouseX() - rect.x) / rect.width, 0.0f, 1.0f);
                 editSetting(setting, std::to_string(int(std::round(setting.minimum +
-                                                                   position * (setting.maximum - setting.minimum)))));
+                                                                   *position * (setting.maximum - setting.minimum)))));
             }
             if (enabled && focused(id))
             {
@@ -1325,6 +1340,41 @@ void MainMenuScreen::drawSettings(float deltaSeconds)
         }
     }
     setDesignClip(std::nullopt);
+}
+
+std::optional<float> MainMenuScreen::sliderDragPosition(const std::string &id, const Rect &rect, bool enabled)
+{
+    if (!leftMouseDown())
+    {
+        if (m_draggedSlider == id)
+        {
+            m_draggedSlider.clear();
+        }
+
+        return std::nullopt;
+    }
+
+    if (leftMouseJustPressed())
+    {
+        if (enabled && !modalOpen() && pointerInside(rect))
+        {
+            m_draggedSlider = id;
+            cancelContentDrag();
+        }
+        else if (m_draggedSlider == id)
+        {
+            m_draggedSlider.clear();
+        }
+    }
+
+    if (m_draggedSlider != id || !enabled || modalOpen())
+    {
+        return std::nullopt;
+    }
+
+    // The ends saturate half a thumb inside the track, and the pointer may leave the track while dragging.
+    const float inset = std::min(4.0f, rect.width / 4);
+    return std::clamp((mouseX() - rect.x - inset) / std::max(1.0f, rect.width - 2 * inset), 0.0f, 1.0f);
 }
 
 void MainMenuScreen::drawKeyboard(const std::string &prefix, const Rect &viewport)

@@ -3,6 +3,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "game/data/GameDataLoader.h"
+#include "game/debug/AiArena.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameplayProjectileService.h"
@@ -1012,6 +1013,31 @@ bool assertDialogState(
         "action_count",
         std::to_string(actual.actions.size()),
         failures) && success;
+
+    // action_label_present / action_label_absent: an action with exactly this label is offered, or none is.
+    for (const char *pKey : {"action_label_present", "action_label_absent"})
+    {
+        const YAML::Node labelNode = dialogNode[pKey];
+
+        if (!labelNode || !labelNode.IsScalar())
+        {
+            continue;
+        }
+
+        const std::string label = labelNode.as<std::string>();
+        const bool wanted = std::string(pKey) == "action_label_present";
+        const bool found = std::any_of(actual.actions.begin(), actual.actions.end(),
+            [&label](const ScenarioDialogActionSnapshot &action) { return action.label == label; });
+        scenarioLogAssert(context, step, std::string("dialog.") + pKey, label, found ? "offered" : "not offered",
+            found == wanted);
+
+        if (found != wanted)
+        {
+            failures.push_back(stepLocation(step) + ": " + phase + " dialog " + (found ? "offers" : "does not offer")
+                + " \"" + label + "\"");
+            success = false;
+        }
+    }
 
     // text_contains: a piece of the dialog's text.
     if (const YAML::Node containsNode = dialogNode["text_contains"]; containsNode && containsNode.IsScalar())
@@ -2325,6 +2351,7 @@ bool ensureGameDataLoaded(
     context.party.setItemEnchantTables(
         &context.gameDataLoader.getStandardItemEnchantTable(),
         &context.gameDataLoader.getSpecialItemEnchantTable());
+    context.party.setTrainerDirectory(&context.gameDataLoader.getTrainerDirectory());
     context.gameDataLoaded = true;
     return true;
 }
@@ -2604,6 +2631,18 @@ bool readScenarioRuleset(
         ruleset.options.preferences.friendlyFire = node["friendly_fire"].as<bool>();
     }
 
+    // trainer_hints: the skill popups name the nearest teacher of the next mastery (off by default).
+    if (node["trainer_hints"])
+    {
+        ruleset.options.preferences.trainerHints = node["trainer_hints"].as<bool>();
+    }
+
+    // bow_disabled: bows, crossbows, thrown weapons and dragon breath do not shoot (MAW's disableBow, off by default).
+    if (node["bow_disabled"])
+    {
+        ruleset.options.preferences.bowDisabled = node["bow_disabled"].as<bool>();
+    }
+
     // loot_filter: the loot filter's preset (off, soft, regular, strict, very_strict); loot_filter_ground: filtered
     // drops stay where they fell.
     if (node["loot_filter"])
@@ -2668,7 +2707,9 @@ bool assertRuleset(
         : actual.id == expected.id
             && (!node["difficulty"] || actual.options.difficulty == expected.options.difficulty)
             && (!node["progression"] || actual.options.progression == expected.options.progression)
-            && (!node["challenge_mode"] || actual.options.challengeMode == expected.options.challengeMode);
+            && (!node["challenge_mode"] || actual.options.challengeMode == expected.options.challengeMode)
+            && (!node["bow_disabled"]
+                || actual.options.preferences.bowDisabled == expected.options.preferences.bowDisabled);
 
     // map_cleared: the current map is cleared since its monsters last refilled; map_slain_min: at least this many of
     // its monsters count as slain for completion (the risen among them).
@@ -3831,8 +3872,9 @@ bool runCastSpell(
 
 std::optional<EquipmentSlot> parseScenarioEquipmentSlot(const std::string &value);
 
-// craft: {member_index, target_item_id, worn_slot, material_item_id, all, expect}: the Workbench's Apply (or Apply
-// All) with the material on the member's pack item, or the item worn in worn_slot.
+// craft: {member_index, target_item_id, worn_slot, material_item_id, all, choice, expect}: the Workbench's Apply (or
+// Apply All) with the material on the member's pack item, or the item worn in worn_slot; `choice` picks among the
+// step's options (the Pearl's enchantment, first by default).
 bool runCraft(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -3863,7 +3905,7 @@ bool runCraft(
 
     if (!context.runtimeDriver->craftItem(step.payload["member_index"].as<size_t>(0),
             step.payload["target_item_id"].as<uint32_t>(0), wornSlot, step.payload["material_item_id"].as<uint32_t>(0),
-            step.payload["all"].as<bool>(false), crafted, reason, failure))
+            step.payload["all"].as<bool>(false), step.payload["choice"].as<size_t>(0), crafted, reason, failure))
     {
         failures.push_back(stepLocation(step) + ": " + failure);
         return false;
@@ -3953,6 +3995,131 @@ bool runSpawnActor(
     }
 
     syncContextFromRuntime(context);
+    return true;
+}
+
+// ai_arena: {path, log}: sets up an AI arena (game/debug/AiArena.h, tests/scenarios/mm9/ai/README.md): loads its map
+// when another is loaded, places the party, hides the map's actors, spawns the arena's monsters and starts the
+// decision trace. A relative path is read next to the scenario first; log: a trace log file (none by default).
+bool runAiArena(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures))
+    {
+        return false;
+    }
+
+    if (!step.payload["path"] || !step.payload["path"].IsScalar())
+    {
+        failures.push_back(stepLocation(step) + ": ai_arena requires scalar field 'path'");
+        return false;
+    }
+
+    std::filesystem::path path = step.payload["path"].as<std::string>();
+
+    if (path.is_relative() && std::filesystem::exists(step.sourcePath.parent_path() / path))
+    {
+        path = step.sourcePath.parent_path() / path;
+    }
+
+    std::string failure;
+    const std::optional<AiArena> arena = loadAiArena(path, failure);
+
+    if (!arena || !ensureRuntimeDriver(context, failures))
+    {
+        failures.push_back(stepLocation(step) + ": " + (failure.empty() ? "ai_arena failed" : failure));
+        return false;
+    }
+
+    seedRuntimeDriverFromContext(context);
+
+    if (!context.runtimeDriver->applyAiArena(*arena, step.payload["log"].as<std::string>(""), failure))
+    {
+        failures.push_back(stepLocation(step) + ": ai_arena " + path.string() + ": " + failure);
+        return false;
+    }
+
+    std::string actors;
+
+    for (size_t actorIndex : context.runtimeDriver->aiArenaActorIndices())
+    {
+        actors += (actors.empty() ? "" : ",") + std::to_string(actorIndex);
+    }
+
+    scenarioLog(context, ScenarioLogColor::Cyan, "AI ARENA " + arena->name + " map=" + arena->map + " monsters="
+        + std::to_string(arena->monsters.size()) + " actors=" + actors);
+    syncContextFromRuntime(context);
+    return true;
+}
+
+// The actor an ai_trace check or dump reads: actor_index (a map index, "last") or arena_monster (the arena's Nth
+// monster); none: every actor. False after a failure.
+bool aiTraceActorFilter(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    const YAML::Node &node,
+    std::optional<size_t> &actorIndex,
+    std::vector<std::string> &failures)
+{
+    if (node["actor_index"])
+    {
+        actorIndex = scenarioActorIndex(context, node["actor_index"]);
+    }
+    else if (node["arena_monster"])
+    {
+        const std::vector<size_t> &arenaActors = context.runtimeDriver->aiArenaActorIndices();
+        const size_t monster = node["arena_monster"].as<size_t>();
+
+        if (monster >= arenaActors.size())
+        {
+            failures.push_back(stepLocation(step) + ": arena_monster " + std::to_string(monster) + " but the arena has "
+                + std::to_string(arenaActors.size()) + " monsters");
+            return false;
+        }
+
+        actorIndex = arenaActors[monster];
+    }
+
+    return true;
+}
+
+// ai_trace_dump: {actor_index | arena_monster, decisions_only, last}: prints the decision trace (the last N lines).
+bool runAiTraceDump(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node payload = step.payload && step.payload.IsMap() ? step.payload : YAML::Node(YAML::NodeType::Map);
+    std::optional<size_t> actorIndex;
+
+    if (!ensureRuntimeDriver(context, failures) || !aiTraceActorFilter(context, step, payload, actorIndex, failures))
+    {
+        return false;
+    }
+
+    const bool decisionsOnly = payload["decisions_only"].as<bool>(false);
+    std::vector<const ActorAiTraceEntry *> lines;
+
+    for (const ActorAiTraceEntry &entry : context.runtimeDriver->aiTrace().entries())
+    {
+        if ((!actorIndex || entry.actorIndex == *actorIndex) && (!decisionsOnly || entry.decision))
+        {
+            lines.push_back(&entry);
+        }
+    }
+
+    const size_t last = payload["last"].as<size_t>(lines.size());
+    const size_t first = lines.size() > last ? lines.size() - last : 0;
+    scenarioLog(context, ScenarioLogColor::Cyan, "AI TRACE " + std::to_string(lines.size() - first) + " of "
+        + std::to_string(lines.size()) + " lines, t=" + std::to_string(context.runtimeDriver->aiTrace().timeSeconds()));
+
+    for (size_t index = first; index < lines.size(); ++index)
+    {
+        scenarioLog(context, ScenarioLogColor::Default, formatActorAiTraceLine(*lines[index]));
+    }
+
     return true;
 }
 
@@ -4254,9 +4421,10 @@ bool assertCharges(
     return success;
 }
 
-// assert projectiles: {source_monster_id, min_count, max_count, homing, toward_party_within_degrees, report}: the
-// live projectiles fired by actors (of that monster when given). homing: every one of them homes (true) or none
-// does (false); toward_party_within_degrees: each one flies within that angle of the party.
+// assert projectiles: {source, source_monster_id, min_count, max_count, homing, toward_party_within_degrees, report}:
+// the live projectiles fired by actors (of that monster when given), or by the party with `source: party`. homing:
+// every one of them homes (true) or none does (false); toward_party_within_degrees: each one flies within that angle of
+// the party.
 bool assertProjectiles(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -4286,12 +4454,22 @@ bool assertProjectiles(
     using ProjectileState = GameplayProjectileService::ProjectileState;
     const std::optional<int> monsterId = node["source_monster_id"]
         ? std::optional<int>(node["source_monster_id"].as<int>()) : std::nullopt;
+    const std::string source = node["source"].as<std::string>("actor");
+
+    if (source != "actor" && source != "party")
+    {
+        failures.push_back(stepLocation(step) + ": projectiles source must be actor or party");
+        return false;
+    }
+
+    const ProjectileState::SourceKind sourceKind =
+        source == "party" ? ProjectileState::SourceKind::Party : ProjectileState::SourceKind::Actor;
     const ScenarioPose pose = context.runtimeDriver->currentPose();
     std::vector<const ProjectileState *> matching;
 
     for (const ProjectileState &projectile : pProjectiles->projectiles())
     {
-        if (!projectile.isExpired && projectile.sourceKind == ProjectileState::SourceKind::Actor
+        if (!projectile.isExpired && projectile.sourceKind == sourceKind
             && (!monsterId || projectile.sourceMonsterId == *monsterId))
         {
             matching.push_back(&projectile);
@@ -4473,6 +4651,85 @@ bool assertDimensionDoor(
     return success;
 }
 
+// assert water: {state, eye_under, breath_min, breath_max, drowning_ticks_min, drowning_ticks_max, foot_z_min,
+// foot_z_max}: the party's state in a scene water volume (dry, wading, falling, bed, submerged, surface, surface_jump),
+// its breath (1 full; 1 with the eye out), the drowning ticks taken on this map and its feet's height.
+bool assertWater(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["water"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    std::string failure;
+    ScenarioWaterStatus status = {};
+
+    if (!node.IsMap() || !ensureRuntimeDriver(context, failures) || !context.runtimeDriver->waterStatus(status, failure))
+    {
+        failures.push_back(stepLocation(step) + ": water assertion requires a map of checks and an indoor map"
+            + (failure.empty() ? std::string() : " (" + failure + ")"));
+        return false;
+    }
+
+    std::ostringstream actual;
+    actual << "state=" << status.state << " eye_under=" << (status.eyeUnder ? "true" : "false")
+           << " breath=" << status.breath << " drowning_ticks=" << status.drowningTicks << " foot_z=" << status.footZ;
+    scenarioLog(context, ScenarioLogColor::Cyan, "WATER " + actual.str());
+    bool success = true;
+    const auto fail = [&](const std::string &what)
+    {
+        failures.push_back(stepLocation(step) + ": water " + what + " (" + actual.str() + ")");
+        success = false;
+    };
+
+    if (node["state"] && node["state"].as<std::string>() != status.state)
+    {
+        fail("state is not " + node["state"].as<std::string>());
+    }
+
+    if (node["eye_under"] && node["eye_under"].as<bool>() != status.eyeUnder)
+    {
+        fail("eye_under is not " + node["eye_under"].as<std::string>());
+    }
+
+    if (node["breath_min"] && status.breath < node["breath_min"].as<float>())
+    {
+        fail("breath under " + node["breath_min"].as<std::string>());
+    }
+
+    if (node["breath_max"] && status.breath > node["breath_max"].as<float>())
+    {
+        fail("breath over " + node["breath_max"].as<std::string>());
+    }
+
+    if (node["drowning_ticks_min"] && status.drowningTicks < node["drowning_ticks_min"].as<uint32_t>())
+    {
+        fail("fewer drowning ticks than " + node["drowning_ticks_min"].as<std::string>());
+    }
+
+    if (node["drowning_ticks_max"] && status.drowningTicks > node["drowning_ticks_max"].as<uint32_t>())
+    {
+        fail("more drowning ticks than " + node["drowning_ticks_max"].as<std::string>());
+    }
+
+    if (node["foot_z_min"] && status.footZ < node["foot_z_min"].as<float>())
+    {
+        fail("feet under " + node["foot_z_min"].as<std::string>());
+    }
+
+    if (node["foot_z_max"] && status.footZ > node["foot_z_max"].as<float>())
+    {
+        fail("feet over " + node["foot_z_max"].as<std::string>());
+    }
+
+    return success;
+}
+
 // assert food: N: the party carries exactly N food.
 bool assertPartyFood(
     ScenarioExecutionContext &context,
@@ -4616,6 +4873,119 @@ bool assertQuickItemRing(
     return success;
 }
 
+// assert quick_item_popup: {kind: potions | scrolls | none, member_index}: the basebar's open popup and who drinks or
+// reads.
+bool assertQuickItemPopup(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["quick_item_popup"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !ensureRuntimeDriver(context, failures))
+    {
+        failures.push_back(stepLocation(step) + ": quick_item_popup assertion requires a mapping");
+        return false;
+    }
+
+    const auto [kind, member] = context.runtimeDriver->quickItemPopup();
+    const std::string expected = node["kind"].as<std::string>("none");
+    bool success = kind == expected;
+
+    if (success && kind != "none" && node["member_index"])
+    {
+        success = member == node["member_index"].as<size_t>();
+    }
+
+    const std::string actual = kind == "none" ? kind : kind + " for member " + std::to_string(member);
+    scenarioLogAssert(context, step, "quick_item_popup", expected, actual, success);
+
+    if (!success)
+    {
+        failures.push_back(stepLocation(step) + ": quick item popup is " + actual);
+    }
+
+    return success;
+}
+
+// assert autonote: {id, present: bool}: the party has the journal autonote (present by default).
+bool assertAutonote(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["autonote"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !node["id"])
+    {
+        failures.push_back(stepLocation(step) + ": autonote assertion requires id");
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    const uint32_t id = node["id"].as<uint32_t>();
+    const bool expected = node["present"].as<bool>(true);
+    const bool actual = context.party.hasAutonote(id);
+    scenarioLogAssert(context, step, "autonote", std::to_string(id) + (expected ? "" : " absent"),
+        actual ? "present" : "absent", actual == expected);
+
+    if (actual != expected)
+    {
+        failures.push_back(
+            stepLocation(step) + ": autonote " + std::to_string(id) + (actual ? " is set" : " is not set"));
+        return false;
+    }
+
+    return true;
+}
+
+// assert teacher_ledger: {continent, bought: bool}: the party has the continent's Ledger of Teachers (bought by
+// default).
+bool assertTeacherLedger(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["teacher_ledger"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !node["continent"])
+    {
+        failures.push_back(stepLocation(step) + ": teacher_ledger assertion requires continent");
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    const uint32_t continent = node["continent"].as<uint32_t>();
+    const bool expected = node["bought"].as<bool>(true);
+    const bool actual = context.party.hasTeacherLedger(continent);
+    scenarioLogAssert(context, step, "teacher_ledger", std::to_string(continent) + (expected ? "" : " not bought"),
+        actual ? "bought" : "not bought", actual == expected);
+
+    if (actual != expected)
+    {
+        failures.push_back(stepLocation(step) + ": the Ledger of Teachers of continent " + std::to_string(continent)
+            + (actual ? " is bought" : " is not bought"));
+        return false;
+    }
+
+    return true;
+}
+
 // assert journal_map_note: {map, id, text, present: bool}: a pin on the journal map (present by default).
 bool assertJournalMapNote(
     ScenarioExecutionContext &context,
@@ -4708,6 +5078,54 @@ bool assertBuff(
     if (present != expected)
     {
         failures.push_back(stepLocation(step) + ": buff of spell " + std::to_string(spellId) + " is "
+            + (present ? "present" : "absent"));
+        return false;
+    }
+
+    return true;
+}
+
+// assert condition: {name, present, member_index}: whether a member (any member without member_index) has the
+// condition, by its party_attack name (weak, asleep, ...).
+bool assertCondition(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["condition"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    const std::optional<CharacterCondition> condition =
+        node.IsMap() && node["name"] ? parseScenarioCondition(node["name"].as<std::string>()) : std::nullopt;
+
+    if (!condition || !ensureRuntimeDriver(context, failures) || context.runtimeDriver->party() == nullptr)
+    {
+        failures.push_back(stepLocation(step) + ": condition assertion requires {name, present} and a party");
+        return false;
+    }
+
+    const Party &party = *context.runtimeDriver->party();
+    const std::optional<size_t> memberIndex =
+        node["member_index"] ? std::optional<size_t>(node["member_index"].as<size_t>()) : std::nullopt;
+    bool present = false;
+
+    for (size_t index = 0; index < party.members().size(); ++index)
+    {
+        if (!memberIndex || *memberIndex == index)
+        {
+            present = present || party.members()[index].conditions.test(static_cast<size_t>(*condition));
+        }
+    }
+
+    const bool expected = node["present"].as<bool>(true);
+
+    if (present != expected)
+    {
+        failures.push_back(stepLocation(step) + ": condition " + node["name"].as<std::string>() + " is "
             + (present ? "present" : "absent"));
         return false;
     }
@@ -5755,6 +6173,15 @@ bool runMovementSegment(
         failures.push_back(stepLocation(step) + ": unsupported movement_segment input '" + input + "'");
         return false;
     }
+
+    // Held with the movement: Jump, Fly Up and Fly Down (climbing a ladder, swimming up and down).
+    const auto heldKey = [&step](const char *pKey)
+    {
+        return step.payload[pKey] && step.payload[pKey].IsScalar() && step.payload[pKey].as<bool>();
+    };
+    command.jump = heldKey("jump");
+    command.flyUp = heldKey("fly_up");
+    command.flyDown = heldKey("fly_down");
 
     const YAML::Node rawStart = step.payload["raw_start"];
     const YAML::Node modifierSource = rawStart && rawStart.IsMap() ? rawStart : step.payload;
@@ -7783,6 +8210,139 @@ bool assertVariableObservations(
     return success;
 }
 
+// ai_trace: {actor_index | arena_monster, decision | event, target, min_count, max_count, max_in_window, within_seconds,
+// after, before, report}: how many trace lines match (an AI arena's decision trace): a decision (actorAiDecisionName) or
+// a world event (spawn, motion, target, damaged, healed, died, revived, anim), of the actor (any without one), against
+// the target ("party", "actor:N"), whose detail contains `detail`, in the last within_seconds of the trace clock or
+// between after and before (trace seconds). Without bounds at least one must match. max_in_window: {count, seconds}:
+// no span of that many trace seconds holds more than count of them (an animation's crossfades flickering).
+bool assertAiTrace(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["ai_trace"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !ensureRuntimeDriver(context, failures))
+    {
+        failures.push_back(stepLocation(step) + ": ai_trace must be a map");
+        return false;
+    }
+
+    const std::string decision = node["decision"].as<std::string>("");
+    const std::string event = node["event"].as<std::string>("");
+
+    if (decision.empty() == event.empty())
+    {
+        failures.push_back(stepLocation(step) + ": ai_trace needs one of 'decision' or 'event'");
+        return false;
+    }
+
+    if (!decision.empty() && !actorAiDecisionFromName(decision))
+    {
+        failures.push_back(stepLocation(step) + ": ai_trace: unknown decision '" + decision + "'");
+        return false;
+    }
+
+    if (!event.empty()
+        && std::find(ActorAiTraceEventNames.begin(), ActorAiTraceEventNames.end(), event)
+            == ActorAiTraceEventNames.end())
+    {
+        failures.push_back(stepLocation(step) + ": ai_trace: unknown event '" + event + "'");
+        return false;
+    }
+
+    std::optional<size_t> actorIndex;
+
+    if (!aiTraceActorFilter(context, step, node, actorIndex, failures))
+    {
+        return false;
+    }
+
+    const ActorAiTrace &trace = context.runtimeDriver->aiTrace();
+    const std::string target = node["target"].as<std::string>("");
+    const std::string detail = node["detail"].as<std::string>("");
+    const float after = node["within_seconds"]
+        ? trace.timeSeconds() - node["within_seconds"].as<float>()
+        : node["after"].as<float>(-1.0f);
+    const float before = node["before"].as<float>(std::numeric_limits<float>::max());
+    std::vector<const ActorAiTraceEntry *> matches;
+
+    for (const ActorAiTraceEntry &entry : trace.entries())
+    {
+        if ((!actorIndex || entry.actorIndex == *actorIndex) && entry.decision == !decision.empty()
+            && entry.name == (decision.empty() ? event : decision) && (target.empty() || entry.target == target)
+            && (detail.empty() || entry.detail.find(detail) != std::string::npos)
+            && entry.timeSeconds >= after && entry.timeSeconds <= before)
+        {
+            matches.push_back(&entry);
+        }
+    }
+
+    const bool bounded = node["min_count"] || node["max_count"] || node["max_in_window"];
+    const size_t minCount = node["min_count"].as<size_t>(bounded ? 0 : 1);
+    const size_t maxCount = node["max_count"].as<size_t>(std::numeric_limits<size_t>::max());
+    const std::string what = (decision.empty() ? "event " + event : "decision " + decision)
+        + (actorIndex ? " actor " + std::to_string(*actorIndex) : std::string()) + (target.empty() ? "" : " " + target)
+        + (detail.empty() ? "" : " \"" + detail + "\"");
+    scenarioLog(context, ScenarioLogColor::Cyan, "AI TRACE " + what + ": " + std::to_string(matches.size())
+        + " matching lines, trace t=" + std::to_string(trace.timeSeconds()));
+
+    if (node["report"].as<bool>(false))
+    {
+        for (const ActorAiTraceEntry *pEntry : matches)
+        {
+            scenarioLog(context, ScenarioLogColor::Default, formatActorAiTraceLine(*pEntry));
+        }
+    }
+
+    if (matches.size() < minCount || matches.size() > maxCount)
+    {
+        failures.push_back(stepLocation(step) + ": ai_trace " + what + ": " + std::to_string(matches.size())
+            + " matching lines, expected " + std::to_string(minCount) + (maxCount == std::numeric_limits<size_t>::max()
+                ? std::string(" or more") : " to " + std::to_string(maxCount)));
+        return false;
+    }
+
+    if (const YAML::Node window = node["max_in_window"])
+    {
+        if (!window.IsMap() || !window["count"] || !window["seconds"])
+        {
+            failures.push_back(stepLocation(step) + ": ai_trace max_in_window needs 'count' and 'seconds'");
+            return false;
+        }
+
+        const size_t windowCount = window["count"].as<size_t>();
+        const float windowSeconds = window["seconds"].as<float>();
+        size_t first = 0;
+
+        // The matches are in trace order: slide a window ending at each one.
+        for (size_t last = 0; last < matches.size(); ++last)
+        {
+            while (matches[last]->timeSeconds - matches[first]->timeSeconds > windowSeconds)
+            {
+                ++first;
+            }
+
+            if (last - first + 1 > windowCount)
+            {
+                failures.push_back(stepLocation(step) + ": ai_trace " + what + ": "
+                    + std::to_string(last - first + 1) + " matching lines within " + std::to_string(windowSeconds)
+                    + " s from t=" + std::to_string(matches[first]->timeSeconds) + ", expected at most "
+                    + std::to_string(windowCount));
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 // actor_count: {name, monster_id, boss, shrunk, hurt, hostile, min, max}: the living actors of the map that match.
 bool assertActorCount(
     ScenarioExecutionContext &context,
@@ -9333,15 +9893,21 @@ bool runAssert(
     success = assertRuntimeEventVariable(context, step, failures) && success;
     success = assertActorVisible(context, step, failures) && success;
     success = assertActorCount(context, step, failures) && success;
+    success = assertAiTrace(context, step, failures) && success;
     success = assertProjectiles(context, step, failures) && success;
     success = assertPartyHealth(context, step, failures) && success;
     success = assertBuff(context, step, failures) && success;
+    success = assertCondition(context, step, failures) && success;
     success = assertHomingEnds(context, step, failures) && success;
     success = assertPartyGold(context, step, failures) && success;
     success = assertPartyFood(context, step, failures) && success;
+    success = assertWater(context, step, failures) && success;
     success = assertGameHour(context, step, failures) && success;
     success = assertJournalMapNote(context, step, failures) && success;
+    success = assertAutonote(context, step, failures) && success;
+    success = assertTeacherLedger(context, step, failures) && success;
     success = assertQuickItemRing(context, step, failures) && success;
+    success = assertQuickItemPopup(context, step, failures) && success;
     success = assertDimensionDoor(context, step, failures) && success;
     success = assertCharges(context, step, failures) && success;
     success = assertCombatLog(context, step, failures) && success;
@@ -9794,6 +10360,12 @@ ScenarioRunResult ScenarioRunner::run(
             break;
         case ScenarioStepKind::FrenzyActor:
             stepSuccess = runFrenzyActor(context, step, result.failures);
+            break;
+        case ScenarioStepKind::AiArena:
+            stepSuccess = runAiArena(context, step, result.failures);
+            break;
+        case ScenarioStepKind::AiTraceDump:
+            stepSuccess = runAiTraceDump(context, step, result.failures);
             break;
         case ScenarioStepKind::WaitUntil:
             stepSuccess = runWaitUntil(context, step, result.failures);

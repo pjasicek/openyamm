@@ -74,6 +74,16 @@ struct WorldActorCombatDefinition
     float meleeVerticalReach = 0.0f;
 };
 
+// world.yml actorMovement. levelRadiusLimit: a monster wider than this meets the level indoors (walls, doorways,
+// stairs) and plans its routes at this radius; its own radius still sets its reach and the other bodies' distance from
+// it. MM6-MM8 declare it: their engine tested a body's sphere against a face only where the sphere's contact point lay
+// inside the face, never against its edges, so a monster passed any doorway or corridor its centre fitted through.
+// 0 (undeclared) keeps the full radius.
+struct WorldActorMovementDefinition
+{
+    float levelRadiusLimit = 0.0f;
+};
+
 enum class TableContributionMode
 {
     Append,
@@ -111,6 +121,39 @@ struct TableContributionDefinition
     size_t canonicalIdColumn = 0;
 };
 
+// world.yml completion: the certificate the party receives the first time it finishes the world's story (the qbit is
+// set). A variant whose qbit is set at that moment replaces the headline and ending text (MM7's path of the Dark).
+// With a layout the art is an original game's certificate background (an icon, 640 x 480): the text is centred in
+// layout.text and the OpenYAMM mark drawn at layout.mark; without one it is OpenYAMM's 1536 x 1024 design.
+struct WorldCompletionDefinition
+{
+    struct Layout
+    {
+        bool declared = false;
+        // left, top, right, bottom
+        std::array<float, 4> text = {};
+        // centre x, centre y, height
+        std::array<float, 3> mark = {};
+    };
+
+    struct Variant
+    {
+        uint32_t qbit = 0;
+        std::string headline;
+        std::string text;
+    };
+
+    bool declared = false;
+    uint32_t qbit = 0;
+    std::string continent;
+    // The certificate's background, a hud_x2 path (1536 x 1024; WinGameScreen's layout).
+    std::string art;
+    std::string headline;
+    std::string text;
+    std::vector<Variant> variants;
+    Layout layout;
+};
+
 struct WorldManifest
 {
     std::string id = "mm8";
@@ -121,6 +164,7 @@ struct WorldManifest
     WorldPartyMovementDefinition partyMovement;
     WorldActorAwarenessDefinition actorAwareness;
     WorldActorCombatDefinition actorCombat;
+    WorldActorMovementDefinition actorMovement;
     WorldHumDefinition hum;
     WorldFloorBurnDefinition floorBurn;
     // world.yml objectives: the QBits of the world's major objectives; how many are set gates vendor stock rows
@@ -129,6 +173,7 @@ struct WorldManifest
     // world.yml loadingScreens: the full-screen loading pages this world shows (icon names), picked at random; empty:
     // the engine's loading1-loading5.
     std::vector<std::string> loadingScreens;
+    WorldCompletionDefinition completion;
     // world.yml ambience: {map file: sound name}, a looping bed under the music on that map, at ambienceVolume.
     std::unordered_map<std::string, std::string> ambience;
     float ambienceVolume = 0.6f;
@@ -163,4 +208,11 @@ std::optional<WorldManifest> loadWorldManifest(
     const std::string &fallbackWorldId,
     std::string &errorMessage
 );
+
+// The manifests of every mounted world package, sorted by id; false when one fails to load, repeats an id or misses a
+// dependency.
+bool loadMountedWorldManifests(
+    const Engine::AssetFileSystem &assetFileSystem,
+    std::vector<WorldManifest> &manifests,
+    std::string &errorMessage);
 }

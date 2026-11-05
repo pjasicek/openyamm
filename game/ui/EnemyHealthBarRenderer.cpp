@@ -1,5 +1,6 @@
 #include "game/ui/EnemyHealthBarRenderer.h"
 
+#include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
@@ -183,7 +184,7 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
             {
                 while (label.size() > 1 && ui.measureHudTextWidth(*font, label + "...") > available)
                 {
-                    label.pop_back();
+                    Engine::Utf8::popBack(label);
                 }
                 label += "...";
             }

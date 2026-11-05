@@ -90,8 +90,22 @@ void controlScriptedEventTimers(
     double delayGameMinutes,
     double currentGameMinutes);
 
+// An evt.StopTimer / evt.StartTimer request, queued by the script and applied by updateScriptedEventTimers.
+struct ScriptedEventTimerControl
+{
+    uint16_t eventId = 0;
+    bool start = false;
+    double delayGameMinutes = -1.0;
+};
+
+// Fire the due timers. With pControls, first apply and clear the requests queued since the last update, then those
+// each handler queues as soon as it returns. A request a timer's handler makes on its own event counts its delay
+// from the alarm that ran the handler, not from the frame that did, so a handler that restarts itself keeps its
+// period instead of adding a frame each time (from the current time when that alarm lies more than the delay
+// behind: time skipped by rest or a stall).
 bool updateScriptedEventTimers(
     std::vector<ScriptedEventTimerState> &states,
     double currentGameMinutes,
-    const std::function<bool(const ScriptedEventTimerDefinition &)> &executeTimer);
+    const std::function<bool(const ScriptedEventTimerDefinition &)> &executeTimer,
+    std::vector<ScriptedEventTimerControl> *pControls = nullptr);
 }

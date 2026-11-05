@@ -11,14 +11,14 @@ steps:
         difficulty: hell
         progression: horizontal
   - assert:
-      actor_visible: {actor_index: 0, max_hp: 73}
+      actor_visible: {actor_index: 0, max_hp: 68}
   - set_ruleset: {options: easy}
   - assert:
-      actor_visible: {actor_index: 0, max_hp: 24}
+      actor_visible: {actor_index: 0, max_hp: 23}
   - save_game: maw_easy
   - load_game: maw_easy
   - assert:
-      actor_visible: {actor_index: 0, max_hp: 24}
+      actor_visible: {actor_index: 0, max_hp: 23}
       ruleset:
         id: maw
         difficulty: easy

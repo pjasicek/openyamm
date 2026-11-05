@@ -274,6 +274,25 @@ public:
     static std::string buildExperienceInspectSupplement(
         const Character &character,
         const ExperienceRules &experienceRules = standardExperienceRules());
+    // The bonus of a primary stat's value (MM8's table: 13 gives 0, 15 +1, 500 and over +30).
+    static int primaryStatBonus(int value);
+    // The lowest value with a higher bonus than `value`'s; nothing at the top of the table.
+    static std::optional<int> nextPrimaryStatBonusValue(int value);
+    // The share of a hit's damage resistance takes off on average, 0 to 1. `resistance` is the damage type's resistance
+    // plus the Luck bonus; above 0, each of up to four rolls halves the hit with chance resistance / (resistance + 30).
+    static float averageResistedDamageShare(int resistance);
+    // The chance to resist a monster's curse, poison, disease or other effect, 0 to 1. `bonus` is the Luck bonus plus
+    // the effect's stat bonus or resistance; the save rolls rand() % (bonus + 30) and holds on 30 or more.
+    static float monsterEffectResistChance(int bonus);
+    // The HP an Endurance of `endurance` adds through the character's class: its bonus counts as that many levels of
+    // the class's HP per level.
+    static int enduranceHealthBonus(const Character &character, int endurance);
+    // The SP an Intellect or Personality ("Intellect", "Personality") of `value` adds the same way, or nothing when
+    // the class's SP do not grow with that stat.
+    static std::optional<int> primaryStatSpellPointBonus(
+        const Character &character,
+        const std::string &statName,
+        int value);
     static int resolveCharacterItemSkillBonus(const Character &character, const std::string &skillName);
     static int resolveCharacterDisplayedBasePrimaryStat(
         const Character &character,
@@ -371,6 +390,8 @@ public:
         int attackBonus,
         std::mt19937 &rng);
     static std::optional<CharacterCondition> displayedCondition(const Character &character);
+    // The condition as the character sheet names it ("Poisoned" for every poison).
+    static std::string conditionName(CharacterCondition condition);
     static bool canAct(const Character &character);
     static int resolveCharacterPerceptionValue(const Character &character);
     static int resolvePartyPerceptionValue(const Party &party);

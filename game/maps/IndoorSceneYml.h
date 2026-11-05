@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/events/MechanismAudioProfile.h"
 #include "game/maps/MapRuntimeRestrictions.h"
 #include "game/maps/MapArenaDefinition.h"
 #include "game/maps/MapDeltaData.h"
@@ -54,6 +55,12 @@ struct IndoorSceneDoor
     MapDeltaDoor door = {};
     // The door's `mover` block (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md); none for every MM6-MM8 door.
     std::optional<IndoorMoverDefinition> mover;
+    // The door's `sounds` block (MechanismAudioYml.h: an MM9 door's own sounds); none for every MM6-MM8 door, which
+    // sounds as its map's environment.
+    std::optional<MechanismAudioProfile> sounds;
+    // The door's `ai_open` list: an MM9 monster walking into it opens these doors (its own and the leaves and
+    // shells that open with it; MM9's AITriggerable doors, BaseDoor.inc). Empty for every other door.
+    std::vector<uint32_t> aiOpenDoorIds;
 };
 
 struct IndoorSceneSpawn
@@ -107,6 +114,34 @@ struct IndoorSceneData
     std::vector<IndoorLadder> ladders;
     // Scene `fog` (devdocs/INDOOR_FOG.md).
     IndoorFog fog;
+    // Scene `model_lighting` (devdocs/INDOOR_MODEL_LIGHTING.md).
+    IndoorModelLighting modelLighting;
+    // Scene `sky` (devdocs/INDOOR_OPEN_SKY.md).
+    IndoorOpenSky openSky;
+    // Scene `daylight` (devdocs/INDOOR_OPEN_SKY.md "Daylight"); its sectors are computed when the map is built.
+    IndoorDaylight daylight;
+    // Scene `footstep_sounds` (devdocs/INDOOR_OPEN_SKY.md "Footsteps").
+    std::vector<IndoorFootstepSound> footstepSounds;
+    // Scene `terrain` (devdocs/INDOOR_OPEN_SKY.md "Terrain").
+    std::optional<IndoorTerrain> terrain;
+    // Scene `party_movement: {steep_slopes: block}`.
+    bool partySteepSlopesBlock = false;
+    // Scene `actor_barriers: {faces: [...]}`.
+    std::vector<uint16_t> actorBarrierFaceIds;
+    // Scene `actor_movement: {drops: follow}`.
+    bool actorDropsFollow = false;
+    // Scene `actor_detection: {wakes: none}` clears it.
+    bool actorNeighbourWakes = true;
+    // Scene `static_lights: {sides: front}`.
+    bool staticLightsFrontOnly = false;
+    // Scene `water_volumes` (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md).
+    std::vector<IndoorWaterVolume> waterVolumes;
+    // Scene `destructibles` (devdocs/INDOOR_DESTRUCTIBLES.md).
+    std::vector<IndoorDestructible> destructibles;
+    // Scene `pulsing_lights`.
+    std::vector<IndoorPulsingLight> pulsingLights;
+    // Scene `ambient_sounds`.
+    std::vector<WorldAmbientSound> ambientSounds;
 };
 
 class IndoorSceneYmlLoader
@@ -132,6 +167,51 @@ bool parseIndoorSceneTranslucentFaces(
 // Parses a `fog` map: color_rgb (three numbers 0..255), near_distance, far_distance (0 <= near < far); false with the
 // reason for anything else.
 bool parseIndoorSceneFog(const std::string &yamlText, IndoorFog &fog, std::string &errorMessage);
+
+// Parses a `sky` map: mode (only open) and optional sky_texture and preset (names); false with the reason for anything
+// else.
+bool parseIndoorSceneOpenSky(const std::string &yamlText, IndoorOpenSky &sky, std::string &errorMessage);
+
+// Parses a `daylight` map: ambient_rgb and sun_rgb (three numbers 0..255 each) and optional day_scale_rgb and
+// night_scale_rgb (0..255, 255 by default), sun_direction (three numbers, not zero; normalised) and sun_gain
+// (0 < gain <= 100, 1 by default); false with the reason for anything else.
+bool parseIndoorSceneDaylight(const std::string &yamlText, IndoorDaylight &daylight, std::string &errorMessage);
+
+// Parses a `water_volumes` sequence of {id, liquid (water | lava), pieces [{polygon [[x, y], ...], bottom, top}], tint
+// (0..1 each), fog (as the scene fog), current [x, y, z], mover_door_id}; false with the reason for anything else.
+bool parseIndoorSceneWaterVolumes(
+    const std::string &yamlText,
+    std::vector<IndoorWaterVolume> &volumes,
+    std::string &errorMessage);
+
+// Parses a `footstep_sounds` sequence of {texture_names, walk_sound_id, run_sound_id}; false with the reason for
+// anything else.
+bool parseIndoorSceneAmbientSounds(
+    const std::string &yamlText,
+    std::vector<WorldAmbientSound> &sounds,
+    std::string &errorMessage);
+
+bool parseIndoorScenePulsingLights(
+    const std::string &yamlText,
+    std::vector<IndoorPulsingLight> &lights,
+    std::string &errorMessage);
+
+bool parseIndoorSceneDestructibles(
+    const std::string &yamlText,
+    std::vector<IndoorDestructible> &destructibles,
+    std::string &errorMessage);
+
+bool parseIndoorSceneFootstepSounds(
+    const std::string &yamlText,
+    std::vector<IndoorFootstepSound> &footstepSounds,
+    std::string &errorMessage);
+
+// Parses a `model_lighting` map: mode (only mm9), ambient and optional add (three numbers 0..255 each, add 30 30 30 by
+// default) and optional light_scale (>= 0, 1 by default); false with the reason for anything else.
+bool parseIndoorSceneModelLighting(
+    const std::string &yamlText,
+    IndoorModelLighting &lighting,
+    std::string &errorMessage);
 
 // The map's per-face translucency from the scene entries, sorted by face index; false for a face out of range, one
 // listed twice, an opacity outside 0..1 or a negative tint.

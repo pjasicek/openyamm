@@ -281,11 +281,45 @@ void controlScriptedEventTimers(
     }
 }
 
+namespace
+{
+// Apply and clear the queued requests. firedEventId / firedAlarmGameMinutes: the timer whose handler just made them
+// (0: none), whose own restart counts from its alarm while that alarm is less than the delay behind the clock.
+void applyScriptedEventTimerControls(
+    std::vector<ScriptedEventTimerState> &states,
+    std::vector<ScriptedEventTimerControl> &controls,
+    double currentGameMinutes,
+    uint16_t firedEventId,
+    double firedAlarmGameMinutes)
+{
+    for (const ScriptedEventTimerControl &control : controls)
+    {
+        double fromGameMinutes = currentGameMinutes;
+
+        if (control.start && firedEventId != 0 && control.eventId == firedEventId && control.delayGameMinutes >= 0.0
+            && firedAlarmGameMinutes + control.delayGameMinutes > currentGameMinutes)
+        {
+            fromGameMinutes = firedAlarmGameMinutes;
+        }
+
+        controlScriptedEventTimers(states, control.eventId, control.start, control.delayGameMinutes, fromGameMinutes);
+    }
+
+    controls.clear();
+}
+}
+
 bool updateScriptedEventTimers(
     std::vector<ScriptedEventTimerState> &states,
     double currentGameMinutes,
-    const std::function<bool(const ScriptedEventTimerDefinition &)> &executeTimer)
+    const std::function<bool(const ScriptedEventTimerDefinition &)> &executeTimer,
+    std::vector<ScriptedEventTimerControl> *pControls)
 {
+    if (pControls != nullptr)
+    {
+        applyScriptedEventTimerControls(states, *pControls, currentGameMinutes, 0, 0.0);
+    }
+
     bool executedAny = false;
 
     for (ScriptedEventTimerState &state : states)
@@ -298,8 +332,15 @@ bool updateScriptedEventTimers(
             continue;
         }
 
+        const uint16_t eventId = state.definition.eventId;
+        const double alarmGameMinutes = state.nextAlarmGameMinutes;
         executedAny = executeTimer(state.definition) || executedAny;
         advanceTimerAfterFire(state, currentGameMinutes);
+
+        if (pControls != nullptr)
+        {
+            applyScriptedEventTimerControls(states, *pControls, currentGameMinutes, eventId, alarmGameMinutes);
+        }
     }
 
     return executedAny;

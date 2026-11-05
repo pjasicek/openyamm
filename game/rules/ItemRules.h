@@ -153,6 +153,8 @@ public:
     virtual std::optional<uint32_t> nameColor(const InventoryItem &item) const;
     // Whether items are outlined in their rarity colour (the Item rarity glow setting); Standard has no rarities.
     virtual bool glowsItemRarity() const;
+    // Whether the inventory has the item search field (MAW, for its many bags; user 2026-11-04).
+    virtual bool inventorySearch() const;
     // Lines the rules add to the inspect popup below the item's type and stats (MAW: enchantments, level required).
     virtual std::vector<ItemInspectLine> inspectLines(
         const InventoryItem &item,

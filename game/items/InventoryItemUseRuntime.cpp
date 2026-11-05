@@ -21,6 +21,8 @@ constexpr int DaysPerMonth = 28;
 constexpr uint32_t GreenAppleItemId = 655;
 constexpr uint32_t HorseshoeItemId = 656;
 constexpr uint32_t DimensionDoorScrollItemId = 190;
+// A spell scroll casts at skill 7, Master, as in MMerge (ExtraEvents.lua PlayerCastSpell; the original games used 5).
+constexpr uint32_t ScrollSpellSkillLevel = 7;
 constexpr uint32_t ChargedConnectorStoneItemId = 624;
 constexpr uint32_t DischargedConnectorStoneItemId = 625;
 constexpr uint32_t DeckOfFateItemId = 2067;
@@ -137,32 +139,33 @@ bool restoreSpellPoints(Character &member, int amount)
     return member.spellPoints > previousSpellPoints;
 }
 
+// What a cure-all potion (Divine Cure) clears.
+constexpr std::array<CharacterCondition, 14> RestorableConditions = {
+    CharacterCondition::Cursed,
+    CharacterCondition::Weak,
+    CharacterCondition::Asleep,
+    CharacterCondition::Fear,
+    CharacterCondition::Drunk,
+    CharacterCondition::Insane,
+    CharacterCondition::PoisonWeak,
+    CharacterCondition::DiseaseWeak,
+    CharacterCondition::PoisonMedium,
+    CharacterCondition::DiseaseMedium,
+    CharacterCondition::PoisonSevere,
+    CharacterCondition::DiseaseSevere,
+    CharacterCondition::Paralyzed,
+    CharacterCondition::Zombie,
+};
+
 bool clearAllRestorableConditions(Party &party, size_t memberIndex)
 {
-    static constexpr std::array<CharacterCondition, 12> clearableConditions = {
-        CharacterCondition::Cursed,
-        CharacterCondition::Weak,
-        CharacterCondition::Asleep,
-        CharacterCondition::Fear,
-        CharacterCondition::Drunk,
-        CharacterCondition::Insane,
-        CharacterCondition::PoisonWeak,
-        CharacterCondition::DiseaseWeak,
-        CharacterCondition::PoisonMedium,
-        CharacterCondition::DiseaseMedium,
-        CharacterCondition::PoisonSevere,
-        CharacterCondition::DiseaseSevere,
-    };
-
     bool changed = false;
 
-    for (CharacterCondition condition : clearableConditions)
+    for (CharacterCondition condition : RestorableConditions)
     {
         changed = party.clearMemberCondition(memberIndex, condition) || changed;
     }
 
-    changed = party.clearMemberCondition(memberIndex, CharacterCondition::Paralyzed) || changed;
-    changed = party.clearMemberCondition(memberIndex, CharacterCondition::Zombie) || changed;
     return changed;
 }
 
@@ -492,8 +495,9 @@ float potionDurationSeconds(const Party &party, const PotionEffectTable &effects
         + effects.grandmasterAlchemySecondsPerSkill() * static_cast<float>(bestGrandmasterSkill);
 }
 
-// Who pays a potion's combat recovery (MAW): the drinker when ready, else the active member, else the first ready one.
-std::optional<size_t> potionRecoveryPayer(const Party &party, size_t drinkerIndex)
+// Who pays a potion's recovery: the drinker when ready (MAW; not when the active member pays, as in the original
+// games), else the active member, else the first ready one.
+std::optional<size_t> potionRecoveryPayer(const Party &party, size_t drinkerIndex, bool activeMemberPays)
 {
     const auto ready = [&party](size_t memberIndex)
     {
@@ -501,7 +505,7 @@ std::optional<size_t> potionRecoveryPayer(const Party &party, size_t drinkerInde
         return pMember != nullptr && GameMechanics::canTakeGameplayAction(*pMember);
     };
 
-    if (ready(drinkerIndex))
+    if (!activeMemberPays && ready(drinkerIndex))
     {
         return drinkerIndex;
     }
@@ -1068,7 +1072,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             result.handled = true;
             result.consumed = true;
             result.spellId = *spellId;
-            result.spellSkillLevelOverride = 5;
+            result.spellSkillLevelOverride = ScrollSpellSkillLevel;
             result.spellSkillMasteryOverride = SkillMastery::Master;
             result.spellBypassRequiredMastery = true;
             return result;
@@ -1094,7 +1098,7 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
             result.handled = true;
             result.consumed = true;
             result.spellId = spellIdValue(SpellId::TownPortal);
-            result.spellSkillLevelOverride = 5;
+            result.spellSkillLevelOverride = ScrollSpellSkillLevel;
             result.spellSkillMasteryOverride = SkillMastery::Master;
             result.spellBypassRequiredMastery = true;
             return result;
@@ -1269,13 +1273,14 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
                 return makeFailure(result.action, "This potion has not enough power", SpeechId::PotionFail);
             }
 
-            // A drink needs a ready member, who pays its recovery near monsters (MAW, AL:86-110); nobody ready, no
-            // drink.
+            // A drink needs a ready member, who pays its recovery (the active member in Standard, as in the original
+            // games; MAW's drinker, near monsters only, AL:86-110); nobody ready, no drink.
             std::optional<size_t> recoveryPayer;
 
             if (effects.combatRecoveryTicks() > 0.0f)
             {
-                recoveryPayer = potionRecoveryPayer(party, targetMemberIndex);
+                recoveryPayer =
+                    potionRecoveryPayer(party, targetMemberIndex, effects.combatRecoveryActiveMemberPays());
 
                 if (!recoveryPayer)
                 {
@@ -1512,13 +1517,113 @@ InventoryItemUseResult InventoryItemUseRuntime::useItemOnMember(
     }
 }
 
+std::optional<uint32_t> InventoryItemUseRuntime::scrollSpellId(const ItemDefinition &itemDefinition)
+{
+    return tryParseSpellId(itemDefinition);
+}
+
+PotionPreview InventoryItemUseRuntime::previewPotion(
+    const Party &party,
+    size_t memberIndex,
+    const InventoryItem &item,
+    const MergedPotionSettingTable &potionSettingTable)
+{
+    PotionPreview preview;
+    const Character *pMember = party.member(memberIndex);
+    const PotionDefinition *pPotion = potionSettingTable.effects().find(item.objectDescriptionId);
+
+    if (pMember == nullptr || pPotion == nullptr || pPotion->effects.empty())
+    {
+        return preview;
+    }
+
+    preview.known = true;
+    const PotionEffectTable &effects = potionSettingTable.effects();
+    int power = std::max(1, static_cast<int>(item.standardEnchantPower));
+
+    if (effects.powerCap() > 0)
+    {
+        power = std::min(power, effects.powerCap());
+    }
+
+    const PotionRules &potionRules = gameRulesFor(&party).potions;
+    const auto addCure = [&preview, pMember](CharacterCondition condition)
+    {
+        if (pMember->conditions.test(static_cast<size_t>(condition))
+            && std::find(preview.cures.begin(), preview.cures.end(), condition) == preview.cures.end())
+        {
+            preview.cures.push_back(condition);
+        }
+    };
+
+    for (const PotionEffect &effect : pPotion->effects)
+    {
+        if (effect.limit == PotionLimit::BestStep)
+        {
+            preview.otherEffects = true;
+            continue;
+        }
+
+        const int amount = effect.amount.evaluate(power, potionRules.estimatedPool(effect.amount.pool, power));
+
+        switch (effect.kind)
+        {
+            case PotionEffectKind::Restore:
+                if (effect.pool == PotionPool::HitPoints)
+                {
+                    // As Party::healMember: up to the reachable maximum, nothing for the dead.
+                    const bool dead = pMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+                        || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Eradicated));
+
+                    if (!dead && amount > 0)
+                    {
+                        const int cap = std::max(pMember->health, party.reachableMaximumHealth(memberIndex));
+                        preview.healthBefore = pMember->health;
+                        preview.healthMaximum = Party::effectiveMaximumHealth(*pMember);
+                        preview.healthGain += std::max(0, std::min(pMember->health + amount, cap) - pMember->health);
+                    }
+                }
+                else
+                {
+                    const int maximum = maxSpellPointsForMember(*pMember);
+                    preview.spellPointsBefore = pMember->spellPoints;
+                    preview.spellPointsMaximum = maximum;
+                    preview.spellPointGain +=
+                        std::max(0, std::clamp(pMember->spellPoints + amount, 0, maximum) - pMember->spellPoints);
+                }
+                break;
+            case PotionEffectKind::Cure:
+                for (CharacterCondition condition : effect.conditions)
+                {
+                    addCure(condition);
+                }
+                break;
+            case PotionEffectKind::CureAllRestorable:
+                for (CharacterCondition condition : RestorableConditions)
+                {
+                    addCure(condition);
+                }
+                break;
+            default:
+                preview.otherEffects = true;
+                break;
+        }
+    }
+
+    return preview;
+}
+
 bool InventoryItemUseRuntime::drinkRecoveryApplies(const MergedPotionSettingTable *pPotionSettingTable)
 {
     return pPotionSettingTable != nullptr && pPotionSettingTable->effects().combatRecoveryTicks() > 0.0f;
 }
 
-std::optional<size_t> InventoryItemUseRuntime::drinkRecoveryPayer(const Party &party, size_t drinkerIndex)
+std::optional<size_t> InventoryItemUseRuntime::drinkRecoveryPayer(
+    const MergedPotionSettingTable &potionSettingTable,
+    const Party &party,
+    size_t drinkerIndex)
 {
-    return potionRecoveryPayer(party, drinkerIndex);
+    return potionRecoveryPayer(
+        party, drinkerIndex, potionSettingTable.effects().combatRecoveryActiveMemberPays());
 }
 }

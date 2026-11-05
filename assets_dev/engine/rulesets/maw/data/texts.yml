@@ -706,7 +706,8 @@ classes:
 # {table} stands for the table's own line. Placeholders as for spells, plus:
 #   regen_now, regen_next     Regeneration's HP per second now and with one more point (out of combat it is faster)
 #   med_now, med_next         Meditation's SP per second now and with one more point
-#   asc_damage_base, asc_damage_scaling, asc_heal_base, asc_heal_scaling, asc_mana, asc_cast   Ascension's percents
+#   asc_damage_base, asc_damage_scaling, asc_heal_base, asc_heal_scaling, asc_mana, asc_cc_mana, asc_cast   Ascension's
+#                             percents; asc_mana_change and asc_cc_mana_change the mana ones signed and coloured
 #   cover_chance              the chance to cover an ally now
 #   mana_efficiency           damage one spell point absorbs
 #   ladder_expert, ladder_master, ladder_grandmaster   the levels a self-taught skill gains its masteries at
@@ -855,8 +856,8 @@ skills:
   Learning:
     append: >-
       Current bonuses at your skill: damage base +<good>{asc_damage_base}</> %, damage per point +<good>{asc_damage_scaling}</> %,
-      healing base +<good>{asc_heal_base}</> %, healing per point +<good>{asc_heal_scaling}</> %; mana cost +<bad>{asc_mana}</> %, cast time
-      +<bad>{asc_cast}</> %.
+      healing base +<good>{asc_heal_base}</> %, healing per point +<good>{asc_heal_scaling}</> %; mana cost {asc_mana_change},
+      control spells mana cost {asc_cc_mana_change}, cast time +<bad>{asc_cast}</> %.
   Perception:
     normal: "{table}; traps and lava hurt 10 % less"
     expert: "{table}; traps and lava hurt 30 % less"

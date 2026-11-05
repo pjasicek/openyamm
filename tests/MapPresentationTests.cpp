@@ -6,6 +6,7 @@
 #include "game/ui/GameplayJournalMapUi.h"
 #include "game/ui/GameplayMinimapTransform.h"
 
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iterator>
@@ -89,6 +90,33 @@ TEST_CASE("MM9 map transform preserves flipped world coordinates and source aspe
     CHECK(transform.vSpan == doctest::Approx(2.0f));
 }
 
+TEST_CASE("map party arrow follows the image flips")
+{
+    constexpr float HalfPi = 1.57079633f;
+    OpenYAMM::Game::GameplayMinimapState state = {};
+
+    // Native MM6-MM8 orientation (+X right, +Y up): the heading is unchanged.
+    CHECK(OpenYAMM::Game::gameplayMinimapDisplayYaw(state, 0.5f) == doctest::Approx(0.5f));
+
+    // MM9 exteriors are drawn rotated 180 degrees: walking east (+X) moves the marker left.
+    state.flipU = true;
+    state.flipV = false;
+    CHECK(std::abs(OpenYAMM::Game::gameplayMinimapDisplayYaw(state, 0.0f)) == doctest::Approx(2.0f * HalfPi));
+    CHECK(OpenYAMM::Game::gameplayMinimapDisplayYaw(state, HalfPi) == doctest::Approx(-HalfPi));
+
+    // Every heading points the way the marker moves on the image.
+    for (float yaw = -3.0f; yaw < 3.2f; yaw += 0.25f)
+    {
+        const OpenYAMM::Game::GameplayMinimapPoint from =
+            OpenYAMM::Game::gameplayMinimapWorldToUv(state, 0.0f, 0.0f);
+        const OpenYAMM::Game::GameplayMinimapPoint to =
+            OpenYAMM::Game::gameplayMinimapWorldToUv(state, std::cos(yaw) * 100.0f, std::sin(yaw) * 100.0f);
+        const float displayYaw = OpenYAMM::Game::gameplayMinimapDisplayYaw(state, yaw);
+        // Image v grows downwards; the arrow convention has +Y up.
+        CHECK(std::cos(displayYaw) * (to.x - from.x) - std::sin(displayYaw) * (to.y - from.y) > 0.0f);
+    }
+}
+
 TEST_CASE("outdoor map presentation crop and flips preserve saved exploration coordinates")
 {
     OpenYAMM::Game::GameplayMinimapState state = {};
@@ -139,6 +167,17 @@ TEST_CASE("promoted MM9 map catalog and PCX asset are runtime decodable")
         OpenYAMM::Game::gameplayMinimapWorldToUv(bootcampState, 25969.0f, -6717.0f);
     CHECK(ravensfordParty.x == doctest::Approx(0.52387f));
     CHECK(ravensfordParty.y == doctest::Approx(0.88933f));
+
+    // MM9's own floor choice (cshell.dll): A over 512-1728 LT, B over -256-512, C above and below, by body centre.
+    const std::optional<OpenYAMM::Game::MapPresentation> terrors =
+        OpenYAMM::Game::loadMapPresentationFromCatalog(catalog, "1000terrors.odm", errorMessage);
+    REQUIRE(terrors.has_value());
+    CHECK(OpenYAMM::Game::resolveMapPresentationVariant(*terrors, 1000.0f * 2.56f)->textureName
+        == "ui/maps/1000terrorsa.pcx");
+    CHECK(OpenYAMM::Game::resolveMapPresentationVariant(*terrors, 0.0f)->textureName
+        == "ui/maps/1000terrorsb.pcx");
+    CHECK(OpenYAMM::Game::resolveMapPresentationVariant(*terrors, -800.0f * 2.56f)->textureName
+        == "ui/maps/1000terrorsc.pcx");
     CHECK_FALSE(OpenYAMM::Game::loadMapPresentationFromCatalog(
         catalog,
         "greatgate.odm",

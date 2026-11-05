@@ -48,8 +48,19 @@ struct WaterSurfaceGeometry
     LiquidKind liquid = LiquidKind::Water;
     // False for a liquid that never takes a planar reflection (liquids.yml reflections: false).
     bool reflects = true;
+    // A see-through liquid (liquids.yml opacity below 1, in its vertices' tint alpha): blended over the bed.
+    bool seeThrough = false;
     int16_t sectorId = -1;
     int16_t backSectorId = -1;
+};
+
+// Which liquid surfaces a draw takes: the opaque ones (with the solid scene), the see-through ones (blended after it,
+// so the bed and whatever stands in the liquid show through them) or both (reflection captures).
+enum class WaterSurfaceSet : uint8_t
+{
+    All,
+    Opaque,
+    SeeThrough,
 };
 
 class WaterRenderer
@@ -95,7 +106,8 @@ public:
         const Reflection *pReflection = nullptr);
     void renderIndoor(uint16_t viewId, float seconds, const IndoorLightingFrame &lighting,
         const bx::Vec3 &camera, const bx::Vec3 &forward, const WaterRippleRuntime *pRipples = nullptr,
-        const Reflection *pReflection = nullptr, std::span<const uint8_t> visibleSectors = {});
+        const Reflection *pReflection = nullptr, std::span<const uint8_t> visibleSectors = {},
+        WaterSurfaceSet surfaceSet = WaterSurfaceSet::All);
     void renderBillboard(uint16_t viewId, std::span<const WaterVertex> vertices,
         bgfx::TextureHandle sprite, float seconds,
         const std::array<float, 4> &sunDirection, const std::array<float, 4> &sunColor,
@@ -116,6 +128,7 @@ private:
         bool planar = true;
         LiquidKind liquid = LiquidKind::Water;
         bool reflects = true;
+        bool seeThrough = false;
         bool visible = false;
         bool building = false;
         int reflection = -1;

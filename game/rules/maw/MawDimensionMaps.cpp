@@ -113,10 +113,8 @@ bool MawDimensionData::loadFromYaml(const std::string &text, std::string &errorM
         m_quest.firstTier = quest["first_tier"].as<int>();
         m_quest.unlockTier = quest["unlock_tier"].as<int>();
 
-        for (const YAML::Node &step : quest["steps"])
-        {
-            m_quest.steps.emplace_back(step[0].as<int>(), step[1].as<int>());
-        }
+        m_quest.firstStep = quest["first_step"].as<int>();
+        m_quest.lastStep = quest["last_step"].as<int>();
 
         m_quest.textTooLow = quest["text_too_low"].as<std::string>();
         m_quest.textGive = quest["text_give"].as<std::string>();
@@ -248,15 +246,16 @@ const MawDimensionQuestRules &MawDimensionData::quest() const
 
 int MawDimensionData::nextQuestTier(int tier) const
 {
-    for (const auto &[below, step] : m_quest.steps)
+    int next = m_quest.firstTier;
+    int step = std::max(m_quest.firstStep, 1);
+
+    while (next <= tier)
     {
-        if (tier < below)
-        {
-            return tier + step;
-        }
+        next += step;
+        step = std::max(step - 1, std::max(m_quest.lastStep, 1));
     }
 
-    return tier;
+    return next;
 }
 
 std::array<uint8_t, 4> MawDimensionData::rollAffixes(RandomStream &stream, const std::array<bool, 4> &slots) const

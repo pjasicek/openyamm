@@ -47,6 +47,9 @@ The converter emits the data (below); by hand, list the face indices from the ed
   face's centre (`sortIndoorTranslucentDrawsBackToFront`, ties by batch so the order is stable). Per face, not per
   room: MM9's engine hall is one room of 2 181 faces with panes on four sides and over the atrium, so a room order
   cannot put its near panes over its far ones. Panes are small and planar, and there are few (78 in the Lich Lab).
+  A face at opacity 0 is not drawn at all: it would blend nothing and writes no depth, but each face is its own draw
+  (Training Hall's 596 invisible target hit shells raised its archery range from about 90 to 700 draws). It stays a
+  face for collision, picking and hits like any other.
 - **State.** Depth test on (`LEQUAL` against the opaque scene), depth write off, alpha blend; no culling (two-sided
   is the plane test above). The rooms behind a pane are drawn first because portal visibility ignores faces: a pane
   in a portal (or on one) never hides the rooms behind it from the visibility pass.
@@ -63,6 +66,35 @@ The converter emits the data (below); by hand, list the face indices from the ed
   two large panes crossing each other may sort wrongly. Classic outdoor BModel faces have no translucency: their
   renderer (`OutdoorRenderer` draw groups) is a separate path; only the old MM9 `bmodel_world` ODMs blend, by a
   `.render` flag, texture alpha only and unsorted.
+
+## See-through liquids
+
+Liquid faces (`engine/liquids/liquids.yml`) are not translucent faces: the liquid shader draws them, and a face in both
+would draw the liquid's flat colour over the shader. A liquid entry's `opacity` below 1 (2026-10-31, MM9's water) makes
+its faces see-through instead:
+
+- **Data.** `LiquidDefinition::opacity` (default 1; water and tar faces only, never terrain or lava) rides in the alpha
+  byte of the faces' tint (`liquidFaceColorAbgr`, `MapAssetLoader` `liquidFaceTexture`). `buildWaterFaceGeometry` keeps
+  see-through faces in surfaces of their own (`WaterSurfaceGeometry::seeThrough`).
+- **Draw order.** `WaterRenderer::renderIndoor` takes a `WaterSurfaceSet`: the opaque liquids draw where they always did
+  (`Opaque`, after the solid faces); the see-through ones after the creatures and 3D models and before the translucent
+  faces (`SeeThrough`), so the bed and whatever stands in the liquid are already drawn under them. They test and write
+  depth like the opaque ones (spells and particles under the surface stay hidden). Reflection captures draw both
+  (`All`); see-through planar surfaces still take their planar reflection.
+- **Shading** (`fs_indoor_water.sc`, only when the tint alpha is below 0.998, so an opaque liquid computes exactly what
+  it did): the body covers the bed at about the opacity, rippled like MM9's caustic water sprites (denser and lighter on
+  the waves' steep rings, the more so the clearer the liquid; the mean stays the opacity) and lit at least fully (MM9
+  draws those sprites unlit); the reflection (Fresnel) and the light highlights lie over it whole, so the surface turns
+  mirror-like at grazing angles. Colour is premultiplied by that coverage and divided back for the alpha blend; scene
+  fog fades the surface as before.
+- **Bake.** The bake export (`IndoorBakeSceneExport.cpp`) gives a see-through liquid face a `translucency` of the
+  liquid's opacity (untinted), so the bake lets that share of the light through to the bed. Its bitmap (the bake's
+  albedo) must carry an opaque alpha, or the texture alpha counts twice (MM9's `LQ*O*.bmp` do).
+- **Outdoors.** Not supported: outdoor BModel faces of such a liquid draw opaque (`fs_water.sc` ignores the alpha of
+  faces; a change there moved three pixels of MM6/MM7 sea by one or two levels, so it was left out).
+- **Default unchanged.** No MM6–MM8 liquid sets `opacity`; frozen-clock captures (temporary `debug.time_scale 0`) of
+  MM6 Free Haven sewer, MM7 d01, MM8 d07, oute3, 7out01 and out01 water were byte-identical before and after outside
+  the animated creatures and a flickering lamp, which differ between two runs of the same build too.
 
 ## Gameplay
 

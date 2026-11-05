@@ -1,6 +1,7 @@
 #include "game/ui/MenuDesignScreen.h"
 
 #include "engine/FontAsset.h"
+#include "engine/Utf8Text.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/audio/SoundIds.h"
 #include "game/render/WaterMath.h"
@@ -18,13 +19,6 @@ constexpr float CanvasWidth = 853.333333f;
 constexpr float CanvasHeight = 480.0f;
 constexpr float BrowserToLogical = 8.0f / 15.0f;
 const std::string ArtRoot = "hud_x2/menus/omenu_";
-
-// SDL_iconv knows WINDOWS-1252 only when SDL is built on the system's iconv; its own converter lacks it, which left
-// UTF-8 bytes drawn as CP1252 glyphs ("Ã—0.50") on some builds. Imported game names may already be CP1252.
-std::string menuEncoding(const std::string &text)
-{
-    return Engine::utf8ToCp1252(text);
-}
 } // namespace
 
 MenuDesignScreen::MenuDesignScreen(const Engine::AssetFileSystem &assetFileSystem, bool overGameplay,
@@ -113,6 +107,7 @@ void MenuDesignScreen::beginDesign(const std::string &screen)
         m_focusTargets.clear();
         m_pressed.clear();
         m_scrollDragOffset.reset();
+        m_contentDrag.reset();
     }
     m_designScreen = screen;
     setDesignClip(std::nullopt);
@@ -164,13 +159,16 @@ void MenuDesignScreen::revealFocus(const Rect &viewport, float &scroll) const
     }
 }
 
-void MenuDesignScreen::scrollViewport(const Rect &viewport, float contentHeight, float &scroll, float wheelStep)
+void MenuDesignScreen::scrollViewport(const Rect &viewport, float contentHeight, float &scroll, float wheelStep,
+                                      bool enabled)
 {
+    // A press that moves this far (logical units) along the content becomes a drag.
+    constexpr float ContentDragThreshold = 6;
     const float unit = designScale();
     const float maxScroll = std::max(0.0f, contentHeight - viewport.height / unit);
     // A confirmation's own scroll box (its notes) takes input while the confirmation draws; a viewport behind it
     // leaves the drag alone, which belongs to the box.
-    const bool interactive = !modalOpen() || m_drawingConfirmation;
+    const bool interactive = enabled && (!modalOpen() || m_drawingConfirmation);
     revealFocus(viewport, scroll);
     if (interactive && pointerInside(viewport))
     {
@@ -180,6 +178,10 @@ void MenuDesignScreen::scrollViewport(const Rect &viewport, float contentHeight,
     if (interactive && (!leftMouseDown() || maxScroll == 0))
     {
         m_scrollDragOffset.reset();
+    }
+    if (m_contentDrag && m_contentDrag->pScroll == &scroll && (!leftMouseDown() || !interactive || maxScroll == 0))
+    {
+        m_contentDrag.reset();
     }
     if (maxScroll == 0)
     {
@@ -202,14 +204,37 @@ void MenuDesignScreen::scrollViewport(const Rect &viewport, float contentHeight,
             scroll = std::clamp(scroll + (mouseY() < thumbY ? -1 : 1) * viewport.height / unit, 0.0f, maxScroll);
         }
     }
+    else if (interactive && leftMouseJustPressed() && pointerInside(viewport))
+    {
+        m_contentDrag = ContentDrag{&scroll, mouseY(), scroll, false};
+    }
     if (interactive && m_scrollDragOffset && travel > 0)
     {
         scroll = std::clamp((mouseY() - viewport.y - *m_scrollDragOffset) / travel, 0.0f, 1.0f) * maxScroll;
+    }
+    if (m_contentDrag && m_contentDrag->pScroll == &scroll)
+    {
+        const float moved = mouseY() - m_contentDrag->startY;
+        if (!m_contentDrag->moving && std::abs(moved) >= ContentDragThreshold * unit)
+        {
+            // The press is a drag now: the control under it neither shows as pressed nor clicks on release.
+            m_contentDrag->moving = true;
+            m_pressed.clear();
+        }
+        if (m_contentDrag->moving)
+        {
+            scroll = std::clamp(m_contentDrag->startScroll - moved / unit, 0.0f, maxScroll);
+        }
     }
     thumbY = viewport.y + travel * scroll / maxScroll;
     drawSolidRect({track.x + 4.5f * unit, viewport.y, 3 * unit, viewport.height}, 0xff29382au);
     drawSolidRect({track.x + 3 * unit, thumbY, 6 * unit, thumbHeight},
                   (interactive && m_scrollDragOffset) || pointerInside(track) ? 0xff90bedau : 0xff6a8dacu);
+}
+
+void MenuDesignScreen::cancelContentDrag()
+{
+    m_contentDrag.reset();
 }
 
 void MenuDesignScreen::drawDesign()
@@ -266,28 +291,22 @@ void MenuDesignScreen::drawDesign()
     }
 }
 
-// The lines of one paragraph word-wrapped to width (pixels); an empty paragraph is one empty line.
+// The lines of one paragraph word-wrapped to width (pixels); an empty paragraph is one empty line. Any run of
+// whitespace separates words.
 std::vector<std::string> MenuDesignScreen::wrapParagraph(const std::string &paragraph, const std::string &font,
                                                          float scale, float width)
 {
-    std::vector<std::string> lines;
-    std::istringstream words(paragraph);
-    std::string word, line;
-    while (words >> word)
+    std::istringstream input(paragraph);
+    std::string word, words;
+    while (input >> word)
     {
-        const std::string candidate = line.empty() ? word : line + " " + word;
-        if (!line.empty() && measureTextWidth(font, candidate, scale) > width + 0.5f)
-        {
-            lines.push_back(line);
-            line = word;
-        }
-        else
-        {
-            line = candidate;
-        }
+        words += (words.empty() ? "" : " ") + word;
     }
-    lines.push_back(line);
-    return lines;
+    return Engine::Utf8::wrap(words, width + 0.5f,
+        [&](const std::string &line)
+        {
+            return measureTextWidth(font, line, scale);
+        });
 }
 
 void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, const std::string &font, float logicalSize,
@@ -295,7 +314,7 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
 {
     const int faceHeight = std::max(1, fontHeight(font));
     float scale = designScale() * logicalSize / faceHeight;
-    std::string encoded = menuEncoding(text);
+    std::string encoded = text;
     if (encoded.find('\n') == std::string::npos && rect.height < logicalSize * designScale() * 1.9f)
     {
         const float width = measureTextWidth(font, encoded, scale);
@@ -311,7 +330,7 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
         {
             while (!encoded.empty() && measureTextWidth(font, encoded + "...", scale) > rect.width + 0.5f)
             {
-                encoded.pop_back();
+                Engine::Utf8::popBack(encoded);
             }
             encoded += "...";
         }
@@ -345,7 +364,7 @@ float MenuDesignScreen::textBlockHeight(const std::string &text, const std::stri
 {
     const float scale = designScale() * logicalSize / std::max(1, fontHeight(font));
     size_t lineCount = 0;
-    std::istringstream paragraphs(menuEncoding(text));
+    std::istringstream paragraphs(text);
     std::string paragraph;
     while (std::getline(paragraphs, paragraph))
     {
@@ -371,7 +390,7 @@ void MenuDesignScreen::label(const std::string &id, const std::string &text, uin
     if (pElement->textAlignX == UiLayoutManager::TextAlignX::Right)
     {
         const float width =
-            measureTextWidth(pElement->fontName, menuEncoding(text), pElement->textScale * designScale());
+            measureTextWidth(pElement->fontName, text, pElement->textScale * designScale());
         rect.x += std::max(0.0f, rect.width - width);
         rect.width = std::min(rect.width, width);
     }
@@ -432,9 +451,9 @@ void MenuDesignScreen::setDesignClip(const std::optional<Rect> &rect)
     setClipRect(rect);
 }
 
-bool MenuDesignScreen::button(const std::string &id, const Rect &rect, const std::string &text, const std::string &name,
-                              bool enabled, bool selected)
+MenuDesignScreen::Hotspot MenuDesignScreen::hotspot(const std::string &id, const Rect &rect, bool enabled)
 {
+    Hotspot result;
     const bool available = enabled && (!modalOpen() || m_drawingConfirmation);
     if (available)
     {
@@ -444,18 +463,18 @@ bool MenuDesignScreen::button(const std::string &id, const Rect &rect, const std
             m_focusRects[id] = rect;
         }
     }
-    const bool hovered = available && pointerInside(rect);
-    if (hovered && leftMouseJustPressed())
+    result.hovered = available && pointerInside(rect);
+    if (result.hovered && leftMouseJustPressed())
     {
         m_pressed = id;
         m_focus = id;
     }
-    const bool pressed = hovered && leftMouseDown() && m_pressed == id;
-    const bool activated = available && !(m_drawingConfirmation && m_confirmationNew) &&
-                           ((hovered && leftMouseJustReleased() && m_pressed == id) ||
-                            ((!m_textEditing || m_drawingConfirmation) && m_focus == id &&
-                             (keyPressed(SDL_SCANCODE_RETURN) || keyPressed(SDL_SCANCODE_SPACE))));
-    if (activated)
+    result.pressed = result.hovered && leftMouseDown() && m_pressed == id;
+    result.activated = available && !(m_drawingConfirmation && m_confirmationNew) &&
+                       ((result.hovered && leftMouseJustReleased() && m_pressed == id) ||
+                        ((!m_textEditing || m_drawingConfirmation) && m_focus == id &&
+                         (keyPressed(SDL_SCANCODE_RETURN) || keyPressed(SDL_SCANCODE_SPACE))));
+    if (result.activated)
     {
         m_pressed.clear();
         if (m_pAudio != nullptr)
@@ -463,6 +482,21 @@ bool MenuDesignScreen::button(const std::string &id, const Rect &rect, const std
             m_pAudio->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
         }
     }
+    if (m_keyboardFocus && m_focus == id && available)
+    {
+        outline(rect, 0xff8dc5e1u);
+    }
+    return result;
+}
+
+bool MenuDesignScreen::button(const std::string &id, const Rect &rect, const std::string &text, const std::string &name,
+                              bool enabled, bool selected)
+{
+    const bool available = enabled && (!modalOpen() || m_drawingConfirmation);
+    const Hotspot input = hotspot(id, rect, enabled);
+    const bool hovered = input.hovered;
+    const bool pressed = input.pressed;
+    const bool activated = input.activated;
     const bool standard = name.starts_with("button");
     const std::string state = !enabled ? "disabled" : pressed ? "pressed" : hovered ? "hover" : "default";
     // Toggle artwork includes the checkbox; scale the whole plate together rather than stretching its centre.
@@ -605,7 +639,7 @@ void MenuDesignScreen::drawConfirmation()
     if (!list && !twoColumns)
     {
         size_t bodyLines = 0;
-        std::istringstream paragraphs(menuEncoding(m_confirmation->body));
+        std::istringstream paragraphs(m_confirmation->body);
         std::string paragraph;
         while (std::getline(paragraphs, paragraph))
         {
@@ -619,7 +653,7 @@ void MenuDesignScreen::drawConfirmation()
         // A "- " line is a bullet: its wrapped lines align after the dash.
         constexpr float NotesMaxHeight = 150;
         const float wrapWidth = (bodyWidth - 2 * NotesPadding - 14) * unit;
-        std::istringstream notes(menuEncoding(m_confirmation->notes));
+        std::istringstream notes(m_confirmation->notes);
         while (std::getline(notes, paragraph))
         {
             const bool bullet = paragraph.starts_with("- ");

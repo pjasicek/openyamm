@@ -10,6 +10,8 @@
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/render/IndoorStaticLighting.h"
+#include "game/render/WaterGeometry.h"
+#include "game/tables/LiquidTable.h"
 
 #include <algorithm>
 #include <fstream>
@@ -86,6 +88,19 @@ int exportIndoorBakeScene(
     }
     const std::vector<BakedStaticLightSource> lights = buildBakedStaticLightSources(
         mapData, pState, map->indoorDecorationBillboardSet ? &*map->indoorDecorationBillboardSet : nullptr, false);
+    // The map's liquids: a see-through one (liquids.yml opacity) lets light through to its bed.
+    LiquidTable liquids;
+    if (const std::optional<std::string> liquidYaml = assetFileSystem.readTextFile("engine/liquids/liquids.yml"))
+    {
+        std::string error;
+        LiquidTable allLiquids;
+        if (!allLiquids.loadFromYaml(*liquidYaml, error))
+        {
+            std::cerr << "Indoor bake export failed: liquids: " << error << '\n';
+            return 1;
+        }
+        liquids = allLiquids.forWorld(map->map.worldId);
+    }
 
     std::ofstream out(outputPath);
     out << std::setprecision(9);
@@ -116,8 +131,8 @@ int exportIndoorBakeScene(
     // Faces the renderer draws: not portals (unless translucent), with a texture and three vertices. "visible" is
     // false for invisible faces (collision only: they neither receive nor cast); "mover" for the faces a door moves,
     // "points" in their load pose; "mover_receiver" for the movers the bake lightmaps, in their stored pose
-    // ("stored_points"); "translucency" for a translucent face (devdocs/INDOOR_TRANSLUCENT_FACES.md), which lets light
-    // through in the bake.
+    // ("stored_points"); "translucency" for a translucent face (devdocs/INDOOR_TRANSLUCENT_FACES.md) and for a face of a
+    // see-through liquid (its opacity, untinted), which let light through in the bake.
     out << "],\n \"faces\": [";
     bool first = true;
     for (size_t faceIndex = 0; faceIndex < mapData.faces.size(); ++faceIndex)
@@ -157,11 +172,18 @@ int exportIndoorBakeScene(
             out << (corner == 0 ? "" : ", ") << "[" << vertex.x << ", " << vertex.y << ", " << vertex.z << "]";
         }
         out << "]";
+        const LiquidDefinition *pLiquid = liquids.findMatch(face.textureName, attributes, false);
         if (const IndoorFaceTranslucency *pTranslucency = findIndoorFaceTranslucency(mapData, faceIndex))
         {
             out << ", \"translucency\": {\"opacity\": " << pTranslucency->opacity << ", \"tint\": ["
                 << pTranslucency->tint[0] << ", " << pTranslucency->tint[1] << ", " << pTranslucency->tint[2]
                 << "], \"two_sided\": " << (pTranslucency->twoSided ? "true" : "false") << "}";
+        }
+        else if (pLiquid != nullptr && pLiquid->opacity < 1.0f
+            && faceLiquidKind(attributes, pLiquid->kind) != LiquidKind::None)
+        {
+            out << ", \"translucency\": {\"opacity\": " << pLiquid->opacity
+                << ", \"tint\": [1, 1, 1], \"two_sided\": false}";
         }
         if (!faceDoors[faceIndex].empty())
         {

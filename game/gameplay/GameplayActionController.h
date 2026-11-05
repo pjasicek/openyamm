@@ -119,6 +119,8 @@ public:
         std::optional<size_t> directTargetActorIndex;
         std::optional<WorldPoint> directTargetHitPoint;
         std::optional<size_t> directTargetBModelIndex;
+        // A decoration under the cursor (an indoor entity index): a destructible prop a blow damages.
+        std::optional<size_t> directTargetEntityIndex;
         float directWorldTargetDistance = 0.0f;
         std::string directTargetName;
         WorldPoint partyPosition = {};

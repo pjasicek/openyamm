@@ -58,8 +58,20 @@ python3 level_generation/projects/mm9r_common/dungeon/lighting.py level_generati
 Profile keys (JSON in `tools/lighting/baked_indoors/profiles/`, defaults in brackets): `world`, `map`,
 `units_per_texel` (16), `page_size` (2048), `padding` (2), `samples` (128), `bounces` (3), `light_size` (24 units),
 `direct_scale` (1), `bounce_scale` (1), `ambient_scale` (0.5), `blur_radius` (2), `emitters` (none), `sky_scale`
-(1), `sky_bounce_scale` (`bounce_scale`), `outward_distance` (4096), `glass` (none), `max_lighting` (4); read by
+(1), `sky_bounce_scale` (`bounce_scale`), `outward_distance` (4096), `glass` (none), `max_lighting` (4),
+`ambient_colour` ([1, 1, 1]), `shadowless_faces` (none); read by
 `dungeon/lighting.py`: `dirlights` (false), `texture_lights` (one per brush).
+
+**Shadowless faces (`shadowless_faces`, 2026-10-31).** BLV face indices whose bake material is transparent to shadow
+rays: they are lit, bounce light and receive their own lightmap, but cast no shadow. MM9's world models (its
+DestructableBrush pillars) cast none in its lightmaps, and a face a script can hide (`evt.SetFacetBit`) would otherwise
+leave its shadow on the floor. Dragon Stadium's `convert.py` writes its 21 pillar levels' faces into its profile after
+each build (face indices change with the BLV). Empty by default: every other profile bakes as before.
+
+**Ambient colour (`ambient_colour`, 2026-10-31).** An RGB factor on the ambient floor (and the actor ambient of a sector
+with no baked surface), default white. MM9's WorldInfo `AmbientLight` is coloured and its lightmaps show it wherever
+no light reaches: Connecting Tunnels' 15/25/35 gives its unlit tunnels a blue cast (B/R 1.3-1.7), which a grey floor
+cannot match; normalise the colour to luminance 1 and keep `ambient_scale` for the level.
 
 **Ceiling (`max_lighting`, 2026-10-30).** MM9's lightmaps clip at 255, ×1 on the texture, while the bake reaches ×4 near
 overlapping lights. A profile's `max_lighting` applies that ceiling, so a bright room does not force the scales down for
@@ -73,6 +85,9 @@ of the light and of every shadow ray through and scatters the rest. It is never 
 (`[{textures, colour, display}]`) sets a floor for those textures' translucent charts: their lightmap is at least
 `display * colour` (MM9's preprocessor lights translucent glass unshadowed from both sides, so its panes read bright;
 the bake gives a pane only the light on its front); `--recompose` retunes it in seconds.
+A face of a see-through liquid (`liquids.yml` `opacity` below 1, 2026-10-31) is exported the same way, with the
+liquid's opacity and no tint, so its bed is lit through it; its bitmap needs an opaque alpha so that only the opacity
+counts ([see-through liquids](INDOOR_TRANSLUCENT_FACES.md#see-through-liquids)).
 
 **Sky and windows (`emitters`, 2026-10-30).** Indoor maps have no sky, so a dungeon that its original lit through
 skylights and windows bakes dark there. Each emitter is `{textures, colour (linear RGB), strength, display,
@@ -120,6 +135,16 @@ glass of the engine's pods and crown). A profile's `texture_lights: {per_polygon
 in front of each polygon instead, at `scale` of full strength: a brush centre shut in behind metal lights nothing, as
 the Lich Lab's pods showed (37 lights; at full strength they flood the floor).
 
+**MM9's own lightmaps (deferred, 2026-10-31).** `level_generation/projects/mm9r_common/lightmap_transfer.py` writes an
+MM9 dungeon's sidecar from its DAT lightmaps (texel = byte / 255, the renderer's `texture x lighting` then equals MM9's
+`texture x lightmap`). It uses the Cycles bake's atlas and charts, a per-chart rescaled Cycles fallback for faces MM9 has
+no polygon for, and the bake's actor ambient. Its recipe, `<map>.bake.json`, embeds the base bake's recipe with the
+DAT's hash, so `stale_bakes.py` audits it like any bake. `--cycles-only` carries a Cycles bake onto a rebuilt BLV by face
+matching. Method, findings and the per-map recipe are in `devdocs/mm9_rework/MM9_LIGHTMAP_TRANSFER.md`. The user deferred
+it, with all Cycles re-bakes, to the end of the MM9 integration: since 2026-10-31 the review root's rebuilt or
+scene-changed MM9 dungeons carry no sidecar (classic lighting; copies in each project's
+`work/lighting_stale_20261031/`).
+
 ## Format (`<map>.lighting`, version 1)
 
 Little endian. Magic `OYILIT1\0` (the indoor member of the `OYMLIT1` outdoor family). Lengths, offsets, counts, page
@@ -159,7 +184,8 @@ references, finite values, dependency paths and RLE spans are validated; trailin
   `IndoorBakedLighting::faceLightmap` gives each face its page, or -1 (no bake, `[video] lightmaps` off, not
   lightmapped), and for a door-moved face the UV offset back to its stored pose (below).
   The batch key includes the page, so a batch is entirely lightmapped or entirely vertex-lit. A lightmapped face gets no
-  static vertex light or light subdivision; its batch carries a second static vertex stream of lightmap UVs
+  static vertex light or light subdivision; its batch's draw group (one per texture and page,
+  [face draw groups](INDOOR_FACE_DRAW_GROUPS.md)) carries a second static vertex stream of lightmap UVs
   (`a_texcoord4`, computed from the face's affine map) and draws with `vs_indoor_textured_baked` /
   `fs_indoor_textured_baked` (`fs_indoor_textured_lit.sc` built with `INDOOR_BAKED=1`; with surface materials,
   `fs_indoor_textured_baked_materials`). Vertex-lit batches use the unchanged programs, so a map without a bake has no
@@ -170,7 +196,10 @@ references, finite values, dependency paths and RLE spans are validated; trailin
   is clamped to 2 as before. Lightmapped batches skip the static vertex-light refresh.
 - **Actors, decorations, items** keep the light grid's static and dynamic lights, but their room ambient
   (`IndoorLightingFrame::sectorAmbient`) is the bake's actor ambient for the sector, so a monster in a dim, bounce-lit
-  room is as dim as its walls.
+  room is as dim as its walls. Decorations also subtract the frame ambient, so in a room lit mostly by bake-only light
+  they come out much darker than the walls. A map can opt into MM9's model lighting instead (scene `model_lighting`,
+  [indoor model lighting](INDOOR_MODEL_LIGHTING.md)): world ambient + ModelAdd + the BLV lights at full colour with
+  `1 - d^2/r^2` and N·L, independent of the bake.
 - **Doors and other linear movers** (2026-10-30): a face that exactly one door moves, every vertex of it (it moves
   rigidly), with a travel of at most `IndoorBakedMoverMaxTravel` (1024 units) is baked in the BLV's **stored pose**
   (`indoorMoverFaceBakeable`, used by the scene export). At runtime such a face samples its lightmap while its current

@@ -229,7 +229,7 @@ void GameAudioSystem::shutdown()
     m_actorVoices = {};
     m_actorListenerFeet = {};
     m_activeGroupInstanceIds.clear();
-    m_activeSpeechInstanceIds.clear();
+    m_activeSpeeches.clear();
     m_activeNonResettableSoundInstanceIds.clear();
     m_persistentPreloadedClipKeys.clear();
     m_mapPreloadedClipKeys.clear();
@@ -430,6 +430,15 @@ void GameAudioSystem::stopActorVoices()
 bool GameAudioSystem::isSoundInstancePlaying(uint64_t instanceId) const
 {
     return m_audioSystem.isClipPlaying(instanceId);
+}
+
+bool GameAudioSystem::isSpeechPlaying(uint32_t speakerKey, SpeechId speechId) const
+{
+    const std::unordered_map<uint32_t, ActiveSpeech>::const_iterator activeIt = m_activeSpeeches.find(speakerKey);
+
+    return activeIt != m_activeSpeeches.end()
+        && activeIt->second.speechId == speechId
+        && m_audioSystem.isClipPlaying(activeIt->second.instanceId);
 }
 
 void GameAudioSystem::setSoundVolume(float volume)
@@ -643,6 +652,13 @@ uint64_t GameAudioSystem::playSoundInstanceByName(
     }
 
     return playResolvedSound(*virtualPath, group, position, loop, 0, "playSoundInstanceByName");
+}
+
+std::optional<std::string> GameAudioSystem::soundVirtualPathByName(
+    SoundScope scope,
+    const std::string &soundName) const
+{
+    return m_soundCatalog.buildVirtualPathByName(scope, soundName);
 }
 
 uint64_t GameAudioSystem::playAssetInstance(
@@ -904,10 +920,10 @@ bool GameAudioSystem::playSpeech(const Character &character, SpeechId speechId, 
 
     if (speakerKey != 0)
     {
-        const std::unordered_map<uint32_t, uint64_t>::const_iterator activeIt =
-            m_activeSpeechInstanceIds.find(speakerKey);
+        const std::unordered_map<uint32_t, ActiveSpeech>::const_iterator activeIt =
+            m_activeSpeeches.find(speakerKey);
 
-        if (activeIt != m_activeSpeechInstanceIds.end())
+        if (activeIt != m_activeSpeeches.end())
         {
             if (audioTraceEnabled())
             {
@@ -915,10 +931,10 @@ bool GameAudioSystem::playSpeech(const Character &character, SpeechId speechId, 
                 std::cerr << " soundId=" << *selectedSoundId
                           << " speechId=" << static_cast<uint32_t>(speechId)
                           << " speakerKey=" << speakerKey
-                          << " stoppedInstance=" << activeIt->second << '\n';
+                          << " stoppedInstance=" << activeIt->second.instanceId << '\n';
             }
 
-            m_audioSystem.stopClip(activeIt->second);
+            m_audioSystem.stopClip(activeIt->second.instanceId);
         }
     }
 
@@ -938,7 +954,7 @@ bool GameAudioSystem::playSpeech(const Character &character, SpeechId speechId, 
 
     if (speakerKey != 0)
     {
-        m_activeSpeechInstanceIds[speakerKey] = instanceId;
+        m_activeSpeeches[speakerKey] = ActiveSpeech{instanceId, speechId};
     }
 
     return true;
@@ -1018,13 +1034,13 @@ void GameAudioSystem::stopAllPlayback()
         std::cerr << " activeMusicTrack=" << m_activeMusicTrack
                   << " activeMusicInstance=" << m_activeMusicInstanceId
                   << " exclusiveGroups=" << m_activeGroupInstanceIds.size()
-                  << " speechInstances=" << m_activeSpeechInstanceIds.size() << '\n';
+                  << " speechInstances=" << m_activeSpeeches.size() << '\n';
     }
 
     m_audioSystem.stopAll();
     m_actorVoices = {};
     m_activeGroupInstanceIds.clear();
-    m_activeSpeechInstanceIds.clear();
+    m_activeSpeeches.clear();
     m_activeNonResettableSoundInstanceIds.clear();
     m_activeMusicTrack = 0;
     m_pendingMusicTrack = 0;

@@ -366,6 +366,18 @@ float modelPointCountUniform(const ModelRenderLighting &lighting)
     return lighting.pointSpecularOnly ? -count : count;
 }
 
+// u_modelLighting[1].w: 0 linear lighting, 1 display-space lighting, 2 fixed-function (MM9) lighting.
+float modelLightingModeUniform(const ModelRenderLighting &lighting)
+{
+    return lighting.fixedFunctionLighting ? 2.0f : lighting.displaySpaceLighting ? 1.0f : 0.0f;
+}
+
+// u_modelLighting[0].w: the sun strength, or with fixed-function lighting (which has no sun) the point light scale.
+float modelSunOrPointScaleUniform(const ModelRenderLighting &lighting, float sun)
+{
+    return lighting.fixedFunctionLighting ? lighting.fixedPointScale : sun;
+}
+
 std::array<float, 4> modelEnvironmentUniform(const ModelRenderLighting &lighting, float maxLod)
 {
     std::array<float, 4> environment = {0, 0, 0, maxLod};
@@ -383,7 +395,8 @@ bool sameSharedLighting(const ModelRenderLighting &left, const ModelRenderLighti
         && left.environmentScale == right.environmentScale
         && left.displaySpaceLighting == right.displaySpaceLighting && left.keyDirection == right.keyDirection
         && left.keyFraction == right.keyFraction && left.pLightGrid == right.pLightGrid
-        && left.pointSpecularOnly == right.pointSpecularOnly;
+        && left.pointSpecularOnly == right.pointSpecularOnly
+        && left.fixedFunctionLighting == right.fixedFunctionLighting && left.fixedPointScale == right.fixedPointScale;
 }
 
 // u_modelPbr.w: the specular scale, negated when the metallic-roughness red channel masks it per texel.
@@ -680,7 +693,22 @@ void ModelRenderer::bindTextureScroll(const ModelMaterial &material)
     // Wrapped to one texture period (repeat sampling), so a long session keeps its precision.
     const float u = material.uvScroll[0] * m_creatureTimeSeconds;
     const float v = material.uvScroll[1] * m_creatureTimeSeconds;
-    const float scroll[4] = {u - std::floor(u), v - std::floor(v), 0.0f, 0.0f};
+    float scroll[4] = {u - std::floor(u), v - std::floor(v), 0.0f, 0.0f};
+    // A flipbook (openyamm_flipbook [columns, rows, frames per second]) shows one cell of its grid, the frame at the
+    // creature clock, every creature of the material in step (MM9's .spr skins: the Nettle Spore): the shaders map
+    // texture coordinates to uv x zw + xy (zw 0: whole texture).
+    if (material.flipbook[2] > 0.0f && material.flipbook[0] >= 1.0f && material.flipbook[1] >= 1.0f)
+    {
+        const float columns = material.flipbook[0];
+        const float rows = material.flipbook[1];
+        const float frame = std::fmod(std::floor(m_creatureTimeSeconds * material.flipbook[2]), columns * rows);
+        const float column = std::fmod(frame, columns);
+        const float row = std::floor(frame / columns);
+        scroll[0] = (column + scroll[0]) / columns;
+        scroll[1] = (row + scroll[1]) / rows;
+        scroll[2] = 1.0f / columns;
+        scroll[3] = 1.0f / rows;
+    }
     bgfx::setUniform(m_scrollUniformHandle, scroll);
 }
 
@@ -708,9 +736,10 @@ void ModelRenderer::submit(const Draw &draw, uint16_t viewId, const ModelRenderL
         material.doubleSided ? 1.0f : 0.0f,
     };
     const float lightingValues[16] = {
-        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2], lighting.direct,
+        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2],
+        modelSunOrPointScaleUniform(lighting, lighting.direct),
         lighting.directColor[0], lighting.directColor[1], lighting.directColor[2],
-        lighting.displaySpaceLighting ? 1.0f : 0.0f,
+        modelLightingModeUniform(lighting),
         lighting.ambientColor[0], lighting.ambientColor[1], lighting.ambientColor[2], lighting.ambient,
         lighting.keyDirection[0] * lighting.keyFraction, lighting.keyDirection[1] * lighting.keyFraction,
         lighting.keyDirection[2] * lighting.keyFraction, modelPointCountUniform(lighting),
@@ -1052,9 +1081,10 @@ void ModelRenderer::submitInstancedSkinned(const std::vector<SkinnedRun> &runs, 
     }
     // Ambient and sun strength arrive per instance (v_color0), as on static placements.
     const float lightingValues[16] = {
-        shared.lightDirection[0], shared.lightDirection[1], shared.lightDirection[2], 1.0f,
+        shared.lightDirection[0], shared.lightDirection[1], shared.lightDirection[2],
+        modelSunOrPointScaleUniform(shared, 1.0f),
         shared.directColor[0], shared.directColor[1], shared.directColor[2],
-        shared.displaySpaceLighting ? 1.0f : 0.0f,
+        modelLightingModeUniform(shared),
         1.0f, 1.0f, 1.0f, 1.0f,
         shared.keyDirection[0] * shared.keyFraction, shared.keyDirection[1] * shared.keyFraction,
         shared.keyDirection[2] * shared.keyFraction, 0.0f,
@@ -1542,9 +1572,10 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
     const std::array<std::array<float, 4>, 3> fog = {lighting.fogColor, lighting.fogDensities, lighting.fogDistances};
     const float camera[4] = {cameraPosition[0], cameraPosition[1], cameraPosition[2], 0};
     const float lightingValues[16] = {
-        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2], lighting.direct,
+        lighting.lightDirection[0], lighting.lightDirection[1], lighting.lightDirection[2],
+        modelSunOrPointScaleUniform(lighting, lighting.direct),
         lighting.directColor[0], lighting.directColor[1], lighting.directColor[2],
-        lighting.displaySpaceLighting ? 1.0f : 0.0f,
+        modelLightingModeUniform(lighting),
         lighting.ambientColor[0], lighting.ambientColor[1], lighting.ambientColor[2], lighting.ambient,
         lighting.keyDirection[0] * lighting.keyFraction, lighting.keyDirection[1] * lighting.keyFraction,
         lighting.keyDirection[2] * lighting.keyFraction, modelPointCountUniform(lighting),
@@ -2722,7 +2753,14 @@ void ModelRenderer::render(
                 lightingForBounds && pBounds != nullptr ? lightingForBounds(draw.instance, *pBounds) : lighting).first;
         }
         draw.pLighting = &found->second;
-        const std::array<float, 3> center = transformPoint(*draw.pCullMatrix, draw.pPrimitive->center);
+        // A blended skin sorts by where its main joint carries it this frame, not by its rest position: a sleeve
+        // or a flying head can swing across another blended part.
+        const int anchorJoint = draw.pSkin != nullptr && draw.pMaterial->alphaMode == ModelAlphaMode::Blend
+            && size_t(draw.pPrimitive->anchorJoint) < draw.pSkin->joints.size() ? draw.pPrimitive->anchorJoint : -1;
+        const std::array<float, 3> center = anchorJoint >= 0
+            ? transformPoint(multiplyModelMatrices(draw.pPose->globalMatrices[draw.pSkin->joints[anchorJoint]],
+                  draw.pSkin->inverseBindMatrices[anchorJoint]), draw.pPrimitive->center)
+            : transformPoint(*draw.pCullMatrix, draw.pPrimitive->center);
         for (size_t axis = 0; axis < 3; ++axis)
         {
             const float delta = center[axis] - cameraPosition[axis];
@@ -3308,9 +3346,29 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
                         max[axis] = std::max(max[axis], vertex.position[axis]);
                     }
                 }
+                std::vector<float> jointWeights;
+                for (const ModelVertexInfluences &influence : primitive.influences)
+                {
+                    for (size_t slot = 0; slot < influence.weights.size(); ++slot)
+                    {
+                        if (influence.weights[slot] > 0.0f)
+                        {
+                            if (influence.joints[slot] >= jointWeights.size())
+                            {
+                                jointWeights.resize(size_t(influence.joints[slot]) + 1, 0.0f);
+                            }
+                            jointWeights[influence.joints[slot]] += influence.weights[slot];
+                        }
+                    }
+                }
                 for (size_t axis = 0; axis < 3; ++axis)
                 {
                     primitiveResources.center[axis] = (min[axis] + max[axis]) * 0.5f;
+                }
+                if (!jointWeights.empty())
+                {
+                    primitiveResources.anchorJoint =
+                        int(std::max_element(jointWeights.begin(), jointWeights.end()) - jointWeights.begin());
                 }
             }
             meshResources.primitives.push_back(primitiveResources);

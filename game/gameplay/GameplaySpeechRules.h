@@ -20,4 +20,13 @@ bool canPlaySpeechReactionForPresentationState(
     size_t memberIndex,
     SpeechId speechId,
     uint32_t nowTicks);
+
+// Whether the member said this line less than intervalMs ago (the "Repeated voice lines" setting). An interval of 0
+// never holds a line back.
+bool isRepeatedSpeechReaction(
+    const GameplayPortraitPresentationState &presentationState,
+    size_t memberIndex,
+    SpeechId speechId,
+    uint32_t nowTicks,
+    uint32_t intervalMs);
 }

@@ -33,7 +33,13 @@ struct LiquidDefinition
     float wadeSpeed = 1.0f;
     // False: its surfaces never take a planar reflection, only the sky response (an opaque, matte liquid).
     bool reflects = true;
+    // Faces of a liquid below 1 are see-through: drawn blended over the bed after the solid scene, the body at this
+    // opacity and its reflections and highlights on top. 1: opaque, as before. Water and tar faces only.
+    float opacity = 1.0f;
 };
+
+// The ABGR tint a liquid's faces draw with: its colour, with its opacity in the alpha byte.
+uint32_t liquidFaceColorAbgr(const LiquidDefinition &liquid);
 
 class LiquidTable
 {

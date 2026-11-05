@@ -147,17 +147,23 @@ per creature, which is what instancing (section 4) batches.
   clips: {standing: …, walking: …, attack_melee: …, attack_ranged: …, hit: …, dying: …, dead: …, fidget: …}
 ```
 
-**Action timing (`animation.events`).** Gameplay timing never follows a model: an attack or cast lasts the native
-sprite action, and the game applies it (the melee hit lands, the missile or spell is released) when the sprite's
-authored contact frame appears (`engine/rendering/sprite_attack_timing.yml`), or when the whole sprite animation has
-played for a sprite without one, as MM8 does (`re_mm8/ACTOR_ATTACK_TIMING.md`). The monster table's recovery runs from
-the action's start, exactly as for the sprite. A model clip may keep its own, longer timing (a mocap or library clip at
+**Action timing (`animation.events`).** Gameplay never follows a posed model, but it reads the bindings' data
+(`resolveActorAttackTiming`, `ActorModelManifest::attackClips`): an attack or cast lasts the native sprite action, and
+the game applies it (the melee hit lands, the missile or spell is released) when the sprite's authored contact frame
+appears (`engine/rendering/sprite_attack_timing.yml`); for a sprite without one, at the binding's `impact` key when it
+falls within the action, else when the whole sprite animation has played, as MM8 does (`re_mm8/ACTOR_ATTACK_TIMING.md`).
+A manifest whose clips are its monsters' native timing (MM9's: top-level `attack_timing: clip`) instead lasts the
+clip and applies at its key, over any stand-in sprite (lengths read from the model file's JSON,
+`Engine::readGltfClipDurations`). The monster table's recovery runs from the action's start, exactly as for the
+sprite (MM9's loops from the clip's end). A model clip may keep its own, longer timing (a mocap or library clip at
 its intended speed): its event `impact` is the clip time of the moment the game acts (the blow lands, the staff or bow
 releases). `WorldFxSystem` fits the clip's wind-up `[0, impact]` to the native time until that moment, so that frame
 plays exactly when the game acts (`GameplayRuntimeActorState::attackImpactLeadSeconds` is the action time still to
 run). The rest of the clip plays at its own speed: through the rest of the action (whole body), then as
 follow-through: the whole body while the actor stands, the upper body over the gait while it walks (needs
-`upper_body_root`). A hit, death, script or the next attack cuts it with the usual blend. Author the wind-up close to
+`upper_body_root`; a binding without one attacks with its whole body, moving or not, as MM9's plain animator). A hit,
+death (a 0.1 s blend unless `death_blend_seconds` says otherwise), script or the next attack cuts it with the usual
+blend. Author the wind-up close to
 that native time (stretching beyond about ±20 % shows) and keep the follow-through within the monster's recovery
 (MM6 cleric: 0.75 s action, 1.33-1.5 s recovery). Without a marker, a clip runs on the action clock and is cut when
 the action ends. The contact frames and markers are picked in `level_generation/creatures/timing_review/`.
@@ -218,6 +224,8 @@ their prepass, and that variant skips the normal map and the sky reflection: on 
 fill much of a forest view. Measured in the dense out07 view (frozen, desktop), the frame went 0.83 -> 0.80 ms; there
 the leaves cost about 0.34 ms (depth prepass about 0.12, shading about 0.22), and dropping the prepass would add about
 0.25 ms.
+
+**Blended skins** sort by where the primitive's main joint (`anchorJoint`, most vertex weight) carries its centre this frame, so a swinging limb or a flying head keeps the right layer.
 
 **Static blended order** (`ModelRenderer::renderStatic`). Blended primitives (flames, glows) write no depth, so they
 are shaded in a second pass after every opaque and alpha-tested primitive of the static decorations. Before that,

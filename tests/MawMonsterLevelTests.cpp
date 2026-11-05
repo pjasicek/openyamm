@@ -1,5 +1,7 @@
 #include "doctest/doctest.h"
 #include "game/rules/maw/MawCombatFormulas.h"
+#include "game/gameplay/GameMechanics.h"
+#include "game/rules/maw/MawBalanceModel.h"
 #include "game/rules/maw/MawMonsterLevels.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/tables/MapStats.h"
@@ -164,7 +166,12 @@ TEST_CASE("MAW monster rules size a spawn from its family's B level")
     // Without a party the model sizes for five; every example row has the same HP, so the tier ratio is 1.
     MawBalanceModel model(mawModelConfig(RulesetOptions{}, 5));
     CHECK_EQ(strong.maxHp, int(mawRound(model.monsterHealth(17))));
-    CHECK(facts.attack1Damage == doctest::Approx(model.monsterDamage(17) * 1.5));
+    // Attack 1 is sized against the defence its damage kind meets (MAW 249b00da).
+    const MawDamageClass attack1Class =
+        GameMechanics::parseCombatDamageType(pStrong->attack1Type) == CombatDamageType::Physical
+        ? MawDamageClass::Physical
+        : MawDamageClass::Magic;
+    CHECK(facts.attack1Damage == doctest::Approx(model.monsterDamage(17, attack1Class) * 1.5));
     CHECK_EQ(facts.experience, uint32_t(mawRound(24 * 20 + std::pow(24.0, 1.8))));
     CHECK_FALSE(strong.statsEnabled);
 
@@ -177,7 +184,8 @@ TEST_CASE("MAW monster rules size a spawn from its family's B level")
         rules.gameRules().monsters.resolveMonster(context, *pStrong, nullptr);
     CHECK_EQ(bossResult.rulesetFacts.level, 24);
     CHECK_EQ(bossResult.maxHp, int(mawRound(model.monsterHealth(17) * 3)));
-    CHECK(bossResult.rulesetFacts.attack1Damage == doctest::Approx(model.monsterDamage(17) * 1.5 * 1.25));
+    CHECK(bossResult.rulesetFacts.attack1Damage
+        == doctest::Approx(model.monsterDamage(17, attack1Class) * 1.5 * 1.25));
 }
 
 TEST_CASE("MAW level banks follow the experience curve and the continent it was earned on")

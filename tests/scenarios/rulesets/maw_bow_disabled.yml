@@ -1,0 +1,80 @@
+id: rulesets.maw_bow_disabled
+title: "Ruleset - MAW's Bow preference off: the attack looses no arrow and a dragon does not breathe, kept by save and load"
+world: mm6
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  # An archer with a Hunting Bow (56) and a longsword, the Bow preference off from the start (MAW's disableBow).
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free, bow_disabled: true}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ariel
+            class: Archer
+            level: 30
+            skills:
+              - {name: Bow, level: 10, mastery: 2}
+              - {name: Sword, level: 10, mastery: 2}
+            equipment: {}
+  - grant_item: {item_id: 56, equip: bow}
+  - grant_item: {item_id: 1, equip: main_hand}
+  # A Chaos Overlord 7000 units east of the party at (-9728, -11319), far out of a blow's reach (one nearer walks up
+  # to the party and takes the blow).
+  - spawn_actor: {monster_id: 198, x: -2728, y: -11319, z: 200}
+  - advance_runtime: {seconds: 1}
+  # The attack is the melee one: a swing at nothing, no arrow, no harm to the monster.
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, max_count: 0}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      actor_count: {monster_id: 198, hurt: true, max: 0}
+      ruleset: {id: maw, bow_disabled: true}
+  # A save keeps the preference.
+  - save_game: maw_bow_disabled
+  - load_game: maw_bow_disabled
+  - assert:
+      ruleset: {id: maw, bow_disabled: true}
+  - advance_runtime: {seconds: 1}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, max_count: 0}
+  # Bow on again, as the Rules tab sets it: the same key looses an arrow.
+  - advance_runtime: {seconds: 3}
+  - set_ruleset: {options: bow}
+  - assert:
+      ruleset: {id: maw, bow_disabled: false}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}
+  # A dragon: with the bow off it does not breathe at a monster out of reach; with it on it does.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: maw, progression: free, bow_disabled: true}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Wyrm
+            class: Dragon
+            race_id: 5
+            portrait_id: 71
+            level: 60
+            skills:
+              - {name: DragonAbility, level: 30, mastery: 3}
+            equipment: {}
+  - spawn_actor: {monster_id: 198, x: -2728, y: -11319, z: 200}
+  - advance_runtime: {seconds: 1}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, max_count: 0}
+  - advance_runtime: {seconds: 3}
+  - assert:
+      actor_count: {monster_id: 198, hurt: true, max: 0}
+  - set_ruleset: {options: bow}
+  - press_action: {action: attack}
+  - assert:
+      projectiles: {source: party, min_count: 1}

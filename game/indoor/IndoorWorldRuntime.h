@@ -19,6 +19,7 @@
 #include "game/gameplay/SearchableLootPropRuntime.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/indoor/IndoorMovementController.h"
+#include "game/indoor/IndoorSectorFaceGrid.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/pathfinding/ActorPathRuntime.h"
 #include "game/pathfinding/PathMap.h"
@@ -29,6 +30,7 @@
 #include "game/tables/MonsterTable.h"
 #include "game/tables/ObjectTable.h"
 
+#include <future>
 #include <memory>
 #include <optional>
 #include <string>
@@ -76,6 +78,10 @@ public:
         bool killedByParty = false;
         GameplayActorAiType aiType = GameplayActorAiType::Normal;
         bool canFly = false;
+        // A swimmer in a scene water volume (MM9's Sea Monsters, Spores): the volume it started in, which it swims in
+        // and never leaves (-1: none). Runtime only, found from its position the first time the AI sees it.
+        int16_t waterVolumeIndex = -1;
+        bool waterVolumeResolved = false;
         CombatDamageType attack1DamageType = CombatDamageType::Physical;
         CombatDamageType attack2DamageType = CombatDamageType::Physical;
         uint32_t spell1Id = 0;
@@ -123,6 +129,9 @@ public:
         // looked up once instead of by sprite name on every AI step. Not saved: refreshed with the fields above.
         float meleeAttackImpactSeconds = 0.0f;
         float rangedAttackImpactSeconds = 0.0f;
+        // A spell's action and cast where the model's cast clip times them (ActorRuntimeFacts); 0: the ranged attack's.
+        float spellAttackAnimationSeconds = 0.0f;
+        float spellAttackImpactSeconds = 0.0f;
         float meleeAttackSoundDelaySeconds = 0.0f;
         float rangedAttackSoundDelaySeconds = 0.0f;
         float boredAnimationSeconds = 2.0f;
@@ -146,7 +155,17 @@ public:
         // Runtime only: carried between movement steps, as IndoorMoveState holds it for a single step.
         uint8_t stuckRecoveryCooldownSteps = 0;
         bool attackImpactTriggered = false;
+        // A skirmisher's footwork (ActorRuntimeFacts::skirmishPhase); runtime only, not saved.
+        ActorSkirmishPhase skirmishPhase = ActorSkirmishPhase::None;
+        float skirmishSeconds = 0.0f;
+        int8_t skirmishSide = 1;
+        // An MM9 walker's loop (ActorRuntimeFacts::mm9) and what the world knows for it (ActorAiFacts::mm9World);
+        // runtime only, not saved.
+        ActorMm9State mm9;
+        ActorMm9WorldFacts mm9World;
         bool suppressLowHealthFlee = false;
+        // A villager the party yelled at runs from it until this runs out (scareNearbyPeasants); not saved.
+        float yellFleeRemainingSeconds = 0.0f;
         // The monster's stats as bolstered for this map, resolved once when the state is built (map load, spawn or
         // save restore); empty without monster stats.
         std::optional<GameplayMonsterBolsterResult> bolster;
@@ -244,9 +263,13 @@ public:
     {
         return &m_actorShields;
     }
+    // The party talks to an actor that is not hostile: it faces the party at once (its model turns to it at its own
+    // rate) and stands, and an MM9 one keeps the facing it turns back to afterwards (ActorMm9State::beginTalk).
+    bool faceMapActorForTalk(size_t actorIndex, float partyX, float partyY);
     bool stunActor(size_t actorIndex, float seconds) override;
     bool debuffActor(size_t actorIndex, GameplayActorHitDebuff debuff, float seconds, float power) override;
     bool setMapActorBehavior(size_t actorIndex, const std::string &behaviorId) override;
+    bool triggerMapActor(size_t actorIndex, const std::string &message) override;
     bool executeFaceTriggeredEvent(
         size_t faceIndex,
         FaceAttribute triggerAttribute,
@@ -304,6 +327,8 @@ public:
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
     bool isIndoorMap() const override;
     bool partyClimbingLadder() const override;
+    bool partySwimming() const override;
+    std::optional<float> partyBreathFraction() const override;
     bool allowsLloydsBeacon() const override;
     bool allowsRest() const override;
     float currentGameMinutes() const override;
@@ -317,6 +342,16 @@ public:
     bool useMm9Barrel(const std::string &sourceId) override;
     bool useMm9BarrelEvent(uint16_t eventId) override;
     bool spawnLootContainer(const std::string &sourceId) override;
+    bool damageDestructible(uint32_t id, int damage) override;
+    bool destroyDestructible(uint32_t id) override;
+    bool setDestructibleDamageEnabled(uint32_t id, bool enabled) override;
+    // A melee blow on a face (the world surface hit's face index): a destructible's faces take its damage.
+    bool applyPartyAttackMeleeBModelDamage(size_t faceIndex, int damage) override;
+    bool isPartyAttackMeleeBModelTarget(size_t faceIndex) const override;
+    // A melee blow on a decoration (an entity index): a destructible prop takes its damage.
+    bool applyPartyAttackMeleeEntityDamage(size_t entityIndex, int damage) override;
+    bool isPartyAttackMeleeEntityTarget(size_t entityIndex) const override;
+    const std::vector<WorldAmbientSound> *ambientSounds() const override;
     bool consumeWorldItem(const std::string &sourceId) override;
     bool setPersistentItemMechanismState(
         const std::string &sourceId,
@@ -338,6 +373,7 @@ public:
     float partyX() const override;
     float partyY() const override;
     float partyFootZ() const override;
+    void teleportParty(float x, float y, float footZ) override;
     float partyEyeZ() const override;
     float partyEngagementRange() const override;
     GameplayWorldPoint chooseBountyHuntSpawnPoint(uint32_t seed) const override;
@@ -357,6 +393,7 @@ public:
     void updateActorAi(float deltaSeconds) override;
     void updateTurnBasedPausedActorAnimations(float deltaSeconds) override;
     size_t turnBasedPendingWorldActionCount() const override;
+    void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
@@ -390,6 +427,8 @@ public:
     bool hasLineOfSight(float fromX, float fromY, float fromZ, float toX, float toY, float toZ) const override;
     bool summonEventGold(uint32_t amount, int32_t x, int32_t y, int32_t z, int32_t speed) override;
     bool mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const override;
+    // Moves an actor to stand at a point (feet at z) and makes it its home: evt.SetMapActorPosition indoors.
+    bool setMapActorPosition(size_t actorIndex, float x, float y, float z) override;
     bool castEventSpell(
         uint32_t spellId,
         uint32_t skillLevel,
@@ -405,6 +444,11 @@ public:
     size_t mapActorCount() const override;
     const MapActorAiState *mapActorAiState(size_t actorIndex) const;
     std::vector<int16_t> activatedIndoorSectorIds() const;
+    // The map's sector face grid (IndoorSectorFaceGrid.h): built with the map state, valid for any door pose, so a
+    // geometry cache over the renderer's vertices may use it too. Null without a map.
+    const IndoorSectorFaceGrid *sectorFaceGrid() const;
+    // The scene's `actor_movement: {drops: follow}`: monsters go down ledges of any height (MM9).
+    bool actorDropsFollow() const;
     size_t bloodSplatCount() const;
     const BloodSplatState *bloodSplatState(size_t splatIndex) const;
     uint64_t bloodSplatRevision() const;
@@ -523,9 +567,22 @@ public:
     // Stands a living actor at a point of the sector with its feet at footZ, without the blink's checks; false when
     // a walker finds no floor there.
     bool placeMapActorAt(size_t actorIndex, float x, float y, float footZ, int16_t sectorId);
+    // Where a living actor could stand at (x, y): the blink's checks without the move (blinkMapActorTo). The sight
+    // line to keepSightOf starts at its eye eyeBelowTop under the top of its body there (MM9's eye; none: 70 % of its
+    // height); pSightChecks (optional) counts the sight lines tested.
+    struct IndoorActorSpot
+    {
+        float footZ = 0.0f;
+        int16_t sectorId = -1;
+    };
+    std::optional<IndoorActorSpot> checkMapActorSpot(size_t actorIndex, float x, float y, float maxHeightChange,
+        const std::optional<std::array<float, 3>> &keepSightOf, bool *pBlockedByParty,
+        std::optional<float> eyeBelowTop, int *pSightChecks);
     bool mapKillProgress(MapKillProgress &progress) const override;
     size_t reviveSlainMonsters(float experienceShare) override;
     std::vector<size_t> spawnMonsters(const GameplayMonsterSpawnRequest &request) override;
+    void bindActorAiTrace(ActorAiTrace *pTrace) override;
+    const ActorAiTrace *actorAiTrace() const override;
     bool summonHostileMonsterById(
         int16_t monsterId,
         uint32_t count,
@@ -676,6 +733,11 @@ public:
 
     void applyEventRuntimeState(bool syncPersistentHostilityMasks = false) override;
     void invalidateRuntimeGeometryCache();
+    // The monsters' path map is stale: rebuilt off the main thread while they keep the previous one.
+    void markIndoorPathMapStale() const;
+    // Takes a rebuilt path map that has landed (the next AI update).
+    void adoptPendingIndoorPathMap();
+    void waitForPendingIndoorPathMap() const;
     // The live actors whose bodies reach into a box, and moving one of them (the rotating movers' body rules,
     // devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).
     void collectMoverActorBodies(
@@ -695,11 +757,13 @@ public:
     bool castIndoorMeteorShower(
         const GameplayProjectileService::ProjectileSpawnRequest &baseRequest,
         const ActorProjectileRequest &projectileRequest);
+    // A line longer than maximumRange (0: the shared detection range, 5 120) never counts as clear.
     bool hasIndoorCombatLineOfSight(
         const GameplayWorldPoint &from,
         int16_t fromSectorId,
         const GameplayWorldPoint &to,
-        int16_t toSectorId) const;
+        int16_t toSectorId,
+        float maximumRange = 0.0f) const;
     bool partyAttackActorHasLineOfSight(size_t actorIndex) const;
     std::vector<IndoorActorCollision> actorMovementCollidersForActorMovement(
         const std::vector<size_t> &activeActorIndices) const;
@@ -733,6 +797,10 @@ private:
     void markActorKilledByParty(size_t actorIndex);
     // A monster slain by another: the rules' reward when the killer fights for the party.
     void rewardKillByActor(size_t victimIndex, uint32_t sourceActorId);
+    // A hit on an MM9 walker (ActorMm9WorldFacts): its attacker (the party, or the actor at attackerActorIndex), the
+    // largest hit and the count its AI reacts to. Nothing for any other actor.
+    void noteMm9ActorHit(size_t actorIndex, ActorAiTargetKind attackerKind, size_t attackerActorIndex, int damage);
+    size_t actorIndexForActorId(uint32_t actorId) const;
     bool summonEventPayload(
         uint32_t payloadId,
         bool payloadIsObjectId,
@@ -751,6 +819,11 @@ private:
         IndoorFaceGeometryCache geometryCache;
         bool pathMapValid = false;
         std::shared_ptr<const PathMap> pathMapSnapshot;
+        // Counts the path map's invalidations: a rebuilt map launched before the latest one is out of date when it lands.
+        uint64_t pathMapGeneration = 0;
+        // Rebuilt only for a new map or restored map state, not on every invalidation.
+        bool sectorFaceGridValid = false;
+        IndoorSectorFaceGrid sectorFaceGrid;
     };
 
     struct IndoorActorAiPerformanceDiagnostics
@@ -828,6 +901,8 @@ private:
     bool actorAiPerformanceDiagnosticsEnabled() const;
     void logActorAiPerformanceDiagnostics(uint32_t currentTick);
     IndoorMovementController &actorMovementController();
+    // Scene water volumes: their tops now, and the swimmers' volumes (MapActorAiState::waterVolumeIndex).
+    void refreshActorWaterVolumes();
     void ensureIndoorSectorActivationMask();
     void activateIndoorSector(int16_t sectorId);
     void refreshActivatedIndoorSectors();
@@ -845,6 +920,20 @@ private:
         const ActorAiFrameResult &result,
         const GameplayActorAiSystem &actorAiSystem,
         IndoorActorAiPerformanceDiagnostics *pDiagnostics = nullptr);
+    void applyActorSpawnRequests(const std::vector<ActorSpawnRequest> &spawnRequests);
+    // The MM9 layers' requests (MM9_MONSTER_AI_PLAN.md phase 4a): calls to friends, resurrection, doors.
+    void applyMm9Requests(const ActorAiFrameResult &result);
+    void deliverMm9Call(size_t senderIndex, const ActorMm9Request &request, const std::vector<uint8_t> &active);
+    void answerMm9ResurrectionAsk(size_t corpseIndex, const std::vector<uint8_t> &active);
+    void reviveMm9Actor(size_t actorIndex);
+    void openMm9Door(size_t actorIndex, uint32_t doorId);
+    // The reposition modifier's query (ActorMm9Request::reposition): the first of its spots that passes, answered in
+    // the actor's ActorMm9WorldFacts (repositionSerial).
+    void answerRepositionQuery(size_t actorIndex, const ActorRepositionQuery &query);
+    void collectIndoorMm9LayerFacts(size_t actorIndex, const ActorPartyFacts &partyFacts, ActorAiFacts &facts) const;
+    bool mm9ActorsAreEnemies(size_t actorIndex, size_t otherActorIndex) const;
+    std::optional<Mm9AiProfile> mm9ActorProfile(size_t actorIndex) const;
+    void collectIndoorMm9Refuges(size_t actorIndex, ActorMm9WorldFacts &world) const;
     void applyIndoorActorMovementIntegration(
         IndoorMovementController &movementController,
         size_t actorIndex,
@@ -909,6 +998,7 @@ private:
     std::optional<GameplayMonsterBolsterResult> resolveActorBolster(const MapDeltaActor &actor) const;
     bool indoorActorCanApplyPartyMeleeImpact(size_t actorIndex) const;
     void materializeSemanticWorldItems();
+    void dropRestingWorldItemsToFloor();
     void synchronizeSemanticWorldItemVisibility();
     bool activateSemanticWorldItem(size_t worldItemIndex);
     bool activateSemanticLootContainer(size_t worldItemIndex);
@@ -979,6 +1069,7 @@ private:
     void spawnImmediateSpellImpactVisual(size_t actorIndex, uint32_t spellId);
     void updateIndoorJournalRevealIfNeeded();
     void setMapActorHostilityFromEvent(size_t actorIndex, bool hostileToParty);
+    void updateYellFleeing(float deltaSeconds);
     // Energy shields: regeneration and presentation per actor step, and the QBit-switched relations of the world
     // add-on (MonsterRelationAddOns) applied to the map's actors whenever they change and after every load.
     void updateActorShields(float deltaSeconds);
@@ -1009,6 +1100,22 @@ private:
     // Up to a few unaware hostile actors near this one, which they can see, become aware of the party.
     void wakeIndoorActorNeighbours(size_t actorIndex);
     void initializeMm9Barrels();
+    // Scene destructibles (devdocs/INDOOR_DESTRUCTIBLES.md): their saved state, a destroyed one's faces and prop gone.
+    void initializeIndoorDestructibles();
+    const IndoorDestructible *indoorDestructible(uint32_t id) const;
+    const IndoorDestructible *indoorDestructibleOfFace(size_t faceIndex) const;
+    const IndoorDestructible *indoorDestructibleOfEntity(size_t entityIndex) const;
+    bool indoorDestructibleTakesDamage(const IndoorDestructible *pDestructible) const;
+    RuntimeDestructibleState *indoorDestructibleState(const IndoorDestructible &destructible);
+    void hideIndoorDestructible(const IndoorDestructible &destructible);
+    // Whether a decoration of this SetSprite key carries a light (unknown: true).
+    bool indoorDecorationCogCarriesLight(uint16_t cog) const;
+    bool destroyIndoorDestructible(const IndoorDestructible &destructible);
+    bool damageIndoorDestructible(const IndoorDestructible &destructible, int damage);
+    void runPendingDestructibleEvents();
+    // MM9's FoundPlayer greetings (RUDE event 56000 + the source object index, as outdoors): a living, visible person
+    // with RUDE dialogue who sees the party within Mm9FoundPlayerRange runs it once per visit.
+    void updateMm9FoundPlayerEvents(float deltaSeconds);
     void applyMm9BarrelVisual(const MapMm9BarrelSource &source, const MapDeltaMm9BarrelState &state);
 
     std::optional<MapStatsEntry> m_map;
@@ -1050,14 +1157,27 @@ private:
     std::vector<std::optional<ChestViewState>> m_materializedChestViews;
     std::optional<ChestViewState> m_activeChestView;
     std::optional<GameplayWorldPoint> m_pendingEventSourcePoint;
+    // Destructibles' destroyed and damaged events, run by the next world update (a destruction inside a running event
+    // never runs another event inside it).
+    std::vector<uint16_t> m_pendingDestructibleEvents;
+    // Per map actor: its FoundPlayer greeting has run this visit; and the time since the last check.
+    std::vector<bool> m_mm9FoundPlayerDone;
+    float m_mm9FoundPlayerAccumulatorSeconds = 0.0f;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     // Gold and random item that Telepathy rolled for a living actor; its corpse takes them at death.
     std::vector<std::optional<CorpseViewState>> m_mapActorRevealedLoot;
     bool m_corpseLootPending = false;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<MapActorAiState> m_mapActorAiStates;
+    // Each scene water volume's top offset this AI frame (empty on a map without water volumes).
+    std::vector<float> m_waterTopOffsets;
+    // Villagers still fleeing a yell (yellFleeRemainingSeconds > 0).
+    std::vector<size_t> m_yellFleeingActorIndices;
     ActorTurnBasedFrameFacts m_turnBasedActorFacts = {};
     ActorBehaviorRuntime m_actorBehaviors;
+    // The AI arena's decision trace (GameApplication owns it), null while off.
+    ActorAiTrace *m_pActorAiTrace = nullptr;
+    ActorPartyVelocityTracker m_actorAiPartyVelocity;
     GameplayActorHitFeedback m_actorHitFeedback;
     GameplayActorShields m_actorShields;
     GameplayActorModifiers m_actorModifiers;
@@ -1091,11 +1211,18 @@ private:
     size_t m_lastIndoorJournalRevealOutlineCount = 0;
     std::vector<FireSpikeTrapState> m_fireSpikeTraps;
     mutable RuntimeGeometryCache m_runtimeGeometryCache;
+    // The monsters' path map rebuilt off the main thread after a door settles or a wall breaks (indoorPathMap): until it
+    // lands the monsters keep the previous map. Region-sized maps took 50-250 ms on the main thread (2026-11-05).
+    struct PendingPathMap
+    {
+        std::future<std::shared_ptr<PathMap>> map;
+        uint64_t generation = 0;
+    };
+    mutable PendingPathMap m_pendingPathMap;
     std::optional<IndoorMovementController> m_actorMovementController;
     ActorPathRuntime m_actorPathRuntime;
     double m_actorPathRuntimeSeconds = 0.0;
     size_t m_actorPathPlansThisStep = 0;
-    double m_nextActorPathPlanSeconds = 0.0;
     double m_nextPositionRecoveryBatchSeconds = 0.0;
     bool m_positionRecoveryBatchActive = false;
     IndoorActorAiPerformanceDiagnostics m_actorAiPerformanceDiagnostics;

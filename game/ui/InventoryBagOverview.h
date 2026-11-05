@@ -5,19 +5,22 @@
 #include "game/ui/GameplayOverlayTypes.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <string>
 #include <utility>
 
 namespace OpenYAMM::Game
 {
-// The inventory's bag overview (rulesets with several bags, desktop): the four bags at once, two by two, at about half
-// size inside the full-size grid's rectangle, a divider between them so no item lies across two bags. The 1-4 buttons
-// zoom a bag to full size.
+// The inventory's bag overview (rulesets with several bags, desktop): the four bags of the open bag's tab at once, two
+// by two, at about half size inside the full-size grid's rectangle, a divider between them so no item lies across two
+// bags. The 1-4 buttons zoom a bag to full size; a party of one's tab buttons show another tab.
 namespace InventoryBagOverview
 {
 constexpr int Columns = 2;
 constexpr int Rows = 2;
 constexpr int Bags = Columns * Rows;
+static_assert(Bags == InventoryBags::TabBags);
 // The divider between the bags, in layout units.
 constexpr float DividerUnits = 8.0f;
 
@@ -38,10 +41,32 @@ inline float dividerSize(const GameplayResolvedHudLayoutElement &grid)
     return std::round(DividerUnits * grid.scale);
 }
 
-// Bag `index` (0-based, row by row): square cells as large as the four grids and the dividers allow, the whole centred
-// in the full-size grid's rectangle.
-inline Slot slot(const GameplayResolvedHudLayoutElement &grid, int index)
+// A tab's numeral (0-based), as its button shows it.
+inline std::string tabNumeral(int tab)
 {
+    static constexpr std::array<const char *, 5> Numerals = {"I", "II", "III", "IV", "V"};
+    return tab >= 0 && tab < int(Numerals.size()) ? Numerals[size_t(tab)] : std::to_string(tab + 1);
+}
+
+// "bag 3", or with several tabs "tab II, bag 3": the bag as the tab and bag buttons name it.
+inline std::string bagName(int bag, int bagCount)
+{
+    const std::string inTab = "bag " + std::to_string(bag % Bags + 1);
+    return InventoryBags::tabCount(bagCount) > 1 ? "tab " + tabNumeral(bag / Bags) + ", " + inTab
+                                                 : "bag " + std::to_string(bag + 1);
+}
+
+// The first bag the overview shows: that of the character's open bag's tab.
+inline uint8_t firstBag(const Character &character)
+{
+    return InventoryBags::tabFirstBag(character.rulesetState.currentBag);
+}
+
+// The place of `bag` (0-based) in its tab, row by row: square cells as large as the four grids and the dividers
+// allow, the whole centred in the full-size grid's rectangle.
+inline Slot slot(const GameplayResolvedHudLayoutElement &grid, int bag)
+{
+    const int index = bag % Bags;
     const float divider = dividerSize(grid);
     const float cell = std::min((grid.width - divider * float(Columns - 1)) / float(Columns * Character::InventoryWidth),
         (grid.height - divider * float(Rows - 1)) / float(Rows * Character::InventoryHeight));

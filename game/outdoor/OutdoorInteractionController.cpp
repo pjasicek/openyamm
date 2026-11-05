@@ -2584,6 +2584,8 @@ GameplayWorldHit OutdoorInteractionController::pickKeyboardInteractionTarget(
     const OutdoorGameView::InspectHit inspectHit = pickKeyboardInteractionInspectHit(
         view,
         outdoorMapData,
+        request.screenX,
+        request.screenY,
         request.viewWidth,
         request.viewHeight,
         request.viewMatrix.data(),
@@ -4222,6 +4224,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
 OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractionInspectHit(
     OutdoorGameView &view,
     const OutdoorMapData &outdoorMapData,
+    float crosshairX,
+    float crosshairY,
     int viewWidth,
     int viewHeight,
     const float *pViewMatrix,
@@ -4336,16 +4340,24 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
 
             return bestDistance;
         };
+    // The usable target nearest the crosshair, weighed by how far it is, as indoors: the crosshair hit itself is tried
+    // first by GameplayInteractionController::pickKeyboardUseTarget.
+    float bestScore = std::numeric_limits<float>::max();
     const auto tryUpdateBestHit =
-        [&bestHit](const OutdoorGameView::InspectHit &hit)
+        [&](const OutdoorGameView::InspectHit &hit, float screenX, float screenY)
         {
             if (!hit.hasHit)
             {
                 return;
             }
 
-            if (!bestHit.hasHit || hit.distance < bestHit.distance)
+            const float deltaX = screenX - crosshairX;
+            const float deltaY = screenY - crosshairY;
+            const float score = std::sqrt(deltaX * deltaX + deltaY * deltaY) * 4.0f + hit.distance;
+
+            if (score < bestScore)
             {
+                bestScore = score;
                 bestHit = hit;
             }
         };
@@ -4442,9 +4454,15 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
     for (const OutdoorGameView::KeyboardInteractionBillboardCandidate &candidate :
          view.m_keyboardInteractionBillboardCandidates)
     {
-        if (bestHit.hasHit && candidate.cameraDepth > bestHit.distance + 1.0f)
+        // Sorted by depth, and a score is never below the depth.
+        if (candidate.cameraDepth >= bestScore)
         {
             break;
+        }
+
+        if (candidate.samplePointCount == 0)
+        {
+            continue;
         }
 
         const std::optional<OutdoorGameView::InspectHit> resolvedHit =
@@ -4452,7 +4470,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
 
         if (resolvedHit)
         {
-            tryUpdateBestHit(*resolvedHit);
+            tryUpdateBestHit(*resolvedHit, candidate.samplePoints[0].x, candidate.samplePoints[0].y);
         }
     }
 
@@ -4585,7 +4603,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
         const std::optional<float> faceDistance =
             intersectOutdoorFaceRay(bModel, face, rayOrigin, rayDirection, runtimeTransform);
 
-        if (!faceDistance.has_value())
+        if (!faceDistance.has_value() || *faceDistance >= bestScore)
         {
             continue;
         }
@@ -4621,7 +4639,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
             continue;
         }
 
-        tryUpdateBestHit(hit);
+        tryUpdateBestHit(hit, screenX, screenY);
     }
 
     return bestHit;
@@ -4722,7 +4740,7 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
 
         if (runtimeActorIndex)
         {
-            return view.m_pOutdoorWorldRuntime->faceMapActorTowardPoint(
+            return view.m_pOutdoorWorldRuntime->faceMapActorForTalk(
                 *runtimeActorIndex,
                 moveState.x,
                 moveState.y);

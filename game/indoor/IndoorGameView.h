@@ -102,6 +102,7 @@ private:
     void updateItemInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void updateFootstepAudio(float deltaSeconds);
+    void updateWaterAudio();
     void updateCombatFeedback(float deltaSeconds);
     void renderCombatFeedbackOverlay(int width, int height);
     bool beginSaveWithPreview(
@@ -153,6 +154,8 @@ private:
     float m_lastFootstepY = 0.0f;
     float m_walkingMotionHoldSeconds = 0.0f;
     std::optional<uint32_t> m_activeWalkingSoundId;
+    // MM9's under-water loop while the eye is under a scene water volume (0: not playing).
+    uint64_t m_underwaterLoopInstanceId = 0;
     std::vector<CombatFloatingText> m_combatFloatingTexts;
 };
 } // namespace OpenYAMM::Game

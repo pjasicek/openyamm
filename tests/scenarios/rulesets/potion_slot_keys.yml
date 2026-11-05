@@ -1,5 +1,5 @@
 id: rulesets.potion_slot_keys
-title: "Potion radial - a slot's key drinks a bottle of its kind from the active member's bags (GAPS.md H.6)"
+title: "Quick items - a slot's key drinks a bottle of its kind; the Potions and Scrolls keys open the basebar popups"
 world: mm6
 mode: faithful
 tags: [rulesets, potions]
@@ -19,13 +19,17 @@ steps:
   - press_action: {action: quick_item_1}
   - assert:
       inventory_any_member: [{item_id: 222, count: 2}]
-  # The Potion Wheel key: a tap opens the active member's ring and leaves it open; another tap closes it
-  # (game/ui/GameplayQuickItems.cpp).
+  # With the quick item rings off (the default), the Potions key opens the basebar's potion popup for the active
+  # member and the Scrolls key switches to the scroll popup; each key closes its own (game/ui/GameplayQuickItems.cpp).
   - assert:
-      quick_item_ring: {open: false}
+      quick_item_popup: {kind: none}
   - press_action: {action: quick_item_wheel}
   - assert:
-      quick_item_ring: {open: true, member_index: 0}
-  - press_action: {action: quick_item_wheel}
-  - assert:
+      quick_item_popup: {kind: potions, member_index: 0}
       quick_item_ring: {open: false}
+  - press_action: {action: scroll_popup}
+  - assert:
+      quick_item_popup: {kind: scrolls, member_index: 0}
+  - press_action: {action: scroll_popup}
+  - assert:
+      quick_item_popup: {kind: none}

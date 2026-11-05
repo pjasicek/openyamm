@@ -104,6 +104,7 @@ Party buildConfiguredParty(
     party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
     party.setClassMultiplierTable(&data.classMultiplierTable());
     party.setClassSkillTable(&data.classSkillTable());
+    party.setTrainerDirectory(&data.trainerDirectory());
     party.restoreSnapshot(snapshot);
     return party;
 }

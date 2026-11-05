@@ -507,6 +507,7 @@ MonsterImpactHitCheck resolveMonsterImpactHitCheck(
             result.bolsterAffectsArmorClass);
     std::mt19937 rng = buildMonsterAttackRng(event, targetMemberIndex, animationTicks(context.pRuntime));
     MonsterAttackOnCharacter attack = monsterAttackOnCharacter(context, event, *pMember, sourceActor.monsterLevel);
+    attack.pAttackerFacts = &sourceActor.rulesetFacts;
     attack.armorClass = result.adjustedArmorClass;
     attack.attackBonus = result.attackBonus;
     attack.pRng = &rng;
@@ -525,6 +526,7 @@ bool characterEvadesMonsterImpact(
         buildMonsterAttackRng(event, targetMemberIndex, animationTicks(context.pRuntime) ^ 0x9e3779b9u);
     MonsterAttackOnCharacter attack =
         monsterAttackOnCharacter(context, event, character, sourceActor ? sourceActor->monsterLevel : 0);
+    attack.pAttackerFacts = sourceActor ? &sourceActor->rulesetFacts : nullptr;
     attack.pRng = &rng;
     return context.party.rules().combat.characterEvades(attack);
 }
@@ -633,6 +635,8 @@ int adjustedIncomingDamageForMember(
     hit.physicalProjectile = isPhysicalProjectile;
     hit.attackerLevel = sourceActor ? sourceActor->monsterLevel : 0;
     hit.attackerFacts = sourceActor ? sourceActor->rulesetFacts : ActorRulesetFacts{};
+    hit.attackerCurrentHp = sourceActor ? sourceActor->currentHp : 0;
+    hit.attackerMaxHp = sourceActor ? sourceActor->maxHp : 0;
     hit.attack2 = event.ability == GameplayActorAttackAbility::Attack2;
     hit.spellId = event.spellId;
     hit.rolledAmount = event.damage;
@@ -642,28 +646,6 @@ int adjustedIncomingDamageForMember(
     hit.pRng = &rng;
     // What shields absorb is taken where every hit lands (Party::applyDamageToMember).
     return context.party.rules().combat.damageToCharacter(hit);
-}
-
-int parameterBonusForCombat(int value)
-{
-    constexpr int thresholds[29] = {
-        500, 400, 350, 300, 275, 250, 225, 200, 175, 150, 125, 100, 75, 50, 40,
-        35, 30, 25, 21, 19, 17, 15, 13, 11, 9, 7, 5, 3, 0,
-    };
-    constexpr int bonuses[29] = {
-        30, 25, 21, 19, 17, 15, 13, 11, 9, 7, 5, 4, 3, 2, 1, 0, -1, -2, -3,
-        -4, -5, -6, -7, -8, -9, -10, -11, -12, -13,
-    };
-
-    for (size_t index = 0; index < std::size(thresholds); ++index)
-    {
-        if (value >= thresholds[index])
-        {
-            return bonuses[index];
-        }
-    }
-
-    return bonuses[std::size(bonuses) - 1];
 }
 
 float recoverySecondsFromTicks(int ticks)
@@ -969,7 +951,7 @@ int monsterSpecialAttackSaveBonus(
     switch (specialAttackKind)
     {
         case MonsterSpecialAttackKind::Curse:
-            return parameterBonusForCombat(summary.personality.actual);
+            return GameMechanics::primaryStatBonus(summary.personality.actual);
         case MonsterSpecialAttackKind::Weak:
         case MonsterSpecialAttackKind::Sleep:
         case MonsterSpecialAttackKind::Drunk:
@@ -978,7 +960,7 @@ int monsterSpecialAttackSaveBonus(
         case MonsterSpecialAttackKind::DiseaseSevere:
         case MonsterSpecialAttackKind::Unconscious:
         case MonsterSpecialAttackKind::Aging:
-            return parameterBonusForCombat(summary.endurance.actual);
+            return GameMechanics::primaryStatBonus(summary.endurance.actual);
         case MonsterSpecialAttackKind::Insane:
         case MonsterSpecialAttackKind::Paralyze:
         case MonsterSpecialAttackKind::Fear:
@@ -992,7 +974,8 @@ int monsterSpecialAttackSaveBonus(
         case MonsterSpecialAttackKind::Eradicate:
             return summary.bodyResistance.actual;
         case MonsterSpecialAttackKind::ManaDrain:
-            return (parameterBonusForCombat(summary.intellect.actual) + parameterBonusForCombat(summary.personality.actual)) / 2;
+            return (GameMechanics::primaryStatBonus(summary.intellect.actual)
+                + GameMechanics::primaryStatBonus(summary.personality.actual)) / 2;
         case MonsterSpecialAttackKind::BreakAny:
         case MonsterSpecialAttackKind::BreakArmor:
         case MonsterSpecialAttackKind::BreakWeapon:
@@ -1016,7 +999,8 @@ bool memberSavesAgainstMonsterSpecialAttack(
     const BreakItemCandidate *pBreakCandidate,
     std::mt19937 &rng)
 {
-    const int saveCheck = parameterBonusForCombat(summary.luck.actual)
+    // MM8 rolls rand() % (stat bonus + Luck bonus + 30) and saves on 30 or more (MM8-Rel.exe 0x48ef5c).
+    const int saveCheck = GameMechanics::primaryStatBonus(summary.luck.actual)
         + monsterSpecialAttackSaveBonus(member, summary, specialAttackKind, pBreakCandidate)
         + 30;
 
@@ -1054,28 +1038,54 @@ bool memberImmuneToMonsterSpecialAttack(
     }
 }
 
-bool shouldApplyMonsterSpecialAttack(
-    const GameplayCombatController::CombatEvent &event,
-    const GameplayCombatActorInfo &sourceActor,
-    std::mt19937 &rng)
+// What a monster's hit on a party member may leave, and its chance in percent.
+struct MonsterHitCondition
 {
+    MonsterSpecialAttackKind kind = MonsterSpecialAttackKind::None;
+    int chancePercent = 0;
+};
+
+// A hit by its Spell1 or Spell2 leaves that spell's spell_conditions condition (none without one); a melee hit or a
+// single-target Attack1 missile its special attack, at monster level x special attack level percent.
+std::optional<MonsterHitCondition> monsterHitCondition(
+    const GameplayCombatController::CombatEvent &event,
+    const GameplayCombatActorInfo &sourceActor)
+{
+    const bool projectile = event.type == GameplayCombatController::CombatEventType::PartyProjectileImpact;
+
+    if (projectile && event.spellId != 0)
+    {
+        const MonsterSpecialAttackKind kind = event.ability == GameplayActorAttackAbility::Spell1
+            ? sourceActor.spell1Condition
+            : event.ability == GameplayActorAttackAbility::Spell2 ? sourceActor.spell2Condition
+                                                                   : MonsterSpecialAttackKind::None;
+        if (kind == MonsterSpecialAttackKind::None)
+        {
+            return std::nullopt;
+        }
+        return MonsterHitCondition {kind, int(std::lround(sourceActor.spellConditionChance * 100.0f))};
+    }
+
     const bool monsterMelee = event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact;
     const bool attack1Projectile =
-        event.type == GameplayCombatController::CombatEventType::PartyProjectileImpact
-        && !event.affectsAllParty
-        && event.ability == GameplayActorAttackAbility::Attack1
-        && event.spellId == 0;
+        projectile && !event.affectsAllParty && event.ability == GameplayActorAttackAbility::Attack1;
 
     if ((!monsterMelee && !attack1Projectile)
         || sourceActor.specialAttackKind == MonsterSpecialAttackKind::None
         || sourceActor.specialAttackLevel <= 0
         || sourceActor.monsterLevel <= 0)
     {
-        return false;
+        return std::nullopt;
     }
 
     const int chancePercent = sourceActor.monsterLevel * sourceActor.specialAttackLevel;
-    return chancePercent >= 100 || std::uniform_int_distribution<int>(0, 99)(rng) < chancePercent;
+    return MonsterHitCondition {sourceActor.specialAttackKind, chancePercent};
+}
+
+bool rollMonsterHitCondition(const MonsterHitCondition &condition, std::mt19937 &rng)
+{
+    return condition.chancePercent >= 100
+        || std::uniform_int_distribution<int>(0, 99)(rng) < condition.chancePercent;
 }
 
 bool applyMonsterSpecialAttack(
@@ -1096,11 +1106,16 @@ bool applyMonsterSpecialAttack(
         memberIndex,
         animationTicks(context.pRuntime) ^ 0x85ebca6bu);
 
-    if (!shouldApplyMonsterSpecialAttack(event, sourceActor, rng)
+    const std::optional<MonsterHitCondition> hitCondition = monsterHitCondition(event, sourceActor);
+
+    if (!hitCondition
+        || !rollMonsterHitCondition(*hitCondition, rng)
         || context.party.rules().combat.monsterMissileRules(monsterMissileToken(context, event)).noSpecialAttack)
     {
         return false;
     }
+
+    const MonsterSpecialAttackKind kind = hitCondition->kind;
 
     std::vector<BreakItemCandidate> breakCandidates;
     const BreakItemCandidate *pBreakCandidate = nullptr;
@@ -1115,14 +1130,14 @@ bool applyMonsterSpecialAttack(
             ? context.pRuntime->specialItemEnchantTable()
             : context.party.specialItemEnchantTable();
 
-    if (sourceActor.specialAttackKind == MonsterSpecialAttackKind::BreakAny
-        || sourceActor.specialAttackKind == MonsterSpecialAttackKind::BreakArmor
-        || sourceActor.specialAttackKind == MonsterSpecialAttackKind::BreakWeapon)
+    if (kind == MonsterSpecialAttackKind::BreakAny
+        || kind == MonsterSpecialAttackKind::BreakArmor
+        || kind == MonsterSpecialAttackKind::BreakWeapon)
     {
         breakCandidates = collectBreakItemCandidates(
             *pMember,
             pItemTable,
-            sourceActor.specialAttackKind);
+            kind);
 
         if (breakCandidates.empty())
         {
@@ -1140,7 +1155,7 @@ bool applyMonsterSpecialAttack(
         pStandardItemEnchantTable,
         pSpecialItemEnchantTable);
 
-    if (memberImmuneToMonsterSpecialAttack(summary, sourceActor.specialAttackKind)
+    if (memberImmuneToMonsterSpecialAttack(summary, kind)
         || context.party.rules().combat.immuneToMonsterSpecialAttacks(*pMember))
     {
         return false;
@@ -1149,7 +1164,7 @@ bool applyMonsterSpecialAttack(
     if (memberSavesAgainstMonsterSpecialAttack(
             *pMember,
             summary,
-            sourceActor.specialAttackKind,
+            kind,
             pBreakCandidate,
             rng)
         && !context.party.rules().combat.piercesConditionSave(context.party))
@@ -1159,7 +1174,7 @@ bool applyMonsterSpecialAttack(
 
     bool applied = false;
     const std::optional<CharacterCondition> condition =
-        conditionForMonsterSpecialAttack(sourceActor.specialAttackKind);
+        conditionForMonsterSpecialAttack(kind);
 
     if (condition)
     {
@@ -1176,13 +1191,13 @@ bool applyMonsterSpecialAttack(
         {
             const float gameMinutes = context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f;
             applied = context.party.applyMemberCondition(memberIndex, *condition, gameMinutes);
-            if (applied && monsterSpecialAttackSetsZeroHealth(sourceActor.specialAttackKind))
+            if (applied && monsterSpecialAttackSetsZeroHealth(kind))
             {
                 pMember->health = 0;
             }
         }
     }
-    else if (sourceActor.specialAttackKind == MonsterSpecialAttackKind::ManaDrain)
+    else if (kind == MonsterSpecialAttackKind::ManaDrain)
     {
         if (!pMember->manaDrainImmune)
         {
@@ -1190,7 +1205,7 @@ bool applyMonsterSpecialAttack(
             pMember->spellPoints = 0;
         }
     }
-    else if (sourceActor.specialAttackKind == MonsterSpecialAttackKind::Aging)
+    else if (kind == MonsterSpecialAttackKind::Aging)
     {
         if (!pMember->agingImmune)
         {
@@ -1218,11 +1233,11 @@ bool applyMonsterSpecialAttack(
     if (applied)
     {
         triggerMonsterSpecialPortraitFx(context.pRuntime, memberIndex);
-        playMonsterSpecialAttackSound(context.pRuntime, sourceActor.specialAttackKind);
+        playMonsterSpecialAttackSound(context.pRuntime, kind);
         triggerPortraitFaceAnimation(
             context.pRuntime,
             memberIndex,
-            faceAnimationForMonsterSpecialAttack(sourceActor.specialAttackKind));
+            faceAnimationForMonsterSpecialAttack(kind));
     }
 
     return applied;

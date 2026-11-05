@@ -1,0 +1,58 @@
+id: mm6.temple_of_tsantsa_monster_pursuit
+title: "Temple of Tsantsa: Queen Cobras pass the 128-wide passages and a cobra pack follows the party round a loop"
+world: mm6
+mode: faithful
+tags: [mm6, monsters, pathing]
+# devdocs/ACTOR_PURSUIT_AND_REACH.md: "Wide monsters in narrow passages" and "Route plans for a whole pack".
+# The map's own monsters are slain first: their random counts would make the crowding, not the pathing, the test.
+steps:
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6t3.blv}
+  - damage_actor: {all: true, amount: 100000}
+  - advance_runtime: {seconds: 3}
+  # A Queen Cobra (radius 72) in the room west of the ring corridor, whose only way out is a 128-wide neck
+  # (x -2176..-2048, y -1984..-1856). Provoked while the party stands in line with the neck, it must come out through it
+  # and round the corner to the party down the corridor (it stood in the neck's mouth at x -2013 before).
+  - set_pose: {map: 6t3.blv, x: -2350, y: -1920, z: -128, yaw_degrees: 0}
+  - spawn_actor: {monster_id: 495, count: 1, x: -1664, y: -1920, z: -128}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 0.3}
+  - set_pose: {map: 6t3.blv, x: -2350, y: -2250, z: -128, yaw_degrees: 90}
+  - advance_runtime: {seconds: 8}
+  - assert: {actor_visible: {actor_index: last, report_state: true, near: {x: -2350, y: -2250, max_distance: 420}}}
+  # The loop south of the central room: both levers (events 20, 21) open the gates at the foot of its stairs. A Queen,
+  # a King Cobra and a Cobra provoked in the central room follow the party down the south-west stairs, round the south
+  # room and up the east corridor. Before, plans were rationed map-wide and a monster without a route walked straight
+  # at the party through the walls; the Queen never left the central room.
+  - execute_event: {id: 20}
+  - execute_event: {id: 21}
+  - advance_runtime: {seconds: 8}
+  - set_pose: {map: 6t3.blv, x: 0, y: -300, z: 64, yaw_degrees: 90}
+  - spawn_actor: {monster_id: 495, count: 1, x: 0, y: 500, z: 64}
+  - spawn_actor: {monster_id: 494, count: 1, x: 100, y: 500, z: 64}
+  - spawn_actor: {monster_id: 493, count: 1, x: -100, y: 500, z: 64}
+  - damage_actor: {actor_index: last, amount: 1}
+  - advance_runtime: {seconds: 1}
+  - set_pose: {map: 6t3.blv, x: -600, y: -500, z: 64, yaw_degrees: 225}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: -900, y: -800, z: 80, yaw_degrees: 225}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: -1150, y: -1100, z: 0, yaw_degrees: 270}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: -1100, y: -1500, z: 0, yaw_degrees: 300}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: -850, y: -1900, z: 0, yaw_degrees: 330}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: -400, y: -2000, z: 0, yaw_degrees: 0}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: 0, y: -2000, z: 0, yaw_degrees: 0}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: 400, y: -2000, z: 0, yaw_degrees: 0}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: 850, y: -1900, z: 0, yaw_degrees: 30}
+  - advance_runtime: {seconds: 2.5}
+  - set_pose: {map: 6t3.blv, x: 1100, y: -1500, z: 0, yaw_degrees: 90}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last, report_state: true, near: {x: 1100, y: -1500, max_distance: 600}}}
+  - assert: {actor_visible: {actor_index: last-1, report_state: true, near: {x: 1100, y: -1500, max_distance: 600}}}
+  - assert: {actor_visible: {actor_index: last-2, report_state: true, near: {x: 1100, y: -1500, max_distance: 600}}}

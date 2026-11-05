@@ -8,6 +8,7 @@
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/ItemTable.h"
+#include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/NpcDialogTable.h"
@@ -53,6 +54,8 @@ struct RegressionGameData
     Game::ClassMultiplierTable classMultiplierTable = {};
     Game::ClassSkillTable classSkillTable = {};
     Game::HouseTable houseTable = {};
+    // With world ownership, edge crossings (map_navigation.txt) and the bolster maps' continents.
+    Game::MapStats mapStats = {};
     Game::MonsterTable monsterTable = {};
     Game::NpcDialogTable npcDialogTable = {};
     Game::RosterTable rosterTable = {};

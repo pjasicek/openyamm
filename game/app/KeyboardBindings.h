@@ -90,8 +90,10 @@ enum class KeyboardAction : uint8_t
     OpenProgress,
     // MAW: opens the aura panel (unbound by default).
     OpenAuras,
-    // The potion radial (GAPS.md H.6): the active member's ring, and each of its six slots.
+    // The potion radial (GAPS.md H.6): the active member's ring (with the quick item rings on; else the basebar's potion
+    // popup), the basebar's scroll popup, and each of the six quick slots.
     QuickItemWheel,
+    ScrollPopup,
     QuickItem1,
     QuickItem2,
     QuickItem3,

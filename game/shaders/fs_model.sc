@@ -128,6 +128,22 @@ void modelPointLight(vec4 positionRadius, vec4 colorIntensity, vec3 worldPositio
     lightLevel += pointLight;
 }
 
+vec3 modelDecodeSrgb(vec3 value)
+{
+    value = max(value, vec3_splat(0.0));
+    return mix(value / 12.92, pow((value + 0.055) / 1.055, vec3_splat(2.4)), step(vec3_splat(0.04045), value));
+}
+
+// One point light of MM9's fixed-function model lighting (u_modelLighting[1].w = 2): colour x intensity x scale x
+// (1 - d^2/r^2) x max(0, N.L).
+vec3 modelFixedPointLight(vec4 positionRadius, vec4 colorIntensity, vec3 worldPosition, vec3 normal, float scale)
+{
+    vec3 delta = positionRadius.xyz - worldPosition;
+    float radius = max(positionRadius.w, 0.0001);
+    float falloff = max(1.0 - dot(delta, delta) / (radius * radius), 0.0);
+    return colorIntensity.rgb * (colorIntensity.w * scale * falloff * max(dot(normal, modelNormalize(delta)), 0.0));
+}
+
 // Ordered 4x4 dither threshold in [0, 1) for screen-door LOD crossfades.
 float modelDither(vec2 pixel)
 {
@@ -286,6 +302,54 @@ void main()
     if (contour)
     {
         shaded *= u_modelOutline.x * clamp(u_modelLighting[2].rgb * u_modelLighting[2].w * v_color0.rgb, 0.0, 1.0);
+    }
+    else if (u_modelMaterial[1].z < 0.5 && u_modelLighting[1].w > 1.5)
+    {
+        // MM9's fixed-function model lighting (indoor scene model_lighting, devdocs/INDOOR_MODEL_LIGHTING.md): the
+        // display texel times min(1, light), light = the ambient (MM9's ambient and ModelAdd in the placement or
+        // instance light) + every grid light over the fragment (no room test: MM9 has no occlusion) at
+        // u_modelLighting[0].w of its strength, with MM9's 1 - d^2/r^2 and N.L on the mesh normal. No key light,
+        // specular, reflection, sun or edge darkening.
+        vec3 normal = modelNormalize(v_worldNormal);
+        if (u_modelMaterial[1].w > 0.5 && dot(normal, u_modelCamera.xyz - v_worldPosition) < 0.0)
+        {
+            normal = -normal;
+        }
+        vec3 level = u_modelLighting[2].rgb * u_modelLighting[2].w * v_color0.rgb + v_texcoord1.rgb;
+        float pointScale = u_modelLighting[0].w;
+        if (lightGridMode() > 0.5)
+        {
+            vec2 range = lightGridCellRange(v_worldPosition);
+            int first = int(range.x + 0.5);
+            int count = int(range.y + 0.5);
+            for (int i = 0; i < LIGHT_GRID_MAX_CELL_LIGHTS; ++i)
+            {
+                if (i >= count)
+                {
+                    break;
+                }
+                // No room test: MM9 lights its models without occlusion.
+                int index = lightGridLightIndex(first + i);
+                vec4 positionRadius;
+                vec4 colorIntensity;
+                lightGridLight(index, positionRadius, colorIntensity);
+                level += modelFixedPointLight(positionRadius, colorIntensity, v_worldPosition, normal, pointScale);
+            }
+        }
+        else
+        {
+            int pointCount = int(abs(u_modelLighting[3].w));
+            for (int i = 0; i < 12; ++i)
+            {
+                if (i >= pointCount)
+                {
+                    break;
+                }
+                level += modelFixedPointLight(u_modelPointPositions[i], u_modelPointColors[i], v_worldPosition, normal,
+                    pointScale);
+            }
+        }
+        shaded = modelDecodeSrgb(modelEncodeSrgb(color.rgb) * clamp(level, 0.0, 1.0));
     }
     else if (u_modelMaterial[1].z < 0.5)
     {
@@ -451,7 +515,8 @@ void main()
     // An SDR shoulder preserves sub-0.8 values and hue while compressing specular peaks smoothly.
     float peak = max(max(shaded.r, shaded.g), shaded.b);
     float compressed = 0.8 + 0.2 * (1.0 - exp(-max(peak - 0.8, 0.0) / 0.2));
-    if (u_modelMaterial[1].z < 0.5 && peak > 0.8)
+    // Not on fixed-function (MM9) lighting, which shows the texel times its light as MM9 does.
+    if (u_modelMaterial[1].z < 0.5 && u_modelLighting[1].w < 1.5 && peak > 0.8)
     {
         shaded *= compressed / peak;
     }

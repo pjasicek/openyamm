@@ -7,6 +7,9 @@ restrictions still apply.
 
 This guide records hands-on checks on **2026-09-10**, using Rizin **0.10.0**, commit
 `c329b50b1ce87e32168f46e8a29d019b747c4117`, installed under `~/.local` from `third_party/rizin/`.
+After a system move it was restored on 2026-10-31 from the old disk (`~/.local/bin/rizin`, `librz_*` in
+`~/.local/lib/x86_64-linux-gnu`, rz-ghidra in `.../rizin/plugins`; `pdg` works). If `command -v rizin` fails again, the
+in-tree build `third_party/rizin/build/binrz/rizin/rizin` (tools beside it in `build/binrz/`) runs without installing.
 Commands below run from the **OpenYAMM repository root**, unless explicitly described as interactive commands.
 Generated projects and large exports belong in ignored `re_mm8/work/`; preserve useful conclusions as small,
 reviewable Markdown notes and annotation scripts next to this guide.

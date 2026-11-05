@@ -2,6 +2,7 @@
 
 #include "game/StringUtils.h"
 #include "game/maps/MapItemSourceYml.h"
+#include "game/maps/MechanismAudioYml.h"
 #include "game/maps/SceneOverlayOperations.h"
 
 #include <yaml-cpp/yaml.h>
@@ -709,7 +710,8 @@ bool parseIndoorMoverNode(
     return true;
 }
 
-// Scene `ladders`: a sequence of {id, bottom, top, facing_degrees, width, reach, top_exit}.
+// Scene `ladders`: a sequence of {id, bottom, top, facing_degrees, width, reach, top_exit, grab_in_air, grab_at_top}.
+// A top that is not straight above the bottom makes a leaning ladder, climbed along the line between them.
 bool parseIndoorLaddersNode(const YAML::Node &node, std::vector<IndoorLadder> &ladders, std::string &errorMessage)
 {
     if (!node.IsSequence())
@@ -729,7 +731,9 @@ bool parseIndoorLaddersNode(const YAML::Node &node, std::vector<IndoorLadder> &l
             || !readScalarNode(ladderNode, "facing_degrees", ladder.facingDegrees, errorMessage)
             || !readScalarNode(ladderNode, "width", ladder.width, errorMessage, false)
             || !readScalarNode(ladderNode, "reach", ladder.reach, errorMessage, false)
-            || !parseFloatTriple(ladderNode["top_exit"], ladder.topExit, errorMessage))
+            || !parseFloatTriple(ladderNode["top_exit"], ladder.topExit, errorMessage)
+            || !readScalarNode(ladderNode, "grab_in_air", ladder.grabInAir, errorMessage, false)
+            || !readScalarNode(ladderNode, "grab_at_top", ladder.grabAtTop, errorMessage, false))
         {
             errorMessage = errorMessage.empty() ? "ladder entry must be a map" : "ladder: " + errorMessage;
             return false;
@@ -813,19 +817,18 @@ bool parseTranslucentFacesNode(
 }
 }
 
-// `fog`: {color_rgb: [r, g, b], near_distance, far_distance} in native units (devdocs/INDOOR_FOG.md).
-bool parseFogNode(const YAML::Node &node, IndoorFog &fog, std::string &errorMessage)
+// One fog state: {color_rgb: [r, g, b], near_distance, far_distance} in native units; `prefix` names it in errors.
+bool parseFogStateNode(const YAML::Node &node, const std::string &prefix, std::array<float, 3> &color,
+    float &nearDistance, float &farDistance, float &sky, std::string &errorMessage)
 {
     const YAML::Node colorNode = node.IsMap() ? node["color_rgb"] : YAML::Node();
 
     if (!colorNode || !colorNode.IsSequence() || colorNode.size() != 3 || !node["near_distance"]
         || !node["far_distance"])
     {
-        errorMessage = "fog must be a map of color_rgb (three numbers), near_distance and far_distance";
+        errorMessage = prefix + " must be a map of color_rgb (three numbers), near_distance and far_distance";
         return false;
     }
-
-    IndoorFog parsed = {};
 
     try
     {
@@ -835,15 +838,77 @@ bool parseFogNode(const YAML::Node &node, IndoorFog &fog, std::string &errorMess
 
             if (!(value >= 0.0f && value <= 255.0f))
             {
-                errorMessage = "fog color_rgb must be within 0..255";
+                errorMessage = prefix + " color_rgb must be within 0..255";
                 return false;
             }
 
-            parsed.color[channel] = value / 255.0f;
+            color[channel] = value / 255.0f;
         }
 
-        parsed.nearDistance = node["near_distance"].as<float>();
-        parsed.farDistance = node["far_distance"].as<float>();
+        nearDistance = node["near_distance"].as<float>();
+        farDistance = node["far_distance"].as<float>();
+        sky = node["sky"] ? node["sky"].as<float>() : 0.0f;
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = "could not parse " + prefix + ": " + exception.what();
+        return false;
+    }
+
+    if (!(sky >= 0.0f && sky <= 1.0f))
+    {
+        errorMessage = prefix + " sky must be within 0..1";
+        return false;
+    }
+
+    if (!(nearDistance >= 0.0f && nearDistance < farDistance))
+    {
+        errorMessage = prefix + " requires 0 <= near_distance < far_distance";
+        return false;
+    }
+
+    return true;
+}
+
+// `fog`: {color_rgb: [r, g, b], near_distance, far_distance} in native units, optional `sky` (0..1: the open sky drawn
+// in the fog colour), `model: lithtech`, `night` (another such state) and `follow_daylight` (the colour darkens with
+// the scene's daylight) (devdocs/INDOOR_FOG.md).
+bool parseFogNode(const YAML::Node &node, IndoorFog &fog, std::string &errorMessage)
+{
+    IndoorFog parsed = {};
+
+    if (!parseFogStateNode(node, "fog", parsed.color, parsed.nearDistance, parsed.farDistance, parsed.sky,
+            errorMessage))
+    {
+        return false;
+    }
+
+    try
+    {
+        for (const auto &entry : node)
+        {
+            const std::string key = entry.first.as<std::string>();
+            if (key != "color_rgb" && key != "near_distance" && key != "far_distance" && key != "sky"
+                && key != "model" && key != "night" && key != "follow_daylight")
+            {
+                errorMessage = "fog has an unknown key " + key;
+                return false;
+            }
+        }
+        if (const YAML::Node modelNode = node["model"])
+        {
+            const std::string model = modelNode.as<std::string>();
+            if (model != "eye" && model != "lithtech")
+            {
+                errorMessage = "fog model must be eye or lithtech";
+                return false;
+            }
+            parsed.lithtech = model == "lithtech";
+        }
+        if (const YAML::Node followNode = node["follow_daylight"])
+        {
+            parsed.followsDaylight = followNode.as<bool>();
+        }
     }
     catch (const std::exception &exception)
     {
@@ -851,14 +916,832 @@ bool parseFogNode(const YAML::Node &node, IndoorFog &fog, std::string &errorMess
         return false;
     }
 
-    if (!(parsed.nearDistance >= 0.0f && parsed.nearDistance < parsed.farDistance))
+    if (const YAML::Node nightNode = node["night"])
     {
-        errorMessage = "fog requires 0 <= near_distance < far_distance";
-        return false;
+        if (!parseFogStateNode(nightNode, "fog night", parsed.nightColor, parsed.nightNearDistance,
+                parsed.nightFarDistance, parsed.nightSky, errorMessage))
+        {
+            return false;
+        }
+        parsed.hasNight = true;
     }
 
     parsed.enabled = true;
     fog = parsed;
+    return true;
+}
+
+// `daylight`: {ambient_rgb, sun_rgb, day_scale_rgb, night_scale_rgb}, each three numbers 0..255 (the scales optional,
+// 255 by default), optional sun_direction (toward the sun, any length) and sun_gain (devdocs/INDOOR_OPEN_SKY.md
+// "Daylight").
+bool parseDaylightNode(const YAML::Node &node, IndoorDaylight &daylight, std::string &errorMessage)
+{
+    if (!node.IsMap() || !node["ambient_rgb"] || !node["sun_rgb"])
+    {
+        errorMessage = "daylight must be a map of ambient_rgb and sun_rgb (three numbers each) and optional "
+            "day_scale_rgb and night_scale_rgb";
+        return false;
+    }
+
+    IndoorDaylight parsed = {};
+    const auto readRgb = [&](const char *pKey, std::array<float, 3> &rgb)
+    {
+        const YAML::Node rgbNode = node[pKey];
+        if (!rgbNode)
+        {
+            return true;
+        }
+        if (!rgbNode.IsSequence() || rgbNode.size() != 3)
+        {
+            errorMessage = std::string("daylight ") + pKey + " must be three numbers";
+            return false;
+        }
+        for (size_t channel = 0; channel < 3; ++channel)
+        {
+            const float value = rgbNode[channel].as<float>();
+            if (!(value >= 0.0f && value <= 255.0f))
+            {
+                errorMessage = std::string("daylight ") + pKey + " must be within 0..255";
+                return false;
+            }
+            rgb[channel] = value / 255.0f;
+        }
+        return true;
+    };
+
+    try
+    {
+        for (const auto &entry : node)
+        {
+            const std::string key = entry.first.as<std::string>();
+            if (key != "ambient_rgb" && key != "sun_rgb" && key != "day_scale_rgb" && key != "night_scale_rgb"
+                && key != "sun_direction" && key != "sun_gain")
+            {
+                errorMessage = "daylight has an unknown key " + key;
+                return false;
+            }
+        }
+        if (!readRgb("ambient_rgb", parsed.ambient) || !readRgb("sun_rgb", parsed.sun)
+            || !readRgb("day_scale_rgb", parsed.dayScale) || !readRgb("night_scale_rgb", parsed.nightScale))
+        {
+            return false;
+        }
+        if (const YAML::Node directionNode = node["sun_direction"])
+        {
+            if (!directionNode.IsSequence() || directionNode.size() != 3)
+            {
+                errorMessage = "daylight sun_direction must be three numbers";
+                return false;
+            }
+            std::array<float, 3> direction = {};
+            float lengthSquared = 0.0f;
+            for (size_t axis = 0; axis < 3; ++axis)
+            {
+                direction[axis] = directionNode[axis].as<float>();
+                lengthSquared += direction[axis] * direction[axis];
+            }
+            if (!(lengthSquared > 1.0e-6f))
+            {
+                errorMessage = "daylight sun_direction must not be zero";
+                return false;
+            }
+            const float inverseLength = 1.0f / std::sqrt(lengthSquared);
+            for (float &component : direction)
+            {
+                component *= inverseLength;
+            }
+            parsed.sunDirection = direction;
+        }
+        if (const YAML::Node gainNode = node["sun_gain"])
+        {
+            parsed.sunGain = gainNode.as<float>();
+            if (!(parsed.sunGain > 0.0f && parsed.sunGain <= 100.0f))
+            {
+                errorMessage = "daylight sun_gain must be within (0, 100]";
+                return false;
+            }
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse daylight: ") + exception.what();
+        return false;
+    }
+
+    parsed.enabled = true;
+    daylight = parsed;
+    return true;
+}
+
+// `party_movement`: {steep_slopes: climb | block} (devdocs/INDOOR_OPEN_SKY.md "Party movement").
+bool parsePartyMovementNode(const YAML::Node &node, bool &steepSlopesBlock, std::string &errorMessage)
+{
+    if (!node.IsMap())
+    {
+        errorMessage = "party_movement must be a map of steep_slopes (climb or block)";
+        return false;
+    }
+    bool parsed = false;
+    for (const auto &pair : node)
+    {
+        const std::string key = pair.first.as<std::string>();
+        if (key != "steep_slopes")
+        {
+            errorMessage = "party_movement has an unknown key " + key;
+            return false;
+        }
+        const std::string value = pair.second.as<std::string>();
+        if (value != "climb" && value != "block")
+        {
+            errorMessage = "party_movement steep_slopes must be climb or block";
+            return false;
+        }
+        parsed = value == "block";
+    }
+    steepSlopesBlock = parsed;
+    return true;
+}
+
+// `static_lights`: {sides: both | front} (devdocs/INDOOR_OPEN_SKY.md "Static lights").
+bool parseStaticLightsNode(const YAML::Node &node, bool &frontOnly, std::string &errorMessage)
+{
+    if (!node.IsMap())
+    {
+        errorMessage = "static_lights must be a map of sides (both or front)";
+        return false;
+    }
+    bool parsed = false;
+    for (const auto &pair : node)
+    {
+        const std::string key = pair.first.as<std::string>();
+        if (key != "sides")
+        {
+            errorMessage = "static_lights has an unknown key " + key;
+            return false;
+        }
+        const std::string value = pair.second.as<std::string>();
+        if (value != "both" && value != "front")
+        {
+            errorMessage = "static_lights sides must be both or front";
+            return false;
+        }
+        parsed = value == "front";
+    }
+    frontOnly = parsed;
+    return true;
+}
+
+// `actor_detection`: {wakes: neighbours | none} (re_mm8/INDOOR_EXPLORATION_AND_ACTIVATION.md, "OpenYAMM detection by
+// sight, hearing and neighbours").
+bool parseActorDetectionNode(const YAML::Node &node, bool &neighbourWakes, std::string &errorMessage)
+{
+    if (!node.IsMap())
+    {
+        errorMessage = "actor_detection must be a map of wakes (neighbours or none)";
+        return false;
+    }
+    bool parsed = true;
+    for (const auto &pair : node)
+    {
+        const std::string key = pair.first.as<std::string>();
+        if (key != "wakes")
+        {
+            errorMessage = "actor_detection has an unknown key " + key;
+            return false;
+        }
+        const std::string value = pair.second.as<std::string>();
+        if (value != "neighbours" && value != "none")
+        {
+            errorMessage = "actor_detection wakes must be neighbours or none";
+            return false;
+        }
+        parsed = value == "neighbours";
+    }
+    neighbourWakes = parsed;
+    return true;
+}
+
+// `actor_movement`: {drops: guard | follow} (devdocs/INDOOR_OPEN_SKY.md "Monster drops").
+bool parseActorMovementNode(const YAML::Node &node, bool &dropsFollow, std::string &errorMessage)
+{
+    if (!node.IsMap())
+    {
+        errorMessage = "actor_movement must be a map of drops (guard or follow)";
+        return false;
+    }
+    bool parsed = false;
+    for (const auto &pair : node)
+    {
+        const std::string key = pair.first.as<std::string>();
+        if (key != "drops")
+        {
+            errorMessage = "actor_movement has an unknown key " + key;
+            return false;
+        }
+        const std::string value = pair.second.as<std::string>();
+        if (value != "guard" && value != "follow")
+        {
+            errorMessage = "actor_movement drops must be guard or follow";
+            return false;
+        }
+        parsed = value == "follow";
+    }
+    dropsFollow = parsed;
+    return true;
+}
+
+// `actor_barriers`: {faces: [face ids]}, monster-only walls (devdocs/INDOOR_OPEN_SKY.md "Monster barriers").
+bool parseActorBarriersNode(const YAML::Node &node, std::vector<uint16_t> &faceIds, std::string &errorMessage)
+{
+    if (!node.IsMap())
+    {
+        errorMessage = "actor_barriers must be a map of faces (a sequence of face ids)";
+        return false;
+    }
+    std::vector<uint16_t> parsed;
+    for (const auto &pair : node)
+    {
+        const std::string key = pair.first.as<std::string>();
+        if (key != "faces")
+        {
+            errorMessage = "actor_barriers has an unknown key " + key;
+            return false;
+        }
+        if (!pair.second.IsSequence())
+        {
+            errorMessage = "actor_barriers faces must be a sequence of face ids";
+            return false;
+        }
+        for (const YAML::Node &faceNode : pair.second)
+        {
+            parsed.push_back(faceNode.as<uint16_t>());
+        }
+    }
+    faceIds = std::move(parsed);
+    return true;
+}
+
+// `water_volumes`: a sequence of {id, liquid (water | lava), pieces: [{polygon: [[x, y], ...], bottom, top}], tint,
+// fog, current, mover_door_id} (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md, "Data: water volumes").
+bool parseWaterVolumesNode(const YAML::Node &node, std::vector<IndoorWaterVolume> &volumes, std::string &errorMessage)
+{
+    if (!node.IsSequence())
+    {
+        errorMessage = "water_volumes must be a sequence";
+        return false;
+    }
+
+    std::vector<IndoorWaterVolume> parsed;
+
+    try
+    {
+        for (const YAML::Node &volumeNode : node)
+        {
+            if (!volumeNode.IsMap())
+            {
+                errorMessage = "a water_volumes entry must be a map";
+                return false;
+            }
+
+            IndoorWaterVolume volume = {};
+
+            for (const auto &entry : volumeNode)
+            {
+                const std::string key = entry.first.as<std::string>();
+
+                if (key != "id" && key != "liquid" && key != "pieces" && key != "tint" && key != "fog"
+                    && key != "current" && key != "mover_door_id")
+                {
+                    errorMessage = "a water_volumes entry has an unknown key " + key;
+                    return false;
+                }
+            }
+
+            if (!readScalarNode(volumeNode, "id", volume.id, errorMessage))
+            {
+                errorMessage = "water volume: " + errorMessage;
+                return false;
+            }
+
+            const std::string prefix = "water volume " + volume.id;
+            std::string liquid = "water";
+
+            if (!readScalarNode(volumeNode, "liquid", liquid, errorMessage, false))
+            {
+                errorMessage = prefix + ": " + errorMessage;
+                return false;
+            }
+
+            if (liquid != "water" && liquid != "lava")
+            {
+                errorMessage = prefix + " liquid must be water or lava";
+                return false;
+            }
+
+            volume.liquid = liquid == "lava" ? IndoorLiquid::Lava : IndoorLiquid::Water;
+            volume.tint = indoorLiquidDefaultTint(volume.liquid);
+
+            if (const YAML::Node tintNode = volumeNode["tint"])
+            {
+                if (!parseFloatTriple(tintNode, volume.tint, errorMessage))
+                {
+                    errorMessage = prefix + " tint: " + errorMessage;
+                    return false;
+                }
+
+                for (float channel : volume.tint)
+                {
+                    if (!(channel >= 0.0f && channel <= 1.0f))
+                    {
+                        errorMessage = prefix + " tint must be within 0..1";
+                        return false;
+                    }
+                }
+            }
+
+            if (const YAML::Node currentNode = volumeNode["current"];
+                currentNode && !parseFloatTriple(currentNode, volume.current, errorMessage))
+            {
+                errorMessage = prefix + " current: " + errorMessage;
+                return false;
+            }
+
+            if (const YAML::Node fogNode = volumeNode["fog"])
+            {
+                if (!parseFogStateNode(fogNode, prefix + " fog", volume.fog.color, volume.fog.nearDistance,
+                        volume.fog.farDistance, volume.fog.sky, errorMessage))
+                {
+                    return false;
+                }
+
+                volume.fog.enabled = true;
+            }
+
+            if (volumeNode["mover_door_id"])
+            {
+                uint32_t doorId = 0;
+
+                if (!readScalarNode(volumeNode, "mover_door_id", doorId, errorMessage))
+                {
+                    errorMessage = prefix + ": " + errorMessage;
+                    return false;
+                }
+
+                volume.moverDoorId = doorId;
+            }
+
+            const YAML::Node piecesNode = volumeNode["pieces"];
+
+            if (!piecesNode || !piecesNode.IsSequence() || piecesNode.size() == 0)
+            {
+                errorMessage = prefix + " needs a sequence of pieces";
+                return false;
+            }
+
+            for (const YAML::Node &pieceNode : piecesNode)
+            {
+                IndoorWaterPiece piece = {};
+                const YAML::Node polygonNode = pieceNode.IsMap() ? pieceNode["polygon"] : YAML::Node();
+
+                if (!polygonNode || !polygonNode.IsSequence() || polygonNode.size() < 3
+                    || !readScalarNode(pieceNode, "bottom", piece.bottom, errorMessage)
+                    || !readScalarNode(pieceNode, "top", piece.top, errorMessage))
+                {
+                    errorMessage = prefix + ": a piece needs a polygon of at least three [x, y] points, bottom and top";
+                    return false;
+                }
+
+                for (const YAML::Node &pointNode : polygonNode)
+                {
+                    if (!pointNode.IsSequence() || pointNode.size() != 2)
+                    {
+                        errorMessage = prefix + ": a polygon point must be [x, y]";
+                        return false;
+                    }
+
+                    piece.polygon.push_back({pointNode[0].as<float>(), pointNode[1].as<float>()});
+                }
+
+                if (!(piece.top > piece.bottom))
+                {
+                    errorMessage = prefix + ": a piece's top must be above its bottom";
+                    return false;
+                }
+
+                finalizeIndoorWaterPiece(piece);
+                volume.pieces.push_back(std::move(piece));
+            }
+
+            parsed.push_back(std::move(volume));
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse water_volumes: ") + exception.what();
+        return false;
+    }
+
+    volumes = std::move(parsed);
+    return true;
+}
+
+// `destructibles`: a sequence of {id, name, cog, decoration_cog, hp, damage_enabled, trigger_destroy_only, sound,
+// effect, effect_scale, center, destroyed_event, damaged_event} (devdocs/INDOOR_DESTRUCTIBLES.md), sorted by id.
+bool parseDestructiblesNode(
+    const YAML::Node &node,
+    std::vector<IndoorDestructible> &destructibles,
+    std::string &errorMessage)
+{
+    if (!node.IsSequence())
+    {
+        errorMessage = "destructibles must be a sequence";
+        return false;
+    }
+
+    std::vector<IndoorDestructible> parsed;
+
+    for (const YAML::Node &entryNode : node)
+    {
+        if (!entryNode.IsMap())
+        {
+            errorMessage = "a destructibles entry must be a map";
+            return false;
+        }
+
+        for (const auto &entry : entryNode)
+        {
+            const std::string key = entry.first.as<std::string>();
+
+            if (key != "id" && key != "name" && key != "cog" && key != "decoration_cog" && key != "hp"
+                && key != "damage_enabled" && key != "trigger_destroy_only" && key != "sound" && key != "effect"
+                && key != "effect_scale" && key != "center" && key != "destroyed_event" && key != "damaged_event")
+            {
+                errorMessage = "a destructibles entry has an unknown key " + key;
+                return false;
+            }
+        }
+
+        IndoorDestructible destructible = {};
+
+        if (!readScalarNode(entryNode, "id", destructible.id, errorMessage)
+            || !readScalarNode(entryNode, "name", destructible.name, errorMessage, false)
+            || !readScalarNode(entryNode, "cog", destructible.cog, errorMessage, false)
+            || !readScalarNode(entryNode, "decoration_cog", destructible.decorationCog, errorMessage, false)
+            || !readScalarNode(entryNode, "hp", destructible.hp, errorMessage, false)
+            || !readScalarNode(entryNode, "damage_enabled", destructible.damageEnabled, errorMessage, false)
+            || !readScalarNode(entryNode, "trigger_destroy_only", destructible.triggerDestroyOnly, errorMessage, false)
+            || !readScalarNode(entryNode, "sound", destructible.sound, errorMessage, false)
+            || !readScalarNode(entryNode, "effect", destructible.effect, errorMessage, false)
+            || !readScalarNode(entryNode, "effect_scale", destructible.effectScale, errorMessage, false)
+            || !readScalarNode(entryNode, "destroyed_event", destructible.destroyedEvent, errorMessage, false)
+            || !readScalarNode(entryNode, "damaged_event", destructible.damagedEvent, errorMessage, false))
+        {
+            errorMessage = "destructible: " + errorMessage;
+            return false;
+        }
+
+        if (const YAML::Node centerNode = entryNode["center"];
+            centerNode && !parseFloatTriple(centerNode, destructible.center, errorMessage))
+        {
+            errorMessage = "destructible " + std::to_string(destructible.id) + " center: " + errorMessage;
+            return false;
+        }
+
+        if (destructible.cog == 0 && destructible.decorationCog == 0)
+        {
+            errorMessage = "destructible " + std::to_string(destructible.id) + " needs a cog or a decoration_cog";
+            return false;
+        }
+
+        if (destructible.hp <= 0)
+        {
+            errorMessage = "destructible " + std::to_string(destructible.id) + " needs a positive hp";
+            return false;
+        }
+
+        parsed.push_back(std::move(destructible));
+    }
+
+    std::sort(parsed.begin(), parsed.end(),
+        [](const IndoorDestructible &left, const IndoorDestructible &right) { return left.id < right.id; });
+
+    for (size_t index = 1; index < parsed.size(); ++index)
+    {
+        if (parsed[index].id == parsed[index - 1].id)
+        {
+            errorMessage = "destructible id " + std::to_string(parsed[index].id) + " appears twice";
+            return false;
+        }
+    }
+
+    destructibles = std::move(parsed);
+    return true;
+}
+
+// `ambient_sounds`: a sequence of {key, sound, position, inner_radius, outer_radius, volume, loop, wait [min, max],
+// day_only, night_only, start_on} (devdocs/AMBIENT_SOUNDS.md).
+bool parseAmbientSoundsNode(
+    const YAML::Node &node,
+    std::vector<WorldAmbientSound> &sounds,
+    std::string &errorMessage)
+{
+    if (!node.IsSequence())
+    {
+        errorMessage = "ambient_sounds must be a sequence";
+        return false;
+    }
+
+    std::vector<WorldAmbientSound> parsed;
+
+    try
+    {
+        for (const YAML::Node &entryNode : node)
+        {
+            if (!entryNode.IsMap())
+            {
+                errorMessage = "an ambient_sounds entry must be a map";
+                return false;
+            }
+
+            for (const auto &entry : entryNode)
+            {
+                const std::string key = entry.first.as<std::string>();
+
+                if (key != "key" && key != "sound" && key != "position" && key != "inner_radius"
+                    && key != "outer_radius" && key != "volume" && key != "loop" && key != "wait"
+                    && key != "day_only" && key != "night_only" && key != "start_on")
+                {
+                    errorMessage = "an ambient_sounds entry has an unknown key " + key;
+                    return false;
+                }
+            }
+
+            WorldAmbientSound sound = {};
+
+            if (!readScalarNode(entryNode, "key", sound.key, errorMessage)
+                || !readScalarNode(entryNode, "sound", sound.sound, errorMessage)
+                || !readScalarNode(entryNode, "inner_radius", sound.innerRadius, errorMessage, false)
+                || !readScalarNode(entryNode, "outer_radius", sound.outerRadius, errorMessage)
+                || !readScalarNode(entryNode, "volume", sound.volume, errorMessage, false)
+                || !readScalarNode(entryNode, "loop", sound.loop, errorMessage, false)
+                || !readScalarNode(entryNode, "day_only", sound.dayOnly, errorMessage, false)
+                || !readScalarNode(entryNode, "night_only", sound.nightOnly, errorMessage, false)
+                || !readScalarNode(entryNode, "start_on", sound.startOn, errorMessage, false)
+                || !parseFloatTriple(entryNode["position"], sound.position, errorMessage))
+            {
+                errorMessage = "ambient sound: " + errorMessage;
+                return false;
+            }
+
+            if (const YAML::Node waitNode = entryNode["wait"])
+            {
+                if (!waitNode.IsSequence() || waitNode.size() != 2)
+                {
+                    errorMessage = "ambient sound " + std::to_string(sound.key) + ": wait needs [min, max]";
+                    return false;
+                }
+
+                sound.waitMinSeconds = waitNode[0].as<float>();
+                sound.waitMaxSeconds = waitNode[1].as<float>();
+            }
+
+            if (sound.sound.empty() || sound.outerRadius <= sound.innerRadius || sound.innerRadius < 0.0f
+                || sound.volume < 0.0f || sound.waitMinSeconds < 0.0f || sound.waitMaxSeconds < sound.waitMinSeconds)
+            {
+                errorMessage = "ambient sound " + std::to_string(sound.key)
+                    + " needs a sound, 0 <= inner_radius < outer_radius, a volume and 0 <= wait min <= max";
+                return false;
+            }
+
+            parsed.push_back(std::move(sound));
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse ambient_sounds: ") + exception.what();
+        return false;
+    }
+
+    sounds = std::move(parsed);
+    return true;
+}
+
+// `pulsing_lights`: a sequence of {key, position, color [r, g, b], intensity [min, max, frequency, phase], radius [min,
+// max, frequency, phase], start_on}.
+bool parsePulsingLightsNode(
+    const YAML::Node &node,
+    std::vector<IndoorPulsingLight> &lights,
+    std::string &errorMessage)
+{
+    if (!node.IsSequence())
+    {
+        errorMessage = "pulsing_lights must be a sequence";
+        return false;
+    }
+
+    std::vector<IndoorPulsingLight> parsed;
+
+    try
+    {
+        for (const YAML::Node &entryNode : node)
+        {
+            if (!entryNode.IsMap())
+            {
+                errorMessage = "a pulsing_lights entry must be a map";
+                return false;
+            }
+
+            for (const auto &entry : entryNode)
+            {
+                const std::string key = entry.first.as<std::string>();
+
+                if (key != "key" && key != "position" && key != "color" && key != "intensity" && key != "radius"
+                    && key != "start_on")
+                {
+                    errorMessage = "a pulsing_lights entry has an unknown key " + key;
+                    return false;
+                }
+            }
+
+            IndoorPulsingLight light = {};
+
+            if (!readScalarNode(entryNode, "key", light.lightKey, errorMessage)
+                || !readScalarNode(entryNode, "start_on", light.startOn, errorMessage, false)
+                || !parseFloatTriple(entryNode["position"], light.position, errorMessage))
+            {
+                errorMessage = "pulsing light: " + errorMessage;
+                return false;
+            }
+
+            const auto readFloats = [&](const char *pKey, size_t count, float *pValues) -> bool
+            {
+                const YAML::Node valuesNode = entryNode[pKey];
+
+                if (!valuesNode || !valuesNode.IsSequence() || valuesNode.size() != count)
+                {
+                    errorMessage = "pulsing light " + std::to_string(light.lightKey) + ": " + pKey + " needs "
+                        + std::to_string(count) + " numbers";
+                    return false;
+                }
+
+                for (size_t index = 0; index < count; ++index)
+                {
+                    pValues[index] = valuesNode[index].as<float>();
+                }
+
+                return true;
+            };
+            std::array<float, 3> color = {};
+
+            if (!readFloats("color", 3, color.data())
+                || !readFloats("intensity", 4, light.intensity.data())
+                || !readFloats("radius", 4, light.radius.data()))
+            {
+                return false;
+            }
+
+            for (size_t channel = 0; channel < 3; ++channel)
+            {
+                light.color[channel] = static_cast<uint8_t>(std::clamp(std::lround(color[channel]), 0L, 255L));
+            }
+
+            if (light.radius[1] <= 0.0f)
+            {
+                errorMessage = "pulsing light " + std::to_string(light.lightKey) + " needs a positive maximum radius";
+                return false;
+            }
+
+            parsed.push_back(light);
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse pulsing_lights: ") + exception.what();
+        return false;
+    }
+
+    lights = std::move(parsed);
+    return true;
+}
+
+// `footstep_sounds`: a sequence of {texture_names (a sequence of names), walk_sound_id, run_sound_id} (game SoundIds,
+// as an outdoor scene's terrain footstep_sound_overrides) (devdocs/INDOOR_OPEN_SKY.md "Footsteps").
+bool parseFootstepSoundsNode(
+    const YAML::Node &node,
+    std::vector<IndoorFootstepSound> &footstepSounds,
+    std::string &errorMessage)
+{
+    if (!node.IsSequence())
+    {
+        errorMessage = "footstep_sounds must be a sequence";
+        return false;
+    }
+
+    std::vector<IndoorFootstepSound> parsed;
+    try
+    {
+        for (const YAML::Node &entryNode : node)
+        {
+            if (!entryNode.IsMap())
+            {
+                errorMessage = "a footstep_sounds entry must be a map";
+                return false;
+            }
+            for (const auto &pair : entryNode)
+            {
+                const std::string key = pair.first.as<std::string>();
+                if (key != "texture_names" && key != "walk_sound_id" && key != "run_sound_id")
+                {
+                    errorMessage = "a footstep_sounds entry has an unknown key " + key;
+                    return false;
+                }
+            }
+            const YAML::Node texturesNode = entryNode["texture_names"];
+            if (!texturesNode || !texturesNode.IsSequence() || texturesNode.size() == 0
+                || !entryNode["walk_sound_id"] || !entryNode["run_sound_id"])
+            {
+                errorMessage = "a footstep_sounds entry needs texture_names, walk_sound_id and run_sound_id";
+                return false;
+            }
+            IndoorFootstepSound entry;
+            for (const YAML::Node &textureNode : texturesNode)
+            {
+                std::string texture = textureNode.as<std::string>();
+                std::transform(texture.begin(), texture.end(), texture.begin(),
+                    [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+                entry.textureNames.push_back(texture);
+            }
+            entry.walkSoundId = entryNode["walk_sound_id"].as<uint32_t>();
+            entry.runSoundId = entryNode["run_sound_id"].as<uint32_t>();
+            parsed.push_back(std::move(entry));
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse footstep_sounds: ") + exception.what();
+        return false;
+    }
+
+    footstepSounds = std::move(parsed);
+    return true;
+}
+
+// `terrain`: {materials: a local file name in worlds/<world>/terrain_materials/, textures: the ground faces' texture
+// names}.
+bool parseTerrainNode(const YAML::Node &node, std::optional<IndoorTerrain> &terrain, std::string &errorMessage)
+{
+    if (!node.IsMap())
+    {
+        errorMessage = "terrain must be a map";
+        return false;
+    }
+    IndoorTerrain parsed;
+    try
+    {
+        for (const auto &pair : node)
+        {
+            const std::string key = pair.first.as<std::string>();
+            if (key != "materials" && key != "textures" && key != "grass")
+            {
+                errorMessage = "terrain has an unknown key " + key;
+                return false;
+            }
+        }
+        const YAML::Node texturesNode = node["textures"];
+        if (!node["materials"] || !texturesNode || !texturesNode.IsSequence() || texturesNode.size() == 0)
+        {
+            errorMessage = "terrain needs materials and a sequence of textures";
+            return false;
+        }
+        parsed.materials = node["materials"].as<std::string>();
+        if (parsed.materials.empty() || parsed.materials.find_first_of("/\\") != std::string::npos)
+        {
+            errorMessage = "terrain materials must be a local file name";
+            return false;
+        }
+        if (node["grass"])
+        {
+            parsed.grass = node["grass"].as<std::string>();
+            if (!parsed.grass.ends_with(".yml") || parsed.grass.find("..") != std::string::npos)
+            {
+                errorMessage = "terrain grass must be the virtual path of a terrain decoration .yml file";
+                return false;
+            }
+        }
+        for (const YAML::Node &textureNode : texturesNode)
+        {
+            parsed.textureNames.push_back(toLowerCopy(textureNode.as<std::string>()));
+        }
+        std::sort(parsed.textureNames.begin(), parsed.textureNames.end());
+        parsed.textureNames.erase(std::unique(parsed.textureNames.begin(), parsed.textureNames.end()),
+            parsed.textureNames.end());
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse terrain: ") + exception.what();
+        return false;
+    }
+    terrain = std::move(parsed);
     return true;
 }
 
@@ -871,6 +1754,284 @@ bool parseIndoorSceneFog(const std::string &yamlText, IndoorFog &fog, std::strin
     catch (const std::exception &exception)
     {
         errorMessage = std::string("could not parse fog: ") + exception.what();
+        return false;
+    }
+}
+
+namespace
+{
+bool readModelLightingRgb(
+    const YAML::Node &node,
+    const char *pKey,
+    std::array<float, 3> &rgb,
+    std::string &errorMessage)
+{
+    const YAML::Node rgbNode = node[pKey];
+    if (!rgbNode)
+    {
+        return true;
+    }
+    if (!rgbNode.IsSequence() || rgbNode.size() != 3)
+    {
+        errorMessage = std::string("model_lighting ") + pKey + " must be three numbers";
+        return false;
+    }
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        const float value = rgbNode[channel].as<float>();
+        if (!(value >= 0.0f && value <= 255.0f))
+        {
+            errorMessage = std::string("model_lighting ") + pKey + " must be within 0..255";
+            return false;
+        }
+        rgb[channel] = value / 255.0f;
+    }
+    return true;
+}
+
+// `model_lighting`: {mode: mm9, ambient: [r, g, b], add: [r, g, b], light_scale} (devdocs/INDOOR_MODEL_LIGHTING.md).
+bool parseOpenSkyNode(const YAML::Node &node, IndoorOpenSky &sky, std::string &errorMessage)
+{
+    if (!node.IsMap() || !node["mode"])
+    {
+        errorMessage = "sky must be a map of mode (open) and optional sky_texture, preset, view, view_distance_scale "
+            "and weather";
+        return false;
+    }
+
+    IndoorOpenSky parsed = {};
+
+    try
+    {
+        if (node["mode"].as<std::string>() != "open")
+        {
+            errorMessage = "sky mode must be open";
+            return false;
+        }
+        for (const auto &entry : node)
+        {
+            const std::string key = entry.first.as<std::string>();
+            if (key != "mode" && key != "sky_texture" && key != "preset" && key != "view"
+                && key != "view_distance_scale" && key != "weather")
+            {
+                errorMessage = "sky has an unknown key " + key;
+                return false;
+            }
+        }
+        if (node["sky_texture"])
+        {
+            parsed.skyTexture = node["sky_texture"].as<std::string>();
+        }
+        if (node["preset"])
+        {
+            parsed.preset = node["preset"].as<std::string>();
+        }
+        if (node["view"])
+        {
+            const std::string view = node["view"].as<std::string>();
+            if (view != "outdoor" && view != "scene")
+            {
+                errorMessage = "sky view must be outdoor or scene";
+                return false;
+            }
+            parsed.outdoorView = view == "outdoor";
+        }
+        if (node["weather"])
+        {
+            const std::string weather = node["weather"].as<std::string>();
+            if (weather != "rain" && weather != "snow" && weather != "rain_and_snow")
+            {
+                errorMessage = "sky weather must be rain, snow or rain_and_snow";
+                return false;
+            }
+            parsed.weatherRain = weather != "snow";
+            parsed.weatherSnow = weather != "rain";
+        }
+        if (node["view_distance_scale"])
+        {
+            parsed.viewDistanceScale = node["view_distance_scale"].as<float>();
+            if (!(parsed.viewDistanceScale > 0.0f) || parsed.viewDistanceScale > 16.0f)
+            {
+                errorMessage = "sky view_distance_scale must be in (0, 16]";
+                return false;
+            }
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse sky: ") + exception.what();
+        return false;
+    }
+
+    parsed.enabled = true;
+    sky = parsed;
+    return true;
+}
+
+bool parseModelLightingNode(const YAML::Node &node, IndoorModelLighting &lighting, std::string &errorMessage)
+{
+    if (!node.IsMap() || !node["mode"] || !node["ambient"])
+    {
+        errorMessage = "model_lighting must be a map of mode (mm9), ambient (three numbers) and optional add and "
+            "light_scale";
+        return false;
+    }
+
+    IndoorModelLighting parsed = {};
+
+    try
+    {
+        if (node["mode"].as<std::string>() != "mm9")
+        {
+            errorMessage = "model_lighting mode must be mm9";
+            return false;
+        }
+        if (!readModelLightingRgb(node, "ambient", parsed.ambient, errorMessage)
+            || !readModelLightingRgb(node, "add", parsed.add, errorMessage))
+        {
+            return false;
+        }
+        if (node["light_scale"])
+        {
+            parsed.lightScale = node["light_scale"].as<float>();
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse model_lighting: ") + exception.what();
+        return false;
+    }
+
+    if (!(parsed.lightScale >= 0.0f))
+    {
+        errorMessage = "model_lighting light_scale must be at least 0";
+        return false;
+    }
+
+    parsed.enabled = true;
+    lighting = parsed;
+    return true;
+}
+}
+
+bool parseIndoorSceneFootstepSounds(
+    const std::string &yamlText,
+    std::vector<IndoorFootstepSound> &footstepSounds,
+    std::string &errorMessage)
+{
+    try
+    {
+        return parseFootstepSoundsNode(YAML::Load(yamlText), footstepSounds, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse footstep_sounds: ") + exception.what();
+        return false;
+    }
+}
+
+bool parseIndoorSceneWaterVolumes(
+    const std::string &yamlText,
+    std::vector<IndoorWaterVolume> &volumes,
+    std::string &errorMessage)
+{
+    try
+    {
+        return parseWaterVolumesNode(YAML::Load(yamlText), volumes, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse water_volumes: ") + exception.what();
+        return false;
+    }
+}
+
+bool parseIndoorSceneAmbientSounds(
+    const std::string &yamlText,
+    std::vector<WorldAmbientSound> &sounds,
+    std::string &errorMessage)
+{
+    try
+    {
+        return parseAmbientSoundsNode(YAML::Load(yamlText), sounds, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse ambient_sounds: ") + exception.what();
+        return false;
+    }
+}
+
+bool parseIndoorScenePulsingLights(
+    const std::string &yamlText,
+    std::vector<IndoorPulsingLight> &lights,
+    std::string &errorMessage)
+{
+    try
+    {
+        return parsePulsingLightsNode(YAML::Load(yamlText), lights, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse pulsing_lights: ") + exception.what();
+        return false;
+    }
+}
+
+bool parseIndoorSceneDestructibles(
+    const std::string &yamlText,
+    std::vector<IndoorDestructible> &destructibles,
+    std::string &errorMessage)
+{
+    try
+    {
+        return parseDestructiblesNode(YAML::Load(yamlText), destructibles, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse destructibles: ") + exception.what();
+        return false;
+    }
+}
+
+bool parseIndoorSceneDaylight(const std::string &yamlText, IndoorDaylight &daylight, std::string &errorMessage)
+{
+    try
+    {
+        return parseDaylightNode(YAML::Load(yamlText), daylight, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse daylight: ") + exception.what();
+        return false;
+    }
+}
+
+bool parseIndoorSceneOpenSky(const std::string &yamlText, IndoorOpenSky &sky, std::string &errorMessage)
+{
+    try
+    {
+        return parseOpenSkyNode(YAML::Load(yamlText), sky, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse sky: ") + exception.what();
+        return false;
+    }
+}
+
+bool parseIndoorSceneModelLighting(
+    const std::string &yamlText,
+    IndoorModelLighting &lighting,
+    std::string &errorMessage)
+{
+    try
+    {
+        return parseModelLightingNode(YAML::Load(yamlText), lighting, errorMessage);
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("could not parse model_lighting: ") + exception.what();
         return false;
     }
 }
@@ -1317,6 +2478,91 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
         return std::nullopt;
     }
 
+    if (const YAML::Node modelLightingNode = rootNode["model_lighting"];
+        modelLightingNode && !parseModelLightingNode(modelLightingNode, sceneData.modelLighting, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node skyNode = rootNode["sky"];
+        skyNode && !parseOpenSkyNode(skyNode, sceneData.openSky, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node daylightNode = rootNode["daylight"];
+        daylightNode && !parseDaylightNode(daylightNode, sceneData.daylight, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node footstepNode = rootNode["footstep_sounds"];
+        footstepNode && !parseFootstepSoundsNode(footstepNode, sceneData.footstepSounds, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node terrainNode = rootNode["terrain"];
+        terrainNode && !parseTerrainNode(terrainNode, sceneData.terrain, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node movementNode = rootNode["party_movement"];
+        movementNode && !parsePartyMovementNode(movementNode, sceneData.partySteepSlopesBlock, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node barrierNode = rootNode["actor_barriers"];
+        barrierNode && !parseActorBarriersNode(barrierNode, sceneData.actorBarrierFaceIds, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node actorMovementNode = rootNode["actor_movement"];
+        actorMovementNode && !parseActorMovementNode(actorMovementNode, sceneData.actorDropsFollow, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node actorDetectionNode = rootNode["actor_detection"];
+        actorDetectionNode
+        && !parseActorDetectionNode(actorDetectionNode, sceneData.actorNeighbourWakes, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node staticLightsNode = rootNode["static_lights"];
+        staticLightsNode && !parseStaticLightsNode(staticLightsNode, sceneData.staticLightsFrontOnly, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node waterNode = rootNode["water_volumes"];
+        waterNode && !parseWaterVolumesNode(waterNode, sceneData.waterVolumes, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node destructiblesNode = rootNode["destructibles"];
+        destructiblesNode && !parseDestructiblesNode(destructiblesNode, sceneData.destructibles, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node pulsingNode = rootNode["pulsing_lights"];
+        pulsingNode && !parsePulsingLightsNode(pulsingNode, sceneData.pulsingLights, errorMessage))
+    {
+        return std::nullopt;
+    }
+
+    if (const YAML::Node ambientNode = rootNode["ambient_sounds"];
+        ambientNode && !parseAmbientSoundsNode(ambientNode, sceneData.ambientSounds, errorMessage))
+    {
+        return std::nullopt;
+    }
+
     if (const YAML::Node laddersNode = rootNode["ladders"];
         laddersNode && !parseIndoorLaddersNode(laddersNode, sceneData.ladders, errorMessage))
     {
@@ -1471,6 +2717,19 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
             || !parsePositionNode(actorNode["position"], actor.x, actor.y, actor.z, errorMessage))
         {
             return std::nullopt;
+        }
+
+        // An MM9 placement's AI settings (devdocs/mm9_rework/monster_ai/PROFILE.md).
+        if (const YAML::Node mm9AiNode = actorNode["mm9_ai"])
+        {
+            Mm9AiPlacementRecord mm9Ai;
+
+            if (!parseMm9AiPlacementNode(mm9AiNode, mm9Ai, errorMessage))
+            {
+                return std::nullopt;
+            }
+
+            actor.mm9Ai = std::move(mm9Ai);
         }
 
         if (!readScalarNode(actorNode, "carried_item_id", actor.carriedItemId, errorMessage, false))
@@ -1700,6 +2959,26 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
             }
 
             sceneDoor.mover = mover;
+        }
+
+        if (const YAML::Node soundsNode = doorNode["sounds"]; soundsNode)
+        {
+            MechanismAudioProfile sounds = {};
+
+            if (!parseMechanismAudioProfile(soundsNode, sounds, errorMessage))
+            {
+                errorMessage = "door " + std::to_string(sceneDoor.door.doorId) + ": " + errorMessage;
+                return std::nullopt;
+            }
+
+            sceneDoor.sounds = sounds;
+        }
+
+        if (const YAML::Node aiOpenNode = doorNode["ai_open"]; aiOpenNode
+            && !parseIntegerSequence(aiOpenNode, sceneDoor.aiOpenDoorIds, errorMessage))
+        {
+            errorMessage = "door " + std::to_string(sceneDoor.door.doorId) + ": ai_open: " + errorMessage;
+            return std::nullopt;
         }
 
         sceneDoor.door.slotIndex = sceneDoor.doorIndex;
@@ -1952,6 +3231,100 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
+    // An overlay's model lighting replaces the base scene's.
+    if (const YAML::Node modelLightingNode = rootNode["model_lighting"];
+        modelLightingNode && !parseModelLightingNode(modelLightingNode, sceneData.modelLighting, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's sky replaces the base scene's.
+    if (const YAML::Node skyNode = rootNode["sky"];
+        skyNode && !parseOpenSkyNode(skyNode, sceneData.openSky, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's daylight replaces the base scene's.
+    if (const YAML::Node daylightNode = rootNode["daylight"];
+        daylightNode && !parseDaylightNode(daylightNode, sceneData.daylight, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's footstep sounds replace the base scene's.
+    if (const YAML::Node footstepNode = rootNode["footstep_sounds"];
+        footstepNode && !parseFootstepSoundsNode(footstepNode, sceneData.footstepSounds, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's terrain replaces the base scene's.
+    if (const YAML::Node terrainNode = rootNode["terrain"];
+        terrainNode && !parseTerrainNode(terrainNode, sceneData.terrain, errorMessage))
+    {
+        return false;
+    }
+
+    if (const YAML::Node movementNode = rootNode["party_movement"];
+        movementNode && !parsePartyMovementNode(movementNode, sceneData.partySteepSlopesBlock, errorMessage))
+    {
+        return false;
+    }
+
+    if (const YAML::Node barrierNode = rootNode["actor_barriers"];
+        barrierNode && !parseActorBarriersNode(barrierNode, sceneData.actorBarrierFaceIds, errorMessage))
+    {
+        return false;
+    }
+
+    if (const YAML::Node actorMovementNode = rootNode["actor_movement"];
+        actorMovementNode && !parseActorMovementNode(actorMovementNode, sceneData.actorDropsFollow, errorMessage))
+    {
+        return false;
+    }
+
+    if (const YAML::Node actorDetectionNode = rootNode["actor_detection"];
+        actorDetectionNode
+        && !parseActorDetectionNode(actorDetectionNode, sceneData.actorNeighbourWakes, errorMessage))
+    {
+        return false;
+    }
+
+    if (const YAML::Node staticLightsNode = rootNode["static_lights"];
+        staticLightsNode && !parseStaticLightsNode(staticLightsNode, sceneData.staticLightsFrontOnly, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's water volumes replace the base scene's.
+    if (const YAML::Node waterNode = rootNode["water_volumes"];
+        waterNode && !parseWaterVolumesNode(waterNode, sceneData.waterVolumes, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's destructibles replace the base scene's.
+    if (const YAML::Node destructiblesNode = rootNode["destructibles"];
+        destructiblesNode && !parseDestructiblesNode(destructiblesNode, sceneData.destructibles, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's pulsing lights replace the base scene's.
+    if (const YAML::Node pulsingNode = rootNode["pulsing_lights"];
+        pulsingNode && !parsePulsingLightsNode(pulsingNode, sceneData.pulsingLights, errorMessage))
+    {
+        return false;
+    }
+
+    // An overlay's ambient sounds replace the base scene's.
+    if (const YAML::Node ambientNode = rootNode["ambient_sounds"];
+        ambientNode && !parseAmbientSoundsNode(ambientNode, sceneData.ambientSounds, errorMessage))
+    {
+        return false;
+    }
+
     return true;
 }
 
@@ -2162,6 +3535,98 @@ bool buildIndoorMapStateFromScene(
 
     indoorMapData.ladders = sceneData.ladders;
     indoorMapData.fog = sceneData.fog;
+    indoorMapData.modelLighting = sceneData.modelLighting;
+    indoorMapData.openSky = sceneData.openSky;
+    indoorMapData.daylight = sceneData.daylight;
+    indoorMapData.footstepSounds = sceneData.footstepSounds;
+    indoorMapData.terrain = sceneData.terrain;
+    indoorMapData.doorSounds.clear();
+
+    for (const IndoorSceneDoor &door : sceneData.initialState.doors)
+    {
+        if (door.sounds)
+        {
+            indoorMapData.doorSounds.push_back({door.door.doorId, *door.sounds});
+        }
+    }
+
+    std::sort(indoorMapData.doorSounds.begin(), indoorMapData.doorSounds.end(),
+        [](const IndoorDoorSounds &left, const IndoorDoorSounds &right) { return left.doorId < right.doorId; });
+    indoorMapData.aiDoorFaces.clear();
+    indoorMapData.aiDoors.clear();
+
+    for (const IndoorSceneDoor &door : sceneData.initialState.doors)
+    {
+        if (door.aiOpenDoorIds.empty())
+        {
+            continue;
+        }
+
+        IndoorAiDoor aiDoor = {};
+        aiDoor.doorId = door.door.doorId;
+        aiDoor.opensDoorIds = door.aiOpenDoorIds;
+        aiDoor.openSeconds = door.door.openSpeed > 0 ? float(door.door.moveLength) / float(door.door.openSpeed) : 0.0f;
+        indoorMapData.aiDoors.push_back(std::move(aiDoor));
+
+        for (uint16_t faceId : door.door.faceIds)
+        {
+            indoorMapData.aiDoorFaces.emplace_back(faceId, door.door.doorId);
+        }
+    }
+
+    std::sort(indoorMapData.aiDoors.begin(), indoorMapData.aiDoors.end(),
+        [](const IndoorAiDoor &left, const IndoorAiDoor &right) { return left.doorId < right.doorId; });
+    std::sort(indoorMapData.aiDoorFaces.begin(), indoorMapData.aiDoorFaces.end());
+    indoorMapData.partySteepSlopesBlock = sceneData.partySteepSlopesBlock;
+    indoorMapData.actorBarrierFaceIds = sceneData.actorBarrierFaceIds;
+    indoorMapData.actorDropsFollow = sceneData.actorDropsFollow;
+    indoorMapData.actorNeighbourWakes = sceneData.actorNeighbourWakes;
+    indoorMapData.staticLightsFrontOnly = sceneData.staticLightsFrontOnly;
+    indoorMapData.waterVolumes = sceneData.waterVolumes;
+    indoorMapData.destructibles = sceneData.destructibles;
+    indoorMapData.destructibleFaceMask.clear();
+
+    if (!indoorMapData.destructibles.empty())
+    {
+        indoorMapData.destructibleFaceMask.assign(indoorMapData.faces.size(), 0);
+
+        for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+        {
+            const uint16_t cog = indoorMapData.faces[faceIndex].cogNumber;
+            indoorMapData.destructibleFaceMask[faceIndex] = cog != 0
+                && std::any_of(indoorMapData.destructibles.begin(), indoorMapData.destructibles.end(),
+                    [cog](const IndoorDestructible &destructible) { return destructible.cog == cog; });
+        }
+    }
+    indoorMapData.pulsingLights = sceneData.pulsingLights;
+    indoorMapData.ambientSounds = sceneData.ambientSounds;
+
+    for (IndoorWaterVolume &volume : indoorMapData.waterVolumes)
+    {
+        if (!volume.moverDoorId)
+        {
+            continue;
+        }
+
+        // The door's first vertex: the volume's top follows its height.
+        const auto doorIt = std::find_if(sceneData.initialState.doors.begin(), sceneData.initialState.doors.end(),
+            [&volume](const IndoorSceneDoor &door) { return door.door.doorId == *volume.moverDoorId; });
+
+        if (doorIt == sceneData.initialState.doors.end() || doorIt->door.vertexIds.empty()
+            || doorIt->door.vertexIds.front() >= indoorMapData.vertices.size())
+        {
+            errorMessage = "water volume " + volume.id + " names mover door " + std::to_string(*volume.moverDoorId)
+                + ", which the scene has no vertices for";
+            return false;
+        }
+
+        volume.moverVertexId = doorIt->door.vertexIds.front();
+    }
+
+    if (indoorMapData.daylight.enabled)
+    {
+        indoorMapData.daylight.sectors = indoorOpenSkySectors(indoorMapData);
+    }
 
     mapDeltaData.decorationFlags.assign(indoorMapData.entities.size(), 0);
 

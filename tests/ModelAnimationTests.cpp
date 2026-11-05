@@ -5,6 +5,7 @@
 #include "engine/models/GltfModelLoader.h"
 #include "engine/models/ModelInstance.h"
 #include "game/gameplay/ActorModelPresentation.h"
+#include "game/gameplay/GameplayActorAiTypes.h"
 
 #include <doctest/doctest.h>
 
@@ -270,6 +271,114 @@ TEST_CASE("Actor model yaw wraps smoothly and gait follows travelled distance")
     CHECK(advanceActorModelYaw(1, 2, 0, 540 * Degrees) == 1);
     CHECK(advanceActorModelGait(.9f, 30, 100) == doctest::Approx(.2f));
     CHECK(advanceActorModelGait(.4f, 0, 100) == doctest::Approx(.4f));
+}
+
+TEST_CASE("Attack legs follow the motion at the attack's start and change only after a held change")
+{
+    using namespace OpenYAMM::Game;
+    // As MM9's SetState: an attacker that moves plays its gait under the upper-body layer, one that stands the whole
+    // attack.
+    ActorModelAttackLegs legs;
+    advanceActorModelAttackLegs(legs, true, true, 1.0f / 60);
+    CHECK(legs.moving);
+    // The AI stops and runs it again from one step to the next: a stop shorter than the hold keeps the gait.
+    for (int frame = 0; frame < 10; ++frame)
+    {
+        advanceActorModelAttackLegs(legs, false, frame % 3 != 0, 1.0f / 60);
+    }
+    CHECK(legs.moving);
+    // A stop that lasts the hold puts the legs into the attack pose.
+    for (int frame = 0; frame < 16; ++frame)
+    {
+        advanceActorModelAttackLegs(legs, false, false, 1.0f / 60);
+    }
+    CHECK_FALSE(legs.moving);
+    CHECK(legs.disagreeSeconds == 0.0f);
+    // A new attack takes the body's motion at once.
+    advanceActorModelAttackLegs(legs, true, true, 1.0f / 60);
+    CHECK(legs.moving);
+    advanceActorModelAttackLegs(legs, true, false, 1.0f / 60);
+    CHECK_FALSE(legs.moving);
+}
+
+TEST_CASE("Gait changes only after the new choice has held")
+{
+    using namespace OpenYAMM::Game;
+    float held = 0.0f;
+    // A fleeing Bandit near the walk/run boundary: single frames choosing the walk keep the run.
+    CHECK(holdActorModelGait(ActorModelGait::Run, ActorModelGait::Walk, held, .1f) == ActorModelGait::Run);
+    CHECK(holdActorModelGait(ActorModelGait::Run, ActorModelGait::Run, held, .1f) == ActorModelGait::Run);
+    CHECK(held == 0.0f);
+    CHECK(holdActorModelGait(ActorModelGait::Run, ActorModelGait::Walk, held, .2f) == ActorModelGait::Run);
+    CHECK(holdActorModelGait(ActorModelGait::Run, ActorModelGait::Walk, held, .15f) == ActorModelGait::Walk);
+    CHECK(held == 0.0f);
+}
+
+TEST_CASE("Gait advances smoothly between AI steps and covers the distance travelled")
+{
+    using namespace OpenYAMM::Game;
+    // A body at 256 units a second stepping 2 units 128 times a second, drawn at 300 frames a second: most frames see
+    // no step, some a whole one.
+    float lead = 0.0f;
+    float travelled = 0.0f;
+    float advanced = 0.0f;
+    float smallest = 1.0e9f;
+    float largest = 0.0f;
+    const float frameSeconds = 1.0f / 300.0f;
+    float stepClock = 0.0f;
+
+    for (int frame = 0; frame < 300; ++frame)
+    {
+        stepClock += frameSeconds;
+        float distance = 0.0f;
+
+        while (stepClock >= 1.0f / 128.0f)
+        {
+            stepClock -= 1.0f / 128.0f;
+            distance += 2.0f;
+        }
+
+        travelled += distance;
+        const float advance = smoothActorModelGaitDistance(lead, distance, 256.0f, frameSeconds);
+        advanced += advance;
+
+        if (frame > 10)
+        {
+            smallest = std::min(smallest, advance);
+            largest = std::max(largest, advance);
+        }
+    }
+
+    // Every frame advances by about the speed's share (not 0 or a whole step), and the gait stays within the
+    // smoothing band of the distance travelled.
+    CHECK(smallest == doctest::Approx(256.0f * frameSeconds).epsilon(0.01));
+    CHECK(largest == doctest::Approx(256.0f * frameSeconds).epsilon(0.01));
+    CHECK(std::abs(travelled - advanced) <= 256.0f * ActorModelGaitSmoothingSeconds + 1e-3f);
+    // Stopping advances what is left of the last step, and nothing more.
+    const float rest = smoothActorModelGaitDistance(lead, 0.0f, 0.0f, frameSeconds);
+    CHECK(std::abs(advanced + rest - travelled) <= 256.0f * ActorModelGaitSmoothingSeconds + 1e-3f);
+    CHECK(lead == 0.0f);
+    // A body pushing against a wall (speed, no travel) does not run its gait ahead of it.
+    float blockedLead = 0.0f;
+    float blockedAdvance = 0.0f;
+
+    for (int frame = 0; frame < 60; ++frame)
+    {
+        blockedAdvance += smoothActorModelGaitDistance(blockedLead, 0.0f, 256.0f, 1.0f / 60.0f);
+    }
+
+    CHECK(blockedAdvance <= 256.0f * ActorModelGaitSmoothingSeconds + 1e-3f);
+}
+
+TEST_CASE("MM9 skirmisher footwork backpedals only while it backs off or in the first half of an evade")
+{
+    using namespace OpenYAMM::Game;
+    CHECK(skirmishBackpedals(ActorSkirmishPhase::BackOff, .2f, 2));
+    CHECK(skirmishBackpedals(ActorSkirmishPhase::Evade, 1.5f, 2));
+    CHECK_FALSE(skirmishBackpedals(ActorSkirmishPhase::Evade, .9f, 2));
+    CHECK_FALSE(skirmishBackpedals(ActorSkirmishPhase::Circle, 1, 2));
+    CHECK_FALSE(skirmishBackpedals(ActorSkirmishPhase::StrafeAttack, 1, 2));
+    CHECK_FALSE(skirmishBackpedals(ActorSkirmishPhase::BackOff, 0, 2));
 }
 
 TEST_CASE("Actor model locomotion prefers walking to wander and running or sprinting to chase, within each clip's authored speed")
@@ -769,6 +878,44 @@ TEST_CASE("ModelAnimation loader reads external glTF buffers through AssetFileSy
         CHECK_EQ(cache.size(), 1);
         cache.clear();
         CHECK_EQ(cache.size(), 0);
+    }
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("ModelAnimation clip lengths read from a model file's JSON match the loaded model's")
+{
+    using namespace OpenYAMM::Engine;
+    // A cooked binary model (only its JSON chunk is read) and a text glTF.
+    {
+        const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+        AssetFileSystem assets;
+        REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", AssetScaleTier::X1));
+        const ModelLoadResult loaded = GltfModelLoader().load(assets, "worlds/mm9/models/mm9_skeleton.glb");
+        REQUIRE_MESSAGE(loaded, loaded.error);
+        const std::optional<std::unordered_map<std::string, float>> durations =
+            readGltfClipDurations(assets, "worlds/mm9/models/mm9_skeleton.glb");
+        REQUIRE(durations);
+        REQUIRE_EQ(durations->size(), loaded.asset->clips.size());
+        for (const ModelAnimationClip &clip : loaded.asset->clips)
+        {
+            REQUIRE_MESSAGE(durations->contains(clip.name), clip.name);
+            CHECK_MESSAGE(durations->at(clip.name) == doctest::Approx(clip.durationSeconds), clip.name);
+        }
+        CHECK(durations->at("AttackMelee") == doctest::Approx(0.8f).epsilon(0.01));
+        CHECK_FALSE(readGltfClipDurations(assets, "worlds/mm9/models/missing.glb"));
+    }
+
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+    writeFile(assetRoot / "engine" / "models" / "fixture.gltf", fixtureGltf());
+    {
+        AssetFileSystem fixtureAssets;
+        REQUIRE(fixtureAssets.initialize(temporaryRoot, assetRoot, AssetScaleTier::X1));
+        const std::optional<std::unordered_map<std::string, float>> fixture =
+            readGltfClipDurations(fixtureAssets, "engine/models/fixture.gltf");
+        REQUIRE(fixture);
+        CHECK_EQ(fixture->size(), 2);
+        CHECK(fixture->contains("move"));
     }
     std::filesystem::remove_all(temporaryRoot);
 }

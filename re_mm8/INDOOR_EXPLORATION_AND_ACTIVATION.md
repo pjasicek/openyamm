@@ -20,8 +20,9 @@ exploration fixes described below are historical, superseded experiments. Door c
 actor detection and their optimizations are separate and remain in place. See the Darkmoor performance section
 for the measured regression and correction.
 
-**Current actor detection (2026-10-28):** monsters notice the party by sight, close hearing, a neighbour's alarm
-or damage, never by sector membership. See [detection by sight, hearing and neighbours](#openyamm-detection-by-sight-hearing-and-neighbours-2026-10-28).
+**Current actor detection (2026-10-28, revised 2026-11-04):** monsters notice the party by sight, a neighbour's
+alarm or damage, never by sector membership or by hearing through walls. See
+[detection by sight, hearing and neighbours](#openyamm-detection-by-sight-hearing-and-neighbours-2026-10-28).
 
 The subsequent [Goblinwatch entrance audit](#goblinwatch-entrance-parity-audit-2026-09-30) found additional
 portal traversal differences. The [implemented follow-up](#mm8-portal-traversal-corrections-2026-09-30) removes
@@ -527,14 +528,14 @@ detection in these ways only:
 | Trigger | Rule |
 | --- | --- |
 | Sight | The full wall/door combat line of sight, within 5120, along either of two rays: from the monster's eyes (90% of its height) to the party's (160 above its feet), then, only if that is blocked, from its chest (75%) to the party's body (96). Each unaware monster checks on one AI step in 16 (eight times a second, staggered by actor index). |
-| Hearing | Horizontal edge distance up to 512 and feet within 256 of the party's height, without a wall test. Covers a monster just around a corner or behind a door the party stands at. |
-| Neighbour wake | A monster that newly detects the party (sight, hearing, or its own AI gaining sight) or is hit by the party wakes up to five unaware hostile monsters within 512 (3D, feet within 256), nearest first, only with full line of sight between the two. Woken monsters do not wake others. |
+| Hearing | Removed on 2026-11-04 at the user's request: it woke monsters through walls and ceilings. It was horizontal edge distance up to 512 and feet within 256 of the party's height, without a wall test. |
+| Neighbour wake | A monster that newly detects the party (sight or its own AI gaining sight) or is hit by the party wakes every unaware hostile monster within 1024 (3D, feet within 256) with full line of sight between the two, without a count limit. Woken monsters do not wake others. Until 2026-11-04 the radius was 512 and at most five woke. A scene opts out with `actor_detection: {wakes: none}` (MM9's outdoor regions; devdocs/INDOOR_OPEN_SKY.md "Monster wakes"). |
 | Damage | Unchanged: the struck monster detects the party; its neighbours now wake as above. |
 
 The same-sector scheduling pass is unchanged: monsters in the party's feet sector still enter full AI, but they
 engage only once they see the party. Remembered detection, the 30/48 caps, faction alerts (hostility only) and
-background updates are unchanged. The height band is what keeps hearing and wakes from reaching the floor above
-or below; line of sight already stops sight-based detection there. The world runtime's per-sector neighbour
+background updates are unchanged. The height band keeps wakes on one floor; line of sight already stops
+sight-based detection between floors. The world runtime's per-sector neighbour
 lists existed only for the removed shortcut and were dropped from its geometry cache.
 
 The eye ray was added on 2026-10-29 after a Castle of Air report (MM8 `d27.blv`, party at `(-532, -517, 0)`):
@@ -543,8 +544,19 @@ the fountain rim hid the chest-to-body ray. The fallback ray keeps the old reach
 monster costs one more check per interval.
 
 `tests/IndoorActorDetectionRuntimeTests.cpp` covers same-sector and one-hop monsters behind walls, sight across
-two portals, sight over a low rim but not a higher wall, hearing through a wall at and beyond 512, the height band with stacked rooms, neighbour wakes
-without chaining, damage wakes, the Goblinwatch entrance walk and the closed/opened doorway with restore.
+two portals, sight over a low rim but not a higher wall, no detection through a close wall or a ceiling, neighbour
+wakes without chaining or a count limit, damage wakes, the Goblinwatch entrance walk and the closed/opened doorway
+with restore.
+
+**Wake radius survey (2026-11-04).** Over all 161 MM6–MM8 dungeons, the 1,983 sectors holding monsters (spawn
+points and placed actors; 968 hold two or more groups) have a median floor-area radius of 696 and a median
+half-diagonal of 1131. Groups in one sector are a median 1180 apart (90th percentile 3845); the nearest group in
+another sector is at least 1042 away for three monsters in four. A direct wake covers every group of 23 % of
+multi-group sectors at 512, 39 % at 768, 52 % at 1024, 61 % at 1280, 68 % at 1536 and 80 % at 2048. The user chose
+1024 after comparing the radii in Ethric's Tomb (`6d14.blv`, central hall 2304 x 2560): a monster wakes its own part
+of a room, and the far groups of a large hall stay asleep. The wake matters only for monsters that cannot see the
+party; any monster with a line of sight to it within 5120 notices it anyway. Chained wakes were rejected: through
+open doorways they could rouse half a dungeon.
 
 Measured at the fresh MM6 Goblinwatch start pose (feet `(576, 6912, 192)`, the 2026-09-30 startup save and pose),
 1600x900 windowed, VSync off, desktop OpenGL, 6-second warmup and 22-second interval, runs in the order

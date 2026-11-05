@@ -61,7 +61,11 @@ private:
     CraftResult duplicateItem(CraftResult result, const ItemDefinition &definition, uint32_t streamSeed) const;
     CraftResult upgradeBaseType(CraftResult result, const ItemDefinition &definition,
         const CraftingContext &context) const;
-    CraftResult removeRandomEnchant(CraftResult result, const CraftingContext &context, std::mt19937 &rng) const;
+    // Removes the enchantment the player picks (context.choice), each named as the inspect popup reads it.
+    CraftResult removeEnchant(
+        CraftResult result,
+        const ItemDefinition &definition,
+        const CraftingContext &context) const;
     CraftResult transferLegendaryAffix(CraftResult result, const InventoryItem &material) const;
     CraftResult transferCelestial(CraftResult result, const InventoryItem &material) const;
     CraftResult addPotionCharges(CraftResult result, const InventoryItem &material,

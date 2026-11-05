@@ -88,6 +88,16 @@ enum class NpcFollowerActionTopicId : uint32_t
     CastHeroism = 1720,
 };
 
+// How the MM9 conversation bar marks a choice (level_generation/ui/mm9_talk_dialogue_study_20261102, A): a quest row
+// the party has not chosen yet, one it has, or the row that ends the talk.
+enum class EventDialogChoiceMark
+{
+    None,
+    New,
+    Visited,
+    Exit,
+};
+
 struct EventDialogAction
 {
     EventDialogActionKind kind = EventDialogActionKind::None;
@@ -100,6 +110,9 @@ struct EventDialogAction
     bool enabled = true;
     bool textOnly = false;
     std::string disabledReason;
+    EventDialogChoiceMark choiceMark = EventDialogChoiceMark::None;
+    // A service row's tag on the conversation bar ("Shop", "Train · Expert").
+    std::string choiceTag;
 };
 
 struct EventDialogContent
@@ -120,6 +133,8 @@ struct EventDialogContent
     std::string houseTitle;
     std::string title;
     std::vector<std::string> lines;
+    // The party's sentence the reply in `lines` answers (MM9 talk): quoted above it on the conversation bar.
+    std::string echo;
     std::vector<EventDialogAction> actions;
 };
 

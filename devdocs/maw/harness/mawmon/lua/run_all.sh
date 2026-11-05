@@ -1,7 +1,7 @@
 #!/bin/bash
 # Runs the MAW balance model for every difficulty/mode configuration and writes one CSV.
-LUA=/tmp/claude-1000/-home-pjasicek-github-OpenYAMM/67306c2b-0ca8-4c66-afad-4546c9e2b3bb/scratchpad/luabuild/src/lua
-ROOT=/home/pjasicek/github/Maw-Mod-MMMerge
+LUA=${LUA:-lua}
+ROOT=${ROOT:-/home/pjasicek/github/Maw-Mod-MMMerge}
 OUT=$1; BUFF=${2:-mapping}; ROUND=${3:-trunc}
 echo "config,austerity,party_count,$($LUA harness.lua $ROOT 100 0 0 0 0 0 5 $BUFF $ROUND 1 | head -1)" > $OUT
 # name bolster mode insanity madness trueNightmare austerity

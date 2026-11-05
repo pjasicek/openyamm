@@ -53,12 +53,12 @@ TEST_CASE("MAW Ascension grows Fire Bolt as the worked example shows")
     };
     // Fire Bolt (8 + 1-2 per point) at Fire 20 GM, cost 2, delay 90, Personality ignored (§2.4).
     const std::array<Step, 6> steps = {{
-        {0, SkillMastery::None, 2, 8, 2, 90},
-        {5, SkillMastery::Normal, 2, 11, 4, 97},
-        {10, SkillMastery::Expert, 3, 20, 5, 104},
-        {20, SkillMastery::Grandmaster, 5, 66, 8, 121},
-        {30, SkillMastery::Grandmaster, 7, 168, 16, 141},
-        {50, SkillMastery::Grandmaster, 14, 715, 52, 189},
+        {0, SkillMastery::None, 1, 6, 2, 90},
+        {5, SkillMastery::Normal, 2, 8, 4, 97},
+        {10, SkillMastery::Expert, 2, 14, 5, 104},
+        {20, SkillMastery::Grandmaster, 3, 42, 8, 121},
+        {30, SkillMastery::Grandmaster, 4, 101, 16, 141},
+        {50, SkillMastery::Grandmaster, 8, 392, 52, 189},
     }};
 
     for (const Step &step : steps)
@@ -195,7 +195,7 @@ TEST_CASE("MAW crowd control lasts as the duration table shows")
         {63, {3.0, 6.0, 8.1, 5.4, 6.3}},
         {66, {5.0, 10.0, 13.5, 9.0, 10.5}},
         {92, {8.0, 8.0, 10.8, 7.2, 8.4}},
-        {122, {4.0, 4.0, 4.0, 4.0, 4.0}},
+        {122, {4.0, 8.0, 8.0, 8.0, 8.0}},
     }};
     const std::array<SkillMastery, 5> masteries = {SkillMastery::Normal, SkillMastery::Grandmaster,
         SkillMastery::Grandmaster, SkillMastery::Grandmaster, SkillMastery::Grandmaster};
@@ -211,7 +211,7 @@ TEST_CASE("MAW crowd control lasts as the duration table shows")
         {
             CAPTURE(row.spellId);
             CAPTURE(column);
-            // Dragon Fear lasts its Novice duration at every mastery.
+            // Dragon Fear follows its mastery only, without Ascension or resistance.
             const double seconds = 2
                 * mawCrowdControlMinutes(*pSpell, masteries[column], ascension[column], resistances[column], false);
             CHECK(seconds == doctest::Approx(row.seconds[column]).epsilon(0.005));

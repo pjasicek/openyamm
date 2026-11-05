@@ -18,7 +18,8 @@ void main()
     mat4 skin = skinned ? modelSkinMatrix(u_modelSkin.z, a_weight, a_indices, a_texcoord3, a_texcoord5) : u_model[0];
     v_worldPosition = mul(skin, vec4(a_position, 1.0)).xyz;
     gl_Position = mul(u_viewProj, vec4(v_worldPosition, 1.0));
-    v_texcoord0 = a_texcoord0 + u_modelScroll.xy;
+    // a flipbook cell (zw: its size) or the whole texture (zw 0)
+    v_texcoord0 = a_texcoord0 * (u_modelScroll.z > 0.0 ? u_modelScroll.zw : vec2(1.0, 1.0)) + u_modelScroll.xy;
     // Creature models carry their light in uniforms; static placements use these per-instance terms.
     v_color0 = vec4(1.0, 1.0, 1.0, 1.0);
     v_texcoord1 = vec4(0.0, 0.0, 0.0, 0.0);

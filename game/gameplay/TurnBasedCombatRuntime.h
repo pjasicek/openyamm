@@ -21,6 +21,15 @@ enum class TurnBasedCombatStage : uint8_t
     Movement,
 };
 
+// Whose turn the game clock may hurry (the turn-based speed settings): the monsters' wait and actions, or the party's
+// attacks still in flight. None while a character chooses, while the party walks and in real time.
+enum class TurnBasedSpeedPhase : uint8_t
+{
+    None,
+    Monsters,
+    Party,
+};
+
 class TurnBasedCombatRuntime
 {
 public:
@@ -43,6 +52,7 @@ public:
     int movementActionPoints() const;
     int pendingActions() const;
     bool hasPendingActions() const;
+    TurnBasedSpeedPhase speedPhase() const;
     bool playerActionReady(const Party &party) const;
     bool shouldUpdateActorAi(const Party *pParty) const;
     ActorTurnBasedMode actorMode() const;

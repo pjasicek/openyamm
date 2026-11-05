@@ -53,3 +53,101 @@ TEST_CASE("indoor fog: scene parsing and refusals")
     CHECK_FALSE(parseIndoorSceneFog("[1, 2, 3]", fog, error));
     CHECK(fog.farDistance == before.farDistance);
 }
+
+TEST_CASE("indoor fog: MM9's model and night state are opt-in")
+{
+    IndoorFog fog = {};
+    std::string error;
+    REQUIRE_MESSAGE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 64, far_distance: 11520}",
+        fog, error), error);
+    CHECK_FALSE(fog.lithtech);
+    CHECK_FALSE(fog.hasNight);
+    // Without the keys the face programs keep the plain fog, and the fog is the same at every hour.
+    CHECK(indoorFogModeUniform(fog) == std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    CHECK(indoorFogLightUniform(fog) == std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    CHECK(indoorFogAt(fog, 1.0f).color == fog.color);
+    CHECK(indoorFogAt(fog, 1.0f).farDistance == fog.farDistance);
+
+    REQUIRE_MESSAGE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 64, far_distance: 11520, "
+        "model: lithtech, night: {color_rgb: [0, 0, 0], near_distance: 64, far_distance: 5000}}", fog, error), error);
+    CHECK(fog.lithtech);
+    REQUIRE(fog.hasNight);
+    CHECK(indoorFogModeUniform(fog) == std::array<float, 4>{1.0f, 1.0f, 0.0f, 0.0f});
+    const IndoorFog day = indoorFogAt(fog, 0.0f);
+    CHECK(day.color[0] == doctest::Approx(127.0f / 255.0f));
+    CHECK(day.farDistance == 11520.0f);
+    const IndoorFog night = indoorFogAt(fog, 1.0f);
+    CHECK(night.color[0] == 0.0f);
+    CHECK(night.farDistance == 5000.0f);
+    CHECK(night.lithtech);
+    const IndoorFog dusk = indoorFogAt(fog, 0.5f);
+    CHECK(dusk.color[1] == doctest::Approx(63.5f / 255.0f));
+    CHECK(dusk.farDistance == doctest::Approx(8260.0f));
+
+    IndoorFog untouched = {};
+    CHECK_FALSE(parseIndoorSceneFog("{color_rgb: [0, 0, 0], near_distance: 1, far_distance: 2, model: d3d}",
+        untouched, error));
+    CHECK_FALSE(parseIndoorSceneFog("{color_rgb: [0, 0, 0], near_distance: 1, far_distance: 2, density: 3}",
+        untouched, error));
+    CHECK_FALSE(parseIndoorSceneFog("{color_rgb: [0, 0, 0], near_distance: 1, far_distance: 2, "
+        "night: {color_rgb: [0, 0, 0], near_distance: 5, far_distance: 2}}", untouched, error));
+    CHECK_FALSE(untouched.enabled);
+}
+
+TEST_CASE("indoor fog: following the daylight is opt-in")
+{
+    IndoorFog fog = {};
+    std::string error;
+    REQUIRE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 2.56, far_distance: 5120}", fog, error));
+    CHECK_FALSE(fog.followsDaylight);
+    REQUIRE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 2.56, far_distance: 5120, "
+        "follow_daylight: true}", fog, error));
+    CHECK(fog.followsDaylight);
+    CHECK(indoorFogAt(fog, 1.0f).followsDaylight);
+    CHECK_FALSE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 2.56, far_distance: 5120, "
+        "follow_daylight: maybe}", fog, error));
+}
+
+TEST_CASE("indoor fog: the open sky's fog cover is opt-in and follows the night state")
+{
+    IndoorFog fog = {};
+    std::string error;
+    REQUIRE_MESSAGE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 2.56, far_distance: 5120}",
+        fog, error), error);
+    CHECK(fog.sky == 0.0f);
+    CHECK(indoorFogSkyCover(fog) == 0.0f);
+    CHECK(indoorFogSkyCover(IndoorFog{}) == 0.0f);
+
+    // Frosgard City: the same fog day and night, the sky in its colour.
+    REQUIRE_MESSAGE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 2.56, far_distance: 5120, "
+        "sky: 1, model: lithtech}", fog, error), error);
+    CHECK(indoorFogSkyCover(fog) == 1.0f);
+    CHECK(indoorFogSkyCover(indoorFogAt(fog, 1.0f)) == 1.0f);
+
+    // Thjorgard City's data: the grey day fog covers the sky, the black night fog leaves it clear.
+    REQUIRE_MESSAGE(parseIndoorSceneFog("{color_rgb: [127, 127, 127], near_distance: 64, far_distance: 11520, sky: 1, "
+        "night: {color_rgb: [0, 0, 0], near_distance: 64, far_distance: 11520}}", fog, error), error);
+    CHECK(fog.nightSky == 0.0f);
+    CHECK(indoorFogSkyCover(indoorFogAt(fog, 0.0f)) == 1.0f);
+    CHECK(indoorFogSkyCover(indoorFogAt(fog, 0.5f)) == doctest::Approx(0.5f));
+    CHECK(indoorFogSkyCover(indoorFogAt(fog, 1.0f)) == 0.0f);
+    REQUIRE_MESSAGE(parseIndoorSceneFog("{color_rgb: [0, 0, 0], near_distance: 1, far_distance: 2, "
+        "night: {color_rgb: [0, 0, 0], near_distance: 1, far_distance: 2, sky: 0.25}}", fog, error), error);
+    CHECK(fog.nightSky == 0.25f);
+
+    IndoorFog untouched = {};
+    CHECK_FALSE(parseIndoorSceneFog("{color_rgb: [0, 0, 0], near_distance: 1, far_distance: 2, sky: 2}",
+        untouched, error));
+    CHECK_FALSE(parseIndoorSceneFog("{color_rgb: [0, 0, 0], near_distance: 1, far_distance: 2, sky: -0.5}",
+        untouched, error));
+    CHECK_FALSE(untouched.enabled);
+}
+
+TEST_CASE("indoor fog: MM9's lightmap pass fog colour")
+{
+    // d3d.ren's table: 255 sqrt(i / 512), truncated; 127 stays 127, white becomes 179, black stays black.
+    const std::array<float, 3> light = indoorFogLightPassColor({127.0f / 255.0f, 1.0f, 0.0f});
+    CHECK(light[0] * 255.0f == doctest::Approx(127.0f));
+    CHECK(light[1] * 255.0f == doctest::Approx(179.0f));
+    CHECK(light[2] == 0.0f);
+}

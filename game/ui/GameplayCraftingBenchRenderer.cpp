@@ -367,6 +367,40 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
     {
         float lineY = compare->y;
         const float gap = 2 * compare->scale;
+        const std::vector<GameplayCraftingBenchChoiceRect> choices =
+            GameplayCraftingBenchView::choiceRows(*model, *compare);
+
+        // A step with options (the Pearl): the player picks one, the rest of the preview is that pick. The picked row
+        // stands for the summary ("Removes ..."), which would push the comparison past the panel.
+        if (!choices.empty())
+        {
+            const float s = compare->scale;
+            painter.text("AlchemyBenchIngredientHint",
+                {compare->x, compare->y, compare->width, GameplayCraftingBenchView::ChoicePromptHeight * s, s},
+                pStep->result.choicePrompt, HeaderTextColor);
+
+            for (const GameplayCraftingBenchChoiceRect &choice : choices)
+            {
+                const Rect &area = choice.rect;
+                const bool picked = choice.choiceIndex == pStep->result.choice;
+
+                if (picked)
+                {
+                    painter.fill(area, SelectedRowColor);
+                    painter.frame(area, SelectedBorderColor);
+                }
+                else if (painter.hovered(area))
+                {
+                    painter.fill(area, HoverColor);
+                }
+
+                painter.text("AlchemyBenchRowLabel", {area.x + 4 * s, area.y + 2 * s, area.width - 8 * s,
+                    area.height, s}, pStep->result.choices[choice.choiceIndex],
+                    picked ? GameplayUiSkin::Penalty : DimTextColor);
+            }
+
+            lineY = choices.back().rect.y + choices.back().rect.height + gap;
+        }
 
         if (state.mergePending && !model->combine.steps.empty())
         {
@@ -388,7 +422,7 @@ void GameplayCraftingBenchRenderer::render(GameplayScreenRuntime &context, const
             lineY = painter.paragraph("CraftingBenchCompare", pStep->result.reason, GameplayUiSkin::Penalty, lineY)
                 + gap;
         }
-        else if (possible)
+        else if (possible && choices.empty())
         {
             lineY = painter.paragraph("CraftingBenchCompare", pStep->result.summary, GameplayUiSkin::Gold, lineY) + gap;
         }

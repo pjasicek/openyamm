@@ -1,5 +1,7 @@
 # MAW classes, spells, buffs and potions: implementation spec
 
+> Formulas updated to MAW `8fbb48d1` (2026-11-05) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) lists a change.
+
 Status: specification draft (2026-10-22). Built since (2026-10-24): the MAW ruleset in `game/rules/maw/` and
 `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in
 [DEVIATIONS.md](DEVIATIONS.md). Source: `/home/pjasicek/github/Maw-Mod-MMMerge` at commit `ef23ee17`, compared with base
@@ -42,8 +44,8 @@ Lua 5.4 ports of the formulas in the session scratchpad (`lua_spells/`, `lua_cla
   change cost or delay. OpenYAMM keeps spell numbers in two places, `spells.txt` and the hard-coded
   `BackendSpellRule` switch, and the switch wins for about 48 spells; a ruleset table override alone would be
   silently ignored (§1.8).
-- **Ascension** (the Learning skill) is a single dial: damage dice `×(1+0.02s)·1.025^s`, flat damage
-  `×(1+0.01s²)·1.025^s`, heals `×(1+0.02s)·1.015^s` / `×(1+0.01s²)·1.015^s`, mana `×(1+0.125s)·1.04^s·(1−0.125m)`,
+- **Ascension** (the Learning skill) is a single dial: damage dice `×(1+0.02s)·1.02^s`, flat damage
+  `×(1+0.01s²)·1.02^s`, heals `×(1+0.02s)·1.015^s` / `×(1+0.01s²)·1.015^s`, mana `×(1+0.125s)·1.04^s·(1−0.125m)`,
   cast time `×1.015^s`. Mastery is the only cost reduction (§2).
 - **Auras** reserve `cost / (classSPFactor + EnlightenmentMastery/2)` percent of the caster's maximum mana while on,
   are re-applied every 0.5 s (so monster Dispel never sticks) and compete with potions for the stronger value (§3).
@@ -306,8 +308,8 @@ returns 0) and old Learning points were refunded once (S:1537-1560). Its mastery
 
 | Quantity | Multiplier | Source |
 |---|---|---|
-| Damage dice max | `(1 + 0.02s) · 1.025^s` | F:153-159 |
-| Damage flat add | `(1 + 0.01s²) · 1.025^s` | F:161-163 |
+| Damage dice max | `(1 + 0.02s) · 1.02^s` | F:153-159 |
+| Damage flat add | `(1 + 0.01s²) · 1.02^s` | F:161-163 |
 | Heal per point | `(1 + 0.02s) · 1.015^s` | SP:2063-2067 |
 | Heal base | `(1 + 0.01s²) · 1.015^s` | SP:2063-2067 |
 | Mana (damage, heal) | `(1 + 0.125s) · 1.04^s · (1 − 0.125m_a)` | SP:2268, 2362 |

@@ -37,6 +37,8 @@ public:
     bool characterMissileHits(const CharacterMissileOnMonster &missile) const override;
     // With the homing preference on, party missiles re-aim at their target as they fly.
     float partyMissileHomingTurnRate() const override;
+    // The Bow preference (MAW's disableBow).
+    bool bowDisabled() const override;
     // With the homing preference on, a monster missile keeps re-aiming at the party while the party moves across its
     // flight slower than 300° a second (COMBAT.md §2.10, DEVIATIONS.md #181).
     // None for Meteor Shower, Sparks, Starburst, Poison Spray, Ice Blast and Shrapmetal (S:639-743).

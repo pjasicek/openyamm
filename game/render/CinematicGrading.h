@@ -38,6 +38,11 @@ public:
     bool alphaToCoverage() const { return m_alphaToCoverage; }
     void prepareWorldView(const float *pView, const float *pProjection);
     uint16_t transparentView(uint16_t worldView) const;
+    // The target the world views 0 and 1 draw into this frame; invalid (the backbuffer) while post-processing is off.
+    bgfx::FrameBufferHandle worldFrameBuffer() const
+    {
+        return m_active ? m_frameBuffer : bgfx::FrameBufferHandle(BGFX_INVALID_HANDLE);
+    }
     void submit(bgfx::FrameBufferHandle target = BGFX_INVALID_HANDLE);
     void setOutputFrameBuffer(bgfx::FrameBufferHandle target);
     void resetViews();

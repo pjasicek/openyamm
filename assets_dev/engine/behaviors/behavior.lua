@@ -14,6 +14,11 @@
 --   onWardExpired(self, s, wardId)
 --   onPerformDone(self, s, clip)
 --   onDeath(self, s)
+--   An MM9 monster's loop (devdocs/mm9_rework/MM9_MONSTER_AI_PLAN.md phase 5; worlds/mm9/behaviors/):
+--   onTargetChanged(self, s, target)  the target its loop holds changed (nil: none); target as self:target()
+--   onAttackDone(self, s)            an attack ended
+--   onHit(self, s, attacker)         it was hit (attacker as a target)
+--   onTrigger(self, s, message)      a map trigger (MM9's Trigger <object>, <message>; an arena's trigger event)
 --
 -- Commands and queries on self:
 --   hp() maxHp() hpFraction() position() distanceToParty() isHostile() monsterId() age() random([a [, b]])
@@ -28,6 +33,11 @@
 --   blink() suspendShield([seconds]) restoreShield() leave([effect]) setSpeed(multiplier) setInvulnerable(on)
 --   qbit(id) runEvent(eventId) bearingToParty() setArmoredFront([degrees, damageMultiplier])
 --   setLeash([radius]) setRangedBand([min, max]) moveTo([x, y, z])
+--   An MM9 monster's loop (not saved: set setMm9 in onStart and onLoad):
+--   setMm9{drives_attacks=, passive=, ignores_calls=, chase_limit=, turn_degrees=, immune="physical"|false}
+--   target() targets([radius]) actor(index) setTarget("party" | actorIndex | nil) attack("attack1"|"attack2"|"spell1"|"spell2")
+--   attackReady() attacking() dormant() seesParty() push(distance) trace(text) placement() summonPoints()
+--     a target is {kind = "party" | "actor", index =, monster =, distance = <edge>, clear =, height =, hostile =}
 
 Behavior = {}
 
@@ -44,6 +54,10 @@ local knownFields = {
     onWardExpired = true,
     onPerformDone = true,
     onDeath = true,
+    onTargetChanged = true,
+    onAttackDone = true,
+    onHit = true,
+    onTrigger = true,
 }
 
 -- Rejects misspelt handler names, which would otherwise never run. Fields starting with "_" are free for helpers.

@@ -26,6 +26,8 @@ public:
     std::optional<AuraCastResult> castAura(Party &party, size_t casterIndex, uint32_t spellId) const override;
     // Shrinking Ray takes one more monster within 512 per mastery above Novice (SP:1659-1732).
     SpellSplash spellSplash(uint32_t spellId, SkillMastery mastery) const override;
+    // Unstoppable bosses (zzMaw-Spells.lua:1680-1684).
+    bool ignoresCrowdControl(const ActorRulesetFacts &target) const override;
     // Scrolls, pedestals and temples hold the buff as a fixed aura of skill 7 at Master for level 40 (vars.mawbuff
     // holds the map's name or "Temple", getSpecialBuffSkill); a hireling's buff is wiped by the aura pass, so it does
     // nothing. A member's own hold stays.

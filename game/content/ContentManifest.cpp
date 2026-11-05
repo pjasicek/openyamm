@@ -5,6 +5,7 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <exception>
@@ -245,6 +246,24 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         }
     }
 
+    if (const YAML::Node actorMovementNode = root["actorMovement"])
+    {
+        const YAML::Node limitNode = actorMovementNode.IsMap() ? actorMovementNode["levelRadiusLimit"] : YAML::Node();
+        if (!limitNode || !limitNode.IsScalar())
+        {
+            errorMessage = "world.yml actorMovement must declare levelRadiusLimit";
+            return false;
+        }
+
+        manifest.actorMovement.levelRadiusLimit = limitNode.as<float>();
+
+        if (!std::isfinite(manifest.actorMovement.levelRadiusLimit) || manifest.actorMovement.levelRadiusLimit < 0.0f)
+        {
+            errorMessage = "world.yml actorMovement levelRadiusLimit must be a finite number, 0 or more";
+            return false;
+        }
+    }
+
     if (const YAML::Node humNode = root["hum"])
     {
         const YAML::Node qbitsNode = humNode.IsMap() ? humNode["qbits"] : YAML::Node();
@@ -332,6 +351,69 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         for (const YAML::Node &page : loadingNode)
         {
             manifest.loadingScreens.push_back(page.as<std::string>());
+        }
+    }
+
+    if (const YAML::Node completionNode = root["completion"])
+    {
+        WorldCompletionDefinition &completion = manifest.completion;
+
+        if (!completionNode.IsMap() || completionNode["qbit"].as<uint32_t>(0) == 0
+            || completionNode["art"].as<std::string>("").empty() || completionNode["headline"].as<std::string>("").empty())
+        {
+            errorMessage = "world.yml completion must declare a qbit, art and a headline";
+            return false;
+        }
+
+        completion.declared = true;
+        completion.qbit = completionNode["qbit"].as<uint32_t>();
+        completion.continent = completionNode["continent"].as<std::string>("");
+        completion.art = completionNode["art"].as<std::string>();
+        completion.headline = completionNode["headline"].as<std::string>();
+        completion.text = completionNode["text"].as<std::string>("");
+
+        if (const YAML::Node layoutNode = completionNode["layout"])
+        {
+            const YAML::Node textNode = layoutNode["text"];
+            const YAML::Node markNode = layoutNode["mark"];
+
+            if (!textNode.IsSequence() || textNode.size() != 4 || !markNode.IsSequence() || markNode.size() != 3)
+            {
+                errorMessage = "world.yml completion layout must give text [left, top, right, bottom] and mark [x, y, "
+                               "height]";
+                return false;
+            }
+
+            completion.layout.declared = true;
+
+            for (size_t index = 0; index < 4; ++index)
+            {
+                completion.layout.text[index] = textNode[index].as<float>();
+            }
+
+            for (size_t index = 0; index < 3; ++index)
+            {
+                completion.layout.mark[index] = markNode[index].as<float>();
+            }
+        }
+
+        if (const YAML::Node variantsNode = completionNode["variants"])
+        {
+            for (const YAML::Node &variantNode : variantsNode)
+            {
+                WorldCompletionDefinition::Variant variant;
+                variant.qbit = variantNode["qbit"].as<uint32_t>(0);
+                variant.headline = variantNode["headline"].as<std::string>(completion.headline);
+                variant.text = variantNode["text"].as<std::string>(completion.text);
+
+                if (variant.qbit == 0)
+                {
+                    errorMessage = "world.yml completion variants must each declare a qbit";
+                    return false;
+                }
+
+                completion.variants.push_back(std::move(variant));
+            }
         }
     }
 
@@ -539,6 +621,84 @@ std::optional<WorldManifest> loadWorldManifest(
     }
 
     return manifest;
+}
+
+bool loadMountedWorldManifests(
+    const Engine::AssetFileSystem &assetFileSystem,
+    std::vector<WorldManifest> &manifests,
+    std::string &errorMessage)
+{
+    manifests.clear();
+    errorMessage.clear();
+
+    for (const std::string &worldPackageId : assetFileSystem.enumerate("worlds"))
+    {
+        const std::string normalizedPackageId = normalizeWorldId(worldPackageId);
+
+        if (normalizedPackageId.empty())
+        {
+            continue;
+        }
+
+        const std::string manifestPath = "worlds/" + normalizedPackageId + "/world.yml";
+        std::string manifestError;
+        const std::optional<WorldManifest> manifest =
+            loadWorldManifest(assetFileSystem, manifestPath, normalizedPackageId, manifestError);
+
+        if (!manifest)
+        {
+            if (assetFileSystem.exists(manifestPath))
+            {
+                errorMessage = "failed to load " + manifestPath + ": " + manifestError;
+                return false;
+            }
+
+            continue;
+        }
+
+        if (manifest->id != normalizedPackageId)
+        {
+            errorMessage = "manifest id '" + manifest->id + "' does not match package path '"
+                + normalizedPackageId + "'";
+            return false;
+        }
+
+        manifests.push_back(*manifest);
+    }
+
+    std::sort(
+        manifests.begin(),
+        manifests.end(),
+        [](const WorldManifest &left, const WorldManifest &right)
+        {
+            return left.id < right.id;
+        });
+
+    std::unordered_set<std::string> mountedPackageIds = {"engine"};
+
+    for (const WorldManifest &manifest : manifests)
+    {
+        if (!mountedPackageIds.insert(manifest.id).second)
+        {
+            errorMessage = "duplicate mounted content package id: " + manifest.id;
+            return false;
+        }
+    }
+
+    for (const WorldManifest &manifest : manifests)
+    {
+        for (const std::string &dependency : manifest.dependencies)
+        {
+            if (!mountedPackageIds.contains(dependency))
+            {
+                errorMessage = "mounted content package '" + manifest.id + "' requires missing package '"
+                    + dependency + "'";
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 WorldManifest loadActiveWorldManifestOrDefault(

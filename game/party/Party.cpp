@@ -1085,10 +1085,6 @@ void applyLichState(Character &member)
     member.baseResistances.air = std::max(member.baseResistances.air, 20);
     member.baseResistances.water = std::max(member.baseResistances.water, 20);
     member.baseResistances.earth = std::max(member.baseResistances.earth, 20);
-    member.baseResistances.light = std::max(member.baseResistances.light, 65000);
-    member.baseResistances.dark = std::max(member.baseResistances.dark, 65000);
-    member.permanentImmunities.light = true;
-    member.permanentImmunities.dark = true;
     refundAndClearSkill(member, "ChainArmor");
     refundAndClearSkill(member, "RepairItem");
 }
@@ -1294,6 +1290,12 @@ bool isDeadOrEradicated(const Character &member)
 
 void updateMemberIncapacitatedCondition(Character &member, bool preservationActive, float gameMinutes)
 {
+    // HP never lifts Dead or Eradicated; only a revival or an explicit cure does.
+    if (isDeadOrEradicated(member))
+    {
+        return;
+    }
+
     if (member.health > 0)
     {
         member.conditions.reset(static_cast<size_t>(CharacterCondition::Unconscious));
@@ -2601,6 +2603,16 @@ const ClassSkillTable *Party::classSkillTable() const
     return m_pClassSkillTable;
 }
 
+void Party::setTrainerDirectory(const TrainerDirectory *pTrainerDirectory)
+{
+    m_pTrainerDirectory = pTrainerDirectory;
+}
+
+const TrainerDirectory *Party::trainerDirectory() const
+{
+    return m_pTrainerDirectory;
+}
+
 void Party::setClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable)
 {
     m_pClassMultiplierTable = pClassMultiplierTable;
@@ -2637,9 +2649,13 @@ Party::Snapshot Party::snapshot() const
     snapshot.lastFallDamageDistance = m_lastFallDamageDistance;
     snapshot.foundArtifactItems = m_foundArtifactItems;
     snapshot.arcomageWonHouseIds = m_arcomageWonHouseIds;
+    snapshot.worldCompletions = m_worldCompletions;
+    snapshot.worldCompletionsUntracked = m_worldCompletionsUntracked;
     snapshot.arcomageWinCount = m_arcomageWinCount;
     snapshot.arcomageLossCount = m_arcomageLossCount;
     snapshot.everOwnedItemIds = m_everOwnedItemIds;
+    snapshot.chosenMm9RudeRows = m_chosenMm9RudeRows;
+    snapshot.teacherLedgers = m_teacherLedgers;
     snapshot.explosiveMixes = m_explosiveMixes;
     snapshot.continentReputations = m_continentReputations;
     snapshot.questBits = m_questBits;
@@ -2690,9 +2706,13 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_lastFallDamageDistance = snapshot.lastFallDamageDistance;
     m_foundArtifactItems = snapshot.foundArtifactItems;
     m_arcomageWonHouseIds = snapshot.arcomageWonHouseIds;
+    m_worldCompletions = snapshot.worldCompletions;
+    m_worldCompletionsUntracked = snapshot.worldCompletionsUntracked;
     m_arcomageWinCount = snapshot.arcomageWinCount;
     m_arcomageLossCount = snapshot.arcomageLossCount;
     m_everOwnedItemIds = snapshot.everOwnedItemIds;
+    m_chosenMm9RudeRows = snapshot.chosenMm9RudeRows;
+    m_teacherLedgers = snapshot.teacherLedgers;
     m_explosiveMixes = snapshot.explosiveMixes;
     m_continentReputations = snapshot.continentReputations;
     m_questBits = snapshot.questBits;
@@ -2770,6 +2790,8 @@ void Party::seed(const PartySeed &seed)
     m_itemWeeklyEffectSequence = 0;
     m_foundArtifactItems.clear();
     m_everOwnedItemIds.clear();
+    m_chosenMm9RudeRows.clear();
+    m_teacherLedgers.clear();
     m_explosiveMixes.clear();
     m_continentReputations.clear();
     m_questBits.clear();
@@ -5038,6 +5060,41 @@ bool Party::hasEverOwnedItem(uint32_t objectDescriptionId) const
     return objectDescriptionId != 0 && m_everOwnedItemIds.contains(objectDescriptionId);
 }
 
+void Party::recordChosenMm9RudeRow(uint32_t rudeId, size_t rowIndex)
+{
+    m_chosenMm9RudeRows.insert((uint64_t(rudeId) << 32) | uint32_t(rowIndex));
+}
+
+bool Party::hasChosenMm9RudeRow(uint32_t rudeId, size_t rowIndex) const
+{
+    return m_chosenMm9RudeRows.contains((uint64_t(rudeId) << 32) | uint32_t(rowIndex));
+}
+
+bool Party::hasTeacherLedger(uint32_t continent) const
+{
+    return m_teacherLedgers.contains(continent);
+}
+
+void Party::addTeacherLedger(uint32_t continent)
+{
+    m_teacherLedgers.insert(continent);
+}
+
+const std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> &Party::npcTopicOverrides() const
+{
+    return m_npcTopicOverrides;
+}
+
+const std::unordered_map<uint32_t, uint32_t> &Party::npcHouseOverrides() const
+{
+    return m_npcHouseOverrides;
+}
+
+const std::unordered_set<uint32_t> &Party::unavailableNpcIds() const
+{
+    return m_unavailableNpcIds;
+}
+
 void Party::recordExplosiveMix(uint32_t targetItemId, uint32_t heldItemId)
 {
     m_explosiveMixes.insert((static_cast<uint64_t>(targetItemId) << 32) | heldItemId);
@@ -6880,7 +6937,15 @@ void Party::updateRecovery(float deltaSeconds, float progressScale)
             deltaSeconds * clampedProgressScale * std::max(0.0f, member.recoveryProgressMultiplier);
         member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - recoveryDelta);
 
-        if (member.healthRegenPerSecond != 0.0f)
+        // The dead, the eradicated and stone do not regenerate (OE Engine::_regenerateHp, MMerge MiscTweaks).
+        const bool regenerationBlocked = isDeadOrEradicated(member)
+            || member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified));
+
+        if (regenerationBlocked)
+        {
+            member.healthRegenAccumulator = 0.0f;
+        }
+        else if (member.healthRegenPerSecond != 0.0f)
         {
             member.healthRegenAccumulator += member.healthRegenPerSecond * deltaSeconds;
             const int healthAmount = static_cast<int>(member.healthRegenAccumulator);
@@ -7470,6 +7535,42 @@ uint32_t Party::arcomageWinCount() const
     return m_arcomageWinCount;
 }
 
+const std::vector<WorldCompletionRecord> &Party::worldCompletions() const
+{
+    return m_worldCompletions;
+}
+
+const WorldCompletionRecord *Party::findWorldCompletion(const std::string &certificateId) const
+{
+    for (const WorldCompletionRecord &record : m_worldCompletions)
+    {
+        if (record.certificateId == certificateId)
+        {
+            return &record;
+        }
+    }
+
+    return nullptr;
+}
+
+void Party::addWorldCompletion(const WorldCompletionRecord &record)
+{
+    if (findWorldCompletion(record.certificateId) == nullptr)
+    {
+        m_worldCompletions.push_back(record);
+    }
+}
+
+bool Party::worldCompletionsUntracked() const
+{
+    return m_worldCompletionsUntracked;
+}
+
+void Party::clearWorldCompletionsUntracked()
+{
+    m_worldCompletionsUntracked = false;
+}
+
 uint32_t Party::arcomageLossCount() const
 {
     return m_arcomageLossCount;
@@ -7675,8 +7776,8 @@ void Party::rebuildMagicalBonusesFromBuffs()
     {
         for (const std::string &skillName : allCanonicalSkillNames())
         {
-            const int bonus =
-                hiredNpcSkillBonus(m_hiredNpcFollowers, skillName, !rules().skills.followerSkillBonusesStack());
+            const int bonus = hiredNpcSkillBonus(
+                m_hiredNpcFollowers, skillName, !rules().skills.followerSkillBonusesStack(), &rules().skills);
             if (bonus != 0)
             {
                 followerSkills[skillName] = bonus;
@@ -7687,6 +7788,9 @@ void Party::rebuildMagicalBonusesFromBuffs()
     for (Character &member : m_members)
     {
         member.hiredNpcSkillBonuses = followerSkills;
+        std::erase_if(member.hiredNpcSkillBonuses,
+            [this, &member](const std::pair<const std::string, int> &bonus)
+            { return rules().skills.followerSkillBonusNeedsSkill(bonus.first) && !member.hasSkill(bonus.first); });
         member.magicalBonuses = member.temporaryEventBonuses;
         member.magicalBonuses.luck += hiredNpcPrimaryStatBonus(m_hiredNpcFollowers, "Luck");
         member.magicalBonuses.resistances.fire += hiredNpcResistanceBonus(m_hiredNpcFollowers, "Fire");
@@ -7861,6 +7965,8 @@ void Party::rebuildMagicalBonusesFromBuffs()
         for (Character &member : m_members)
         {
             member.merchantBonus += pBuff->power;
+            member.glamourPower = pBuff->power;
+            member.glamourMastery = pBuff->skillMastery;
         }
     }
 
@@ -7897,8 +8003,14 @@ void Party::rebuildMagicalBonusesFromBuffs()
         if (const CharacterBuffState *pBuff = characterBuff(memberIndex, CharacterBuffId::Glamour))
         {
             member.merchantBonus += pBuff->power;
-            member.glamourPower = pBuff->power;
-            member.glamourMastery = pBuff->skillMastery;
+
+            // With an event's party Glamour as well, the stronger one is the member's Glamour; the other adds plainly.
+            if (pBuff->skillMastery > member.glamourMastery
+                || (pBuff->skillMastery == member.glamourMastery && pBuff->power > member.glamourPower))
+            {
+                member.glamourPower = pBuff->power;
+                member.glamourMastery = pBuff->skillMastery;
+            }
         }
 
         if (characterBuff(memberIndex, CharacterBuffId::Haste) != nullptr && partyBuff(PartyBuffId::Haste) == nullptr)

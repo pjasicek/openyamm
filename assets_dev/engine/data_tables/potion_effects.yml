@@ -3,6 +3,9 @@
 #
 # rules:
 #   duration: {per_power_minutes: N}   timed buffs last N game minutes per point of potion power
+#   combat_recovery: {value: N, payer: drinker|active, only_when_enemies_near: bool}
+#                                     a drink needs a ready member and costs the payer N recovery ticks: the active
+#                                     member (else the first ready one), or the drinker when ready (the default)
 #
 # potions: <item id>:
 #   name                              for readers only
@@ -26,6 +29,8 @@
 
 rules:
   duration: {per_power_minutes: 30}
+  # As in the original games, every drink costs the active member 100 ticks, in combat or not.
+  combat_recovery: {value: 100, payer: active}
 
 potions:
   222:

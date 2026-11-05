@@ -9,6 +9,7 @@
 #include "game/render/WaterBillboardReflection.h"
 
 #include "engine/BgfxContext.h"
+#include "engine/ParallelFor.h"
 #include "game/app/GameSession.h"
 #include "game/data/ActorNameResolver.h"
 #include "game/events/EventRuntime.h"
@@ -43,6 +44,7 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <functional>
 #include <array>
 #include <bit>
 #include <cctype>
@@ -54,6 +56,7 @@
 #include <iostream>
 #include <iterator>
 #include <limits>
+#include <numeric>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -89,6 +92,8 @@ constexpr float IndoorDecorationHighlightReach = 2048.0f;
 // One legacy map unit separates distant walls without clipping tight ceilings (4 units clips Kriegspire/Korbu).
 constexpr float IndoorCameraNearClipDistance = 1.0f;
 constexpr float IndoorCameraFarClipDistance = 50000.0f;
+// An outdoor map's default view distance (OutdoorGameView DefaultOutdoorFarClip), for the outdoor view.
+constexpr float IndoorOutdoorViewDefaultDistance = 16192.0f;
 constexpr float IndoorSkyProjectionPitchOffsetRadians = 3.14159265358979323846f / 64.0f;
 constexpr float IndoorSkyProjectionFarClipDistance = 50000.0f;
 constexpr int IndoorBakedStaticLightSubdivisionMaxDepth = 16;
@@ -289,6 +294,10 @@ bool updateDynamicVertexBuffer(
 
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
+// The fog of a map whose only fog is a water volume's, outside the volume: farther than anything is drawn.
+constexpr float IndoorWaterNoFogDistance = 1.0e8f;
+// How much of MM9's light scale the screen takes under water (design decision 4: 0.6, to be matched to a capture).
+constexpr float IndoorWaterTintStrength = 0.6f;
 constexpr size_t MaxIndoorShaderLights = MaxIndoorDrawLights;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
@@ -2022,6 +2031,41 @@ bool bakedStaticLightAffectsPoint(const BakedStaticLightSource &source, const bx
     return dx * dx + dy * dy + dz * dz <= source.radius * source.radius;
 }
 
+// Scene `static_lights: {sides: front}` (IndoorMapData::staticLightsFrontOnly): how far behind a face's plane a
+// static light may stand and still light the face (a lamp's light set just into the wall it hangs on).
+constexpr float IndoorStaticLightBehindTolerance = 24.0f;
+
+// A face's plane for that test: a point on the face and its unit normal (the side it is drawn from).
+struct StaticLightFacePlane
+{
+    bx::Vec3 point = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
+};
+
+// The face's plane, or none when the map lights both sides or the face has no area (no test).
+std::optional<StaticLightFacePlane> staticLightFacePlane(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    const IndoorFace &face)
+{
+    if (!indoorMapData.staticLightsFrontOnly || face.vertexIndices.empty()
+        || face.vertexIndices.front() >= vertices.size())
+    {
+        return std::nullopt;
+    }
+    const bx::Vec3 normal = computeFaceNormal(vertices, face);
+    if (vecDot(normal, normal) <= 0.0001f)
+    {
+        return std::nullopt;
+    }
+    return StaticLightFacePlane{indoorVertexToWorld(vertices[face.vertexIndices.front()]), vecNormalize(normal)};
+}
+
+bool staticLightBehindFace(const BakedStaticLightSource &source, const StaticLightFacePlane &plane)
+{
+    return vecDot(vecSubtract(source.position, plane.point), plane.normal) < -IndoorStaticLightBehindTolerance;
+}
+
 void accumulateBakedLightContribution(
     std::array<float, 3> &rgb,
     const bx::Vec3 &lightPosition,
@@ -2314,9 +2358,9 @@ IndoorRenderer::TexturedVertex IndoorRenderer::interpolateTexturedVertex(
 
 void IndoorRenderer::setBillboardFog()
 {
-    const std::array<float, 4> color = indoorFogColorUniform(m_fog);
-    const std::array<float, 4> densities = indoorFogDensitiesUniform(m_fog);
-    const std::array<float, 4> distances = indoorFogDistancesUniform(m_fog);
+    const std::array<float, 4> color = indoorFogColorUniform(m_frameFog);
+    const std::array<float, 4> densities = indoorFogDensitiesUniform(m_frameFog);
+    const std::array<float, 4> distances = indoorFogDistancesUniform(m_frameFog);
     setBillboardFogColor(color.data());
     bgfx::setUniform(m_billboardFogDensitiesUniformHandle, densities.data());
     bgfx::setUniform(m_billboardFogDistancesUniformHandle, distances.data());
@@ -2325,11 +2369,17 @@ void IndoorRenderer::setBillboardFog()
 void IndoorRenderer::setBillboardFogColor(const float *pFogColor)
 {
     bgfx::setUniform(m_billboardFogColorUniformHandle, pFogColor);
+    applySceneSkyFog();
+}
 
+void IndoorRenderer::applySceneSkyFog()
+{
     if (bgfx::isValid(m_skyFogUniformHandle))
     {
+        // Flat fog, or the outdoor view's sky haze.
         const SkyFogUniformValues flatFog = {};
-        bgfx::setUniform(m_skyFogUniformHandle, flatFog.data(), SkyFogUniformVectors);
+        bgfx::setUniform(m_skyFogUniformHandle, m_openSky.outdoorView ? m_outdoorSkyFog.data() : flatFog.data(),
+            SkyFogUniformVectors);
     }
 }
 
@@ -2522,6 +2572,14 @@ std::array<float, 4> IndoorRenderer::billboardLightingUniform(
         return {{1.0f, 1.0f, 1.0f, 0.0f}};
     }
 
+    if (m_modelLighting.enabled)
+    {
+        // MM9's model light (scene model_lighting): a sprite faces the camera, so its lights arrive without N.L.
+        const std::array<float, 3> rgb = indoorModelLight(m_modelLighting,
+            IndoorLightingRuntime::sampleModelLightRgb(lightingFrame, position, m_modelLighting.lightScale));
+        return {{rgb[0], rgb[1], rgb[2], 0.0f}};
+    }
+
     const uint64_t sampleBeginTickCount = pLightingStats != nullptr ? SDL_GetTicksNS() : 0;
     const std::array<float, 3> staticDetailRgb =
         cachedBillboardStaticDetailLighting(lightingFrame, position, sectorId, cacheKey, pLightingStats);
@@ -2538,10 +2596,14 @@ std::array<float, 4> IndoorRenderer::billboardLightingUniform(
         pLightingStats->billboardSampleNanoseconds += SDL_GetTicksNS() - sampleBeginTickCount;
     }
 
+    // Both samples hold the room light once; a sector open to the sky takes its own daylight out again, every other
+    // the frame's ambient (as always).
+    const float sampledAmbient = indoorDaylightSector(m_daylight, sectorId)
+        ? IndoorLightingRuntime::sectorAmbient(lightingFrame, sectorId) : lightingFrame.ambient;
     const std::array<float, 3> rgb = {{
-        std::clamp(staticDetailRgb[0] + dynamicRgb[0] - lightingFrame.ambient, 0.0f, 2.0f),
-        std::clamp(staticDetailRgb[1] + dynamicRgb[1] - lightingFrame.ambient, 0.0f, 2.0f),
-        std::clamp(staticDetailRgb[2] + dynamicRgb[2] - lightingFrame.ambient, 0.0f, 2.0f)
+        std::clamp(staticDetailRgb[0] + dynamicRgb[0] - sampledAmbient, 0.0f, 2.0f),
+        std::clamp(staticDetailRgb[1] + dynamicRgb[1] - sampledAmbient, 0.0f, 2.0f),
+        std::clamp(staticDetailRgb[2] + dynamicRgb[2] - sampledAmbient, 0.0f, 2.0f)
     }};
     return {{rgb[0], rgb[1], rgb[2], 0.0f}};
 }
@@ -2988,10 +3050,64 @@ bool IndoorRenderer::initialize(
         }
         m_indoorTranslucencyUniformHandle = bgfx::createUniform("u_indoorTranslucency", bgfx::UniformType::Vec4);
     }
+    // Scene water volumes (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md): the screen tint under water, only for a
+    // map that has them.
+    if (!indoorMapData.waterVolumes.empty())
+    {
+        m_waterTintProgramHandle = loadProgram("vs_screen_color", "fs_cubes");
+    }
+    m_modelLighting = indoorMapData.modelLighting;
+    m_openSky = indoorMapData.openSky;
+    // The sectors open to the sky: those holding sky faces (an outdoor region's open-air room). Weather shows there.
+    m_openSkySectors.clear();
+    if (m_openSky.enabled)
+    {
+        for (const IndoorFace &face : indoorMapData.faces)
+        {
+            if (hasFaceAttribute(face.attributes, FaceAttribute::IndoorSky))
+            {
+                if (face.roomNumber >= m_openSkySectors.size())
+                {
+                    m_openSkySectors.resize(size_t(face.roomNumber) + 1, 0);
+                }
+                m_openSkySectors[face.roomNumber] = 1;
+            }
+        }
+    }
+    m_openSkyWeather.configure(std::nullopt);
+    m_holeViewApplied = false;
+    m_lastSkyStateElapsedTime = -1.0f;
     // Scene fog (devdocs/INDOOR_FOG.md), only for a map that has it: the face programs' fog variants.
     m_fog = indoorMapData.fog;
+    if (m_openSky.enabled && m_openSky.outdoorView)
+    {
+        // The outdoor view's haze replaces the scene fog (devdocs/INDOOR_OPEN_SKY.md "Outdoor view"); the faces draw
+        // it with the fog programs.
+        m_fog = {};
+        m_fog.enabled = true;
+    }
+    // A water volume's own fog (MM9 FogEnable) on a map without one: the fog programs, with a fog too far to show.
+    if (!m_fog.enabled
+        && std::any_of(indoorMapData.waterVolumes.begin(), indoorMapData.waterVolumes.end(),
+            [](const IndoorWaterVolume &volume) { return volume.fog.enabled; }))
+    {
+        m_fog.enabled = true;
+        m_fog.nearDistance = IndoorWaterNoFogDistance;
+        m_fog.farDistance = IndoorWaterNoFogDistance * 2.0f;
+    }
+    m_frameFog = m_fog;
+    m_outdoorViewDistance = 0.0f;
+    m_outdoorSkyFog = {};
+    // Scene daylight (devdocs/INDOOR_OPEN_SKY.md "Daylight"): the sectors open to the sky take the sun and sky light.
+    m_daylight = indoorMapData.daylight;
+    m_frameDaylight = {};
     if (m_fog.enabled)
     {
+        if (!bgfx::isValid(m_indoorFogModeUniformHandle))
+        {
+            m_indoorFogModeUniformHandle = bgfx::createUniform("u_indoorFogMode", bgfx::UniformType::Vec4);
+            m_indoorFogLightUniformHandle = bgfx::createUniform("u_indoorFogLight", bgfx::UniformType::Vec4);
+        }
         m_indoorFogProgramHandles[0] = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_lit_fog");
         if (surfaceMaterials)
         {
@@ -3009,6 +3125,15 @@ bool IndoorRenderer::initialize(
             }
             m_indoorFogProgramHandles[5] =
                 loadProgram("vs_indoor_textured_baked", "fs_indoor_textured_baked_translucent_fog");
+        }
+    }
+    if (indoorMapData.terrain && pAssetFileSystem != nullptr)
+    {
+        std::string terrainError;
+        if (!initializeTerrain(*pAssetFileSystem, map.worldId, indoorMapData, terrainError))
+        {
+            std::cerr << "IndoorRenderer: terrain drawn textured: " << terrainError << '\n';
+            destroyTerrainResources();
         }
     }
     m_billboardProgramHandle = loadProgram("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
@@ -3059,6 +3184,7 @@ bool IndoorRenderer::initialize(
         std::cerr << "IndoorRenderer: failed to create the surface reflection binding\n";
     }
     m_indoorFaceGridUniformHandle = bgfx::createUniform("u_indoorFaceGrid", bgfx::UniformType::Vec4);
+    m_indoorDaylightUniformHandle = bgfx::createUniform("u_indoorDaylight", bgfx::UniformType::Vec4, 3);
     const bool lightGridCreated = m_lightGridBinding.create();
     m_worldClipPlaneUniform = bgfx::createUniform("u_worldClipPlane", bgfx::UniformType::Vec4);
     m_secretPulseParamsUniformHandle = bgfx::createUniform("u_secretPulseParams", bgfx::UniformType::Vec4);
@@ -3276,6 +3402,7 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
         : 1.0f;
 
     if (cache.valid
+        && !m_portalDebug.rebuildEveryFrame
         && cache.sectorId == startSectorId
         && cache.visibleSectorMask.size() == m_pIndoorMapData->sectors.size()
         && cache.cameraX == cameraPosition.x
@@ -3284,7 +3411,8 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
         && cache.yawRadians == m_cameraYawRadians
         && cache.pitchRadians == m_cameraPitchRadians
         && cache.aspectRatio == aspectRatio
-        && cache.viewportHeight == m_lastRenderHeight)
+        && cache.viewportHeight == m_lastRenderHeight
+        && cache.maxDistance == m_outdoorViewDistance)
     {
         if (collectDiagnostics)
         {
@@ -3295,6 +3423,7 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
                 SDL_GetTicksNS() - totalBeginTickCount;
         }
 
+        cache.rebuilt = false;
         return cache.visibleSectorMask;
     }
 
@@ -3314,11 +3443,14 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
     input.verticalFovDegrees = 60.0f;
     input.aspectRatio = aspectRatio;
     input.viewportHeight = m_lastRenderHeight;
+    input.maxDistance = m_outdoorViewDistance;
     input.startSectorId = startSectorId;
     input.collectPortalTraces = m_logIndoorVisibilityDiagnostics;
 
-    const uint64_t visibilityBuildBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
+    const bool portalDebug = m_portalDebug.active();
+    const uint64_t visibilityBuildBeginTickCount = collectDiagnostics || portalDebug ? SDL_GetTicksNS() : 0;
     const IndoorPortalVisibilityResult visibility = buildIndoorPortalVisibility(input);
+    cache.buildNanoseconds = portalDebug ? SDL_GetTicksNS() - visibilityBuildBeginTickCount : 0;
 
     if (collectDiagnostics)
     {
@@ -3335,6 +3467,22 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
     }
 
     cache.valid = true;
+    cache.rebuilt = true;
+    cache.portalCandidateCount = visibility.portalCandidateCount;
+    cache.acceptedPortalCount = visibility.acceptedPortalCount;
+    cache.directionRejectedPortalCount = visibility.directionRejectedPortalCount;
+    cache.clippedPortalRejectedCount = visibility.clippedPortalRejectedCount;
+    cache.rejectedPortalCount = visibility.rejectedPortalCount;
+    cache.acceptedPortals.clear();
+    cache.nodeSectorIds.clear();
+    if (portalDebug)
+    {
+        cache.acceptedPortals = visibility.acceptedPortals;
+        for (const IndoorVisibilityNode &node : visibility.nodes)
+        {
+            cache.nodeSectorIds.push_back(node.sectorId);
+        }
+    }
     cache.sectorId = startSectorId;
     cache.cameraX = cameraPosition.x;
     cache.cameraY = cameraPosition.y;
@@ -3343,6 +3491,7 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
     cache.pitchRadians = m_cameraPitchRadians;
     cache.aspectRatio = aspectRatio;
     cache.viewportHeight = m_lastRenderHeight;
+    cache.maxDistance = m_outdoorViewDistance;
     // MM8 records discovery from the ordinary portal render traversal. Opaque walls/doors do not
     // start a separate visibility pass. Changing only the view frustums cannot reveal new sector faces.
     if (cache.visibleSectorMask != visibility.visibleSectorMask)
@@ -3778,7 +3927,8 @@ void IndoorRenderer::render(
     m_lastRenderHeight = viewHeight;
     bgfx::setViewRect(MainViewId, 0, 0, viewWidth, viewHeight);
     bgfx::setViewMode(MainViewId, bgfx::ViewMode::Sequential);
-    bgfx::setViewClear(MainViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ffu, 1.0f, 0);
+    bgfx::setViewClear(MainViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, m_holeViewApplied ? 0xff00ffffu : 0x000000ffu,
+        1.0f, 0);
 
     if (!m_isRenderable)
     {
@@ -3787,6 +3937,22 @@ void IndoorRenderer::render(
     }
 
     const GameSettings &settings = gameSession.gameplayScreenRuntime().settingsSnapshot();
+    if (settings.indoorHoleView && !m_holeViewApplied && m_pIndoorMapData != nullptr)
+    {
+        // The hole view (tools/indoor_hole_sweep.py): sky faces draw as faces again (a batch rebuild), no sky pass,
+        // fog or view distance, and the clear colour is magenta: what shows magenta is covered by no face.
+        m_holeViewApplied = true;
+        m_openSky = {};
+        m_fog = {};
+        m_frameFog = {};
+        m_texturedBatchGeometryRevision = std::numeric_limits<uint64_t>::max();
+    }
+    // The outdoor view's distance: the player's view distance setting as an outdoor map takes it (default 16 192,
+    // OutdoorGameView) times the scene's view_distance_scale.
+    m_outdoorViewDistance = m_openSky.enabled && m_openSky.outdoorView
+        ? resolveViewDistanceSetting(settings.viewDistance, IndoorOutdoorViewDefaultDistance)
+            * m_openSky.viewDistanceScale
+        : 0.0f;
     m_worldFxSystem.waterRipples().setEnabled(
         settings.waterMovementRipples && m_waterRenderer.isReady());
     m_logIndoorVisibilityDiagnostics = settings.logIndoorVisibility;
@@ -3795,6 +3961,10 @@ void IndoorRenderer::render(
     m_bakedStaticColoredLights = settings.coloredLights;
     const bool collectRenderDiagnostics = m_logIndoorPerformanceDiagnostics;
     const uint64_t renderBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
+    // The portal debug view's CPU split (IndoorRendererPortalDebug.cpp): one flag test per frame while it is off.
+    const bool portalDebug = m_portalDebug.active();
+    const auto portalDebugTicks = [portalDebug]() { return portalDebug ? SDL_GetTicksNS() : uint64_t(0); };
+    const uint64_t portalDebugBeginTicks = portalDebugTicks();
 
     if (collectRenderDiagnostics)
     {
@@ -3803,11 +3973,13 @@ void IndoorRenderer::render(
 
     const float deltaMilliseconds = deltaSeconds * 1000.0f;
     m_elapsedTime += std::max(deltaSeconds, 0.0f);
+    m_talkCamera.update(gameSession.gameplayScreenRuntime(), m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ,
+        IndoorCameraVerticalFovDegrees, deltaSeconds, m_cameraYawRadians, m_cameraPitchRadians);
 
     if (allowWorldSimulation && m_pSceneRuntime != nullptr)
     {
-        // Turn-based mode freezes game time, but doors and lifts keep moving.
-        const bool turnBasedActive = gameSession.turnBasedCombatRuntime().active();
+        // Turn-based mode and a held world (setWorldTimeHeld) freeze game time, but doors and lifts keep moving.
+        const bool gameTimeFrozen = gameSession.turnBasedCombatRuntime().active() || m_worldTimeHeld;
         const bool collectDiagnostics = m_logIndoorPerformanceDiagnostics;
         const uint64_t mechanismBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
         const uint64_t simulationBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
@@ -3816,7 +3988,7 @@ void IndoorRenderer::render(
             pPreviousEventRuntimeState != nullptr
                 ? pPreviousEventRuntimeState->mechanisms
                 : std::unordered_map<uint32_t, RuntimeMechanismState>();
-        const bool simulationAdvanced = turnBasedActive
+        const bool simulationAdvanced = gameTimeFrozen
             ? m_pSceneRuntime->advanceMechanisms(deltaMilliseconds)
             : m_pSceneRuntime->advanceSimulation(deltaMilliseconds);
 
@@ -3912,6 +4084,7 @@ void IndoorRenderer::render(
     if (bgfx::getRendererType() != bgfx::RendererType::Noop
         && m_indoorTextureSet
         && m_texturedBatchGeometryRevision != currentTexturedBatchGeometryRevision()
+        && !updateFaceAttributeChanges()
         && !rebuildDerivedGeometryResources())
     {
         std::cerr << "IndoorRenderer: failed to rebuild after a surface change\n";
@@ -3997,7 +4170,7 @@ void IndoorRenderer::render(
         60.0f,
         static_cast<float>(viewWidth) / static_cast<float>(viewHeight),
         IndoorCameraNearClipDistance,
-        IndoorCameraFarClipDistance,
+        cameraFarClipDistance(),
         bgfx::getCaps()->homogeneousDepth,
         bx::Handedness::Right
     );
@@ -4022,6 +4195,17 @@ void IndoorRenderer::render(
     m_modelRenderer.setAlphaToCoverage(alphaToCoverage);
     bgfx::setViewTransform(MainViewId, viewMatrix, projectionMatrix);
     bgfx::touch(MainViewId);
+    if (portalDebug || m_portalDebugPassViewsBound)
+    {
+        preparePortalDebugPassViews(viewWidth, viewHeight, viewMatrix, projectionMatrix);
+    }
+    // The views of the passes: the ordinary ones, or each pass's own while `portals gpu` times them.
+    const uint16_t decorationView = portalDebugPassView(IndoorDebugPass::Decorations, transparentView);
+    const uint16_t decorationSolidView = portalDebugPassView(IndoorDebugPass::Decorations, MainViewId);
+    const uint16_t actorView = portalDebugPassView(IndoorDebugPass::Actors, transparentView);
+    const uint16_t actorSolidView = portalDebugPassView(IndoorDebugPass::Actors, MainViewId);
+    const uint16_t openSkyView = portalDebugPassView(IndoorDebugPass::OpenSky, MainViewId);
+    const uint16_t translucentView = portalDebugPassView(IndoorDebugPass::Translucent, transparentView);
 
     if (collectRenderDiagnostics)
     {
@@ -4035,7 +4219,13 @@ void IndoorRenderer::render(
     const bool enhancedWater = m_waterRenderer.isReady();
 
     const uint64_t visibilityBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
+    const uint64_t portalDebugVisibilityTicks = portalDebugTicks();
     const std::vector<uint8_t> renderVisibleSectorMask = buildVisibleSectorMask(eye);
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuVisibilityNanoseconds = SDL_GetTicksNS() - portalDebugVisibilityTicks;
+        m_portalDebugStats.visibilityRebuilt = m_renderPortalVisibilityCache.rebuilt;
+    }
     const std::vector<uint8_t> &baseVisibleSectorMask = renderVisibleSectorMask;
     const std::vector<std::vector<IndoorVisibilityFrustum>> &renderVisibleSectorFrustums =
         m_renderPortalVisibilityCache.visibleSectorFrustums;
@@ -4048,6 +4238,7 @@ void IndoorRenderer::render(
     LightingStats *pLightingStats =
         collectRenderDiagnostics ? &m_indoorPerformanceDiagnostics.lightingStats : nullptr;
     const uint64_t lightingBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
+    const uint64_t portalDebugLightingTicks = portalDebugTicks();
     IndoorLightingFrameInput lightingInput = {};
     lightingInput.pMapData = m_pIndoorMapData;
     lightingInput.pEventRuntimeState = runtimeEventRuntimeState();
@@ -4062,7 +4253,14 @@ void IndoorRenderer::render(
     lightingInput.warmTorchLight = settings.warmTorchLight;
     lightingInput.fxClusterThreshold =
         settings.lightGrid == LightGridQuality::Low ? FxLightClusterThresholdLow : FxLightClusterThresholdHigh;
+    lightingInput.lightsIgnoreReach = m_modelLighting.enabled;
+    lightingInput.timeSeconds = m_elapsedTime;
+    updateFrameDaylightAndFog();
+    // The water fogs as the faces do this frame: a copy taken when the water was built missed the outdoor view's haze
+    // (made each frame from the sky and the view distance) and drew the Isle of Ashes' sea black.
+    m_waterRenderer.setIndoorFog(m_frameFog);
     IndoorLightingFrame lightingFrame = m_indoorLightingRuntime.buildFrame(lightingInput);
+    applyDaylightToLightingFrame(lightingFrame);
     // With baked lighting, actors, decorations and items (still lit by the light grid) take the bake's room light as
     // their ambient, so they match the lightmapped walls around them.
     if (m_bakedLightingActive)
@@ -4076,6 +4274,7 @@ void IndoorRenderer::render(
         }
     }
     m_surfaceMaterialsEnabled = settings.surfaceMaterials;
+    m_terrainAntiTiling = settings.terrainAntiTiling;
     m_surfaceParallaxEnabled = settings.surfaceParallax;
     m_surfaceReflectionsEnabled = settings.surfaceReflections;
     if (pLightingStats != nullptr)
@@ -4125,6 +4324,10 @@ void IndoorRenderer::render(
     if (collectRenderDiagnostics)
     {
         m_indoorPerformanceDiagnostics.renderLightingNanoseconds += SDL_GetTicksNS() - lightingBeginTickCount;
+    }
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuLightingNanoseconds = SDL_GetTicksNS() - portalDebugLightingTicks;
     }
 
     const uint64_t inspectBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
@@ -4230,11 +4433,8 @@ void IndoorRenderer::render(
             pLightingStats->selectionNanoseconds += SDL_GetTicksNS() - gridBeginTickCount;
         }
     }
-    // The faces' room ambient is baked into their vertices and their dynamic lights come from the grid, so the light
-    // set adds nothing.
-    const IndoorDrawLightSet faceAmbient = {};
-
     const uint64_t texturedSubmitBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
+    const uint64_t portalDebugFacesTicks = portalDebugTicks();
     uint64_t texturedBatchCount = 0;
     uint64_t visibleTexturedBatchCount = 0;
     uint64_t submittedTexturedBatchCount = 0;
@@ -4254,8 +4454,12 @@ void IndoorRenderer::render(
             && m_pSceneRuntime != nullptr
             && GameMechanics::partyDetectsSecretFaces(m_pSceneRuntime->partyRuntime().party(), m_map.value());
 
-        for (const TexturedBatch &batch : m_texturedBatches)
+        // The visible opaque batches, drawn merged by group (translucent faces draw later, sorted; liquids with the
+        // enhanced water are the water renderer's).
+        m_mainViewDrawnBatches.assign(m_texturedBatches.size(), 0);
+        for (size_t batchIndex = 0; batchIndex < m_texturedBatches.size(); ++batchIndex)
         {
+            const TexturedBatch &batch = m_texturedBatches[batchIndex];
             ++texturedBatchCount;
 
             if (!indoorGeometrySectorsVisible(renderVisibleSectorMask, batch.sectorId, batch.backSectorId))
@@ -4265,17 +4469,16 @@ void IndoorRenderer::render(
             }
 
             ++visibleTexturedBatchCount;
-
-            if ((enhancedWater && batch.waterColorAbgr != 0) || batch.translucent)
-            {
-                continue;
-            }
-            if (submitTexturedBatch(batch, MainViewId, faceAmbient, &m_lightGrid, eye, m_cameraYawRadians,
-                    m_cameraPitchRadians, viewWidth, viewHeight, secretFacesDetected, {0.0f, 0.0f, 0.0f, 0.0f}))
-            {
-                ++submittedTexturedBatchCount;
-            }
+            m_mainViewDrawnBatches[batchIndex] =
+                (enhancedWater && batch.waterColorAbgr != 0) || batch.translucent ? 0 : 1;
         }
+        submittedTexturedBatchCount =
+            submitMainViewFaces(m_mainViewDrawnBatches, viewWidth, viewHeight, secretFacesDetected);
+    }
+
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuFacesNanoseconds = SDL_GetTicksNS() - portalDebugFacesTicks;
     }
 
     if (collectRenderDiagnostics)
@@ -4288,10 +4491,15 @@ void IndoorRenderer::render(
         m_indoorPerformanceDiagnostics.renderCulledTexturedBatches += culledTexturedBatchCount;
     }
 
-    if (enhancedWater)
+    // With the eye under water every liquid is drawn after the open sky, so the world above shows through the
+    // surface from below (MM9's surface is a see-through sprite), the opaque deep sea included.
+    const bool eyeUnderWater =
+        m_pSceneRuntime != nullptr && m_pSceneRuntime->partyRuntime().eyeWaterVolume() != nullptr;
+    if (enhancedWater && !eyeUnderWater)
     {
         m_waterRenderer.renderIndoor(transparentView, m_elapsedTime, lightingFrame, eye, viewForward,
-            settings.waterMovementRipples ? &m_worldFxSystem.waterRipples() : nullptr);
+            settings.waterMovementRipples ? &m_worldFxSystem.waterRipples() : nullptr, nullptr, {},
+            WaterSurfaceSet::Opaque);
     }
 
     const uint64_t bloodSplatsBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
@@ -4316,8 +4524,9 @@ void IndoorRenderer::render(
     renderContextActionGeometryHighlight(transparentView, pContextActionState);
 
     const uint64_t decorationBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
+    uint64_t portalDebugSplitTicks = portalDebugTicks();
     renderDecorationBillboards(
-        transparentView,
+        decorationView,
         viewMatrix,
         eye,
         renderVisibleSectorMask,
@@ -4330,10 +4539,15 @@ void IndoorRenderer::render(
     {
         m_indoorPerformanceDiagnostics.renderDecorationNanoseconds += SDL_GetTicksNS() - decorationBeginTickCount;
     }
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuDecorationsNanoseconds = SDL_GetTicksNS() - portalDebugSplitTicks;
+        portalDebugSplitTicks = SDL_GetTicksNS();
+    }
 
     const uint64_t actorBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
     renderActorPreviewBillboards(
-        transparentView,
+        actorView,
         viewMatrix,
         projectionMatrix,
         eye,
@@ -4348,6 +4562,10 @@ void IndoorRenderer::render(
     if (collectRenderDiagnostics)
     {
         m_indoorPerformanceDiagnostics.renderActorNanoseconds += SDL_GetTicksNS() - actorBeginTickCount;
+    }
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuActorsNanoseconds = SDL_GetTicksNS() - portalDebugSplitTicks;
     }
 
     const uint64_t modelBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
@@ -4372,9 +4590,22 @@ void IndoorRenderer::render(
     modelLighting.keyFraction = IndoorModelKeyFraction;
     if (m_fog.enabled)
     {
-        modelLighting.fogColor = indoorFogColorUniform(m_fog);
-        modelLighting.fogDensities = indoorFogDensitiesUniform(m_fog);
-        modelLighting.fogDistances = indoorFogDistancesUniform(m_fog);
+        modelLighting.fogColor = indoorFogColorUniform(m_frameFog);
+        modelLighting.fogDensities = indoorFogDensitiesUniform(m_frameFog);
+        modelLighting.fogDistances = indoorFogDistancesUniform(m_frameFog);
+        if (m_openSky.outdoorView)
+        {
+            modelLighting.skyFog = m_outdoorSkyFog;
+        }
+    }
+    if (m_modelLighting.enabled)
+    {
+        // MM9's model lighting (scene model_lighting) for creatures and decorations: the ambient and ModelAdd as the
+        // base, the grid lights per pixel at their BLV colour.
+        modelLighting.fixedFunctionLighting = true;
+        modelLighting.fixedPointScale = m_modelLighting.lightScale / IndoorLightingRuntime::mapLightStrength();
+        modelLighting.ambient = 1.0f;
+        modelLighting.ambientColor = indoorModelLight(m_modelLighting, {0.0f, 0.0f, 0.0f});
     }
     if (m_pSceneRuntime != nullptr && runtimeMapDeltaData())
     {
@@ -4394,7 +4625,7 @@ void IndoorRenderer::render(
             return sectorVisibleForRuntimeBillboard(sectorId, &renderVisibleSectorMask);
         });
     }
-    std::optional<IndoorFaceGeometryCache> modelGeometryCache;
+    bool modelGeometryCacheReady = false;
     const auto modelSector = [&](Engine::ModelInstanceHandle handle, const bx::Vec3 &center)
     {
         // A model is resampled after its centre moves a little.
@@ -4407,49 +4638,69 @@ void IndoorRenderer::render(
         const bx::Vec3 offset = bx::sub(center, entry.center);
         if (!entry.valid || entry.generation != handle.generation || bx::dot(offset, offset) > ResampleDistanceSquared)
         {
-            if (!modelGeometryCache)
+            if (!modelGeometryCacheReady)
             {
-                modelGeometryCache.emplace(m_pIndoorMapData->faces.size());
+                // The world's face grid, so a lookup tests the faces near the model, not every face of its sector
+                // (a region's open air is one sector of 27 000 faces, and every moving monster looks up each frame).
+                m_modelSectorGeometryCache.reset(m_pIndoorMapData->faces.size());
+                m_modelSectorGeometryCache.setSectorFaceGrid(
+                    m_pSceneRuntime != nullptr ? m_pSceneRuntime->worldRuntime().sectorFaceGrid() : nullptr);
+                modelGeometryCacheReady = true;
             }
             entry.generation = handle.generation;
             entry.center = center;
             entry.sectorId = findIndoorSectorForPoint(
-                *m_pIndoorMapData, m_renderVertices, center, &*modelGeometryCache).value_or(-1);
+                *m_pIndoorMapData, m_renderVertices, center, &m_modelSectorGeometryCache).value_or(-1);
             entry.valid = true;
         }
         return entry.sectorId;
     };
     const ViewFrustum modelFrustum(viewMatrix, projectionMatrix, bgfx::getCaps()->homogeneousDepth);
     const float modelFocalPixels = settings.modelLods ? std::abs(projectionMatrix[5]) * viewHeight * 0.5f : 0.0f;
+    portalDebugSplitTicks = portalDebugTicks();
     if (!m_decorationModels.empty())
     {
         // Each placement's ambient carries the light its sprite would receive (updateDecorationModels); the key
         // light shapes it as it shapes the creatures.
         updateDecorationModels(renderVisibleSectorMask, lightingFrame, pContextActionState, pLightingStats);
         Engine::ModelRenderLighting decorationLighting = modelLighting;
-        decorationLighting.keyFraction = IndoorDecorationKeyFraction;
-        decorationLighting.ambient = IndoorDecorationExposure;
-        // The reflection is ambient x environmentScale (the room environment, tinted); a creature's is the frame
-        // ambient.
-        const float sheen = lightingFrame.ambient * IndoorDecorationReflection / IndoorDecorationExposure;
-        decorationLighting.environmentScale = {sheen * roomTint[0], sheen * roomTint[1], sheen * roomTint[2]};
-        // Highlights from the view's lights (the grid; the nearest 12 where a view has none): only the specular
-        // lobe, since each placement's light already carries their diffuse share.
-        decorationLighting.pointPositions = highlights.positions;
-        decorationLighting.pointColors = highlights.colors;
-        decorationLighting.pointCount = uint32_t(highlights.lightCount);
-        decorationLighting.pointSpecularOnly = true;
-        m_modelRenderer.renderStatic(m_decorationModels.groups(), MainViewId, {eye.x, eye.y, eye.z},
+        if (m_modelLighting.enabled)
+        {
+            // MM9's model lighting: each placement's light is the base, the grid lights add with N.L.
+            decorationLighting.ambientColor = {1.0f, 1.0f, 1.0f};
+        }
+        else
+        {
+            decorationLighting.keyFraction = IndoorDecorationKeyFraction;
+            decorationLighting.ambient = IndoorDecorationExposure;
+            // The reflection is ambient x environmentScale (the room environment, tinted); a creature's is the frame
+            // ambient.
+            const float sheen = lightingFrame.ambient * IndoorDecorationReflection / IndoorDecorationExposure;
+            decorationLighting.environmentScale = {sheen * roomTint[0], sheen * roomTint[1], sheen * roomTint[2]};
+            // Highlights from the view's lights (the grid; the nearest 12 where a view has none): only the specular
+            // lobe, since each placement's light already carries their diffuse share.
+            decorationLighting.pointPositions = highlights.positions;
+            decorationLighting.pointColors = highlights.colors;
+            decorationLighting.pointCount = uint32_t(highlights.lightCount);
+            decorationLighting.pointSpecularOnly = true;
+            applyDaylightSun(decorationLighting, 1.0f);
+        }
+        m_modelRenderer.renderStatic(m_decorationModels.groups(), decorationSolidView, {eye.x, eye.y, eye.z},
             decorationLighting, nullptr,
             [&](const Engine::ModelBounds &bounds)
             {
                 return modelFrustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
                     {bounds.max[0], bounds.max[1], bounds.max[2]});
-            }, modelFocalPixels, settings.modelLodOverride, float(SDL_GetTicks()) * 0.001f, transparentView);
+            }, modelFocalPixels, settings.modelLodOverride, float(SDL_GetTicks()) * 0.001f, decorationView);
+    }
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuDecorationsNanoseconds += SDL_GetTicksNS() - portalDebugSplitTicks;
+        portalDebugSplitTicks = SDL_GetTicksNS();
     }
     m_modelRenderer.render(
         m_worldFxSystem.models(),
-        MainViewId,
+        actorSolidView,
         {eye.x, eye.y, eye.z},
         modelLighting,
         // Creatures read their point lights from the grid; per model only their room: its ambient and the grid
@@ -4461,7 +4712,16 @@ void IndoorRenderer::render(
             {
                 lighting.sector = modelSector(handle, {(bounds.min[0] + bounds.max[0]) * 0.5f,
                     (bounds.min[1] + bounds.max[1]) * 0.5f, (bounds.min[2] + bounds.max[2]) * 0.5f});
-                lighting.ambient = IndoorLightingRuntime::sectorAmbient(lightingFrame, lighting.sector);
+                if (!m_modelLighting.enabled)
+                {
+                    lighting.ambient = IndoorLightingRuntime::sectorAmbient(lightingFrame, lighting.sector);
+                    if (indoorDaylightSector(m_daylight, lighting.sector))
+                    {
+                        // In the open air: the daylight's ambient all round and its sun by direction.
+                        lighting.ambient = indoorDaylightModelAmbient(m_frameDaylight);
+                        applyDaylightSun(lighting, 1.0f);
+                    }
+                }
             }
             return lighting;
         }, nullptr,
@@ -4469,10 +4729,54 @@ void IndoorRenderer::render(
         {
             return modelFrustum.intersectsBounds({bounds.min[0], bounds.min[1], bounds.min[2]},
                 {bounds.max[0], bounds.max[1], bounds.max[2]});
-        }, modelFocalPixels, settings.modelLodOverride, float(SDL_GetTicks()) * 0.001f, transparentView);
+        }, modelFocalPixels, settings.modelLodOverride, float(SDL_GetTicks()) * 0.001f, actorView);
     if (collectRenderDiagnostics)
     {
         m_indoorPerformanceDiagnostics.renderParticleNanoseconds += SDL_GetTicksNS() - modelBeginTickCount;
+    }
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuActorsNanoseconds += SDL_GetTicksNS() - portalDebugSplitTicks;
+        portalDebugSplitTicks = SDL_GetTicksNS();
+    }
+
+    // Grass over the terrain (scene `terrain: {grass}`), before the sky shades the uncovered pixels.
+    if (settings.terrainDecorations && !m_grassConfigPath.empty())
+    {
+        renderTerrainGrass(MainViewId, eye, viewForward, projectionMatrix,
+            float(viewWidth) / float(std::max<int>(viewHeight, 1)));
+    }
+
+    // The weather over the open sky (scene `sky: {weather}`): heard and seen with the camera in an open sector, out of
+    // the water.
+    const int16_t weatherEyeSector = m_renderPortalVisibilityCache.valid ? m_renderPortalVisibilityCache.sectorId : -1;
+    const bool cameraInOpenAir = m_openSkyWeather.active() && weatherEyeSector >= 0
+        && size_t(weatherEyeSector) < m_openSkySectors.size() && m_openSkySectors[size_t(weatherEyeSector)] != 0
+        && (m_pSceneRuntime == nullptr || m_pSceneRuntime->partyRuntime().eyeWaterVolume() == nullptr);
+    if (m_openSkyWeather.active())
+    {
+        const double weatherGameMinutes =
+            m_pSceneRuntime != nullptr ? m_pSceneRuntime->worldRuntime().gameMinutes() : 9.0 * 60.0;
+        m_openSkyWeather.update(weatherGameMinutes, m_elapsedTime, m_pWeatherAudio, cameraInOpenAir);
+        m_waterRenderer.setRainRings(settings.rainRipples ? m_openSkyWeather.rainRings() : 0.0f,
+            settings.weatherQuality == WeatherQuality::High ? 2 : 1);
+    }
+
+    // The open sky shades only the pixels the solid scene left uncovered, before anything blends over them.
+    renderOpenSky(openSkyView, viewMatrix, projectionMatrix);
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuOpenSkyNanoseconds = SDL_GetTicksNS() - portalDebugSplitTicks;
+        portalDebugSplitTicks = SDL_GetTicksNS();
+    }
+
+    // See-through liquids (liquids.yml opacity) blend over the completed solid scene: their bed, and the creatures and
+    // models standing in them, show through.
+    if (enhancedWater)
+    {
+        m_waterRenderer.renderIndoor(translucentView, m_elapsedTime, lightingFrame, eye, viewForward,
+            settings.waterMovementRipples ? &m_worldFxSystem.waterRipples() : nullptr, nullptr, {},
+            eyeUnderWater ? WaterSurfaceSet::All : WaterSurfaceSet::SeeThrough);
     }
 
     // Translucent faces (window glass) blend over the solid scene, before the spells, particles and effects.
@@ -4480,14 +4784,14 @@ void IndoorRenderer::render(
     {
         const bool secretFacesDetected = m_map.has_value() && m_pSceneRuntime != nullptr
             && GameMechanics::partyDetectsSecretFaces(m_pSceneRuntime->partyRuntime().party(), m_map.value());
-        renderTranslucentFaces(transparentView, eye, renderVisibleSectorMask, viewWidth, viewHeight,
+        renderTranslucentFaces(translucentView, eye, renderVisibleSectorMask, viewWidth, viewHeight,
             secretFacesDetected);
     }
 
     // Spell billboards blend with the completed solid scene, including creatures and models.
     const uint64_t spriteObjectBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
     renderSpriteObjectBillboards(
-        transparentView,
+        translucentView,
         viewMatrix,
         eye,
         renderVisibleSectorMask,
@@ -4503,11 +4807,11 @@ void IndoorRenderer::render(
     }
 
     const uint64_t particlesBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
-    renderFxSegmentProjectiles(transparentView, viewMatrix);
+    renderFxSegmentProjectiles(translucentView, viewMatrix);
     ParticleRenderer::renderParticles(
         m_worldFxRenderResources,
         m_worldFxSystem.particles(),
-        transparentView,
+        translucentView,
         viewMatrix,
         eye,
         static_cast<float>(viewWidth) / static_cast<float>(viewHeight),
@@ -4519,18 +4823,33 @@ void IndoorRenderer::render(
             m_worldFxSystem.namedEffects(),
             m_worldFxSystem.namedEffectResources(),
             *m_pAssetFileSystem,
-            transparentView,
+            translucentView,
             viewMatrix,
             eye);
     }
-    m_shieldDomeRenderer.render(transparentView, m_worldFxSystem.shieldDomes(), eye,
+    m_shieldDomeRenderer.render(translucentView, m_worldFxSystem.shieldDomes(), eye,
         m_worldFxSystem.shieldDomeTimeSeconds());
-    EnemyHealthBarRenderer::render(gameSession.gameplayScreenRuntime(), m_pendingEnemyHealthBars, transparentView,
+    if (cameraInOpenAir)
+    {
+        // No splashes yet: the indoor floor query is not wired to the weather (WeatherGroundQuery left empty).
+        m_openSkyWeather.render(translucentView, {eye.x, eye.y, eye.z}, m_cameraYawRadians, projectionMatrix,
+            viewHeight, m_skyRenderer.isReady() ? &m_skyRenderer.frame() : nullptr, settings.weatherQuality, {});
+    }
+    renderWaterTint(translucentView);
+    EnemyHealthBarRenderer::render(gameSession.gameplayScreenRuntime(), m_pendingEnemyHealthBars, translucentView,
         eye, viewMatrix, projectionMatrix, m_lastRenderHeight);
     m_pendingEnemyHealthBars.clear();
     if (m_pPostProcessing != nullptr && (m_modelRenderer.glowDrawn() || m_worldFxRenderResources.glowDrawn()))
     {
         m_pPostProcessing->markGlowDrawn();
+    }
+
+    if (portalDebug)
+    {
+        m_portalDebugStats.cpuTranslucentNanoseconds = SDL_GetTicksNS() - portalDebugSplitTicks;
+        m_portalDebugStats.cpuTotalNanoseconds = SDL_GetTicksNS() - portalDebugBeginTicks;
+        collectPortalDebugStats(renderVisibleSectorMask, viewMatrix, projectionMatrix, eye);
+        renderPortalDebugOverlay(translucentView, renderVisibleSectorMask);
     }
 
     if (collectRenderDiagnostics)
@@ -4752,7 +5071,7 @@ IndoorRenderer::gameplayActorPickAtCursor(
         60.0f,
         aspectRatio,
         IndoorCameraNearClipDistance,
-        IndoorCameraFarClipDistance,
+        cameraFarClipDistance(),
         bgfx::getCaps()->homogeneousDepth,
         bx::Handedness::Right
     );
@@ -5072,7 +5391,7 @@ GameplayWorldPickRequest IndoorRenderer::buildGameplayWorldPickRequest(
         60.0f,
         aspectRatio,
         IndoorCameraNearClipDistance,
-        IndoorCameraFarClipDistance,
+        cameraFarClipDistance(),
         bgfx::getCaps()->homogeneousDepth,
         bx::Handedness::Right
     );
@@ -5448,13 +5767,6 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
                 && m_pSceneRuntime->worldRuntime().canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard);
         };
 
-    const GameplayWorldHit directHit = pickGameplayWorldHit(rayRequest);
-
-    if (isSelectableHit(directHit))
-    {
-        return directHit;
-    }
-
     if (!m_isInitialized
         || !m_isRenderable
         || !m_pIndoorMapData
@@ -5467,16 +5779,10 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
     float viewProjectionMatrix[16] = {};
     bx::mtxMul(viewProjectionMatrix, rayRequest.viewMatrix.data(), rayRequest.projectionMatrix.data());
 
-    struct KeyboardCandidate
-    {
-        float screenX = 0.0f;
-        float screenY = 0.0f;
-        float score = 0.0f;
-        bool hasWorldHit = false;
-        GameplayWorldHit worldHit = {};
-    };
-
-    std::vector<KeyboardCandidate> candidates;
+    // The usable target nearest the crosshair, weighed by how far it is: the crosshair hit itself is tried first by
+    // GameplayInteractionController::pickKeyboardUseTarget.
+    float bestScore = std::numeric_limits<float>::max();
+    GameplayWorldHit bestHit = {};
     const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye);
 
     const auto levelBlocksWorldPoint =
@@ -5561,9 +5867,14 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
             return false;
         };
 
-    const auto appendProjectedCandidate =
-        [&](const bx::Vec3 &worldPoint, float screenRadius)
+    const auto appendProjectedWorldHitCandidate =
+        [&](const bx::Vec3 &worldPoint, GameplayWorldHit worldHit, float screenRadius)
         {
+            if (!isSelectableHit(worldHit))
+            {
+                return;
+            }
+
             ProjectedPoint projected = {};
 
             if (!projectWorldPointToScreen(
@@ -5594,60 +5905,16 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
             }
 
             const float worldDistance = vecLength(vecSubtract(worldPoint, rayRequest.eye));
-            candidates.push_back(KeyboardCandidate{
-                .screenX = projected.x,
-                .screenY = projected.y,
-                .score = screenDistance * 4.0f + worldDistance,
-            });
-        };
+            const float score = screenDistance * 4.0f + worldDistance;
 
-    const auto appendProjectedWorldHitCandidate =
-        [&](const bx::Vec3 &worldPoint, GameplayWorldHit worldHit, float screenRadius)
-        {
-            if (!isSelectableHit(worldHit))
+            // The line-of-sight test walks every face, so it runs only for a candidate that would win.
+            if (score >= bestScore || levelBlocksWorldPoint(worldPoint))
             {
                 return;
             }
 
-            ProjectedPoint projected = {};
-
-            if (!projectWorldPointToScreen(
-                    worldPoint,
-                    rayRequest.viewWidth,
-                    rayRequest.viewHeight,
-                    viewProjectionMatrix,
-                    projected))
-            {
-                return;
-            }
-
-            if (projected.x < 0.0f
-                || projected.x > static_cast<float>(rayRequest.viewWidth)
-                || projected.y < 0.0f
-                || projected.y > static_cast<float>(rayRequest.viewHeight)
-                || levelBlocksWorldPoint(worldPoint))
-            {
-                return;
-            }
-
-            const float deltaX = projected.x - rayRequest.screenX;
-            const float deltaY = projected.y - rayRequest.screenY;
-            const float screenDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
-
-            if (screenRadius >= 0.0f && screenDistance > screenRadius)
-            {
-                return;
-            }
-
-            const float worldDistance = vecLength(vecSubtract(worldPoint, rayRequest.eye));
-
-            candidates.push_back(KeyboardCandidate{
-                .screenX = projected.x,
-                .screenY = projected.y,
-                .score = screenDistance * 4.0f + worldDistance,
-                .hasWorldHit = true,
-                .worldHit = worldHit,
-            });
+            bestScore = score;
+            bestHit = std::move(worldHit);
         };
 
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
@@ -5805,17 +6072,57 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
         appendProjectedWorldHitCandidate(center, worldHit, KeyboardEventFaceScreenRadius);
     }
 
-    if (m_pIndoorMapData)
+    // Decorations with an event (sacks, barrels, chests, torches that toggle) anywhere on screen, as the original
+    // scans every visible billboard. Their middle is the point tested for line of sight.
+    if (m_indoorDecorationBillboardSet)
     {
-        for (const IndoorEntity &entity : m_pIndoorMapData->entities)
+        for (const DecorationBillboard &billboard : m_indoorDecorationBillboardSet->billboards)
         {
-            appendProjectedCandidate(
-                {
-                    static_cast<float>(entity.x),
-                    static_cast<float>(entity.y),
-                    static_cast<float>(entity.z) + 32.0f
-                },
-                96.0f);
+            if (billboard.entityIndex >= m_pIndoorMapData->entities.size()
+                || !isRenderSectorVisible(billboard.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
+            bool hidden = false;
+
+            if (resolveDecorationBillboardSpriteId(billboard, hidden) == 0 || hidden)
+            {
+                continue;
+            }
+
+            const IndoorEntity &entity = m_pIndoorMapData->entities[billboard.entityIndex];
+            const bx::Vec3 center = {
+                static_cast<float>(billboard.x),
+                static_cast<float>(billboard.y),
+                static_cast<float>(billboard.z) + static_cast<float>(std::max<uint16_t>(billboard.height, 32)) * 0.5f
+            };
+            const bx::Vec3 toCenter = vecSubtract(center, rayRequest.eye);
+            const float centerDistance = vecLength(toCenter);
+
+            if (centerDistance <= InspectRayEpsilon)
+            {
+                continue;
+            }
+
+            InspectHit inspectHit = {};
+            inspectHit.hasHit = true;
+            inspectHit.kind = "entity";
+            inspectHit.index = billboard.entityIndex;
+            inspectHit.name = entity.name;
+            inspectHit.distance = centerDistance;
+            inspectHit.decorationListId = entity.decorationListId;
+            inspectHit.eventIdPrimary = entity.eventIdPrimary;
+            inspectHit.eventIdSecondary = entity.eventIdSecondary;
+            inspectHit.variablePrimary = entity.variablePrimary;
+            inspectHit.variableSecondary = entity.variableSecondary;
+            inspectHit.specialTrigger = entity.specialTrigger;
+
+            GameplayWorldPickRequest centerRequest = rayRequest;
+            centerRequest.rayOrigin = rayRequest.eye;
+            centerRequest.rayDirection = vecNormalize(toCenter);
+            appendProjectedWorldHitCandidate(
+                center, translateInspectHitToGameplayWorldHit(inspectHit, centerRequest), -1.0f);
         }
     }
 
@@ -5898,50 +6205,7 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
         }
     }
 
-    std::sort(
-        candidates.begin(),
-        candidates.end(),
-        [](const KeyboardCandidate &left, const KeyboardCandidate &right)
-        {
-            return left.score < right.score;
-        });
-
-    constexpr size_t MaxKeyboardCandidateProbes = 16;
-    const size_t candidateProbeCount = std::min(candidates.size(), MaxKeyboardCandidateProbes);
-
-    for (size_t candidateIndex = 0; candidateIndex < candidateProbeCount; ++candidateIndex)
-    {
-        const KeyboardCandidate &candidate = candidates[candidateIndex];
-
-        if (candidate.hasWorldHit)
-        {
-            if (isSelectableHit(candidate.worldHit))
-            {
-                return candidate.worldHit;
-            }
-
-            continue;
-        }
-
-        GameplayWorldPickRequest candidateRequest =
-            buildGameplayWorldPickRequest(
-                GameplayWorldPickRequestInput{
-                    .screenX = candidate.screenX,
-                    .screenY = candidate.screenY,
-                    .screenWidth = rayRequest.viewWidth,
-                    .screenHeight = rayRequest.viewHeight,
-                    .includeRay = true,
-                });
-        candidateRequest.ignoreActors = rayRequest.ignoreActors;
-        const GameplayWorldHit candidateHit = pickGameplayWorldHit(candidateRequest);
-
-        if (isSelectableHit(candidateHit))
-        {
-            return candidateHit;
-        }
-    }
-
-    return directHit;
+    return bestHit;
 }
 
 GameplayWorldHoverCacheState IndoorRenderer::gameplayWorldHoverCacheState() const
@@ -6061,7 +6325,7 @@ bool IndoorRenderer::projectGameplayWorldPointToScreen(
         IndoorCameraVerticalFovDegrees,
         aspectRatio,
         IndoorCameraNearClipDistance,
-        IndoorCameraFarClipDistance,
+        cameraFarClipDistance(),
         bgfx::getCaps()->homogeneousDepth,
         bx::Handedness::Right);
     bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
@@ -6124,7 +6388,7 @@ std::vector<size_t> IndoorRenderer::gameplayVisibleHostileActorIndices() const
         60.0f,
         aspectRatio,
         IndoorCameraNearClipDistance,
-        IndoorCameraFarClipDistance,
+        cameraFarClipDistance(),
         bgfx::getCaps()->homogeneousDepth,
         bx::Handedness::Right
     );
@@ -6633,8 +6897,70 @@ bool IndoorRenderer::activateGameplayWorldHit(const GameplayWorldHit &hit)
     return tryActivateInspectEvent(*inspectHit);
 }
 
+void IndoorRenderer::setOpenSkyWeather(const std::optional<OutdoorWeatherProfile> &profile,
+    GameAudioSystem *pAudioSystem)
+{
+    m_pWeatherAudio = pAudioSystem;
+    m_openSkyWeather.configure(m_openSky.enabled ? profile : std::nullopt);
+}
+
+void IndoorRenderer::renderOpenSky(uint16_t viewId, const float *pViewMatrix, const float *pProjectionMatrix)
+{
+    if (!m_openSky.enabled || m_pAssetFileSystem == nullptr)
+    {
+        return;
+    }
+
+    if (!m_skyRenderer.isReady())
+    {
+        if (m_skyRendererInitializeAttempted)
+        {
+            return;
+        }
+
+        m_skyRendererInitializeAttempted = true;
+
+        if (!m_skyRenderer.initialize(*m_pAssetFileSystem))
+        {
+            return;
+        }
+    }
+
+    SkyInputs inputs = {};
+    if (m_pSceneRuntime != nullptr)
+    {
+        inputs.gameMinutes = m_pSceneRuntime->worldRuntime().gameMinutes();
+    }
+    inputs.weatherSkyName = m_openSky.skyTexture;
+    inputs.forcedPreset = m_openSky.preset;
+    inputs.mapFileName = m_map ? m_map->fileName : std::string();
+    // MM9's sky in fog (scene fog `sky`): the sky drawn in this frame's fog colour.
+    inputs.fogCover = indoorFogSkyCover(m_frameFog);
+    inputs.fogCoverDisplay = m_frameFog.color;
+    m_openSkyWeather.applyToSky(inputs);
+    const float deltaSeconds = m_lastSkyStateElapsedTime >= 0.0f
+        ? std::max(m_elapsedTime - m_lastSkyStateElapsedTime, 0.0f) : 0.0f;
+    m_lastSkyStateElapsedTime = m_elapsedTime;
+    m_skyRenderer.state().update(inputs, deltaSeconds);
+    m_skyRenderer.render(viewId, pViewMatrix, pProjectionMatrix, {}, true);
+
+    // The sky pass set the shared sky-fog uniform; the indoor billboards and effects keep their flat fog (the
+    // outdoor view's sky haze).
+    applySceneSkyFog();
+}
+
 void IndoorRenderer::shutdown()
 {
+    if (Engine::BgfxContext::isBgfxInitialized())
+    {
+        m_skyRenderer.shutdown();
+    }
+    else
+    {
+        m_skyRenderer.abandonGpuResources();
+    }
+    m_skyRendererInitializeAttempted = false;
+    m_openSkyWeather.shutdown(m_pWeatherAudio, Engine::BgfxContext::isBgfxInitialized());
     m_waterRenderer.shutdown();
     m_waterResourcesInitialized = false;
     m_waterGeometryDirty = true;
@@ -6714,6 +7040,9 @@ void IndoorRenderer::shutdown()
         m_surfaceMaterialUniformHandle = BGFX_INVALID_HANDLE;
         m_surfaceReflectionBinding.destroy(false);
         m_indoorFaceGridUniformHandle = BGFX_INVALID_HANDLE;
+        m_indoorDaylightUniformHandle = BGFX_INVALID_HANDLE;
+        m_indoorFogModeUniformHandle = BGFX_INVALID_HANDLE;
+        m_indoorFogLightUniformHandle = BGFX_INVALID_HANDLE;
         m_secretPulseParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_indoorSkyParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_indoorSkyProjectionParamsUniformHandle = BGFX_INVALID_HANDLE;
@@ -6729,6 +7058,11 @@ void IndoorRenderer::shutdown()
         m_billboardTextureIndexByKey.clear();
         m_indoorTextureHandles.clear();
         m_texturedBatches.clear();
+        m_texturedDrawGroups.clear();
+        m_faceDrawPlan.clear();
+        m_faceDrawBounds.clear();
+        m_faceDrawGrid.clear();
+        m_mergedFaceIndexBufferHandle = BGFX_INVALID_HANDLE;
         m_faceBatchIndices.clear();
         m_faceSubdivisionTriangles.clear();
         m_texturedBatchGeometryRevision = std::numeric_limits<uint64_t>::max();
@@ -6862,6 +7196,7 @@ void IndoorRenderer::shutdown()
     }
 
     destroyBakedLightingResources();
+    destroyTerrainResources();
 
     for (bgfx::ProgramHandle &handle : m_indoorFogProgramHandles)
     {
@@ -6872,7 +7207,8 @@ void IndoorRenderer::shutdown()
         }
     }
 
-    for (bgfx::ProgramHandle *pHandle : {&m_indoorTranslucentProgramHandle, &m_indoorBakedTranslucentProgramHandle})
+    for (bgfx::ProgramHandle *pHandle : {&m_indoorTranslucentProgramHandle, &m_indoorBakedTranslucentProgramHandle,
+        &m_waterTintProgramHandle})
     {
         if (bgfx::isValid(*pHandle))
         {
@@ -6896,6 +7232,16 @@ void IndoorRenderer::shutdown()
     {
         bgfx::destroy(m_indoorFaceGridUniformHandle);
         m_indoorFaceGridUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    for (bgfx::UniformHandle *pHandle : {&m_indoorDaylightUniformHandle, &m_indoorFogModeUniformHandle,
+        &m_indoorFogLightUniformHandle})
+    {
+        if (bgfx::isValid(*pHandle))
+        {
+            bgfx::destroy(*pHandle);
+            *pHandle = BGFX_INVALID_HANDLE;
+        }
     }
 
     if (bgfx::isValid(m_secretPulseParamsUniformHandle))
@@ -7082,6 +7428,7 @@ void IndoorRenderer::TexturedVertex::init()
         .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
         .add(bgfx::Attrib::Tangent, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::Bitangent, 3, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord6, 3, bgfx::AttribType::Float)
         .end();
 }
 
@@ -7150,6 +7497,11 @@ void IndoorRenderer::setCameraPosition(float x, float y, float z)
     {
         m_pSceneRuntime->partyRuntime().teleportEyePosition(x, y, z);
     }
+}
+
+void IndoorRenderer::setWorldTimeHeld(bool held)
+{
+    m_worldTimeHeld = held;
 }
 
 void IndoorRenderer::setCameraAngles(float yawRadians, float pitchRadians)
@@ -7526,6 +7878,7 @@ void IndoorRenderer::renderBloodSplats(
     bgfx::setUniform(m_indoorLightParamsUniformHandle, lightSet.params.data());
     const std::array<float, 4> noFaceGrid = {0.0f, -1.0f, -1.0f, 0.0f};
     bgfx::setUniform(m_indoorFaceGridUniformHandle, noFaceGrid.data());
+    setFaceDaylight(false);
     m_lightGridBinding.bind(nullptr, Engine::LightGridModeFull);
     const std::array<float, 4> secretPulseParams = {0.0f, m_elapsedTime, 0.0f, 0.0f};
     bgfx::setUniform(m_secretPulseParamsUniformHandle, secretPulseParams.data());
@@ -7675,11 +8028,38 @@ void IndoorRenderer::updateDecorationModels(const std::vector<uint8_t> &visibleS
             bool hidden = false;
             const SpriteFrameEntry *pFrame = m_indoorDecorationBillboardSet->spriteFrameTable.getFrame(
                 resolveDecorationBillboardSpriteId(billboard, hidden), 0);
-            const std::array<float, 4> light = pFrame != nullptr
-                ? billboardLightingUniform(lightingFrame, *pFrame, center, billboard.sectorId,
-                    billboardLightingCacheKey(1, billboard.entityIndex), pLightingStats)
-                : std::array<float, 4>{1.0f, 1.0f, 1.0f, 0.0f};
-            placement.light = {light[0], light[1], light[2], 0.0f};
+            std::array<float, 4> light = {1.0f, 1.0f, 1.0f, 0.0f};
+            if (pFrame != nullptr && m_modelLighting.enabled)
+            {
+                // MM9's model base (ambient and ModelAdd); the shader adds the lights per pixel with N.L.
+                if (!SpriteFrameTable::hasFlag(pFrame->flags, SpriteFrameFlag::Lit))
+                {
+                    const std::array<float, 3> base = indoorModelLight(m_modelLighting, {0.0f, 0.0f, 0.0f});
+                    light = {base[0], base[1], base[2], 0.0f};
+                }
+            }
+            else if (pFrame != nullptr)
+            {
+                light = billboardLightingUniform(lightingFrame, *pFrame, center, billboard.sectorId,
+                    billboardLightingCacheKey(1, billboard.entityIndex), pLightingStats);
+                if (indoorDaylightSector(m_daylight, billboard.sectorId)
+                    && !SpriteFrameTable::hasFlag(pFrame->flags, SpriteFrameFlag::Lit))
+                {
+                    // In the open air the model takes the sun by direction (renderDecorationModels' batch sun), so
+                    // its own light keeps only the ambient share of the room light (and the nearby lights). It is
+                    // lit as the faces around it are, without the decorations' exposure (which matches a model to
+                    // the sprite it replaces in a dark room; in daylight it pushed sunlit greens to lime): the batch
+                    // ambient's IndoorDecorationExposure is divided out here, its sun takes none.
+                    const float ambient = indoorDaylightModelAmbient(m_frameDaylight);
+                    const float sunShare = indoorDaylightRoomLight(m_frameDaylight) - ambient;
+                    for (size_t channel = 0; channel < 3; ++channel)
+                    {
+                        light[channel] = std::max(light[channel] - sunShare, ambient) / IndoorDecorationExposure;
+                    }
+                    light[3] = 1.0f;
+                }
+            }
+            placement.light = {light[0], light[1], light[2], light[3]};
             placement.sector = billboard.sectorId;
             placement.pointLight = {};
         }
@@ -10404,7 +10784,7 @@ bool IndoorRenderer::updateWaterGeometry()
     }
     else if (!geometry.empty() && m_pAssetFileSystem != nullptr)
     {
-        m_waterRenderer.setIndoorFog(m_fog);
+        m_waterRenderer.setIndoorFog(m_frameFog);
         success = m_waterRenderer.initialize(*m_pAssetFileSystem, std::move(geometry), {}, true);
         m_waterResourcesInitialized = success;
     }
@@ -10450,8 +10830,16 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
         const ViewFrustum frustum(reflection.view.data(), reflection.projection.data(),
             bgfx::getCaps()->homogeneousDepth);
         const std::array<float, 4> clip = {0.0f, 0.0f, 1.0f, -reflection.height};
-        for (const TexturedBatch &batch : m_texturedBatches)
+        // A map open to the sky reflects its sky where the reflected view meets no face (the capture clears black,
+        // which drew the Isle of Ashes' sea black wherever it mirrored the sky). The sky state is the last frame's.
+        if (m_openSky.enabled && m_skyRenderer.isReady())
         {
+            m_skyRenderer.render(reflection.skyView, reflection.view.data(), reflection.projection.data(), {});
+            applySceneSkyFog();
+        }
+        for (size_t batchIndex = 0; batchIndex < m_texturedBatches.size(); ++batchIndex)
+        {
+            const TexturedBatch &batch = m_texturedBatches[batchIndex];
             // Water reflections leave out the translucent faces (they would need their own sorted pass).
             if (batch.waterColorAbgr != 0 || batch.translucent
                 || !indoorGeometrySectorsVisible(visibility.visibleSectorMask, batch.sectorId, batch.backSectorId)
@@ -10469,7 +10857,7 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
             {
                 lights.params[channel] = std::max(lights.params[channel] - lighting.ambient, 0.0f);
             }
-            submitTexturedBatch(batch, reflection.worldView, lights, nullptr, reflection.camera,
+            submitTexturedBatch(batchIndex, reflection.worldView, lights, nullptr, reflection.camera,
                 m_cameraYawRadians, -m_cameraPitchRadians, width, height, false, clip,
                 reflection.projectionScale);
         }
@@ -10492,6 +10880,8 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
                 const float sheen = lighting.ambient * IndoorDecorationReflection;
                 decorationLighting.environmentScale = {sheen, sheen, sheen};
                 decorationLighting.displaySpaceLighting = true;
+                // MM9's model lighting: the placements' base only (a reflection pass has no light grid).
+                decorationLighting.fixedFunctionLighting = m_modelLighting.enabled;
                 static const Engine::ModelInstanceSystem NoModels;
                 const ViewFrustum modelFrustum(reflection.view.data(), reflection.projection.data(),
                     bgfx::getCaps()->homogeneousDepth);
@@ -10512,24 +10902,78 @@ void IndoorRenderer::renderWaterReflections(const bx::Vec3 &forward,
     }
 }
 
-bool IndoorRenderer::submitTexturedBatch(const TexturedBatch &batch, uint16_t viewId,
+bool IndoorRenderer::submitTexturedBatch(size_t batchIndex, uint16_t viewId,
     const IndoorDrawLightSet &lights, const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw,
     float pitch, int width, int height, bool secretFacesDetected, const std::array<float, 4> &clipPlane,
     float projectionScale)
 {
+    if (batchIndex >= m_texturedBatches.size() || m_texturedBatches[batchIndex].drawGroup >= m_texturedDrawGroups.size())
+    {
+        return false;
+    }
+    const TexturedBatch &batch = m_texturedBatches[batchIndex];
+    const IndoorFaceIndexRange range = m_faceDrawPlan.batchRange(uint32_t(batchIndex));
+    const IndoorFaceGroupDraw draw = {batch.drawGroup, false, range.firstIndex, range.indexCount};
+    return submitTexturedFaces(m_texturedDrawGroups[batch.drawGroup], draw, batch.translucent ? &batch : nullptr,
+        viewId, lights, pLightGrid, eye, yaw, pitch, width, height, secretFacesDetected, clipPlane, projectionScale);
+}
+
+size_t IndoorRenderer::submitMainViewFaces(const std::vector<uint8_t> &drawnBatches, int width, int height,
+    bool secretFacesDetected)
+{
+    if (m_faceDrawPlan.update(drawnBatches) && !m_faceDrawPlan.mergedIndices().empty())
+    {
+        const std::vector<uint32_t> &merged = m_faceDrawPlan.mergedIndices();
+        if (!bgfx::isValid(m_mergedFaceIndexBufferHandle))
+        {
+            m_mergedFaceIndexBufferHandle = bgfx::createDynamicIndexBuffer(
+                uint32_t(merged.size()), BGFX_BUFFER_INDEX32 | BGFX_BUFFER_ALLOW_RESIZE);
+        }
+        if (bgfx::isValid(m_mergedFaceIndexBufferHandle))
+        {
+            bgfx::update(m_mergedFaceIndexBufferHandle, 0,
+                bgfx::copy(merged.data(), uint32_t(merged.size() * sizeof(uint32_t))));
+        }
+    }
+    // The faces' room ambient is baked into their vertices and their dynamic lights come from the grid, so the light
+    // set adds nothing.
+    const IndoorDrawLightSet faceAmbient = {};
+    const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
+    size_t submitted = 0;
+    for (const IndoorFaceGroupDraw &draw : m_faceDrawPlan.draws())
+    {
+        if (draw.group < m_texturedDrawGroups.size()
+            && submitTexturedFaces(m_texturedDrawGroups[draw.group], draw, nullptr, MainViewId, faceAmbient,
+                &m_lightGrid, eye, m_cameraYawRadians, m_cameraPitchRadians, width, height, secretFacesDetected,
+                {0.0f, 0.0f, 0.0f, 0.0f}))
+        {
+            ++submitted;
+        }
+    }
+    return submitted;
+}
+
+bool IndoorRenderer::submitTexturedFaces(const TexturedDrawGroup &group, const IndoorFaceGroupDraw &draw,
+    const TexturedBatch *pTranslucentBatch, uint16_t viewId, const IndoorDrawLightSet &lights,
+    const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw, float pitch, int width, int height,
+    bool secretFacesDetected, const std::array<float, 4> &clipPlane, float projectionScale)
+{
     const std::array<float, 4> secretPulseParams = {secretFacesDetected ? 1.0f : 0.0f, m_elapsedTime, 0.0f, 0.0f};
-    if (!bgfx::isValid(batch.vertexBufferHandle) || batch.frameTextureHandles.empty() || batch.vertexCount == 0)
+    const bool indicesValid =
+        draw.merged ? bgfx::isValid(m_mergedFaceIndexBufferHandle) : bgfx::isValid(group.indexBufferHandle);
+    if (!bgfx::isValid(group.vertexBufferHandle) || group.frameTextureHandles.empty() || group.vertexCount == 0
+        || draw.indexCount == 0 || !indicesValid)
     {
         return false;
     }
 
     const size_t frameIndex = frameIndexForAnimation(
-        batch.frameLengthTicks,
-        batch.animationLengthTicks,
+        group.frameLengthTicks,
+        group.animationLengthTicks,
         currentAnimationTicks());
 
-    if (frameIndex >= batch.frameTextureHandles.size()
-        || !bgfx::isValid(batch.frameTextureHandles[frameIndex]))
+    if (frameIndex >= group.frameTextureHandles.size()
+        || !bgfx::isValid(group.frameTextureHandles[frameIndex]))
     {
         return false;
     }
@@ -10538,23 +10982,28 @@ bool IndoorRenderer::submitTexturedBatch(const TexturedBatch &batch, uint16_t vi
     bx::mtxIdentity(modelMatrix);
     bgfx::setTransform(modelMatrix);
     bgfx::setUniform(m_worldClipPlaneUniform, clipPlane.data());
-    bgfx::setVertexBuffer(0, batch.vertexBufferHandle, 0, batch.vertexCount);
-    const bool lightmapped = batch.lightmapPage >= 0 && bgfx::isValid(batch.lightmapUvBufferHandle)
-        && size_t(batch.lightmapPage) < m_lightmapTextureHandles.size();
+    bgfx::setVertexBuffer(0, group.vertexBufferHandle, 0, group.vertexCount);
+    const int32_t lightmapPage = group.key.lightmapPage;
+    const bool lightmapped = lightmapPage >= 0 && bgfx::isValid(group.lightmapUvBufferHandle)
+        && size_t(lightmapPage) < m_lightmapTextureHandles.size();
     if (lightmapped)
     {
-        bgfx::setVertexBuffer(1, batch.lightmapUvBufferHandle, 0, batch.vertexCount);
-        bindTexture(1, m_lightmapSamplerHandle, m_lightmapTextureHandles[size_t(batch.lightmapPage)],
+        bgfx::setVertexBuffer(1, group.lightmapUvBufferHandle, 0, group.vertexCount);
+        bindTexture(1, m_lightmapSamplerHandle, m_lightmapTextureHandles[size_t(lightmapPage)],
             TextureFilterProfile::Lightmap, BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     }
-    if (bgfx::isValid(batch.indexBufferHandle))
+    if (draw.merged)
     {
-        bgfx::setIndexBuffer(batch.indexBufferHandle, 0, batch.indexCount);
+        bgfx::setIndexBuffer(m_mergedFaceIndexBufferHandle, draw.firstIndex, draw.indexCount);
+    }
+    else
+    {
+        bgfx::setIndexBuffer(group.indexBufferHandle, draw.firstIndex, draw.indexCount);
     }
     bindTexture(
         0,
         m_textureSamplerHandle,
-        batch.frameTextureHandles[frameIndex],
+        group.frameTextureHandles[frameIndex],
         TextureFilterProfile::BModel);
     bgfx::setUniform(
         m_indoorLightPositionsUniformHandle,
@@ -10566,18 +11015,20 @@ bool IndoorRenderer::submitTexturedBatch(const TexturedBatch &batch, uint16_t vi
         MaxIndoorShaderLights);
     bgfx::setUniform(m_indoorLightParamsUniformHandle, lights.params.data());
     const bool gridLit = pLightGrid != nullptr && pLightGrid->lightCount() > 0;
-    const std::array<float, 4> faceGrid = {gridLit ? 1.0f : 0.0f, float(batch.sectorId), float(batch.backSectorId),
-        0.0f};
+    // The faces' sectors, which the grid's lights test, are in their vertices.
+    const std::array<float, 4> faceGrid = {gridLit ? 1.0f : 0.0f, 0.0f, 0.0f, 0.0f};
     bgfx::setUniform(m_indoorFaceGridUniformHandle, faceGrid.data());
+    // The faces that take it are marked in their vertices.
+    setFaceDaylight(m_daylight.enabled);
     m_lightGridBinding.bind(gridLit ? pLightGrid : nullptr, Engine::LightGridModeFull);
     std::array<float, 4> batchSecretPulseParams = secretPulseParams;
 
-    if (batch.textureWidth > 0 && batch.textureHeight > 0)
+    if (group.textureWidth > 0 && group.textureHeight > 0)
     {
         batchSecretPulseParams[2] =
-            -eye.x * 0.25f / static_cast<float>(batch.textureWidth);
+            -eye.x * 0.25f / static_cast<float>(group.textureWidth);
         batchSecretPulseParams[3] =
-            eye.y * 0.25f / static_cast<float>(batch.textureHeight);
+            eye.y * 0.25f / static_cast<float>(group.textureHeight);
     }
 
     bgfx::setUniform(m_secretPulseParamsUniformHandle, batchSecretPulseParams.data());
@@ -10606,7 +11057,7 @@ bool IndoorRenderer::submitTexturedBatch(const TexturedBatch &batch, uint16_t vi
     {
         setFaceFog();
     }
-    if (batch.translucent)
+    if (pTranslucentBatch != nullptr)
     {
         // Depth tested against the opaque scene, not written: the faces behind it stay visible through it.
         const bgfx::ProgramHandle program = m_fog.enabled
@@ -10617,8 +11068,9 @@ bool IndoorRenderer::submitTexturedBatch(const TexturedBatch &batch, uint16_t vi
             bgfx::discard();
             return false;
         }
-        const std::array<float, 4> translucency = {batch.translucency.tint[0], batch.translucency.tint[1],
-            batch.translucency.tint[2], batch.translucency.opacity};
+        const IndoorFaceTranslucency &faceTranslucency = pTranslucentBatch->translucency;
+        const std::array<float, 4> translucency = {faceTranslucency.tint[0], faceTranslucency.tint[1],
+            faceTranslucency.tint[2], faceTranslucency.opacity};
         bgfx::setUniform(m_indoorTranslucencyUniformHandle, translucency.data());
         bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_DEPTH_TEST_LEQUAL
             | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
@@ -10632,10 +11084,23 @@ bool IndoorRenderer::submitTexturedBatch(const TexturedBatch &batch, uint16_t vi
         | BGFX_STATE_WRITE_Z
         | BGFX_STATE_DEPTH_TEST_LEQUAL | BGFX_STATE_MSAA);
 
-    if (m_surfaceMaterialsEnabled && bgfx::isValid(batch.materialNormal))
+    if (group.terrain)
     {
-        bindTexture(7, m_surfaceNormalSamplerHandle, batch.materialNormal, TextureFilterProfile::BModel);
-        bindTexture(8, m_surfaceDetailSamplerHandle, batch.materialDetail, TextureFilterProfile::BModel);
+        // Stages 8, 9, 10 and 14 (the light grid keeps 11); no specular highlight on the indoor lighting.
+        m_terrainMaterials.bind(m_terrainAntiTiling, 0.0f);
+        if (group.key.singleMaterialTerrain)
+        {
+            bgfx::submit(viewId,
+                m_fog.enabled ? m_indoorTerrainSingleFogProgramHandle : m_indoorTerrainSingleProgramHandle);
+            return true;
+        }
+        bgfx::submit(viewId, m_fog.enabled ? m_indoorTerrainFogProgramHandle : m_indoorTerrainProgramHandle);
+        return true;
+    }
+    if (m_surfaceMaterialsEnabled && bgfx::isValid(group.materialNormal))
+    {
+        bindTexture(7, m_surfaceNormalSamplerHandle, group.materialNormal, TextureFilterProfile::BModel);
+        bindTexture(8, m_surfaceDetailSamplerHandle, group.materialDetail, TextureFilterProfile::BModel);
         // Glass is lit from outside at any hour; parallax only in the main view (reflections are small and blurred).
         const float parallax = m_surfaceParallaxEnabled && viewId == MainViewId ? IndoorSurfaceParallaxDistance : 0.0f;
         const std::array<float, 4> material = {
@@ -10653,12 +11118,188 @@ bool IndoorRenderer::submitTexturedBatch(const TexturedBatch &batch, uint16_t vi
     return true;
 }
 
+float IndoorRenderer::cameraFarClipDistance() const
+{
+    return m_outdoorViewDistance > 0.0f ? m_outdoorViewDistance : IndoorCameraFarClipDistance;
+}
+
 void IndoorRenderer::setFaceFog()
 {
-    const std::array<float, 4> color = indoorFogColorUniform(m_fog);
-    const std::array<float, 4> distances = indoorFogDistancesUniform(m_fog);
+    const std::array<float, 4> color = indoorFogColorUniform(m_frameFog);
+    const std::array<float, 4> distances = indoorFogDistancesUniform(m_frameFog);
+    if (bgfx::isValid(m_indoorFogModeUniformHandle) && bgfx::isValid(m_indoorFogLightUniformHandle))
+    {
+        const std::array<float, 4> mode = indoorFogModeUniform(m_frameFog);
+        const std::array<float, 4> light = indoorFogLightUniform(m_frameFog);
+        bgfx::setUniform(m_indoorFogModeUniformHandle, mode.data());
+        bgfx::setUniform(m_indoorFogLightUniformHandle, light.data());
+    }
     bgfx::setUniform(m_billboardFogColorUniformHandle, color.data());
     bgfx::setUniform(m_billboardFogDistancesUniformHandle, distances.data());
+    if (m_openSky.outdoorView && bgfx::isValid(m_skyFogUniformHandle))
+    {
+        bgfx::setUniform(m_skyFogUniformHandle, m_outdoorSkyFog.data(), SkyFogUniformVectors);
+    }
+}
+
+void IndoorRenderer::renderWaterTint(uint16_t viewId)
+{
+    if (!bgfx::isValid(m_waterTintProgramHandle) || m_pSceneRuntime == nullptr
+        || bgfx::getAvailTransientVertexBuffer(6, TerrainVertex::ms_layout) < 6)
+    {
+        return;
+    }
+
+    const IndoorWaterVolume *pVolume = m_pSceneRuntime->partyRuntime().eyeWaterVolume();
+
+    if (pVolume == nullptr)
+    {
+        return;
+    }
+
+    // MM9 scales the scene's light by the liquid's colour while the head is inside (cshell 0x100ab8a0); here the
+    // frame is multiplied by mix(1, tint, strength).
+    uint32_t abgr = 0xff000000u;
+
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        const float scale = 1.0f + (pVolume->tint[channel] - 1.0f) * IndoorWaterTintStrength;
+        const uint32_t value = static_cast<uint32_t>(std::clamp(std::lround(scale * 255.0f), 0l, 255l));
+        abgr |= value << (8 * channel);
+    }
+
+    const std::array<TerrainVertex, 6> vertices = {{
+        {-1.0f, 1.0f, 0.5f, abgr},
+        {-1.0f, -1.0f, 0.5f, abgr},
+        {1.0f, -1.0f, 0.5f, abgr},
+        {-1.0f, 1.0f, 0.5f, abgr},
+        {1.0f, -1.0f, 0.5f, abgr},
+        {1.0f, 1.0f, 0.5f, abgr}
+    }};
+    bgfx::TransientVertexBuffer transientVertexBuffer = {};
+    bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TerrainVertex::ms_layout);
+    std::memcpy(transientVertexBuffer.data, vertices.data(), sizeof(vertices));
+    bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, 6);
+    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_DST_COLOR, BGFX_STATE_BLEND_ZERO));
+    bgfx::submit(viewId, m_waterTintProgramHandle);
+}
+
+void IndoorRenderer::updateFrameDaylightAndFog()
+{
+    const float gameMinutes = m_pSceneRuntime != nullptr ? m_pSceneRuntime->worldRuntime().gameMinutes() : 9.0f * 60.0f;
+    if (m_fog.enabled)
+    {
+        m_frameFog = indoorFogAt(m_fog, skyNightAmount(gameMinutes));
+        if (m_fog.followsDaylight && m_daylight.enabled)
+        {
+            const std::array<float, 3> scale = indoorDaylightFogScale(m_daylight, gameMinutes);
+            for (size_t channel = 0; channel < 3; ++channel)
+            {
+                m_frameFog.color[channel] *= scale[channel];
+            }
+        }
+    }
+    if (m_openSky.outdoorView)
+    {
+        // An outdoor map's fog in clear weather (OutdoorGameView: its own fade over the last eighth of the view
+        // distance), into the sky's flat fog colour; the faces, models and billboards add the sky's haze and its
+        // colour in their direction from u_skyFog (sky_common.sh skyFogRatio, skyFogDisplayColor).
+        m_frameFog = {};
+        m_frameFog.enabled = true;
+        m_frameFog.nearDistance = m_outdoorViewDistance * 0.875f;
+        m_frameFog.farDistance = m_outdoorViewDistance;
+        m_outdoorSkyFog = {};
+        if (m_skyRenderer.isReady() && !m_skyRenderer.state().frame().presetName.empty())
+        {
+            const SkyFrameState &sky = m_skyRenderer.state().frame();
+            m_frameFog.color = {sky.fogFlatDisplay[0], sky.fogFlatDisplay[1], sky.fogFlatDisplay[2]};
+            m_outdoorSkyFog = packSkyFogUniform(&sky);
+        }
+    }
+    // Under water the eye takes its volume's fog, if it has one (MM9: the volume's FogEnable), else the map's.
+    if (m_fog.enabled && m_pSceneRuntime != nullptr)
+    {
+        if (const IndoorWaterVolume *pVolume = m_pSceneRuntime->partyRuntime().eyeWaterVolume();
+            pVolume != nullptr && pVolume->fog.enabled)
+        {
+            m_frameFog = pVolume->fog;
+            m_frameFog.lithtech = m_fog.lithtech;
+        }
+    }
+    if (!m_daylight.enabled)
+    {
+        return;
+    }
+
+    m_frameDaylight = evaluateIndoorDaylight(m_daylight, gameMinutes);
+    // The sky's hue as the outdoor bake takes it (OutdoorGameView::bakedLightingColors): half the sun disc's colour
+    // and the ambient tint. The sky state is the last drawn frame's (renderOpenSky runs after the faces).
+    if (m_skyRenderer.isReady() && !m_skyRenderer.state().frame().presetName.empty())
+    {
+        const SkyFrameState &sky = m_skyRenderer.state().frame();
+        const SkyColor &disc = sky.value(SkyValue::SunDisc);
+        tintIndoorDaylight(m_frameDaylight, {0.5f + 0.5f * disc[0], 0.5f + 0.5f * disc[1], 0.5f + 0.5f * disc[2]},
+            sky.value(SkyValue::AmbientTint));
+    }
+    // Never darker than the darkest classic room (the minimum sector ambient).
+    const float minimumAmbient = IndoorLightingRuntime::ambientFromMinAmbientLightLevel(31);
+    for (float &channel : m_frameDaylight.ambient)
+    {
+        channel = std::max(channel, minimumAmbient);
+    }
+}
+
+void IndoorRenderer::applyDaylightToLightingFrame(IndoorLightingFrame &lightingFrame) const
+{
+    if (!m_daylight.enabled)
+    {
+        return;
+    }
+    const float roomLight = indoorDaylightRoomLight(m_frameDaylight);
+    for (size_t sectorId = 0; sectorId < lightingFrame.sectorAmbient.size(); ++sectorId)
+    {
+        if (indoorDaylightSector(m_daylight, int(sectorId)))
+        {
+            lightingFrame.sectorAmbient[sectorId] = roomLight;
+        }
+    }
+}
+
+void IndoorRenderer::applyDaylightSun(Engine::ModelRenderLighting &lighting, float exposure) const
+{
+    // The open air's sun on models (scene daylight, devdocs/INDOOR_OPEN_SKY.md "Daylight"): its direction and colour
+    // as the faces take it, times the exposure the batch gives its ambient. Placements and creatures outside the open
+    // air take none (decorations: their light's alpha 0; creatures: no call).
+    if (!m_daylight.enabled)
+    {
+        return;
+    }
+    lighting.lightDirection = m_frameDaylight.sunDirection;
+    lighting.direct = 1.0f;
+    for (size_t channel = 0; channel < 3; ++channel)
+    {
+        lighting.directColor[channel] = m_frameDaylight.sun[channel] * exposure;
+    }
+}
+
+void IndoorRenderer::setFaceDaylight(bool daylit)
+{
+    if (!bgfx::isValid(m_indoorDaylightUniformHandle))
+    {
+        return;
+    }
+    std::array<float, 12> values = {};
+    if (daylit)
+    {
+        for (size_t channel = 0; channel < 3; ++channel)
+        {
+            values[channel] = m_frameDaylight.ambient[channel];
+            values[4 + channel] = m_frameDaylight.sun[channel];
+            values[8 + channel] = m_frameDaylight.sunDirection[channel];
+        }
+        values[11] = m_frameDaylight.sunGain;
+    }
+    bgfx::setUniform(m_indoorDaylightUniformHandle, values.data(), 3);
 }
 
 void IndoorRenderer::renderTranslucentFaces(uint16_t viewId, const bx::Vec3 &eye,
@@ -10669,7 +11310,9 @@ void IndoorRenderer::renderTranslucentFaces(uint16_t viewId, const bx::Vec3 &eye
     for (size_t batchIndex = 0; batchIndex < m_texturedBatches.size(); ++batchIndex)
     {
         const TexturedBatch &batch = m_texturedBatches[batchIndex];
-        if (!batch.translucent || batch.vertices.empty() || !batch.hasBounds
+        // A face at opacity 0 (an invisible hit shell) would blend nothing and writes no depth, so it costs a draw
+        // for no pixel; it stays a face for clicks and hits.
+        if (!batch.translucent || batch.translucency.opacity <= 0.0f || batch.vertices.empty() || !batch.hasBounds
             || !indoorGeometrySectorsVisible(visibleSectorMask, batch.sectorId, batch.backSectorId))
         {
             continue;
@@ -10688,8 +11331,368 @@ void IndoorRenderer::renderTranslucentFaces(uint16_t viewId, const bx::Vec3 &eye
     const IndoorDrawLightSet faceAmbient = {};
     for (const IndoorTranslucentDraw &draw : draws)
     {
-        submitTexturedBatch(m_texturedBatches[draw.batchIndex], viewId, faceAmbient, &m_lightGrid, eye,
+        submitTexturedBatch(draw.batchIndex, viewId, faceAmbient, &m_lightGrid, eye,
             m_cameraYawRadians, m_cameraPitchRadians, width, height, secretFacesDetected, {0.0f, 0.0f, 0.0f, 0.0f});
+    }
+}
+
+bool IndoorRenderer::initializeTerrain(const Engine::AssetFileSystem &assets, const std::string &worldId,
+    const IndoorMapData &indoorMapData, std::string &error)
+{
+    destroyTerrainResources();
+    const IndoorTerrain &terrain = *indoorMapData.terrain;
+    if ((bgfx::getCaps()->supported & BGFX_CAPS_TEXTURE_2D_ARRAY) == 0)
+    {
+        error = "terrain materials require texture array support";
+        return false;
+    }
+    const std::string directory = "worlds/" + worldId + "/terrain_materials/";
+    const std::string path = directory + terrain.materials;
+    const std::optional<std::string> text = assets.readTextFile(path);
+    if (!text)
+    {
+        error = "missing " + path;
+        return false;
+    }
+    const std::optional<OutdoorTerrainMaterialConfig> config = parseTerrainMaterialConfig(*text, directory, path, error);
+    if (!config)
+    {
+        return false;
+    }
+    TerrainMaterialSources sources;
+    std::vector<std::function<void(std::string &)>> tasks;
+    if (!TerrainMaterialSet::appendLoadTasks(assets, *config, sources, tasks, error))
+    {
+        return false;
+    }
+    std::vector<std::string> errors(tasks.size());
+    Engine::parallelFor(tasks.size(), [&tasks, &errors](size_t index)
+    {
+        try
+        {
+            tasks[index](errors[index]);
+        }
+        catch (const std::exception &exception)
+        {
+            errors[index] = exception.what();
+        }
+    });
+    for (const std::string &taskError : errors)
+    {
+        if (!taskError.empty())
+        {
+            error = taskError;
+            return false;
+        }
+    }
+    if (!TerrainMaterialSet::validateSources(sources, error) || !m_terrainMaterials.create(sources, *config, error))
+    {
+        return false;
+    }
+    m_terrainFaceMask.assign(indoorMapData.faces.size(), 0);
+    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+    {
+        const std::string name = toLowerCopy(indoorMapData.faces[faceIndex].textureName);
+        if (std::binary_search(terrain.textureNames.begin(), terrain.textureNames.end(), name))
+        {
+            m_terrainFaceMask[faceIndex] = 1;
+        }
+    }
+    m_terrainSurface.build(indoorMapData, m_renderVertices, m_terrainFaceMask);
+    // The weight bits serve only the single-material split.
+    markSingleMaterialTerrainFaces(indoorMapData, *config);
+    m_terrainMaterials.releaseWeightLayers();
+    // The grass's density: the weights of the layers with a meadow strength (grass, grass patches), times it.
+    m_grassConfigPath = terrain.grass;
+    m_grassDensity.clear();
+    m_grassDensitySize = 0;
+    if (!m_grassConfigPath.empty() && !sources.weightLevels[0].empty())
+    {
+        const size_t texels = sources.weightLevels[0].front().size() / 4;
+        m_grassDensitySize = int(std::lround(std::sqrt(double(texels))));
+        std::vector<float> density(texels, 0.0f);
+        for (size_t layer = 0; layer < config->layers.size() && layer < 8; ++layer)
+        {
+            const float meadow = config->layers[layer].meadow;
+            const std::vector<std::vector<uint8_t>> &levels = sources.weightLevels[layer / 4];
+            if (meadow <= 0.0f || levels.empty() || levels.front().size() != texels * 4)
+            {
+                continue;
+            }
+            for (size_t texel = 0; texel < texels; ++texel)
+            {
+                density[texel] += float(levels.front()[texel * 4 + layer % 4]) / 255.0f * meadow;
+            }
+        }
+        m_grassDensity.resize(texels);
+        for (size_t texel = 0; texel < texels; ++texel)
+        {
+            m_grassDensity[texel] = uint8_t(std::lround(std::clamp(density[texel], 0.0f, 1.0f) * 255.0f));
+        }
+    }
+    m_indoorTerrainProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain");
+    m_indoorTerrainFogProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain_fog");
+    m_indoorTerrainSingleProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain_single");
+    m_indoorTerrainSingleFogProgramHandle =
+        loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_terrain_single_fog");
+    if (!bgfx::isValid(m_indoorTerrainProgramHandle) || !bgfx::isValid(m_indoorTerrainFogProgramHandle)
+        || !bgfx::isValid(m_indoorTerrainSingleProgramHandle) || !bgfx::isValid(m_indoorTerrainSingleFogProgramHandle))
+    {
+        error = "terrain programs are unavailable";
+        return false;
+    }
+    return true;
+}
+
+void IndoorRenderer::destroyTerrainResources()
+{
+    m_terrainGrass.shutdown(Engine::BgfxContext::isBgfxInitialized());
+    for (bgfx::UniformHandle *pHandle : {&m_grassSunlightUniform, &m_grassFxLightParamsUniform,
+             &m_grassCameraPositionUniform})
+    {
+        if (bgfx::isValid(*pHandle) && Engine::BgfxContext::isBgfxInitialized())
+        {
+            bgfx::destroy(*pHandle);
+        }
+        *pHandle = BGFX_INVALID_HANDLE;
+    }
+    m_terrainGrassAttempted = false;
+    m_terrainGrassReady = false;
+    m_grassConfigPath.clear();
+    m_grassDensity.clear();
+    m_grassDensitySize = 0;
+    m_terrainMaterials.destroy();
+    m_terrainSurface.clear();
+    m_terrainFaceMask.clear();
+    for (bgfx::ProgramHandle *pHandle : {&m_indoorTerrainProgramHandle, &m_indoorTerrainFogProgramHandle,
+             &m_indoorTerrainSingleProgramHandle, &m_indoorTerrainSingleFogProgramHandle})
+    {
+        if (bgfx::isValid(*pHandle))
+        {
+            bgfx::destroy(*pHandle);
+            *pHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+}
+
+void IndoorRenderer::markSingleMaterialTerrainFaces(const IndoorMapData &indoorMapData,
+    const OutdoorTerrainMaterialConfig &config)
+{
+    const std::vector<uint8_t> &weightLayers = m_terrainMaterials.weightLayers();
+    const int weightSize = m_terrainMaterials.weightSize();
+    if (weightSize <= 0 || weightLayers.size() != size_t(weightSize) * size_t(weightSize))
+    {
+        return;
+    }
+    // The weights cover the 65 536-unit map frame from its north-west corner (the shader's mapUv); a texel's centre
+    // is at half a texel, and the coarser weight mips reach two texels further.
+    constexpr int MipMargin = 2;
+    const float texelsPerUnit = float(weightSize) / 65536.0f;
+    const auto texelRange = [&](float low, float high)
+    {
+        const int first = int(std::floor(low * texelsPerUnit - 0.5f)) - MipMargin;
+        const int last = int(std::floor(high * texelsPerUnit - 0.5f)) + 1 + MipMargin;
+        return std::pair<int, int>(std::clamp(first, 0, weightSize - 1), std::clamp(last, 0, weightSize - 1));
+    };
+    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+    {
+        const IndoorFace &face = indoorMapData.faces[faceIndex];
+        if (m_terrainFaceMask[faceIndex] == 0 || face.vertexIndices.size() < 3)
+        {
+            continue;
+        }
+        float minimumX = std::numeric_limits<float>::max();
+        float minimumY = std::numeric_limits<float>::max();
+        float maximumX = std::numeric_limits<float>::lowest();
+        float maximumY = std::numeric_limits<float>::lowest();
+        float steepness = 0.0f;
+        bool valid = true;
+        for (uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex >= m_renderVertices.size())
+            {
+                valid = false;
+                break;
+            }
+            const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+            const bx::Vec3 point = {float(vertex.x), float(vertex.y), float(vertex.z)};
+            minimumX = std::min(minimumX, point.x);
+            minimumY = std::min(minimumY, point.y);
+            maximumX = std::max(maximumX, point.x);
+            maximumY = std::max(maximumY, point.y);
+            // The vertices carry it and the triangles interpolate it, so its maximum bounds the face's.
+            steepness = std::max(steepness, m_terrainSurface.steepnessAt(point));
+        }
+        if (!valid)
+        {
+            continue;
+        }
+        // Columns run east from x = -32768, rows south from y = +32768.
+        const auto [firstColumn, lastColumn] = texelRange(minimumX + 32768.0f, maximumX + 32768.0f);
+        const auto [firstRow, lastRow] = texelRange(32768.0f - maximumY, 32768.0f - minimumY);
+        uint8_t layers = 0;
+        for (int row = firstRow; row <= lastRow; ++row)
+        {
+            for (int column = firstColumn; column <= lastColumn; ++column)
+            {
+                layers |= weightLayers[size_t(row) * size_t(weightSize) + size_t(column)];
+            }
+        }
+        // The shader's macro noise raises the steepness by 0.1 at most.
+        if (config.slopeLayer >= 0 && steepness + 0.1f > config.slopeStart)
+        {
+            layers |= uint8_t(1u << config.slopeLayer);
+        }
+        if (std::popcount(layers) == 1)
+        {
+            m_terrainFaceMask[faceIndex] = SingleMaterialTerrainFace;
+        }
+    }
+}
+
+void IndoorRenderer::ensureTerrainGrass()
+{
+    if (m_terrainGrassAttempted || m_grassConfigPath.empty() || m_grassDensitySize <= 0 || m_pAssetFileSystem == nullptr
+        || m_pIndoorMapData == nullptr)
+    {
+        return;
+    }
+    // A missing or broken file is reported once, not retried every frame.
+    m_terrainGrassAttempted = true;
+    if ((bgfx::getCaps()->supported & BGFX_CAPS_INSTANCING) == 0)
+    {
+        std::cerr << "Terrain grass requires renderer instancing support.\n";
+        return;
+    }
+    std::string error;
+    const std::optional<TerrainDecorationConfig> config =
+        loadTerrainDecorationConfigFile(*m_pAssetFileSystem, m_grassConfigPath, error);
+    if (!config)
+    {
+        std::cerr << "Terrain grass unavailable (" << m_grassConfigPath << "): "
+                  << (error.empty() ? "missing file" : error) << '\n';
+        return;
+    }
+    // The terrain faces, fanned into triangles, each with the smooth ground normal at its centre.
+    std::vector<TerrainDecorationSurfaceTriangle> triangles;
+    const IndoorMapData &map = *m_pIndoorMapData;
+    for (size_t faceIndex = 0; faceIndex < map.faces.size(); ++faceIndex)
+    {
+        const IndoorFace &face = map.faces[faceIndex];
+        if (!isTerrainFace(faceIndex) || face.vertexIndices.size() < 3)
+        {
+            continue;
+        }
+        std::vector<std::array<float, 3>> points;
+        for (uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex < m_renderVertices.size())
+            {
+                const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+                points.push_back({float(vertex.x), float(vertex.y), float(vertex.z)});
+            }
+        }
+        if (points.size() < 3)
+        {
+            continue;
+        }
+        bx::Vec3 centre = {0.0f, 0.0f, 0.0f};
+        for (const std::array<float, 3> &point : points)
+        {
+            centre = {centre.x + point[0], centre.y + point[1], centre.z + point[2]};
+        }
+        centre = bx::mul(centre, 1.0f / float(points.size()));
+        const bx::Vec3 normal = m_terrainSurface.normalAt(centre, m_terrainSurface.faceNormal(faceIndex));
+        for (size_t k = 1; k + 1 < points.size(); ++k)
+        {
+            triangles.push_back({{points[0], points[k], points[k + 1]}, {normal.x, normal.y, normal.z}});
+        }
+    }
+    // The density between weight texel centres (the 65 536-unit map frame from its north-west corner).
+    const int size = m_grassDensitySize;
+    const std::vector<uint8_t> &grid = m_grassDensity;
+    const auto density = [size, &grid](float x, float y)
+    {
+        const float u = (x + 32768.0f) / 65536.0f * float(size) - 0.5f;
+        const float v = (32768.0f - y) / 65536.0f * float(size) - 0.5f;
+        const int u0 = std::clamp(int(std::floor(u)), 0, size - 1);
+        const int v0 = std::clamp(int(std::floor(v)), 0, size - 1);
+        const int u1 = std::min(u0 + 1, size - 1);
+        const int v1 = std::min(v0 + 1, size - 1);
+        const float fu = std::clamp(u - float(u0), 0.0f, 1.0f);
+        const float fv = std::clamp(v - float(v0), 0.0f, 1.0f);
+        const auto at = [&](int cu, int cv) { return float(grid[size_t(cv) * size_t(size) + size_t(cu)]) / 255.0f; };
+        return (at(u0, v0) * (1.0f - fu) + at(u1, v0) * fu) * (1.0f - fv)
+            + (at(u0, v1) * (1.0f - fu) + at(u1, v1) * fu) * fv;
+    };
+    TerrainDecorationPlacement placement = scatterTerrainDecorationsOnSurface(triangles, density, *config);
+    if (placement.instances.empty())
+    {
+        return;
+    }
+    const size_t tufts = placement.instances.size();
+    m_grassSunlightUniform = bgfx::createUniform("u_outdoorSunlight", bgfx::UniformType::Vec4);
+    m_grassFxLightParamsUniform = bgfx::createUniform("u_fxLightParams", bgfx::UniformType::Vec4);
+    m_grassCameraPositionUniform = bgfx::createUniform("u_cameraPosition", bgfx::UniformType::Vec4);
+    m_terrainGrassReady = m_terrainGrass.initialize(*m_pAssetFileSystem, *config, std::move(placement),
+        loadProgram("vs_terrain_decoration", "fs_terrain_decoration"),
+        loadProgram("vs_terrain_decoration", "fs_terrain_decoration_shadow"));
+    std::cout << "Terrain grass: " << tufts << " tufts from " << m_grassConfigPath << '\n';
+}
+
+void IndoorRenderer::renderTerrainGrass(uint16_t viewId, const bx::Vec3 &eye, const bx::Vec3 &forward,
+    const float *pProjectionMatrix, float aspect)
+{
+    ensureTerrainGrass();
+    if (!m_terrainGrassReady)
+    {
+        return;
+    }
+    const bx::Vec3 worldUp = {0.0f, 0.0f, 1.0f};
+    const bx::Vec3 right = bx::normalize(bx::cross(forward, worldUp));
+    const bx::Vec3 up = bx::cross(right, forward);
+    const float verticalFov = 2.0f * std::atan(1.0f / std::max(std::abs(pProjectionMatrix[5]), 0.0001f));
+    m_terrainGrass.setView(eye, forward, right, up, aspect, verticalFov);
+    m_terrainGrassDraws.clear();
+    m_terrainGrass.collectDraws(m_terrainGrassDraws);
+    if (m_terrainGrassDraws.empty())
+    {
+        return;
+    }
+    // Lit as the terrain under it: the open sky's daylight as one brightness (the outdoor grass shader takes no
+    // colour), the sun's direction scaled by its strength; no effect lights; the scene's fog or the sky haze.
+    const auto luma = [](const std::array<float, 3> &rgb)
+    {
+        return 0.2126f * rgb[0] + 0.7152f * rgb[1] + 0.0722f * rgb[2];
+    };
+    const float sun = luma({m_frameDaylight.sun[0], m_frameDaylight.sun[1], m_frameDaylight.sun[2]})
+        * m_frameDaylight.sunGain;
+    const std::array<float, 4> sunlight = {m_frameDaylight.sunDirection[0] * sun,
+        m_frameDaylight.sunDirection[1] * sun, m_frameDaylight.sunDirection[2] * sun,
+        luma({m_frameDaylight.ambient[0], m_frameDaylight.ambient[1], m_frameDaylight.ambient[2]})};
+    const std::array<float, 4> fxLightParams = {0.0f, 1.0f, 1.0f, 0.0f};
+    const std::array<float, 4> camera = {eye.x, eye.y, eye.z, 0.0f};
+    for (const TerrainDecorationPatch &patch : m_terrainGrassDraws)
+    {
+        bgfx::setUniform(m_grassSunlightUniform, sunlight.data());
+        bgfx::setUniform(m_grassFxLightParamsUniform, fxLightParams.data());
+        bgfx::setUniform(m_grassCameraPositionUniform, camera.data());
+        setBillboardFog();
+        m_terrainGrass.submit(viewId, patch, m_elapsedTime, false, false);
+    }
+}
+
+void IndoorRenderer::applyTerrainVertices(size_t faceIndex, std::vector<TexturedVertex> &vertices) const
+{
+    const bx::Vec3 faceNormal = m_terrainSurface.faceNormal(faceIndex);
+    for (TexturedVertex &vertex : vertices)
+    {
+        const bx::Vec3 point = {vertex.x, vertex.y, vertex.z};
+        const bx::Vec3 normal = m_terrainSurface.normalAt(point, faceNormal);
+        vertex.u = m_terrainSurface.steepnessAt(point);
+        // No meadow field yet: neither dry nor lush.
+        vertex.v = 0.0f;
+        vertex.gradientU = {normal.x, normal.y, normal.z};
     }
 }
 
@@ -10763,12 +11766,250 @@ void IndoorRenderer::ensureIndoorSwapTexture(const std::string &textureName)
     m_indoorTextureSet->textures.push_back(std::move(*texture));
 }
 
+IndoorRenderer::TexturedDrawGroup IndoorRenderer::createTexturedDrawGroup(const IndoorFaceDrawGroupKey &key,
+    const std::string &textureName, std::vector<TexturedDrawGroup> &previousGroups)
+{
+    TexturedDrawGroup group = {};
+    group.key = key;
+    // The last build's buffer of the same group, refilled in place when its size is unchanged.
+    for (TexturedDrawGroup &previousGroup : previousGroups)
+    {
+        if (previousGroup.key == key)
+        {
+            group.vertexBufferHandle = previousGroup.vertexBufferHandle;
+            group.vertexCapacity = previousGroup.vertexCapacity;
+            previousGroup.vertexBufferHandle = BGFX_INVALID_HANDLE;
+            break;
+        }
+    }
+
+    const SurfaceAnimationSequence *pAnimationBinding =
+        findTextureAnimationBinding(m_indoorTextureSet->animationBindings, textureName);
+    SurfaceAnimationSequence animation = {};
+
+    if (pAnimationBinding != nullptr)
+    {
+        animation = *pAnimationBinding;
+    }
+    else
+    {
+        SurfaceAnimationFrame frame = {};
+        frame.textureName = textureName;
+        animation.frames.push_back(std::move(frame));
+    }
+
+    group.animationLengthTicks = animation.animationLengthTicks;
+
+    for (const SurfaceAnimationFrame &frame : animation.frames)
+    {
+        const IndoorTextureHandle *pTextureHandle = findIndoorTextureHandle(frame.textureName);
+        const bool singleFrame = animation.frames.size() == 1;
+
+        if (pTextureHandle != nullptr)
+        {
+            group.frameTextureHandles.push_back(pTextureHandle->textureHandle);
+            group.frameLengthTicks.push_back(frame.frameLengthTicks);
+            if (singleFrame)
+            {
+                group.materialNormal = pTextureHandle->materialNormal;
+                group.materialDetail = pTextureHandle->materialDetail;
+            }
+            continue;
+        }
+
+        const OutdoorBitmapTexture *pFrameTexture = nullptr;
+
+        for (const OutdoorBitmapTexture &candidate : m_indoorTextureSet->textures)
+        {
+            if (toLowerCopy(candidate.textureName) == toLowerCopy(frame.textureName))
+            {
+                pFrameTexture = &candidate;
+                break;
+            }
+        }
+
+        if (pFrameTexture == nullptr)
+        {
+            continue;
+        }
+
+        const bgfx::TextureHandle textureHandle = createSurfaceTexture2D(
+            uint16_t(pFrameTexture->physicalWidth),
+            uint16_t(pFrameTexture->physicalHeight),
+            pFrameTexture->pixels,
+            pFrameTexture->cookedTexture.get(),
+            TextureFilterProfile::BModel
+        );
+
+        if (!bgfx::isValid(textureHandle))
+        {
+            continue;
+        }
+
+        IndoorTextureHandle textureHandleEntry = {};
+        textureHandleEntry.textureName = toLowerCopy(frame.textureName);
+        textureHandleEntry.textureHandle = textureHandle;
+        if (pFrameTexture->materialNormal != nullptr)
+        {
+            textureHandleEntry.materialNormal =
+                createCookedTexture2D(*pFrameTexture->materialNormal, TextureFilterProfile::BModel);
+            textureHandleEntry.materialDetail =
+                createCookedTexture2D(*pFrameTexture->materialDetail, TextureFilterProfile::BModel);
+        }
+        if (singleFrame)
+        {
+            group.materialNormal = textureHandleEntry.materialNormal;
+            group.materialDetail = textureHandleEntry.materialDetail;
+        }
+        m_indoorTextureHandles.push_back(std::move(textureHandleEntry));
+        group.frameTextureHandles.push_back(textureHandle);
+        group.frameLengthTicks.push_back(frame.frameLengthTicks);
+    }
+    return group;
+}
+
+void IndoorRenderer::addFaceDrawConflicts(std::span<const size_t> faceIndices)
+{
+    // Faces meet at one depth only where they touch: within the slack of each other's plane (the depth buffer's
+    // precision far off), inside the other's polygon by more than the inset. The grid is the plan in cells.
+    constexpr float Slack = 1.0f;
+    constexpr float EdgeInset = 0.01f;
+    constexpr float CellSize = 512.0f;
+    const auto cellRange = [](float low, float high)
+    {
+        return std::pair<int32_t, int32_t>{int32_t(std::floor((low - Slack) / CellSize)),
+            int32_t(std::floor((high + Slack) / CellSize))};
+    };
+    const auto cellKey = [](int32_t x, int32_t y)
+    {
+        return (uint64_t(uint32_t(x)) << 32) | uint32_t(y);
+    };
+    // The faces' new bounds, each entered in its cells (an earlier entry of a moved face stays: harmless).
+    std::vector<size_t> faces;
+    for (size_t faceIndex : faceIndices)
+    {
+        if (faceIndex >= m_faceDrawBounds.size() || faceIndex >= m_faceBatchIndices.size()
+            || m_faceBatchIndices[faceIndex] < 0)
+        {
+            continue;
+        }
+        const TexturedBatch &batch = m_texturedBatches[size_t(m_faceBatchIndices[faceIndex])];
+        const uint32_t offset = m_faceVertexOffsets[faceIndex];
+        const uint32_t count = m_faceVertexCounts[faceIndex];
+        // Translucent faces draw later, sorted on their own.
+        if (batch.translucent || count == 0 || offset + count > batch.vertices.size())
+        {
+            continue;
+        }
+        FaceDrawBounds &bounds = m_faceDrawBounds[faceIndex];
+        bounds.min = {batch.vertices[offset].x, batch.vertices[offset].y, batch.vertices[offset].z};
+        bounds.max = bounds.min;
+        for (uint32_t vertex = offset + 1; vertex < offset + count; ++vertex)
+        {
+            const TexturedVertex &point = batch.vertices[vertex];
+            bounds.min = {std::min(bounds.min.x, point.x), std::min(bounds.min.y, point.y),
+                std::min(bounds.min.z, point.z)};
+            bounds.max = {std::max(bounds.max.x, point.x), std::max(bounds.max.y, point.y),
+                std::max(bounds.max.z, point.z)};
+        }
+        std::vector<IndoorFacePoint> polygon;
+        for (uint16_t vertexIndex : m_pIndoorMapData->faces[faceIndex].vertexIndices)
+        {
+            if (vertexIndex < m_renderVertices.size())
+            {
+                const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+                polygon.push_back({float(vertex.x), float(vertex.y), float(vertex.z)});
+            }
+        }
+        bounds.shape = makeIndoorFaceShape(polygon);
+        bounds.valid = true;
+        const auto [firstX, lastX] = cellRange(bounds.min.x, bounds.max.x);
+        const auto [firstY, lastY] = cellRange(bounds.min.y, bounds.max.y);
+        for (int32_t x = firstX; x <= lastX; ++x)
+        {
+            for (int32_t y = firstY; y <= lastY; ++y)
+            {
+                m_faceDrawGrid[cellKey(x, y)].push_back(uint32_t(faceIndex));
+            }
+        }
+        faces.push_back(faceIndex);
+    }
+    // Close in their bounds, and covering the same pixels at one depth (IndoorFaceDrawGroups.h).
+    const auto touch = [&](size_t first, size_t second)
+    {
+        const FaceDrawBounds &a = m_faceDrawBounds[first];
+        const FaceDrawBounds &b = m_faceDrawBounds[second];
+        return a.min.x <= b.max.x + Slack && b.min.x <= a.max.x + Slack
+            && a.min.y <= b.max.y + Slack && b.min.y <= a.max.y + Slack
+            && a.min.z <= b.max.z + Slack && b.min.z <= a.max.z + Slack
+            && indoorFacesMeetAtOneDepth(a.shape, b.shape, Slack, EdgeInset);
+    };
+    // Each pair once: a face's cells may share several faces with it, and two new faces meet from both sides.
+    std::vector<uint8_t> isNew(m_faceDrawBounds.size(), 0);
+    for (size_t faceIndex : faces)
+    {
+        isNew[faceIndex] = 1;
+    }
+    std::vector<uint32_t> seen(m_faceDrawBounds.size(), UINT32_MAX);
+    for (size_t faceIndex : faces)
+    {
+        const FaceDrawBounds &bounds = m_faceDrawBounds[faceIndex];
+        const uint32_t batch = uint32_t(m_faceBatchIndices[faceIndex]);
+        const auto [firstX, lastX] = cellRange(bounds.min.x, bounds.max.x);
+        const auto [firstY, lastY] = cellRange(bounds.min.y, bounds.max.y);
+        for (int32_t x = firstX; x <= lastX; ++x)
+        {
+            for (int32_t y = firstY; y <= lastY; ++y)
+            {
+                for (uint32_t other : m_faceDrawGrid[cellKey(x, y)])
+                {
+                    if (seen[other] == uint32_t(faceIndex) || (isNew[other] != 0 && other <= faceIndex))
+                    {
+                        continue;
+                    }
+                    seen[other] = uint32_t(faceIndex);
+                    const uint32_t otherBatch = uint32_t(m_faceBatchIndices[other]);
+                    if (otherBatch != batch && m_faceDrawBounds[other].valid
+                        && !m_faceDrawPlan.hasConflict(batch, otherBatch) && touch(faceIndex, other))
+                    {
+                        m_faceDrawPlan.addConflict(batch, otherBatch);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void IndoorRenderer::destroyTexturedDrawGroups(std::vector<TexturedDrawGroup> &groups)
+{
+    for (TexturedDrawGroup &group : groups)
+    {
+        if (bgfx::isValid(group.vertexBufferHandle))
+        {
+            bgfx::destroy(group.vertexBufferHandle);
+        }
+        if (bgfx::isValid(group.indexBufferHandle))
+        {
+            bgfx::destroy(group.indexBufferHandle);
+        }
+        if (bgfx::isValid(group.lightmapUvBufferHandle))
+        {
+            bgfx::destroy(group.lightmapUvBufferHandle);
+        }
+    }
+    groups.clear();
+}
+
 bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds)
 {
     m_waterGeometryDirty = true;
     if (!m_indoorTextureSet || !m_pIndoorMapData)
     {
+        destroyTexturedDrawGroups(m_texturedDrawGroups);
         m_texturedBatches.clear();
+        m_faceDrawPlan.clear();
+        m_faceDrawBounds.clear();
+        m_faceDrawGrid.clear();
         m_faceBatchIndices.clear();
         m_faceVertexOffsets.clear();
         m_faceVertexCounts.clear();
@@ -10784,14 +12025,19 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         return true;
     }
 
-    std::vector<TexturedBatch> previousBatches = std::move(m_texturedBatches);
+    std::vector<TexturedDrawGroup> previousGroups = std::move(m_texturedDrawGroups);
+    m_texturedDrawGroups.clear();
     m_texturedBatches.clear();
+    m_faceDrawPlan.clear();
+    m_faceDrawBounds.clear();
+    m_faceDrawGrid.clear();
     m_faceBatchIndices.assign(m_pIndoorMapData->faces.size(), -1);
     m_faceVertexOffsets.assign(m_pIndoorMapData->faces.size(), 0);
     m_faceVertexCounts.assign(m_pIndoorMapData->faces.size(), 0);
     m_faceSubdivisionTriangles.assign(m_pIndoorMapData->faces.size(), {});
 
     std::unordered_map<std::string, size_t> batchIndicesByTexture;
+    std::unordered_map<IndoorFaceDrawGroupKey, size_t, IndoorFaceDrawGroupKeyHash> groupIndicesByKey;
     const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
     const std::vector<uint8_t> mechanismFaceMask = collectMechanismFaceMask();
     rebuildBakedStaticLightReach();
@@ -10859,6 +12105,11 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         LiquidKind liquid = LiquidKind::None;
         const uint32_t attributes = runtimeMapDeltaData() && faceIndex < runtimeMapDeltaData()->faceAttributes.size()
             ? runtimeMapDeltaData()->faceAttributes[faceIndex] : face.attributes;
+        // An open-sky map's sky faces are not drawn: the sky pass shows behind them (renderOpenSky).
+        if (indoorFaceShowsOpenSky(m_openSky, attributes))
+        {
+            continue;
+        }
         const auto materialTexture = texturesByName.find(normalizedTextureName);
         if (materialTexture != texturesByName.end() && materialTexture->second->waterColorAbgr != 0)
         {
@@ -10874,13 +12125,17 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             m_renderVertices, m_pIndoorMapData->vertices,
             faceIndex < rotatingFaceMotions.size() && rotatingFaceMotions[faceIndex]
                 ? &*rotatingFaceMotions[faceIndex] : nullptr);
-        const int32_t lightmapPage = faceLightmap.page;
+        // Terrain faces take the smooth daylight, not their lightmap (devdocs/INDOOR_OPEN_SKY.md "Terrain").
+        const bool terrainFace = isTerrainFace(faceIndex);
+        const bool singleMaterialTerrain = isSingleMaterialTerrainFace(faceIndex);
+        const int32_t lightmapPage = terrainFace ? -1 : faceLightmap.page;
         // A translucent face is a batch of its own, sorted with the others each frame.
         const std::string batchKey = (pTranslucency != nullptr ? "T" + std::to_string(faceIndex) : std::string())
             + "#" + std::to_string(lightmapPage) + "#" + normalizedTextureName
             + "#" + std::to_string(sectorId)
             + "#" + std::to_string(backSectorId)
-            + "#" + std::to_string(waterColorAbgr);
+            + "#" + std::to_string(waterColorAbgr)
+            + (singleMaterialTerrain ? "#S" : "");
         size_t batchIndex = 0;
         const std::unordered_map<std::string, size_t>::const_iterator batchIterator =
             batchIndicesByTexture.find(batchKey);
@@ -10894,6 +12149,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             batch.waterColorAbgr = waterColorAbgr;
             batch.liquid = liquid;
             batch.lightmapPage = lightmapPage;
+            batch.daylit = lightmapPage < 0 && indoorDaylightSector(m_daylight, sectorId);
             if (pTranslucency != nullptr)
             {
                 batch.translucent = true;
@@ -10905,104 +12161,21 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
                 }
             }
 
-            for (TexturedBatch &previousBatch : previousBatches)
+            // Its draw group: the batches of every sector with the same draw state (a translucent face alone).
+            const IndoorFaceDrawGroupKey groupKey = {normalizedTextureName, lightmapPage, waterColorAbgr,
+                pTranslucency != nullptr ? int32_t(faceIndex) : -1, singleMaterialTerrain};
+            const auto groupIterator = groupIndicesByKey.find(groupKey);
+            if (groupIterator != groupIndicesByKey.end())
             {
-                if (previousBatch.textureName == normalizedTextureName
-                    && previousBatch.sectorId == sectorId
-                    && previousBatch.backSectorId == backSectorId
-                    && previousBatch.waterColorAbgr == waterColorAbgr
-                    && previousBatch.lightmapPage == lightmapPage
-                    && previousBatch.translucent == batch.translucent)
-                {
-                    batch.vertexBufferHandle = previousBatch.vertexBufferHandle;
-                    batch.vertexCapacity = previousBatch.vertexCapacity;
-                    previousBatch.vertexBufferHandle = BGFX_INVALID_HANDLE;
-                    break;
-                }
-            }
-
-            const SurfaceAnimationSequence *pAnimationBinding =
-                findTextureAnimationBinding(m_indoorTextureSet->animationBindings, textureName);
-            SurfaceAnimationSequence animation = {};
-
-            if (pAnimationBinding != nullptr)
-            {
-                animation = *pAnimationBinding;
+                batch.drawGroup = uint32_t(groupIterator->second);
             }
             else
             {
-                SurfaceAnimationFrame frame = {};
-                frame.textureName = textureName;
-                animation.frames.push_back(std::move(frame));
+                batch.drawGroup = uint32_t(m_texturedDrawGroups.size());
+                groupIndicesByKey.emplace(groupKey, m_texturedDrawGroups.size());
+                m_texturedDrawGroups.push_back(createTexturedDrawGroup(groupKey, textureName, previousGroups));
             }
-
-            batch.animationLengthTicks = animation.animationLengthTicks;
-
-            for (const SurfaceAnimationFrame &frame : animation.frames)
-            {
-                const IndoorTextureHandle *pTextureHandle = findIndoorTextureHandle(frame.textureName);
-                const bool singleFrame = animation.frames.size() == 1;
-
-                if (pTextureHandle != nullptr)
-                {
-                    batch.frameTextureHandles.push_back(pTextureHandle->textureHandle);
-                    batch.frameLengthTicks.push_back(frame.frameLengthTicks);
-                    if (singleFrame)
-                    {
-                        batch.materialNormal = pTextureHandle->materialNormal;
-                        batch.materialDetail = pTextureHandle->materialDetail;
-                    }
-                    continue;
-                }
-
-                const OutdoorBitmapTexture *pFrameTexture = nullptr;
-
-                for (const OutdoorBitmapTexture &candidate : m_indoorTextureSet->textures)
-                {
-                    if (toLowerCopy(candidate.textureName) == toLowerCopy(frame.textureName))
-                    {
-                        pFrameTexture = &candidate;
-                        break;
-                    }
-                }
-
-                if (pFrameTexture == nullptr)
-                {
-                    continue;
-                }
-
-                const bgfx::TextureHandle textureHandle = createSurfaceTexture2D(
-                    uint16_t(pFrameTexture->physicalWidth),
-                    uint16_t(pFrameTexture->physicalHeight),
-                    pFrameTexture->pixels,
-                    pFrameTexture->cookedTexture.get(),
-                    TextureFilterProfile::BModel
-                );
-
-                if (!bgfx::isValid(textureHandle))
-                {
-                    continue;
-                }
-
-                IndoorTextureHandle textureHandleEntry = {};
-                textureHandleEntry.textureName = toLowerCopy(frame.textureName);
-                textureHandleEntry.textureHandle = textureHandle;
-                if (pFrameTexture->materialNormal != nullptr)
-                {
-                    textureHandleEntry.materialNormal =
-                        createCookedTexture2D(*pFrameTexture->materialNormal, TextureFilterProfile::BModel);
-                    textureHandleEntry.materialDetail =
-                        createCookedTexture2D(*pFrameTexture->materialDetail, TextureFilterProfile::BModel);
-                }
-                if (singleFrame)
-                {
-                    batch.materialNormal = textureHandleEntry.materialNormal;
-                    batch.materialDetail = textureHandleEntry.materialDetail;
-                }
-                m_indoorTextureHandles.push_back(std::move(textureHandleEntry));
-                batch.frameTextureHandles.push_back(textureHandle);
-                batch.frameLengthTicks.push_back(frame.frameLengthTicks);
-            }
+            m_texturedDrawGroups[batch.drawGroup].terrain = terrainFace;
 
             batchIndex = m_texturedBatches.size();
             batchIndicesByTexture[batchKey] = batchIndex;
@@ -11030,8 +12203,9 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         }
 
         TexturedBatch &batch = m_texturedBatches[batchIndex];
-        batch.textureWidth = pTexture->width;
-        batch.textureHeight = pTexture->height;
+        TexturedDrawGroup &group = m_texturedDrawGroups[batch.drawGroup];
+        group.textureWidth = pTexture->width;
+        group.textureHeight = pTexture->height;
         const bool useBaseSubdivisionGeometry = mechanismFace;
 
         const uint64_t faceBuildBeginTickCount = SDL_GetTicksNS();
@@ -11058,6 +12232,14 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         {
             continue;
         }
+        for (TexturedVertex &vertex : faceMesh.vertices)
+        {
+            vertex.daylight = batch.daylit ? 1.0f : 0.0f;
+        }
+        if (terrainFace)
+        {
+            applyTerrainVertices(faceIndex, faceMesh.vertices);
+        }
 
         m_faceBatchIndices[faceIndex] = static_cast<int32_t>(batchIndex);
         m_faceVertexOffsets[faceIndex] = static_cast<uint32_t>(batch.vertices.size());
@@ -11082,78 +12264,80 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         }
     }
 
-    for (TexturedBatch &batch : m_texturedBatches)
+    // Each group's batches, one after another in its vertex buffer and index list.
+    std::vector<std::vector<TexturedVertex>> groupVertices(m_texturedDrawGroups.size());
+    std::vector<std::vector<std::array<float, 2>>> groupLightmapUvs(m_texturedDrawGroups.size());
+    for (size_t batchIndex = 0; batchIndex < m_texturedBatches.size(); ++batchIndex)
     {
+        TexturedBatch &batch = m_texturedBatches[batchIndex];
         batch.vertexCount = static_cast<uint32_t>(batch.vertices.size());
         batch.indexCount = static_cast<uint32_t>(batch.indices.size());
         rebuildTexturedBatchBounds(batch);
-
-        if (batch.vertices.empty())
-        {
-            continue;
-        }
-
-        if (!updateDynamicVertexBuffer(
-                batch.vertexBufferHandle,
-                batch.vertexCapacity,
-                batch.vertices,
-                TexturedVertex::ms_layout))
-        {
-            return false;
-        }
+        std::vector<TexturedVertex> &vertices = groupVertices[batch.drawGroup];
+        batch.groupVertexOffset = uint32_t(vertices.size());
+        m_faceDrawPlan.addBatch(batch.drawGroup, uint32_t(batchIndex), batch.indices, batch.groupVertexOffset);
+        vertices.insert(vertices.end(), batch.vertices.begin(), batch.vertices.end());
         if (batch.lightmapPage >= 0)
         {
-            batch.lightmapUvBufferHandle = bgfx::createVertexBuffer(
-                bgfx::copy(batch.lightmapUvs.data(), uint32_t(batch.lightmapUvs.size() * sizeof(batch.lightmapUvs[0]))),
-                LightmapUvVertex::ms_layout);
+            std::vector<std::array<float, 2>> &uvs = groupLightmapUvs[batch.drawGroup];
+            uvs.insert(uvs.end(), batch.lightmapUvs.begin(), batch.lightmapUvs.end());
             std::vector<std::array<float, 2>>().swap(batch.lightmapUvs);
-            if (!bgfx::isValid(batch.lightmapUvBufferHandle))
-            {
-                return false;
-            }
         }
-        // Unique references are already in triangle-list order. Index only batches that actually share vertices.
-        if (batch.vertexCount < batch.indexCount)
-        {
-            if (batch.vertexCount <= std::numeric_limits<uint16_t>::max())
-            {
-                const std::vector<uint16_t> compactIndices(batch.indices.begin(), batch.indices.end());
-                batch.indexBufferHandle = bgfx::createIndexBuffer(
-                    bgfx::copy(compactIndices.data(), batch.indexCount * sizeof(uint16_t)));
-            }
-            else
-            {
-                batch.indexBufferHandle = bgfx::createIndexBuffer(
-                    bgfx::copy(batch.indices.data(), batch.indexCount * sizeof(uint32_t)), BGFX_BUFFER_INDEX32);
-            }
-            if (!bgfx::isValid(batch.indexBufferHandle))
-            {
-                return false;
-            }
-        }
-        else if (batch.waterColorAbgr == 0)
+        // The group has the indices; a liquid batch keeps its own for its water surfaces.
+        if (batch.waterColorAbgr == 0)
         {
             std::vector<uint32_t>().swap(batch.indices);
         }
     }
 
-    for (TexturedBatch &previousBatch : previousBatches)
+    for (size_t groupIndex = 0; groupIndex < m_texturedDrawGroups.size(); ++groupIndex)
     {
-        if (bgfx::isValid(previousBatch.vertexBufferHandle))
+        TexturedDrawGroup &group = m_texturedDrawGroups[groupIndex];
+        const std::vector<TexturedVertex> &vertices = groupVertices[groupIndex];
+        group.vertexCount = uint32_t(vertices.size());
+        if (!updateDynamicVertexBuffer(group.vertexBufferHandle, group.vertexCapacity, vertices,
+                TexturedVertex::ms_layout))
         {
-            bgfx::destroy(previousBatch.vertexBufferHandle);
+            return false;
         }
-        if (bgfx::isValid(previousBatch.lightmapUvBufferHandle))
+        if (vertices.empty())
         {
-            bgfx::destroy(previousBatch.lightmapUvBufferHandle);
+            continue;
         }
-        if (bgfx::isValid(previousBatch.indexBufferHandle))
+        const std::vector<uint32_t> &indices = m_faceDrawPlan.groupIndices(uint32_t(groupIndex));
+        group.indexBufferHandle = bgfx::createIndexBuffer(
+            bgfx::copy(indices.data(), uint32_t(indices.size() * sizeof(uint32_t))), BGFX_BUFFER_INDEX32);
+        if (!bgfx::isValid(group.indexBufferHandle))
         {
-            bgfx::destroy(previousBatch.indexBufferHandle);
+            return false;
+        }
+        if (group.key.lightmapPage >= 0)
+        {
+            const std::vector<std::array<float, 2>> &uvs = groupLightmapUvs[groupIndex];
+            group.lightmapUvBufferHandle = bgfx::createVertexBuffer(
+                bgfx::copy(uvs.data(), uint32_t(uvs.size() * sizeof(uvs[0]))), LightmapUvVertex::ms_layout);
+            if (!bgfx::isValid(group.lightmapUvBufferHandle))
+            {
+                return false;
+            }
         }
     }
 
+    destroyTexturedDrawGroups(previousGroups);
+    m_faceDrawBounds.assign(m_pIndoorMapData->faces.size(), {});
+    m_faceDrawGrid.clear();
+    std::vector<size_t> allFaces(m_pIndoorMapData->faces.size());
+    std::iota(allFaces.begin(), allFaces.end(), size_t(0));
+    addFaceDrawConflicts(allFaces);
+
     m_texturedBatchGeometryRevision = currentTexturedBatchGeometryRevision();
+    {
+        const std::optional<MapDeltaData> &builtDelta = runtimeMapDeltaData();
+        const EventRuntimeState *pBuiltEvents = runtimeEventRuntimeState();
+        m_builtFaceAttributes = builtDelta ? builtDelta->faceAttributes : std::vector<uint32_t>{};
+        m_builtMapSurfaceRevision = builtDelta ? builtDelta->surfaceRevision : 0;
+        m_builtEventSurfaceRevision = pBuiltEvents != nullptr ? pBuiltEvents->outdoorSurfaceRevision : 0;
+    }
     m_bakedStaticLightRevision = currentBakedStaticLightRevision();
     m_bakedStaticLightEnabledStates =
         bakedStaticLightEnabledStates(*m_pIndoorMapData, runtimeEventRuntimeState(),
@@ -11291,14 +12475,32 @@ bool IndoorRenderer::refreshBakedStaticLighting(
         }
         return m_bakedStaticLightReach[source.sourceId].reachesReceiver(batch.sectorId, batch.backSectorId);
     };
-    for (TexturedBatch &batch : m_texturedBatches)
+    // `static_lights: {sides: front}`: the faces of each batch, whose vertex ranges take their own lights.
+    std::vector<std::vector<size_t>> facesByBatch;
+    if (m_pIndoorMapData->staticLightsFrontOnly)
     {
+        facesByBatch.resize(m_texturedBatches.size());
+        for (size_t faceIndex = 0; faceIndex < m_faceBatchIndices.size() && faceIndex < m_pIndoorMapData->faces.size();
+            ++faceIndex)
+        {
+            const int32_t batchIndex = m_faceBatchIndices[faceIndex];
+            if (batchIndex >= 0 && size_t(batchIndex) < facesByBatch.size())
+            {
+                facesByBatch[size_t(batchIndex)].push_back(faceIndex);
+            }
+        }
+    }
+    for (size_t batchIndex = 0; batchIndex < m_texturedBatches.size(); ++batchIndex)
+    {
+        TexturedBatch &batch = m_texturedBatches[batchIndex];
         // A lightmapped batch's static light is its lightmap, which no event changes.
         if (batch.lightmapPage >= 0)
         {
             continue;
         }
-        const float ambient = batch.sectorId >= 0 && size_t(batch.sectorId) < sectorAmbientLevels.size()
+        // A sector open to the sky takes its ambient from the daylight (u_indoorDaylight), not the vertex bake.
+        const float ambient = indoorDaylightSector(m_pIndoorMapData->daylight, batch.sectorId) ? 0.0f
+            : batch.sectorId >= 0 && size_t(batch.sectorId) < sectorAmbientLevels.size()
             ? IndoorLightingRuntime::ambientFromMinAmbientLightLevel(sectorAmbientLevels[size_t(batch.sectorId)])
             : IndoorLightingRuntime::ambientFromMinAmbientLightLevel(0);
         const bool refreshBatchVertices = refreshAllVertices || batchAmbientChanged(batch);
@@ -11353,9 +12555,41 @@ bool IndoorRenderer::refreshBakedStaticLighting(
         }
 
         bool batchChanged = false;
-
-        for (TexturedVertex &vertex : batch.vertices)
+        // `static_lights: {sides: front}`: each face of the batch drops the lights behind it, as at build.
+        std::vector<const std::vector<BakedStaticLightSource> *> vertexSources;
+        std::vector<std::vector<BakedStaticLightSource>> faceSources;
+        if (m_pIndoorMapData->staticLightsFrontOnly && batchIndex < facesByBatch.size())
         {
+            vertexSources.assign(batch.vertices.size(), pBatchActiveLightSources);
+            faceSources.reserve(facesByBatch[batchIndex].size());
+            for (const size_t faceIndex : facesByBatch[batchIndex])
+            {
+                const std::optional<StaticLightFacePlane> plane =
+                    staticLightFacePlane(*m_pIndoorMapData, m_renderVertices, m_pIndoorMapData->faces[faceIndex]);
+                if (!plane)
+                {
+                    continue;
+                }
+                std::vector<BakedStaticLightSource> &sources = faceSources.emplace_back();
+                for (const BakedStaticLightSource &source : *pBatchActiveLightSources)
+                {
+                    if (!staticLightBehindFace(source, *plane))
+                    {
+                        sources.push_back(source);
+                    }
+                }
+                const size_t end = std::min<size_t>(
+                    size_t(m_faceVertexOffsets[faceIndex]) + m_faceVertexCounts[faceIndex], vertexSources.size());
+                for (size_t vertexIndex = m_faceVertexOffsets[faceIndex]; vertexIndex < end; ++vertexIndex)
+                {
+                    vertexSources[vertexIndex] = &sources;
+                }
+            }
+        }
+
+        for (size_t vertexIndex = 0; vertexIndex < batch.vertices.size(); ++vertexIndex)
+        {
+            TexturedVertex &vertex = batch.vertices[vertexIndex];
             if (!refreshBatchVertices)
             {
                 const bx::Vec3 position = {vertex.x, vertex.y, vertex.z};
@@ -11379,7 +12613,7 @@ bool IndoorRenderer::refreshBakedStaticLighting(
             ++refreshedVertexCount;
             const uint32_t bakedLightAbgr =
                 bakedStaticLightAbgrForPoint(
-                    *pBatchActiveLightSources,
+                    vertexSources.empty() ? *pBatchActiveLightSources : *vertexSources[vertexIndex],
                     m_bakedStaticColoredLights,
                     ambient,
                     {vertex.x, vertex.y, vertex.z});
@@ -11396,14 +12630,15 @@ bool IndoorRenderer::refreshBakedStaticLighting(
             continue;
         }
 
-        if (!bgfx::isValid(batch.vertexBufferHandle))
+        if (batch.drawGroup >= m_texturedDrawGroups.size()
+            || !bgfx::isValid(m_texturedDrawGroups[batch.drawGroup].vertexBufferHandle))
         {
             return false;
         }
 
         bgfx::update(
-            batch.vertexBufferHandle,
-            0,
+            m_texturedDrawGroups[batch.drawGroup].vertexBufferHandle,
+            batch.groupVertexOffset,
             bgfx::copy(
                 batch.vertices.data(),
                 static_cast<uint32_t>(batch.vertices.size() * sizeof(TexturedVertex))));
@@ -11430,6 +12665,120 @@ bool IndoorRenderer::updateMovingMechanismFaceVertices(
         uploadNanoseconds,
         pUpdatedFaceCount,
         pDirtyBatchCount);
+}
+
+bool IndoorRenderer::updateFaceAttributeChanges()
+{
+    constexpr size_t MaxChangedFaces = 512;
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+
+    if (!m_pIndoorMapData || !mapDeltaData || m_texturedBatches.empty()
+        || m_builtFaceAttributes.size() != mapDeltaData->faceAttributes.size()
+        || (pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0) != m_builtEventSurfaceRevision
+        || mapDeltaData->surfaceRevision == m_builtMapSurfaceRevision)
+    {
+        return false;
+    }
+
+    std::vector<size_t> changedFaces;
+
+    for (size_t faceIndex = 0; faceIndex < m_builtFaceAttributes.size(); ++faceIndex)
+    {
+        if (m_builtFaceAttributes[faceIndex] != mapDeltaData->faceAttributes[faceIndex])
+        {
+            changedFaces.push_back(faceIndex);
+
+            if (changedFaces.size() > MaxChangedFaces)
+            {
+                return false;
+            }
+        }
+    }
+
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+    std::vector<size_t> shownFaces;
+
+    for (size_t faceIndex : changedFaces)
+    {
+        const IndoorFace &face = m_pIndoorMapData->faces[faceIndex];
+        const uint32_t before = m_builtFaceAttributes[faceIndex];
+        const uint32_t after = mapDeltaData->faceAttributes[faceIndex];
+
+        // A face turning into or out of an open-sky face changes what draws it: rebuild.
+        if (indoorFaceShowsOpenSky(m_openSky, before) != indoorFaceShowsOpenSky(m_openSky, after))
+        {
+            return false;
+        }
+
+        const bool visible = isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState);
+        const int32_t batchIndex = faceIndex < m_faceBatchIndices.size() ? m_faceBatchIndices[faceIndex] : -1;
+
+        if (batchIndex < 0)
+        {
+            if (visible)
+            {
+                return false;           // shown for the first time: it has no place in the batches yet
+            }
+
+            continue;
+        }
+
+        if (visible)
+        {
+            shownFaces.push_back(faceIndex);
+            continue;
+        }
+
+        // Hidden: its triangles collapse onto one point (the draw keeps the face's place for when it shows again).
+        TexturedBatch &batch = m_texturedBatches[static_cast<size_t>(batchIndex)];
+        const uint32_t vertexOffset = m_faceVertexOffsets[faceIndex];
+        const uint32_t vertexCount = m_faceVertexCounts[faceIndex];
+
+        if (vertexCount == 0 || vertexOffset + vertexCount > batch.vertices.size())
+        {
+            continue;
+        }
+
+        std::vector<TexturedVertex> collapsed(
+            batch.vertices.begin() + vertexOffset, batch.vertices.begin() + vertexOffset + vertexCount);
+
+        for (TexturedVertex &vertex : collapsed)
+        {
+            vertex.x = collapsed.front().x;
+            vertex.y = collapsed.front().y;
+            vertex.z = collapsed.front().z;
+        }
+
+        bgfx::update(
+            m_texturedDrawGroups[batch.drawGroup].vertexBufferHandle,
+            batch.groupVertexOffset + vertexOffset,
+            bgfx::copy(collapsed.data(), static_cast<uint32_t>(collapsed.size() * sizeof(TexturedVertex))));
+
+        if (batch.waterColorAbgr != 0)
+        {
+            m_waterGeometryDirty = true;
+        }
+    }
+
+    // Shown (again) or otherwise changed: rebuilt in place as a moving door's faces are.
+    uint64_t buildNanoseconds = 0;
+    uint64_t uploadNanoseconds = 0;
+
+    if (!shownFaces.empty()
+        && !updateMechanismFaceVertices(shownFaces, buildNanoseconds, uploadNanoseconds, nullptr, nullptr))
+    {
+        return false;
+    }
+
+    for (size_t faceIndex : changedFaces)
+    {
+        m_builtFaceAttributes[faceIndex] = mapDeltaData->faceAttributes[faceIndex];
+    }
+
+    m_builtMapSurfaceRevision = mapDeltaData->surfaceRevision;
+    m_texturedBatchGeometryRevision = currentTexturedBatchGeometryRevision();
+    return true;
 }
 
 bool IndoorRenderer::updateMechanismFaceVertices(
@@ -11566,7 +12915,7 @@ bool IndoorRenderer::updateMechanismFaceVertices(
         }
 
         const uint64_t faceBuildBeginTickCount = SDL_GetTicksNS();
-        const TexturedFaceMesh faceMesh = buildFaceTexturedMesh(
+        TexturedFaceMesh faceMesh = buildFaceTexturedMesh(
             *m_pIndoorMapData,
             m_renderVertices,
             *pTexture,
@@ -11596,6 +12945,14 @@ bool IndoorRenderer::updateMechanismFaceVertices(
             return false;
         }
 
+        for (TexturedVertex &vertex : faceMesh.vertices)
+        {
+            vertex.daylight = batch.daylit ? 1.0f : 0.0f;
+        }
+        if (isTerrainFace(faceIndex))
+        {
+            applyTerrainVertices(faceIndex, faceMesh.vertices);
+        }
         std::copy(faceMesh.vertices.begin(), faceMesh.vertices.end(), batch.vertices.begin() + vertexOffset);
         dirtyBatchBounds[static_cast<size_t>(batchIndex)] = 1;
         if (batch.translucent)
@@ -11616,12 +12973,15 @@ bool IndoorRenderer::updateMechanismFaceVertices(
 
         const uint64_t uploadBeginTickCount = SDL_GetTicksNS();
         bgfx::update(
-            batch.vertexBufferHandle,
-            vertexOffset,
+            m_texturedDrawGroups[batch.drawGroup].vertexBufferHandle,
+            batch.groupVertexOffset + vertexOffset,
             bgfx::copy(faceMesh.vertices.data(), static_cast<uint32_t>(faceMesh.vertices.size() * sizeof(TexturedVertex)))
         );
         uploadNanoseconds += SDL_GetTicksNS() - uploadBeginTickCount;
     }
+
+    // A moved face may now touch faces it did not: those keep their draw order too.
+    addFaceDrawConflicts(faceIndices);
 
     size_t dirtyBatchCount = 0;
 
@@ -11687,23 +13047,16 @@ void IndoorRenderer::destroyDerivedGeometryResources()
     m_doorMarkerVertexCount = 0;
     m_doorMarkerVertexCapacity = 0;
 
-    for (TexturedBatch &batch : m_texturedBatches)
+    destroyTexturedDrawGroups(m_texturedDrawGroups);
+    if (bgfx::isValid(m_mergedFaceIndexBufferHandle))
     {
-        if (bgfx::isValid(batch.vertexBufferHandle))
-        {
-            bgfx::destroy(batch.vertexBufferHandle);
-        }
-        if (bgfx::isValid(batch.lightmapUvBufferHandle))
-        {
-            bgfx::destroy(batch.lightmapUvBufferHandle);
-        }
-        if (bgfx::isValid(batch.indexBufferHandle))
-        {
-            bgfx::destroy(batch.indexBufferHandle);
-        }
+        bgfx::destroy(m_mergedFaceIndexBufferHandle);
+        m_mergedFaceIndexBufferHandle = BGFX_INVALID_HANDLE;
     }
-
     m_texturedBatches.clear();
+    m_faceDrawPlan.clear();
+    m_faceDrawBounds.clear();
+    m_faceDrawGrid.clear();
     m_faceBatchIndices.clear();
     m_faceVertexOffsets.clear();
     m_faceVertexCounts.clear();
@@ -12224,10 +13577,14 @@ IndoorRenderer::TexturedFaceMesh IndoorRenderer::buildFaceTexturedMesh(
         face.roomNumber < indoorMapData.sectors.size() ? int16_t(face.roomNumber) : int16_t(-1);
     const int16_t faceBackSector =
         face.roomBehindNumber < indoorMapData.sectors.size() ? int16_t(face.roomBehindNumber) : int16_t(-1);
-    const float faceAmbient = faceSector >= 0
+    // A sector open to the sky takes its ambient from the daylight (u_indoorDaylight), not the vertex bake.
+    const float faceAmbient = indoorDaylightSector(indoorMapData.daylight, faceSector) ? 0.0f
+        : faceSector >= 0
         ? IndoorLightingRuntime::ambientFromMinAmbientLightLevel(IndoorLightingRuntime::sectorAmbientLevel(
             indoorMapData, eventRuntimeState ? &*eventRuntimeState : nullptr, size_t(faceSector)))
         : IndoorLightingRuntime::ambientFromMinAmbientLightLevel(0);
+    const std::optional<StaticLightFacePlane> frontPlane =
+        staticLightFacePlane(indoorMapData, transformedVertices, face);
     const auto sourcesForFace = [&](const std::vector<BakedStaticLightSource> &sources,
         const bx::Vec3 &minBounds, const bx::Vec3 &maxBounds)
     {
@@ -12237,7 +13594,8 @@ IndoorRenderer::TexturedFaceMesh IndoorRenderer::buildFaceTexturedMesh(
             if (source.radius > 0.0f
                 && pointAabbDistanceSquared(source.position, minBounds, maxBounds) <= source.radius * source.radius
                 && (source.sourceId >= sourceReach.size()
-                    || sourceReach[source.sourceId].reachesReceiver(faceSector, faceBackSector)))
+                    || sourceReach[source.sourceId].reachesReceiver(faceSector, faceBackSector))
+                && !(frontPlane && staticLightBehindFace(source, *frontPlane)))
             {
                 result.push_back(source);
             }
@@ -12552,6 +13910,14 @@ IndoorRenderer::TexturedFaceMesh IndoorRenderer::buildFaceTexturedMesh(
         mesh.triangles.push_back(triangle);
     }
 
+    // The face's sector and back sector, for the dynamic lights' portal reach (the batches of a draw group mix them).
+    const std::array<float, 2> sectors = {
+        face.roomNumber < indoorMapData.sectors.size() ? float(face.roomNumber) : -1.0f,
+        face.roomBehindNumber < indoorMapData.sectors.size() ? float(face.roomBehindNumber) : -1.0f};
+    for (TexturedVertex &vertex : mesh.vertices)
+    {
+        vertex.sectors = sectors;
+    }
     return mesh;
 }
 
@@ -12710,8 +14076,10 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             continue;
         }
 
-        if (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
-            || !isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
+        // a standing destructible's invisible hit box takes blows (MM9 RayHit)
+        if ((hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
+                || !isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
+            && !indoorDestructibleHitFace(*m_pIndoorMapData, faceIndex, effectiveAttributes))
         {
             continue;
         }
@@ -14200,6 +15568,20 @@ void IndoorRenderer::updateCameraFromInput(
         partyRuntime.setLadderVerticalInput(!allowWorldInput
             ? 0
             : int(input.action(KeyboardAction::FlyUp).held) - int(input.action(KeyboardAction::FlyDown).held));
+        // Swimming (scene water volumes): forward along the look direction, Jump or Fly Up up, Fly Down down.
+        IndoorSwimInput swimInput = {};
+        if (allowWorldInput)
+        {
+            swimInput.forward = float(input.action(KeyboardAction::Forward).held)
+                - float(input.action(KeyboardAction::Backward).held);
+            swimInput.strafe = float(strafeRightPressed) - float(strafeLeftPressed);
+            swimInput.vertical = int(jumpPressed || input.action(KeyboardAction::FlyUp).held)
+                - int(input.action(KeyboardAction::FlyDown).held);
+        }
+        swimInput.yawRadians = m_cameraYawRadians;
+        swimInput.pitchRadians = std::clamp(m_cameraPitchRadians, -1.55f, 1.55f);
+        swimInput.speedScale = turboScale * inputSpeedScale;
+        partyRuntime.setSwimInput(swimInput);
         const bool runningMovement =
             running
             && allowWorldInput

@@ -1108,7 +1108,7 @@ TEST_CASE("actor behaviour commands: blink, shield, leave, speed, invulnerabilit
     CHECK_EQ(result.summons[1].position.z, doctest::Approx(30.0f));
     CHECK(hasMessage(result, "no qbit"));
     CHECK_EQ(runtime.speedMultiplier(0, 41), doctest::Approx(1.5f));
-    CHECK(runtime.invulnerable(0));
+    CHECK(runtime.invulnerable(0, OpenYAMM::Game::ShieldAttackTier::Spell));
 
     ActorAiFrameFacts facts = {};
     ActorAiFacts actor = makeAiActor();
@@ -1235,4 +1235,87 @@ TEST_CASE("shield-break climb lifts a falling-back flyer above its target")
     // Past its seconds it fights on at its own height.
     CHECK_FALSE(frame.activeActors[1].status.forceFleeFromParty);
     CHECK(frame.activeActors[1].status.climbAboveTarget == 0.0f);
+}
+
+TEST_CASE("an MM9 boss script drives its loop: directives, one-shots, the loop's events and physical immunity")
+{
+    const ActorBehaviorCatalog catalog = makeCatalog(R"(
+        return Behavior.define{
+            onStart = function(self, s)
+                self:setMm9{drives_attacks = true, ignores_calls = true, chase_limit = 0, turn_degrees = 180,
+                    immune = "physical"}
+                self:setTarget("party")
+                self:attack("spell1")
+                self:trace("start")
+            end,
+            onTargetChanged = function(self, s, target)
+                self:say("target " .. (target and target.kind or "none"))
+            end,
+            onHit = function(self, s, attacker)
+                self:say("hit by " .. attacker.kind .. " " .. attacker.index)
+            end,
+            onAttackDone = function(self, s)
+                local target = self:target()
+                self:say("done " .. target.kind .. " " .. math.floor(target.distance))
+            end,
+            onTrigger = function(self, s, message)
+                self:say("trigger " .. message)
+            end,
+        }
+    )");
+    ActorBehaviorRuntime runtime;
+    runtime.bind(&catalog, nullptr);
+    runtime.update(makeFrame(makeActor(100)));
+
+    ActorAiFrameFacts facts = {};
+    facts.party.position = {100.0f, 1000.0f, 0.0f};
+    facts.party.collisionRadius = 37.0f;
+    facts.party.collisionHeight = 128.0f;
+    facts.activeActors.push_back(makeAiActor());
+    runtime.applyAiFacts(facts);
+
+    const OpenYAMM::Game::ActorMm9ScriptFacts &directives = facts.activeActors[0].behavior.mm9Script;
+    CHECK(directives.active);
+    CHECK(directives.drivesAttacks);
+    CHECK(directives.ignoresCalls);
+    CHECK_EQ(directives.chaseLimitSeconds, doctest::Approx(0.0f));
+    CHECK_EQ(directives.turnRadiansPerSecond, doctest::Approx(3.14159265f));
+    CHECK(directives.setTarget);
+    CHECK(directives.targetKind == ActorAiTargetKind::Party);
+    REQUIRE(directives.attack.has_value());
+    CHECK(*directives.attack == GameplayActorAttackAbility::Spell1);
+    REQUIRE_EQ(directives.traceLines.size(), 1u);
+    CHECK_EQ(directives.traceLines[0], "start");
+    CHECK(runtime.invulnerable(0, OpenYAMM::Game::ShieldAttackTier::Physical));
+    CHECK_FALSE(runtime.invulnerable(0, OpenYAMM::Game::ShieldAttackTier::Spell));
+
+    // One-shots last one AI step.
+    ActorAiFrameFacts next = facts;
+    next.activeActors[0].behavior = {};
+    runtime.applyAiFacts(next);
+    CHECK_FALSE(next.activeActors[0].behavior.mm9Script.setTarget);
+    CHECK_FALSE(next.activeActors[0].behavior.mm9Script.attack.has_value());
+    CHECK(next.activeActors[0].behavior.mm9Script.drivesAttacks);
+
+    // The loop took the party and attacks; then it is hit by actor 3, the attack ends, a trigger comes.
+    ActorAiFrameFacts attacking = facts;
+    attacking.activeActors[0].behavior = {};
+    attacking.activeActors[0].runtime.mm9.targetKind = ActorAiTargetKind::Party;
+    attacking.activeActors[0].runtime.motionState = ActorAiMotionState::Attacking;
+    attacking.activeActors[0].mm9World.damageSerial = 1;
+    attacking.activeActors[0].mm9World.attackerKind = ActorAiTargetKind::Actor;
+    attacking.activeActors[0].mm9World.attackerActorIndex = 3;
+    runtime.applyAiFacts(attacking);
+    CHECK(runtime.trigger(0, "startup"));
+    const ActorBehaviorFrameResult events = runtime.update(makeFrame(makeActor(100)));
+    CHECK(hasMessage(events, "target party"));
+    CHECK(hasMessage(events, "hit by actor 3"));
+    CHECK(hasMessage(events, "trigger startup"));
+
+    ActorAiFrameFacts done = attacking;
+    done.activeActors[0].runtime.motionState = ActorAiMotionState::Standing;
+    runtime.applyAiFacts(done);
+    const ActorBehaviorFrameResult finished = runtime.update(makeFrame(makeActor(100)));
+    // Centre to centre (1 000 apart; the same heights) less both radii.
+    CHECK(hasMessage(finished, "done party 931"));
 }

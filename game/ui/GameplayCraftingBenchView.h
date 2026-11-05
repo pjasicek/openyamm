@@ -64,10 +64,20 @@ struct GameplayCraftingBenchCellRect
     GameplayResolvedHudLayoutElement rect;
 };
 
+// One option of a step the player picks (CraftResult::choices), a row at the top of the comparison area.
+struct GameplayCraftingBenchChoiceRect
+{
+    size_t choiceIndex = 0;
+    GameplayResolvedHudLayoutElement rect;
+};
+
 namespace GameplayCraftingBenchView
 {
 // Apply All stops after this many steps.
 constexpr uint32_t MaxBatchApplications = 999;
+// The pick of a step with options: its prompt line, then one row per option.
+constexpr float ChoicePromptHeight = 10.0f;
+constexpr float ChoiceRowHeight = 12.0f;
 
 std::optional<CraftingTables> tables(const GameplayScreenRuntime &context);
 const CraftingRules &rules(const GameplayScreenRuntime &context);
@@ -89,5 +99,9 @@ std::vector<GameplayCraftingBenchCellRect> visibleCells(
     const GameplayCraftingBenchModel &model,
     const GameplayResolvedHudLayoutElement &grid,
     size_t scrollRow);
+// The option rows of the chosen step in the comparison area; none when the step has nothing to pick.
+std::vector<GameplayCraftingBenchChoiceRect> choiceRows(
+    const GameplayCraftingBenchModel &model,
+    const GameplayResolvedHudLayoutElement &compare);
 }
 }

@@ -941,3 +941,225 @@ effects:
     - {time: 0, value: 1}
     color_keys:
     - {time: 0, rgb: [200, 225, 255], transparency: 20}
+# Destructibles (devdocs/INDOOR_DESTRUCTIBLES.md): a wall, window or prop breaking, at its centre, sized for a piece
+# about 200 units across (the scene's effect_scale fits it). Stone: a settling dust cloud and falling rubble.
+- id: openyamm:fx/destructible/stone
+  display_name: Destructible breaking (stone)
+  duration_seconds: 3
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/dust_cloud
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 0.3
+    sprites_per_emission: 14
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 2.8
+    emission_shape: sphere
+    radius: 60
+    velocity: 40
+    wind_direction: [0, 0, -1]
+    wind_amount: 12
+    scale_keys:
+    - {time: 0.0, value: 0.3}
+    - {time: 1.0, value: 0.75}
+    color_keys:
+    - {time: 0, rgb: [150, 132, 110], transparency: 40}
+    - {time: 0.5, rgb: [140, 125, 105], transparency: 140}
+    - {time: 1, rgb: [130, 118, 100], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/debris
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 5
+    sprites_per_emission: 14
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.6
+    emission_shape: sphere
+    radius: 60
+    velocity: 130
+    wind_direction: [0, 0, -1]
+    wind_amount: 420
+    scale_keys:
+    - {time: 0.0, value: 0.85}
+    - {time: 1.0, value: 0.7}
+    color_keys:
+    - {time: 0, rgb: [150, 138, 120], transparency: 0}
+    - {time: 0.8, rgb: [150, 138, 120], transparency: 40}
+    - {time: 1, rgb: [150, 138, 120], transparency: 255}
+    motion_keys: []
+# Wood: splinters and a little dust.
+- id: openyamm:fx/destructible/wood
+  display_name: Destructible breaking (wood)
+  duration_seconds: 2.5
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/dust_cloud
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 0.4
+    sprites_per_emission: 6
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.6
+    emission_shape: sphere
+    radius: 50
+    velocity: 50
+    wind_direction: [0, 0, -1]
+    wind_amount: 10
+    scale_keys:
+    - {time: 0.0, value: 0.25}
+    - {time: 1.0, value: 0.55}
+    color_keys:
+    - {time: 0, rgb: [160, 130, 95], transparency: 110}
+    - {time: 1, rgb: [150, 125, 95], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/debris
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 8
+    sprites_per_emission: 12
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.5
+    emission_shape: sphere
+    radius: 50
+    velocity: 150
+    wind_direction: [0, 0, -1]
+    wind_amount: 420
+    scale_keys:
+    - {time: 0.0, value: 0.8}
+    - {time: 1.0, value: 0.65}
+    color_keys:
+    - {time: 0, rgb: [176, 124, 70], transparency: 0}
+    - {time: 0.8, rgb: [176, 124, 70], transparency: 40}
+    - {time: 1, rgb: [176, 124, 70], transparency: 255}
+    motion_keys: []
+# Glass: glinting shards falling.
+- id: openyamm:fx/destructible/glass
+  display_name: Destructible breaking (glass)
+  duration_seconds: 2
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/glint
+    particle_space: world
+    blend: additive
+    random_roll: true
+    spin_speed: 6
+    sprites_per_emission: 18
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 0.9
+    emission_shape: sphere
+    radius: 50
+    velocity: 180
+    wind_direction: [0, 0, -1]
+    wind_amount: 640
+    scale_keys:
+    - {time: 0.0, value: 0.16}
+    - {time: 1.0, value: 0.1}
+    color_keys:
+    - {time: 0, rgb: [210, 235, 255], transparency: 30}
+    - {time: 1, rgb: [170, 210, 240], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/melee_chip
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 9
+    sprites_per_emission: 12
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.1
+    emission_shape: sphere
+    radius: 50
+    velocity: 160
+    wind_direction: [0, 0, -1]
+    wind_amount: 700
+    scale_keys:
+    - {time: 0.0, value: 0.5}
+    - {time: 1.0, value: 0.4}
+    color_keys:
+    - {time: 0, rgb: [190, 220, 235], transparency: 70}
+    - {time: 0.8, rgb: [190, 220, 235], transparency: 110}
+    - {time: 1, rgb: [190, 220, 235], transparency: 255}
+    motion_keys: []
+# Metal: sparks and grey fragments.
+- id: openyamm:fx/destructible/metal
+  display_name: Destructible breaking (metal)
+  duration_seconds: 2
+  compatibility_profile: predictable
+  components:
+  - id: 1
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/spark
+    particle_space: world
+    blend: additive
+    random_roll: true
+    spin_speed: 2
+    sprites_per_emission: 20
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 0.6
+    emission_shape: sphere
+    radius: 30
+    velocity: 260
+    wind_direction: [0, 0, -1]
+    wind_amount: 500
+    scale_keys:
+    - {time: 0.0, value: 0.14}
+    - {time: 1.0, value: 0.06}
+    color_keys:
+    - {time: 0, rgb: [255, 200, 120], transparency: 0}
+    - {time: 1, rgb: [255, 120, 40], transparency: 255}
+    motion_keys: []
+  - id: 2
+    type: sprite_system
+    start_seconds: 0.0
+    end_seconds: 0.03
+    sprite_resource: openyamm:effect-sprite/debris
+    particle_space: world
+    blend: alpha
+    random_roll: true
+    spin_speed: 7
+    sprites_per_emission: 10
+    emission_interval_seconds: 1.0
+    particle_lifetime_seconds: 1.1
+    emission_shape: sphere
+    radius: 40
+    velocity: 200
+    wind_direction: [0, 0, -1]
+    wind_amount: 680
+    scale_keys:
+    - {time: 0.0, value: 0.6}
+    - {time: 1.0, value: 0.5}
+    color_keys:
+    - {time: 0, rgb: [140, 140, 148], transparency: 0}
+    - {time: 0.8, rgb: [140, 140, 148], transparency: 40}
+    - {time: 1, rgb: [140, 140, 148], transparency: 255}
+    motion_keys: []

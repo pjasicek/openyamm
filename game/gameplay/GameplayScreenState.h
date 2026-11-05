@@ -85,6 +85,14 @@ public:
         bool inspectMouseActivateLatch = false;
         // A Ctrl click held after the steal: the left button is the attack too, and must not attack until released.
         bool stealClickLatch = false;
+        // The smart left click's choice for this press, kept until the button is released.
+        enum class SmartClick : uint8_t
+        {
+            None,
+            Use,
+            Attack
+        };
+        SmartClick smartClick = SmartClick::None;
         GameplayWorldHit pressedWorldHit;
 
         void clear();

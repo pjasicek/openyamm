@@ -539,6 +539,36 @@ TEST_CASE("legacy saves move journal map notes from every map state into the par
     CHECK(saveData.outdoorWorldStates.at("mm6:outd3.odm").eventRuntimeState->runtimeMapNotes.empty());
 }
 
+TEST_CASE("personal journal map notes survive a save")
+{
+    // The player's own map notes (a right click on the journal map) stay theirs after a save and a load.
+    OpenYAMM::Game::JournalMapNote personal;
+    personal.id = OpenYAMM::Game::PersonalJournalMapNoteIdBase;
+    personal.x = -1200;
+    personal.y = 3400;
+    personal.mapFileName = "oute3.odm";
+    personal.text = "Hidden cache behind the well";
+    personal.personal = true;
+    OpenYAMM::Game::JournalMapNote eventPin = personal;
+    eventPin.id = 3305;
+    eventPin.personal = false;
+
+    OpenYAMM::Game::GameSaveData save;
+    save.mapFileName = "oute3.odm";
+    save.party.journalMapNotes = {eventPin, personal};
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm_personal_map_notes.oysav";
+    std::string error;
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error.c_str());
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(restored.has_value(), error.c_str());
+    REQUIRE_EQ(restored->party.journalMapNotes.size(), 2u);
+    CHECK_FALSE(restored->party.journalMapNotes[0].personal);
+    CHECK(restored->party.journalMapNotes[1].personal);
+    CHECK_EQ(restored->party.journalMapNotes[1].text, "Hidden cache behind the well");
+    CHECK_EQ(restored->party.journalMapNotes[1].x, -1200);
+}
+
 TEST_CASE("legacy saves move autonotes from every map state into the party")
 {
     OpenYAMM::Game::GameSaveData saveData = {};

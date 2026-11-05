@@ -2,7 +2,7 @@
 -- generated from legacy EVT/STR
 
 SetMapMetadata({
-    levitateTrapEvents = {22, 23, 25, 32, 34, 35, 36, 39, 40, 41, 42, 43, 44, 45, 46},
+    levitateTrapEvents = {25, 32, 34, 35, 36, 39, 40, 41, 42, 43, 44, 45, 46},
     onLoad = {2},
     onLeave = {},
     openedChestIds = {
@@ -124,10 +124,10 @@ RegisterEvent(2, nil, function()
     evt.SetDoorState(63, DoorAction.Open)
     evt.SetDoorState(64, DoorAction.Open)
     if IsAtLeast(MapVar(2), 1) then
-        evt.SetTexture(-833, "t3s1on")
+        evt.SetTexture(-832, "t3s1on")
     end
     if IsAtLeast(MapVar(17), 1) then
-        evt.SetTexture(-1079, "mystryb")
+        evt.SetTexture(-1078, "mystryb")
     end
 end)
 
@@ -176,11 +176,11 @@ end)
 RegisterEvent(13, "Suspicious Floor", function()
     if not IsAtLeast(MapVar(2), 1) then
         SetValue(MapVar(2), 1)
-        evt.SetTexture(-833, "t3s1on")
+        evt.SetTexture(-832, "t3s1on")
         return
     end
     SetValue(MapVar(2), 0)
-    evt.SetTexture(-833, "t3s1off")
+    evt.SetTexture(-832, "t3s1off")
 end, "Suspicious Floor")
 
 RegisterEvent(14, "Suspicious Floor", function()
@@ -289,7 +289,7 @@ RegisterEvent(24, "Suspicious Floor", function()
     if IsAtLeast(MapVar(18), 1) then return end
     evt.StatusText("Magic Gate Open")
     SetValue(MapVar(18), 1)
-    evt.SetTexture(-1079, "mystryb")
+    evt.SetTexture(-1078, "mystryb")
     evt.SummonMonsters(3, 1, 1, 2688, 3968, 1, 0, 0) -- encounter slot 3 "BGenie" tier A, count 1, pos=(2688, 3968, 1), actor group 0, no unique actor name
     evt.MoveToMap(2179, 4314, 1, 1, 0, 0, 0, 0)
 end, "Suspicious Floor")

@@ -52,6 +52,9 @@ struct ActorPathResolveResult
     bool directReachable = false;
     bool pathActive = false;
     bool planned = false;
+    // This call started a new plan: queued it for a worker, or planned it in place without workers. Taking up a
+    // finished plan sets `planned` only.
+    bool requested = false;
     bool failed = false;
     bool cooldown = false;
     bool deferred = false;

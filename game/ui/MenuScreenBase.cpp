@@ -2,6 +2,7 @@
 #include "engine/BgfxContext.h"
 #include "engine/ImageAssetLoader.h"
 #include "engine/render/CookedTexture.h"
+#include "engine/Utf8Text.h"
 #include "game/render/TextureFiltering.h"
 #include "game/ui/UiLayoutManager.h"
 
@@ -732,167 +733,121 @@ bool MenuScreenBase::drawText(
         return false;
     }
 
-    uint32_t glyphCount = 0;
-
-    for (unsigned char character : text)
-    {
-        if (character == '\r' || character == '\n')
-        {
-            break;
-        }
-
-        if (character >= pFont->firstChar
-            && character <= pFont->lastChar
-            && pFont->glyphMetrics[character].width > 0)
-        {
-            ++glyphCount;
-        }
-    }
-
-    if (glyphCount == 0)
-    {
-        return true;
-    }
-
-    const uint32_t vertexCount = glyphCount * 6;
-
-    if (bgfx::getAvailTransientVertexBuffer(vertexCount, MenuVertex::ms_layout) < vertexCount)
-    {
-        return false;
-    }
-
     const bool pixelSized = isIndependentOutlineFont(fontName);
     if (pixelSized)
     {
         pixelY = std::round(pixelY);
     }
-    pixelX -= pFont->atlasPadding * scale;
-    pixelY -= pFont->atlasPadding * scale;
 
-    const float shadowOffset = std::max(1.0f, scale);
-
-    m_drawTint = 0xffffffffu;
-    if (drawShadow && bgfx::isValid(pFont->shadowTextureHandle))
+    // The quads of the line's glyphs, laid out once for the shadow and the text. Glyph geometry is in raster pixels;
+    // a Unicode face's raster differs from its layout height.
+    struct GlyphQuad
     {
-        bgfx::TransientVertexBuffer shadowBuffer;
-        bgfx::allocTransientVertexBuffer(&shadowBuffer, vertexCount, MenuVertex::ms_layout);
-        MenuVertex *pShadowVertices = reinterpret_cast<MenuVertex *>(shadowBuffer.data);
-        float penX = pixelX + shadowOffset;
-        uint8_t previous = 0;
-        uint32_t vertexIndex = 0;
+        float left = 0.0f;
+        float top = 0.0f;
+        float width = 0.0f;
+        float height = 0.0f;
+        float u0 = 0.0f;
+        float v0 = 0.0f;
+        float u1 = 0.0f;
+        float v1 = 0.0f;
+    };
+    std::vector<GlyphQuad> quads;
+    const float glyphScale = scale * pFont->layoutScale;
+    const float atlasWidth = static_cast<float>(pFont->atlasWidth / pFont->atlasScale);
+    const float atlasHeight = static_cast<float>(pFont->atlasHeight / pFont->atlasScale);
+    float pen = 0.0f;
+    uint32_t previous = 0;
 
-        for (unsigned char character : text)
-        {
-            if (character == '\r' || character == '\n')
-            {
-                break;
-            }
-
-            if (character < pFont->firstChar || character > pFont->lastChar)
-            {
-                penX += static_cast<float>(pFont->atlasCellWidth) * scale;
-                continue;
-            }
-
-            const FontGlyphMetrics &glyphMetrics = pFont->glyphMetrics[character];
-            penX += (glyphMetrics.leftSpacing + pFont->kerning(previous, character)) * scale;
-            previous = character;
-
-            if (glyphMetrics.width > 0)
-            {
-                const int cellX = (character % 16) * (pFont->atlasCellWidth + 2 * pFont->atlasPadding);
-                const int cellY = (character / 16) * (pFont->fontHeight + 2 * pFont->atlasPadding);
-                const float u0 = static_cast<float>(cellX) / static_cast<float>(pFont->atlasWidth / pFont->atlasScale);
-                const float v0 = static_cast<float>(cellY) / static_cast<float>(pFont->atlasHeight / pFont->atlasScale);
-                const float u1 = static_cast<float>(cellX + glyphMetrics.width + 2 * pFont->atlasPadding)
-                    / static_cast<float>(pFont->atlasWidth / pFont->atlasScale);
-                const float v1 = static_cast<float>(cellY + pFont->fontHeight + 2 * pFont->atlasPadding)
-                    / static_cast<float>(pFont->atlasHeight / pFont->atlasScale);
-                const float glyphWidth = static_cast<float>(glyphMetrics.width + 2 * pFont->atlasPadding) * scale;
-                const float glyphHeight = static_cast<float>(pFont->fontHeight + 2 * pFont->atlasPadding) * scale;
-                const float top = pixelY + shadowOffset;
-                const float bottom = top + glyphHeight;
-
-                const float left = pixelSized ? std::round(penX) : penX;
-                pShadowVertices[vertexIndex + 0] = MenuVertex{left, top, 0.0f, u0, v0};
-                pShadowVertices[vertexIndex + 1] = MenuVertex{left + glyphWidth, top, 0.0f, u1, v0};
-                pShadowVertices[vertexIndex + 2] = MenuVertex{left + glyphWidth, bottom, 0.0f, u1, v1};
-                pShadowVertices[vertexIndex + 3] = MenuVertex{left, top, 0.0f, u0, v0};
-                pShadowVertices[vertexIndex + 4] = MenuVertex{left + glyphWidth, bottom, 0.0f, u1, v1};
-                pShadowVertices[vertexIndex + 5] = MenuVertex{left, bottom, 0.0f, u0, v1};
-                vertexIndex += 6;
-            }
-
-            penX += (glyphMetrics.advance() - glyphMetrics.leftSpacing) * scale;
-        }
-
-        bgfx::setVertexBuffer(0, &shadowBuffer);
-        bindTexture(0, m_textureUniformHandle, pFont->shadowTextureHandle,
-                    pixelSized || pFont->atlasScale > 1 ? TextureFilterProfile::SmoothText
-                                                        : TextureFilterProfile::Text);
-        bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
-        applyClipRect();
-        bgfx::submit(m_renderViewId, m_texturedProgramHandle);
-    }
-
-    bgfx::TransientVertexBuffer vertexBuffer;
-    bgfx::allocTransientVertexBuffer(&vertexBuffer, vertexCount, MenuVertex::ms_layout);
-    MenuVertex *pVertices = reinterpret_cast<MenuVertex *>(vertexBuffer.data);
-    float penX = pixelX;
-    uint8_t previous = 0;
-    uint32_t vertexIndex = 0;
-
-    for (unsigned char character : text)
+    for (const uint32_t character : Engine::Utf8::codePoints(text))
     {
         if (character == '\r' || character == '\n')
         {
             break;
         }
 
-        if (character < pFont->firstChar || character > pFont->lastChar)
+        const int glyph = pFont->glyphIndex(character);
+
+        if (glyph < 0)
         {
-            penX += static_cast<float>(pFont->atlasCellWidth) * scale;
+            pen += static_cast<float>(pFont->atlasCellWidth);
             continue;
         }
 
-        const FontGlyphMetrics &glyphMetrics = pFont->glyphMetrics[character];
-        penX += (glyphMetrics.leftSpacing + pFont->kerning(previous, character)) * scale;
-        previous = character;
+        pen += pFont->kerning(previous, character);
+        const FontGlyphMetrics &metrics = pFont->glyph(glyph);
 
-        if (glyphMetrics.width > 0)
+        if (metrics.width > 0)
         {
-            const int cellX = (character % 16) * (pFont->atlasCellWidth + 2 * pFont->atlasPadding);
-            const int cellY = (character / 16) * (pFont->fontHeight + 2 * pFont->atlasPadding);
-            const float u0 = static_cast<float>(cellX) / static_cast<float>(pFont->atlasWidth / pFont->atlasScale);
-            const float v0 = static_cast<float>(cellY) / static_cast<float>(pFont->atlasHeight / pFont->atlasScale);
-            const float u1 = static_cast<float>(cellX + glyphMetrics.width + 2 * pFont->atlasPadding)
-                / static_cast<float>(pFont->atlasWidth / pFont->atlasScale);
-            const float v1 = static_cast<float>(cellY + pFont->fontHeight + 2 * pFont->atlasPadding)
-                / static_cast<float>(pFont->atlasHeight / pFont->atlasScale);
-            const float glyphWidth = static_cast<float>(glyphMetrics.width + 2 * pFont->atlasPadding) * scale;
-            const float glyphHeight = static_cast<float>(pFont->fontHeight + 2 * pFont->atlasPadding) * scale;
-            const float bottom = pixelY + glyphHeight;
-
-            const float left = pixelSized ? std::round(penX) : penX;
-            pVertices[vertexIndex + 0] = MenuVertex{left, pixelY, 0.0f, u0, v0};
-            pVertices[vertexIndex + 1] = MenuVertex{left + glyphWidth, pixelY, 0.0f, u1, v0};
-            pVertices[vertexIndex + 2] = MenuVertex{left + glyphWidth, bottom, 0.0f, u1, v1};
-            pVertices[vertexIndex + 3] = MenuVertex{left, pixelY, 0.0f, u0, v0};
-            pVertices[vertexIndex + 4] = MenuVertex{left + glyphWidth, bottom, 0.0f, u1, v1};
-            pVertices[vertexIndex + 5] = MenuVertex{left, bottom, 0.0f, u0, v1};
-            vertexIndex += 6;
+            const Engine::FontGlyphPlacement place = pFont->placement(glyph);
+            quads.push_back(GlyphQuad{
+                pixelX + (pen + metrics.leftSpacing - pFont->atlasPadding) * glyphScale,
+                pixelY + place.top * glyphScale,
+                place.width * glyphScale,
+                place.height * glyphScale,
+                place.x / atlasWidth,
+                place.y / atlasHeight,
+                (place.x + place.width) / atlasWidth,
+                (place.y + place.height) / atlasHeight});
         }
 
-        penX += (glyphMetrics.advance() - glyphMetrics.leftSpacing) * scale;
+        pen += metrics.advance();
+        previous = character;
     }
 
-    bgfx::setVertexBuffer(0, &vertexBuffer);
+    if (quads.empty())
+    {
+        return true;
+    }
+
+    const uint32_t vertexCount = static_cast<uint32_t>(quads.size()) * 6;
+    const bool withShadow = drawShadow && bgfx::isValid(pFont->shadowTextureHandle);
+
+    if (bgfx::getAvailTransientVertexBuffer(vertexCount * (withShadow ? 2 : 1), MenuVertex::ms_layout)
+        < vertexCount * (withShadow ? 2 : 1))
+    {
+        return false;
+    }
+
+    const TextureFilterProfile filter =
+        pixelSized || pFont->atlasScale > 1 ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text;
+    const auto submitQuads =
+        [&](bgfx::TextureHandle texture, float offset)
+        {
+            bgfx::TransientVertexBuffer buffer;
+            bgfx::allocTransientVertexBuffer(&buffer, vertexCount, MenuVertex::ms_layout);
+            MenuVertex *pVertex = reinterpret_cast<MenuVertex *>(buffer.data);
+
+            for (const GlyphQuad &quad : quads)
+            {
+                // Pixel-sized faces snap each glyph, shadow included, to whole pixels.
+                const float left = pixelSized ? std::round(quad.left + offset) : quad.left + offset;
+                const float right = left + quad.width;
+                const float top = quad.top + offset;
+                const float bottom = top + quad.height;
+                *pVertex++ = MenuVertex{left, top, 0.0f, quad.u0, quad.v0};
+                *pVertex++ = MenuVertex{right, top, 0.0f, quad.u1, quad.v0};
+                *pVertex++ = MenuVertex{right, bottom, 0.0f, quad.u1, quad.v1};
+                *pVertex++ = MenuVertex{left, top, 0.0f, quad.u0, quad.v0};
+                *pVertex++ = MenuVertex{right, bottom, 0.0f, quad.u1, quad.v1};
+                *pVertex++ = MenuVertex{left, bottom, 0.0f, quad.u0, quad.v1};
+            }
+
+            bgfx::setVertexBuffer(0, &buffer);
+            bindTexture(0, m_textureUniformHandle, texture, filter);
+            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
+            applyClipRect();
+            bgfx::submit(m_renderViewId, m_texturedProgramHandle);
+        };
+
+    if (withShadow)
+    {
+        m_drawTint = 0xffffffffu;
+        submitQuads(pFont->shadowTextureHandle, std::max(1.0f, scale));
+    }
+
     m_drawTint = colorAbgr;
-    bindTexture(0, m_textureUniformHandle, mainTextureHandle,
-                pixelSized || pFont->atlasScale > 1 ? TextureFilterProfile::SmoothText : TextureFilterProfile::Text);
-    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
-    applyClipRect();
-    bgfx::submit(m_renderViewId, m_texturedProgramHandle);
+    submitQuads(mainTextureHandle, 0.0f);
     return true;
 }
 
@@ -905,38 +860,39 @@ float MenuScreenBase::measureTextWidth(const std::string &fontName, const std::s
         return 0.0f;
     }
 
-    float widthPixels = 0.0f;
-    uint8_t previous = 0;
+    float pen = 0.0f;
+    uint32_t previous = 0;
     std::optional<uint32_t> ignoredColor;
 
-    for (size_t index = 0; index < text.size(); ++index)
+    for (size_t index = 0; index < text.size();)
     {
-        const unsigned char character = static_cast<unsigned char>(text[index]);
+        // Colour codes take no room.
+        if (GameplayHudCommon::readTextColorCode(text, index, ignoredColor))
+        {
+            index += GameplayHudCommon::TextColorCodeLength;
+            continue;
+        }
+
+        const uint32_t character = Engine::Utf8::next(text, index);
 
         if (character == '\r' || character == '\n')
         {
             break;
         }
 
-        // Colour codes take no room.
-        if (GameplayHudCommon::readTextColorCode(text, index, ignoredColor))
+        const int glyph = pFont->glyphIndex(character);
+
+        if (glyph < 0)
         {
-            index += GameplayHudCommon::TextColorCodeLength - 1;
+            pen += static_cast<float>(pFont->atlasCellWidth);
             continue;
         }
 
-        if (character < pFont->firstChar || character > pFont->lastChar)
-        {
-            widthPixels += static_cast<float>(pFont->atlasCellWidth) * scale;
-            continue;
-        }
-
-        const FontGlyphMetrics &glyphMetrics = pFont->glyphMetrics[character];
-        widthPixels += (glyphMetrics.advance() + pFont->kerning(previous, character)) * scale;
+        pen += pFont->kerning(previous, character) + pFont->glyph(glyph).advance();
         previous = character;
     }
 
-    return widthPixels;
+    return pen * scale * pFont->layoutScale;
 }
 
 int MenuScreenBase::fontHeight(const std::string &fontName)

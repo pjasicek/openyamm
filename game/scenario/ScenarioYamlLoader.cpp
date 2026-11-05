@@ -37,12 +37,12 @@ const KeyList AssertKeys = {
     "award_acquired", "award_cleared", "map_arrived", "map_loaded", "map_var_changed", "decor_var_changed",
     "state_dump_map_var", "named_map_var_changed", "state_dump_named_map_var", "named_global_var_changed",
     "state_dump_named_global_var", "runtime_event_variable", "actor_visible", "projectiles", "party_health",
-    "homing_ends", "actor_count", "buff", "map_transition_requested", "map_transition_confirmed",
+    "homing_ends", "actor_count", "buff", "condition", "map_transition_requested", "map_transition_confirmed",
     "map_transition_canceled",
     "chest_opened", "actor_dialog_started", "pressure_plate_triggered", "dialogue_canceled", "dialog",
     "input_prompt", "new_game_party_member", "new_game_party_skill", "qbit_set", "qbit_clear", "ruleset",
     "mechanism", "gold", "food", "game_hour", "charges", "dimension_door", "combat_log", "journal_map_note",
-    "quick_item_ring",
+    "quick_item_ring", "quick_item_popup", "water", "ai_trace", "autonote", "teacher_ledger",
     // recorded:
     "scene_kind", "new_game_starting", "new_game_started", "state_dump_party", "state_dump_party_member",
     "state_dump_party_skill", "follower_hired", "follower_left", "gold_received", "starting_items"};
@@ -55,28 +55,37 @@ struct NestedKeys
 };
 
 const std::vector<NestedKeys> AssertBlockKeys = {
-    {"projectiles", {"source_monster_id", "min_count", "max_count", "homing", "toward_party_within_degrees",
+    {"projectiles", {"source", "source_monster_id", "min_count", "max_count", "homing", "toward_party_within_degrees",
         "report"}},
     {"homing_ends", {"source_monster_id", "hit", "min_count", "max_count", "report"}},
     {"party_health", {"full"}},
     {"item_set_bonus", {"member_index", "set_id", "active"}},
     {"actor_count", {"name", "monster_id", "boss", "shrunk", "hurt", "hostile", "min", "max"}},
     {"buff", {"spell_id", "present", "member_index"}},
+    {"condition", {"name", "present", "member_index"}},
     {"charges", {"started", "hits", "misses", "frenzies", "min_started", "min_hits", "min_misses", "min_frenzies"}},
     {"journal_map_note", {"map", "id", "text", "present"}},
+    {"autonote", {"id", "present"}},
+    {"teacher_ledger", {"continent", "bought"}},
     {"quick_item_ring", {"open", "member_index"}},
+    {"quick_item_popup", {"kind", "member_index"}},
     {"dimension_door", {"pending", "without_quest"}},
+    {"water", {"state", "eye_under", "breath_min", "breath_max", "drowning_ticks_min", "drowning_ticks_max",
+        "foot_z_min", "foot_z_max"}},
     {"actor_visible", {"actor_index", "map", "name", "monster_id", "current_hp", "max_hp", "dead", "hidden",
         "hostile_to_party", "report_state", "near", "far", "faces", "has_aim_target", "has_detected_party",
         "combat_targeting_party", "shield_raised", "shield_fraction", "hp", "hp_below",
         // recorded:
         "world", "party", "yaw", "pitch", "actor_pos"}},
+    {"ai_trace", {"actor_index", "arena_monster", "decision", "event", "target", "detail", "min_count", "max_count",
+        "max_in_window", "within_seconds", "after", "before", "report"}},
     {"mechanism", MechanismKeys},
     {"runtime_event_variable", {"id", "value", "min", "max", "member_index"}},
     {"combat_log", {"min_entries", "dealt_min", "taken_min", "with_stages_min", "loot_min", "critical_min"}},
     {"ruleset", {"id", "difficulty", "progression", "challenge_mode", "rolled_items_min", "report_items",
         "crafted_items_min", "potion_effects_min", "potion_effects_max", "member_classes", "dimension_run",
-        "dimension_quest", "madness_pending", "madness_deaths", "map_cleared", "map_slain_min"}},
+        "dimension_quest", "madness_pending", "madness_deaths", "map_cleared", "map_slain_min",
+        "bow_disabled"}},
 };
 
 struct StepKeys
@@ -129,7 +138,7 @@ const std::vector<StepKeys> &stepKeyTable()
             "method", "kind", "distance", "has_hit", "can_activate"}},
         {ScenarioStepKind::MovementSegment, {"input", "duration_ms", "seconds", "delta_game_minutes", "start",
             "expect_stop", "tolerance_xy", "tolerance_z", "loose_tolerance", "actor_collision", "actor_ai",
-            "raw_start",
+            "raw_start", "jump", "fly_up", "fly_down",
             // recorded:
             "raw_stop"}},
         {ScenarioStepKind::EnterDoorAt, {"map", "source_id", "target",
@@ -163,7 +172,7 @@ const std::vector<StepKeys> &stepKeyTable()
             "scroll", "expect"}},
         {ScenarioStepKind::PartyCharge, {"actor_index", "status", "advance_seconds", "min_moved"}},
         {ScenarioStepKind::Craft, {"member_index", "target_item_id", "worn_slot", "material_item_id", "all",
-            "expect"}},
+            "choice", "expect"}},
         {ScenarioStepKind::CombineGems, {"item_id", "all", "expect"}},
         {ScenarioStepKind::SpawnActor, {"monster_id", "count", "x", "y", "z", "group", "near_party", "boss_affix",
             "party_ally"}},
@@ -172,6 +181,8 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::ExecuteEvent, {"id"}},
         {ScenarioStepKind::ChargeActor, {"actor_index"}},
         {ScenarioStepKind::FrenzyActor, {"actor_index"}},
+        {ScenarioStepKind::AiArena, {"path", "log"}},
+        {ScenarioStepKind::AiTraceDump, {"actor_index", "arena_monster", "decisions_only", "last"}},
         {ScenarioStepKind::SetupShortcut,
             {"kind", "id", "value", "item_id", "source_id", "name", "member_index", "slot", "strongest", "condition",
                 "health"}},
@@ -592,6 +603,18 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "frenzy_actor")
     {
         kind = ScenarioStepKind::FrenzyActor;
+        return true;
+    }
+
+    if (value == "ai_arena")
+    {
+        kind = ScenarioStepKind::AiArena;
+        return true;
+    }
+
+    if (value == "ai_trace_dump")
+    {
+        kind = ScenarioStepKind::AiTraceDump;
         return true;
     }
 

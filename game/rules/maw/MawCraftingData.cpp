@@ -17,7 +17,7 @@ MawCraftOperation operationNamed(const std::string &name)
         {"refine_quality", MawCraftOperation::RefineQuality},
         {"duplicate_item", MawCraftOperation::DuplicateItem},
         {"upgrade_base_type", MawCraftOperation::UpgradeBaseType},
-        {"remove_random_enchant", MawCraftOperation::RemoveRandomEnchant},
+        {"remove_enchant", MawCraftOperation::RemoveEnchant},
         {"transfer_legendary_affix", MawCraftOperation::TransferLegendaryAffix},
         {"transfer_celestial", MawCraftOperation::TransferCelestial},
         {"add_potion_charges", MawCraftOperation::AddPotionCharges},

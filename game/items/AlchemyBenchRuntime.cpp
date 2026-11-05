@@ -1,5 +1,6 @@
 #include "game/items/AlchemyBenchRuntime.h"
 
+#include "engine/Utf8Text.h"
 #include "game/items/InventoryBags.h"
 #include "game/rules/GameRules.h"
 #include "game/tables/ItemTable.h"
@@ -98,6 +99,19 @@ uint8_t requiredMasteryFor(uint32_t resultItemId, const AlchemyBenchTables &tabl
     return pSetting != nullptr && pSetting->requiredMastery.has_value()
         ? static_cast<uint8_t>(std::min<uint32_t>(*pSetting->requiredMastery, 255))
         : 0;
+}
+
+// A reagent and a bottle mix into the bottle, whatever order they were picked in: the potion keeps the target's
+// inventory footprint, and a reagent's is too small for it.
+AlchemyRecipe bottleAsTarget(const AlchemyRecipe &recipe, const AlchemyBenchTables &tables)
+{
+    if (recipe.heldItemId == tables.potionSettingTable.emptyBottleItemId()
+        && tables.reagentSettingTable.resultItemIdForReagent(recipe.targetItemId).has_value())
+    {
+        return {recipe.heldItemId, recipe.targetItemId};
+    }
+
+    return recipe;
 }
 
 InventoryItemMixResult simulateMix(
@@ -357,17 +371,7 @@ uint32_t AlchemyBenchRuntime::brewableCount(
 
 bool AlchemyBenchRuntime::matchesSearch(const std::string &name, const std::string &search)
 {
-    const auto lower =
-        [](std::string text)
-        {
-            std::transform(text.begin(), text.end(), text.begin(),
-                [](unsigned char character)
-                {
-                    return static_cast<char>(std::tolower(character));
-                });
-            return text;
-        };
-    return search.empty() || lower(name).find(lower(search)) != std::string::npos;
+    return search.empty() || Engine::Utf8::lower(name).find(Engine::Utf8::lower(search)) != std::string::npos;
 }
 
 std::optional<uint32_t> AlchemyBenchRuntime::recipeScrollPotionItemId(
@@ -588,11 +592,12 @@ std::optional<AlchemyRecipe> AlchemyBenchRuntime::pickRecipe(
 
 AlchemyPreview AlchemyBenchRuntime::preview(
     const Party &party,
-    const AlchemyRecipe &recipe,
+    const AlchemyRecipe &pickedRecipe,
     const AlchemyBenchTables &tables,
     const AutonoteLookup &isAutonoteUnlocked)
 {
     AlchemyPreview preview = {};
+    const AlchemyRecipe recipe = bottleAsTarget(pickedRecipe, tables);
 
     if (recipe.targetItemId == 0 || recipe.heldItemId == 0)
     {
@@ -668,9 +673,11 @@ AlchemyPreview AlchemyBenchRuntime::preview(
     return preview;
 }
 
-AlchemyMixOutcome AlchemyBenchRuntime::mix(Party &party, const AlchemyRecipe &recipe, const AlchemyBenchTables &tables)
+AlchemyMixOutcome AlchemyBenchRuntime::mix(
+    Party &party, const AlchemyRecipe &pickedRecipe, const AlchemyBenchTables &tables)
 {
     AlchemyMixOutcome outcome = {};
+    const AlchemyRecipe recipe = bottleAsTarget(pickedRecipe, tables);
     const std::optional<ItemLocation> targetLocation = findStrongestItem(party, recipe.targetItemId, std::nullopt);
     const std::optional<ItemLocation> heldLocation = findStrongestItem(party, recipe.heldItemId, targetLocation);
     const int bagCount = bagCountOf(party);

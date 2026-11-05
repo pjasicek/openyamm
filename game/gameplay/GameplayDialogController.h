@@ -74,6 +74,9 @@ public:
         const MergedTeacherAutonoteTable *pTeacherAutonoteTable = nullptr;
         bool dialogueHudActive = false;
         const SpellTable *pSpellTable = nullptr;
+        // Executed instead of the selected topic: an action offered by a popup over the dialogue (a trip chosen in
+        // a stable's schedule).
+        std::optional<EventDialogAction> actionOverride;
     };
 
     struct Result

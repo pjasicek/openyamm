@@ -151,27 +151,6 @@ bool hasStatusText(const std::optional<std::string> &text)
     return text.has_value() && !text->empty();
 }
 
-GameplayWorldHit pickPrecisionContextActionTarget(
-    IGameplayWorldRuntime &worldRuntime,
-    const GameplayWorldPickRequest &request)
-{
-    GameplayWorldHit hit = worldRuntime.pickMouseInteractionTarget(request);
-
-    if (worldRuntime.canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard))
-    {
-        return hit;
-    }
-
-    hit = worldRuntime.pickKeyboardInteractionTarget(request);
-
-    if (worldRuntime.canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard))
-    {
-        return hit;
-    }
-
-    return {};
-}
-
 float vecDeltaSquared(const bx::Vec3 &left, const bx::Vec3 &right)
 {
     const float deltaX = left.x - right.x;
@@ -986,7 +965,13 @@ void executePartyAttack(
             && currentHit.eventTarget->targetKind == GameplayWorldEventTargetKind::Surface
         ? std::optional<size_t>(currentHit.eventTarget->targetIndex)
         : std::nullopt;
-    const float directWorldTargetDistance = directTargetBModelIndex
+    const std::optional<size_t> directTargetEntityIndex =
+        currentHit.kind == GameplayWorldHitKind::EventTarget
+            && currentHit.eventTarget
+            && currentHit.eventTarget->targetKind == GameplayWorldEventTargetKind::Entity
+        ? std::optional<size_t>(currentHit.eventTarget->targetIndex)
+        : std::nullopt;
+    const float directWorldTargetDistance = directTargetBModelIndex || directTargetEntityIndex
         ? currentHit.eventTarget->distance
         : 0.0f;
     const std::optional<GameplayActionController::WorldPoint> hitRangedTarget =
@@ -1016,6 +1001,7 @@ void executePartyAttack(
             .directTargetActorIndex = directActorIndex,
             .directTargetHitPoint = directTargetHitPoint,
             .directTargetBModelIndex = directTargetBModelIndex,
+            .directTargetEntityIndex = directTargetEntityIndex,
             .directWorldTargetDistance = directWorldTargetDistance,
             .directTargetName = directTargetName,
             .partyPosition = toActionWorldPoint(partyAttackInput.partyPosition),
@@ -1431,6 +1417,27 @@ std::optional<std::string> GameplayInteractionController::resolveHoverStatusText
     return payload.eventTargetStatusText;
 }
 
+GameplayWorldHit GameplayInteractionController::pickKeyboardUseTarget(
+    IGameplayWorldRuntime &worldRuntime,
+    const GameplayWorldPickRequest &request)
+{
+    GameplayWorldHit hit = worldRuntime.pickMouseInteractionTarget(request);
+
+    if (worldRuntime.canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard))
+    {
+        return hit;
+    }
+
+    hit = worldRuntime.pickKeyboardInteractionTarget(request);
+
+    if (worldRuntime.canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard))
+    {
+        return hit;
+    }
+
+    return {};
+}
+
 GameplayInteractionController::WorldInteractionPointerPolicy
 GameplayInteractionController::resolveWorldInteractionPointerPolicy(
     const WorldInteractionPointerPolicyInput &input)
@@ -1547,6 +1554,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
     if (!input.leftMouseButton.held)
     {
         worldInteractionInputState.stealClickLatch = false;
+        worldInteractionInputState.smartClick = GameplayScreenState::WorldInteractionInputState::SmartClick::None;
     }
 
     if (worldInputBlocked)
@@ -1759,7 +1767,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                     .screenHeight = input.screenHeight,
                     .includeRay = true,
                 });
-        keyboardUseHit = pWorldRuntime->pickKeyboardInteractionTarget(keyboardUsePickRequest);
+        keyboardUseHit = pickKeyboardUseTarget(*pWorldRuntime, keyboardUsePickRequest);
         hasKeyboardUseHit = true;
     }
 
@@ -1933,7 +1941,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
             if (!contextAction)
             {
                 contextActionHit =
-                    pickPrecisionContextActionTarget(*pWorldRuntime, currentInteractionPickRequest);
+                    pickKeyboardUseTarget(*pWorldRuntime, currentInteractionPickRequest);
 
                 if (isSameActivationTarget(contextActionHit, result.hover.worldHit))
                 {
@@ -1985,8 +1993,51 @@ GameplayInteractionController::updateWorldInteractionFrame(
         };
 
     const bool stealPressed = stealClickPressed(input, pointerPolicy);
+    bool activationPressed = pointerPolicy.activationPressed;
+    bool attackPressedNow = pointerPolicy.attackPressed;
+    // The smart left click: the left button's Attack (Modern) or Use (Classic) uses what is under the cursor or
+    // crosshair when Use could act on it, and attacks otherwise. The choice is made on the press and kept while the
+    // button is held, so a held attack keeps striking; the other action keeps its own key.
+#if defined(__ANDROID__) || defined(OPENYAMM_IOS)
+    const bool smartClickEnabled = false;
+#else
+    const bool smartClickEnabled = runtime.settingsSnapshot().smartClick;
+#endif
+    const InputBinding leftButton = mouseButtonInputBinding(SDL_BUTTON_LEFT);
+    const InputBinding attackBinding = runtime.settingsSnapshot().keyboard.binding(KeyboardAction::Attack);
+    const InputBinding useBinding = runtime.settingsSnapshot().keyboard.binding(KeyboardAction::Use);
+    const bool leftAttacks =
+        attackBinding.kind == leftButton.kind && attackBinding.mouseButton == leftButton.mouseButton;
+    const bool leftUses = useBinding.kind == leftButton.kind && useBinding.mouseButton == leftButton.mouseButton;
+
+    if (smartClickEnabled && (leftAttacks || leftUses))
+    {
+        using SmartClick = GameplayScreenState::WorldInteractionInputState::SmartClick;
+        SmartClick &smartClick = worldInteractionInputState.smartClick;
+        const bool leftPressed = input.leftMouseButton.held && (leftAttacks ? attackPressedNow : activationPressed);
+
+        if (!leftPressed)
+        {
+            smartClick = SmartClick::None;
+        }
+        else if (smartClick == SmartClick::None)
+        {
+            // A steal click (Ctrl) stays an attack, which the steal then holds back until the button is released.
+            const GameplayWorldHit hit = stealPressed ? GameplayWorldHit{} : pickCurrentHit();
+            const bool usable = hit.hasHit
+                && pWorldRuntime != nullptr
+                && pWorldRuntime->canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard);
+            smartClick = usable ? SmartClick::Use : SmartClick::Attack;
+        }
+
+        const bool smartUse = smartClick == SmartClick::Use;
+        const bool smartAttack = smartClick == SmartClick::Attack;
+        activationPressed = leftUses ? smartUse : activationPressed || smartUse;
+        attackPressedNow = leftAttacks ? smartAttack : attackPressedNow || smartAttack;
+    }
+
     const bool worldAttackPressed =
-        pointerPolicy.attackPressed
+        attackPressedNow
         && !stealClickHoldsAttack(worldInteractionInputState.stealClickLatch, input, stealPressed);
 
     if (worldAttackPressed
@@ -2036,7 +2087,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
 
     // Use activates only what is under the cursor or crosshair. Unlike Trigger and the context popup, it never
     // falls back to the nearest interactable on screen.
-    if (pointerPolicy.activationPressed && worldReady && pWorldRuntime != nullptr)
+    if (activationPressed && worldReady && pWorldRuntime != nullptr)
     {
         const GameplayWorldPickRequest keyboardActivationPickRequest =
             pWorldRuntime->buildWorldPickRequest(
@@ -2054,7 +2105,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
         updateKeyboardActivationInteraction(
             worldInteractionInputState,
             KeyboardActivationInteractionInput{
-                .activationPressed = pointerPolicy.activationPressed,
+                .activationPressed = activationPressed,
                 .allowInteraction = worldReady,
                 .currentTickNanoseconds = currentTickNanoseconds,
                 .currentHit = keyboardActivationHit,
@@ -2067,7 +2118,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
     {
         overlayInteractionState.activateInspectLatch = true;
     }
-    else if (!pointerPolicy.activationPressed)
+    else if (!activationPressed)
     {
         overlayInteractionState.activateInspectLatch = false;
     }
@@ -2128,8 +2179,8 @@ GameplayInteractionController::updateWorldInteractionFrame(
         }
     }
 
-    // The quick item ring hides the world's hover text: its plate would lie over the ring's lowest slot.
-    if (GameplayQuickItems::ringOpen(runtime))
+    // The quick item ring or popup hides the world's hover text: its plate would lie over the ring's lowest slot.
+    if (GameplayQuickItems::needsCursor(runtime))
     {
         runtime.clearWorldStatusBarHoverText();
         runtime.setWorldItemHoverLabel({}, 0, 0, 0);

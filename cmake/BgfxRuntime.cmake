@@ -101,6 +101,7 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/billboard_lit.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_textured_fog.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_terrain_materials.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/terrain_material_layers.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_sunlight.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/world_clip.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/water_surface.sh"
@@ -585,6 +586,20 @@ function(openyamm_configure_runtime_shaders)
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
         "fs_indoor_textured_baked_translucent.bin" "INDOOR_BAKED=1$<SEMICOLON>INDOOR_TRANSLUCENT=1")
+    # The terrain faces of an open-air BLV (IndoorTerrainMaterials): blended ground materials, smooth ground normal.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_terrain.bin"
+        "INDOOR_TERRAIN=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_terrain_fog.bin"
+        "INDOOR_TERRAIN=1$<SEMICOLON>INDOOR_FOG=1")
+    # Its faces that read one ground layer only (IndoorRenderer::markSingleMaterialTerrainFaces) sample that layer.
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_terrain_single.bin" "INDOOR_TERRAIN=1$<SEMICOLON>SINGLE_MATERIAL=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment"
+        "fs_indoor_textured_terrain_single_fog.bin" "INDOOR_TERRAIN=1$<SEMICOLON>SINGLE_MATERIAL=1$<SEMICOLON>INDOOR_FOG=1")
     # Faces and water of a map with scene fog (devdocs/INDOOR_FOG.md): the same programs fading into its fog colour.
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc" "fragment" "fs_indoor_textured_lit_fog.bin"
@@ -793,6 +808,8 @@ function(openyamm_configure_runtime_shaders)
         fs_indoor_textured_lit_fog.bin fs_indoor_textured_lit_materials_fog.bin fs_indoor_textured_baked_fog.bin
         fs_indoor_textured_baked_materials_fog.bin fs_indoor_textured_translucent_fog.bin
         fs_indoor_textured_baked_translucent_fog.bin fs_indoor_water_fog.bin fs_indoor_water_ripples_fog.bin
+        fs_indoor_textured_terrain.bin fs_indoor_textured_terrain_fog.bin
+        fs_indoor_textured_terrain_single.bin fs_indoor_textured_terrain_single_fog.bin
         fs_model_coverage.bin fs_model_emissive.bin
         fs_terrain_decoration_coverage.bin fs_terrain_decoration_baked_coverage.bin
         fs_terrain_decoration_shadow_coverage.bin fs_terrain_decoration_baked_shadow_coverage.bin)

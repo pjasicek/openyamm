@@ -1,0 +1,26 @@
+id: journal.teacher_ledger_enroth
+title: "Ledger of Teachers - New Sorpigal's tavern sells Enroth's ledger (MM6 teachers have no notes: the ledger itself names them)"
+world: mm6
+mode: faithful
+tags: [houses, journal, trainers, regression]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+  # A Lonely Knight (house 260, event 11).
+  - execute_event: {id: 11}
+  - select_topic: {action_id: 260}
+  - assert:
+      dialog:
+        action_label_present: Ledger of Teachers
+  - select_topic: {action_id: 33, match_label: Ledger of Teachers}
+  - assert:
+      dialog:
+        text_contains: Every master who teaches a craft on Enroth
+  - select_topic: {action_id: 34, match_label: "Buy the ledger: 2000 gold"}
+  - assert:
+      gold: 8000
+      teacher_ledger: {continent: 3}
+      dialog:
+        action_label_absent: Ledger of Teachers
+  - assert:
+      teacher_ledger: {continent: 1, bought: false}

@@ -120,6 +120,10 @@ public:
     const std::optional<ScriptedEventProgram> &globalEventProgram() const override;
     IndoorPartyRuntime &partyRuntime();
     const IndoorPartyRuntime &partyRuntime() const;
+    const IndoorMapData *indoorMapData() const
+    {
+        return m_pIndoorMapData;
+    }
     IndoorWorldRuntime &worldRuntime();
     const IndoorWorldRuntime &worldRuntime() const;
     Snapshot snapshot() const;

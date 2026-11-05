@@ -173,6 +173,7 @@ bool WaterRenderer::updateGeometry(std::vector<WaterSurfaceGeometry> geometry, b
         surface.planar = source.planar;
         surface.liquid = source.liquid;
         surface.reflects = source.reflects;
+        surface.seeThrough = source.seeThrough;
         surface.sectorId = source.sectorId;
         surface.backSectorId = source.backSectorId;
         surface.vertexCount = uint32_t(source.vertices.size());
@@ -465,12 +466,17 @@ void WaterRenderer::render(uint16_t viewId, float seconds,
 
 void WaterRenderer::renderIndoor(uint16_t viewId, float seconds, const IndoorLightingFrame &lighting,
     const bx::Vec3 &camera, const bx::Vec3 &forward, const WaterRippleRuntime *pRipples,
-    const Reflection *pReflection, std::span<const uint8_t> visibleSectors)
+    const Reflection *pReflection, std::span<const uint8_t> visibleSectors, WaterSurfaceSet surfaceSet)
 {
     prepareRippleResources(pRipples);
     const std::array<float, 4> eye = {camera.x, camera.y, camera.z, 0.0f};
     for (Surface &surface : m_surfaces)
     {
+        if ((surfaceSet == WaterSurfaceSet::Opaque && surface.seeThrough)
+            || (surfaceSet == WaterSurfaceSet::SeeThrough && !surface.seeThrough))
+        {
+            continue;
+        }
         if (pReflection != nullptr)
         {
             const ViewFrustum frustum(pReflection->view.data(), pReflection->projection.data(),

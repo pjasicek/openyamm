@@ -50,6 +50,30 @@ settings:
   name: Camera kick
   type: toggle
   desc: Nudge the view along the blow on critical hits and kills.
+- id: turn_based_monster_speed
+  section: gameplay
+  group: Turn-based combat
+  name: Monster turns speed
+  type: steps
+  options:
+  - ['1', 1x]
+  - ['1.5', 1.5x]
+  - ['2', 2x]
+  - ['3', 3x]
+  - ['4', 4x]
+  desc: Play the monsters' turns faster.
+- id: turn_based_party_speed
+  section: gameplay
+  group: Turn-based combat
+  name: Party attacks speed
+  type: steps
+  options:
+  - ['1', 1x]
+  - ['1.5', 1.5x]
+  - ['2', 2x]
+  - ['3', 3x]
+  - ['4', 4x]
+  desc: Play the party's attacks and spells in flight faster. Walking in the movement phase keeps its pace.
 - id: skip_event_cutscenes
   section: gameplay
   group: Story
@@ -120,12 +144,18 @@ settings:
   name: Portrait frame
   type: toggle
   desc: Draw the frame behind the party portraits during play. Other screens always keep it.
-- id: potion_buttons
+- id: item_buttons
   section: interface
   group: Party
-  name: Potion buttons
+  name: Potion and scroll buttons
   type: toggle
-  desc: Show the round potion quick-slot button at each portrait. The Potion Wheel key opens the ring either way.
+  desc: The buttons on the ends of the party frame. Each opens a paused list of what the party carries.
+- id: quick_item_rings
+  section: interface
+  group: Party
+  name: Quick item rings
+  type: toggle
+  desc: A button at each portrait opens its ring of six quick slots; the Potions key opens the ring, not the list.
 - id: rarity_glow
   section: interface
   group: Items
@@ -469,6 +499,20 @@ settings:
   name: Footsteps
   type: toggle
   desc: Play walking and running sounds.
+- id: repeated_voice_lines
+  section: audio
+  group: Sounds
+  name: Repeated voice lines
+  type: steps
+  options:
+  - ['0', 'Off']
+  - ['500', 0.5 s]
+  - ['1000', 1 s]
+  - ['2000', 2 s]
+  - ['3000', 3 s]
+  - ['5000', 5 s]
+  - ['10000', 10 s]
+  desc: A character says the same line at most once in this time, such as a cry when hurt or a remark on an item.
 - id: control_scheme
   section: controls
   group: Preset
@@ -478,6 +522,13 @@ settings:
   - [modern, Modern]
   - [classic, Classic]
   desc: 'Modern: WASD, left-click attack, E to use. Classic: arrow keys, A to attack, left-click to use.'
+- id: smart_click
+  section: controls
+  group: Mouse
+  name: Smart left click
+  type: toggle
+  desc: Left-click talks, opens, picks up or uses what is under the cursor, and attacks anywhere else.
+  desktop_only: true
 - id: mouse_sensitivity
   section: controls
   group: Mouse
@@ -577,6 +628,18 @@ settings:
   name: Friendly fire
   type: toggle
   desc: Your attacks and spells can hurt peaceful townsfolk and guards.
+- id: ruleset_trainer_hints
+  section: game
+  group: Preferences
+  name: Trainer hints
+  type: toggle
+  desc: Skill popups name the nearest teacher of the next mastery.
+- id: ruleset_bow
+  section: game
+  group: Preferences
+  name: Bow
+  type: toggle
+  desc: 'Off: bows, crossbows and dragon breath do not shoot. A melee-only challenge.'
 - id: ruleset_loot_filter
   section: game
   group: Preferences
@@ -662,11 +725,17 @@ bindings:
 - id: cast
   name: Open spellbook
   group: Combat
+- id: combat
+  name: Turn-based combat on/off
+  group: Combat
 - id: pass
   name: Pass turn (turn-based)
   group: Combat
 - id: use
   name: Use / interact
+  group: Interaction
+- id: yell
+  name: Yell (villagers flee)
   group: Interaction
 - id: trigger
   name: Interact ahead
@@ -791,7 +860,10 @@ bindings:
   group: MAW
   ruleset: maw
 - id: quick_item_wheel
-  name: Potion wheel (the active member's ring)
+  name: Potions (the potion list; the active member's ring with the quick item rings on)
+  group: Potions
+- id: scroll_popup
+  name: Scrolls (the scroll list)
   group: Potions
 - id: quick_item_1
   name: Quick potion (the active member's slot 1)

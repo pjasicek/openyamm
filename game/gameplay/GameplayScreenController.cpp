@@ -8,6 +8,7 @@
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/items/InventoryBags.h"
+#include "game/ui/InventoryBagOverview.h"
 #include "game/items/ItemRuntime.h"
 #include "game/rules/GameRules.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
@@ -32,6 +33,8 @@ namespace
 {
 // What a save from when the ruleset had more bags could not fit into the members' bags (InventoryBags::
 // fitIntoBagCount) falls at the party's feet once the world runs; an item the world refuses waits for the next frame.
+// A member whose open bag is past the bags there are now (a party of one's other tabs once another member joins)
+// opens the first; the other tabs keep their items for when the member is alone again.
 void dropBagOverflow(GameplayScreenRuntime &context)
 {
     Party *pParty = context.party();
@@ -49,7 +52,12 @@ void dropBagOverflow(GameplayScreenRuntime &context)
     {
         Character &member = *pParty->member(memberIndex);
 
-        for (const InventoryItem &item : InventoryBags::takeOverflow(member, bagCount))
+        if (member.rulesetState.currentBag >= bagCount)
+        {
+            InventoryBags::openBag(member, 0, bagCount);
+        }
+
+        for (const InventoryItem &item : InventoryBags::takeOverflow(member))
         {
             GameplayHeldItemDropRequest request;
             request.item = item;
@@ -63,7 +71,7 @@ void dropBagOverflow(GameplayScreenRuntime &context)
             }
             else
             {
-                member.rulesetState.storedBags[uint8_t(std::max(1, bagCount))].push_back(item);
+                member.rulesetState.storedBags[InventoryBags::OverflowBag].push_back(item);
             }
         }
     }
@@ -88,10 +96,12 @@ void handleNestedInventoryBagButtons(GameplayScreenRuntime &context, const Gamep
     }
 
     const int bagCount = pParty->rules().items.bagCount(*pParty);
+    // The buttons name the bags of the open bag's tab.
+    const int firstBag = InventoryBagOverview::firstBag(*pParty->activeMember());
 
-    for (int bag = 0; bagCount > 1 && bag < bagCount; ++bag)
+    for (int bag = firstBag; bagCount > 1 && bag < std::min(bagCount, firstBag + InventoryBagOverview::Bags); ++bag)
     {
-        const std::string id = "ChestInventoryBag" + std::to_string(bag + 1);
+        const std::string id = "ChestInventoryBag" + std::to_string(bag - firstBag + 1);
         const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(id);
         const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> button = pLayout != nullptr
             ? context.resolveHudLayoutElement(id, input.screenWidth, input.screenHeight, pLayout->width,
@@ -367,8 +377,8 @@ bool GameplayScreenController::canEnableGameplayMouseLook(
         return false;
     }
 
-    // The quick item ring and the loot summary need the cursor.
-    if (GameplayQuickItems::ringOpen(context) || context.lootSummaryOverlayReadOnly().active)
+    // The quick item ring or popup and the loot summary need the cursor.
+    if (GameplayQuickItems::needsCursor(context) || context.lootSummaryOverlayReadOnly().active)
     {
         return false;
     }
@@ -922,6 +932,20 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
             }
         }
 
+        // A party of one's tabs: Shift and 1-5 (zzMaw-MultiBag.lua:11-14); its bags need no Shift.
+        if (shiftHeld && GameplayPartyOverlayInputController::bagTabsShown(context))
+        {
+            for (size_t tab = 0; tab < 5; ++tab)
+            {
+                if (isNumberHotkeyNewlyPressed(input, context.previousKeyboardState(), tab))
+                {
+                    GameplayPartyOverlayInputController::openBagTab(context, int(tab));
+                }
+
+                bagKeyTaken = bagKeyTaken || input.isScancodeHeld(NumberHotkeyScancodes[tab]);
+            }
+        }
+
         // MAW's crafting bag key (Shift+B by default, zzzMaw_CraftingBag.lua:49-55) on the inventory page.
         if (shiftHeld && input.action(KeyboardAction::CraftingBag).pressed)
         {
@@ -1168,6 +1192,12 @@ GameplayStandardWorldInputGateResult GameplayScreenController::gateStandardWorld
     }
 
     if (config.blockOnQuickReference && context.quickReferenceScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    // The basebar's potion or scroll popup pauses the game, as the inventory does.
+    if (GameplayQuickItems::popupOpen(context))
     {
         return {.blocked = true};
     }

@@ -77,6 +77,9 @@ struct IndoorPortalVisibilityInput
     int16_t startSectorId = -1;
     uint16_t maxNodes = 256;
     uint16_t maxDepth = 32;
+    // The view distance of a map with the outdoor view (devdocs/INDOOR_OPEN_SKY.md "Outdoor view"): a portal whose
+    // nearest visible point is deeper (view depth, as the far plane) is not entered. 0: no limit (every other map).
+    float maxDistance = 0.0f;
     bool collectPortalTraces = true;
 };
 

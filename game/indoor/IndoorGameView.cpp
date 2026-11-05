@@ -1,6 +1,7 @@
 #include "game/indoor/IndoorGameView.h"
 
 #include "engine/BgfxContext.h"
+#include "game/debug/AiArena.h"
 #include "game/app/GameSession.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
@@ -58,6 +59,7 @@ constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
 constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
 constexpr float WalkingMotionHoldSeconds = 0.125f;
+constexpr const char *UnderwaterLoopSound = "player/unwater2.wav";
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
 constexpr uint64_t GameplayMouseLookCursorSyncIntervalTicks = 100;
@@ -1207,6 +1209,7 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     }
 
     updateFootstepAudio(deltaSeconds);
+    updateWaterAudio();
     m_gameSession.gameplayScreenRuntime().updateHouseDialoguePresentation(deltaSeconds);
 
     presentPendingEventFeedback();
@@ -1348,7 +1351,16 @@ void IndoorGameView::renderCombatFeedbackOverlay(int width, int height)
         }
     }
 
+    const ActorAiTrace *pAiTrace = m_pIndoorSceneRuntime->worldRuntime().actorAiTrace();
 
+    if (pAiTrace != nullptr && pAiTrace->overlayVisible())
+    {
+        renderAiTraceOverlay(screenRuntime, *pAiTrace,
+            [this, width, height](const bx::Vec3 &point, float &screenX, float &screenY)
+            {
+                return m_pIndoorRenderer->projectGameplayWorldPointToScreen(point, width, height, screenX, screenY);
+            });
+    }
 }
 
 GameplayWorldUiRenderState IndoorGameView::gameplayUiRenderState(int width, int height) const
@@ -1385,8 +1397,13 @@ void IndoorGameView::shutdown()
     if (m_pGameAudioSystem != nullptr)
     {
         m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        if (m_underwaterLoopInstanceId != 0)
+        {
+            m_pGameAudioSystem->stopSoundInstance(m_underwaterLoopInstanceId);
+        }
     }
 
+    m_underwaterLoopInstanceId = 0;
     m_pAssetFileSystem = nullptr;
     m_pIndoorRenderer = nullptr;
     m_pIndoorSceneRuntime = nullptr;
@@ -1599,9 +1616,15 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
         };
 
     GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
+    // The speaker turns to the party (the outdoor controller's faceTalkingActor).
+    const auto faceSpeaker = [&worldRuntime, actorIndex]()
+    {
+        worldRuntime.faceMapActorForTalk(actorIndex, worldRuntime.partyX(), worldRuntime.partyY());
+    };
 
     if (actor.mm9RudeId > 0)
     {
+        faceSpeaker();
         GameplayDialogController::Mm9ActorDialogueActivation activation = {};
         activation.rudeId = static_cast<uint32_t>(actor.mm9RudeId);
         activation.actorIndex = static_cast<uint32_t>(actorIndex);
@@ -1628,6 +1651,7 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
 
     if (actor.npcId > 0)
     {
+        faceSpeaker();
         const GameplayDialogController::Result result =
             m_gameSession.gameplayDialogController().openNpcDialogue(
                 context,
@@ -1668,6 +1692,7 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
 
     if (resolution->opensNpcTalk)
     {
+        faceSpeaker();
         applyGenericActorDialogResolution(*pEventRuntimeState, *resolution);
         const GameplayDialogController::Result result =
             m_gameSession.gameplayDialogController().openNpcDialogue(
@@ -1691,6 +1716,7 @@ bool IndoorGameView::activateMapActorDialogue(size_t actorIndex)
         return false;
     }
 
+    faceSpeaker();
     const GameplayDialogController::Result result =
         m_gameSession.gameplayDialogController().openNpcNews(
             context,
@@ -1944,7 +1970,17 @@ void IndoorGameView::updateFootstepAudio(float deltaSeconds)
         return;
     }
 
-    const uint32_t desiredSoundId = static_cast<uint32_t>(SoundId::WalkStoneHall);
+    // A scene's footstep sounds by the floor's texture (an MM9 open-air map's grass, rock, wood); the stone hall
+    // sound for every other floor and map.
+    uint32_t desiredSoundId = static_cast<uint32_t>(SoundId::WalkStoneHall);
+    const IndoorMapData *pMapData = m_pIndoorSceneRuntime->indoorMapData();
+    if (const IndoorFootstepSound *pFootstep =
+            pMapData != nullptr ? findIndoorFootstepSound(*pMapData, moveState.supportFaceIndex) : nullptr)
+    {
+        desiredSoundId = m_pIndoorSceneRuntime->partyRuntime().runningMovement()
+            ? pFootstep->runSoundId
+            : pFootstep->walkSoundId;
+    }
 
     if (m_activeWalkingSoundId == desiredSoundId)
     {
@@ -1955,6 +1991,50 @@ void IndoorGameView::updateFootstepAudio(float deltaSeconds)
     const bool played =
         m_pGameAudioSystem->playLoopingSound(desiredSoundId, GameAudioSystem::PlaybackGroup::Walking);
     m_activeWalkingSoundId = played ? std::optional<uint32_t>(desiredSoundId) : std::nullopt;
+}
+
+void IndoorGameView::updateWaterAudio()
+{
+    // Scene water volumes (MM9's deep water): the splash when the eye goes under, the sound out of it, the drowning
+    // ticks, and MM9's under-water loop (Sounds\Player\unwater2.wav) while the eye is under.
+    if (m_pGameAudioSystem == nullptr || m_pIndoorSceneRuntime == nullptr)
+    {
+        return;
+    }
+
+    const IndoorMapData *pMapData = m_pIndoorSceneRuntime->indoorMapData();
+
+    if (pMapData == nullptr || pMapData->waterVolumes.empty())
+    {
+        return;
+    }
+
+    IndoorPartyRuntime &partyRuntime = m_pIndoorSceneRuntime->partyRuntime();
+    std::vector<std::string> sounds;
+    partyRuntime.takeWaterSounds(sounds);
+
+    for (const std::string &sound : sounds)
+    {
+        m_pGameAudioSystem->playSoundByName(sound, GameAudioSystem::PlaybackGroup::World);
+    }
+
+    const bool gameplay = resolveGameplayHudScreenState(
+            m_gameSession.gameplayUiController(),
+            m_gameSession.gameplayScreenRuntime().activeEventDialog(),
+            worldRuntime())
+        == GameplayHudScreenState::Gameplay;
+    const bool loopWanted = gameplay && partyRuntime.eyeUnderWater();
+
+    if (loopWanted && m_underwaterLoopInstanceId == 0)
+    {
+        m_underwaterLoopInstanceId = m_pGameAudioSystem->playSoundInstanceByName(UnderwaterLoopSound,
+            GameAudioSystem::PlaybackGroup::World, SoundScope::World, std::nullopt, true);
+    }
+    else if (!loopWanted && m_underwaterLoopInstanceId != 0)
+    {
+        m_pGameAudioSystem->stopSoundInstance(m_underwaterLoopInstanceId);
+        m_underwaterLoopInstanceId = 0;
+    }
 }
 
 const GameSettings &IndoorGameView::settingsSnapshot() const

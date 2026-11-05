@@ -96,13 +96,15 @@ public:
 
     // Up to `maxApplications` steps of the material on the target while each is possible, using further identical
     // materials; with `cheapestGems` a gem step uses the lowest tier (up to the chosen one) that still raises the
-    // item. Steps that need confirmation or change the material run once.
+    // item. Steps that need confirmation or change the material run once. `choice` is the player's pick when the step
+    // offers several (CraftResult::choices).
     static CraftPlan plan(
         const Party &party,
         const CraftItemRef &target,
         const CraftMaterialKey &material,
         uint32_t maxApplications,
         bool cheapestGems,
+        size_t choice,
         const CraftingRules &rules,
         const CraftingTables &tables);
     // Plans again and commits: materials used up, the target written back, a changed material or the Mirror's copy
@@ -114,6 +116,7 @@ public:
         const CraftMaterialKey &material,
         uint32_t maxApplications,
         bool cheapestGems,
+        size_t choice,
         const CraftingRules &rules,
         const CraftingTables &tables,
         CraftPlan &applied,

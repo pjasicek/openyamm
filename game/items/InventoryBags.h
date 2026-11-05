@@ -3,6 +3,7 @@
 #include "game/party/CharacterRulesetState.h"
 #include "game/party/InventoryItem.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <functional>
@@ -21,6 +22,23 @@ struct Character;
 // AlchemyBenchRuntime), since the inventory shows all of them; the Sort button sees only the open bag, as in MAW.
 namespace InventoryBags
 {
+// Bags a tab: a party of one has several tabs of four (MAW's solo tabs, ItemRules::bagCount 20; a party has one); the
+// inventory shows the open bag's tab.
+constexpr int TabBags = 4;
+// Where a save's items that fit in no bag wait (fitIntoBagCount) until takeOverflow drops them for the world.
+constexpr uint8_t OverflowBag = 255;
+
+// The first bag of the tab holding `bag`, and how many tabs `bagCount` bags make.
+inline uint8_t tabFirstBag(uint8_t bag)
+{
+    return uint8_t(bag / TabBags * TabBags);
+}
+
+inline int tabCount(int bagCount)
+{
+    return (std::max(1, bagCount) + TabBags - 1) / TabBags;
+}
+
 // Opens `bag` (0-based) of the character: the open bag's items are stored and the chosen bag's become the
 // inventory. False, with nothing changed, when it is open already or beyond `bagCount`.
 bool openBag(Character &character, uint8_t bag, int bagCount);
@@ -28,8 +46,8 @@ bool openBag(Character &character, uint8_t bag, int bagCount);
 // by skill and item id, filled column by column from the first bag on; the same bag stays open. False, with nothing
 // changed, when they would no longer fit.
 bool sortAllBags(Character &character, int bagCount, const ItemTable *pItemTable);
-// Sorts the open bags (allBags: every bag) of the members in sortAllBags' order, MAW's party sorts (T, G; Ctrl and
-// Ctrl+Shift on Sort). With an alchemist (ItemRules::alchemist), the items alchemyRank ranks go from all of them to
+// Sorts the open bags (allBags: every bag of the open bag's tab) of the members in sortAllBags' order, MAW's party
+// sorts (T, G; Ctrl and Ctrl+Shift on Sort). With an alchemist (ItemRules::alchemist), the items alchemyRank ranks go from all of them to
 // the alchemist, lowest rank first, as far as they fit after the alchemist's own; the rest stays with its owner
 // (zzMaw-Item-Sorter.lua sortInventory). Sorting every bag also honours the bag tags (ours; MAW's sort has none): an
 // item bagTagOf tags goes to the member's bags with that tag first. False, with nothing changed, when a member's items
@@ -44,10 +62,12 @@ bool sortPartyBags(
     const std::function<std::optional<BagTag>(const InventoryItem &)> &bagTagOf = {});
 // A save from when the ruleset had more bags (MAW had five, and 25 for a party of one, before 2026-10-25): every
 // member's items past `bagCount` bags go to the first free place of the owner's bags, else of another member's; a
-// member whose open bag is gone opens the first. Returns how many fit nowhere: they wait for takeOverflow.
+// member whose open bag is gone opens the first. Returns how many fit nowhere: they wait in OverflowBag for
+// takeOverflow.
 size_t fitIntoBagCount(Party &party, int bagCount);
-// Takes the items the character holds past `bagCount` bags (what fitIntoBagCount could not place), for the world.
-std::vector<InventoryItem> takeOverflow(Character &character, int bagCount);
+// Takes what fitIntoBagCount could not place (OverflowBag), for the world. Bags past the count otherwise keep their
+// items: a party of one's other tabs while the party has more members.
+std::vector<InventoryItem> takeOverflow(Character &character);
 // Items in bags other than the open one.
 size_t storedItemCount(const Character &character);
 // The items of `bag`: the inventory when it is the open bag, else the bag's stored items (empty for an unused bag).

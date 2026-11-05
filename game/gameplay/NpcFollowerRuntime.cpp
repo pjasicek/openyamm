@@ -1,6 +1,7 @@
 #include "game/gameplay/NpcFollowerRuntime.h"
 
 #include "game/party/Party.h"
+#include "game/rules/SkillRules.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/NpcDialogTable.h"
 
@@ -226,18 +227,21 @@ int hiredNpcRestFoodReduction(const EventRuntimeState &eventRuntimeState)
 int hiredNpcSkillBonus(
     std::span<const HiredNpcFollower> followers,
     const std::string &skillName,
-    bool strongestOnly)
+    bool strongestOnly,
+    const SkillRules *pRules)
 {
     int bonus = 0;
-    // MMerge adds every follower's bonus; a ruleset may count only the strongest (MAW).
-    const auto add = [&bonus, strongestOnly](int amount)
-    {
-        bonus = strongestOnly ? std::max(bonus, amount) : bonus + amount;
-    };
 
     for (const EventRuntimeState::HiredNpcFollower &follower : followers)
     {
         const uint32_t professionId = follower.professionId;
+        // MMerge adds every follower's bonus; a ruleset may count only the strongest (MAW) or change the amount.
+        const auto add = [&bonus, strongestOnly, pRules, professionId, &skillName](int amount)
+        {
+            const int adjusted =
+                pRules != nullptr ? pRules->followerSkillBonus(professionId, skillName, amount) : amount;
+            bonus = strongestOnly ? std::max(bonus, adjusted) : bonus + adjusted;
+        };
 
         if (skillName == "Learning")
         {

@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 
+#include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayAlchemyBenchInputController.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/tables/CharacterDollTable.h"
@@ -27,6 +28,7 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <cctype>
 #include <functional>
 #include <cmath>
 #include <cstdlib>
@@ -70,14 +72,15 @@ bool handleInventorySearch(GameplayScreenRuntime &context, const GameplayInputFr
     GameplayUiController::CharacterScreenState &screen = context.characterScreen();
 
     if (screen.page != GameplayUiController::CharacterPage::Inventory
-        || context.isAdventurersInnCharacterSourceActive())
+        || context.isAdventurersInnCharacterSourceActive()
+        || !gameRulesFor(context.party()).items.inventorySearch())
     {
         screen.inventorySearchActive = false;
         return false;
     }
 
     const std::optional<GameplayResolvedHudLayoutElement> box =
-        context.resolveHudLayoutElement("CharacterInventorySearch", input.screenWidth, input.screenHeight, 0, 0);
+        GameplayHudOverlaySupport::inventorySearchBox(context, input.screenWidth, input.screenHeight);
     const bool overBox = box && context.isPointerInsideResolvedElement(*box, input.pointerX, input.pointerY);
 
     if (input.leftMouseButton.pressed)
@@ -104,19 +107,13 @@ bool handleInventorySearch(GameplayScreenRuntime &context, const GameplayInputFr
         return false;
     }
 
-    for (const char character : input.textInput)
-    {
-        if (character >= 32 && character < 127 && screen.inventorySearch.size() < MaxSearchLength)
-        {
-            screen.inventorySearch.push_back(character);
-        }
-    }
+    Engine::Utf8::appendPrintable(screen.inventorySearch, input.textInput, MaxSearchLength);
 
     for (uint16_t count = input.scancodePressCount(SDL_SCANCODE_BACKSPACE); count > 0; --count)
     {
         if (!screen.inventorySearch.empty())
         {
-            screen.inventorySearch.pop_back();
+            Engine::Utf8::popBack(screen.inventorySearch);
         }
     }
 
@@ -593,12 +590,13 @@ void appendCharacterSkillUiRows(
 
 // "Water Magic 7 to 8: 3 skill points (8, shared with Fire Magic and Air Magic)" when the rules show raise costs.
 // What a bag tag's button would do: the bag it acts on (the zoomed one, or in the overview the one opened last).
-std::string bagTagHoverText(const Character &member, BagTag tag)
+std::string bagTagHoverText(const Character &member, BagTag tag, int bagCount)
 {
     const uint8_t bag = member.rulesetState.currentBag;
     const bool tagged = InventoryBags::hasTag(member, bag, tag);
     const std::string kind = tag == BagTag::Crafting ? "a crafting bag (Shift+B)" : "an alchemy bag";
-    return (tagged ? "Bag " + std::to_string(bag + 1) + " is " : "Make bag " + std::to_string(bag + 1) + " ") + kind
+    const std::string name = InventoryBagOverview::bagName(bag, bagCount);
+    return (tagged ? char(std::toupper(name.front())) + name.substr(1) + " is " : "Make " + name + " ") + kind
         + (tagged ? ": click to untag" : "");
 }
 
@@ -1909,7 +1907,8 @@ bool openInventoryBag(GameplayScreenRuntime &context, Party &party, size_t membe
         return false;
     }
 
-    context.setStatusBarEvent("Bag " + std::to_string(bag + 1));
+    const std::string name = InventoryBagOverview::bagName(bag, bagCount);
+    context.setStatusBarEvent(char(std::toupper(name.front())) + name.substr(1));
     return true;
 }
 
@@ -2071,14 +2070,21 @@ bool GameplayPartyOverlayInputController::openBagForKey(GameplayScreenRuntime &c
     Party *pParty = context.party();
     const int bagCount = pParty != nullptr ? gameRulesFor(pParty).items.bagCount(*pParty) : 1;
 
-    if (pParty == nullptr || bagCount <= 1 || bag < 0 || bag >= bagCount)
+    if (pParty == nullptr || bagCount <= 1 || bag < 0 || bag >= InventoryBagOverview::Bags)
     {
         return false;
     }
 
     if (partyBagButtonsShown(context))
     {
-        openNestedInventoryBag(context, bag);
+        const Character *pMember = pParty->activeMember();
+        const int tabBag = pMember != nullptr ? InventoryBagOverview::firstBag(*pMember) + bag : bag;
+
+        if (tabBag < bagCount)
+        {
+            openNestedInventoryBag(context, tabBag);
+        }
+
         return true;
     }
 
@@ -2089,7 +2095,54 @@ bool GameplayPartyOverlayInputController::openBagForKey(GameplayScreenRuntime &c
         return false;
     }
 
-    zoomInventoryBag(context, *pParty, context.selectedCharacterScreenSourceIndex(), bag);
+    const size_t memberIndex = context.selectedCharacterScreenSourceIndex();
+    const Character *pMember = pParty->member(memberIndex);
+    const int tabBag = pMember != nullptr ? InventoryBagOverview::firstBag(*pMember) + bag : bag;
+
+    if (tabBag < bagCount)
+    {
+        zoomInventoryBag(context, *pParty, memberIndex, tabBag);
+    }
+
+    return true;
+}
+
+bool GameplayPartyOverlayInputController::bagTabsShown(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    return pParty != nullptr && InventoryBags::tabCount(gameRulesFor(pParty).items.bagCount(*pParty)) > 1
+        && bagKeysActive(context);
+}
+
+bool GameplayPartyOverlayInputController::openBagTab(GameplayScreenRuntime &context, int tab)
+{
+    Party *pParty = context.party();
+
+    if (pParty == nullptr || !bagTabsShown(context))
+    {
+        return false;
+    }
+
+    const int bagCount = gameRulesFor(pParty).items.bagCount(*pParty);
+    const size_t memberIndex =
+        partyBagButtonsShown(context) ? pParty->activeMemberIndex() : context.selectedCharacterScreenSourceIndex();
+    Character *pMember = pParty->member(memberIndex);
+
+    if (pMember == nullptr || tab < 0 || tab >= InventoryBags::tabCount(bagCount))
+    {
+        return false;
+    }
+
+    // The same bag of the other tab, as MAW keeps it (zzMaw-MultiBag.lua:153-157); the overview shows the whole tab.
+    const int bag = std::min(tab * InventoryBags::TabBags + pMember->rulesetState.currentBag % InventoryBags::TabBags,
+        bagCount - 1);
+
+    if (InventoryBags::openBag(*pMember, uint8_t(bag), bagCount))
+    {
+        const std::string name = InventoryBagOverview::bagName(bag, bagCount);
+        context.setStatusBarEvent(char(std::toupper(name.front())) + name.substr(1));
+    }
+
     return true;
 }
 
@@ -2114,7 +2167,8 @@ void GameplayPartyOverlayInputController::openNestedInventoryBag(GameplayScreenR
 
     if (InventoryBags::openBag(*pMember, uint8_t(bag), bagCount) || shopOverview)
     {
-        context.setStatusBarEvent("Bag " + std::to_string(bag + 1));
+        const std::string name = InventoryBagOverview::bagName(bag, bagCount);
+        context.setStatusBarEvent(char(std::toupper(name.front())) + name.substr(1));
     }
 
     if (shopOverview)
@@ -2138,7 +2192,8 @@ void GameplayPartyOverlayInputController::openFirstBagsInOverview(GameplayScreen
 
     for (size_t memberIndex = 0; memberIndex < pParty->memberCount(); ++memberIndex)
     {
-        InventoryBags::openBag(*pParty->member(memberIndex), 0, bagCount);
+        Character &member = *pParty->member(memberIndex);
+        InventoryBags::openBag(member, InventoryBagOverview::firstBag(member), bagCount);
     }
 }
 
@@ -2157,7 +2212,7 @@ bool GameplayPartyOverlayInputController::toggleBagTag(GameplayScreenRuntime &co
 
     const uint8_t bag = pMember->rulesetState.currentBag;
     const bool tagged = InventoryBags::toggleTag(*pMember, bag, tag);
-    context.setStatusBarEvent(pMember->name + "'s bag " + std::to_string(bag + 1)
+    context.setStatusBarEvent(pMember->name + "'s " + InventoryBagOverview::bagName(bag, bagCount)
         + (tagged ? " is now" : " is no longer") + (tag == BagTag::Crafting ? " a crafting bag" : " an alchemy bag"));
     return true;
 }
@@ -2183,6 +2238,7 @@ bool GameplayPartyOverlayInputController::openWorkbench(GameplayScreenRuntime &c
     bench.newRecipeResultIds.clear();
     bench.crafting.target.reset();
     bench.crafting.material.reset();
+    bench.crafting.choice = 0;
     bench.crafting.searchActive = false;
     bench.crafting.clearResult();
     screen.dollJewelryOverlayOpen = false;
@@ -2388,19 +2444,24 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         }
     }
 
+    // The Use key on a pack item uses or equips it (below); only a keyboard key, not the classic scheme's left button.
+    const InputBinding useBinding = context.settingsSnapshot().keyboard.binding(KeyboardAction::Use);
+    const bool useKeyBound = !searchTyping && useBinding.kind == InputBindingKind::Keyboard;
+    const bool useKeyPressed = useKeyBound && isScancodeNewlyPressed(context, input, useBinding.scancode);
+    const bool useKeyHeld = useKeyBound && input.isScancodeHeld(useBinding.scancode);
+    // E closes the screen; as the Use key it does so only when not used on a pack item.
+    const bool closeDeferredToUse = useKeyPressed && useBinding.scancode == SDL_SCANCODE_E;
     // The Escape that closed the alchemy bench or cleared the item search keeps the screen open until it is released.
     const bool closePressed = !searchTyping
         && ((pKeyboardState != nullptr
                 && pKeyboardState[SDL_SCANCODE_ESCAPE]
                 && !context.interactionState().alchemyBenchEscapeLatch)
-            || isScancodeNewlyPressed(context, input, SDL_SCANCODE_E));
+            || (isScancodeNewlyPressed(context, input, SDL_SCANCODE_E) && !closeDeferredToUse));
     const bool isInventorySpellTargetMode =
         context.utilitySpellOverlayReadOnly().active
         && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
-
-    if (closePressed)
-    {
-        if (!context.interactionState().closeOverlayLatch)
+    const auto closeScreen =
+        [&context, &clearPendingCharacterDismiss, isInventorySpellTargetMode]()
         {
             if (isInventorySpellTargetMode)
             {
@@ -2411,6 +2472,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             clearPendingCharacterDismiss();
             latchGameplayMenuEscape(context);
             context.interactionState().closeOverlayLatch = true;
+        };
+
+    if (closePressed)
+    {
+        if (!context.interactionState().closeOverlayLatch)
+        {
+            closeScreen();
         }
         return;
     }
@@ -2757,7 +2825,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     }
                 }
 
-                for (uint8_t button = 0; int(button) < bagCount && bagCount > 1; ++button)
+                for (uint8_t button = 0; int(button) < std::min(bagCount, InventoryBagOverview::Bags) && bagCount > 1;
+                     ++button)
                 {
                     const std::string bagId = "CharacterInventoryBag" + std::to_string(button + 1);
                     GameplayCharacterPointerTarget bagTarget =
@@ -2767,6 +2836,21 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     {
                         bagTarget.bagButton = button;
                         return bagTarget;
+                    }
+                }
+
+                // A party of one's tab buttons.
+                for (uint8_t tab = 0; GameplayHudOverlaySupport::inventoryTabsShown(context)
+                         && int(tab) < InventoryBags::tabCount(bagCount); ++tab)
+                {
+                    const std::string tabId = "CharacterInventoryTab" + std::to_string(tab + 1);
+                    GameplayCharacterPointerTarget tabTarget = resolveCharacterButtonTarget(
+                        tabId.c_str(), GameplayCharacterPointerTargetType::InventoryTabButton);
+
+                    if (tabTarget.type != GameplayCharacterPointerTargetType::None)
+                    {
+                        tabTarget.bagButton = tab;
+                        return tabTarget;
                     }
                 }
             }
@@ -3025,13 +3109,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 if (resolvedInventoryGrid.has_value()
                     && context.isPointerInsideResolvedElement(*resolvedInventoryGrid, pointerX, pointerY))
                 {
-                    for (int index = 0; index < InventoryBagOverview::Bags; ++index)
+                    const int firstBag = InventoryBagOverview::firstBag(*pActiveCharacter);
+
+                    for (int bag = firstBag; bag < firstBag + InventoryBagOverview::Bags; ++bag)
                     {
                         const InventoryBagOverview::Slot slot =
-                            InventoryBagOverview::slot(*resolvedInventoryGrid, index);
+                            InventoryBagOverview::slot(*resolvedInventoryGrid, bag);
                         GameplayCharacterPointerTarget target = {};
                         target.page = GameplayUiController::CharacterPage::Inventory;
-                        target.bag = uint8_t(index);
+                        target.bag = uint8_t(bag);
 
                         if (!InventoryBagOverview::insideGrid(slot, pointerX, pointerY))
                         {
@@ -3248,9 +3334,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillRow && pActiveCharacter != nullptr
             ? skillRaiseCostHoverText(
                   *pActiveCharacter, hoveredCharacterTarget.skillName, gameRulesFor(context.partyReadOnly()).skills)
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryTabButton
+            ? "Tab " + InventoryBagOverview::tabNumeral(hoveredCharacterTarget.bagButton) + " (Shift+"
+                + std::to_string(hoveredCharacterTarget.bagButton + 1) + ")"
         : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryBagTagButton
                 && pShownCharacter != nullptr
-            ? bagTagHoverText(*pShownCharacter, BagTag(hoveredCharacterTarget.bagButton))
+            ? bagTagHoverText(*pShownCharacter, BagTag(hoveredCharacterTarget.bagButton),
+                  gameRulesFor(pParty).items.bagCount(*pParty))
             : std::string());
 
     if (pParty != nullptr)
@@ -3648,9 +3738,18 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 return;
             }
 
-            if (target.type == GameplayCharacterPointerTargetType::InventoryBagButton && pParty != nullptr)
+            // A bag button zooms that bag of the open bag's tab.
+            if (target.type == GameplayCharacterPointerTargetType::InventoryBagButton && pParty != nullptr
+                && pParty->member(selectedPartyMemberIndex) != nullptr)
             {
-                zoomInventoryBag(context, *pParty, selectedPartyMemberIndex, target.bagButton);
+                zoomInventoryBag(context, *pParty, selectedPartyMemberIndex,
+                    InventoryBagOverview::firstBag(*pParty->member(selectedPartyMemberIndex)) + target.bagButton);
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::InventoryTabButton)
+            {
+                openBagTab(context, target.bagButton);
                 return;
             }
 
@@ -4123,6 +4222,75 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             context.heldInventoryItem().grabOffsetX = activationX - itemRect.x;
             context.heldInventoryItem().grabOffsetY = activationY - itemRect.y;
         };
+
+    // The Use key over a pack item does what dropping it on the paperdoll does: drinks, learns, casts or equips it; a
+    // message scroll shows while the key is held. Whatever is left in hand (a refused item, a potion with drinks left,
+    // the equipment it replaced) goes back where the item lay, else anywhere in the pack.
+    const Character *pHoveredOwner = pParty != nullptr ? pParty->member(selectedPartyMemberIndex) : nullptr;
+    const InventoryItem *pHoveredPackItem =
+        pHoveredOwner != nullptr
+            && hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryItem
+            && !context.heldInventoryItem().active
+            && !isReadOnlyAdventurersInnView
+            && !isInventorySpellTargetMode
+            ? pHoveredOwner->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+            : nullptr;
+
+    if (useKeyHeld && pHoveredPackItem != nullptr)
+    {
+        context.itemService().showReadableScroll(context, selectedPartyMemberIndex, *pHoveredPackItem);
+    }
+
+    if (useKeyPressed)
+    {
+        const bool messageScroll = pHoveredPackItem != nullptr && context.itemTable() != nullptr
+            && InventoryItemUseRuntime::classifyItemUse(*pHoveredPackItem, *context.itemTable(),
+                   context.mergedPotionSettingTable(), context.mergedReagentSettingTable())
+                == InventoryItemUseAction::ReadMessageScroll;
+
+        if (pHoveredPackItem != nullptr && !messageScroll)
+        {
+            if (!selectedPartyMemberCanAct)
+            {
+                context.setStatusBarEvent("Can't do that");
+                return;
+            }
+
+            const uint8_t originX = pHoveredPackItem->gridX;
+            const uint8_t originY = pHoveredPackItem->gridY;
+            activateCharacterTarget(hoveredCharacterTarget, mouseX, mouseY);
+
+            if (context.heldInventoryItem().active)
+            {
+                GameplayCharacterPointerTarget dollTarget = {};
+                dollTarget.type = GameplayCharacterPointerTargetType::DollPanel;
+                // Left of the paperdoll's middle: a weapon goes to the main hand first.
+                activateCharacterTarget(dollTarget, 0.0f, mouseY);
+            }
+
+            Character *pOwner = pParty->member(selectedPartyMemberIndex);
+
+            if (context.heldInventoryItem().active && pOwner != nullptr)
+            {
+                const InventoryItem leftover = context.heldInventoryItem().item;
+
+                if (pOwner->addInventoryItemAt(leftover, originX, originY)
+                    || pParty->tryAutoPlaceItemInMemberInventory(selectedPartyMemberIndex, leftover))
+                {
+                    context.heldInventoryItem() = {};
+                    pParty->clearHeldItemForQueries();
+                }
+            }
+
+            return;
+        }
+
+        if (pHoveredPackItem == nullptr && closeDeferredToUse)
+        {
+            closeScreen();
+            return;
+        }
+    }
 
     GameplayOverlayInteractionState &interactionState = context.interactionState();
 

@@ -4,6 +4,7 @@
 #include "editor/import/IndoorSourceGeometryCompiler.h"
 #include "editor/import/ObjModelImport.h"
 #include "game/StringUtils.h"
+#include "game/maps/MechanismAudioYml.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -5071,6 +5072,77 @@ std::string EditorDocument::serializeIndoorScene(
                 << sceneData.fog.color[2] * 255.0f << YAML::EndSeq;
         emitter << YAML::Key << "near_distance" << YAML::Value << sceneData.fog.nearDistance;
         emitter << YAML::Key << "far_distance" << YAML::Value << sceneData.fog.farDistance;
+        if (sceneData.fog.sky > 0.0f)
+        {
+            emitter << YAML::Key << "sky" << YAML::Value << sceneData.fog.sky;
+        }
+        if (sceneData.fog.lithtech)
+        {
+            emitter << YAML::Key << "model" << YAML::Value << "lithtech";
+        }
+        if (sceneData.fog.hasNight)
+        {
+            emitter << YAML::Key << "night" << YAML::Value << YAML::BeginMap;
+            emitter << YAML::Key << "color_rgb" << YAML::Value << YAML::Flow << YAML::BeginSeq
+                    << sceneData.fog.nightColor[0] * 255.0f << sceneData.fog.nightColor[1] * 255.0f
+                    << sceneData.fog.nightColor[2] * 255.0f << YAML::EndSeq;
+            emitter << YAML::Key << "near_distance" << YAML::Value << sceneData.fog.nightNearDistance;
+            emitter << YAML::Key << "far_distance" << YAML::Value << sceneData.fog.nightFarDistance;
+            if (sceneData.fog.nightSky > 0.0f)
+            {
+                emitter << YAML::Key << "sky" << YAML::Value << sceneData.fog.nightSky;
+            }
+            emitter << YAML::EndMap;
+        }
+        if (sceneData.fog.followsDaylight)
+        {
+            emitter << YAML::Key << "follow_daylight" << YAML::Value << true;
+        }
+        emitter << YAML::EndMap;
+    }
+
+    if (sceneData.openSky.enabled)
+    {
+        emitter << YAML::Key << "sky" << YAML::Value << YAML::BeginMap;
+        emitter << YAML::Key << "mode" << YAML::Value << "open";
+        if (!sceneData.openSky.skyTexture.empty())
+        {
+            emitter << YAML::Key << "sky_texture" << YAML::Value << sceneData.openSky.skyTexture;
+        }
+        if (!sceneData.openSky.preset.empty())
+        {
+            emitter << YAML::Key << "preset" << YAML::Value << sceneData.openSky.preset;
+        }
+        if (sceneData.openSky.outdoorView)
+        {
+            emitter << YAML::Key << "view" << YAML::Value << "outdoor";
+        }
+        if (sceneData.openSky.viewDistanceScale != 1.0f)
+        {
+            emitter << YAML::Key << "view_distance_scale" << YAML::Value << sceneData.openSky.viewDistanceScale;
+        }
+        emitter << YAML::EndMap;
+    }
+
+    if (sceneData.daylight.enabled)
+    {
+        const auto emitRgb = [&emitter](const char *pKey, const std::array<float, 3> &rgb)
+        {
+            emitter << YAML::Key << pKey << YAML::Value << YAML::Flow << YAML::BeginSeq
+                    << rgb[0] * 255.0f << rgb[1] * 255.0f << rgb[2] * 255.0f << YAML::EndSeq;
+        };
+        emitter << YAML::Key << "daylight" << YAML::Value << YAML::BeginMap;
+        emitRgb("ambient_rgb", sceneData.daylight.ambient);
+        emitRgb("sun_rgb", sceneData.daylight.sun);
+        emitRgb("day_scale_rgb", sceneData.daylight.dayScale);
+        emitRgb("night_scale_rgb", sceneData.daylight.nightScale);
+        if (sceneData.daylight.sunDirection)
+        {
+            const std::array<float, 3> &direction = *sceneData.daylight.sunDirection;
+            emitter << YAML::Key << "sun_direction" << YAML::Value << YAML::Flow << YAML::BeginSeq
+                    << direction[0] << direction[1] << direction[2] << YAML::EndSeq;
+        }
+        emitter << YAML::Key << "sun_gain" << YAML::Value << sceneData.daylight.sunGain;
         emitter << YAML::EndMap;
     }
 
@@ -5093,6 +5165,80 @@ std::string EditorDocument::serializeIndoorScene(
             emitter << YAML::Key << "width" << YAML::Value << ladder.width;
             emitter << YAML::Key << "reach" << YAML::Value << ladder.reach;
             emitFloatTriple("top_exit", ladder.topExit);
+
+            if (ladder.grabInAir)
+            {
+                emitter << YAML::Key << "grab_in_air" << YAML::Value << true;
+            }
+
+            if (ladder.grabAtTop)
+            {
+                emitter << YAML::Key << "grab_at_top" << YAML::Value << true;
+            }
+
+            emitter << YAML::EndMap;
+        }
+
+        emitter << YAML::EndSeq;
+    }
+
+    if (!sceneData.waterVolumes.empty())
+    {
+        const auto emitFloats = [&emitter](const char *pKey, const std::array<float, 3> &value)
+        {
+            emitter << YAML::Key << pKey << YAML::Value << YAML::Flow << YAML::BeginSeq
+                    << value[0] << value[1] << value[2] << YAML::EndSeq;
+        };
+        emitter << YAML::Key << "water_volumes" << YAML::Value << YAML::BeginSeq;
+
+        for (const Game::IndoorWaterVolume &volume : sceneData.waterVolumes)
+        {
+            emitter << YAML::BeginMap;
+            emitter << YAML::Key << "id" << YAML::Value << volume.id;
+            emitter << YAML::Key << "liquid" << YAML::Value
+                    << (volume.liquid == Game::IndoorLiquid::Lava ? "lava" : "water");
+            emitter << YAML::Key << "pieces" << YAML::Value << YAML::BeginSeq;
+
+            for (const Game::IndoorWaterPiece &piece : volume.pieces)
+            {
+                emitter << YAML::BeginMap;
+                emitter << YAML::Key << "polygon" << YAML::Value << YAML::Flow << YAML::BeginSeq;
+
+                for (const std::array<float, 2> &point : piece.polygon)
+                {
+                    emitter << YAML::Flow << YAML::BeginSeq << point[0] << point[1] << YAML::EndSeq;
+                }
+
+                emitter << YAML::EndSeq;
+                emitter << YAML::Key << "bottom" << YAML::Value << piece.bottom;
+                emitter << YAML::Key << "top" << YAML::Value << piece.top;
+                emitter << YAML::EndMap;
+            }
+
+            emitter << YAML::EndSeq;
+            emitFloats("tint", volume.tint);
+
+            if (volume.fog.enabled)
+            {
+                emitter << YAML::Key << "fog" << YAML::Value << YAML::BeginMap;
+                emitter << YAML::Key << "color_rgb" << YAML::Value << YAML::Flow << YAML::BeginSeq
+                        << volume.fog.color[0] * 255.0f << volume.fog.color[1] * 255.0f
+                        << volume.fog.color[2] * 255.0f << YAML::EndSeq;
+                emitter << YAML::Key << "near_distance" << YAML::Value << volume.fog.nearDistance;
+                emitter << YAML::Key << "far_distance" << YAML::Value << volume.fog.farDistance;
+                emitter << YAML::EndMap;
+            }
+
+            if (volume.current != std::array<float, 3>{0.0f, 0.0f, 0.0f})
+            {
+                emitFloats("current", volume.current);
+            }
+
+            if (volume.moverDoorId)
+            {
+                emitter << YAML::Key << "mover_door_id" << YAML::Value << *volume.moverDoorId;
+            }
+
             emitter << YAML::EndMap;
         }
 
@@ -5292,6 +5438,12 @@ std::string EditorDocument::serializeIndoorScene(
             emitter << YAML::Key << "carry" << YAML::Value << mover.carry;
             emitter << YAML::Key << "auto_close_seconds" << YAML::Value << mover.autoCloseSeconds;
             emitter << YAML::EndMap;
+        }
+
+        if (door.sounds)
+        {
+            emitter << YAML::Key << "sounds" << YAML::Value;
+            Game::emitMechanismAudioProfile(emitter, *door.sounds);
         }
 
         emitter << YAML::EndMap;

@@ -180,8 +180,9 @@ TEST_CASE("MAW spec: a sword's fire enchantment and Fire Aura by the weapon's le
         int aura;
     };
 
-    for (const Expected &expected : {Expected{50, 79.6581, 9.1038, 54.6227, 48},
-             Expected{150, 304.1628, 34.7615, 208.5688, 76}})
+    // MAW 8fbb48d1's getWeaponLevelDamage (the stat share fell to 0.2): 76.644615 and 282.3103 from MAW's own Lua.
+    for (const Expected &expected : {Expected{50, 76.644615, 8.75938, 52.5563, 48},
+             Expected{150, 282.3103, 32.264, 193.584, 71}})
     {
         CAPTURE(expected.level);
         MawRules rules(RulesetOptions{}, MawMapLevels{}, specGear());

@@ -506,9 +506,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Standing
-    run: Walking
+    run: Jog
     stride_length: 1.864
-    run_stride_length: 1.864
+    run_stride_length: 2.03
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -533,9 +533,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Standing
-    run: Walking
+    run: Jog
     stride_length: 1.864
-    run_stride_length: 1.864
+    run_stride_length: 2.03
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:
@@ -560,9 +560,9 @@ actors:
   yaw_offset: -1.570796327
   animation:
     cast: Standing
-    run: Walking
+    run: Jog
     stride_length: 1.864
-    run_stride_length: 1.864
+    run_stride_length: 2.03
     upper_body_root: B_Spine
     # The neck and head share a turn toward the party over every clip but the death.
     look:

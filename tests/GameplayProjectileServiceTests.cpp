@@ -1251,3 +1251,37 @@ TEST_CASE("an event missile flies to its target in its flight time, passes the p
     REQUIRE(burst->fxRequest.has_value());
     CHECK_EQ(burst->fxRequest->point.x, doctest::Approx(9000.0f));
 }
+
+TEST_CASE("in turn-based mode a party shot the queue waits on vanishes beyond 5120 from the party")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectileState projectile = makePartyProjectile(10);
+    projectile.turnBasedPendingAction = true;
+    projectile.lifetimeTicks = 768;
+    projectile.x = 6000.0f;
+    projectile.velocityX = 4000.0f;
+
+    GameplayProjectileService::ProjectileFrameFacts facts = {};
+    facts.deltaSeconds = 1.0f / 128.0f;
+    facts.partyPosition = {0.0f, 0.0f, 0.0f};
+
+    // Real time: it flies on until its lifetime ends.
+    GameplayProjectileService::ProjectileState realTime = projectile;
+    CHECK_FALSE(service.updateProjectileFrame(realTime, facts).expireProjectile);
+
+    facts.turnBasedActive = true;
+    GameplayProjectileService::ProjectileState farShot = projectile;
+    const GameplayProjectileService::ProjectileFrameResult farResult = service.updateProjectileFrame(farShot, facts);
+    CHECK(farResult.expireProjectile);
+    CHECK_FALSE(farResult.areaImpact.has_value());
+    CHECK_FALSE(farResult.fxRequest.has_value());
+
+    GameplayProjectileService::ProjectileState nearShot = projectile;
+    nearShot.x = 5000.0f;
+    CHECK_FALSE(service.updateProjectileFrame(nearShot, facts).expireProjectile);
+
+    // A monster's shot or one the queue does not wait on keeps the real-time rules.
+    GameplayProjectileService::ProjectileState unwaited = projectile;
+    unwaited.turnBasedPendingAction = false;
+    CHECK_FALSE(service.updateProjectileFrame(unwaited, facts).expireProjectile);
+}

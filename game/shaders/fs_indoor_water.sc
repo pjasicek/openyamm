@@ -101,6 +101,25 @@ void main()
         gl_FragColor = vec4(lavaColor(heat, v_color0.rgb), 1.0);
         return;
     }
+    if (!tar && floorFace && dot(baseNormal, u_cameraPosition.xyz - v_worldPosition) < 0.0)
+    {
+        // A swimmable volume's top seen from below (its faces are two-sided): no planar reflection, which is built
+        // for the view from above. Within Snell's window, about 49 degrees round the vertical, the daylight comes
+        // through, brighter straight up and rippling with the waves, and the world above shows in it; outside it the
+        // surface partly mirrors the water body. With the eye under water the renderer draws every liquid, the opaque deep
+        // sea too, after the sky, so there is a world behind the window.
+        float window = smoothstep(0.6, 0.74, dot(normal, viewDirection));
+        vec3 light = max(illumination, vec3_splat(0.35));
+        vec3 under = v_color0.rgb * light + vec3(0.42, 0.6, 0.66) * light * (window * window) + highlights * 0.5;
+        // MM9's surface is evenly see-through from below: the mirror outside the window is only partly opaque.
+        float underAlpha = mix(0.6, 0.22, window * window);
+#if INDOOR_FOG
+        under = mix(under, u_fogColor.rgb, clamp((length(v_worldPosition - u_cameraPosition.xyz) - u_fogDistances.x)
+            / max(u_fogDistances.y - u_fogDistances.x, 1.0), 0.0, 1.0));
+#endif
+        gl_FragColor = vec4(under, underAlpha);
+        return;
+    }
     vec3 tint = v_color0.rgb;
     if (u_waterParams.y < 0.5 && !tar)
     {
@@ -114,17 +133,38 @@ void main()
     vec3 reflected = waterReflection(v_worldPosition, distortion, waterColor);
     // Glossy tar reflects a little more head-on than water does.
     float fresnel = waterFresnel(normal, viewDirection);
-    vec3 color = mix(waterColor, reflected, tar ? 0.07 + 0.93 * fresnel : fresnel) + highlights;
+    float reflectance = tar ? 0.07 + 0.93 * fresnel : fresnel;
+    vec3 color = mix(waterColor, reflected, reflectance) + highlights;
+    // A see-through liquid (liquids.yml opacity, the tint's alpha; opaque ones keep exactly 1) blends over its bed:
+    // the body covers it at that opacity, the reflection and the highlights lie over it whole, so the surface turns
+    // mirror-like at grazing angles. The colour is divided by the coverage the blend multiplies it with.
+    float alpha = 1.0;
+    if (v_color0.a < 0.998)
+    {
+        // Rippled coverage, as MM9's water sprites (their alpha a caustic network over a thin tint): the waves'
+        // steep rings draw denser and lighter, the more so the clearer the liquid; the mean stays its opacity. A
+        // thin body is lit at least as much as it is clear, as MM9 draws those sprites unlit: in a dark room the bed
+        // shows dimly through bright ripples instead of the water vanishing into it.
+        float clarity = 1.0 - v_color0.a;
+        float ripple = smoothstep(0.2, 0.64, waveScatter);
+        float body = min(v_color0.a * mix(1.0, 0.48 + 1.9 * ripple, clarity), 1.0);
+        vec3 bodyColor = mix(tint, mix(tint, vec3_splat(1.0), 0.35), ripple * clarity)
+            * max(illumination, vec3_splat(clarity));
+        alpha = body + (1.0 - body) * reflectance;
+        color = (bodyColor * (body * (1.0 - reflectance)) + reflected * reflectance + highlights) / alpha;
+    }
     if (falling > 0.01 && !tar)
     {
-        color = mix(color, vec3(0.85, 0.92, 1.0) * illumination, waterFlowFoam(uv, falling));
+        float foam = waterFlowFoam(uv, falling);
+        color = mix(color, vec3(0.85, 0.92, 1.0) * illumination, foam);
+        alpha += (1.0 - alpha) * foam;
     }
 #if WATER_MOVEMENT_RIPPLES
-    color += vec3(0.85, 0.92, 1.0) * movementSheen;
+    color += vec3(0.85, 0.92, 1.0) * movementSheen / alpha;
 #endif
 #if INDOOR_FOG
     color = mix(color, u_fogColor.rgb, clamp((length(v_worldPosition - u_cameraPosition.xyz) - u_fogDistances.x)
         / max(u_fogDistances.y - u_fogDistances.x, 1.0), 0.0, 1.0));
 #endif
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color, alpha);
 }

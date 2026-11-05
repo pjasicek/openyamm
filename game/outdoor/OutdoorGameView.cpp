@@ -1,5 +1,6 @@
 #include "game/render/RuntimeShader.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/debug/AiArena.h"
 #include "game/outdoor/OutdoorSunlight.h"
 
 #include "game/app/GameSession.h"
@@ -2742,6 +2743,8 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     }
 
     GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
+    m_talkCamera.update(overlayContext, m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ, CameraVerticalFovDegrees,
+        deltaSeconds, m_cameraYawRadians, m_cameraPitchRadians);
 
     if (!preparingResources && m_pendingSavePreviewCapture.active
         && m_pendingSavePreviewCapture.screenshotRequested
@@ -4681,7 +4684,25 @@ void OutdoorGameView::renderCombatFeedbackOverlay(
         }
     }
 
+    const ActorAiTrace *pAiTrace = m_pOutdoorWorldRuntime->actorAiTrace();
 
+    if (pAiTrace != nullptr && pAiTrace->overlayVisible())
+    {
+        renderAiTraceOverlay(screenRuntime, *pAiTrace,
+            [width, height, pViewProjectionMatrix](const bx::Vec3 &point, float &screenX, float &screenY)
+            {
+                ProjectedPoint projected = {};
+
+                if (!projectWorldPointToScreen(point, width, height, pViewProjectionMatrix, projected))
+                {
+                    return false;
+                }
+
+                screenX = projected.x;
+                screenY = projected.y;
+                return true;
+            });
+    }
 }
 
 void OutdoorGameView::showCombatStatusBarEvent(const std::string &text, float durationSeconds)

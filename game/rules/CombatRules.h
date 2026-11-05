@@ -91,6 +91,8 @@ struct MonsterAttackOnCharacter
     std::string missileToken;
     bool affectsAllParty = false;
     int monsterLevel = 0;
+    // What the ruleset resolved for the attacker, when known.
+    const ActorRulesetFacts *pAttackerFacts = nullptr;
     int partyCount = 1;
     // The attacker's armour-roll inputs: the target's armour class as the attack sees it, and the attack bonus.
     int armorClass = 0;
@@ -202,6 +204,9 @@ struct CharacterDamageHit
     // personal shield took its share (amount is what passed the shield).
     int attackerLevel = 0;
     ActorRulesetFacts attackerFacts;
+    // The attacker's hit points now and at most (MAW's Berserker bosses); 0 when unknown.
+    int attackerCurrentHp = 0;
+    int attackerMaxHp = 0;
     bool attack2 = false;
     int spellId = 0;
     int rolledAmount = 0;
@@ -285,6 +290,9 @@ public:
     // How fast a party member's missile turns toward the actor it was aimed at, in radians per second; 0 (Standard)
     // flies straight.
     virtual float partyMissileHomingTurnRate() const;
+    // Whether bows, crossbows, thrown weapons and a dragon's breath stay silent, so the party's attack is the melee one
+    // at its pace (MAW's Bow preference, disableBow). Standard: no.
+    virtual bool bowDisabled() const;
     // How fast, in radians a second, the party may move across the flight of a monster's missile of this spell
     // (0: an attack) and still have it re-aim at the party; 0 (Standard) flies straight.
     virtual float monsterMissileHomingLockRate(uint32_t spellId) const;

@@ -96,8 +96,6 @@ struct PartySpellCastRequest
     bool fromScroll = false;
     // NPC and scripted casts can use a party member as the UI speaker without requiring that member to be ready.
     bool bypassGameplayCasterValidation = false;
-    // Gate Master opens Town Portal directly from an NPC caster in the original game.
-    bool bypassTownPortalFailureChecks = false;
     bool turnBasedPendingAction = false;
     bool spendMana = true;
     bool applyRecovery = true;
@@ -197,6 +195,16 @@ public:
     // The original pick depth of spell and missile targets (MM7/MM8; OpenEnroth's RangedAttackDepth). The player's
     // actor-targeted casts reach no further; scripted casts are not limited.
     static constexpr float SpellActorTargetRange = 5120.0f;
+    // The furthest from the party a party's Meteor Shower or Starburst falls (a design limit, shorter than the
+    // original's pick depth).
+    static constexpr float FallingSpellTargetRange = 3500.0f;
+    // Where a party's Meteor Shower or Starburst aimed at the point falls: a point beyond FallingSpellTargetRange
+    // comes back along the same line to that range. Other spells keep the point. The cast and its aiming marker both
+    // use it.
+    static bx::Vec3 resolveFallingSpellTargetPoint(
+        const IGameplayWorldRuntime &worldRuntime,
+        uint32_t spellId,
+        const bx::Vec3 &targetPoint);
     // Whether the actor, alive or dead, is within SpellActorTargetRange of the party's feet.
     static bool isActorWithinSpellTargetRange(const IGameplayWorldRuntime &worldRuntime, size_t actorIndex);
     // A living, visible actor within spell reach of the party; with `requireHostile` (the targets the game picks for

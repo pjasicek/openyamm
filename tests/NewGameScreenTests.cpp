@@ -131,6 +131,49 @@ struct NewGameScreenTestAccess
             }
         }
     }
+
+    static void checkPartySheet(NewGameScreen &screen)
+    {
+        screen.selectContinent("antagarich");
+        REQUIRE(screen.m_partySize == 1);
+
+        // New adventurers start from portraits nobody in the party has.
+        screen.addPartySlot();
+        screen.addPartySlot();
+        REQUIRE(screen.m_partySize == 3);
+        CHECK(screen.candidateForState(screen.m_partyStates[0]).characterDataId
+              != screen.candidateForState(screen.m_partyStates[1]).characterDataId);
+        CHECK(screen.candidateForState(screen.m_partyStates[1]).characterDataId
+              != screen.candidateForState(screen.m_partyStates[2]).characterDataId);
+
+        // Removing an adventurer above the selected one keeps the same adventurer selected.
+        screen.switchActivePartySlot(2);
+        const std::string selectedName = screen.m_state.name;
+        screen.removePartySlotAt(0);
+        CHECK(screen.m_partySize == 2);
+        CHECK(screen.m_activePartySlot == 1);
+        CHECK(screen.m_state.name == selectedName);
+
+        // A typed name survives a new portrait; a generated one does not have to.
+        screen.m_state.nameEditing = true;
+        screen.m_state.nameEditBuffer = "Zed";
+        screen.endNameEditing(true);
+        CHECK(screen.m_state.nameTyped);
+        const size_t otherCandidate = (screen.m_state.selectedCandidateIndex + 1) % screen.m_candidates.size();
+        screen.chooseCandidateForActiveSlot(otherCandidate);
+        CHECK(screen.m_state.selectedCandidateIndex == otherCandidate);
+        CHECK(screen.m_state.name == "Zed");
+
+        // The party board picks another adventurer's skills under the same two-choice rule.
+        const NewGameScreen::CreationState &other = screen.m_partyStates[0];
+        REQUIRE(other.optionalSkills.size() >= 3);
+        const std::vector<std::string> options = other.optionalSkills;
+        CHECK(screen.toggleOptionalSkillForSlot(0, options[0]));
+        CHECK(screen.toggleOptionalSkillForSlot(0, options[1]));
+        CHECK_FALSE(screen.toggleOptionalSkillForSlot(0, options[2]));
+        CHECK(screen.m_partyStates[0].selectedOptionalSkills.size() == 2);
+        CHECK(screen.m_state.selectedOptionalSkills.empty());
+    }
 };
 }
 
@@ -155,4 +198,18 @@ TEST_CASE("party creation offers all starting characters with continent-specific
             CHECK(options.ruleset.isStandard());
         }, {}, {});
     NewGameScreenTestAccess::checkAllContinents(screen, data, createdParty, startingContinentId);
+}
+
+TEST_CASE("party creation sheet adds, removes and edits adventurers")
+{
+    using namespace OpenYAMM::Game;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    OpenYAMM::Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm6"));
+    GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    GameDataRepository data;
+    data.bind(loader);
+    NewGameScreen screen(assets, nullptr, data, false, false, false, {}, {}, {});
+    NewGameScreenTestAccess::checkPartySheet(screen);
 }

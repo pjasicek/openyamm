@@ -137,8 +137,9 @@ struct ModelMaterial
     // sprites' dark rim. Skinned (creature) materials default to DefaultCreatureEdgeDarkening; others to none.
     float edgeDarkening = 0.0f;
     // Texture animation. "openyamm_uv_scroll": [du, dv] texture units per second (flowing water; also on creature
-    // models, e.g. an air elemental's wind). Static decorations only: "openyamm_flipbook": [columns, rows, frames per
-    // second], frames left to right then top to bottom, looping with a per-placement phase (fire). "openyamm_flutter": cloth wave amplitude in model units; each vertex moves along
+    // models, e.g. an air elemental's wind). "openyamm_flipbook": [columns, rows, frames per second], frames left to
+    // right then top to bottom, looping: on static decorations with a per-placement phase (fire), on creatures every
+    // one of a material in step (MM9's animated skins). "openyamm_flutter": cloth wave amplitude in model units; each vertex moves along
     // its normal by amplitude x COLOR_0 alpha x a wave travelling along texture coordinate u (flags).
     // "openyamm_pulse": [amplitude, period seconds]; the emission is scaled by 1 + amplitude x sin(2 pi t / period),
     // with the per-placement phase (glowing crystals); creatures pulse too, every one of a material in step.

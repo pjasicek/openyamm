@@ -400,6 +400,12 @@ presets:
          sun_disc_visibility: 0.0, stars: 0.15, moon_visibility: 0.0, fog: [0.016, 0.018, 0.024],
          cloud_lit: [0.020, 0.022, 0.030], cloud_shadow: [0.006, 0.007, 0.010], ambient_tint: [0.85, 0.88, 1.0]}
 
+  # A night sky at every hour with full stars (MM9's Wizard's Lab: its sky box is a starfield).
+  night_stars:
+    inherits: always_dark
+    keys:
+      - {time: "12:00", stars: 1.0}
+
   # Underwater keeps its authored fog: no sky is drawn and fog stays the flat colour.
   underwater:
     inherits: base

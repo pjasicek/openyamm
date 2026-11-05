@@ -22,6 +22,7 @@ public:
     uint32_t skillRaiseCost(const Character &character, const std::string &canonicalSkill) const override;
     // Cover at training halls, Mana Shield and Enlightenment at magic shops (skill_rules.yml `learned_at`).
     std::vector<std::string> extraHouseSkills(const std::string &houseType) const override;
+    std::vector<std::pair<std::string, std::array<uint32_t, 3>>> teacherlessMasteryLadders() const override;
     // Alchemy 60, Cover 30, Mana Shield and Retaliation 50 (S:300-320).
     std::optional<uint32_t> skillLevelCap(const std::string &canonicalSkill) const override;
     // In MAW's order (S:348-364): a mastery a respec took returns, Cover at its cap teaches Retaliation, and the four
@@ -59,6 +60,12 @@ public:
     // Every member regenerates HP by Regeneration and SP by Meditation each frame (MawRegen, COMBAT_SPEC §8.4).
     void updateRegeneration(Party &party, const IGameplayWorldRuntime &world, float deltaSeconds) const override;
     bool followerSkillBonusesStack() const override;
+    // MAW's coloured stats menu (ColouredStats, on by default; zzMaw-Items.lua:1438-1451).
+    std::optional<uint32_t> statLabelRgb(const std::string &statName) const override;
+    // Scholar, Teacher and Instructor give Ascension +2/+4/+6, to members who have learned it (NPCFollowersSkills.lua,
+    // MAW 1a0a6168, db72a6d5).
+    int followerSkillBonus(uint32_t professionId, const std::string &canonicalSkill, int tableBonus) const override;
+    bool followerSkillBonusNeedsSkill(const std::string &canonicalSkill) const override;
     // Any member's skill x mastery against the monster's level less the party's average level, or a Grandmaster;
     // the highest mastery decides what is shown (zzMAW-Skills.lua, CanIdentifyMonster).
     IdentifyMonsterReveal identifyMonsterReveal(const Party &party, int monsterLevel) const override;
@@ -74,7 +81,8 @@ public:
         const Character &character,
         const std::string &statName,
         const std::string &table) const override;
-    // The stats page's M/R/S powers and Vitality, in four rows where Condition and Quick Spell were.
+    // The stats page's M/R/S powers and Vitality, in four rows where Condition and Quick Spell were; "Bow off" in the
+    // Shoot rows with the Bow preference off.
     std::optional<CharacterStatRowText> statRowText(
         const Party &party,
         const Character &character,

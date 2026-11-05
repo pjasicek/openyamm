@@ -23,8 +23,8 @@ enum class MawCraftOperation : uint8_t
     DuplicateItem,
     // Emerald of Power: the next base item of the family.
     UpgradeBaseType,
-    // Pearl of Memory: removes one enchantment.
-    RemoveRandomEnchant,
+    // Pearl of Memory: removes the enchantment the player picks.
+    RemoveEnchant,
     // Orb of Creation: moves a legendary affix into the orb and out again.
     TransferLegendaryAffix,
     // Celestial Orb: moves Celestial status the same way.

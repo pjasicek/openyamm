@@ -67,6 +67,25 @@ TEST_CASE("liquid face geometry keeps each liquid apart and lava out of reflecti
     }
 }
 
+TEST_CASE("liquid face geometry keeps see-through liquids apart from opaque ones at one height")
+{
+    const auto vertex = [](float x, float y, uint32_t colorAbgr)
+    { return WaterVertex{x, y, 10.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f, colorAbgr}; };
+    const std::vector<WaterVertex> vertices = {
+        vertex(0, 0, 0xff4a4429u), vertex(100, 0, 0xff4a4429u), vertex(0, 100, 0xff4a4429u),
+        vertex(200, 0, 0x664a4429u), vertex(300, 0, 0x664a4429u), vertex(200, 100, 0x664a4429u),
+        vertex(0, 200, 0xff4a4429u), vertex(100, 200, 0xff4a4429u), vertex(0, 300, 0xff4a4429u)};
+    const std::vector<WaterSurfaceGeometry> surfaces = buildWaterFaceGeometry(vertices, 3, -1);
+    REQUIRE(surfaces.size() == 2);
+    CHECK_FALSE(surfaces[0].seeThrough);
+    CHECK(surfaces[0].vertices.size() == 6);
+    CHECK(surfaces[1].seeThrough);
+    CHECK(surfaces[1].vertices.size() == 3);
+    CHECK(surfaces[1].planar);
+    CHECK(surfaces[1].height == 10.0f);
+    CHECK(surfaces[1].sectorId == 3);
+}
+
 TEST_CASE("indoor water separates pool elevations and keeps waterfalls out of planar reflections")
 {
     const auto vertex = [](float x, float y, float z)
@@ -545,6 +564,12 @@ TEST_CASE("world post processing orders solid geometry AO transparencies grading
             const auto position = [&](uint16_t view) { return std::find(order.begin(), order.end(), view); };
             CHECK(position(0) < position(1));
             CHECK(position(1) < position(2));
+            for (uint16_t view = FirstIndoorDebugPassView; view < FirstIndoorDebugPassView + IndoorDebugPassViews;
+                ++view)
+            {
+                CHECK(position(0) < position(view));
+                CHECK(position(view) < position(1));
+            }
             CHECK(position(SkyImageView) < position(0));
             CHECK(position(ActorPortraitView) < position(2));
             for (uint16_t view = FirstSunShadowView; view < FirstSunShadowView + SunShadowViews; ++view)

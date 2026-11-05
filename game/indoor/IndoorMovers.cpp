@@ -455,6 +455,34 @@ IndoorLadderFrame indoorLadderFrame(const IndoorLadder &ladder)
     return frame;
 }
 
+bool indoorLadderGrabAllowed(const IndoorLadder &ladder, bool grounded, bool jumpRequested)
+{
+    return !jumpRequested && (grounded || ladder.grabInAir);
+}
+
+bool indoorLadderLeans(const IndoorLadder &ladder)
+{
+    const float dx = ladder.top[0] - ladder.bottom[0];
+    const float dy = ladder.top[1] - ladder.bottom[1];
+    return dx * dx + dy * dy > 1.0f;
+}
+
+bx::Vec3 indoorLadderLinePoint(const IndoorLadder &ladder, float footZ)
+{
+    const float clampedZ = std::clamp(footZ, ladder.bottom[2], ladder.top[2]);
+
+    if (!indoorLadderLeans(ladder))
+    {
+        return {ladder.bottom[0], ladder.bottom[1], clampedZ};
+    }
+
+    const float fraction = (clampedZ - ladder.bottom[2]) / (ladder.top[2] - ladder.bottom[2]);
+    return {
+        ladder.bottom[0] + (ladder.top[0] - ladder.bottom[0]) * fraction,
+        ladder.bottom[1] + (ladder.top[1] - ladder.bottom[1]) * fraction,
+        clampedZ};
+}
+
 bool indoorLadderCanGrab(
     const IndoorLadder &ladder,
     const IndoorMoverBody &body,
@@ -462,7 +490,8 @@ bool indoorLadderCanGrab(
     float desiredVelocityY)
 {
     const IndoorLadderFrame frame = indoorLadderFrame(ladder);
-    const bx::Vec3 offset = {body.x - ladder.bottom[0], body.y - ladder.bottom[1], 0.0f};
+    const bx::Vec3 line = indoorLadderLinePoint(ladder, body.footZ);
+    const bx::Vec3 offset = {body.x - line.x, body.y - line.y, 0.0f};
     const float depth = moverDot(offset, frame.facing);
     const float lateral = moverDot(offset, frame.side);
     const float speed = std::sqrt(desiredVelocityX * desiredVelocityX + desiredVelocityY * desiredVelocityY);
@@ -478,6 +507,43 @@ bool indoorLadderCanGrab(
         && body.footZ <= ladder.top[2] - 8.0f;
 }
 
+bool indoorLadderCanGrabAtTop(
+    const IndoorLadder &ladder,
+    const IndoorMoverBody &body,
+    float desiredVelocityX,
+    float desiredVelocityY)
+{
+    if (!ladder.grabAtTop || std::fabs(body.footZ - ladder.topExit[2]) > 48.0f)
+    {
+        return false;
+    }
+
+    const float fromExitX = body.x - ladder.topExit[0];
+    const float fromExitY = body.y - ladder.topExit[1];
+    const float reach = ladder.reach + body.radius;
+
+    if (fromExitX * fromExitX + fromExitY * fromExitY > reach * reach)
+    {
+        return false;
+    }
+
+    const float toTopX = ladder.top[0] - body.x;
+    const float toTopY = ladder.top[1] - body.y;
+    const float distance = std::sqrt(toTopX * toTopX + toTopY * toTopY);
+    const float speed = std::sqrt(desiredVelocityX * desiredVelocityX + desiredVelocityY * desiredVelocityY);
+    return speed >= 1.0f && distance >= 1.0f
+        && (desiredVelocityX * toTopX + desiredVelocityY * toTopY) >= 0.5f * speed * distance;
+}
+
+bx::Vec3 indoorLadderTopEntryPosition(const IndoorLadder &ladder, const IndoorMoverBody &body)
+{
+    const IndoorLadderFrame frame = indoorLadderFrame(ladder);
+    const float footZ = std::max(ladder.bottom[2], ladder.top[2] - IndoorLadderTopEntryDrop);
+    const bx::Vec3 line = indoorLadderLinePoint(ladder, footZ);
+    const float holdDistance = body.radius + IndoorLadderHoldGap;
+    return {line.x - frame.facing.x * holdDistance, line.y - frame.facing.y * holdDistance, footZ};
+}
+
 IndoorLadderClimbStep indoorLadderClimbStep(
     const IndoorLadder &ladder,
     const IndoorMoverBody &body,
@@ -488,16 +554,32 @@ IndoorLadderClimbStep indoorLadderClimbStep(
     float deltaSeconds)
 {
     const IndoorLadderFrame frame = indoorLadderFrame(ladder);
-    const bx::Vec3 offset = {body.x - ladder.bottom[0], body.y - ladder.bottom[1], 0.0f};
+    const bx::Vec3 line = indoorLadderLinePoint(ladder, body.footZ);
+    const bx::Vec3 offset = {body.x - line.x, body.y - line.y, 0.0f};
     const float depth = moverDot(offset, frame.facing);
     const float lateral = moverDot(offset, frame.side);
     const float speed = std::sqrt(desiredVelocityX * desiredVelocityX + desiredVelocityY * desiredVelocityY);
     const float toward = desiredVelocityX * frame.facing.x + desiredVelocityY * frame.facing.y;
     const float along = desiredVelocityX * frame.side.x + desiredVelocityY * frame.side.y;
     int climb = verticalInput;
+    bool climbsByExit = false;
     if (climb == 0 && speed >= 1.0f && std::fabs(toward) >= 0.5f * speed)
     {
         climb = toward > 0.0f ? 1 : -1;
+    }
+    else if (climb == 0 && speed >= 1.0f && ladder.grabAtTop)
+    {
+        // Taken at the top from the side: walking on toward the strip goes down, walking back toward the exit goes up.
+        const float exitX = ladder.topExit[0] - ladder.top[0];
+        const float exitY = ladder.topExit[1] - ladder.top[1];
+        const float exitLength = std::sqrt(exitX * exitX + exitY * exitY);
+        const float outward = exitLength >= 1.0f
+            ? (desiredVelocityX * exitX + desiredVelocityY * exitY) / exitLength : 0.0f;
+        if (std::fabs(outward) >= 0.5f * speed)
+        {
+            climb = outward > 0.0f ? 1 : -1;
+            climbsByExit = true;
+        }
     }
 
     IndoorLadderClimbStep step;
@@ -515,11 +597,19 @@ IndoorLadderClimbStep indoorLadderClimbStep(
         return step;
     }
     // Hold the body just in front of the strip; move along it with the strafe part of the input.
-    const float targetDepth = -(body.radius + 4.0f);
+    const float targetDepth = -(body.radius + IndoorLadderHoldGap);
     const float hold = std::clamp((targetDepth - depth) / std::max(deltaSeconds, 1.0e-3f), -256.0f, 256.0f);
-    const float sideways = std::fabs(toward) >= 0.5f * speed ? 0.0f : std::clamp(along, -climbSpeed, climbSpeed);
+    const float sideways = std::fabs(toward) >= 0.5f * speed || climbsByExit
+        ? 0.0f : std::clamp(along, -climbSpeed, climbSpeed);
     step.velocityX = frame.facing.x * hold + frame.side.x * sideways;
     step.velocityY = frame.facing.y * hold + frame.side.y * sideways;
+    if (indoorLadderLeans(ladder))
+    {
+        // Follow the line: the horizontal run per unit of height times the climb's vertical speed.
+        const float rise = ladder.top[2] - ladder.bottom[2];
+        step.velocityX += (ladder.top[0] - ladder.bottom[0]) / rise * step.verticalVelocity;
+        step.velocityY += (ladder.top[1] - ladder.bottom[1]) / rise * step.verticalVelocity;
+    }
     return step;
 }
 }

@@ -15,6 +15,7 @@
 #include "game/data/GameDataRepository.h"
 #include "game/data/GameDataLoader.h"
 #include "game/audio/GameAudioSystem.h"
+#include "game/audio/WorldAmbientSounds.h"
 #include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorRenderer.h"
 #include "game/indoor/IndoorGameView.h"
@@ -22,7 +23,9 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/app/ScreenManager.h"
+#include "game/content/CompletionCertificates.h"
 #include "game/content/ContentManifest.h"
+#include "game/debug/AiArena.h"
 #include "game/debug/DebugConsole.h"
 #include "game/debug/GameImGuiBgfxRenderer.h"
 #include "game/debug/ScreenshotCaptureService.h"
@@ -33,6 +36,7 @@
 #include "game/ui/screens/LoadGameScreen.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
@@ -49,7 +53,6 @@ class HeadlessGameplayDiagnostics;
 struct MawTestPartyCatalog;
 struct ScenarioGameApplicationAccess;
 struct GameApplicationTestAccess;
-struct WinGameCertificate;
 
 class GameApplication
 {
@@ -189,6 +192,10 @@ private:
     void updateDebugConsoleDataOptions();
     void beginDebugConsoleFrame();
     void renderDebugConsoleFrame(int width, int height);
+    // The indoor portal debug view (console `portals`): its per-second averages, the readout and the sector labels in
+    // the ImGui pass, and the `[PortalView]` log line. Returns whether it drew anything.
+    bool renderIndoorPortalDebugReadout(int width, int height);
+    void applyIndoorPortalDebugSettings(const IndoorPortalDebugSettings &settings);
     bool processPendingDebugMapJump();
     // The debug console's `testparty`: a new MAW game with a test party (game/debug/MawTestParties.h).
     bool processPendingTestParty();
@@ -207,7 +214,7 @@ private:
     bool processPendingMapMove();
     bool requestAutosaveBeforeMapMove();
     bool activeViewSavePreviewCapturePending() const;
-    bool processPendingWinGame();
+    bool processPendingCompletionCertificate();
     bool processPendingEventMovie();
     bool processPendingReturnToMainMenu();
     bool processPendingDimensionDoorOverlay();
@@ -218,7 +225,8 @@ private:
     void handleCompletedPartyDefeatScreen();
     void handleCompletedEventMovieScreen();
     void handleCompletedWinGameScreen();
-    WinGameCertificate buildWinGameCertificate() const;
+    void saveCompletionCertificateImage(
+        const std::string &certificateId, const ScreenshotCaptureService::Region &region);
     bool shouldTriggerPartyDefeat() const;
     MapStartDestination resolveStartupDestination() const;
     std::optional<MapStartDestination> resolveContinentStartDestination(uint32_t continentId) const;
@@ -295,6 +303,10 @@ private:
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void updateScreenshotCaptureFrame();
     bool applyScreenshotTourShotPose(const ScreenshotTourShot &shot);
+    // Sets up an AI arena on the current map (game/debug/AiArena.h): its map must be loaded. logPath: where the trace
+    // log goes (empty: none).
+    bool applyAiArena(const AiArena &arena, const std::filesystem::path &logPath, std::string &error);
+    bool loadAndApplyAiArena(const std::filesystem::path &arenaPath, std::string &message);
     void runTourConsoleLine(const std::string &line, std::string_view logPrefix);
     bool advanceDebugGameMinutes(float minutes);
     bool setDebugClockMinute(int targetMinute);
@@ -311,6 +323,7 @@ private:
     WorldManifest m_activeWorldManifest;
     ActorBehaviorCatalog m_actorBehaviorCatalog;
     GameAudioSystem m_gameAudioSystem;
+    WorldAmbientSoundRuntime m_worldAmbientSounds;
     GameSession m_gameSession;
     GameInputSystem m_gameInputSystem;
     SpriteAtlasCache m_spriteAtlasCache;
@@ -331,6 +344,22 @@ private:
     bool m_renderHud = true;
     bool m_renderInstancing = true;
     bool m_renderFreezeWorld = false;
+    // The portal debug view's timings averaged over the last second, and the running sums of the current one.
+    struct PortalDebugAverages
+    {
+        uint32_t frames = 0;
+        std::array<uint64_t, 8> cpuNanoseconds = {};
+        // GPU microseconds per bgfx view id, with the view names.
+        std::vector<std::pair<std::string, uint64_t>> gpuViews;
+        uint64_t gpuFrameMicroseconds = 0;
+        uint64_t drawCalls = 0;
+        uint64_t triangles = 0;
+    };
+    PortalDebugAverages m_portalDebugShown;
+    PortalDebugAverages m_portalDebugSums;
+    std::vector<uint64_t> m_portalDebugGpuSums;
+    std::vector<std::string> m_portalDebugGpuNames;
+    uint64_t m_portalDebugWindowStartTicks = 0;
     bool m_doubleSpeedActive = false;
     bool m_advanceTimeLatch = false;
     bool m_traceSnapshotStartLatch = false;
@@ -379,7 +408,10 @@ private:
     int m_lastFrameHeight = 480;
     std::optional<std::string> m_pendingPartyDefeatRespawnMapFileName;
     std::optional<DebugMapJumpStart> m_pendingPartyDefeatRespawnStart;
-    bool m_pendingWinGameCertificateAfterMovie = false;
+    std::vector<CompletionCertificateDefinition> m_completionCertificates;
+    bool m_completionCertificatesLoaded = false;
+    // Certificates earned at once (a world and the grand one), shown one after another.
+    std::vector<std::string> m_pendingCompletionCertificateIds;
     std::string m_pendingInputText;
     std::string m_pendingInputStatusText;
     bool m_pendingInputTextActive = false;
@@ -409,7 +441,14 @@ private:
     bool m_debugLaunchEffectStatsLogged = false;
     bool m_debugLaunchModelSpawned = false;
     bool m_debugLaunchActorsSpawned = false;
-    bool m_screenshotScheduledCaptureFired = false;
+    bool m_debugLaunchAiArenaApplied = false;
+    // The AI arena in play (console `arena`, debug.ai_arena_path, scenario ai_arena) and its decision trace, which the
+    // active world runtime is bound to.
+    std::optional<AiArena> m_aiArena;
+    std::vector<size_t> m_aiArenaActorIndices;
+    ActorAiTrace m_aiArenaTrace;
+    // Delayed captures requested so far (debug.screenshot_path, screenshot_burst_count).
+    uint32_t m_screenshotScheduledCaptures = 0;
     bool m_screenshotGameplayStartTicksValid = false;
     uint64_t m_screenshotGameplayStartTicks = 0;
 };

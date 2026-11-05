@@ -221,6 +221,14 @@ public:
         return false;
     }
 
+    // MM9's Trigger <object>, <message> to an actor's behaviour script (its onTrigger); false without a script.
+    virtual bool triggerMapActor(size_t actorIndex, const std::string &message)
+    {
+        (void)actorIndex;
+        (void)message;
+        return false;
+    }
+
     virtual bool isMapActorHostile(size_t actorIndex) const
     {
         (void)actorIndex;
@@ -231,6 +239,29 @@ public:
     {
         (void)actorIndex;
         (void)distance;
+        return false;
+    }
+
+    // evt.DamageDestructible, evt.DestroyDestructible and evt.SetDestructibleDamage: a scene destructible by its id
+    // (devdocs/INDOOR_DESTRUCTIBLES.md; an outdoor map's by its source object index). False for no such
+    // destructible or nothing changed.
+    virtual bool damageDestructible(uint32_t id, int damage)
+    {
+        (void)id;
+        (void)damage;
+        return false;
+    }
+
+    virtual bool destroyDestructible(uint32_t id)
+    {
+        (void)id;
+        return false;
+    }
+
+    virtual bool setDestructibleDamageEnabled(uint32_t id, bool enabled)
+    {
+        (void)id;
+        (void)enabled;
         return false;
     }
 

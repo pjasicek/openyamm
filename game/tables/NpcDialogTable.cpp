@@ -762,6 +762,11 @@ void NpcDialogTable::setExtraHouses(std::unordered_map<uint32_t, std::vector<uin
     m_extraHouses = std::move(extraHouses);
 }
 
+const std::unordered_map<uint32_t, std::vector<uint32_t>> &NpcDialogTable::extraHouses() const
+{
+    return m_extraHouses;
+}
+
 std::optional<std::string> NpcDialogTable::getNewsText(uint32_t newsId) const
 {
     const std::unordered_map<uint32_t, std::string>::const_iterator newsIt = m_newsTexts.find(newsId);

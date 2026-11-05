@@ -6,7 +6,9 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <cmath>
 #include <exception>
+#include <limits>
 #include <optional>
 
 namespace OpenYAMM::Game
@@ -188,6 +190,23 @@ bool LiquidTable::loadFromYaml(const std::string &yamlText, std::string &errorMe
             return false;
         }
 
+        if (const YAML::Node opacityNode = liquidNode["opacity"]; opacityNode)
+        {
+            liquid.opacity = opacityNode.as<float>(std::numeric_limits<float>::quiet_NaN());
+        }
+
+        if (!(liquid.opacity > 0.0f && liquid.opacity <= 1.0f))
+        {
+            errorMessage = context + ": opacity must lie in (0, 1]";
+            return false;
+        }
+
+        if (liquid.opacity < 1.0f && (liquid.kind == LiquidKind::Lava || liquid.appliesToTerrain))
+        {
+            errorMessage = context + ": opacity below 1 needs a water or tar liquid of faces only";
+            return false;
+        }
+
         const YAML::Node matchNode = liquidNode["match"];
         std::vector<std::string> attributes;
         if (!matchNode || !matchNode.IsMap()
@@ -212,6 +231,13 @@ bool LiquidTable::loadFromYaml(const std::string &yamlText, std::string &errorMe
         m_liquids.push_back(std::move(liquid));
     }
     return true;
+}
+
+uint32_t liquidFaceColorAbgr(const LiquidDefinition &liquid)
+{
+    // At least 1: a zero tint would read as no liquid at all.
+    const uint32_t alpha = uint32_t(std::clamp(std::lround(liquid.opacity * 255.0f), 1L, 255L));
+    return (liquid.colorAbgr & 0x00ffffffu) | (alpha << 24);
 }
 
 LiquidTable LiquidTable::forWorld(std::string_view worldId) const

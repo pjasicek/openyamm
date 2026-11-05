@@ -89,8 +89,20 @@ void renderReservedArc(GameplayScreenRuntime &context, const GameplayResolvedHud
 void renderReservedMark(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &rect,
     float strokeWidth, float startDegrees, float sweepDegrees, float at);
 void renderPartyBasebar(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &rect);
+// Whether the frame's end ornaments carry the sockets of the potion and scroll buttons: in plain gameplay with the
+// Potion and scroll buttons setting on; other screens keep the plain ornaments.
+bool partyBasebarHasSockets(GameplayScreenRuntime &context);
 // Where the drawn party frame ends on the left, its end ornament included.
-float partyBasebarLeft(const GameplayResolvedHudLayoutElement &rect);
+float partyBasebarLeft(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &rect);
+// The round socket of the left (scrolls) or right (potions) socketed ornament, in pixels; the buttons keep this place
+// when the frame is hidden.
+struct PartyBasebarSocket
+{
+    float x = 0;
+    float y = 0;
+    float radius = 0;
+};
+PartyBasebarSocket partyBasebarSocket(const GameplayResolvedHudLayoutElement &rect, bool right);
 void renderSurface(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &rect,
     uint8_t alpha = 255);
 void renderTexture(GameplayScreenRuntime &context, const std::string &asset,

@@ -34,6 +34,7 @@
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMovementController.h"
 #include "game/indoor/IndoorPartyRuntime.h"
+#include "game/indoor/IndoorPathfindingBuilder.h"
 #include "game/indoor/IndoorWorldRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
@@ -43,6 +44,7 @@
 #include "game/mm9/Mm9BarrelRuntime.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/outdoor/OutdoorPathfindingBuilder.h"
+#include "game/pathfinding/PathPlanner.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/outdoor/OutdoorSunlight.h"
@@ -4545,6 +4547,211 @@ int HeadlessGameplayDiagnostics::runExportDecorationModels(
     }
     std::cout << "Exported " << models.groups().size() << " decoration models to " << outputPath << '\n';
     return 0;
+}
+
+int HeadlessGameplayDiagnostics::runCheckIndoorReachability(
+    const std::filesystem::path &basePath,
+    const std::string &mapFileName,
+    const std::filesystem::path &pairsPath,
+    const std::filesystem::path &outputPath
+) const
+{
+    Engine::AssetFileSystem assetFileSystem;
+
+    if (!assetFileSystem.initialize(
+            basePath,
+            m_config.assetRoot,
+            m_config.assetScaleTier,
+            m_config.assetScaleProfile,
+            m_config.activeWorldId))
+    {
+        std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
+        return 1;
+    }
+
+    GameDataLoader gameDataLoader;
+
+    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem)
+        || !gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+    {
+        std::cerr << "Headless diagnostic failed: could not load map \"" << mapFileName << "\"\n";
+        return 1;
+    }
+
+    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
+
+    if (!selectedMap || !selectedMap->indoorMapData)
+    {
+        std::cerr << "Headless diagnostic failed: \"" << mapFileName << "\" is not an indoor map\n";
+        return 1;
+    }
+
+    YAML::Node input;
+
+    try
+    {
+        input = YAML::LoadFile(pairsPath.string());
+    }
+    catch (const YAML::Exception &exception)
+    {
+        std::cerr << "Headless diagnostic failed: could not read " << pairsPath << ": " << exception.what() << "\n";
+        return 1;
+    }
+
+    const IndoorMapData &indoorMapData = *selectedMap->indoorMapData;
+    const MapDeltaData *pMapDeltaData =
+        selectedMap->indoorMapDeltaData ? &*selectedMap->indoorMapDeltaData : nullptr;
+    const IndoorPathMapBuildResult build =
+        IndoorPathfindingBuilder::buildPathMap(indoorMapData, indoorMapData.vertices, pMapDeltaData);
+
+    // A walking monster as IndoorWorldRuntime plans for one.
+    PathObject object = {};
+    object.radius = input["object"]["radius"].as<float>(32.0f);
+    object.height = input["object"]["height"].as<float>(128.0f);
+    object.stepLength = 40.0f;
+    object.stepHeight = 40.0f;
+    object.dropHeight = indoorMapData.actorDropsFollow ? IndoorActorFollowDropHeight : IndoorActorMaxDropHeight;
+    object.riserHeight = 2.0f * object.stepHeight;
+
+    const auto point = [](const YAML::Node &node) -> PathPoint
+    {
+        return {node[0].as<float>(), node[1].as<float>(), node[2].as<float>()};
+    };
+    const auto statusName = [](PathPlanStatus status) -> const char *
+    {
+        switch (status)
+        {
+            case PathPlanStatus::Success:
+                return "success";
+            case PathPlanStatus::Partial:
+                return "partial";
+            case PathPlanStatus::NoRoute:
+                return "no_route";
+            case PathPlanStatus::NodeLimitExceeded:
+                return "node_limit";
+            case PathPlanStatus::StaleRevision:
+                return "stale";
+            case PathPlanStatus::NotRequested:
+            default:
+                return "not_requested";
+        }
+    };
+
+    // A rail's centre can lie closer to a wall or a pillar than a body's radius: each end moves to the nearest spot
+    // within 64 where the body stands and walks, in clear line of the point (collision pushes a monster off the same
+    // way).
+    const auto bodyFits = [&build, &object](const PathPoint &point) -> bool
+    {
+        return build.pathMap.traceWalkSegment(point, {point.x + 2.0f, point.y, point.z}, object)
+            || build.pathMap.traceWalkSegment(point, {point.x - 2.0f, point.y, point.z}, object);
+    };
+    const auto nudge = [&build, &object, &bodyFits](const PathPoint &point) -> PathPoint
+    {
+        if (bodyFits(point))
+        {
+            return point;
+        }
+
+        for (float radius = 16.0f; radius <= 64.0f; radius += 16.0f)
+        {
+            for (int step = 0; step < 16; ++step)
+            {
+                const float angle = static_cast<float>(step) * 0.39269908f;
+                const PathPoint candidate = {
+                    point.x + std::cos(angle) * radius, point.y + std::sin(angle) * radius, point.z};
+                const float lift = object.stepHeight + 8.0f;
+
+                if (bodyFits(candidate)
+                    && !build.pathMap.traceLine(
+                        {point.x, point.y, point.z + lift}, {candidate.x, candidate.y, candidate.z + lift}).blocked)
+                {
+                    return candidate;
+                }
+            }
+        }
+
+        return point;
+    };
+
+    PathPlanner planner;
+    std::ofstream output(outputPath);
+    output << "map: " << mapFileName << "\n" << "pairs:\n";
+    size_t reached = 0;
+    size_t total = 0;
+    // Pairs may share a `group` (the retries of one link): once one of them is reached the rest are skipped.
+    const size_t nodeLimit = input["node_limit"].as<size_t>(8000);
+    std::unordered_set<std::string> reachedGroups;
+
+    for (const YAML::Node &pair : input["pairs"])
+    {
+        const std::string group = pair["group"].as<std::string>("");
+
+        if (!group.empty() && reachedGroups.contains(group))
+        {
+            continue;
+        }
+
+        PathPlanRequest request = {};
+        request.source = nudge(point(pair["from"]));
+        request.target = nudge(point(pair["to"]));
+        request.object = object;
+        request.nodeLimit = nodeLimit;
+        // As the game plans a monster's path (IndoorWorldRuntime): a partial path that ends a body's reach from the
+        // target counts, since a point by a wall can be closer to it than the body's radius.
+        request.allowPartialPath = true;
+        const PathPlanResult result = planner.plan(build.pathMap, request);
+        float gapXY = 0.0f;
+        float gapZ = 0.0f;
+        bool gapClear = false;
+
+        if (result.status == PathPlanStatus::Partial && !result.waypoints.empty())
+        {
+            const PathPoint &end = result.waypoints.back();
+            gapXY = std::hypot(end.x - request.target.x, end.y - request.target.y);
+            gapZ = std::abs(end.z - request.target.z);
+            // Nothing between the path's end and the target (not the far side of a thin wall or a closed door).
+            const float lift = object.stepHeight + 8.0f;
+            gapClear = !build.pathMap.traceLine(
+                {end.x, end.y, end.z + lift}, {request.target.x, request.target.y, request.target.z + lift}).blocked;
+        }
+
+        const bool success = result.status == PathPlanStatus::Success
+            || (result.status == PathPlanStatus::Partial && gapClear
+                && gapXY <= object.radius + 48.0f && gapZ <= 60.0f);
+        reached += success ? 1 : 0;
+        ++total;
+
+        if (success && !group.empty())
+        {
+            reachedGroups.insert(group);
+        }
+        output << "  - {id: \"" << pair["id"].as<std::string>("") << "\", status: " << statusName(result.status)
+               << ", source_valid: " << (result.debug.sourceValid ? "true" : "false")
+               << ", target_valid: " << (result.debug.targetValid ? "true" : "false")
+               << ", reached: " << (success ? "true" : "false") << ", gap: " << gapXY
+               << ", nodes: " << result.analyzedNodeCount;
+
+        if (!success)
+        {
+            // Why the straight walk fails: MM9 links neighbouring rails, so most links are straight walks.
+            static constexpr const char *RejectNames[] = {
+                "none", "invalid_input", "start_no_floor", "start_void", "sample_no_floor", "sample_void",
+                "step_height", "blocked"};
+            const PathWalkSegmentDebug walk = build.pathMap.debugTraceWalkSegment(request.source, request.target, object);
+            const size_t reason = static_cast<size_t>(walk.rejectReason);
+            const int32_t face = walk.blockedFacet < build.pathMap.facets().size()
+                ? build.pathMap.facets()[walk.blockedFacet].sourceId
+                : -1;
+            output << ", walk: " << (reason < std::size(RejectNames) ? RejectNames[reason] : "unknown")
+                   << ", walk_at: [" << walk.blockedPoint.x << ", " << walk.blockedPoint.y << ", " << walk.blockedPoint.z
+                   << "], walk_face: " << face << ", walk_step: " << walk.stepDeltaZ;
+        }
+
+        output << "}\n";
+    }
+
+    std::cout << "Reachability: " << reached << " of " << total << " pairs\n";
+    return output.good() ? 0 : 1;
 }
 
 int HeadlessGameplayDiagnostics::runDumpOutdoorNavigation(
@@ -20317,7 +20524,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     DialogueMenuId::None
                 );
 
-                if (actions.size() != 1 || actions.front().id != HouseActionId::TransportRoute)
+                if (actions.size() != 2
+                    || actions.front().id != HouseActionId::TransportSchedule
+                    || actions.back().id != HouseActionId::TransportRoute)
                 {
                     failure = "transport actions were not built through the shared world interface";
                     return false;
@@ -20325,7 +20534,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 const float initialMinutes = worldRuntime.gameMinutes();
                 const HouseActionResult result = performHouseAction(
-                    actions.front(),
+                    actions.back(),
                     houseEntry,
                     party,
                     &gameDataLoader.getClassSkillTable(),

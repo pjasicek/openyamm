@@ -524,6 +524,8 @@ public:
         float partyCollisionRadius = 0.0f;
         float partyCollisionHeight = 0.0f;
         bool canHitParty = true;
+        // Turn-based combat is on: a party shot the queue waits on vanishes once far from the party.
+        bool turnBasedActive = false;
         int nonPartyProjectileDamage = 0;
 
         std::vector<ProjectileAreaImpactActorFacts> areaActors;
@@ -723,6 +725,9 @@ public:
     void advanceProjectileImpactLifetimes(float deltaSeconds);
     void updateProjectileImpactPresentation(float deltaSeconds);
     bool advanceProjectileLifetime(ProjectileState &projectile, float deltaSeconds) const;
+    // Whether a party shot still holds up the turn-based queue: while it flies, for at most two seconds, so a miss into
+    // the sky or a stray Spark does not keep the turn for its whole lifetime. It flies on and can still hit.
+    static bool holdsTurnBasedQueue(const ProjectileState &projectile);
     ProjectileMotionSegment advanceProjectileMotion(
         ProjectileState &projectile,
         float deltaSeconds,

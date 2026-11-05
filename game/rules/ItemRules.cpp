@@ -200,6 +200,11 @@ bool ItemRules::glowsItemRarity() const
     return false;
 }
 
+bool ItemRules::inventorySearch() const
+{
+    return false;
+}
+
 std::vector<ItemInspectLine> ItemRules::inspectLines(
     const InventoryItem &,
     const ItemDefinition &,

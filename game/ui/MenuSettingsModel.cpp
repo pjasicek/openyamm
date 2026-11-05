@@ -61,9 +61,13 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.partyFrame ? "true" : "false";
     }
-    if (id == "potion_buttons")
+    if (id == "quick_item_rings")
     {
-        return settings.potionButtons ? "true" : "false";
+        return settings.quickItemRings ? "true" : "false";
+    }
+    if (id == "item_buttons")
+    {
+        return settings.basebarItemButtons ? "true" : "false";
     }
     if (id == "combat_text")
     {
@@ -72,6 +76,14 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     if (id == "combat_log")
     {
         return settings.combatLog ? "true" : "false";
+    }
+    if (id == "turn_based_monster_speed")
+    {
+        return turnBasedSpeedValue(settings.turnBasedMonsterSpeed);
+    }
+    if (id == "turn_based_party_speed")
+    {
+        return turnBasedSpeedValue(settings.turnBasedPartySpeed);
     }
     if (id == "enemy_health_bars")
     {
@@ -265,6 +277,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.walksound ? "true" : "false";
     }
+    if (id == "repeated_voice_lines")
+    {
+        return repeatedVoiceLineIntervalValue(settings.repeatedVoiceLineIntervalMs);
+    }
     if (id == "mouse_sensitivity")
     {
         return std::to_string(settings.mouseSensitivity);
@@ -272,6 +288,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     if (id == "invert_mouse_y")
     {
         return settings.invertMouseY ? "true" : "false";
+    }
+    if (id == "smart_click")
+    {
+        return settings.smartClick ? "true" : "false";
     }
     if (id == "always_run")
     {
@@ -367,13 +387,13 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
         settings.partyFrame = value == "true";
         return true;
     }
-    if (id == "potion_buttons")
+    if (id == "quick_item_rings" || id == "item_buttons")
     {
         if (value != "true" && value != "false")
         {
             return false;
         }
-        settings.potionButtons = value == "true";
+        (id == "quick_item_rings" ? settings.quickItemRings : settings.basebarItemButtons) = value == "true";
         return true;
     }
     if (id == "combat_text")
@@ -393,6 +413,14 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
         }
         settings.combatLog = value == "true";
         return true;
+    }
+    if (id == "turn_based_monster_speed")
+    {
+        return parseTurnBasedSpeedValue(value, settings.turnBasedMonsterSpeed);
+    }
+    if (id == "turn_based_party_speed")
+    {
+        return parseTurnBasedSpeedValue(value, settings.turnBasedPartySpeed);
     }
     if (id == "enemy_health_bars")
     {
@@ -792,6 +820,10 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
         settings.walksound = value == "true";
         return true;
     }
+    if (id == "repeated_voice_lines")
+    {
+        return parseRepeatedVoiceLineIntervalValue(value, settings.repeatedVoiceLineIntervalMs);
+    }
     if (id == "mouse_sensitivity")
     {
         int number = 0;
@@ -810,6 +842,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.invertMouseY = value == "true";
+        return true;
+    }
+    if (id == "smart_click")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.smartClick = value == "true";
         return true;
     }
     if (id == "always_run")

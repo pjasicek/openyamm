@@ -4,6 +4,7 @@
 #include "game/ui/GameplayBuffHud.h"
 #include "game/ui/GameplayClock.h"
 #include "game/ui/GameplayMapProgressBar.h"
+#include "game/ui/GameplayMinimapTransform.h"
 #include "game/ui/GameplayQuickItems.h"
 #include "game/ui/GameplayUiRenderer.h"
 
@@ -32,6 +33,62 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+void renderBreathMeter(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &basebar, float breath,
+    float uiScale)
+{
+    GameplayUiRuntime &runtime = context.gameplayUiRuntime();
+    const auto solid = [&runtime](const char *pName, uint32_t abgr)
+    {
+        return runtime.ensureSolidHudTextureLoaded(pName, abgr);
+    };
+    const auto quad = [&context](const std::optional<GameplayHudTextureHandle> &texture, float x, float y, float w,
+        float h)
+    {
+        if (texture && w > 0.0f && h > 0.0f)
+        {
+            context.submitHudTexturedQuad(*texture, std::round(x), std::round(y), std::round(w), std::round(h));
+        }
+    };
+    // Sizes in the HUD's 480-high units.
+    const float plateWidth = std::round(124.0f * uiScale);
+    const float plateHeight = std::round(17.0f * uiScale);
+    const float plateX = std::round(basebar.x + (basebar.width - plateWidth) * 0.5f);
+    // Above the one-line status plate that stands on the basebar ("You are drowning!"), so the two never cover each
+    // other.
+    const float plateY = std::round(basebar.y - plateHeight - 26.0f * uiScale);
+    // The carved frame's corners at about five units.
+    GameplayUiSkin::renderPanel(context, {plateX, plateY, plateWidth, plateHeight, uiScale * 0.17f}, false, 1.0f, 240);
+
+    const float inset = 5.0f * uiScale;
+    float trackX = plateX + inset;
+    constexpr char LabelFont[] = "Lucida";
+    const float labelHeight = 6.5f * uiScale;
+    const float labelScale = labelHeight / float(std::max(1, context.hudFontHeight(LabelFont)));
+    const std::string label = "Breath";
+    context.renderHudTextLine(LabelFont, 0xff93c7e4u, label, std::round(trackX),
+        std::round(plateY + (plateHeight - labelHeight) * 0.5f - 0.5f * uiScale), labelScale);
+    trackX += context.measureHudTextWidth(LabelFont, label) * labelScale + 4.0f * uiScale;
+
+    const float trackWidth = plateX + plateWidth - inset - trackX;
+    const float trackHeight = std::max(3.0f, std::round(4.0f * uiScale));
+    const float trackY = std::round(plateY + (plateHeight - trackHeight) * 0.5f);
+    const float rim = std::max(1.0f, std::round(0.5f * uiScale));
+    quad(solid("__breath_rim__", 0xff5c91a8u), trackX - rim, trackY - rim, trackWidth + 2 * rim, trackHeight + 2 * rim);
+    quad(solid("__breath_track__", 0xff121a19u), trackX, trackY, trackWidth, trackHeight);
+    const bool out = breath <= 0.0f;
+    const bool low = breath <= 1.0f / 3.0f;
+    const float filled = std::round(trackWidth * breath);
+    quad(low ? solid("__breath_low__", 0xff6cc3e6u) : solid("__breath_fill__", 0xffe8b048u), trackX, trackY, filled,
+        trackHeight);
+    // A lighter line along the fill's top, the HP meter's sheen.
+    quad(low ? solid("__breath_low_sheen__", 0xffa8dcf2u) : solid("__breath_sheen__", 0xfff5d8a0u), trackX, trackY,
+        filled, std::max(1.0f, std::round(trackHeight * 0.3f)));
+
+    if (out)
+    {
+        quad(solid("__breath_out__", 0xc07582eeu), trackX, trackY, trackWidth, trackHeight);
+    }
+}
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float OeMeleeAlertDistance = 307.2f;
 constexpr float OeYellowAlertDistance = 5120.0f;
@@ -443,6 +500,20 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             GameplayUiSkin::renderPartyBasebar(context, *basebar);
         }
     }
+    // The breath meter (scene water volumes; MM9's hud\breathmeter) while the party's eye is under water, draining
+    // over its 15 seconds of breath: a small Carved Obsidian plate centred above the party basebar, "Breath" and a
+    // brass-rimmed track whose fill turns from water blue to amber at a third and coral when it is out.
+    if (!isLimitedOverlayHud && hudScreenState == GameplayHudScreenState::Gameplay && context.worldRuntime() != nullptr)
+    {
+        const std::optional<float> breath = context.worldRuntime()->partyBreathFraction();
+        const std::optional<GameplayResolvedHudLayoutElement> basebar = breath
+            ? context.resolveHudLayoutElement("OutdoorGameplayBasebar", width, height, 0, 0)
+            : std::nullopt;
+        if (basebar)
+        {
+            renderBreathMeter(context, *basebar, std::clamp(*breath, 0.0f, 1.0f), uiScale);
+        }
+    }
     size_t selected = party.activeMemberIndex();
     const GameplayUiController::CharacterScreenState &characterScreen = context.characterScreenReadOnly();
     if (characterScreen.open && characterScreen.source == GameplayUiController::CharacterScreenSource::Party)
@@ -465,6 +536,21 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         const std::optional<GameplayResolvedHudLayoutElement> face = context.resolvePartyPortraitRect(width, height, i);
         const std::optional<GameplayHudTextureHandle> portrait =
             context.gameplayUiRuntime().ensureHudTextureLoaded(context.resolvePortraitTextureName(member));
+        // Without the frame, each portrait keeps a dark obsidian backing the size of its rim, so portraits with a
+        // transparent background (the God Lich's) and the arcs do not stand on the scene (user, 2026-11-02).
+        if (face && !isLimitedOverlayHud && hudScreenState == GameplayHudScreenState::Gameplay
+            && !context.settingsSnapshot().partyFrame)
+        {
+            const std::optional<GameplayResolvedHudLayoutElement> backing =
+                context.resolveHudLayoutElement(id + "Rim", width, height, 0, 0);
+            const std::optional<GameplayHudTextureHandle> fill =
+                context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__portrait_backing__", 0xe8141a19u);
+            if (backing && fill)
+            {
+                context.gameplayUiRuntime().submitHudTexturedEllipse(fill->textureHandle, backing->x, backing->y,
+                    backing->width, backing->height);
+            }
+        }
         if (portrait && face)
         {
             bgfx::TextureHandle texture = portrait->textureHandle;
@@ -1118,7 +1204,8 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 minimapScissorHeight);
         }
 
-        const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+        const int arrowIndex = outdoorMinimapArrowIndex(
+            gameplayMinimapDisplayYaw(minimapState, context.gameplayCameraYawRadians()));
         const std::optional<GameplayHudTextureHandle> arrowTexture =
             context.gameplayUiRuntime().ensureHudTextureLoaded("MAPDIR" + std::to_string(arrowIndex + 1));
 

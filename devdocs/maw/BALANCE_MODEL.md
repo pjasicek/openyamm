@@ -1,5 +1,7 @@
 # MAW balance model and monster resolution
 
+> Formulas updated to MAW `8fbb48d1` (2026-11-05) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) lists a change.
+
 Status: investigation only (2026-10-22). Built since (2026-10-24): the MAW ruleset in `game/rules/maw/` and
 `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in
 [DEVIATIONS.md](DEVIATIONS.md). Source: `/home/pjasicek/github/Maw-Mod-MMMerge` at `ef23ee17`. Paths below are relative
@@ -204,7 +206,7 @@ Constants: `WEAPON_BASE_DICE_DAMAGE = 8`, `WEAPON_TIER_FLAT_DAMAGE = 16`, `WEAPO
 
 ### 3.4 Gear: how much enchant power the character wears (E:160-226)
 
-- `STAT_SHARE = 0.25`, `TOTAL_SLOTS = 13.75` (2h weapon 2, cloak 1, helm 1.25, armour 1.5, gloves 1.25, boots 1.25,
+- `STAT_SHARE = 0.2`, `TOTAL_SLOTS = 13.75` (2h weapon 2, cloak 1, helm 1.25, armour 1.5, gloves 1.25, boots 1.25,
   rings 0.75 x 6, amulet 1, bow 1.25, belt 1, minus 2.25 for ring resistance enchants), `ENCHANTS_PER_ITEM = 3`.
 - `getTotalEnchantPower(L) = 3 x 13.75 x GetMaxEnchantStrength(L)` (E:168-170).
 - `GetMaxEnchantStrength(L) = encStrUp(GetLootTier(L)) x GetDifficultyExtraPower() x 1.1` (`zzMaw-Items.lua:492-496`;
@@ -276,14 +278,14 @@ stat (Might, Endurance, Speed, Luck, Accuracy, Intellect). 21.5 at level 1, 88.9
   ring resistance roll (`Formulas.resistanceEnchantPower`, `ringReductionDivisor = 200`), `LEGENDARY_16_RESISTANCE`.
 - `estimateChanceToGetHit(L) = 1 / (1 + stat / (100 + stat) x 0.5)` (E:385-387, `Formulas.chanceToBeHit` with the
   monster at the same level, `speedDodgeShare = 0.5`).
-- `estimatePhysicalDamageTaken(L) = max(1 / (AC / (200 + 6L) + 1), 0.1)` (E:389-392).
-- `estimateMagicDamageTaken(L) = max(1 / (res / (100 + 12L) + 1) x max(1 - buffMult(Shield 17), 0.7)
+- `estimatePhysicalDamageTaken(L) = max(1 / (AC / (200 + L) + 1), 0.1)` (E:389-392).
+- `estimateMagicDamageTaken(L) = max(1 / (res / (100 + L) + 1) x max(1 - buffMult(Shield 17), 0.7)
   x 1 / (enchantRes / 100 + 1), 0.1)` (E:394-403).
 - `estimateLegendaryDamageTaken(L) = (1 - 0.10 r) x (1 - (1 - 0.97^5) r)`, r = legendaryRamp (E:405-412;
   `LEGENDARY_18_REDUCTION = 0.10`, `LEGENDARY_22_PER_MONSTER = 0.03`).
 - Cover (E:414-437): `COVER_BASE = 0.10`, `COVER_PER_SKILL = 0.01`, `COVER_GATE = {0, 1}`;
   `gate = gradualRow(COVER_GATE, s, m)`; `p = min(0.1 + 0.01 s, 0.1 + 0.01 x skillCap[50] = 0.4) x gate`;
-  `ratio = 1 + 6 L / (L + 240)` (`TANK_RATIO_CAP = 7`, `TANK_RATIO_MIDPOINT = 240`), or `1 / 0.5 = 2` solo;
+  `ratio = TANK_VITALITY_RATIO = 2`, or `1 / 0.5 = 2` solo;
   `coverMultiplier = 1 / ((1 - p) + p / ratio)`. **At GM the gate reads `tbl[3]` (nil) and drops to 0**, so Cover
   only counts while the estimated skill is in the Expert-Master band (levels 10-41 normally, 30-140 in Road to
   Insanity, 42-240 in Beyond Madness).
@@ -350,8 +352,8 @@ r is `legendaryRamp(L)`. Legendary 29 (resistance shred) and 12 (hybrid builds) 
 - `estimateSpellDelay(L, base) = base / (1 + floor(stat / 20) / 100) x 1.015^s / (1 + buffMult(Haste))` (E:614-620,
   `SPELL_HASTE_DIVISOR = 20`).
 - `getPlayerEstimatedSpellPower(L)` (E:622-653): `empower = 1 + buffMult(Haste 5)` (see 5.3);
-  `dice x= empower x spellDiceScale(s)`, `add x= empower x spellAddScale(s)` (`(1 + 0.02 s) 1.025^s` and
-  `(1 + 0.01 s^2) 1.025^s`); `power = add + 1.5 s (1 + dice) / 2`; `x (1 + stat / 1000)`; crit with
+  `dice x= empower x spellDiceScale(s)`, `add x= empower x spellAddScale(s)` (`(1 + 0.02 s) 1.02^s` and
+  `(1 + 0.01 s^2) 1.02^s`); `power = add + 1.5 s (1 + dice) / 2`; `x (1 + stat / 1000)`; crit with
   `Formulas.critDamageMult(stat, L, madness, isSpell)` = `stat / (4 dim) + 1.5`; plus weapon enchant damage
   `encBase x (0.5 min(L/100, 1) + GGMV(fireAuraDamage)) x 1.015^s`; divided by `delay / 100`; `x max(cc, 1)`.
   Not used for monsters; in the CSV for completeness.
@@ -435,7 +437,7 @@ Two `--[[ ]]` test loops: a healing readout (HPS as a share of max HP for levels
 - `fireAuraDamage`: `{0.1,0.15,0.2,0.25}` (`zzMaw-Items.lua:4283`)
 - `MawCore.ItemLevel`: `PerPower 5`, `POWER_CAP 100`, `POWER_HARD_CAP 255`, `Tiers 6`, `ExpectedTier 3.5`
   (`Modules/MawCore/ItemLevel.lua:5-24`)
-- `Formulas`: `damageFloor 0.1`, `soloCoverDamageTaken 0.5`, armour `200 + 6L`, resistance `100 + 12L`,
+- `Formulas`: `damageFloor 0.1`, `soloCoverDamageTaken 0.5`, armour `200 + L`, resistance `100 + L`,
   `speedDodgeShare 0.5`, `physicalVitalityShare 0.5`, `hitAtPar 0.75`, `hitMax 1`, Bless hit 0.05-0.10, spell scales,
   crit (`luck/min(500+5L,3000) + 0.05`, `stat/min(250+2.5L, 2000/3000) + 1.5`, spell `/4`), `enlightenmentManaPerSkill
   {0.5,1,1.5,2}`, `ringReductionDivisor 200`, `chargesArmorAC = ref x c/40` (`Modules/MawCore/Formulas.lua`)

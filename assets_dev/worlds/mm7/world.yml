@@ -3,3 +3,26 @@ name: MM7
 sourceGame: mm7
 start:
   map: 7out01.odm
+# Monsters wider than 60 meet the level indoors, and plan their routes, at radius 60: the original engine let a body
+# through any doorway its centre fitted, and its dungeons have 128-wide passages (devdocs/ACTOR_PURSUIT_AND_REACH.md).
+actorMovement:
+  levelRadiusLimit: 60
+# The certificate the party receives the first time it finishes the story (WinGameScreen, CompletionCertificates.h):
+# the original game's certificate background with the OpenYAMM mark; layout in its 640 x 480 units.
+completion:
+  qbit: 783 # Finished MM7 Story, on either path
+  continent: Antagarich
+  art: 7winbg
+  headline: Congratulations!
+  text: >-
+    With the Oscillation Overthruster recovered, the Gate to the Ancients stands open. The war over the ancients'
+    legacy is over, Harmondale stands proud among the kingdoms, and Antagarich looks to a brighter age.
+  variants:
+  - qbit: 1606 # Joined the Dark Guild
+    text: >-
+      With the Oscillation Overthruster recovered, the Heavenly Forge burns again in the depths of the Pit, and its
+      ancient weapons answer to the Dark and to the lords of Harmondale who served it. Antagarich will not forget
+      the new power rising in its midst.
+  layout:
+    text: [100, 78, 540, 408]
+    mark: [320, 419, 20]

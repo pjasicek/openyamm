@@ -4,8 +4,10 @@
 #include "game/FaceEnums.h"
 #include "game/events/EvtEnums.h"
 #include "game/indoor/IndoorPortalGraph.h"
+#include "game/indoor/IndoorSectorFaceGrid.h"
 
 #include <algorithm>
+#include <span>
 #include <array>
 #include <cmath>
 #include <limits>
@@ -18,6 +20,7 @@ namespace
 {
 constexpr float GeometryEpsilon = 0.0001f;
 constexpr float FloorSlack = 8.0f;
+static_assert(FloorSlack <= IndoorSectorFaceGrid::PointSlack, "the sector face grid must cover the floor slack");
 constexpr float FloorContainmentSlack = 3.0f;
 constexpr float WalkableSlopeNormalZ = 0.68664550781f;
 constexpr float InitialActorPlacementWallMinHeight = 50.0f;
@@ -890,6 +893,33 @@ const IndoorFaceGeometryData *IndoorFaceGeometryCache::geometryForFace(
     return m_entryStates[faceIndex] == 2 ? &m_entries[faceIndex] : nullptr;
 }
 
+void IndoorFaceGeometryCache::beginFaceVisit()
+{
+    ++m_faceVisitStamp;
+
+    if (m_faceVisitStamp == 0)
+    {
+        std::fill(m_faceVisitStamps.begin(), m_faceVisitStamps.end(), 0u);
+        m_faceVisitStamp = 1;
+    }
+}
+
+bool IndoorFaceGeometryCache::markFaceVisited(size_t faceIndex)
+{
+    if (faceIndex >= m_faceVisitStamps.size())
+    {
+        m_faceVisitStamps.resize(std::max(faceIndex + 1, m_entries.size()), 0u);
+    }
+
+    if (m_faceVisitStamps[faceIndex] == m_faceVisitStamp)
+    {
+        return false;
+    }
+
+    m_faceVisitStamps[faceIndex] = m_faceVisitStamp;
+    return true;
+}
+
 float fixedIndoorDoorDirectionComponentToFloat(int value)
 {
     return static_cast<float>(value) / 65536.0f;
@@ -1756,8 +1786,13 @@ IndoorFloorSample sampleIndoorFloor(
 {
     IndoorFloorSample bestSample = {};
     float bestScore = -std::numeric_limits<float>::infinity();
+    // The cache's sector face grid narrows a sector's floor and portal lists to the faces whose bounds may hold the
+    // point, in list order, so the same floor wins: a region's open air in one sector (an MM9 outdoor map, 25 000
+    // floors) made every floor query test them all (devdocs/mm9_rework/BLV_GEOMETRY_COSTS.md, E2).
+    const IndoorSectorFaceGrid *pFaceGrid = pGeometryCache != nullptr ? pGeometryCache->sectorFaceGrid() : nullptr;
+    const bool useFaceGrid = pFaceGrid != nullptr && !pFaceGrid->empty() && std::isfinite(x) && std::isfinite(y);
 
-    auto evaluateFloorFaces = [&](const std::vector<uint16_t> &faceIds)
+    auto evaluateFloorFaces = [&](std::span<const uint16_t> faceIds)
     {
         for (uint16_t faceId : faceIds)
         {
@@ -1797,21 +1832,29 @@ IndoorFloorSample sampleIndoorFloor(
         }
 
         const IndoorSector &sector = indoorMapData.sectors[sectorId];
-        evaluateFloorFaces(sector.floorFaceIds);
+        evaluateFloorFaces(useFaceGrid ? pFaceGrid->floorFacesAt(sectorId, x, y)
+                                       : std::span<const uint16_t>(sector.floorFaceIds));
 
         if ((sector.flags & 0x8) != 0)
         {
-            evaluateFloorFaces(sector.portalFaceIds);
+            evaluateFloorFaces(useFaceGrid ? pFaceGrid->portalFacesAt(sectorId, x, y)
+                                           : std::span<const uint16_t>(sector.portalFaceIds));
         }
 
         return bestSample.hasFloor;
     };
 
+    // The preferred (current) sector's floor wins when it is under the feet. When it lies well below them, the point
+    // may already stand in the next sector, on that sector's floor over this one's (an upper room through a doorway
+    // above a lower room of the current sector: Thjorgard City's houses, 2026-11-02). Taking the far floor left the
+    // party unsupported in the old sector, never on the new floor, and its recovery walked it back to the door.
+    constexpr float PreferredFloorBelowFeet = 16.0f;
+
     if (preferredSectorId
         && *preferredSectorId >= 0
         && static_cast<size_t>(*preferredSectorId) < indoorMapData.sectors.size())
     {
-        if (evaluateSectorFloorFaces(*preferredSectorId))
+        if (evaluateSectorFloorFaces(*preferredSectorId) && bestSample.height >= z - PreferredFloorBelowFeet)
         {
             return bestSample;
         }
@@ -1823,10 +1866,17 @@ IndoorFloorSample sampleIndoorFloor(
     if (resolvedSectorId
         && (!preferredSectorId || *resolvedSectorId != *preferredSectorId))
     {
-        if (evaluateSectorFloorFaces(*resolvedSectorId))
+        const IndoorFloorSample preferredSample = bestSample;
+        bestSample = {};
+        bestScore = -std::numeric_limits<float>::infinity();
+
+        if (evaluateSectorFloorFaces(*resolvedSectorId)
+            && (!preferredSample.hasFloor || bestSample.height > preferredSample.height))
         {
             return bestSample;
         }
+
+        return preferredSample;
     }
 
     return bestSample;
@@ -2059,7 +2109,11 @@ IndoorCeilingSample sampleIndoorCeiling(
     IndoorCeilingSample bestSample = {};
     float bestHeight = std::numeric_limits<float>::max();
 
-    auto evaluateCeilingFaces = [&](const std::vector<uint16_t> &faceIds)
+    // With a sector face grid, only the ceilings whose bounds may hold (x, y), in the sector list's order.
+    const IndoorSectorFaceGrid *pFaceGrid = pGeometryCache != nullptr ? pGeometryCache->sectorFaceGrid() : nullptr;
+    const bool useFaceGrid = pFaceGrid != nullptr && !pFaceGrid->empty() && std::isfinite(x) && std::isfinite(y);
+
+    auto evaluateCeilingFaces = [&](std::span<const uint16_t> faceIds)
     {
         for (uint16_t faceId : faceIds)
         {
@@ -2124,7 +2178,8 @@ IndoorCeilingSample sampleIndoorCeiling(
             return false;
         }
 
-        evaluateCeilingFaces(indoorMapData.sectors[sectorId].ceilingFaceIds);
+        evaluateCeilingFaces(useFaceGrid ? pFaceGrid->ceilingFacesAt(sectorId, x, y)
+                                         : std::span<const uint16_t>(indoorMapData.sectors[sectorId].ceilingFaceIds));
         return bestSample.hasCeiling;
     };
 
@@ -2172,22 +2227,21 @@ std::optional<int16_t> findIndoorSectorForPoint(
         float height = 0.0f;
     };
 
+    // Every floor (and floor portal) under or over the point, of every sector whose bounds hold it. MM8 kept the first
+    // five only; a tall open sector (a city's street air over a palace staircase) can take those five and hide the
+    // floor the point stands on, so the list is not capped (MM6-MM8 BLVs give the same sectors either way).
     std::vector<SectorFaceCandidate> candidates;
-    candidates.reserve(5);
+    candidates.reserve(8);
+    // The cache's sector face grid narrows each list to the faces whose bounds may hold the point, in list order, so
+    // the lookup gives the same sector. A non-finite point has no place in the grid.
+    const IndoorSectorFaceGrid *pFaceGrid = pGeometryCache != nullptr ? pGeometryCache->sectorFaceGrid() : nullptr;
+    const bool useFaceGrid =
+        pFaceGrid != nullptr && !pFaceGrid->empty() && std::isfinite(point.x) && std::isfinite(point.y);
     std::optional<int16_t> backupBoundingSectorId;
     std::optional<int16_t> singleSectorId;
     bool singleSector = true;
     const size_t startingSectorIndex = indoorMapData.sectors.size() > 1 ? 1 : 0;
 
-    auto appendSectorCandidate = [&](int16_t sectorId, float height)
-    {
-        if (candidates.size() >= 5)
-        {
-            return;
-        }
-
-        candidates.push_back({sectorId, height});
-    };
 
     for (size_t sectorIndex = startingSectorIndex; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
     {
@@ -2217,7 +2271,7 @@ std::optional<int16_t> findIndoorSectorForPoint(
             singleSector = false;
         }
 
-        const auto evaluateSectorFaces = [&](const std::vector<uint16_t> &faceIds)
+        const auto evaluateSectorFaces = [&](std::span<const uint16_t> faceIds)
         {
             for (uint16_t faceId : faceIds)
             {
@@ -2245,25 +2299,19 @@ std::optional<int16_t> findIndoorSectorForPoint(
                     continue;
                 }
 
-                appendSectorCandidate(static_cast<int16_t>(sectorIndex), calculateIndoorFaceHeight(*pGeometry, point.x, point.y));
-
-                if (candidates.size() >= 5)
-                {
-                    return;
-                }
+                candidates.push_back(
+                    {static_cast<int16_t>(sectorIndex), calculateIndoorFaceHeight(*pGeometry, point.x, point.y)});
             }
         };
 
-        evaluateSectorFaces(sector.floorFaceIds);
+        const int16_t sectorId = static_cast<int16_t>(sectorIndex);
+        evaluateSectorFaces(
+            useFaceGrid ? pFaceGrid->floorFacesAt(sectorId, point.x, point.y) : std::span(sector.floorFaceIds));
 
-        if ((sector.flags & 0x8) != 0 && candidates.size() < 5)
+        if ((sector.flags & 0x8) != 0)
         {
-            evaluateSectorFaces(sector.portalFaceIds);
-        }
-
-        if (candidates.size() >= 5)
-        {
-            break;
+            evaluateSectorFaces(
+                useFaceGrid ? pFaceGrid->portalFacesAt(sectorId, point.x, point.y) : std::span(sector.portalFaceIds));
         }
     }
 

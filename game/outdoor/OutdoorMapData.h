@@ -6,7 +6,7 @@
 #include "game/outdoor/OutdoorNavigationData.h"
 #include "game/outdoor/OutdoorRenderData.h"
 #include "game/outdoor/OutdoorLightingData.h"
-#include "game/outdoor/OutdoorMechanismAudio.h"
+#include "game/events/MechanismAudioProfile.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -177,7 +177,7 @@ struct OutdoorBModelMechanism
     bool locked = false;
     bool openAway = false;
     bool moveParty = false;
-    OutdoorMechanismAudioProfile audio = {};
+    MechanismAudioProfile audio = {};
 };
 
 struct OutdoorDestructible

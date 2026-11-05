@@ -273,11 +273,11 @@ TEST_CASE("EffectDefinitionLoader composes authored showcase with MM9 for all le
         const auto definitions = loader.load("engine/effects/library.yml", error);
         INFO(world, ": ", error);
         REQUIRE(definitions.has_value());
-        // Fourteen authored recipes (three showcase, three creature hand/staff emitters, the behaviour ward sparks,
-        // five ground item sparkles, two beams), the 122 generated projectile flight, settled, impact and aura
+        // Eighteen authored recipes (three showcase, three creature hand/staff emitters, the behaviour ward sparks,
+        // five ground item sparkles, two beams, four destructibles breaking), the 122 generated projectile flight, settled, impact and aura
         // effects, the 63 melee effects (nine blows, three misses, 18 element accents, eleven material contacts in
         // three strengths), the MM8 wisp stars and the MM9 library.
-        REQUIRE_EQ(definitions->size(), 237);
+        REQUIRE_EQ(definitions->size(), 241);
         Game::EffectLibrary library;
         REQUIRE(library.replace(*definitions, error));
         REQUIRE(library.find("mm9:spell_reaver") != nullptr);
@@ -771,6 +771,17 @@ TEST_CASE("Item model bindings parse icons and name installed models")
     CHECK_FALSE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
         "  - {icon: a, model: a.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n"
         "  - {icon: A, model: b.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n", "test", bindings, error));
+    CHECK(error.find("bound twice") != std::string::npos);
+    // A world's own bindings (worlds/<id>/world_items/items.yml) add to the engine's; an icon bound in both fails.
+    bindings.clear();
+    REQUIRE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: a, model: a.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n", "engine", bindings, error));
+    REQUIRE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: mm9_item_10002, model: worlds/mm9/world_items/models/b.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n",
+        "world", bindings, error));
+    CHECK(bindings.size() == 2);
+    CHECK_FALSE(Game::parseItemModelBindings("schema: openyamm.itemModels.v1\nitems:\n"
+        "  - {icon: A, model: c.glb, length: 1, bounds: [0, 0, 0, 1, 1, 1]}\n", "world", bindings, error));
     CHECK(error.find("bound twice") != std::string::npos);
 
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;

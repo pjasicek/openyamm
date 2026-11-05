@@ -630,6 +630,7 @@ bool ActorPathRuntime::queuePlan(
     planRequest.sourceSnapDistance = request.sourceSnapDistance;
     planRequest.allowDirect = request.allowDirect;
     planRequest.allowPartialPath = request.allowPartialPath;
+    result.requested = true;
 
     if (m_workers.empty())
     {

@@ -11,6 +11,7 @@ float v_sunlight    : TEXCOORD6 = 1.0;
 float v_sector      : TEXCOORD7 = -1.0;
 vec3 v_gradientU    : TANGENT   = vec3(1.0, 0.0, 0.0);
 vec3 v_gradientV    : BINORMAL  = vec3(0.0, 1.0, 0.0);
+vec3 v_faceInfo     : TEXCOORD8 = vec3(-1.0, -1.0, 0.0);
 
 vec4 i_data0 : TEXCOORD7;
 vec4 i_data1 : TEXCOORD6;
@@ -28,6 +29,7 @@ vec4 a_texcoord1    : TEXCOORD1;
 float a_texcoord2   : TEXCOORD2;
 vec4 a_texcoord3    : TEXCOORD3;
 vec2 a_texcoord4    : TEXCOORD4;
+vec3 a_texcoord6    : TEXCOORD6;
 
 uvec4 a_indices : BLENDINDICES;
 vec4 a_weight : BLENDWEIGHT;

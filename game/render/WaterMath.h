@@ -13,6 +13,10 @@ namespace OpenYAMM::Game
 // Every bgfx view id the game uses outside 0 (sky or indoor world), 1 (outdoor world) and 2 (HUD) is declared here,
 // so a new view cannot silently share an id: the check below fails the build on a duplicate. A shared id merges
 // two passes (the pause menu drawn into the bloom target, 2026-10-16).
+// The indoor portal view's per-pass GPU timing (`portals gpu`, IndoorDebugPass): decorations, actors, open sky and
+// translucent, each in its own view right after the world view 0; unused (no draws) otherwise.
+constexpr uint16_t FirstIndoorDebugPassView = 220;
+constexpr size_t IndoorDebugPassViews = 4;
 // Bloom (lighting plan, phase 7): emitters drawn again into a glow target, then reduced and blurred.
 constexpr uint16_t WorldGlowView = 227;
 constexpr uint16_t BloomDownsampleView = 228;
@@ -57,6 +61,10 @@ constexpr bool uniqueGameViewIds()
         views[count++] = view;
     }
     for (uint16_t view = FirstWaterReflectionView; view < FirstWaterReflectionView + MaxWaterReflections * 2; ++view)
+    {
+        views[count++] = view;
+    }
+    for (uint16_t view = FirstIndoorDebugPassView; view < FirstIndoorDebugPassView + IndoorDebugPassViews; ++view)
     {
         views[count++] = view;
     }
@@ -230,6 +238,10 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
     order[index++] = SkyImageView;
     order[index++] = ActorPortraitView;
     order[index++] = 0;
+    for (uint16_t view = FirstIndoorDebugPassView; view < FirstIndoorDebugPassView + IndoorDebugPassViews; ++view)
+    {
+        order[index++] = view;
+    }
     order[index++] = 1;
     if (ambientOcclusion)
     {
@@ -261,6 +273,7 @@ constexpr std::array<uint16_t, WorldGradingView + 1> worldRenderViewOrder(bool g
             && (view < FirstWaterReflectionView || view >= FirstWaterReflectionView + MaxWaterReflections * 2)
             && view != SkyImageView
             && view != ActorPortraitView
+            && (view < FirstIndoorDebugPassView || view >= FirstIndoorDebugPassView + IndoorDebugPassViews)
             && (!grading || view != WorldGradingView)
             && (!ambientOcclusion || view < AmbientOcclusionDepthView || view > WorldTransparentView)
             && (!bloom || view < WorldGlowView || view > BloomBlurVerticalView)

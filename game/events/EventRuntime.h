@@ -5,7 +5,7 @@
 #include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/NpcFollowerTypes.h"
 #include "game/maps/MapDeltaData.h"
-#include "game/outdoor/OutdoorMechanismAudio.h"
+#include "game/events/MechanismAudioProfile.h"
 #include "game/party/Party.h"
 #include "game/tables/PortraitFxEventTable.h"
 
@@ -46,6 +46,7 @@ enum class DialogueMenuId : uint32_t
     ShopEquipment,
     TavernArcomage,
     HouseServiceRoot,
+    TeacherLedger,
 };
 
 enum class DialogueOfferKind : uint32_t
@@ -120,7 +121,7 @@ struct EventRuntimeState
         bool closed = true;
         bool openAway = false;
         bool moveParty = false;
-        OutdoorMechanismAudioProfile audio = {};
+        MechanismAudioProfile audio = {};
     };
 
     struct PendingMapMove
@@ -170,11 +171,6 @@ struct EventRuntimeState
     {
         std::string movieName;
         bool restoreAfterPlayback = false;
-    };
-
-    struct PendingWinGame
-    {
-        uint32_t houseId = 0;
     };
 
     struct PendingInputPrompt
@@ -520,13 +516,8 @@ struct EventRuntimeState
     // Runtime only, not saved: a map that dims or lights a room sets it again from its own map variables on load.
     std::unordered_map<uint16_t, int16_t> sectorAmbientLevels;
     std::unordered_map<uint32_t, DecorationAim> decorationAims;
-    // evt.StartTimer / evt.StopTimer, applied by the scene to its timers before it next runs them.
-    struct TimerControl
-    {
-        uint16_t eventId = 0;
-        bool start = false;
-        double delayGameMinutes = -1.0;
-    };
+    // evt.StartTimer / evt.StopTimer, applied by updateScriptedEventTimers (a timer's own handler's at once).
+    using TimerControl = ScriptedEventTimerControl;
     std::vector<TimerControl> timerControls;
     // Bumped by every light switch and sector ambient change (the indoor lighting re-bakes).
     uint64_t indoorLightRevision = 0;
@@ -578,6 +569,9 @@ struct EventRuntimeState
     // decorVars still use the numbering of saves before MMerge's campfire list (SaveVersionMMergeCampfireDecorVars);
     // the map renumbers them when it is next entered (legacyCampFireDecorVarRemap).
     bool legacyCampFireDecorVars = false;
+    // decorVars hold MM6's small barrels as casks (saves before SaveVersionSmallStatBarrels); the map refills them as
+    // stat barrels when it is next entered (refillLegacySmallBarrels).
+    bool legacySmallBarrelDecorVars = false;
     std::optional<ActiveDecorationContext> activeDecorationContext;
     std::optional<ActiveHookContext> activeHookContext;
     std::vector<std::string> messages;
@@ -602,7 +596,6 @@ struct EventRuntimeState
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingMovie> pendingMovie;
-    std::optional<PendingWinGame> pendingWinGame;
     bool pendingReturnToMainMenu = false;
     // AddValue(Experience) gives the value as it is, past the rules' event experience (MAW's unscaled rewards).
     bool unscaledExperience = false;

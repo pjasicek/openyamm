@@ -32,6 +32,7 @@ std::unique_ptr<MawRules> createMawRules(const GameDataRepository &data, const R
     pRules->setItemTable(&data.itemTable());
     pRules->setClassMultiplierTable(&data.classMultiplierTable());
     pRules->setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
+    pRules->setTrainerHints({&data.classSkillTable(), &data.mapStats()});
     return pRules;
 }
 }

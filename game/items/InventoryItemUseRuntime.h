@@ -14,6 +14,7 @@
 namespace OpenYAMM::Game
 {
 class ItemTable;
+struct ItemDefinition;
 class MergedPotionSettingTable;
 class MergedReagentSettingTable;
 
@@ -78,6 +79,29 @@ struct InventoryItemUseResult
     std::optional<uint32_t> potionUsesLeft;
 };
 
+// What drinking a potion would do for a member now, without drinking it (the basebar potion popup's preview).
+struct PotionPreview
+{
+    // False when the item is no potion of potion_effects.yml.
+    bool known = false;
+    int healthGain = 0;
+    int healthBefore = 0;
+    int healthMaximum = 0;
+    int spellPointGain = 0;
+    int spellPointsBefore = 0;
+    int spellPointsMaximum = 0;
+    // The conditions the member has that it removes.
+    std::vector<CharacterCondition> cures;
+    // A buff, a permanent or timed effect: something beyond restoring and curing.
+    bool otherEffects = false;
+
+    // Restores nothing, cures nothing the member has, and does nothing else.
+    bool noEffectNow() const
+    {
+        return known && healthGain == 0 && spellPointGain == 0 && cures.empty() && !otherEffects;
+    }
+};
+
 class InventoryItemUseRuntime
 {
 public:
@@ -96,9 +120,20 @@ public:
         const MergedPotionSettingTable *pPotionSettingTable = nullptr,
         const MergedReagentSettingTable *pReagentSettingTable = nullptr,
         const InventoryItemUseContext &context = {});
-    // Whether a drink costs a ready member recovery under the rules' potion effects (MAW). Standard: no.
+    // The spell a spell scroll casts (its Mod1 "S<id>"); none for other items.
+    static std::optional<uint32_t> scrollSpellId(const ItemDefinition &itemDefinition);
+    static PotionPreview previewPotion(
+        const Party &party,
+        size_t memberIndex,
+        const InventoryItem &item,
+        const MergedPotionSettingTable &potionSettingTable);
+    // Whether a drink costs a ready member recovery under the rules' potion effects.
     static bool drinkRecoveryApplies(const MergedPotionSettingTable *pPotionSettingTable);
-    // Who pays a drink's recovery: the drinker if ready, else the active member, else the first ready one.
-    static std::optional<size_t> drinkRecoveryPayer(const Party &party, size_t drinkerIndex);
+    // Who pays a drink's recovery: the drinker if ready (unless the active member pays), else the active member, else
+    // the first ready one.
+    static std::optional<size_t> drinkRecoveryPayer(
+        const MergedPotionSettingTable &potionSettingTable,
+        const Party &party,
+        size_t drinkerIndex);
 };
 }

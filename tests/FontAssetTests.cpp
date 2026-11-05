@@ -440,3 +440,119 @@ TEST_CASE("UTF-8 text converts to the CP1252 bytes of the legacy faces without t
     CHECK(Engine::utf8ToCp1252("a \xE2\x86\x92 b") == "a ? b");
     CHECK(Engine::utf8ToCp1252("Caf\xE9") == "Caf\xE9");
 }
+
+TEST_CASE("a Unicode face packs the characters it lists and draws a character it lacks as '?'")
+{
+    FontFixture fixture;
+    const std::filesystem::path truetype = fixture.root / "engine/fonts/truetype";
+    {
+        std::ofstream descriptor(truetype / "unicode_test.yml");
+        descriptor << "file: alegreya_variable.ttf\nmetrics: freetype\nlogical_height: 24\nbaseline: 18\n"
+                   << "encoding: utf-8\ncharacters_file: unicode_test.txt\n";
+        // Cyrillic and Greek letters Alegreya has, and a Han character it lacks.
+        std::ofstream characters(truetype / "unicode_test.txt");
+        characters << "\xd0\x96\xd0\xb6\xce\xa9\xe4\xb8\xad\n";
+    }
+
+    std::string error;
+    const std::optional<Engine::FontAtlasImage> logical =
+        Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error);
+    REQUIRE_MESSAGE(logical.has_value(), error);
+    const Engine::FontAtlas &atlas = logical->atlas;
+    CHECK(atlas.unicode);
+    // At its logical height a face is magnified on screen: it rasters at three times that, capped at 48.
+    CHECK_EQ(atlas.fontHeight, 24);
+    CHECK_EQ(atlas.rasterHeight, 48);
+    CHECK_EQ(atlas.layoutScale, doctest::Approx(0.5f));
+
+    const int zhe = atlas.glyphIndex(0x416);
+    const int omega = atlas.glyphIndex(0x3a9);
+    const int euro = atlas.glyphIndex(0x20ac);
+    REQUIRE(zhe >= 0);
+    REQUIRE(omega >= 0);
+    REQUIRE(euro >= 0);
+    CHECK_EQ(atlas.glyphIndex(0x4e2d), atlas.glyphIndex('?'));
+    CHECK(atlas.glyph(zhe).width > 0);
+    CHECK(atlas.glyph(zhe).advance() > atlas.glyph(atlas.glyphIndex('.')).advance());
+
+    // Every place lies inside the atlas and overlaps no other.
+    const size_t count = atlas.unicodeGlyphPlacements.size();
+    REQUIRE_EQ(count, atlas.unicodeGlyphMetrics.size());
+    for (size_t index = 0; index < count; ++index)
+    {
+        const Engine::FontGlyphPlacement &place = atlas.unicodeGlyphPlacements[index];
+        CHECK(place.x >= 0);
+        CHECK(place.y >= 0);
+        CHECK(place.x + place.width <= atlas.atlasWidth);
+        CHECK(place.y + place.height <= atlas.atlasHeight);
+        for (size_t other = index + 1; other < count; ++other)
+        {
+            const Engine::FontGlyphPlacement &next = atlas.unicodeGlyphPlacements[other];
+            const bool apart = place.x + place.width <= next.x || next.x + next.width <= place.x
+                || place.y + place.height <= next.y || next.y + next.height <= place.y;
+            CHECK(apart);
+        }
+    }
+
+    // A capital's ink starts near the top of the line; a full stop's sits near the baseline.
+    const int stop = atlas.glyphIndex('.');
+    CHECK(atlas.placement(zhe).top < atlas.placement(stop).top);
+    CHECK_EQ(atlas.kerning('A', 'V'), 0.0f);
+
+    // A display height between the raster steps shares the next step's raster and scales its layout.
+    const std::optional<Engine::FontAtlasImage> display =
+        Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error, 30);
+    REQUIRE_MESSAGE(display.has_value(), error);
+    CHECK_EQ(display->atlas.fontHeight, 30);
+    CHECK_EQ(display->atlas.rasterHeight, 32);
+    CHECK_EQ(display->atlas.layoutScale, doctest::Approx(30.0f / 32.0f));
+    CHECK_EQ(Engine::unicodeRasterHeight(16, 24), 16);
+    CHECK_EQ(Engine::unicodeRasterHeight(17, 24), 24);
+    CHECK_EQ(Engine::unicodeRasterHeight(200, 24), 128);
+    CHECK_EQ(Engine::unicodeRasterHeight(0, 11), 48);
+    CHECK_EQ(Engine::unicodeRasterHeight(0, 7), 24);
+}
+
+TEST_CASE("a Unicode face needs its character list")
+{
+    FontFixture fixture;
+    {
+        std::ofstream descriptor(fixture.root / "engine/fonts/truetype/unicode_test.yml");
+        descriptor << "file: alegreya_variable.ttf\nmetrics: freetype\nlogical_height: 24\nbaseline: 18\n"
+                   << "encoding: utf-8\n";
+    }
+    std::string error;
+    CHECK_FALSE(Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error).has_value());
+    CHECK_FALSE(error.empty());
+
+    {
+        std::ofstream descriptor(fixture.root / "engine/fonts/truetype/unicode_test.yml");
+        descriptor << "file: alegreya_variable.ttf\nmetrics: freetype\nlogical_height: 24\nbaseline: 18\n"
+                   << "encoding: utf-8\ncharacters_file: absent.txt\n";
+    }
+    CHECK_FALSE(Engine::loadTrueTypeFontAtlas(fixture.assets, "unicode_test", error).has_value());
+}
+
+TEST_CASE("a legacy face finds the Windows-1252 glyph of a character and its cell in the grid")
+{
+    FontFixture fixture;
+    std::string error;
+    const std::optional<Engine::FontAtlasImage> image =
+        Engine::loadTrueTypeFontAtlas(fixture.assets, "alegreya_semibold", error);
+    REQUIRE_MESSAGE(image.has_value(), error);
+    const Engine::FontAtlas &atlas = image->atlas;
+    CHECK_FALSE(atlas.unicode);
+    CHECK_EQ(atlas.glyphIndex('A'), int('A'));
+    CHECK_EQ(atlas.glyphIndex(0x20ac), 0x80);
+    CHECK_EQ(atlas.glyphIndex(0xe9), 0xe9);
+    // Windows-1252 has no Greek: the face draws '?'.
+    CHECK_EQ(atlas.glyphIndex(0x3a9), int('?'));
+
+    const Engine::FontGlyphPlacement place = atlas.placement('A');
+    CHECK_EQ(place.x, ('A' % 16) * (atlas.atlasCellWidth + 2 * atlas.atlasPadding));
+    CHECK_EQ(place.y, ('A' / 16) * (atlas.fontHeight + 2 * atlas.atlasPadding));
+    CHECK_EQ(place.width, atlas.glyphMetrics['A'].width + 2 * atlas.atlasPadding);
+    CHECK_EQ(place.height, atlas.fontHeight + 2 * atlas.atlasPadding);
+    CHECK_EQ(place.top, -atlas.atlasPadding);
+    CHECK_EQ(atlas.layoutScale, 1.0f);
+}

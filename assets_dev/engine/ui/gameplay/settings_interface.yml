@@ -492,7 +492,7 @@ elements:
     - id: SettingsInterfaceGroup4
       anchor: top_left
       offset_x: 0.0
-      offset_y: 520.2366
+      offset_y: 570.6787
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -934,7 +934,7 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-    - id: SettingsInterfacePotionButtonsLabel
+    - id: SettingsInterfaceItemButtonsLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 465.5278
@@ -944,14 +944,14 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Potion buttons
+        value: Potion and scroll buttons
         font: menu_arrus
         color: '#eadfc6'
         align_x: left
         align_y: middle
         scale: 0.74105
         pad_x: 0.0
-    - id: SettingsInterfacePotionButtonsDescription
+    - id: SettingsInterfaceItemButtonsDescription
       anchor: top_left
       offset_x: 1.6
       offset_y: 481.7363
@@ -961,14 +961,14 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Show the round potion quick-slot button at each portrait. The Potion Wheel key opens the ring either way.
+        value: The buttons on the ends of the party frame. Each opens a paused list of what the party carries.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
         align_y: middle
         scale: 0.60235
         pad_x: 0.0
-    - id: SettingsInterfacePotionButtonsControl
+    - id: SettingsInterfaceItemButtonsControl
       anchor: top_left
       offset_x: 453.3333
       offset_y: 469.0699
@@ -980,10 +980,56 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsInterfaceQuickItemRingsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 515.9699
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Quick item rings
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceQuickItemRingsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 532.1784
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: A button at each portrait opens its ring of six quick slots; the Potions key opens the ring, not the list.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceQuickItemRingsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 519.512
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
     - id: SettingsInterfaceRarityGlowLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 545.8366
+      offset_y: 596.2787
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -1000,7 +1046,7 @@ elements:
     - id: SettingsInterfaceRarityGlowDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 562.0451
+      offset_y: 612.4872
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -1017,7 +1063,7 @@ elements:
     - id: SettingsInterfaceRarityGlowControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 547.9659
+      offset_y: 598.408
       width: 110.9333
       height: 23.4667
       z_index: 10

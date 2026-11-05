@@ -110,48 +110,48 @@ end, "Exit")
 RegisterEvent(15, nil, function()
     evt.SetLight(0, 0)
     evt.SetLight(1, 0)
-    evt.SetTexture(-79, "sky_nit1")
+    evt.SetTexture(-45, "sky_nit1")
 end)
 
 RegisterEvent(16, nil, function()
     evt.SetLight(0, 1)
     evt.SetLight(1, 1)
-    evt.SetTexture(-79, "orair256")
+    evt.SetTexture(-45, "orair256")
 end)
 
 RegisterEvent(17, nil, function()
     evt.SetLight(0, 1)
     evt.SetLight(1, 0)
-    evt.SetTexture(-79, "sky_sns1")
+    evt.SetTexture(-45, "sky_sns1")
 end)
 
 RegisterEvent(18, nil, function()
     evt.SetLight(0, 1)
     evt.SetLight(1, 0)
-    evt.SetTexture(-79, "sky_sns1")
+    evt.SetTexture(-45, "sky_sns1")
 end)
 
 RegisterEvent(19, nil, function()
     if IsAtLeast(Hour, 2100) then
         evt.SetLight(0, 0)
         evt.SetLight(1, 0)
-        evt.SetTexture(-79, "sky_nit1")
+        evt.SetTexture(-45, "sky_nit1")
         return
     elseif IsAtLeast(Hour, 2000) then
         evt.SetLight(0, 1)
         evt.SetLight(1, 0)
-        evt.SetTexture(-79, "sky_sns1")
+        evt.SetTexture(-45, "sky_sns1")
         return
     elseif IsAtLeast(Hour, 600) then
         return
     elseif IsAtLeast(Hour, 500) then
         evt.SetLight(0, 1)
         evt.SetLight(1, 0)
-        evt.SetTexture(-79, "sky_sns1")
+        evt.SetTexture(-45, "sky_sns1")
     else
         evt.SetLight(0, 0)
         evt.SetLight(1, 0)
-        evt.SetTexture(-79, "sky_nit1")
+        evt.SetTexture(-45, "sky_nit1")
     end
 end)
 

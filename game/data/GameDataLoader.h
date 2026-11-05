@@ -2,6 +2,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "game/arcomage/ArcomageTypes.h"
+#include "game/gameplay/TrainerDirectory.h"
 #include "game/content/RulesetDefinition.h"
 #include "game/tables/AwardTable.h"
 #include "game/tables/ChestTable.h"
@@ -160,6 +161,7 @@ public:
     const MergedRaceSkillTable &getMergedRaceSkillTable() const;
     const MergedTeacherTopicTable &getMergedTeacherTopicTable() const;
     const MergedTeacherAutonoteTable &getMergedTeacherAutonoteTable() const;
+    const TrainerDirectory &getTrainerDirectory() const;
     const MergedNpcProfessionTable &getMergedNpcProfessionTable() const;
     const MergedNpcNameTable &getMergedNpcNameTable() const;
     const MergedNpcBtbTable &getMergedNpcBtbTable() const;
@@ -213,6 +215,9 @@ private:
         MapLoadPurpose mapLoadPurpose,
         const MapLoadProgressPump &progressPump = {});
     void applyMergedContinentSettingsToSelectedMap(const Engine::AssetFileSystem &assetFileSystem);
+    // An indoor map open to the sky with scene `sky: {weather}` (MM9's outdoor regions as BLVs): its weather profile
+    // (weather.yml rules and this map's chances), as an outdoor map's; nothing for every other indoor map.
+    void applyOpenSkyWeatherToSelectedMap(const Engine::AssetFileSystem &assetFileSystem);
     const WeatherRules &weatherRules(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMapStats(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -267,6 +272,9 @@ private:
     ) const;
     bool loadPotionEffects(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRulesetData(const Engine::AssetFileSystem &assetFileSystem);
+    // Every skill teacher from the loaded tables, with trainer_places.txt (and the active world's own rows) and the
+    // Ledger of Teachers' teacher_ledger.yml.
+    bool loadTrainerDirectory(const Engine::AssetFileSystem &assetFileSystem);
     // Applies the active ruleset's override or replacement of this engine table, if it has one.
     bool applyActiveRulesetTable(
         const Engine::AssetFileSystem &assetFileSystem,
@@ -337,6 +345,7 @@ private:
     MergedRaceSkillTable m_mergedRaceSkillTable;
     MergedTeacherTopicTable m_mergedTeacherTopicTable;
     MergedTeacherAutonoteTable m_mergedTeacherAutonoteTable;
+    TrainerDirectory m_trainerDirectory;
     MergedNpcProfessionTable m_mergedNpcProfessionTable;
     MergedNpcNameTable m_mergedNpcNameTable;
     MergedNpcBtbTable m_mergedNpcBtbTable;

@@ -666,6 +666,76 @@ TEST_CASE("shared actor AI applies an attack at its sprite contact frame and att
     CHECK(*end.state.motionState == ActorAiMotionState::Standing);
 }
 
+TEST_CASE("attack timing: a sprite contact frame wins, else the clip's key; clip-timed models last their clip")
+{
+    using OpenYAMM::Game::ActorAttackTiming;
+    using OpenYAMM::Game::resolveActorAttackTiming;
+    // An MM6-MM8 sprite with an authored contact frame keeps it, whatever the model's key.
+    ActorAttackTiming timing = resolveActorAttackTiming(0.75f, 0.5f, 0.8f, 0.4f, false);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.5f));
+    // Without one, the model's key applies the attack within the sprite's action (any world).
+    timing = resolveActorAttackTiming(0.75f, 0.0f, 0.8f, 0.4f, false);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.4f));
+    // Neither: at the action's end, as MM8 does.
+    timing = resolveActorAttackTiming(0.75f, 0.0f, 0.0f, -1.0f, false);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == 0.0f);
+    // A model whose clips time its attacks (MM9): the action is the clip and the key applies it, over a stand-in
+    // sprite's contact frame; a key outside the clip applies it at the clip's end; an unknown clip length keeps the
+    // sprite.
+    timing = resolveActorAttackTiming(0.75f, 0.5f, 0.8f, 0.4f, true);
+    CHECK(timing.actionSeconds == doctest::Approx(0.8f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.4f));
+    timing = resolveActorAttackTiming(0.75f, 0.5f, 0.8f, 0.9f, true);
+    CHECK(timing.actionSeconds == doctest::Approx(0.8f));
+    CHECK(timing.impactSeconds == 0.0f);
+    timing = resolveActorAttackTiming(0.75f, 0.5f, 0.0f, 0.4f, true);
+    CHECK(timing.actionSeconds == doctest::Approx(0.75f));
+    CHECK(timing.impactSeconds == doctest::Approx(0.5f));
+}
+
+TEST_CASE("shared actor AI casts a spell at its own clip's key where the world times spells apart")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(12, 109);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.runtime.spellAttackAnimationSeconds = 1.2f;
+    actor.runtime.spellAttackImpactSeconds = 0.9f;
+    actor.runtime.attackCooldownSeconds = 0.5f;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Spell1;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {600.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 500.0f;
+    actor.target.currentEdgeDistance = 400.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = true;
+    actor.target.partyCanSenseActor = true;
+    const auto step = [&](float actionSeconds)
+    {
+        frame.activeActors = {actor};
+        frame.activeActors[0].runtime.actionSeconds = actionSeconds;
+        const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+        REQUIRE_EQ(result.actorUpdates.size(), 1u);
+        return result.actorUpdates.front();
+    };
+
+    // 0.4 s into the 1.2 s cast clip: the ranged attack's 0.5 s action would long be over, the cast key (0.9 s) is
+    // not yet due.
+    CHECK_FALSE(step(0.8f).state.attackImpactTriggered.value_or(false));
+    // At the key it casts.
+    CHECK(step(0.3f - 1.0f / 256.0f).state.attackImpactTriggered.value_or(false));
+}
+
 TEST_CASE("shared actor AI plays a delayed attack sound once the action clock passes the delay")
 {
     GameplayActorAiSystem system;
@@ -1423,6 +1493,44 @@ TEST_CASE("shared actor AI applies monster self buff when spell attack completes
     CHECK(update.fxRequests.front().spellId == 51u);
     CHECK(result.projectileRequests.empty());
     CHECK(result.audioRequests.empty());
+}
+
+TEST_CASE("shared actor AI gives a monster's Stone Skin its armour power")
+{
+    // The table's "Stone Skin" arrives lowercased with its space (parseMonsterSpellName); it gave +0 AC before.
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(15, 112);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Id = 38;
+    actor.stats.spell1Name = "stone skin";
+    actor.stats.spell1SkillLevel = 5;
+    actor.stats.spell1SkillMastery = OpenYAMM::Game::SkillMastery::Master;
+    actor.stats.spell1UseChance = 100;
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Spell1;
+    actor.runtime.actionSeconds = 0.0f;
+    actor.runtime.attackImpactTriggered = false;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.spellEffects.has_value());
+    CHECK(update.state.spellEffects->stoneskinRemainingSeconds > 0.0f);
+    CHECK_EQ(update.state.spellEffects->stoneskinPower, 10);
 }
 
 TEST_CASE("shared actor AI applies monster heal when spell attack completes")
@@ -2828,4 +2936,251 @@ TEST_CASE("relation overrides replace the faction relation, and a turned actor f
     turret.controlMode = OpenYAMM::Game::GameplayActorControlMode::Enslaved;
     turret.hostileToParty = false;
     CHECK(service.resolveActorTargetPolicy(turret, kreegan).canTarget);
+}
+
+namespace
+{
+// A hostile melee skirmisher (ActorTacticsFacts::skirmish) fighting the party, which stands targetDistance away along
+// +x (edge distance targetDistance - 64).
+ActorAiFacts makeSkirmisher(float targetDistance)
+{
+    ActorAiFacts actor = makeActor(21, 131);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.runtime.recoverySeconds = 0.8f;
+    actor.runtime.meleeAttackAnimationSeconds = 1.0f;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Attack1;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.movement.distanceToParty = targetDistance;
+    actor.movement.edgeDistanceToParty = std::max(0.0f, targetDistance - 64.0f);
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {100.0f + targetDistance, 200.0f, 64.0f};
+    actor.target.currentDistance = targetDistance;
+    actor.target.currentEdgeDistance = std::max(0.0f, targetDistance - 64.0f);
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    actor.tactics.skirmish = true;
+    actor.tactics.strafeAttackChance = 0.0f;
+    actor.tactics.evadeChance = 0.0f;
+    return actor;
+}
+
+OpenYAMM::Game::ActorAiUpdate updateSkirmisher(const ActorAiFacts &actor, ActorAiFrameFacts frame = makeFrame())
+{
+    GameplayActorAiSystem system;
+    frame.activeActors = {actor};
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    return result.actorUpdates.front();
+}
+}
+
+TEST_CASE("a skirmisher follows a target that steps away while it strikes; a native actor stands")
+{
+    ActorAiFacts actor = makeSkirmisher(344.0f);
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackMelee;
+    actor.runtime.actionSeconds = 0.5f;
+    actor.runtime.attackCooldownSeconds = 1.0f;
+
+    // Beyond 0.9 of its reach before the blow lands, it lunges 1.25x faster than it runs.
+    const OpenYAMM::Game::ActorAiUpdate chase = updateSkirmisher(actor);
+    REQUIRE(chase.state.motionState.has_value());
+    CHECK(*chase.state.motionState == ActorAiMotionState::Attacking);
+    CHECK(chase.movementIntent.applyMovement);
+    CHECK(chase.movementIntent.desiredMoveX == doctest::Approx(1.0f));
+    CHECK(chase.movementIntent.moveSpeed == doctest::Approx(500.0f));
+    CHECK(chase.movementIntent.keepYawWhileMoving);
+    CHECK_FALSE(chase.attackRequest.has_value());
+
+    // Within half its melee range it stands and swings at a standing target.
+    ActorAiFacts close = makeSkirmisher(96.0f);
+    close.runtime = actor.runtime;
+    close.movement.moveDirectionX = 1.0f;
+    CHECK_FALSE(updateSkirmisher(close).movementIntent.applyMovement);
+
+    // A moving target it runs after until within a quarter of its reach, keeping 0.95x the pace of one moving away.
+    ActorAiFacts following = makeSkirmisher(184.0f);
+    following.runtime = actor.runtime;
+    ActorAiFrameFacts fleeing = makeFrame();
+    fleeing.party.velocityX = 300.0f;
+    const OpenYAMM::Game::ActorAiUpdate pace = updateSkirmisher(following, fleeing);
+    CHECK(pace.movementIntent.applyMovement);
+    CHECK(pace.movementIntent.moveSpeed == doctest::Approx(285.0f));
+    CHECK_FALSE(updateSkirmisher(following).movementIntent.applyMovement);
+
+    ActorAiFacts native = actor;
+    native.tactics.skirmish = false;
+    CHECK_FALSE(updateSkirmisher(native).movementIntent.applyMovement);
+
+    // Turn-based combat keeps the native stance.
+    ActorAiFrameFacts turnBased = makeFrame();
+    turnBased.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::MoveOnly;
+    CHECK_FALSE(updateSkirmisher(actor, turnBased).movementIntent.applyMovement);
+}
+
+TEST_CASE("a skirmisher arriving at a still target may run a strafe attack past it")
+{
+    ActorAiFacts actor = makeSkirmisher(96.0f);
+    actor.runtime.motionState = ActorAiMotionState::Pursuing;
+    actor.runtime.animationState = ActorAiAnimationState::Walking;
+    actor.runtime.actionSeconds = 0.2f;
+    actor.movement.moveDirectionX = 1.0f;
+    actor.tactics.strafeAttackChance = 1.0f;
+
+    const OpenYAMM::Game::ActorAiUpdate start = updateSkirmisher(actor);
+    REQUIRE(start.state.motionState.has_value());
+    CHECK(*start.state.motionState == ActorAiMotionState::Attacking);
+    REQUIRE(start.state.skirmishPhase.has_value());
+    CHECK(*start.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::StrafeAttack);
+    CHECK(start.movementIntent.applyMovement);
+    // 45 degrees off the line to the target, at half its running speed until the blow lands.
+    CHECK(start.movementIntent.desiredMoveX == doctest::Approx(std::sqrt(0.5f)));
+    CHECK(std::abs(start.movementIntent.desiredMoveY) == doctest::Approx(std::sqrt(0.5f)));
+    CHECK(start.movementIntent.moveSpeed == doctest::Approx(200.0f));
+    CHECK(start.movementIntent.yawRadians == doctest::Approx(0.0f));
+
+    // A moving target gets a plain strike.
+    ActorAiFrameFacts moving = makeFrame();
+    moving.party.velocityY = 200.0f;
+    const OpenYAMM::Game::ActorAiUpdate plain = updateSkirmisher(actor, moving);
+    CHECK(*plain.state.motionState == ActorAiMotionState::Attacking);
+    CHECK(plain.state.skirmishPhase.value_or(OpenYAMM::Game::ActorSkirmishPhase::None)
+        == OpenYAMM::Game::ActorSkirmishPhase::None);
+
+    // Standing when the attack began, it strikes from where it stands.
+    ActorAiFacts standing = actor;
+    standing.runtime.motionState = ActorAiMotionState::Standing;
+    standing.movement.moveDirectionX = 0.0f;
+    const OpenYAMM::Game::ActorAiUpdate still = updateSkirmisher(standing);
+    CHECK(*still.state.motionState == ActorAiMotionState::Attacking);
+    CHECK_FALSE(still.movementIntent.applyMovement);
+}
+
+TEST_CASE("a skirmisher evades after a strike and does not strike again while evading")
+{
+    ActorAiFacts actor = makeSkirmisher(96.0f);
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackMelee;
+    actor.runtime.actionSeconds = 1.0f / 256.0f;
+    actor.runtime.attackCooldownSeconds = 0.5f;
+    actor.runtime.attackImpactTriggered = true;
+    actor.tactics.evadeChance = 1.0f;
+
+    const OpenYAMM::Game::ActorAiUpdate done = updateSkirmisher(actor);
+    REQUIRE(done.state.motionState.has_value());
+    CHECK(*done.state.motionState == ActorAiMotionState::Pursuing);
+    REQUIRE(done.state.skirmishPhase.has_value());
+    CHECK(*done.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Evade);
+    CHECK(done.state.skirmishSeconds.value_or(0.0f) == doctest::Approx(2.0f));
+    // It backpedals away from the target (5-35 degrees off straight back) while facing it.
+    CHECK(done.movementIntent.applyMovement);
+    CHECK(done.movementIntent.desiredMoveX < -0.8f);
+    CHECK(done.movementIntent.yawRadians == doctest::Approx(0.0f));
+    CHECK(done.movementIntent.keepYawWhileMoving);
+    CHECK(done.movementIntent.moveSpeed == doctest::Approx(200.0f));
+
+    // In melee range with its attack ready it keeps evading instead of striking.
+    ActorAiFacts evading = actor;
+    evading.runtime.motionState = ActorAiMotionState::Pursuing;
+    evading.runtime.animationState = ActorAiAnimationState::Walking;
+    evading.runtime.attackCooldownSeconds = 0.0f;
+    evading.runtime.attackImpactTriggered = false;
+    evading.runtime.actionSeconds = 0.5f;
+    evading.runtime.skirmishPhase = OpenYAMM::Game::ActorSkirmishPhase::Evade;
+    evading.runtime.skirmishSeconds = 1.5f;
+    evading.movement.moveDirectionX = done.movementIntent.desiredMoveX;
+    evading.movement.moveDirectionY = done.movementIntent.desiredMoveY;
+    const OpenYAMM::Game::ActorAiUpdate step = updateSkirmisher(evading);
+    CHECK(*step.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(step.movementIntent.applyMovement);
+    CHECK(step.movementIntent.desiredMoveX == doctest::Approx(evading.movement.moveDirectionX));
+
+    // The step past the backpedal half turns it to circle the target, 65 degrees off the line to it.
+    evading.runtime.skirmishSeconds = 1.0f + 1.0f / 256.0f;
+    const OpenYAMM::Game::ActorAiUpdate circle = updateSkirmisher(evading);
+    CHECK(circle.movementIntent.desiredMoveX == doctest::Approx(std::cos(65.0f * 3.14159265f / 180.0f)).epsilon(0.01));
+
+    // Once over, it fights as usual: in range with the attack ready, it strikes.
+    evading.runtime.skirmishSeconds = 0.0f;
+    const OpenYAMM::Game::ActorAiUpdate over = updateSkirmisher(evading);
+    CHECK(*over.state.motionState == ActorAiMotionState::Attacking);
+
+    // Without the evade roll a plain strike ends standing.
+    ActorAiFacts plain = actor;
+    plain.tactics.evadeChance = 0.0f;
+    CHECK(*updateSkirmisher(plain).state.motionState == ActorAiMotionState::Standing);
+
+    // From a target moving away it only circles, 65 degrees off the line to it.
+    ActorAiFrameFacts away = makeFrame();
+    away.party.velocityX = 300.0f;
+    const OpenYAMM::Game::ActorAiUpdate circling = updateSkirmisher(actor, away);
+    CHECK(*circling.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Circle);
+    CHECK(circling.movementIntent.desiredMoveX
+        == doctest::Approx(std::cos(65.0f * 3.14159265f / 180.0f)).epsilon(0.01));
+}
+
+TEST_CASE("a skirmisher holds off its chase until its attack will be ready as it arrives")
+{
+    ActorAiFacts actor = makeSkirmisher(864.0f);
+
+    // It arrives within its 307 reach: the 493 units beyond it take 1.2 s at 400 a second. With 1.5 s of recovery
+    // left it waits; with 1 s it runs.
+    actor.runtime.attackCooldownSeconds = 1.5f;
+    const OpenYAMM::Game::ActorAiUpdate hold = updateSkirmisher(actor);
+    CHECK(*hold.state.motionState == ActorAiMotionState::Standing);
+    CHECK_FALSE(hold.movementIntent.applyMovement);
+
+    actor.runtime.attackCooldownSeconds = 1.0f;
+    const OpenYAMM::Game::ActorAiUpdate go = updateSkirmisher(actor);
+    CHECK(*go.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(go.movementIntent.applyMovement);
+}
+
+TEST_CASE("a skirmisher taunts when it first notices the party and after a back-off, holding still meanwhile")
+{
+    ActorAiFacts actor = makeSkirmisher(96.0f);
+    actor.status.hasDetectedParty = false;
+    actor.tactics.tauntChance = 1.0f;
+    actor.tactics.tauntSeconds = 1.4f;
+
+    const OpenYAMM::Game::ActorAiUpdate aware = updateSkirmisher(actor);
+    REQUIRE(aware.state.skirmishPhase.has_value());
+    CHECK(*aware.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Taunt);
+    CHECK(aware.state.skirmishSeconds.value_or(0.0f) == doctest::Approx(1.4f));
+    CHECK(*aware.state.motionState == ActorAiMotionState::Standing);
+
+    // A taunt under way holds even with the target in reach and the attack ready.
+    actor.status.hasDetectedParty = true;
+    actor.runtime.skirmishPhase = OpenYAMM::Game::ActorSkirmishPhase::Taunt;
+    actor.runtime.skirmishSeconds = 0.7f;
+    const OpenYAMM::Game::ActorAiUpdate holding = updateSkirmisher(actor);
+    CHECK(*holding.state.motionState == ActorAiMotionState::Standing);
+    CHECK_FALSE(holding.movementIntent.applyMovement);
+
+    // Over, it strikes.
+    actor.runtime.skirmishSeconds = 0.0f;
+    CHECK(*updateSkirmisher(actor).state.motionState == ActorAiMotionState::Attacking);
+
+    // A back-off that runs out ends in a taunt.
+    actor.runtime.motionState = ActorAiMotionState::Pursuing;
+    actor.runtime.skirmishPhase = OpenYAMM::Game::ActorSkirmishPhase::BackOff;
+    actor.runtime.skirmishSeconds = 1.0f / 256.0f;
+    actor.movement.moveDirectionX = -1.0f;
+    const OpenYAMM::Game::ActorAiUpdate afterBackOff = updateSkirmisher(actor);
+    CHECK(*afterBackOff.state.skirmishPhase == OpenYAMM::Game::ActorSkirmishPhase::Taunt);
+    CHECK(*afterBackOff.state.motionState == ActorAiMotionState::Standing);
+
+    // A model without a taunt never taunts.
+    actor.tactics.tauntSeconds = 0.0f;
+    actor.status.hasDetectedParty = false;
+    actor.runtime = makeSkirmisher(96.0f).runtime;
+    CHECK(*updateSkirmisher(actor).state.motionState == ActorAiMotionState::Attacking);
 }

@@ -1077,6 +1077,29 @@ TEST_CASE("item inspection speech bypasses active speech cooldowns")
     }
 }
 
+TEST_CASE("repeated voice line interval holds back only the same line of the same member")
+{
+    using OpenYAMM::Game::SpeechId;
+    using OpenYAMM::Game::isRepeatedSpeechReaction;
+
+    OpenYAMM::Game::GameplayPortraitPresentationState presentationState = {};
+    presentationState.memberSpeechLastPlayedTicks.resize(2);
+    presentationState.memberSpeechLastPlayedTicks[0][SpeechId::DamageMinor] = 1000u;
+
+    // Off: every repeat plays, as before the setting.
+    CHECK_FALSE(isRepeatedSpeechReaction(presentationState, 0, SpeechId::DamageMinor, 1001u, 0u));
+
+    CHECK(isRepeatedSpeechReaction(presentationState, 0, SpeechId::DamageMinor, 1999u, 1000u));
+    CHECK_FALSE(isRepeatedSpeechReaction(presentationState, 0, SpeechId::DamageMinor, 2000u, 1000u));
+    CHECK_FALSE(isRepeatedSpeechReaction(presentationState, 0, SpeechId::DamageMajor, 1500u, 1000u));
+    CHECK_FALSE(isRepeatedSpeechReaction(presentationState, 1, SpeechId::DamageMinor, 1500u, 1000u));
+    CHECK_FALSE(isRepeatedSpeechReaction(presentationState, 4, SpeechId::DamageMinor, 1500u, 1000u));
+
+    // The tick counter wrapping past zero still measures the interval.
+    presentationState.memberSpeechLastPlayedTicks[0][SpeechId::RepairSuccess] = 0xffffff00u;
+    CHECK(isRepeatedSpeechReaction(presentationState, 0, SpeechId::RepairSuccess, 0x100u, 1000u));
+}
+
 TEST_CASE("damage impact sound request uses armor family mapping")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

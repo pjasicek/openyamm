@@ -24,6 +24,8 @@ struct SkillTooltipText
 {
     std::string description;
     std::array<std::string, 4> masteryLines;
+    // A paragraph after the mastery lines and the skill bonus (MAW's trainer hint); may carry colour codes.
+    std::string footer;
 };
 
 // A character's attack, damage, armour class and resistance as rules that compute them from items and skills
@@ -104,6 +106,9 @@ public:
     // Skills a house teaches besides its own list (MAW: Cover at training halls, Mana Shield and Enlightenment at
     // magic shops). Standard: none.
     virtual std::vector<std::string> extraHouseSkills(const std::string &houseType) const;
+    // Skills that become Expert, Master and Grandmaster at these base levels with no teacher (MAW: Cover, Mana
+    // Shield, Enlightenment and Retaliation), for the journal's trainer finder. Standard: none.
+    virtual std::vector<std::pair<std::string, std::array<uint32_t, 3>>> teacherlessMasteryLadders() const;
     // The base skill level a teacher wants for a mastery. Standard: 4, 7 and 10.
     virtual uint32_t masteryRequiredLevel(const std::string &canonicalSkill, SkillMastery mastery) const;
     // What a teacher asks for a mastery. Standard: the topic's or the default price, `standardCost`.
@@ -138,6 +143,10 @@ public:
     // Whether the skill bonuses of hired NPC followers add up (Standard, MMerge) or only the strongest counts (MAW,
     // NPCFollowersSkills.lua:40-48).
     virtual bool followerSkillBonusesStack() const;
+    // A hired follower's bonus to a skill, given the MMerge table's amount (Standard: the table's), and whether a
+    // member gains it only once they have learned the skill (Standard: no).
+    virtual int followerSkillBonus(uint32_t professionId, const std::string &canonicalSkill, int tableBonus) const;
+    virtual bool followerSkillBonusNeedsSkill(const std::string &canonicalSkill) const;
     virtual void updateRegeneration(Party &party, const IGameplayWorldRuntime &world, float deltaSeconds) const;
     // What Identify Monster tells the party about a monster of this level (its ruleset level, else its table level).
     // Standard: the best able member's skill and mastery against the level.
@@ -150,7 +159,7 @@ public:
         const std::string &canonicalSkill,
         const SkillTooltipText &table) const;
     // A character stat's popup (Might, HitPoints, ArmorClass...) from the stat table's text (MAW: its live numbers).
-    // Standard: the table's text.
+    // Standard: the table's text, and for a primary stat or a resistance what its value gives in plain numbers.
     virtual std::string statTooltip(
         const Party &party,
         const Character &character,
@@ -158,7 +167,7 @@ public:
         const std::string &table) const;
     // A stats page row's label and value when the rules show something else there (MAW: Melee Power in the Condition
     // row, Ranged Power in the Quick Spell row), or for the two rows they may add ("SpellPower" and "Vitality": MAW's
-    // Spell Power and Vitality). Standard: none.
+    // Spell Power and Vitality; "Bow off" in "Shoot" and "RangedDamage" with its Bow preference off). Standard: none.
     virtual std::optional<CharacterStatRowText> statRowText(
         const Party &party,
         const Character &character,
@@ -182,6 +191,9 @@ public:
     virtual std::array<std::optional<CharacterResistanceCut>, 6> resistanceCuts(
         const Party &party,
         const Character &character) const;
+    // The colour (0xRRGGBB) of a stats page label (Might .. Luck, HitPoints, SpellPoints, ArmorClass); none keeps the
+    // layout's. Standard: none.
+    virtual std::optional<uint32_t> statLabelRgb(const std::string &statName) const;
     // A stats page value as the rules print it (MAW shortens every number of 10000 or more to 3 digits and K/M/B).
     // Standard: the text as it is.
     virtual std::string statValueText(const std::string &text) const;

@@ -280,19 +280,26 @@ ladders:
     width: 96                          # the strip's width
     reach: 48                          # how far in front of the strip a body may stand and grab it
     top_exit: [1024.0, 6260.0, -491.0] # where the party stands after climbing off at the top
+    grab_in_air: false                 # optional: a body in the air grabs it too (MM9's climbing poles)
+    grab_at_top: false                 # optional: a body walking from top_exit toward the top takes it there
 ```
 
 ### Entering, climbing, leaving
 
 - **Grab**: a grounded body in front of the strip (from the strip back to `reach` plus its radius, within the strip's
-  width and height) moving toward it within 60° of `facing_degrees` attaches. Falling past a ladder does not grab it,
-  and a ladder cannot be entered from its top yet (Anskram's stand under hatches; a map whose ladders go down from a
-  floor needs that).
+  width and height) moving toward it within 60° of `facing_degrees` attaches. Falling past a ladder does not grab it
+  (unless it has `grab_in_air`), and only a ladder with `grab_at_top` is entered from its top (below; Anskram's stand
+  under hatches and do not need it).
 - **Climb**: while attached, gravity is off and movement uses the flying branch of `resolveMove` with vertical
   velocity from input: forward or Fly Up climbs, back or Fly Down descends (192 per second, running 288), strafe moves
   along the strip; the body is held just in front of it. Collision stays on: a shut hatch or ceiling stops the climb.
 - **Leave**: climbing past the strip's top places the party at `top_exit`; descending onto the floor detaches it;
   jump lets go; strafing past the strip's end lets go. Letting go is a fall from that height, no more.
+- **Taking it at the top** (`grab_at_top: true`, opt-in): a standing body within `reach` plus its radius of `top_exit`,
+  at its height (±48), walking toward the strip's top within 60°, is placed on the strip 16 under its top, held in front
+  of it (refused when that spot is outside the map or inside a face). On such a ladder, movement that is neither
+  toward nor away from the strip climbs when it points toward `top_exit` and descends when it points away, so walking on
+  from the exit carries the party down and walking back brings it up; strafing then does not let go (jump does).
 - **Floor portals**: a climb (or a fall) passes a horizontal portal like any other. Over the hole the upper room has no
   floor face and the lower room's bounds end at the portal, so the eye's sector lookup (`findIndoorSectorForPoint`) finds
   nothing and refuses the move. Native BLVs mark such a room with sector flag `0x8`, which makes its floor portals count
@@ -306,6 +313,28 @@ ladders:
 - **Monsters** do not use ladders (MM9's monsters do not either); the indoor pathfinder adds no link for a ladder, and
   flyers fly. A ladder is not an obstacle (it is a volume, not faces); a converter keeps MM9's `LadderBlocker` brushes
   as invisible collision where they matter.
+
+### Leaning ladders (2026-10-31)
+
+A ladder whose `top` is not straight above its `bottom` (more than 1 unit apart horizontally) leans. It is climbed along
+the line from bottom to top: every test that an upright ladder makes against its bottom (grab zone, hold depth, strafe
+and let-go width) is made against the point of that line at the body's foot height, and each climbing step adds the
+line's horizontal run per unit of height times the vertical speed, so the body follows it. Collision stays on as on an
+upright ladder. An upright ladder's line is the vertical through its bottom: its behaviour is unchanged, and every MM6-MM8
+map and every other MM9 ladder (all upright) is unaffected. `indoorLadderLeans`, `indoorLadderLinePoint` in
+`IndoorMovers.cpp`.
+
+The first one is Drangheim City's TowerLadder1 (its README): MM9's ladder leans 170 LT over its 374 LT rise through a
+slot in the north wall's walkway, its foot tucked under the walkway's landing. Climbed straight up from the foot, the
+party's head met that landing's underside 72 LT under the walkway, and no vertical line in the slot reaches it (the
+ladder's own rails and the walkway's edges). Along the line the party clears the landing's edge about a third of the way
+up. Its `top_exit` is on the walkway beside the top and it has `grab_at_top`, the way down for a party arriving by
+Klusos House's window.
+
+Survey of MM9's 68 `Ladder` volumes (rung polygons inside each volume, 2026-10-31): TowerLadder1 is the only leaning one
+(rung face normal y 0.41); Lindisfarne's two lean 12 LT over 143 on an exterior map; the rest are upright or have no
+rung polygons (props, ropes, poles). The shared `ladder_records` therefore keeps emitting upright ladders; a map whose
+ladder leans takes its bottom and top from the rung faces, as Drangheim's `convert.py` (`DIAGONAL_LADDERS`) does.
 
 ## How the shared converter emits it
 
@@ -369,7 +398,8 @@ Differences from the first design, all in the sections above: easing is for rota
 against the world; rotation carries the party only and does not turn its facing; a rotating face stays in the sector
 list of its stored pose instead of all three (a face in the ceiling list loses its door hover); the lightmap keeps the
 UV offset for linear doors and adds `currentToStored` for rotations; ladders have no glide at the top, are grabbed only
-from the ground and not from their top, and a save on one restores a fall. The editor writes `mover` blocks and
+from the ground (or in the air with `grab_in_air`) and from their top only with `grab_at_top`, and a save on one
+restores a fall. The editor writes `mover` blocks and
 `ladders` back but does not preview a rotation (its viewport moves doors linearly).
 
 **Renderer changes, all small and in `game/indoor/IndoorRenderer.cpp`** (for the next renderer work):
@@ -383,7 +413,8 @@ passes Fly Up/Down to `IndoorPartyRuntime::setLadderVerticalInput`. No shader, u
 
 - Unit (`tests/IndoorMoversTests.cpp`): the pose function (linear doors unchanged; rotation, signs, open away, easing),
   rigid motions, the capsule test and clearance, the stored-pose lightmap, the bakeable travel, the scene loader's
-  refusals, ladder grab and climb steps.
+  refusals, ladder grab and climb steps; an upright ladder's line, a leaning ladder's grab and climb along its line, a
+  leaning ladder climbing out from under an overhang that stops an upright one (movement controller), `grab_at_top`.
 - Scenarios: `level_generation/projects/mm9r_anskramkeep/scenario_rotating.yml` (a door stops the party, swings open,
   auto-closes and reverses off it; a trap tips the party into its pit; the ladder and hatch), with the map's other three.
 - MM6–MM8: `applyIndoorMechanismDoorToVertices` with no mover is the old formula; 2026-10-30 captures of MM7 `7d06` and

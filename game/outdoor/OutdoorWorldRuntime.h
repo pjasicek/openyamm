@@ -18,6 +18,7 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/MonsterDeathExplosion.h"
 #include "game/gameplay/SearchableLootPropRuntime.h"
+#include "game/maps/ActorModelManifest.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/pathfinding/ActorPathRuntime.h"
@@ -232,11 +233,16 @@ public:
         bool mm9Guard = false;
         bool mm9FleeingFromParty = false;
         float mm9FleeRemainingSeconds = 0.0f;
+        // A villager the party yelled at runs from it until this runs out (scareNearbyPeasants); not saved.
+        float yellFleeRemainingSeconds = 0.0f;
         float mm9HelpCooldownSeconds = 0.0f;
         uint8_t mm9PlayerHitCount = 0;
         std::string displayName;
         uint32_t uniqueNameId = 0;
         bool spawnedAtRuntime = false;
+        // A runtime spawn's MM9 placement (an arena's mm9_ai, a death spawn's ScriptParams 1); a map actor's is the
+        // map's (MapDeltaActor::mm9Ai, OutdoorWorldRuntime::mm9Placement).
+        std::optional<Mm9AiPlacementRecord> mm9Ai;
         bool fromSpawnPoint = false;
         size_t spawnPointIndex = static_cast<size_t>(-1);
         uint32_t group = 0;
@@ -373,6 +379,14 @@ public:
         uint32_t pursueDecisionCount = 0;
         uint32_t attackDecisionCount = 0;
         bool attackImpactTriggered = false;
+        // A skirmisher's footwork (ActorRuntimeFacts::skirmishPhase); runtime only, not saved.
+        ActorSkirmishPhase skirmishPhase = ActorSkirmishPhase::None;
+        float skirmishSeconds = 0.0f;
+        int8_t skirmishSide = 1;
+        // An MM9 walker's loop (ActorRuntimeFacts::mm9) and what the world knows for it (ActorAiFacts::mm9World);
+        // runtime only, not saved.
+        ActorMm9State mm9;
+        ActorMm9WorldFacts mm9World;
         MonsterAttackAbility queuedAttackAbility = MonsterAttackAbility::Attack1;
         OutdoorMoveState movementState = {};
         bool movementStateInitialized = false;
@@ -688,6 +702,7 @@ public:
     bool stunActor(size_t actorIndex, float seconds) override;
     bool debuffActor(size_t actorIndex, GameplayActorHitDebuff debuff, float seconds, float power) override;
     bool setMapActorBehavior(size_t actorIndex, const std::string &behaviorId) override;
+    bool triggerMapActor(size_t actorIndex, const std::string &message) override;
 
     struct MonsterKilledEvent
     {
@@ -899,6 +914,9 @@ public:
         float viewPitchRadians,
         float viewAspectRatio) const override;
     bool faceMapActorTowardPoint(size_t actorIndex, float targetX, float targetY);
+    // The party talks to an actor: it faces the party (faceMapActorTowardPoint) and an MM9 one keeps the facing it
+    // turns back to afterwards (ActorMm9State::beginTalk).
+    bool faceMapActorForTalk(size_t actorIndex, float partyX, float partyY);
     bool notifyPartyContactWithMapActor(size_t actorIndex, float partyX, float partyY, float partyZ);
     float sampleSupportFloorHeight(float x, float y, float z, float maxRise, float xySlack) const;
     size_t spawnPointCount() const;
@@ -1021,6 +1039,7 @@ public:
     float partyX() const override;
     float partyY() const override;
     float partyFootZ() const override;
+    void teleportParty(float x, float y, float footZ) override;
     float partyEyeZ() const override;
     float partyEngagementRange() const override;
     float gameplayCameraYawRadians() const override;
@@ -1042,6 +1061,7 @@ public:
     void updateActorAi(float deltaSeconds) override;
     void updateTurnBasedPausedActorAnimations(float deltaSeconds) override;
     size_t turnBasedPendingWorldActionCount() const override;
+    void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
     void stopTurnBasedActorMovement() override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
@@ -1088,6 +1108,10 @@ public:
         bool moveParty) override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
+    // evt.DamageDestructible and the rest (ISceneEventContext): an outdoor destructible by its source object index.
+    bool damageDestructible(uint32_t id, int damage) override;
+    bool destroyDestructible(uint32_t id) override;
+    bool setDestructibleDamageEnabled(uint32_t id, bool enabled) override;
     bool damageOutdoorDestructible(uint32_t sourceObjectIndex, int damage);
     bool destroyOutdoorDestructible(uint32_t sourceObjectIndex, bool playEffects = true);
     const RuntimeDestructibleState *outdoorDestructibleState(uint32_t sourceObjectIndex) const;
@@ -1190,8 +1214,16 @@ public:
         const std::optional<std::array<float, 3>> &keepSightOf = std::nullopt, bool *pBlockedByParty = nullptr);
     // Stands an actor at a point without any checks, still and keeping its home (swaps, the gather key).
     void placeMapActor(size_t actorIndex, float x, float y, float z);
+    // Where a living actor could stand at (x, y), its feet's height there: the blink's checks without the move
+    // (blinkMapActorTo). The sight line to keepSightOf starts at its eye eyeBelowTop under the top of its body (MM9's
+    // eye; none: 70 % of its height); pSightChecks (optional) counts the sight lines tested.
+    std::optional<float> checkMapActorSpot(size_t actorIndex, float x, float y, float maxHeightChange,
+        const std::optional<std::array<float, 3>> &keepSightOf, bool *pBlockedByParty,
+        std::optional<float> eyeBelowTop, int *pSightChecks);
     bool mapKillProgress(MapKillProgress &progress) const override;
     std::vector<size_t> spawnMonsters(const GameplayMonsterSpawnRequest &request) override;
+    void bindActorAiTrace(ActorAiTrace *pTrace) override;
+    const ActorAiTrace *actorAiTrace() const override;
     bool summonHostileMonsterById(
         int16_t monsterId,
         uint32_t count,
@@ -1410,6 +1442,9 @@ private:
         SoundScope soundScope = SoundScope::Engine);
     void pushOutdoorMonsterSound(size_t actorIndex, uint32_t soundId, const char *pReason);
     bool beginMapActorHitReaction(size_t actorIndex, bool force = false, bool emitAudio = true);
+    // A hit on an MM9 walker (ActorMm9WorldFacts): its attacker (the party, or the actor at attackerActorIndex), the
+    // largest hit and the count its AI reacts to. Nothing for any other actor.
+    void noteMm9ActorHit(size_t actorIndex, ActorAiTargetKind attackerKind, size_t attackerActorIndex, int damage);
     // A reaction turn (hit, alert, stun) toward a point; skipped for a monster that turns at a tactics traverse rate
     // (a turret), whose AI turns it there at that rate instead.
     void faceMapActorReaction(MapActorState &actor, float deltaX, float deltaY) const;
@@ -1431,6 +1466,9 @@ private:
     // The world point a model actor launches its missile or spell from (its actors.yml release point); empty for
     // sprite actors and models without one, which launch from the body (mapActorBodyLaunchPoint).
     std::optional<std::array<float, 3>> mapActorModelLaunchPoint(const MapActorState &actor, bool spell) const;
+    // An attack role's timing: the actor's sprite's, or its 3D model's clip where that times it
+    // (resolveActorAttackTiming).
+    ActorAttackTiming mapActorAttackTiming(const MapActorState &actor, ActorModelManifest::AttackRole role) const;
     static std::array<float, 3> mapActorBodyLaunchPoint(const MapActorState &actor);
     bool castSpellFromMapActor(
         const MapActorState &actor,
@@ -1663,6 +1701,8 @@ private:
     std::vector<size_t> m_mm9FoundPlayerActorIndices;
     std::vector<bool> m_mm9FoundPlayerEventAttempted;
     std::vector<size_t> m_mm9CivilianActorIndices;
+    // Villagers still fleeing a yell (yellFleeRemainingSeconds > 0).
+    std::vector<size_t> m_yellFleeingActorIndices;
     std::vector<size_t> m_mm9GuardActorIndices;
     std::vector<SpawnPointState> m_spawnPoints;
     std::vector<MapDeltaChest> m_chests;
@@ -1700,6 +1740,9 @@ private:
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;
     GameplayProjectileService m_fallbackGameplayProjectileService;
     ActorBehaviorRuntime m_actorBehaviors;
+    // The AI arena's decision trace (GameApplication owns it), null while off.
+    ActorAiTrace *m_pActorAiTrace = nullptr;
+    ActorPartyVelocityTracker m_actorAiPartyVelocity;
     GameplayActorHitFeedback m_actorHitFeedback;
     GameplayActorShields m_actorShields;
     GameplayActorModifiers m_actorModifiers;
@@ -1746,7 +1789,6 @@ private:
     };
     mutable std::unordered_map<uint64_t, ActorSightCacheEntry> m_actorSightCache;
     size_t m_actorPathPlansThisStep = 0;
-    double m_nextActorPathPlanSeconds = 0.0;
     float m_outdoorMechanismGeometryRefreshAccumulatorSeconds = 0.0f;
     std::unordered_map<uint32_t, std::array<int32_t, 3>> m_outdoorMechanismOffsets;
     std::unordered_map<uint32_t, bool> m_outdoorNavigationMechanismMovingStates;
@@ -1812,6 +1854,11 @@ private:
         float partyX,
         float partyY,
         float partyZ) const;
+    // An actor's MM9 placement: a map actor's from the map, a runtime spawn's its own; none for MM9's defaults.
+    const Mm9AiPlacementRecord *mm9PlacementRecord(size_t actorIndex) const;
+    // How far an MM9 monster on its loop senses the party (its placement's sight and hearing, doubled after contact);
+    // 0 for every other actor.
+    float mm9PerceptionRangeOf(size_t actorIndex) const;
     bool cachedActorLineOfSight(size_t startActorIndex, size_t endActorIndex, const bx::Vec3 &start,
         const bx::Vec3 &end) const;
     void applyOutdoorActorAiFrameResult(
@@ -1819,6 +1866,9 @@ private:
         const std::vector<bool> &activeActorMask,
         const GameplayActorAiSystem &actorAiSystem);
     void applyOutdoorActorRequests(const ActorAiFrameResult &result, const std::vector<bool> &activeActorMask);
+    // The reposition modifier's query (ActorMm9Request::reposition): the first of its spots that passes, answered in
+    // the actor's ActorMm9WorldFacts (repositionSerial).
+    void answerRepositionQuery(size_t actorIndex, const ActorRepositionQuery &query);
     void applyOutdoorActorProjectileRequests(
         const std::vector<ActorProjectileRequest> &projectileRequests,
         const std::vector<bool> &activeActorMask);
@@ -1878,6 +1928,7 @@ private:
     void updateOutdoorInactiveAndInvalidActors(const std::vector<bool> &activeActorMask);
     void applyActorFrameSideEffects(float deltaSeconds, float partyX, float partyY, float partyZ);
     void updateMm9ActorReactions(float deltaSeconds, float partyX, float partyY, float partyZ);
+    void updateYellFleeing(float deltaSeconds);
     void startMm9CivilianFlee(MapActorState &actor);
     void advanceGameMinutesInternal(float minutes);
     void initializeTimers(

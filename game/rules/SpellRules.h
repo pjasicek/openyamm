@@ -39,6 +39,8 @@ struct CrowdControlCast
     int resistance = 0;
     int targetLevel = 0;
     bool boss = false;
+    // What the ruleset resolved for the monster, when known.
+    const ActorRulesetFacts *pTargetFacts = nullptr;
     uint64_t targetKey = 0;
     size_t partySize = 1;
     // The world clock in real seconds, for diminishing returns.
@@ -99,6 +101,8 @@ public:
     virtual std::optional<AuraCastResult> castAura(Party &party, size_t casterIndex, uint32_t spellId) const;
     // The further monsters a single-target monster spell takes near its target (MAW's Shrinking Ray). Standard: none.
     virtual SpellSplash spellSplash(uint32_t spellId, SkillMastery mastery) const;
+    // Whether no crowd control holds the monster, so a splash passes it over (MAW's Unstoppable bosses). Standard: no.
+    virtual bool ignoresCrowdControl(const ActorRulesetFacts &target) const;
     // A buff from a scroll, a map event, a temple or a hireling. True when the rules dealt with it and the engine's
     // buff is not applied (MAW: a fixed aura, or nothing for a hireling's). Standard: false.
     virtual bool castSourceBuff(Party &party, uint32_t spellId, BuffSource source) const;

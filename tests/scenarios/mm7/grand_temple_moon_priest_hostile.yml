@@ -1,0 +1,27 @@
+id: mm7.grand_temple_moon_priest_hostile
+title: MM7 Grand Temple of the Moon - the placed Priest of the Moon is hostile like the dungeon's other Moon clerics, so MAW's friendly-fire rule does not make him immune
+world: mm7
+mode: faithful
+tags: [mm7, maw, combat]
+steps:
+  # MAW with Friendly fire off (the default): hits on monsters not hostile to the party do nothing.
+  - new_game_flow:
+      start_map: 7out02.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Smith
+            class: Knight
+            level: 40
+            skills:
+              - {name: Sword, level: 10, mastery: 2}
+            equipment: {main_hand: 1}
+  # The load event makes the dungeon's monster group (56) hostile; the priest (actor 0) is in it.
+  - load_map: {map: 7d19.blv}
+  - set_pose: {map: 7d19.blv, x: 2688, y: 4800, z: 32, yaw_degrees: 90}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: true}
+  - damage_actor: {actor_index: 0, amount: 30}

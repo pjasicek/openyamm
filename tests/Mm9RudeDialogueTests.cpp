@@ -1627,8 +1627,10 @@ TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay
     CHECK_EQ(pTroglodyte->hitPoints, 95);
     CHECK_EQ(pTroglodyte->armorClass, 15);
     CHECK_EQ(pTroglodyte->experience, 689);
-    CHECK_EQ(pTroglodyte->speed, 384);
-    CHECK_EQ(pTroglodyte->recovery, 180);
+    // Half its MM9 RunVel (150 x 2.56): the shared AI's doubled pursuit runs at MM9's speed.
+    CHECK_EQ(pTroglodyte->speed, 192);
+    // Recovery 30 MM9 game seconds of 33 ms: 0.99 s (59 ticks of 1/60 s).
+    CHECK_EQ(pTroglodyte->recovery, 59);
     CHECK_EQ(pTroglodyte->fireResistance, 10);
     CHECK_EQ(pTroglodyte->airResistance, 10);
     CHECK_EQ(pTroglodyte->waterResistance, 10);

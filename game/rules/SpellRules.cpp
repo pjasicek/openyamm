@@ -76,6 +76,11 @@ SpellSplash SpellRules::spellSplash(uint32_t, SkillMastery) const
     return {};
 }
 
+bool SpellRules::ignoresCrowdControl(const ActorRulesetFacts &) const
+{
+    return false;
+}
+
 bool SpellRules::castSourceBuff(Party &, uint32_t, BuffSource) const
 {
     return false;
@@ -212,6 +217,7 @@ std::optional<float> partyCrowdControlSeconds(
     cast.resistance = resistance;
     cast.targetLevel = targetFacts.level > 0 ? targetFacts.level : targetTableLevel;
     cast.boss = targetFacts.bossAffix != 0;
+    cast.pTargetFacts = &targetFacts;
     cast.targetKey = mapActorKey(mapName, actorIndex);
     cast.partySize = pParty != nullptr ? pParty->members().size() : 1;
     // A game minute is two real seconds.

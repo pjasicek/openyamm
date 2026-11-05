@@ -3,18 +3,28 @@
 // INDOOR_BAKED: a face of a map with baked lighting (devdocs/INDOOR_BAKED_LIGHTING.md) takes its static light from
 // its lightmap page instead of the vertex bake and room ambient; the dynamic lights add on top as before.
 // INDOOR_FOG: a map with scene fog (devdocs/INDOOR_FOG.md): the finished colour fades into the fog colour between two
-// distances from the eye; sky faces stay clear. Only those maps load these programs.
+// distances from the eye; sky faces stay clear. Only those maps load these programs. u_indoorFogMode selects MM9's
+// fog (scene `model: lithtech`): the distance is the view depth, and the texture and the light fade separately.
+// u_indoorDaylight: the scene daylight (devdocs/INDOOR_OPEN_SKY.md), taken by the faces whose v_faceInfo.z is 1
+// (a vertex-lit face in a sector open to the sky); zero on every other map, where it adds nothing.
 // v_gradientU, v_gradientV: the face's texture gradients for surface materials (SURFACE_MATERIALS,
 // surface_material.sh); the vertex shaders always pass them, and bgfx links only matching varyings.
+// INDOOR_TERRAIN: the terrain faces of an open-air BLV (IndoorTerrainMaterials, devdocs/INDOOR_OPEN_SKY.md "Terrain"):
+// blended library ground materials (terrain_material_layers.sh) by world position instead of the face texture, lit
+// with the smooth ground normal the vertices carry in a_tangent (v_gradientU); v_texcoord0 = (steepness, meadow).
 // v_lightmapUv: read only by INDOOR_BAKED, but declared by every variant: shaderc keeps the $input lines of both
 // branches of an #if and takes the last, so Metal and SPIR-V lost it; vs_indoor_textured_lit passes zero.
-$input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace, v_flowInfo, v_color0, v_lightmapUv, v_gradientU, v_gradientV
+$input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace, v_flowInfo, v_color0, v_lightmapUv, v_gradientU, v_gradientV, v_faceInfo
 
 #include "common.sh"
 #include "world_clip.sh"
 #include "light_grid.sh"
+#include "sky_common.sh"
 #if SURFACE_MATERIALS
 #include "surface_material.sh"
+#endif
+#if INDOOR_TERRAIN
+#include "terrain_material_layers.sh"
 #endif
 
 SAMPLER2D(s_texColor, 0);
@@ -26,11 +36,14 @@ SAMPLER2D(s_texLightmap, 1);
 uniform vec4 u_indoorLightPositions[12];
 uniform vec4 u_indoorLightColors[12];
 uniform vec4 u_indoorLightParams;
-// x = 1 when the face takes its dynamic lights from the light grid, y/z = its sector and back sector (-1: none).
+// x = 1 when the faces take their dynamic lights from the light grid (only for the sectors those reach:
+// v_faceInfo.xy, the face's sector and back sector, -1 for none).
 uniform vec4 u_indoorFaceGrid;
 uniform vec4 u_secretPulseParams;
 uniform vec4 u_indoorSkyParams;
 uniform vec4 u_indoorSkyProjectionParams;
+// [0].rgb: the sky's ambient, [1].rgb: the sun, [2].xyz: toward the sun, [2].w: how steeply faces take it.
+uniform vec4 u_indoorDaylight[3];
 #if INDOOR_TRANSLUCENT
 // rgb: tint, a: opacity.
 uniform vec4 u_indoorTranslucency;
@@ -39,6 +52,12 @@ uniform vec4 u_indoorTranslucency;
 // rgb: fog colour; x, y: near and far distance.
 uniform vec4 u_fogColor;
 uniform vec4 u_fogDistances;
+// x = 1: the distance is the view depth; y = 1: the light fades into u_indoorFogLight.rgb apart from the texture.
+// u_skyFog (sky_common.sh): zero (flat fog, unchanged) except with an open sky's outdoor view
+// (devdocs/INDOOR_OPEN_SKY.md "Outdoor view"), where the sky's haze and its colour in each direction are added as on
+// an outdoor map's faces.
+uniform vec4 u_indoorFogMode;
+uniform vec4 u_indoorFogLight;
 #endif
 
 // The dynamic lights' response to the face's angle. Faces turned toward the light keep their old (angle-free) light;
@@ -63,16 +82,30 @@ vec3 indoorStaticLight(vec3 vertexLighting, vec2 lightmapUv)
 #endif
 }
 
-vec3 getIndoorLighting(vec3 worldPosition, vec3 vertexLighting, vec2 lightmapUv)
+// The daylight on a face of a sector open to the sky: the sky's ambient and the sun by the face's angle (its gain
+// steepens the response), at most 1 (as MM9's lightmaps clamp it).
+vec3 indoorDaylight(vec3 normal, float daylit)
 {
-    vec3 lighting = indoorStaticLight(vertexLighting, lightmapUv);
-    // BLV faces are flat: the normal from the position derivatives, turned toward the camera.
+    float facing = clamp(dot(normal, u_indoorDaylight[2].xyz) * u_indoorDaylight[2].w, 0.0, 1.0);
+    return min(u_indoorDaylight[0].rgb + u_indoorDaylight[1].rgb * facing, vec3_splat(1.0)) * daylit;
+}
+
+// BLV faces are flat: the normal from the position derivatives, turned toward the camera.
+vec3 indoorFlatNormal(vec3 worldPosition)
+{
     vec3 normal = cross(dFdx(worldPosition), dFdy(worldPosition));
     normal *= inversesqrt(max(dot(normal, normal), 0.000001));
     if (dot(normal, mul(u_invView, vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition) < 0.0)
     {
         normal = -normal;
     }
+    return normal;
+}
+
+vec3 getIndoorLighting(vec3 worldPosition, vec3 normal, vec3 vertexLighting, vec2 lightmapUv, vec3 faceInfo)
+{
+    vec3 lighting = indoorStaticLight(vertexLighting, lightmapUv);
+    lighting += indoorDaylight(normal, faceInfo.z);
 
     if (u_indoorFaceGrid.x > 0.5)
     {
@@ -93,7 +126,7 @@ vec3 getIndoorLighting(vec3 worldPosition, vec3 vertexLighting, vec2 lightmapUv)
             {
                 break;
             }
-            if (!lightGridReaches(index, source, u_indoorFaceGrid.yz))
+            if (!lightGridReaches(index, source, faceInfo.xy))
             {
                 continue;
             }
@@ -127,19 +160,19 @@ vec3 getIndoorLighting(vec3 worldPosition, vec3 vertexLighting, vec2 lightmapUv)
 // detailed normal with their highlights, the room's light reflected by smooth and metal surfaces, and glow (glass is
 // lit from outside, so it glows at any hour). Display-space result like getIndoorLighting's product.
 vec3 surfaceIndoorColor(vec3 displayColor, SurfacePoint material, vec3 faceNormal, vec3 toCamera, float distance,
-    vec3 vertexLighting, vec3 worldPosition, vec2 lightmapUv)
+    vec3 vertexLighting, vec3 worldPosition, vec2 lightmapUv, vec3 faceInfo)
 {
     vec3 view = toCamera / max(distance, 0.001);
     vec3 albedo = pow(max(displayColor, vec3_splat(0.0)), vec3_splat(2.2));
     vec3 f0 = mix(vec3_splat(0.04), albedo, material.metal);
-    vec3 room = indoorStaticLight(vertexLighting, lightmapUv);
+    vec3 room = indoorStaticLight(vertexLighting, lightmapUv) + indoorDaylight(material.normal, faceInfo.z);
     vec3 lighting = room * material.occlusion;
     vec3 specular = vec3_splat(0.0);
     if (u_indoorFaceGrid.x > 0.5)
     {
         vec3 diffuse;
         vec3 highlights;
-        surfacePointLights(worldPosition, material, faceNormal, view, f0, u_indoorFaceGrid.yz, true, diffuse,
+        surfacePointLights(worldPosition, material, faceNormal, view, f0, faceInfo.xy, true, diffuse,
             highlights);
         lighting += diffuse;
         specular += highlights;
@@ -185,6 +218,36 @@ vec3 surfaceIndoorColor(vec3 displayColor, SurfacePoint material, vec3 faceNorma
 void main()
 {
     clipWorldPosition(v_worldPosition);
+#if INDOOR_TERRAIN
+    vec3 position = v_worldPosition;
+    // The triangle's own normal.z (the ground layers' bank test) from the derivatives, taken before any branch.
+    vec3 flatNormal = cross(dFdx(position), dFdy(position));
+    float faceUp = abs(flatNormal.z) * inversesqrt(max(dot(flatNormal, flatNormal), 1.0e-12));
+    vec3 groundNormal = normalize(v_gradientU);
+    // The weights cover the 65 536-unit map frame from its north-west corner, as on an outdoor map.
+    vec2 mapUv = vec2(position.x + 32768.0, 32768.0 - position.y) / 65536.0;
+    vec4 weights0 = texture2DArray(s_terrainWeights, vec3(mapUv, 0.0));
+    vec4 weights1 = texture2DArray(s_terrainWeights, vec3(mapUv, 1.0));
+    vec4 macroSample = texture2D(s_terrainMacro, position.xy / 16384.0);
+    float meadow = clamp(v_texcoord0.y + (macroSample.g - 0.5) * 0.5 + (macroSample.a - 0.5) * 0.3, -1.0, 1.0);
+    vec3 albedo;
+    vec3 shadingNormal;
+    float occlusion;
+    float roughness;
+    float layerSpecular;
+    float layerWetSheen;
+    vec3 glow;
+    float pool;
+    blendTerrainMaterial(weights0, weights1, position, groundNormal, faceUp, v_texcoord0.x, macroSample, meadow, 0.0,
+        -1.0, albedo, shadingNormal, occlusion, roughness, layerSpecular, layerWetSheen, glow, pool);
+    vec4 textureColor = vec4(albedo, 1.0);
+    vec3 faceLighting = getIndoorLighting(v_worldPosition, shadingNormal, v_color0.rgb, v_lightmapUv, v_faceInfo)
+        * occlusion;
+    vec3 color = albedo * faceLighting + glow;
+#if INDOOR_FOG
+    vec3 fogLight = faceLighting;
+#endif
+#else
     vec2 texcoord = v_texcoord0;
 
     if (v_flowInfo.w < -1.5)
@@ -252,9 +315,19 @@ void main()
 
 #if SURFACE_MATERIALS
     vec3 color = surfaceIndoorColor(textureColor.rgb, material, faceNormal, toCamera, cameraDistance, v_color0.rgb,
-        v_worldPosition, v_lightmapUv);
+        v_worldPosition, v_lightmapUv, v_faceInfo);
+#if INDOOR_FOG
+    // The light MM9's fog fades apart from the texture: the room's (static and daylight).
+    vec3 fogLight = indoorStaticLight(v_color0.rgb, v_lightmapUv) + indoorDaylight(faceNormal, v_faceInfo.z);
+#endif
 #else
-    vec3 color = textureColor.rgb * getIndoorLighting(v_worldPosition, v_color0.rgb, v_lightmapUv);
+    vec3 faceLighting = getIndoorLighting(v_worldPosition, indoorFlatNormal(v_worldPosition), v_color0.rgb,
+        v_lightmapUv, v_faceInfo);
+    vec3 color = textureColor.rgb * faceLighting;
+#if INDOOR_FOG
+    vec3 fogLight = faceLighting;
+#endif
+#endif
 #endif
 
     if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)
@@ -270,9 +343,22 @@ void main()
 #if INDOOR_FOG
     if (v_flowInfo.w >= -1.5)
     {
-        float fogDistance = length(mul(u_invView, vec4(0.0, 0.0, 0.0, 1.0)).xyz - v_worldPosition);
-        color = mix(color, u_fogColor.rgb, clamp((fogDistance - u_fogDistances.x)
-            / max(u_fogDistances.y - u_fogDistances.x, 1.0), 0.0, 1.0));
+        float fogDistance = u_indoorFogMode.x > 0.5 ? abs(mul(u_view, vec4(v_worldPosition, 1.0)).z)
+            : length(mul(u_invView, vec4(0.0, 0.0, 0.0, 1.0)).xyz - v_worldPosition);
+        float fogAmount = clamp((fogDistance - u_fogDistances.x) / max(u_fogDistances.y - u_fogDistances.x, 1.0),
+            0.0, 1.0);
+        if (u_indoorFogMode.y > 0.5)
+        {
+            // MM9's two passes: the texture fades into the fog colour, its light into the lightmap pass's.
+            vec3 fadedLight = max(fogLight, vec3_splat(0.001));
+            color = mix(color / fadedLight, u_fogColor.rgb, fogAmount)
+                * mix(fadedLight, u_indoorFogLight.rgb, fogAmount);
+        }
+        else
+        {
+            fogAmount = skyFogRatio(fogAmount, v_worldPosition, fogDistance, u_fogDistances.y);
+            color = mix(color, skyFogDisplayColor(fogAmount, u_fogColor.rgb, v_worldPosition), fogAmount);
+        }
     }
 #endif
 

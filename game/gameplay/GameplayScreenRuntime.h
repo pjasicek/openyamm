@@ -150,6 +150,7 @@ public:
     GameplayUiController::UtilitySpellOverlayState &utilitySpellOverlay() const;
     GameplayUiController::InventoryNestedOverlayState &inventoryNestedOverlay() const;
     GameplayUiController::HouseShopOverlayState &houseShopOverlay() const;
+    GameplayUiController::TransportScheduleState &transportSchedule() const;
     GameplayUiController::HouseShopVisitState &houseShopVisit() const;
     GameplayUiController::HouseBankState &houseBankState() const;
     GameplayUiController::JournalScreenState &journalScreenState() const;
@@ -255,6 +256,7 @@ public:
     void openQuickReferenceOverlay();
     void closeQuickReferenceOverlay();
     void closeHouseShopOverlay();
+    void closeTransportSchedule();
     void markHouseShopTransactionPerformed(uint32_t houseId);
     void openFollowerNpcDialogue(size_t followerSlotIndex);
     void openFollowerNpcDialogueByIndex(size_t followerIndex);
@@ -283,6 +285,9 @@ public:
         const DialogueCloseCallback &closeActiveDialog = {},
         const ActiveDialogActionCallback &afterCloseContinuation = {},
         const PendingEventDialogPresenter &presentPendingEventDialogCallback = {});
+    // Executes an action offered by a popup over the active dialogue (a trip chosen in a stable's schedule) the way
+    // a clicked topic is executed.
+    void executeDialogAction(const EventDialogAction &action);
     void refreshHouseBankInputDialog();
     void confirmHouseBankInput();
     void closeInventoryNestedOverlay();
@@ -314,6 +319,7 @@ public:
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
+    bool isMemberSpeechPlaying(size_t memberIndex, SpeechId speechId) const;
     void playCantRestHereReaction();
     void queueDelayedSpeechReaction(size_t memberIndex, SpeechId speechId, float delaySeconds);
     void updateDelayedSpeechReactions(float deltaSeconds);
@@ -560,6 +566,7 @@ private:
     GameSettings *m_pSettings = nullptr;
     IGameplayOverlaySceneAdapter *m_pSceneAdapter = nullptr;
     DialogueCloseCallback m_pendingMapMoveDialogClose;
+    std::optional<EventDialogAction> m_dialogActionOverride;
     std::optional<DelayedSpeechReaction> m_delayedSpeechReaction;
     uint64_t m_lastSpellFailSoundTicks = 0;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;

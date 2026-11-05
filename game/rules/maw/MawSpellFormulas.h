@@ -48,10 +48,10 @@ struct MawCrowdControlSpell
     uint32_t spellId = 0;
     double baseMinutes = 0;
     int group = 1;
-    // Shrinking Ray lasts its base at every mastery; Dragon Fear always lasts its Novice duration, without Ascension
-    // or resistance (MAW reads it at the Mind mastery dragons lack).
+    // Shrinking Ray lasts its base at every mastery; Dragon Fear's duration follows its Dragon Ability mastery
+    // without Ascension or resistance (applyCCDebuff, zzMaw-Spells.lua:1406-1414).
     bool flat = false;
-    bool fixed = false;
+    bool ignoresAscension = false;
 };
 
 // Null for a spell that is not crowd control under MAW (Stun has its own roll, mawStunChance).

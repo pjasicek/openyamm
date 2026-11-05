@@ -1,4 +1,7 @@
 #include "game/outdoor/OutdoorWorldRuntime.h"
+
+#include "game/gameplay/Mm9ActorRules.h"
+#include "game/gameplay/ActorAiTrace.h"
 #include "game/gameplay/ActorVocalizationRules.h"
 #include "game/audio/ActorAudioRules.h"
 #include "game/data/ActorNameResolver.h"
@@ -33,6 +36,7 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorGameplayInputController.h"
 #include "game/outdoor/OutdoorInteractionController.h"
+#include "game/events/MechanismAudio.h"
 #include "game/outdoor/OutdoorMechanismRuntime.h"
 #include "game/outdoor/OutdoorPathfindingBuilder.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -725,7 +729,6 @@ constexpr bool OutdoorActorPathfindingEnabled = true;
 constexpr size_t OutdoorActorPathNodeLimit = 8000;
 constexpr size_t OutdoorActorPathPlanBudgetPerStep = 2;
 constexpr size_t OutdoorActorPathWorkerCount = 2;
-constexpr double OutdoorActorPathPlanIntervalSeconds = 0.1;
 constexpr float OutdoorGroundPathStepLength = 64.0f;
 constexpr float OutdoorGroundPathStepHeight = 128.0f;
 constexpr float OutdoorGroundPathSourceSnapDistance = static_cast<float>(OutdoorMapData::TerrainTileSize);
@@ -898,6 +901,8 @@ struct OutdoorActiveActorCandidate
 {
     size_t actorIndex = static_cast<size_t>(-1);
     float distanceToParty = 0.0f;
+    // Its own update range beyond the shared one (an MM9 monster's senses; 0: the shared range).
+    float activeRange = 0.0f;
     bool eligible = false;
     bool provoked = false;
 };
@@ -2120,7 +2125,8 @@ bool resolveProjectileDefinition(
     const std::string &spellName =
         ability == OutdoorWorldRuntime::MonsterAttackAbility::Spell1 ? stats.spell1Name : stats.spell2Name;
 
-    if (!isProjectileSpellName(spellName))
+    // A condition spell flies only for a monster that may cast it (spell1CastSupported, spell_conditions).
+    if (!isProjectileSpellName(spellName) && !isMonsterConditionSpellName(spellName))
     {
         return false;
     }
@@ -2759,7 +2765,8 @@ const MonsterEntry *resolveMonsterEntry(
 void populateOutdoorActorStaticCombatFacts(
     OutdoorWorldRuntime::MapActorState &state,
     const MonsterTable::MonsterStatsEntry *pStats,
-    const SpellTable *pSpellTable)
+    const SpellTable *pSpellTable,
+    const MonsterModifierSet *pModifiers)
 {
     if (pStats == nullptr)
     {
@@ -2770,8 +2777,10 @@ void populateOutdoorActorStaticCombatFacts(
     state.canFly = pStats->canFly;
     state.attack1DamageType = GameMechanics::parseCombatDamageType(pStats->attack1Type);
     state.attack2DamageType = GameMechanics::parseCombatDamageType(pStats->attack2Type);
-    state.spell1CastSupported = outdoorMonsterSpellCastSupported(pStats->spell1Name);
-    state.spell2CastSupported = outdoorMonsterSpellCastSupported(pStats->spell2Name);
+    state.spell1CastSupported = outdoorMonsterSpellCastSupported(pStats->spell1Name)
+        || monsterConditionSpellCastSupported(pStats->spell1Name, pModifiers, 1);
+    state.spell2CastSupported = outdoorMonsterSpellCastSupported(pStats->spell2Name)
+        || monsterConditionSpellCastSupported(pStats->spell2Name, pModifiers, 2);
     state.wanderRadius = wanderRadiusForMovementType(pStats->movementType);
 
     if (pSpellTable != nullptr)
@@ -2829,7 +2838,8 @@ void refreshOutdoorMapActorAiStaticFields(
         return;
     }
 
-    populateOutdoorActorStaticCombatFacts(state, pStats, pSpellTable);
+    populateOutdoorActorStaticCombatFacts(
+        state, pStats, pSpellTable, pMonsterTable->findModifiers(state.monsterId));
 }
 
 void applyOutdoorBolsterAbilityOverrides(
@@ -2942,7 +2952,8 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.spell1SkillMastery = pStats != nullptr ? bolster.spell1SkillMastery : SkillMastery::None;
     state.spell2SkillLevel = pStats != nullptr ? bolster.spell2SkillLevel : 0;
     state.spell2SkillMastery = pStats != nullptr ? bolster.spell2SkillMastery : SkillMastery::None;
-    populateOutdoorActorStaticCombatFacts(state, pStats, pSpellTable);
+    populateOutdoorActorStaticCombatFacts(
+        state, pStats, pSpellTable, monsterTable.findModifiers(state.monsterId));
     applyOutdoorBolsterAbilityOverrides(state, bolster, pSpellTable);
     GameplayActorService actorService = {};
     const int16_t relationMonsterId = actorService.relationMonsterId(state.monsterId, state.ally);
@@ -3106,7 +3117,7 @@ std::vector<bool> selectOutdoorActiveActorMask(
             continue;
         }
 
-        if (candidate.distanceToParty <= activeRange || candidate.provoked)
+        if (candidate.distanceToParty <= std::max(activeRange, candidate.activeRange) || candidate.provoked)
         {
             activeCandidates.push_back(&candidate);
         }
@@ -3963,7 +3974,7 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     state.spell1SkillMastery = bolster.spell1SkillMastery;
     state.spell2SkillLevel = bolster.spell2SkillLevel;
     state.spell2SkillMastery = bolster.spell2SkillMastery;
-    populateOutdoorActorStaticCombatFacts(state, &stats, pSpellTable);
+    populateOutdoorActorStaticCombatFacts(state, &stats, pSpellTable, monsterTable.findModifiers(state.monsterId));
     state.hostileToParty =
         (attributes & ActorAggressorBit) != 0 || monsterTable.isHostileToParty(state.monsterId);
     state.isInvisible = (attributes & ActorInvisibleBit) != 0;
@@ -4078,6 +4089,15 @@ std::vector<OutdoorCombatTargetCandidate> buildCombatTargetCandidates(
     return candidates;
 }
 
+// An MM9 monster's sight of the party (MM9_AI_NATIVE_RE.md section 5.1): as far as its senses reach (beyond the
+// world's engagement range), from its eye to the party's centre.
+struct OutdoorMm9Sight
+{
+    float range = 0.0f;
+    float eyeZ = 0.0f;
+    float partyCentreZ = 0.0f;
+};
+
 template <typename VisibilityFn>
 OutdoorTargetFacts resolveOutdoorTargetFacts(
     const GameplayActorService *pGameplayActorService,
@@ -4089,6 +4109,7 @@ OutdoorTargetFacts resolveOutdoorTargetFacts(
     float partyY,
     float partyZ,
     bool partyInvisible,
+    const std::optional<OutdoorMm9Sight> &mm9Sight,
     VisibilityFn &&hasClearOutdoorLineOfSight)
 {
     OutdoorTargetFacts target = {};
@@ -4102,7 +4123,10 @@ OutdoorTargetFacts resolveOutdoorTargetFacts(
     const GameplayActorTargetPolicyState actorPolicyState = buildGameplayActorTargetPolicyState(actor);
     const float actorTargetZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
     const float partyTargetZ = partyZ + PartyTargetHeightOffset;
-    const float partySenseRange = pGameplayActorService->partyEngagementRange(actorPolicyState);
+    const float worldSenseRange = pGameplayActorService->partyEngagementRange(actorPolicyState);
+    const float partySenseRange = mm9Sight && worldSenseRange > 0.0f
+        ? mm9SenseRange(worldSenseRange, mm9Sight->range, GameplayActorService::MaximumPartyEngagementRange)
+        : worldSenseRange;
 
     if (!partyInvisible && partySenseRange > 0.0f)
     {
@@ -4123,8 +4147,8 @@ OutdoorTargetFacts resolveOutdoorTargetFacts(
                 hasClearOutdoorLineOfSight(
                     actorIndex,
                     static_cast<size_t>(-1),
-                    bx::Vec3{actor.preciseX, actor.preciseY, actorTargetZ},
-                    bx::Vec3{partyX, partyY, partyTargetZ});
+                    bx::Vec3{actor.preciseX, actor.preciseY, mm9Sight ? mm9Sight->eyeZ : actorTargetZ},
+                    bx::Vec3{partyX, partyY, mm9Sight ? mm9Sight->partyCentreZ : partyTargetZ});
             const float horizontalDistanceToParty = length2d(deltaPartyX, deltaPartyY);
             const float distanceToParty = length3d(deltaPartyX, deltaPartyY, deltaPartyZ);
             // Like OE, the melee gap to the party subtracts only the actor radius, not the party's.
@@ -4575,7 +4599,37 @@ void OutdoorWorldRuntime::pushOutdoorMonsterSound(size_t actorIndex, uint32_t so
 bool OutdoorWorldRuntime::beginMapActorHitReaction(size_t actorIndex, bool force, bool emitAudio)
 {
     MapActorState &actor = m_mapActors[actorIndex];
-    if (!canEnterHitReaction(actor, force) || (!force && monsterNeverStaggers(actor.monsterId))
+    const Mm9AiProfile *pMm9Profile = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
+
+    if (!canEnterHitReaction(actor, force))
+    {
+        return false;
+    }
+
+    // An MM9 walker winces by MM9's native roll (never for `Always Wince? = 1`, else 20-50 % at 20 % health or less)
+    // instead of the stagger rules; its AI traces the roll (ActorMm9WorldFacts::winceSerial).
+    if (!force && pMm9Profile != nullptr)
+    {
+        ActorMm9WorldFacts &world = actor.mm9World;
+        const float chance = mm9WinceChance(pMm9Profile->wince, actor.currentHp, actor.maxHp,
+            mm9Unit(actor.actorId, world.damageSerial, 0x2f6b9a1du));
+
+        if (chance <= 0.0f)
+        {
+            return false;
+        }
+
+        const float roll = mm9Unit(actor.actorId, world.damageSerial, 0x68e31da4u);
+        ++world.winceSerial;
+        world.winceChance = chance;
+        world.winceRoll = roll;
+
+        if (roll >= chance)
+        {
+            return false;
+        }
+    }
+    else if ((!force && monsterNeverStaggers(actor.monsterId))
         || (!force && !m_actorModifiers.allowsStagger(actorIndex, actor.monsterId, actor.actorId, actor.maxHp)))
     {
         return false;
@@ -4589,6 +4643,50 @@ bool OutdoorWorldRuntime::beginMapActorHitReaction(size_t actorIndex, bool force
         pushOutdoorMonsterSound(actorIndex, pStats->winceSoundId, "monster_hit");
     }
     return true;
+}
+
+void OutdoorWorldRuntime::noteMm9ActorHit(
+    size_t actorIndex, ActorAiTargetKind attackerKind, size_t attackerActorIndex, int damage)
+{
+    if (damage <= 0 || actorIndex >= m_mapActors.size())
+    {
+        return;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (m_actorBehaviors.mm9LoopProfile(actor.monsterId) == nullptr)
+    {
+        return;
+    }
+
+    // The attacker's edge distance as the AI measures its target's (the party's radius stays in).
+    float distance = 0.0f;
+
+    if (attackerKind == ActorAiTargetKind::Party && m_pPartyRuntime != nullptr)
+    {
+        const OutdoorMoveState &party = m_pPartyRuntime->movementState();
+        distance = length3d(party.x - actor.preciseX, party.y - actor.preciseY, party.footZ - actor.preciseZ)
+            - float(actor.radius);
+    }
+    else if (attackerKind == ActorAiTargetKind::Actor && attackerActorIndex < m_mapActors.size()
+        && attackerActorIndex != actorIndex)
+    {
+        const MapActorState &attacker = m_mapActors[attackerActorIndex];
+        distance = length3d(attacker.preciseX - actor.preciseX, attacker.preciseY - actor.preciseY,
+            attacker.preciseZ - actor.preciseZ) - float(actor.radius) - float(attacker.radius);
+    }
+    else
+    {
+        return;
+    }
+
+    ActorMm9WorldFacts &world = actor.mm9World;
+    ++world.damageSerial;
+    world.attackerKind = attackerKind;
+    world.attackerActorIndex = attackerKind == ActorAiTargetKind::Actor ? attackerActorIndex : static_cast<size_t>(-1);
+    world.attackerDistance = std::max(0.0f, distance);
+    world.largestHit = std::max(world.largestHit, damage);
 }
 
 void OutdoorWorldRuntime::pushProjectileAudioEvent(
@@ -4994,6 +5092,7 @@ void OutdoorWorldRuntime::initialize(
     m_mm9FoundPlayerEventAttempted.clear();
     m_mm9CivilianActorIndices.clear();
     m_mm9GuardActorIndices.clear();
+    m_yellFleeingActorIndices.clear();
     m_spawnPoints.clear();
     m_mapActorCorpseViews.clear();
     m_mapActorRevealedLoot.clear();
@@ -5086,7 +5185,6 @@ void OutdoorWorldRuntime::initialize(
     m_actorPathRuntimeSeconds = 0.0;
     m_actorSightCache.clear();
     m_actorPathPlansThisStep = 0;
-    m_nextActorPathPlanSeconds = 0.0;
     m_actorUpdateAccumulatorSeconds = 0.0f;
     m_actorHitFeedback.clear();
     m_mm9FoundPlayerAccumulatorSeconds = 0.0f;
@@ -6917,6 +7015,11 @@ const ActorBehaviorRuntime *OutdoorWorldRuntime::actorBehaviorRuntime() const
     return &m_actorBehaviors;
 }
 
+bool OutdoorWorldRuntime::triggerMapActor(size_t actorIndex, const std::string &message)
+{
+    return m_actorBehaviors.trigger(actorIndex, message);
+}
+
 bool OutdoorWorldRuntime::setMapActorBehavior(size_t actorIndex, const std::string &behaviorId)
 {
     std::string error;
@@ -7085,8 +7188,9 @@ GameplayActorShieldHit OutdoorWorldRuntime::applyActorShieldHit(
     float sourceZ,
     const ShieldHitModifiers &shieldModifiers)
 {
-    // An actor script's self:setInvulnerable: nothing reaches it, shield included.
-    if (m_actorBehaviors.invulnerable(actorIndex))
+    // An actor script's self:setInvulnerable: nothing reaches it, shield included (an MM9 script's physical
+    // immunity: no physical hit).
+    if (m_actorBehaviors.invulnerable(actorIndex, shieldTier))
     {
         return GameplayActorShieldHit{.bodyDamage = 0};
     }
@@ -7756,151 +7860,16 @@ bool OutdoorWorldRuntime::blinkMapActorTo(
     const std::optional<std::array<float, 3>> &keepSightOf,
     bool *pBlockedByParty)
 {
-    if (actorIndex >= m_mapActors.size() || m_pOutdoorMapData == nullptr)
+    const std::optional<float> spotFootZ =
+        checkMapActorSpot(actorIndex, x, y, maxHeightChange, keepSightOf, pBlockedByParty, std::nullopt, nullptr);
+
+    if (!spotFootZ)
     {
         return false;
     }
 
     MapActorState &actor = m_mapActors[actorIndex];
-
-    if (actor.isDead || actor.currentHp <= 0)
-    {
-        return false;
-    }
-
-    const MonsterTable::MonsterStatsEntry *pStats =
-        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
-    const bool canFly = pStats != nullptr ? pStats->canFly : actor.canFly;
-    const float radius = static_cast<float>(actor.radius > 0 ? actor.radius : 40);
-    const float height = static_cast<float>(actor.height > 0 ? actor.height : 120);
-    constexpr float MapHalfExtent =
-        static_cast<float>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainTileSize) * 0.5f;
-    const MapBounds &bounds = m_map.outdoorBounds;
-
-    if (std::abs(x) > MapHalfExtent - radius - 512.0f || std::abs(y) > MapHalfExtent - radius - 512.0f
-        || (bounds.enabled
-            && (x - radius < float(bounds.minX) || x + radius > float(bounds.maxX)
-                || y - radius < float(bounds.minY) || y + radius > float(bounds.maxY))))
-    {
-        return false;
-    }
-
-    // The floor under the spot: the highest walkable floor no more than maxHeightChange above the actor's own.
-    const auto floorAt = [&](float sampleX, float sampleY, float probeZ, bool &onBModel) -> std::optional<float>
-    {
-        const OutdoorSupportFloorSample support = sampleOutdoorSupportFloor(
-            *m_pOutdoorMapData, sampleX, sampleY, probeZ, 0.0f, std::max(5.0f, radius));
-
-        if (!support.hasFloor)
-        {
-            return std::nullopt;
-        }
-
-        onBModel = support.fromBModel;
-        return support.height;
-    };
-    bool originOnBModel = false;
-    const std::optional<float> originFloor = floorAt(actor.preciseX, actor.preciseY, actor.preciseZ + 8.0f,
-        originOnBModel);
-    const float originFloorZ = originFloor.value_or(actor.preciseZ);
-    bool destinationOnBModel = false;
-    const std::optional<float> destinationFloor =
-        floorAt(x, y, originFloorZ + maxHeightChange + 8.0f, destinationOnBModel);
-
-    if (!destinationFloor || std::abs(*destinationFloor - originFloorZ) > maxHeightChange + 8.0f)
-    {
-        return false;
-    }
-
-    if (!canFly && !destinationOnBModel
-        && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y) || isOutdoorLandMaskWater(m_outdoorLandMask, x, y)
-            || outdoorTerrainSlopeTooHigh(*m_pOutdoorMapData, x, y)))
-    {
-        return false;
-    }
-
-    // A flyer keeps its height above the floor.
-    const float footZ = canFly ? std::max(*destinationFloor, *destinationFloor + (actor.preciseZ - originFloorZ))
-                               : *destinationFloor;
-    constexpr float StepClearance = 4.0f;
-    std::vector<size_t> faceIndices;
-    collectOutdoorFaceCandidates(x - radius, y - radius, x + radius, y + radius, faceIndices);
-
-    for (size_t faceIndex : faceIndices)
-    {
-        if (faceIndex >= m_outdoorFaces.size())
-        {
-            continue;
-        }
-
-        const OutdoorFaceGeometryData &face = m_outdoorFaces[faceIndex];
-
-        if (outdoorFaceBlocksMovement(face) && !face.isWalkable
-            && isOutdoorCylinderBlockedByFace(face, x, y, footZ + StepClearance, radius, height - StepClearance))
-        {
-            return false;
-        }
-    }
-
-    const auto overlaps = [&](float otherX, float otherY, float otherBottom, float otherRadius, float otherHeight)
-    {
-        const float reach = radius + otherRadius;
-        const float deltaX = otherX - x;
-        const float deltaY = otherY - y;
-        return deltaX * deltaX + deltaY * deltaY < reach * reach
-            && otherBottom < footZ + height && otherBottom + otherHeight > footZ;
-    };
-
-    for (const OutdoorDecorationCollision &decoration : m_blinkDecorationColliders)
-    {
-        if (decoration.entityIndex < m_hiddenDecorationEntities.size()
-            && m_hiddenDecorationEntities[decoration.entityIndex])
-        {
-            continue;
-        }
-
-        if (overlaps(float(decoration.worldX), float(decoration.worldY), float(decoration.worldZ),
-                float(std::max<int16_t>(decoration.radius, 0)), float(decoration.height)))
-        {
-            return false;
-        }
-    }
-
-    for (size_t otherIndex = 0; otherIndex < m_mapActors.size(); ++otherIndex)
-    {
-        const MapActorState &other = m_mapActors[otherIndex];
-
-        if (otherIndex != actorIndex && !other.isDead && other.currentHp > 0
-            && overlaps(other.preciseX, other.preciseY, other.preciseZ, float(other.radius) + 8.0f,
-                float(std::max<uint16_t>(other.height, 1))))
-        {
-            return false;
-        }
-    }
-
-    if (overlaps(partyX(), partyY(), partyFootZ(), m_partyCollisionRadius + 16.0f, m_partyCollisionHeight))
-    {
-        if (pBlockedByParty != nullptr)
-        {
-            *pBlockedByParty = true;
-        }
-
-        return false;
-    }
-
-    // No blinking through walls, and (when asked) a spot that keeps the threat in sight.
-    const bx::Vec3 fromCenter = {actor.preciseX, actor.preciseY, actor.preciseZ + height * 0.5f};
-    const bx::Vec3 toCenter = {x, y, footZ + height * 0.5f};
-
-    if (!hasClearOutdoorLineOfSight(fromCenter, toCenter)
-        || (keepSightOf
-            && !hasClearOutdoorLineOfSight(
-                {x, y, footZ + std::max(24.0f, height * 0.7f)},
-                {(*keepSightOf)[0], (*keepSightOf)[1], (*keepSightOf)[2]})))
-    {
-        return false;
-    }
-
+    const float footZ = *spotFootZ;
     actor.preciseX = x;
     actor.preciseY = y;
     actor.preciseZ = footZ;
@@ -7928,6 +7897,180 @@ bool OutdoorWorldRuntime::blinkMapActorTo(
     }
 
     return true;
+}
+
+std::optional<float> OutdoorWorldRuntime::checkMapActorSpot(
+    size_t actorIndex,
+    float x,
+    float y,
+    float maxHeightChange,
+    const std::optional<std::array<float, 3>> &keepSightOf,
+    bool *pBlockedByParty,
+    std::optional<float> eyeBelowTop,
+    int *pSightChecks)
+{
+    if (actorIndex >= m_mapActors.size() || m_pOutdoorMapData == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.isDead || actor.currentHp <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
+    const bool canFly = pStats != nullptr ? pStats->canFly : actor.canFly;
+    const float radius = static_cast<float>(actor.radius > 0 ? actor.radius : 40);
+    const float height = static_cast<float>(actor.height > 0 ? actor.height : 120);
+    constexpr float MapHalfExtent =
+        static_cast<float>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainTileSize) * 0.5f;
+    const MapBounds &bounds = m_map.outdoorBounds;
+
+    if (std::abs(x) > MapHalfExtent - radius - 512.0f || std::abs(y) > MapHalfExtent - radius - 512.0f
+        || (bounds.enabled
+            && (x - radius < float(bounds.minX) || x + radius > float(bounds.maxX)
+                || y - radius < float(bounds.minY) || y + radius > float(bounds.maxY))))
+    {
+        return std::nullopt;
+    }
+
+    // The floor under the spot: the highest walkable floor no more than maxHeightChange above the actor's own.
+    const auto floorAt = [&](float sampleX, float sampleY, float probeZ, bool &onBModel) -> std::optional<float>
+    {
+        const OutdoorSupportFloorSample support = sampleOutdoorSupportFloor(
+            *m_pOutdoorMapData, sampleX, sampleY, probeZ, 0.0f, std::max(5.0f, radius));
+
+        if (!support.hasFloor)
+        {
+            return std::nullopt;
+        }
+
+        onBModel = support.fromBModel;
+        return support.height;
+    };
+    bool originOnBModel = false;
+    const std::optional<float> originFloor = floorAt(actor.preciseX, actor.preciseY, actor.preciseZ + 8.0f,
+        originOnBModel);
+    const float originFloorZ = originFloor.value_or(actor.preciseZ);
+    bool destinationOnBModel = false;
+    const std::optional<float> destinationFloor =
+        floorAt(x, y, originFloorZ + maxHeightChange + 8.0f, destinationOnBModel);
+
+    if (!destinationFloor || std::abs(*destinationFloor - originFloorZ) > maxHeightChange + 8.0f)
+    {
+        return std::nullopt;
+    }
+
+    if (!canFly && !destinationOnBModel
+        && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y) || isOutdoorLandMaskWater(m_outdoorLandMask, x, y)
+            || outdoorTerrainSlopeTooHigh(*m_pOutdoorMapData, x, y)))
+    {
+        return std::nullopt;
+    }
+
+    // A flyer keeps its height above the floor.
+    const float footZ = canFly ? std::max(*destinationFloor, *destinationFloor + (actor.preciseZ - originFloorZ))
+                               : *destinationFloor;
+    constexpr float StepClearance = 4.0f;
+    std::vector<size_t> faceIndices;
+    collectOutdoorFaceCandidates(x - radius, y - radius, x + radius, y + radius, faceIndices);
+
+    for (size_t faceIndex : faceIndices)
+    {
+        if (faceIndex >= m_outdoorFaces.size())
+        {
+            continue;
+        }
+
+        const OutdoorFaceGeometryData &face = m_outdoorFaces[faceIndex];
+
+        if (outdoorFaceBlocksMovement(face) && !face.isWalkable
+            && isOutdoorCylinderBlockedByFace(face, x, y, footZ + StepClearance, radius, height - StepClearance))
+        {
+            return std::nullopt;
+        }
+    }
+
+    const auto overlaps = [&](float otherX, float otherY, float otherBottom, float otherRadius, float otherHeight)
+    {
+        const float reach = radius + otherRadius;
+        const float deltaX = otherX - x;
+        const float deltaY = otherY - y;
+        return deltaX * deltaX + deltaY * deltaY < reach * reach
+            && otherBottom < footZ + height && otherBottom + otherHeight > footZ;
+    };
+
+    for (const OutdoorDecorationCollision &decoration : m_blinkDecorationColliders)
+    {
+        if (decoration.entityIndex < m_hiddenDecorationEntities.size()
+            && m_hiddenDecorationEntities[decoration.entityIndex])
+        {
+            continue;
+        }
+
+        if (overlaps(float(decoration.worldX), float(decoration.worldY), float(decoration.worldZ),
+                float(std::max<int16_t>(decoration.radius, 0)), float(decoration.height)))
+        {
+            return std::nullopt;
+        }
+    }
+
+    for (size_t otherIndex = 0; otherIndex < m_mapActors.size(); ++otherIndex)
+    {
+        const MapActorState &other = m_mapActors[otherIndex];
+
+        if (otherIndex != actorIndex && !other.isDead && other.currentHp > 0
+            && overlaps(other.preciseX, other.preciseY, other.preciseZ, float(other.radius) + 8.0f,
+                float(std::max<uint16_t>(other.height, 1))))
+        {
+            return std::nullopt;
+        }
+    }
+
+    if (overlaps(partyX(), partyY(), partyFootZ(), m_partyCollisionRadius + 16.0f, m_partyCollisionHeight))
+    {
+        if (pBlockedByParty != nullptr)
+        {
+            *pBlockedByParty = true;
+        }
+
+        return std::nullopt;
+    }
+
+    // No blinking through walls, and (when asked) a spot that keeps the threat in sight.
+    const bx::Vec3 fromCenter = {actor.preciseX, actor.preciseY, actor.preciseZ + height * 0.5f};
+    const bx::Vec3 toCenter = {x, y, footZ + height * 0.5f};
+
+    if (pSightChecks != nullptr)
+    {
+        ++*pSightChecks;
+    }
+
+    if (!hasClearOutdoorLineOfSight(fromCenter, toCenter))
+    {
+        return std::nullopt;
+    }
+
+    if (keepSightOf)
+    {
+        if (pSightChecks != nullptr)
+        {
+            ++*pSightChecks;
+        }
+
+        const float eyeZ = eyeBelowTop ? mm9EyeZ(footZ, height, *eyeBelowTop) : footZ + std::max(24.0f, height * 0.7f);
+
+        if (!hasClearOutdoorLineOfSight({x, y, eyeZ}, {(*keepSightOf)[0], (*keepSightOf)[1], (*keepSightOf)[2]}))
+        {
+            return std::nullopt;
+        }
+    }
+
+    return footZ;
 }
 
 void OutdoorWorldRuntime::updateTurnBasedPausedActorAnimations(float deltaSeconds)
@@ -8048,8 +8191,60 @@ size_t OutdoorWorldRuntime::turnBasedPendingWorldActionCount() const
             projectileService().projectiles().end(),
             [](const ProjectileState &projectile)
             {
-                return projectile.turnBasedPendingAction && !projectile.isExpired && !projectile.isSettled;
+                return GameplayProjectileService::holdsTurnBasedQueue(projectile);
             }));
+}
+
+void OutdoorWorldRuntime::scareNearbyPeasants(float radius, float seconds)
+{
+    if (m_pMonsterTable == nullptr)
+    {
+        return;
+    }
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        MapActorState &actor = m_mapActors[actorIndex];
+        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+        if (actor.isDead
+            || actor.isInvisible
+            || actor.hostileToParty
+            || actor.currentHp <= 0
+            || actor.paralyzeRemainingSeconds > 0.0f
+            || actor.stunRemainingSeconds > 0.0f
+            || pStats == nullptr
+            || !pStats->hasKind(MonsterKind::Peasant)
+            || pStats->movementType == MonsterTable::MonsterMovementType::Stationary
+            || length3d(partyX() - actor.preciseX, partyY() - actor.preciseY, partyFootZ() - actor.preciseZ) > radius)
+        {
+            continue;
+        }
+
+        if (actor.yellFleeRemainingSeconds <= 0.0f)
+        {
+            m_yellFleeingActorIndices.push_back(actorIndex);
+        }
+
+        actor.yellFleeRemainingSeconds = std::max(actor.yellFleeRemainingSeconds, seconds);
+    }
+}
+
+void OutdoorWorldRuntime::updateYellFleeing(float deltaSeconds)
+{
+    std::erase_if(
+        m_yellFleeingActorIndices,
+        [this, deltaSeconds](size_t actorIndex)
+        {
+            if (actorIndex >= m_mapActors.size())
+            {
+                return true;
+            }
+
+            MapActorState &actor = m_mapActors[actorIndex];
+            actor.yellFleeRemainingSeconds = std::max(0.0f, actor.yellFleeRemainingSeconds - deltaSeconds);
+            return actor.yellFleeRemainingSeconds <= 0.0f;
+        });
 }
 
 bool OutdoorWorldRuntime::turnBasedActorActionInProgress() const
@@ -8244,10 +8439,10 @@ void OutdoorWorldRuntime::updateWorld(float deltaSeconds)
                 mechanism.state = static_cast<uint16_t>(EvtMechanismState::Closed);
             }
 
-            queueOutdoorMechanismCompletionAudio(
+            queueMechanismCompletionAudio(
                 *m_eventRuntimeState,
-                entry.first,
-                entry.second,
+                outdoorMechanismAudioKey(entry.first),
+                entry.second.audio,
                 mechanism);
 
             GAMEPLAY_DEBUG_TRACE(
@@ -8689,6 +8884,12 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_timerDefinitionsInitialized = false;
     m_resetLegacyTimersOnInitialize = false;
     m_mapActors = snapshot.mapActors;
+    // A yell's short flight does not outlive a restored state.
+    m_yellFleeingActorIndices.clear();
+    for (MapActorState &actor : m_mapActors)
+    {
+        actor.yellFleeRemainingSeconds = 0.0f;
+    }
     m_chests = snapshot.chests;
     m_materializedChestViews = snapshot.materializedChestViews;
     m_activeChestView = snapshot.activeChestView;
@@ -9804,6 +10005,13 @@ std::vector<bool> OutdoorWorldRuntime::selectOutdoorActiveActors(float partyX, f
             }
         }
 
+        // An MM9 monster thinks as far as its senses reach (MM9_AI_NATIVE_RE.md section 5.4).
+        if (const float mm9Range = mm9PerceptionRangeOf(actorIndex); candidate.eligible && mm9Range > 0.0f)
+        {
+            candidate.activeRange =
+                mm9SenseRange(ActiveActorUpdateRange, mm9Range, GameplayActorService::MaximumPartyEngagementRange);
+        }
+
         // A provoked monster acts until the full-AI range takes it over or it loses the party.
         actor.provokedByParty = actor.provokedByParty
             && candidate.eligible
@@ -9888,6 +10096,8 @@ ActorAiFrameFacts OutdoorWorldRuntime::collectOutdoorActorAiFrameFacts(
     facts.deltaSeconds = deltaSeconds;
     facts.fixedStepSeconds = ActorUpdateStepSeconds;
     facts.party.position = GameplayWorldPoint{partyX, partyY, partyZ};
+    facts.party.velocityX = m_actorAiPartyVelocity.velocityX;
+    facts.party.velocityY = m_actorAiPartyVelocity.velocityY;
     facts.party.collisionRadius = m_partyCollisionRadius;
     facts.party.collisionHeight = m_partyCollisionHeight;
     facts.party.invisible = m_pParty != nullptr && m_pParty->hasPartyBuff(PartyBuffId::Invisibility);
@@ -9924,6 +10134,42 @@ ActorAiFrameFacts OutdoorWorldRuntime::collectOutdoorActorAiFrameFacts(
     return facts;
 }
 
+const Mm9AiPlacementRecord *OutdoorWorldRuntime::mm9PlacementRecord(size_t actorIndex) const
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return nullptr;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.spawnedAtRuntime)
+    {
+        return actor.mm9Ai ? &*actor.mm9Ai : nullptr;
+    }
+
+    if (m_pOutdoorMapDeltaData != nullptr && actorIndex < m_pOutdoorMapDeltaData->actors.size()
+        && m_pOutdoorMapDeltaData->actors[actorIndex].mm9Ai)
+    {
+        return &*m_pOutdoorMapDeltaData->actors[actorIndex].mm9Ai;
+    }
+
+    return nullptr;
+}
+
+float OutdoorWorldRuntime::mm9PerceptionRangeOf(size_t actorIndex) const
+{
+    if (actorIndex >= m_mapActors.size()
+        || m_actorBehaviors.mm9LoopProfile(m_mapActors[actorIndex].monsterId) == nullptr)
+    {
+        return 0.0f;
+    }
+
+    const Mm9AiPlacementRecord *pRecord = mm9PlacementRecord(actorIndex);
+    const Mm9AiPlacement placement = pRecord != nullptr ? pRecord->settings : Mm9AiPlacement{};
+    return mm9PerceptionRange(placement.sight, placement.hearing, m_mapActors[actorIndex].mm9.partyContact);
+}
+
 std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     size_t actorIndex,
     bool active,
@@ -9952,14 +10198,37 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     std::vector<OutdoorCombatTargetCandidate> combatCandidates;
     OutdoorTargetFacts combatTarget = {};
 
+    // An MM9 walker that holds the party is offered only the party, and it perceives the party by its placement's
+    // sight (a 180 degree view) and hearing through a clear line from its eye to the party's centre, doubled once it
+    // has targeted the party (outdoors as far as its senses reach, beyond the world's engagement range; a held actor
+    // target is not forced: MM9 maps are BLVs).
+    const Mm9AiProfile *pMm9TargetProfile = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
+    const bool mm9HoldsParty =
+        pMm9TargetProfile != nullptr && actor.mm9.targetKind == ActorAiTargetKind::Party;
+    const Mm9AiPlacementRecord *pMm9Record = mm9PlacementRecord(actorIndex);
+    const Mm9AiPlacement mm9Placement = pMm9Record != nullptr ? pMm9Record->settings : Mm9AiPlacement{};
+    std::optional<OutdoorMm9Sight> mm9Sight;
+
+    if (pMm9TargetProfile != nullptr)
+    {
+        mm9Sight = OutdoorMm9Sight{
+            .range = mm9PerceptionRange(mm9Placement.sight, mm9Placement.hearing, actor.mm9.partyContact),
+            .eyeZ = mm9EyeZ(actor.preciseZ, float(actor.height), pMm9TargetProfile->eyeBelowTop),
+            .partyCentreZ = partyZ + m_partyCollisionHeight * 0.5f};
+    }
+
     if (active)
     {
-        combatCandidates =
-            buildCombatTargetCandidates(
-                m_pGameplayActorService,
-                actor,
-                actorIndex,
-                m_mapActors);
+        if (!mm9HoldsParty)
+        {
+            combatCandidates =
+                buildCombatTargetCandidates(
+                    m_pGameplayActorService,
+                    actor,
+                    actorIndex,
+                    m_mapActors);
+        }
+
         combatTarget =
             resolveOutdoorTargetFacts(
                 m_pGameplayActorService,
@@ -9971,10 +10240,35 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
                 partyY,
                 partyZ,
                 m_pParty != nullptr && m_pParty->hasPartyBuff(PartyBuffId::Invisibility),
+                mm9Sight,
                 hasClearOutdoorLineOfSight);
+
+        if (pMm9TargetProfile != nullptr && combatTarget.kind == OutdoorTargetKind::Party)
+        {
+            const Mm9AiPlacement &placement = mm9Placement;
+            Mm9PerceptionInput perception = {};
+            perception.distance = length3d(
+                combatTarget.deltaX, combatTarget.deltaY, mm9Sight->partyCentreZ - mm9Sight->eyeZ);
+            perception.lineOfSight = combatTarget.attackLineOfSight;
+            perception.inFront = std::cos(actor.yawRadians) * combatTarget.deltaX
+                + std::sin(actor.yawRadians) * combatTarget.deltaY > 0.0f;
+            perception.sight = placement.sight;
+            perception.hearing = placement.hearing;
+            perception.doubled = actor.mm9.partyContact;
+            const float heldSight = placement.sight * (actor.mm9.partyContact ? 2.0f : 1.0f);
+            const bool perceived = actor.mm9.targetKind != ActorAiTargetKind::Actor
+                && (mm9HoldsParty ? combatTarget.distanceToTarget <= heldSight : mm9Perceives(perception));
+
+            if (!perceived)
+            {
+                const bool partyCanSense = combatTarget.partyCanSense;
+                combatTarget = {};
+                combatTarget.partyCanSense = partyCanSense;
+            }
+        }
     }
 
-    if (actor.mm9FleeingFromParty)
+    if (actor.mm9FleeingFromParty || actor.yellFleeRemainingSeconds > 0.0f)
     {
         const float actorTargetZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
         const float partyTargetZ = partyZ + PartyTargetHeightOffset;
@@ -10084,20 +10378,15 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     facts.runtime.hitstopActive = m_actorHitFeedback.hitstopActive(actorIndex);
     facts.runtime.recoverySeconds = actor.recoverySeconds;
     facts.runtime.attackAnimationSeconds = actor.attackAnimationSeconds;
-    facts.runtime.meleeAttackAnimationSeconds = actorAnimationSeconds(
-        m_pActorSpriteFrameTable,
-        actor,
-        ActorAnimation::AttackMelee,
-        actor.attackAnimationSeconds);
-    facts.runtime.rangedAttackAnimationSeconds = actorAnimationSeconds(
-        m_pActorSpriteFrameTable,
-        actor,
-        ActorAnimation::AttackRanged,
-        actor.attackAnimationSeconds);
-    facts.runtime.meleeAttackImpactSeconds =
-        actorAttackImpactSeconds(m_pActorSpriteFrameTable, actor, ActorAnimation::AttackMelee);
-    facts.runtime.rangedAttackImpactSeconds =
-        actorAttackImpactSeconds(m_pActorSpriteFrameTable, actor, ActorAnimation::AttackRanged);
+    const ActorAttackTiming meleeTiming = mapActorAttackTiming(actor, ActorModelManifest::AttackRole::Melee);
+    const ActorAttackTiming rangedTiming = mapActorAttackTiming(actor, ActorModelManifest::AttackRole::Ranged);
+    const ActorAttackTiming spellTiming = mapActorAttackTiming(actor, ActorModelManifest::AttackRole::Cast);
+    facts.runtime.meleeAttackAnimationSeconds = meleeTiming.actionSeconds;
+    facts.runtime.rangedAttackAnimationSeconds = rangedTiming.actionSeconds;
+    facts.runtime.meleeAttackImpactSeconds = meleeTiming.impactSeconds;
+    facts.runtime.rangedAttackImpactSeconds = rangedTiming.impactSeconds;
+    facts.runtime.spellAttackAnimationSeconds = spellTiming.actionSeconds;
+    facts.runtime.spellAttackImpactSeconds = spellTiming.impactSeconds;
     facts.runtime.meleeAttackSoundDelaySeconds =
         actorAttackSoundDelaySeconds(m_pActorSpriteFrameTable, actor, ActorAnimation::AttackMelee);
     facts.runtime.rangedAttackSoundDelaySeconds =
@@ -10115,6 +10404,8 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     }
     facts.runtime.boredAnimationSeconds = actorAnimationSeconds(
         m_pActorSpriteFrameTable, actor, ActorAnimation::Bored, 2.0f);
+    facts.runtime.fidgetClips =
+        actorFidgetClips(m_pMonsterTable != nullptr ? m_pMonsterTable->actorModels() : nullptr, actor.monsterId);
     facts.runtime.attackCooldownSeconds = actor.attackCooldownSeconds;
     facts.runtime.idleDecisionSeconds = actor.idleDecisionSeconds;
     facts.runtime.actionSeconds = actor.actionSeconds;
@@ -10132,6 +10423,43 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     facts.runtime.crowdEscapeAttempts = actor.crowdEscapeAttempts;
     facts.runtime.crowdSideSign = actor.crowdSideSign;
     facts.runtime.attackImpactTriggered = actor.attackImpactTriggered;
+    facts.runtime.skirmishPhase = actor.skirmishPhase;
+    facts.runtime.skirmishSeconds = actor.skirmishSeconds;
+    facts.runtime.skirmishSide = actor.skirmishSide;
+
+    // An MM9 monster on its loop (MM9_MONSTER_AI_PLAN.md phases 2 and 3): its loop's state and world facts (no water
+    // facts outdoors: a swimmer runs the crawler loop alone).
+    const Mm9AiProfile *pMm9Profile = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
+
+    if (pMm9Profile != nullptr)
+    {
+        facts.runtime.mm9 = actor.mm9;
+        facts.mm9World = actor.mm9World;
+        const size_t heldIndex = actor.mm9.targetActorIndex;
+        facts.mm9World.heldTargetGone = actor.mm9.targetKind == ActorAiTargetKind::Actor
+            && (heldIndex >= m_mapActors.size() || isActorUnavailableForCombat(m_mapActors[heldIndex]));
+
+        // A Lobber's pods alive (MM9's CanLob allows five).
+        if (pMm9Profile->podLaunchMonsterId != 0)
+        {
+            facts.mm9World.livePods = 0;
+
+            for (const MapActorState &pod : m_mapActors)
+            {
+                if (pod.mm9World.podOwnerActorIndex == actorIndex && !isActorUnavailableForCombat(pod))
+                {
+                    ++facts.mm9World.livePods;
+                }
+            }
+        }
+
+        if (const Mm9AiPlacementRecord *pRecord = mm9PlacementRecord(actorIndex))
+        {
+            // Outdoors no line of sight is tested: every named hiding place counts as out of sight.
+            facts.mm9World.hidingPlacesUnseen =
+                uint8_t((1u << std::min<size_t>(pRecord->hidingPlaces.size(), 3u)) - 1u);
+        }
+    }
 
     facts.status.spellEffects = buildGameplayActorSpellEffectState(actor);
     facts.status.invisible = actor.isInvisible;
@@ -10143,7 +10471,7 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
         m_pGameplayActorService->relationMonsterId(actor.monsterId, actor.ally);
     facts.status.defaultHostileToParty = m_pMonsterTable->isHostileToParty(actorRelationMonsterId);
     facts.status.suppressLowHealthFlee = actor.suppressLowHealthFlee;
-    facts.status.forceFleeFromParty = actor.mm9FleeingFromParty;
+    facts.status.forceFleeFromParty = actor.mm9FleeingFromParty || actor.yellFleeRemainingSeconds > 0.0f;
     facts.status.shieldDownSinceBreakSeconds = m_actorShields.secondsDownSinceBreak(actorIndex);
 
     facts.target.currentKind = actorAiTargetKindFromOutdoorTarget(combatTarget.kind);
@@ -10172,6 +10500,8 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     {
         const MapActorState &targetActor = m_mapActors[combatTarget.actorIndex];
         facts.target.currentHp = targetActor.currentHp;
+        facts.target.currentVelocityX = targetActor.velocityX;
+        facts.target.currentVelocityY = targetActor.velocityY;
         facts.target.currentAudioPosition =
         GameplayWorldPoint{
             targetActor.preciseX,
@@ -10272,6 +10602,15 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
         facts.movement.homeYawRadians =
             static_cast<float>(placement.initialYawUnits % 2048u) * (Pi * 2.0f / 2048.0f);
     }
+
+    // The MM9 placement: a map actor's, or a runtime spawn's own (an arena's mm9_ai, a death spawn's).
+    if (const Mm9AiPlacementRecord *pRecord = mm9PlacementRecord(actorIndex))
+    {
+        facts.movement.mm9Placement = pRecord->settings;
+        facts.movement.mm9PathPoints = pRecord->pathPoints;
+        facts.movement.mm9HidingPlaces = pRecord->hidingPlaces;
+        facts.movement.mm9Spawned = mm9SpawnedWithParam(*pRecord);
+    }
     {
         const GameplayActorService *pActorService = m_pGameplayActorService;
         GameplayActorService fallbackActorService = {};
@@ -10301,8 +10640,13 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
                 partyIsVeryNearActor,
                 actor.suppressLowHealthFlee);
 
-        // A party on a ledge out of the monster's vertical reach is not in melee range (world.yml actorCombat).
-        facts.movement.inMeleeRange = engagement.inMeleeRange
+        // A party on a ledge out of the monster's vertical reach is not in melee range (world.yml actorCombat). An
+        // MM9 walker reaches as far as its own attack range.
+        const bool mm9InReach = pMm9Profile != nullptr && pMm9Profile->attackReach > 0.0f
+            && combatTarget.canSense && combatTarget.attackLineOfSight
+            && combatTarget.edgeDistance <= mm9MeleeReach(pMm9Profile->attackReach,
+                combatTarget.kind == OutdoorTargetKind::Actor, m_partyCollisionRadius);
+        facts.movement.inMeleeRange = (pMm9Profile != nullptr ? mm9InReach : engagement.inMeleeRange)
             && (combatTarget.kind != OutdoorTargetKind::Party
                 || pActorService->meleeReachesVertically(actor.preciseZ, float(actor.height), partyZ,
                     m_partyCollisionHeight));
@@ -10412,6 +10756,129 @@ void OutdoorWorldRuntime::applyOutdoorActorRequests(
 {
     applyOutdoorActorProjectileRequests(result.projectileRequests, activeActorMask);
     applyOutdoorActorFxRequests(result.fxRequests);
+
+    // The reposition modifier's queries (the MM9 loop's only request the outdoor world answers).
+    for (const ActorAiUpdate &update : result.actorUpdates)
+    {
+        if (update.mm9Request && update.mm9Request->reposition && update.actorIndex < m_mapActors.size())
+        {
+            answerRepositionQuery(update.actorIndex, *update.mm9Request->reposition);
+        }
+    }
+
+    // A Lobber's pods (MM9_MONSTER_AI_PLAN.md phase 3): placed as script spawns are, each remembering its launcher
+    // (ActorMm9WorldFacts::podOwnerActorIndex, runtime only).
+    for (const ActorSpawnRequest &spawnRequest : result.spawnRequests)
+    {
+        if (spawnRequest.sourceActorIndex >= m_mapActors.size())
+        {
+            continue;
+        }
+
+        const MapActorState &source = m_mapActors[spawnRequest.sourceActorIndex];
+        GameplayMonsterSpawnRequest request = {};
+
+        // MM9's Spawn with ScriptParams 1 (a death spawn): its row's script with p0 = 1 and MM9's placement defaults;
+        // it is no pod.
+        if (spawnRequest.mm9Spawned)
+        {
+            Mm9AiPlacementRecord record = {};
+            record.scriptParams = "1";
+            request.mm9Ai = record;
+        }
+
+        request.monsterId = spawnRequest.monsterId;
+        request.x = spawnRequest.position.x;
+        request.y = spawnRequest.position.y;
+        request.z = spawnRequest.position.z;
+        request.radius = 0.0f;
+        request.group = spawnRequest.group;
+        request.hostile = spawnRequest.hostile;
+        request.yawRadians = spawnRequest.yawRadians;
+        request.seed = (uint64_t(source.actorId) << 32) | source.attackDecisionCount;
+
+        for (size_t podIndex : spawnMonsters(request))
+        {
+            if (!spawnRequest.mm9Spawned)
+            {
+                m_mapActors[podIndex].mm9World.podOwnerActorIndex = spawnRequest.sourceActorIndex;
+            }
+        }
+    }
+}
+
+// The reposition modifier's query (ActorRepositionRules.h): its spots in the AI's order, each tested with the blink's
+// checks (a floor within RepositionMaxHeightChange, no water or steep slope for a walker, no face, decoration, body or
+// party in the way, a clear line from where the actor stands), the path map's direct walk to it, and for a sight query
+// a line from its eye there to the query's target point (where it last saw its target) at least minTargetDistance
+// away. The first spot that passes is the answer; the search stops before a spot whose sight lines would pass
+// maxSightChecks.
+void OutdoorWorldRuntime::answerRepositionQuery(size_t actorIndex, const ActorRepositionQuery &query)
+{
+    constexpr float RepositionMaxHeightChange = 96.0f;
+    MapActorState &actor = m_mapActors[actorIndex];
+    ActorMm9WorldFacts &world = actor.mm9World;
+    ++world.repositionSerial;
+    world.repositionFound = false;
+    world.repositionSightChecks = 0;
+    // A sight query's spot must see where the actor last saw its target (the AI's query.target), not where it is now.
+    const std::optional<std::array<float, 3>> target = query.needsSight
+        ? std::optional<std::array<float, 3>>(std::array<float, 3>{query.target.x, query.target.y, query.target.z})
+        : std::nullopt;
+
+    const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
+    const Mm9AiProfile *pProfile = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
+    const std::optional<float> eyeBelowTop =
+        pProfile != nullptr ? std::optional<float>(pProfile->eyeBelowTop) : std::nullopt;
+    const bool canFly = pStats != nullptr ? pStats->canFly : actor.canFly;
+    const std::shared_ptr<const PathMap> pathMap = outdoorPathMap(!(canFly || canMonsterWalkOnWater(pStats)));
+    const float collisionRadius = float(actor.radius > 0 ? actor.radius : 40);
+    PathObject pathObject = {};
+    pathObject.canFly = canFly;
+    pathObject.radius = collisionRadius;
+    pathObject.height = actorCollisionHeight(actor, collisionRadius);
+    pathObject.stepLength = canFly ? std::max(collisionRadius, 24.0f) : OutdoorGroundPathStepLength;
+    pathObject.stepHeight = OutdoorGroundPathStepHeight;
+    pathObject.dropHeight = std::max(pathObject.stepHeight, std::min(collisionRadius, pathObject.stepHeight * 2.0f));
+    const int sightLinesPerSpot = query.needsSight ? 2 : 1;
+    int checks = 0;
+
+    for (size_t index = 0; index < query.count && index < query.candidates.size(); ++index)
+    {
+        const GameplayWorldPoint &candidate = query.candidates[index];
+
+        if (checks + sightLinesPerSpot > int(query.maxSightChecks))
+        {
+            break;
+        }
+
+        if (target && std::hypot(candidate.x - (*target)[0], candidate.y - (*target)[1]) < query.minTargetDistance)
+        {
+            continue;
+        }
+
+        const std::optional<float> footZ = checkMapActorSpot(actorIndex, candidate.x, candidate.y,
+            RepositionMaxHeightChange, target, nullptr, eyeBelowTop, &checks);
+
+        if (!footZ)
+        {
+            continue;
+        }
+
+        if (pathMap != nullptr
+            && !pathMap->canReachDirectly({actor.preciseX, actor.preciseY, actor.preciseZ},
+                {candidate.x, candidate.y, *footZ}, pathObject))
+        {
+            continue;
+        }
+
+        world.repositionFound = true;
+        world.repositionSpot = {candidate.x, candidate.y, *footZ};
+        break;
+    }
+
+    world.repositionSightChecks = checks;
 }
 
 void OutdoorWorldRuntime::applyOutdoorActorProjectileRequests(
@@ -10730,6 +11197,26 @@ void OutdoorWorldRuntime::applyOutdoorActorStateUpdate(
         actor.attackImpactTriggered = *state.attackImpactTriggered;
     }
 
+    if (state.skirmishPhase)
+    {
+        actor.skirmishPhase = *state.skirmishPhase;
+    }
+
+    if (state.skirmishSeconds)
+    {
+        actor.skirmishSeconds = *state.skirmishSeconds;
+    }
+
+    if (state.skirmishSide)
+    {
+        actor.skirmishSide = *state.skirmishSide;
+    }
+
+    if (state.mm9)
+    {
+        actor.mm9 = *state.mm9;
+    }
+
     if (state.motionState)
     {
         actor.aiState = outdoorActorAiStateFromGameplay(*state.motionState);
@@ -10905,6 +11392,15 @@ bool OutdoorWorldRuntime::outdoorActorCanApplyPartyMeleeImpact(const MapActorSta
     if (length3d(deltaX, deltaY, deltaZ) > GameplayActorService::MonsterMeleeImpactReach
         || (m_pGameplayActorService != nullptr && !m_pGameplayActorService->meleeReachesVertically(
             actor.preciseZ, float(actor.height), partyMoveState.footZ, m_partyCollisionHeight)))
+    {
+        return false;
+    }
+
+    // An MM9 walker's blow lands only within its sweep (a party that stepped back during the wind-up is missed).
+    if (const Mm9AiProfile *pMm9Profile = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
+        pMm9Profile != nullptr && pMm9Profile->attackReach > 0.0f
+        && !mm9MeleeSweepReaches(pMm9Profile->meleeSweep, pMm9Profile->attackReach, float(actor.radius),
+            m_partyCollisionRadius, length2d(deltaX, deltaY)))
     {
         return false;
     }
@@ -11391,18 +11887,16 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
             pathRequest.shortcutCheckIntervalSeconds = OutdoorPathShortcutCheckIntervalSeconds;
             pathRequest.allowPartialPath = !waterCapable;
             pathRequest.allowDirect = pStats->canFly;
-            pathRequest.allowPlan =
-                m_actorPathPlansThisStep < OutdoorActorPathPlanBudgetPerStep
-                && m_actorPathRuntimeSeconds >= m_nextActorPathPlanSeconds;
+            // Each actor replans at most once a second (minReplanIntervalSeconds); the step budget only spreads the
+            // new plans over the steps.
+            pathRequest.allowPlan = m_actorPathPlansThisStep < OutdoorActorPathPlanBudgetPerStep;
             pathRequestReady = true;
 
             pathResult = m_actorPathRuntime.resolveWaypoint(pathMap, pathRequest);
 
-            if (pathResult.planned || pathResult.queued)
+            if (pathResult.requested)
             {
                 ++m_actorPathPlansThisStep;
-                m_nextActorPathPlanSeconds =
-                    m_actorPathRuntimeSeconds + OutdoorActorPathPlanIntervalSeconds;
             }
 
             if (pathResult.pathActive)
@@ -12356,6 +12850,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
     }
 
     detonatePendingDeathExplosions();
+    m_actorAiPartyVelocity.update(partyX, partyY, deltaSeconds);
 
     updateMm9FoundPlayerEvents(deltaSeconds, partyX, partyY, partyZ);
     refreshHiddenDecorationEntities();
@@ -12372,6 +12867,11 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             updateMm9ActorReactions(ActorUpdateStepSeconds, partyX, partyY, partyZ);
         }
 
+        if (!m_yellFleeingActorIndices.empty())
+        {
+            updateYellFleeing(ActorUpdateStepSeconds);
+        }
+
         if (!OutdoorActorPathfindingEnabled || !outdoorActorPathfindingEnabled())
         {
             m_actorPathRuntime.setWorkerCount(0);
@@ -12384,9 +12884,22 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
         m_actorBehaviors.applyAiFacts(actorAiFacts);
         m_actorModifiers.applyChargeHolds(actorAiFacts);
         m_actorModifiers.applyFrenzies(actorAiFacts);
+
+        if (m_pActorAiTrace != nullptr)
+        {
+            m_pActorAiTrace->applyOverrides(actorAiFacts);
+        }
+
         const GameplayActorAiSystem actorAiSystem = {};
         const ActorAiFrameResult actorAiResult = actorAiSystem.updateActors(actorAiFacts);
         m_actorBehaviors.observeAiResult(actorAiResult);
+
+        if (m_pActorAiTrace != nullptr)
+        {
+            m_pActorAiTrace->observe(actorAiFacts, actorAiResult);
+            m_pActorAiTrace->runDueActions(*this);
+        }
+
         if (traceActorAiThisFrame)
         {
             traceOutdoorActorAiDecisions(actorAiFacts, actorAiResult, activeActorMask);
@@ -12609,7 +13122,8 @@ bool OutdoorWorldRuntime::castSpellFromMapActor(
         return false;
     }
 
-    if (!isProjectileSpellName(spellName) && spellName != "meteor shower" && spellName != "starburst")
+    if (!isProjectileSpellName(spellName) && !isMonsterConditionSpellName(spellName) && spellName != "meteor shower"
+        && spellName != "starburst")
     {
         std::cout
             << "Spell cast skipped actor=" << actor.actorId
@@ -12663,6 +13177,16 @@ bool OutdoorWorldRuntime::castSpellFromMapActor(
 std::array<float, 3> OutdoorWorldRuntime::mapActorBodyLaunchPoint(const MapActorState &actor)
 {
     return {actor.preciseX, actor.preciseY, actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f)};
+}
+
+ActorAttackTiming OutdoorWorldRuntime::mapActorAttackTiming(
+    const MapActorState &actor, ActorModelManifest::AttackRole role) const
+{
+    const ActorAnimation animation =
+        role == ActorModelManifest::AttackRole::Melee ? ActorAnimation::AttackMelee : ActorAnimation::AttackRanged;
+    return actorAttackTiming(m_pMonsterTable != nullptr ? m_pMonsterTable->actorModels() : nullptr, actor.monsterId,
+        role, actorAnimationSeconds(m_pActorSpriteFrameTable, actor, animation, actor.attackAnimationSeconds),
+        actorAttackImpactSeconds(m_pActorSpriteFrameTable, actor, animation));
 }
 
 std::optional<std::array<float, 3>> OutdoorWorldRuntime::mapActorModelLaunchPoint(
@@ -12738,6 +13262,30 @@ bool OutdoorWorldRuntime::castSpell(const SpellCastRequest &request)
     if (isSpellId(request.spellId, SpellId::Starburst))
     {
         return castStarburst(request, definition);
+    }
+
+    // A monster's Sparks is a volley over a fan (monsterSpellProjectileCount, monsterSpellVolleyTarget).
+    const uint32_t projectileCount = request.sourceKind == RuntimeSpellSourceKind::Actor
+        ? monsterSpellProjectileCount(request.spellId, static_cast<SkillMastery>(request.skillMastery))
+        : 1;
+
+    if (projectileCount > 1)
+    {
+        bool anySpawned = false;
+
+        for (uint32_t projectileIndex = 0; projectileIndex < projectileCount; ++projectileIndex)
+        {
+            SpellCastRequest shot = request;
+            const std::array<float, 3> target = monsterSpellVolleyTarget({request.sourceX, request.sourceY,
+                request.sourceZ}, {request.targetX, request.targetY, request.targetZ}, projectileCount,
+                projectileIndex);
+            shot.targetX = target[0];
+            shot.targetY = target[1];
+            shot.targetZ = target[2];
+            anySpawned = castDirectSpellProjectile(shot, definition) || anySpawned;
+        }
+
+        return anySpawned;
     }
 
     return castDirectSpellProjectile(request, definition);
@@ -14018,6 +14566,35 @@ bool OutdoorWorldRuntime::destroyOutdoorDestructible(uint32_t sourceObjectIndex,
     return true;
 }
 
+bool OutdoorWorldRuntime::damageDestructible(uint32_t id, int damage)
+{
+    return damageOutdoorDestructible(id, damage);
+}
+
+bool OutdoorWorldRuntime::destroyDestructible(uint32_t id)
+{
+    return destroyOutdoorDestructible(id, true);
+}
+
+bool OutdoorWorldRuntime::setDestructibleDamageEnabled(uint32_t id, bool enabled)
+{
+    if (!m_eventRuntimeState || !m_outdoorDestructibleDefinitionBySourceObject.contains(id))
+    {
+        return false;
+    }
+
+    const auto stateIterator = m_eventRuntimeState->destructibles.find(id);
+
+    if (stateIterator == m_eventRuntimeState->destructibles.end() || stateIterator->second.destroyed
+        || stateIterator->second.damageEnabled == enabled)
+    {
+        return false;
+    }
+
+    stateIterator->second.damageEnabled = enabled;
+    return true;
+}
+
 bool OutdoorWorldRuntime::damageOutdoorDestructible(uint32_t sourceObjectIndex, int damage)
 {
     if (!m_eventRuntimeState || m_pOutdoorMapData == nullptr || damage <= 0)
@@ -14205,7 +14782,9 @@ void OutdoorWorldRuntime::setOutdoorFaceGeometryAttributes(size_t bModelIndex, s
 bool OutdoorWorldRuntime::hasClearOutdoorLineOfSight(
     const bx::Vec3 &start, const bx::Vec3 &end, bool includeWalkableFaces) const
 {
-    if (m_pOutdoorMapData != nullptr)
+    // A BModel-ground map (MM9) has a flat placeholder terrain that is not its ground: its floors can lie below it, and
+    // only the faces below block sight there.
+    if (m_pOutdoorMapData != nullptr && !m_usesBModelGround)
     {
         constexpr float TerrainLosSampleSpacing = static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f;
         constexpr float TerrainLosHeightSlack = 12.0f;
@@ -14606,6 +15185,7 @@ OutdoorWorldRuntime::ProjectileFrameWorldFacts OutdoorWorldRuntime::collectProje
     worldFacts.frame.partyCollisionRadius = m_partyCollisionRadius;
     worldFacts.frame.partyCollisionHeight = m_partyCollisionHeight;
     worldFacts.frame.canHitParty = true;
+    worldFacts.frame.turnBasedActive = m_turnBasedActorFacts.mode != ActorTurnBasedMode::RealTime;
     worldFacts.frame.nonPartyProjectileDamage = resolveProjectilePartyImpactDamage(projectile);
 
     size_t directActorIndex = static_cast<size_t>(-1);
@@ -15627,16 +16207,9 @@ bool OutdoorWorldRuntime::updateTimers(
         initializeTimers(localEventProgram, globalEventProgram, registrationGameMinutes);
     }
 
-    for (const EventRuntimeState::TimerControl &control : m_eventRuntimeState->timerControls)
-    {
-        controlScriptedEventTimers(m_timers, control.eventId, control.start, control.delayGameMinutes,
-            static_cast<double>(m_gameMinutes));
-    }
-
-    m_eventRuntimeState->timerControls.clear();
-
     if (m_timers.empty())
     {
+        m_eventRuntimeState->timerControls.clear();
         return false;
     }
 
@@ -15695,7 +16268,8 @@ bool OutdoorWorldRuntime::updateTimers(
             }
 
             return executed;
-        });
+        },
+        &m_eventRuntimeState->timerControls);
 }
 
 void OutdoorWorldRuntime::prepareTimers(
@@ -15769,9 +16343,11 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
 
     if (pActor->animation == ActorAnimation::AttackMelee || pActor->animation == ActorAnimation::AttackRanged)
     {
-        state.attackImpactLeadSeconds = actorAttackImpactLeadSeconds(
-            actorAnimationSeconds(m_pActorSpriteFrameTable, *pActor, pActor->animation, pActor->attackAnimationSeconds),
-            actorAttackImpactSeconds(m_pActorSpriteFrameTable, *pActor, pActor->animation));
+        // As the AI applies it (attackImpactLeadSecondsForAbility).
+        const ActorAttackTiming timing = mapActorAttackTiming(*pActor,
+            pActor->animation == ActorAnimation::AttackMelee ? ActorModelManifest::AttackRole::Melee
+            : state.castingSpell ? ActorModelManifest::AttackRole::Cast : ActorModelManifest::AttackRole::Ranged);
+        state.attackImpactLeadSeconds = actorAttackImpactLeadSeconds(timing.actionSeconds, timing.impactSeconds);
     }
 
     state.visualScale = (pActor->shrinkRemainingSeconds > 0
@@ -15803,6 +16379,23 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     state.summonerMemberIndex = pActor->summonerMemberIndex;
     m_actorBehaviors.applyPresentation(actorIndex, state);
 
+    // MM9's head look: only toward the target its AI holds (GameplayRuntimeActorState::looksAtHeldTarget).
+    if (const Mm9AiProfile *pMm9Row = m_actorBehaviors.mm9LoopProfile(pActor->monsterId))
+    {
+        state.looksAtHeldTarget = true;
+        state.headTurn = pMm9Row->headTurn;
+        state.holdsPartyTarget = pActor->mm9.targetKind == ActorAiTargetKind::Party;
+
+        if (const MapActorState *pTarget = pActor->mm9.targetKind == ActorAiTargetKind::Actor
+                ? mapActorState(pActor->mm9.targetActorIndex) : nullptr)
+        {
+            state.holdsActorTarget = true;
+            state.heldTargetX = pTarget->preciseX;
+            state.heldTargetY = pTarget->preciseY;
+            state.heldTargetZ = pTarget->preciseZ + 0.85f * float(pTarget->height);
+        }
+    }
+
     // A frenzy's roar and spent hold, and a charge's strike, play their clips unless a behaviour script plays one.
     const char *pModifierClip = nullptr;
     float modifierClipSeconds = 0.0f;
@@ -15812,6 +16405,50 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     {
         state.scriptedClip = pModifierClip;
         state.scriptedClipSeconds = modifierClipSeconds;
+    }
+
+    // A skirmisher's taunt (ActorSkirmishPhase::Taunt) plays its model's taunt clip.
+    if (state.scriptedClip.empty() && pActor->skirmishPhase == ActorSkirmishPhase::Taunt
+        && pActor->skirmishSeconds > 0.0f && m_pMonsterTable != nullptr)
+    {
+        const MonsterModifierSet *pModifiers = m_pMonsterTable->findModifiers(pActor->monsterId);
+
+        if (pModifiers != nullptr && pModifiers->skirmisher)
+        {
+            state.scriptedClip = "taunt";
+            state.scriptedClipSeconds = std::max(0.0f, pModifiers->skirmisher->tauntSeconds - pActor->skirmishSeconds);
+        }
+    }
+
+    // A skirmisher's footwork and its backpedal, as its AI moves it (any world).
+    if (m_pMonsterTable != nullptr && pActor->skirmishSeconds > 0.0f)
+    {
+        const MonsterModifierSet *pModifiers = m_pMonsterTable->findModifiers(pActor->monsterId);
+        const ActorSkirmishPhase phase = pActor->skirmishPhase;
+        // A reposition back-off (the reposition modifier) is a back-off phase too.
+        state.footwork = pModifiers != nullptr && (pModifiers->skirmisher || pModifiers->reposition)
+            && pActor->skirmishSeconds > 0.0f && phase != ActorSkirmishPhase::None
+            && phase != ActorSkirmishPhase::Taunt;
+        state.backpedalling = state.footwork
+            && skirmishBackpedals(pActor->skirmishPhase, pActor->skirmishSeconds,
+                pModifiers->skirmisher ? pModifiers->skirmisher->evadeSeconds : 0.0f);
+    }
+
+    // An MM9 turret noticing a target plays its Aware clip (lobber.scr).
+    if (state.scriptedClip.empty() && pActor->mm9.awareSeconds > 0.0f)
+    {
+        state.scriptedClip = "aware";
+        state.scriptedClipSeconds = std::max(0.0f, Mm9TurretAwareSeconds - pActor->mm9.awareSeconds);
+    }
+
+    // An MM9 idle fidget that picked a variant other than the binding's own fidget plays that script clip
+    // (actors.yml fidget_variants).
+    if (state.scriptedClip.empty() && pActor->mm9.fidgetVariant > 0
+        && state.animationState == ActorAiAnimationState::Bored && m_pMonsterTable != nullptr)
+    {
+        state.scriptedClip =
+            actorFidgetRole(m_pMonsterTable->actorModels(), pActor->monsterId, pActor->mm9.fidgetVariant);
+        state.scriptedClipSeconds = std::max(0.0f, state.animationTimeTicks) / 128.0f;
     }
 
     // A telegraphed attack plays its own wind-up clip (MonsterModifierSet::telegraphedAttack).
@@ -16546,6 +17183,7 @@ std::optional<GameplayCombatActorInfo> OutdoorWorldRuntime::combatActorInfoById(
         GameplayCombatActorInfo info = {};
         info.actorId = actor.actorId;
         info.monsterId = actor.monsterId;
+        info.currentHp = actor.currentHp;
         info.maxHp = actor.maxHp;
         info.displayName = actor.displayName;
         info.damageDebuffed = actor.shrinkRemainingSeconds > 0.0f || actor.darkGraspRemainingSeconds > 0.0f;
@@ -16577,6 +17215,8 @@ std::optional<GameplayCombatActorInfo> OutdoorWorldRuntime::combatActorInfoById(
             info.bolsterAffectsPlayerArmorClass = bolster.statsEnabled;
             info.specialAttackKind = bolster.specialAttackKind.value_or(pStats->specialAttackKind);
             info.specialAttackLevel = pStats->specialAttackLevel;
+            applyHitConditionModifiers(m_pMonsterTable->findModifiers(actor.monsterId),
+                bolster.generatedSpell1Id != 0, bolster.generatedSpell2Id != 0, info);
         }
 
         return info;
@@ -16641,6 +17281,7 @@ bool OutdoorWorldRuntime::applyReflectedDamageToActor(
             actorIndex, appliedDamage, ShieldAttackTier::Spell, partyX(), partyY(), partyEyeZ()).bodyDamage;
         const int previousHp = actor.currentHp;
         actor.currentHp = std::max(0, actor.currentHp - appliedDamage);
+        noteMm9ActorHit(actorIndex, ActorAiTargetKind::Party, static_cast<size_t>(-1), previousHp - actor.currentHp);
         faceMapActorReaction(actor, partyX() - actor.preciseX, partyY() - actor.preciseY);
 
         if (actor.currentHp <= 0)
@@ -16903,6 +17544,7 @@ std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> OutdoorWorldRuntime::
             partyY,
             partyZ,
             m_pParty != nullptr && m_pParty->hasPartyBuff(PartyBuffId::Invisibility),
+            std::nullopt,
             hasClearOutdoorLineOfSight);
     const bool targetIsParty = combatTarget.kind == OutdoorTargetKind::Party;
     const bool targetIsActor = combatTarget.kind == OutdoorTargetKind::Actor;
@@ -17190,6 +17832,20 @@ bool OutdoorWorldRuntime::applyMonsterActorMeleeAttackToMapActor(
         }
     }
 
+    // An MM9 walker's blow lands only within its sweep.
+    if (pSourceActor != nullptr)
+    {
+        const Mm9AiProfile *pMm9Profile = m_actorBehaviors.mm9LoopProfile(pSourceActor->monsterId);
+
+        if (pMm9Profile != nullptr && pMm9Profile->attackReach > 0.0f
+            && !mm9MeleeSweepReaches(pMm9Profile->meleeSweep, pMm9Profile->attackReach, float(pSourceActor->radius),
+                float(targetActor.radius), length2d(targetActor.preciseX - pSourceActor->preciseX,
+                    targetActor.preciseY - pSourceActor->preciseY)))
+        {
+            return false;
+        }
+    }
+
     const MonsterTable::MonsterStatsEntry *pSourceStats =
         pSourceActor != nullptr && m_pMonsterTable != nullptr
             ? m_pMonsterTable->findStatsById(pSourceActor->monsterId)
@@ -17304,6 +17960,15 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
     if (pSourceActor != nullptr)
     {
         faceMapActorReaction(actor, pSourceActor->preciseX - actor.preciseX, pSourceActor->preciseY - actor.preciseY);
+        const size_t sourceActorIndex = static_cast<size_t>(pSourceActor - m_mapActors.data());
+        noteMm9ActorHit(actorIndex, ActorAiTargetKind::Actor, sourceActorIndex, previousHp - actor.currentHp);
+
+        // An MM9 walker's kill earns its taunt (ActorMm9WorldFacts::killSerial).
+        if (previousHp > 0 && actor.currentHp <= 0
+            && m_actorBehaviors.mm9LoopProfile(pSourceActor->monsterId) != nullptr)
+        {
+            ++m_mapActors[sourceActorIndex].mm9World.killSerial;
+        }
     }
 
     if (actor.currentHp <= 0)
@@ -17562,6 +18227,9 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(
     const MonsterTable::MonsterStatsEntry *pVictimStats = m_pMonsterTable->findStatsById(victim.monsterId);
     const GameplayActorService actorService = {};
     const int16_t victimRelationMonsterId = actorService.relationMonsterId(victim.monsterId, victim.ally);
+    // An MM9 walker alerts its friends within its row's alert radius (SendAlert: scale x AlertRadius).
+    const Mm9AiProfile *pVictimMm9Profile = m_actorBehaviors.mm9LoopProfile(victim.monsterId);
+    const float aggroRange = pVictimMm9Profile != nullptr ? pVictimMm9Profile->alertRadius : PeasantAggroRadius;
 
     for (size_t otherActorIndex = 0; otherActorIndex < m_mapActors.size(); ++otherActorIndex)
     {
@@ -17597,7 +18265,7 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(
             otherActor.preciseY - victim.preciseY,
             otherActor.preciseZ - victim.preciseZ);
 
-        if (distance > PeasantAggroRadius)
+        if (distance > aggroRange)
         {
             continue;
         }
@@ -17874,6 +18542,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     const int shieldDamage = damage > 0 ? 0 : static_cast<int>(std::lround(shieldHit.shieldDamage));
     const int previousHp = actor.currentHp;
     actor.currentHp = std::max(0, actor.currentHp - damage);
+    noteMm9ActorHit(actorIndex, ActorAiTargetKind::Party, static_cast<size_t>(-1), previousHp - actor.currentHp);
     int experienceReward = 0;
     faceMapActorReaction(actor, partyX - actor.preciseX, partyY - actor.preciseY);
     // Every party hit sets Nearby, from any distance (MM8 0x4379b8).
@@ -19164,6 +19833,24 @@ bool OutdoorWorldRuntime::faceMapActorTowardPoint(size_t actorIndex, float targe
     actor.velocityZ = 0.0f;
     actor.actionSeconds = std::max(actor.actionSeconds, 2.0f);
     actor.idleDecisionSeconds = std::max(actor.idleDecisionSeconds, 2.0f);
+    return true;
+}
+
+bool OutdoorWorldRuntime::faceMapActorForTalk(size_t actorIndex, float partyX, float partyY)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    const float yawRadians = m_mapActors[actorIndex].yawRadians;
+
+    if (!faceMapActorTowardPoint(actorIndex, partyX, partyY))
+    {
+        return false;
+    }
+
+    m_mapActors[actorIndex].mm9.beginTalk(yawRadians);
     return true;
 }
 
@@ -20638,6 +21325,20 @@ std::vector<size_t> OutdoorWorldRuntime::spawnMonsters(const GameplayMonsterSpaw
 
         actor.specialItemId = request.carriedItemId;
         actor.proceduralDeathLoot = request.dropsLoot;
+        actor.mm9Ai = request.mm9Ai;
+
+        // An MM9 spawn with a placement starts dormant as its placement or its row says, as indoors.
+        if (const Mm9AiProfile *pMm9Row = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
+            pMm9Row != nullptr && request.mm9Ai)
+        {
+            actor.dormant = placedMm9AiProfile(*pMm9Row, request.mm9Ai->settings).dormantUntil
+                != Mm9AiDormantUntil::None;
+        }
+
+        if (request.yawRadians)
+        {
+            actor.yawRadians = *request.yawRadians;
+        }
 
         if (request.hostile)
         {
@@ -20672,6 +21373,16 @@ std::vector<size_t> OutdoorWorldRuntime::spawnMonsters(const GameplayMonsterSpaw
     }
 
     return spawned;
+}
+
+void OutdoorWorldRuntime::bindActorAiTrace(ActorAiTrace *pTrace)
+{
+    m_pActorAiTrace = pTrace;
+}
+
+const ActorAiTrace *OutdoorWorldRuntime::actorAiTrace() const
+{
+    return m_pActorAiTrace;
 }
 
 bool OutdoorWorldRuntime::summonHostileMonsterById(
@@ -20939,6 +21650,14 @@ float OutdoorWorldRuntime::partyY() const
 float OutdoorWorldRuntime::partyFootZ() const
 {
     return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyFootZ() : 0.0f;
+}
+
+void OutdoorWorldRuntime::teleportParty(float x, float y, float footZ)
+{
+    if (m_pPartyRuntime != nullptr)
+    {
+        m_pPartyRuntime->teleportTo(x, y, footZ);
+    }
 }
 
 float OutdoorWorldRuntime::partyEyeZ() const

@@ -161,6 +161,13 @@ bool hasAffix(const ActorRulesetFacts &facts, MawBossAffix affix)
     return mawHasBossAffix(facts, affix);
 }
 
+// A Skilled boss turns 40 % of the party's weapon hits that landed into misses (PlayerHitOrMiss,
+// zzMaw-Monsters.lua:3136-3140); no draw for other monsters.
+bool skilledTargetDodges(const ActorRulesetFacts &target, std::mt19937 &rng)
+{
+    return hasAffix(target, MawBossAffix::Skilled) && std::uniform_real_distribution<double>(0.0, 1.0)(rng) < 0.4;
+}
+
 // Whether the struck monster is hostile to the party; one the world cannot name counts as hostile.
 bool targetHostile(const PartyHitOnMonster &hit)
 {
@@ -665,7 +672,8 @@ void applyWeaponStun(
     const double chance =
         mawWeaponStunChance(rules, character, *context.pItemTable, targetLevel, context.partyCount, speedMultiplier);
 
-    if (chance <= 0 || std::uniform_real_distribution<double>(0.0, 1.0)(*context.pRng) >= chance)
+    if (chance <= 0 || std::uniform_real_distribution<double>(0.0, 1.0)(*context.pRng) >= chance
+        || mawIgnoresCrowdControl(*context.pTargetFacts))
     {
         return;
     }
@@ -1024,18 +1032,6 @@ MawCombatRules::MawCombatRules(MawRules &rules)
         });
 
     m_damageToCharacter.add(
-        "map-energy",
-        [this](CharacterDamageHit &hit)
-        {
-            // A dimension map turns monster hits to Energy now and then (MAW: always; DEVIATIONS.md).
-            const std::optional<double> energy = m_rules.mapAffix(MawMapAffix::EnergyDamage);
-
-            if (energy && mawMonsterHit(hit) && std::uniform_real_distribution<double>(0, 1)(*hit.pRng) < *energy / 100)
-            {
-                hit.type = CombatDamageType::Energy;
-            }
-        });
-    m_damageToCharacter.add(
         "damage-recompute",
         [this](CharacterDamageHit &hit)
         {
@@ -1049,11 +1045,19 @@ MawCombatRules::MawCombatRules(MawRules &rules)
 
             if (hit.spellId > 0)
             {
-                // Spells from the player schools deal the attack's damage times their multiplier; the monster-only
-                // spells keep what they rolled.
+                // Spells from the player schools deal the monster's damage for their element times their
+                // multiplier; the monster-only spells keep what they rolled.
                 damage = uint32_t(hit.spellId) < FirstPlayerStyleMonsterSpell
-                    ? facts.attack1Damage * mawMonsterSpellMultiplier(uint32_t(hit.spellId))
+                    ? mawMonsterBaseDamage(m_rules, facts, hit.partyCount, hit.type)
+                        * mawMonsterSpellMultiplier(uint32_t(hit.spellId))
                     : hit.rolledAmount;
+            }
+
+            // A Berserker boss hits harder as its health runs out: x (2 - HP / max HP) at the blow (getMonsterDamage,
+            // Estimates.lua:491-493).
+            if (hasAffix(facts, MawBossAffix::Berserker) && hit.attackerMaxHp > 0)
+            {
+                damage *= mawBerserkerDamageMultiplier(hit.attackerCurrentHp, hit.attackerMaxHp);
             }
 
             std::uniform_int_distribution<int> spread(75, 125);
@@ -1075,6 +1079,33 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             }
 
             hit.amount = std::max(0, int(mawRound(damage)));
+        });
+    m_damageToCharacter.add(
+        "map-energy",
+        [this](CharacterDamageHit &hit)
+        {
+            // A dimension map turns monster hits to Energy now and then (MAW: always; DEVIATIONS.md). The hit is then
+            // sized against resistances, as a monster's magic is (DM:1734-1736); a monster-only spell keeps its roll.
+            const std::optional<double> energy = m_rules.mapAffix(MawMapAffix::EnergyDamage);
+
+            if (!energy || !mawMonsterHit(hit)
+                || std::uniform_real_distribution<double>(0, 1)(*hit.pRng) >= *energy / 100)
+            {
+                return;
+            }
+
+            const bool rescaled = hit.type != CombatDamageType::Energy
+                && (hit.spellId <= 0 || uint32_t(hit.spellId) < FirstPlayerStyleMonsterSpell);
+
+            if (rescaled)
+            {
+                const double from = mawMonsterBaseDamage(m_rules, hit.attackerFacts, hit.partyCount, hit.type);
+                const double to =
+                    mawMonsterBaseDamage(m_rules, hit.attackerFacts, hit.partyCount, CombatDamageType::Energy);
+                hit.amount = from > 0 ? std::max(0, int(mawRound(hit.amount * to / from))) : hit.amount;
+            }
+
+            hit.type = CombatDamageType::Energy;
         });
     m_damageToCharacter.add(
         "mitigation",
@@ -1263,6 +1294,13 @@ MawAttackDelay mawCharacterAttackDelay(
     const ItemDefinition *pBow = equipped(character.equipment.bow, character.equipmentRuntime.bow);
     MawAttackDelayInputs inputs;
     std::vector<int> handRecoveries;
+
+    // With the Bow preference off, a ranged attack takes the melee delay (S:614-616; the tooltip's too, S:561-564).
+    if ((mode == CharacterAttackMode::Bow || mode == CharacterAttackMode::DragonBreath)
+        && rules.options().preferences.bowDisabled)
+    {
+        mode = CharacterAttackMode::Melee;
+    }
 
     if (mode == CharacterAttackMode::Blaster
         || (pMainHand != nullptr && pMainHand->skillGroup == "Blaster")
@@ -1518,7 +1556,8 @@ void MawCombatRules::resolveCharacterAttack(
     {
         attack.hit = mawPartyHitChance(attack.attackBonus, targetLevel, m_rules.blessHitSkill(character),
                          m_rules.model(context.partyCount))
-            >= unit(*context.pRng);
+                >= unit(*context.pRng)
+            && !skilledTargetDodges(*context.pTargetFacts, *context.pRng);
 
         if (!attack.hit)
         {
@@ -1619,7 +1658,7 @@ void MawCombatRules::resolveCharacterAttack(
             }
         }
 
-        attack.stunTarget = attack.itemStunTarget;
+        attack.stunTarget = attack.itemStunTarget && !mawIgnoresCrowdControl(*context.pTargetFacts);
         attack.paralyzeTarget = false;
         applyWeaponStun(m_rules, attack, context, delay.damageMultiplier, targetLevel);
         applyRetaliation(attack, context);
@@ -2326,6 +2365,11 @@ float MawCombatRules::partyMissileHomingTurnRate() const
     return m_rules.options().preferences.homingProjectiles ? HomingTurnRadiansPerSecond : 0.0f;
 }
 
+bool MawCombatRules::bowDisabled() const
+{
+    return m_rules.options().preferences.bowDisabled;
+}
+
 float MawCombatRules::monsterMissileHomingLockRate(uint32_t spellId) const
 {
     // MAW re-aims while the missile points within 0.5° of the party, tested once a rendered frame, so its grip grows
@@ -2363,7 +2407,8 @@ void MawCombatRules::applyRetaliation(CharacterAttackResult &attack, const Chara
         * skillLevel(character, "Retaliation") * stacks);
     std::uniform_real_distribution<double> unit(0.0, 1.0);
 
-    if (unit(*context.pRng) < 0.25 * stacks)
+    // Not an Unstoppable boss (stage_retaliation, DM:891).
+    if (unit(*context.pRng) < 0.25 * stacks && !mawIgnoresCrowdControl(*context.pTargetFacts))
     {
         attack.paralyzeTarget = true;
         attack.paralyzeSeconds =
@@ -3040,6 +3085,7 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
             slow.pCaster = pMember;
             slow.targetLevel = hit.pTarget->level;
             slow.boss = hit.pTarget->bossAffix != 0;
+            slow.pTargetFacts = hit.pTarget;
             slow.targetKey = mapActorKey(hit.pWorld->mapName(), *hit.targetActorIndex);
             slow.partySize = party.members().size();
             slow.nowSeconds = double(hit.pWorld->gameMinutes()) * 2.0;
@@ -3075,6 +3121,24 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
             const std::string skill = canonicalSkillName(weapon.pItem->skillGroup);
             m_artifactCasts.push_back(ArtifactCast{hit.memberIndex, spellId, uint32_t(skillLevel(*pMember, skill)),
                 skillMastery(*pMember, skill), *hit.targetActorIndex});
+
+            // Thor also throws the monster back, as a dragon's bite does with the weapon skill for the fang
+            // (knockBack, zzzMaw_Artifacts.lua:66-85).
+            GameplayRuntimeActorState target = {};
+
+            if (itemId == 2021 && hit.pTarget != nullptr && hit.pTarget->level > 0
+                && hit.pWorld->actorRuntimeState(*hit.targetActorIndex, target))
+            {
+                const float deltaX = target.preciseX - hit.pWorld->partyX();
+                const float deltaY = target.preciseY - hit.pWorld->partyY();
+                const float length = std::hypot(deltaX, deltaY);
+
+                if (length > 0.01f)
+                {
+                    hit.pWorld->pushActor(*hit.targetActorIndex, deltaX / length, deltaY / length,
+                        float(mawDragonPushDistance(skillLevel(*pMember, skill), hit.pTarget->level)));
+                }
+            }
         }
     }
 
@@ -3361,7 +3425,8 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
             const double share = school("DarkMagic").second >= 3 ? 0.3 : 0.2;
             party.healMember(hit.memberIndex, int(std::ceil(leechBarShare(party, hit) * share)));
         }
-        else if (hit.spellId == 76 && hit.pWorld != nullptr && hit.targetActorIndex)
+        else if (hit.spellId == 76 && hit.pWorld != nullptr && hit.targetActorIndex
+            && !mawIgnoresCrowdControl(*hit.pTarget))
         {
             hit.pWorld->stunActor(*hit.targetActorIndex, hit.pTarget->bossAffix != 0 ? 2.0f : 4.0f);
         }
@@ -3371,7 +3436,7 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
             // (DM:793-806).
             const int mastery = school("WaterMagic").second;
 
-            if (mastery >= 2)
+            if (mastery >= 2 && !mawIgnoresCrowdControl(*hit.pTarget))
             {
                 hit.pWorld->debuffActor(
                     *hit.targetActorIndex, GameplayActorHitDebuff::Slow, 2.0f, mastery >= 4 ? 4.0f : 2.0f);
@@ -3474,7 +3539,7 @@ void MawCombatRules::applyClassHitEffects(Party &party, const PartyHitOnMonster 
         constexpr int GraspCost = 15;
 
         if (member.rulesetState.classToggleOn(96) && member.spellPoints >= GraspCost && hit.pWorld != nullptr
-            && hit.targetActorIndex
+            && hit.targetActorIndex && !mawIgnoresCrowdControl(*hit.pTarget)
             && hit.pWorld->debuffActor(*hit.targetActorIndex, GameplayActorHitDebuff::DarkGrasp, 2.0f, 1.0f))
         {
             member.spellPoints -= GraspCost;
@@ -3690,7 +3755,8 @@ bool MawCombatRules::characterMissileHits(const CharacterMissileOnMonster &missi
     return mawPartyHitChance(missile.attackBonus, missile.targetFacts.level,
                missile.pShooter != nullptr ? m_rules.blessHitSkill(*missile.pShooter) : m_rules.auraSkill(46),
                m_rules.model(missile.partyCount))
-        >= unit(*missile.pRng);
+            >= unit(*missile.pRng)
+        && !skilledTargetDodges(missile.targetFacts, *missile.pRng);
 }
 
 bool MawCombatRules::monsterAttackLands(const MonsterAttackOnCharacter &) const
@@ -3705,8 +3771,13 @@ bool MawCombatRules::characterEvades(const MonsterAttackOnCharacter &attack) con
     std::uniform_real_distribution<double> unit(0.0, 1.0);
     const CharacterSheetSummary sheet = characterSheet(
         character, attack.pItemTable, attack.pStandardItemEnchantTable, attack.pSpecialItemEnchantTable);
-    const double chanceToBeHit =
-        mawChanceToBeHit(sheet.speed.actual, std::max(1, attack.monsterLevel), m_rules.model(attack.partyCount));
+    // A Skilled boss's attacks are never dodged: no Speed roll, no Dodging (MawRollDodge, zzMaw_MonsterHit.lua:16-18;
+    // pstage_damageRecompute, DM:1673).
+    const bool undodgeable =
+        attack.pAttackerFacts != nullptr && hasAffix(*attack.pAttackerFacts, MawBossAffix::Skilled);
+    const double chanceToBeHit = undodgeable
+        ? 1
+        : mawChanceToBeHit(sheet.speed.actual, std::max(1, attack.monsterLevel), m_rules.model(attack.partyCount));
 
     // The engine's hit roll comes first. An attack past it enters the damage pipeline, whose first stage marks Beyond
     // Madness's ledger before the Dodging and Speed rolls, so a dodged attack still counts (Damage.lua:1568-1573,
@@ -3719,7 +3790,7 @@ bool MawCombatRules::characterEvades(const MonsterAttackOnCharacter &attack) con
     m_rules.markMadnessHit(m_gameMinutes);
 
     // Dragons cannot dodge: their Dodging is Scales (DM:1673-1675).
-    const double dodge = mawIsDragon(character)
+    const double dodge = mawIsDragon(character) || undodgeable
         ? 0
         : mawGrandmasterDodgeChance(
             skillLevel(character, "Dodging"), skillMastery(character, "Dodging") >= SkillMastery::Grandmaster);

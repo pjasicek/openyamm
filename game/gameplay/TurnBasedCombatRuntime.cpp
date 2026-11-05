@@ -165,6 +165,27 @@ bool TurnBasedCombatRuntime::hasPendingActions() const
     return m_pendingActions > 0;
 }
 
+TurnBasedSpeedPhase TurnBasedCombatRuntime::speedPhase() const
+{
+    if (!m_active)
+    {
+        return TurnBasedSpeedPhase::None;
+    }
+
+    // GrayFace's MM8Patch DoubleSpeedHook: monsters during the wait stage, the party while its objects fly.
+    if (m_stage == TurnBasedCombatStage::Wait || (m_stage == TurnBasedCombatStage::Attack && m_resolvingActorActions))
+    {
+        return TurnBasedSpeedPhase::Monsters;
+    }
+
+    if (m_stage == TurnBasedCombatStage::Attack && hasPendingActions())
+    {
+        return TurnBasedSpeedPhase::Party;
+    }
+
+    return TurnBasedSpeedPhase::None;
+}
+
 bool TurnBasedCombatRuntime::playerActionReady(const Party &party) const
 {
     return m_active && m_stage == TurnBasedCombatStage::Attack && !hasPendingActions() && canBeginPlayerAction(party);

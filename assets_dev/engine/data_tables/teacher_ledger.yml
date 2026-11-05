@@ -1,0 +1,13 @@
+# The Ledger of Teachers (level_generation/ui/journal_trainers_20261105): every tavern of a continent sells that
+# continent's ledger as an extra topic until the party has bought it. Buying it names every trainer of the continent in
+# the journal's Trainers notes (and fills their teacher autonotes). {continent} and {price} are filled in.
+price: 2000
+topic: Ledger of Teachers
+description: >-
+  Every master who teaches a craft on {continent} has a name in this book: where they live, what they teach and up to
+  which rank. Scholars copy it from the guild rolls each season. {price} gold, and you will never have to ask around
+  again.
+buy: "Buy the ledger: {price} gold"
+bought: >-
+  There you are: the Ledger of Teachers of {continent}. Every trainer is now in your journal's notes.
+too_poor: That's more gold than you carry, friend.

@@ -37,8 +37,9 @@ const ItemModelBinding &missingItemModelBinding();
 // loot satchel. It holds no item of its own, so no icon binds it.
 const ItemModelBinding &lootBagModelBinding();
 
-// Reads engine/world_items/items.yml (schema openyamm.itemModels.v1): a list of {icon, model, length, bounds}. A missing
-// file, an unknown key, a repeated icon, a bad length or bad bounds fails.
+// Reads engine/world_items/items.yml, or a mounted world's worlds/<id>/world_items/items.yml added to the same
+// bindings (schema openyamm.itemModels.v1): a list of {icon, model, length, bounds}. A missing file, an unknown key, an
+// icon already bound (in this file or an earlier one), a bad length or bad bounds fails.
 bool loadItemModelBindings(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &path,

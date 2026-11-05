@@ -769,4 +769,9 @@ bool applyMasteryTeacherTopic(
     };
     return applySkillMasteryTraining(request, party, classSkillTable, npcDialogTable, message);
 }
+
+int masteryTeacherStandardCost(const std::string &skillName, SkillMastery targetMastery)
+{
+    return masteryTeacherCost(skillName, targetMastery);
+}
 }

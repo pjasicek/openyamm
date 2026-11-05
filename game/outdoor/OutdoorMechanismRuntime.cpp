@@ -6,57 +6,10 @@
 
 namespace OpenYAMM::Game
 {
-namespace
-{
 uint64_t outdoorMechanismAudioKey(uint32_t mechanismId)
 {
     constexpr uint64_t MechanismAudioKeyPrefix = uint64_t{0x4d394d45} << 32; // "M9ME"
     return MechanismAudioKeyPrefix | uint64_t{mechanismId};
-}
-
-EventRuntimeState::PendingSound mechanismSoundRequest(
-    const EventRuntimeState::OutdoorModelMechanismDefinition &definition,
-    const std::string &soundName)
-{
-    EventRuntimeState::PendingSound request = {};
-    request.soundScope = SoundScope::World;
-    request.soundName = soundName;
-    request.x = definition.audio.x;
-    request.y = definition.audio.y;
-    request.z = definition.audio.z;
-    request.positional = definition.audio.positional;
-    request.hasExplicitZ = definition.audio.positional;
-    return request;
-}
-
-void queueMechanismOneShot(
-    EventRuntimeState &runtimeState,
-    const EventRuntimeState::OutdoorModelMechanismDefinition &definition,
-    const std::string &soundName)
-{
-    if (!soundName.empty())
-    {
-        runtimeState.pendingSounds.push_back(mechanismSoundRequest(definition, soundName));
-    }
-}
-
-void queueMechanismLoop(
-    EventRuntimeState &runtimeState,
-    uint32_t mechanismId,
-    const EventRuntimeState::OutdoorModelMechanismDefinition &definition,
-    const std::string &soundName)
-{
-    if (soundName.empty())
-    {
-        return;
-    }
-
-    EventRuntimeState::PendingSound request = mechanismSoundRequest(definition, soundName);
-    request.kind = EventRuntimeState::PendingSound::Kind::PlayLoopingKeyed;
-    request.key = outdoorMechanismAudioKey(mechanismId);
-    runtimeState.pendingSounds.push_back(std::move(request));
-}
-
 }
 
 float outdoorMechanismOpenFraction(
@@ -86,73 +39,6 @@ float outdoorMechanismOpenFraction(
     }
 
     return definition.closed ? 0.0f : 1.0f;
-}
-
-void queueOutdoorMechanismMovementAudio(
-    EventRuntimeState &runtimeState,
-    uint32_t mechanismId,
-    const EventRuntimeState::OutdoorModelMechanismDefinition &definition,
-    uint16_t previousState,
-    bool wasMoving,
-    const RuntimeMechanismState &mechanism)
-{
-    if (!mechanism.isMoving || (wasMoving && previousState == mechanism.state))
-    {
-        return;
-    }
-
-    const bool opening = mechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening);
-    const bool closing = mechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing);
-
-    if (!opening && !closing)
-    {
-        return;
-    }
-
-    queueOutdoorMechanismAudioStop(runtimeState, mechanismId);
-
-    if (opening)
-    {
-        const std::string &startSound = !definition.audio.openStartSound.empty()
-            ? definition.audio.openStartSound
-            : definition.audio.openSound;
-        queueMechanismOneShot(runtimeState, definition, startSound);
-        queueMechanismLoop(runtimeState, mechanismId, definition, definition.audio.openBusySound);
-    }
-    else
-    {
-        const std::string &startSound = !definition.audio.closeStartSound.empty()
-            ? definition.audio.closeStartSound
-            : definition.audio.closeSound;
-        queueMechanismOneShot(runtimeState, definition, startSound);
-        queueMechanismLoop(runtimeState, mechanismId, definition, definition.audio.closeBusySound);
-    }
-}
-
-void queueOutdoorMechanismCompletionAudio(
-    EventRuntimeState &runtimeState,
-    uint32_t mechanismId,
-    const EventRuntimeState::OutdoorModelMechanismDefinition &definition,
-    const RuntimeMechanismState &mechanism)
-{
-    queueOutdoorMechanismAudioStop(runtimeState, mechanismId);
-
-    if (mechanism.state == static_cast<uint16_t>(EvtMechanismState::Open))
-    {
-        queueMechanismOneShot(runtimeState, definition, definition.audio.openStopSound);
-    }
-    else if (mechanism.state == static_cast<uint16_t>(EvtMechanismState::Closed))
-    {
-        queueMechanismOneShot(runtimeState, definition, definition.audio.closeStopSound);
-    }
-}
-
-void queueOutdoorMechanismAudioStop(EventRuntimeState &runtimeState, uint32_t mechanismId)
-{
-    EventRuntimeState::PendingSound request = {};
-    request.kind = EventRuntimeState::PendingSound::Kind::StopKeyed;
-    request.key = outdoorMechanismAudioKey(mechanismId);
-    runtimeState.pendingSounds.push_back(std::move(request));
 }
 
 std::optional<uint16_t> outdoorBModelRuntimeInteractionEventId(

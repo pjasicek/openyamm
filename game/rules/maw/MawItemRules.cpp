@@ -507,6 +507,78 @@ void applyStandardItemEffects(
     bonuses.healthRegenPerSecond = healthRegenPerSecond;
     bonuses.spellRegenPerSecond = spellRegenPerSecond;
 }
+
+// The artifact powers a tooltip names: the permanent buffs and the immunities its Standard effects give.
+std::vector<std::string> artifactPowerLines(
+    const ItemDefinition &itemDefinition,
+    const StandardItemEnchantTable *pStandardTable,
+    const SpecialItemEnchantTable *pSpecialTable)
+{
+    Character worn;
+    applyStandardItemEffects(itemDefinition, EquippedItemRuntimeState{}, pStandardTable, pSpecialTable, worn);
+    std::vector<std::string> lines;
+
+    if (worn.halfMissileDamage)
+    {
+        lines.push_back("Permanent Shield");
+    }
+
+    if (worn.waterWalking)
+    {
+        lines.push_back("Permanent Water Walk");
+    }
+
+    if (worn.featherFalling)
+    {
+        lines.push_back("Permanent Feather Fall for the party");
+    }
+
+    // Poison and disease are one word each to the player.
+    struct Immunity
+    {
+        std::vector<CharacterCondition> conditions;
+        const char *pName;
+    };
+    const std::array<Immunity, 9> immunities = {{
+        {{CharacterCondition::Cursed}, "Curse"},
+        {{CharacterCondition::Weak}, "Weakness"},
+        {{CharacterCondition::Asleep}, "Sleep"},
+        {{CharacterCondition::Fear}, "Fear"},
+        {{CharacterCondition::Insane}, "Insanity"},
+        {{CharacterCondition::PoisonWeak, CharacterCondition::PoisonMedium, CharacterCondition::PoisonSevere},
+            "Poison"},
+        {{CharacterCondition::DiseaseWeak, CharacterCondition::DiseaseMedium, CharacterCondition::DiseaseSevere},
+            "Disease"},
+        {{CharacterCondition::Paralyzed}, "Paralysis"},
+        {{CharacterCondition::Petrified}, "Stone"},
+    }};
+    std::vector<std::string> names;
+
+    for (const Immunity &immunity : immunities)
+    {
+        if (std::any_of(immunity.conditions.begin(), immunity.conditions.end(),
+                [&worn](CharacterCondition condition)
+                { return worn.magicalConditionImmunities.test(size_t(condition)); }))
+        {
+            names.push_back(immunity.pName);
+        }
+    }
+
+    if (!names.empty())
+    {
+        std::sort(names.begin(), names.end());
+        std::string text = "Immune to " + names.front();
+
+        for (size_t index = 1; index < names.size(); ++index)
+        {
+            text += ", " + names[index];
+        }
+
+        lines.push_back(text);
+    }
+
+    return lines;
+}
 }
 
 bool mawWearsLegendaryAffix(const Character &character, int affixId)
@@ -555,6 +627,29 @@ int mawWornItemCount(const Character &character, std::initializer_list<uint32_t>
     {
         if (slot.itemId != 0 && !slot.pState->broken
             && std::find(itemIds.begin(), itemIds.end(), slot.itemId) != itemIds.end())
+        {
+            ++count;
+        }
+    }
+
+    return count;
+}
+
+bool mawRegenerationArtifact(uint32_t itemId, bool spellPoints)
+{
+    static constexpr std::array<uint32_t, 6> HealthArtifacts = {509, 520, 1337, 1331, 1335, 2027};
+    static constexpr std::array<uint32_t, 7> SpellArtifacts = {513, 1334, 1331, 2024, 2032, 2033, 2034};
+    return spellPoints ? std::find(SpellArtifacts.begin(), SpellArtifacts.end(), itemId) != SpellArtifacts.end()
+                       : std::find(HealthArtifacts.begin(), HealthArtifacts.end(), itemId) != HealthArtifacts.end();
+}
+
+int mawWornRegenerationArtifacts(const Character &character, bool spellPoints)
+{
+    int count = 0;
+
+    for (const EquippedSlot &slot : equippedSlots(character))
+    {
+        if (slot.itemId != 0 && !slot.pState->broken && mawRegenerationArtifact(slot.itemId, spellPoints))
         {
             ++count;
         }
@@ -1427,7 +1522,7 @@ MawArtifactBonuses MawItemRules::artifactBonuses(const MawArtifact &artifact, co
 
     for (const auto &[name, amount] : artifact.flat)
     {
-        bonuses.stats.emplace_back(statType(name), int(mawRound(amount)));
+        bonuses.flat.emplace_back(statType(name), int(mawRound(amount)));
     }
 
     return bonuses;
@@ -1550,8 +1645,29 @@ void MawItemRules::applyItemEffects(
         bonuses.itemSkillBonuses = skillsBefore;
 
         const MawArtifactBonuses budget = artifactBonuses(*pArtifact, itemDefinition);
+        const double resistanceMultiplier = wears(wearer, LegendaryAffix::ResistanceEnchants) ? 1.5 : 1;
 
         for (const auto &[type, amount] : budget.stats)
+        {
+            // The budget's resistances count as resistance enchantments, the best per element, apart from the
+            // resistances; only the fixed part stays a resistance (collectArtifactBonuses, MAW fc17d917).
+            if (isResistanceEnchant(type))
+            {
+                int &best = resistanceField(bonuses.itemResistanceEnchants, type);
+                best = std::max(best, int(mawRound(std::max(amount, 0) * resistanceMultiplier)));
+
+                if (amount < 0)
+                {
+                    ItemEnchantRuntime::applyStandardEnchantBonus(bonuses, StandardItemEnchantKind(type), amount);
+                }
+
+                continue;
+            }
+
+            ItemEnchantRuntime::applyStandardEnchantBonus(bonuses, StandardItemEnchantKind(type), amount);
+        }
+
+        for (const auto &[type, amount] : budget.flat)
         {
             ItemEnchantRuntime::applyStandardEnchantBonus(bonuses, StandardItemEnchantKind(type), amount);
         }
@@ -1906,6 +2022,11 @@ bool MawItemRules::glowsItemRarity() const
     return true;
 }
 
+bool MawItemRules::inventorySearch() const
+{
+    return true;
+}
+
 std::optional<uint32_t> MawItemRules::nameColor(const InventoryItem &item) const
 {
     switch (MawRarity(item.rulesetFields.lootRarity))
@@ -1929,11 +2050,45 @@ std::optional<uint32_t> MawItemRules::nameColor(const InventoryItem &item) const
     }
 }
 
+std::string MawItemRules::enchantLine(
+    int type,
+    int power,
+    bool first,
+    const ItemDefinition &itemDefinition,
+    const StandardItemEnchantTable *pStandardTable,
+    const Character *pViewer) const
+{
+    const MawBaseItem *pBase = m_rules.itemData().baseItem(itemDefinition.itemId);
+
+    if (pBase == nullptr)
+    {
+        return mawEnchantStatName(pStandardTable, type) + " +" + std::to_string(power);
+    }
+
+    const bool ring = itemDefinition.equipStat == "Ring";
+
+    // A resistance shows the share of damage it stops: (roll + 10, half on rings) as 1 - 1 / (1 + p / 100), the
+    // viewer's Legendary 16 in it (resistancePercent, Tooltip.lua:20-22, 262-293).
+    if (isResistanceEnchant(type))
+    {
+        double points = isHat(itemDefinition, *pBase) ? std::ceil(power * 1.5) : power;
+        points *= pViewer != nullptr && mawWearsLegendaryAffix(*pViewer, 16) ? 1.5 : 1;
+        points = (points + 10) * (ring ? 0.5 : 1);
+        const double percent = mawRound((1 - 1 / (points / 100 + 1)) * 1000) / 10;
+        std::ostringstream text;
+        text << mawEnchantStatName(pStandardTable, type) << " +" << percent << "%";
+        return text.str();
+    }
+
+    const int shown = readEnchantment(type, power, first, itemDefinition, *pBase, ring);
+    return mawEnchantStatName(pStandardTable, type) + " +" + std::to_string(shown);
+}
+
 std::vector<ItemInspectLine> MawItemRules::inspectLines(
     const InventoryItem &storedItem,
     const ItemDefinition &itemDefinition,
     const StandardItemEnchantTable *pStandardTable,
-    const SpecialItemEnchantTable *,
+    const SpecialItemEnchantTable *pSpecialTable,
     const Character *pViewer) const
 {
     // A Celestial item reads at the viewer's level (Tooltip.lua:205).
@@ -1986,13 +2141,21 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
     {
         const MawArtifactBonuses bonuses = artifactBonuses(*pArtifact, itemDefinition);
 
-        for (const auto &[type, amount] : bonuses.stats)
+        for (const std::vector<std::pair<int, int>> *pStats : {&bonuses.stats, &bonuses.flat})
         {
-            if (amount != 0)
+            for (const auto &[type, amount] : *pStats)
             {
-                lines.push_back({mawEnchantStatName(pStandardTable, type) + (amount > 0 ? " +" : " ")
-                        + std::to_string(amount),
-                    amount > 0 ? 0x96c8ffu : 0xff6464u});
+                // MAW's immunity value reads as such (Tooltip.lua tooltipArtifactScaling).
+                if (amount >= 65000)
+                {
+                    lines.push_back({mawEnchantStatName(pStandardTable, type) + ": Immune", 0x96c8ffu});
+                }
+                else if (amount != 0)
+                {
+                    lines.push_back({mawEnchantStatName(pStandardTable, type) + (amount > 0 ? " +" : " ")
+                            + std::to_string(amount),
+                        amount > 0 ? 0x96c8ffu : 0xff6464u});
+                }
             }
         }
 
@@ -2023,6 +2186,22 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
             lines.push_back({"+50% skill in " + displaySkillName(school), 0x96c8ff});
         }
 
+        // Its lasting powers (MawArtifactOnHitText, zzzMaw_Artifacts.lua:410-460): read off what wearing it does.
+        for (const std::string &power : artifactPowerLines(itemDefinition, pStandardTable, pSpecialTable))
+        {
+            lines.push_back({power, 0x96c8ff});
+        }
+
+        if (mawRegenerationArtifact(itemDefinition.itemId, false))
+        {
+            lines.push_back({"Regenerates Hit Points", 0x96c8ff});
+        }
+
+        if (mawRegenerationArtifact(itemDefinition.itemId, true))
+        {
+            lines.push_back({"Regenerates Spell Points", 0x96c8ff});
+        }
+
         if (pArtifact->attackDelayMultiplier < 1)
         {
             lines.push_back({"Swift", 0x96c8ff});
@@ -2048,31 +2227,13 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
 
     if (item.identified)
     {
-        const bool ring = itemDefinition.equipStat == "Ring";
-        const double multiplier = readSlotMultiplier(itemDefinition, *pBase);
         const auto addEnchant = [&](int type, int power, bool first)
         {
-            if (type == 0)
+            if (type != 0)
             {
-                return;
+                lines.push_back(
+                    {enchantLine(type, power, first, itemDefinition, pStandardTable, pViewer), 0x96c8ff});
             }
-
-            // A resistance shows the share of damage it stops: (roll + 10, half on rings) as 1 - 1 / (1 + p / 100),
-            // the viewer's Legendary 16 in it (resistancePercent, Tooltip.lua:20-22, 262-293).
-            if (isResistanceEnchant(type))
-            {
-                double points = isHat(itemDefinition, *pBase) ? std::ceil(power * 1.5) : power;
-                points *= pViewer != nullptr && mawWearsLegendaryAffix(*pViewer, 16) ? 1.5 : 1;
-                points = (points + 10) * (ring ? 0.5 : 1);
-                const double percent = mawRound((1 - 1 / (points / 100 + 1)) * 1000) / 10;
-                std::ostringstream text;
-                text << mawEnchantStatName(pStandardTable, type) << " +" << percent << "%";
-                lines.push_back({text.str(), 0x96c8ff});
-                return;
-            }
-
-            const int shown = readEnchantment(type, power, first, itemDefinition, *pBase, ring);
-            lines.push_back({mawEnchantStatName(pStandardTable, type) + " +" + std::to_string(shown), 0x96c8ff});
         };
 
         addEnchant(fields.secondStandardEnchantId, fields.secondStandardEnchantPower, false);
@@ -2430,11 +2591,12 @@ uint32_t MawItemRules::placedItemId(uint32_t itemId, std::mt19937 &rng) const
     return itemId;
 }
 
-int MawItemRules::bagCount(const Party &) const
+int MawItemRules::bagCount(const Party &party) const
 {
-    // Four bags a character, a party of one too (the user's inventory design of 2026-10-25; MAW has five, and 25 for
-    // a party of one: DEVIATIONS).
-    return 4;
+    // Four bags a character (the user's inventory design of 2026-10-25), and five tabs of four for a party of one
+    // (user, 2026-11-04; MAW has five bags, and five tabs of five alone: DEVIATIONS 141). A member who joins someone
+    // keeps the other tabs' items until alone again.
+    return party.members().size() == 1 ? 5 * InventoryBags::TabBags : InventoryBags::TabBags;
 }
 
 std::optional<LootGathering> MawItemRules::lootGathering() const

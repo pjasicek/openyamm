@@ -8,6 +8,7 @@
 #include "game/rules/maw/MawClassSpells.h"
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawItemRules.h"
+#include "game/rules/maw/MawMonsterRules.h"
 #include "game/rules/maw/MawPromotions.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawSkillFormulas.h"
@@ -72,18 +73,18 @@ struct RaceElement
 {
     const char *pName;
     int CharacterResistanceSet::*pResistance;
-    bool CharacterResistanceImmunitySet::*pImmunity;
 };
 
-constexpr RaceElement FireElement = {"Fire", &CharacterResistanceSet::fire, &CharacterResistanceImmunitySet::fire};
-constexpr RaceElement AirElement = {"Air", &CharacterResistanceSet::air, &CharacterResistanceImmunitySet::air};
-constexpr RaceElement WaterElement = {"Water", &CharacterResistanceSet::water, &CharacterResistanceImmunitySet::water};
-constexpr RaceElement EarthElement = {"Earth", &CharacterResistanceSet::earth, &CharacterResistanceImmunitySet::earth};
-constexpr RaceElement MindElement = {"Mind", &CharacterResistanceSet::mind, &CharacterResistanceImmunitySet::mind};
-constexpr RaceElement BodyElement = {"Body", &CharacterResistanceSet::body, &CharacterResistanceImmunitySet::body};
+constexpr RaceElement FireElement = {"Fire", &CharacterResistanceSet::fire};
+constexpr RaceElement AirElement = {"Air", &CharacterResistanceSet::air};
+constexpr RaceElement WaterElement = {"Water", &CharacterResistanceSet::water};
+constexpr RaceElement EarthElement = {"Earth", &CharacterResistanceSet::earth};
+constexpr RaceElement MindElement = {"Mind", &CharacterResistanceSet::mind};
+constexpr RaceElement BodyElement = {"Body", &CharacterResistanceSet::body};
 
-// What a race resists by base + perLevel x level; a base of 0 makes it immune instead. Elemental races resist their
-// elements by 25 + level, dragons fire by 100 + 2 x level; undead are immune to Body and Mind, vampires to Mind.
+// What a race resists by base + perLevel x level; a base of 0 means immune. Elemental races resist their elements by
+// 25 + level, dragons fire by 100 + 2 x level; undead are immune to Body and Mind, vampires to Mind. The immune rows
+// only describe the race: ClassRules::applyClassBonuses grants those immunities in every ruleset.
 struct RaceResistances
 {
     uint32_t race;
@@ -229,6 +230,8 @@ bool mawIsDragon(const Character &character)
 
 void MawClassRules::applyClassBonuses(Character &member) const
 {
+    ClassRules::applyClassBonuses(member);
+
     for (const RaceSkills &entry : FlatSkillBonuses)
     {
         if (entry.race != member.raceId)
@@ -251,20 +254,13 @@ void MawClassRules::applyClassBonuses(Character &member) const
     {
         for (const RaceElement *pElement : entry.elements)
         {
-            if (entry.race != member.raceId || pElement == nullptr)
+            if (entry.race != member.raceId || pElement == nullptr || entry.base == 0)
             {
                 continue;
             }
 
-            if (entry.base == 0)
-            {
-                member.magicalImmunities.*(pElement->pImmunity) = true;
-            }
-            else
-            {
-                member.magicalBonuses.resistances.*(pElement->pResistance) +=
-                    entry.base + entry.perLevel * int(member.level);
-            }
+            member.magicalBonuses.resistances.*(pElement->pResistance) +=
+                entry.base + entry.perLevel * int(member.level);
         }
     }
 
@@ -1028,8 +1024,11 @@ std::optional<std::string> MawClassRules::partyCharge(
 
     m_chargeReadyGameMinutes = now + CooldownGameMinutes;
     const double minutes = className == "Knight" ? 1.5 : className == "Cavalier" ? 2 : 2.5;
-    const double seconds = m_rules.diminishedCrowdControlSeconds(mapActorKey(world.mapName(), *targetActorIndex),
-        ParalyzeGroup, now * 2, minutes * 2, target.rulesetFacts.bossAffix != 0);
+    // An Unstoppable boss is not stunned (calcDebuffDuration, zzMAW-Skills.lua:999).
+    const double seconds = mawIgnoresCrowdControl(target.rulesetFacts)
+        ? 0
+        : m_rules.diminishedCrowdControlSeconds(mapActorKey(world.mapName(), *targetActorIndex), ParalyzeGroup,
+              now * 2, minutes * 2, target.rulesetFacts.bossAffix != 0);
 
     if (seconds > 0)
     {

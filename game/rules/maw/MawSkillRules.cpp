@@ -157,6 +157,21 @@ uint32_t MawSkillRules::skillRaiseCost(const Character &character, const std::st
     return mawSharedRaiseCost(newLevel, sharers);
 }
 
+std::vector<std::pair<std::string, std::array<uint32_t, 3>>> MawSkillRules::teacherlessMasteryLadders() const
+{
+    std::vector<std::pair<std::string, std::array<uint32_t, 3>>> ladders;
+
+    for (const char *pSkill : {"Cover", "ManaShield", "Enlightenment", "Retaliation"})
+    {
+        if (const std::optional<std::array<uint32_t, 3>> ladder = mawSkillMasteryLadder(pSkill, skillMode()))
+        {
+            ladders.emplace_back(pSkill, *ladder);
+        }
+    }
+
+    return ladders;
+}
+
 std::vector<std::string> MawSkillRules::extraHouseSkills(const std::string &houseType) const
 {
     if (houseType == "Training")
@@ -439,7 +454,9 @@ SkillTooltipText MawSkillRules::skillTooltip(
 
     if (!entry)
     {
-        return table;
+        SkillTooltipText text = table;
+        text.footer = mawTrainerHintText(m_rules, party, character, canonicalSkill, skillMode());
+        return text;
     }
 
     const auto skillOf = [&character](const char *pSkill)
@@ -496,14 +513,17 @@ SkillTooltipText MawSkillRules::skillTooltip(
     const double healAscension = mawAscension(character, MawAscensionUse::Heal).skill;
     const MawAscension costAscension = mawAscension(character, MawAscensionUse::Cost);
     const double castAscension = mawAscension(character, MawAscensionUse::CastTime).skill;
-    const MawSpellDice dice = mawAscendedSpellDice({1, 100, 100}, ascension);
-    values["asc_damage_scaling"] = dice.diceMax - 100;
-    values["asc_damage_base"] = dice.add - 100;
+    // MAW's tooltip shows the Ascension growth alone, without the cut of every damage spell.
+    values["asc_damage_scaling"] = std::round(100 * (mawSpellDiceScale(ascension) - 1));
+    values["asc_damage_base"] = std::round(100 * (mawSpellAddScale(ascension) - 1));
     values["asc_heal_scaling"] = 100 * ((1 + 0.02 * healAscension) * std::pow(1.015, healAscension) - 1);
     values["asc_heal_base"] =
         100 * ((1 + 0.01 * healAscension * healAscension) * std::pow(1.015, healAscension) - 1);
     values["asc_mana"] =
         mawSpellManaCost(MawSpellCategory::Damage, 1000, costAscension.skill, costAscension.mastery, 1) / 10.0 - 100;
+    values["asc_cc_mana"] =
+        mawSpellManaCost(MawSpellCategory::CrowdControl, 1000, costAscension.skill, costAscension.mastery, 1) / 10.0
+        - 100;
     values["asc_cast"] = 100 * (std::pow(1.015, castAscension) - 1);
 
     values["cover_chance"] = 100 * mawCoverChance(level, false);
@@ -627,8 +647,18 @@ SkillTooltipText MawSkillRules::skillTooltip(
     {
         return std::string(off ? "<bad>Currently disabled</>" : "<good>Currently enabled</>");
     };
+    // A mana cost change, green when the mastery brings it below the base cost (SkillTooltip.lua manaStr).
+    const auto costChange = [&values](const char *pName)
+    {
+        const double percent = std::round(values[pName]);
+        std::ostringstream text;
+        text << (percent < 0 ? "<good>" : "<bad>+") << percent << "</> %";
+        return text.str();
+    };
     const std::unordered_map<std::string, std::string> words = {
         {"rotation", character.rulesetState.elementalRotationDisabled ? "<bad>disabled</>" : "<good>enabled</>"},
+        {"asc_mana_change", costChange("asc_mana")},
+        {"asc_cc_mana_change", costChange("asc_cc_mana")},
         {"stun_line", stunLine},
         {"dragon_leech", dragonLeech},
         {"armor_items", armorItems},
@@ -657,6 +687,7 @@ SkillTooltipText MawSkillRules::skillTooltip(
         }
     }
 
+    text.footer = mawTrainerHintText(m_rules, party, character, canonicalSkill, skillMode());
     return text;
 }
 
@@ -1080,7 +1111,7 @@ std::pair<double, double> MawSkillRules::regenerationPerSecond(const Party &part
         mawRegenerationPotionHealthPerSecond(fullHealth, potionSkill));
     // Regeneration specials and artifacts: 0.2 % of full HP a second each (S:1358-1362).
     const int healthItems = mawWornSpecialCount(member, {37, 44, 50, 54, 66})
-        + mawWornItemCount(member, {509, 520, 1337, 1331, 1335, 2027});
+        + mawWornRegenerationArtifacts(member, false);
     healthPerSecond += 0.002 * fullHealth * healthItems;
 
     const int fullSpellPoints = Party::effectiveMaximumSpellPoints(member);
@@ -1096,7 +1127,7 @@ std::pair<double, double> MawSkillRules::regenerationPerSecond(const Party &part
         spellPerSecond *= 1 + std::clamp(double(reserved) / fullSpellPoints, 0.0, 1.0);
     }
     // Only the mana artifacts restore SP as items do; the SP specials raise Meditation instead (S:1455-1459).
-    spellPerSecond += 0.002 * pool * mawWornItemCount(member, {513, 1334, 1331, 2024, 2032, 2033, 2034});
+    spellPerSecond += 0.002 * pool * mawWornRegenerationArtifacts(member, true);
 
     // The Meditation aura gives nothing to dragons, the Thief line and Death Knights.
     if (const std::optional<MawAuraSource> meditationAura = m_rules.activeAura(MeditationAura);
@@ -1161,9 +1192,6 @@ void MawSkillRules::applyProgressionMasteries(Party &party) const
 
 void MawSkillRules::applySoloMasteries(Party &party) const
 {
-    static constexpr std::array<const char *, 7> UtilitySkills = {
-        "IdentifyItem", "Merchant", "RepairItem", "Perception", "DisarmTraps", "IdentifyMonster", "Alchemy",
-    };
     static constexpr std::array<uint32_t, 4> Thresholds = {1, 4, 7, 10};
     const bool solo = party.members().size() == 1;
 
@@ -1186,7 +1214,7 @@ void MawSkillRules::applySoloMasteries(Party &party) const
             continue;
         }
 
-        for (const char *pName : UtilitySkills)
+        for (const char *pName : MawSoloMasterySkills)
         {
             CharacterSkill *pSkill = member.findSkillByCanonicalName(pName);
 
@@ -1366,6 +1394,53 @@ bool MawSkillRules::followerSkillBonusesStack() const
     return false;
 }
 
+std::optional<uint32_t> MawSkillRules::statLabelRgb(const std::string &statName) const
+{
+    static constexpr std::array<std::pair<const char *, uint32_t>, 10> Colors = {{
+        {"Might", 0xff0000},
+        {"Intellect", 0xff8000},
+        {"Personality", 0x007fff},
+        {"Endurance", 0x00ff00},
+        {"Accuracy", 0xffff00},
+        {"Speed", 0x7f00ff},
+        {"Luck", 0xffffff},
+        {"HitPoints", 0x00ff00},
+        {"SpellPoints", 0x0064ff},
+        {"ArmorClass", 0xe6cc80},
+    }};
+
+    for (const auto &[pName, rgb] : Colors)
+    {
+        if (statName == pName)
+        {
+            return rgb;
+        }
+    }
+
+    return std::nullopt;
+}
+
+int MawSkillRules::followerSkillBonus(uint32_t professionId, const std::string &canonicalSkill, int tableBonus) const
+{
+    if (canonicalSkill != "Learning")
+    {
+        return tableBonus;
+    }
+
+    switch (professionId)
+    {
+        case 4: return 2;
+        case 13: return 4;
+        case 14: return 6;
+        default: return tableBonus;
+    }
+}
+
+bool MawSkillRules::followerSkillBonusNeedsSkill(const std::string &canonicalSkill) const
+{
+    return canonicalSkill == "Learning";
+}
+
 namespace
 {
 // The resistance rows, Fire to Body, with their item enchantments and each label in its element's colour
@@ -1436,6 +1511,21 @@ std::optional<CharacterStatRowText> MawSkillRules::statRowText(
     const Character &character,
     const std::string &statName) const
 {
+    // With the Bow preference off, the Shoot rows say so, unless a wand or blaster still fires there.
+    if ((statName == "Shoot" || statName == "RangedDamage") && m_rules.options().preferences.bowDisabled)
+    {
+        const CharacterAttackProfile profile =
+            GameMechanics::buildCharacterAttackProfile(character, party.itemTable(), nullptr, {});
+
+        if (profile.hasWand || profile.hasBlaster)
+        {
+            return std::nullopt;
+        }
+
+        return statName == "Shoot" ? CharacterStatRowText{"Shoot", "Bow off", {}}
+                                   : CharacterStatRowText{"Damage", "-", {}};
+    }
+
     const std::array<const char *, 4> names = {"Condition", "QuickSpell", "SpellPower", "Vitality"};
 
     for (size_t index = 0; index < names.size(); ++index)

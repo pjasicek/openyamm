@@ -87,10 +87,27 @@ TEST_CASE("the installed MAW dimension maps load with MAW's affix values")
     CHECK_EQ(data.affixLine(int(MawMapAffix::MonsterResistance), 10), "Monster resistances are increased by 50");
     CHECK_EQ(mawDimensionMapLevel(10, {14, 14, 17}), 135);
 
-    // Quest tiers: +20 below 140, +15 below 200, then +10.
-    CHECK_EQ(data.nextQuestTier(100), 120);
-    CHECK_EQ(data.nextQuestTier(140), 155);
+    // Quest tiers (MAW aef88884): 80, then +30, +29, ... down to +10; 22 tiers reach the unlock at 500.
+    CHECK_EQ(data.quest().firstTier, 80);
+    CHECK_EQ(data.nextQuestTier(80), 110);
+    CHECK_EQ(data.nextQuestTier(110), 139);
+    CHECK_EQ(data.nextQuestTier(139), 167);
+    CHECK_EQ(data.nextQuestTier(490), 500);
     CHECK_EQ(data.nextQuestTier(500), 510);
+    // A tier from the old ladder moves onto the new one.
+    CHECK_EQ(data.nextQuestTier(100), 110);
+    CHECK_EQ(data.nextQuestTier(155), 167);
+    int tier = data.quest().firstTier;
+    int tiers = 1;
+
+    while (tier < data.quest().unlockTier)
+    {
+        tier = data.nextQuestTier(tier);
+        ++tiers;
+    }
+
+    CHECK_EQ(tier, 500);
+    CHECK_EQ(tiers, 22);
 }
 
 TEST_CASE("MAW dimension maps roll distinct affixes into their slots")
@@ -346,7 +363,7 @@ TEST_CASE("MAW kill experience leaves the dimension +HP affix out of the health 
     // The same monster with the affix's extra health is worth the same.
     const int raisedHp = int(12000 * (1 + *affix / 100));
     const MawMemberKillExperience raised = mawMemberKillExperience(rules, member, 4, 1000, raisedHp);
-    CHECK(raised.banked == doctest::Approx(plain.banked).epsilon(0.001));
+    CHECK(raised.award == doctest::Approx(plain.award).epsilon(0.001));
 }
 
 TEST_CASE("MAW dimension rolls of different kinds never share a stream key (audit ROB-2-9)")

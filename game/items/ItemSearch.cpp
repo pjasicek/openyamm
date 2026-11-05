@@ -1,5 +1,7 @@
 #include "game/items/ItemSearch.h"
 
+#include "engine/Utf8Text.h"
+
 #include <algorithm>
 #include <cctype>
 
@@ -45,13 +47,7 @@ std::vector<std::string> splitWords(std::string_view text)
 
 std::string toLower(std::string_view text)
 {
-    std::string result(text);
-    std::transform(result.begin(), result.end(), result.begin(),
-        [](unsigned char character)
-        {
-            return static_cast<char>(std::tolower(character));
-        });
-    return result;
+    return Engine::Utf8::lower(text);
 }
 
 Query parse(std::string_view text)

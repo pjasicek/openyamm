@@ -8,6 +8,7 @@
 #include "game/ui/GameplayAlchemyBenchRenderer.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayTransportSchedule.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudRenderer.h"
@@ -215,6 +216,8 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         {
             GameplayDialogueRenderer::renderDialogueOverlay(overlayContext, width, height, true);
         }
+
+        GameplayTransportSchedule::render(overlayContext, width, height);
         recordStage(&GameplayUiOverlayFramePerformanceDiagnostics::dialogueAboveNanoseconds);
 
         GameplayPartyOverlayRenderer::renderRestOverlay(overlayContext, width, height);

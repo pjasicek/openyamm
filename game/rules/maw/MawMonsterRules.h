@@ -192,6 +192,12 @@ private:
 // The tier of a monster id in its A/B/C family: 1, 2 or 3.
 uint8_t mawMonsterTier(int monsterId);
 
+// A monster's damage before the attack's own ratio (getMonsterDamage): the model's damage at its family level for the
+// damage kind, scaled by its tier and boss multiplier. Physical attacks are sized against armour, every other kind
+// against resistances.
+double mawMonsterBaseDamage(
+    const MawRules &rules, const ActorRulesetFacts &facts, int partyCount, CombatDamageType type);
+
 // How far a map is cleared (checkMapCompletition, zzMaw-Monsters.lua:2568-2640): the slain share of its counted
 // monsters (mdt15 counts one fewer) against 0.99^floor(n / 100), every one in Road to Insanity and Beyond Madness
 // outdoors. A map whose remaining hostiles are all hidden counts as cleared; one without any has no share. The Arena
@@ -256,13 +262,30 @@ enum class MawBossAffix : uint8_t
     Swift,
     Shadow,
     // MAW's special bosses (bosses.yml `special`): a Broodlord and its Broodlings, which hatch from each other as they
-    // die, have no affix of their own; an Omnipotent boss has all fourteen.
+    // die, have no affix of their own; an Omnipotent boss has all fourteen above.
     Broodlord,
     Broodling,
     Omnipotent,
+    // The affixes added later (MAW 8fbb48d1), rolled like the first fourteen but not part of an Omnipotent boss
+    // (OmnipotentExcluded): immune to crowd control; up to twice the damage as its health runs out; named Cryptic
+    // but fighting with a hidden other affix (ActorRulesetFacts::crypticAffix); 40 % of the party's weapon hits
+    // miss it and its own hits cannot be dodged, and it drops four Horseshoes.
+    Unstoppable,
+    Berserker,
+    Cryptic,
+    Skilled,
 };
 
 std::string mawBossAffixName(MawBossAffix affix);
-// Whether a monster's boss affix includes this one (an Omnipotent boss has every affix).
+// The affix a boss fights with: a Cryptic boss's hidden one, otherwise its own (MAW's getBossSkill).
+MawBossAffix mawBossEffectAffix(const ActorRulesetFacts &facts);
+// Whether a monster's boss affix includes this one: the affix it fights with, and for an Omnipotent boss each of the
+// first fourteen.
 bool mawHasBossAffix(const ActorRulesetFacts &facts, MawBossAffix affix);
+// Whether no crowd control holds the monster (an Unstoppable boss): spells, weapon stuns, Retaliation and the class
+// abilities that stun, slow or hold.
+bool mawIgnoresCrowdControl(const ActorRulesetFacts &facts);
+// A Berserker boss's damage multiplier at its health: 2 - HP / max HP, from 1 at full health to 2 near death
+// (getMonsterDamage, Estimates.lua:491-493).
+double mawBerserkerDamageMultiplier(int currentHp, int maxHp);
 }

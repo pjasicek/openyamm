@@ -170,6 +170,8 @@ public:
     // needs a ready member even where it costs nothing.
     float combatRecoveryTicks() const;
     bool combatRecoveryOnlyNearEnemies() const;
+    // The active member pays (the original games), not the drinker when ready (MAW).
+    bool combatRecoveryActiveMemberPays() const;
     // Every recipe shows in the recipe book from the start (MAW).
     bool allRecipesKnown() const;
 
@@ -181,6 +183,7 @@ private:
     int m_powerCap = 0;
     float m_combatRecoveryTicks = 0.0f;
     bool m_combatRecoveryOnlyNearEnemies = false;
+    bool m_combatRecoveryActiveMemberPays = false;
     bool m_allRecipesKnown = false;
 };
 }

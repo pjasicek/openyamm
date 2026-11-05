@@ -247,15 +247,63 @@ TEST_CASE("MAW crafting is seeded: the preview is the result, and the next craft
     CHECK_LE(first.target.rulesetFields.secondStandardEnchantPower, 50);
     CHECK(MawRarity(first.target.rulesetFields.lootRarity) == MawRarity::Rare);
 
-    // Pearl of Memory removes one of the two, the same one every time it is previewed.
-    const CraftResult pearl = crafting.craft(first.target, material(1066), context());
-    REQUIRE(pearl.possible);
-    CHECK_FALSE(pearl.confirmation.empty());
-    CHECK(crafting.craft(first.target, material(1066), context()).target == pearl.target);
-    const int left = (pearl.target.standardEnchantId != 0 ? 1 : 0)
-        + (pearl.target.rulesetFields.secondStandardEnchantId != 0 ? 1 : 0);
-    CHECK_EQ(left, 1);
-    CHECK_NE(pearl.target.standardEnchantId, 0);
+}
+
+TEST_CASE("MAW Pearl of Memory removes the enchantment the player picks")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const std::unique_ptr<MawRules> pRules = mawRules();
+    const CraftingRules &crafting = pRules->gameRules().crafting;
+    // A ring with Might +40, a second enchantment (Intellect +30) and a special.
+    InventoryItem ring = item(baseItem(*pRules, "Ring"), 1, 40, 2, 30);
+    ring.specialEnchantId = 1;
+    const auto pick = [&](size_t choice)
+    {
+        CraftingContext picked = context();
+        picked.choice = choice;
+        return crafting.craft(ring, material(1066), picked);
+    };
+
+    // Three options, the first by default, each named in the preview and the confirmation; nothing is hidden.
+    const CraftResult first = crafting.craft(ring, material(1066), context());
+    REQUIRE(first.possible);
+    REQUIRE_EQ(first.choices.size(), 3);
+    CHECK_FALSE(first.choicePrompt.empty());
+    CHECK_EQ(first.choice, 0);
+    CHECK_FALSE(first.hiddenOutcome);
+    CHECK_EQ(first.summary, "Removes " + first.choices[0]);
+    CHECK_EQ(first.confirmation, "Remove " + first.choices[0] + "?");
+
+    // Losing the first moves the second up.
+    CHECK_EQ(first.target.standardEnchantId, 2);
+    CHECK_EQ(int(first.target.standardEnchantPower), 30);
+    CHECK_EQ(first.target.rulesetFields.secondStandardEnchantId, 0);
+    CHECK_EQ(first.target.specialEnchantId, 1);
+
+    const CraftResult second = pick(1);
+    CHECK_EQ(second.choice, 1);
+    CHECK_EQ(second.target.standardEnchantId, 1);
+    CHECK_EQ(second.target.rulesetFields.secondStandardEnchantId, 0);
+    CHECK_EQ(second.target.specialEnchantId, 1);
+
+    const CraftResult special = pick(2);
+    CHECK_EQ(special.target.standardEnchantId, 1);
+    CHECK_EQ(special.target.rulesetFields.secondStandardEnchantId, 2);
+    CHECK_EQ(special.target.specialEnchantId, 0);
+    CHECK_EQ(special.summary, "Removes " + first.choices[2]);
+
+    // A pick past the last is the last, and the same pick is the same result.
+    CHECK(pick(7).target == special.target);
+    CHECK(pick(1).target == second.target);
+
+    // Two left, two options; with one there is nothing to pick, and with none the Pearl refuses.
+    CHECK_EQ(crafting.craft(second.target, material(1066), context()).choices.size(), 2);
+    const InventoryItem single = item(baseItem(*pRules, "Ring"), 1, 40);
+    const CraftResult last = crafting.craft(single, material(1066), context());
+    REQUIRE(last.possible);
+    CHECK(last.choices.empty());
+    CHECK_EQ(last.target.standardEnchantId, 0);
+    CHECK_FALSE(crafting.craft(last.target, material(1066), context()).possible);
 }
 
 TEST_CASE("MAW crafting materials: cubes, mirror, orbs and the Endless Potion")
@@ -374,7 +422,7 @@ TEST_CASE("the Workbench batches gems from the cheapest tier and combines three 
 
     // Cheapest first: two tier-1 gems take Might 0 -> 6 (cap 6), then tier 8 gems 6 -> 50 in 15 steps (10 left: 36).
     const CraftPlan plan =
-        CraftingRuntime::plan(party, targets[0].ref, materials[1].key, 100, true, crafting, tables);
+        CraftingRuntime::plan(party, targets[0].ref, materials[1].key, 100, true, 0, crafting, tables);
     CHECK_EQ(plan.applications, 12u);
     CHECK_EQ(plan.item.standardEnchantPower, 36);
     REQUIRE_EQ(plan.gemsUsed.size(), 2u);
@@ -383,7 +431,7 @@ TEST_CASE("the Workbench batches gems from the cheapest tier and combines three 
 
     CraftPlan applied;
     std::optional<InventoryItem> overflow;
-    REQUIRE(CraftingRuntime::apply(party, targets[0].ref, materials[1].key, 100, true, crafting, tables, applied,
+    REQUIRE(CraftingRuntime::apply(party, targets[0].ref, materials[1].key, 100, true, 0, crafting, tables, applied,
         overflow));
     CHECK_EQ(CraftingRuntime::itemAt(party, targets[0].ref)->standardEnchantPower, 36);
     CHECK_EQ(CraftingRuntime::collectMaterials(party, crafting).size(), 1u);
@@ -451,7 +499,7 @@ TEST_CASE("the Workbench sees every bag: a target and gems in closed bags craft 
     // Tier-1 gems take Might 0 -> 6 (cap 6) in two steps; the third has nothing left to raise.
     CraftPlan applied;
     std::optional<InventoryItem> overflow;
-    REQUIRE(CraftingRuntime::apply(party, targets[0].ref, materials[0].key, 100, false, crafting, tables, applied,
+    REQUIRE(CraftingRuntime::apply(party, targets[0].ref, materials[0].key, 100, false, 0, crafting, tables, applied,
         overflow));
     CHECK_EQ(applied.applications, 2u);
     CHECK_EQ(CraftingRuntime::itemAt(party, targets[0].ref)->standardEnchantPower, 6);

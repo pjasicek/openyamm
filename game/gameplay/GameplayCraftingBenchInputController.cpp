@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayCraftingBenchInputController.h"
 
+#include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -67,6 +68,17 @@ GameplayAlchemyBenchPointerTarget findTarget(
 
     const GameplayUiController::CraftingBenchState &state = context.characterScreenReadOnly().alchemyBench.crafting;
 
+    if (const std::optional<Rect> compare = inside("CraftingBenchCompare"))
+    {
+        for (const GameplayCraftingBenchChoiceRect &choice : GameplayCraftingBenchView::choiceRows(model, *compare))
+        {
+            if (context.isPointerInsideResolvedElement(choice.rect, input.pointerX, input.pointerY))
+            {
+                return {TargetType::CraftChoice, 0, choice.choiceIndex};
+            }
+        }
+    }
+
     if (inside("CraftingBenchItemSlot"))
     {
         return {TargetType::CraftItemSlot,
@@ -121,6 +133,7 @@ void selectTarget(GameplayScreenRuntime &context, const GameplayCraftingBenchMod
     if (index < model.targets.size())
     {
         state.target = model.targets[index].ref;
+        state.choice = 0;
         state.clearResult();
     }
 }
@@ -132,6 +145,7 @@ void selectMaterial(GameplayScreenRuntime &context, const GameplayCraftingBenchM
     if (index < model.materials.size())
     {
         state.material = model.materials[index].key;
+        state.choice = 0;
         state.clearResult();
     }
 }
@@ -290,6 +304,10 @@ void activate(
             break;
         case TargetType::CraftMaterial:
             selectMaterial(context, model, target.index);
+            break;
+        case TargetType::CraftChoice:
+            // Picking again drops a pending confirmation (above), so Confirm always names the current pick.
+            state.choice = target.index;
             break;
         default:
             break;
@@ -482,19 +500,13 @@ void editSearch(GameplayUiController::CraftingBenchState &state, const GameplayI
     constexpr size_t MaxSearchLength = 24;
     const std::string before = state.search;
 
-    for (char character : input.textInput)
-    {
-        if (character >= 32 && character < 127 && state.search.size() < MaxSearchLength)
-        {
-            state.search.push_back(character);
-        }
-    }
+    Engine::Utf8::appendPrintable(state.search, input.textInput, MaxSearchLength);
 
     for (uint16_t count = input.scancodePressCount(SDL_SCANCODE_BACKSPACE); count > 0; --count)
     {
         if (!state.search.empty())
         {
-            state.search.pop_back();
+            Engine::Utf8::popBack(state.search);
         }
     }
 

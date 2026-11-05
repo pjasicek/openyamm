@@ -9,6 +9,11 @@
 #   depth: deep (default) or shallow - a shallow liquid's terrain cells are never deep water for gameplay: the party
 #     and monsters wade through them, no drowning, dropped items stay, whatever the tile table's water flag says
 #   reflections: true (default) or false - false: its surfaces never take a planar reflection (opaque, matte)
+#   opacity: (0, 1], default 1 (opaque) - below 1 the liquid's faces are see-through indoors: drawn blended over their
+#     bed after the solid scene (the bed, and the creatures and models in the liquid, show through), the body at about
+#     that share (rippled: denser and lighter on the waves' rings, the more so the clearer the liquid, and lit at least
+#     fully), its reflections and highlights over it whole. Water and tar faces only, never terrain or lava; outdoor
+#     BModel faces draw opaque. The indoor bake lets that share of the light through to the bed.
 # Water colours keep the tint of each world's original water tile (its mean colour, lit as before).
 liquids:
   - id: water_mm6

@@ -101,6 +101,7 @@ public:
     ) const;
     // Houses where an NPC is present besides its own (a ruleset's, MAW's moved teachers), by NPC id.
     void setExtraHouses(std::unordered_map<uint32_t, std::vector<uint32_t>> extraHouses);
+    const std::unordered_map<uint32_t, std::vector<uint32_t>> &extraHouses() const;
     std::optional<std::string> getText(uint32_t textId) const;
     std::optional<std::string> getNewsTopic(uint32_t newsId) const;
     std::optional<std::string> getNewsText(uint32_t newsId) const;

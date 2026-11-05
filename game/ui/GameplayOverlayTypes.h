@@ -391,6 +391,8 @@ enum class GameplayCharacterPointerTargetType
     InventoryBagOverviewButton,
     // A bag tag's toggle (bagButton: BagTag) for the open bag.
     InventoryBagTagButton,
+    // A party of one's tab button (bagButton: the tab, 0-based).
+    InventoryTabButton,
     BagOverviewItem,
     BagOverviewCell,
     MagnifyButton,
@@ -420,7 +422,7 @@ struct GameplayCharacterPointerTarget
     uint8_t gridY = 0;
     EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
     size_t innIndex = 0;
-    // The bag a multibag button zooms (0-3).
+    // The bag a multibag button zooms (0-3, in the open bag's tab), a tag button's BagTag or a tab button's tab.
     uint8_t bagButton = 0;
     // The bag (0-based) of an overview target; gridX and gridY are its cell.
     uint8_t bag = 0;
@@ -464,14 +466,15 @@ enum class GameplayAlchemyBenchPointerTargetType
     CraftMaterialFilterPotions,
     CraftCheapestGems,
     CraftItemRow,
-    CraftMaterial
+    CraftMaterial,
+    CraftChoice
 };
 
 struct GameplayAlchemyBenchPointerTarget
 {
     GameplayAlchemyBenchPointerTargetType type = GameplayAlchemyBenchPointerTargetType::None;
     uint32_t itemId = 0;
-    // Crafting rows and cells: the item's or material's index in the frame's model.
+    // Crafting rows, cells and options: the item's, material's or option's index in the frame's model.
     size_t index = 0;
 
     bool operator==(const GameplayAlchemyBenchPointerTarget &other) const = default;
@@ -493,6 +496,8 @@ enum class GameplayJournalPointerTargetType
     ProgressGuide,
     // The aura panel's targets (GameplayJournalAuras.h), packed into noteId.
     AuraPanel,
+    // The Trainers notes' finder targets (GameplayJournalTrainers.h), packed into noteId.
+    TrainerFinder,
     PrevPageButton,
     NextPageButton,
     NotesPotionButton,
@@ -727,6 +732,14 @@ struct GameplayInventoryNestedOverlayPointerTarget
     bool operator==(const GameplayInventoryNestedOverlayPointerTarget &other) const = default;
 };
 
+// The basebar popup open over play: the party's potions or its scrolls.
+enum class QuickItemPopupKind : uint8_t
+{
+    None,
+    Potions,
+    Scrolls,
+};
+
 struct GameplayOverlayInteractionState
 {
     int dialogueBodyScrollLines = 0;
@@ -738,6 +751,7 @@ struct GameplayOverlayInteractionState
     bool restToggleLatch = false;
     bool restClickLatch = false;
     bool alwaysRunToggleLatch = false;
+    bool yellLatch = false;
     bool turnBasedToggleLatch = false;
     bool adventurersInnToggleLatch = false;
     GameplayRestPointerTarget restPressedTarget = {};
@@ -769,6 +783,14 @@ struct GameplayOverlayInteractionState
     std::optional<size_t> quickItemPickerSlot;
     size_t quickItemPickerScroll = 0;
     bool quickItemEscapeHeld = false;
+    // The basebar's potion and scroll popups (level_generation/ui/potion_scroll_popups_20261102): which one is open
+    // (the game pauses), who drinks or reads, the list's scroll in rows, the entry under the pointer and the entry
+    // whose quick-slot chooser is open.
+    QuickItemPopupKind quickItemPopup = QuickItemPopupKind::None;
+    size_t quickItemPopupMember = 0;
+    size_t quickItemPopupScroll = 0;
+    std::optional<size_t> quickItemPopupHovered;
+    std::optional<size_t> quickItemPopupKeyEntry;
     bool menuToggleLatch = false;
     bool menuClickLatch = false;
     GameplayMenuPointerTarget menuPressedTarget = {};
@@ -841,6 +863,8 @@ struct GameplayOverlayInteractionState
     bool eventDialogSelectDownLatch = false;
     bool eventDialogAcceptLatch = false;
     std::array<bool, 5> eventDialogPartySelectLatches = {};
+    // The MM9 conversation bar's number keys, 0-9.
+    std::array<bool, 10> eventDialogNumberLatches = {};
     bool activateInspectLatch = false;
     bool itemInspectInteractionLatch = false;
     uint64_t itemInspectInteractionKey = 0;

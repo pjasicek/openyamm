@@ -74,6 +74,14 @@ public:
     // A shop's party inventory (display, sell, identify, repair) shows the bag overview too: several bags, desktop and
     // no bag zoomed with its button.
     static bool shopBagOverviewActive(const GameplayScreenRuntime &context);
+    // The inventory page shows the tab buttons (CharacterInventoryTab1-5): a party of one with more than four bags
+    // (InventoryBags::TabBags) and not the Adventurers' Inn roster.
+    static bool inventoryTabsShown(const GameplayScreenRuntime &context);
+    // The item search's box (CharacterInventorySearch), starting after the tab buttons while they show.
+    static std::optional<GameplayResolvedHudLayoutElement> inventorySearchBox(
+        const GameplayScreenRuntime &context,
+        int width,
+        int height);
     // The bag overview's frame (InventoryBagOverview) inside `grid`: the four bags' surfaces and edges with their tags,
     // a bronze divider between them; renderBag draws each bag's items on its slot.
     static void renderBagOverview(

@@ -5,6 +5,7 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
@@ -281,10 +282,27 @@ std::vector<uint8_t> encodeTerrainFoliageMap(const std::vector<float> &foliage);
 
 std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
     const Engine::AssetFileSystem &assets, const OutdoorMapData &map, std::string &error);
+// The same from a file by its virtual path (an open-air BLV's `terrain: {grass}`, devdocs/INDOOR_OPEN_SKY.md).
+std::optional<TerrainDecorationConfig> loadTerrainDecorationConfigFile(
+    const Engine::AssetFileSystem &assets, const std::string &path, std::string &error);
 // terrainSmoothing: the materials terrain's smoothing (0 = native triangles), so plants stand on the drawn ground.
 TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
     const std::array<std::string, 256> &textures, const TerrainDecorationConfig &config,
     float terrainSmoothing = 0.0f);
+
+// One triangle of a terrain surface that is not a heightmap (an open-air BLV's terrain faces), with the ground's
+// smooth normal there (the slope test and the tufts' lean).
+struct TerrainDecorationSurfaceTriangle
+{
+    std::array<std::array<float, 3>, 3> points = {};
+    std::array<float, 3> normal = {0.0f, 0.0f, 1.0f};
+};
+// The grass of an open-air BLV (devdocs/INDOOR_OPEN_SKY.md "Terrain"): tufts over the triangles where density(x, y)
+// (0-1: the terrain's grass layers) allows, sized, tinted and varied by the config's first grass rule, with its tall
+// grass and wildflowers; no stones, verges, undergrowth, meadow moisture or bushes (those read MM6-MM8 tiles).
+TerrainDecorationPlacement scatterTerrainDecorationsOnSurface(
+    const std::vector<TerrainDecorationSurfaceTriangle> &triangles,
+    const std::function<float(float x, float y)> &density, const TerrainDecorationConfig &config);
 
 // Tight card outline of one tuft texture (alpha, row-major, width x height): a convex polygon of
 // TerrainDecorationCutoutVertices texture coordinates in order (u right, v down; the last vertex repeats when fewer

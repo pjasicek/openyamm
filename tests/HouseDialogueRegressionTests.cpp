@@ -2376,7 +2376,6 @@ TEST_CASE("gate master town portal uses follower spell power")
     CHECK_FALSE(overlay.spendMana);
     CHECK_FALSE(overlay.applyRecovery);
     CHECK(overlay.bypassGameplayCasterValidation);
-    CHECK(overlay.bypassTownPortalFailureChecks);
 
     // The destination click casts the overlay's own request; the active member has neither the spell nor mana.
     OpenYAMM::Game::PartySpellCastRequest request = overlay.castRequest();
@@ -4631,6 +4630,34 @@ TEST_CASE("dwi training service uses active member")
     CHECK(findActionIndexByLabelPrefix(refreshedDialog, "Train to level ").has_value());
 }
 
+TEST_CASE("a dead member cannot train")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    OpenYAMM::Game::Character *pMember = harness.party().activeMember();
+    REQUIRE(pMember != nullptr);
+    pMember->experience = 50000;
+    pMember->health = 0;
+    pMember->conditions.set(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Dead));
+    harness.party().addGold(1000);
+    const uint32_t level = pMember->level;
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openHouseDialog(TrainingHallHouseId);
+    CHECK_FALSE(findActionIndexByLabelPrefix(dialog, "Train to level ").has_value());
+    CHECK(findActionIndexByLabelPrefix(dialog, pMember->name + " is in no condition to do anything").has_value());
+
+    const OpenYAMM::Game::HouseEntry *pTrainingHall = gameData.houseTable.get(TrainingHallHouseId);
+    REQUIRE(pTrainingHall != nullptr);
+    OpenYAMM::Game::HouseActionOption train = {};
+    train.id = OpenYAMM::Game::HouseActionId::TrainingTrainActiveMember;
+    const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
+        train, *pTrainingHall, harness.party(), nullptr, nullptr, nullptr);
+    CHECK_FALSE(result.succeeded);
+    CHECK_EQ(pMember->level, level);
+    CHECK_EQ(pMember->health, 0);
+}
+
 TEST_CASE("dwi training service applies merchant discount")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -5152,9 +5179,10 @@ TEST_CASE("transport routes filter by weekday and qbit")
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    REQUIRE_EQ(lockedActions.size(), 1u);
-    CHECK_EQ(lockedActions.front().label, "Sorry, come back another day");
-    CHECK_FALSE(lockedActions.front().enabled);
+    REQUIRE_EQ(lockedActions.size(), 2u);
+    CHECK_EQ(lockedActions.front().id, OpenYAMM::Game::HouseActionId::TransportSchedule);
+    CHECK_EQ(lockedActions.back().label, "Sorry, come back another day");
+    CHECK_FALSE(lockedActions.back().enabled);
 
     harness.party().setQuestBit(10, true);
 
@@ -5166,8 +5194,103 @@ TEST_CASE("transport routes filter by weekday and qbit")
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    REQUIRE_EQ(unlockedActions.size(), 1u);
+    REQUIRE_EQ(unlockedActions.size(), 2u);
     CHECK(houseActionsContainDestination(unlockedActions, "Ravage Roaming"));
+}
+
+TEST_CASE("transport schedule lists the week and a scheduled trip waits for its day")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    const OpenYAMM::Game::HouseEntry *pHouseEntry = gameData.houseTable.get(SmokeBoatHouseId);
+
+    REQUIRE(pHouseEntry != nullptr);
+
+    // Ravage Roaming (Monday and Friday, quest bit 10) stays off the schedule until the bit is set.
+    const OpenYAMM::Game::TransportSchedule locked =
+        OpenYAMM::Game::buildTransportSchedule(*pHouseEntry, &harness.party(), &harness.worldRuntime());
+    REQUIRE_EQ(locked.routes.size(), 1u);
+    CHECK_EQ(locked.routes[0].destinationName, "Ravenshore");
+
+    harness.party().setQuestBit(10, true);
+    const OpenYAMM::Game::TransportSchedule schedule =
+        OpenYAMM::Game::buildTransportSchedule(*pHouseEntry, &harness.party(), &harness.worldRuntime());
+    REQUIRE_EQ(schedule.routes.size(), 2u);
+    CHECK_EQ(schedule.today, 0);
+    CHECK_EQ(schedule.foodPerWaitDay, 1);
+    const OpenYAMM::Game::TransportScheduleRoute &ravenshore = schedule.routes[1];
+    CHECK_EQ(ravenshore.destinationName, "Ravenshore");
+    CHECK_FALSE(ravenshore.daysAvailable[0]);
+    CHECK(ravenshore.daysAvailable[1]);
+    CHECK_EQ(ravenshore.travelDays, 4);
+
+    CHECK_EQ(OpenYAMM::Game::transportWaitDays(0, 0), 0);
+    CHECK_EQ(OpenYAMM::Game::transportWaitDays(0, 3), 3);
+    CHECK_EQ(OpenYAMM::Game::transportWaitDays(5, 1), 3);
+
+    OpenYAMM::Game::HouseActionOption trip = {};
+    trip.id = OpenYAMM::Game::HouseActionId::TransportScheduledTrip;
+    trip.argument = OpenYAMM::Game::transportScheduledTripArgument(ravenshore.routeIndex, 3);
+    harness.party().addGold(1000);
+    harness.party().addFood(-harness.party().food() + 2);
+    const int initialGold = harness.party().gold();
+    const float initialGameMinutes = harness.worldRuntime().gameMinutes();
+
+    // Thursday is three days away: three food at one a day, and the party carries two.
+    const OpenYAMM::Game::HouseActionResult hungry = OpenYAMM::Game::performHouseAction(
+        trip,
+        *pHouseEntry,
+        harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime());
+    CHECK_FALSE(hungry.succeeded);
+    CHECK_EQ(harness.party().gold(), initialGold);
+    CHECK_EQ(harness.party().food(), 2);
+    CHECK_EQ(harness.worldRuntime().gameMinutes(), doctest::Approx(initialGameMinutes));
+
+    harness.party().addFood(1);
+    const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
+        trip,
+        *pHouseEntry,
+        harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime());
+    CHECK(result.succeeded);
+    CHECK_EQ(harness.party().gold(), initialGold - schedule.fare);
+    CHECK_EQ(harness.party().food(), 0);
+    CHECK_EQ(harness.worldRuntime().gameMinutes(), doctest::Approx(initialGameMinutes + 7.0f * 24.0f * 60.0f));
+
+    const OpenYAMM::Game::EventRuntimeState *pState = harness.worldRuntime().eventRuntimeState();
+    REQUIRE(pState != nullptr);
+    REQUIRE(pState->pendingMapMove.has_value());
+    REQUIRE(pState->pendingMapMove->mapName.has_value());
+    CHECK_EQ(*pState->pendingMapMove->mapName, "Out02.odm");
+}
+
+TEST_CASE("a scheduled trip on a day the route does not run is refused")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    const OpenYAMM::Game::HouseEntry *pHouseEntry = gameData.houseTable.get(SmokeBoatHouseId);
+
+    REQUIRE(pHouseEntry != nullptr);
+    harness.party().addGold(1000);
+    const OpenYAMM::Game::TransportSchedule schedule =
+        OpenYAMM::Game::buildTransportSchedule(*pHouseEntry, &harness.party(), &harness.worldRuntime());
+    REQUIRE_FALSE(schedule.routes.empty());
+
+    OpenYAMM::Game::HouseActionOption trip = {};
+    trip.id = OpenYAMM::Game::HouseActionId::TransportScheduledTrip;
+    trip.argument = OpenYAMM::Game::transportScheduledTripArgument(schedule.routes.back().routeIndex, 0);
+    const int initialGold = harness.party().gold();
+    const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
+        trip,
+        *pHouseEntry,
+        harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime());
+    CHECK_FALSE(result.succeeded);
+    CHECK_EQ(harness.party().gold(), initialGold);
 }
 
 TEST_CASE("mastery teacher not enough gold")
@@ -7018,9 +7141,9 @@ TEST_CASE("transport route quest bit gates show unavailable fallback until unloc
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    REQUIRE_EQ(actions.size(), 1);
-    CHECK_EQ(actions.front().label, "Sorry, come back another day");
-    CHECK_FALSE(actions.front().enabled);
+    REQUIRE_EQ(actions.size(), 2);
+    CHECK_EQ(actions.back().label, "Sorry, come back another day");
+    CHECK_FALSE(actions.back().enabled);
 
     harness.party().setQuestBit(10, true);
     actions = OpenYAMM::Game::buildHouseActionOptions(
@@ -7031,8 +7154,8 @@ TEST_CASE("transport route quest bit gates show unavailable fallback until unloc
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    REQUIRE_EQ(actions.size(), 1);
-    CHECK(actions.front().enabled);
+    REQUIRE_EQ(actions.size(), 2);
+    CHECK(actions.back().enabled);
     CHECK(houseActionsContainDestination(actions, "Ravage Roaming"));
 }
 
@@ -7063,11 +7186,11 @@ TEST_CASE("transport route travel time is clamped to at least one day")
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    REQUIRE_EQ(actions.size(), 1);
-    CHECK(actions.front().label.find("1 day to Test Harbor") != std::string::npos);
+    REQUIRE_EQ(actions.size(), 2);
+    CHECK(actions.back().label.find("1 day to Test Harbor") != std::string::npos);
 
     const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
-        actions.front(),
+        actions.back(),
         houseEntry,
         harness.party(),
         &gameData.classSkillTable,
@@ -7112,11 +7235,11 @@ TEST_CASE("transport route travel time uses hired NPC travel reductions")
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    REQUIRE_EQ(actions.size(), 1);
-    CHECK(actions.front().label.find("2 days to Test Harbor") != std::string::npos);
+    REQUIRE_EQ(actions.size(), 2);
+    CHECK(actions.back().label.find("2 days to Test Harbor") != std::string::npos);
 
     const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
-        actions.front(),
+        actions.back(),
         houseEntry,
         harness.party(),
         &gameData.classSkillTable,
@@ -7168,13 +7291,13 @@ TEST_CASE("transport route override changes visible route and travel target")
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    REQUIRE_EQ(actions.size(), 1);
+    REQUIRE_EQ(actions.size(), 2);
     REQUIRE(harness.eventRuntimeState().transportRouteOverrides.contains(routeOverrideKey));
-    CHECK(actions.front().label.find("Override Route") != std::string::npos);
-    CHECK(actions.front().label.find("Base Route") == std::string::npos);
+    CHECK(actions.back().label.find("Override Route") != std::string::npos);
+    CHECK(actions.back().label.find("Base Route") == std::string::npos);
 
     const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
-        actions.front(),
+        actions.back(),
         houseEntry,
         harness.party(),
         &gameData.classSkillTable,
@@ -8348,6 +8471,42 @@ TEST_CASE("MM7 Hero and Villain turn-ins dismiss Alice on first and restored rep
     }
 }
 
+TEST_CASE("MM7 Ancient Weapon topic teaches Blaster to members without it and keeps a Blaster already known")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData data = promotionRegressionData("mm7");
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(data);
+    REQUIRE(harness.party().setMemberClassName(0, "Knight"));
+    REQUIRE(harness.party().setMemberClassName(1, "Sorcerer"));
+    REQUIRE(harness.party().setMemberClassName(2, "Dragon"));
+    REQUIRE(harness.party().setMemberClassName(3, "Archer"));
+    // Master 7 from MM6's Control Center terminal and its teachers; Expert 3 on another member.
+    harness.party().member(0)->skills["Blaster"] = {"Blaster", 7, SkillMastery::Master};
+    harness.party().member(1)->skills.erase("Blaster");
+    harness.party().member(2)->skills.erase("Blaster");
+    harness.party().member(3)->skills["Blaster"] = {"Blaster", 3, SkillMastery::Expert};
+
+    // Robert the Wise or Tolberti keep the topic, so it may be chosen more than once.
+    for (int visit = 0; visit < 2; ++visit)
+    {
+        CAPTURE(visit);
+        REQUIRE(harness.executeGlobalEvent(950));
+        const CharacterSkill *pMaster = harness.party().member(0)->findSkill("Blaster");
+        REQUIRE(pMaster != nullptr);
+        CHECK_EQ(pMaster->level, 7u);
+        CHECK_EQ(pMaster->mastery, SkillMastery::Master);
+        const CharacterSkill *pLearned = harness.party().member(1)->findSkill("Blaster");
+        REQUIRE(pLearned != nullptr);
+        CHECK_EQ(pLearned->level, 1u);
+        CHECK_EQ(pLearned->mastery, SkillMastery::Normal);
+        CHECK(harness.party().member(2)->findSkill("Blaster") == nullptr);
+        const CharacterSkill *pExpert = harness.party().member(3)->findSkill("Blaster");
+        REQUIRE(pExpert != nullptr);
+        CHECK_EQ(pExpert->level, 3u);
+        CHECK_EQ(pExpert->mastery, SkillMastery::Expert);
+    }
+}
+
 TEST_CASE("MM7 promotion sidecars still accept later recruits alongside promoted members")
 {
     const OpenYAMM::Tests::RegressionGameData data = promotionRegressionData("mm7");
@@ -8688,7 +8847,6 @@ TEST_CASE("hireling daily abilities honor healing food and enemy restrictions")
         request.spendMana = false;
         request.applyRecovery = false;
         request.bypassGameplayCasterValidation = true;
-        request.bypassTownPortalFailureChecks = true;
         request.utilityAction = PartySpellUtilityActionKind::TownPortalDestination;
         request.hasUtilityMapMove = true;
         request.utilityMapMoveMapName = "out01.odm";

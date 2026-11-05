@@ -30,6 +30,7 @@
 #include "game/ui/GameplayJournalMapUi.h"
 #include "game/ui/GameplayJournalAuras.h"
 #include "game/ui/GameplayJournalProgress.h"
+#include "game/ui/GameplayJournalTrainers.h"
 #include "game/party/SkillData.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -48,7 +49,6 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
-#include <filesystem>
 #include <limits>
 #include <optional>
 #include <string>
@@ -641,8 +641,10 @@ void renderRuntimeMapNotes(
             const JournalMapNote &note,
             bool highlighted)
         {
+            // The player's own notes are gold.
             const std::optional<GameplayScreenRuntime::HudTextureHandle> pinTexture =
-                context.gameplayUiRuntime().ensureHudTextureLoaded(highlighted ? "map-pin2" : "map-pin");
+                context.gameplayUiRuntime().ensureHudTextureLoaded(
+                    highlighted ? "map-pin2" : note.personal ? "map-pin-personal" : "map-pin");
 
             if (!pinTexture)
             {
@@ -740,7 +742,21 @@ void renderJournalMapTextFields(
 
     if (pNoteLayout != nullptr && noteResolved)
     {
-        context.renderLayoutLabel(*pNoteLayout, *noteResolved, pActiveNote != nullptr ? pActiveNote->text : "");
+        if (journalScreen.mapNoteEditing)
+        {
+            // A personal note being written, with a steady caret as in the search fields.
+            context.renderLayoutLabel(*pNoteLayout, *noteResolved, journalScreen.mapNoteEditText + "_");
+        }
+        else if (pActiveNote != nullptr)
+        {
+            context.renderLayoutLabel(*pNoteLayout, *noteResolved, pActiveNote->text);
+        }
+        else
+        {
+            GameplayScreenRuntime::HudLayoutElement hintStyle = *pNoteLayout;
+            hintStyle.textColorAbgr = 0xff70818au;
+            context.renderLayoutLabel(hintStyle, *noteResolved, "Right-click the map to add your own note");
+        }
     }
 
     if (pCoordsLayout != nullptr && coordsResolved)
@@ -868,7 +884,8 @@ void renderJournalVectorMap(
         mapResolved.height,
         journalScreen,
         &minimapState);
-    const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+    const int arrowIndex = outdoorMinimapArrowIndex(
+        gameplayMinimapDisplayYaw(minimapState, context.gameplayCameraYawRadians()));
     const std::optional<GameplayScreenRuntime::HudTextureHandle> arrowTexture =
         context.gameplayUiRuntime().ensureHudTextureLoaded("MAPDIR" + std::to_string(arrowIndex + 1));
 
@@ -4348,6 +4365,13 @@ void GameplayPartyOverlayRenderer::renderLoadGameOverlay(GameplayScreenRuntime &
         nullptr);
 }
 
+namespace
+{
+constexpr std::array<const char *, 7> JournalNotesCategoryButtons = {"JournalNotesPotionButton",
+    "JournalNotesFountainButton", "JournalNotesObeliskButton", "JournalNotesSeerButton", "JournalNotesMiscButton",
+    "JournalNotesTrainerButton", "JournalNotesArcomageButton"};
+}
+
 void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &context, int width, int height)
 {
     GameplayUiController::JournalScreenState &journalScreen = context.journalScreenState();
@@ -4579,9 +4603,8 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
         {
             GameplayMinimapState minimapState = {};
             const bool hasMinimapState = context.tryGetGameplayMinimapState(minimapState);
-            const std::string mapTextureName = hasMinimapState && !minimapState.vectorBackground
-                ? minimapState.textureName
-                : toLowerCopy(std::filesystem::path(context.currentMapFileName()).stem().string());
+            const std::string mapTextureName =
+                hasMinimapState && !minimapState.vectorBackground ? minimapState.textureName : std::string();
             int mapTextureWidth = 0;
             int mapTextureHeight = 0;
             const std::optional<GameplayScreenRuntime::HudTextureHandle> sourceMapTexture =
@@ -4764,7 +4787,9 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
                         mapResolved->height,
                         journalScreen,
                         hasMinimapState ? &minimapState : nullptr);
-                    const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+                    const float cameraYaw = context.gameplayCameraYawRadians();
+                    const int arrowIndex = outdoorMinimapArrowIndex(
+                        hasMinimapState ? gameplayMinimapDisplayYaw(minimapState, cameraYaw) : cameraYaw);
                     const std::optional<GameplayScreenRuntime::HudTextureHandle> arrowTexture =
                         loadHudTexture("MAPDIR" + std::to_string(arrowIndex + 1));
 
@@ -4888,16 +4913,27 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
                 titleText = "Story";
             }
         }
+        else if (const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> trainerPage =
+                     journalTrainersShown(journalScreen) ? resolveLayout("JournalTrainerPage") : std::nullopt)
+        {
+            // The Trainers notes are the trainer finder (GameplayJournalTrainers.h).
+            titleText = "Trainers";
+
+            for (const char *pButton : JournalNotesCategoryButtons)
+            {
+                renderInteractiveTextureLayout(pButton);
+            }
+
+            renderJournalTrainers(context, journalScreen, *trainerPage, width, height, mouseX, mouseY);
+        }
         else
         {
             titleText = journalNotesCategoryTitle(journalScreen.notesCategory);
-            renderInteractiveTextureLayout("JournalNotesPotionButton");
-            renderInteractiveTextureLayout("JournalNotesFountainButton");
-            renderInteractiveTextureLayout("JournalNotesObeliskButton");
-            renderInteractiveTextureLayout("JournalNotesSeerButton");
-            renderInteractiveTextureLayout("JournalNotesMiscButton");
-            renderInteractiveTextureLayout("JournalNotesTrainerButton");
-            renderInteractiveTextureLayout("JournalNotesArcomageButton");
+
+            for (const char *pButton : JournalNotesCategoryButtons)
+            {
+                renderInteractiveTextureLayout(pButton);
+            }
 
             const GameplayScreenRuntime::HudLayoutElement *pSearchLayout =
                 context.findHudLayoutElement("JournalNotesSearch");
@@ -4949,40 +4985,6 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             {
                 for (const std::string &text : buildArcomageTavernTexts(*context.houseTable(), context.mapStats(), *pParty))
                 {
-                    if (search.empty() || toLowerCopy(text).find(search) != std::string::npos)
-                    {
-                        noteTexts.push_back(text);
-                    }
-                }
-            }
-
-            // Teachers without an autonote (MM6's, for instance) are known only by their map pin.
-            if (pParty != nullptr && journalScreen.notesCategory == GameplayUiController::JournalNotesCategory::Trainer)
-            {
-                std::vector<const JournalMapNote *> teacherPins;
-
-                for (const JournalMapNote &note : pParty->journalMapNotes())
-                {
-                    if (note.listedWithTrainerNotes)
-                    {
-                        teacherPins.push_back(&note);
-                    }
-                }
-
-                // Teacher pin ids are continent * 1000 + mastery rank * 100 + skill id: group by skill, then rank.
-                std::sort(
-                    teacherPins.begin(),
-                    teacherPins.end(),
-                    [](const JournalMapNote *pLeft, const JournalMapNote *pRight)
-                    {
-                        return std::tuple(pLeft->id % 100, pLeft->id / 100 % 10, pLeft->id / 1000, pLeft->mapFileName)
-                            < std::tuple(pRight->id % 100, pRight->id / 100 % 10, pRight->id / 1000, pRight->mapFileName);
-                    });
-
-                for (const JournalMapNote *pNote : teacherPins)
-                {
-                    const std::string text = pNote->text + " (" + context.mapDisplayName(pNote->mapFileName) + ")";
-
                     if (search.empty() || toLowerCopy(text).find(search) != std::string::npos)
                     {
                         noteTexts.push_back(text);
@@ -7000,6 +7002,12 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayScreenR
     const bool showMaster = overlay.master.visible && !overlay.master.text.empty();
     const bool showGrandmaster = overlay.grandmaster.visible && !overlay.grandmaster.text.empty();
     const bool showSkillBonus = overlay.skillBonus > 0;
+    // The rules' footer (MAW's trainer hint) closes the popup in the body's font, colour codes and all.
+    const std::vector<std::string> footerLines = overlay.footer.empty()
+        ? std::vector<std::string>{}
+        : pBodyFont != nullptr ? context.wrapHudTextToWidth(*pBodyFont, overlay.footer, bodyWidth)
+                               : std::vector<std::string>{overlay.footer};
+    const float footerHeight = bodyLineHeight * static_cast<float>(footerLines.size());
     static constexpr float CharacterInspectBodyToRowsGap = 10.0f;
     static constexpr float CharacterInspectRowGap = 2.0f;
     static constexpr float CharacterInspectSkillBonusGap = 10.0f;
@@ -7081,6 +7089,10 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayScreenR
         bodyRectForSizing.y
         + bodyHeight
         + (hasAnyMasteryRows ? CharacterInspectBodyToRowsGap * popupScale + masteryHeight : 0.0f)
+        + (footerLines.empty() ? 0.0f
+                               : (hasAnyMasteryRows ? CharacterInspectSkillBonusGap : CharacterInspectBodyToRowsGap)
+                    * popupScale
+                + footerHeight)
         + CharacterInspectBottomPadding * popupScale;
     const float popupGap = 12.0f * popupScale;
     float rootX = overlay.sourceX + overlay.sourceWidth + popupGap;
@@ -7417,6 +7429,24 @@ void GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(GameplayScreenR
         if (skillBonusRect && showSkillBonus)
         {
             renderSkillBonusRow(*pSkillBonusLayout, *skillBonusRect, nextRowY, overlay.skillBonus);
+        }
+
+        if (!footerLines.empty())
+        {
+            if (showSkillBonus)
+            {
+                nextRowY += masteryRowHeight(*pSkillBonusLayout, skillBonusLines);
+            }
+
+            nextRowY += (hasAnyMasteryRows ? CharacterInspectSkillBonusGap : 0.0f) * popupScale;
+            float footerY = std::round(nextRowY + pBodyLayout->textPadY * popupScale);
+
+            for (const std::string &line : footerLines)
+            {
+                context.renderHudFontLayer(*pBodyFont, pBodyFont->shadowTextureHandle, line, textX, footerY, popupScale);
+                context.renderHudFontLayer(*pBodyFont, coloredMainLayer, line, textX, footerY, popupScale);
+                footerY += bodyLineHeight;
+            }
         }
     }
 }
@@ -8589,6 +8619,9 @@ struct CharacterOverlayFrameData
     CharacterSheetSummary summary;
     std::array<std::optional<CharacterStatRowText>, 4> statRows;
     std::array<std::optional<CharacterResistanceCut>, 6> resistanceCuts;
+    // The Shoot and ranged damage values as the rules show them (MAW: "Bow off" with its Bow preference off).
+    std::optional<CharacterStatRowText> shootRow;
+    std::optional<CharacterStatRowText> rangedDamageRow;
     size_t awardCount = 0;
     CharacterSkillUiData skillUiData;
 };
@@ -8790,7 +8823,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     // The share of hits each resistance row takes off, by its value's layout id (MAW).
     std::unordered_map<std::string, CharacterResistanceCut> resistanceCuts;
     // Their labels' colours, by the label's layout id (MAW: each element's).
-    std::unordered_map<std::string, uint32_t> resistanceLabelColors;
+    std::unordered_map<std::string, uint32_t> statLabelColors;
     std::string ageValue = "-";
     std::string levelValue = "0 / 0";
     std::string experienceValue = "-";
@@ -8833,6 +8866,9 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             {
                 frameData->statRows = gameRulesFor(&party).skills.statRows(party, *pCharacter);
                 frameData->resistanceCuts = gameRulesFor(&party).skills.resistanceCuts(party, *pCharacter);
+                frameData->shootRow = gameRulesFor(&party).skills.statRowText(party, *pCharacter, "Shoot");
+                frameData->rangedDamageRow =
+                    gameRulesFor(&party).skills.statRowText(party, *pCharacter, "RangedDamage");
             }
 
             const AwardTable *pAwardTable = context.awardTable();
@@ -8889,6 +8925,19 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         vitalityRow = frameData->statRows[3];
         const std::array<std::optional<CharacterResistanceCut>, 6> &cuts = frameData->resistanceCuts;
         const std::array<const char *, 6> resistances = {"Fire", "Air", "Water", "Earth", "Mind", "Body"};
+        const std::array<const char *, 10> colouredStats = {
+            "Might", "Intellect", "Personality", "Endurance", "Accuracy", "Speed", "Luck", "HitPoints", "SpellPoints",
+            "ArmorClass"};
+
+        // The rules may colour the stat names (MAW's coloured stats menu) as they do the resistance labels.
+        for (const char *pStat : colouredStats)
+        {
+            if (const std::optional<uint32_t> rgb = gameRulesFor(&party).skills.statLabelRgb(pStat))
+            {
+                statLabelColors[toLowerCopy("CharacterStat" + std::string(pStat) + "Label")] =
+                    0xff000000u | (*rgb & 0xffu) << 16 | (*rgb & 0xff00u) | (*rgb >> 16 & 0xffu);
+            }
+        }
 
         for (size_t resistanceIndex = 0; resistanceIndex < resistances.size(); ++resistanceIndex)
         {
@@ -8903,7 +8952,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                     // 0xRRGGBB to the HUD's ABGR.
                     const std::string labelId =
                         toLowerCopy("CharacterStat" + std::string(pResistance) + "ResistanceLabel");
-                    resistanceLabelColors[labelId] = 0xff000000u | (cut->labelRgb & 0xffu) << 16
+                    statLabelColors[labelId] = 0xff000000u | (cut->labelRgb & 0xffu) << 16
                         | (cut->labelRgb & 0xff00u) | (cut->labelRgb >> 16 & 0xffu);
                 }
             }
@@ -8916,8 +8965,11 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         canTrainToNextLevel = summary.canTrainToNextLevel;
         attackValue = std::to_string(summary.combat.attack);
         meleeDamageValue = statRules.statValueText(summary.combat.meleeDamageText);
-        shootValue = summary.combat.shoot ? std::to_string(*summary.combat.shoot) : "N/A";
-        rangedDamageValue = statRules.statValueText(summary.combat.rangedDamageText);
+        shootValue = frameData->shootRow ? frameData->shootRow->value
+            : summary.combat.shoot          ? std::to_string(*summary.combat.shoot)
+                                            : "N/A";
+        rangedDamageValue = frameData->rangedDamageRow ? frameData->rangedDamageRow->value
+                                                       : statRules.statValueText(summary.combat.rangedDamageText);
         fireResistanceValue = formatSheetValue(summary.fireResistance);
         airResistanceValue = formatSheetValue(summary.airResistance);
         waterResistanceValue = formatSheetValue(summary.waterResistance);
@@ -9749,13 +9801,34 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             continue;
         }
 
-        // The item search's field (ItemSearch); the inventory dims what it leaves out.
+        // A party of one's tabs (MAW): selected while the open bag is in that tab.
+        if (normalizedLayoutId.starts_with("characterinventorytab"))
+        {
+            const int tab = normalizedLayoutId.back() - '1';
+
+            if (pCharacter != nullptr && GameplayHudOverlaySupport::inventoryTabsShown(context)
+                && tab < InventoryBags::tabCount(gameRulesFor(&party).items.bagCount(party)))
+            {
+                GameplayUiSkin::renderButton(context, pLayout->id, width, height,
+                    pCharacter->rulesetState.currentBag / InventoryBags::TabBags == tab, true);
+            }
+
+            continue;
+        }
+
+        // The item search's field (ItemSearch, rules with inventorySearch), after the tab buttons while they show; the
+        // inventory dims what it leaves out.
         if (normalizedLayoutId == "characterinventorysearch")
         {
-            if (!context.isAdventurersInnCharacterSourceActive())
+            const std::optional<GameplayResolvedHudLayoutElement> box =
+                GameplayHudOverlaySupport::inventorySearchBox(context, width, height);
+
+            if (!context.isAdventurersInnCharacterSourceActive() && gameRulesFor(&party).items.inventorySearch() && box)
             {
-                renderSearchField(context, *pLayout, *resolved, characterScreen.inventorySearch,
-                    characterScreen.inventorySearchActive, "Search items (ring might luck|speed)");
+                renderSearchField(context, *pLayout, *box, characterScreen.inventorySearch,
+                    characterScreen.inventorySearchActive,
+                    GameplayHudOverlaySupport::inventoryTabsShown(context) ? "Search items"
+                                                                           : "Search items (ring might luck|speed)");
             }
 
             continue;
@@ -9812,22 +9885,24 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             continue;
         }
 
-        // MAW's multibag: a button per bag, selected while that bag fills the grid (Android always shows one), with
-        // its tags in the corners.
+        // MAW's multibag: a button per bag of the open bag's tab, selected while that bag fills the grid (Android
+        // always shows one), with its tags in the corners.
         if (normalizedLayoutId.starts_with("characterinventorybag"))
         {
             const int bagCount = gameRulesFor(&party).items.bagCount(party);
-            const int button = normalizedLayoutId.back() - '1';
+            const int bag = pCharacter != nullptr
+                ? InventoryBagOverview::firstBag(*pCharacter) + normalizedLayoutId.back() - '1'
+                : 0;
 
             if (!context.isAdventurersInnCharacterSourceActive() && pCharacter != nullptr && bagCount > 1
-                && button < bagCount)
+                && bag < bagCount)
             {
                 GameplayUiSkin::renderButton(context, pLayout->id, width, height,
                     !GameplayHudOverlaySupport::bagOverviewActive(context)
-                        && pCharacter->rulesetState.currentBag == button,
+                        && pCharacter->rulesetState.currentBag == bag,
                     true);
                 const float markSize = std::round(11.0f * resolved->scale);
-                GameplayHudOverlaySupport::renderBagTagMarks(context, *pCharacter, uint8_t(button),
+                GameplayHudOverlaySupport::renderBagTagMarks(context, *pCharacter, uint8_t(bag),
                     resolved->x - 2.0f * resolved->scale,
                     resolved->y + resolved->height - markSize + 3.0f * resolved->scale,
                     resolved->width + 4.0f * resolved->scale, markSize);
@@ -10276,8 +10351,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             {
                 layoutForRender.textColorAbgr = experienceValueColorAbgr;
             }
-            else if (const auto labelColor = resistanceLabelColors.find(normalizedLayoutId);
-                labelColor != resistanceLabelColors.end())
+            else if (const auto labelColor = statLabelColors.find(normalizedLayoutId);
+                labelColor != statLabelColors.end())
             {
                 layoutForRender.textColorAbgr = labelColor->second;
             }
@@ -10581,7 +10656,9 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                             bag);
                     });
 
-                for (int bag = 0; bag < InventoryBagOverview::Bags; ++bag)
+                const int firstBag = InventoryBagOverview::firstBag(*pCharacter);
+
+                for (int bag = firstBag; bag < firstBag + InventoryBagOverview::Bags; ++bag)
                 {
                     renderBagOverviewDropPreview(context, grid, InventoryBagOverview::slot(grid, bag), *pCharacter,
                         uint8_t(bag), characterMouseX, characterMouseY);

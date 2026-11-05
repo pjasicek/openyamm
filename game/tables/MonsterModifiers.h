@@ -1,5 +1,8 @@
 #pragma once
 
+#include "game/tables/Mm9MonsterAi.h"
+#include "game/tables/MonsterSpecialAttackKind.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -160,6 +163,53 @@ struct ActorSoundsModifier
     float loopVolume = 0.7f;
 };
 
+// skirmisher: MM9's BaseMelee footwork (ActorTacticsFacts::skirmish). It keeps chasing a target that steps away while
+// it attacks, runs a strafe attack at 45 degrees past the target by strafeAttackChance when it was moving as the attack
+// began, and after a melee attack evades by evadeChance (backpedals for half of evadeSeconds, then circles the target)
+// or backs off backOffSeconds from a strafe attack. By tauntChance it taunts (holds still for tauntSeconds, playing its
+// model's taunt script clip) when it first notices the party and after a back-off; tauntSeconds 0: never.
+struct SkirmisherModifier
+{
+    float strafeAttackChance = 0.8f;
+    float evadeChance = 0.4f;
+    float evadeSeconds = 2.0f;
+    float backOffSeconds = 0.3f;
+    float tauntChance = 0.4f;
+    float tauntSeconds = 0.0f;
+};
+
+// spell_conditions: a hit on a party member by its first or second spell leaves that condition (by chance, then the
+// member's save as against a special attack). None: the spell only does its damage. It also lets the monster cast
+// Paralyze and Fear, which deal no damage and which a monster without a condition for them never casts.
+struct SpellConditionsModifier
+{
+    MonsterSpecialAttackKind spell1 = MonsterSpecialAttackKind::None;
+    MonsterSpecialAttackKind spell2 = MonsterSpecialAttackKind::None;
+    float chance = 1.0f;
+};
+
+// reposition (an OpenYAMM addition, devdocs/MONSTER_MODIFIERS.md): a monster that holds its place to shoot or cast
+// (today an MM9 ranged holder) moves to see its target again and steps back from a rush. With its target unseen for
+// lostSightSeconds it asks the world for a spot within leashRadius of its post, from which it sees the target: up to
+// candidates spots on two rings (half and all of searchDistance) around it, nearest first, testing at most
+// maxSightChecks sight lines; it walks to the first that passes, else back to its post, and searches again only after
+// retrySeconds. A target closing on it faster than backOffClosingSpeed, within backOffTriggerDistance (edge to edge)
+// and outside its reach, makes it backpedal backOffDistance (a spot the world checks), then shoot or cast; the next
+// back-off waits backOffCooldownSeconds.
+struct RepositionModifier
+{
+    float lostSightSeconds = 2.0f;
+    float leashRadius = 1024.0f;
+    float searchDistance = 640.0f;
+    int candidates = 8;
+    int maxSightChecks = 12;
+    float retrySeconds = 2.0f;
+    float backOffTriggerDistance = 640.0f;
+    float backOffClosingSpeed = 200.0f;
+    float backOffDistance = 384.0f;
+    float backOffCooldownSeconds = 5.0f;
+};
+
 // The modifiers of one monster id.
 struct MonsterModifierSet
 {
@@ -174,6 +224,11 @@ struct MonsterModifierSet
     std::optional<StaggerModifier> stagger;
     std::optional<TelegraphedAttackModifier> telegraphedAttack;
     std::optional<ActorSoundsModifier> sounds;
+    std::optional<SkirmisherModifier> skirmisher;
+    std::optional<SpellConditionsModifier> spellConditions;
+    std::optional<RepositionModifier> reposition;
+    // mm9_ai: the MM9 AI profile of an MM9 row (devdocs/mm9_rework/monster_ai/PROFILE.md); generated, data only.
+    std::optional<Mm9AiProfile> mm9Ai;
     // The modifier names in file order (console, logs).
     std::vector<std::string> names;
 };
@@ -222,6 +277,11 @@ public:
     {
         return m_hasStagger;
     }
+    // Some monster has an MM9 AI profile.
+    bool hasMm9Ai() const
+    {
+        return m_hasMm9Ai;
+    }
 
     // Test and tool setup without YAML.
     void set(const MonsterModifierSet &modifiers);
@@ -233,6 +293,7 @@ private:
     bool m_hasFrenzy = false;
     bool m_hasStagger = false;
     bool m_hasSounds = false;
+    bool m_hasMm9Ai = false;
     int16_t m_minimumMonsterId = INT16_MAX;
     int16_t m_maximumMonsterId = INT16_MIN;
 };

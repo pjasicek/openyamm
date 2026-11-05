@@ -12,6 +12,7 @@ namespace OpenYAMM::Game
 class MergedNpcProfessionTable;
 class NpcDialogTable;
 class Party;
+class SkillRules;
 
 struct HiredNpcFollowerView
 {
@@ -52,10 +53,13 @@ int hiredNpcCrossMapDayReduction(const EventRuntimeState &eventRuntimeState);
 int hiredNpcWalkingTravelDays(int baseDays, const EventRuntimeState &eventRuntimeState);
 int hiredNpcRestFoodReduction(const EventRuntimeState &eventRuntimeState);
 int hiredNpcCampingFoodCost(int baseCost, const EventRuntimeState &eventRuntimeState);
+// The followers' bonus to a skill: every follower's added up, or the strongest only; a ruleset may change a
+// profession's amount (SkillRules::followerSkillBonus).
 int hiredNpcSkillBonus(
     std::span<const HiredNpcFollower> followers,
     const std::string &skillName,
-    bool strongestOnly = false);
+    bool strongestOnly = false,
+    const SkillRules *pRules = nullptr);
 int hiredNpcPrimaryStatBonus(std::span<const HiredNpcFollower> followers, const std::string &statName);
 int hiredNpcResistanceBonus(std::span<const HiredNpcFollower> followers, const std::string &resistanceName);
 FoundGold resolveFoundGold(uint32_t goldAmount, const EventRuntimeState *pEventRuntimeState);

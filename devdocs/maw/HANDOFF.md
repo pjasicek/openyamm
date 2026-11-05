@@ -259,6 +259,9 @@ reports in play come first.
 | 126 | `SaveVersionLootFilterPresets` | loot filter preset, kinds, ground choice; the filtered mark |
 | 127 | `SaveVersionMawUsedStatDecorations` | barrels and cauldrons that raised a stat (L8.1) |
 | 128 | `SaveVersionMawMadnessDeaths` | Beyond Madness's death count, also kept in the save |
+| 151 | `SaveVersionCrypticBossAffix` | a Cryptic boss's hidden affix (MAW 8fbb48d1 sync, 2026-11-05) |
+| 152 | `SaveVersionTrainerHints` | the Trainer Hints preference (MAW 8fbb48d1 sync, 2026-11-05) |
+| 154 | `SaveVersionBowDisabled` | the Bow preference, MAW's disableBow (dev 137, 2026-11-05) |
 
 `RulesetTests.cpp` carries the round trips and the legacy-save tests. A new version needs a round trip test and,
 for a reader change, a test of the older layout.

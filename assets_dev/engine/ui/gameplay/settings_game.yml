@@ -805,10 +805,102 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-    - id: SettingsGameRulesetLootFilterLabel
+    - id: SettingsGameRulesetTrainerHintsLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 350.9774
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Trainer hints
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameRulesetTrainerHintsDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 367.1859
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Skill popups name the nearest teacher of the next mastery.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameRulesetTrainerHintsControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 348.761
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameRulesetBowLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 389.9027
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Bow
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameRulesetBowDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 406.1112
+      width: 435.7333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: "Off: bows, crossbows and dragon breath do not shoot. A melee-only challenge."
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameRulesetBowControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 387.6863
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameRulesetLootFilterLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 428.828
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -825,7 +917,7 @@ elements:
     - id: SettingsGameRulesetLootFilterDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 367.1859
+      offset_y: 445.0365
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -842,7 +934,7 @@ elements:
     - id: SettingsGameRulesetLootFilterControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 353.1067
+      offset_y: 430.9573
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -861,7 +953,7 @@ elements:
     - id: SettingsGameRulesetDisintegrateLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 389.9027
+      offset_y: 467.7533
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -878,7 +970,7 @@ elements:
     - id: SettingsGameRulesetDisintegrateDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 406.1112
+      offset_y: 483.9618
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -895,7 +987,7 @@ elements:
     - id: SettingsGameRulesetDisintegrateControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 387.6863
+      offset_y: 465.5369
       width: 70.4
       height: 32.158
       z_index: 10

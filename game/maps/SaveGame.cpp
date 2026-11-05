@@ -22,7 +22,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 142;
+constexpr uint32_t SaveVersion = 154;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -211,6 +211,38 @@ constexpr uint32_t SaveVersionSummaryFirst = 140;
 constexpr uint32_t SaveVersionHistoryNumbering = 141;
 // Outdoor actors keep MM's Nearby attribute (MapActorState::nearby) for Wizard Eye.
 constexpr uint32_t SaveVersionOutdoorNearby = 142;
+// The party keeps the stories it finished, with their time and score (completion certificates); older saves migrate
+// to untimed records of the stories they already finished.
+constexpr uint32_t SaveVersionWorldCompletions = 143;
+// Liches no longer carry the Light and Dark immunity they took by mistake (Mind and Body, by race, are derived).
+constexpr uint32_t SaveVersionLichImmunities = 144;
+// MM6's small barrels are MMerge's stat barrels, not casks; older map states keep a marker until the map refills them
+// (EventRuntimeState::legacySmallBarrelDecorVars).
+constexpr uint32_t SaveVersionSmallStatBarrels = 144;
+// Journal map notes say whether they are the player's own (JournalMapNote::personal).
+constexpr uint32_t SaveVersionPersonalMapNotes = 145;
+// The party keeps the MM9 talk rows it has chosen (Party::Snapshot::chosenMm9RudeRows), the conversation bar's
+// visited marks; older saves start with none.
+constexpr uint32_t SaveVersionChosenMm9RudeRows = 146;
+// Placed actors keep their MM9 placement's AI settings (MapDeltaActor::mm9Ai); older saves have none (MM9's defaults).
+constexpr uint32_t SaveVersionActorMm9AiPlacement = 147;
+// An MM9 placement's hiding places (Mm9AiPlacementRecord::hidingPlaces); older saves have none.
+constexpr uint32_t SaveVersionActorMm9HidingPlaces = 148;
+// An MM9 placement's own script profile (Mm9AiPlacement::profile: its ScriptName's loop over its row's); an older
+// save's placements are marked fromScene and take it from the map's scene when the map is next entered
+// (refreshSavedLegacyMm9PlacementProfiles).
+constexpr uint32_t SaveVersionActorMm9PlacementProfile = 149;
+// Outdoor runtime spawns keep their MM9 placement (OutdoorWorldRuntime::MapActorState::mm9Ai); older saves have none
+// (MM9's defaults).
+constexpr uint32_t SaveVersionOutdoorSpawnMm9AiPlacement = 150;
+// A Cryptic boss keeps its hidden affix (ActorRulesetFacts::crypticAffix); older saves have no Cryptic bosses.
+constexpr uint32_t SaveVersionCrypticBossAffix = 151;
+// The ruleset's Trainer hints preference (RulesetPreferences::trainerHints); older saves have it off.
+constexpr uint32_t SaveVersionTrainerHints = 152;
+// The continents whose Ledger of Teachers the party bought (Party::Snapshot::teacherLedgers); older saves have none.
+constexpr uint32_t SaveVersionTeacherLedgers = 153;
+// The ruleset's Bow preference (RulesetPreferences::bowDisabled, MAW's disableBow); older saves have the bow on.
+constexpr uint32_t SaveVersionBowDisabled = 154;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -339,6 +371,8 @@ private:
 };
 
 void writeValue(BinaryWriter &writer, const HiredNpcFollower &value);
+void writeValue(BinaryWriter &writer, const WorldCompletionRecord &value);
+bool readValue(BinaryReader &reader, WorldCompletionRecord &value);
 void writeValue(BinaryWriter &writer, const MawDimensionRun &value);
 bool readValue(BinaryReader &reader, MawDimensionRun &value);
 void writeValue(BinaryWriter &writer, const MawMapVisit &value);
@@ -881,6 +915,7 @@ void writeValue(BinaryWriter &writer, const ActorRulesetFacts &value)
     writeValue(writer, value.unique);
     writeValue(writer, value.doomSpecialAttack);
     writeValue(writer, value.regeneratingHits);
+    writeValue(writer, value.crypticAffix);
 }
 
 bool readValue(BinaryReader &reader, ActorRulesetFacts &value)
@@ -910,7 +945,8 @@ bool readValue(BinaryReader &reader, ActorRulesetFacts &value)
                     && readValue(reader, value.legendaryDamageTaken)))
             && (reader.version() < SaveVersionUniqueMonsters || readValue(reader, value.unique))
             && (reader.version() < SaveVersionMawChallengeModes || readValue(reader, value.doomSpecialAttack))
-            && (reader.version() < SaveVersionRegeneratingHits || readValue(reader, value.regeneratingHits)));
+            && (reader.version() < SaveVersionRegeneratingHits || readValue(reader, value.regeneratingHits))
+            && (reader.version() < SaveVersionCrypticBossAffix || readValue(reader, value.crypticAffix)));
 }
 
 void writeValue(BinaryWriter &writer, const MawDimensionRun &value)
@@ -1612,6 +1648,7 @@ void writeValue(BinaryWriter &writer, const JournalMapNote &value)
     writeValue(writer, value.mapFileName);
     writeValue(writer, value.text);
     writeValue(writer, value.listedWithTrainerNotes);
+    writeValue(writer, value.personal);
 }
 
 bool readValue(BinaryReader &reader, JournalMapNote &value)
@@ -1621,7 +1658,37 @@ bool readValue(BinaryReader &reader, JournalMapNote &value)
         && readValue(reader, value.y)
         && readValue(reader, value.mapFileName)
         && readValue(reader, value.text)
-        && readValue(reader, value.listedWithTrainerNotes);
+        && readValue(reader, value.listedWithTrainerNotes)
+        && (reader.version() < SaveVersionPersonalMapNotes || readValue(reader, value.personal));
+}
+
+void writeValue(BinaryWriter &writer, const WorldCompletionRecord &value)
+{
+    writeValue(writer, value.certificateId);
+    writeValue(writer, value.gameMinutes);
+    writeValue(writer, value.score);
+    writeValue(writer, value.completedAtUnixSeconds);
+    writeValue(writer, value.timed);
+}
+
+bool readValue(BinaryReader &reader, WorldCompletionRecord &value)
+{
+    return readValue(reader, value.certificateId)
+        && readValue(reader, value.gameMinutes)
+        && readValue(reader, value.score)
+        && readValue(reader, value.completedAtUnixSeconds)
+        && readValue(reader, value.timed);
+}
+
+bool readWorldCompletions(BinaryReader &reader, Party::Snapshot &value)
+{
+    if (reader.version() < SaveVersionWorldCompletions)
+    {
+        value.worldCompletionsUntracked = true;
+        return true;
+    }
+
+    return readValue(reader, value.worldCompletions) && readValue(reader, value.worldCompletionsUntracked);
 }
 
 // Older saves store only the character buffs that existed before the potion buffs.
@@ -1690,6 +1757,10 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.explosiveMixes);
     writeValue(writer, value.daysWithoutRest);
     writeValue(writer, value.awakeDayIndex);
+    writeValue(writer, value.worldCompletions);
+    writeValue(writer, value.worldCompletionsUntracked);
+    writeValue(writer, value.chosenMm9RudeRows);
+    writeValue(writer, value.teacherLedgers);
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
@@ -1738,7 +1809,10 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && (reader.version() < SaveVersionPartyHiredNpcFollowers || readValue(reader, value.hiredNpcFollowers))
         && (reader.version() < SaveVersionPartyExplosiveMixes || readValue(reader, value.explosiveMixes))
         && (reader.version() < SaveVersionPartyDaysWithoutRest || readValue(reader, value.daysWithoutRest))
-        && (reader.version() < SaveVersionPartyDaysWithoutRest || readValue(reader, value.awakeDayIndex));
+        && (reader.version() < SaveVersionPartyDaysWithoutRest || readValue(reader, value.awakeDayIndex))
+        && readWorldCompletions(reader, value)
+        && (reader.version() < SaveVersionChosenMm9RudeRows || readValue(reader, value.chosenMm9RudeRows))
+        && (reader.version() < SaveVersionTeacherLedgers || readValue(reader, value.teacherLedgers));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)
@@ -2858,6 +2932,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
     writeValue(writer, value.globalOnLoadEventsExecuted);
     writeValue(writer, value.processedMapRespawnCount);
     writeValue(writer, value.legacyCampFireDecorVars);
+    writeValue(writer, value.legacySmallBarrelDecorVars);
 }
 
 bool readValue(BinaryReader &reader, EventRuntimeState &value)
@@ -2942,7 +3017,9 @@ bool readValue(BinaryReader &reader, EventRuntimeState &value)
         && (reader.version() < SaveVersionActorExtraItemOverrides
             || readValue(reader, value.processedMapRespawnCount))
         && (reader.version() < SaveVersionMMergeCampfireDecorVars
-            || readValue(reader, value.legacyCampFireDecorVars));
+            || readValue(reader, value.legacyCampFireDecorVars))
+        && (reader.version() < SaveVersionSmallStatBarrels
+            || readValue(reader, value.legacySmallBarrelDecorVars));
 
     if (!ok)
     {
@@ -3029,6 +3106,137 @@ bool readValue(BinaryReader &reader, MapDeltaLocationTime &value)
         && readValue(reader, value.reserved);
 }
 
+void writeValue(BinaryWriter &writer, const Mm9AiPlacementProfile &value)
+{
+    writeValue(writer, value.archetype);
+    writeValue(writer, value.ranged);
+    writeValue(writer, value.rangedWeapon);
+    writeValue(writer, value.guardRefuge);
+    writeValue(writer, value.throttle);
+    writeValue(writer, value.alwaysEvade);
+    writeValue(writer, value.evadeMinSeconds);
+    writeValue(writer, value.evadeMaxSeconds);
+    writeValue(writer, value.meleeWindowSeconds);
+    writeValue(writer, value.spawnIn);
+    writeValue(writer, value.deathSpawnMonsterId);
+    writeValue(writer, value.passive);
+    writeValue(writer, value.fromScene);
+    writeValue(writer, value.footwork.has_value());
+
+    if (value.footwork)
+    {
+        writeValue(writer, value.footwork->enabled);
+        writeValue(writer, value.footwork->strafeAttackChance);
+        writeValue(writer, value.footwork->evadeChance);
+        writeValue(writer, value.footwork->tauntSeconds);
+    }
+}
+
+bool readValue(BinaryReader &reader, Mm9AiPlacementProfile &value)
+{
+    bool hasFootwork = false;
+
+    if (!readValue(reader, value.archetype)
+        || !readValue(reader, value.ranged)
+        || !readValue(reader, value.rangedWeapon)
+        || !readValue(reader, value.guardRefuge)
+        || !readValue(reader, value.throttle)
+        || !readValue(reader, value.alwaysEvade)
+        || !readValue(reader, value.evadeMinSeconds)
+        || !readValue(reader, value.evadeMaxSeconds)
+        || !readValue(reader, value.meleeWindowSeconds)
+        || !readValue(reader, value.spawnIn)
+        || !readValue(reader, value.deathSpawnMonsterId)
+        || !readValue(reader, value.passive)
+        || !readValue(reader, value.fromScene)
+        || !readValue(reader, hasFootwork))
+    {
+        return false;
+    }
+
+    if (!hasFootwork)
+    {
+        value.footwork.reset();
+        return true;
+    }
+
+    Mm9AiFootwork footwork = {};
+
+    if (!readValue(reader, footwork.enabled)
+        || !readValue(reader, footwork.strafeAttackChance)
+        || !readValue(reader, footwork.evadeChance)
+        || !readValue(reader, footwork.tauntSeconds))
+    {
+        return false;
+    }
+
+    value.footwork = footwork;
+    return true;
+}
+
+void writeValue(BinaryWriter &writer, const Mm9AiPlacementRecord &value)
+{
+    const Mm9AiPlacement &settings = value.settings;
+    writeValue(writer, settings.sight);
+    writeValue(writer, settings.hearing);
+    writeValue(writer, settings.runawayChance);
+    writeValue(writer, settings.rangedType);
+    writeValue(writer, settings.canBeResurrected);
+    writeValue(writer, settings.wander);
+    writeValue(writer, settings.wanderLeash);
+    writeValue(writer, settings.wanderWaitMinSeconds);
+    writeValue(writer, settings.wanderWaitMaxSeconds);
+    writeValue(writer, settings.wanderTimeMinSeconds);
+    writeValue(writer, settings.wanderTimeMaxSeconds);
+    writeValue(writer, settings.pathRandom);
+    writeValue(writer, settings.dormantUntil);
+    writeValue(writer, settings.dormantPose);
+    writeValue(writer, settings.hostility);
+    writeValue(writer, settings.faction);
+    writeValue(writer, settings.summoner);
+    writeValue(writer, settings.startsDead);
+    writeValue(writer, settings.boss);
+    writeValue(writer, value.pathPoints);
+    writeValue(writer, value.summonPoints);
+    writeValue(writer, value.summonClass);
+    writeValue(writer, value.script);
+    writeValue(writer, value.scriptParams);
+    writeValue(writer, value.hidingPlaces);
+    writeValue(writer, settings.profile);
+}
+
+bool readValue(BinaryReader &reader, Mm9AiPlacementRecord &value)
+{
+    Mm9AiPlacement &settings = value.settings;
+    return readValue(reader, settings.sight)
+        && readValue(reader, settings.hearing)
+        && readValue(reader, settings.runawayChance)
+        && readValue(reader, settings.rangedType)
+        && readValue(reader, settings.canBeResurrected)
+        && readValue(reader, settings.wander)
+        && readValue(reader, settings.wanderLeash)
+        && readValue(reader, settings.wanderWaitMinSeconds)
+        && readValue(reader, settings.wanderWaitMaxSeconds)
+        && readValue(reader, settings.wanderTimeMinSeconds)
+        && readValue(reader, settings.wanderTimeMaxSeconds)
+        && readValue(reader, settings.pathRandom)
+        && readValue(reader, settings.dormantUntil)
+        && readValue(reader, settings.dormantPose)
+        && readValue(reader, settings.hostility)
+        && readValue(reader, settings.faction)
+        && readValue(reader, settings.summoner)
+        && readValue(reader, settings.startsDead)
+        && readValue(reader, settings.boss)
+        && readValue(reader, value.pathPoints)
+        && readValue(reader, value.summonPoints)
+        && readValue(reader, value.summonClass)
+        && readValue(reader, value.script)
+        && readValue(reader, value.scriptParams)
+        && (reader.version() < SaveVersionActorMm9HidingPlaces || readValue(reader, value.hidingPlaces))
+        && (reader.version() < SaveVersionActorMm9PlacementProfile ? (settings.profile.fromScene = true)
+            : readValue(reader, settings.profile));
+}
+
 void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
 {
     writeValue(writer, value.name);
@@ -3072,6 +3280,7 @@ void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
     writeValue(writer, value.leashRadius);
     writeValue(writer, value.dormant);
     writeValue(writer, value.patrolPoints);
+    writeValue(writer, value.mm9Ai);
 }
 
 bool readHitPoints(BinaryReader &reader, int32_t &value)
@@ -3166,7 +3375,8 @@ bool readValue(BinaryReader &reader, MapDeltaActor &value)
         && (reader.version() < SaveVersionActorKeepsHeight
             || (readValue(reader, value.keepsHeight) && readValue(reader, value.leashRadius)
                 && readValue(reader, value.dormant)))
-        && (reader.version() < SaveVersionActorPatrol || readValue(reader, value.patrolPoints));
+        && (reader.version() < SaveVersionActorPatrol || readValue(reader, value.patrolPoints))
+        && (reader.version() < SaveVersionActorMm9AiPlacement || readValue(reader, value.mm9Ai));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaSpriteObject &value)
@@ -3697,6 +3907,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.dormant);
     writeValue(writer, value.angeredByParty);
     writeValue(writer, value.nearby);
+    writeValue(writer, value.mm9Ai);
 }
 
 bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
@@ -3857,7 +4068,8 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionOutdoorProvokedAttackReach || readValue(reader, value.provokedAttackReach))
         && (reader.version() < SaveVersionActorDormant || readValue(reader, value.dormant))
         && (reader.version() < SaveVersionActorAngeredByParty || readValue(reader, value.angeredByParty))
-        && (reader.version() < SaveVersionOutdoorNearby || readValue(reader, value.nearby));
+        && (reader.version() < SaveVersionOutdoorNearby || readValue(reader, value.nearby))
+        && (reader.version() < SaveVersionOutdoorSpawnMm9AiPlacement || readValue(reader, value.mm9Ai));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ChestItemState &value)
@@ -4543,6 +4755,8 @@ void writeValue(BinaryWriter &writer, const RulesetSelection &value)
     writeValue(writer, value.options.preferences.lootFilter.goldKinds);
     writeValue(writer, value.options.preferences.lootFilter.leaveOnGround);
     writeValue(writer, value.options.preferences.disintegration);
+    writeValue(writer, value.options.preferences.trainerHints);
+    writeValue(writer, value.options.preferences.bowDisabled);
 }
 
 bool readLootFilter(BinaryReader &reader, RulesetLootFilter &filter)
@@ -4576,6 +4790,10 @@ bool readValue(BinaryReader &reader, RulesetSelection &value)
         && readLootFilter(reader, value.options.preferences.lootFilter)
         && (reader.version() < SaveVersionMawChallengeModes
             || readValue(reader, value.options.preferences.disintegration))
+        && (reader.version() < SaveVersionTrainerHints
+            || readValue(reader, value.options.preferences.trainerHints))
+        && (reader.version() < SaveVersionBowDisabled
+            || readValue(reader, value.options.preferences.bowDisabled))
         && !value.id.empty()
         && rulesetOptionsValid(value.options);
 }
@@ -4965,6 +5183,92 @@ void markLegacyCampFireDecorVars(GameSaveData &data, uint32_t sourceSaveVersion)
     for (auto &[mapFileName, snapshot] : data.indoorSceneStates)
     {
         mark(snapshot.eventRuntimeState);
+    }
+}
+
+void markLegacySmallBarrelDecorVars(GameSaveData &data, uint32_t sourceSaveVersion)
+{
+    if (sourceSaveVersion >= SaveVersionSmallStatBarrels)
+    {
+        return;
+    }
+
+    const auto mark = [](std::optional<EventRuntimeState> &state)
+    {
+        if (state)
+        {
+            state->legacySmallBarrelDecorVars = true;
+        }
+    };
+    mark(data.outdoorWorld.eventRuntimeState);
+    mark(data.indoorScene.eventRuntimeState);
+    for (auto &[mapFileName, snapshot] : data.outdoorWorldStates)
+    {
+        mark(snapshot.eventRuntimeState);
+    }
+    for (auto &[mapFileName, snapshot] : data.indoorSceneStates)
+    {
+        mark(snapshot.eventRuntimeState);
+    }
+}
+
+// Lich promotion and Lich or vampire mercenaries wrote MM8's Mind and Body resistance slots into our Light and Dark;
+// nothing else sets either to an immunity.
+void migrateLegacyLichImmunities(GameSaveData &data, uint32_t sourceSaveVersion)
+{
+    if (sourceSaveVersion >= SaveVersionLichImmunities)
+    {
+        return;
+    }
+
+    constexpr int MistakenImmunity = 65000;
+    const auto migrate = [](Character &character)
+    {
+        character.permanentImmunities.light = false;
+        character.permanentImmunities.dark = false;
+
+        if (character.baseResistances.light >= MistakenImmunity)
+        {
+            character.baseResistances.light = 0;
+        }
+
+        if (character.baseResistances.dark >= MistakenImmunity)
+        {
+            character.baseResistances.dark = 0;
+        }
+    };
+    const auto migrateRecruits = [&migrate](std::optional<EventRuntimeState> &state)
+    {
+        if (!state)
+        {
+            return;
+        }
+
+        for (auto &[npcId, recruit] : state->generatedMercenaryRecruitsByNpcId)
+        {
+            migrate(recruit.character);
+        }
+    };
+
+    for (Character &member : data.party.members)
+    {
+        migrate(member);
+    }
+
+    for (AdventurersInnMember &innMember : data.party.adventurersInnMembers)
+    {
+        migrate(innMember.character);
+    }
+
+    migrateRecruits(data.outdoorWorld.eventRuntimeState);
+    migrateRecruits(data.indoorScene.eventRuntimeState);
+    for (auto &[mapFileName, snapshot] : data.outdoorWorldStates)
+    {
+        migrateRecruits(snapshot.eventRuntimeState);
+    }
+    for (auto &[mapFileName, snapshot] : data.indoorSceneStates)
+    {
+        migrateRecruits(snapshot.eventRuntimeState);
     }
 }
 
@@ -5471,6 +5775,8 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
     migrateLegacyHistoryNumbering(data, version);
     migrateLegacyMapJournalNotes(data, version);
     markLegacyCampFireDecorVars(data, version);
+    markLegacySmallBarrelDecorVars(data, version);
+    migrateLegacyLichImmunities(data, version);
     data.sourceSaveVersion = version;
 
     return data;
@@ -5555,16 +5861,103 @@ std::optional<GameSaveSummary> loadGameSaveSummaryFromPath(const std::filesystem
     return summary;
 }
 
-bool compareSavePathsForDisplay(const std::filesystem::path &left, const std::filesystem::path &right)
+int compareSaveNamesNaturally(const std::string &left, const std::string &right)
 {
-    const int leftPriority = savePathDisplayPriority(left);
-    const int rightPriority = savePathDisplayPriority(right);
+    size_t leftIndex = 0;
+    size_t rightIndex = 0;
+
+    while (leftIndex < left.size() && rightIndex < right.size())
+    {
+        const unsigned char leftChar = static_cast<unsigned char>(left[leftIndex]);
+        const unsigned char rightChar = static_cast<unsigned char>(right[rightIndex]);
+
+        if (std::isdigit(leftChar) && std::isdigit(rightChar))
+        {
+            // Digit runs compare as numbers, so "Sewer 2" sorts before "Sewer 10".
+            size_t leftStart = leftIndex;
+            size_t rightStart = rightIndex;
+
+            while (leftStart < left.size() && left[leftStart] == '0')
+            {
+                ++leftStart;
+            }
+
+            while (rightStart < right.size() && right[rightStart] == '0')
+            {
+                ++rightStart;
+            }
+
+            size_t leftEnd = leftStart;
+            size_t rightEnd = rightStart;
+
+            while (leftEnd < left.size() && std::isdigit(static_cast<unsigned char>(left[leftEnd])))
+            {
+                ++leftEnd;
+            }
+
+            while (rightEnd < right.size() && std::isdigit(static_cast<unsigned char>(right[rightEnd])))
+            {
+                ++rightEnd;
+            }
+
+            if (leftEnd - leftStart != rightEnd - rightStart)
+            {
+                return leftEnd - leftStart < rightEnd - rightStart ? -1 : 1;
+            }
+
+            const int digitOrder = left.compare(leftStart, leftEnd - leftStart, right, rightStart, rightEnd - rightStart);
+
+            if (digitOrder != 0)
+            {
+                return digitOrder < 0 ? -1 : 1;
+            }
+
+            leftIndex = leftEnd;
+            rightIndex = rightEnd;
+            continue;
+        }
+
+        const int lowerLeft = std::tolower(leftChar);
+        const int lowerRight = std::tolower(rightChar);
+
+        if (lowerLeft != lowerRight)
+        {
+            return lowerLeft < lowerRight ? -1 : 1;
+        }
+
+        ++leftIndex;
+        ++rightIndex;
+    }
+
+    if (leftIndex < left.size() || rightIndex < right.size())
+    {
+        return leftIndex < left.size() ? 1 : -1;
+    }
+
+    return 0;
+}
+
+bool compareSavesForDisplay(
+    const std::filesystem::path &leftPath,
+    const std::string &leftName,
+    const std::filesystem::path &rightPath,
+    const std::string &rightName)
+{
+    const int leftPriority = savePathDisplayPriority(leftPath);
+    const int rightPriority = savePathDisplayPriority(rightPath);
 
     if (leftPriority != rightPriority)
     {
         return leftPriority < rightPriority;
     }
 
-    return toLowerCopy(left.filename().string()) < toLowerCopy(right.filename().string());
+    const int nameOrder = compareSaveNamesNaturally(leftName, rightName);
+
+    if (nameOrder != 0)
+    {
+        return nameOrder < 0;
+    }
+
+    return compareSaveNamesNaturally(leftPath.filename().string(), rightPath.filename().string()) < 0;
 }
 }

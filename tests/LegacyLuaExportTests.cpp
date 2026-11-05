@@ -123,11 +123,15 @@ TEST_CASE("levitate pressure trap export respects each worlds event semantics")
 
     const ScriptedEventProgram puzzle = exportPressureTrapProgram(
         readBinaryFixture(worlds / "mm6/_legacy/events/6D08.EVT"), LegacyEventVersion::Mm6, "6d08.blv");
-    for (uint16_t eventId : {22, 23, 25, 32, 34, 35, 36, 39, 40, 41, 42})
+    for (uint16_t eventId : {25, 32, 34, 35, 36, 39, 40, 41, 42})
     {
         CHECK(puzzle.isLevitateSensitivePressurePlate(eventId, 0x84000100));
     }
-    CHECK_FALSE(puzzle.isLevitateSensitivePressurePlate(24, 0x84000100));
+    // Plates 22/23 are the pair the genie gate needs stepped on; 24 is the gate itself.
+    for (uint16_t eventId : {22, 23, 24})
+    {
+        CHECK_FALSE(puzzle.isLevitateSensitivePressurePlate(eventId, 0x84000100));
+    }
 
     const ScriptedEventProgram encounter = exportPressureTrapProgram(
         readBinaryFixture(worlds / "mm7/_legacy/events/7out02.EVT"), LegacyEventVersion::Mm7);

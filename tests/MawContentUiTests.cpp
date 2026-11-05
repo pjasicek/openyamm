@@ -17,6 +17,7 @@
 #include "game/rules/maw/MawItemData.h"
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawExperienceRules.h"
+#include "game/rules/maw/MawMonsterRules.h"
 #include "game/rules/maw/MawMonsterInspect.h"
 #include "game/rules/maw/MawPotionRules.h"
 #include "game/rules/maw/MawTexts.h"
@@ -157,12 +158,14 @@ TEST_CASE("MAW drinks need a ready member even away from monsters (A4.7)")
     CHECK_EQ(refused.statusText, "Player must be active to consume the potion");
 }
 
-TEST_CASE("multibag: MAW gives four bags, a party of one too; opening a bag swaps the pack (H.1)")
+TEST_CASE("multibag: MAW gives four bags, five tabs of four to a party of one; opening a bag swaps the pack (H.1)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     CHECK_EQ(standardItemRules().bagCount(mawParty(rules, 4)), 1);
     CHECK_EQ(rules.gameRules().items.bagCount(mawParty(rules, 4)), 4);
-    CHECK_EQ(rules.gameRules().items.bagCount(mawParty(rules, 1)), 4);
+    CHECK_EQ(rules.gameRules().items.bagCount(mawParty(rules, 1)), 20);
+    CHECK_EQ(InventoryBags::tabCount(20), 5);
+    CHECK_EQ(InventoryBags::tabCount(4), 1);
 
     Character character;
     REQUIRE(character.addInventoryItem(packItem(100, 1, 3)));
@@ -351,7 +354,9 @@ TEST_CASE("MAW's inspect panel: level, 95 % damage ranges after the viewer's def
     REQUIRE_EQ(raw.damageRows.size(), 2u);
     CHECK_EQ(raw.damageRows[0], "80-120");
     CHECK_EQ(raw.damageRows[1], "40-60");
-    const double fireball = 100 * mawMonsterSpellMultiplier(6);
+    // A spell deals the monster's damage for its element, not attack 1's (MAW 249b00da).
+    const double fireball =
+        mawMonsterBaseDamage(rules, facts, 1, CombatDamageType::Fire) * mawMonsterSpellMultiplier(6);
     const double halfWidth = std::sqrt(std::pow(fireball * 0.5, 2) / 24) * 1.96;
     CHECK_EQ(raw.spellDamage, std::to_string(int(mawRound(fireball - halfWidth))) + "-"
             + std::to_string(int(mawRound(fireball + halfWidth))));
@@ -879,9 +884,9 @@ TEST_CASE("A save from when MAW had more bags fits them into four; what fits now
         [](const auto &entry) { return entry.first < 4; }));
     // Everything is in bag 1 now, apart and on the grid.
     REQUIRE_EQ(solo.inventory.size(), 3u);
-    CHECK(InventoryBags::takeOverflow(solo, 4).empty());
+    CHECK(InventoryBags::takeOverflow(solo).empty());
 
-    // Every bag of both members full: the extra item waits past the last bag, then goes to the world.
+    // Every bag of both members full: the extra item waits in the overflow bag, then goes to the world.
     for (Character *pMember : {party.member(0), party.member(1)})
     {
         pMember->inventory.clear();
@@ -898,10 +903,43 @@ TEST_CASE("A save from when MAW had more bags fits them into four; what fits now
 
     solo.rulesetState.storedBags[12] = {packItem(4, 1, 1)};
     CHECK_EQ(InventoryBags::fitIntoBagCount(party, 4), 1u);
-    const std::vector<InventoryItem> overflow = InventoryBags::takeOverflow(solo, 4);
+    CHECK(solo.rulesetState.storedBags.contains(InventoryBags::OverflowBag));
+    const std::vector<InventoryItem> overflow = InventoryBags::takeOverflow(solo);
     REQUIRE_EQ(overflow.size(), 1u);
     CHECK_EQ(overflow[0].objectDescriptionId, 4u);
-    CHECK(InventoryBags::takeOverflow(solo, 4).empty());
+    CHECK(InventoryBags::takeOverflow(solo).empty());
+}
+
+TEST_CASE("A party of one's tabs: Shift+Sort sorts the open tab, and the other tabs wait while the party is bigger")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Party party = mawParty(rules, 1);
+    const int bagCount = rules.gameRules().items.bagCount(party);
+    REQUIRE_EQ(bagCount, 20);
+    Character &solo = *party.member(0);
+
+    // Tab II (bags 4-7) open at its second bag; an item in tab I and two in tab II.
+    REQUIRE(InventoryBags::openBag(solo, 5, bagCount));
+    solo.rulesetState.storedBags[0] = {packItem(1, 1, 3)};
+    solo.rulesetState.storedBags[6] = {packItem(2, 2, 2)};
+    REQUIRE(solo.addInventoryItem(packItem(3, 1, 1)));
+
+    // Sorting every bag sorts tab II only: its items go to its first bag; tab I keeps its item.
+    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, bagCount, std::nullopt,
+        [](const InventoryItem &) { return std::optional<int>(); }));
+    CHECK_EQ(solo.rulesetState.currentBag, 5);
+    REQUIRE(solo.rulesetState.storedBags.contains(0));
+    CHECK_EQ(solo.rulesetState.storedBags.at(0)[0].objectDescriptionId, 1u);
+    REQUIRE(solo.rulesetState.storedBags.contains(4));
+    CHECK_EQ(solo.rulesetState.storedBags.at(4).size(), 2u);
+    CHECK(solo.inventory.empty());
+    CHECK_FALSE(solo.rulesetState.storedBags.contains(6));
+
+    // With four bags (another member joined) tab II is out of reach but keeps its items: nothing is overflow.
+    CHECK(InventoryBags::takeOverflow(solo).empty());
+    REQUIRE(InventoryBags::openBag(solo, 0, 4));
+    CHECK_EQ(solo.rulesetState.storedBags.at(4).size(), 2u);
+    CHECK_EQ(InventoryBags::storedItemCount(solo), 2u);
 }
 
 TEST_CASE("MAW's crafting and alchemy bags take what the party picks up: the picker's first, then the others' (H.10)")

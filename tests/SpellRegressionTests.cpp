@@ -384,6 +384,39 @@ TEST_CASE("Mistform is a personal buff that permits spellcasting and expires cle
     CHECK_FALSE(pCaster->physicalDamageImmune);
 }
 
+TEST_CASE("Glamour needs no target and buffs every member's Merchant")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    REQUIRE(party.members().size() > 1);
+    party.member(0)->skills["DarkElfAbility"] = {"DarkElfAbility", 7, OpenYAMM::Game::SkillMastery::Master};
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Glamour);
+    request.spendMana = false;
+    request.applyRecovery = false;
+
+    const OpenYAMM::Game::PartySpellCastResult result =
+        OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+
+    REQUIRE(result.succeeded());
+    CHECK(result.targetKind == OpenYAMM::Game::PartySpellCastTargetKind::None);
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        CAPTURE(memberIndex);
+        const OpenYAMM::Game::CharacterBuffState *pBuff =
+            party.characterBuff(memberIndex, OpenYAMM::Game::CharacterBuffId::Glamour);
+        REQUIRE(pBuff != nullptr);
+        CHECK_EQ(pBuff->power, 6);
+        CHECK_EQ(party.member(memberIndex)->glamourPower, 6);
+        CHECK(party.member(memberIndex)->glamourMastery == OpenYAMM::Game::SkillMastery::Master);
+    }
+}
+
 TEST_CASE("shared actor mind spell effects are rejected by mind immunity")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -1766,6 +1799,52 @@ TEST_CASE("party spell backend enforces indoor outdoor spell gates in shared spe
 
     CHECK(prismaticResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
     CHECK_EQ(prismaticResult.statusText, "Can't cast Prismatic Light outdoors!");
+}
+
+TEST_CASE("party spell backend limits where meteor shower and starburst fall")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+    worldRuntime.setIndoorMap(false);
+    worldRuntime.setPartyPosition(1000.0f, 2000.0f, 100.0f);
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.skillLevelOverride = 10;
+    request.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Grandmaster;
+    request.spendMana = false;
+    request.applyRecovery = false;
+    request.hasTargetPoint = true;
+
+    for (OpenYAMM::Game::SpellId spellId :
+         {OpenYAMM::Game::SpellId::MeteorShower, OpenYAMM::Game::SpellId::Starburst})
+    {
+        CAPTURE(OpenYAMM::Game::spellIdValue(spellId));
+        request.spellId = OpenYAMM::Game::spellIdValue(spellId);
+
+        // Within reach the point is kept.
+        request.targetX = 4000.0f;
+        request.targetY = 2000.0f;
+        request.targetZ = 300.0f;
+        REQUIRE(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request)
+                    .succeeded());
+        CHECK_EQ(worldRuntime.projectileRequests().back().targetX, doctest::Approx(4000.0f));
+        CHECK_EQ(worldRuntime.projectileRequests().back().targetZ, doctest::Approx(300.0f));
+
+        // The cursor on the horizon: the point comes back along the same line to the falling spell range.
+        request.targetX = 1000.0f + 30000.0f;
+        request.targetY = 2000.0f + 40000.0f;
+        request.targetZ = 900.0f;
+        REQUIRE(OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request)
+                    .succeeded());
+        const OpenYAMM::Game::GameplayPartySpellProjectileRequest &limited = worldRuntime.projectileRequests().back();
+        const float range = OpenYAMM::Game::PartySpellSystem::FallingSpellTargetRange;
+        CHECK_EQ(limited.targetX, doctest::Approx(1000.0f + range * 0.6f));
+        CHECK_EQ(limited.targetY, doctest::Approx(2000.0f + range * 0.8f));
+        CHECK_EQ(limited.targetZ, doctest::Approx(100.0f));
+    }
 }
 
 TEST_CASE("party spell backend prismatic light damages visible indoor creatures")

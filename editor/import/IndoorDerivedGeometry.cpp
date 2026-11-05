@@ -13,6 +13,9 @@ namespace OpenYAMM::Editor
 {
 namespace
 {
+// Faces whose normals differ by less than about 1.8 degrees meet as one surface for the outlines.
+constexpr double NearlyCoplanarDot = 0.9995;
+
 struct PartitionPlane
 {
     double x = 0;
@@ -61,6 +64,77 @@ int classifyFace(const Game::IndoorMapData &geometry, uint16_t faceId, const Par
         side |= distance > 0.01 ? 1 : distance < -0.01 ? 2 : 0;
     }
     return side;
+}
+
+// Consecutive collinear outlines between the same two faces drawn as one line: an edge split at a vertex lying on it
+// (a converter's T-junction repair inserts thousands) would otherwise cost one outline per piece of the 7 000.
+void mergeCollinearOutlines(Game::IndoorMapData &geometry)
+{
+    std::map<std::pair<uint16_t, uint16_t>, std::vector<size_t>> groups;
+    for (size_t index = 0; index < geometry.outlines.size(); ++index)
+    {
+        const Game::IndoorOutline &outline = geometry.outlines[index];
+        groups[std::minmax(outline.face1Id, outline.face2Id)].push_back(index);
+    }
+    const auto collinearThrough = [&geometry](uint16_t middle, uint16_t a, uint16_t b)
+    {
+        const Game::IndoorVertex &m = geometry.vertices[middle];
+        const Game::IndoorVertex &p = geometry.vertices[a];
+        const Game::IndoorVertex &q = geometry.vertices[b];
+        const double ax = double(p.x) - m.x, ay = double(p.y) - m.y, az = double(p.z) - m.z;
+        const double bx = double(q.x) - m.x, by = double(q.y) - m.y, bz = double(q.z) - m.z;
+        const double cx = ay * bz - az * by, cy = az * bx - ax * bz, cz = ax * by - ay * bx;
+        const double lengths = std::sqrt((ax * ax + ay * ay + az * az) * (bx * bx + by * by + bz * bz));
+        return lengths > 0 && ax * bx + ay * by + az * bz < 0
+            && std::sqrt(cx * cx + cy * cy + cz * cz) <= 1e-3 * lengths;
+    };
+    std::vector<uint8_t> removed(geometry.outlines.size(), 0);
+    for (const auto &[faces, members] : groups)
+    {
+        std::map<uint16_t, std::vector<size_t>> atVertex;
+        for (size_t index : members)
+        {
+            atVertex[geometry.outlines[index].vertex1Id].push_back(index);
+            atVertex[geometry.outlines[index].vertex2Id].push_back(index);
+        }
+        for (auto &[vertex, touching] : atVertex)
+        {
+            if (touching.size() != 2)
+            {
+                continue;
+            }
+            Game::IndoorOutline &kept = geometry.outlines[touching[0]];
+            const Game::IndoorOutline &dropped = geometry.outlines[touching[1]];
+            const uint16_t keptEnd = kept.vertex1Id == vertex ? kept.vertex2Id : kept.vertex1Id;
+            const uint16_t droppedEnd = dropped.vertex1Id == vertex ? dropped.vertex2Id : dropped.vertex1Id;
+            if (keptEnd == droppedEnd || !collinearThrough(vertex, keptEnd, droppedEnd))
+            {
+                continue;
+            }
+            // The kept outline now runs to the dropped one's far end, which takes it over in that vertex's list.
+            (kept.vertex1Id == vertex ? kept.vertex1Id : kept.vertex2Id) = droppedEnd;
+            kept.z = int16_t((geometry.vertices[kept.vertex1Id].z + geometry.vertices[kept.vertex2Id].z) / 2);
+            removed[touching[1]] = 1;
+            for (size_t &index : atVertex[droppedEnd])
+            {
+                if (index == touching[1])
+                {
+                    index = touching[0];
+                }
+            }
+            touching.clear();
+        }
+    }
+    std::vector<Game::IndoorOutline> outlines;
+    outlines.reserve(geometry.outlines.size());
+    for (size_t index = 0; index < geometry.outlines.size(); ++index)
+    {
+        if (removed[index] == 0)
+        {
+            outlines.push_back(geometry.outlines[index]);
+        }
+    }
+    geometry.outlines = std::move(outlines);
 }
 
 struct PartitionWork
@@ -266,7 +340,10 @@ bool generateIndoorDerivedGeometry(
         std::map<std::tuple<int, int, int>, uint16_t> outlineVertices;
         for (size_t faceId = 0; faceId < geometry.faces.size(); ++faceId)
         {
-            if (moving[faceId])
+            // An invisible face draws no outline, so its corners split no visible edge either (MM9's monster
+            // barriers stand on floor edges; invisible walls and steps likewise).
+            if (moving[faceId]
+                || Game::hasFaceAttribute(geometry.faces[faceId].attributes, Game::FaceAttribute::Invisible))
             {
                 continue;
             }
@@ -345,10 +422,17 @@ bool generateIndoorDerivedGeometry(
             {
                 continue; // Remove triangulation seams and coplanar surface joins.
             }
-            if (geometry.outlines.size() >= 7000)
+            // A face cut into triangles because rounding left it off its plane (a converter's T-junction repair)
+            // bends by well under a degree at its seams: still one surface, no outline.
+            const auto nearlyCoplanar = [&planes, first](uint16_t faceId)
             {
-                errorMessage = "indoor outlines exceed the native 875-byte visibility bitset";
-                return false;
+                const double dot = planes[first].x * planes[faceId].x + planes[first].y * planes[faceId].y
+                    + planes[first].z * planes[faceId].z;
+                return dot >= NearlyCoplanarDot;
+            };
+            if (faces.size() > 1 && std::all_of(faces.begin(), faces.end(), nearlyCoplanar))
+            {
+                continue;
             }
             Game::IndoorOutline outline = {};
             outline.vertex1Id = edge.first;
@@ -357,6 +441,13 @@ bool generateIndoorDerivedGeometry(
             outline.face2Id = second;
             outline.z = int16_t((geometry.vertices[edge.first].z + geometry.vertices[edge.second].z) / 2);
             geometry.outlines.push_back(outline);
+        }
+        mergeCollinearOutlines(geometry);
+        if (geometry.outlines.size() > 7000)
+        {
+            errorMessage = "indoor outlines exceed the native 875-byte visibility bitset: "
+                + std::to_string(geometry.outlines.size()) + " of at most 7000";
+            return false;
         }
     }
     return true;

@@ -31,8 +31,9 @@ constexpr int MawDifficultyIndex = 3;
 // The named map variable that marks a bounty hunt's map.
 constexpr const char *BountyMapVariable = "MawBounty";
 constexpr int BossLevelCap = 255;
-// The fourteen affixes a boss rolls from (SkillList, zzMaw-Monsters.lua:3110).
-constexpr std::array<MawBossAffix, 14> RolledBossAffixes = {
+// The affixes a boss rolls from (SkillList, zzMaw-Monsters.lua:3122): the fourteen an Omnipotent boss has, then the
+// four it has not.
+constexpr std::array<MawBossAffix, 18> RolledBossAffixes = {
     MawBossAffix::Summoner,
     MawBossAffix::Venomous,
     MawBossAffix::Plagueborn,
@@ -47,7 +48,24 @@ constexpr std::array<MawBossAffix, 14> RolledBossAffixes = {
     MawBossAffix::Leecher,
     MawBossAffix::Swift,
     MawBossAffix::Shadow,
+    MawBossAffix::Unstoppable,
+    MawBossAffix::Berserker,
+    MawBossAffix::Cryptic,
+    MawBossAffix::Skilled,
 };
+
+// Whether an Omnipotent boss has this affix (and spawns a boss of it on death): the first fourteen.
+bool omnipotentCovers(MawBossAffix affix)
+{
+    return affix != MawBossAffix::None && affix < MawBossAffix::Broodlord;
+}
+
+// MAW's special bosses, which hatch or spawn others on death.
+bool specialBoss(uint8_t affix)
+{
+    return affix == uint8_t(MawBossAffix::Broodlord) || affix == uint8_t(MawBossAffix::Broodling)
+        || affix == uint8_t(MawBossAffix::Omnipotent);
+}
 
 std::string lowerFileName(const std::string &fileName)
 {
@@ -210,6 +228,14 @@ void rollCraftingDrops(MawRules &rules, const CorpseLootContext &context, int le
             result.extraItems.push_back({reagentId, 0, 0, uint16_t(std::clamp(itemLevel, 0, 2047))});
         }
     }
+
+    // A Skilled boss drops four Horseshoes (zzAlchemy.lua:1132-1136); a risen one, which dropped them already, none.
+    constexpr uint32_t Horseshoe = 656;
+
+    if (gemsAndSpecials && mawHasBossAffix(*context.pFacts, MawBossAffix::Skilled))
+    {
+        result.extraItems.insert(result.extraItems.end(), 4, {Horseshoe});
+    }
 }
 
 // A dimension map from a kill once the Dimensional Maps quest is done (zzMaw-Maps.lua:826-939): from monsters of
@@ -363,18 +389,35 @@ void setDisplayedDamage(int &diceRolls, int &diceSides, int &bonus, double damag
 
 std::string mawBossAffixName(MawBossAffix affix)
 {
-    static constexpr std::array<const char *, 18> Names = {
+    static constexpr std::array<const char *, 22> Names = {
         "", "Summoner", "Venomous", "Plagueborn", "Fixator", "Exploding", "Thorn", "Reflecting", "Adamantite",
         "Swapper", "Regenerating", "Puller", "Leecher", "Swift", "Shadow", "Broodlord", "Broodling", "Omnipotent",
+        "Unstoppable", "Berserker", "Cryptic", "Skilled",
     };
     return size_t(affix) < Names.size() ? Names[size_t(affix)] : "";
 }
 
+MawBossAffix mawBossEffectAffix(const ActorRulesetFacts &facts)
+{
+    return facts.bossAffix == uint8_t(MawBossAffix::Cryptic) ? MawBossAffix(facts.crypticAffix)
+                                                              : MawBossAffix(facts.bossAffix);
+}
+
 bool mawHasBossAffix(const ActorRulesetFacts &facts, MawBossAffix affix)
 {
-    const bool regular = affix != MawBossAffix::None && affix < MawBossAffix::Broodlord;
-    return facts.bossAffix == uint8_t(affix)
-        || (regular && facts.bossAffix == uint8_t(MawBossAffix::Omnipotent));
+    const MawBossAffix effect = mawBossEffectAffix(facts);
+    return (affix != MawBossAffix::None && effect == affix)
+        || (omnipotentCovers(affix) && effect == MawBossAffix::Omnipotent);
+}
+
+bool mawIgnoresCrowdControl(const ActorRulesetFacts &facts)
+{
+    return mawHasBossAffix(facts, MawBossAffix::Unstoppable);
+}
+
+double mawBerserkerDamageMultiplier(int currentHp, int maxHp)
+{
+    return 2 - std::clamp(double(currentHp) / std::max(maxHp, 1), 0.0, 1.0);
 }
 
 MawMapCompletion mawMapCompletion(const MapKillProgress &progress, bool insanityRules)
@@ -470,6 +513,17 @@ uint8_t mawMonsterTier(int monsterId)
 {
     const int remainder = monsterId % 3;
     return remainder == 1 ? 1 : remainder == 2 ? 2 : 3;
+}
+
+double mawMonsterBaseDamage(
+    const MawRules &rules, const ActorRulesetFacts &facts, int partyCount, CombatDamageType type)
+{
+    const MawDamageClass damageClass =
+        type == CombatDamageType::Physical ? MawDamageClass::Physical : MawDamageClass::Magic;
+    const double familyLevel = std::max(1, facts.familyLevel);
+    return rules.model(std::max(1, partyCount)).monsterDamage(familyLevel, damageClass)
+        * TierDamageMultipliers[std::min<size_t>(facts.tier, TierDamageMultipliers.size() - 1)]
+        * facts.bossDamageMultiplier;
 }
 
 MawMonsterRules::MawMonsterRules(MawRules &rules)
@@ -575,8 +629,11 @@ GameplayMonsterBolsterResult MawMonsterRules::resolveMonster(
         }
     }
 
-    const double damage =
-        model.monsterDamage(familyLevel) * TierDamageMultipliers[facts.tier] * facts.bossDamageMultiplier;
+    // Each attack is sized against the defence its damage kind meets (getMonsterDamage's damageKind, MAW 249b00da).
+    const double damage = mawMonsterBaseDamage(
+        m_rules, facts, partyCount, GameMechanics::parseCombatDamageType(stats.attack1Type));
+    const double attack2BaseDamage = mawMonsterBaseDamage(
+        m_rules, facts, partyCount, GameMechanics::parseCombatDamageType(stats.attack2Type));
     const double attack1Average =
         mawDiceAverage(stats.attack1Damage.diceRolls, stats.attack1Damage.diceSides, stats.attack1Damage.bonus);
     double attack2Average =
@@ -595,7 +652,8 @@ GameplayMonsterBolsterResult MawMonsterRules::resolveMonster(
             int(std::ceil(stats.attack1Damage.diceSides / 1.4)), int(std::ceil(stats.attack1Damage.bonus / 2.0)));
     }
     facts.attack1Damage = float(damage);
-    facts.attack2Damage = float(attack1Average > 0 ? damage * attack2Average / attack1Average : damage);
+    facts.attack2Damage =
+        float(attack1Average > 0 ? attack2BaseDamage * attack2Average / attack1Average : attack2BaseDamage);
     setDisplayedDamage(
         result.attack1DamageDiceRolls, result.attack1DamageDiceSides, result.attack1DamageBonus, facts.attack1Damage);
     setDisplayedDamage(
@@ -926,6 +984,26 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
         facts.bossDamageMultiplier *= float(1 + *strength / 100);
     }
 
+    // A Cryptic boss fights with one of the other rolled affixes, drawn from its own stream so the rolls above stay
+    // as they were (getCrypticSkill, zzMaw-Monsters.lua:3074-3077, 3192-3209).
+    facts.crypticAffix = 0;
+
+    if (facts.bossAffix == uint8_t(MawBossAffix::Cryptic))
+    {
+        std::vector<MawBossAffix> pool;
+
+        for (const MawBossAffix candidate : RolledBossAffixes)
+        {
+            if (candidate != MawBossAffix::Cryptic)
+            {
+                pool.push_back(candidate);
+            }
+        }
+
+        RandomStream hidden(randomStreamKey(seed, RandomDomain::BossAffix, uint64_t(MawBossAffix::Cryptic)));
+        facts.crypticAffix = uint8_t(pool[hidden.uniform(0, uint32_t(pool.size() - 1))]);
+    }
+
     return true;
 }
 
@@ -1159,8 +1237,8 @@ std::vector<std::string> MawMonsterRules::actorBadges(const ActorRulesetFacts &f
         return {};
     }
 
-    // The special bosses show the skull alone.
-    if (facts.bossAffix >= uint8_t(MawBossAffix::Broodlord))
+    // The special bosses show the skull alone, and so do the later affixes, which have no badge art yet.
+    if (!omnipotentCovers(MawBossAffix(facts.bossAffix)))
     {
         return {"maw_boss_skull"};
     }
@@ -1741,6 +1819,12 @@ void MawMonsterRules::hatchBoss(IGameplayWorldRuntime &world, uint32_t actorId, 
     {
         for (const MawBossAffix affix : RolledBossAffixes)
         {
+            // Not the later four (OmnipotentExcluded, zzMaw-Monsters.lua:4149-4154).
+            if (!omnipotentCovers(affix))
+            {
+                continue;
+            }
+
             request.monsterId = familyC;
             request.bossAffix = uint8_t(affix);
             request.seed = rng();
@@ -1893,7 +1977,7 @@ void MawMonsterRules::updateMonsters(IGameplayWorldRuntime &world, float deltaSe
         GameplayActorRulesView state = {};
 
         if (!world.actorRulesView(actorIndex, state)
-            || state.rulesetFacts.bossAffix < uint8_t(MawBossAffix::Broodlord))
+            || !specialBoss(state.rulesetFacts.bossAffix))
         {
             continue;
         }

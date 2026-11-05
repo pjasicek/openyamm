@@ -988,10 +988,14 @@ ReplaceGlobalEvent(853, "MMMerge Warlock promotion", function()
     end
 end)
 
+-- As in MMMerge, each member who lacks Blaster and whose class can learn it gets it at Normal 1; a Blaster already
+-- known (from MM6's Control Center terminal, say) keeps its rank and mastery.
 ReplaceGlobalEvent(950, "MMMerge Blaster skill", function()
-    evt.ForPlayer(Players.All)
-    if not IsAtLeast(BlasterSkill, 1) then
-        SetValue(BlasterSkill, SkillJoinedMask.Normal + 1)
+    for _, playerIndex in ipairs(PartyMembers()) do
+        evt.ForPlayer(playerIndex)
+        if not IsAtLeast(BlasterSkill, 1) and CanPlayerLearnSkill(playerIndex, "Blaster") then
+            SetValue(BlasterSkill, 1)
+        end
     end
 end)
 
@@ -1042,6 +1046,9 @@ ReplaceGlobalEvent(783, "MMMerge Cast Off to Harmondale", function()
     evt.MoveNPC(340, 215)
     evt.SetNPCGreeting(340, 320)
     evt.SetNPCTopic(340, 3, 0)
+    -- The party rests on the two-week voyage as on any boat trip, so a Haste still running ends without weakness
+    -- (MMMerge only moves the clock on).
+    RestAndHealParty()
     AdvanceGameMinutes(14 * 24 * 60)
     evt.MoveToMap(-17331, 12547, 465, 1024, 0, 0, 0, 0, "7out02.odm")
 end)

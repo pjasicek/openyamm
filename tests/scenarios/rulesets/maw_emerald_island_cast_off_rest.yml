@@ -1,0 +1,19 @@
+id: rulesets.maw_emerald_island_cast_off_rest
+title: Ruleset - MAW's Haste aura of Emerald Island (a scroll's, like the pedestal's) ends on the cast-off to Harmondale without weakness
+world: mm7
+mode: faithful
+tags: [rulesets, maw, mm7]
+steps:
+  - new_game_flow:
+      start_map: 7out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - cast_spell: {member_index: 0, spell_id: 5, skill: 5, mastery: 3, scroll: true}
+  - assert:
+      buff: {spell_id: 5, present: true}
+  # Global event 783, "Cast Off to Harmondale": fourteen days pass on the voyage, longer than the aura's 7-day buff.
+  - execute_event: {id: 783}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      map: 7out02.odm
+      buff: {spell_id: 5, present: false}
+      condition: {name: weak, present: false}

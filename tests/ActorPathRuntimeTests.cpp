@@ -597,6 +597,7 @@ TEST_CASE("actor path runtime can finish blocked route planning on a worker thre
 
     const ActorPathResolveResult queued = runtime.resolveWaypoint(map, request);
     CHECK(queued.queued);
+    CHECK(queued.requested);
     CHECK(queued.deferred);
     CHECK_FALSE(queued.planned);
     CHECK_FALSE(queued.pathActive);
@@ -616,6 +617,8 @@ TEST_CASE("actor path runtime can finish blocked route planning on a worker thre
     }
 
     CHECK(completed.planned);
+    // Taking up the finished plan starts none: the AI's per-step plan budget counts only started plans.
+    CHECK_FALSE(completed.requested);
     CHECK(completed.pathActive);
 }
 

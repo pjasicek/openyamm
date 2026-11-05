@@ -2,6 +2,7 @@
 #include "game/render/CombatActorHealthBarPolicy.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
@@ -810,6 +811,72 @@ std::string antialiasingValue(int samples)
     return samples >= 4 ? "4x" : samples >= 2 ? "2x" : "off";
 }
 
+namespace
+{
+constexpr std::array<std::pair<const char *, float>, 5> TurnBasedSpeeds = {{
+    {"1", 1.0f}, {"1.5", 1.5f}, {"2", 2.0f}, {"3", 3.0f}, {"4", 4.0f}}};
+}
+
+bool parseTurnBasedSpeedValue(const std::string &value, float &speed)
+{
+    for (const auto &[text, factor] : TurnBasedSpeeds)
+    {
+        if (trimCopy(value) == text)
+        {
+            speed = factor;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::string turnBasedSpeedValue(float speed)
+{
+    // The nearest offered factor, so a hand-edited value still shows on the slider.
+    const auto nearest = std::min_element(TurnBasedSpeeds.begin(), TurnBasedSpeeds.end(),
+        [speed](const auto &left, const auto &right)
+        {
+            return std::abs(left.second - speed) < std::abs(right.second - speed);
+        });
+    return nearest->first;
+}
+
+namespace
+{
+constexpr std::array<int, 7> RepeatedVoiceLineIntervalsMs = {{0, 500, 1000, 2000, 3000, 5000, 10000}};
+}
+
+bool parseRepeatedVoiceLineIntervalValue(const std::string &value, int &intervalMs)
+{
+    int parsed = 0;
+
+    if (!parseIntValue(value, parsed))
+    {
+        return false;
+    }
+
+    if (std::find(RepeatedVoiceLineIntervalsMs.begin(), RepeatedVoiceLineIntervalsMs.end(), parsed)
+        == RepeatedVoiceLineIntervalsMs.end())
+    {
+        return false;
+    }
+
+    intervalMs = parsed;
+    return true;
+}
+
+std::string repeatedVoiceLineIntervalValue(int intervalMs)
+{
+    // The nearest offered interval, so a hand-edited value still shows on the slider.
+    const auto nearest = std::min_element(RepeatedVoiceLineIntervalsMs.begin(), RepeatedVoiceLineIntervalsMs.end(),
+        [intervalMs](int left, int right)
+        {
+            return std::abs(left - intervalMs) < std::abs(right - intervalMs);
+        });
+    return std::to_string(*nearest);
+}
+
 std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, std::string &error)
 {
     std::ifstream input(path);
@@ -891,6 +958,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         if (parseIntValue(*value, parsed))
         {
             settings.voiceVolume = std::clamp(parsed, 0, 9);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "audio", "repeated_voice_line_interval_ms"))
+    {
+        int parsed = settings.repeatedVoiceLineIntervalMs;
+
+        if (parseIntValue(*value, parsed))
+        {
+            settings.repeatedVoiceLineIntervalMs = std::clamp(parsed, 0, 10000);
         }
     }
 
@@ -985,6 +1062,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "controls", "smart_click"))
+    {
+        bool parsed = settings.smartClick;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.smartClick = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "keyboard_interaction_depth"))
     {
         int parsed = settings.keyboardInteractionDepth;
@@ -1037,6 +1124,20 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         if (parseBoolValue(*value, parsed))
         {
             settings.combatText = parsed;
+        }
+    }
+
+    for (const auto &[key, pSpeed] : {std::pair{"turn_based_monster_speed", &settings.turnBasedMonsterSpeed},
+             std::pair{"turn_based_party_speed", &settings.turnBasedPartySpeed}})
+    {
+        if (const std::optional<std::string> value = getIniValue(document, "gameplay", key))
+        {
+            float parsed = 1.0f;
+
+            if (parseTurnBasedSpeedValue(*value, parsed))
+            {
+                *pSpeed = parsed;
+            }
         }
     }
 
@@ -1108,9 +1209,14 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         parseBoolValue(*value, settings.partyFrame);
     }
 
-    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "potion_buttons"))
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "quick_item_rings"))
     {
-        parseBoolValue(*value, settings.potionButtons);
+        parseBoolValue(*value, settings.quickItemRings);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "item_buttons"))
+    {
+        parseBoolValue(*value, settings.basebarItemButtons);
     }
 
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "follower_panel"))
@@ -1950,9 +2056,42 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         settings.screenshotDelaySeconds = parsed;
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "screenshot_burst_count"))
+    {
+        float parsed = 0.0f;
+        if (!parseFloatValue(*value, parsed) || parsed != std::floor(parsed) || parsed < 1.0f || parsed > 1000.0f)
+        {
+            error = "screenshot_burst_count must be a whole number in [1, 1000].";
+            return std::nullopt;
+        }
+        settings.screenshotBurstCount = uint32_t(parsed);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "screenshot_burst_interval_ms"))
+    {
+        float parsed = 0.0f;
+        if (!parseFloatValue(*value, parsed) || !std::isfinite(parsed) || parsed < 1.0f || parsed > 60000.0f)
+        {
+            error = "screenshot_burst_interval_ms must be finite in [1, 60000].";
+            return std::nullopt;
+        }
+        settings.screenshotBurstIntervalMs = parsed;
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "debug", "screenshot_tour_path"))
     {
         settings.screenshotTourPath = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "ai_arena_path"))
+    {
+        settings.aiArenaPath = trimCopy(*value);
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "indoor_hole_view"))
+    {
+        const std::string text = toLowerCopy(trimCopy(*value));
+        settings.indoorHoleView = text == "1" || text == "true" || text == "on" || text == "yes";
     }
 
     if (const std::optional<std::string> value = getIniValue(document, "debug", "time_scale"))
@@ -2299,6 +2438,9 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("sound_volume", std::clamp(settings.soundVolume, 0, 9));
     serializer.add("music_volume", std::clamp(settings.musicVolume, 0, 9));
     serializer.add("voice_volume", std::clamp(settings.voiceVolume, 0, 9));
+    serializer.add(
+        "repeated_voice_line_interval_ms",
+        repeatedVoiceLineIntervalValue(settings.repeatedVoiceLineIntervalMs));
     serializer.section("controls");
     serializer.add("turn_rate", turnRateModeString(settings.turnRate));
     serializer.add("control_scheme", controlSchemeString(settings.controlScheme));
@@ -2309,18 +2451,22 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("flip_on_exit", boolValue(settings.flipOnExit));
     serializer.add("mouse_sensitivity", std::clamp(settings.mouseSensitivity, 0, 100));
     serializer.add("invert_mouse_y", boolValue(settings.invertMouseY));
+    serializer.add("smart_click", boolValue(settings.smartClick));
     serializer.section("gameplay");
     serializer.add("keyboard_interaction_depth", std::clamp(settings.keyboardInteractionDepth, 32, 4096));
     serializer.add("mouse_interaction_depth", std::clamp(settings.mouseInteractionDepth, 32, 4096));
     serializer.add("combat_text", boolValue(settings.combatText));
     serializer.add("combat_log", boolValue(settings.combatLog));
+    serializer.add("turn_based_monster_speed", turnBasedSpeedValue(settings.turnBasedMonsterSpeed));
+    serializer.add("turn_based_party_speed", turnBasedSpeedValue(settings.turnBasedPartySpeed));
     serializer.add("enemy_health_bars", settings.enemyHealthBarMode);
     serializer.add("enemy_health_bar_values", settings.enemyHealthBarValues);
     serializer.add("enemy_health_bar_damage_trail", boolValue(settings.enemyHealthBarDamageTrail));
     serializer.add("quest_markers", boolValue(settings.questMarkers));
     serializer.add("save_list_order", settings.saveListNewestFirst ? "newest" : "name");
     serializer.add("party_frame", boolValue(settings.partyFrame));
-    serializer.add("potion_buttons", boolValue(settings.potionButtons));
+    serializer.add("quick_item_rings", boolValue(settings.quickItemRings));
+    serializer.add("item_buttons", boolValue(settings.basebarItemButtons));
     serializer.add("melee_hit_blood_effects", boolValue(settings.meleeHitBloodEffects));
     serializer.add("melee_hit_feedback", boolValue(settings.meleeHitFeedback));
     serializer.add("melee_hit_effects", boolValue(settings.meleeHitEffects));

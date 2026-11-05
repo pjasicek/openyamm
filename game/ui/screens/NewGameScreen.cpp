@@ -9,6 +9,7 @@
 #include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawRulesFactory.h"
 #include "game/ui/GameplayUiSkin.h"
+#include "game/ui/screens/PartyCreationSheet.h"
 
 #include <algorithm>
 #include <array>
@@ -65,16 +66,6 @@ struct DebugEquipmentItem
     uint32_t itemId = 0;
 };
 
-constexpr std::array<const char *, static_cast<size_t>(StatId::Count)> StatLabels = {
-    "Might",
-    "Intellect",
-    "Personality",
-    "Endurance",
-    "Accuracy",
-    "Speed",
-    "Luck",
-};
-
 const CreationCandidate DebugGodLichCandidate = {
     DebugGodLichCharacterDataId,
     45,
@@ -100,54 +91,6 @@ constexpr std::array<DebugEquipmentItem, 11> DebugGodLichEquipment = {{
     {&CharacterEquipment::boots, &CharacterEquipmentRuntimeState::boots, 518},         // Herald's Boots
     {&CharacterEquipment::ring1, &CharacterEquipmentRuntimeState::ring1, 519},         // Ring of Planes
     {&CharacterEquipment::ring2, &CharacterEquipmentRuntimeState::ring2, 535},         // Ring of Fusion
-}};
-
-constexpr std::array<const char *, static_cast<size_t>(StatId::Count)> StatLabelLayoutIds = {{
-    "CharacterCreationMightLabel",
-    "CharacterCreationIntellectLabel",
-    "CharacterCreationPersonalityLabel",
-    "CharacterCreationEnduranceLabel",
-    "CharacterCreationAccuracyLabel",
-    "CharacterCreationSpeedLabel",
-    "CharacterCreationLuckLabel",
-}};
-
-constexpr std::array<const char *, static_cast<size_t>(StatId::Count)> StatMinusButtonLayoutIds = {{
-    "CharacterCreationMightMinusButton",
-    "CharacterCreationIntellectMinusButton",
-    "CharacterCreationPersonalityMinusButton",
-    "CharacterCreationEnduranceMinusButton",
-    "CharacterCreationAccuracyMinusButton",
-    "CharacterCreationSpeedMinusButton",
-    "CharacterCreationLuckMinusButton",
-}};
-
-constexpr std::array<const char *, static_cast<size_t>(StatId::Count)> StatValueLayoutIds = {{
-    "CharacterCreationMightValue",
-    "CharacterCreationIntellectValue",
-    "CharacterCreationPersonalityValue",
-    "CharacterCreationEnduranceValue",
-    "CharacterCreationAccuracyValue",
-    "CharacterCreationSpeedValue",
-    "CharacterCreationLuckValue",
-}};
-
-constexpr std::array<const char *, static_cast<size_t>(StatId::Count)> StatPlusButtonLayoutIds = {{
-    "CharacterCreationMightPlusButton",
-    "CharacterCreationIntellectPlusButton",
-    "CharacterCreationPersonalityPlusButton",
-    "CharacterCreationEndurancePlusButton",
-    "CharacterCreationAccuracyPlusButton",
-    "CharacterCreationSpeedPlusButton",
-    "CharacterCreationLuckPlusButton",
-}};
-
-constexpr std::array<const char *, 5> PartySlotButtonLayoutIds = {{
-    "CharacterCreationPartySlot1Button",
-    "CharacterCreationPartySlot2Button",
-    "CharacterCreationPartySlot3Button",
-    "CharacterCreationPartySlot4Button",
-    "CharacterCreationPartySlot5Button",
 }};
 
 constexpr std::array<const char *, 40> OrderedSkillNames = {{
@@ -242,17 +185,6 @@ std::string canonicalNameToken(const std::string &value)
     }
 
     return token;
-}
-
-std::string classIconTextureName(const std::string &className)
-{
-    // A class without an icon of its own shows the icon of the line it comes from.
-    static const std::unordered_map<std::string, std::string> BorrowedIcons = {
-        {"lich", "necromancer"},
-    };
-    const std::string token = canonicalNameToken(className);
-    const auto borrowed = BorrowedIcons.find(token);
-    return "hud_x2/menus/classes/" + (borrowed != BorrowedIcons.end() ? borrowed->second : token) + ".png";
 }
 
 std::vector<std::string> splitTabLine(const std::string &line)
@@ -505,43 +437,6 @@ void applyDebugGodLichCharacter(
 int maximumStatValueForRule(const RaceStatRule &rule)
 {
     return rule.maximumValue;
-}
-
-int skillMasteryAvailabilityForCreation(
-    const ClassSkillTable *pClassSkillTable,
-    const Character &character,
-    const std::string &skillName,
-    SkillMastery mastery)
-{
-    if (pClassSkillTable == nullptr)
-    {
-        return 0;
-    }
-
-    if (pClassSkillTable->getEffectiveCap(character.className, character.raceId, skillName) >= mastery)
-    {
-        return 0;
-    }
-
-    if (pClassSkillTable->getHighestPromotionEffectiveCap(character.className, character.raceId, skillName)
-        >= mastery)
-    {
-        return 1;
-    }
-
-    return 2;
-}
-
-std::string portraitTextureNameForEntry(const CharacterDollEntry &entry)
-{
-    if (!entry.facePicturesPrefix.empty())
-    {
-        return entry.facePicturesPrefix + "01";
-    }
-
-    char buffer[16] = {};
-    std::snprintf(buffer, sizeof(buffer), "PC%02u-01", entry.id);
-    return buffer;
 }
 
 bool isPrintableNameCharacter(char character)
@@ -833,24 +728,50 @@ void NewGameScreen::addPartySlot()
         return;
     }
 
+    // The new adventurer starts from the first portrait nobody in the party has.
+    size_t candidateIndex = 0;
+
+    for (size_t index = 0; index < m_candidates.size(); ++index)
+    {
+        const bool used = std::any_of(m_partyStates.begin(), m_partyStates.end(),
+            [this, index](const CreationState &state)
+            {
+                return candidateForState(state).characterDataId == m_candidates[index].characterDataId;
+            });
+
+        if (!used)
+        {
+            candidateIndex = index;
+            break;
+        }
+    }
+
     m_partySize += 1;
     ensurePartyStates();
     m_activePartySlot = m_partySize - 1;
-    resetStateForCandidate(0);
+    resetStateForCandidate(candidateIndex);
     saveActivePartyState();
 }
 
-void NewGameScreen::removePartySlot()
+void NewGameScreen::removePartySlotAt(size_t slotIndex)
 {
     endNameEditing(true);
     saveActivePartyState();
 
-    if (m_partySize <= 1)
+    if (m_partySize <= 1 || slotIndex >= m_partySize)
     {
         return;
     }
 
+    m_partyStates.erase(m_partyStates.begin() + std::ptrdiff_t(slotIndex));
     m_partySize -= 1;
+
+    // The same adventurer stays selected; removing the selected one selects the next.
+    if (slotIndex < m_activePartySlot)
+    {
+        m_activePartySlot -= 1;
+    }
+
     ensurePartyStates();
     m_state = m_partyStates[m_activePartySlot];
 }
@@ -1024,7 +945,12 @@ void NewGameScreen::resetCurrentState(bool applyCandidateDefaults)
     const std::array<int, static_cast<size_t>(StatId::Count)> baseStats = statsForRace(candidate.raceName);
     m_state.baseStats = baseStats;
     m_state.currentStats = baseStats;
-    m_state.name = generateDefaultNameForState(m_state);
+
+    if (!m_state.nameTyped)
+    {
+        m_state.name = generateDefaultNameForState(m_state);
+    }
+
     m_state.nameEditBuffer = m_state.name;
     m_state.defaultSkills.clear();
     m_state.optionalSkills.clear();
@@ -1140,6 +1066,7 @@ void NewGameScreen::endNameEditing(bool commitEdit)
 
         if (!trimmed.empty())
         {
+            m_state.nameTyped = m_state.nameTyped || trimmed != m_state.name;
             m_state.name = trimmed;
         }
     }
@@ -1600,102 +1527,6 @@ std::vector<int> NewGameScreen::availableVoiceIdsForSelectedCandidate() const
     return voiceIds;
 }
 
-void NewGameScreen::cycleCandidate(int direction)
-{
-    endNameEditing(true);
-    const int count = static_cast<int>(candidateCount());
-
-    if (count <= 0)
-    {
-        return;
-    }
-
-    const uint32_t previousClassId = m_state.selectedClassId;
-    int nextIndex = static_cast<int>(m_state.selectedCandidateIndex) + direction;
-
-    if (nextIndex < 0)
-    {
-        nextIndex += count;
-    }
-    else if (nextIndex >= count)
-    {
-        nextIndex -= count;
-    }
-
-    resetStateForCandidate(static_cast<size_t>(nextIndex));
-
-    if (!isGodLichSelected())
-    {
-        m_state.selectedClassId = classIdNear(previousClassId, selectedCandidate().availableClassIds, 1);
-    }
-
-    refreshSkillChoices(false);
-}
-
-void NewGameScreen::cycleClass(int direction)
-{
-    endNameEditing(true);
-
-    if (isGodLichSelected() || m_candidates.empty() || m_pGameData == nullptr)
-    {
-        return;
-    }
-
-    const CreationCandidate &candidate = selectedCandidate();
-
-    if (candidate.availableClassIds.empty())
-    {
-        return;
-    }
-
-    const std::vector<uint32_t>::const_iterator currentIt =
-        std::find(candidate.availableClassIds.begin(), candidate.availableClassIds.end(), m_state.selectedClassId);
-    int currentIndex = currentIt != candidate.availableClassIds.end()
-        ? static_cast<int>(currentIt - candidate.availableClassIds.begin())
-        : 0;
-    currentIndex += direction;
-
-    if (currentIndex < 0)
-    {
-        currentIndex = static_cast<int>(candidate.availableClassIds.size()) - 1;
-    }
-    else if (currentIndex >= static_cast<int>(candidate.availableClassIds.size()))
-    {
-        currentIndex = 0;
-    }
-
-    m_state.selectedClassId = candidate.availableClassIds[static_cast<size_t>(currentIndex)];
-    refreshSkillChoices(false);
-    m_state.statusMessage.clear();
-}
-
-void NewGameScreen::cycleVoice(int direction)
-{
-    endNameEditing(true);
-    std::vector<int> voiceIds = availableVoiceIdsForSelectedCandidate();
-
-    if (voiceIds.empty())
-    {
-        return;
-    }
-
-    auto currentIt = std::find(voiceIds.begin(), voiceIds.end(), m_state.selectedVoiceId);
-    int currentIndex = currentIt != voiceIds.end() ? static_cast<int>(currentIt - voiceIds.begin()) : 0;
-    currentIndex += direction;
-
-    if (currentIndex < 0)
-    {
-        currentIndex = static_cast<int>(voiceIds.size()) - 1;
-    }
-    else if (currentIndex >= static_cast<int>(voiceIds.size()))
-    {
-        currentIndex = 0;
-    }
-
-    m_state.selectedVoiceId = voiceIds[static_cast<size_t>(currentIndex)];
-    m_state.statusMessage.clear();
-}
-
 Character NewGameScreen::buildVoicePreviewCharacter() const
 {
     Character character = {};
@@ -1717,20 +1548,6 @@ Character NewGameScreen::buildVoicePreviewCharacter() const
     }
 
     return character;
-}
-
-void NewGameScreen::playVoicePreview()
-{
-    if (m_pGameAudioSystem == nullptr)
-    {
-        return;
-    }
-
-    m_pGameAudioSystem->playSpeech(
-        buildVoicePreviewCharacter(),
-        SpeechId::SelectCharacter,
-        0,
-        CharacterCreationVoicePreviewSpeakerKey);
 }
 
 void NewGameScreen::showCreationCompletionError()
@@ -2585,6 +2402,14 @@ void NewGameScreen::drawRulesPanel()
                              "Your attacks and spells can hurt peaceful townsfolk and guards.", false,
                              preferences.friendlyFire ? "On" : "Off", true, false, y, activated);
         preferences.friendlyFire = preferences.friendlyFire != activated;
+        y = drawRulesSetting("trainer-hints", "Trainer hints",
+                             "Skill popups name the nearest teacher of the next mastery.", false,
+                             preferences.trainerHints ? "On" : "Off", true, false, y, activated);
+        preferences.trainerHints = preferences.trainerHints != activated;
+        y = drawRulesSetting("bow", "Bow",
+                             "Off: bows, crossbows and dragon breath do not shoot. A melee-only challenge.", false,
+                             preferences.bowDisabled ? "Off" : "On", true, false, y, activated);
+        preferences.bowDisabled = preferences.bowDisabled != activated;
         // Disintegration happens only in Road to Insanity and Beyond Madness; it closes the list, as in the pause menu.
         const bool disintegration = draft.challengeMode == RulesetChallengeMode::RoadToInsanity
             || draft.challengeMode == RulesetChallengeMode::BeyondMadness;
@@ -2669,6 +2494,115 @@ void NewGameScreen::drawContinentSelection(float deltaSeconds)
     }
 }
 
+bool NewGameScreen::stateComplete(const CreationState &state) const
+{
+    return isGodLichState(state)
+        || (!trimCopy(state.name).empty()
+            && (m_allowIncompleteCharacterCreation
+                || (bonusPoolForState(state) <= 0
+                    && state.selectedOptionalSkills.size() >= requiredSkillCount(state))));
+}
+
+size_t NewGameScreen::requiredSkillCount(const CreationState &state) const
+{
+    return std::min(MaximumOptionalSkillSelections, state.optionalSkills.size());
+}
+
+std::array<RaceStatLine, CreationStatCount> NewGameScreen::raceStatLinesForState(const CreationState &state) const
+{
+    const std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> rules =
+        raceRulesForData(m_pGameData, candidateForState(state).raceName, state.baseStats);
+    std::array<RaceStatLine, CreationStatCount> lines = {};
+
+    for (size_t index = 0; index < CreationStatCount; ++index)
+    {
+        lines[index] = {state.baseStats[index], rules[index].maximumValue, rules[index].baseStep,
+                        rules[index].droppedStep};
+    }
+
+    return lines;
+}
+
+CreationPartyMember NewGameScreen::creationPartyMember(const CreationState &state) const
+{
+    CreationPartyMember member;
+    member.className = classNameForState(state);
+    member.raceId = candidateForState(state).raceId;
+    member.fixedSkills = state.defaultSkills;
+    member.optionalSkills = state.optionalSkills;
+    member.chosenSkills = state.selectedOptionalSkills;
+    return member;
+}
+
+std::vector<CreationPartyMember> NewGameScreen::creationPartyMembers() const
+{
+    std::vector<CreationPartyMember> members;
+
+    for (size_t slotIndex = 0; slotIndex < std::min(m_partySize, m_partyStates.size()); ++slotIndex)
+    {
+        members.push_back(creationPartyMember(slotIndex == m_activePartySlot ? m_state : m_partyStates[slotIndex]));
+    }
+
+    return members;
+}
+
+void NewGameScreen::chooseCandidateForActiveSlot(size_t candidateIndex)
+{
+    endNameEditing(true);
+    const uint32_t previousClassId = m_state.selectedClassId;
+    const std::string typedName = m_state.nameTyped ? m_state.name : std::string();
+    resetStateForCandidate(candidateIndex);
+
+    if (!typedName.empty())
+    {
+        m_state.name = typedName;
+        m_state.nameEditBuffer = typedName;
+        m_state.nameTyped = true;
+    }
+
+    // The new portrait keeps the class when its race offers it, like stepping through portraits did.
+    if (!isGodLichSelected())
+    {
+        m_state.selectedClassId = classIdNear(previousClassId, selectedCandidate().availableClassIds, 1);
+        refreshSkillChoices(false);
+    }
+
+    saveActivePartyState();
+}
+
+bool NewGameScreen::toggleOptionalSkillForSlot(size_t slotIndex, const std::string &skillName)
+{
+    if (slotIndex == m_activePartySlot)
+    {
+        return tryToggleOptionalSkill(skillName);
+    }
+
+    if (slotIndex >= m_partyStates.size())
+    {
+        return false;
+    }
+
+    // Another adventurer's choice (the party board) follows the same two-choice rule.
+    std::swap(m_state, m_partyStates[slotIndex]);
+    const bool toggled = tryToggleOptionalSkill(skillName);
+    const std::string message = m_state.statusMessage;
+    std::swap(m_state, m_partyStates[slotIndex]);
+    m_state.statusMessage = message;
+    return toggled;
+}
+
+void NewGameScreen::playCreationVoiceLine(int voiceId, SpeechId speech)
+{
+    if (m_pGameAudioSystem == nullptr)
+    {
+        return;
+    }
+
+    Character character = buildVoicePreviewCharacter();
+    character.voiceId = voiceId;
+    m_pGameAudioSystem->playSpeech(character, speech, 0, CharacterCreationVoicePreviewSpeakerKey);
+}
+
 void NewGameScreen::drawScreen(float deltaSeconds)
 {
     if (m_stage == FlowStage::ContinentSelection)
@@ -2676,420 +2610,8 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         drawContinentSelection(deltaSeconds);
         return;
     }
-    initializeCharacterCreationForSelectedContinent();
-    loadDesign("gameplay/character_creation");
-    beginDesign("CharacterCreation");
-    drawDesign();
-    updateNameBackspaceRepeat(deltaSeconds);
-    const bool wasEditing = m_state.nameEditing;
-    if (m_escapePressed && !modalOpen())
-    {
-        m_escapePressed = false;
-        if (wasEditing)
-        {
-            endNameEditing(true);
-        }
-        else
-        {
-            cancelCreation();
-            return;
-        }
-    }
-    if (m_returnPressed && wasEditing)
-    {
-        endNameEditing(true);
-    }
-    m_returnPressed = false;
-    m_escapePressed = false;
-    std::string continentKey = m_selectedContinent.key;
-    continentKey[0] = char(std::toupper(continentKey[0]));
-    const UiLayoutManager::LayoutElement *pStart =
-        m_designLayouts.findElement("ContinentSelection" + continentKey + "Start");
-    label("CharacterCreationContinent", m_selectedContinent.name + " - " + pStart->labelText);
-    const Rect nameRect = designRect("CharacterCreationNameField");
-    if (m_state.nameEditing && (keyPressed(SDL_SCANCODE_TAB) || (leftMouseJustPressed() && !pointerInside(nameRect))))
-    {
-        endNameEditing(true);
-    }
-    if (button("name", nameRect, "", "text_field"))
-    {
-        beginNameEditing();
-    }
-    label("CharacterCreationNameField", (m_state.nameEditing ? m_state.nameEditBuffer + "_" : m_state.name));
-    setTextEditing(m_state.nameEditing);
-    std::string helpTitle, helpBody;
-    std::vector<std::pair<std::string, uint32_t>> helpMasteries;
-    Rect helpAnchor;
-    const auto inspectSkill = [this, &helpTitle, &helpBody, &helpMasteries, &helpAnchor](
-                                  const std::string &skill, const Rect &rect)
-    {
-        if (!rightMouseDown() || modalOpen() || !pointerInside(rect))
-        {
-            return;
-        }
-        const SkillInspectEntry *pHelp = m_pGameData->characterInspectTable().getSkill(skill);
-        if (pHelp == nullptr)
-        {
-            return;
-        }
-        helpTitle = pHelp->name;
-        helpAnchor = rect;
-        const Character character = buildCharacter();
-        SkillTooltipText text = {pHelp->description,
-            {pHelp->normalDescription, pHelp->expertDescription, pHelp->masterDescription,
-                pHelp->grandmasterDescription}};
-        // The ruleset's own text (MAW: a class school's perks with the new character's numbers).
-        if (const GameRules &rules = creationRules(); &rules != &standardGameRules())
-        {
-            PartySeed seed = {};
-            seed.members = {character};
-            Party party = {};
-            party.seed(seed);
-            party.setItemTable(&m_pGameData->itemTable());
-            party.setRules(&rules);
-            text = rules.skills.skillTooltip(party, *party.member(0), skill, text);
-        }
-        helpBody = text.description;
-        const auto mastery = [this, &helpMasteries, &character, &skill](
-                                 SkillMastery level, const std::string &name, const std::string &description)
-        {
-            if (description.empty())
-            {
-                return;
-            }
-            const int availability =
-                skillMasteryAvailabilityForCreation(&m_pGameData->classSkillTable(), character, skill, level);
-            const uint32_t color = availability == 1   ? GameplayUiSkin::Low
-                                   : availability == 2 ? GameplayUiSkin::Penalty
-                                                       : 0xffffffffu;
-            helpMasteries.emplace_back(name + ": " + description, color);
-        };
-        mastery(SkillMastery::Expert, "Expert", text.masteryLines[1]);
-        mastery(SkillMastery::Master, "Master", text.masteryLines[2]);
-        mastery(SkillMastery::Grandmaster, "Grandmaster", text.masteryLines[3]);
-    };
-    if (action("CharacterCreationPortraitLeftButton"))
-    {
-        cycleCandidate(-1);
-        playVoicePreview();
-    }
-    if (action("CharacterCreationPortraitRightButton"))
-    {
-        cycleCandidate(1);
-        playVoicePreview();
-    }
-    if (action("CharacterCreationVoiceLeftButton"))
-    {
-        cycleVoice(-1);
-        playVoicePreview();
-    }
-    if (action("CharacterCreationVoiceRightButton"))
-    {
-        cycleVoice(1);
-        playVoicePreview();
-    }
-    if (action("CharacterCreationResetCharacterButton"))
-    {
-        resetCurrentState(true);
-    }
-    if (action("CharacterCreationRemoveCharacterButton", m_partySize > 1 && !isGodLichSelected()))
-    {
-        removePartySlot();
-    }
-    if (selectBox("class", designRect("CharacterCreationClassValue"), displayClassName(selectedClassName()),
-                  !isGodLichSelected() && !selectedCandidate().availableClassIds.empty(), 12.16f))
-    {
-        endNameEditing(true);
-        const std::vector<uint32_t> choices = selectedCandidate().availableClassIds;
-        std::vector<std::string> names;
-        std::vector<std::string> icons;
-        for (const uint32_t id : choices)
-        {
-            CreationState state = m_state;
-            state.selectedClassId = id;
-            const std::string className = classNameForState(state);
-            names.push_back(displayClassName(className));
-            icons.push_back(classIconTextureName(className));
-        }
-        confirm("Choose Class", selectedCandidate().raceName, names,
-                [this, choices](int index)
-                {
-                    if (index >= 0)
-                    {
-                        m_state.selectedClassId = choices[size_t(index)];
-                        refreshSkillChoices(true);
-                    }
-                }, true, true, std::move(icons));
-    }
-    if (rightMouseDown() && !modalOpen() && pointerInside(designRect("CharacterCreationClassValue")))
-    {
-        if (const ClassInspectEntry *pHelp = m_pGameData->characterInspectTable().getClass(selectedClassName()))
-        {
-            helpTitle = pHelp->name;
-            helpBody = pHelp->description;
-            helpAnchor = designRect("CharacterCreationClassValue");
 
-            // The class/skill matrix of the class line with this race (MAW).
-            if (creationRules().classes.showsCreationSkillMatrix())
-            {
-                helpMasteries = creationSkillMatrixLines(buildCharacter());
-            }
-        }
-    }
-    label("CharacterCreationVoiceValue",
-          "Voice " + std::to_string(m_state.selectedVoiceId) + " - " + selectedCandidate().raceName);
-    // The race card (MAW: the race's skill bonuses, resistances and immunities).
-    if (rightMouseDown() && !modalOpen()
-        && (pointerInside(designRect("CharacterCreationPortraitImage"))
-            || pointerInside(designRect("CharacterCreationVoiceValue"))))
-    {
-        const Character character = buildCharacter();
-        const std::vector<std::string> notes = creationRules().classes.raceNotes(character);
-
-        if (!notes.empty())
-        {
-            helpTitle = m_pGameData->mergedCharacterSelectionTable().raceNameForId(character.raceId).value_or(
-                selectedCandidate().raceName);
-            helpBody.clear();
-
-            for (const std::string &note : notes)
-            {
-                helpBody += (helpBody.empty() ? "" : "\n") + note;
-            }
-
-            helpAnchor = designRect("CharacterCreationPortraitImage");
-        }
-    }
-    const CharacterDollEntry *pEntry = selectedCharacterEntry();
-    if (pEntry != nullptr)
-    {
-        drawTexture(portraitTextureNameForEntry(*pEntry), designRect("CharacterCreationPortraitImage"));
-        const Rect portrait = designRect("CharacterCreationPortraitImage");
-        drawEllipseOutline({portrait.x - 3 * designScale(), portrait.y - 3 * designScale(),
-                            portrait.width + 6 * designScale(), portrait.height + 6 * designScale()},
-                           designScale(), 0xff61888eu);
-        drawEllipseOutline(portrait, 1.1f * designScale(), 0xff85bbd8u);
-        drawTexture(classIconTextureName(selectedClassName()), designRect("CharacterCreationClassEmblem"));
-        const std::string compositeKey = std::to_string(pEntry->id) + ":" + pEntry->bodyAsset;
-        if (compositeKey != m_creationPreviewDollCacheKey)
-        {
-            m_creationPreviewDollPixels = buildCreationPreviewDollPixels(
-                *pEntry, m_pGameData->characterDollTable().getDollType(pEntry->dollTypeId));
-            m_creationPreviewDollCacheKey = compositeKey;
-        }
-        if (m_creationPreviewDollPixels)
-        {
-            const TexturePixelsBgra &pixels = *m_creationPreviewDollPixels;
-            Rect rect = designRect("CharacterCreationDoll");
-            const float fit = std::min(rect.width / pixels.logicalWidth, rect.height / pixels.logicalHeight);
-            rect.x += (rect.width - pixels.logicalWidth * fit) / 2;
-            rect.width = pixels.logicalWidth * fit;
-            rect.height = pixels.logicalHeight * fit;
-            drawPixelsBgra("new_game_creation_doll:" + compositeKey, pixels.physicalWidth, pixels.physicalHeight,
-                           pixels.pixels, rect);
-        }
-    }
-    const bool grantedSkills = isGodLichSelected();
-    label("CharacterCreationBonusPoolValue",
-          grantedSkills ? "Preset" : std::to_string(currentBonusPool()) + " points left");
-    label("CharacterCreationAttributeHelp",
-          grantedSkills ? "Attributes are fixed for this preset." : "Spend all bonus points before beginning.");
-    for (size_t index = 0; index < size_t(StatId::Count); ++index)
-    {
-        label(StatValueLayoutIds[index],
-              std::to_string(grantedSkills ? DebugGodLichStatValue : m_state.currentStats[index]),
-              m_state.currentStats[index] > m_state.baseStats[index]   ? 0xffa4d7b0u
-              : m_state.currentStats[index] < m_state.baseStats[index] ? 0xff8c91dcu
-                                                                       : 0);
-        if (action(StatMinusButtonLayoutIds[index], !grantedSkills))
-        {
-            tryDecreaseStat(StatId(index));
-        }
-        if (action(StatPlusButtonLayoutIds[index], !grantedSkills && currentBonusPool() > 0))
-        {
-            tryIncreaseStat(StatId(index));
-        }
-        if (rightMouseDown() && !modalOpen() && pointerInside(designRect(StatLabelLayoutIds[index])))
-        {
-            if (const StatInspectEntry *pHelp = m_pGameData->characterInspectTable().getStat(StatLabels[index]))
-            {
-                helpTitle = pHelp->name;
-                helpBody = pHelp->description;
-                helpAnchor = designRect(StatLabelLayoutIds[index]);
-            }
-        }
-    }
-    const Rect fixed = designRect("CharacterCreationAssignedSkill0");
-    if (grantedSkills)
-    {
-        const Rect second = designRect("CharacterCreationAssignedSkill1");
-        const Rect granted{fixed.x, fixed.y, second.x + second.width - fixed.x, fixed.height};
-        skin("assigned_skill", granted, true);
-        textInRect({granted.x + 9 * designScale(), granted.y, granted.width - 18 * designScale(), granted.height},
-                   "All skills - Grandmaster", "menu_arrus", 14.72f);
-        textInRect(
-            {granted.x, granted.y + granted.height + 12 * designScale(), granted.width, 75 * designScale()},
-            "Every skill is granted at level 200.\nAll spells are learned.\nNo starting skill choices are needed.",
-            "menu_arrus", 13.3333f);
-    }
-    for (size_t index = 0; !grantedSkills && index < m_state.defaultSkills.size(); ++index)
-    {
-        const Rect rect = index < 2 ? designRect("CharacterCreationAssignedSkill" + std::to_string(index))
-                                    : Rect{fixed.x + float(index % 2) * (fixed.width + 5 * designScale()),
-                                           fixed.y + float(index / 2) * (fixed.height + 4 * designScale()), fixed.width,
-                                           fixed.height};
-        skin("assigned_skill", rect, true);
-        textInRect({rect.x + 9 * designScale(), rect.y, rect.width - 18 * designScale(), rect.height},
-                   displaySkillName(m_state.defaultSkills[index]), "menu_arrus", 14.72f);
-        inspectSkill(m_state.defaultSkills[index], rect);
-    }
-    const size_t required = std::min(MaximumOptionalSkillSelections, m_state.optionalSkills.size());
-    const float fixedRows = std::ceil(m_state.defaultSkills.size() / 2.0f);
-    const float skillOffset = (fixedRows - 1) * (fixed.height + 4 * designScale());
-    if (!grantedSkills)
-    {
-        label("CharacterCreationSubsection0",
-              required == 0   ? "No additional skills to choose"
-              : required == 1 ? "Choose one more"
-                              : "Choose two more",
-              0, skillOffset / designScale());
-        if (required > 0)
-        {
-            label("CharacterCreationSkillCount",
-                  std::to_string(m_state.selectedOptionalSkills.size()) + " / " + std::to_string(required), 0,
-                  skillOffset / designScale());
-        }
-    }
-    for (size_t index = 0; !grantedSkills && index < m_state.optionalSkills.size(); ++index)
-    {
-        const std::string &skill = m_state.optionalSkills[index];
-        const bool selected = std::find(m_state.selectedOptionalSkills.begin(), m_state.selectedOptionalSkills.end(),
-                                        skill) != m_state.selectedOptionalSkills.end();
-        Rect first = designRect("CharacterCreationAvailableSkill0");
-        first.y += skillOffset;
-        const Rect column = designRect("CharacterCreationColumnRule");
-        const float rows = std::ceil(m_state.optionalSkills.size() / 2.0f);
-        const float gap = 5.33f * designScale();
-        const float rowHeight = std::min(first.height, (column.y + column.height - first.y - (rows - 1) * gap) / rows);
-        const Rect rect{first.x + float(index % 2) * (first.width + 5.33f * designScale()),
-                        first.y + float(index / 2) * (rowHeight + 5.33f * designScale()), first.width, rowHeight};
-        if (button("skill-" + skill, rect, "", "skill", selected || m_state.selectedOptionalSkills.size() < required,
-                   selected))
-        {
-            tryToggleOptionalSkill(skill);
-        }
-        textInRect({rect.x + 8 * designScale(), rect.y, rect.width - 28 * designScale(), rect.height},
-                   displaySkillName(skill), "menu_arrus", 14.08f);
-        textInRect({rect.x + rect.width - 18 * designScale(), rect.y, 12 * designScale(), rect.height},
-                   selected ? "*" : "+", "menu_lucida", 12);
-        inspectSkill(skill, rect);
-    }
-    saveActivePartyState();
-    size_t ready = 0;
-    for (size_t index = 0; index < m_partySize; ++index)
-    {
-        const CreationState &state = m_partyStates[index];
-        const bool complete =
-            isGodLichState(state) || (!trimCopy(state.name).empty() &&
-                                      (m_allowIncompleteCharacterCreation ||
-                                       (bonusPoolForState(state) <= 0 &&
-                                        state.selectedOptionalSkills.size() >=
-                                            std::min(MaximumOptionalSkillSelections, state.optionalSkills.size()))));
-        if (complete)
-        {
-            ++ready;
-        }
-        const Rect rect = designRect(PartySlotButtonLayoutIds[index]);
-        if (button("party-" + std::to_string(index), rect, "", "party_slot", true, index == m_activePartySlot))
-        {
-            switchActivePartySlot(index);
-        }
-        if (const CharacterDollEntry *pMember = characterEntryForState(m_partyStates[index]))
-        {
-            drawTexture(portraitTextureNameForEntry(*pMember),
-                        {rect.x + 5 * designScale(), rect.y + 3 * designScale(), rect.width - 10 * designScale(),
-                         rect.height - 6 * designScale()});
-            const float classIconSize = 20 * designScale();
-            drawTexture(classIconTextureName(classNameForState(state)),
-                        {rect.x + (rect.width - classIconSize) / 2,
-                         rect.y - classIconSize - 4 * designScale(), classIconSize, classIconSize});
-        }
-    }
-    if (m_partySize < PartySlotButtonLayoutIds.size() && !isGodLichSelected() &&
-        button("add-party", designRect(PartySlotButtonLayoutIds[m_partySize]), "+", "party_slot"))
-    {
-        addPartySlot();
-    }
-    Rect summary = designRect("CharacterCreationPartySummary");
-    const Rect lastSlot = designRect(PartySlotButtonLayoutIds[std::min(m_partySize, size_t(4))]);
-    summary.x = lastSlot.x + lastSlot.width + 15 * designScale();
-    textInRect(summary, std::to_string(m_partySize) + " / 5 adventurers\n" + std::to_string(ready) + " ready",
-               "menu_lucida", 9.6f, 0xffa6b9b7u);
-    label("CharacterCreationReadiness", m_state.statusMessage.empty()
-                                            ? ready == m_partySize
-                                                  ? "Your party is ready."
-                                                  : "Assign bonus points and starting skills to each adventurer."
-                                            : m_state.statusMessage);
-    if (action("CharacterCreationCancelButton"))
-    {
-        cancelCreation();
-        return;
-    }
-    if (action("CharacterCreationConfirmButton", ready == m_partySize || isGodLichSelected()))
-    {
-        confirmCreation();
-    }
-    if (!helpBody.empty())
-    {
-        const float scale = designScale();
-        const float width = 425 * scale;
-        const float horizontalPadding = 32 * scale;
-        const float bodyTop = 56 * scale;
-        const float lineHeight = (fontHeight("SMALLNUM") + 2) * scale;
-        const float bodyWidth = width - 2 * horizontalPadding;
-        const std::vector<std::string> lines = wrapTextToWidth("SMALLNUM", helpBody, bodyWidth, scale);
-        // MAW's skill matrix needs room under its last line; Standard's popups keep their old size (audit STD2-M3).
-        const float bottomPadding = creationRules().classes.showsCreationSkillMatrix() ? 40 : 28;
-        float height = bodyTop + bottomPadding * scale + lines.size() * lineHeight;
-        std::vector<std::pair<std::vector<std::string>, uint32_t>> masteryLines;
-        for (const auto &[text, color] : helpMasteries)
-        {
-            masteryLines.emplace_back(wrapTextToWidth("SMALLNUM", text, bodyWidth, scale), color);
-            height += masteryLines.back().first.size() * lineHeight + 6 * scale;
-        }
-        if (!masteryLines.empty())
-        {
-            height += 8 * scale;
-        }
-        const float x = helpAnchor.x + helpAnchor.width + width + 12 * scale < frameWidth()
-                            ? helpAnchor.x + helpAnchor.width + 12 * scale
-                            : helpAnchor.x - width - 12 * scale;
-        const Rect panel{
-            std::clamp(x, 8 * scale, std::max(8 * scale, frameWidth() - width - 8 * scale)),
-            std::clamp(helpAnchor.y + (helpAnchor.height - height) / 2, 8 * scale,
-                       std::max(8 * scale, frameHeight() - height - 8 * scale)),
-            width, height};
-        skin("modal", panel);
-        drawText("Create", helpTitle, panel.x + (width - measureTextWidth("Create", helpTitle, scale)) / 2,
-                 panel.y + 22 * scale, GameplayUiSkin::Gold, scale);
-        float textY = panel.y + bodyTop;
-        for (const std::string &line : lines)
-        {
-            drawText("SMALLNUM", line, panel.x + horizontalPadding, textY, GameplayUiSkin::Ivory, scale);
-            textY += lineHeight;
-        }
-        textY += 8 * scale;
-        for (const auto &[wrappedLines, color] : masteryLines)
-        {
-            textY += 6 * scale;
-            for (const std::string &line : wrappedLines)
-            {
-                drawText("SMALLNUM", line, panel.x + horizontalPadding, textY, color, scale);
-                textY += lineHeight;
-            }
-        }
-    }
-    drawConfirmation();
+    drawCharacterCreation(deltaSeconds);
 }
 
 } // namespace OpenYAMM::Game

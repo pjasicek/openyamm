@@ -29,6 +29,7 @@
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
+#include "game/events/ISceneEventContext.h"
 #include "game/maps/MapIdentity.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/ClassMultiplierTable.h"
@@ -53,6 +54,7 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
@@ -93,7 +95,6 @@ constexpr float DefaultOutdoorPartyMaxStepHeight = 128.0f;
 struct PendingMapLeaveOutputs
 {
     std::optional<EventRuntimeState::PendingMovie> pendingMovie;
-    std::optional<EventRuntimeState::PendingWinGame> pendingWinGame;
     bool pendingReturnToMainMenu = false;
     std::vector<EventRuntimeState::PendingSound> pendingSounds;
 };
@@ -664,8 +665,6 @@ PendingMapLeaveOutputs consumePendingMapLeaveOutputs(EventRuntimeState &runtimeS
     PendingMapLeaveOutputs outputs = {};
     outputs.pendingMovie = std::move(runtimeState.pendingMovie);
     runtimeState.pendingMovie.reset();
-    outputs.pendingWinGame = std::move(runtimeState.pendingWinGame);
-    runtimeState.pendingWinGame.reset();
     outputs.pendingReturnToMainMenu = runtimeState.pendingReturnToMainMenu;
     runtimeState.pendingReturnToMainMenu = false;
     outputs.pendingSounds = std::move(runtimeState.pendingSounds);
@@ -678,11 +677,6 @@ void appendPendingMapLeaveOutputs(EventRuntimeState &runtimeState, PendingMapLea
     if (outputs.pendingMovie.has_value())
     {
         runtimeState.pendingMovie = std::move(outputs.pendingMovie);
-    }
-
-    if (outputs.pendingWinGame.has_value())
-    {
-        runtimeState.pendingWinGame = std::move(outputs.pendingWinGame);
     }
 
     runtimeState.pendingReturnToMainMenu = runtimeState.pendingReturnToMainMenu || outputs.pendingReturnToMainMenu;
@@ -1277,7 +1271,7 @@ constexpr uint32_t EmeraldIslandFinishedQBit = 519;
 constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
 constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
 constexpr const char *EventMovieCutsceneDirectory = "Videos/Cutscenes";
-constexpr const char *WinGameCutsceneStem = "wingame";
+constexpr const char *CompletionCertificateDirectory = "certificates";
 constexpr size_t MaxPendingInputLength = 64;
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
 constexpr std::array<uint32_t, 18> DebugUnlockedTownPortalQBits = {{
@@ -1348,8 +1342,9 @@ const IndoorSceneRuntime::Snapshot *findSavedIndoorSceneState(
     return stateIt != states.end() ? &stateIt->second : nullptr;
 }
 
-// A saved map state from before MMerge's campfire list: renumbers its decoration states now that the map's decorations
-// are loaded (EventRuntimeState::legacyCampFireDecorVars).
+// A saved map state from before MMerge's campfire list or its small stat barrels: renumbers and refills its decoration
+// states now that the map's decorations are loaded (EventRuntimeState::legacyCampFireDecorVars and
+// legacySmallBarrelDecorVars).
 void renumberSavedLegacyCampFireDecorVars(GameSession &session, const MapAssetInfo &mapAssetInfo, const Party &party)
 {
     const auto renumber = [&](auto &states, const auto &entities, const DecorationBillboardSet &billboards)
@@ -1374,6 +1369,8 @@ void renumberSavedLegacyCampFireDecorVars(GameSession &session, const MapAssetIn
                 std::span(entities),
                 billboards.decorationTable,
                 party);
+            refillLegacySmallBarrels(
+                *stateIt->second.eventRuntimeState, std::span(entities), billboards.decorationTable);
         }
     };
 
@@ -1390,6 +1387,57 @@ void renumberSavedLegacyCampFireDecorVars(GameSession &session, const MapAssetIn
             session.indoorSceneStates(),
             mapAssetInfo.indoorMapData->entities,
             *mapAssetInfo.indoorDecorationBillboardSet);
+    }
+}
+
+// A saved indoor map state from before the MM9 placement profiles (save version 149): each placed actor marked
+// fromScene takes its profile from the map's scene actor of the same index, when that one is the same placement
+// (source object and script).
+void refreshSavedLegacyMm9PlacementProfiles(GameSession &session, const MapAssetInfo &mapAssetInfo)
+{
+    if (!mapAssetInfo.indoorMapDeltaData)
+    {
+        return;
+    }
+
+    auto &states = session.indoorSceneStates();
+    auto stateIt = states.end();
+
+    if (!mapAssetInfo.map.canonicalId.empty())
+    {
+        stateIt = states.find(mapAssetInfo.map.canonicalId);
+    }
+
+    if (stateIt == states.end())
+    {
+        stateIt = states.find(mapAssetInfo.map.fileName);
+    }
+
+    if (stateIt == states.end() || !stateIt->second.mapDeltaData)
+    {
+        return;
+    }
+
+    const std::vector<MapDeltaActor> &sceneActors = mapAssetInfo.indoorMapDeltaData->actors;
+    std::vector<MapDeltaActor> &savedActors = stateIt->second.mapDeltaData->actors;
+
+    for (size_t index = 0; index < savedActors.size(); ++index)
+    {
+        MapDeltaActor &saved = savedActors[index];
+
+        if (!saved.mm9Ai || !saved.mm9Ai->settings.profile.fromScene)
+        {
+            continue;
+        }
+
+        saved.mm9Ai->settings.profile = {};
+
+        if (index < sceneActors.size() && sceneActors[index].mm9Ai
+            && sceneActors[index].mm9SourceObjectIndex == saved.mm9SourceObjectIndex
+            && sceneActors[index].mm9Ai->script == saved.mm9Ai->script)
+        {
+            saved.mm9Ai->settings.profile = sceneActors[index].mm9Ai->settings.profile;
+        }
     }
 }
 
@@ -2266,66 +2314,6 @@ std::string eventMovieStemFromName(const std::string &movieName)
     }
 
     return trimEventMovieName(stem);
-}
-
-std::string pluralizedUnit(uint64_t value, const char *pSingular, const char *pPlural)
-{
-    return value == 1 ? pSingular : pPlural;
-}
-
-std::string formatWinGameDuration(float currentGameMinutes)
-{
-    constexpr float GameStartMinutes = 9.0f * 60.0f;
-    constexpr uint64_t MinutesPerDay = 24u * 60u;
-    constexpr uint64_t DaysPerMonth = 28u;
-    constexpr uint64_t MonthsPerYear = 12u;
-
-    const float elapsedGameMinutes = std::max(0.0f, currentGameMinutes - GameStartMinutes);
-    uint64_t totalDays = static_cast<uint64_t>(std::floor(elapsedGameMinutes / static_cast<float>(MinutesPerDay)));
-    const uint64_t years = totalDays / (DaysPerMonth * MonthsPerYear);
-    totalDays %= DaysPerMonth * MonthsPerYear;
-    const uint64_t months = totalDays / DaysPerMonth;
-    const uint64_t days = totalDays % DaysPerMonth;
-
-    return "Total Time: " + std::to_string(years) + " " + pluralizedUnit(years, "Year", "Years")
-        + ", " + std::to_string(months) + " " + pluralizedUnit(months, "Month", "Months")
-        + ", " + std::to_string(days) + " " + pluralizedUnit(days, "Day", "Days");
-}
-
-uint64_t calculateWinGameScore(const Party &party, float currentGameMinutes)
-{
-    constexpr float GameStartMinutes = 9.0f * 60.0f;
-    constexpr uint64_t MinutesPerDay = 24u * 60u;
-
-    const float elapsedGameMinutes = std::max(0.0f, currentGameMinutes - GameStartMinutes);
-    const uint64_t totalDays = std::max<uint64_t>(
-        1u,
-        static_cast<uint64_t>(std::floor(elapsedGameMinutes / static_cast<float>(MinutesPerDay))));
-    uint64_t totalExperience = 0;
-
-    for (const Character &member : party.members())
-    {
-        totalExperience += member.experience;
-    }
-
-    return totalExperience / totalDays;
-}
-
-std::string winGameCharacterLine(const Party &party)
-{
-    const std::vector<Character> &members = party.members();
-
-    if (members.empty())
-    {
-        return "Adventurer the Level 1 Adventurer";
-    }
-
-    const Character &leader = members.front();
-    const std::string className = !leader.className.empty() ? leader.className : leader.role;
-    const std::string displayClass = !className.empty() ? displayClassName(className) : "Adventurer";
-    const uint32_t level = std::max<uint32_t>(1u, leader.level);
-
-    return leader.name + " the Level " + std::to_string(level) + " " + displayClass;
 }
 
 std::string resolveEventMovieStem(
@@ -3906,6 +3894,95 @@ void GameApplication::registerDebugConsoleCommands()
             return commandResult(true, panel.open() ? "Combat log open." : "Combat log closed.");
         }});
     m_debugConsole.registerCommand({
+        .name = "arena",
+        .description = "Set up an AI arena (tests/scenarios/mm9/ai/README.md) and control its decision trace.",
+        .usage = "arena load <file> | arena reload | arena trace on|off | arena anim on|off | arena overlay on|off"
+            " | arena dump [lines]",
+        .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
+        {
+            const std::string action = context.args.empty() ? "" : toLowerCopy(context.args[0]);
+
+            if (action == "load" && context.args.size() == 2)
+            {
+                std::string message;
+                const bool applied = loadAndApplyAiArena(context.args[1], message);
+                return commandResult(applied, message);
+            }
+
+            if (action == "reload" && context.args.size() == 1)
+            {
+                if (!m_aiArena)
+                {
+                    return commandResult(false, "No arena loaded: arena load <file>.");
+                }
+
+                std::string message;
+                const bool applied = loadAndApplyAiArena(m_aiArena->sourcePath, message);
+                return commandResult(applied, message);
+            }
+
+            const bool on = context.args.size() == 2 && toLowerCopy(context.args[1]) == "on";
+            const bool off = context.args.size() == 2 && toLowerCopy(context.args[1]) == "off";
+
+            if (action == "trace" && (on || off))
+            {
+                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
+
+                if (pWorld == nullptr)
+                {
+                    return commandResult(false, "No active map runtime.");
+                }
+
+                // Without an arena the trace records every visible actor of the map.
+                if (on && pWorld->actorAiTrace() == nullptr)
+                {
+                    m_aiArenaTrace.reset();
+                    pWorld->bindActorAiTrace(&m_aiArenaTrace);
+                }
+
+                m_aiArenaTrace.setRecording(on);
+                return commandResult(true, on ? "AI trace on." : "AI trace off.");
+            }
+
+            if (action == "anim" && (on || off))
+            {
+                m_aiArenaTrace.setAnimationRecording(on);
+                return commandResult(true, on ? "Animation trace on." : "Animation trace off.");
+            }
+
+            if (action == "overlay" && (on || off))
+            {
+                m_aiArenaTrace.setOverlayVisible(on);
+                return commandResult(true, on ? "AI overlay on." : "AI overlay off.");
+            }
+
+            if (action == "dump" && context.args.size() <= 2)
+            {
+                const std::optional<int32_t> lines = context.args.size() == 2
+                    ? parseInt32Argument(context.args[1]) : std::optional<int32_t>(20);
+
+                if (!lines || *lines < 1)
+                {
+                    return commandResult(false, "Usage: arena dump [lines]");
+                }
+
+                const std::vector<ActorAiTraceEntry> &entries = m_aiArenaTrace.entries();
+                const size_t first = entries.size() > size_t(*lines) ? entries.size() - size_t(*lines) : 0;
+
+                for (size_t index = first; index < entries.size(); ++index)
+                {
+                    m_debugConsole.addMessage(DebugConsole::MessageKind::Info,
+                        formatActorAiTraceLine(entries[index]));
+                }
+
+                return commandResult(true, std::to_string(entries.size() - first) + " of "
+                    + std::to_string(entries.size()) + " trace lines.");
+            }
+
+            return commandResult(false, "Usage: arena load <file> | arena reload | arena trace on|off"
+                " | arena anim on|off | arena overlay on|off | arena dump [lines]");
+        }});
+    m_debugConsole.registerCommand({
         .name = "actor",
         .description = "Count or spawn ordinary table-driven monsters on the current map.",
         .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly|boss]"
@@ -4312,6 +4389,41 @@ void GameApplication::registerDebugConsoleCommands()
             " | wind <degrees> <speed>|auto | storm <on|off|auto> | strike [near|middle|far] | forecast [hours]]",
         .callback = [this, commandResult](const DebugConsole::CommandContext &context)
         {
+            // An indoor map's weather over its open sky (scene `sky: {weather}`): rain, snow, clear, auto and status.
+            if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Indoor
+                && m_indoorRenderer.openSkyWeather().active())
+            {
+                IndoorOpenSkyWeather &weather = m_indoorRenderer.openSkyWeather();
+                const std::string action = context.args.empty() ? "status" : toLowerCopy(context.args[0]);
+                const std::string value = context.args.size() >= 2 ? toLowerCopy(context.args[1]) : "";
+                if ((action == "rain" || action == "snow") && !value.empty())
+                {
+                    const std::optional<float> intensity = parseFloatArgument(value);
+                    if (!intensity || *intensity < 0.0f || *intensity > 1.0f)
+                    {
+                        return commandResult(false, "Usage on this map: weather rain|snow <0-1> | clear | auto");
+                    }
+                    weather.setDebugPrecipitation(
+                        action == "rain" ? PrecipitationKind::Rain : PrecipitationKind::Snow, *intensity);
+                }
+                else if (action == "clear")
+                {
+                    weather.setDebugPrecipitation(PrecipitationKind::None, 0.0f);
+                }
+                else if (action == "auto")
+                {
+                    weather.setDebugPrecipitation(std::nullopt, 0.0f);
+                }
+                else if (action != "status")
+                {
+                    return commandResult(false, "Usage on this map: weather rain|snow <0-1> | clear | auto");
+                }
+                const WeatherSample sample = weather.targetSample();
+                const char *kind = sample.precipitation == PrecipitationKind::Rain ? "rain"
+                    : sample.precipitation == PrecipitationKind::Snow ? "snow" : "none";
+                return commandResult(true, std::string("Open-sky weather: ") + kind + " "
+                    + std::to_string(sample.intensity) + ", clouds " + std::to_string(sample.cloudCover));
+            }
             if (m_pMapSceneRuntime == nullptr || m_pMapSceneRuntime->kind() != SceneKind::Outdoor
                 || m_pOutdoorWorldRuntime == nullptr)
             {
@@ -4654,6 +4766,97 @@ void GameApplication::registerDebugConsoleCommands()
         }});
 
     m_debugConsole.registerCommand({
+        .name = "portals",
+        .description = "Indoor portal and visibility view: portal faces, drawn sectors, counts, timings (not saved).",
+        .usage = "portals [on|off] | portals faces all|traversed|off | portals sectors|readout|gpu|rebuild|log "
+                 "on|off|toggle | portals tile <units> | portals stats | portals map",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            IndoorPortalDebugSettings settings = m_indoorRenderer.portalDebugSettings();
+            const auto describe = [&]()
+            {
+                const char *faces = settings.faces == IndoorPortalDebugFaces::All ? "all"
+                    : settings.faces == IndoorPortalDebugFaces::Traversed ? "traversed" : "off";
+                std::ostringstream out;
+                out << "faces=" << faces << " sectors=" << (settings.sectors ? "on" : "off")
+                    << " readout=" << (settings.readout ? "on" : "off")
+                    << " gpu=" << (settings.gpuPasses ? "on" : "off")
+                    << " rebuild=" << (settings.rebuildEveryFrame ? "on" : "off")
+                    << " log=" << (settings.log ? "on" : "off") << " tile=" << settings.tileSize;
+                return out.str();
+            };
+            const std::string usage = "Usage: portals [on|off] | portals faces all|traversed|off | "
+                "portals sectors|readout|gpu|rebuild|log on|off|toggle | portals tile <units> | portals stats | "
+                "portals map";
+            if (context.args.empty())
+            {
+                return commandResult(true, describe());
+            }
+            const std::string first = toLowerCopy(context.args[0]);
+            const std::string second = context.args.size() >= 2 ? toLowerCopy(context.args[1]) : std::string();
+            if (context.args.size() == 1 && (first == "on" || first == "off"))
+            {
+                const bool on = first == "on";
+                const float tileSize = settings.tileSize;
+                settings = {};
+                settings.tileSize = tileSize;
+                if (on)
+                {
+                    settings.faces = IndoorPortalDebugFaces::All;
+                    settings.sectors = true;
+                    settings.readout = true;
+                }
+            }
+            else if (first == "map" && context.args.size() == 1)
+            {
+                const std::vector<std::string> lines = m_indoorRenderer.portalDebugSectorSummary();
+                for (const std::string &line : lines)
+                {
+                    std::cout << "[PortalViewSector] " << line << '\n';
+                }
+                std::cout.flush();
+                return commandResult(!lines.empty(), std::to_string(lines.size()) + " sectors written to the log.");
+            }
+            else if (first == "stats" && context.args.size() == 1)
+            {
+                const IndoorPortalDebugStats &stats = m_indoorRenderer.portalDebugStats();
+                return stats.valid ? commandResult(true, describeIndoorPortalDebugStats(stats))
+                                   : commandResult(false, "No indoor frame measured: turn the view on indoors first.");
+            }
+            else if (first == "faces" && context.args.size() == 2
+                && (second == "all" || second == "traversed" || second == "off"))
+            {
+                settings.faces = second == "all" ? IndoorPortalDebugFaces::All
+                    : second == "traversed" ? IndoorPortalDebugFaces::Traversed : IndoorPortalDebugFaces::Off;
+            }
+            else if (first == "tile" && context.args.size() == 2)
+            {
+                const std::optional<float> size = parseFloatArgument(context.args[1]);
+                if (!size || *size < 64.0f || *size > 65536.0f)
+                {
+                    return commandResult(false, "Usage: portals tile <64..65536>");
+                }
+                settings.tileSize = *size;
+            }
+            else
+            {
+                bool *pSwitch = first == "sectors" ? &settings.sectors : first == "readout" ? &settings.readout
+                    : first == "gpu" ? &settings.gpuPasses : first == "rebuild" ? &settings.rebuildEveryFrame
+                    : first == "log" ? &settings.log : nullptr;
+                const std::string action = context.args.size() == 2 ? second : "toggle";
+                if (pSwitch == nullptr || context.args.size() > 2
+                    || (action != "on" && action != "off" && action != "toggle"))
+                {
+                    return commandResult(false, usage + "; " + describe());
+                }
+                *pSwitch = action == "toggle" ? !*pSwitch : action == "on";
+            }
+            applyIndoorPortalDebugSettings(settings);
+            std::cout << "[PortalViewSettings] " << describe() << std::endl;
+            return commandResult(true, describe());
+        }});
+
+    m_debugConsole.registerCommand({
         .name = "cls",
         .description = "Clear console output.",
         .usage = "cls",
@@ -4826,6 +5029,37 @@ void GameApplication::registerDebugConsoleCommands()
                 &m_pMapSceneRuntime->party(),
                 m_pMapSceneRuntime->sceneEventContext());
             return commandResult(executed, executed ? "Executed event " + std::to_string(*eventId) : "Event failed.");
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "destructible",
+        .description = "Damage or destroy a scene destructible (devdocs/INDOOR_DESTRUCTIBLES.md) by its id.",
+        .usage = "destructible <id> destroy | destructible <id> damage <amount>",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            const std::optional<int32_t> id = !context.args.empty() ? parseInt32Argument(context.args[0]) : std::nullopt;
+            const std::string action = context.args.size() >= 2 ? toLowerCopy(context.args[1]) : "";
+            const std::optional<int32_t> amount =
+                context.args.size() >= 3 ? parseInt32Argument(context.args[2]) : std::nullopt;
+
+            if (!id || *id < 0 || (action != "destroy" && (action != "damage" || !amount)))
+            {
+                return commandResult(false, "Usage: destructible <id> destroy | destructible <id> damage <amount>");
+            }
+
+            ISceneEventContext *pContext =
+                m_pMapSceneRuntime != nullptr ? m_pMapSceneRuntime->sceneEventContext() : nullptr;
+
+            if (pContext == nullptr)
+            {
+                return commandResult(false, "No active map runtime.");
+            }
+
+            const bool changed = action == "destroy"
+                ? pContext->destroyDestructible(static_cast<uint32_t>(*id))
+                : pContext->damageDestructible(static_cast<uint32_t>(*id), *amount);
+            return commandResult(changed, changed ? "Destructible " + std::to_string(*id) + ": " + action
+                                                  : "Nothing changed (no such destructible, or already broken).");
         }});
 
     m_debugConsole.registerCommand({
@@ -5012,6 +5246,67 @@ void GameApplication::registerDebugConsoleCommands()
             }
 
             return commandResult(false, "Usage: qbit get|set|clear <id> [id...] | qbit dump [active|all|filter]");
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "ledger",
+        .description = "Inspect or give the party's Ledgers of Teachers (1 Jadame, 2 Antagarich, 3 Enroth).",
+        .usage = "ledger get | ledger set <continent|all>",
+        .callback = [this, activeParty, commandResult](const DebugConsole::CommandContext &context)
+        {
+            Party *pParty = activeParty();
+
+            if (pParty == nullptr)
+            {
+                return commandResult(false, "No active party.");
+            }
+
+            const std::string action = context.args.empty() ? "get" : toLowerCopy(context.args[0]);
+            std::vector<uint32_t> continents;
+
+            if (action != "get")
+            {
+                if (action != "set" || context.args.size() != 2)
+                {
+                    return commandResult(false, "Usage: ledger get | ledger set <continent|all>");
+                }
+
+                if (toLowerCopy(context.args[1]) == "all")
+                {
+                    continents.assign(TrainerContinents.begin(), TrainerContinents.end());
+                }
+                else if (const std::optional<int32_t> continent = parseInt32Argument(context.args[1]);
+                         continent && !trainerContinentName(uint32_t(*continent)).empty())
+                {
+                    continents.push_back(uint32_t(*continent));
+                }
+                else
+                {
+                    return commandResult(false, "Unknown continent: " + context.args[1]);
+                }
+            }
+
+            // Setting one as a purchase would: the ledger and the continent's teacher notes (no gold taken).
+            for (uint32_t continent : continents)
+            {
+                pParty->addTeacherLedger(continent);
+
+                for (uint32_t autonoteId :
+                    m_gameSession.data().trainerDirectory().forParty(*pParty).continentAutonotes(continent))
+                {
+                    pParty->setAutonote(autonoteId, true);
+                }
+            }
+
+            std::ostringstream out;
+
+            for (uint32_t continent : TrainerContinents)
+            {
+                out << trainerContinentName(continent) << "=" << (pParty->hasTeacherLedger(continent) ? "bought" : "-")
+                    << ' ';
+            }
+
+            return commandResult(true, out.str());
         }});
 
     m_debugConsole.registerCommand({
@@ -6765,14 +7060,228 @@ void GameApplication::renderDebugConsoleFrame(int width, int height)
         m_settings.immortal,
         m_settings.unlimitedMana,
         pActiveParty != nullptr && pActiveParty->hasPartyBuff(PartyBuffId::Invisibility));
+    const bool portalDebugDrawn = renderIndoorPortalDebugReadout(width, height);
     m_debugConsole.render(width, height);
     ImGui::Render();
     // A command can close the console after ImGui has already built this frame's window.
-    if (m_debugConsole.enabled())
+    if (m_debugConsole.enabled() || portalDebugDrawn)
     {
         m_debugConsoleRenderer.renderDrawData(ImGui::GetDrawData());
     }
     m_debugConsoleFrameBegun = false;
+}
+
+void GameApplication::applyIndoorPortalDebugSettings(const IndoorPortalDebugSettings &settings)
+{
+    const bool profilerWas = m_indoorRenderer.portalDebugSettings().gpuPasses;
+    m_indoorRenderer.setPortalDebugSettings(settings);
+    if (profilerWas != settings.gpuPasses)
+    {
+        // Per-view GPU timer queries only while measuring (or for the launch's effect statistics).
+        bgfx::setDebug(settings.gpuPasses || m_settings.effectStatsDelaySeconds >= 0.0f
+            ? BGFX_DEBUG_PROFILER : BGFX_DEBUG_NONE);
+    }
+    m_portalDebugSums = {};
+    m_portalDebugShown = {};
+    m_portalDebugGpuSums.clear();
+    m_portalDebugGpuNames.clear();
+    m_portalDebugWindowStartTicks = 0;
+}
+
+bool GameApplication::renderIndoorPortalDebugReadout(int width, int height)
+{
+    const IndoorPortalDebugSettings &settings = m_indoorRenderer.portalDebugSettings();
+    if (!settings.active() || m_pMapSceneRuntime == nullptr || m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
+    {
+        return false;
+    }
+    const IndoorPortalDebugStats &stats = m_indoorRenderer.portalDebugStats();
+    if (!stats.valid)
+    {
+        return false;
+    }
+
+    // This frame's timings into the running second; bgfx reports the previous frame's GPU and draw counts.
+    const bgfx::Stats *pBgfxStats = bgfx::getStats();
+    m_portalDebugSums.frames += 1;
+    const std::array<uint64_t, 8> cpu = {stats.cpuVisibilityNanoseconds, stats.cpuLightingNanoseconds,
+        stats.cpuFacesNanoseconds, stats.cpuDecorationsNanoseconds, stats.cpuActorsNanoseconds,
+        stats.cpuOpenSkyNanoseconds, stats.cpuTranslucentNanoseconds, stats.cpuTotalNanoseconds};
+    for (size_t index = 0; index < cpu.size(); ++index)
+    {
+        m_portalDebugSums.cpuNanoseconds[index] += cpu[index];
+    }
+    if (pBgfxStats != nullptr)
+    {
+        m_portalDebugSums.drawCalls += pBgfxStats->numDraw;
+        m_portalDebugSums.triangles += pBgfxStats->numPrims[bgfx::Topology::TriList]
+            + pBgfxStats->numPrims[bgfx::Topology::TriStrip];
+        if (pBgfxStats->gpuTimerFreq > 0)
+        {
+            if (pBgfxStats->gpuTimeEnd > pBgfxStats->gpuTimeBegin)
+            {
+                m_portalDebugSums.gpuFrameMicroseconds += uint64_t(pBgfxStats->gpuTimeEnd - pBgfxStats->gpuTimeBegin)
+                    * 1000000 / uint64_t(pBgfxStats->gpuTimerFreq);
+            }
+            for (uint16_t index = 0; index < pBgfxStats->numViews; ++index)
+            {
+                const bgfx::ViewStats &view = pBgfxStats->viewStats[index];
+                if (view.gpuTimeEnd <= view.gpuTimeBegin)
+                {
+                    continue;
+                }
+                if (m_portalDebugGpuSums.size() <= view.view)
+                {
+                    m_portalDebugGpuSums.resize(size_t(view.view) + 1, 0);
+                    m_portalDebugGpuNames.resize(size_t(view.view) + 1);
+                }
+                m_portalDebugGpuSums[view.view] += uint64_t(view.gpuTimeEnd - view.gpuTimeBegin) * 1000000
+                    / uint64_t(pBgfxStats->gpuTimerFreq);
+                m_portalDebugGpuNames[view.view] = view.name;
+            }
+        }
+    }
+    const uint64_t now = SDL_GetTicks();
+    if (m_portalDebugWindowStartTicks == 0)
+    {
+        m_portalDebugWindowStartTicks = now;
+    }
+    if (now - m_portalDebugWindowStartTicks >= 1000 && m_portalDebugSums.frames > 0)
+    {
+        const uint32_t frames = m_portalDebugSums.frames;
+        PortalDebugAverages shown = {};
+        shown.frames = uint32_t(uint64_t(frames) * 1000 / std::max<uint64_t>(now - m_portalDebugWindowStartTicks, 1));
+        for (size_t index = 0; index < shown.cpuNanoseconds.size(); ++index)
+        {
+            shown.cpuNanoseconds[index] = m_portalDebugSums.cpuNanoseconds[index] / frames;
+        }
+        shown.gpuFrameMicroseconds = m_portalDebugSums.gpuFrameMicroseconds / frames;
+        shown.drawCalls = m_portalDebugSums.drawCalls / frames;
+        shown.triangles = m_portalDebugSums.triangles / frames;
+        for (size_t view = 0; view < m_portalDebugGpuSums.size(); ++view)
+        {
+            if (m_portalDebugGpuSums[view] > 0)
+            {
+                shown.gpuViews.emplace_back(std::to_string(view) + " " + m_portalDebugGpuNames[view],
+                    m_portalDebugGpuSums[view] / frames);
+            }
+        }
+        m_portalDebugShown = std::move(shown);
+        m_portalDebugSums = {};
+        m_portalDebugGpuSums.assign(m_portalDebugGpuSums.size(), 0);
+        m_portalDebugWindowStartTicks = now;
+        if (settings.log)
+        {
+            std::ostringstream line;
+            line << "[PortalView] map=" << m_gameSession.currentMapFileName() << " fps=" << m_portalDebugShown.frames
+                 << " draw_calls=" << m_portalDebugShown.drawCalls
+                 << " frame_triangles=" << m_portalDebugShown.triangles
+                 << " gpu_frame_us=" << m_portalDebugShown.gpuFrameMicroseconds << ' '
+                 << describeIndoorPortalDebugStats(stats);
+            for (const auto &[name, microseconds] : m_portalDebugShown.gpuViews)
+            {
+                std::string key = name;
+                std::replace(key.begin(), key.end(), ' ', '_');
+                line << " gpu_view[" << key << "]=" << microseconds;
+            }
+            std::cout << line.str() << std::endl;
+        }
+    }
+
+    bool drawn = false;
+    if (settings.sectors)
+    {
+        // The sector ids at the traversed portals, in each sector's colour.
+        // One label per sector within a few characters: a sector entered through a row of portals shows a few ids.
+        constexpr float LabelSpacing = 48.0f;
+        ImDrawList *pDrawList = ImGui::GetForegroundDrawList();
+        std::vector<std::pair<int16_t, ImVec2>> placed;
+        for (const IndoorPortalDebugLabel &label : stats.labels)
+        {
+            float x = 0.0f;
+            float y = 0.0f;
+            if (!m_indoorRenderer.projectGameplayWorldPointToScreen(label.position, width, height, x, y)
+                || std::any_of(placed.begin(), placed.end(), [&](const std::pair<int16_t, ImVec2> &other)
+                    {
+                        return other.first == label.sectorId && std::fabs(other.second.x - x) < LabelSpacing
+                            && std::fabs(other.second.y - y) < LabelSpacing;
+                    }))
+            {
+                continue;
+            }
+            placed.emplace_back(label.sectorId, ImVec2(x, y));
+            const uint32_t abgr = indoorPortalDebugSectorColor(label.sectorId);
+            const std::string text = std::to_string(label.sectorId);
+            pDrawList->AddText(ImVec2(x + 1.0f, y + 1.0f), IM_COL32(0, 0, 0, 220), text.c_str());
+            pDrawList->AddText(ImVec2(x, y), IM_COL32(abgr & 0xff, (abgr >> 8) & 0xff, (abgr >> 16) & 0xff, 255),
+                text.c_str());
+            drawn = true;
+        }
+    }
+    if (!settings.readout)
+    {
+        return drawn;
+    }
+
+    const auto us = [](uint64_t nanoseconds) { return double(nanoseconds) / 1000.0; };
+    ImGui::SetNextWindowPos(ImVec2(8.0f, 8.0f), ImGuiCond_Always);
+    ImGui::SetNextWindowBgAlpha(0.72f);
+    const ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize
+        | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav
+        | ImGuiWindowFlags_NoInputs;
+    if (ImGui::Begin("Indoor portal view", nullptr, flags))
+    {
+        const PortalDebugAverages &shown = m_portalDebugShown;
+        ImGui::Text("%s  eye sector %d  (%.0f, %.0f, %.0f)  %u fps", m_gameSession.currentMapFileName().c_str(),
+            int(stats.eyeSectorId), stats.eye[0], stats.eye[1], stats.eye[2], shown.frames);
+        ImGui::Text("sectors drawn %u   nodes %u   portals tested %u, traversed %u (rejected: facing %u, clipped %u, "
+            "other %u)", stats.sectorsDrawn, stats.visibilityNodes, stats.portalsTested, stats.portalsTraversed,
+            stats.portalsRejectedFacing, stats.portalsRejectedClipped, stats.portalsRejectedOther);
+        ImGui::Text("visibility build %.0f us%s", us(stats.visibilityBuildNanoseconds),
+            stats.visibilityRebuilt ? " (this frame)" : " (cached: still camera)");
+        ImGui::Text("world faces: %u draws of %u batches, %u faces, %u triangles; in view %u faces; in portal "
+            "frustums %u faces, %u triangles", stats.faceDraws, stats.batchesSubmitted, stats.facesSubmitted,
+            stats.trianglesSubmitted, stats.facesInView, stats.facesInPortals, stats.trianglesInPortals);
+        ImGui::Text("distinct textures %u;  tiles of %.0f in portal frustums: %u draws, %u triangles",
+            stats.batchTextures, settings.tileSize, stats.tileDraws, stats.tileTriangles);
+        ImGui::Text("frame: %llu draw calls, %llu triangles", static_cast<unsigned long long>(shown.drawCalls),
+            static_cast<unsigned long long>(shown.triangles));
+        ImGui::Separator();
+        ImGui::Text("CPU us (1 s mean): visibility %.0f  lighting %.0f  faces %.0f  decorations %.0f  actors %.0f  "
+            "sky %.0f  translucent %.0f  render %.0f", us(shown.cpuNanoseconds[0]), us(shown.cpuNanoseconds[1]),
+            us(shown.cpuNanoseconds[2]), us(shown.cpuNanoseconds[3]), us(shown.cpuNanoseconds[4]),
+            us(shown.cpuNanoseconds[5]), us(shown.cpuNanoseconds[6]), us(shown.cpuNanoseconds[7]));
+        if (settings.gpuPasses)
+        {
+            ImGui::Text("GPU us (1 s mean): frame %llu", static_cast<unsigned long long>(shown.gpuFrameMicroseconds));
+            for (const auto &[name, microseconds] : shown.gpuViews)
+            {
+                ImGui::Text("  %6llu  %s", static_cast<unsigned long long>(microseconds), name.c_str());
+            }
+        }
+        else
+        {
+            ImGui::TextUnformatted("GPU per pass: portals gpu on");
+        }
+        ImGui::Separator();
+        ImGui::TextUnformatted("sector  faces  in portals  triangles  batches  tiles  portals tested  of faces");
+        const size_t rows = std::min<size_t>(stats.sectors.size(), 12);
+        for (size_t index = 0; index < rows; ++index)
+        {
+            const IndoorPortalDebugSector &sector = stats.sectors[index];
+            const uint32_t abgr = indoorPortalDebugSectorColor(sector.sectorId);
+            ImGui::TextColored(ImVec4(float(abgr & 0xff) / 255.0f, float((abgr >> 8) & 0xff) / 255.0f,
+                float((abgr >> 16) & 0xff) / 255.0f, 1.0f), "%6d %6u %11u %10u %8u %6u %15u %9u",
+                int(sector.sectorId), sector.faces, sector.facesInPortals, sector.triangles, sector.batches,
+                sector.tileDraws, sector.portalsTested, sector.totalFaces);
+        }
+        if (stats.sectors.size() > rows)
+        {
+            ImGui::Text("... %zu more sectors", stats.sectors.size() - rows);
+        }
+    }
+    ImGui::End();
+    return true;
 }
 
 bool GameApplication::loadMawTestPartyCatalog(MawTestPartyCatalog &catalog, std::string &error) const
@@ -7658,6 +8167,8 @@ bool GameApplication::syncActorModels(IGameplayWorldRuntime &world, float deltaS
         return false;
     }
     worldFx.setActorAnimationLod(m_settings.modelLods);
+    worldFx.setAnimationTrace(world.actorAiTrace() == &m_aiArenaTrace && m_aiArenaTrace.recordsAnimation()
+        ? &m_aiArenaTrace : nullptr);
     const EventDialogContent &dialog = m_gameSession.gameplayScreenRuntime().activeEventDialog();
     const std::optional<size_t> dialogueActorIndex = dialog.isActive && dialog.sourceActorIndex
         ? std::optional<size_t>(*dialog.sourceActorIndex) : std::nullopt;
@@ -8188,6 +8699,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             ? actorAwareness.partyEngagementRange
             : GameplayActorService::MaximumPartyEngagementRange);
     m_gameSession.gameplayActorService().setMeleeVerticalReach(m_activeWorldManifest.actorCombat.meleeVerticalReach);
+    m_gameSession.gameplayActorService().setLevelRadiusLimit(m_activeWorldManifest.actorMovement.levelRadiusLimit);
     m_gameSession.setTavernHirelings(m_activeWorldManifest.tavernHirelings);
     m_gameSession.setWorldHum(m_activeWorldManifest.hum);
     m_gameSession.setWorldFloorBurn(m_activeWorldManifest.floorBurn);
@@ -8477,6 +8989,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
                 ? &selectedMap->indoorSpriteObjectBillboardSet->spriteFrameTable
                 : pIndoorActorSpriteFrameTable;
         renumberSavedLegacyCampFireDecorVars(m_gameSession, *selectedMap, party);
+        refreshSavedLegacyMm9PlacementProfiles(m_gameSession, *selectedMap);
         const int32_t currentMapDay = currentLocationDay(m_gameSession.gameMinutes());
         const IndoorSceneRuntime::Snapshot *pSavedIndoorState =
             findSavedIndoorSceneState(m_gameSession, *selectedMap);
@@ -8661,6 +9174,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
                 << '\n';
             return false;
         }
+        // MM9's outdoor regions as BLVs: the weather over the open sky (none for every other indoor map).
+        m_indoorRenderer.setOpenSkyWeather(selectedMap->outdoorWeatherProfile, &m_gameAudioSystem);
         timingLogger.stage("indoor renderer initialized");
 
         if (initializeView)
@@ -8732,6 +9247,7 @@ void GameApplication::bindPartyDependencies(Party &party) const
     party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
     party.setClassMultiplierTable(&data.classMultiplierTable());
     party.setClassSkillTable(&data.classSkillTable());
+    party.setTrainerDirectory(&data.trainerDirectory());
 }
 
 void GameApplication::synchronizeActiveReputationToParty()
@@ -9861,7 +10377,23 @@ void GameApplication::updateDoubleSpeedInput()
 
 float GameApplication::gameplayDeltaSeconds(float deltaSeconds) const
 {
-    return m_doubleSpeedActive ? deltaSeconds * 2.0f : deltaSeconds;
+    float speed = m_doubleSpeedActive ? 2.0f : 1.0f;
+
+    switch (m_gameSession.turnBasedCombatRuntime().speedPhase())
+    {
+        case TurnBasedSpeedPhase::Monsters:
+            speed *= m_settings.turnBasedMonsterSpeed;
+            break;
+
+        case TurnBasedSpeedPhase::Party:
+            speed *= m_settings.turnBasedPartySpeed;
+            break;
+
+        case TurnBasedSpeedPhase::None:
+            break;
+    }
+
+    return deltaSeconds * speed;
 }
 
 void GameApplication::updateGameplayTraceSnapshotHotkeys()
@@ -11525,7 +12057,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         return;
     }
 
-    if (processPendingWinGame())
+    if (processPendingCompletionCertificate())
     {
         if (IScreen *pActiveScreen = m_screenManager.activeScreen())
         {
@@ -11637,6 +12169,12 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
     IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
 
+    // Placed ambient sounds play only while a map runs (devdocs/AMBIENT_SOUNDS.md).
+    if (pWorldRuntime == nullptr || m_pMapSceneRuntime == nullptr || !selectedMap)
+    {
+        m_worldAmbientSounds.stopAll(m_gameAudioSystem);
+    }
+
     if (pWorldRuntime != nullptr && m_pMapSceneRuntime != nullptr && selectedMap)
     {
         const GameplaySharedInputFrameResult &sharedInput = m_gameSession.sharedInputFrameResult();
@@ -11688,6 +12226,12 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
             worldFx,
             *m_pAssetFileSystem);
         m_gameSession.consumePendingGameplayAudioRequests();
+        m_worldAmbientSounds.update(
+            m_gameAudioSystem,
+            pWorldRuntime->ambientSounds(),
+            {pWorldRuntime->partyX(), pWorldRuntime->partyY(), pWorldRuntime->partyFootZ() + AmbientSoundListenerHeight},
+            pWorldRuntime->gameMinutes(),
+            gameplayWorldPaused ? 0.0f : scaledGameplayDeltaSeconds);
         recordFrameDiagnostics(m_framePerformanceDiagnostics.postWorldNanoseconds, postWorldBeginTickCount);
         const uint64_t renderWorldBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
         const float worldRenderDeltaSeconds = gameplayWorldPaused ? deltaSeconds : scaledGameplayDeltaSeconds;
@@ -11695,6 +12239,9 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
             m_settings.ambientOcclusion, m_settings.ambientOcclusionStrength, m_settings.sharpening,
             m_settings.antialiasing, m_settings.bloom, m_settings.bloomStrength,
             m_settings.surfaceMaterials && m_settings.surfaceReflections);
+        // A screenshot tour holds gameplay; the indoor renderer's own simulation step must not run the clock,
+        // timers or face triggers under it either (outdoors the world has no such step).
+        m_indoorRenderer.setWorldTimeHeld(screenshotTourActive);
         pWorldRuntime->renderWorld(width, height, m_gameInputSystem.frame(), worldRenderDeltaSeconds);
         m_cinematicGrading.submit();
         recordFrameDiagnostics(m_framePerformanceDiagnostics.renderWorldNanoseconds, renderWorldBeginTickCount);
@@ -11778,7 +12325,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         recordFrameDiagnostics(m_framePerformanceDiagnostics.audioNanoseconds, audioBeginTickCount);
         const uint64_t postAudioBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
 
-        if (processPendingWinGame())
+        if (processPendingCompletionCertificate())
         {
             recordFrameDiagnostics(m_framePerformanceDiagnostics.postWorldNanoseconds, postAudioBeginTickCount);
             const uint64_t debugConsoleRenderBeginTickCount = collectFrameDiagnostics ? SDL_GetTicksNS() : 0;
@@ -11909,6 +12456,16 @@ void GameApplication::updateScreenshotCaptureFrame()
                   << " success=" << spawned << '\n';
     }
 
+    if (!m_debugLaunchAiArenaApplied && !m_settings.aiArenaPath.empty())
+    {
+        m_debugLaunchAiArenaApplied = true;
+        std::string message;
+        const bool applied = loadAndApplyAiArena(m_settings.aiArenaPath, message);
+        std::cout << "AI arena: " << message << std::endl;
+        m_debugConsole.addMessage(
+            applied ? DebugConsole::MessageKind::Success : DebugConsole::MessageKind::Error, message);
+    }
+
     if (!m_debugLaunchModelSpawned && !m_settings.modelSpawnPath.empty())
     {
         WorldFxSystem &worldFx = m_pMapSceneRuntime->kind() == SceneKind::Outdoor
@@ -11994,17 +12551,32 @@ void GameApplication::updateScreenshotCaptureFrame()
         }
     }
 
+    // The delayed capture, or a burst of them (screenshot_burst_count) one interval apart.
+    const uint32_t burstCount = std::max(m_settings.screenshotBurstCount, 1u);
     if (!m_settings.screenshotPath.empty()
-        && !m_screenshotScheduledCaptureFired
-        && SDL_GetTicks() - m_screenshotGameplayStartTicks
-            >= static_cast<uint32_t>(m_settings.screenshotDelaySeconds * 1000.0f))
+        && m_screenshotScheduledCaptures < burstCount
+        && float(SDL_GetTicks() - m_screenshotGameplayStartTicks) >= m_settings.screenshotDelaySeconds * 1000.0f
+            + float(m_screenshotScheduledCaptures) * m_settings.screenshotBurstIntervalMs)
     {
-        m_screenshotScheduledCaptureFired = true;
-        m_screenshotCaptureService.requestCapture(
-            std::filesystem::path(m_settings.screenshotPath),
-            [this](bool success, const std::string &message)
+        std::filesystem::path outputPath(m_settings.screenshotPath);
+        std::string note;
+        if (burstCount > 1)
+        {
+            char index[16] = {};
+            std::snprintf(index, sizeof(index), "_%03u", m_screenshotScheduledCaptures);
+            outputPath.replace_filename(outputPath.stem().string() + index + outputPath.extension().string());
+            // The arena's trace clock, to match a frame with its trace lines.
+            if (m_aiArena)
             {
-                std::cout << "Screenshot: " << message << std::endl;
+                note = " (trace t=" + std::to_string(m_aiArenaTrace.timeSeconds()) + ")";
+            }
+        }
+        ++m_screenshotScheduledCaptures;
+        m_screenshotCaptureService.requestCapture(
+            outputPath,
+            [this, note](bool success, const std::string &message)
+            {
+                std::cout << "Screenshot: " << message << note << std::endl;
                 m_debugConsole.addMessage(
                     success ? DebugConsole::MessageKind::Success : DebugConsole::MessageKind::Error,
                     message);
@@ -12143,6 +12715,98 @@ void GameApplication::runTourConsoleLine(const std::string &line, std::string_vi
     }
 }
 
+bool GameApplication::applyAiArena(const AiArena &arena, const std::filesystem::path &logPath, std::string &error)
+{
+    IGameplayWorldRuntime *pWorld = m_gameSession.activeWorldRuntime();
+
+    if (m_pMapSceneRuntime == nullptr || pWorld == nullptr)
+    {
+        error = "no map is loaded";
+        return false;
+    }
+
+    const std::string currentMap = m_pMapSceneRuntime->currentMapFileName();
+
+    if (toLowerCopy(currentMap) != toLowerCopy(arena.map))
+    {
+        error = "the arena plays on " + arena.map + " but " + currentMap + " is loaded (launch with --map "
+            + arena.map + ")";
+        return false;
+    }
+
+    if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor && m_pOutdoorPartyRuntime != nullptr)
+    {
+        m_pOutdoorPartyRuntime->teleportTo(arena.party.x, arena.party.y, arena.party.z);
+        m_outdoorGameView.syncCameraToParty();
+        m_outdoorGameView.setCameraAngles(arena.party.yawRadians, arena.party.pitchRadians);
+    }
+    else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
+    {
+        IndoorSceneRuntime *pIndoorRuntime = static_cast<IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
+        pIndoorRuntime->partyRuntime().teleportPartyPosition(arena.party.x, arena.party.y, arena.party.z);
+        const IndoorMoveState &moveState = pIndoorRuntime->partyRuntime().movementState();
+        m_indoorRenderer.setCameraPosition(moveState.x, moveState.y, moveState.eyeZ());
+        m_indoorRenderer.setCameraAngles(arena.party.yawRadians, arena.party.pitchRadians);
+    }
+
+    synchronizeSessionFromRuntime();
+    Party &party = m_pMapSceneRuntime->party();
+
+    while (arena.party.members && party.members().size() > *arena.party.members)
+    {
+        if (!party.dismissMemberToAdventurersInn(party.members().size() - 1))
+        {
+            break;
+        }
+    }
+
+    // The Immortal cheat's immunity; the next settings change sets it from the cheat again.
+    party.setDebugDamageImmune(arena.party.invulnerable || m_settings.immortal);
+
+    if (!applyAiArenaActors(arena, *pWorld, m_aiArenaTrace, m_aiArenaActorIndices, error))
+    {
+        return false;
+    }
+
+    if (logPath.empty())
+    {
+        m_aiArenaTrace.closeLog();
+    }
+    else if (!m_aiArenaTrace.openLog(logPath, error))
+    {
+        return false;
+    }
+
+    m_aiArena = arena;
+    return true;
+}
+
+bool GameApplication::loadAndApplyAiArena(const std::filesystem::path &arenaPath, std::string &message)
+{
+    std::optional<AiArena> arena = loadAiArena(arenaPath, message);
+
+    if (!arena)
+    {
+        return false;
+    }
+
+    // Next to the run's log: the working directory (an isolated run's own folder).
+    std::error_code errorCode;
+    const std::filesystem::path logPath = std::filesystem::absolute("ai_trace.log", errorCode);
+
+    if (!applyAiArena(*arena, logPath, message))
+    {
+        message = "arena " + arenaPath.string() + ": " + message;
+        return false;
+    }
+
+    message = "arena '" + arena->name + "' on " + arena->map + ": " + std::to_string(arena->monsters.size())
+        + " monsters (actors " + (m_aiArenaActorIndices.empty() ? std::string("none")
+            : std::to_string(m_aiArenaActorIndices.front()) + "-" + std::to_string(m_aiArenaActorIndices.back()))
+        + "), trace log " + m_aiArenaTrace.logPath().string();
+    return true;
+}
+
 bool GameApplication::applyScreenshotTourShotPose(const ScreenshotTourShot &shot)
 {
     if (m_pMapSceneRuntime == nullptr)
@@ -12150,9 +12814,16 @@ bool GameApplication::applyScreenshotTourShotPose(const ScreenshotTourShot &shot
         return false;
     }
 
-    if (shot.clockMinutes && !setDebugClockMinute(*shot.clockMinutes))
+    if (shot.clockMinutes)
     {
-        return false;
+        // A tour's clock is a viewpoint setting: its jumps (a day each time the clock wraps past the next shot's time)
+        // must not count as days without rest, which weaken, starve and in the end kill the party.
+        m_pMapSceneRuntime->party().clearDaysWithoutRest();
+
+        if (!setDebugClockMinute(*shot.clockMinutes))
+        {
+            return false;
+        }
     }
 
     for (const std::string &command : shot.commands)
@@ -12529,6 +13200,7 @@ void GameApplication::closeTransientGameplayUiForMapMove()
     m_gameAudioSystem.resumeBackgroundMusic();
     screenRuntime.stopHouseVideoPlayback();
     screenRuntime.closeHouseShopOverlay();
+    screenRuntime.closeTransportSchedule();
     screenRuntime.closeInventoryNestedOverlay();
     screenRuntime.closeActiveDialogForMapMove();
     screenRuntime.resetLootOverlayInteractionState();
@@ -12664,78 +13336,83 @@ bool GameApplication::executeCurrentMapOnLeaveEvents()
         m_pMapSceneRuntime->sceneEventContext());
 }
 
-WinGameCertificate GameApplication::buildWinGameCertificate() const
+bool GameApplication::processPendingCompletionCertificate()
 {
-    WinGameCertificate certificate = {};
-    const Party *pParty = nullptr;
-
-    if (m_pMapSceneRuntime != nullptr)
+    if (m_pAssetFileSystem == nullptr || m_pMapSceneRuntime == nullptr || m_screenManager.activeScreen() != nullptr)
     {
-        pParty = &m_pMapSceneRuntime->party();
+        return false;
     }
-    else if (m_gameSession.partyState().has_value())
+
+    // A story's ending movie plays before its certificate.
+    const EventRuntimeState *pRuntimeState = m_gameplayController.eventRuntimeState();
+
+    if (pRuntimeState != nullptr && (pRuntimeState->pendingMovie || pRuntimeState->pendingReturnToMainMenu))
     {
-        pParty = &*m_gameSession.partyState();
+        return false;
     }
 
     const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
-    const float currentGameMinutes = pWorldRuntime != nullptr ? pWorldRuntime->gameMinutes() : 9.0f * 60.0f;
 
-    if (pParty != nullptr)
-    {
-        certificate.characterLine = winGameCharacterLine(*pParty);
-        certificate.scoreLine = "Your score: " + std::to_string(calculateWinGameScore(*pParty, currentGameMinutes));
-    }
-    else
-    {
-        certificate.characterLine = "Adventurer the Level 1 Adventurer";
-        certificate.scoreLine = "Your score: 0";
-    }
-
-    certificate.endingText =
-        "Excellent work! By thwarting the Destroyer of Worlds, you have pulled your world from the brink of "
-        "unending oblivion. Not only may life continue, but a new peace reigns over Jadame. The mighty alliance "
-        "you forged will see to the land's restoration and eventual prosperity.";
-    certificate.totalTimeLine = formatWinGameDuration(currentGameMinutes);
-    return certificate;
-}
-
-bool GameApplication::processPendingWinGame()
-{
-    if (m_pAssetFileSystem == nullptr || m_screenManager.activeScreen() != nullptr)
+    if (pWorldRuntime == nullptr)
     {
         return false;
     }
 
-    EventRuntimeState *pRuntimeState = m_gameplayController.eventRuntimeState();
+    if (!m_completionCertificatesLoaded)
+    {
+        m_completionCertificatesLoaded = true;
+        std::string error;
 
-    if (pRuntimeState == nullptr || !pRuntimeState->pendingWinGame.has_value())
+        if (!loadCompletionCertificates(*m_pAssetFileSystem, m_completionCertificates, error))
+        {
+            std::cerr << "Completion certificates: " << error << '\n';
+        }
+    }
+
+    Party &party = m_pMapSceneRuntime->party();
+    const int64_t now = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    for (const std::string &id : recordNewCompletions(party, m_completionCertificates, pWorldRuntime->gameMinutes(), now))
+    {
+        m_pendingCompletionCertificateIds.push_back(id);
+    }
+
+    if (m_pendingCompletionCertificateIds.empty())
     {
         return false;
     }
 
-    pRuntimeState->pendingWinGame.reset();
+    const std::string id = m_pendingCompletionCertificateIds.front();
+    m_pendingCompletionCertificateIds.erase(m_pendingCompletionCertificateIds.begin());
+    const auto definition = std::find_if(
+        m_completionCertificates.begin(),
+        m_completionCertificates.end(),
+        [&id](const CompletionCertificateDefinition &candidate)
+        {
+            return candidate.id == id;
+        });
+
+    if (definition == m_completionCertificates.end())
+    {
+        return false;
+    }
+
+    CompletionCertificate certificate = buildCompletionCertificate(*definition, m_completionCertificates, party);
+    const RulesetSelection &ruleset = m_gameSession.ruleset();
+
+    if (!ruleset.isStandard())
+    {
+        std::string error;
+        const std::optional<RulesetDefinition> rulesetDefinition =
+            loadRulesetDefinition(*m_pAssetFileSystem, ruleset.id, error);
+        certificate.rulesetLabel = certificateRulesetLabel(ruleset, rulesetDefinition ? rulesetDefinition->name : "");
+    }
+
     m_gameSession.gameplayScreenRuntime().closeActiveEventDialog();
-    m_pendingWinGameCertificateAfterMovie = true;
-
-    if (resolveEventMovieStem(*m_pAssetFileSystem, WinGameCutsceneStem).empty())
-    {
-        std::unique_ptr<WinGameScreen> pScreen = std::make_unique<WinGameScreen>(
-            *m_pAssetFileSystem,
-            buildWinGameCertificate(),
-            m_screenManager.currentMode());
-        m_screenManager.setActiveScreen(std::move(pScreen));
-        m_pendingWinGameCertificateAfterMovie = false;
-        return true;
-    }
-
-    std::unique_ptr<CutsceneVideoScreen> pScreen = std::make_unique<CutsceneVideoScreen>(
-        *m_pAssetFileSystem,
-        &m_gameAudioSystem,
-        EventMovieCutsceneDirectory,
-        WinGameCutsceneStem,
-        m_screenManager.currentMode());
-    m_screenManager.setActiveScreen(std::move(pScreen));
+    m_gameInputSystem.suppressMouseButtonsUntilReleased();
+    m_screenManager.setActiveScreen(std::make_unique<WinGameScreen>(
+        *m_pAssetFileSystem, certificate, m_screenManager.currentMode()));
     return true;
 }
 
@@ -12789,8 +13466,7 @@ bool GameApplication::processPendingReturnToMainMenu()
 
     if (pRuntimeState == nullptr
         || !pRuntimeState->pendingReturnToMainMenu
-        || pRuntimeState->pendingMovie.has_value()
-        || pRuntimeState->pendingWinGame.has_value())
+        || pRuntimeState->pendingMovie.has_value())
     {
         return false;
     }
@@ -12870,18 +13546,6 @@ void GameApplication::handleCompletedEventMovieScreen()
         return;
     }
 
-    if (m_pendingWinGameCertificateAfterMovie && m_pAssetFileSystem != nullptr)
-    {
-        m_gameInputSystem.suppressMouseButtonsUntilReleased();
-        std::unique_ptr<WinGameScreen> pScreen = std::make_unique<WinGameScreen>(
-            *m_pAssetFileSystem,
-            buildWinGameCertificate(),
-            pCutsceneScreen->mode());
-        m_screenManager.setActiveScreen(std::move(pScreen));
-        m_pendingWinGameCertificateAfterMovie = false;
-        return;
-    }
-
     EventRuntimeState *pRuntimeState = m_gameplayController.eventRuntimeState();
 
     if (pRuntimeState != nullptr && pRuntimeState->pendingReturnToMainMenu)
@@ -12903,12 +13567,58 @@ void GameApplication::handleCompletedWinGameScreen()
 {
     WinGameScreen *pWinGameScreen = dynamic_cast<WinGameScreen *>(m_screenManager.activeScreen());
 
-    if (pWinGameScreen == nullptr || !pWinGameScreen->shouldClose())
+    if (pWinGameScreen == nullptr)
     {
         return;
     }
 
+    if (const std::optional<ScreenshotCaptureService::Region> region = pWinGameScreen->takeCaptureRegion())
+    {
+        saveCompletionCertificateImage(pWinGameScreen->certificate().id, *region);
+    }
+
+    if (!pWinGameScreen->shouldClose())
+    {
+        return;
+    }
+
+    m_gameInputSystem.suppressMouseButtonsUntilReleased();
     m_screenManager.setActiveScreen(nullptr);
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.updatePreviousKeyboardStateSnapshot(m_gameInputSystem.frame().keyboardState());
+    screenRuntime.interactionState().menuToggleLatch = true;
+}
+
+void GameApplication::saveCompletionCertificateImage(
+    const std::string &certificateId,
+    const ScreenshotCaptureService::Region &region)
+{
+    const std::time_t timestamp = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::string stamp = "undated";
+
+    if (const std::tm *pLocal = std::localtime(&timestamp))
+    {
+        std::ostringstream formatted;
+        formatted << std::put_time(pLocal, "%Y-%m-%d_%H-%M-%S");
+        stamp = formatted.str();
+    }
+
+    // The user data folder is the working directory (UserDataPaths.h), so certificates sit beside saves.
+    const std::filesystem::path path =
+        std::filesystem::path(CompletionCertificateDirectory) / ("openyamm_" + certificateId + "_" + stamp + ".png");
+    m_screenshotCaptureService.requestCapture(
+        path,
+        [this](bool success, const std::string &message)
+        {
+            std::cout << "Completion certificate: " << message << std::endl;
+
+            if (success)
+            {
+                m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
+                    "Certificate saved in the certificates folder", 6.0f);
+            }
+        },
+        region);
 }
 
 bool GameApplication::shouldTriggerPartyDefeat() const

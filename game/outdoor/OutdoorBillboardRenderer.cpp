@@ -348,6 +348,18 @@ bool projectWorldPointToScreenForKeyboardCache(
     float &screenX,
     float &screenY)
 {
+    const float clipW =
+        worldPoint.x * pViewProjectionMatrix[3]
+        + worldPoint.y * pViewProjectionMatrix[7]
+        + worldPoint.z * pViewProjectionMatrix[11]
+        + pViewProjectionMatrix[15];
+
+    // Behind the camera a point projects mirrored onto the screen.
+    if (clipW <= 0.0f)
+    {
+        return false;
+    }
+
     const bx::Vec3 projectedPoint = bx::mulH(worldPoint, pViewProjectionMatrix);
 
     if (!std::isfinite(projectedPoint.x)
@@ -362,7 +374,8 @@ bool projectWorldPointToScreenForKeyboardCache(
     return std::isfinite(screenX) && std::isfinite(screenY);
 }
 
-// Screen rect of world points, when every one projects.
+// Screen rect of world points, when every one projects and their middle is on screen: a target only its edge shows
+// (a model's bounds poking in at the side of the view) is not one.
 template <size_t PointCount>
 bool projectVisiblePointsRect(
     const std::array<bx::Vec3, PointCount> &points,
@@ -396,6 +409,17 @@ bool projectVisiblePointsRect(
         maxX = std::max(maxX, projectedX);
         minY = std::min(minY, projectedY);
         maxY = std::max(maxY, projectedY);
+    }
+
+    const float centerX = (minX + maxX) * 0.5f;
+    const float centerY = (minY + maxY) * 0.5f;
+
+    if (centerX < 0.0f
+        || centerX > static_cast<float>(viewWidth)
+        || centerY < 0.0f
+        || centerY > static_cast<float>(viewHeight))
+    {
+        return false;
     }
 
     rect.left = std::clamp(minX, 0.0f, static_cast<float>(viewWidth - 1));

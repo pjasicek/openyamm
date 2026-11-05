@@ -215,6 +215,10 @@ bool applyRulesetOptionIds(std::string_view ids, RulesetOptions &options)
         {
             options.preferences.friendlyFire = true;
         }
+        else if (id == "nobow" || id == "bow")
+        {
+            options.preferences.bowDisabled = id == "nobow";
+        }
         else
         {
             return false;

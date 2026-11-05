@@ -190,6 +190,39 @@ TEST_CASE("invert mouse Y defaults off and persists menu changes")
     std::filesystem::remove(path);
 }
 
+TEST_CASE("repeated voice line interval defaults off, validates its steps and persists")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-repeated-voice-settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.repeatedVoiceLineIntervalMs == 0);
+    CHECK(menuSettingValue(settings, "repeated_voice_lines") == "0");
+
+    for (const std::string value : {"500", "1000", "2000", "3000", "5000", "10000", "0"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "repeated_voice_lines", value));
+        CHECK(menuSettingValue(settings, "repeated_voice_lines") == value);
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+        CHECK(menuSettingValue(*loaded, "repeated_voice_lines") == value);
+    }
+
+    CHECK_FALSE(setMenuSettingValue(settings, "repeated_voice_lines", "750"));
+    CHECK_FALSE(setMenuSettingValue(settings, "repeated_voice_lines", "off"));
+    CHECK(settings.repeatedVoiceLineIntervalMs == 0);
+
+    {
+        std::ofstream file(path);
+        file << "[audio]\nrepeated_voice_line_interval_ms=1800\n";
+    }
+    const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+    REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+    CHECK(loaded->repeatedVoiceLineIntervalMs == 1800);
+    CHECK(menuSettingValue(*loaded, "repeated_voice_lines") == "2000");
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("enemy health menu settings validate modes and preserve other options")
 {
     GameSettings settings = GameSettings::createDefault();

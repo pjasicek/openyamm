@@ -322,9 +322,18 @@ void buildRankTree(const std::vector<TerrainDecorationInstance> &placed, bool st
 std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
     const Engine::AssetFileSystem &assets, const OutdoorMapData &map, std::string &error)
 {
+    return loadTerrainDecorationConfigFile(assets,
+        "worlds/" + map.worldId + "/terrain_decorations/" + std::filesystem::path(map.fileName).stem().string()
+            + ".yml",
+        error);
+}
+
+std::optional<TerrainDecorationConfig> loadTerrainDecorationConfigFile(
+    const Engine::AssetFileSystem &assets, const std::string &path, std::string &error)
+{
     error.clear();
-    const std::string directory = "worlds/" + map.worldId + "/terrain_decorations/";
-    const std::string path = directory + std::filesystem::path(map.fileName).stem().string() + ".yml";
+    // Its family file, masks and tuft atlas are beside it.
+    const std::string directory = path.substr(0, path.find_last_of('/') + 1);
     const std::optional<std::string> text = assets.readTextFile(path);
     if (!text)
     {
@@ -1129,6 +1138,144 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
         buildRankTree(clumps, false, true, config.lod.maxScale, lean, result);
     }
     placeBushes(map, config, meadowField, modelBounds, terrainSmoothing, grassGrows, result.bushes);
+    return result;
+}
+
+TerrainDecorationPlacement scatterTerrainDecorationsOnSurface(
+    const std::vector<TerrainDecorationSurfaceTriangle> &triangles,
+    const std::function<float(float x, float y)> &density, const TerrainDecorationConfig &config)
+{
+    TerrainDecorationPlacement result;
+    const auto ruleIt = std::find_if(config.rules.begin(), config.rules.end(),
+        [](const TerrainDecorationRule &rule) { return !rule.stone; });
+    if (ruleIt == config.rules.end() || !density)
+    {
+        return result;
+    }
+    const TerrainDecorationRule &rule = *ruleIt;
+    const std::vector<TerrainDecorationVariant> &variants = rule.variants.empty() ? config.tuftVariants : rule.variants;
+    // An outdoor rule's candidates are per 512 x 512 cell.
+    const float candidatesPerArea = float(rule.candidates) / (512.0f * 512.0f);
+    const float maximumDensity = std::max(rule.density * (1.0f + config.densityVariation), 0.0001f);
+    std::vector<TerrainDecorationInstance> placed;
+    for (size_t index = 0; index < triangles.size(); ++index)
+    {
+        const TerrainDecorationSurfaceTriangle &triangle = triangles[index];
+        const std::array<float, 3> &normal = triangle.normal;
+        if (normal[2] < config.minimumNormalZ - 0.1f)
+        {
+            continue;
+        }
+        const std::array<float, 3> &p0 = triangle.points[0];
+        const std::array<float, 3> edgeA = {triangle.points[1][0] - p0[0], triangle.points[1][1] - p0[1],
+            triangle.points[1][2] - p0[2]};
+        const std::array<float, 3> edgeB = {triangle.points[2][0] - p0[0], triangle.points[2][1] - p0[1],
+            triangle.points[2][2] - p0[2]};
+        const float crossX = edgeA[1] * edgeB[2] - edgeA[2] * edgeB[1];
+        const float crossY = edgeA[2] * edgeB[0] - edgeA[0] * edgeB[2];
+        const float crossZ = edgeA[0] * edgeB[1] - edgeA[1] * edgeB[0];
+        const float area = 0.5f * std::sqrt(crossX * crossX + crossY * crossY + crossZ * crossZ);
+        if (!(area > 0.0f))
+        {
+            continue;
+        }
+        uint32_t state = hash(config.seed ^ (uint32_t(index) * 0x9e3779b9u));
+        const float expected = area * candidatesPerArea * maximumDensity;
+        int attempts = int(std::floor(expected));
+        if (randomUnit(state) < expected - float(attempts))
+        {
+            ++attempts;
+        }
+        for (int attempt = 0; attempt < attempts; ++attempt)
+        {
+            float a = randomUnit(state);
+            float b = randomUnit(state);
+            if (a + b > 1.0f)
+            {
+                a = 1.0f - a;
+                b = 1.0f - b;
+            }
+            const float px = p0[0] + edgeA[0] * a + edgeB[0] * b;
+            const float py = p0[1] + edgeA[1] * a + edgeB[1] * b;
+            const float pz = p0[2] + edgeA[2] * a + edgeB[2] * b;
+            const float scale = 0.7f + 0.6f * randomUnit(state);
+            const float yaw = randomUnit(state) * 6.2831853f;
+            const float shade = 0.9f + 0.15f * randomUnit(state);
+            const float noise = patchNoise(px / config.patchSize, py / config.patchSize, config.seed);
+            const float wanted = std::clamp(density(px, py), 0.0f, 1.0f) * rule.density
+                * (1.0f + config.densityVariation * (2.0f * noise - 1.0f));
+            uint32_t detailState = hash(state ^ 0x9a372f51u);
+            if (randomUnit(detailState) >= wanted / maximumDensity)
+            {
+                continue;
+            }
+            // Plants thin out over the last 0.1 of the normal before the steepest ground they take.
+            uint32_t slopeState = hash(state ^ 0x3c6ef372u);
+            if (randomUnit(slopeState) >= smoothUnit((normal[2] - config.minimumNormalZ) / 0.1f))
+            {
+                continue;
+            }
+            uint32_t flowerState = hash(state ^ 0x27d4eb2fu);
+            bool flower = false;
+            if (rule.flowers && !config.flowers.variants.empty())
+            {
+                const float threshold = 1.0f - config.flowers.coverage;
+                const float cluster = patchNoise(px / config.flowers.clusterSize, py / config.flowers.clusterSize,
+                    config.seed ^ 0x2545f491u);
+                flower = cluster > threshold && randomUnit(flowerState)
+                    < config.flowers.chance * smoothUnit((cluster - threshold) / 0.08f);
+            }
+            float tallChance = 0.0f;
+            if (!rule.tallVariants.empty() && config.tallGrassChance > 0.0f)
+            {
+                tallChance = 0.7f * smoothUnit((noise - (0.93f - 1.2f * config.tallGrassChance)) / 0.05f);
+            }
+            else if (rule.tallVariants.empty())
+            {
+                tallChance = config.tallGrassChance * 2.0f * smoothUnit((noise - 0.35f) / 0.4f);
+            }
+            const bool tall = !flower && randomUnit(detailState) < tallChance;
+            uint32_t variantState = hash(state ^ 0x85ebca6bu);
+            const std::vector<TerrainDecorationVariant> *pChoices = &variants;
+            float choice = randomUnit(variantState);
+            std::array<float, 3> tint = rule.tint;
+            if (flower)
+            {
+                pChoices = &config.flowers.variants;
+                choice = std::clamp(patchNoise(px / (config.flowers.clusterSize * 1.7f),
+                    py / (config.flowers.clusterSize * 1.7f), config.seed ^ 0x68e31da4u), 0.0f, 0.999f);
+                tint = config.flowers.tint;
+            }
+            else if (tall && !rule.tallVariants.empty())
+            {
+                pChoices = &rule.tallVariants;
+            }
+            const size_t choiceIndex = chooseVariant(*pChoices, choice);
+            const TerrainDecorationVariant &variant = (*pChoices)[choiceIndex];
+            const float heightScale = tall && pChoices == &variants
+                ? std::max(variant.heightScale, config.tallGrassScale) : variant.heightScale;
+            const size_t layer = variant.layer >= 0 ? size_t(variant.layer) : choiceIndex;
+            uint32_t rankState = hash(state ^ 0xc2b2ae35u);
+            placed.push_back({{px, py, pz - 3.0f, yaw},
+                {rule.width * scale * variant.widthScale, rule.height * scale * heightScale, rule.windStrength,
+                 randomUnit(rankState)},
+                tinted(tint, shade, {1.0f, 1.0f, 1.0f}), {normal[0], normal[1], normal[2], float(layer)}});
+        }
+    }
+    // Clump layers get their own tree: they draw with the clump mesh (as scatterTerrainDecorations).
+    std::vector<TerrainDecorationInstance> clumps;
+    std::erase_if(placed, [&](const TerrainDecorationInstance &instance)
+    {
+        const bool clump = (config.clump.layerMask >> uint32_t(instance.groundNormal[3])) & 1u;
+        if (clump)
+        {
+            clumps.push_back(instance);
+        }
+        return clump;
+    });
+    buildRankTree(placed, false, false, config.lod.maxScale, 0.0f, result);
+    const float lean = std::sin(config.clump.leanDegrees * 0.017453293f) * config.clump.cardScale + 0.1f;
+    buildRankTree(clumps, false, true, config.lod.maxScale, lean, result);
     return result;
 }
 

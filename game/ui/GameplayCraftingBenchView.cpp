@@ -236,9 +236,10 @@ std::optional<GameplayCraftingBenchModel> GameplayCraftingBenchView::buildModel(
     {
         const CraftItemRef &target = model.targets[*model.selectedTarget].ref;
         const CraftMaterialKey &material = model.materials[*model.selectedMaterial].key;
-        model.step = CraftingRuntime::plan(*pParty, target, material, 1, false, craftingRules, *craftingTables);
+        model.step =
+            CraftingRuntime::plan(*pParty, target, material, 1, false, state.choice, craftingRules, *craftingTables);
         model.batch = CraftingRuntime::plan(*pParty, target, material, MaxBatchApplications, state.cheapestGems,
-            craftingRules, *craftingTables);
+            state.choice, craftingRules, *craftingTables);
     }
 
     if (model.selectedMaterial && craftingRules.gemTier(model.materials[*model.selectedMaterial].key.itemId) > 0)
@@ -319,6 +320,28 @@ std::vector<GameplayCraftingBenchCellRect> GameplayCraftingBenchView::visibleCel
             IngredientCellWidth * grid.scale,
             IngredientCellHeight * grid.scale,
             grid.scale}});
+    }
+
+    return rects;
+}
+
+std::vector<GameplayCraftingBenchChoiceRect> GameplayCraftingBenchView::choiceRows(
+    const GameplayCraftingBenchModel &model,
+    const GameplayResolvedHudLayoutElement &compare)
+{
+    std::vector<GameplayCraftingBenchChoiceRect> rects;
+
+    if (!model.step || !model.step->result.possible)
+    {
+        return rects;
+    }
+
+    const float s = compare.scale;
+
+    for (size_t index = 0; index < model.step->result.choices.size(); ++index)
+    {
+        rects.push_back({index, {compare.x, compare.y + (ChoicePromptHeight + float(index) * ChoiceRowHeight) * s,
+            compare.width, ChoiceRowHeight * s, s}});
     }
 
     return rects;

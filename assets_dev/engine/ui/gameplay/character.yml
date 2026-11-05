@@ -1565,6 +1565,113 @@ elements:
       notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): the same for an alchemy bag (ours): potions, bottles
         and reagents picked up from the ground. Selected while the open bag is one; the potion icon is drawn by the
         renderer.'
+    - id: CharacterInventoryTab1
+      anchor: top_left
+      offset_x: 368
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'I'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW, a party of one (five tabs of four bags, ItemRules::bagCount 20; user, 2026-11-04): shows tab I, the
+        same bag of it as of the tab before; selected while it shows. Shift+1 does the same. Hidden in a party, whose
+        member keeps the other tabs until alone again; the item search then starts after the tab buttons.'
+    - id: CharacterInventoryTab2
+      anchor: top_left
+      offset_x: 394
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'II'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab II (Shift+2).'
+    - id: CharacterInventoryTab3
+      anchor: top_left
+      offset_x: 420
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'III'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab III (Shift+3).'
+    - id: CharacterInventoryTab4
+      anchor: top_left
+      offset_x: 446
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'IV'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab IV (Shift+4).'
+    - id: CharacterInventoryTab5
+      anchor: top_left
+      offset_x: 472
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'V'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As CharacterInventoryTab1, for tab V (Shift+5).'
     - id: CharacterInventorySearch
       anchor: top_left
       offset_x: 368

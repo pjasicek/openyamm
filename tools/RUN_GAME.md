@@ -58,6 +58,51 @@ use `--set video.ambient_occlusion=true` and optionally `--set video.ambient_occ
 It defaults to disabled; disabling it or setting strength to zero removes its render targets and GPU passes.
 It works independently of cinematic grading and applies to opaque world geometry and 3D models.
 
+## Indoor portal view
+
+The debug console's `portals` command shows how an indoor map (any BLV: MM6–MM8 dungeons, MM9 cities) is drawn: its
+portal faces, the sectors drawn this frame, and a readout of counts and timings. It is off at launch and never saved;
+while off the renderer only tests one flag per frame. Code: `game/indoor/IndoorRendererPortalDebug.cpp`,
+`IndoorPortalDebugView.h`.
+
+| Command | Effect |
+| --- | --- |
+| `portals on` / `portals off` | Portal faces (all), sector outlines and the readout together / everything off |
+| `portals faces all\|traversed\|off` | Portal faces as translucent cyan; `all` shows every portal and brightens the ones traversed this frame, `traversed` only those (with cyan edges) |
+| `portals sectors on\|off\|toggle` | The faces of the sectors drawn this frame outlined in a colour per sector, with each sector's id at the portals it was entered through |
+| `portals readout on\|off\|toggle` | The on-screen readout (top left) |
+| `portals gpu on\|off\|toggle` | Decorations, actors, open sky and translucent/effects each in its own bgfx view (220–223) with the bgfx profiler on, so the readout lists each pass's GPU time; transparencies then draw before ambient occlusion |
+| `portals rebuild on\|off\|toggle` | Rebuild the portal visibility every frame, as walking does (a still camera reuses the last build) |
+| `portals log on\|off\|toggle` | One `[PortalView]` line per second in the log: the counts below, the 1-second mean timings and every view's GPU time (`gpu_view[<id>_<name>]`) |
+| `portals tile <units>` | Cell size of the tile estimate (default 1024) |
+| `portals stats` | This frame's counts as one line in the console |
+| `portals map` | One `[PortalViewSector]` line per sector: faces, drawn faces, portal faces and links, open to the sky, bounds |
+
+The readout and the `[PortalView]` line give:
+
+- **Visibility:** sectors drawn, traversal nodes, portal candidates tested and traversed, rejections (facing, clipped,
+  other: ancestors and the 256-node cap), and the last build's time (`visibility_build_us`) with whether this frame
+  rebuilt it.
+- **World faces** (the opaque face batches: one sector's faces of one texture): batches, faces and triangles
+  submitted; `face_draws`, the draw calls they take, merged across sectors by draw group
+  ([devdocs/INDOOR_FACE_DRAW_GROUPS.md](../devdocs/INDOOR_FACE_DRAW_GROUPS.md); before 2026-11-01 one per batch); of
+  those faces, how many lie in the camera frustum and in their sector's portal frustums (what an exact cull would
+  keep); `batch_textures`, the distinct textures among the batches; and the tile estimate: each batch cut into plan
+  cells of `tile` units, with the cells in the portal frustums as draws and triangles.
+- **Per sector**, most faces first (`sectors=id:faces/facesInPortals/triangles/batches/tileDraws/tileTriangles/
+  portalsTested/totalFaces/nodes/portalLinks,...` in the log): `portalsTested` is the sector's portal links once per
+  traversal node in it.
+- **Frame:** bgfx draw calls and triangles; CPU microseconds of visibility, lighting, faces, decorations, actors, open
+  sky, translucent and the whole indoor render; with `portals gpu on`, GPU microseconds per view and for the frame.
+  bgfx's frame GPU time runs from the first to the last GPU command, so it also holds the render thread's and the
+  driver's submission time, which grows with the draw calls.
+
+The readout is an ImGui window: it needs the debug console (`[debug] console=true`) and a visible window (`--visible`;
+a minimized window draws no ImGui), and it shows in native screenshots. A tour can switch the view on in its first
+shot's `commands:` (for example `[portals faces traversed, portals readout on, portals log on]`). Counts are exact for
+a pose; timings are noisy whenever other games or builds share the machine. Thjorgard City's measurements:
+[devdocs/mm9_rework/CITY_STREET_COST.md](../devdocs/mm9_rework/CITY_STREET_COST.md).
+
 ## Native screenshots and YAML tours
 
 The normal `main` build includes engine-native PNG capture through bgfx's screenshot callback.
@@ -72,7 +117,7 @@ The command closes the console before capture so its text does not cover the scr
 
 `--ruleset <id>[:<option>...]` starts the isolated new game under a ruleset package from `assets_dev/engine/rulesets/`,
 for example `--ruleset maw` (MAW's defaults) or `--ruleset maw:hell:horizontal`. Options are difficulty, progression
-and challenge-mode ids in any order, plus `randomizer` and `friendlyfire` (hits on non-hostile monsters count);
+and challenge-mode ids in any order, plus `randomizer`, `friendlyfire` (hits on non-hostile monsters count) and `nobow` (MAW's Bow preference off);
 unlisted ones keep the package defaults, and an option the package does not offer fails the preparation. It cannot be combined with `--save` (a save keeps its own ruleset) or
 `--menu` (choose the ruleset on the New Game screen). The game binary takes the same `--ruleset` argument for a
 direct start without a save, and headless scenarios accept it as `new_game_flow: {ruleset: maw:hell:horizontal}`.
@@ -165,6 +210,14 @@ The delay starts when gameplay is available and the loading overlay has closed. 
 0 and 600 seconds. Allow enough launch time for loading, the delay and frame readback. Ordinary movement
 and gravity still apply to single captures; use a tour for exact elevated viewpoints.
 
+To judge motion (an animation blend, a gait), capture a burst: `--set debug.screenshot_burst_count=N` (1–1000) takes
+N captures, one every `--set debug.screenshot_burst_interval_ms=M` (1–60000, default 100) of real time from the delay,
+written as `<stem>_000<ext>`, `<stem>_001<ext>` ... next to `screenshot_path`. A capture waits for a rendered frame, so
+an interval shorter than the frame time captures every frame (a minimized window renders fewer frames); add
+`--set debug.time_scale=0.25` to slow the game instead. With an AI arena running, each capture's `Screenshot:` line in
+`game.log` ends with the arena trace clock (`(trace t=3.906)`), which matches frames with trace lines
+([AI arenas](../tests/scenarios/mm9/ai/README.md)).
+
 A YAML tour applies multiple poses in the current map, captures them in order, and optionally exits:
 
 ```yaml
@@ -186,6 +239,11 @@ shots:
 `position` uses native party-foot coordinates, matching `loc`; yaw and pitch are **radians**.
 Outdoor heights are applied exactly, including airborne poses, without a Fly buff or floor snapping.
 Gameplay simulation is held during the tour so gravity, movement and combat cannot move the viewpoint.
+Indoors the clock, timers, face triggers and positioned transitions are held too; doors and lifts keep moving, as in
+turn-based mode. A shot's `time: "HH:MM"` moves the clock forward to that time (a full day when the clock is already
+past it); these jumps do not count as days without rest, so a long tour cannot weaken, starve or kill the party.
+Before 2026-11-01 the indoor clock ran on during the hold, so every shot at the same time as the last one jumped a
+day, and long BLV tours ended in the death video after four or more days without rest.
 Rendering continues during settling. Normal gameplay resumes after a tour with `exit: false`.
 Indoor placement uses the ordinary indoor position resolver. Tours do not switch maps or worlds.
 
@@ -213,8 +271,8 @@ It uses the selected reflection detail (512 by default), fades sprites between 3
 at most 64 sprites per water plane (indoors: 32 decorations and 32 creatures). It shares the existing reflection
 textures and animation refresh schedule; particles, projectiles and gameplay labels are excluded.
 
-The three `[debug]` keys `screenshot_path`, `screenshot_delay_seconds` and `screenshot_tour_path` are
-launch-only directives. Saving settings deliberately omits them so later launches do not repeat a capture.
+The `[debug]` keys `screenshot_path`, `screenshot_delay_seconds`, `screenshot_burst_count`,
+`screenshot_burst_interval_ms` and `screenshot_tour_path` are launch-only directives. Saving settings deliberately omits them so later launches do not repeat a capture.
 Use tours in isolated runs: their poses move the active party, and they are visual diagnostics, not gameplay
 or GPU-performance measurements.
 

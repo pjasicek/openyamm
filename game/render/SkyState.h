@@ -38,6 +38,10 @@ struct SkyInputs
     std::string mapFileName;
     // Debug `sky theme` override: a theme name, or empty for no theme; unset selects by map.
     std::optional<std::string> forcedTheme;
+    // An indoor map's sky in fog (scene fog `sky`, devdocs/INDOOR_FOG.md "The sky in fog"): the share of the sky drawn
+    // in fogCoverDisplay (display space, 0-1), as MM9 draws its fogged sky box in the fog colour. 0 changes nothing.
+    float fogCover = 0.0f;
+    SkyColor fogCoverDisplay = {};
 };
 
 struct SkyCloudLayerState
@@ -98,6 +102,9 @@ struct SkyFrameState
 // Sun direction (x east-west, z up) for the shared outdoor sun arc: rises at +X at 05:00, sets at -X at 21:00.
 // Matches OutdoorWorldRuntime while the sun is up and continues below the horizon at night.
 std::array<float, 3> skySunDirection(float gameMinutes);
+// How far into the night the sky is: 0 while the sun stands above the horizon, 1 once it is about 7 degrees below it.
+// The sky's own measure (moonlit clouds); indoor daylight and fog switch with it (devdocs/INDOOR_OPEN_SKY.md).
+float skyNightAmount(float gameMinutes);
 std::array<float, 3> skyMoonDirection(float gameMinutes);
 float skyMoonPhase(float gameMinutes);
 // Angle of orbit light `index` around the orbit ring at a game time: each light has its own period within the

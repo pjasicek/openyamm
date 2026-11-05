@@ -1,6 +1,7 @@
 #include "game/scene/IndoorSceneRuntime.h"
 
 #include "game/debug/GameplayDebugTrace.h"
+#include "game/events/MechanismAudio.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/indoor/IndoorGeometryUtils.h"
@@ -1132,6 +1133,41 @@ void IndoorSceneRuntime::updateMechanismAudio(
         const RuntimeMechanismState &currentMechanism = currentIterator->second;
         const bool canPlaySound = (door.attributes & DoorNoSoundAttribute) == 0 && door.numVertices != 0;
 
+        // A door with its own sounds (an MM9 door's start, creak and shut) plays them, not the environment's.
+        if (const MechanismAudioProfile *pSounds =
+                canPlaySound && m_pIndoorMapData != nullptr ? findIndoorDoorSounds(*m_pIndoorMapData, door.doorId)
+                                                             : nullptr)
+        {
+            MechanismAudioProfile profile = *pSounds;
+
+            if (!profile.positional)
+            {
+                const EventRuntimeState::PendingSound at = buildMechanismSound(0, door);
+                profile.x = at.x;
+                profile.y = at.y;
+                profile.z = at.z;
+                profile.positional = at.positional;
+            }
+
+            const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator previousIterator =
+                previousMechanisms.find(door.doorId);
+            const bool wasMoving =
+                previousIterator != previousMechanisms.end() && previousIterator->second.isMoving;
+            const uint16_t previousState =
+                previousIterator != previousMechanisms.end() ? previousIterator->second.state : currentMechanism.state;
+            queueMechanismMovementAudio(
+                *m_eventRuntimeState, mechanismAudioKey(door.doorId), profile, previousState, wasMoving,
+                currentMechanism);
+
+            if (wasMoving && !currentMechanism.isMoving && mechanismReachedFinalState(currentMechanism))
+            {
+                queueMechanismCompletionAudio(
+                    *m_eventRuntimeState, mechanismAudioKey(door.doorId), profile, currentMechanism);
+            }
+
+            continue;
+        }
+
         if (!canPlaySound)
         {
             if (m_mechanismAudioStates.erase(door.doorId) > 0)
@@ -1242,16 +1278,9 @@ bool IndoorSceneRuntime::updateTimers(float deltaGameMinutes)
         initializeTimers(static_cast<double>(m_worldRuntime.gameMinutes()) - deltaGameMinutes);
     }
 
-    for (const EventRuntimeState::TimerControl &control : m_eventRuntimeState->timerControls)
-    {
-        controlScriptedEventTimers(m_timers, control.eventId, control.start, control.delayGameMinutes,
-            static_cast<double>(m_worldRuntime.gameMinutes()));
-    }
-
-    m_eventRuntimeState->timerControls.clear();
-
     if (m_timers.empty())
     {
+        m_eventRuntimeState->timerControls.clear();
         return false;
     }
 
@@ -1284,7 +1313,8 @@ bool IndoorSceneRuntime::updateTimers(float deltaGameMinutes)
             }
 
             return executed;
-        });
+        },
+        &m_eventRuntimeState->timerControls);
 }
 
 void IndoorSceneRuntime::initializeTimers(double registrationGameMinutes)

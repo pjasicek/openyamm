@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/tables/Mm9MonsterAi.h"
+
 #include <array>
 #include <cstdint>
 #include <optional>
@@ -37,6 +39,10 @@ struct GameplayMonsterSpawnRequest
     bool dropsLoot = true;
     // Seeds the tiers, the positions and a boss's rolls; 0 draws a fresh seed.
     uint64_t seed = 0;
+    // The facing of every monster (an AI arena's placement); none keeps the world's default.
+    std::optional<float> yawRadians;
+    // An MM9 placement for every monster (an AI arena's mm9_ai, a death spawn's ScriptParams 1).
+    std::optional<Mm9AiPlacementRecord> mm9Ai;
 };
 
 // The monster id of one spawned monster: the family's A, B or C as the weights pick, or the request's own id.

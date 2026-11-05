@@ -72,7 +72,9 @@ void GameDataRepository::clear()
     m_pMergedReagentSettingTable = nullptr;
     m_pMergedComplexItemPictureTable = nullptr;
     m_pMergedTeacherTopicTable = nullptr;
+    m_pMergedRaceSkillTable = nullptr;
     m_pMergedTeacherAutonoteTable = nullptr;
+    m_pTrainerDirectory = nullptr;
 }
 
 void GameDataRepository::bind(const GameDataLoader &loader)
@@ -137,7 +139,9 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pMergedReagentSettingTable = &loader.getMergedReagentSettingTable();
     m_pMergedComplexItemPictureTable = &loader.getMergedComplexItemPictureTable();
     m_pMergedTeacherTopicTable = &loader.getMergedTeacherTopicTable();
+    m_pMergedRaceSkillTable = &loader.getMergedRaceSkillTable();
     m_pMergedTeacherAutonoteTable = &loader.getMergedTeacherAutonoteTable();
+    m_pTrainerDirectory = &loader.getTrainerDirectory();
 }
 
 bool GameDataRepository::isBound() const
@@ -450,8 +454,18 @@ const MergedTeacherTopicTable &GameDataRepository::mergedTeacherTopicTable() con
     return requireBound(m_pMergedTeacherTopicTable);
 }
 
+const MergedRaceSkillTable &GameDataRepository::mergedRaceSkillTable() const
+{
+    return requireBound(m_pMergedRaceSkillTable);
+}
+
 const MergedTeacherAutonoteTable &GameDataRepository::mergedTeacherAutonoteTable() const
 {
     return requireBound(m_pMergedTeacherAutonoteTable);
+}
+
+const TrainerDirectory &GameDataRepository::trainerDirectory() const
+{
+    return requireBound(m_pTrainerDirectory);
 }
 } // namespace OpenYAMM::Game

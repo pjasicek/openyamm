@@ -26,6 +26,28 @@ struct MawModelConfig
 
 MawModelConfig mawModelConfig(const RulesetOptions &options, int partyCount);
 
+// What a character's armour class and resistances are divided by against an attacker of the given level
+// (Formulas.armorDamageTaken / resistanceDamageTaken: AC / (200 + L), resistance / (100 + L)).
+inline double mawArmorDivisor(double attackerLevel)
+{
+    return 200 + attackerLevel;
+}
+
+inline double mawResistanceDivisor(double attackerLevel)
+{
+    return 100 + attackerLevel;
+}
+
+// Which of the expected character's defences a monster's damage is sized against (getPlayerEstimatedVitality's
+// damageKind): physical attacks against armour only, every other kind against resistances only, and Blended half and
+// half (traps, and readings without an attack).
+enum class MawDamageClass
+{
+    Blended,
+    Physical,
+    Magic,
+};
+
 // MAW's balance model (devdocs/maw/BALANCE_MODEL.md §1-3): the character a party member of a given level is expected
 // to be, from the same item, skill and buff curves the MAW rules use, and the monster numbers sized against it.
 // Pure: it depends only on the level and the configuration. Levels may be fractional.
@@ -52,14 +74,14 @@ public:
     double chanceToBeHit(double level);
     double legendaryDamageTaken(double level) const;
     double coverMultiplier(double level) const;
-    double vitality(double level);
+    double vitality(double level, MawDamageClass damageClass = MawDamageClass::Blended);
     double attack(double level);
     double power(double level);
     double spellPower(double level);
 
     // A B-tier, non-boss monster of a family whose B row resolves to this level.
     double monsterHealth(double level);
-    double monsterDamage(double level);
+    double monsterDamage(double level, MawDamageClass damageClass = MawDamageClass::Blended);
     // Experience multiplier for the difficulty's monster density.
     double monsterExperienceMultiplier() const;
 

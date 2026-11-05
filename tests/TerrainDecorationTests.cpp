@@ -1035,3 +1035,35 @@ TEST_CASE("Rendered terrain stays under a pool cut into a hillside terrace")
     CHECK(heights[size_t(64 * Steps) * Side + 70 * Steps + 1] == smoothed[size_t(64 * Steps) * Side + 70 * Steps + 1]);
     CHECK(heights[size_t(70 * Steps) * Side + 64 * Steps + 2] == smoothed[size_t(70 * Steps) * Side + 64 * Steps + 2]);
 }
+
+TEST_CASE("Terrain grass on a surface follows its density and skips steep triangles")
+{
+    // Two triangles making a flat 4096 x 4096 square, and a vertical one (a cliff).
+    const std::vector<TerrainDecorationSurfaceTriangle> flat = {
+        {{{{0.0f, 0.0f, 100.0f}, {4096.0f, 0.0f, 100.0f}, {4096.0f, 4096.0f, 100.0f}}}, {0.0f, 0.0f, 1.0f}},
+        {{{{0.0f, 0.0f, 100.0f}, {4096.0f, 4096.0f, 100.0f}, {0.0f, 4096.0f, 100.0f}}}, {0.0f, 0.0f, 1.0f}}};
+    const TerrainDecorationConfig grass = config();
+    const auto none = [](float, float) { return 0.0f; };
+    const auto full = [](float, float) { return 1.0f; };
+    const auto half = [](float x, float) { return x < 2048.0f ? 1.0f : 0.0f; };
+
+    CHECK(scatterTerrainDecorationsOnSurface(flat, none, grass).instances.empty());
+    const TerrainDecorationPlacement everywhere = scatterTerrainDecorationsOnSurface(flat, full, grass);
+    // An outdoor rule's candidates are per 512 x 512 cell: 64 cells here.
+    const double expected = 64.0 * double(grass.rules.front().candidates) * grass.rules.front().density;
+    CHECK(double(everywhere.instances.size()) > expected * 0.9);
+    CHECK(double(everywhere.instances.size()) < expected * 1.1);
+    for (const TerrainDecorationInstance &instance : everywhere.instances)
+    {
+        CHECK(instance.positionYaw[2] == doctest::Approx(97.0f));
+    }
+    // Deterministic, and only where the density allows.
+    CHECK(scatterTerrainDecorationsOnSurface(flat, full, grass).instances.size() == everywhere.instances.size());
+    for (const TerrainDecorationInstance &instance : scatterTerrainDecorationsOnSurface(flat, half, grass).instances)
+    {
+        CHECK(instance.positionYaw[0] < 2048.0f);
+    }
+    const std::vector<TerrainDecorationSurfaceTriangle> cliff = {
+        {{{{0.0f, 0.0f, 0.0f}, {4096.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 4096.0f}}}, {0.0f, -1.0f, 0.0f}}};
+    CHECK(scatterTerrainDecorationsOnSurface(cliff, full, grass).instances.empty());
+}

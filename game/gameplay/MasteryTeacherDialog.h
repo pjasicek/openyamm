@@ -55,6 +55,8 @@ std::optional<MasteryTeacherTopicDefinition> resolveMasteryTeacherTopic(
     uint32_t topicId,
     const MergedTeacherTopicTable *pTeacherTopicTable
 );
+// A teacher's price for a mastery when its topic names none (before the ruleset's SkillRules::masteryTeacherCost).
+int masteryTeacherStandardCost(const std::string &skillName, SkillMastery targetMastery);
 bool isMasteryTeacherTopic(
     uint32_t topicId,
     const MergedTeacherTopicTable *pTeacherTopicTable

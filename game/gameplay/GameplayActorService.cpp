@@ -134,6 +134,11 @@ void GameplayActorService::setMeleeVerticalReach(float share)
     m_meleeVerticalReach = share;
 }
 
+void GameplayActorService::setLevelRadiusLimit(float limit)
+{
+    m_levelRadiusLimit = limit;
+}
+
 bool GameplayActorService::meleeReachesVertically(float share, float attackerFootZ, float attackerHeight,
     float targetFootZ, float targetHeight)
 {

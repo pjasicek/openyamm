@@ -22,9 +22,9 @@ steps:
   - assert:
       actor_count: {boss: true, min: 1}
       # The texts name the boss as spawned and a "Bounty" note marks its spot (GAPS H.11). The scenario's fixed root
-      # seed rolls a Puller Greater Wererat.
+      # seed rolls a Reflecting Greater Wererat.
       journal_map_note: {map: oute3.odm, id: 9999, text: Bounty}
-      dialog: {text_contains: "Puller Greater Wererat"}
+      dialog: {text_contains: "Reflecting Greater Wererat"}
   # The target's death takes the note down; the reward names it too.
   - press_action: {action: cancel_dialog}
   - damage_actor: {all: true, amount: 100000000}
@@ -34,4 +34,4 @@ steps:
   - speak_npc: {source_id: 1076}
   - select_topic: {action_id: 1712}
   - assert:
-      dialog: {text_contains: "defeating the Puller Greater Wererat"}
+      dialog: {text_contains: "defeating the Reflecting Greater Wererat"}

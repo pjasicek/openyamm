@@ -1131,6 +1131,11 @@ bool compileTriggerSurfaceModel(
     }
 
     refreshSectorCounts(sector);
+    // Reported like the static groups, so a converter can name the faces of a node (MM9's monster barriers).
+    result.generatedFaceGroups.push_back(IndoorSourceFaceGroup{
+        sourceNodeNameFromModelName(model.name),
+        std::move(appendedFaceIds),
+    });
     return true;
 }
 

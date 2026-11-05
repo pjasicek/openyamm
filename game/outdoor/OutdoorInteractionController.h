@@ -84,6 +84,8 @@ private:
     static OutdoorGameView::InspectHit pickKeyboardInteractionInspectHit(
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,
+        float crosshairX,
+        float crosshairY,
         int viewWidth,
         int viewHeight,
         const float *pViewMatrix,

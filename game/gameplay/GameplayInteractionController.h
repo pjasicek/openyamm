@@ -179,6 +179,11 @@ public:
         bool heldItemActive);
     static WorldInteractionPointerPolicy resolveWorldInteractionPointerPolicy(
         const WorldInteractionPointerPolicyInput &input);
+    // The Space target: what is under the crosshair (or cursor) when Space can use it, otherwise the world's screen
+    // scan for the usable target nearest the crosshair. Empty when neither is usable.
+    static GameplayWorldHit pickKeyboardUseTarget(
+        IGameplayWorldRuntime &worldRuntime,
+        const GameplayWorldPickRequest &request);
     // Ctrl + left click steals from the creature clicked, as in the original: under the cursor, or with mouse look
     // the one in the crosshair.
     static bool stealClickPressed(

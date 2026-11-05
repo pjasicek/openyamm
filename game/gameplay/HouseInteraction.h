@@ -5,6 +5,7 @@
 #include "game/party/SpeechIds.h"
 #include "game/tables/HouseTable.h"
 
+#include <array>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -61,6 +62,13 @@ enum class HouseActionId : uint32_t
     TownHallPayFine,
     TownHallBountyHunt,
     ThroneServeSentence,
+    // A stable's or boat's week of departures (the Schedule topic).
+    TransportSchedule,
+    // A trip chosen in the schedule: wait for its departure day, then travel. Argument "route:day" (day 0 Monday).
+    TransportScheduledTrip,
+    // A tavern's Ledger of Teachers topic (TrainerDirectory.h): its description and the purchase.
+    OpenTeacherLedgerMenu,
+    BuyTeacherLedger,
 };
 
 enum class HouseSoundType : uint32_t
@@ -109,6 +117,29 @@ struct HouseActionResult
     std::optional<InnRestRequest> pendingInnRest;
 };
 
+// The continent whose Ledger of Teachers the tavern sells while the party has not bought it, or nothing.
+std::optional<uint32_t> tavernTeacherLedgerContinent(const HouseEntry &houseEntry, const Party *pParty);
+
+// A stable's or boat's week of departures, for its Schedule popup: the routes the party may take, with event
+// overrides, quest bits and hireling day reductions applied, in route order.
+struct TransportScheduleRoute
+{
+    uint32_t routeIndex = 0;
+    std::string destinationName;
+    std::array<bool, 7> daysAvailable = {};
+    int travelDays = 0;
+};
+
+struct TransportSchedule
+{
+    std::vector<TransportScheduleRoute> routes;
+    // The weekday now, 0 Monday.
+    int today = 0;
+    int fare = 0;
+    // Food the party eats for each day it waits for a departure.
+    int foodPerWaitDay = 0;
+};
+
 struct HouseShopGoodbyeResult
 {
     std::optional<HouseSoundType> soundType;
@@ -141,6 +172,13 @@ const char *arcomageDeckRequiredMessage();
 bool partyHasArcomageDeck(const Party *pParty);
 bool houseRequiresArcomageDeck(const HouseEntry &houseEntry);
 bool partyCanPlayArcomageInHouse(const HouseEntry &houseEntry, const Party *pParty);
+TransportSchedule buildTransportSchedule(
+    const HouseEntry &houseEntry,
+    const Party *pParty,
+    const IGameplayWorldRuntime *pWorldRuntime);
+// Days from today until a departure on the given weekday (0 Monday): 0 for today, up to 6.
+int transportWaitDays(int today, int departureDay);
+std::string transportScheduledTripArgument(uint32_t routeIndex, int departureDay);
 
 std::vector<std::string> buildHouseServiceInfoLines(
     const HouseEntry &houseEntry,

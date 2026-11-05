@@ -681,6 +681,66 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsAudioRepeatedVoiceLinesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 211.1679
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Repeated voice lines
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsAudioRepeatedVoiceLinesValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 211.1679
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{repeated_voice_lines}'
+        font: fondamento
+        color: '#e0c990'
+        align_x: center
+        align_y: middle
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsAudioRepeatedVoiceLinesControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 231.6679
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsAudioRepeatedVoiceLinesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 251.1679
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: A character says the same line at most once in this time, such as a cry when hurt or a remark on an item.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
   - id: SettingsAudioNavigationRule
     anchor: top_left
     offset_x: 201.6

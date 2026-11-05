@@ -54,6 +54,16 @@ struct ScenarioMovementCommand
     std::optional<float> endPitchRadians;
 };
 
+// The party's water state on a map with scene water volumes (assert `water`).
+struct ScenarioWaterStatus
+{
+    std::string state;
+    bool eyeUnder = false;
+    float breath = 1.0f;
+    uint32_t drowningTicks = 0;
+    float footZ = 0.0f;
+};
+
 struct ScenarioMovementResult
 {
     ScenarioPose startPose = {};
@@ -207,6 +217,7 @@ public:
         const ScenarioMovementCommand &command,
         ScenarioMovementResult &result,
         std::string &failure);
+    bool waterStatus(ScenarioWaterStatus &status, std::string &failure);
     bool actorInspectState(
         size_t actorIndex,
         GameplayActorInspectState &inspectState,
@@ -234,6 +245,8 @@ public:
     ScenarioDialogSnapshot activeDialogSnapshot() const;
     // The quick item ring's member while it is open (the potion radial), else none.
     std::optional<size_t> quickItemRingMember() const;
+    // The basebar popup open ("potions", "scrolls" or "none") and its member.
+    std::pair<std::string, size_t> quickItemPopup() const;
     std::string activeDialogSummary() const;
     bool advanceRuntime(float seconds, std::string &failure);
     bool advanceGameMinutes(float minutes, std::string &failure);
@@ -254,6 +267,12 @@ public:
     // summoned as a party spell's summon instead.
     bool spawnActor(int16_t monsterId, uint32_t count, float x, float y, float z, uint32_t group, uint8_t bossAffix,
         bool partyAlly, std::string &failure);
+    // Sets up an AI arena (game/debug/AiArena.h), loading its map first when another one (or none) is loaded;
+    // logPath: the trace log (empty: none).
+    bool applyAiArena(const AiArena &arena, const std::filesystem::path &logPath, std::string &failure);
+    // The arena's decision trace and its monsters' actor indices in arena order.
+    const ActorAiTrace &aiTrace() const;
+    const std::vector<size_t> &aiArenaActorIndices() const;
     // Actors on the active map (0 without one).
     size_t mapActorCount() const;
     // The actor fires its attack or spell at the party now, as an AI shot (a true_aim monster's shot homes).
@@ -327,13 +346,15 @@ public:
     // The Knight Charge action at the actor (party_charge): the rules' status line, or nothing without a charge.
     bool partyCharge(std::optional<size_t> actorIndex, std::optional<std::string> &status, std::string &failure);
     // The Workbench's crafting with a material on the member's item (worn in `wornSlot`, else the first pack item of
-    // the id); `all` is Apply All. `crafted` tells whether the step was applied.
+    // the id); `all` is Apply All and `choice` the option picked (the Pearl's enchantment). `crafted` tells whether the
+    // step was applied.
     bool craftItem(
         size_t memberIndex,
         uint32_t targetItemId,
         std::optional<EquipmentSlot> wornSlot,
         uint32_t materialItemId,
         bool all,
+        size_t choice,
         bool &crafted,
         std::string &reason,
         std::string &failure);

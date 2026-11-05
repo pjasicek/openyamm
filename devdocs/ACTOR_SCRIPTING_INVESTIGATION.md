@@ -105,6 +105,7 @@ attachment model, OpenMW's "return nothing to keep the default" overrides and Tr
 | Ward sparks effect | `openyamm:fx/shadow_ward` in `assets_dev/engine/effects/authored/library.yml` |
 | Declarative tactics (turret traverse, ranged band, posts; see Tactics) | `ActorBehaviorCatalog`, `ActorBehaviorRuntime::applyTactics`, `GameplayActorAiSystem.cpp` |
 | Tests | `tests/ActorBehaviorRuntimeTests.cpp`, `tests/GameplayActorAiSystemTests.cpp` (tactics) |
+| MM9 bosses on the MM9 loops (`self:setMm9`, `target`, `targets`, `setTarget`, `attack`, `onTargetChanged`, `onAttackDone`, `onHit`, `onTrigger`; `evt.TriggerActor`) | `ActorBehaviorMm9Script` in `ActorBehaviorRuntime`, `ActorMm9ScriptFacts`; scripts in `assets_dev/worlds/mm9/behaviors/` (devdocs/mm9_rework/MM9_MONSTER_AI_PLAN.md "Phase 5") |
 
 ### Each actor step (1/128 s, indoor and outdoor)
 

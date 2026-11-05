@@ -1663,6 +1663,93 @@ TEST_CASE("a MAW dragon breathes by its race, whatever its class")
     bindGameRules(nullptr);
 }
 
+TEST_CASE("MAW's Bow preference off: no arrow or breath, the melee attack at its pace, Bow off on the stats page")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const ItemTable &items = gameData.itemTable;
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    party.setRules(&rules.gameRules());
+    bindGameRules(&rules.gameRules());
+    const SkillRules &skills = rules.gameRules().skills;
+
+    // An archer with a Hunting Bow and a longsword, and a dragon.
+    Character archer;
+    archer.name = "Ariel";
+    archer.className = "Archer";
+    archer.level = 20;
+    archer.equipment.mainHand = 1;
+    archer.equipment.bow = 56;
+    archer.skills["Sword"] = {"Sword", 10, SkillMastery::Expert};
+    archer.skills["Bow"] = {"Bow", 10, SkillMastery::Expert};
+    Character dragon;
+    dragon.name = "Duroth";
+    dragon.className = "Dragon";
+    dragon.raceId = 5;
+    dragon.level = 20;
+    dragon.skills["DragonAbility"] = {"DragonAbility", 5, SkillMastery::Normal};
+    std::mt19937 rng(7);
+    const auto attackAt = [&](const Character &character, float distance)
+    {
+        return GameMechanics::resolveCharacterAttackAgainstArmorClass(
+            character, &items, &gameData.spellTable, 10, distance, rng);
+    };
+    const auto delay = [&](const Character &character, CharacterAttackMode mode)
+    {
+        return mawCharacterAttackDelay(rules, character, items, mode, 50).delay;
+    };
+
+    // Off by default: the archer shoots, the dragon breathes, and the stats page shows the bow's own rows.
+    CHECK_FALSE(RulesetOptions{}.preferences.bowDisabled);
+    CHECK_FALSE(rules.gameRules().combat.bowDisabled());
+    CHECK(attackAt(archer, 1024.0f).mode == CharacterAttackMode::Bow);
+    CHECK(attackAt(dragon, 1024.0f).mode == CharacterAttackMode::DragonBreath);
+    CHECK_NE(delay(archer, CharacterAttackMode::Bow), delay(archer, CharacterAttackMode::Melee));
+    CHECK_FALSE(skills.statRowText(party, archer, "Shoot").has_value());
+    CHECK_FALSE(skills.statRowText(party, archer, "RangedDamage").has_value());
+
+    RulesetOptions options;
+    options.preferences.bowDisabled = true;
+    rules.setOptions(options);
+    CHECK(rules.gameRules().combat.bowDisabled());
+
+    // Nothing leaves the bow: the attack at range is the melee one, which reaches nothing, at the melee pace.
+    const CharacterAttackProfile archerProfile =
+        GameMechanics::buildCharacterAttackProfile(archer, &items, &gameData.spellTable);
+    CHECK_FALSE(archerProfile.hasBow);
+    CHECK_FALSE(archerProfile.canShoot);
+    const CharacterAttackResult shot = attackAt(archer, 1024.0f);
+    CHECK(shot.mode == CharacterAttackMode::Melee);
+    CHECK_FALSE(shot.canAttack);
+    CHECK_FALSE(shot.resolvesOnImpact);
+    CHECK(shot.recoverySeconds == doctest::Approx(archerProfile.meleeRecoverySeconds));
+    CHECK(attackAt(archer, 200.0f).mode == CharacterAttackMode::Melee);
+    // MAW gives a ranged attack the melee delay (zzMAW-Skills.lua:614-616), Flame Blast's breath too.
+    CHECK_EQ(delay(archer, CharacterAttackMode::Bow), delay(archer, CharacterAttackMode::Melee));
+    CHECK_EQ(delay(dragon, CharacterAttackMode::DragonBreath), delay(dragon, CharacterAttackMode::Melee));
+
+    // The dragon bites, near or far.
+    CHECK_FALSE(GameMechanics::buildCharacterAttackProfile(dragon, &items, &gameData.spellTable).hasDragonBreath);
+    CHECK(attackAt(dragon, 1024.0f).mode == CharacterAttackMode::Melee);
+    CHECK(attackAt(dragon, 200.0f).mode == CharacterAttackMode::Melee);
+
+    // The stats page's Shoot rows say so, for the dragon too.
+    const std::optional<CharacterStatRowText> shoot = skills.statRowText(party, archer, "Shoot");
+    REQUIRE(shoot.has_value());
+    CHECK_EQ(shoot->value, "Bow off");
+    CHECK(shoot->popupTitle.empty());
+    REQUIRE(skills.statRowText(party, archer, "RangedDamage").has_value());
+    CHECK_EQ(skills.statRowText(party, archer, "RangedDamage")->value, "-");
+    REQUIRE(skills.statRowText(party, dragon, "Shoot").has_value());
+    CHECK_EQ(skills.statRowText(party, dragon, "Shoot")->value, "Bow off");
+
+    // Standard has no such preference.
+    CHECK_FALSE(standardGameRules().combat.bowDisabled());
+    CHECK_FALSE(standardGameRules().skills.statRowText(party, archer, "Shoot").has_value());
+    bindGameRules(nullptr);
+}
+
 TEST_CASE("MAW missile and spell crits reach the status line: breath's Flame Blast, Fireball; Standard none (user)")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();

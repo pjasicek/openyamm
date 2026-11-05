@@ -17,7 +17,8 @@ void main()
     mat4 skin = modelSkinMatrix(i_data1.w, a_weight, a_indices, a_texcoord3, a_texcoord5);
     v_worldPosition = mul(skin, vec4(a_position, 1.0)).xyz;
     gl_Position = mul(u_viewProj, vec4(v_worldPosition, 1.0));
-    v_texcoord0 = a_texcoord0 + u_modelScroll.xy;
+    // a flipbook cell (zw: its size) or the whole texture (zw 0)
+    v_texcoord0 = a_texcoord0 * (u_modelScroll.z > 0.0 ? u_modelScroll.zw : vec2(1.0, 1.0)) + u_modelScroll.xy;
     v_worldNormal = normalize(mul(skin, vec4(a_normal, 0.0)).xyz);
     if (u_modelOutline.w > 2.5)
     {

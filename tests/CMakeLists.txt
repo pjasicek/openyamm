@@ -14,6 +14,7 @@ add_executable(openyamm_unit_tests
     ArenaRuntimeTests.cpp
     MapWorldOwnershipTests.cpp
     ChestRegressionTests.cpp
+    CompletionCertificateTests.cpp
     ContentManifestTests.cpp
     WorldDecorationTests.cpp
     RulesetTests.cpp
@@ -21,6 +22,8 @@ add_executable(openyamm_unit_tests
     EffectSystemTests.cpp
     EnergyShieldTests.cpp
     MonsterModifierTests.cpp
+    Mm9ActorRulesTests.cpp
+    Mm9MonsterAiTests.cpp
     EffectDefinitionLoaderTests.cpp
     WorldMissileTests.cpp
     HouseDialogueRegressionTests.cpp
@@ -41,6 +44,7 @@ add_executable(openyamm_unit_tests
     MawCraftingTests.cpp
     MawDimensionMapTests.cpp
     MawGapTests.cpp
+    MawBossAffixTests.cpp
     MawSpellClassTests.cpp
     MawAuraReportTests.cpp
     MawAuditCombatSpellTests.cpp
@@ -51,6 +55,8 @@ add_executable(openyamm_unit_tests
     MawSpecExampleTests.cpp
     MawChallengeModeTests.cpp
     MawMadnessLedgerTests.cpp
+    MawTrainerHintTests.cpp
+    TrainerDirectoryTests.cpp
     CombatLogTests.cpp
     LootFilterTests.cpp
     MawMonsterLevelTests.cpp
@@ -81,13 +87,20 @@ add_executable(openyamm_unit_tests
     IndoorActorActivationTests.cpp
     IndoorActorPlacementTests.cpp
     IndoorBakedLightingTests.cpp
+    IndoorFaceDrawGroupsTests.cpp
     IndoorFogTests.cpp
+    IndoorModelLightingTests.cpp
+    IndoorOpenSkyTests.cpp
+    IndoorDestructibleTests.cpp
+    WorldAmbientSoundTests.cpp
+    IndoorWaterTests.cpp
     IndoorTranslucentFacesTests.cpp
     IndoorLightingRuntimeTests.cpp
     IndoorMovementRecoveryTests.cpp
     IndoorPathfindingBuilderTests.cpp
     IndoorPortalGraphTests.cpp
     IndoorPortalVisibilityTests.cpp
+    IndoorSectorFaceGridTests.cpp
     IndoorRenderRevisionTests.cpp
     InventoryEquipRegressionTests.cpp
     LegacyLuaExportTests.cpp
@@ -134,6 +147,9 @@ add_executable(openyamm_unit_tests
     ScreenManagerTests.cpp
     ScreenshotTourTests.cpp
     ../game/debug/ScreenshotTour.cpp
+    AiArenaTests.cpp
+    ../game/debug/AiArena.cpp
+    ../game/gameplay/ActorAiTrace.cpp
     ScenarioYamlLoaderTests.cpp
     ../game/scenario/ScenarioYamlLoader.cpp
     SkyStateTests.cpp
@@ -150,6 +166,7 @@ add_executable(openyamm_unit_tests
     SpellbookUiLayoutTests.cpp
     TableRegressionTests.cpp
     TextTableTests.cpp
+    Utf8TextTests.cpp
     TerrainDecorationTests.cpp
     OutdoorMeadowTests.cpp
     ../game/outdoor/TerrainDecorationData.cpp
@@ -200,8 +217,10 @@ add_executable(openyamm_unit_tests
     ../game/arcomage/ArcomageLoader.cpp
     ../game/arcomage/ArcomageRules.cpp
     ../game/audio/GameAudioSystem.cpp
+    ../game/audio/WorldAmbientSounds.cpp
     ../game/audio/MusicStream.cpp
     ../game/audio/SoundCatalog.cpp
+    ../game/content/CompletionCertificates.cpp
     ../game/content/ContentManifest.cpp
     ../game/content/ContentTableComposer.cpp
     ../game/content/WorldDecorations.cpp
@@ -213,6 +232,7 @@ add_executable(openyamm_unit_tests
     ../game/debug/MawTestParties.cpp
     ../engine/scripting/LuaStateOwner.cpp
     ../game/events/EventRuntime.cpp
+    ../game/events/MechanismAudio.cpp
     ../game/events/EventDialogContent.cpp
     ../game/events/ScriptedEventProgram.cpp
     ../game/events/ScriptedEventTimer.cpp
@@ -221,6 +241,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/ActorBehaviorCatalog.cpp
     ../game/gameplay/ActorBehaviorRuntime.cpp
     ../game/gameplay/GameplayActorAiSystem.cpp
+    ../game/gameplay/Mm9ActorRules.cpp
     ../game/gameplay/GameplayActorHitFeedback.cpp
     ../game/gameplay/GameplayActorShields.cpp
     ../game/gameplay/GameplayActorModifiers.cpp
@@ -250,6 +271,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/JournalArcomageRuntime.cpp
     ../game/gameplay/JournalQuestRuntime.cpp
     ../game/gameplay/MasteryTeacherDialog.cpp
+    ../game/gameplay/TrainerDirectory.cpp
     ../game/gameplay/NpcFollowerRuntime.cpp
     ../game/gameplay/ReputationRuntime.cpp
     ../game/gameplay/StealingRuntime.cpp
@@ -272,13 +294,19 @@ add_executable(openyamm_unit_tests
     ../game/maps/SaveGame.cpp
     ../game/maps/MapRegistry.cpp
     ../game/maps/IndoorSceneYml.cpp
+    ../game/indoor/IndoorTerrainSurface.cpp
+    ../game/render/TerrainMaterialConfig.cpp
     ../game/maps/MapItemSourceYml.cpp
     ../game/maps/MapPresentation.cpp
+    ../game/maps/MechanismAudioYml.cpp
     ../game/maps/OutdoorSceneYml.cpp
     ../game/maps/TerrainTileData.cpp
     ../game/indoor/IndoorCollisionPrimitives.cpp
     ../game/indoor/IndoorGeometryUtils.cpp
     ../game/indoor/IndoorMovers.cpp
+    ../game/indoor/IndoorDaylight.cpp
+    ../game/indoor/IndoorWater.cpp
+    ../game/indoor/IndoorFaceDrawGroups.cpp
     ../game/indoor/IndoorLightingRuntime.cpp
     ../game/indoor/IndoorMapData.cpp
     ../game/indoor/IndoorBakedLighting.cpp
@@ -288,6 +316,7 @@ add_executable(openyamm_unit_tests
     ../game/indoor/IndoorLightReach.cpp
     ../game/indoor/IndoorPortalGraph.cpp
     ../game/indoor/IndoorPortalVisibility.cpp
+    ../game/indoor/IndoorSectorFaceGrid.cpp
     ../game/fx/ParticleRecipes.cpp
     ../game/fx/ProjectileEffectBindings.cpp
     ../game/fx/ProjectileModelBindings.cpp
@@ -332,6 +361,7 @@ add_executable(openyamm_unit_tests
     ../game/tables/MonsterTable.cpp
     ../game/tables/MonsterShields.cpp
     ../game/tables/MonsterModifiers.cpp
+    ../game/tables/Mm9MonsterAi.cpp
     ../game/tables/MonsterRelationAddOns.cpp
     ../game/tables/MonsterProjectileTable.cpp
     ../game/tables/MergedBaseTables.cpp
@@ -373,6 +403,7 @@ add_executable(openyamm_unit_tests
     ../game/rules/maw/MawSpellFormulas.cpp
     ../game/rules/maw/MawSpellRules.cpp
     ../game/rules/maw/MawTexts.cpp
+    ../game/rules/maw/MawTrainerHints.cpp
     ../game/rules/RandomStreams.cpp
     ../game/rules/ClassRules.cpp
     ../game/rules/CraftingRules.cpp
@@ -492,6 +523,7 @@ add_executable(openyamm_runtime_tests
     UnitTestMain.cpp
     RegressionGameData.cpp
     NewGameScreenTests.cpp
+    PartyCreationSheetTests.cpp
     GameplayUiRuntimeTests.cpp
     GameplaySpellServiceTests.cpp
     IndoorActorDetectionRuntimeTests.cpp

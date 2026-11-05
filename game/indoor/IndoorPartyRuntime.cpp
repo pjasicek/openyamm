@@ -23,6 +23,10 @@ constexpr float MaxAccumulatedMovementSeconds = 0.1f;
 constexpr float DefaultJumpVelocity = 480.0f;
 constexpr float DefaultJumpLift = 0.0f;
 constexpr float PartyGravityPerSecond = 1280.0f;
+// MM9's water sounds (worlds/mm9/audio): the eye goes under, comes out, a drowning tick.
+constexpr const char *WaterSplashSound = "events/watersplash.wav";
+constexpr const char *WaterOutSound = "events/out_water.wav";
+constexpr const char *DrowningSounds[] = {"events/drown01.wav", "events/drown02.wav"};
 
 const char *indoorMoveBlockKindName(IndoorMoveBlockKind kind)
 {
@@ -103,7 +107,10 @@ void recordSteppedFloorFace(std::vector<size_t> &faces, const IndoorMoveState &s
 IndoorPartyRuntime::IndoorPartyRuntime(IndoorMovementController movementController, const ItemTable &itemTable)
     : m_movementController(std::move(movementController))
 {
-    m_movementController.setSlopeRule(IndoorSlopeRule::Party);
+    // MM6-MM8's party climbs any slope; an MM9 open-air map's scene blocks it at the monsters' limit (its cliffs).
+    const IndoorMapData *pMapData = m_movementController.indoorMapData();
+    m_movementController.setSlopeRule(
+        pMapData != nullptr && pMapData->partySteepSlopesBlock ? IndoorSlopeRule::Actor : IndoorSlopeRule::Party);
     m_party.setItemTable(&itemTable);
 }
 
@@ -116,6 +123,7 @@ void IndoorPartyRuntime::initializeEyePosition(float x, float y, float z, bool r
 
     const IndoorBodyDimensions body = {};
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z, body);
+    keepPlacementInWater(z - body.height, body);
     m_movementAccumulatorSeconds = 0.0f;
     m_pendingJumpRequested = false;
     m_pendingImpulseVelocityX = 0.0f;
@@ -127,6 +135,7 @@ void IndoorPartyRuntime::initializeEyePosition(float x, float y, float z, bool r
     m_pendingJumpVelocity.reset();
     m_pendingJumpLift = DefaultJumpLift;
     m_burningDamageTimerSeconds = 0.0f;
+    resetWaterState(true);
 }
 
 void IndoorPartyRuntime::initializePartyPosition(float x, float y, float z, bool resetParty)
@@ -139,6 +148,7 @@ void IndoorPartyRuntime::teleportEyePosition(float x, float y, float z)
 {
     const IndoorBodyDimensions body = {};
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z, body);
+    keepPlacementInWater(z - body.height, body);
     m_movementAccumulatorSeconds = 0.0f;
     m_pendingJumpRequested = false;
     m_pendingImpulseVelocityX = 0.0f;
@@ -150,17 +160,20 @@ void IndoorPartyRuntime::teleportEyePosition(float x, float y, float z)
     m_pendingJumpVelocity.reset();
     m_pendingJumpLift = DefaultJumpLift;
     m_burningDamageTimerSeconds = 0.0f;
+    resetWaterState(false);
 }
 
 void IndoorPartyRuntime::teleportPartyPosition(float x, float y, float z)
 {
     const IndoorBodyDimensions body = {};
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z + body.height, body);
+    keepPlacementInWater(z, body);
     m_movementAccumulatorSeconds = 0.0f;
     m_pendingJumpRequested = false;
     m_pendingJumpVelocity.reset();
     m_pendingJumpLift = DefaultJumpLift;
     m_burningDamageTimerSeconds = 0.0f;
+    resetWaterState(false);
 }
 
 void IndoorPartyRuntime::translatePartyPosition(float deltaX, float deltaY, float deltaZ)
@@ -224,14 +237,43 @@ bool IndoorPartyRuntime::stepOnLadder(
     const IndoorMoverBody moverBody = {
         m_movementState.x, m_movementState.y, m_movementState.footZ, body.radius, body.height};
 
-    if (!m_ladderIndex && m_movementState.grounded && !m_pendingJumpRequested)
+    if (!m_ladderIndex)
     {
         for (size_t index = 0; index < pMapData->ladders.size(); ++index)
         {
-            if (indoorLadderCanGrab(pMapData->ladders[index], moverBody, desiredVelocityX, desiredVelocityY))
+            const IndoorLadder &candidate = pMapData->ladders[index];
+
+            // A swimming party takes hold of a ladder that reaches into its water (MM9: Beethoven's, Dook's Castle's).
+            if (indoorLadderGrabAllowed(candidate, m_movementState.grounded || swimming(), m_pendingJumpRequested)
+                && indoorLadderCanGrab(candidate, moverBody, desiredVelocityX, desiredVelocityY))
             {
                 m_ladderIndex = index;
                 break;
+            }
+        }
+    }
+
+    if (!m_ladderIndex && m_movementState.grounded && !m_pendingJumpRequested)
+    {
+        // Walking from a ladder's top exit toward its top: the body is placed on the strip just under the top.
+        for (size_t index = 0; index < pMapData->ladders.size(); ++index)
+        {
+            const IndoorLadder &candidate = pMapData->ladders[index];
+
+            if (!indoorLadderCanGrabAtTop(candidate, moverBody, desiredVelocityX, desiredVelocityY))
+            {
+                continue;
+            }
+
+            const bx::Vec3 hold = indoorLadderTopEntryPosition(candidate, moverBody);
+            const std::optional<IndoorMoveState> held =
+                m_movementController.airborneStateAt(hold.x, hold.y, hold.z, body);
+
+            if (held)
+            {
+                m_movementState = *held;
+                m_ladderIndex = index;
+                return true;
             }
         }
     }
@@ -308,6 +350,7 @@ void IndoorPartyRuntime::update(
     bool turnBasedPhysicsStep)
 {
     m_movementStatusText.clear();
+    m_runningMovement = runningMovement;
 
     if (deltaSeconds <= 0.0f)
     {
@@ -347,6 +390,14 @@ void IndoorPartyRuntime::update(
     const float wadeSpeed = m_movementState.grounded && supportFace < m_faceWadeSpeeds.size()
         ? m_faceWadeSpeeds[supportFace] : 1.0f;
     const float speedMultiplier = m_movementSpeedMultiplier * m_party.rulesMovementMultiplier() * wadeSpeed;
+    // Scene water volumes (MM9's deep water): their tops where their movers stand now; nothing on any other map.
+    const bool inWaterMap = waterActive();
+
+    if (inWaterMap)
+    {
+        m_waterTopOffsets = indoorWaterTopOffsets(m_movementController.indoorMapData()->waterVolumes,
+            m_movementController.indoorMapData()->vertices, m_movementController.runtimeVertices());
+    }
 
     while (m_movementAccumulatorSeconds >= IndoorMovementStepSeconds)
     {
@@ -363,6 +414,32 @@ void IndoorPartyRuntime::update(
             continue;
         }
 
+        if (inWaterMap
+            && stepInWater(m_movementSpeedMultiplier * m_party.rulesMovementMultiplier(), body, contactedActorIndices))
+        {
+            recordSteppedFloorFace(m_steppedFloorFaces, m_movementState);
+            m_pendingJumpRequested = false;
+            m_pendingJumpVelocity.reset();
+            m_pendingJumpLift = DefaultJumpLift;
+            m_movementAccumulatorSeconds -= IndoorMovementStepSeconds;
+            continue;
+        }
+
+        // A current carries a body that stands or falls in its water too (MM9 adds it to every mover's velocity).
+        float currentX = 0.0f;
+        float currentY = 0.0f;
+
+        if (inWaterMap && m_swimState != IndoorSwimState::Dry)
+        {
+            if (const std::optional<IndoorWaterSample> water = bodyWaterSample(m_movementState, body))
+            {
+                const IndoorWaterVolume &volume =
+                    m_movementController.indoorMapData()->waterVolumes[water->volumeIndex];
+                currentX = volume.current[0];
+                currentY = volume.current[1];
+            }
+        }
+
         const IndoorMoveState previousMovementState = m_movementState;
         const float jumpVelocityThisStep = m_pendingJumpVelocity.value_or(DefaultJumpVelocity);
         const float jumpLiftThisStep = m_pendingJumpLift;
@@ -373,8 +450,8 @@ void IndoorPartyRuntime::update(
         m_movementState = m_movementController.resolveMove(
             m_movementState,
             body,
-            desiredVelocityX * speedMultiplier + m_jumpCarryVelocityX + (dashing ? m_dashVelocityX : 0.0f),
-            desiredVelocityY * speedMultiplier + m_jumpCarryVelocityY + (dashing ? m_dashVelocityY : 0.0f),
+            desiredVelocityX * speedMultiplier + m_jumpCarryVelocityX + (dashing ? m_dashVelocityX : 0.0f) + currentX,
+            desiredVelocityY * speedMultiplier + m_jumpCarryVelocityY + (dashing ? m_dashVelocityY : 0.0f) + currentY,
             m_pendingJumpRequested,
             IndoorMovementStepSeconds,
             &contactedActorIndices,
@@ -391,7 +468,9 @@ void IndoorPartyRuntime::update(
             false,
             false,
             PartyGravityPerSecond);
-        if (m_movementState.landedThisFrame)
+        // Landing in water does not hurt (MM9 skips its landing path in water).
+        if (m_movementState.landedThisFrame
+            && !(inWaterMap && bodyWaterSample(m_movementState, body).has_value()))
         {
             landingFallDistance = std::max(landingFallDistance, m_movementState.fallDistance);
         }
@@ -531,10 +610,24 @@ void IndoorPartyRuntime::update(
         m_movementState.fallDistance = landingFallDistance;
     }
 
+    // A lava volume (scene water_volumes, liquid lava: MM9's Kato liquid, Drangheim Prison's Lava0) burns whoever is
+    // in it, as a lava floor does; Levitate does not lift the party out of it.
+    bool inLava = false;
+
+    if (inWaterMap)
+    {
+        if (const std::optional<IndoorWaterSample> water = bodyWaterSample(m_movementState, body))
+        {
+            inLava = m_movementController.indoorMapData()->waterVolumes[water->volumeIndex].liquid
+                == IndoorLiquid::Lava;
+        }
+    }
+
     // Levitate keeps the party just off the lava, as MM8 does in every world.
-    if (m_movementState.grounded
-        && !m_party.hasPartyBuff(PartyBuffId::Levitate)
-        && m_movementController.supportFaceIsBurning(m_movementState.supportFaceIndex))
+    if (inLava
+        || (m_movementState.grounded
+            && !m_party.hasPartyBuff(PartyBuffId::Levitate)
+            && m_movementController.supportFaceIsBurning(m_movementState.supportFaceIndex)))
     {
         m_burningDamageTimerSeconds += deltaSeconds;
 
@@ -556,6 +649,290 @@ void IndoorPartyRuntime::update(
 
     effects.indoor = true;
     m_party.applyMovementEffects(effects);
+
+    if (inWaterMap)
+    {
+        updateWaterBreath(deltaSeconds);
+    }
+}
+
+bool IndoorPartyRuntime::waterActive() const
+{
+    const IndoorMapData *pMapData = m_movementController.indoorMapData();
+    return pMapData != nullptr && !pMapData->waterVolumes.empty();
+}
+
+std::optional<IndoorWaterSample> IndoorPartyRuntime::bodyWaterSample(
+    const IndoorMoveState &state,
+    const IndoorBodyDimensions &body) const
+{
+    const IndoorMapData *pMapData = m_movementController.indoorMapData();
+
+    if (pMapData == nullptr || pMapData->waterVolumes.empty())
+    {
+        return std::nullopt;
+    }
+
+    return indoorBodyWaterSample(pMapData->waterVolumes, m_waterTopOffsets, state.x, state.y, state.footZ, body.height);
+}
+
+bool IndoorPartyRuntime::stepInWater(
+    float speedMultiplier,
+    const IndoorBodyDimensions &body,
+    std::vector<size_t> &contactedActorIndices)
+{
+    const IndoorMapData &mapData = *m_movementController.indoorMapData();
+    const std::optional<IndoorWaterSample> bodyWater = bodyWaterSample(m_movementState, body);
+    const float eyePointZ = m_movementState.eyeZ() - IndoorSwimEyePointDrop;
+    const std::optional<IndoorWaterSample> eyeWater =
+        indoorWaterAt(mapData.waterVolumes, m_waterTopOffsets, m_movementState.x, m_movementState.y, eyePointZ);
+    IndoorSwimFacts facts = {};
+    facts.bodyInWater = bodyWater.has_value() || eyeWater.has_value();
+    facts.eyeUnder = eyeWater.has_value();
+    facts.grounded = m_movementState.grounded;
+    IndoorSwimState state = indoorSwimState(facts, m_swimMemory);
+
+    if (state == IndoorSwimState::Surface && m_pendingJumpRequested)
+    {
+        // The jump out of the water (MM9 0x10099df0): the land jump's speed upward, gravity on, air control.
+        m_swimMemory.surfaceJump = true;
+        state = IndoorSwimState::SurfaceJump;
+        m_movementState.verticalVelocity = IndoorSurfaceJumpVelocity;
+        m_movementState.grounded = false;
+        m_movementState.supportFaceIndex = static_cast<size_t>(-1);
+    }
+    else if (state == IndoorSwimState::Bed && m_swimInput.vertical > 0)
+    {
+        // Rising off the bed: MM9's land jump there leaves the floor and its UnderWater mover takes over at once.
+        state = IndoorSwimState::Submerged;
+    }
+
+    m_swimState = state;
+    std::array<float, 3> current = {0.0f, 0.0f, 0.0f};
+
+    if (bodyWater)
+    {
+        current = mapData.waterVolumes[bodyWater->volumeIndex].current;
+    }
+    else if (eyeWater)
+    {
+        current = mapData.waterVolumes[eyeWater->volumeIndex].current;
+    }
+
+    if (state == IndoorSwimState::Submerged || state == IndoorSwimState::Surface)
+    {
+        const float surfaceZ = bodyWater ? bodyWater->surfaceZ : (eyeWater ? eyeWater->surfaceZ : eyePointZ);
+        const IndoorSwimVelocity velocity = indoorSwimVelocity(
+            state, m_swimInput, speedMultiplier, eyePointZ - surfaceZ, IndoorMovementStepSeconds);
+        // Gravity off, no momentum: the step's velocity is the input's (MM9 sets it from zero each frame).
+        IndoorMoveState swimming = m_movementState;
+        swimming.grounded = false;
+        swimming.supportFaceIndex = static_cast<size_t>(-1);
+        swimming.verticalVelocity = velocity.z + current[2];
+        m_movementState = m_movementController.resolveMove(
+            swimming,
+            body,
+            velocity.x + current[0],
+            velocity.y + current[1],
+            false,
+            IndoorMovementStepSeconds,
+            &contactedActorIndices,
+            std::nullopt,
+            true,
+            nullptr,
+            false,
+            false,
+            DefaultJumpVelocity,
+            DefaultJumpLift,
+            false,
+            false,
+            false,
+            false,
+            false,
+            0.0f);
+        m_movementState.verticalVelocity = 0.0f;
+        m_movementState.landedThisFrame = false;
+        m_movementState.fallStartZ = m_movementState.footZ;
+        m_movementState.fallDistance = 0.0f;
+        return true;
+    }
+
+    if (state == IndoorSwimState::SurfaceJump)
+    {
+        const IndoorSwimVelocity air = indoorSurfaceJumpAirControl(m_swimInput, speedMultiplier);
+        m_movementState = m_movementController.resolveMove(
+            m_movementState,
+            body,
+            air.x + current[0],
+            air.y + current[1],
+            false,
+            IndoorMovementStepSeconds,
+            &contactedActorIndices,
+            std::nullopt,
+            true,
+            nullptr,
+            false,
+            false,
+            DefaultJumpVelocity,
+            DefaultJumpLift,
+            false,
+            false,
+            false,
+            false,
+            false,
+            PartyGravityPerSecond);
+        // Landing back in the water or on a rim: no fall damage.
+        m_movementState.landedThisFrame = false;
+        m_movementState.fallStartZ = m_movementState.footZ;
+        m_movementState.fallDistance = 0.0f;
+        return true;
+    }
+
+    return false;
+}
+
+void IndoorPartyRuntime::updateWaterBreath(float deltaSeconds)
+{
+    const IndoorMapData &mapData = *m_movementController.indoorMapData();
+    const float eyePointZ = m_movementState.eyeZ() - IndoorSwimEyePointDrop;
+    const std::optional<IndoorWaterSample> eyeWater =
+        indoorWaterAt(mapData.waterVolumes, m_waterTopOffsets, m_movementState.x, m_movementState.y, eyePointZ);
+    const bool eyeUnder = eyeWater.has_value();
+
+    if (m_eyeUnderWaterKnown && eyeUnder != m_eyeUnderWater)
+    {
+        m_waterSounds.push_back(eyeUnder ? WaterSplashSound : WaterOutSound);
+    }
+
+    m_eyeUnderWater = eyeUnder;
+    m_eyeUnderWaterKnown = true;
+    m_eyeWaterVolumeIndex = eyeWater ? std::optional<size_t>(eyeWater->volumeIndex) : std::nullopt;
+
+    if (m_ladderIndex)
+    {
+        m_swimState = IndoorSwimState::Dry;
+    }
+
+    const uint32_t ticks = advanceIndoorBreath(m_breath, eyeUnder, deltaSeconds);
+
+    for (uint32_t tick = 0; tick < ticks; ++tick)
+    {
+        // MM9's tick (object.lto 0x100559c0): every member loses 1/6 of its maximum HP, through the ordinary damage
+        // path (armour and resistances do not reduce it), then a drowning sound.
+        for (size_t memberIndex = 0; memberIndex < m_party.members().size(); ++memberIndex)
+        {
+            m_party.applyDamageToMember(
+                memberIndex, indoorDrowningDamage(m_party.members()[memberIndex].maxHealth), "", true);
+        }
+
+        m_waterSounds.push_back(DrowningSounds[m_drowningTicks % 2]);
+        ++m_drowningTicks;
+        m_movementStatusText = "You are drowning!";
+    }
+}
+
+void IndoorPartyRuntime::keepPlacementInWater(float requestedFootZ, const IndoorBodyDimensions &body)
+{
+    // A party placed in deep water (a save made swimming, a teleport into a lake) stays where it was put instead of
+    // standing on the bed under it.
+    if (!waterActive() || requestedFootZ <= m_movementState.footZ + 1.0f)
+    {
+        return;
+    }
+
+    IndoorMoveState requested = m_movementState;
+    requested.footZ = requestedFootZ;
+
+    if (!bodyWaterSample(requested, body))
+    {
+        return;
+    }
+
+    if (const std::optional<IndoorMoveState> held =
+            m_movementController.airborneStateAt(m_movementState.x, m_movementState.y, requestedFootZ, body))
+    {
+        m_movementState = *held;
+        m_movementState.verticalVelocity = 0.0f;
+        m_movementState.fallStartZ = requestedFootZ;
+    }
+}
+
+void IndoorPartyRuntime::resetWaterState(bool refillBreath)
+{
+    // A party placed in deep water with its eye out is held at the surface (it counts as having been under).
+    m_swimMemory = {};
+    m_swimMemory.wasSubmerged = true;
+    m_swimState = IndoorSwimState::Dry;
+    m_eyeUnderWaterKnown = false;
+    m_eyeUnderWater = false;
+    m_eyeWaterVolumeIndex.reset();
+
+    if (refillBreath)
+    {
+        m_breath = {};
+        m_drowningTicks = 0;
+    }
+
+    if (!waterActive())
+    {
+        return;
+    }
+
+    // The state where the party now is (a load under water is under water at once, without a splash).
+    const IndoorMapData &mapData = *m_movementController.indoorMapData();
+    m_waterTopOffsets =
+        indoorWaterTopOffsets(mapData.waterVolumes, mapData.vertices, m_movementController.runtimeVertices());
+    const IndoorBodyDimensions body = {};
+    const std::optional<IndoorWaterSample> eyeWater = indoorWaterAt(mapData.waterVolumes, m_waterTopOffsets,
+        m_movementState.x, m_movementState.y, m_movementState.eyeZ() - IndoorSwimEyePointDrop);
+    IndoorSwimFacts facts = {};
+    facts.bodyInWater = eyeWater.has_value() || bodyWaterSample(m_movementState, body).has_value();
+    facts.eyeUnder = eyeWater.has_value();
+    facts.grounded = m_movementState.grounded;
+    IndoorSwimMemory memory = m_swimMemory;
+    m_swimState = indoorSwimState(facts, memory);
+    m_eyeUnderWater = eyeWater.has_value();
+    m_eyeUnderWaterKnown = true;
+    m_eyeWaterVolumeIndex = eyeWater ? std::optional<size_t>(eyeWater->volumeIndex) : std::nullopt;
+}
+
+void IndoorPartyRuntime::setSwimInput(const IndoorSwimInput &input)
+{
+    m_swimInput = input;
+}
+
+bool IndoorPartyRuntime::swimming() const
+{
+    return m_swimState == IndoorSwimState::Submerged || m_swimState == IndoorSwimState::Surface
+        || m_swimState == IndoorSwimState::Bed;
+}
+
+const IndoorWaterVolume *IndoorPartyRuntime::eyeWaterVolume() const
+{
+    const IndoorMapData *pMapData = m_movementController.indoorMapData();
+
+    if (pMapData == nullptr || !m_eyeWaterVolumeIndex || *m_eyeWaterVolumeIndex >= pMapData->waterVolumes.size())
+    {
+        return nullptr;
+    }
+
+    return &pMapData->waterVolumes[*m_eyeWaterVolumeIndex];
+}
+
+std::optional<float> IndoorPartyRuntime::breathFraction() const
+{
+    if (!m_eyeUnderWater)
+    {
+        return std::nullopt;
+    }
+
+    return indoorBreathFraction(m_breath);
+}
+
+void IndoorPartyRuntime::takeWaterSounds(std::vector<std::string> &sounds)
+{
+    sounds.clear();
+    std::swap(sounds, m_waterSounds);
 }
 
 void IndoorPartyRuntime::setActorColliders(const std::vector<IndoorActorCollision> &actorColliders)
@@ -658,6 +1035,7 @@ void IndoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_burningDamageTimerSeconds = 0.0f;
     m_alwaysRunEnabled = snapshot.alwaysRunEnabled;
     m_movementController.invalidateRuntimeGeometryCache();
+    resetWaterState(true);
 }
 
 void IndoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)

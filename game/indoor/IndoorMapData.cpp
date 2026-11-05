@@ -458,6 +458,56 @@ const IndoorFaceTranslucency *findIndoorFaceTranslucency(const IndoorMapData &in
     return found != faces.end() && found->faceIndex == faceIndex ? &found->translucency : nullptr;
 }
 
+const MechanismAudioProfile *findIndoorDoorSounds(const IndoorMapData &indoorMapData, uint32_t doorId)
+{
+    const std::vector<IndoorDoorSounds> &sounds = indoorMapData.doorSounds;
+    const auto found = std::lower_bound(sounds.begin(), sounds.end(), doorId,
+        [](const IndoorDoorSounds &entry, uint32_t id) { return entry.doorId < id; });
+    return found != sounds.end() && found->doorId == doorId ? &found->profile : nullptr;
+}
+
+const IndoorAiDoor *findIndoorAiDoor(const IndoorMapData &indoorMapData, uint32_t doorId)
+{
+    const std::vector<IndoorAiDoor> &doors = indoorMapData.aiDoors;
+    const auto found = std::lower_bound(doors.begin(), doors.end(), doorId,
+        [](const IndoorAiDoor &entry, uint32_t id) { return entry.doorId < id; });
+    return found != doors.end() && found->doorId == doorId ? &*found : nullptr;
+}
+
+const IndoorAiDoor *findIndoorAiDoorByFace(const IndoorMapData &indoorMapData, size_t faceIndex)
+{
+    const std::vector<std::pair<uint16_t, uint32_t>> &faces = indoorMapData.aiDoorFaces;
+
+    if (faces.empty() || faceIndex > 0xffffu)
+    {
+        return nullptr;
+    }
+
+    const auto found = std::lower_bound(faces.begin(), faces.end(), uint16_t(faceIndex),
+        [](const std::pair<uint16_t, uint32_t> &entry, uint16_t index) { return entry.first < index; });
+    return found != faces.end() && found->first == faceIndex ? findIndoorAiDoor(indoorMapData, found->second)
+        : nullptr;
+}
+
+const IndoorFootstepSound *findIndoorFootstepSound(const IndoorMapData &indoorMapData, size_t faceIndex)
+{
+    if (indoorMapData.footstepSounds.empty() || faceIndex >= indoorMapData.faces.size())
+    {
+        return nullptr;
+    }
+    std::string texture = indoorMapData.faces[faceIndex].textureName;
+    std::transform(texture.begin(), texture.end(), texture.begin(),
+        [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+    for (const IndoorFootstepSound &entry : indoorMapData.footstepSounds)
+    {
+        if (std::find(entry.textureNames.begin(), entry.textureNames.end(), texture) != entry.textureNames.end())
+        {
+            return &entry;
+        }
+    }
+    return nullptr;
+}
+
 const IndoorMoverDefinition *findIndoorMoverDefinition(const IndoorMapData &indoorMapData, uint32_t doorId)
 {
     const std::vector<IndoorMoverDefinition> &movers = indoorMapData.moverDefinitions;
@@ -1331,5 +1381,107 @@ std::optional<std::vector<uint8_t>> IndoorMapDataWriter::buildBytes(const Indoor
     }
 
     return bytes;
+}
+
+namespace
+{
+// A portal whose normal is at most this far from vertical joins a room to the air above it, and a face as level is a
+// floor (indoorOpenSkySectors).
+constexpr float OpenSkyLevelNormalZ = 0.7f;
+// A room is open to the sky by its own sky faces when they cover at least this share of its floor area (the cities'
+// sky shells are as large as the streets under them, a house's skylight or a sliver of the shell a few percent), or at
+// least this area (native units squared, a 3 162-unit square: Frosgard City's one open-air room has 148 M under a
+// shell of walls only, Thjorgard City's library skylight 0.83 M).
+constexpr double OpenSkyAreaShare = 0.25;
+constexpr double OpenSkyArea = 1.0e7;
+
+// The face's Newell vector (twice its area along its normal); zero for a degenerate face.
+std::array<double, 3> faceNewell(const IndoorMapData &mapData, const IndoorFace &face)
+{
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+    for (size_t index = 0; index < face.vertexIndices.size(); ++index)
+    {
+        const uint16_t first = face.vertexIndices[index];
+        const uint16_t second = face.vertexIndices[(index + 1) % face.vertexIndices.size()];
+        if (first >= mapData.vertices.size() || second >= mapData.vertices.size())
+        {
+            return {0.0, 0.0, 0.0};
+        }
+        const IndoorVertex &a = mapData.vertices[first];
+        const IndoorVertex &b = mapData.vertices[second];
+        x += double(a.y - b.y) * double(a.z + b.z);
+        y += double(a.z - b.z) * double(a.x + b.x);
+        z += double(a.x - b.x) * double(a.y + b.y);
+    }
+    return {x, y, z};
+}
+}
+
+std::vector<uint8_t> indoorOpenSkySectors(const IndoorMapData &mapData)
+{
+    std::vector<uint8_t> open(mapData.sectors.size(), 0);
+    std::vector<double> skyArea(open.size(), 0.0);
+    std::vector<double> floorArea(open.size(), 0.0);
+    // The portals through which sky light comes down: (the room above, the room below).
+    std::vector<std::pair<uint16_t, uint16_t>> downward;
+    for (const IndoorFace &face : mapData.faces)
+    {
+        if (face.roomNumber >= open.size())
+        {
+            continue;
+        }
+        const std::array<double, 3> newell = faceNewell(mapData, face);
+        const double length = std::sqrt(newell[0] * newell[0] + newell[1] * newell[1] + newell[2] * newell[2]);
+        if (length <= 0.0)
+        {
+            continue;
+        }
+        const double normalZ = newell[2] / length;
+        if (!face.isPortal)
+        {
+            if (hasFaceAttribute(face.attributes, FaceAttribute::IndoorSky))
+            {
+                skyArea[face.roomNumber] += length * 0.5;
+            }
+            else if (normalZ > OpenSkyLevelNormalZ)
+            {
+                floorArea[face.roomNumber] += length * 0.5;
+            }
+            continue;
+        }
+        if (face.roomBehindNumber >= open.size() || face.roomBehindNumber == face.roomNumber)
+        {
+            continue;
+        }
+        if (normalZ > OpenSkyLevelNormalZ)
+        {
+            downward.emplace_back(face.roomNumber, face.roomBehindNumber);
+        }
+        else if (normalZ < -OpenSkyLevelNormalZ)
+        {
+            downward.emplace_back(face.roomBehindNumber, face.roomNumber);
+        }
+    }
+    for (size_t sector = 0; sector < open.size(); ++sector)
+    {
+        open[sector] = skyArea[sector] > 0.0
+            && (skyArea[sector] >= OpenSkyAreaShare * floorArea[sector] || skyArea[sector] >= OpenSkyArea) ? 1 : 0;
+    }
+
+    for (bool changed = true; changed;)
+    {
+        changed = false;
+        for (const auto &[above, below] : downward)
+        {
+            if (open[above] != 0 && open[below] == 0)
+            {
+                open[below] = 1;
+                changed = true;
+            }
+        }
+    }
+    return open;
 }
 }

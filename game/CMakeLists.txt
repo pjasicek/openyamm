@@ -28,10 +28,13 @@ add_library(openyamm_game STATIC
     debug/GameImGuiBgfxRenderer.cpp
     debug/ScreenshotCaptureService.cpp
     debug/ScreenshotTour.cpp
+    debug/AiArena.cpp
+    debug/AiArenaOverlay.cpp
     debug/MenuInputTour.cpp
     data/GameDataRepository.cpp
     app/GameSession.cpp
     audio/GameAudioSystem.cpp
+    audio/WorldAmbientSounds.cpp
     audio/MusicStream.cpp
     tables/ChestTable.cpp
     tables/AwardTable.cpp
@@ -44,6 +47,7 @@ add_library(openyamm_game STATIC
     tables/ClassSkillTable.cpp
     events/EventDialogContent.cpp
     events/EventRuntime.cpp
+    events/MechanismAudio.cpp
     events/ScriptedEventProgram.cpp
     events/ScriptedEventTimer.cpp
     tables/FaceAnimationTable.cpp
@@ -79,7 +83,9 @@ add_library(openyamm_game STATIC
     gameplay/GameplayBolsterRuntime.cpp
     gameplay/ActorBehaviorCatalog.cpp
     gameplay/ActorBehaviorRuntime.cpp
+    gameplay/ActorAiTrace.cpp
     gameplay/GameplayActorAiSystem.cpp
+    gameplay/Mm9ActorRules.cpp
     gameplay/GameplayActorHitFeedback.cpp
     gameplay/GameplayActorShields.cpp
     gameplay/GameplayActorModifiers.cpp
@@ -126,6 +132,7 @@ add_library(openyamm_game STATIC
     pathfinding/PathMap.cpp
     pathfinding/PathPlanner.cpp
     audio/HouseVideoPlayer.cpp
+    content/CompletionCertificates.cpp
     content/ContentManifest.cpp
     content/ContentTableComposer.cpp
     content/WorldDecorations.cpp
@@ -151,6 +158,7 @@ add_library(openyamm_game STATIC
     mm9/Mm9RudeDialogue.cpp
     mm9/Mm9SkillTrainer.cpp
     mm9/Mm9QuestMarkers.cpp
+    maps/MechanismAudioYml.cpp
     maps/OutdoorSceneYml.cpp
     maps/TerrainTileData.cpp
     data/GameDataLoader.cpp
@@ -167,7 +175,12 @@ add_library(openyamm_game STATIC
     indoor/IndoorGameView.cpp
     indoor/IndoorCollisionPrimitives.cpp
     indoor/IndoorGeometryUtils.cpp
+    indoor/IndoorTerrainSurface.cpp
+    indoor/IndoorOpenSkyWeather.cpp
     indoor/IndoorMovers.cpp
+    indoor/IndoorDaylight.cpp
+    indoor/IndoorWater.cpp
+    indoor/IndoorFaceDrawGroups.cpp
     indoor/IndoorLightingRuntime.cpp
     indoor/IndoorMapData.cpp
     indoor/IndoorMovementController.cpp
@@ -176,6 +189,9 @@ add_library(openyamm_game STATIC
     indoor/IndoorLightReach.cpp
     indoor/IndoorPortalGraph.cpp
     indoor/IndoorPortalVisibility.cpp
+    indoor/IndoorPortalDebugView.cpp
+    indoor/IndoorRendererPortalDebug.cpp
+    indoor/IndoorSectorFaceGrid.cpp
     indoor/IndoorWorldRuntime.cpp
     maps/MapAssetLoader.cpp
     maps/DecorationModelPlacement.cpp
@@ -187,10 +203,12 @@ add_library(openyamm_game STATIC
     maps/MapRegistry.cpp
     tables/MapStats.cpp
     gameplay/MasteryTeacherDialog.cpp
+    gameplay/TrainerDirectory.cpp
     tables/MonsterProjectileTable.cpp
     tables/MonsterTable.cpp
     tables/MonsterShields.cpp
     tables/MonsterModifiers.cpp
+    tables/Mm9MonsterAi.cpp
     tables/MonsterRelationAddOns.cpp
     tables/MergedBaseTables.cpp
     tables/PotionEffectTable.cpp
@@ -232,6 +250,7 @@ add_library(openyamm_game STATIC
     rules/maw/MawSpellFormulas.cpp
     rules/maw/MawSpellRules.cpp
     rules/maw/MawTexts.cpp
+    rules/maw/MawTrainerHints.cpp
     rules/RandomStreams.cpp
     rules/ClassRules.cpp
     rules/CraftingRules.cpp
@@ -282,6 +301,8 @@ add_library(openyamm_game STATIC
     items/PriceCalculator.cpp
     tables/ReadableScrollTable.cpp
     render/TextureFiltering.cpp
+    render/TerrainMaterialConfig.cpp
+    render/TerrainMaterialSet.cpp
     tables/PortraitFxEventTable.cpp
     tables/PotionMixingTable.cpp
     tables/PotionNoteTable.cpp
@@ -332,9 +353,13 @@ add_library(openyamm_game STATIC
     ui/GameplayCraftingBenchView.cpp
     ui/GameplayJournalAuras.cpp
     ui/GameplayJournalProgress.cpp
+    ui/GameplayJournalTrainers.cpp
     ui/GameplayMapProgressBar.cpp
     ui/GameplayMapProgressText.cpp
     ui/GameplayQuickItems.cpp
+    ui/GameplayTransportSchedule.cpp
+    ui/GameplayMm9TalkBar.cpp
+    gameplay/GameplayTalkCamera.cpp
     ui/GameplayPartyOverlayRenderer.cpp
     ui/GameplayUiOverlayOrchestrator.cpp
     ui/GameplayUiRuntime.cpp
@@ -351,6 +376,8 @@ add_library(openyamm_game STATIC
     ui/screens/LoadGameScreen.cpp
     ui/screens/LoadingOverlayScreen.cpp
     ui/screens/NewGameScreen.cpp
+    ui/screens/NewGameScreenPartySheet.cpp
+    ui/screens/PartyCreationSheet.cpp
     ui/screens/WinGameScreen.cpp
     scene/IndoorSceneRuntime.cpp
     scene/OutdoorSceneRuntime.cpp

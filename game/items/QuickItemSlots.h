@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <optional>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -54,5 +55,32 @@ std::optional<PartyLocation> findPartyItem(
     int bagCount);
 // How many items of the slot's kind the whole party carries.
 size_t countPartyItems(const Party &party, const QuickItemSlot &slot, int bagCount);
+
+// One kind of potion or scroll the party carries at one power (the ring's picker and the basebar popups list these):
+// how many, in whose bags (member indices in party order), and whether it is a scroll.
+struct PartyItemKind
+{
+    uint32_t itemId = 0;
+    uint16_t power = 0;
+    size_t count = 0;
+    bool scroll = false;
+    std::vector<size_t> carriers;
+};
+
+// Every potion and scroll a slot may hold across the party's bags, in order of first appearance (the caller sorts).
+std::vector<PartyItemKind> partyItemKinds(
+    const Party &party,
+    const ItemTable &itemTable,
+    const MergedPotionSettingTable *pPotionSettingTable,
+    const MergedReagentSettingTable *pReagentSettingTable,
+    int bagCount);
+
+// An item of exactly this kind and power: the preferred member's bags first, then the others' in party order.
+std::optional<PartyLocation> findPartyItemOfPower(
+    const Party &party,
+    size_t preferredIndex,
+    uint32_t itemId,
+    uint16_t power,
+    int bagCount);
 }
 }

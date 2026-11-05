@@ -1,5 +1,7 @@
 # MAW as an optional ruleset
 
+> Formulas updated to MAW `8fbb48d1` (2026-11-05) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) lists a change.
+
 Status: investigation only (2026-10-22). Built since (2026-10-24): the MAW ruleset in `game/rules/maw/` and
 `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in
 [DEVIATIONS.md](DEVIATIONS.md). This folder describes what the MAW mod for MMMerge does, how it differs from the
@@ -144,7 +146,7 @@ Numbers here are summaries. Each heading links to the full treatment.
   chance; Luck also adds resistances. Melee and bow crits scale against the monster's level, spell and enchant crits
   against the party's total banked level.
 - **Armour and resistances** reduce damage hyperbolically against the attacker's level:
-  `taken = 1 / (AC / (200 + 6L) + 1)`, and the same shape for resistances with `100 + 12L`. A 10 % floor applies to
+  `taken = 1 / (AC / (200 + L) + 1)`, and the same shape for resistances with `100 + L`. A 10 % floor applies to
   the hit before shields, but flat class reductions and some legendaries come after it, so the final hit can be lower.
   Light uses the lower of Mind/Body, Dark the lowest element, Energy the lowest of all.
 - **Crits** for melee, bows and spells (Accuracy/Luck/Intellect driven).
@@ -213,7 +215,7 @@ Numbers here are summaries. Each heading links to the full treatment.
 ### 2.6 Spells ([CLASSES_SPELLS_SPEC.md](CLASSES_SPELLS_SPEC.md))
 
 - **About 37 damage spells re-tuned** and 16 cost/delay changes; Lightning Bolt becomes Chain Lightning.
-- **Ascension** is a power dial: damage per die `×(1+0.02s)·1.025^s`, flat damage `×(1+0.01s²)·1.025^s`, mana
+- **Ascension** is a power dial: damage per die `×(1+0.02s)·1.02^s`, flat damage `×(1+0.01s²)·1.02^s`, mana
   `×(1+0.125s)·1.04^s`, cast time `×1.015^s`; mastery is the only discount (12.5–50 %).
 - **Extra heals**: Remove Curse and Cure Disease become heals; quick-cast heals target the most injured member.
 - **Crowd control** has no resistance roll except Stun (30/(30 + L/4)); duration is cut by resistance. Fear, charm,

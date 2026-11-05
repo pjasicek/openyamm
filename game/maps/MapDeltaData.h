@@ -4,6 +4,7 @@
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/party/InventoryItem.h"
 #include "game/rules/ActorRulesetFacts.h"
+#include "game/tables/Mm9MonsterAi.h"
 
 #include <array>
 #include <cstddef>
@@ -64,6 +65,9 @@ struct MapDeltaActor
     bool dormant = false;
     // Waypoints it walks in turn, round and round, while it has nothing to fight (scene patrol: [[x, y, z], ...]).
     std::vector<std::array<int32_t, 3>> patrolPoints;
+    // An MM9 placement's AI settings (scene mm9_ai, written by the MM9 map converters; devdocs/mm9_rework/monster_ai/
+    // PROFILE.md). Data only for now: nothing changes how the actor behaves.
+    std::optional<Mm9AiPlacementRecord> mm9Ai;
     uint32_t attributes = 0;
     int32_t hp = 0;
     uint8_t hostilityType = 0;

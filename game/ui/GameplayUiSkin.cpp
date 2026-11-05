@@ -403,44 +403,85 @@ void renderPanel(GameplayScreenRuntime &context, const GameplayResolvedHudLayout
     runtime.submitHudQuadBatch(quads);
 }
 
-float partyBasebarLeft(const GameplayResolvedHudLayoutElement &rect)
+namespace
 {
-    return rect.x + 7 * rect.scale - rect.height * 0.293f;
+// An end ornament of the party frame: its unchanged generated RGBA sprite, the registered foreground bounds (UVs; the
+// right ornament mirrors them) and its width over its height.
+struct PartyBasebarOrnament
+{
+    const char *pTexture = nullptr;
+    float u0 = 0;
+    float u1 = 0;
+    float v0 = 0;
+    float v1 = 0;
+    float widthPerHeight = 0;
+};
+
+constexpr PartyBasebarOrnament CompactOrnament = {
+    "obsidian_party_endcap_compact", 330.0f / 992, 722.0f / 992, 103.0f / 1585, 1429.0f / 1585, 0.293f};
+// The same ornament with a round socket carved for the potion and scroll buttons (level_generation/ui/
+// potion_scroll_popups_20261102, socket v2 "medallion boss"): the same rail and height, wider outward.
+constexpr PartyBasebarOrnament SocketOrnament = {
+    "obsidian_party_endcap_socket", 156.0f / 992, 745.0f / 992, 104.0f / 1586, 1430.0f / 1586, 589.0f / 1326};
+// The socket within the socket ornament's bounds: its centre (from the outer edge, and from the top) and radius.
+constexpr float SocketCentreX = 0.4066f;
+constexpr float SocketCentreY = 0.5004f;
+constexpr float SocketRadius = 0.1301f;
+
+const PartyBasebarOrnament &partyBasebarOrnament(GameplayScreenRuntime &context)
+{
+    return partyBasebarHasSockets(context) ? SocketOrnament : CompactOrnament;
+}
+}
+
+bool partyBasebarHasSockets(GameplayScreenRuntime &context)
+{
+    return context.settingsSnapshot().basebarItemButtons
+        && context.currentHudScreenState() == GameplayHudScreenState::Gameplay;
+}
+
+float partyBasebarLeft(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &rect)
+{
+    return rect.x + 7 * rect.scale - rect.height * partyBasebarOrnament(context).widthPerHeight;
+}
+
+PartyBasebarSocket partyBasebarSocket(const GameplayResolvedHudLayoutElement &rect, bool right)
+{
+    const float width = rect.height * SocketOrnament.widthPerHeight;
+    const float x = right ? rect.x + rect.width - 7 * rect.scale + width * (1.0f - SocketCentreX)
+                          : rect.x + 7 * rect.scale - width + width * SocketCentreX;
+    return {x, rect.y + rect.height * SocketCentreY, rect.height * SocketRadius};
 }
 
 void renderPartyBasebar(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &rect)
 {
     renderPanel(context, rect, false, 0.75f);
-    const std::optional<GameplayHudTextureHandle> ornament =
-        context.gameplayUiRuntime().ensureHudTextureLoaded("obsidian_party_endcap_compact");
-    if (!ornament)
+    const PartyBasebarOrnament &ornament = partyBasebarOrnament(context);
+    const std::optional<GameplayHudTextureHandle> texture =
+        context.gameplayUiRuntime().ensureHudTextureLoaded(ornament.pTexture);
+    if (!texture)
     {
         return;
     }
     const float height = rect.height;
-    const float width = height * 0.293f;
-    const float y = rect.y;
-    // Registered foreground bounds of the unchanged generated RGBA sprite; mirror only the UVs.
-    constexpr float U0 = 330.0f / 992;
-    constexpr float U1 = 722.0f / 992;
-    constexpr float V0 = 103.0f / 1585;
-    constexpr float V1 = 1429.0f / 1585;
+    const float width = height * ornament.widthPerHeight;
     std::vector<GameplayHudBatchQuad> ornaments(2);
     for (GameplayHudBatchQuad &quad : ornaments)
     {
-        quad.textureHandle = ornament->textureHandle;
-        quad.y = y;
+        quad.textureHandle = texture->textureHandle;
+        quad.y = rect.y;
         quad.width = width;
         quad.height = height;
-        quad.v0 = V0;
-        quad.v1 = V1;
+        quad.v0 = ornament.v0;
+        quad.v1 = ornament.v1;
     }
-    ornaments[0].x = partyBasebarLeft(rect);
-    ornaments[0].u0 = U0;
-    ornaments[0].u1 = U1;
+    // The rails meet the frame where the compact ornament's did; a wider ornament grows outward.
+    ornaments[0].x = partyBasebarLeft(context, rect);
+    ornaments[0].u0 = ornament.u0;
+    ornaments[0].u1 = ornament.u1;
     ornaments[1].x = rect.x + rect.width - 7 * rect.scale;
-    ornaments[1].u0 = U1;
-    ornaments[1].u1 = U0;
+    ornaments[1].u0 = ornament.u1;
+    ornaments[1].u1 = ornament.u0;
     context.gameplayUiRuntime().submitHudQuadBatch(ornaments);
 }
 }

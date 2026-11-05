@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/items/QuickItemSlots.h"
 #include "game/ui/GameplayOverlayTypes.h"
 
 #include <cstddef>
@@ -26,6 +27,12 @@ public:
     // another member's (QuickItemSlots::findPartyItem), used on the member as a held item is (a scroll casts, a potion is drunk under the rules' recovery). What remains goes back
     // where it lay. False, with a status line, when nothing was used.
     bool useQuickItemSlot(GameplayScreenRuntime &runtime, size_t memberIndex, size_t slot);
+    // A carried potion or scroll used on (drunk or read by) the member exactly as a held item dropped on their portrait:
+    // the quick slots and the basebar's potion and scroll popups. What remains goes back where it lay.
+    bool useCarriedItem(
+        GameplayScreenRuntime &runtime,
+        size_t memberIndex,
+        const QuickItemSlots::PartyLocation &location);
 
     bool tryUseHeldItemOnInventoryItem(
         GameplayScreenRuntime &runtime,
@@ -56,6 +63,9 @@ public:
         const GameplayCharacterPointerTarget &pointerTarget,
         bool isLeftMousePressed,
         bool isRightMousePressed);
+    // Shows a message scroll's text for this frame (the Use key held over it in the pack); false when the item is not
+    // a readable message scroll.
+    bool showReadableScroll(GameplayScreenRuntime &runtime, size_t memberIndex, const InventoryItem &item);
     // A message scroll read with a right click on a portrait stays open until that button is released.
     bool readableScrollOverlayHeldByRightButton(bool isRightMousePressed) const;
 

@@ -5,6 +5,7 @@
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawCombatRules.h"
 #include "game/rules/maw/MawExperienceRules.h"
+#include "game/rules/maw/MawMonsterRules.h"
 #include "game/rules/maw/MawRules.h"
 
 #include <algorithm>
@@ -144,8 +145,11 @@ MonsterInspectNumbers mawMonsterInspectNumbers(const MawRules &rules, const Mons
 
     if (query.spellId != 0)
     {
-        numbers.spellDamage = damageRange(rules, query,
-            facts.attack1Damage * mapDamage * mawMonsterSpellMultiplier(query.spellId), query.spellDamageType);
+        // A spell deals the monster's damage for its element (zzMaw-Monsters.lua:2037-2046).
+        const int partyCount = query.pParty != nullptr ? int(std::max<size_t>(1, query.pParty->members().size())) : 5;
+        const double spellBase = mawMonsterBaseDamage(rules, facts, partyCount, query.spellDamageType);
+        numbers.spellDamage = damageRange(
+            rules, query, spellBase * mapDamage * mawMonsterSpellMultiplier(query.spellId), query.spellDamageType);
     }
 
     // The attack the monster lands: the Doom modes' roll in place of its own, poisons for diseases below level 20

@@ -353,6 +353,7 @@ void ActorBehaviorCatalog::clear()
     m_behaviors.clear();
     m_monsterDefaults.clear();
     m_monsterTactics.clear();
+    m_monsterMm9AiProfiles.clear();
 }
 
 void ActorBehaviorCatalog::setLibrary(const std::string &sourcePath, const std::string &source)
@@ -417,6 +418,30 @@ bool ActorBehaviorCatalog::applyMonsterModifiers(const MonsterModifierTable &mod
 {
     for (const auto &[monsterId, set] : modifiers.sets())
     {
+        // Kept apart from the tactics: an MM9 profile alone must not give its monster tactics (their turret aim and
+        // presentation), so MM9 monsters behave as before until the AI reads it.
+        if (set.mm9Ai)
+        {
+            m_monsterMm9AiProfiles[monsterId] = *set.mm9Ai;
+        }
+
+        if (set.skirmisher)
+        {
+            ActorTacticsFacts &tactics = m_monsterTactics[monsterId];
+            tactics.skirmish = true;
+            tactics.strafeAttackChance = set.skirmisher->strafeAttackChance;
+            tactics.evadeChance = set.skirmisher->evadeChance;
+            tactics.evadeSeconds = set.skirmisher->evadeSeconds;
+            tactics.backOffSeconds = set.skirmisher->backOffSeconds;
+            tactics.tauntChance = set.skirmisher->tauntChance;
+            tactics.tauntSeconds = set.skirmisher->tauntSeconds;
+        }
+
+        if (set.reposition)
+        {
+            m_monsterTactics[monsterId].reposition = *set.reposition;
+        }
+
         if (!set.kitesParty)
         {
             continue;
@@ -447,5 +472,16 @@ const ActorTacticsFacts *ActorBehaviorCatalog::tacticsForMonster(int16_t monster
 bool ActorBehaviorCatalog::hasTactics() const
 {
     return !m_monsterTactics.empty();
+}
+
+const Mm9AiProfile *ActorBehaviorCatalog::mm9AiProfileForMonster(int16_t monsterId) const
+{
+    const auto iterator = m_monsterMm9AiProfiles.find(monsterId);
+    return iterator != m_monsterMm9AiProfiles.end() ? &iterator->second : nullptr;
+}
+
+bool ActorBehaviorCatalog::hasMm9AiProfiles() const
+{
+    return !m_monsterMm9AiProfiles.empty();
 }
 }

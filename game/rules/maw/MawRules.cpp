@@ -257,6 +257,26 @@ const std::string &MawRules::currentMap() const
 void MawRules::setCurrentMap(const std::string &mapFileName)
 {
     m_currentMap = lowercase(mapFileName);
+
+    if (m_currentMap.ends_with(".odm"))
+    {
+        m_lastOutdoorMap = m_currentMap;
+    }
+}
+
+const std::string &MawRules::lastOutdoorMap() const
+{
+    return m_lastOutdoorMap;
+}
+
+const MawTrainerHints &MawRules::trainerHints() const
+{
+    return m_trainerHints;
+}
+
+void MawRules::setTrainerHints(MawTrainerHints hints)
+{
+    m_trainerHints = std::move(hints);
 }
 
 const MawDimensionRun *MawRules::dimensionRun(const std::string &mapFileName) const

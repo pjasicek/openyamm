@@ -426,6 +426,8 @@ TEST_CASE("saves keep the ruleset and its options")
     save.ruleset.options.randomizer = true;
     save.ruleset.options.preferences.homingProjectiles = false;
     save.ruleset.options.preferences.friendlyFire = true;
+    save.ruleset.options.preferences.trainerHints = true;
+    save.ruleset.options.preferences.bowDisabled = true;
     save.ruleset.options.preferences.lootFilter =
         OpenYAMM::Game::rulesetLootFilterWithPreset(RulesetLootFilterPreset::VeryStrict, true);
     save.ruleset.options.preferences.lootFilter.goldKinds |= 1u << unsigned(OpenYAMM::Game::RulesetLootKind::Gems);
@@ -476,6 +478,20 @@ size_t findValue(const std::vector<uint8_t> &bytes, const T &value)
 // Saves from version 140 lead with the summary block (its size, the map, the time, the ruleset, the name and the
 // preview); older ones keep the map after the scene kind, the time before the camera yaw, the ruleset before the
 // random root seed and the name and preview at the end. Moves them back, for a save then stamped with an older version.
+// Saves before version 143 end the party without its completion records; save carries one record named by marker.
+void eraseWorldCompletions(std::vector<uint8_t> &bytes, const std::string &marker)
+{
+    const auto markerIt = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
+    REQUIRE(markerIt != bytes.end());
+    // The record count and the id's length before the id; game minutes, score, real time and the timed flag after it,
+    // then the untracked flag, and the empty counts of chosen MM9 talk rows (version 146) and of bought Ledgers of
+    // Teachers (153) that follow.
+    const size_t offset = static_cast<size_t>(markerIt - bytes.begin()) - 2 * sizeof(uint64_t);
+    eraseBytes(bytes, offset,
+        2 * sizeof(uint64_t) + marker.size() + sizeof(float) + sizeof(uint64_t) + sizeof(int64_t) + 2 * sizeof(bool)
+            + 2 * sizeof(uint64_t));
+}
+
 void moveSummaryToLegacyPlaces(
     std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save, float yawMarker, uint64_t seedMarker)
 {
@@ -500,7 +516,10 @@ void moveSummaryToLegacyPlaces(
     const std::vector<uint8_t> map = piece(0, mapSize);
     const std::vector<uint8_t> minutes = piece(mapSize, minutesSize);
     const size_t rulesetOffset = mapSize + minutesSize;
-    const std::vector<uint8_t> ruleset = piece(rulesetOffset, summary.size() - rulesetOffset - nameAndPreviewSize);
+    // Without its last two bytes, the trainer hints and bow preferences of versions 152 and 154, which no summary-less
+    // save has.
+    const std::vector<uint8_t> ruleset =
+        piece(rulesetOffset, summary.size() - rulesetOffset - nameAndPreviewSize - 2 * sizeof(bool));
     const std::vector<uint8_t> nameAndPreview = piece(summary.size() - nameAndPreviewSize, nameAndPreviewSize);
 
     bytes.insert(bytes.end(), nameAndPreview.begin(), nameAndPreview.end());
@@ -526,11 +545,14 @@ TEST_CASE("saves written before rulesets load as the Standard ruleset")
     save.heldInventoryItem.temporaryBonusRemainingSeconds = heldItemMarker;
     const float yawMarker = 2.71828f;
     save.cameraYawRadians = yawMarker;
+    const std::string completionMarker = "completionmarker";
+    save.party.worldCompletions.push_back({completionMarker});
     const std::filesystem::path path = makeTemporaryRoot("ruleset_legacy").replace_extension(".oysav");
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
 
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseWorldCompletions(bytes, completionMarker);
     moveSummaryToLegacyPlaces(bytes, save, yawMarker, seedMarker);
     // The seed directly follows the ruleset and the MAW state's presence byte follows the seed, so cut them first.
     eraseBytes(bytes, findValue(bytes, seedMarker), sizeof(seedMarker) + 1);
@@ -569,6 +591,8 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
     save.cameraYawRadians = yawMarker;
     const uint64_t seedMarker = 0x1122334455667788ull;
     save.randomRootSeed = seedMarker;
+    const std::string completionMarker = "completionmarker";
+    save.party.worldCompletions.push_back({completionMarker});
     const std::filesystem::path path = makeTemporaryRoot("save_summary").replace_extension(".oysav");
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
@@ -592,6 +616,7 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
         restored->ruleset, restored->saveName, restored->previewBmp});
 
     std::vector<uint8_t> bytes = readBytes(path);
+    eraseWorldCompletions(bytes, completionMarker);
     moveSummaryToLegacyPlaces(bytes, save, yawMarker, seedMarker);
     const uint32_t previousVersion = 139;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
@@ -608,6 +633,46 @@ TEST_CASE("the save list reads a save's summary alone, and older saves' summary 
     writeBytes(path, bytes);
     CHECK_FALSE(OpenYAMM::Game::loadGameSaveSummaryFromPath(path, error).has_value());
     std::filesystem::remove(path);
+}
+
+TEST_CASE("saves before the Bow preference load with the bow on")
+{
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    save.ruleset.id = "maw";
+    save.ruleset.options.preferences.trainerHints = true;
+    save.ruleset.options.preferences.bowDisabled = true;
+    const std::filesystem::path path = makeTemporaryRoot("bow_preference").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
+
+    // The summary block holds the map, the time, the ruleset, the name and the preview; the Bow preference (version
+    // 154) is the ruleset's last byte, after the trainer hints (152). Cut it and stamp version 153.
+    std::vector<uint8_t> bytes = readBytes(path);
+    constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
+    uint32_t summarySize = 0;
+    std::memcpy(&summarySize, bytes.data() + HeaderSize, sizeof(summarySize));
+    const size_t nameAndPreviewSize =
+        sizeof(uint64_t) + save.saveName.size() + sizeof(uint64_t) + save.previewBmp.size();
+    const size_t bowOffset = HeaderSize + sizeof(summarySize) + summarySize - nameAndPreviewSize - sizeof(bool);
+    REQUIRE_EQ(bytes[bowOffset], 1);
+    REQUIRE_EQ(bytes[bowOffset - 1], 1);
+    eraseBytes(bytes, bowOffset, sizeof(bool));
+    --summarySize;
+    std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
+    const uint32_t previousVersion = 153;
+    std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
+    writeBytes(path, bytes);
+
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
+    const std::optional<OpenYAMM::Game::GameSaveSummary> summary =
+        OpenYAMM::Game::loadGameSaveSummaryFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    CHECK_FALSE(restored->ruleset.options.preferences.bowDisabled);
+    CHECK(restored->ruleset.options.preferences.trainerHints);
+    CHECK_EQ(restored->saveName, "ruleset check");
+    REQUIRE(summary.has_value());
+    CHECK_FALSE(summary->ruleset.options.preferences.bowDisabled);
 }
 
 TEST_CASE("saves keep a character's experience past 32 bits")
@@ -929,6 +994,8 @@ TEST_CASE("the installed MAW ruleset parses with MAW's own defaults")
     CHECK_FALSE(defaults.randomizer);
     CHECK(defaults.preferences.homingProjectiles);
     CHECK_FALSE(defaults.preferences.friendlyFire);
+    CHECK_FALSE(defaults.preferences.trainerHints);
+    CHECK_FALSE(defaults.preferences.bowDisabled);
     // The loot filter starts on the Regular preset (the approved study, 2026-10-25).
     CHECK(defaults.preferences.lootFilter.preset == RulesetLootFilterPreset::Regular);
 

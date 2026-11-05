@@ -240,12 +240,9 @@ TEST_CASE("evt.StopTimer stops an event's timer until evt.StartTimer runs it aga
     int fired = 0;
     const auto run = [&](double now)
     {
-        for (const EventRuntimeState::TimerControl &control : runtimeState.timerControls)
-        {
-            controlScriptedEventTimers(timers, control.eventId, control.start, control.delayGameMinutes, now);
-        }
-        runtimeState.timerControls.clear();
-        updateScriptedEventTimers(timers, now, [&](const ScriptedEventTimerDefinition &) { return ++fired > 0; });
+        updateScriptedEventTimers(
+            timers, now, [&](const ScriptedEventTimerDefinition &) { return ++fired > 0; },
+            &runtimeState.timerControls);
     };
 
     run(1.0);
@@ -312,4 +309,39 @@ TEST_CASE("AdvanceGameMinutes runs out the party's buffs with the clock")
 
     REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9013, runtimeState, &party));
     CHECK_FALSE(party.hasPartyBuff(PartyBuffId::DayOfGods));
+}
+
+TEST_CASE("Cmp of a character variable under ForPlayer All passes when any member passes")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9014, \"Check\", function()\n"
+        "    evt.ForPlayer(Players.All)\n"
+        "    if IsAtLeast(BlasterSkill, 1) then evt.StatusText(\"blaster\") else evt.StatusText(\"none\") end\n"
+        "    if IsAtLeast(BaseLevel, 20) then evt.StatusText(\"veteran\") else evt.StatusText(\"novice\") end\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@cmp_all_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    Party party = {};
+    PartySeed seed = {};
+    Character member = {};
+    member.name = "Ada";
+    member.level = 5;
+    member.maxHealth = 10;
+    member.health = 10;
+    seed.members = {member, member, member};
+    party.seed(seed);
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9014, runtimeState, &party));
+    CHECK_EQ(runtimeState.statusMessages, std::vector<std::string>{"none", "novice"});
+
+    // The last member alone has Blaster and the level: the party passes both checks.
+    party.member(2)->skills["Blaster"] = {"Blaster", 7, SkillMastery::Master};
+    party.member(2)->level = 25;
+    runtimeState.statusMessages.clear();
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9014, runtimeState, &party));
+    CHECK_EQ(runtimeState.statusMessages, std::vector<std::string>{"blaster", "veteran"});
 }

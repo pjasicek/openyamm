@@ -300,15 +300,15 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
     const std::optional<uint32_t> heldReagentResult = reagentSettingTable.resultItemIdForReagent(heldItemId);
     const std::optional<uint32_t> targetReagentResult = reagentSettingTable.resultItemIdForReagent(targetItemId);
     const auto mixReagentIntoBottle =
-        [&targetItem, alchemyLevel, alchemyMastery](
+        [alchemyLevel, alchemyMastery](InventoryItem &bottle,
             uint32_t resultItemId, const ItemDefinition &reagentDefinition, const InventoryItem &reagent)
         {
             const uint32_t power = alchemyLevel
                 + uint32_t(std::max(0,
                     boundGameRules().potions.reagentPower(reagentDefinition, reagent, alchemyMastery, alchemyLevel)));
-            targetItem.objectDescriptionId = resultItemId;
-            targetItem.standardEnchantPower = static_cast<uint16_t>(std::min<uint32_t>(0xFFFFu, power));
-            targetItem.identified = true;
+            bottle.objectDescriptionId = resultItemId;
+            bottle.standardEnchantPower = static_cast<uint16_t>(std::min<uint32_t>(0xFFFFu, power));
+            bottle.identified = true;
 
             InventoryItemMixResult result = {};
             result.handled = true;
@@ -322,13 +322,26 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
 
     if (heldReagentResult.has_value() && targetItemId == bottleItemId)
     {
-        return mixReagentIntoBottle(*heldReagentResult, *pHeldDefinition, heldItem);
+        return mixReagentIntoBottle(targetItem, *heldReagentResult, *pHeldDefinition, heldItem);
     }
 
     if (heldItemId == bottleItemId && targetReagentResult.has_value())
     {
-        // The power is read before the reagent becomes the potion.
-        return mixReagentIntoBottle(*targetReagentResult, *pTargetDefinition, targetItem);
+        // The held bottle takes the potion and the reagent is used up: a potion does not fit a reagent's slot.
+        InventoryItem potion = heldItem;
+        InventoryItemMixResult result =
+            mixReagentIntoBottle(potion, *targetReagentResult, *pTargetDefinition, targetItem);
+        result.targetItemChanged = false;
+        result.targetItemRemoved = true;
+
+        if (const ItemDefinition *pPotionDefinition = itemTable.get(potion.objectDescriptionId))
+        {
+            potion.width = std::max<uint8_t>(1, pPotionDefinition->inventoryWidth);
+            potion.height = std::max<uint8_t>(1, pPotionDefinition->inventoryHeight);
+        }
+
+        result.heldItemReplacement = potion;
+        return result;
     }
 
     if (pHeldPotionSetting == nullptr || pTargetPotionSetting == nullptr)

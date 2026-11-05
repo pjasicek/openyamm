@@ -2,11 +2,13 @@
 
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/BountyHuntRuntime.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/events/EvtEnums.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/ReputationRuntime.h"
+#include "game/gameplay/TrainerDirectory.h"
 #include "game/party/SpellIds.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/SpellRules.h"
@@ -26,6 +28,9 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr int MinutesPerDay = 24 * 60;
+// Waiting for a stable's or boat's departure eats one food a day, about what waiting until morning and resting
+// costs (user, 2026-11-04).
+constexpr int TransportWaitFoodPerDay = 1;
 constexpr uint32_t LorettaPriceQuestBit = 1140;
 constexpr uint32_t LorettaPriceCompleteBit = 1141;
 constexpr uint32_t LorettaFirstStableBit = 1515;
@@ -228,6 +233,13 @@ void disableHouseOptionsForReputation(std::vector<HouseActionOption> &options, c
         option.enabled = false;
         option.disabledReason = reason;
     }
+}
+
+// A dead, stoned, unconscious, asleep or paralysed character cannot train or take lessons (OE
+// GUIWindow_House::checkIfPlayerCanInteract).
+std::string noConditionToActText(const Character &member)
+{
+    return member.name + " is in no condition to do anything";
 }
 
 int templeDonationTriggerIndexFromGameMinutes(float currentGameMinutes)
@@ -1134,6 +1146,16 @@ std::vector<std::string> buildHouseServiceInfoLines(
             lines.push_back("No skills are available here for this character.");
         }
     }
+    else if (menuId == DialogueMenuId::TeacherLedger)
+    {
+        const std::optional<uint32_t> continent = tavernTeacherLedgerContinent(houseEntry, pParty);
+
+        if (continent)
+        {
+            const TeacherLedgerSettings &ledger = pParty->trainerDirectory()->ledger();
+            lines.push_back(ledger.fill(ledger.description, trainerContinentName(*continent)));
+        }
+    }
     else if (menuId == DialogueMenuId::TavernArcomage)
     {
         lines.push_back(std::string {});
@@ -1159,6 +1181,71 @@ std::vector<HouseActionOption> finalizeHouseActionOptions(
     const IGameplayWorldRuntime *pWorldRuntime,
     float currentGameMinutes,
     std::vector<HouseActionOption> options);
+
+TransportSchedule buildTransportSchedule(
+    const HouseEntry &houseEntry,
+    const Party *pParty,
+    const IGameplayWorldRuntime *pWorldRuntime)
+{
+    TransportSchedule schedule;
+    const EventRuntimeState *pEventRuntimeState =
+        pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+    const bool boat = isBoatHouse(houseEntry);
+    schedule.today = pWorldRuntime != nullptr ? dayOfWeekFromGameMinutes(pWorldRuntime->gameMinutes()) : 0;
+    schedule.fare = PriceCalculator::transportPrice(
+        partyMerchantMember(pParty),
+        houseEntry,
+        boat,
+        effectiveReputationForWorld(pWorldRuntime));
+    schedule.foodPerWaitDay = TransportWaitFoodPerDay;
+
+    for (const HouseEntry::TransportRoute &baseRoute : houseEntry.transportRoutes)
+    {
+        const HouseEntry::TransportRoute route = effectiveTransportRoute(houseEntry, baseRoute, pEventRuntimeState);
+
+        if (!routeQBitSatisfied(route, pWorldRuntime))
+        {
+            continue;
+        }
+
+        TransportScheduleRoute entry;
+        entry.routeIndex = route.routeIndex;
+        entry.destinationName = route.destinationName;
+        entry.daysAvailable = route.daysAvailable;
+        entry.travelDays = adjustedTransportTravelDays(route, pEventRuntimeState, !boat);
+        schedule.routes.push_back(std::move(entry));
+    }
+
+    return schedule;
+}
+
+std::optional<uint32_t> tavernTeacherLedgerContinent(const HouseEntry &houseEntry, const Party *pParty)
+{
+    if (pParty == nullptr || pParty->trainerDirectory() == nullptr
+        || resolveHouseServiceType(houseEntry) != HouseServiceType::Tavern)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<uint32_t> continent = pParty->trainerDirectory()->mapContinent(houseEntry.mapId);
+
+    if (!continent || trainerContinentName(*continent).empty() || pParty->hasTeacherLedger(*continent))
+    {
+        return std::nullopt;
+    }
+
+    return continent;
+}
+
+int transportWaitDays(int today, int departureDay)
+{
+    return ((departureDay - today) % 7 + 7) % 7;
+}
+
+std::string transportScheduledTripArgument(uint32_t routeIndex, int departureDay)
+{
+    return std::to_string(routeIndex) + ":" + std::to_string(departureDay);
+}
 
 std::vector<HouseActionOption> buildHouseActionOptions(
     const HouseEntry &houseEntry,
@@ -1258,6 +1345,21 @@ std::vector<HouseActionOption> buildHouseActionOptions(
         }
 
         return finalizeHouseActionOptions(houseEntry, serviceType, menuId, pParty, pWorldRuntime, currentGameMinutes, std::move(options));
+    }
+
+    if (menuId == DialogueMenuId::TeacherLedger)
+    {
+        if (const std::optional<uint32_t> continent = tavernTeacherLedgerContinent(houseEntry, pParty))
+        {
+            const TeacherLedgerSettings &ledger = pParty->trainerDirectory()->ledger();
+            HouseActionOption buy = makeOption(HouseActionId::BuyTeacherLedger,
+                ledger.fill(ledger.buy, trainerContinentName(*continent)), isHouseOpenNow, closedReason);
+            buy.argument = std::to_string(*continent);
+            options.push_back(std::move(buy));
+        }
+
+        return finalizeHouseActionOptions(
+            houseEntry, serviceType, menuId, pParty, pWorldRuntime, currentGameMinutes, std::move(options));
     }
 
     if (menuId == DialogueMenuId::TavernArcomage)
@@ -1391,6 +1493,13 @@ std::vector<HouseActionOption> buildHouseActionOptions(
                 closedReason));
         }
 
+        // The continent's Ledger of Teachers, until the party has it.
+        if (tavernTeacherLedgerContinent(houseEntry, pParty))
+        {
+            options.push_back(makeOption(HouseActionId::OpenTeacherLedgerMenu,
+                pParty->trainerDirectory()->ledger().topic, isHouseOpenNow, closedReason));
+        }
+
         return finalizeHouseActionOptions(houseEntry, serviceType, menuId, pParty, pWorldRuntime, currentGameMinutes, std::move(options));
     }
 
@@ -1405,7 +1514,13 @@ std::vector<HouseActionOption> buildHouseActionOptions(
             const Character &member = *pParty->activeMember();
             const int trainingCap = pParty->rules().experience.trainingLevelCap(houseEntry.trainingMaxLevel);
 
-            if (trainingCap > 0 && member.level >= static_cast<uint32_t>(trainingCap))
+            if (!GameMechanics::canAct(member))
+            {
+                label = noConditionToActText(member);
+                trainingAvailable = false;
+                trainingUnavailableReason = label;
+            }
+            else if (trainingCap > 0 && member.level >= static_cast<uint32_t>(trainingCap))
             {
                 label = "With your skills, you should be working here as a teacher\n\n"
                     "Sorry, but we are unable to train you.";
@@ -1606,6 +1721,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
                 closedReason));
         }
 
+        options.push_back(makeOption(HouseActionId::TransportSchedule, "Schedule", isHouseOpenNow, closedReason));
         const Character *pMember = selectedMember(pParty);
         bool anyRouteVisible = false;
         bool anyRouteHidden = false;
@@ -1754,6 +1870,185 @@ std::vector<HouseActionOption> finalizeHouseActionOptions(
     }
 
     return options;
+}
+
+namespace
+{
+// A route's trip (TransportRoute today, TransportScheduledTrip after waiting for its day): the fare, the waiting
+// food, the days on the road with the party resting, and the map move.
+void travelByTransport(
+    const HouseActionOption &action,
+    const HouseEntry &houseEntry,
+    Party &party,
+    IGameplayWorldRuntime *pWorldRuntime,
+    HouseActionResult &result)
+{
+    // The route's index leads the argument; a scheduled trip adds its departure day after a colon.
+    const HouseEntry::TransportRoute *pRoute = findTransportRoute(houseEntry, action.argument);
+    const bool scheduled = action.id == HouseActionId::TransportScheduledTrip;
+    const size_t daySeparator = action.argument.find(':');
+    const int departureDay = scheduled && daySeparator != std::string::npos
+        ? std::atoi(action.argument.c_str() + daySeparator + 1)
+        : -1;
+
+    if (pRoute == nullptr || (scheduled && (departureDay < 0 || departureDay > 6)))
+    {
+        result.messages.push_back("That route is not available.");
+        return;
+    }
+
+    if (pWorldRuntime == nullptr)
+    {
+        result.messages.push_back("Travel is unavailable right now.");
+        return;
+    }
+
+    EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        result.messages.push_back("Travel is unavailable right now.");
+        return;
+    }
+
+    const HouseEntry::TransportRoute route =
+        effectiveTransportRoute(houseEntry, *pRoute, pEventRuntimeState);
+
+    if (!routeQBitSatisfied(route, pWorldRuntime))
+    {
+        result.messages.push_back("That route is not available.");
+        return;
+    }
+
+    int waitDays = 0;
+
+    if (scheduled)
+    {
+        if (!route.daysAvailable[size_t(departureDay)])
+        {
+            result.messages.push_back("That route is not available.");
+            return;
+        }
+
+        waitDays = transportWaitDays(dayOfWeekFromGameMinutes(pWorldRuntime->gameMinutes()), departureDay);
+    }
+    else if (!routeAvailableToday(route, pWorldRuntime->gameMinutes()))
+    {
+        result.messages.push_back("Sorry, come back another day");
+        return;
+    }
+
+    const int price = PriceCalculator::transportPrice(
+        partyMerchantMember(&party),
+        houseEntry,
+        isBoatHouse(houseEntry),
+        effectiveReputationForWorld(pWorldRuntime));
+
+    if (party.gold() < price)
+    {
+        result.messages.push_back("You don't have enough gold.");
+        result.soundType = HouseSoundType::TransportNotEnoughGold;
+        result.speechId = SpeechId::NotEnoughGold;
+        return;
+    }
+
+    // The party eats while it waits for the departure; the trip itself is free.
+    const int waitFood = waitDays * TransportWaitFoodPerDay;
+
+    if (party.food() < waitFood)
+    {
+        result.messages.push_back(
+            "You don't have enough food to wait " + transportTravelDaysText(waitDays) + ".");
+        return;
+    }
+
+    party.addGold(-price);
+
+    if (waitDays > 0)
+    {
+        party.addFood(-waitFood);
+        const float waitMinutes = float(waitDays * MinutesPerDay);
+        pWorldRuntime->advanceGameMinutes(waitMinutes);
+        party.advanceTimedStates(waitMinutes * 60.0f);
+    }
+
+    party.restAndHealAll();
+    const int travelDays =
+        adjustedTransportTravelDays(route, pEventRuntimeState, !isBoatHouse(houseEntry));
+    const float beforeGameMinutes = pWorldRuntime->gameMinutes();
+    const float travelMinutes = static_cast<float>(travelDays * MinutesPerDay);
+    pWorldRuntime->advanceGameMinutes(travelMinutes);
+    party.advanceTimedStates(travelMinutes * 60.0f);
+    const float afterGameMinutes = pWorldRuntime->gameMinutes();
+
+    EventRuntimeState::PendingMapMove pendingMapMove = {};
+    pendingMapMove.travelTimeApplied = true;
+    pendingMapMove.mapName = route.mapFileName;
+    pendingMapMove.x = route.x;
+    pendingMapMove.y = route.y;
+    pendingMapMove.z = route.z;
+    pendingMapMove.directionDegrees = route.directionDegrees;
+    pendingMapMove.useMapStartPosition = route.useMapStartPosition;
+    pendingMapMove.traceSourceKind = isBoatHouse(houseEntry) ? "boat_route" : "horse_route";
+    pendingMapMove.traceSourceId = houseEntry.id;
+    pendingMapMove.traceActionId = static_cast<uint32_t>(action.id);
+    pendingMapMove.traceDestinationName = route.destinationName;
+    pEventRuntimeState->lastMapTransitionRequested = EventRuntimeState::MapTransitionTrace{
+        .sourceKind = pendingMapMove.traceSourceKind,
+        .sourceId = houseEntry.id,
+        .actionId = static_cast<uint32_t>(action.id),
+        .routeIndex = route.routeIndex,
+        .confirmationRequired = false,
+        .destinationMap = route.mapFileName,
+        .destinationName = route.destinationName,
+        .travelDays = static_cast<uint32_t>(travelDays),
+        .useStartPosition = route.useMapStartPosition,
+        .x = route.x,
+        .y = route.y,
+        .z = route.z,
+        .directionDegrees = route.directionDegrees,
+    };
+    GAMEPLAY_DEBUG_TRACE(
+        "game_time_advanced source=\"" + pendingMapMove.traceSourceKind + "\""
+        + " source_id=" + std::to_string(houseEntry.id)
+        + " action_id=" + std::to_string(static_cast<uint32_t>(action.id))
+        + " minutes=" + std::to_string(travelMinutes)
+        + " before_game_minutes=" + std::to_string(beforeGameMinutes)
+        + " after_game_minutes=" + std::to_string(afterGameMinutes)
+        + " game_minutes=" + std::to_string(afterGameMinutes));
+    GAMEPLAY_DEBUG_TRACE(
+        "map_transition_requested source_kind=\"" + pendingMapMove.traceSourceKind + "\""
+        + " source_id=" + std::to_string(houseEntry.id)
+        + " action_id=" + std::to_string(static_cast<uint32_t>(action.id))
+        + " route_index=" + std::to_string(route.routeIndex)
+        + " confirmation_required=false"
+        + " destination_map=\"" + route.mapFileName + "\""
+        + " destination_name=\"" + route.destinationName + "\""
+        + " travel_days=" + std::to_string(travelDays)
+        + " before_game_minutes=" + std::to_string(beforeGameMinutes)
+        + " game_minutes=" + std::to_string(afterGameMinutes)
+        + " use_start_position=" + (route.useMapStartPosition ? "true" : "false")
+        + " pos=(" + std::to_string(route.x)
+        + "," + std::to_string(route.y)
+        + "," + std::to_string(route.z) + ")"
+        + " direction_degrees=" + std::to_string(route.directionDegrees));
+    pEventRuntimeState->pendingMapMove = std::move(pendingMapMove);
+
+    result.messages.push_back(
+        (waitDays > 0
+                ? "You wait " + transportTravelDaysText(waitDays) + " for the "
+                    + (isBoatHouse(houseEntry) ? "ship" : "coach") + ". "
+                : std::string())
+        + "It will take "
+        + transportTravelDaysText(travelDays)
+        + " to travel to "
+        + route.destinationName
+        + "."
+    );
+    result.succeeded = true;
+    result.soundType = HouseSoundType::TransportTravel;
+    return;
+}
 }
 
 HouseActionResult performHouseAction(
@@ -2126,6 +2421,12 @@ HouseActionResult performHouseAction(
                 return result;
             }
 
+            if (!GameMechanics::canAct(*pMember))
+            {
+                result.messages.push_back(noConditionToActText(*pMember));
+                return result;
+            }
+
             const int price = trainingCost(
                 houseEntry,
                 party,
@@ -2235,6 +2536,12 @@ HouseActionResult performHouseAction(
                 return result;
             }
 
+            if (!GameMechanics::canAct(*pMember))
+            {
+                result.messages.push_back(noConditionToActText(*pMember));
+                return result;
+            }
+
             if (!party.canActiveMemberLearnSkill(action.argument))
             {
                 result.messages.push_back(
@@ -2288,130 +2595,34 @@ HouseActionResult performHouseAction(
         }
 
         case HouseActionId::TransportRoute:
+        case HouseActionId::TransportScheduledTrip:
         {
-            const HouseEntry::TransportRoute *pRoute = findTransportRoute(houseEntry, action.argument);
+            travelByTransport(action, houseEntry, party, pWorldRuntime, result);
+            return result;
+        }
 
-            if (pRoute == nullptr)
+        case HouseActionId::BuyTeacherLedger:
+        {
+            const std::optional<uint32_t> continent = tavernTeacherLedgerContinent(houseEntry, &party);
+
+            if (!continent)
             {
-                result.messages.push_back("That route is not available.");
+                result.messages.push_back("The ledger is not sold here.");
                 return result;
             }
 
-            if (pWorldRuntime == nullptr)
+            const TrainerDirectory &directory = *party.trainerDirectory();
+            const std::string continentName = trainerContinentName(*continent);
+
+            if (!buyTeacherLedger(party, directory, *continent))
             {
-                result.messages.push_back("Travel is unavailable right now.");
+                result.messages.push_back(directory.ledger().fill(directory.ledger().tooPoor, continentName));
+                result.soundType = HouseSoundType::TavernNotEnoughGold;
                 return result;
             }
 
-            EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
-
-            if (pEventRuntimeState == nullptr)
-            {
-                result.messages.push_back("Travel is unavailable right now.");
-                return result;
-            }
-
-            const HouseEntry::TransportRoute route =
-                effectiveTransportRoute(houseEntry, *pRoute, pEventRuntimeState);
-
-            if (!routeQBitSatisfied(route, pWorldRuntime))
-            {
-                result.messages.push_back("That route is not available.");
-                return result;
-            }
-
-            if (!routeAvailableToday(route, pWorldRuntime->gameMinutes()))
-            {
-                result.messages.push_back("Sorry, come back another day");
-                return result;
-            }
-
-            const int price = PriceCalculator::transportPrice(
-                partyMerchantMember(&party),
-                houseEntry,
-                isBoatHouse(houseEntry),
-                effectiveReputationForWorld(pWorldRuntime));
-
-            if (party.gold() < price)
-            {
-                result.messages.push_back("You don't have enough gold.");
-                result.soundType = HouseSoundType::TransportNotEnoughGold;
-                result.speechId = SpeechId::NotEnoughGold;
-                return result;
-            }
-
-            party.addGold(-price);
-            party.restAndHealAll();
-            const int travelDays =
-                adjustedTransportTravelDays(route, pEventRuntimeState, !isBoatHouse(houseEntry));
-            const float beforeGameMinutes = pWorldRuntime->gameMinutes();
-            const float travelMinutes = static_cast<float>(travelDays * MinutesPerDay);
-            pWorldRuntime->advanceGameMinutes(travelMinutes);
-            party.advanceTimedStates(travelMinutes * 60.0f);
-            const float afterGameMinutes = pWorldRuntime->gameMinutes();
-
-            EventRuntimeState::PendingMapMove pendingMapMove = {};
-            pendingMapMove.travelTimeApplied = true;
-            pendingMapMove.mapName = route.mapFileName;
-            pendingMapMove.x = route.x;
-            pendingMapMove.y = route.y;
-            pendingMapMove.z = route.z;
-            pendingMapMove.directionDegrees = route.directionDegrees;
-            pendingMapMove.useMapStartPosition = route.useMapStartPosition;
-            pendingMapMove.traceSourceKind = isBoatHouse(houseEntry) ? "boat_route" : "horse_route";
-            pendingMapMove.traceSourceId = houseEntry.id;
-            pendingMapMove.traceActionId = static_cast<uint32_t>(action.id);
-            pendingMapMove.traceDestinationName = route.destinationName;
-            pEventRuntimeState->lastMapTransitionRequested = EventRuntimeState::MapTransitionTrace{
-                .sourceKind = pendingMapMove.traceSourceKind,
-                .sourceId = houseEntry.id,
-                .actionId = static_cast<uint32_t>(action.id),
-                .routeIndex = route.routeIndex,
-                .confirmationRequired = false,
-                .destinationMap = route.mapFileName,
-                .destinationName = route.destinationName,
-                .travelDays = static_cast<uint32_t>(travelDays),
-                .useStartPosition = route.useMapStartPosition,
-                .x = route.x,
-                .y = route.y,
-                .z = route.z,
-                .directionDegrees = route.directionDegrees,
-            };
-            GAMEPLAY_DEBUG_TRACE(
-                "game_time_advanced source=\"" + pendingMapMove.traceSourceKind + "\""
-                + " source_id=" + std::to_string(houseEntry.id)
-                + " action_id=" + std::to_string(static_cast<uint32_t>(action.id))
-                + " minutes=" + std::to_string(travelMinutes)
-                + " before_game_minutes=" + std::to_string(beforeGameMinutes)
-                + " after_game_minutes=" + std::to_string(afterGameMinutes)
-                + " game_minutes=" + std::to_string(afterGameMinutes));
-            GAMEPLAY_DEBUG_TRACE(
-                "map_transition_requested source_kind=\"" + pendingMapMove.traceSourceKind + "\""
-                + " source_id=" + std::to_string(houseEntry.id)
-                + " action_id=" + std::to_string(static_cast<uint32_t>(action.id))
-                + " route_index=" + std::to_string(route.routeIndex)
-                + " confirmation_required=false"
-                + " destination_map=\"" + route.mapFileName + "\""
-                + " destination_name=\"" + route.destinationName + "\""
-                + " travel_days=" + std::to_string(travelDays)
-                + " before_game_minutes=" + std::to_string(beforeGameMinutes)
-                + " game_minutes=" + std::to_string(afterGameMinutes)
-                + " use_start_position=" + (route.useMapStartPosition ? "true" : "false")
-                + " pos=(" + std::to_string(route.x)
-                + "," + std::to_string(route.y)
-                + "," + std::to_string(route.z) + ")"
-                + " direction_degrees=" + std::to_string(route.directionDegrees));
-            pEventRuntimeState->pendingMapMove = std::move(pendingMapMove);
-
-            result.messages.push_back(
-                "It will take "
-                + transportTravelDaysText(travelDays)
-                + " to travel to "
-                + route.destinationName
-                + "."
-            );
+            result.messages.push_back(directory.ledger().fill(directory.ledger().bought, continentName));
             result.succeeded = true;
-            result.soundType = HouseSoundType::TransportTravel;
             return result;
         }
 
@@ -2438,6 +2649,7 @@ HouseActionResult performHouseAction(
         case HouseActionId::OpenLearnSkillsMenu:
         case HouseActionId::OpenShopEquipmentMenu:
         case HouseActionId::OpenTavernArcomageMenu:
+        case HouseActionId::OpenTeacherLedgerMenu:
         case HouseActionId::BackToRootMenu:
         case HouseActionId::ExtraExit:
         {

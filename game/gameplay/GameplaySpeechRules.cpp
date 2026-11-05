@@ -20,6 +20,8 @@ bool bypassSpeechCooldown(SpeechId speechId)
         case SpeechId::RepairFail:
         case SpeechId::LeaveDungeon:
         case SpeechId::EnterDungeon:
+        // Yell waits for its own clip to finish instead (GameplayInputController).
+        case SpeechId::Yell:
             return true;
 
         default:
@@ -83,5 +85,24 @@ bool canPlaySpeechReactionForPresentationState(
         default:
             return true;
     }
+}
+
+bool isRepeatedSpeechReaction(
+    const GameplayPortraitPresentationState &presentationState,
+    size_t memberIndex,
+    SpeechId speechId,
+    uint32_t nowTicks,
+    uint32_t intervalMs)
+{
+    if (intervalMs == 0 || memberIndex >= presentationState.memberSpeechLastPlayedTicks.size())
+    {
+        return false;
+    }
+
+    const std::unordered_map<SpeechId, uint32_t> &lastPlayedTicks =
+        presentationState.memberSpeechLastPlayedTicks[memberIndex];
+    const std::unordered_map<SpeechId, uint32_t>::const_iterator lastPlayedIt = lastPlayedTicks.find(speechId);
+
+    return lastPlayedIt != lastPlayedTicks.end() && nowTicks - lastPlayedIt->second < intervalMs;
 }
 }

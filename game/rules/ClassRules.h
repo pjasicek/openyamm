@@ -48,7 +48,8 @@ public:
     // The class's maximum HP and SP before items, buffs and skill percents, or nothing for Standard's formulas.
     virtual std::optional<int> baseMaxHealth(const Character &character, const ClassMultiplierEntry &entry) const;
     virtual std::optional<int> baseMaxSpellPoints(const Character &character, const ClassMultiplierEntry &entry) const;
-    // After items, buffs and skills: what the class adds or takes away. Standard: nothing.
+    // After items, buffs and skills: what the class adds or takes away. Every ruleset: the undead (the Undead race, a
+    // Lich) are immune to Mind and Body, vampires to Mind; overrides call this first.
     virtual void applyClassBonuses(Character &member) const;
     // Whether spell books can teach the character. Standard: always.
     virtual bool learnsSpellsFromBooks(const Character &character) const;

@@ -52,6 +52,12 @@ struct ModelRenderLighting
     std::array<float, 4> fogDistances = {1.0e9f, 1.0e9f, 1.0e9f, 0};
     // Shared sky colour for fog (u_skyFog); all zero keeps the flat fogColor.
     std::array<std::array<float, 4>, ModelSkyFogVectors> skyFog = {};
+    // MM9's fixed-function model lighting (indoor scene model_lighting, devdocs/INDOOR_MODEL_LIGHTING.md) instead of
+    // the PBR path: the texel times min(1, light) in display space, light = ambient (ambientColor x ambient x the
+    // placement light) + each point light's colour x intensity x fixedPointScale x (1 - d^2/r^2) x max(0, N.L), with
+    // mesh normals; no key light, specular, reflection, sun or edge darkening.
+    bool fixedFunctionLighting = false;
+    float fixedPointScale = 1.0f;
 };
 
 // The colour programs of materials with an emissive texture (fs_model_emissive), one per vertex program: single draws
@@ -250,6 +256,8 @@ private:
         bgfx::IndexBufferHandle indexBuffer = BGFX_INVALID_HANDLE;
         uint32_t indexCount = 0;
         std::array<float, 3> center = {};
+        // Skin joint index carrying most of the weight: a blended skin sorts by where this joint carries `center`.
+        int anchorJoint = -1;
     };
 
     struct MeshResources

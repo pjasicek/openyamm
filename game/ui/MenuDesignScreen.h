@@ -31,6 +31,15 @@ class MenuDesignScreen : public MenuScreenBase
     // The height in pixels of text word-wrapped to width (pixels), laid out as textInRect does.
     float textBlockHeight(const std::string &text, const std::string &font, float logicalSize, float width);
     bool action(const std::string &id, bool enabled = true, const std::string &text = {});
+    // The input side of a button without its artwork: hover, press and activation (mouse release over the rect, or
+    // Return/Space with keyboard focus). The caller draws the control.
+    struct Hotspot
+    {
+        bool hovered = false;
+        bool pressed = false;
+        bool activated = false;
+    };
+    Hotspot hotspot(const std::string &id, const Rect &rect, bool enabled = true);
     bool button(const std::string &id, const Rect &rect, const std::string &text, const std::string &skin = "button",
                 bool enabled = true, bool selected = false);
     bool selectBox(const std::string &id, const Rect &rect, const std::string &value, bool enabled = true,
@@ -52,7 +61,12 @@ class MenuDesignScreen : public MenuScreenBase
     bool keyPressed(SDL_Scancode key) const;
     bool focused(const std::string &id) const;
     void revealFocus(const Rect &viewport, float &scroll) const;
-    void scrollViewport(const Rect &viewport, float contentHeight, float &scroll, float wheelStep = 33);
+    // A scroll box over viewport: the mouse wheel, a scrollbar when the content is taller, and dragging the content
+    // itself (a touch screen's swipe; a press that moves past a few pixels becomes a drag and no longer clicks).
+    void scrollViewport(const Rect &viewport, float contentHeight, float &scroll, float wheelStep = 33,
+                        bool enabled = true);
+    // A control that drags on its own (a slider) keeps the press from becoming a content drag.
+    void cancelContentDrag();
     UiLayoutManager m_designLayouts;
 
   private:
@@ -64,6 +78,14 @@ class MenuDesignScreen : public MenuScreenBase
     std::unordered_map<std::string, Rect> m_focusRects;
     std::optional<Rect> m_revealFocus;
     std::optional<float> m_scrollDragOffset;
+    struct ContentDrag
+    {
+        const float *pScroll = nullptr;
+        float startY = 0;
+        float startScroll = 0;
+        bool moving = false;
+    };
+    std::optional<ContentDrag> m_contentDrag;
     std::string m_focus;
     std::string m_pressed;
     bool m_keyboardFocus = false;

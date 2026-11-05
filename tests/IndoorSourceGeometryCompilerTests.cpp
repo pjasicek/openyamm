@@ -116,6 +116,48 @@ TEST_CASE("indoor derived data removes floor triangulation seams and excludes mo
     CHECK(error.find("non-planar") != std::string::npos);
 }
 
+TEST_CASE("indoor outlines merge an edge's collinear pieces and drop near-coplanar seams")
+{
+    // A floor and the wall standing on its south edge, both carrying a vertex inserted on that edge (a T-junction
+    // repair): one outline along it, as without the vertex.
+    OpenYAMM::Game::IndoorMapData geometry;
+    geometry.version = 8;
+    geometry.vertices = {{0,0,0}, {128,0,0}, {256,0,0}, {256,256,0}, {0,256,0}, {0,0,256}, {256,0,256}};
+    const auto addFace = [&geometry](std::vector<uint16_t> vertices, uint8_t facetType)
+    {
+        OpenYAMM::Game::IndoorFace face;
+        face.vertexIndices = std::move(vertices);
+        face.facetType = facetType;
+        geometry.faces.push_back(face);
+    };
+    addFace({0, 1, 2, 3, 4}, 3);
+    addFace({0, 5, 6, 2, 1}, 1);
+    OpenYAMM::Game::IndoorSector sector;
+    sector.faceIds = {0, 1};
+    geometry.sectors.push_back(sector);
+    std::string error;
+    REQUIRE_MESSAGE(generateIndoorDerivedGeometry(geometry, {}, false, true, error), error);
+    // The south edge (one line, though the inserted vertex splits it) and the floor's three others.
+    CHECK(geometry.outlines.size() == 4);
+
+    // A floor cut into two triangles a unit off one plane (a quarter of a degree): no line along the cut.
+    OpenYAMM::Game::IndoorMapData bent;
+    bent.version = 8;
+    bent.vertices = {{0,0,0}, {256,0,0}, {256,256,1}, {0,256,0}};
+    for (const std::vector<uint16_t> &vertices : std::vector<std::vector<uint16_t>>{{0,1,2}, {0,2,3}})
+    {
+        OpenYAMM::Game::IndoorFace face;
+        face.vertexIndices = vertices;
+        face.facetType = 3;
+        bent.faces.push_back(face);
+    }
+    OpenYAMM::Game::IndoorSector bentSector;
+    bentSector.faceIds = {0, 1};
+    bent.sectors.push_back(bentSector);
+    REQUIRE_MESSAGE(generateIndoorDerivedGeometry(bent, {}, false, true, error), error);
+    CHECK(bent.outlines.size() == 4);
+}
+
 TEST_CASE("indoor BSP keeps crossing polygons native and uses the back sector portal orientation")
 {
     OpenYAMM::Game::IndoorMapData geometry;

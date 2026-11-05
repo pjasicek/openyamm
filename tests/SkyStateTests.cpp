@@ -366,6 +366,62 @@ TEST_CASE("sky state hazes toward fog and keeps authored fog colours")
     CHECK(underwater.skyMix == 0.0f);
 }
 
+TEST_CASE("sky state draws an indoor fog cover as one flat colour, and nothing without it")
+{
+    const SkyPresetLibrary library = loadTestLibrary();
+    SkyStateModel model;
+    model.setLibrary(&library);
+    SkyInputs inputs = {};
+    inputs.gameMinutes = 23.5f * 60.0f;
+    inputs.weatherSkyName = "sky05";
+    const SkyFrameState clear = model.update(inputs, 0.016f);
+
+    // A zero cover changes nothing, whatever its colour.
+    inputs.fogCoverDisplay = SkyColor{0.5f, 0.5f, 0.5f};
+    model.snap();
+    const SkyFrameState zero = model.update(inputs, 0.016f);
+    CHECK(zero.values == clear.values);
+    REQUIRE(zero.clouds.size() == clear.clouds.size());
+    for (size_t layer = 0; layer < zero.clouds.size(); ++layer)
+    {
+        CHECK(zero.clouds[layer].opacity == clear.clouds[layer].opacity);
+    }
+    CHECK(zero.horizonRing.opacity == clear.horizonRing.opacity);
+
+    // A full cover (MM9's fogged sky box): gradient and clouds in the fog colour, no sun, moon, stars or clouds.
+    inputs.fogCover = 1.0f;
+    model.snap();
+    const SkyFrameState covered = model.update(inputs, 0.016f);
+    const float grey = covered.value(SkyValue::Zenith)[0];
+    CHECK(grey == doctest::Approx(std::pow(0.5f, 2.2f)).epsilon(0.02));
+    for (const SkyValue id : {SkyValue::Zenith, SkyValue::Horizon, SkyValue::CloudLit, SkyValue::CloudShadow})
+    {
+        for (size_t channel = 0; channel < 3; ++channel)
+        {
+            CHECK(covered.value(id)[channel] == doctest::Approx(grey));
+        }
+    }
+    CHECK(covered.scalar(SkyValue::Stars) == 0.0f);
+    CHECK(covered.scalar(SkyValue::MoonVisibility) == 0.0f);
+    CHECK(covered.scalar(SkyValue::SunDiscVisibility) == 0.0f);
+    CHECK(covered.scalar(SkyValue::SunGlowStrength) == 0.0f);
+    CHECK(covered.horizonRing.opacity == 0.0f);
+    for (const SkyCloudLayerState &layer : covered.clouds)
+    {
+        CHECK(layer.opacity == 0.0f);
+    }
+    CHECK(covered.fogFlatDisplay[0] == doctest::Approx(0.5f).epsilon(0.02));
+    // The sun's colour and the ambient tint (indoor daylight's hue) are left alone.
+    CHECK(covered.value(SkyValue::SunDisc) == clear.value(SkyValue::SunDisc));
+    CHECK(covered.value(SkyValue::AmbientTint) == clear.value(SkyValue::AmbientTint));
+
+    // Half way: half the stars.
+    inputs.fogCover = 0.5f;
+    model.snap();
+    const float halfStars = model.update(inputs, 0.016f).scalar(SkyValue::Stars);
+    CHECK(halfStars == doctest::Approx(clear.scalar(SkyValue::Stars) * 0.5f));
+}
+
 TEST_CASE("sky sun matches the outdoor sun arc and the moon cycles")
 {
     // OutdoorWorldRuntime: theta = (minutes - 300) * pi / 960 between 05:00 and 21:00.

@@ -65,6 +65,8 @@ struct IndoorFaceGeometryData
     std::vector<IndoorProjectedFacePoint> projectedVertices;
 };
 
+class IndoorSectorFaceGrid;
+
 class IndoorFaceGeometryCache
 {
 public:
@@ -79,12 +81,30 @@ public:
         const std::vector<IndoorVertex> &vertices,
         size_t faceIndex
     );
+    // De-duplication of face lists without sorting: beginFaceVisit() starts an empty set, and markFaceVisited()
+    // returns true only the first time a face is marked in it.
+    void beginFaceVisit();
+    bool markFaceVisited(size_t faceIndex);
+    // The sector face grid (IndoorSectorFaceGrid.h) that queries through this cache may use; none by default. It must
+    // belong to the map and vertices the cache serves.
+    void setSectorFaceGrid(const IndoorSectorFaceGrid *pGrid)
+    {
+        m_pSectorFaceGrid = pGrid;
+    }
+
+    const IndoorSectorFaceGrid *sectorFaceGrid() const
+    {
+        return m_pSectorFaceGrid;
+    }
 
 private:
+    const IndoorSectorFaceGrid *m_pSectorFaceGrid = nullptr;
     const MapDeltaData *m_pAttributeOverrides = nullptr;
     uint64_t m_attributeRevision = 0;
     std::vector<uint8_t> m_entryStates;
     std::vector<IndoorFaceGeometryData> m_entries;
+    std::vector<uint32_t> m_faceVisitStamps;
+    uint32_t m_faceVisitStamp = 1;
 };
 
 struct IndoorFloorSample

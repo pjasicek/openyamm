@@ -1971,7 +1971,7 @@ TEST_CASE("mm7 and mm8 ore crafting consumes one ore from any party member and c
     }
 }
 
-TEST_CASE("lua inventory removal matches default party possession and honors explicit player selection")
+TEST_CASE("lua inventory removal matches party possession, prefers the current member and honors explicit members")
 {
     using namespace OpenYAMM::Game;
     const std::optional<std::string> supportLua = readSourceTextFile(
@@ -2006,14 +2006,40 @@ end)
     REQUIRE(party.member(1)->addInventoryItem(ore));
     EventRuntime eventRuntime;
     EventRuntimeState state;
+    const auto memberOreCount = [&party](size_t memberIndex)
+    {
+        size_t count = 0;
+
+        for (const InventoryItem &item : party.member(memberIndex)->inventory)
+        {
+            count += item.objectDescriptionId == 691 ? item.quantity : 0;
+        }
+
+        return count;
+    };
+
+    // "Current" takes from whoever has it when the active member does not (MM8's Conflux Key checks the party,
+    // then removes the hearts under Current).
     REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, state, &party));
-    CHECK_EQ(party.inventoryItemCount(691), 2);
-    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 2, state, &party));
     CHECK_EQ(party.inventoryItemCount(691), 1);
-    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 3, state, &party));
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 2, state, &party));
     CHECK_EQ(party.inventoryItemCount(691), 0);
+
+    // The active member gives it up first.
     ore.quantity = 1;
     REQUIRE(party.member(0)->addInventoryItem(ore));
+    REQUIRE(party.member(1)->addInventoryItem(ore));
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, state, &party));
+    CHECK_EQ(memberOreCount(0), 0u);
+    CHECK_EQ(memberOreCount(1), 1u);
+
+    // An explicit member keeps the selection: Member1 lacks it, so nothing goes.
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 3, state, &party));
+    CHECK_EQ(party.inventoryItemCount(691), 0);
+    REQUIRE(party.member(0)->addInventoryItem(ore));
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 2, state, &party));
+    CHECK_EQ(memberOreCount(0), 1u);
+
     REQUIRE(party.member(1)->addInventoryItem(ore));
     REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 4, state, &party));
     CHECK_EQ(party.inventoryItemCount(691), 1);
@@ -4151,6 +4177,7 @@ TEST_CASE("mm7 emerald island mmmerge tavern topics remove arcomage")
             static_cast<uint32_t>(OpenYAMM::Game::HouseActionId::TavernRentRoom),
             static_cast<uint32_t>(OpenYAMM::Game::HouseActionId::TavernBuyFood),
             static_cast<uint32_t>(OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu),
+            static_cast<uint32_t>(OpenYAMM::Game::HouseActionId::OpenTeacherLedgerMenu),
         });
 
     hookContext.menuId = static_cast<uint32_t>(OpenYAMM::Game::DialogueMenuId::LearnSkills);
@@ -5664,9 +5691,11 @@ TEST_CASE("mm7 global mmmerge supplement applies custom CrossContinents and hatc
         CHECK_EQ(pWizard->portraitPictureId, 65u);
         CHECK_EQ(pWizard->voiceId, 26);
         CHECK_EQ(pWizard->baseResistances.fire, 20);
-        CHECK_EQ(pWizard->baseResistances.light, 65000);
-        CHECK(pWizard->permanentImmunities.light);
-        CHECK(pWizard->permanentImmunities.dark);
+        // Mind and Body come from the Undead race (ClassRules::applyClassBonuses), never Light or Dark.
+        CHECK_EQ(pWizard->raceId, 6u);
+        CHECK_EQ(pWizard->baseResistances.light, 0);
+        CHECK_FALSE(pWizard->permanentImmunities.light);
+        CHECK_FALSE(pWizard->permanentImmunities.dark);
         CHECK_EQ(pWizard->skills.count("ChainArmor"), 0u);
         CHECK_EQ(pWizard->skills.count("RepairItem"), 0u);
         CHECK_EQ(pWizard->skillPoints, 7u);
@@ -7563,7 +7592,7 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 61, runtimeState, &party));
         CHECK(party.hasQuestBit(1300));
-        CHECK_EQ(runtimeState.textureOverrides[OpenYAMM::Game::EventRuntime::indoorFaceReferenceKey(2927)], "trekscon");
+        CHECK_EQ(runtimeState.textureOverrides[OpenYAMM::Game::EventRuntime::indoorFaceReferenceKey(2912)], "trekscon");
         REQUIRE_FALSE(runtimeState.messages.empty());
         CHECK(
             runtimeState.messages.back().find("Blaster weapons provide an effective, accurate ranged attack")

@@ -1,5 +1,7 @@
 #include "game/fx/WorldFxSystem.h"
 
+#include "game/gameplay/ActorAiTrace.h"
+
 #include "game/StringUtils.h"
 #include "game/app/GameSession.h"
 #include "game/audio/GameAudioSystem.h"
@@ -865,6 +867,15 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
             }
             binding.scriptClips[scriptClip.first.as<std::string>()] = *clip;
         }
+        if (const auto backpedal = binding.scriptClips.find("backpedal"); backpedal != binding.scriptClips.end())
+        {
+            binding.backpedalClip = backpedal->second;
+        }
+        if (const auto backpedalRun = binding.scriptClips.find("backpedal_run");
+            backpedalRun != binding.scriptClips.end())
+        {
+            binding.backpedalRunClip = backpedalRun->second;
+        }
         const YAML::Node animation = entry["animation"];
         if (animation)
         {
@@ -986,27 +997,33 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
                 }
             }
             binding.blendSeconds = animation["blend_seconds"].as<float>(-1.0f);
-            binding.deathBlendSeconds = animation["death_blend_seconds"].as<float>(0.0f);
+            binding.deathBlendSeconds =
+                animation["death_blend_seconds"].as<float>(ActorModelDefaultDeathBlendSeconds);
             if (!std::isfinite(binding.blendSeconds) || binding.blendSeconds > 1.0f
                 || !std::isfinite(binding.deathBlendSeconds) || binding.deathBlendSeconds < 0.0f
                 || binding.deathBlendSeconds > 1.0f)
             {
                 throw std::runtime_error("invalid actor animation blend: " + descriptor);
             }
-            const std::string rootName = animation["upper_body_root"].as<std::string>();
-            const std::optional<uint32_t> root = binding.asset->findNode(rootName);
-            if (!root)
+            // The upper-body layer (MM9's `Top` track): an attack on the move plays over the gait from this node
+            // down. Without one (MM9's plain animator) the attack plays with the whole body, moving or not.
+            if (const YAML::Node upperBodyRoot = animation["upper_body_root"])
             {
-                throw std::runtime_error("actor animation mask root not found: " + rootName);
+                const std::string rootName = upperBodyRoot.as<std::string>();
+                const std::optional<uint32_t> root = binding.asset->findNode(rootName);
+                if (!root)
+                {
+                    throw std::runtime_error("actor animation mask root not found: " + rootName);
+                }
+                std::shared_ptr<std::vector<float>> mask =
+                    std::make_shared<std::vector<float>>(binding.asset->nodes.size(), 0.0f);
+                for (uint32_t node : binding.asset->hierarchyOrder)
+                {
+                    const int32_t parent = binding.asset->nodes[node].parentIndex;
+                    (*mask)[node] = node == *root ? 1.0f : parent >= 0 ? (*mask)[parent] : 0.0f;
+                }
+                binding.upperBodyMask = std::move(mask);
             }
-            std::shared_ptr<std::vector<float>> mask =
-                std::make_shared<std::vector<float>>(binding.asset->nodes.size(), 0.0f);
-            for (uint32_t node : binding.asset->hierarchyOrder)
-            {
-                const int32_t parent = binding.asset->nodes[node].parentIndex;
-                (*mask)[node] = node == *root ? 1.0f : parent >= 0 ? (*mask)[parent] : 0.0f;
-            }
-            binding.upperBodyMask = std::move(mask);
             // Named sockets: a node (`name: Node`), or a point on a node (`name: {node: Bone, offset: [x, y, z]}`).
             std::unordered_map<std::string, ActorModelBinding::Socket> sockets;
             for (const auto &socketEntry : animation["sockets"])
@@ -1262,7 +1279,8 @@ void WorldFxSystem::resolveActorCharge(ActorModelInstance &model) const
 }
 
 void WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRuntimeActorState &state,
-    const IGameplayWorldRuntime &world, float scale, float partyDistance, float deltaSeconds, bool canLook)
+    const IGameplayWorldRuntime &world, float scale, float partyDistance, float deltaSeconds, bool canLook,
+    bool talking)
 {
     // The party's eyes (the camera), seen from the head pivot at its rest height. The look eases back to the clip's
     // own head when the party is behind the reach of the turn, far away, or the actor is dying. It is decided and
@@ -1288,14 +1306,22 @@ void WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRun
     model.lookClock = 0.0f;
     float targetYaw = 0.0f;
     float targetPitch = 0.0f;
-    // The party's eyes within LookRange, or (`target: combat`) the combat target at any distance.
-    const bool hasLookTarget = binding.lookAtCombatTarget ? state.hasAimTarget : partyDistance < LookRange;
+    // The party's eyes within LookRange, or (`target: combat`) the combat target at any distance; an MM9 actor's the
+    // target its AI holds or the party talking to it, at any distance, and nothing for a row without HeadTurn.
+    canLook = canLook && state.headTurn;
+    const bool heldActor = state.looksAtHeldTarget && !binding.lookAtCombatTarget && !talking && state.holdsActorTarget;
+    const bool hasLookTarget = binding.lookAtCombatTarget ? state.hasAimTarget
+        : state.looksAtHeldTarget ? talking || state.holdsPartyTarget || state.holdsActorTarget
+        : partyDistance < LookRange;
     if (canLook && hasLookTarget)
     {
-        const float dx = (binding.lookAtCombatTarget ? state.aimTargetX : world.partyX()) - state.preciseX;
-        const float dy = (binding.lookAtCombatTarget ? state.aimTargetY : world.partyY()) - state.preciseY;
-        const float dz = (binding.lookAtCombatTarget ? state.aimTargetZ : world.partyEyeZ())
-            - (state.preciseZ + binding.zOffset + scale * binding.lookHeadHeight);
+        const std::array<float, 3> target = binding.lookAtCombatTarget
+            ? std::array<float, 3>{state.aimTargetX, state.aimTargetY, state.aimTargetZ}
+            : heldActor ? std::array<float, 3>{state.heldTargetX, state.heldTargetY, state.heldTargetZ}
+            : std::array<float, 3>{world.partyX(), world.partyY(), world.partyEyeZ()};
+        const float dx = target[0] - state.preciseX;
+        const float dy = target[1] - state.preciseY;
+        const float dz = target[2] - (state.preciseZ + binding.zOffset + scale * binding.lookHeadHeight);
         const float yaw = std::remainder(std::atan2(dy, dx) - model.yaw, 2.0f * std::numbers::pi_v<float>);
         if (std::abs(yaw) <= binding.lookMaxYaw + BehindMargin)
         {
@@ -1438,6 +1464,11 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         const bool teleported = model.initialized && distance > std::max(256.0f, scale * 8.0f);
         const float speed = std::hypot(state.velocityX, state.velocityY);
         const float gaitSpeed = actorModelGaitSpeed(speed, state.intendedSpeed);
+        const bool attacking = state.animationState == ActorAiAnimationState::AttackMelee
+            || state.animationState == ActorAiAnimationState::AttackRanged;
+        // The gait follows what the AI does (MM9_ANIMATION_AUDIT.md A5): a strike counts as hurrying (MM9's attack tick
+        // runs to its target), and the gait changes only while the body moves.
+        const bool hurrying = state.hurrying || attacking;
         if (binding.fixedYaw)
         {
             model.yaw = *binding.fixedYaw;
@@ -1449,34 +1480,42 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             model.ambientEffect = {};
             model.yaw = binding.fixedYaw.value_or(state.yawRadians);
             model.gaitPhase = 0.0f;
+            model.gaitTravelLead = 0.0f;
         }
         else if (!model.dying && state.animationState != ActorAiAnimationState::Dead && !binding.fixedYaw)
         {
             // Visual facing only. Collision, LOS, paths and projectile aiming retain the AI's exact yaw.
+            // Footwork faces the target (the AI's yaw) however it moves.
             model.facingMovement = state.animationState == ActorAiAnimationState::Walking && speed > 4.0f
+                && !state.footwork
                 && actorModelFacesMovement(state.yawRadians, state.velocityX, state.velocityY, model.facingMovement);
             const float targetYaw =
                 model.facingMovement ? std::atan2(state.velocityY, state.velocityX) : state.yawRadians;
             model.yaw = advanceActorModelYaw(model.yaw, targetYaw, deltaSeconds, 3.0f * std::numbers::pi_v<float>);
             if (binding.strideLength > 0.0f && deltaSeconds > 0.0f)
             {
-                if (gaitSpeed > 4.0f)
+                if (speed > 4.0f)
                 {
-                    model.gait = actorModelGait(gaitSpeed / scale, binding.gaitSpeeds, state.hurrying, model.gait);
+                    const ActorModelGait chosen =
+                        actorModelGait(gaitSpeed / scale, binding.gaitSpeeds, hurrying, model.gait);
+                    // A body that starts moving, or turns from backpedalling to moving on, takes its gait at once (its
+                    // clip changes anyway); one moving on holds it.
+                    model.gait = model.locomoted && state.backpedalling == model.backwards
+                        ? holdActorModelGait(model.gait, chosen, model.gaitHeldSeconds, deltaSeconds) : chosen;
                 }
                 const float stride = binding.gaitStride(model.gait);
                 const uint32_t gaitClip = binding.gaitClip(model.gait);
+                // The body moves in AI steps: the gait follows its speed between them (smoothActorModelGaitDistance).
                 // A body slowed by collision keeps part of its intended gait (actorModelGaitSpeed).
-                const float gaitDistance =
-                    std::max(distance, ActorModelHinderedGaitShare * state.intendedSpeed * deltaSeconds);
+                const float gaitDistance = std::max(
+                    smoothActorModelGaitDistance(model.gaitTravelLead, distance, speed, deltaSeconds),
+                    ActorModelHinderedGaitShare * state.intendedSpeed * deltaSeconds);
                 model.gaitPhase = advanceActorModelGait(model.gaitPhase, actorModelGaitDistance(gaitDistance,
                     stride * scale, deltaSeconds, binding.asset->clips[gaitClip].durationSeconds,
                     gaitSpeed > 4.0f ? binding.minGaitRate : 0.0f, binding.maxGaitRate), stride * scale);
             }
         }
         const bool moving = speed > 4.0f && !teleported;
-        const bool attacking = state.animationState == ActorAiAnimationState::AttackMelee
-            || state.animationState == ActorAiAnimationState::AttackRanged;
         // A behaviour script's clip (see ActorBehaviorRuntime) replaces the AI's fallback animation when the model
         // maps the role; otherwise the fallback state plays as usual.
         const auto scriptClip = state.scriptedClip.empty()
@@ -1489,9 +1528,24 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             : state.animationState == ActorAiAnimationState::AttackRanged ? ActorCharge::Ranged
             : state.animationState == ActorAiAnimationState::AttackMelee && binding.actionEvents[0].glowCount > 0
                 ? ActorCharge::Melee : ActorCharge::None;
-        const bool restart = model.initialized && (model.previousState != animationIndex
+        // A stop between two moves shorter than ActorModelStandGraceSeconds keeps the gait, still.
+        model.standSeconds = state.animationState == ActorAiAnimationState::Standing
+            ? model.standSeconds + deltaSeconds : 0.0f;
+        const bool holdGait = !scripted && !teleported && model.presentedGait && binding.strideLength > 0.0f
+            && state.animationState == ActorAiAnimationState::Standing
+            && model.standSeconds < ActorModelStandGraceSeconds;
+        const size_t presentedIndex = holdGait ? size_t(ActorAiAnimationState::Walking) : animationIndex;
+        const bool restart = model.initialized && (model.previousState != presentedIndex
             || model.casting != casting || model.scripted != scripted
             || (attacking && state.animationTimeTicks + 0.01f < model.previousTime));
+        // An attack's legs follow the body's motion as MM9's SetState does, held against step-to-step flicker
+        // (advanceActorModelAttackLegs). A model without an upper-body mask (MM9's plain animator: no `Top`) attacks
+        // with its whole body, moving or not.
+        if (attacking)
+        {
+            advanceActorModelAttackLegs(model.attackLegs, restart || !model.initialized, moving, deltaSeconds);
+        }
+        const bool attackMoving = attacking && !teleported && model.attackLegs.moving && binding.upperBodyMask;
         const float elapsed = std::max(state.animationTimeTicks, 0.0f) / 128.0f;
         if (chargeRole != ActorCharge::None && (chargeRole != model.chargeRole || restart
                 || model.secondaryAttack != state.secondaryAttack))
@@ -1546,9 +1600,11 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             }
             if (state.attackImpactTriggered)
             {
+                // The game applied it when the wind-up was due (markedDuration); a frame that sees it later goes on
+                // from there rather than holding the marker frame.
                 if (model.markedReleaseElapsed < 0.0f)
                 {
-                    model.markedReleaseElapsed = elapsed;
+                    model.markedReleaseElapsed = std::min(elapsed, model.markedDuration);
                 }
                 time = std::min(duration, impact + elapsed - model.markedReleaseElapsed);
             }
@@ -1658,21 +1714,32 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         }
         Engine::ModelAnimationLayer layer;
         bool backwardsChanged = false;
+        bool reversed = false;
         const bool locomoting = binding.strideLength > 0.0f
-            && (state.animationState == ActorAiAnimationState::Walking || (moving && attacking));
+            && (state.animationState == ActorAiAnimationState::Walking || attackMoving || holdGait);
+        // After an attack the legs blend to the stand at once: holding them would add a second blend.
+        model.presentedGait = locomoting && !attacking;
+        model.locomoted = locomoting;
         if (locomoting)
         {
             const uint32_t locomotion = binding.gaitClip(model.gait);
-            const bool backwards = state.velocityX * std::cos(model.yaw)
-                + state.velocityY * std::sin(model.yaw) < (model.backwards ? -0.15f : -0.35f) * speed;
+            // The model backpedals when its AI asks it to (GameplayRuntimeActorState::backpedalling) and plays every
+            // other move forwards, as MM9's Strafe state does: never from the angle between the motion and a facing
+            // that lags the AI's (MM9_ANIMATION_AUDIT.md A2). A flier's back-off and swoop beat its wings forwards.
+            const bool backwards = holdGait ? model.backwards : state.backpedalling;
             backwardsChanged = backwards != model.backwards;
             model.backwards = backwards;
-            const float phase = backwards ? wrapPeriod(1.0f - model.gaitPhase, 1.0f) : model.gaitPhase;
+            // A model's own backpedal clip plays forwards; otherwise the gait plays reversed.
+            const uint32_t backpedal = !backwards ? UINT32_MAX
+                : model.gait == ActorModelGait::Walk ? binding.backpedalClip
+                : binding.backpedalRunClip != UINT32_MAX ? binding.backpedalRunClip : binding.backpedalClip;
+            reversed = backwards && backpedal == UINT32_MAX;
+            const float phase = reversed ? wrapPeriod(1.0f - model.gaitPhase, 1.0f) : model.gaitPhase;
             if (attacking && binding.upperBodyMask)
             {
                 layer = {clip, time, 1.0f, binding.upperBodyMask};
             }
-            clip = locomotion;
+            clip = backpedal != UINT32_MAX ? backpedal : locomotion;
             time = phase * binding.asset->clips[clip].durationSeconds;
         }
         // Follow-through of a finished marked action: the whole body while the actor stands, the upper body over the
@@ -1704,12 +1771,14 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         // `look.hold_clip`: an actor tracking its combat target holds still instead of playing its idle (a turret's
         // scan would swing the guns off the target), and so does an idle turret whose scan its tactics drive.
         if (binding.lookHoldClip != UINT32_MAX && (state.hasAimTarget || state.aimScanning) && !scripted
-            && !continuingFollow && (state.animationState == ActorAiAnimationState::Standing
+            && !continuingFollow && !holdGait && (state.animationState == ActorAiAnimationState::Standing
                 || state.animationState == ActorAiAnimationState::Bored))
         {
             clip = binding.lookHoldClip;
             time = 0.0f;
         }
+        const float presentedTime = time;
+        const Engine::ModelAnimationLayer presentedLayer = layer;
         // Animation LOD: actors sample their clips at most 240 times a second, at 60 Hz beyond ~7 m, 15 Hz beyond
         // ~14 m and the native sprite rate (8 Hz) beyond ~28 m. Pose evaluation was a third of the main thread with a
         // crowd at high frame rates. A per-actor phase offset spreads the updates; root motion stays per frame, and an
@@ -1740,12 +1809,17 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         if (!binding.lookNodes.empty())
         {
             updateActorLook(model, state, world, scale, partyDistance, deltaSeconds,
-                !dying && !scripted && state.animationState != ActorAiAnimationState::Dead);
+                !dying && !scripted && state.animationState != ActorAiAnimationState::Dead, index == liveActorIndex);
         }
         const float transitionSeconds = state.animationState == ActorAiAnimationState::Dead || teleported ? 0.0f
             : dying ? binding.deathBlendSeconds
             : binding.blendSeconds >= 0.0f ? binding.blendSeconds
             : state.animationState == ActorAiAnimationState::GotHit ? 0.06f : 0.12f;
+        if (m_pAnimationTrace != nullptr)
+        {
+            traceActorAnimation(index, model, clip, presentedTime, presentedLayer, reversed,
+                (restart && !continuingFollow) || backwardsChanged, transitionSeconds, speed, deltaSeconds);
+        }
         m_models.sampleBlended(model.handle, clip, time, transform, deltaSeconds, transitionSeconds,
             layer, (restart && !continuingFollow) || backwardsChanged, sampleStep);
         model.transform = transform;
@@ -1776,7 +1850,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         model.previousX = state.preciseX;
         model.previousY = state.preciseY;
         model.previousTime = state.animationTimeTicks;
-        model.previousState = uint8_t(animationIndex);
+        model.previousState = uint8_t(presentedIndex);
         model.casting = casting;
         model.scripted = scripted;
         model.previousImpact = state.attackImpactTriggered;
@@ -1795,6 +1869,34 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             ++iterator;
         }
     }
+}
+
+void WorldFxSystem::traceActorAnimation(size_t actorIndex, const ActorModelInstance &model, uint32_t clip, float time,
+    const Engine::ModelAnimationLayer &layer, bool reversed, bool restart, float transitionSeconds, float speed,
+    float deltaSeconds) const
+{
+    const Engine::ModelAsset &asset = *model.pBinding->asset;
+    const uint32_t previousClip = m_models.sampledClip(model.handle);
+    const Engine::ModelAnimationLayer *pPreviousLayer = m_models.sampledLayer(model.handle);
+    // As sampleBlended decides whether a transition starts.
+    const bool transition = previousClip != UINT32_MAX && (restart || previousClip != clip
+        || (pPreviousLayer != nullptr
+            && (pPreviousLayer->clipIndex != layer.clipIndex || pPreviousLayer->mask != layer.mask)));
+    ActorAnimationTraceSample sample;
+    sample.clip = asset.clips[clip].name;
+    sample.timeSeconds = time;
+    sample.durationSeconds = asset.clips[clip].durationSeconds;
+    sample.reversed = reversed;
+    if (layer.weight > 0.0f && layer.clipIndex < asset.clips.size())
+    {
+        sample.layerClip = asset.clips[layer.clipIndex].name;
+        sample.layerTimeSeconds = layer.timeSeconds;
+        sample.layerDurationSeconds = asset.clips[layer.clipIndex].durationSeconds;
+    }
+    sample.speed = speed;
+    sample.deltaSeconds = deltaSeconds;
+    sample.blendSeconds = transition ? transitionSeconds : -1.0f;
+    m_pAnimationTrace->observeAnimation(actorIndex, sample);
 }
 
 std::shared_ptr<const WorldFxSystem::ActorBurnSurface> WorldFxSystem::buildActorBurnSurface(

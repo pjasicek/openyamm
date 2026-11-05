@@ -57,3 +57,56 @@ end)
 RegisterMapTimerEvent(902, 1, function()
     MM8.OpenDimensionDoorOnTile(43, 98, "DimensionDoorTileActive")
 end, "MMMerge Dimension Door tile")
+
+-- The Unicorn King (actor 0, unique name 7) walks Murmurwoods only on June 24 from 9 to 17 o'clock, as the original
+-- executable hardcodes (MM8-Rel.exe 0x48059e, 0x47b4f1); the rest of the year it is hidden and inert. A slain one
+-- stays.
+-- Map-local, so no other map pays for it: the timer compares the date and touches the actor only when its visibility
+-- has to change, at most twice a day.
+local UnicornKingActor = 0
+local UnicornKingSlain = "UnicornKingSlain"
+local unicornKingShown = nil
+
+local function UnicornKingDayActive()
+    local minutes = math.floor(CurrentGameMinutes())
+    local dayOfYear = math.floor(minutes / MM8.MinutesPerDay) % (12 * 28)
+    local hour = math.floor(minutes / 60) % 24
+    return math.floor(dayOfYear / 28) == 5 and dayOfYear % 28 == 23 and hour >= 9 and hour <= 17
+end
+
+local function UpdateUnicornKing(force)
+    local shown = UnicornKingDayActive()
+
+    if shown == unicornKingShown and not force then
+        return
+    end
+
+    unicornKingShown = shown
+
+    -- The death is remembered here: CheckMonstersKilled counts a hidden actor as slain.
+    if MM8.GetMapFlag(UnicornKingSlain) then
+        return
+    end
+
+    evt.SetMonsterBit(UnicornKingActor, ActorAttribute.Invisible, not shown)
+end
+
+RegisterMapOnLoadEvent(903, "Unicorn King appearance", function()
+    UpdateUnicornKing(true)
+end)
+
+RegisterMapTimerEvent(904, 300, function()
+    UpdateUnicornKing(false)
+end, "Unicorn King appearance")
+
+RegisterMonsterKilledHook(65040, "Unicorn King slain", function(context)
+    if context.actorIndex == UnicornKingActor then
+        MM8.SetMapFlag(UnicornKingSlain, true)
+    end
+end)
+
+-- A refill brings the Unicorn King back with the map's other monsters.
+RegisterMapRefillHook(65041, "Unicorn King refill", function()
+    MM8.SetMapFlag(UnicornKingSlain, false)
+    unicornKingShown = nil
+end)

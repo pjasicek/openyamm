@@ -1,5 +1,7 @@
 # MAW combat calculation spec
 
+> Formulas updated to MAW `8fbb48d1` (2026-11-05) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) lists a change.
+
 Status: specification for implementation and tests (2026-10-22). Built since (2026-10-24): the MAW ruleset in
 `game/rules/maw/` and `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in
 [DEVIATIONS.md](DEVIATIONS.md). Source: `/home/pjasicek/github/Maw-Mod-MMMerge` at `ef23ee17`. Every path below is
@@ -218,7 +220,7 @@ d = D0
 if offhand item is a shield and Shield m == 4: d ×= 0.85                       -- (A) all kinds
 if kind == Phys(4):
     AC = pl:GetArmorClass(); if affix 28: AC ×= (1 − p28/100)
-    d  = round(d / (AC/(200 + 6·monLvl) + 1))                                  -- Formulas.armorDamageTaken
+    d  = round(d / (AC/(200 + monLvl) + 1))                                  -- Formulas.armorDamageTaken
     d  = classCut(d, Body)                                                     -- (C)
     if vars.shieldEnchant[id] (special enchant 36 "of Shielding" worn): d ×= 0.85
     return post(d)
@@ -232,7 +234,7 @@ for each resistance id r in damageKindResistance[kind]:
     base   = pl:GetResistance(r)
     item   = vars.normalEnchantResistance[id][r+1] (×1.5 with legendary 16)
     total  = base·(1 − p29/100) if affix 29 else base
-    taken  = 1/(total/(100 + 12·monLvl) + 1) · 1/(item/100 + 1)
+    taken  = 1/(total/(100 + monLvl) + 1) · 1/(item/100 + 1)
 keep the r with the LARGEST taken (the weakest resistance)
 if that r's base ≥ 65000: return 0                                             -- immunity (Lich, Vampire)
 if rand and taken > 0: taken = max(0, taken + min(taken, 1 − taken)·(U() + U() − 1))   -- never reached (13)
@@ -719,8 +721,8 @@ caster is a player:
     asc = sLearning (Elementalist: Σ_{12..15} s/4, mastery 4)
     (dMin, dMax, add) = ascendSpellDamage(asc, m, spell):       (:2043-2060)
         e = 1 + GetBuffMultiplier(HASTE, s28, m28) if Empower Magic aura on, else 1      -- Haste's row (13)
-        dMin = round(dMin·e); dMax = round(dMax·e·(1 + 0.02·asc)·1.025^asc)
-        add = round(add·e·(1 + 0.01·asc²)·1.025^asc)
+        dMin = round(dMin·e); dMax = round(dMax·e·(1 + 0.02·asc)·1.02^asc)
+        add = round(add·e·(1 + 0.01·asc²)·1.02^asc)
     Elementalist: dMax = round(dMax·(1 + 0.1·stacks)); add = round(add·(1 + 0.1·stacks))
 if 1 < spell < 132 or spell 200/201:
     Result = add + Σ_{i=1..Skill} R(dMin, dMax), or add + spellPowers.dMax·Skill when dMin == dMax
@@ -1717,8 +1719,8 @@ AC(L)       = worn·(1 + 0.5·ramp + row(skillItemAC[Chain], skill, m)·skill/10
               + buffFlat(Stone Skin 38, skill, m, L, 4)
 res(L)      = worn·row(skillItemRes[Chain], skill, m)·skill/100 + buffFlat(Fire Resistance 3, skill, m, L) + E(stat)
 enchRes(L)  = maxEnchant(L)·0.5·(1 + 0.5·ramp)
-phys(L)     = max(1/(AC/(200 + 6L) + 1), 0.1)
-magic(L)    = max(1/(res/(100 + 12L) + 1)·max(1 − buffMult(Shield 17), 0.7)·1/(enchRes/100 + 1), 0.1)
+phys(L)     = max(1/(AC/(200 + L) + 1), 0.1)
+magic(L)    = max(1/(res/(100 + L) + 1)·max(1 − buffMult(Shield 17), 0.7)·1/(enchRes/100 + 1), 0.1)
 toHit(L)    = 1/(1 + stat/(100 + stat)·0.5)
 legTaken(L) = (1 − 0.1·ramp)·(1 − (1 − 0.97^5)·ramp)
 cover(L)    = 1 if row({0,1}, skill, m) ≤ 0, else 1/((1 − p) + p/ratio):

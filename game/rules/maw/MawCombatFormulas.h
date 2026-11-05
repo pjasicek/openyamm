@@ -166,8 +166,15 @@ struct MawSpellDice
     int add = 0;
 };
 
-// ascendSpellDamage (§6.7): the spell's dice and flat damage at an Ascension skill. `empowerMultiplier` is
-// 1 + the Empower Magic aura's multiplier when it is active.
+// Ascension's growth of a damage spell's dice and of its flat damage (Formulas.spellDiceScale, spellAddScale).
+double mawSpellDiceScale(double ascensionSkill);
+double mawSpellAddScale(double ascensionSkill);
+
+// Every damage spell's dice and flat damage are cut to this share (Formulas.spellDamageMult, MAW fa1ff481).
+constexpr double MawSpellDamageMultiplier = 0.7;
+
+// ascendSpellDamage (§6.7): the spell's dice and flat damage at an Ascension skill, with MawSpellDamageMultiplier.
+// `empowerMultiplier` is 1 + the Empower Magic aura's multiplier when it is active.
 MawSpellDice mawAscendedSpellDice(const MawSpellDice &base, double ascensionSkill, double empowerMultiplier = 1);
 
 // Monster spell damage relative to the monster's attack (monsterSpellMultiplierList, §7.4); 1 for unlisted spells.

@@ -55,16 +55,18 @@ TEST_CASE("MAW hit chances match the Champion example at MAW and Hell")
     MawBalanceModel maw(difficultyConfig(MawDifficulty));
     MawBalanceModel hell(difficultyConfig(HellDifficulty));
 
-    CHECK(mawPartyHitChance(114, 50, std::nullopt, maw) == doctest::Approx(0.6013).epsilon(2e-4));
-    CHECK(mawPartyHitChance(111, 50, std::nullopt, maw) == doctest::Approx(0.5927).epsilon(2e-4));
-    CHECK(mawPartyHitChance(114, 50, std::nullopt, hell) == doctest::Approx(0.5973).epsilon(2e-4));
-    CHECK(mawPartyHitChance(279, 150, std::nullopt, maw) == doctest::Approx(0.6170).epsilon(2e-4));
-    CHECK(mawPartyHitChance(274, 150, std::nullopt, hell) == doctest::Approx(0.6061).epsilon(2e-4));
+    // MAW 8fbb48d1: the model's melee skill lost its x1.5 and its stat share fell to 0.2, so the expected attack and
+    // stat are lower than in COMBAT_SPEC's ef23ee17 example.
+    CHECK(mawPartyHitChance(114, 50, std::nullopt, maw) == doctest::Approx(0.6817).epsilon(2e-4));
+    CHECK(mawPartyHitChance(111, 50, std::nullopt, maw) == doctest::Approx(0.6711).epsilon(2e-4));
+    CHECK(mawPartyHitChance(114, 50, std::nullopt, hell) == doctest::Approx(0.6787).epsilon(2e-4));
+    CHECK(mawPartyHitChance(279, 150, std::nullopt, maw) == doctest::Approx(0.6862).epsilon(2e-4));
+    CHECK(mawPartyHitChance(274, 150, std::nullopt, hell) == doctest::Approx(0.6734).epsilon(2e-4));
 
-    CHECK(mawChanceToBeHit(89, 50, maw) == doctest::Approx(0.8093).epsilon(2e-4));
-    CHECK(mawChanceToBeHit(89, 50, hell) == doctest::Approx(0.8149).epsilon(2e-4));
-    CHECK(mawChanceToBeHit(279, 150, maw) == doctest::Approx(0.7312).epsilon(2e-4));
-    CHECK(mawChanceToBeHit(279, 150, hell) == doctest::Approx(0.7417).epsilon(2e-4));
+    CHECK(mawChanceToBeHit(89, 50, maw) == doctest::Approx(0.7992).epsilon(2e-4));
+    CHECK(mawChanceToBeHit(89, 50, hell) == doctest::Approx(0.8041).epsilon(2e-4));
+    CHECK(mawChanceToBeHit(279, 150, maw) == doctest::Approx(0.7055).epsilon(2e-4));
+    CHECK(mawChanceToBeHit(279, 150, hell) == doctest::Approx(0.7157).epsilon(2e-4));
 }
 
 TEST_CASE("MAW weapon recovery and attack delay match the Champion example")
@@ -98,10 +100,11 @@ TEST_CASE("MAW spell delay and ascended dice match the ArchMage example")
     CHECK(mawSpellDelay({100, 89, 11}) == 113);
     CHECK(mawSpellDelay({100, 279, 26}) == 130);
 
-    CHECK(mawAscendedSpellDice({1, 8, 0}, 11).diceMax == 13);
-    CHECK(mawAscendedSpellDice({1, 28, 0}, 11).diceMax == 45);
-    CHECK(mawAscendedSpellDice({1, 8, 0}, 26).diceMax == 23);
-    CHECK(mawAscendedSpellDice({1, 28, 0}, 26).diceMax == 81);
+    // Growth 1.02^s and every damage spell at x0.7 (MAW fa1ff481).
+    CHECK(mawAscendedSpellDice({1, 8, 0}, 11).diceMax == 8);
+    CHECK(mawAscendedSpellDice({1, 28, 0}, 11).diceMax == 30);
+    CHECK(mawAscendedSpellDice({1, 8, 0}, 26).diceMax == 14);
+    CHECK(mawAscendedSpellDice({1, 28, 0}, 26).diceMax == 50);
     CHECK(mawAscendedSpellDice({1, 8, 0}, 26).diceMin == 1);
 }
 
@@ -145,7 +148,11 @@ TEST_CASE("MAW monster hits on the Champion match the worked examples")
     {
         MawBalanceModel model(difficultyConfig(difficulty));
         MawMitigationInputs inputs;
-        inputs.damage = mawRound(model.monsterDamage(level) * spellMultiplier) * mawMonsterDamageSpread(100, 100);
+        // Sized against the defence the damage kind meets (MAW 249b00da).
+        const MawDamageClass damageClass =
+            type == CombatDamageType::Physical ? MawDamageClass::Physical : MawDamageClass::Magic;
+        inputs.damage =
+            mawRound(model.monsterDamage(level, damageClass) * spellMultiplier) * mawMonsterDamageSpread(100, 100);
         inputs.type = type;
         inputs.attackerLevel = level;
         inputs.armorClass = armorClass;
@@ -154,14 +161,16 @@ TEST_CASE("MAW monster hits on the Champion match the worked examples")
     };
     const double fireball = mawMonsterSpellMultiplier(6);
 
-    CHECK(monsterHit(MawDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 139);
-    CHECK(monsterHit(MawDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 74);
-    CHECK(monsterHit(MawDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 1124);
-    CHECK(monsterHit(MawDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 597);
-    CHECK(monsterHit(HellDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 169);
-    CHECK(monsterHit(HellDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 91);
-    CHECK(monsterHit(HellDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 1387);
-    CHECK(monsterHit(HellDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 736);
+    // MAW 8fbb48d1: per-kind monster damage (MAW's Lua: 186.23 physical, 254.57 fire at level 50, MAW difficulty)
+    // and the gentler armour and resistance divisors 200 + L and 100 + L.
+    CHECK(monsterHit(MawDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 149);
+    CHECK(monsterHit(MawDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 104);
+    CHECK(monsterHit(MawDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 1447);
+    CHECK(monsterHit(MawDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 1067);
+    CHECK(monsterHit(HellDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 184);
+    CHECK(monsterHit(HellDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 127);
+    CHECK(monsterHit(HellDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 1823);
+    CHECK(monsterHit(HellDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 1335);
 }
 
 TEST_CASE("MAW mitigation keeps a tenth of the hit and honours immunities")

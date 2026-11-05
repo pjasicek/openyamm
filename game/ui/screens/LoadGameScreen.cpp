@@ -1,5 +1,6 @@
 #include "game/ui/screens/LoadGameScreen.h"
 
+#include "engine/Utf8Text.h"
 #include "game/content/RulesetDefinition.h"
 #include "game/maps/SaveGame.h"
 #include "engine/UserDataPaths.h"
@@ -366,17 +367,11 @@ void LoadGameScreen::handleSdlEvent(const SDL_Event &event)
     }
     if (event.type == SDL_EVENT_TEXT_INPUT)
     {
-        for (const unsigned char character : std::string(event.text.text))
-        {
-            if (character >= 32 && character < 127 && m_saveName.size() < 40)
-            {
-                m_saveName += char(character);
-            }
-        }
+        Engine::Utf8::appendPrintable(m_saveName, event.text.text != nullptr ? event.text.text : "", 40);
     }
     if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_BACKSPACE && !m_saveName.empty())
     {
-        m_saveName.pop_back();
+        Engine::Utf8::popBack(m_saveName);
     }
     if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_RETURN && !event.key.repeat)
     {
@@ -1110,7 +1105,7 @@ void LoadGameScreen::sortSlots()
             {
                 return left.modified > right.modified;
             }
-            return compareSavePathsForDisplay(left.path, right.path);
+            return compareSavesForDisplay(left.path, left.fileLabel, right.path, right.fileLabel);
         });
 }
 

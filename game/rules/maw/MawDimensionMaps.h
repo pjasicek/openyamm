@@ -89,10 +89,11 @@ struct MawDimensionMap
 // The Dimensional Maps topic's numbers (Global/zzMaw_DimensionalMapsQuest.lua).
 struct MawDimensionQuestRules
 {
-    int firstTier = 100;
+    int firstTier = 80;
     int unlockTier = 500;
-    // The next tier: + step while the tier is below the level.
-    std::vector<std::pair<int, int>> steps;
+    // The ladder's steps: the first tier plus firstStep, each later step one smaller, never below lastStep.
+    int firstStep = 30;
+    int lastStep = 10;
     std::string textTooLow;
     std::string textGive;
     std::string textNotCleared;
@@ -119,7 +120,7 @@ public:
     int dropLevelRequired() const;
     double bossDropMultiplier() const;
     const MawDimensionQuestRules &quest() const;
-    // The next quest tier after one (TIER_STEPS).
+    // The first tier of the ladder above a level (nextTier); a tier from an older ladder moves onto this one.
     int nextQuestTier(int tier) const;
 
     // Fills slots with distinct affixes drawn from the stream, in MAW's order (affix 2, 3, 4, then 1; getUniqueAffix).

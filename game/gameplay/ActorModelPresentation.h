@@ -119,6 +119,99 @@ inline ActorModelGait actorModelGait(float speed, const std::array<float, 3> &cl
     return best;
 }
 
+// An attack's legs are decided when it starts, as MM9's animator does (devdocs/mm9_rework/MM9_ANIMATION_AUDIT.md A1):
+// an actor that moves plays its gait under the attack (the upper-body layer, MM9's `Top` track), one that stands plays
+// the attack with its whole body. AIs move and stop an attacker from one step to the next (MM9's loops call RunTo and
+// Stop every tick), so following every step would restart the blend between the two poses several times a second.
+// The legs change only once the new choice has held this long.
+inline constexpr float ActorModelAttackLegsHoldSeconds = 0.25f;
+
+// The legs of a 3D actor's attack: true while they play the gait under the attack layer.
+struct ActorModelAttackLegs
+{
+    bool moving = false;
+    // How long the body's motion has disagreed with `moving`.
+    float disagreeSeconds = 0.0f;
+};
+
+// Advances the attack's legs by one frame: an attack that starts takes the body's motion at once, a running one
+// changes only after ActorModelAttackLegsHoldSeconds of the other motion.
+inline void advanceActorModelAttackLegs(ActorModelAttackLegs &legs, bool attackStarts, bool moving,
+    float deltaSeconds)
+{
+    if (attackStarts || moving == legs.moving)
+    {
+        legs.moving = attackStarts ? moving : legs.moving;
+        legs.disagreeSeconds = 0.0f;
+        return;
+    }
+    legs.disagreeSeconds += std::max(deltaSeconds, 0.0f);
+    if (legs.disagreeSeconds >= ActorModelAttackLegsHoldSeconds)
+    {
+        legs.moving = moving;
+        legs.disagreeSeconds = 0.0f;
+    }
+}
+
+// A 3D actor that stops between two moves (a target switch, the arrival check before a strike: one AI step of
+// standing) keeps its gait, still, for this long before its model blends to the stand: a stop that short would
+// otherwise blend out and back in. MM9's monsters update every 0.1 s, so no stop of theirs is shorter than this.
+inline constexpr float ActorModelStandGraceSeconds = 0.15f;
+
+// The gait follows what the AI does (MM9 picks walk or run by WalkTo or RunTo, not by the speed of each step): an
+// actor whose speed hovers near the boundary between two clips would otherwise switch between them several times a
+// second. A new gait takes over once actorModelGait has chosen it for this long.
+inline constexpr float ActorModelGaitHoldSeconds = 0.3f;
+
+// The gait a 3D actor shows this frame: current until chosen has held ActorModelGaitHoldSeconds (heldSeconds counts
+// it).
+inline ActorModelGait holdActorModelGait(ActorModelGait current, ActorModelGait chosen, float &heldSeconds,
+    float deltaSeconds)
+{
+    if (chosen == current)
+    {
+        heldSeconds = 0.0f;
+        return current;
+    }
+    heldSeconds += std::max(deltaSeconds, 0.0f);
+    if (heldSeconds < ActorModelGaitHoldSeconds)
+    {
+        return current;
+    }
+    heldSeconds = 0.0f;
+    return chosen;
+}
+
+// Actors move in AI steps (128 a second) while frames come at any rate, so a frame's distance jumps between nothing and
+// a whole step above that rate (and in slow motion), and a gait following it judders. The gait advances instead by the
+// body's speed over the frame, kept within this many seconds of travel of the distance actually covered, so over time
+// it covers exactly that distance (feet stay planted) without the per-frame steps.
+inline constexpr float ActorModelGaitSmoothingSeconds = 2.0f / 128.0f;
+
+// The distance a gait advances this frame (MM9_ANIMATION_AUDIT.md A11): distance is what the body moved since the last
+// frame, speed its speed; travelLead keeps the distance covered but not yet advanced (negative: advanced ahead of it).
+inline float smoothActorModelGaitDistance(float &travelLead, float distance, float speed, float deltaSeconds)
+{
+    travelLead += std::max(distance, 0.0f);
+    const float band = std::max(speed, 0.0f) * ActorModelGaitSmoothingSeconds;
+    if (!(band > 0.0f))
+    {
+        // Stopped: what is left of the last step is advanced now.
+        const float rest = std::max(travelLead, 0.0f);
+        travelLead = 0.0f;
+        return rest;
+    }
+    const float advance = std::max(0.0f, std::clamp(speed * std::max(deltaSeconds, 0.0f), travelLead - band,
+        travelLead + band));
+    travelLead -= advance;
+    return advance;
+}
+
+// The crossfade into a 3D actor's death clip unless its binding sets one (actors.yml `death_blend_seconds`; 0 cuts):
+// short enough to read as the blow's result, long enough that a running or swinging body does not jump to the death
+// pose (MM9_ANIMATION_AUDIT.md A10).
+inline constexpr float ActorModelDefaultDeathBlendSeconds = 0.1f;
+
 // Loot satchel tier (1-6) for a corpse holding this much gold plus item value; 0 (no satchel) for an empty corpse.
 // Rolled MM6-MM8 monster loot: about a fifth of corpses hold nothing, the median holds 25, the 90th percentile 830 and
 // the 99th 5,000, so most satchels are small purses. Tier 5 (8,000+) is a rich hoard with a fine item or an artifact;

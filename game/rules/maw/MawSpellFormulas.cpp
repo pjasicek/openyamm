@@ -115,12 +115,10 @@ double mawCrowdControlMinutes(
     bool soloParty)
 {
     static constexpr std::array<double, 4> MasterySteps = {0.5, 0.65, 0.8, 1.0};
-    const double step = spell.flat ? 1
-        : spell.fixed              ? MasterySteps[0]
-                                   : MasterySteps[size_t(std::clamp(int(mastery), 1, 4)) - 1];
+    const double step = spell.flat ? 1 : MasterySteps[size_t(std::clamp(int(mastery), 1, 4)) - 1];
     double minutes = spell.baseMinutes * step;
 
-    if (!spell.fixed)
+    if (!spell.ignoresAscension)
     {
         minutes *= std::pow(1.015, std::max(ascensionSkill, 0.0)) / (1 + std::max(resistance, 0) / 100.0);
     }

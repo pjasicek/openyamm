@@ -16,6 +16,7 @@
 namespace OpenYAMM::Game
 {
 struct EventRuntimeState;
+struct GameplayCombatActorInfo;
 
 // The homing a true_aim monster gives the projectiles it fires at a target (MonsterModifierSet::trueAim); empty for a
 // monster without it or a shot with no target (actor index invalid for TargetKind::Actor).
@@ -24,6 +25,14 @@ std::optional<GameplayProjectileService::ProjectileHoming> trueAimProjectileHomi
     GameplayProjectileService::ProjectileHoming::TargetKind targetKind,
     size_t targetActorIndex,
     uint32_t targetActorId);
+
+// A monster's spell_conditions on its combat info (GameplayCombatController's hit conditions); a monster without them
+// keeps the default: no spell condition. A spell slot a ruleset replaced (generatedSpell1/2) leaves no spell condition.
+void applyHitConditionModifiers(
+    const MonsterModifierSet *pModifiers,
+    bool spell1Replaced,
+    bool spell2Replaced,
+    GameplayCombatActorInfo &info);
 
 // Blinks of one world runtime's actors (MonsterModifierSet::blink), indexed by its actor indices. Shared decisions:
 // triggers, cooldowns and the candidate spots; the world runtime checks a spot (floor, walls, other bodies, sight)

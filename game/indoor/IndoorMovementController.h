@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/indoor/IndoorSectorFaceGrid.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -11,6 +12,10 @@
 namespace OpenYAMM::Game
 {
 inline constexpr float IndoorActorMaxDropHeight = 100.0f;
+// A path planner's drop for monsters that follow down ledges of any height (scene `actor_movement: {drops: follow}`).
+inline constexpr float IndoorActorFollowDropHeight = 65536.0f;
+// The gravity resolveMove applies by default (monsters; the party passes its own).
+inline constexpr float IndoorActorGravityPerSecond = 960.0f;
 
 struct IndoorMoveState
 {
@@ -158,6 +163,14 @@ public:
         float eyeZ,
         const IndoorBodyDimensions &body
     ) const;
+    // A body held in the air at a point (a ladder taken at its top): its rooms there, or none when the point is outside
+    // the map or the body would stand in a face.
+    std::optional<IndoorMoveState> airborneStateAt(
+        float x,
+        float y,
+        float footZ,
+        const IndoorBodyDimensions &body
+    ) const;
     const IndoorMapData *indoorMapData() const
     {
         return m_pIndoorMapData;
@@ -182,7 +195,7 @@ public:
         bool allowUnsupportedPathRecovery = false,
         bool allowBlockedWallRecovery = false,
         bool requireWalkableSupport = false,
-        float gravityPerSecond = 960.0f
+        float gravityPerSecond = IndoorActorGravityPerSecond
     ) const;
     IndoorMoveState resolveFlyingActorMove(
         const IndoorMoveState &state,
@@ -208,6 +221,8 @@ public:
         const IndoorBodyDimensions &body
     ) const;
     void setSlopeRule(IndoorSlopeRule slopeRule);
+    // The monsters' controller: the scene's monster-only walls (IndoorMapData::actorBarrierFaceIds) block its moves.
+    void setBlockedByActorBarriers(bool blocked);
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
     void updateActorColliderPosition(size_t actorIndex, int16_t sectorId, float x, float y, float z);
     void setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders);
@@ -215,6 +230,11 @@ public:
     void invalidateRuntimeGeometryCache();
     void applyMechanismGeometryUpdate(const std::vector<uint32_t> &changedDoorIds);
     bool supportFaceIsBurning(size_t faceIndex) const;
+    // The map's vertices with the doors where they stand now (water volumes bound to a mover follow them).
+    const std::vector<IndoorVertex> &runtimeVertices() const
+    {
+        return runtimeGeometryCache().vertices;
+    }
     IndoorMoveState resolveGroundedSupportState(
         const IndoorMoveState &state,
         const IndoorBodyDimensions &body
@@ -278,10 +298,18 @@ private:
         std::vector<uint8_t> mechanismBlockingFaceMask;
         std::vector<uint8_t> actorSupportFaceMask;
         std::vector<uint8_t> collisionFaceMask;
+        // The scene's monster-only walls, for a controller blocked by them; empty otherwise.
+        std::vector<uint8_t> actorBarrierFaceMask;
         std::vector<uint16_t> mechanismSupportFaceIds;
         std::vector<std::vector<uint16_t>> sectorMechanismSupportFaceIds;
         std::vector<uint16_t> invisibleSupportRampFaceIds;
         IndoorFaceGeometryCache geometryCache;
+        // Narrows floor queries to the faces near a point (attached to geometryCache by refreshRuntimeGeometryCache):
+        // a region's open air is one sector of 25 000 floors (devdocs/mm9_rework/BLV_GEOMETRY_COSTS.md, E2).
+        IndoorSectorFaceGrid sectorFaceGrid;
+        // Each face's place in its sectors' floor, wall and ceiling lists (sector, position): the grid's candidates
+        // are taken in the order the sector lists give, so ties between equally near faces go the same way.
+        std::vector<std::vector<std::pair<int16_t, uint32_t>>> faceSectorListRanks;
         uint64_t surfaceRevision = 0;
     };
     struct IndoorWallCollision
@@ -373,6 +401,8 @@ private:
     mutable RuntimeGeometryCache m_runtimeGeometryCache;
 
     std::vector<uint8_t> buildCollisionFaceMask() const;
+    // The runtime cache's monster-only wall mask, or null when this controller has none.
+    const std::vector<uint8_t> *actorBarrierFaceMask() const;
     SweptCollisionRequest buildSweptCollisionRequest(
         const IndoorMoveState &state,
         const IndoorBodyDimensions &body,
@@ -470,6 +500,7 @@ private:
         bool *pHitActor
     ) const;
     IndoorSlopeRule m_slopeRule = IndoorSlopeRule::Actor;
+    bool m_blockedByActorBarriers = false;
     std::vector<IndoorActorCollision> m_actorColliders;
     std::vector<IndoorCylinderCollision> m_decorationColliders;
     std::vector<IndoorCylinderCollision> m_spriteObjectColliders;

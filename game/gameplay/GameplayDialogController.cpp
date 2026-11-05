@@ -554,6 +554,9 @@ DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
         case HouseActionId::OpenTavernArcomageMenu:
             return DialogueMenuId::TavernArcomage;
 
+        case HouseActionId::OpenTeacherLedgerMenu:
+            return DialogueMenuId::TeacherLedger;
+
         default:
             return DialogueMenuId::None;
     }
@@ -1807,7 +1810,6 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
                 overlay.spendMana = false;
                 overlay.applyRecovery = false;
                 overlay.bypassGameplayCasterValidation = true;
-                overlay.bypassTownPortalFailureChecks = true;
 
                 execution.closeDialog = true;
                 return execution;
@@ -2029,6 +2031,45 @@ uint32_t hiredNpcFollowerFeePercent(const EventRuntimeState &eventRuntimeState)
     return total;
 }
 
+// A service row's tag on the conversation bar.
+std::string mm9RudeServiceTag(int32_t opcode)
+{
+    switch (opcode)
+    {
+        case -2: return "Shop";
+        case -3: return "Training";
+        case -4: return "Train";
+        case -5: return "Travel";
+        case -6: return "Bank";
+        case -7: return "Inn";
+        case -8: return "Healer";
+        case -10: return "Hire";
+        case -11: return "Dismiss";
+        case -13: return "Combine";
+        case -14: return "Quest";
+        case -15: return "Town Portal";
+        case -16: return "Donate";
+        default: return {};
+    }
+}
+
+// How the conversation bar marks a row: the row that ends the talk, a quest row (one that needs keys) not chosen
+// yet, or one the party has chosen before.
+EventDialogChoiceMark mm9RudeChoiceMark(const Mm9RudeRow &row, const Party &party)
+{
+    if (row.next == -1)
+    {
+        return EventDialogChoiceMark::Exit;
+    }
+
+    if (party.hasChosenMm9RudeRow(uint32_t(row.rudeId), row.rowIndex))
+    {
+        return EventDialogChoiceMark::Visited;
+    }
+
+    return row.requiredRawKeys.empty() ? EventDialogChoiceMark::None : EventDialogChoiceMark::New;
+}
+
 EventDialogContent buildMm9RudeContent(
     const Mm9RudeDialogueTable &table,
     const Mm9SkillTrainerTable *pSkillTrainerTable,
@@ -2083,6 +2124,8 @@ EventDialogContent buildMm9RudeContent(
             action.label = pRow->prompt;
             action.argument = "trainer=" + std::to_string(trainerTopic->rawTrainerId)
                 + ";source_line=" + std::to_string(pRow->sourceLine);
+            action.choiceMark = mm9RudeChoiceMark(*pRow, party);
+            action.choiceTag = "Train \xC2\xB7 " + masteryDisplayName(trainerTopic->targetMastery);
             content.actions.push_back(std::move(action));
             continue;
         }
@@ -2094,6 +2137,8 @@ EventDialogContent buildMm9RudeContent(
         action.label = pRow->prompt;
         action.argument = "choice=" + std::to_string(pRow->choiceSlot)
             + ";next=" + std::to_string(pRow->next);
+        action.choiceMark = mm9RudeChoiceMark(*pRow, party);
+        action.choiceTag = pRow->next < -1 ? mm9RudeServiceTag(pRow->next) : std::string();
         content.actions.push_back(std::move(action));
     }
 
@@ -2107,12 +2152,14 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
     result.previousMessageCount = context.eventRuntimeState.messages.size();
 
     if (!context.activeEventDialog.isActive
-        || context.selectionIndex >= context.activeEventDialog.actions.size())
+        || (!context.actionOverride && context.selectionIndex >= context.activeEventDialog.actions.size()))
     {
         return result;
     }
 
-    const EventDialogAction &action = context.activeEventDialog.actions[context.selectionIndex];
+    const EventDialogAction &action = context.actionOverride
+        ? *context.actionOverride
+        : context.activeEventDialog.actions[context.selectionIndex];
     traceDialogState(context.activeEventDialog, "before_topic_clicked");
     GAMEPLAY_DEBUG_TRACE(
         "topic_clicked kind=" + std::string(eventDialogActionKindName(action.kind))
@@ -2125,6 +2172,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         + " label=\"" + action.label + "\"");
 
     context.uiController.closeHouseShopOverlay();
+    context.uiController.closeTransportSchedule();
 
     if (context.uiController.inventoryNestedOverlay().active && context.dialogueHudActive)
     {
@@ -2296,6 +2344,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         if (trainerActionKind == EventDialogActionKind::Mm9RudeSkillTrainerOffer)
         {
+            context.pParty->recordChosenMm9RudeRow(context.activeEventDialog.sourceId, pRow->rowIndex);
             const bool exitCallbackExecuted = context.activeEventDialog.mm9RudeExitCallbackExecuted;
             context.activeEventDialog = buildMm9RudeContent(
                 *context.pMm9RudeDialogueTable,
@@ -2306,6 +2355,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 selectMm9RudeRow(*pRow).response,
                 context.activeEventDialog.sourceActorIndex);
             context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
+            context.activeEventDialog.echo = pRow->prompt;
             context.activeEventDialog.actions.clear();
 
             const std::optional<MasteryTeacherEvaluation> evaluation = evaluateSkillMasteryGroupTraining(
@@ -2320,12 +2370,14 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 learnAction.id = trainerRowIndex;
                 learnAction.secondaryId = 0;
                 learnAction.label = evaluation->displayText;
+                learnAction.choiceTag = "Train \xC2\xB7 " + masteryDisplayName(trainerTopic->targetMastery);
                 context.activeEventDialog.actions.push_back(std::move(learnAction));
             }
 
             EventDialogAction backAction = {};
             backAction.kind = EventDialogActionKind::Mm9RudeSkillTrainerBack;
             backAction.label = "Back";
+            backAction.choiceMark = EventDialogChoiceMark::Exit;
             context.activeEventDialog.actions.push_back(std::move(backAction));
             context.selectionIndex = 0;
             return result;
@@ -2398,6 +2450,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         }
 
         applyMm9RudeRowActions(*pRow, *context.pParty, &context.eventRuntimeState);
+        context.pParty->recordChosenMm9RudeRow(context.activeEventDialog.sourceId, pRow->rowIndex);
         const Mm9RudeSelection selection = selectMm9RudeRow(*pRow);
         if (selection.kind == Mm9RudeSelectionKind::Close)
         {
@@ -2420,6 +2473,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             selection.response,
             context.activeEventDialog.sourceActorIndex);
         context.activeEventDialog.mm9RudeExitCallbackExecuted = exitCallbackExecuted;
+        context.activeEventDialog.echo = selection.response.empty() ? std::string() : pRow->prompt;
         context.selectionIndex = 0;
 
         if (selection.kind == Mm9RudeSelectionKind::Service)
@@ -2520,6 +2574,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 EventDialogAction backAction = {};
                 backAction.kind = EventDialogActionKind::Mm9RudeTransportBack;
                 backAction.label = "Back";
+                backAction.choiceMark = EventDialogChoiceMark::Exit;
+            backAction.choiceMark = EventDialogChoiceMark::Exit;
                 context.activeEventDialog.actions.push_back(std::move(backAction));
                 context.selectionIndex = 0;
                 return result;
@@ -2857,6 +2913,11 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.pendingArcomageGame = std::move(pendingGame);
             return result;
         }
+        else if (houseActionId == HouseActionId::TransportSchedule)
+        {
+            context.uiController.openTransportSchedule(pHouseEntry->id);
+            return result;
+        }
         else if (houseActionId == HouseActionId::BankDepositAll)
         {
             context.uiController.beginHouseBankInput(pHouseEntry->id, GameplayUiController::HouseBankInputMode::Deposit);
@@ -2977,6 +3038,15 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 }
             }
 
+            // The ledger bought: back to the tavern's topics, which no longer offer it.
+            std::vector<DialogueMenuId> &menuStack = context.eventRuntimeState.dialogueState.menuStack;
+
+            if (houseResult.succeeded && option.id == HouseActionId::BuyTeacherLedger && !menuStack.empty()
+                && menuStack.back() == DialogueMenuId::TeacherLedger)
+            {
+                menuStack.pop_back();
+            }
+
             if (houseResult.succeeded && option.id == HouseActionId::TempleHeal)
             {
                 playCommonUiSound(context, SoundId::Heal);
@@ -2998,7 +3068,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             }
 
             if (houseResult.succeeded
-                && option.id == HouseActionId::TransportRoute)
+                && (option.id == HouseActionId::TransportRoute
+                    || option.id == HouseActionId::TransportScheduledTrip))
             {
                 playSpeechReaction(
                     context,
@@ -4005,7 +4076,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
         }
 
-        if (context.eventRuntimeState.pendingWinGame || context.eventRuntimeState.pendingDimensionDoorOverlay)
+        if (context.eventRuntimeState.pendingDimensionDoorOverlay)
         {
             result.shouldCloseActiveDialog = true;
             return result;

@@ -853,6 +853,7 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
                     expertDescription = ruled.masteryLines[1];
                     masterDescription = ruled.masteryLines[2];
                     grandmasterDescription = ruled.masteryLines[3];
+                    overlay.footer = ruled.footer;
                 }
 
                 overlay.normal.text = "Normal: " + normalDescription;
@@ -1534,6 +1535,41 @@ bool GameplayHudOverlaySupport::shopBagOverviewActive(const GameplayScreenRuntim
 #endif
 }
 
+bool GameplayHudOverlaySupport::inventoryTabsShown(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    return pParty != nullptr && context.characterScreenReadOnly().open
+        && context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory
+        && !context.isAdventurersInnCharacterSourceActive()
+        && InventoryBags::tabCount(gameRulesFor(pParty).items.bagCount(*pParty)) > 1;
+}
+
+std::optional<GameplayResolvedHudLayoutElement> GameplayHudOverlaySupport::inventorySearchBox(
+    const GameplayScreenRuntime &context,
+    int width,
+    int height)
+{
+    std::optional<GameplayResolvedHudLayoutElement> box =
+        context.resolveHudLayoutElement("CharacterInventorySearch", width, height, 0, 0);
+
+    if (!box || !inventoryTabsShown(context))
+    {
+        return box;
+    }
+
+    const std::optional<GameplayResolvedHudLayoutElement> lastTab =
+        context.resolveHudLayoutElement("CharacterInventoryTab5", width, height, 0, 0);
+
+    if (lastTab)
+    {
+        const float left = lastTab->x + lastTab->width + std::round(8.0f * box->scale);
+        box->width = std::max(0.0f, box->x + box->width - left);
+        box->x = left;
+    }
+
+    return box;
+}
+
 void GameplayHudOverlaySupport::renderBagOverview(
     GameplayScreenRuntime &context,
     const GameplayResolvedHudLayoutElement &grid,
@@ -1564,7 +1600,9 @@ void GameplayHudOverlaySupport::renderBagOverview(
     constexpr float GridHeight = 288.0f;
     const float line = std::max(1.0f, std::round(scale));
 
-    for (int bag = 0; bag < InventoryBagOverview::Bags; ++bag)
+    const int firstBag = InventoryBagOverview::firstBag(character);
+
+    for (int bag = firstBag; bag < firstBag + InventoryBagOverview::Bags; ++bag)
     {
         const InventoryBagOverview::Slot slot = InventoryBagOverview::slot(grid, bag);
 
@@ -1625,7 +1663,9 @@ std::optional<GameplayHudOverlaySupport::InventoryCell> GameplayHudOverlaySuppor
 
     if (shopBagOverviewActive(context))
     {
-        for (int bag = 0; bag < InventoryBagOverview::Bags; ++bag)
+        const int firstBag = InventoryBagOverview::firstBag(*pCharacter);
+
+        for (int bag = firstBag; bag < firstBag + InventoryBagOverview::Bags; ++bag)
         {
             const InventoryBagOverview::Slot slot = InventoryBagOverview::slot(*grid, bag);
 
@@ -1656,7 +1696,8 @@ std::optional<ItemSearch::Query> GameplayHudOverlaySupport::inventorySearchQuery
     const GameplayUiController::CharacterScreenState &screen = context.characterScreenReadOnly();
 
     if (!screen.open || screen.page != GameplayUiController::CharacterPage::Inventory
-        || context.isAdventurersInnCharacterSourceActive())
+        || context.isAdventurersInnCharacterSourceActive()
+        || !gameRulesFor(context.partyReadOnly()).items.inventorySearch())
     {
         return std::nullopt;
     }

@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayAlchemyBenchInputController.h"
 
+#include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayCraftingBenchInputController.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayItemService.h"
@@ -464,19 +465,13 @@ void editRecipeSearch(
     constexpr size_t MaxSearchLength = 24;
     const std::string before = state.recipeSearch;
 
-    for (char character : input.textInput)
-    {
-        if (character >= 32 && character < 127 && state.recipeSearch.size() < MaxSearchLength)
-        {
-            state.recipeSearch.push_back(character);
-        }
-    }
+    Engine::Utf8::appendPrintable(state.recipeSearch, input.textInput, MaxSearchLength);
 
     for (uint16_t count = input.scancodePressCount(SDL_SCANCODE_BACKSPACE); count > 0; --count)
     {
         if (!state.recipeSearch.empty())
         {
-            state.recipeSearch.pop_back();
+            Engine::Utf8::popBack(state.recipeSearch);
         }
     }
 

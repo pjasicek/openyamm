@@ -253,6 +253,7 @@ CraftPlan CraftingRuntime::plan(
     const CraftMaterialKey &material,
     uint32_t maxApplications,
     bool cheapestGems,
+    size_t choice,
     const CraftingRules &rules,
     const CraftingTables &tables)
 {
@@ -268,7 +269,8 @@ CraftPlan CraftingRuntime::plan(
 
     plan.item = *targetItem;
     plan.result.target = *targetItem;
-    const CraftingContext context = craftingContext(party, target, tables);
+    CraftingContext context = craftingContext(party, target, tables);
+    context.choice = choice;
     const int chosenTier = rules.gemTier(material.itemId);
 
     // The material instances still unused, by key; gem batches may draw on the lower tiers.
@@ -369,12 +371,13 @@ bool CraftingRuntime::apply(
     const CraftMaterialKey &material,
     uint32_t maxApplications,
     bool cheapestGems,
+    size_t choice,
     const CraftingRules &rules,
     const CraftingTables &tables,
     CraftPlan &applied,
     std::optional<InventoryItem> &overflow)
 {
-    applied = plan(party, target, material, maxApplications, cheapestGems, rules, tables);
+    applied = plan(party, target, material, maxApplications, cheapestGems, choice, rules, tables);
     overflow.reset();
 
     if (applied.applications == 0)

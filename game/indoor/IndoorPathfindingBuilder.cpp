@@ -27,15 +27,17 @@ PathFacetKind convertPathFacetKind(const IndoorFaceGeometryData &geometry)
     }
 }
 
-PathFacet buildPathFacet(const IndoorFaceGeometryData &geometry)
+PathFacet buildPathFacet(const IndoorFaceGeometryData &geometry, bool actorBarrier)
 {
     PathFacet facet = {};
     facet.kind = convertPathFacetKind(geometry);
     facet.attributes.portal = geometry.isPortal;
-    facet.attributes.invisible = hasFaceAttribute(geometry.attributes, FaceAttribute::Invisible);
-    facet.attributes.untouchable = hasFaceAttribute(geometry.attributes, FaceAttribute::Untouchable);
+    // The path map is the monsters': the scene's monster-only walls (IndoorMapData::actorBarrierFaceIds) are solid
+    // walls to it, never a floor, although the face is invisible and untouchable.
+    facet.attributes.invisible = !actorBarrier && hasFaceAttribute(geometry.attributes, FaceAttribute::Invisible);
+    facet.attributes.untouchable = !actorBarrier && hasFaceAttribute(geometry.attributes, FaceAttribute::Untouchable);
     // Horizontal portals connect sectors; they provide no physical floor or overhead support.
-    facet.walkableFloor = geometry.isWalkable && !geometry.isPortal;
+    facet.walkableFloor = geometry.isWalkable && !geometry.isPortal && !actorBarrier;
     facet.blocking = !geometry.isPortal && !facet.attributes.untouchable;
     facet.sourceId = static_cast<int32_t>(geometry.faceIndex);
     facet.vertices.reserve(geometry.vertices.size());
@@ -72,6 +74,20 @@ IndoorPathMapBuildResult IndoorPathfindingBuilder::buildPathMap(
     result.sourceFaceCount = indoorMapData.faces.size();
     std::vector<PathFacet> pathFacets;
     pathFacets.reserve(indoorMapData.faces.size());
+    std::vector<uint8_t> actorBarrierMask;
+
+    if (!indoorMapData.actorBarrierFaceIds.empty())
+    {
+        actorBarrierMask.assign(indoorMapData.faces.size(), 0);
+
+        for (uint16_t faceId : indoorMapData.actorBarrierFaceIds)
+        {
+            if (faceId < actorBarrierMask.size())
+            {
+                actorBarrierMask[faceId] = 1;
+            }
+        }
+    }
 
     for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
     {
@@ -84,7 +100,16 @@ IndoorPathMapBuildResult IndoorPathfindingBuilder::buildPathMap(
             continue;
         }
 
-        pathFacets.push_back(buildPathFacet(*pGeometry));
+        // A door MM9 monsters open (scene `ai_open`) does not block their routes, as MM9's rails run through doors:
+        // walking into it shut, they open it (BaseDoor.inc; MM9_MONSTER_AI_PLAN.md phase 4a).
+        if (findIndoorAiDoorByFace(indoorMapData, faceIndex) != nullptr)
+        {
+            ++result.skippedFaceCount;
+            continue;
+        }
+
+        pathFacets.push_back(
+            buildPathFacet(*pGeometry, faceIndex < actorBarrierMask.size() && actorBarrierMask[faceIndex] != 0));
     }
 
     result.pathFacetCount = pathFacets.size();

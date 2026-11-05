@@ -1,6 +1,7 @@
 #include "engine/FontAsset.h"
 
 #include "engine/AssetFileSystem.h"
+#include "engine/Utf8Text.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -11,9 +12,87 @@
 #include <cctype>
 #include <cstdlib>
 #include <cmath>
+#include <iomanip>
+#include <iostream>
+#include <mutex>
+#include <set>
+#include <unordered_set>
 
 namespace OpenYAMM::Engine
 {
+void reportMissingGlyph(uint32_t point)
+{
+    static std::mutex mutex;
+    static std::unordered_set<uint32_t> reported;
+    const std::lock_guard lock(mutex);
+    if (!reported.insert(point).second)
+    {
+        return;
+    }
+    std::string character;
+    Utf8::append(character, point);
+    std::cout << "Font: no glyph for U+" << std::hex << std::uppercase << std::setw(4) << std::setfill('0') << point
+              << std::dec << std::nouppercase << std::setfill(' ') << " '" << character << "', drawn as '?'\n";
+}
+
+int FontAtlas::glyphIndex(uint32_t point) const
+{
+    if (unicode)
+    {
+        const auto found = unicodeGlyphIndices.find(point);
+        if (found != unicodeGlyphIndices.end())
+        {
+            return found->second;
+        }
+        if (point > ' ')
+        {
+            reportMissingGlyph(point);
+        }
+        const auto question = unicodeGlyphIndices.find('?');
+        return question != unicodeGlyphIndices.end() ? question->second : -1;
+    }
+    std::optional<uint8_t> byte = Utf8::toCp1252(point);
+    if (!byte)
+    {
+        reportMissingGlyph(point);
+        byte = uint8_t('?');
+    }
+    return *byte >= firstChar && *byte <= lastChar ? int(*byte) : -1;
+}
+
+const FontGlyphMetrics &FontAtlas::glyph(int index) const
+{
+    return unicode ? unicodeGlyphMetrics[size_t(index)] : glyphMetrics[size_t(index)];
+}
+
+FontGlyphPlacement FontAtlas::placement(int index) const
+{
+    if (unicode)
+    {
+        return unicodeGlyphPlacements[size_t(index)];
+    }
+    FontGlyphPlacement place;
+    place.x = (index % 16) * (atlasCellWidth + 2 * atlasPadding);
+    place.y = (index / 16) * (fontHeight + 2 * atlasPadding);
+    place.width = glyphMetrics[size_t(index)].width + 2 * atlasPadding;
+    place.height = fontHeight + 2 * atlasPadding;
+    place.top = -atlasPadding;
+    return place;
+}
+
+float FontAtlas::kerning(uint32_t previous, uint32_t current) const
+{
+    // Legacy pairs are Windows-1252 bytes; Unicode faces keep no kerning.
+    const std::optional<uint8_t> previousByte = unicode ? std::nullopt : Utf8::toCp1252(previous);
+    const std::optional<uint8_t> currentByte = unicode ? std::nullopt : Utf8::toCp1252(current);
+    if (!previousByte || !currentByte)
+    {
+        return 0.0f;
+    }
+    const auto found = kerningPairs.find(uint16_t(*previousByte * 256 + *currentByte));
+    return found == kerningPairs.end() ? 0.0f : found->second;
+}
+
 namespace
 {
 struct BitmapFont
@@ -212,6 +291,190 @@ void copyBitmapGlyph(const BitmapFont &font, int character, FontAtlasImage &imag
         }
     }
 }
+
+struct RenderedGlyph
+{
+    uint32_t point = 0;
+    FontGlyphMetrics metrics;
+    int rows = 0;
+    int top = 0;
+    std::vector<uint8_t> coverage;
+};
+
+// Packs the glyphs in shelves, the tallest first, and returns the atlas width and height, 0 when it would exceed the
+// texture limit. Each place keeps padding pixels clear around the glyph against bilinear bleeding.
+std::pair<int, int> packGlyphShelves(
+    const std::vector<RenderedGlyph> &glyphs,
+    int padding,
+    std::vector<FontGlyphPlacement> &placements)
+{
+    constexpr int MaximumSize = 8192;
+    std::vector<size_t> order(glyphs.size());
+    size_t area = 0;
+    for (size_t index = 0; index < glyphs.size(); ++index)
+    {
+        order[index] = index;
+        area += size_t(glyphs[index].metrics.width + 2 * padding) * size_t(glyphs[index].rows + 2 * padding);
+    }
+    std::stable_sort(order.begin(), order.end(), [&glyphs](size_t left, size_t right)
+    {
+        return glyphs[left].rows > glyphs[right].rows;
+    });
+    int width = 256;
+    while (width < MaximumSize && size_t(width) * size_t(width) < area + area / 4)
+    {
+        width *= 2;
+    }
+    placements.assign(glyphs.size(), {});
+    int shelfX = 0;
+    int shelfY = 0;
+    int shelfHeight = 0;
+    for (const size_t index : order)
+    {
+        const RenderedGlyph &glyph = glyphs[index];
+        const int placeWidth = glyph.metrics.width + 2 * padding;
+        const int placeHeight = glyph.rows + 2 * padding;
+        if (shelfX + placeWidth > width)
+        {
+            shelfY += shelfHeight;
+            shelfX = 0;
+            shelfHeight = 0;
+        }
+        placements[index] = {shelfX, shelfY, placeWidth, placeHeight, glyph.top - padding};
+        shelfX += placeWidth;
+        shelfHeight = std::max(shelfHeight, placeHeight);
+    }
+    const int height = shelfY + shelfHeight;
+    return height > MaximumSize ? std::pair{0, 0} : std::pair{width, std::max(1, height)};
+}
+
+// A Unicode face: ASCII, the Windows-1252 characters the English tables use and every character of the descriptor's
+// character list, each rendered once at rasterHeight and packed. A character the font file lacks is left out, to be
+// drawn as '?' and reported when text asks for it.
+std::optional<FontAtlasImage> buildUnicodeAtlas(
+    FT_Face face,
+    const std::string &characterList,
+    const std::string &name,
+    int displayHeight,
+    int rasterHeight,
+    int baseline,
+    std::string &error)
+{
+    std::set<uint32_t> points;
+    for (int byte = 32; byte < 256; ++byte)
+    {
+        if (cp1252CodePoint(byte) != 0)
+        {
+            points.insert(cp1252CodePoint(byte));
+        }
+    }
+    for (const uint32_t point : Utf8::codePoints(characterList))
+    {
+        if (Utf8::isTypeable(point))
+        {
+            points.insert(point);
+        }
+    }
+    constexpr size_t MaximumGlyphs = 16384;
+    if (points.size() > MaximumGlyphs)
+    {
+        error = "Unicode font lists more than " + std::to_string(MaximumGlyphs) + " characters: " + name;
+        return std::nullopt;
+    }
+
+    std::vector<RenderedGlyph> glyphs;
+    glyphs.reserve(points.size());
+    size_t missing = 0;
+    for (const uint32_t point : points)
+    {
+        if (FT_Get_Char_Index(face, point) == 0)
+        {
+            ++missing;
+            continue;
+        }
+        if (FT_Load_Char(face, point, FT_LOAD_TARGET_LIGHT | FT_LOAD_NO_BITMAP) != 0
+            || FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL) != 0
+            || (face->glyph->bitmap.rows != 0 && face->glyph->bitmap.pixel_mode != FT_PIXEL_MODE_GRAY))
+        {
+            error = "Unable to render Unicode glyph U+" + std::to_string(point) + ": " + name;
+            return std::nullopt;
+        }
+        const FT_GlyphSlot pGlyph = face->glyph;
+        const FT_Bitmap &bitmap = pGlyph->bitmap;
+        RenderedGlyph glyph;
+        glyph.point = point;
+        glyph.metrics.leftSpacing = pGlyph->bitmap_left;
+        glyph.metrics.width = int(bitmap.width);
+        glyph.metrics.outlineAdvance = pGlyph->linearHoriAdvance / 65536.0f;
+        glyph.metrics.rightSpacing =
+            int(std::round(glyph.metrics.outlineAdvance)) - glyph.metrics.leftSpacing - glyph.metrics.width;
+        glyph.rows = int(bitmap.rows);
+        glyph.top = baseline - pGlyph->bitmap_top;
+        glyph.coverage.resize(size_t(bitmap.width) * bitmap.rows);
+        for (unsigned int y = 0; y < bitmap.rows; ++y)
+        {
+            const uint8_t *pRow =
+                bitmap.buffer + (bitmap.pitch >= 0 ? y : bitmap.rows - 1 - y) * size_t(std::abs(bitmap.pitch));
+            std::copy(pRow, pRow + bitmap.width, glyph.coverage.begin() + size_t(y) * bitmap.width);
+        }
+        glyphs.push_back(std::move(glyph));
+    }
+
+    FontAtlasImage image;
+    FontAtlas &atlas = image.atlas;
+    atlas.unicode = true;
+    atlas.atlasScale = 1;
+    atlas.atlasPadding = 2;
+    atlas.fontHeight = displayHeight;
+    atlas.rasterHeight = rasterHeight;
+    atlas.layoutScale = float(displayHeight) / float(rasterHeight);
+    const auto [width, height] = packGlyphShelves(glyphs, atlas.atlasPadding, atlas.unicodeGlyphPlacements);
+    if (width == 0)
+    {
+        error = "Unicode font atlas exceeds the texture limit: " + name;
+        return std::nullopt;
+    }
+    atlas.atlasWidth = width;
+    atlas.atlasHeight = height;
+    allocateAtlas(image, true);
+    atlas.unicodeGlyphMetrics.reserve(glyphs.size());
+    for (size_t index = 0; index < glyphs.size(); ++index)
+    {
+        const RenderedGlyph &glyph = glyphs[index];
+        const FontGlyphPlacement &place = atlas.unicodeGlyphPlacements[index];
+        atlas.unicodeGlyphIndices.emplace(glyph.point, int(index));
+        atlas.unicodeGlyphMetrics.push_back(glyph.metrics);
+        atlas.atlasCellWidth = std::max(atlas.atlasCellWidth, glyph.metrics.width);
+        for (int y = 0; y < glyph.rows; ++y)
+        {
+            for (int x = 0; x < glyph.metrics.width; ++x)
+            {
+                const size_t offset = (size_t(place.y + atlas.atlasPadding + y) * size_t(width)
+                    + size_t(place.x + atlas.atlasPadding + x)) * 4 + 3;
+                const uint8_t value = glyph.coverage[size_t(y) * size_t(glyph.metrics.width) + size_t(x)];
+                // As with the other outline faces, the renderer offsets the shadow; its mask is the glyph itself.
+                atlas.mainAtlasPixels[offset] = value;
+                image.shadowPixels[offset] = value;
+            }
+        }
+    }
+    std::cout << "Unicode font: " << name << " raster=" << rasterHeight << " glyphs=" << glyphs.size()
+              << " missing=" << missing << " atlas=" << width << 'x' << height << '\n';
+    return image;
+}
+}
+
+int unicodeRasterHeight(int pixelHeight, int logicalHeight)
+{
+    const int displayHeight = pixelHeight > 0 ? pixelHeight : std::min(3 * logicalHeight, 48);
+    for (const int height : {16, 24, 32, 48, 64, 96})
+    {
+        if (displayHeight <= height)
+        {
+            return height;
+        }
+    }
+    return 128;
 }
 
 std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &assetFileSystem, const std::string &fontName,
@@ -230,10 +493,14 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     std::string file;
     int baseline = 0;
     std::optional<int> weight;
+    bool unicode = false;
+    std::string characterListFile;
     try
     {
         const YAML::Node descriptor = YAML::Load(descriptorText.value_or(""));
         file = descriptor["file"].as<std::string>();
+        unicode = descriptor["encoding"].as<std::string>() == "utf-8";
+        characterListFile = unicode ? descriptor["characters_file"].as<std::string>("") : "";
         atlas.fontHeight = descriptor["logical_height"].as<int>();
         baseline = descriptor["baseline"].as<int>();
         if (descriptor["weight"])
@@ -241,7 +508,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             weight = descriptor["weight"].as<int>();
         }
         if (descriptor["metrics"].as<std::string>() != "freetype" ||
-            descriptor["encoding"].as<std::string>() != "windows-1252" || file.empty() ||
+            (!unicode && descriptor["encoding"].as<std::string>() != "windows-1252") || file.empty() ||
+            (unicode && (characterListFile.empty() || characterListFile.find_first_of("/\\") != std::string::npos)) ||
             file.find_first_of("/\\") != std::string::npos || atlas.fontHeight < 8 || atlas.fontHeight > 64 ||
             baseline < 0 || baseline > atlas.fontHeight || (weight && (*weight < 1 || *weight > 1000)))
         {
@@ -261,7 +529,8 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     }
     const int logicalHeight = atlas.fontHeight;
     atlas.fontHeight = pixelHeight > 0 ? pixelHeight : logicalHeight;
-    baseline = int(std::lround(float(baseline) * atlas.fontHeight / logicalHeight));
+    const int rasterHeight = unicode ? unicodeRasterHeight(pixelHeight, logicalHeight) : atlas.fontHeight;
+    baseline = int(std::lround(float(baseline) * rasterHeight / logicalHeight));
     atlas.atlasPadding = int(std::ceil(8.0f * atlas.fontHeight / logicalHeight)) + 1;
     const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile("fonts/truetype/" + file);
     FreeTypeFace font;
@@ -271,7 +540,7 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
     if (!bytes || bytes->empty() || bytes->size() > 32 * 1024 * 1024 || FT_Init_FreeType(&font.library) != 0 ||
         FT_New_Memory_Face(font.library, bytes->data(), FT_Long(bytes->size()), 0, &font.face) != 0 ||
         !FT_IS_SCALABLE(font.face) || FT_Select_Charmap(font.face, FT_ENCODING_UNICODE) != 0 ||
-        FT_Set_Pixel_Sizes(font.face, 0, atlas.fontHeight * atlas.atlasScale) != 0)
+        FT_Set_Pixel_Sizes(font.face, 0, rasterHeight * atlas.atlasScale) != 0)
     {
         error = "Unable to open outline font: " + file;
         return std::nullopt;
@@ -304,6 +573,17 @@ std::optional<FontAtlasImage> loadTrueTypeFontAtlas(const AssetFileSystem &asset
             error = "Invalid variable font weight: " + file;
             return std::nullopt;
         }
+    }
+    if (unicode)
+    {
+        const std::optional<std::string> characterList =
+            assetFileSystem.readTextFile("fonts/truetype/" + characterListFile);
+        if (!characterList)
+        {
+            error = "Missing character list of Unicode font: " + characterListFile;
+            return std::nullopt;
+        }
+        return buildUnicodeAtlas(font.face, *characterList, name, atlas.fontHeight, rasterHeight, baseline, error);
     }
     for (int character = atlas.firstChar; character <= atlas.lastChar; ++character)
     {

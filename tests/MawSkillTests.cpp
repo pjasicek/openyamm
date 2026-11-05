@@ -516,7 +516,10 @@ TEST_CASE("MAW skill popups fill every number for every class line and keep the 
     // Grandmaster Unarmed has no evade under MAW (TXT-2-3).
     CHECK_EQ(skills.skillTooltip(party, party.members()[0], "Unarmed", table).masteryLines[3],
         "Attack +3, speed +2 % per point");
-    CHECK_EQ(standardSkillRules().statTooltip(party, party.members()[0], "Might", "Table."), "Table.");
+    // Standard adds what a primary stat's value gives; its other rows keep the table's text.
+    CHECK(standardSkillRules().statTooltip(party, party.members()[0], "Might", "Table.")
+              .starts_with("Table.\n\nMelee damage: "));
+    CHECK_EQ(standardSkillRules().statTooltip(party, party.members()[0], "Level", "Table."), "Table.");
 
     // The resistance rows show their popup's share of hits taken off, green when an item raises the resistance
     // (zzMaw-Stats.lua:870-897); Standard's rows add nothing.

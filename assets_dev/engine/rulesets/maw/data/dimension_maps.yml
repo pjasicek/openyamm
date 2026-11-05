@@ -8,12 +8,14 @@ map_item: 290
 # of the dungeons, with bad-luck protection, x monster level / 100 / (maps dropped on the map + 1), x10 from bosses,
 # from monsters of this level.
 drop: {chance: 0.001, level_required: 100, boss_multiplier: 10}
-# Global/zzMaw_DimensionalMapsQuest.lua: the first map at this party level; each step pair [below, step] adds step
-# while the tier is below; rewarding a tier of unlock_tier or more unlocks the kill drops. %d and %s as in MAW.
+# Global/zzMaw_DimensionalMapsQuest.lua (MAW aef88884): the first map at this party level; the next tier adds
+# first_step, each later step one less down to last_step (80, 110, 139, 167, ... 490, 500); rewarding a tier of
+# unlock_tier or more unlocks the kill drops. %d and %s as in MAW.
 quest:
-  first_tier: 100
+  first_tier: 80
   unlock_tier: 500
-  steps: [[140, 20], [200, 15], [1000000, 10]]
+  first_step: 30
+  last_step: 10
   text_too_low: >-
     The rifts between worlds open only for those who have walked far enough. Return to me when one of you has reached
     level %d.

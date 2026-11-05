@@ -3646,7 +3646,7 @@ OutdoorBitmapTexture liquidFaceTexture(const std::string &textureName, const Liq
     texture.physicalWidth = PlaceholderSize;
     texture.physicalHeight = PlaceholderSize;
     texture.liquid = liquid.kind;
-    texture.waterColorAbgr = liquid.colorAbgr;
+    texture.waterColorAbgr = liquidFaceColorAbgr(liquid);
     const std::array<uint8_t, 4> bgra = {
         uint8_t(liquid.colorAbgr >> 16), uint8_t(liquid.colorAbgr >> 8), uint8_t(liquid.colorAbgr), 255};
     for (int pixel = 0; pixel < PlaceholderSize * PlaceholderSize; ++pixel)

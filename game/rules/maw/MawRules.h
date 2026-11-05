@@ -20,6 +20,7 @@
 #include "game/rules/maw/MawPromotions.h"
 #include "game/rules/maw/MawSkillRules.h"
 #include "game/rules/maw/MawSpellRules.h"
+#include "game/rules/maw/MawTrainerHints.h"
 
 #include <array>
 #include <map>
@@ -100,6 +101,11 @@ public:
     // The map being played, lowercase: set when its load begins.
     const std::string &currentMap() const;
     void setCurrentMap(const std::string &mapFileName);
+    // The last outdoor map set as the current one, lowercase (runtime only: empty after loading a save indoors).
+    const std::string &lastOutdoorMap() const;
+    // Where teachers teach, for the skill popups' trainer hints (the session's tables; empty without them).
+    const MawTrainerHints &trainerHints() const;
+    void setTrainerHints(MawTrainerHints hints);
     // The dimension run on a map, or null.
     const MawDimensionRun *dimensionRun(const std::string &mapFileName) const;
     // An affix's value where a dimension run puts it in force (the current map without a name), else nothing
@@ -238,6 +244,8 @@ private:
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     std::string m_currentMap;
+    std::string m_lastOutdoorMap;
+    MawTrainerHints m_trainerHints;
     MawGameState m_state;
     uint64_t m_randomRootSeed = 0;
     MawMadnessLedger m_madnessLedger{std::filesystem::path("saves") / "maw_madness_deaths.txt"};

@@ -2,6 +2,7 @@
 #include "engine/AssetScaleTier.h"
 #include "game/content/ContentManifest.h"
 #include "game/content/ContentTableComposer.h"
+#include "game/gameplay/GameplayActorService.h"
 
 #include <doctest/doctest.h>
 
@@ -212,6 +213,53 @@ TEST_CASE("content manifests reject invalid actor combat profiles; without one m
             OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/plain/world.yml", "plain", error);
         REQUIRE(plain.has_value());
         CHECK_EQ(plain->actorCombat.meleeVerticalReach, 0.0f);
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("content manifests parse the actor level radius limit; without one a body meets the level at its radius")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(
+        assetRoot / "worlds" / "limited" / "world.yml", "id: limited\nactorMovement:\n  levelRadiusLimit: 60\n");
+    writeTextFile(
+        assetRoot / "worlds" / "invalid" / "world.yml", "id: invalid\nactorMovement:\n  levelRadiusLimit: -1\n");
+    writeTextFile(assetRoot / "worlds" / "missing" / "world.yml", "id: missing\nactorMovement: {}\n");
+    writeTextFile(assetRoot / "worlds" / "plain" / "world.yml", "id: plain\n");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+
+        std::string error;
+        const std::optional<OpenYAMM::Game::WorldManifest> limited =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/limited/world.yml", "limited", error);
+        REQUIRE(limited.has_value());
+        CHECK_EQ(limited->actorMovement.levelRadiusLimit, 60.0f);
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/invalid/world.yml", "invalid", error)
+            .has_value());
+        CHECK(error.find("levelRadiusLimit must be a finite number, 0 or more") != std::string::npos);
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/missing/world.yml", "missing", error)
+            .has_value());
+        CHECK(error.find("actorMovement must declare levelRadiusLimit") != std::string::npos);
+        const std::optional<OpenYAMM::Game::WorldManifest> plain =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/plain/world.yml", "plain", error);
+        REQUIRE(plain.has_value());
+        CHECK_EQ(plain->actorMovement.levelRadiusLimit, 0.0f);
+
+        // A Queen Cobra (radius 72) meets the level at the limit; a narrower body keeps its own radius.
+        OpenYAMM::Game::GameplayActorService actorService;
+        CHECK_EQ(actorService.levelCollisionRadius(72.0f), 72.0f);
+        actorService.setLevelRadiusLimit(limited->actorMovement.levelRadiusLimit);
+        CHECK_EQ(actorService.levelCollisionRadius(72.0f), 60.0f);
+        CHECK_EQ(actorService.levelCollisionRadius(40.0f), 40.0f);
     }
 
     std::filesystem::remove_all(temporaryRoot);

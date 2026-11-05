@@ -5,6 +5,7 @@
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/MonsterSpellSupport.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/party/Party.h"
 #include "game/SpriteObjectDefs.h"
@@ -887,6 +888,15 @@ bool GameplayProjectileService::advanceProjectileLifetime(
     return projectile.timeSinceCreatedTicks >= projectile.lifetimeTicks;
 }
 
+bool GameplayProjectileService::holdsTurnBasedQueue(const ProjectileState &projectile)
+{
+    constexpr uint32_t TurnBasedWaitTicks = 2 * 128;
+    return projectile.turnBasedPendingAction
+        && !projectile.isExpired
+        && !projectile.isSettled
+        && projectile.timeSinceCreatedTicks < TurnBasedWaitTicks;
+}
+
 GameplayProjectileService::ProjectileMotionSegment GameplayProjectileService::advanceProjectileMotion(
     ProjectileState &projectile,
     float deltaSeconds,
@@ -1538,9 +1548,14 @@ int GameplayProjectileService::resolveProjectilePartyImpactDamage(
             return std::max(1, damage > 0 ? damage : fallbackAttackDamage);
         }
         case MonsterAttackAbility::Spell1:
-            return std::max(1, rollMonsterSpellDamage(input.spellId, input.spell1Damage));
         case MonsterAttackAbility::Spell2:
-            return std::max(1, rollMonsterSpellDamage(input.spellId, input.spell2Damage));
+            // Paralyze and Fear carry only their spell_conditions condition.
+            if (isMonsterConditionSpellId(input.spellId))
+            {
+                return 0;
+            }
+            return std::max(1, rollMonsterSpellDamage(input.spellId,
+                input.monsterAbility == MonsterAttackAbility::Spell1 ? input.spell1Damage : input.spell2Damage));
         case MonsterAttackAbility::Attack1:
         default:
         {
@@ -2056,6 +2071,22 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
         result.expireProjectile = true;
         traceProjectileLifetimeExpired(projectile);
         return result;
+    }
+
+    // In turn-based mode a party shot the queue waits on is removed once it is more than 5120 from the party
+    // (MM8 0x472d20; OE SpriteObject::updateObjects).
+    if (facts.turnBasedActive && projectile.turnBasedPendingAction)
+    {
+        constexpr float TurnBasedObjectRange = 5120.0f;
+        const float dx = projectile.x - facts.partyPosition.x;
+        const float dy = projectile.y - facts.partyPosition.y;
+        const float dz = projectile.z - facts.partyPosition.z;
+
+        if (dx * dx + dy * dy + dz * dz > TurnBasedObjectRange * TurnBasedObjectRange)
+        {
+            result.expireProjectile = true;
+            return result;
+        }
     }
 
     result.motion = advanceProjectileMotion(projectile, facts.deltaSeconds, facts.gravity);

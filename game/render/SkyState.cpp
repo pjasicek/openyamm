@@ -123,6 +123,11 @@ std::array<float, 3> skySunDirection(float gameMinutes)
     return {std::cos(angle), 0.0f, std::sin(angle)};
 }
 
+float skyNightAmount(float gameMinutes)
+{
+    return smoothStep((0.02f - skySunDirection(gameMinutes)[2]) / 0.14f);
+}
+
 std::array<float, 3> skyMoonDirection(float gameMinutes)
 {
     const float angle = (minuteOfDay(gameMinutes) - 300.0f) * Pi / 960.0f + Pi;
@@ -336,7 +341,7 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
 
     // At night clouds are lit only by the moon: dark shapes over the stars on moonless nights, grey under a bright
     // moon high in the sky.
-    const float night = smoothStep((0.02f - frame.sunDirection[2]) / 0.14f);
+    const float night = skyNightAmount(inputs.gameMinutes);
     const float moonIllumination = 0.5f - 0.5f * std::cos(2.0f * Pi * frame.moonPhase);
     const float moonlight = std::clamp(valueRef(frame.values, SkyValue::MoonVisibility)[0], 0.0f, 1.0f)
         * smoothStep((frame.moonDirection[2] + 0.02f) / 0.25f) * moonIllumination;
@@ -430,6 +435,28 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
             lerpColor(valueRef(values, SkyValue::CloudShadow), hazeColor, haze * 0.5f);
     }
 
+    const float fogCover = std::clamp(inputs.fogCover, 0.0f, 1.0f);
+
+    if (fogCover > 0.0f)
+    {
+        // The whole sky toward one flat colour: gradient and clouds take it, the sun, moon, stars and ring fade out.
+        const SkyColor &display = inputs.fogCoverDisplay;
+        const SkyColor cover = {displayToLinear(display[0]), displayToLinear(display[1]), displayToLinear(display[2])};
+
+        for (const SkyValue id : {SkyValue::Zenith, SkyValue::Horizon, SkyValue::CloudLit, SkyValue::CloudShadow})
+        {
+            valueRef(values, id) = lerpColor(valueRef(values, id), cover, fogCover);
+        }
+
+        for (const SkyValue id : {SkyValue::SunGlowStrength, SkyValue::SunDiscVisibility, SkyValue::Stars,
+                 SkyValue::MoonVisibility})
+        {
+            valueRef(values, id)[0] *= 1.0f - fogCover;
+        }
+
+        frame.horizonRing.opacity *= 1.0f - fogCover;
+    }
+
     if (!inputs.authoredFogDisplay)
     {
         const SkyColor &horizon = frame.value(SkyValue::Horizon);
@@ -451,7 +478,7 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
 
     for (SkyCloudLayerState &layer : m_frame.clouds)
     {
-        layer.opacity *= 1.0f - m_frame.fogAmount * 0.5f;
+        layer.opacity *= (1.0f - m_frame.fogAmount * 0.5f) * (1.0f - fogCover);
     }
 
     m_frame.lightningFlash = std::clamp(inputs.lightningFlash, 0.0f, 1.0f);

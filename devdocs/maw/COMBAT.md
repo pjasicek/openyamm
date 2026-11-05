@@ -1,5 +1,7 @@
 # MAW mod: combat math, stats, monsters, difficulty, bolster, progression
 
+> Formulas updated to MAW `8fbb48d1` (2026-11-05) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) lists a change.
+
 First-pass overview. Corrected on 2026-10-22 against the verified specs listed in [README.md](README.md); where they
 differ, the spec documents win.
 
@@ -99,7 +101,7 @@ The README's "2% attack / 1% cast per 10 Speed" is stale.
 From `Formulas.lua:58-63`:
 
 ```
-taken = 1 / (AC / (200 + 6·L) + 1)
+taken = 1 / (AC / (200 + L) + 1)
 ```
 
 L is the attacking monster's level. Physical damage then gets, in order (`calcMawDamage`,
@@ -129,7 +131,7 @@ Player resistances are **level-dependent and hyperbolic**. The README's 2^(res/1
 *monster* side (section 2.6). From `Formulas.lua:65-74`:
 
 ```
-taken = 1/(res/(100 + 12·L) + 1) × 1/(itemRes/100 + 1)
+taken = 1/(res/(100 + L) + 1) × 1/(itemRes/100 + 1)
 ```
 
 - `itemRes` is the "normal enchant resistance" from items, stored separately in
@@ -347,7 +349,7 @@ both come from the bow-slot item, not the blaster). The aura on a bow takes the 
 
 - Base: `dmgAdd + Σ_{skill} U[diceMin,diceMax]`.
 - Ascension scaling (`Formulas.spellDiceScale/spellAddScale`):
-  `(1+0.02s)·1.025^s` on dice and `(1+0.01s²)·1.025^s` on the add.
+  `(1+0.02s)·1.02^s` on dice and `(1+0.01s²)·1.02^s` on the add.
 - × (1 + max(Int,Per)/1000) × crit.
 - **Plus, for every equipped slot 0..2 (main hand, off hand, bow):** `calcEnchantDamage` +
   `calcFireAuraDamage` with isSpell, × 1.015^ascension, **÷ 2.5 for AoE spells** (= the README's

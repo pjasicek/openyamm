@@ -409,6 +409,8 @@ SetEnc2(item, type, strength)
   across reloads, unlike every other MAW craft.
 - Promotion moves a resistance enchant into slot 1, where reads add +10 (ITEMS.md §1.5), and the
   ancient/primordial/legendary bits survive, so a "Primordial" item can have one enchant.
+- OpenYAMM lets the player pick the enchantment on the Workbench instead of rolling (DEVIATIONS.md 35,
+  CRAFTING_BENCH_DESIGN.md §6.4).
 
 ### 3.11 Oracle's Orb (1067, named "Orb of Creation")
 

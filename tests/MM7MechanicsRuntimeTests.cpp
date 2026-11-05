@@ -259,6 +259,8 @@ TEST_CASE("MMerge extra potion drink effects apply and one-shot essence potions 
     CHECK_EQ(pMember->might, 25u);
     CHECK_EQ(pMember->intellect, 5u);
 
+    // Each drink costs the member recovery; the checks are about the potions, so recover before the next.
+    pMember->recoverySecondsRemaining = 0.0f;
     InventoryItemUseResult second = InventoryItemUseRuntime::useItemOnMember(
         party,
         0,
@@ -272,6 +274,7 @@ TEST_CASE("MMerge extra potion drink effects apply and one-shot essence potions 
     InventoryItem protection = {};
     protection.objectDescriptionId = 290;
     protection.standardEnchantPower = 2;
+    pMember->recoverySecondsRemaining = 0.0f;
     InventoryItemUseResult protectionResult = InventoryItemUseRuntime::useItemOnMember(
         party,
         0,
@@ -300,6 +303,8 @@ TEST_CASE("potion strength scales drink effects as in MM8")
             InventoryItem potion = {};
             potion.objectDescriptionId = itemId;
             potion.standardEnchantPower = power;
+            // Each drink costs the member recovery; these checks are about strength, so recover before each.
+            pMember->recoverySecondsRemaining = 0.0f;
             return InventoryItemUseRuntime::useItemOnMember(
                 party,
                 0,

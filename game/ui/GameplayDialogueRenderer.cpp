@@ -1,5 +1,6 @@
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayMm9TalkBar.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/HouseShopLayout.h"
@@ -77,21 +78,6 @@ constexpr float DialogueTextBottomInset = 5.0f;
 constexpr float DialogueTextRightInset = 6.0f;
 constexpr float DialogueTextPrimaryFontMaxHeight = 310.0f;
 constexpr const char *DialogueTextSmallFontName = "Create";
-constexpr float Mm9RudeCanvasWidth = 800.0f;
-constexpr float Mm9RudeCanvasHeight = 600.0f;
-constexpr float Mm9RudeBackgroundX = 139.0f;
-constexpr float Mm9RudeBackgroundY = 408.0f;
-constexpr float Mm9RudeBackgroundWidth = 540.0f;
-constexpr float Mm9RudeBackgroundHeight = 192.0f;
-constexpr float Mm9RudeTextX = 160.0f;
-constexpr float Mm9RudeTitleY = 428.0f;
-constexpr float Mm9RudeBodyY = 444.0f;
-constexpr float Mm9RudeTopicsX = 184.0f;
-constexpr float Mm9RudeTopicsY = 492.0f;
-constexpr float Mm9RudeTopicAdvance = 16.0f;
-constexpr const char *Mm9RudeBackgroundTexture = "ui/dialogue/RUDEBG_OPENYAMM_LIGHT_ORNATE_SLIM.png";
-constexpr const char *Mm9RudeFontName = "RUDEBLACK";
-constexpr const char *Mm9RudeHoveredFontName = "RUDERED";
 
 std::optional<float> fullWidthStandaloneDialogueFrameWidth(
     const GameplayScreenRuntime::HudLayoutElement *pDialogueRootLayout,
@@ -138,110 +124,6 @@ std::optional<float> fullWidthStandaloneDialogueTextWidth(
 float dialogueTextLineAdvance(const GameplayScreenRuntime::HudFontHandle &font)
 {
     return static_cast<float>(std::max(1, font.fontHeight - 3));
-}
-
-void renderMm9RudeText(
-    GameplayScreenRuntime &view,
-    const GameplayScreenRuntime::HudFontHandle &font,
-    bgfx::TextureHandle texture,
-    const std::string &text,
-    float x,
-    float y,
-    float scale)
-{
-    view.renderHudFontLayer(font, texture, text, std::round(x), std::round(y), scale);
-}
-
-void renderMm9RudeDialogueOverlay(
-    GameplayScreenRuntime &view,
-    int width,
-    int height,
-    bool renderAboveHud,
-    float mouseX,
-    float mouseY)
-{
-    if (!renderAboveHud)
-    {
-        return;
-    }
-
-    const GameplayUiViewportRect viewport = GameplayHudCommon::computeUiViewportRect(width, height);
-    const float scale = std::min(viewport.width / Mm9RudeCanvasWidth, viewport.height / Mm9RudeCanvasHeight);
-    const float canvasX = viewport.x + (viewport.width - Mm9RudeCanvasWidth * scale) * 0.5f;
-    const float canvasY = viewport.y + (viewport.height - Mm9RudeCanvasHeight * scale) * 0.5f;
-    const float backgroundX = canvasX + Mm9RudeBackgroundX * scale;
-    const float backgroundY = canvasY + Mm9RudeBackgroundY * scale;
-    const std::optional<GameplayScreenRuntime::HudTextureHandle> background =
-        view.gameplayUiRuntime().ensureHudTextureLoaded(Mm9RudeBackgroundTexture);
-    if (background)
-    {
-        view.submitHudTexturedQuad(
-            *background,
-            backgroundX,
-            backgroundY,
-            Mm9RudeBackgroundWidth * scale,
-            Mm9RudeBackgroundHeight * scale);
-    }
-
-    const std::optional<GameplayScreenRuntime::HudFontHandle> font = view.findHudFont(Mm9RudeFontName);
-    const std::optional<GameplayScreenRuntime::HudFontHandle> hoveredFont =
-        view.findHudFont(Mm9RudeHoveredFontName);
-    if (!font || !hoveredFont)
-    {
-        return;
-    }
-    const bgfx::TextureHandle normalFontTexture = font->mainTextureHandle;
-
-    renderMm9RudeText(
-        view,
-        *font,
-        normalFontTexture,
-        view.activeEventDialog().title,
-        canvasX + Mm9RudeTextX * scale,
-        canvasY + Mm9RudeTitleY * scale,
-        scale);
-
-    float bodyY = canvasY + Mm9RudeBodyY * scale;
-    for (const std::string &line : view.activeEventDialog().lines)
-    {
-        const std::vector<std::string> wrapped = view.wrapHudTextToWidth(*font, line, 480.0f);
-        for (const std::string &wrappedLine : wrapped)
-        {
-            if (bodyY >= canvasY + (Mm9RudeTopicsY - 4.0f) * scale)
-            {
-                break;
-            }
-            renderMm9RudeText(
-                view,
-                *font,
-                normalFontTexture,
-                wrappedLine,
-                canvasX + Mm9RudeTextX * scale,
-                bodyY,
-                scale);
-            bodyY += 12.0f * scale;
-        }
-    }
-
-    const float topicX = canvasX + Mm9RudeTopicsX * scale;
-    float topicY = canvasY + Mm9RudeTopicsY * scale;
-    const size_t visibleTopicCount = std::min<size_t>(view.activeEventDialog().actions.size(), 6);
-    for (size_t actionIndex = 0; actionIndex < visibleTopicCount; ++actionIndex)
-    {
-        const bool hovered = mouseX >= topicX
-            && mouseX < backgroundX + Mm9RudeBackgroundWidth * scale - 20.0f * scale
-            && mouseY >= topicY - 2.0f * scale
-            && mouseY < topicY + Mm9RudeTopicAdvance * scale;
-        renderMm9RudeText(
-            view,
-            hovered ? *hoveredFont : *font,
-            hovered ? hoveredFont->mainTextureHandle : normalFontTexture,
-            view.activeEventDialog().actions[actionIndex].label,
-            topicX,
-            topicY,
-            scale);
-        topicY += Mm9RudeTopicAdvance * scale;
-    }
 }
 
 struct PointerRenderInput
@@ -606,13 +488,11 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
 
     if (view.activeEventDialog().presentation == EventDialogPresentation::Mm9Rude)
     {
-        renderMm9RudeDialogueOverlay(
-            view,
-            width,
-            height,
-            renderAboveHud,
-            dialogMouseX,
-            dialogMouseY);
+        if (renderAboveHud)
+        {
+            GameplayMm9TalkBar::render(view, width, height, dialogMouseX, dialogMouseY);
+        }
+
         return;
     }
 

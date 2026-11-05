@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/arcomage/ArcomageTypes.h"
+#include "game/gameplay/TrainerDirectory.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/mm9/Mm9MapTransition.h"
 #include "game/mm9/Mm9TeacherSchedule.h"
@@ -121,7 +122,9 @@ public:
     const MergedReagentSettingTable &mergedReagentSettingTable() const;
     const MergedComplexItemPictureTable &mergedComplexItemPictureTable() const;
     const MergedTeacherTopicTable &mergedTeacherTopicTable() const;
+    const MergedRaceSkillTable &mergedRaceSkillTable() const;
     const MergedTeacherAutonoteTable &mergedTeacherAutonoteTable() const;
+    const TrainerDirectory &trainerDirectory() const;
 
 private:
     const MapStats *m_pMapStats = nullptr;
@@ -184,6 +187,8 @@ private:
     const MergedReagentSettingTable *m_pMergedReagentSettingTable = nullptr;
     const MergedComplexItemPictureTable *m_pMergedComplexItemPictureTable = nullptr;
     const MergedTeacherTopicTable *m_pMergedTeacherTopicTable = nullptr;
+    const MergedRaceSkillTable *m_pMergedRaceSkillTable = nullptr;
     const MergedTeacherAutonoteTable *m_pMergedTeacherAutonoteTable = nullptr;
+    const TrainerDirectory *m_pTrainerDirectory = nullptr;
 };
 } // namespace OpenYAMM::Game

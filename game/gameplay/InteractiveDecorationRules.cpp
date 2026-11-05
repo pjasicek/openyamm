@@ -395,8 +395,9 @@ std::optional<InteractiveDecorationFamily> classifyFamily(
 
     // Bare decNN keys name the merged table's MM8 decorations; MM7's (7decNN) match by their hints. dec32 is MM8's
     // metal bowls, dec01 its elf statue and dec21 its bones (the MM7 barrel, trash heap and cask are 7dec32, 7dec01
-    // and 7dec21); dec10 is an MM8 crystal (MM7's trash heap 7dec10).
-    if (decorationMatchesAnyKey(keys, {"barrel", "dec03"}))
+    // and 7dec21); dec10 is an MM8 crystal (MM7's trash heap 7dec10). MMerge's stat barrels also name MM6's small
+    // barrel, whose hint reads "Keg" (GlobalEventsNewHandler.lua Barrels).
+    if (decorationMatchesAnyKey(keys, {"barrel", "dec03", "smlbarel", "bigbarel", "7dec32"}))
     {
         return InteractiveDecorationFamily::Barrel;
     }
@@ -911,6 +912,65 @@ void remapDecorVars(std::array<uint8_t, 125> &decorVars, std::span<const int16_t
             decorVars[size_t(target)] = legacy[legacyIndex];
         }
     }
+}
+
+namespace
+{
+template<typename Entity>
+void refillLegacySmallBarrelsFor(
+    EventRuntimeState &state, std::span<const Entity> entities, const DecorationTable &table)
+{
+    if (!state.legacySmallBarrelDecorVars)
+    {
+        return;
+    }
+
+    size_t decorVarIndex = 0;
+
+    for (size_t entityIndex = 0; entityIndex < entities.size() && decorVarIndex < state.decorVars.size(); ++entityIndex)
+    {
+        const Entity &entity = entities[entityIndex];
+
+        if (entity.scriptEventId() != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration = table.resolveMapDecoration(entity.decorationListId, entity.name).pEntry;
+        const std::optional<InteractiveDecorationBindingSpec> spec = pDecoration != nullptr
+            ? resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name)
+            : std::nullopt;
+
+        if (!spec)
+        {
+            continue;
+        }
+
+        uint8_t &decorVar = state.decorVars[decorVarIndex++];
+
+        // A cask holds 1 until opened, then 0, which reads as an empty barrel: an unopened one gets a barrel's colour.
+        if (normalizeDecorationKey(pDecoration->internalName) == "smlbarel" && decorVar != 0)
+        {
+            decorVar = initialInteractiveDecorationState(
+                InteractiveDecorationFamily::Barrel,
+                makeInteractiveDecorationSeed(entityIndex, entity.decorationListId, entity.x, entity.y, entity.z));
+        }
+    }
+
+    state.legacySmallBarrelDecorVars = false;
+}
+}
+
+void refillLegacySmallBarrels(
+    EventRuntimeState &state, std::span<const IndoorEntity> entities, const DecorationTable &table)
+{
+    refillLegacySmallBarrelsFor<IndoorEntity>(state, entities, table);
+}
+
+void refillLegacySmallBarrels(
+    EventRuntimeState &state, std::span<const OutdoorEntity> entities, const DecorationTable &table)
+{
+    refillLegacySmallBarrelsFor<OutdoorEntity>(state, entities, table);
 }
 
 void renumberLegacyCampFireDecorVars(

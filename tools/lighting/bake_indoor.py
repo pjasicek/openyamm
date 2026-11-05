@@ -56,7 +56,8 @@ def load_profile(path, samples):
     profile = json.loads(path.read_text())
     defaults = {'units_per_texel': 16, 'page_size': 2048, 'padding': 2, 'samples': 128, 'bounces': 3,
                 'light_size': 24, 'direct_scale': 1.0, 'bounce_scale': 1.0, 'ambient_scale': 0.5, 'blur_radius': 2,
-                'emitters': [], 'sky_scale': 1.0, 'outward_distance': 4096, 'glass': [], 'max_lighting': 4.0}
+                'emitters': [], 'sky_scale': 1.0, 'outward_distance': 4096, 'glass': [], 'max_lighting': 4.0,
+                'ambient_colour': [1.0, 1.0, 1.0], 'shadowless_faces': []}
     profile = dict(defaults, **profile)
     profile.setdefault('sky_bounce_scale', profile['bounce_scale'])
     for emitter in profile['emitters']:
@@ -171,8 +172,11 @@ def build_charts(scene, profile, emitters):
     """Receiver faces grouped into coplanar charts (emitter faces apart from the rest), packed into pages. Returns
     (charts, page dimensions)."""
     receivers = []
+    # Faces drawn without their lightmap (an open-air map's terrain: blended materials under the daylight,
+    # devdocs/INDOOR_OPEN_SKY.md "Terrain") take no chart.
+    skipped = {texture.lower() for texture in profile.get('skip_textures', [])}
     for face in scene['faces']:
-        if not is_receiver(face):
+        if not is_receiver(face) or face['texture'].lower() in skipped:
             continue
         points = [tuple(float(v) for v in p) for p in receiver_points(face)]
         n = newell_normal(points)
@@ -366,10 +370,14 @@ def bake_passes(scene, charts, dimensions, profile, texture_paths, out, lights, 
     # Translucent faces' materials: their alpha in the bake (report).
     translucent_alphas = {}
 
-    def material(texture, emitter=None, translucency=None):
+    shadowless = set(profile['shadowless_faces'])
+
+    def material(texture, emitter=None, translucency=None, no_shadow=False):
         key = texture.lower() + ('' if emitter is None else f'#emit{emitter}')
         if translucency is not None:
             key += '#glass{opacity}#{tint}'.format(**translucency)
+        if no_shadow:
+            key += '#noshadow'
         if key not in materials:
             albedo, _ = texture_albedo(texture_paths[texture.lower()])
             mat = bpy.data.materials.new(key)
@@ -395,6 +403,19 @@ def bake_passes(scene, charts, dimensions, profile, texture_paths, out, lights, 
                 links.new(bsdf.outputs['BSDF'], mix.inputs[2])
                 links.new(mix.outputs['Shader'], output.inputs['Surface'])
                 translucent_alphas[key] = alpha
+            if no_shadow and translucency is None:
+                # The profile's `shadowless_faces` (opt-in): lit and bouncing light, but transparent to shadow rays,
+                # as MM9's world models (DestructableBrush pillars) are in its lightmaps: a face that a script can
+                # remove leaves no shadow behind (Dragon Stadium).
+                nodes, links = mat.node_tree.nodes, mat.node_tree.links
+                output = next(node for node in nodes if node.type == 'OUTPUT_MATERIAL')
+                path = nodes.new('ShaderNodeLightPath')
+                clear = nodes.new('ShaderNodeBsdfTransparent')
+                mix = nodes.new('ShaderNodeMixShader')
+                links.new(path.outputs['Is Shadow Ray'], mix.inputs['Fac'])
+                links.new(bsdf.outputs['BSDF'], mix.inputs[1])
+                links.new(clear.outputs['BSDF'], mix.inputs[2])
+                links.new(mix.outputs['Shader'], output.inputs['Surface'])
             if emitter is not None:
                 source = profile['emitters'][emitter]
                 bsdf.inputs['Emission Color'].default_value = tuple(source['colour']) + (1,)
@@ -406,7 +427,8 @@ def bake_passes(scene, charts, dimensions, profile, texture_paths, out, lights, 
     light_objects = [light_material(light, profile, scene['light_scale']) for light in lights]
     # Every visible face casts and bounces: receivers in the pose they are baked in (a baked mover in its stored pose),
     # the other doors in their load pose.
-    casters = [(f['points'], material(f['texture'], translucency=f.get('translucency')), None)
+    casters = [(f['points'], material(f['texture'], translucency=f.get('translucency'),
+                                      no_shadow=f['index'] in shadowless), None)
                for f in scene['faces']
                if f['visible'] and not f['attributes'] & INDOOR_SKY and not is_receiver(f)]
     if casters:
@@ -422,7 +444,8 @@ def bake_passes(scene, charts, dimensions, profile, texture_paths, out, lights, 
             for member in chart['members']:
                 uv = [(map_uv(chart['u_axis'], p), map_uv(chart['v_axis'], p)) for p in member['points']]
                 entries.append((member['points'], material(member['face']['texture'], member['emitter'],
-                                                           member['face'].get('translucency')), uv))
+                                                           member['face'].get('translucency'),
+                                                           member['face']['index'] in shadowless), uv))
         objects.append(make_mesh(f'page_{page}', entries, materials, with_uv=True))
     # Every page's receivers are in the scene (casting and bouncing) while each page bakes.
     if translucent_alphas:
@@ -473,6 +496,7 @@ def compose(scene, charts, dimensions, profile, passes):
     sector_weight = np.zeros(scene['sector_count'])
     floors = np.array([profile['ambient_scale'] * scene['sector_ambient'][chart['sector']] for chart in charts]
                       + [0.0], dtype=np.float32)
+    ambient_colour = np.array(profile['ambient_colour'], dtype=np.float32)
     emitter_display = {index: np.array(emitter['colour'], dtype=np.float32) * emitter['display']
                        for index, emitter in enumerate(profile['emitters'])}
     glass_floor = {texture.lower(): np.array(glass['colour'], dtype=np.float32) * glass['display']
@@ -482,7 +506,9 @@ def compose(scene, charts, dimensions, profile, passes):
         indirect = passes[(page, 'indirect')]
         coverage = np.minimum(direct[:, :, 3], 1)
         bounce = masked_blur(indirect[:, :, :3], coverage, ids[page], profile['blur_radius'])
-        floor = floors[ids[page]][:, :, None]
+        # `ambient_colour` (opt-in, default white) tints the ambient floor: MM9's WorldInfo AmbientLight is coloured
+        # (Connecting Tunnels: 15/25/35), and its lightmaps show it wherever no light reaches.
+        floor = floors[ids[page]][:, :, None] * ambient_colour
         # The bounce is of the unscaled direct light, so it scales with it too.
         fill = profile['direct_scale'] * profile['bounce_scale'] * bounce + floor
         if (page, 'sky_direct') in passes:
@@ -528,7 +554,7 @@ def compose(scene, charts, dimensions, profile, passes):
             sector_ambient.append(tuple(float(v) for v in np.clip(sector_sum[sector] / sector_weight[sector], 0, 4)))
         else:
             value = profile['ambient_scale'] * scene['sector_ambient'][sector]
-            sector_ambient.append((value, value, value))
+            sector_ambient.append(tuple(float(value * c) for c in ambient_colour))
     return pages, sector_ambient
 
 
@@ -578,6 +604,13 @@ def main():
     parser.add_argument('--game-binary', type=Path, default=ROOT / 'build/game/openyamm')
     parser.add_argument('--recompose', action='store_true',
                         help='Reuse the saved Cycles passes in --output; only the scales of the profile change')
+    parser.add_argument('--layout-only', action='store_true',
+                        help='chart and pack the faces only: flat grey pages, no render (the base of a lightmap '
+                             'transfer, which fills nearly every texel; devdocs/mm9_rework/MM9_LIGHTMAP_TRANSFER.md)')
+    parser.add_argument('--skip-textures', default='',
+                        help='comma-separated textures whose faces take no chart (terrain drawn without lightmaps)')
+    parser.add_argument('--units-per-texel', type=float,
+                        help="texel spacing in native units (default: the profile's)")
     parser.add_argument('--extra-lights', type=Path,
                         help='JSON list of bake-only lights ({position, radius, color, alpha}, native units; '
                              'with direction and fov (full cone, degrees): a spot)')
@@ -585,6 +618,12 @@ def main():
     assets = args.assets.resolve()
     extra_sources = [path.resolve() for path in args.sources]
     profile = load_profile(args.profile, args.samples)
+    if args.units_per_texel:
+        profile['units_per_texel'] = args.units_per_texel
+    if args.layout_only:
+        profile['layout_only'] = True
+    if args.skip_textures:
+        profile['skip_textures'] = sorted({t.strip().lower() for t in args.skip_textures.split(',') if t.strip()})
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
     scene_path = out / 'scene.json'
@@ -644,15 +683,28 @@ def main():
         if texture not in texture_paths:
             raise ValueError('Missing authoritative bake material: ' + texture)
         dependency(texture_paths[texture])
-    if args.recompose:
-        terms = TERMS + (SKY_TERMS if emitters else [])
-        passes = {(page, term): np.load(out / f'page_{page}_{term}.npy')
-                  for page in range(len(dimensions)) for term in terms}
+    if args.layout_only:
+        # Flat mid grey on every chart (its padding too): the transfer replaces it with MM9's own lightmap texels and
+        # scales what remains to the MM9 light around it; the transfer also recomputes the actor ambient.
+        ids = chart_ids(charts, dimensions, profile['padding'])
+        pages = []
+        for page, (width, height) in enumerate(dimensions):
+            lighting = np.where((ids[page] >= 0)[:, :, None], np.float32(0.5), np.float32(0.0))
+            lighting = np.repeat(lighting, 3, axis=2)
+            pages.append(np.concatenate([lighting, np.ones((height, width, 1), dtype=np.float32)], axis=2))
+        sector_ambient = [tuple(float(profile['ambient_scale'] * value) for _ in range(3))
+                          for value in scene['sector_ambient']]
+        bake_seconds = time.monotonic() - start
     else:
-        passes = bake_passes(scene, charts, dimensions, profile, texture_paths, out,
-                             scene['lights'] + extra_lights, emitters)
-    bake_seconds = time.monotonic() - start
-    pages, sector_ambient = compose(scene, charts, dimensions, profile, passes)
+        if args.recompose:
+            terms = TERMS + (SKY_TERMS if emitters else [])
+            passes = {(page, term): np.load(out / f'page_{page}_{term}.npy')
+                      for page in range(len(dimensions)) for term in terms}
+        else:
+            passes = bake_passes(scene, charts, dimensions, profile, texture_paths, out,
+                                 scene['lights'] + extra_lights, emitters)
+        bake_seconds = time.monotonic() - start
+        pages, sector_ambient = compose(scene, charts, dimensions, profile, passes)
     output = out / Path(scene['geometry_path']).with_suffix('.lighting').name
     compressed = write_lighting(output, scene, charts, dimensions, pages, sector_ambient, deps, geometry_hash)
     report = {'profile': profile, 'blender': bpy.app.version_string, 'charts': len(charts),

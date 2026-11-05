@@ -673,6 +673,24 @@ IndoorPortalVisibilityResult buildIndoorPortalVisibility(const IndoorPortalVisib
                 // The same clipping applies to horizontal portals and every traversal depth.
                 const std::vector<bx::Vec3> clippedPortal = clipPolygonToFrustum(
                     clipPolygonToPlane(portalPolygon, nearClipPlane), currentNode.frustumPlanes);
+                if (input.maxDistance > 0.0f && !clippedPortal.empty())
+                {
+                    // Beyond the view distance: its nearest point (depth is linear, so a corner) past the far plane.
+                    float nearestDepth = std::numeric_limits<float>::max();
+                    for (const bx::Vec3 &point : clippedPortal)
+                    {
+                        nearestDepth = std::min(nearestDepth, dotVec(forward, subtractVec(point, input.cameraPosition)));
+                    }
+                    if (nearestDepth > input.maxDistance)
+                    {
+                        ++result.rejectedPortalCount;
+                        ++result.clippedPortalRejectedCount;
+                        appendPortalTrace(
+                            result, input.collectPortalTraces, currentNode.sectorId, connectedSectorId,
+                            faceId, portalLinkId, currentNode.depth, false, "beyond_view_distance");
+                        continue;
+                    }
+                }
                 if (!portalHasScreenHeight(clippedPortal, input.cameraPosition, forward, up,
                         projectionScale, input.viewportHeight))
                 {

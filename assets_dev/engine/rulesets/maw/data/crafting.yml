@@ -28,7 +28,7 @@ materials:
   1063: {operation: refine_quality, shop_price: 325000, shop_weight: 15, drop_chance: 0.001}
   1064: {operation: duplicate_item, shop_price: 6668999, shop_weight: 2, drop_chance: 0.00001}
   1065: {operation: upgrade_base_type, shop_price: 2000000, shop_weight: 5, drop_chance: 0.00025}
-  1066: {operation: remove_random_enchant, shop_price: 1000000, shop_weight: 7, drop_chance: 0.0002}
+  1066: {operation: remove_enchant, shop_price: 1000000, shop_weight: 7, drop_chance: 0.0002}
   1067: {operation: transfer_legendary_affix, shop_price: 3000000, shop_weight: 3, drop_chance: 0.00006}
   1068: {operation: transfer_celestial, drop_chance: 0.0000025}
   1069: {operation: add_potion_charges, targets: [231, 232, 233, 237, 245, 251, 257, 263]}

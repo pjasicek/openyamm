@@ -1,4 +1,4 @@
--- MAW ef23ee17 balance-model harness (Lua 5.4 with Lua 5.1/MMExt shims).
+-- MAW 8fbb48d1 balance-model harness (line ranges updated from ef23ee17) (Lua 5.4 with Lua 5.1/MMExt shims).
 -- usage: lua harness.lua <maw_root> <bolster> <mode> <insanity> <madness> <trueNightmare> <austerity>
 --                        <partyCount> <buffTable: spells|mapping> <statEffectRounding: trunc|round> [levels...]
 local ROOT = arg[1]
@@ -68,15 +68,15 @@ chunk(G .. "zzMAW-Skills.lua", 408, 418)       -- SPELL_HASTE_DIVISOR, GetSpeedB
 chunk(G .. "zzMaw-Items.lua", 444, 893)        -- enchant strength, loot tier, rarity, expected enchant fraction
 chunk(G .. "zzMaw-Items.lua", 2047, 2064)      -- enchantbonusdamage, ENCHANT_DAMAGE_MULT
 chunk(G .. "zzMaw-Items.lua", 2097, 2097)      -- LEGENDARY19_ENCHANT_MULT
-chunk(G .. "zzMaw-Items.lua", 4283, 4283)      -- fireAuraDamage
+chunk(G .. "zzMaw-Items.lua", 4291, 4291)      -- fireAuraDamage
 chunk(G .. "zzMaw-Spells.lua", 80, 82)         -- getHealPersonalityBonus
-chunk(G .. "zzMaw-Spells.lua", 2063, 2067)     -- ascendHealingValues
-chunk(G .. "zzMaw-Spells.lua", 2334, 2353)     -- getBaseHealingSpells
-chunk(G .. "zzMaw-Spells.lua", 2655, 2691)     -- GetBuffMultiplier, GetBuffStatPct, buffPower
+chunk(G .. "zzMaw-Spells.lua", 2087, 2091)     -- ascendHealingValues
+chunk(G .. "zzMaw-Spells.lua", 2361, 2380)     -- getBaseHealingSpells
+chunk(G .. "zzMaw-Spells.lua", 2682, 2718)     -- GetBuffMultiplier, GetBuffStatPct, buffPower
 if cfg.buff == "mapping" then
   chunk("Scripts/Global/zzMaw_Mapping.lua", 36, 56)  -- the table AfterLoadMap installs on every map load
 end
-chunk("Scripts/Modules/MawCore/Formulas.lua", 1, 299)
+chunk("Scripts/Modules/MawCore/Formulas.lua", 1, 318)
 chunk("Scripts/Modules/MawCore/ItemLevel.lua", 1, 84)
 chunk(G .. "zzzMaw_Experience.lua", 7, 45)     -- calcLevel / calcExp
 chunk(G .. "zzMaw-Monsters.lua", 5, 25)        -- bolsteredLevel, MawTierB
@@ -84,7 +84,7 @@ chunk(G .. "zzMaw-Monsters.lua", 770, 796)     -- density tables, GetMonsterExpM
 -- encStrUp selection done in zzMaw-Items.lua:895-901 (BeforeLoadMap)
 encStrUp = vars.AusterityMode and encStrUpAusterity or encStrUpNormal
 -- Estimates.lua with its locals exported for the golden table
-chunk("Scripts/Modules/MawCore/Estimates.lua", 1, 753, [[
+chunk("Scripts/Modules/MawCore/Estimates.lua", 1, 755, [[
 EXPORT = {armor = estimateArmorClass, res = estimateResistance, enchRes = estimateEnchantResistance,
   hit = estimateChanceToGetHit, phys = estimatePhysicalDamageTaken, magic = estimateMagicDamageTaken,
   leg = estimateLegendaryDamageTaken, cover = coverMultiplier, worn = estimateWornArmor}

@@ -45,6 +45,8 @@ enum class ScenarioStepKind
     ExecuteEvent,
     ChargeActor,
     FrenzyActor,
+    AiArena,
+    AiTraceDump,
     SetupShortcut,
     GrantItem,
     RulesetBanks,

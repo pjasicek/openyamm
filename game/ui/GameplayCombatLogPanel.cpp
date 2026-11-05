@@ -358,10 +358,10 @@ void GameplayCombatLogPanel::render(GameplayScreenRuntime &context, int width, i
         ? context.resolveHudLayoutElement("OutdoorGameplayBasebar", width, height, 0, 0)
         : std::nullopt;
 
-    if (basebar && placed.x + placed.width > GameplayUiSkin::partyBasebarLeft(*basebar)
+    if (basebar && placed.x + placed.width > GameplayUiSkin::partyBasebarLeft(context, *basebar)
         && placed.y + placed.height > basebar->y)
     {
-        const float room = GameplayUiSkin::partyBasebarLeft(*basebar) - 4 * placed.scale - placed.x;
+        const float room = GameplayUiSkin::partyBasebarLeft(context, *basebar) - 4 * placed.scale - placed.x;
 
         if (room >= MinimumWidth * placed.scale)
         {

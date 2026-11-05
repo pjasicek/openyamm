@@ -37,3 +37,12 @@ TEST_CASE("item search: ! excludes a word and quotes keep a phrase together")
     // A lone ! or | is no term at all.
     CHECK(found("! |", sword));
 }
+
+TEST_CASE("item search: letters beyond ASCII match in any case")
+{
+    const std::string sword = "Épée des Dieux  Épée  +10 à toutes les statistiques";
+    CHECK(found("ÉPÉE dieux", sword));
+    CHECK(found("épée", sword));
+    CHECK_FALSE(found("épées", sword));
+    CHECK(found("ΘΕΩΝ ξιφος", "Ξιφος των θεων"));
+}

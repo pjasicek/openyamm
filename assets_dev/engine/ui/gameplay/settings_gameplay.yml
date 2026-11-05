@@ -465,6 +465,23 @@ elements:
       visible: true
       interactive: false
       text:
+        value: Turn-based combat
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsGameplayGroup3
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 331.8096
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
         value: Story
         font: fondamento
         color: '#e0c990'
@@ -610,10 +627,130 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-    - id: SettingsGameplaySkipEventCutscenesLabel
+    - id: SettingsGameplayTurnBasedMonsterSpeedLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 202.1093
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Monster turns speed
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedMonsterSpeedValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 202.1093
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{turn_based_monster_speed}'
+        font: fondamento
+        color: '#e0c990'
+        align_x: center
+        align_y: middle
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedMonsterSpeedControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 222.6093
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayTurnBasedMonsterSpeedDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 242.1093
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Play the monsters' turns faster.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedPartySpeedLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 264.8261
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party attacks speed
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedPartySpeedValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 264.8261
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{turn_based_party_speed}'
+        font: fondamento
+        color: '#e0c990'
+        align_x: center
+        align_y: middle
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedPartySpeedControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 285.3261
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayTurnBasedPartySpeedDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 304.8261
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Play the party's attacks and spells in flight faster. Walking in the movement phase keeps its pace.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplaySkipEventCutscenesLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 357.4096
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -630,7 +767,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 218.3178
+      offset_y: 373.6181
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -647,7 +784,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 199.8929
+      offset_y: 355.1933
       width: 70.4
       height: 32.158
       z_index: 10

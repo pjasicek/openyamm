@@ -1684,85 +1684,84 @@ int resolveCharacterSheetActualPrimaryStatValue(
         - resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
 }
 
-std::string resolveConditionText(const Character &character)
+std::string conditionNameText(CharacterCondition condition)
 {
-    const std::optional<CharacterCondition> condition = GameMechanics::displayedCondition(character);
-
-    if (!condition)
-    {
-        return "Good";
-    }
-
-    if (*condition == CharacterCondition::Eradicated)
+    if (condition == CharacterCondition::Eradicated)
     {
         return "Eradicated";
     }
 
-    if (*condition == CharacterCondition::Petrified)
+    if (condition == CharacterCondition::Petrified)
     {
         return "Petrified";
     }
 
-    if (*condition == CharacterCondition::Dead)
+    if (condition == CharacterCondition::Dead)
     {
         return "Dead";
     }
 
-    if (*condition == CharacterCondition::Unconscious)
+    if (condition == CharacterCondition::Unconscious)
     {
         return "Unconscious";
     }
 
-    if (*condition == CharacterCondition::Paralyzed)
+    if (condition == CharacterCondition::Paralyzed)
     {
         return "Paralyzed";
     }
 
-    if (*condition == CharacterCondition::Asleep)
+    if (condition == CharacterCondition::Asleep)
     {
         return "Asleep";
     }
 
-    if (*condition == CharacterCondition::Insane)
+    if (condition == CharacterCondition::Insane)
     {
         return "Insane";
     }
 
-    if (*condition == CharacterCondition::Fear)
+    if (condition == CharacterCondition::Fear)
     {
         return "Afraid";
     }
 
-    if (*condition == CharacterCondition::DiseaseSevere
-        || *condition == CharacterCondition::DiseaseMedium
-        || *condition == CharacterCondition::DiseaseWeak)
+    if (condition == CharacterCondition::DiseaseSevere
+        || condition == CharacterCondition::DiseaseMedium
+        || condition == CharacterCondition::DiseaseWeak)
     {
         return "Diseased";
     }
 
-    if (*condition == CharacterCondition::PoisonSevere
-        || *condition == CharacterCondition::PoisonMedium
-        || *condition == CharacterCondition::PoisonWeak)
+    if (condition == CharacterCondition::PoisonSevere
+        || condition == CharacterCondition::PoisonMedium
+        || condition == CharacterCondition::PoisonWeak)
     {
         return "Poisoned";
     }
 
-    if (*condition == CharacterCondition::Weak)
+    if (condition == CharacterCondition::Weak)
     {
         return "Weak";
     }
 
-    if (*condition == CharacterCondition::Cursed)
+    if (condition == CharacterCondition::Cursed)
     {
         return "Cursed";
     }
 
-    if (*condition == CharacterCondition::Drunk)
+    if (condition == CharacterCondition::Drunk)
     {
         return "Drunk";
     }
 
     return "Good";
+}
+
+std::string resolveConditionText(const Character &character)
+{
+    const std::optional<CharacterCondition> condition = GameMechanics::displayedCondition(character);
+    return condition ? conditionNameText(*condition) : "Good";
 }
 
 float resolveAttackRecoverySeconds(
@@ -2333,10 +2332,97 @@ std::string GameMechanics::buildExperienceInspectSupplement(
             + ".";
     }
 
+    // Eligible: also what the level after that needs (Discord request, 2026-11-02).
+    const uint32_t trainableLevel = maximumTrainableLevelFromExperience(character, experienceRules);
+    const uint64_t beyondExperience = experienceRules.experienceForNextLevel(trainableLevel);
     return subject
         + " is eligible to train up to level "
-        + std::to_string(maximumTrainableLevelFromExperience(character, experienceRules))
+        + std::to_string(trainableLevel)
+        + ". "
+        + subject
+        + " needs "
+        + std::to_string(beyondExperience - static_cast<uint64_t>(character.experience))
+        + " more experience for level "
+        + std::to_string(trainableLevel + 1)
         + ".";
+}
+
+int GameMechanics::primaryStatBonus(int value)
+{
+    return parameterBonus(value);
+}
+
+std::optional<int> GameMechanics::nextPrimaryStatBonusValue(int value)
+{
+    // The thresholds run from the highest down: the next one is the lowest above the value.
+    for (size_t index = std::size(ParameterBonusThresholds); index-- > 0;)
+    {
+        if (ParameterBonusThresholds[index] > value)
+        {
+            return ParameterBonusThresholds[index];
+        }
+    }
+
+    return std::nullopt;
+}
+
+float GameMechanics::averageResistedDamageShare(int resistance)
+{
+    if (resistance <= 0)
+    {
+        return 0.0f;
+    }
+
+    const float halveChance = float(resistance) / float(resistance + 30);
+    float reachChance = 1.0f;
+    float damageShare = 0.0f;
+
+    // The rolls stop at the first that does not halve: after k halvings the hit keeps 1 / 2^k of its damage.
+    for (int halvings = 0; halvings < 4; ++halvings)
+    {
+        damageShare += reachChance * (1.0f - halveChance) / float(1 << halvings);
+        reachChance *= halveChance;
+    }
+
+    damageShare += reachChance / 16.0f;
+    return 1.0f - damageShare;
+}
+
+float GameMechanics::monsterEffectResistChance(int bonus)
+{
+    return bonus > 0 ? float(bonus) / float(bonus + 30) : 0.0f;
+}
+
+int GameMechanics::enduranceHealthBonus(const Character &character, int endurance)
+{
+    const std::string className = character.className.empty() ? character.role : character.className;
+    const std::optional<ClassMultiplierEntry> multiplier = classMultiplierForClassName(className, nullptr);
+    return multiplier ? multiplier->healthPerLevel * parameterBonus(endurance) : 0;
+}
+
+std::optional<int> GameMechanics::primaryStatSpellPointBonus(
+    const Character &character,
+    const std::string &statName,
+    int value)
+{
+    const std::string className = character.className.empty() ? character.role : character.className;
+    const std::optional<ClassMultiplierEntry> multiplier = classMultiplierForClassName(className, nullptr);
+
+    if (!multiplier)
+    {
+        return std::nullopt;
+    }
+
+    const bool counts = multiplier->manaMode == ClassManaMode::Mixed
+        || (multiplier->manaMode == ClassManaMode::Intellect && statName == "Intellect")
+        || (multiplier->manaMode == ClassManaMode::Personality && statName == "Personality");
+
+    if (!counts)
+    {
+        return std::nullopt;
+    }
+
+    return multiplier->manaPerLevel * parameterBonus(value);
 }
 
 int GameMechanics::resolveCharacterItemSkillBonus(const Character &character, const std::string &skillName)
@@ -2761,6 +2847,14 @@ CharacterAttackProfile GameMechanics::buildBaseCharacterAttackProfile(
         && pDragonAbility != nullptr
         && pDragonAbility->level > 0
         && pDragonAbility->mastery != SkillMastery::None;
+
+    // MAW's Bow preference off (disableBow): no arrow leaves the bow and no dragon breathes, so the attack is the melee
+    // one at its pace. Wands and blasters still fire.
+    if (boundGameRules().combat.bowDisabled())
+    {
+        profile.hasBow = false;
+        profile.hasDragonBreath = false;
+    }
     profile.canShoot = profile.hasBow || profile.hasWand || profile.hasBlaster || profile.hasDragonBreath;
     profile.meleeAttackBonus = summary.combat.attack;
     const std::string meleeSkillName = canonicalSkillName(
@@ -3652,6 +3746,11 @@ int GameMechanics::resolveMonsterIncomingWeaponDamage(
     resolvedDamage += resolveComponent(additionalDamage.light, CombatDamageType::Light);
     resolvedDamage += resolveComponent(additionalDamage.dark, CombatDamageType::Dark);
     return resolvedDamage;
+}
+
+std::string GameMechanics::conditionName(CharacterCondition condition)
+{
+    return conditionNameText(condition);
 }
 
 std::optional<CharacterCondition> GameMechanics::displayedCondition(const Character &character)

@@ -24,13 +24,19 @@ bool mawWearsLegendaryAffix(const Character &character, int affixId);
 // How many working worn items carry one of these special enchantments, or are one of these items.
 int mawWornSpecialCount(const Character &character, std::initializer_list<uint16_t> specialIds);
 int mawWornItemCount(const Character &character, std::initializer_list<uint32_t> itemIds);
+// The artifacts that regenerate hit points or spell points, 0.2 % of the pool a second (artifactHpRegen,
+// artifactSpRegen, zzMaw-Items.lua:3844-3845), and how many of them the character wears.
+bool mawRegenerationArtifact(uint32_t itemId, bool spellPoints);
+int mawWornRegenerationArtifacts(const Character &character, bool spellPoints);
 // The product of the attack delay multipliers of the artifacts the character wears (x0.9 each, GetAttackDelay).
 double mawArtifactAttackDelayMultiplier(const MawRules &rules, const Character &character);
 
 // An artifact's stats (standard enchantment types, read as worn) and skills from its budget at the party's level.
 struct MawArtifactBonuses
 {
+    // The budget's stats (standard enchant type, amount) and its fixed amounts (power.Flat, e.g. a fire immunity).
     std::vector<std::pair<int, int>> stats;
+    std::vector<std::pair<int, int>> flat;
     std::vector<std::pair<std::string, int>> skills;
 };
 
@@ -120,12 +126,22 @@ public:
     std::optional<std::string> itemDescription(const InventoryItem &item, const Character *pViewer) const override;
     std::optional<uint32_t> nameColor(const InventoryItem &item) const override;
     bool glowsItemRarity() const override;
+    bool inventorySearch() const override;
     std::vector<ItemInspectLine> inspectLines(
         const InventoryItem &item,
         const ItemDefinition &itemDefinition,
         const StandardItemEnchantTable *pStandardTable,
         const SpecialItemEnchantTable *pSpecialTable,
         const Character *pViewer) const override;
+    // One base enchantment as the inspect popup reads it ("Might +12" with the slot's read multipliers, a resistance as
+    // the share of damage it stops with the viewer's Legendary 16 in it); `first` is the item's first slot.
+    std::string enchantLine(
+        int type,
+        int power,
+        bool first,
+        const ItemDefinition &itemDefinition,
+        const StandardItemEnchantTable *pStandardTable,
+        const Character *pViewer) const;
 
     // Weapon, armour and magic shops reroll for (floor(P / 15) + S)^2 x 250 gold, P being the levels banked on the
     // three continents less half the shop's own (at most 54), S = min(floor(own / 18) + 2, 5) (refreshItems).

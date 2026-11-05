@@ -82,6 +82,12 @@ void migrateLegacyMapJournalNotes(GameSaveData &data, uint32_t sourceSaveVersion
 // Saves before version 129 numbered the decoration states with the legacy campfire keys: marks every saved map state
 // (EventRuntimeState::legacyCampFireDecorVars) for the map to renumber when it is next entered.
 void markLegacyCampFireDecorVars(GameSaveData &data, uint32_t sourceSaveVersion);
+// Saves before version 144 held MM6's small barrels as casks: marks every saved map state
+// (EventRuntimeState::legacySmallBarrelDecorVars) for the map to refill them when it is next entered.
+void markLegacySmallBarrelDecorVars(GameSaveData &data, uint32_t sourceSaveVersion);
+// Saves before version 144 gave Liches (and Lich or vampire mercenaries) Light and Dark immunity in place of the Mind
+// and Body ones the rules now derive: clears it from every member, Adventurer's Inn character and offered recruit.
+void migrateLegacyLichImmunities(GameSaveData &data, uint32_t sourceSaveVersion);
 bool saveGameDataToPath(const std::filesystem::path &path, const GameSaveData &data, std::string &error);
 
 // The load error for a save written by a newer build; the Load screen counts such saves instead of listing them.
@@ -113,5 +119,11 @@ bool validateRequiredContentPackages(
     const HouseTable &houseTable,
     const std::unordered_map<std::string, uint32_t> &loadedPackageSchemas,
     std::string &error);
-bool compareSavePathsForDisplay(const std::filesystem::path &left, const std::filesystem::path &right);
+// Quicksave, Autosave, then the rest by shown save name, case-insensitive with digit runs compared as numbers.
+int compareSaveNamesNaturally(const std::string &left, const std::string &right);
+bool compareSavesForDisplay(
+    const std::filesystem::path &leftPath,
+    const std::string &leftName,
+    const std::filesystem::path &rightPath,
+    const std::string &rightName);
 }

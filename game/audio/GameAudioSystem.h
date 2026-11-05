@@ -57,6 +57,10 @@ public:
         const std::function<std::optional<WorldPosition>(size_t)> &sourcePosition);
     void stopActorVoices();
     bool isSoundInstancePlaying(uint64_t instanceId) const;
+    // The asset path of a sound by its name in the scope (a world's audio folder for SoundScope::World).
+    std::optional<std::string> soundVirtualPathByName(SoundScope scope, const std::string &soundName) const;
+    // True while the speaker's latest speech line is this speech and has not finished.
+    bool isSpeechPlaying(uint32_t speakerKey, SpeechId speechId) const;
     void setBackgroundMusicTrack(int redbookTrack);
     void stopBackgroundMusic();
     void stopBackgroundMusicImmediate();
@@ -176,7 +180,13 @@ private:
     std::array<ActorVoice, 4> m_actorVoices = {};
     WorldPosition m_actorListenerFeet = {};
     std::unordered_map<PlaybackGroup, uint64_t> m_activeGroupInstanceIds;
-    std::unordered_map<uint32_t, uint64_t> m_activeSpeechInstanceIds;
+    struct ActiveSpeech
+    {
+        uint64_t instanceId = 0;
+        SpeechId speechId = SpeechId::None;
+    };
+
+    std::unordered_map<uint32_t, ActiveSpeech> m_activeSpeeches;
     std::unordered_map<uint32_t, uint64_t> m_activeNonResettableSoundInstanceIds;
     std::unordered_set<std::string> m_persistentPreloadedClipKeys;
     std::unordered_set<std::string> m_mapPreloadedClipKeys;

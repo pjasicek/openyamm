@@ -156,7 +156,7 @@ uint32_t MawExperienceRules::grantKillExperience(Party &party, const MonsterKill
         const uint64_t experienceBefore = member.experience;
         party.addExperienceToMember(memberIndex, int64_t(share.award));
         grantedExperience += uint32_t(member.experience - experienceBefore);
-        bankedExperience += share.banked;
+        bankedExperience += share.award;
     }
 
     // The Endless Arena banks no levels (zzzMaw_Experience.lua:213-216).
@@ -183,8 +183,7 @@ MawMemberKillExperience mawMemberKillExperience(
     const double healthAffix = rules.mapAffix(MawMapAffix::MonsterHealth).value_or(0);
     const double healthRatio = monsterMaxHp / (1 + healthAffix / 100) / model.monsterHealth(memberLevel);
     MawMemberKillExperience share;
-    share.banked = experience * healthRatio;
-    share.award = std::min(share.banked, (member.level + 1) * 1000.0);
+    share.award = std::min(experience * healthRatio, (member.level + 1) * 1000.0);
     return share;
 }
 

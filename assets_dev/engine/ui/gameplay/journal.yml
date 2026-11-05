@@ -424,6 +424,16 @@ elements:
     width: 600
     height: 456
     z_index: 20
+  # The Notes > Trainers finder (level_generation/ui/journal_trainers_20261105): the renderer lays out its continent
+  # tabs, search, mastery toggles, trainer list, status strip and page number, or a trainer's map, inside this area
+  # (game/ui/GameplayJournalTrainers.cpp). The rail keeps Previous/Next (Zoom in/out on a map) and the categories.
+  - id: JournalTrainerPage
+    anchor: top_left
+    offset_x: 98
+    offset_y: 92
+    width: 364
+    height: 360
+    z_index: 20
   - id: JournalMapViewport
     anchor: top_left
     offset_x: 131

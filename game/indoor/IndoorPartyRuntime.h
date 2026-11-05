@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/indoor/IndoorMovementController.h"
+#include "game/indoor/IndoorWater.h"
 #include "game/party/Party.h"
 
 #include <optional>
@@ -54,6 +55,30 @@ public:
     // Fly Up/Fly Down while on a ladder: +1, -1 or 0 (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md, "Ladders").
     void setLadderVerticalInput(int verticalInput);
     bool climbingLadder() const;
+    // Swimming (scene `water_volumes`, devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md): the look direction and the
+    // movement keys for the next update; ignored on a map without water volumes.
+    void setSwimInput(const IndoorSwimInput &input);
+    IndoorSwimState swimState() const
+    {
+        return m_swimState;
+    }
+    // In deep water, on the bed or at the surface: Fly Up and Fly Down swim (the flight arrows show).
+    bool swimming() const;
+    // The volume the eye point is in after the last update, or null.
+    const IndoorWaterVolume *eyeWaterVolume() const;
+    bool eyeUnderWater() const
+    {
+        return m_eyeUnderWater;
+    }
+    // The breath left (1 full) while the eye is under water; none out of it.
+    std::optional<float> breathFraction() const;
+    // Drowning ticks taken since the map was entered.
+    uint32_t drowningTicks() const
+    {
+        return m_drowningTicks;
+    }
+    // Moves out the water sounds (splash, out of the water, drowning) since the last call, by name.
+    void takeWaterSounds(std::vector<std::string> &sounds);
     // Moves out the floor faces stood on during movement steps since the last call, in order, so pressure plates
     // see every face crossed instead of only the frame's final one.
     void takeSteppedFloorFaces(std::vector<size_t> &faces);
@@ -72,6 +97,11 @@ public:
     void setAlwaysRunEnabled(bool enabled);
     void setCollisionTraceEnabled(bool enabled, std::string mapName);
     bool alwaysRunEnabled() const;
+    // Whether the last update moved the party running (footstep sounds).
+    bool runningMovement() const
+    {
+        return m_runningMovement;
+    }
     void syncSpellMovementStatesFromPartyBuffs();
     void requestJump(std::optional<float> verticalVelocity = std::nullopt, float lift = 0.0f);
     void requestSpecialJump(float velocityX, float velocityY, float velocityZ);
@@ -86,6 +116,20 @@ private:
         bool runningMovement,
         const IndoorBodyDimensions &body,
         std::vector<size_t> &contactedActorIndices);
+    // One movement step swimming, at the surface or jumping out of it; false: the party walks or falls as on land
+    // (dry, wading, walking on the bed, falling in before the eye goes under).
+    bool stepInWater(
+        float speedMultiplier,
+        const IndoorBodyDimensions &body,
+        std::vector<size_t> &contactedActorIndices);
+    // The breath, drowning and the crossing sounds after an update's steps.
+    void updateWaterBreath(float deltaSeconds);
+    void resetWaterState(bool refillBreath);
+    void keepPlacementInWater(float requestedFootZ, const IndoorBodyDimensions &body);
+    bool waterActive() const;
+    std::optional<IndoorWaterSample> bodyWaterSample(
+        const IndoorMoveState &state,
+        const IndoorBodyDimensions &body) const;
 
     IndoorMovementController m_movementController;
     // Runtime only: a save made on a ladder restores the party falling from where it was.
@@ -96,6 +140,7 @@ private:
     float m_movementSpeedMultiplier = 1.0f;
     std::vector<float> m_faceWadeSpeeds;
     bool m_alwaysRunEnabled = true;
+    bool m_runningMovement = false;
     bool m_collisionTraceEnabled = false;
     std::string m_collisionTraceMapName;
     float m_collisionTraceClockSeconds = 0.0f;
@@ -116,5 +161,16 @@ private:
     float m_burningDamageTimerSeconds = 0.0f;
     std::string m_movementStatusText;
     std::vector<size_t> m_steppedFloorFaces;
+    // Water (runtime only: a save under water loads with full breath, the state derived again from the position).
+    IndoorSwimInput m_swimInput = {};
+    IndoorSwimMemory m_swimMemory = {};
+    IndoorSwimState m_swimState = IndoorSwimState::Dry;
+    IndoorBreathState m_breath = {};
+    std::vector<float> m_waterTopOffsets;
+    bool m_eyeUnderWater = false;
+    bool m_eyeUnderWaterKnown = false;
+    std::optional<size_t> m_eyeWaterVolumeIndex;
+    uint32_t m_drowningTicks = 0;
+    std::vector<std::string> m_waterSounds;
 };
 }

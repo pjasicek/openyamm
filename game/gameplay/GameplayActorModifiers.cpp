@@ -2,6 +2,7 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 
 #include <algorithm>
 #include <cmath>
@@ -33,6 +34,25 @@ float unitFloat(uint32_t value)
 {
     return float(mix(value) >> 8) / float(1u << 24);
 }
+}
+
+void applyHitConditionModifiers(
+    const MonsterModifierSet *pModifiers,
+    bool spell1Replaced,
+    bool spell2Replaced,
+    GameplayCombatActorInfo &info)
+{
+    if (pModifiers == nullptr)
+    {
+        return;
+    }
+
+    if (pModifiers->spellConditions)
+    {
+        info.spell1Condition = spell1Replaced ? MonsterSpecialAttackKind::None : pModifiers->spellConditions->spell1;
+        info.spell2Condition = spell2Replaced ? MonsterSpecialAttackKind::None : pModifiers->spellConditions->spell2;
+        info.spellConditionChance = pModifiers->spellConditions->chance;
+    }
 }
 
 std::optional<GameplayProjectileService::ProjectileHoming> trueAimProjectileHoming(

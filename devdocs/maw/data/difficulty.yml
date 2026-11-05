@@ -180,11 +180,12 @@ austerity_unreachable: {monster_hp_hits: {7: 8, 8: 9, 9: 9.5}, player_hits_to_di
 
 # Resulting monster HP / damage relative to index 3, from the golden run (data/balance_golden.csv, party of 5).
 # Not equal to the hit ratios: the expected player is better geared at higher indices (more loot seen).
+# MAW 8fbb48d1 (regenerated 2026-11-05).
 relative_to_maw:
-  level_100: {1: [0.50, 0.50], 2: [0.75, 0.70], 4: [1.29, 1.11], 5: [1.58, 1.23], 6: [1.93, 1.41], 7: [2.39, 1.68],
-              8: [2.54, 2.22], 9: [2.10, 1.65]}
-  level_300: {1: [0.50, 0.50], 2: [0.75, 0.70], 4: [1.32, 1.13], 5: [1.63, 1.26], 6: [2.12, 1.50], 7: [2.74, 1.83],
-              8: [3.62, 2.32], 9: [4.14, 2.50]}
+  level_100: {1: [0.50, 0.50], 2: [0.75, 0.70], 4: [1.27, 1.12], 5: [1.55, 1.24], 6: [1.90, 1.45], 7: [2.30, 1.75],
+              8: [2.36, 1.85], 9: [1.97, 1.39]}
+  level_300: {1: [0.50, 0.50], 2: [0.75, 0.70], 4: [1.30, 1.14], 5: [1.61, 1.28], 6: [2.06, 1.56], 7: [2.60, 1.92],
+              8: [3.37, 2.46], 9: [3.78, 2.62]}
 
 # ---------------------------------------------------------------------------------------------------------------
 # Spawn density: what AdjustMonsterDensity really does to MapStats Mon{1..3}{Low,Hi,Dif} on BeforeLoadMap

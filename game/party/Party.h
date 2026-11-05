@@ -37,6 +37,7 @@ struct RosterEntry;
 struct EventRuntimeState;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
+class TrainerDirectory;
 
 // A pin on the journal map of mapFileName (lowercase); ids are unique within one map.
 struct JournalMapNote
@@ -48,7 +49,13 @@ struct JournalMapNote
     std::string text;
     // Teacher pins without an autonote of their own also appear in the journal's trainer notes.
     bool listedWithTrainerNotes = false;
+    // The player's own note (right click on the journal map): editable and removable there, ids from
+    // PersonalJournalMapNoteIdBase.
+    bool personal = false;
 };
+
+// Personal journal map notes take ids from here up, clear of event and quest pins.
+constexpr uint32_t PersonalJournalMapNoteIdBase = 1000000;
 
 struct LloydBeacon
 {
@@ -148,7 +155,8 @@ struct Character
     std::unordered_set<uint32_t> playerBits;
     uint32_t npcs2 = 0;
     int merchantBonus = 0;
-    // The member's own Glamour (spell or potion), also counted in merchantBonus; MAW weighs its power by its mastery.
+    // The member's Glamour (the spell, a potion or an event's), also counted in merchantBonus; MAW weighs its power by
+    // its mastery.
     int glamourPower = 0;
     SkillMastery glamourMastery = SkillMastery::None;
     int weaponEnchantmentDamageBonus = 0;
@@ -362,6 +370,19 @@ struct CharacterBuffState
     }
 };
 
+// A story the party finished (world.yml completion; "grand" for every world of the grand certificate), recorded once
+// when its certificate is given.
+struct WorldCompletionRecord
+{
+    std::string certificateId;
+    float gameMinutes = 0.0f;
+    uint64_t score = 0;
+    // Real time of the completion, seconds since 1970.
+    int64_t completedAtUnixSeconds = 0;
+    // False for a story finished before the game kept these records: no time, score or certificate.
+    bool timed = true;
+};
+
 class Party
 {
 public:
@@ -402,10 +423,18 @@ public:
         std::optional<int> awakeDayIndex;
         std::unordered_set<uint32_t> foundArtifactItems;
         std::unordered_set<uint32_t> arcomageWonHouseIds;
+        std::vector<WorldCompletionRecord> worldCompletions;
+        // A save from before the completion records: the stories it already finished get untimed records, no
+        // certificate (CompletionCertificates::recordNewCompletions).
+        bool worldCompletionsUntracked = false;
         uint32_t arcomageWinCount = 0;
         uint32_t arcomageLossCount = 0;
         std::vector<HouseStockState> houseStockStates;
         std::unordered_set<uint32_t> everOwnedItemIds;
+        // MM9 talk rows the party has chosen (rude id << 32 | row index): the conversation bar's visited marks.
+        std::unordered_set<uint64_t> chosenMm9RudeRows;
+        // The continents whose Ledger of Teachers the party bought in a tavern (TrainerDirectory.h).
+        std::unordered_set<uint32_t> teacherLedgers;
         std::unordered_map<uint32_t, int32_t> continentReputations;
         std::unordered_set<uint32_t> questBits;
         std::unordered_set<uint32_t> autonotes;
@@ -490,6 +519,9 @@ public:
     float rulesMovementMultiplier() const;
     const GameRules &rules() const;
     const ClassSkillTable *classSkillTable() const;
+    // Every skill teacher (the journal's trainer finder, the Ledger of Teachers, the trainer hints).
+    void setTrainerDirectory(const TrainerDirectory *pTrainerDirectory);
+    const TrainerDirectory *trainerDirectory() const;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     void reset();
@@ -624,6 +656,14 @@ public:
     int inventoryItemCount(uint32_t objectDescriptionId, std::optional<size_t> memberIndex = std::nullopt) const;
     void recordEverOwnedItem(uint32_t objectDescriptionId);
     bool hasEverOwnedItem(uint32_t objectDescriptionId) const;
+    void recordChosenMm9RudeRow(uint32_t rudeId, size_t rowIndex);
+    bool hasChosenMm9RudeRow(uint32_t rudeId, size_t rowIndex) const;
+    // The continent's Ledger of Teachers, bought in one of its taverns.
+    bool hasTeacherLedger(uint32_t continent) const;
+    void addTeacherLedger(uint32_t continent);
+    const std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> &npcTopicOverrides() const;
+    const std::unordered_map<uint32_t, uint32_t> &npcHouseOverrides() const;
+    const std::unordered_set<uint32_t> &unavailableNpcIds() const;
     void recordExplosiveMix(uint32_t targetItemId, uint32_t heldItemId);
     bool isExplosiveMixKnown(uint32_t targetItemId, uint32_t heldItemId) const;
     void setHeldItemForQueries(const InventoryItem &item);
@@ -804,6 +844,11 @@ public:
     void recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWinAwardId);
     void recordArcomageLoss();
     uint32_t arcomageWinCount() const;
+    const std::vector<WorldCompletionRecord> &worldCompletions() const;
+    const WorldCompletionRecord *findWorldCompletion(const std::string &certificateId) const;
+    void addWorldCompletion(const WorldCompletionRecord &record);
+    bool worldCompletionsUntracked() const;
+    void clearWorldCompletionsUntracked();
     uint32_t arcomageLossCount() const;
     HouseStockState *houseStockState(uint32_t houseId);
     const HouseStockState *houseStockState(uint32_t houseId) const;
@@ -845,6 +890,7 @@ private:
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     const ClassMultiplierTable *m_pClassMultiplierTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
+    const TrainerDirectory *m_pTrainerDirectory = nullptr;
     const GameRules *m_pRules = nullptr;
     std::vector<Character> m_members;
     std::vector<AdventurersInnMember> m_adventurersInnMembers;
@@ -871,7 +917,11 @@ private:
     std::string m_lastStatus;
     std::unordered_set<uint32_t> m_foundArtifactItems;
     std::unordered_set<uint32_t> m_arcomageWonHouseIds;
+    std::vector<WorldCompletionRecord> m_worldCompletions;
+    bool m_worldCompletionsUntracked = false;
     std::unordered_set<uint32_t> m_everOwnedItemIds;
+    std::unordered_set<uint64_t> m_chosenMm9RudeRows;
+    std::unordered_set<uint32_t> m_teacherLedgers;
     std::unordered_set<uint64_t> m_explosiveMixes;
     std::unordered_map<uint32_t, int32_t> m_continentReputations;
     std::unordered_set<uint32_t> m_questBits;

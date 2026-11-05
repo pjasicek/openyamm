@@ -84,6 +84,11 @@ struct RulesetPreferences
     bool friendlyFire = false;
     // Road to Insanity and Beyond Madness: a deep overkill dismisses the member (MAW's enableDisintegrate).
     bool disintegration = true;
+    // The skill popup names the nearest teacher of the next mastery (MAW's Trainer Hints, off by default).
+    bool trainerHints = false;
+    // Bows, crossbows, thrown weapons and a dragon's breath do not shoot: the attack is the melee one, at its pace
+    // (MAW's disableBow, a melee-only challenge; off by default).
+    bool bowDisabled = false;
     RulesetLootFilter lootFilter;
 
     bool operator==(const RulesetPreferences &) const = default;
@@ -138,8 +143,8 @@ RulesetLootFilter rulesetLootFilterWithPreset(RulesetLootFilterPreset preset, bo
 // Saves before version 126 stored MAW's own filter, a rarity (0 off, 1 Common .. 6 Primordial) at or below which every
 // drop turned into gold: the nearest preset.
 RulesetLootFilter rulesetLootFilterFromLegacyRarity(uint8_t rarity);
-// Applies colon-separated option ids in any order: difficulties, progressions, challenge modes, "randomizer" and
-// "friendlyfire" (the preference) ("hell:horizontal"). False on an unknown id.
+// Applies colon-separated option ids in any order: difficulties, progressions, challenge modes, "randomizer",
+// "friendlyfire" and "nobow" or "bow" (the preferences) ("hell:horizontal"). False on an unknown id.
 bool applyRulesetOptionIds(std::string_view ids, RulesetOptions &options);
 // False when a stored value is outside its enum, as in a damaged save.
 bool rulesetOptionsValid(const RulesetOptions &options);

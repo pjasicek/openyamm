@@ -201,10 +201,13 @@ void renderPartyBagButtons(GameplayScreenRuntime &view, int width, int height)
     const Party *pParty = view.partyReadOnly();
     const Character *pCharacter = pParty != nullptr ? pParty->activeMember() : nullptr;
     const int bagCount = pParty != nullptr ? gameRulesFor(pParty).items.bagCount(*pParty) : 1;
+    // The buttons name the bags of the open bag's tab.
+    const int firstBag = pCharacter != nullptr ? InventoryBagOverview::firstBag(*pCharacter) : 0;
 
-    for (int bag = 0; pCharacter != nullptr && bagCount > 1 && bag < bagCount; ++bag)
+    for (int bag = firstBag; pCharacter != nullptr && bagCount > 1 && bag < std::min(bagCount,
+             firstBag + InventoryBagOverview::Bags); ++bag)
     {
-        const std::string id = "ChestInventoryBag" + std::to_string(bag + 1);
+        const std::string id = "ChestInventoryBag" + std::to_string(bag - firstBag + 1);
         const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(id);
 
         if (pLayout == nullptr)

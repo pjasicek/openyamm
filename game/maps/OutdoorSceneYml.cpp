@@ -3,6 +3,7 @@
 #include "game/FaceEnums.h"
 #include "game/StringUtils.h"
 #include "game/maps/MapItemSourceYml.h"
+#include "game/maps/MechanismAudioYml.h"
 #include "game/maps/SceneOverlayOperations.h"
 
 #include <yaml-cpp/yaml.h>
@@ -817,45 +818,9 @@ bool parseOutdoorBModelMechanism(
 
     const YAML::Node soundsNode = mechanismNode["sounds"];
 
-    if (soundsNode && !soundsNode.IsNull())
+    if (soundsNode && !soundsNode.IsNull() && !parseMechanismAudioProfile(soundsNode, mechanism.audio, errorMessage))
     {
-        if (!soundsNode.IsMap()
-            || !readScalarNode(soundsNode, "open", mechanism.audio.openSound, errorMessage, false)
-            || !readScalarNode(soundsNode, "close", mechanism.audio.closeSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "open_start", mechanism.audio.openStartSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "open_busy", mechanism.audio.openBusySound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "open_stop", mechanism.audio.openStopSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "close_start", mechanism.audio.closeStartSound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "close_busy", mechanism.audio.closeBusySound, errorMessage, false)
-            || !readScalarNode(
-                soundsNode, "close_stop", mechanism.audio.closeStopSound, errorMessage, false)
-            || !readScalarNode(soundsNode, "jiggle", mechanism.audio.jiggleSound, errorMessage, false))
-        {
-            errorMessage = errorMessage.empty() ? "mechanism.sounds must be a map" : errorMessage;
-            return false;
-        }
-
-        const YAML::Node positionNode = soundsNode["position"];
-
-        if (positionNode)
-        {
-            if (!parsePositionNode(
-                positionNode,
-                mechanism.audio.x,
-                mechanism.audio.y,
-                mechanism.audio.z,
-                errorMessage))
-            {
-                return false;
-            }
-
-            mechanism.audio.positional = true;
-        }
+        return false;
     }
 
     return true;
@@ -1622,6 +1587,19 @@ bool parseOutdoorActor(
         || !parsePositionNode(actorNode["position"], actor.x, actor.y, actor.z, errorMessage))
     {
         return false;
+    }
+
+    // An MM9 placement's AI settings (devdocs/mm9_rework/monster_ai/PROFILE.md).
+    if (const YAML::Node mm9AiNode = actorNode["mm9_ai"])
+    {
+        Mm9AiPlacementRecord mm9Ai;
+
+        if (!parseMm9AiPlacementNode(mm9AiNode, mm9Ai, errorMessage))
+        {
+            return false;
+        }
+
+        actor.mm9Ai = std::move(mm9Ai);
     }
 
     if (!readScalarNode(actorNode, "carried_item_id", actor.carriedItemId, errorMessage, false))

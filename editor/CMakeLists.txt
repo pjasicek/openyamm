@@ -24,8 +24,10 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/SpawnPreview.cpp
     ${CMAKE_SOURCE_DIR}/game/indoor/IndoorGeometryUtils.cpp
     ${CMAKE_SOURCE_DIR}/game/indoor/IndoorMovers.cpp
+    ${CMAKE_SOURCE_DIR}/game/indoor/IndoorWater.cpp
     ${CMAKE_SOURCE_DIR}/game/indoor/IndoorMapData.cpp
     ${CMAKE_SOURCE_DIR}/game/indoor/IndoorPortalGraph.cpp
+    ${CMAKE_SOURCE_DIR}/game/indoor/IndoorSectorFaceGrid.cpp
     ${CMAKE_SOURCE_DIR}/game/outdoor/OutdoorMapData.cpp
     ${CMAKE_SOURCE_DIR}/game/outdoor/OutdoorGeometryUtils.cpp
     ${CMAKE_SOURCE_DIR}/game/content/ContentManifest.cpp
@@ -35,6 +37,7 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/maps/MapDeltaData.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapIdentity.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapItemSourceYml.cpp
+    ${CMAKE_SOURCE_DIR}/game/maps/MechanismAudioYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/OutdoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/SceneOverlayOperations.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/TerrainTileData.cpp

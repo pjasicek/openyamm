@@ -259,7 +259,7 @@ void refreshLoadGameSlots(
         loadGameScreen.slots.end(),
         [](const GameplayUiController::SaveSlotSummary &left, const GameplayUiController::SaveSlotSummary &right)
         {
-            return compareSavePathsForDisplay(left.path, right.path);
+            return compareSavesForDisplay(left.path, left.fileLabel, right.path, right.fileLabel);
         });
 
     if (loadGameScreen.selectedIndex >= loadGameScreen.slots.size())

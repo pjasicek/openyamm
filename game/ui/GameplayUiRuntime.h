@@ -6,6 +6,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
+#include "game/party/SpeechIds.h"
 #include "game/tables/FaceAnimationTable.h"
 #include "game/tables/PortraitFxEventTable.h"
 #include "game/ui/GameplayHudArcMesh.h"
@@ -73,6 +74,8 @@ struct GameplayPortraitPresentationState
     uint32_t lastAnimationUpdateTicks = 0;
     std::vector<uint32_t> memberSpeechCooldownUntilTicks;
     std::vector<uint32_t> memberCombatSpeechCooldownUntilTicks;
+    // When each member last said each line, for the "Repeated voice lines" setting.
+    std::vector<std::unordered_map<SpeechId, uint32_t>> memberSpeechLastPlayedTicks;
 };
 
 struct GameplayHudLoopingAnimationState

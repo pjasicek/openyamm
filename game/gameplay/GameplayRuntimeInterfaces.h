@@ -24,11 +24,13 @@ namespace OpenYAMM::Game
 // the way of the farther; at the party's feet when none will do.
 inline constexpr std::array<float, 3> LootGatherDistances = {192.0f, 128.0f, 64.0f};
 
+class ActorAiTrace;
 class ActorBehaviorRuntime;
 class GameplayActorHitFeedback;
 class GameplayProjectileService;
 class MergedBolsterMonsterTable;
 struct MapStatsEntry;
+struct WorldAmbientSound;
 struct GameplayMonsterSpawnRequest;
 struct MapKillProgress;
 struct GameplayMinimapState;
@@ -185,6 +187,12 @@ struct GameplayRuntimeActorState
     float intendedSpeed = 0.0f;
     // Pursuing or fleeing (moving at twice the wander speed): a 3D model prefers its run clip.
     bool hurrying = false;
+    // A skirmisher's footwork (strafe attack, evade, circle, back-off: MM9's Strafe and Backpedal states, which face
+    // the target), from the AI's skirmish phase in any world: its model keeps the AI's facing. While the AI backs it
+    // away (skirmishBackpedals) the model plays its backpedal clip, or its gait reversed without one; every other move
+    // plays the gait forwards at any angle, as MM9's Strafe state does (devdocs/mm9_rework/MM9_ANIMATION_AUDIT.md A2).
+    bool footwork = false;
+    bool backpedalling = false;
     bool castingSpell = false;
     bool secondaryAttack = false;
     uint32_t castingSpellId = 0;
@@ -233,6 +241,16 @@ struct GameplayRuntimeActorState
     // (the body's yaw is the scan itself). Unset for every other actor.
     bool aimScanning = false;
     float aimScanPitchRadians = 0.0f;
+    // An actor on MM9's loop (MM9_AMBIENT_ANIMATION.md section 2.4): its model's look turns only toward the target its
+    // AI holds (the party, or another actor's head at heldTarget*) or toward the party talking to it, never toward a
+    // party that is merely near; headTurn false (its row's HeadTurn 0): its head turns toward nothing.
+    bool looksAtHeldTarget = false;
+    bool headTurn = true;
+    bool holdsPartyTarget = false;
+    bool holdsActorTarget = false;
+    float heldTargetX = 0.0f;
+    float heldTargetY = 0.0f;
+    float heldTargetZ = 0.0f;
 };
 
 struct GameplayCombatFeedbackEvent
@@ -562,6 +580,7 @@ struct GameplayCombatActorInfo
     uint32_t actorId = 0;
     int16_t monsterId = 0;
     int monsterLevel = 0;
+    int currentHp = 0;
     int maxHp = 0;
     uint32_t attackPreferences = 0;
     int attackBonus = 0;
@@ -573,6 +592,10 @@ struct GameplayCombatActorInfo
     bool damageDebuffed = false;
     // What the ruleset resolved for the attacker (empty under Standard).
     ActorRulesetFacts rulesetFacts;
+    // spell_conditions (MonsterModifiers.h): the condition a hit by its Spell1 / Spell2 leaves, and the chance (0-1).
+    MonsterSpecialAttackKind spell1Condition = MonsterSpecialAttackKind::None;
+    MonsterSpecialAttackKind spell2Condition = MonsterSpecialAttackKind::None;
+    float spellConditionChance = 1.0f;
 };
 
 struct GameplayPartyAttackSpellRequest
@@ -669,6 +692,16 @@ public:
     {
         return false;
     }
+    // The party swims in a scene water volume (the flight arrows then swim up and down).
+    virtual bool partySwimming() const
+    {
+        return false;
+    }
+    // The party's breath left (1 full) while its eye is under a scene water volume; none otherwise (the HUD's meter).
+    virtual std::optional<float> partyBreathFraction() const
+    {
+        return std::nullopt;
+    }
     virtual bool isUnderwaterMap() const
     {
         return false;
@@ -707,6 +740,18 @@ public:
     virtual float partyX() const = 0;
     virtual float partyY() const = 0;
     virtual float partyFootZ() const = 0;
+    // Places the party's feet at a point (an AI arena's party walk); nothing in a world without one.
+    virtual void teleportParty(float x, float y, float footZ)
+    {
+        static_cast<void>(x);
+        static_cast<void>(y);
+        static_cast<void>(footZ);
+    }
+    // The map's placed ambient sounds (devdocs/AMBIENT_SOUNDS.md), or none.
+    virtual const std::vector<WorldAmbientSound> *ambientSounds() const
+    {
+        return nullptr;
+    }
     // The party's eyes: the camera height over the party's feet in this world.
     virtual float partyEyeZ() const = 0;
     virtual float partyEngagementRange() const
@@ -765,6 +810,13 @@ public:
     virtual size_t turnBasedPendingWorldActionCount() const
     {
         return 0;
+    }
+    // The Yell key: villagers (MonsterKind::Peasant) that can act, are not hostile and stand within radius of the
+    // party flee from it for the given seconds (OE Party::yell; guards and calm monsters keep their ground).
+    virtual void scareNearbyPeasants(float radius, float seconds)
+    {
+        (void)radius;
+        (void)seconds;
     }
     virtual bool turnBasedActorActionInProgress() const
     {
@@ -1171,6 +1223,16 @@ public:
         (void)experienceShare;
         return 0;
     }
+    // Feeds the AI decision trace (an AI arena) after every AI step and applies its overrides; null unbinds. The
+    // trace outlives the binding (GameApplication owns it).
+    virtual void bindActorAiTrace(ActorAiTrace *pTrace)
+    {
+        (void)pTrace;
+    }
+    virtual const ActorAiTrace *actorAiTrace() const
+    {
+        return nullptr;
+    }
     // Places a script's monsters (GameplayMonsterSpawnRequest) and returns their actor indices; a world without
     // support places none.
     virtual std::vector<size_t> spawnMonsters(const GameplayMonsterSpawnRequest &request)
@@ -1240,6 +1302,18 @@ public:
     virtual bool isPartyAttackMeleeBModelTarget(size_t bModelIndex) const
     {
         (void)bModelIndex;
+        return false;
+    }
+    // A destructible decoration (an indoor entity index) a party blow damages.
+    virtual bool applyPartyAttackMeleeEntityDamage(size_t entityIndex, int damage)
+    {
+        (void)entityIndex;
+        (void)damage;
+        return false;
+    }
+    virtual bool isPartyAttackMeleeEntityTarget(size_t entityIndex) const
+    {
+        (void)entityIndex;
         return false;
     }
     virtual void applyPartyAttackMeleeEffects(

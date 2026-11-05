@@ -28,6 +28,7 @@ function MM7.FilterTavernTopicsWithoutArcomage(context)
         HouseAction.TavernRentRoom,
         HouseAction.TavernBuyFood,
         HouseAction.OpenLearnSkillsMenu,
+        HouseAction.OpenTeacherLedgerMenu,
     })
 end
 

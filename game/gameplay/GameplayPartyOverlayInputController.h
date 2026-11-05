@@ -31,15 +31,21 @@ public:
     // Opens the Workbench (alchemy and crafting) on the open inventory, as its button does; false while an item is
     // held, which it says.
     static bool openWorkbench(GameplayScreenRuntime &context);
-    // MAW's multibag keys (the Bag 1-4 actions, zzMaw-MultiBag.lua:38-67): on the inventory page the bag zooms (again,
-    // back to the overview); in a shop's or chest's inventory as openNestedInventoryBag. True when the key acted
-    // there, so it does not also select a party member.
+    // MAW's multibag keys (the Bag 1-4 actions, zzMaw-MultiBag.lua:38-67) for bag `bag` (0-3) of the open bag's tab: on
+    // the inventory page the bag zooms (again, back to the overview); in a shop's or chest's inventory as
+    // openNestedInventoryBag. True when the key acted there, so it does not also select a party member.
     static bool openBagForKey(GameplayScreenRuntime &context, int bag);
+    // Whether the inventory page, a chest or a shop's or chest's party inventory has tabs now (a party of one with more
+    // than four bags, InventoryBags::TabBags): their buttons and Shift+1-5.
+    static bool bagTabsShown(const GameplayScreenRuntime &context);
+    // A tab's button or Shift and its number (zzMaw-MultiBag.lua:11-14): the same bag of tab `tab` (0-based) opens.
+    // True when it acted.
+    static bool openBagTab(GameplayScreenRuntime &context, int tab);
     // A bag's button or key over a chest's or shop's party inventory: the active member's bag opens. A shop zooms it
     // from its bag overview, and the zoomed bag's button or key goes back to the overview.
     static void openNestedInventoryBag(GameplayScreenRuntime &context, int bag);
-    // While a bag overview shows (the inventory page's or a shop's), every member's first bag is the open one, so what
-    // is put into a member fills the bags in order.
+    // While a bag overview shows (the inventory page's or a shop's), every member's first bag of the open tab is the
+    // open one, so what is put into a member fills the bags in order.
     static void openFirstBagsInOverview(GameplayScreenRuntime &context);
     // Whether a chest or a shop's or chest's party inventory shows the bag buttons (ChestInventoryBag1-4) now.
     static bool partyBagButtonsShown(const GameplayScreenRuntime &context);

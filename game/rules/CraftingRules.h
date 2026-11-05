@@ -2,6 +2,7 @@
 
 #include "game/party/Party.h"
 
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -22,6 +23,8 @@ struct CraftingContext
     const PotionEffectTable *pPotionEffects = nullptr;
     // The level of the character who carries or wears the item.
     int ownerLevel = 1;
+    // The option the player picked when the step offers several (CraftResult::choices); past the last, the last.
+    size_t choice = 0;
 };
 
 // One crafting step worked out on copies (devdocs/maw/CRAFTING_BENCH_DESIGN.md §6): the preview shows it and applying
@@ -40,8 +43,13 @@ struct CraftResult
     std::string confirmation;
     // The step in a few words ("+3 Might, cap 106"); for a hidden outcome, what may happen.
     std::string summary;
-    // A gamble (MAW's Pearl and element potions): the preview names the possible outcomes, not the one that will
-    // happen; `outcome` says what happened, for after the step.
+    // The player picks what the step does (MAW's Pearl: which enchantment it removes): `choicePrompt` asks, `choices`
+    // names each option and `choice` is the one this result made (CraftingContext::choice). Empty with nothing to pick.
+    std::string choicePrompt;
+    std::vector<std::string> choices;
+    size_t choice = 0;
+    // A gamble (MAW's element potions): the preview names the possible outcomes, not the one that will happen;
+    // `outcome` says what happened, for after the step.
     bool hiddenOutcome = false;
     std::string outcome;
 };

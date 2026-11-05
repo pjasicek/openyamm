@@ -11,6 +11,7 @@
 #include "game/rules/maw/MawCombatFormulas.h"
 #include "game/rules/maw/MawCombatRules.h"
 #include "game/rules/maw/MawItemRules.h"
+#include "game/rules/maw/MawMonsterRules.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawSpellFormulas.h"
 #include "game/tables/ClassMultiplierTable.h"
@@ -1001,6 +1002,11 @@ SpellSplash MawSpellRules::spellSplash(uint32_t spellId, SkillMastery mastery) c
     return {size_t(std::max(int(mastery), 1) - 1), 512.0f};
 }
 
+bool MawSpellRules::ignoresCrowdControl(const ActorRulesetFacts &target) const
+{
+    return mawIgnoresCrowdControl(target);
+}
+
 bool MawSpellRules::castSourceBuff(Party &party, uint32_t spellId, BuffSource source) const
 {
     if (mawAura(spellId) == nullptr)
@@ -1561,6 +1567,14 @@ std::optional<float> MawSpellRules::crowdControlSeconds(const CrowdControlCast &
     {
         return controlResistance && std::uniform_real_distribution<double>(0.0, 1.0)(rng) < *controlResistance / 100;
     };
+
+    // An Unstoppable boss shrugs off every crowd control (checkDebuffDuration and calcDebuffDuration return 0,
+    // stage_stunSpellPrime fails the Stun, SP:1817-1841, DM:347).
+    if ((cast.spellId == Stun || mawCrowdControlSpell(cast.spellId) != nullptr) && cast.pTargetFacts != nullptr
+        && mawIgnoresCrowdControl(*cast.pTargetFacts))
+    {
+        return 0.0f;
+    }
 
     // Stun keeps a success roll; it paralyses one game minute plus skill x mastery ticks (TW:50-58).
     if (cast.spellId == Stun)

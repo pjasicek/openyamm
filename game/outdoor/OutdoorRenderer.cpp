@@ -12,6 +12,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/ui/EnemyHealthBarRenderer.h"
+#include "game/party/PartySpellSystem.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorFogProfile.h"
@@ -5715,7 +5716,7 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(
         return;
     }
 
-    const std::optional<bx::Vec3> targetPoint =
+    std::optional<bx::Vec3> targetPoint =
         pendingSpellCast.hasSelectedGroundTargetPoint
             ? std::optional<bx::Vec3>(bx::Vec3{
                 pendingSpellCast.selectedGroundTargetX,
@@ -5729,6 +5730,10 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(
     {
         return;
     }
+
+    // The marker sits where the spell will fall: at its range limit when the cursor is further.
+    targetPoint = PartySpellSystem::resolveFallingSpellTargetPoint(
+        *view.m_pOutdoorWorldRuntime, pendingSpellCast.spellId, *targetPoint);
 
     constexpr size_t RingSegments = 64;
     constexpr float PreviewHeightOffset = 6.0f;

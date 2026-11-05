@@ -1,5 +1,7 @@
 #include "game/rules/maw/MawBalanceModel.h"
 
+#include "game/rules/maw/MawCombatFormulas.h"
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -75,9 +77,15 @@ const MasteryTable BodybuildingFlatPerRank = oneBased({1, 2, 3});
 const MasteryTable MeditationPerRank = oneBased({1, 2, 3, 5});
 const MasteryTable EnlightenmentManaPerSkill = oneBased({0.5, 1, 1.5, 2});
 const MasteryTable FireAuraDamage = zeroBased({0, 0.1, 0.15, 0.2, 0.25});
-// Worthless at novice, phasing in across the expert band; MAW gives no master or grandmaster entry, so at GM it reads
-// nothing (BALANCE_MODEL.md §5.2).
-const MasteryTable CoverGate = oneBased({0, 1});
+// Worthless at novice, phasing in across the expert band, whole from master on.
+const MasteryTable CoverGate = oneBased({0, 1, 1, 1});
+
+// Enchants on a fully geared character (ENCHANTS_PER_ITEM x TOTAL_SLOTS) and the share of them the model counts as
+// a statistic (STAT_SHARE).
+constexpr double EnchantsWorn = 3 * 13.75;
+constexpr double EnchantStatShare = 0.2;
+// How much more a covering tank survives than the member it covers (TANK_VITALITY_RATIO).
+constexpr double TankVitalityRatio = 2;
 
 constexpr double SwordSkillDamagePerPoint = 2;
 
@@ -125,12 +133,6 @@ constexpr int SpellHeroism = 51;
 double clamp01(double value)
 {
     return std::min(std::max(value, 0.0), 1.0);
-}
-
-// MAW's round: halves go up.
-double mawRound(double value)
-{
-    return std::floor(value + 0.5);
 }
 
 double legendaryRamp(double level)
@@ -575,12 +577,13 @@ double MawBalanceModel::stat(double level)
         return cached->second;
     }
 
-    // Creation stat, black potions to level 500, a quarter of every enchant worn, the Day of the Gods aura.
-    const double totalEnchantPower = 3 * 13.75 * maxEnchantStrength(level);
+    // Creation stat, black potions to level 500, a fifth of every enchant worn, the Day of the Gods aura.
+    const double totalEnchantPower = EnchantsWorn * maxEnchantStrength(level);
     const double estimatedSkill = skill(level);
     const double dayOfTheGods = 1 + std::min(10 + estimatedSkill / 7, 20.0) / 100 * buffRamp(estimatedSkill);
-    const double value =
-        (17 + std::min(level, 500.0) * 0.2 + totalEnchantPower * 0.25 * gearedFraction(level)) * dayOfTheGods;
+    const double value = (17 + std::min(level, 500.0) * 0.2
+                             + totalEnchantPower * EnchantStatShare * gearedFraction(level))
+        * dayOfTheGods;
 
     if (cacheable)
     {
@@ -602,8 +605,9 @@ double MawBalanceModel::health(double level)
     const double expectedStat = stat(level);
     const double estimatedSkill = skill(level);
     const int bodybuildingMastery = std::min(mastery(level), 3);
-    const double healthPower = expectedStat / 10;
-    const double flatBonus = healthPower * std::min(1 + healthPower / 50, 5.0) * 4;
+    // Flat HP enchants roll on their own curve: the stat share of all enchants worn, raised by the enchant strength.
+    const double flatBonus = EnchantsWorn * maxEnchantStrength(level) * EnchantStatShare * gearedFraction(level)
+        * (1 + std::min(maxEnchantStrength(level) / 50, 5.0));
     const double bodybuildingFlat =
         estimatedSkill * gradualRow(BodybuildingFlatPerRank, estimatedSkill, bodybuildingMastery);
     const double bodybuildingPercent =
@@ -669,13 +673,13 @@ double MawBalanceModel::chanceToBeHit(double level)
 
 double MawBalanceModel::physicalDamageTaken(double level)
 {
-    return std::max(1 / (armorClass(level) / (200 + level * 6) + 1), 0.1);
+    return std::max(1 / (armorClass(level) / mawArmorDivisor(level) + 1), 0.1);
 }
 
 double MawBalanceModel::magicDamageTaken(double level)
 {
     const double estimatedSkill = skill(level);
-    double taken = 1 / (resistance(level) / (100 + level * 12) + 1);
+    double taken = 1 / (resistance(level) / mawResistanceDivisor(level) + 1);
     taken *= std::max(1 - buffMult(SpellShield, estimatedSkill, mastery(level)), 0.7);
     taken *= 1 / (enchantResistance(level) / 100 + 1);
     return std::max(taken, 0.1);
@@ -699,14 +703,24 @@ double MawBalanceModel::coverMultiplier(double level) const
     }
 
     const double chance = std::min(0.10 + 0.01 * estimatedSkill, 0.10 + 0.01 * 30) * gate;
-    const double ratio = m_config.partyCount <= 1 ? 1 / 0.5 : 1 + 6 * level / (level + 240);
+    const double ratio = m_config.partyCount <= 1 ? 1 / 0.5 : TankVitalityRatio;
     return 1 / ((1 - chance) + chance / ratio);
 }
 
-double MawBalanceModel::vitality(double level)
+double MawBalanceModel::vitality(double level, MawDamageClass damageClass)
 {
-    const double taken = (physicalDamageTaken(level) * 0.5 + magicDamageTaken(level) * 0.5) * chanceToBeHit(level)
-        * legendaryDamageTaken(level);
+    double mitigation = physicalDamageTaken(level) * 0.5 + magicDamageTaken(level) * 0.5;
+
+    if (damageClass == MawDamageClass::Physical)
+    {
+        mitigation = physicalDamageTaken(level);
+    }
+    else if (damageClass == MawDamageClass::Magic)
+    {
+        mitigation = magicDamageTaken(level);
+    }
+
+    const double taken = mitigation * chanceToBeHit(level) * legendaryDamageTaken(level);
     return health(level) / taken * coverMultiplier(level);
 }
 
@@ -714,7 +728,7 @@ double MawBalanceModel::attack(double level)
 {
     const double estimatedSkill = skill(level);
     const int estimatedMastery = mastery(level);
-    const double meleeSkill = estimatedSkill * 1.5 + 10 * legendaryRamp(level);
+    const double meleeSkill = estimatedSkill + 10 * legendaryRamp(level);
     return weaponDamageForLevel(level, true, weaponFlat(level)).flat
         + gradualMasteryValue(SwordAttack, meleeSkill, masteryForSkill(meleeSkill)) * meleeSkill
         + gradualMasteryValue(ArmsmasterAttack, estimatedSkill, estimatedMastery) * estimatedSkill
@@ -744,7 +758,7 @@ double MawBalanceModel::power(double level)
     const int estimatedMastery = mastery(level);
     const WeaponDamage weapon = weaponDamageForLevel(level, true, weaponFlat(level));
     const double ramp = legendaryRamp(level);
-    const double meleeSkill = estimatedSkill * 1.5 + 10 * ramp;
+    const double meleeSkill = estimatedSkill + 10 * ramp;
     const double weaponSkillMult = 1 + SwordSkillDamagePerPoint * meleeSkill / 100;
     const double armsSkill = estimatedSkill * 1.5;
     const int meleeMastery = masteryForSkill(meleeSkill);
@@ -797,8 +811,8 @@ double MawBalanceModel::spellPower(double level)
     const double baseDelay = 110 + (90 - 110) * reference;
     // MAW reads Haste here where Empower Magic is meant (BALANCE_MODEL.md §5.3).
     const double empower = 1 + buffMult(SpellHaste, estimatedSkill, estimatedMastery);
-    dice *= empower * (1 + 0.02 * estimatedSkill) * std::pow(1.025, estimatedSkill);
-    add *= empower * (1 + 0.01 * estimatedSkill * estimatedSkill) * std::pow(1.025, estimatedSkill);
+    dice *= empower * mawSpellDiceScale(estimatedSkill) * MawSpellDamageMultiplier;
+    add *= empower * mawSpellAddScale(estimatedSkill) * MawSpellDamageMultiplier;
     double power = (add + estimatedSkill * 1.5 * (1 + dice) / 2) * (1 + expectedStat / 1000);
 
     const double ramp = legendaryRamp(level);
@@ -825,10 +839,10 @@ double MawBalanceModel::monsterHealth(double level)
     return power(level) * hits[size_t(m_config.difficulty)];
 }
 
-double MawBalanceModel::monsterDamage(double level)
+double MawBalanceModel::monsterDamage(double level, MawDamageClass damageClass)
 {
     const std::array<double, 10> &hits = m_config.austerity ? HitsToKillCharacterAusterity : HitsToKillCharacter;
-    return vitality(level) / hits[size_t(m_config.difficulty)];
+    return vitality(level, damageClass) / hits[size_t(m_config.difficulty)];
 }
 
 double MawBalanceModel::monsterExperienceMultiplier() const

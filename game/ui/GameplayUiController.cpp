@@ -60,7 +60,9 @@ bool GameplayUiController::characterScreenSearchActive(const CharacterScreenStat
 
 bool GameplayUiController::journalSearchActive(const JournalScreenState &screen)
 {
-    return screen.active && screen.view == JournalView::Notes && screen.notesSearchActive;
+    return screen.active
+        && ((screen.view == JournalView::Notes && screen.notesSearchActive)
+            || (screen.view == JournalView::Map && screen.mapNoteEditing));
 }
 
 bool GameplayUiController::characterScreenSupportsInspection(const CharacterScreenState &screen)
@@ -400,7 +402,6 @@ PartySpellCastRequest GameplayUiController::UtilitySpellOverlayState::castReques
     request.applyRecovery = applyRecovery;
     request.bypassRequiredMastery = bypassRequiredMastery;
     request.bypassGameplayCasterValidation = bypassGameplayCasterValidation;
-    request.bypassTownPortalFailureChecks = bypassTownPortalFailureChecks;
     return request;
 }
 
@@ -516,6 +517,31 @@ void GameplayUiController::closeHouseShopOverlay()
     resolvedState().houseShopOverlay = {};
 }
 
+GameplayUiController::TransportScheduleState &GameplayUiController::transportSchedule()
+{
+    return resolvedState().transportSchedule;
+}
+
+const GameplayUiController::TransportScheduleState &GameplayUiController::transportSchedule() const
+{
+    return resolvedState().transportSchedule;
+}
+
+void GameplayUiController::openTransportSchedule(uint32_t houseId)
+{
+    closeInventoryNestedOverlay();
+    closeHouseShopOverlay();
+    TransportScheduleState &schedule = resolvedState().transportSchedule;
+    schedule = {};
+    schedule.active = houseId != 0;
+    schedule.houseId = houseId;
+}
+
+void GameplayUiController::closeTransportSchedule()
+{
+    resolvedState().transportSchedule = {};
+}
+
 void GameplayUiController::beginHouseShopVisit(uint32_t houseId)
 {
     if (houseId == 0)
@@ -571,7 +597,6 @@ void GameplayUiController::openUtilitySpellOverlay(
     state.utilitySpellOverlay.applyRecovery = true;
     state.utilitySpellOverlay.bypassRequiredMastery = false;
     state.utilitySpellOverlay.bypassGameplayCasterValidation = false;
-    state.utilitySpellOverlay.bypassTownPortalFailureChecks = false;
     state.utilitySpellOverlay.lloydRecallMode = lloydRecallMode;
 }
 

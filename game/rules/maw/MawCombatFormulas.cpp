@@ -231,7 +231,7 @@ double mawMitigatedDamage(const MawMitigationInputs &inputs)
 
     if (inputs.type == CombatDamageType::Physical)
     {
-        damage = mawRound(damage / (inputs.armorClass / (200 + 6 * level) + 1));
+        damage = mawRound(damage / (inputs.armorClass / mawArmorDivisor(level) + 1));
         damage /= 1 + inputs.physicalCutSkill / 100;
 
         if (inputs.shieldingEnchantment)
@@ -263,7 +263,7 @@ double mawMitigatedDamage(const MawMitigationInputs &inputs)
     {
         const double base = inputs.resistances[resistance];
         const double item = inputs.itemResistances[resistance];
-        const double candidate = 1 / (base / (100 + 12 * level) + 1) / (item / 100 + 1);
+        const double candidate = 1 / (base / mawResistanceDivisor(level) + 1) / (item / 100 + 1);
 
         if (candidate > taken)
         {
@@ -329,13 +329,24 @@ int mawSpellDelay(const MawSpellDelayInputs &inputs)
     return int(mawRound(delay));
 }
 
+double mawSpellDiceScale(double ascensionSkill)
+{
+    return (1 + 0.02 * ascensionSkill) * std::pow(1.02, ascensionSkill);
+}
+
+double mawSpellAddScale(double ascensionSkill)
+{
+    return (1 + 0.01 * ascensionSkill * ascensionSkill) * std::pow(1.02, ascensionSkill);
+}
+
 MawSpellDice mawAscendedSpellDice(const MawSpellDice &base, double ascensionSkill, double empowerMultiplier)
 {
-    const double growth = std::pow(1.025, ascensionSkill);
     MawSpellDice dice;
     dice.diceMin = int(mawRound(base.diceMin * empowerMultiplier));
-    dice.diceMax = int(mawRound(base.diceMax * empowerMultiplier * (1 + 0.02 * ascensionSkill) * growth));
-    dice.add = int(mawRound(base.add * empowerMultiplier * (1 + 0.01 * ascensionSkill * ascensionSkill) * growth));
+    dice.diceMax = int(mawRound(
+        base.diceMax * empowerMultiplier * mawSpellDiceScale(ascensionSkill) * MawSpellDamageMultiplier));
+    dice.add =
+        int(mawRound(base.add * empowerMultiplier * mawSpellAddScale(ascensionSkill) * MawSpellDamageMultiplier));
     return dice;
 }
 

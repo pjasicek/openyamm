@@ -1003,21 +1003,6 @@ void addGeneratedInventory(
     (void)MercenaryStartingGoldEquivalent;
 }
 
-void applyClassResistances(Character &character)
-{
-    const std::string className = canonicalClassName(character.className);
-
-    if (className == "Lich")
-    {
-        character.baseResistances.light = 65000;
-        character.baseResistances.dark = 65000;
-    }
-    else if (className == "Vampire" || className == "Nosferatu")
-    {
-        character.baseResistances.light = 65000;
-    }
-}
-
 bool spellLearningUsesMasteryCount(const std::string &skillName)
 {
     const std::string canonical = canonicalSkillName(skillName);
@@ -1106,7 +1091,6 @@ EventRuntimeState::GeneratedMercenaryRecruit generateMercenary(
     applySkills(character, tables.pClassSkillTable, gameRulesFor(&party).classes, rng);
     applySpells(character, tables.pSpellTable);
     addGeneratedInventory(character, party, tables, pDoll, rng);
-    applyClassResistances(character);
     GameMechanics::refreshCharacterBaseResources(character, true, tables.pClassMultiplierTable);
 
     EventRuntimeState::GeneratedMercenaryRecruit recruit = {};

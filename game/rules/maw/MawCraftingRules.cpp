@@ -284,7 +284,7 @@ std::string MawCraftingRules::materialAction(uint32_t itemId) const
             return "Copy the item";
         case MawCraftOperation::UpgradeBaseType:
             return "Upgrade to a stronger base item";
-        case MawCraftOperation::RemoveRandomEnchant:
+        case MawCraftOperation::RemoveEnchant:
             return "Remove an enchantment";
         case MawCraftOperation::TransferLegendaryAffix:
             return "Move a legendary power";
@@ -498,8 +498,8 @@ CraftResult MawCraftingRules::craft(
             case MawCraftOperation::UpgradeBaseType:
                 result = upgradeBaseType(result, *pDefinition, context);
                 break;
-            case MawCraftOperation::RemoveRandomEnchant:
-                result = removeRandomEnchant(result, context, rng);
+            case MawCraftOperation::RemoveEnchant:
+                result = removeEnchant(result, *pDefinition, context);
                 break;
             case MawCraftOperation::TransferLegendaryAffix:
                 result = transferLegendaryAffix(result, material);
@@ -575,11 +575,10 @@ CraftResult MawCraftingRules::craftDimensionMap(
             // Another cleared place of the same kind, indoors or outdoors.
             const MapStats *pMapTable = m_rules.mapTable();
             const MapStatsEntry *pCurrent = pMapTable != nullptr ? pMapTable->findById(map.mapId) : nullptr;
-            // MAW counts the Plane of Earth (map 10) with the outdoor maps (overworldMaps, zzAlchemy.lua:1009).
-            constexpr int PlaneOfEarth = 10;
+            // Indoor is a .blv map; MAW's overworldMaps list agrees since it dropped the Plane of Earth (54f1ef13).
             const auto indoor = [](const MapStatsEntry &entry)
             {
-                return entry.id != PlaneOfEarth && entry.fileName.size() > 4
+                return entry.fileName.size() > 4
                     && std::tolower(static_cast<unsigned char>(entry.fileName[entry.fileName.size() - 3])) == 'b';
             };
             std::vector<uint16_t> others;
@@ -897,23 +896,31 @@ CraftResult MawCraftingRules::upgradeBaseType(
     return result;
 }
 
-CraftResult MawCraftingRules::removeRandomEnchant(
+CraftResult MawCraftingRules::removeEnchant(
     CraftResult result,
-    const CraftingContext &context,
-    std::mt19937 &rng) const
+    const ItemDefinition &definition,
+    const CraftingContext &context) const
 {
     InventoryItem &item = result.target;
-    std::vector<int> present;
+    // The enchantments present, by slot (1 and 2 the base ones, 3 the special), named as the inspect popup reads them.
+    std::vector<std::pair<int, std::string>> present;
 
-    for (int slot : {1, 2, 3})
+    if (item.standardEnchantId != 0)
     {
-        const bool has = slot == 1 ? item.standardEnchantId != 0 : slot == 2 ? hasSecondEnchant(item)
-                                                                              : item.specialEnchantId != 0;
+        present.push_back({1, m_rules.itemRules().enchantLine(item.standardEnchantId, item.standardEnchantPower, true,
+            definition, context.pStandardEnchantTable, nullptr)});
+    }
 
-        if (has)
-        {
-            present.push_back(slot);
-        }
+    if (hasSecondEnchant(item))
+    {
+        const ItemRulesetFields &fields = item.rulesetFields;
+        present.push_back({2, m_rules.itemRules().enchantLine(fields.secondStandardEnchantId,
+            fields.secondStandardEnchantPower, false, definition, context.pStandardEnchantTable, nullptr)});
+    }
+
+    if (item.specialEnchantId != 0)
+    {
+        present.push_back({3, specialName(context, item.specialEnchantId)});
     }
 
     if (present.empty())
@@ -921,24 +928,23 @@ CraftResult MawCraftingRules::removeRandomEnchant(
         return refuse(result, "No enchantments to remove");
     }
 
-    // One of the enchantments, uniformly; losing the first moves the second up. A gamble: the preview lists them all.
-    std::string candidates;
-
-    for (int candidate : present)
+    // The player picks which one goes (MAW picks at random, DEVIATIONS.md); losing the first moves the second up.
+    if (present.size() > 1)
     {
-        const uint16_t enchant = candidate == 1 ? item.standardEnchantId : item.rulesetFields.secondStandardEnchantId;
-        const std::string name = candidate == 3 ? specialName(context, item.specialEnchantId)
-                                                : mawEnchantStatName(context.pStandardEnchantTable, enchant);
-        candidates += (candidates.empty() ? "" : ", ") + name;
+        result.choicePrompt = "Remove which enchantment?";
+
+        for (const auto &[slot, name] : present)
+        {
+            result.choices.push_back(name);
+        }
     }
 
-    const int slot = present[size_t(uniform(rng, 0, int(present.size()) - 1))];
+    result.choice = std::min(context.choice, present.size() - 1);
+    const auto &[slot, removed] = present[result.choice];
     ItemRulesetFields &fields = item.rulesetFields;
-    std::string removed;
 
     if (slot == 1)
     {
-        removed = mawEnchantStatName(context.pStandardEnchantTable, item.standardEnchantId);
         item.standardEnchantId = fields.secondStandardEnchantId;
         item.standardEnchantPower = fields.secondStandardEnchantPower;
         fields.secondStandardEnchantId = 0;
@@ -946,22 +952,19 @@ CraftResult MawCraftingRules::removeRandomEnchant(
     }
     else if (slot == 2)
     {
-        removed = mawEnchantStatName(context.pStandardEnchantTable, fields.secondStandardEnchantId);
         fields.secondStandardEnchantId = 0;
         fields.secondStandardEnchantPower = 0;
     }
     else
     {
-        removed = specialName(context, item.specialEnchantId);
         item.specialEnchantId = 0;
     }
 
     result.possible = true;
     result.materialConsumed = true;
-    result.hiddenOutcome = present.size() > 1;
-    result.summary = result.hiddenOutcome ? "Removes one at random: " + candidates : "Removes " + removed;
+    result.summary = "Removes " + removed;
     result.outcome = "Removed " + removed;
-    result.confirmation = result.hiddenOutcome ? "Remove one enchantment at random?" : "Remove " + removed + "?";
+    result.confirmation = "Remove " + removed + "?";
     return result;
 }
 

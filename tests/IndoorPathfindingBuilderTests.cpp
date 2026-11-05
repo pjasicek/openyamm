@@ -80,6 +80,25 @@ TEST_CASE("indoor pathfinding builder converts BLV faces into walkable and block
             makeIndoorPathObject()));
 }
 
+TEST_CASE("indoor pathfinding builder blocks at the scene's monster-only walls only")
+{
+    IndoorMapData mapData = {};
+    mapData.vertices = {
+        {-100, -100, 0}, {100, -100, 0}, {100, 100, 0}, {-100, 100, 0},
+        {0, -40, 0}, {0, 40, 0}, {0, 40, 120}, {0, -40, 120}
+    };
+    const uint32_t hidden = faceAttributeBit(FaceAttribute::Invisible) | faceAttributeBit(FaceAttribute::Untouchable);
+    mapData.faces = {makeIndoorFace({0, 1, 2, 3}, 3), makeIndoorFace({4, 5, 6, 7}, 1, hidden)};
+
+    // An untouchable face blocks no path (every MM6-MM8 map)...
+    const IndoorPathMapBuildResult open = IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices);
+    CHECK(open.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
+    // ...unless the scene lists it as a monster barrier.
+    mapData.actorBarrierFaceIds = {1};
+    const IndoorPathMapBuildResult barred = IndoorPathfindingBuilder::buildPathMap(mapData, mapData.vertices);
+    CHECK_FALSE(barred.pathMap.canReachDirectly({-50.0f, 0.0f, 0.0f}, {50.0f, 0.0f, 0.0f}, makeIndoorPathObject()));
+}
+
 TEST_CASE("indoor pathfinding builder keeps portals non-blocking")
 {
     IndoorMapData mapData = {};

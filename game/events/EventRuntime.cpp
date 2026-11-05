@@ -12,6 +12,7 @@
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
+#include "game/events/MechanismAudio.h"
 #include "game/outdoor/OutdoorMechanismRuntime.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/ExperienceRules.h"
@@ -4888,6 +4889,33 @@ std::vector<size_t> selectedTargetMemberIndices(lua_State *pLuaState, bool usePa
                                         : std::vector<size_t>();
 }
 
+// Who an item is subtracted from. Under "Current" the active member gives it up first, else the first member who has
+// it: Cmp/HasItem find an item on anyone, and scripts check the party before taking from the active member (MM8's
+// Conflux Key, out02 event 75). Other selectors keep their own members.
+std::vector<size_t> inventorySubtractTargetMemberIndices(lua_State *pLuaState)
+{
+    std::vector<size_t> targets = selectedTargetMemberIndices(pLuaState, true);
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const Party *pParty = readableParty(pLuaState);
+
+    if (pExecutionContext == nullptr
+        || pParty == nullptr
+        || pExecutionContext->selector.kind != PartySelectorKind::Current)
+    {
+        return targets;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+    {
+        if (std::find(targets.begin(), targets.end(), memberIndex) == targets.end())
+        {
+            targets.push_back(memberIndex);
+        }
+    }
+
+    return targets;
+}
+
 int luaBeginEvent(lua_State *pLuaState)
 {
     LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
@@ -5296,6 +5324,22 @@ int luaSetActorBehavior(lua_State *pLuaState)
     lua_pushboolean(
         pLuaState,
         pSceneEventContext != nullptr && pSceneEventContext->setMapActorBehavior(actorIndex, behaviorId));
+    return 1;
+}
+
+// evt.TriggerActor(actorIndex, message): MM9's Trigger <object>, <message> to an actor's behaviour script (its
+// onTrigger at the next step); false without a script.
+int luaTriggerActor(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const size_t actorIndex = static_cast<size_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
+    const std::string message = luaL_checkstring(pLuaState, 2);
+    lua_pushboolean(
+        pLuaState,
+        pSceneEventContext != nullptr && pSceneEventContext->triggerMapActor(actorIndex, message));
     return 1;
 }
 
@@ -6593,6 +6637,60 @@ int luaReturnToMainMenu(lua_State *pLuaState)
     return 0;
 }
 
+// evt.DamageDestructible(id, amount), evt.DestroyDestructible(id), evt.SetDestructibleDamage(id, on) and
+// evt.IsDestructibleDestroyed(id): a scene destructible by its id (devdocs/INDOOR_DESTRUCTIBLES.md). The first three
+// return whether anything changed; a destroyed destructible stays destroyed with the map's state.
+ISceneEventContext *writableSceneEventContext(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    return pExecutionContext != nullptr && !pExecutionContext->readonly ? pExecutionContext->pSceneEventContext
+                                                                        : nullptr;
+}
+
+int luaDamageDestructible(lua_State *pLuaState)
+{
+    ISceneEventContext *pSceneEventContext = writableSceneEventContext(pLuaState);
+    const uint32_t id = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const int damage = static_cast<int>(luaL_checkinteger(pLuaState, 2));
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && pSceneEventContext->damageDestructible(id, damage));
+    return 1;
+}
+
+int luaDestroyDestructible(lua_State *pLuaState)
+{
+    ISceneEventContext *pSceneEventContext = writableSceneEventContext(pLuaState);
+    const uint32_t id = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && pSceneEventContext->destroyDestructible(id));
+    return 1;
+}
+
+int luaSetDestructibleDamage(lua_State *pLuaState)
+{
+    ISceneEventContext *pSceneEventContext = writableSceneEventContext(pLuaState);
+    const uint32_t id = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const bool enabled = luaEventBoolean(pLuaState, 2);
+    lua_pushboolean(
+        pLuaState,
+        pSceneEventContext != nullptr && pSceneEventContext->setDestructibleDamageEnabled(id, enabled));
+    return 1;
+}
+
+int luaIsDestructibleDestroyed(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    const uint32_t id = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    bool destroyed = false;
+
+    if (pRuntimeState != nullptr)
+    {
+        const auto stateIt = pRuntimeState->destructibles.find(id);
+        destroyed = stateIt != pRuntimeState->destructibles.end() && stateIt->second.destroyed;
+    }
+
+    lua_pushboolean(pLuaState, destroyed);
+    return 1;
+}
+
 int luaSetSprite(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -6625,16 +6723,6 @@ int luaEnterHouse(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t houseId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     pRuntimeState->messages.clear();
-
-    if (houseId == PseudoHouseId::ThroneroomWinGood || houseId == PseudoHouseId::ThroneroomWinEvil)
-    {
-        EventRuntimeState::PendingWinGame ending = {};
-        ending.houseId = houseId;
-        pRuntimeState->pendingDialogueContext.reset();
-        pRuntimeState->dialogueState = {};
-        pRuntimeState->pendingWinGame = ending;
-        return 0;
-    }
 
     EventRuntimeState::PendingDialogueContext context = {};
     context.kind = DialogueContextKind::HouseService;
@@ -7596,6 +7684,25 @@ int luaAdvanceGameMinutes(lua_State *pLuaState)
     return 0;
 }
 
+// Rests the party as a boat or stable trip does: buffs end without their aftereffects (Haste's weakness), and sleep,
+// weakness and the other temporary conditions clear.
+int luaRestAndHealParty(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->readonly)
+    {
+        return 0;
+    }
+
+    if (Party *pParty = writableParty(pLuaState))
+    {
+        pParty->restAndHealAll();
+    }
+
+    return 0;
+}
+
 int luaGetRuntimeVariable(lua_State *pLuaState)
 {
     const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
@@ -8262,7 +8369,9 @@ int luaSubtract(lua_State *pLuaState)
         variable,
         static_cast<int32_t>(luaL_checkinteger(pLuaState, 2)),
         writableParty(pLuaState),
-        selectedTargetMemberIndices(pLuaState, variable.kind == EventRuntime::VariableKind::Inventory));
+        variable.kind == EventRuntime::VariableKind::Inventory
+            ? inventorySubtractTargetMemberIndices(pLuaState)
+            : selectedTargetMemberIndices(pLuaState));
     return 0;
 }
 
@@ -8770,10 +8879,10 @@ int luaSetOutdoorModelMechanismState(lua_State *pLuaState)
     const uint16_t previousState = runtimeMechanism.state;
     const bool wasMoving = runtimeMechanism.isMoving;
     EventRuntime::applyMechanismAction(runtimeMechanism, nullptr, action);
-    queueOutdoorMechanismMovementAudio(
+    queueMechanismMovementAudio(
         *pRuntimeState,
-        mechanismId,
-        definition,
+        outdoorMechanismAudioKey(mechanismId),
+        definition.audio,
         previousState,
         wasMoving,
         runtimeMechanism);
@@ -8806,7 +8915,7 @@ int luaStopDoor(lua_State *pLuaState)
 
     if (wasMoving && pRuntimeState->outdoorModelMechanisms.contains(mechanismId))
     {
-        queueOutdoorMechanismAudioStop(*pRuntimeState, mechanismId);
+        queueMechanismAudioStop(*pRuntimeState, outdoorMechanismAudioKey(mechanismId));
     }
 
     GAMEPLAY_DEBUG_TRACE(
@@ -9212,6 +9321,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "LineOfSight", luaLineOfSight);
     registerLuaFunction(pLuaState, "ActorSeesParty", luaActorSeesParty);
     registerLuaFunction(pLuaState, "SetActorBehavior", luaSetActorBehavior);
+    registerLuaFunction(pLuaState, "TriggerActor", luaTriggerActor);
     registerLuaFunction(pLuaState, "IsMapActorHostile", luaIsMapActorHostile);
     registerLuaFunction(pLuaState, "IsMapActorWithinPartyDistance", luaIsMapActorWithinPartyDistance);
     registerLuaFunction(pLuaState, "GetCurrentScreen", luaGetCurrentScreen);
@@ -9287,6 +9397,10 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "ShowMovie", luaShowMovie);
     registerLuaFunction(pLuaState, "ReturnToMainMenu", luaReturnToMainMenu);
     registerLuaFunction(pLuaState, "SetSprite", luaSetSprite);
+    registerLuaFunction(pLuaState, "DamageDestructible", luaDamageDestructible);
+    registerLuaFunction(pLuaState, "DestroyDestructible", luaDestroyDestructible);
+    registerLuaFunction(pLuaState, "SetDestructibleDamage", luaSetDestructibleDamage);
+    registerLuaFunction(pLuaState, "IsDestructibleDestroyed", luaIsDestructibleDestroyed);
     registerLuaFunction(pLuaState, "SetDoorState", luaSetDoorState);
     registerLuaFunction(pLuaState, "RegisterOutdoorModelMechanism", luaRegisterOutdoorModelMechanism);
     registerLuaFunction(pLuaState, "SetOutdoorModelMechanismState", luaSetOutdoorModelMechanismState);
@@ -9354,6 +9468,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "RemoveFollowerNpc", luaRemoveFollowerNpc);
     registerLuaFunction(pLuaState, "CurrentGameMinutes", luaCurrentGameMinutes);
     registerLuaFunction(pLuaState, "AdvanceGameMinutes", luaAdvanceGameMinutes);
+    registerLuaFunction(pLuaState, "RestAndHealParty", luaRestAndHealParty);
     registerLuaFunction(pLuaState, "GetRuntimeVariable", luaGetRuntimeVariable);
     registerLuaFunction(pLuaState, "SetRuntimeVariable", luaSetRuntimeVariable);
     registerLuaFunction(pLuaState, "GetActiveEventSpellId", luaGetActiveEventSpellId);
@@ -9765,7 +9880,6 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.pendingDialogueContext.reset();
     runtimeState.pendingMapMove.reset();
     runtimeState.pendingMovie.reset();
-    runtimeState.pendingWinGame.reset();
     runtimeState.pendingReturnToMainMenu = false;
     runtimeState.pendingInputPrompt.reset();
     runtimeState.pendingArcomageGame.reset();
@@ -10767,6 +10881,39 @@ void EventRuntime::applyMechanismAction(
 
 namespace
 {
+// Variables read from one character, which a read without a single target cannot answer.
+bool isCharacterVariableKind(EventRuntime::VariableKind kind)
+{
+    switch (kind)
+    {
+        case EventRuntime::VariableKind::Experience:
+        case EventRuntime::VariableKind::CurrentHealth:
+        case EventRuntime::VariableKind::MaxHealth:
+        case EventRuntime::VariableKind::CurrentSpellPoints:
+        case EventRuntime::VariableKind::MaxSpellPoints:
+        case EventRuntime::VariableKind::BaseLevel:
+        case EventRuntime::VariableKind::LevelBonus:
+        case EventRuntime::VariableKind::Sex:
+        case EventRuntime::VariableKind::Race:
+        case EventRuntime::VariableKind::Age:
+        case EventRuntime::VariableKind::ArmorClass:
+        case EventRuntime::VariableKind::ArmorClassBonus:
+        case EventRuntime::VariableKind::BaseStat:
+        case EventRuntime::VariableKind::ActualStat:
+        case EventRuntime::VariableKind::StatMoreThanBase:
+        case EventRuntime::VariableKind::StatBonus:
+        case EventRuntime::VariableKind::BaseResistance:
+        case EventRuntime::VariableKind::ResistanceBonus:
+        case EventRuntime::VariableKind::Skill:
+        case EventRuntime::VariableKind::Condition:
+        case EventRuntime::VariableKind::MajorCondition:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
 bool evaluateCompareValue(
     const EventRuntimeState &runtimeState,
     uint64_t rawVariableId,
@@ -10778,6 +10925,29 @@ bool evaluateCompareValue(
 )
 {
     const EventRuntime::VariableRef variable = EventRuntime::decodeVariable(rawVariableId);
+
+    // Cmp of a character's variable under several characters (ForPlayer All) passes when any of them passes, as in
+    // the original games' event interpreter.
+    if (targetMemberIndices.size() > 1 && isCharacterVariableKind(variable.kind))
+    {
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            if (evaluateCompareValue(
+                    runtimeState,
+                    rawVariableId,
+                    compareValue,
+                    pParty,
+                    {targetMemberIndex},
+                    usePartyWideInventory,
+                    pSceneEventContext))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
     const std::optional<size_t> memberIndex =
         usePartyWideInventory && variable.kind == EventRuntime::VariableKind::Inventory

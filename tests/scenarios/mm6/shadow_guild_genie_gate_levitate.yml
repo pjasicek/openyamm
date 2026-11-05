@@ -1,0 +1,143 @@
+id: mm6.shadow_guild_genie_gate_levitate
+title: "Shadow Guild: a levitating party opens the genie gate"
+world: mm6
+mode: faithful
+tags: [mm6, content]
+steps:
+  # The floor puzzle in room 30: five pairs of plates (14/15 ... 22/23), then the gate row (24) teleports to the genie.
+  # Levitate skips the reset floors (25) and the spikes, but the pair 22/23 must still fire: with it skipped the gate
+  # never opened while levitating (tools/LegacyLuaExport.cpp isAuditedMm6PressureTrap).
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d08.blv}
+  - cast_spell: {member_index: 0, spell_id: 112, skill: 10, mastery: 3}
+  - assert: {buff: {spell_id: 112, present: true}}
+  # Onto 14, west of the entrance.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1024, y: 2944, z: 0, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -1214, y: 2944, z: 0, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 14}}
+  # Onto 15, east of the entrance.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1024, y: 2944, z: 0, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -834, y: 2944, z: 0, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 15}}
+  # Onto 16, south of the middle strip.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1300, y: 3648, z: 0, yaw_degrees: 270, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -1300, y: 3458, z: 0, yaw_degrees: 270, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 16}}
+  # Onto 17.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -700, y: 3648, z: 0, yaw_degrees: 270, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -700, y: 3458, z: 0, yaw_degrees: 270, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 17}}
+  # Onto 18, north of the middle strip.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1700, y: 3648, z: 0, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -1700, y: 3838, z: 0, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 18}}
+  # Onto 19.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -300, y: 3648, z: 0, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -300, y: 3838, z: 0, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 19}}
+  # Onto 20, west of the gap.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1024, y: 4096, z: 0, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -1214, y: 4096, z: 0, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 20}}
+  # Onto 21, east of the gap.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1024, y: 4096, z: 0, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -834, y: 4096, z: 0, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 21}}
+  # Onto a reset floor (25): levitating, it must not fire and undo the four pairs.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1024, y: 3648, z: 0, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -1024, y: 3838, z: 0, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  # Onto 22, south from the gate row.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -1664, y: 4736, z: 0, yaw_degrees: 270, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -1664, y: 4546, z: 0, yaw_degrees: 270, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 22}}
+  # Onto 23.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -384, y: 4736, z: 0, yaw_degrees: 270, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: -384, y: 4546, z: 0, yaw_degrees: 270, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 64
+  - assert: {pressure_plate_triggered: {world: indoor, event_id: 23}}
+  # North from 23 onto the gate row: the gate opens and the party lands in the genie's room.
+  - movement_segment:
+      input: forward
+      seconds: 0.25
+      actor_collision: false
+      actor_ai: false
+      start: {map: 6d08.blv, x: -384, y: 4500, z: 0, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: 6d08.blv, x: 2179, y: 4314, z: 1, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 300

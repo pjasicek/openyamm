@@ -66,6 +66,9 @@ struct IndoorFaceSweepOptions
 {
     const std::vector<uint8_t> *pCollisionFaceMask = nullptr;
     const std::vector<uint8_t> *pMechanismBlockingFaceMask = nullptr;
+    // Untouchable faces set here block the sweep anyway: the scene's monster-only walls (`actor_barriers`), passed for
+    // monster moves only.
+    const std::vector<uint8_t> *pActorBarrierFaceMask = nullptr;
     bool includePortalFaces = false;
     float backoffDistance = 1.0f;
 };

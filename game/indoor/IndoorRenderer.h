@@ -9,18 +9,27 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "engine/render/ModelRenderer.h"
+#include "game/gameplay/GameplayTalkCamera.h"
+#include "game/indoor/IndoorFaceDrawGroups.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/DecorationModelSet.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/render/IndoorStaticLighting.h"
 #include "game/indoor/IndoorPortalGraph.h"
 #include "game/indoor/IndoorPortalVisibility.h"
+#include "game/indoor/IndoorPortalDebugView.h"
+#include "game/indoor/IndoorTerrainSurface.h"
+#include "game/indoor/IndoorOpenSkyWeather.h"
+#include "game/outdoor/TerrainDecorationRenderer.h"
 #include "game/tables/ChestTable.h"
 #include "game/tables/ObjectTable.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/MapAssetLoader.h"
+#include "game/render/TerrainMaterialSet.h"
 #include "game/render/TextureFiltering.h"
 #include "game/render/WaterRenderer.h"
+#include "game/render/SkyRenderer.h"
 #include "game/render/BillboardOpacityMask.h"
 #include "game/tables/ItemTable.h"
 #include "game/fx/WorldFxRenderResources.h"
@@ -44,6 +53,7 @@
 #include <limits>
 #include <optional>
 #include <string>
+#include <span>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -108,6 +118,16 @@ public:
         bool allowWorldInput);
     void setCameraPosition(float x, float y, float z);
     void setCameraAngles(float yawRadians, float pitchRadians);
+    // The weather over an open sky (scene `sky: {weather}`): the map's profile from GameDataLoader (none: no weather)
+    // and the audio system its rain and thunder play on. Called after initialize.
+    void setOpenSkyWeather(const std::optional<OutdoorWeatherProfile> &profile, GameAudioSystem *pAudioSystem);
+    IndoorOpenSkyWeather &openSkyWeather()
+    {
+        return m_openSkyWeather;
+    }
+    // While held (a screenshot tour's poses), game time, timers, face triggers and positioned transitions stand still;
+    // doors and lifts keep moving, as in turn-based mode.
+    void setWorldTimeHeld(bool held);
     bool hasHudRenderResources() const;
     bgfx::ProgramHandle hudTexturedProgramHandle() const;
     bgfx::UniformHandle hudTextureSamplerHandle() const;
@@ -171,6 +191,13 @@ public:
     bool canActivateGameplayWorldHit(const GameplayWorldHit &hit) const;
     bool activateGameplayWorldHit(const GameplayWorldHit &hit);
     void setWorldPostProcessing(CinematicGrading *pPostProcessing) { m_pPostProcessing = pPostProcessing; }
+    // The portal and visibility debug view (console `portals`; IndoorRendererPortalDebug.cpp). Off by default.
+    void setPortalDebugSettings(const IndoorPortalDebugSettings &settings);
+    const IndoorPortalDebugSettings &portalDebugSettings() const { return m_portalDebug; }
+    // The last drawn frame's counts and timings, valid while the view is on.
+    const IndoorPortalDebugStats &portalDebugStats() const { return m_portalDebugStats; }
+    // One line per sector of the map: faces, drawn faces, portal faces and links, open to the sky, bounds.
+    std::vector<std::string> portalDebugSectorSummary() const;
     void shutdown();
 
 private:
@@ -182,6 +209,15 @@ private:
     void setBillboardFog();
     // The face and blood splat fog uniforms, for the fog programs.
     void setFaceFog();
+    // This frame's daylight (scene daylight, devdocs/INDOOR_OPEN_SKY.md) and fog (its night state), by the game time.
+    void updateFrameDaylightAndFog();
+    // Multiplies the frame by the tint of the water the party's eye is in (scene water volumes); nothing out of it.
+    void renderWaterTint(uint16_t viewId);
+    // The daylight's room light for the models and sprites of the sectors open to the sky.
+    void applyDaylightToLightingFrame(IndoorLightingFrame &lightingFrame) const;
+    // The face programs' daylight uniform: this frame's daylight for a face open to the sky, zero for every other.
+    void setFaceDaylight(bool daylit);
+    void applyDaylightSun(Engine::ModelRenderLighting &lighting, float exposure) const;
     struct TerrainVertex
     {
         float x;
@@ -213,6 +249,10 @@ private:
         // The face's texture gradients per world unit (surface materials; SurfaceTextureGradients.h).
         std::array<float, 3> gradientU = {};
         std::array<float, 3> gradientV = {};
+        // The face's sector and back sector (-1: none), which the dynamic lights' portal reach tests, and 1 when it
+        // takes the scene daylight (TexturedBatch::daylit); one attribute with sectors.
+        std::array<float, 2> sectors = {-1.0f, -1.0f};
+        float daylight = 0.0f;
 
         static void init();
         static bgfx::VertexLayout ms_layout;
@@ -275,13 +315,51 @@ private:
         std::vector<TexturedFaceTriangle> triangles;
     };
 
+    // One sector's faces of one texture (and back sector, lightmap page, liquid): the unit of visibility, lighting
+    // refresh and mover updates. Its vertices are a range of its draw group's buffer (IndoorFaceDrawGroups.h).
     struct TexturedBatch
     {
-        bgfx::DynamicVertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
-        bgfx::IndexBufferHandle indexBufferHandle = BGFX_INVALID_HANDLE;
         std::string textureName;
         int16_t sectorId = -1;
         int16_t backSectorId = -1;
+        uint32_t drawGroup = 0;
+        // Where its vertices start in the group's vertex buffer.
+        uint32_t groupVertexOffset = 0;
+        uint32_t vertexCount = 0;
+        uint32_t indexCount = 0;
+        bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
+        bool hasBounds = false;
+        uint32_t waterColorAbgr = 0;
+        LiquidKind liquid = LiquidKind::None;
+        // Its faces take the scene daylight: vertex-lit faces of a sector open to the sky (a lightmap has it).
+        bool daylit = false;
+        // A batch of lightmapped faces (devdocs/INDOOR_BAKED_LIGHTING.md): its page of the map's baked lighting and
+        // each vertex's coordinate on it (its group's second vertex stream, kept only while building); -1 for
+        // vertex-lit faces.
+        int32_t lightmapPage = -1;
+        std::vector<std::array<float, 2>> lightmapUvs;
+        // A translucent face (IndoorMapData::translucentFaces, devdocs/INDOOR_TRANSLUCENT_FACES.md): one face per
+        // batch, drawn back to front after the opaque scene; its plane normal decides a single-sided face's side.
+        bool translucent = false;
+        IndoorFaceTranslucency translucency = {};
+        std::array<float, 3> faceNormal = {0.0f, 0.0f, 0.0f};
+        std::vector<TexturedVertex> vertices;
+        // Local to the batch's vertices; kept only for liquid batches (their water surfaces), the group has them all.
+        std::vector<uint32_t> indices;
+    };
+
+    // The batches with one draw state (IndoorFaceDrawGroups.h): the texture and its animation, lightmap page and
+    // liquid. Their vertices share one buffer and their indices one index buffer (m_faceDrawPlan's lists).
+    struct TexturedDrawGroup
+    {
+        IndoorFaceDrawGroupKey key;
+        bgfx::DynamicVertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
+        uint32_t vertexCapacity = 0;
+        uint32_t vertexCount = 0;
+        bgfx::IndexBufferHandle indexBufferHandle = BGFX_INVALID_HANDLE;
+        // The lightmap coordinates of a lightmapped group (a second vertex stream).
+        bgfx::VertexBufferHandle lightmapUvBufferHandle = BGFX_INVALID_HANDLE;
         std::vector<bgfx::TextureHandle> frameTextureHandles;
         std::vector<uint32_t> frameLengthTicks;
         uint32_t animationLengthTicks = 0;
@@ -291,26 +369,8 @@ private:
         bgfx::TextureHandle materialDetail = BGFX_INVALID_HANDLE;
         int textureWidth = 0;
         int textureHeight = 0;
-        uint32_t vertexCapacity = 0;
-        uint32_t vertexCount = 0;
-        uint32_t indexCount = 0;
-        bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
-        bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
-        bool hasBounds = false;
-        uint32_t waterColorAbgr = 0;
-        LiquidKind liquid = LiquidKind::None;
-        // A batch of lightmapped faces (devdocs/INDOOR_BAKED_LIGHTING.md): its page of the map's baked lighting and
-        // each vertex's coordinate on it (a second vertex stream); -1 and invalid for vertex-lit faces.
-        int32_t lightmapPage = -1;
-        bgfx::VertexBufferHandle lightmapUvBufferHandle = BGFX_INVALID_HANDLE;
-        std::vector<std::array<float, 2>> lightmapUvs;
-        // A translucent face (IndoorMapData::translucentFaces, devdocs/INDOOR_TRANSLUCENT_FACES.md): one face per
-        // batch, drawn back to front after the opaque scene; its plane normal decides a single-sided face's side.
-        bool translucent = false;
-        IndoorFaceTranslucency translucency = {};
-        std::array<float, 3> faceNormal = {0.0f, 0.0f, 0.0f};
-        std::vector<TexturedVertex> vertices;
-        std::vector<uint32_t> indices;
+        // Terrain faces (scene `terrain`): drawn from the blended ground materials, not the texture.
+        bool terrain = false;
     };
 
     struct IndoorTextureHandle
@@ -425,6 +485,31 @@ private:
         std::span<const IndoorLightReachList> sourceReach = {}
     );
     void destroyBakedLightingResources();
+    // Scene terrain: the material set, the terrain face mask, the smooth surface and the programs (a map without a
+    // `terrain` block keeps none); false with an error for a broken terrain, which draws its faces textured instead.
+    bool initializeTerrain(const Engine::AssetFileSystem &assets, const std::string &worldId,
+        const IndoorMapData &indoorMapData, std::string &error);
+    void destroyTerrainResources();
+    bool isTerrainFace(size_t faceIndex) const
+    {
+        return faceIndex < m_terrainFaceMask.size() && m_terrainFaceMask[faceIndex] != 0;
+    }
+    bool isSingleMaterialTerrainFace(size_t faceIndex) const
+    {
+        return faceIndex < m_terrainFaceMask.size() && m_terrainFaceMask[faceIndex] == SingleMaterialTerrainFace;
+    }
+    // Marks the terrain faces whose pixels can read one ground layer only (the outdoor mesh's single-material test,
+    // OutdoorTerrainMaterials::createMesh): no other layer has weight in the weight texels they reach, with two more
+    // for the coarser mips, and the slope layer cannot blend in. Needs the material set's weight bits.
+    void markSingleMaterialTerrainFaces(const IndoorMapData &indoorMapData, const OutdoorTerrainMaterialConfig &config);
+    // A terrain face's vertices take the smooth ground normal (gradientU, the INDOOR_TERRAIN programs' a_tangent) and
+    // the slope layer's steepness with the meadow value (u, v).
+    void applyTerrainVertices(size_t faceIndex, std::vector<TexturedVertex> &vertices) const;
+    // Grass over the terrain (scene `terrain: {grass}`): scattered on first use from the terrain faces and the grass
+    // layers' density, drawn into viewId with the open sky's daylight and haze (settings: terrain decorations).
+    void ensureTerrainGrass();
+    void renderTerrainGrass(uint16_t viewId, const bx::Vec3 &eye, const bx::Vec3 &forward,
+        const float *pProjectionMatrix, float aspect);
     static TexturedVertex interpolateTexturedVertex(const TexturedVertex &first, const TexturedVertex &second);
     // The vertex's baked light: the receiving room's ambient plus its static lights.
     static void refreshBakedStaticLight(
@@ -570,12 +655,33 @@ private:
     // Adds a texture an event swaps onto faces (evt.SetTexture) to the texture set when no face of the map uses it.
     void ensureIndoorSwapTexture(const std::string &textureName);
     bool rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds);
+    // A new draw group's texture state; it takes over the vertex buffer of previousGroups' group with the same key.
+    TexturedDrawGroup createTexturedDrawGroup(const IndoorFaceDrawGroupKey &key, const std::string &textureName,
+        std::vector<TexturedDrawGroup> &previousGroups);
+    static void destroyTexturedDrawGroups(std::vector<TexturedDrawGroup> &groups);
+    // The draw order between batches whose faces touch (IndoorFaceDrawPlan::addConflict): all faces after a
+    // rebuild, the moved faces of a mover (their new positions add pairs; none are removed until the next rebuild).
+    void addFaceDrawConflicts(std::span<const size_t> faceIndices);
     bool updateWaterGeometry();
-    // pLightGrid: the main view's grid for the batch's dynamic lights; without it the batch takes `lights`.
-    bool submitTexturedBatch(const TexturedBatch &batch, uint16_t viewId, const IndoorDrawLightSet &lights,
+    // One draw of a group's faces: draw.indexCount indices from draw.firstIndex of the group's index buffer, or of
+    // the main view's merged list (draw.merged). pTranslucentBatch: the translucent face drawn (its tint and opacity).
+    // pLightGrid: the main view's grid for the faces' dynamic lights; without it they take `lights`.
+    bool submitTexturedFaces(const TexturedDrawGroup &group, const IndoorFaceGroupDraw &draw,
+        const TexturedBatch *pTranslucentBatch, uint16_t viewId, const IndoorDrawLightSet &lights,
         const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw, float pitch, int width,
         int height, bool secretFacesDetected, const std::array<float, 4> &clipPlane, float projectionScale = 1.0f);
+    // One batch's own draw (water reflections, translucent faces).
+    bool submitTexturedBatch(size_t batchIndex, uint16_t viewId, const IndoorDrawLightSet &lights,
+        const Engine::LightGridTextures *pLightGrid, const bx::Vec3 &eye, float yaw, float pitch, int width,
+        int height, bool secretFacesDetected, const std::array<float, 4> &clipPlane, float projectionScale = 1.0f);
+    // The main view's opaque face draws: the drawn batches merged per group (m_faceDrawPlan); returns the draws.
+    size_t submitMainViewFaces(const std::vector<uint8_t> &drawnBatches, int width, int height,
+        bool secretFacesDetected);
     // The visible translucent batches, back to front, blended over the finished opaque scene.
+    // The open sky (m_openSky) behind the opaque scene, at the game's time of day.
+    void renderOpenSky(uint16_t viewId, const float *pViewMatrix, const float *pProjectionMatrix);
+    // The scene's sky-fog uniform (flat fog, or the outdoor view's sky haze), again after a sky pass set its own.
+    void applySceneSkyFog();
     void renderTranslucentFaces(uint16_t viewId, const bx::Vec3 &eye, const std::vector<uint8_t> &visibleSectorMask,
         int width, int height, bool secretFacesDetected);
     void renderWaterReflections(const bx::Vec3 &forward,
@@ -594,6 +700,9 @@ private:
         uint64_t &uploadNanoseconds,
         size_t *pUpdatedFaceCount = nullptr,
         size_t *pDirtyBatchCount = nullptr);
+    // The faces whose attributes alone changed since the batches were built, updated in place (a hidden face's vertices
+    // collapse to a point); false when they need a full rebuild.
+    bool updateFaceAttributeChanges();
     bool updateMechanismFaceVertices(
         const std::vector<size_t> &faceIndices,
         uint64_t &texturedBuildNanoseconds,
@@ -692,6 +801,17 @@ private:
     struct PortalVisibilityCache
     {
         bool valid = false;
+        // The build's traversal counts and time (the time only while the portal debug view is on).
+        uint32_t portalCandidateCount = 0;
+        uint32_t acceptedPortalCount = 0;
+        uint32_t directionRejectedPortalCount = 0;
+        uint32_t clippedPortalRejectedCount = 0;
+        uint32_t rejectedPortalCount = 0;
+        uint64_t buildNanoseconds = 0;
+        bool rebuilt = false;
+        // Kept only while the portal debug view is on: the traversed portals and each node's sector.
+        std::vector<IndoorAcceptedPortalVisibility> acceptedPortals;
+        std::vector<int16_t> nodeSectorIds;
         int16_t sectorId = -1;
         float cameraX = 0.0f;
         float cameraY = 0.0f;
@@ -700,6 +820,7 @@ private:
         float pitchRadians = 0.0f;
         float aspectRatio = 1.0f;
         int viewportHeight = 0;
+        float maxDistance = 0.0f;
         std::vector<uint8_t> visibleSectorMask;
         std::vector<std::vector<IndoorVisibilityFrustum>> visibleSectorFrustums;
         std::vector<int16_t> mapRevealSectorIds;
@@ -713,6 +834,8 @@ private:
             visibleSectorFrustums.clear();
             mapRevealSectorIds.clear();
             portalTraces.clear();
+            acceptedPortals.clear();
+            nodeSectorIds.clear();
         }
     };
     void clearPortalVisibilityCaches() const;
@@ -728,6 +851,7 @@ private:
 
     bool m_isInitialized;
     bool m_isRenderable;
+    bool m_worldTimeHeld = false;
     std::optional<MapStatsEntry> m_map;
     std::optional<MonsterTable> m_monsterTable;
     std::optional<ObjectTable> m_objectTable;
@@ -773,6 +897,30 @@ private:
     bgfx::UniformHandle m_surfaceDetailSamplerHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_surfaceMaterialUniformHandle = BGFX_INVALID_HANDLE;
     bool m_surfaceMaterialsEnabled = false;
+    // Scene terrain (IndoorMapData::terrain, devdocs/INDOOR_OPEN_SKY.md "Terrain"): its blended ground materials,
+    // smooth surface and programs, and per face of the map nonzero for a terrain face; empty for every other map.
+    TerrainMaterialSet m_terrainMaterials;
+    IndoorTerrainSurface m_terrainSurface;
+    // 1 for a terrain face, SingleMaterialTerrainFace for one drawn with the single-material programs.
+    static constexpr uint8_t SingleMaterialTerrainFace = 2;
+    std::vector<uint8_t> m_terrainFaceMask;
+    bgfx::ProgramHandle m_indoorTerrainProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_indoorTerrainFogProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_indoorTerrainSingleProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_indoorTerrainSingleFogProgramHandle = BGFX_INVALID_HANDLE;
+    // The terrain's grass: its decoration file, the grass layers' density per weight texel (rows from the map's
+    // north-west corner, as the weights) and the tufts, built on first use.
+    std::string m_grassConfigPath;
+    std::vector<uint8_t> m_grassDensity;
+    int m_grassDensitySize = 0;
+    TerrainDecorationRenderer m_terrainGrass;
+    bool m_terrainGrassAttempted = false;
+    bool m_terrainGrassReady = false;
+    bgfx::UniformHandle m_grassSunlightUniform = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_grassFxLightParamsUniform = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_grassCameraPositionUniform = BGFX_INVALID_HANDLE;
+    std::vector<TerrainDecorationPatch> m_terrainGrassDraws;
+    bool m_terrainAntiTiling = true;
     bool m_surfaceParallaxEnabled = false;
     bool m_surfaceReflectionsEnabled = false;
     SurfaceReflectionBinding m_surfaceReflectionBinding;
@@ -786,14 +934,48 @@ private:
     // Translucent faces (IndoorMapData::translucentFaces): their programs (vertex-lit and baked) and the tint/opacity
     // uniform, created only for a map that has such faces.
     bgfx::ProgramHandle m_indoorTranslucentProgramHandle = BGFX_INVALID_HANDLE;
+    // The screen tint under water (vs_screen_color/fs_cubes), only on a map with water volumes.
+    bgfx::ProgramHandle m_waterTintProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::ProgramHandle m_indoorBakedTranslucentProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_indoorTranslucencyUniformHandle = BGFX_INVALID_HANDLE;
     // Scene fog (IndoorMapData::fog, devdocs/INDOOR_FOG.md) and, only for a map that has it, the fog variants of the
     // face programs: vertex-lit plain, materials, translucent, then baked plain, materials, translucent.
     IndoorFog m_fog;
+    // The fog drawn this frame: m_fog, or its mix into the night state by the sky's night (updateFrameDaylightAndFog).
+    IndoorFog m_frameFog;
+    // The face programs' fog mode and the light's fog colour (MM9's fog), created only for a map with fog.
+    bgfx::UniformHandle m_indoorFogModeUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_indoorFogLightUniformHandle = BGFX_INVALID_HANDLE;
+    // Scene daylight (IndoorMapData::daylight, devdocs/INDOOR_OPEN_SKY.md "Daylight") and its value this frame; the
+    // face programs' u_indoorDaylight, zero on every face without it.
+    IndoorDaylight m_daylight;
+    IndoorDaylightLight m_frameDaylight;
+    bgfx::UniformHandle m_indoorDaylightUniformHandle = BGFX_INVALID_HANDLE;
     std::array<bgfx::ProgramHandle, 6> m_indoorFogProgramHandles = {{
         BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE,
         BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE}};
+    // Scene model lighting (IndoorMapData::modelLighting, devdocs/INDOOR_MODEL_LIGHTING.md): MM9's lighting of
+    // decorations and actors; disabled, they keep the room ambient and BLV light.
+    IndoorModelLighting m_modelLighting;
+    // Scene open sky (IndoorMapData::openSky, devdocs/INDOOR_OPEN_SKY.md): the map's sky faces are not drawn and the
+    // Enhanced outdoor sky shows behind the scene where they are; unused (never initialized) by every other map.
+    IndoorOpenSky m_openSky;
+    SkyRenderer m_skyRenderer;
+    // Weather over the open sky (IndoorOpenSkyWeather), drawn while the camera is in a sector open to the sky
+    // (one holding sky faces, m_openSkySectors); m_pWeatherAudio: its sounds' audio system.
+    IndoorOpenSkyWeather m_openSkyWeather;
+    GameAudioSystem *m_pWeatherAudio = nullptr;
+    std::vector<uint8_t> m_openSkySectors;
+    // The outdoor view (m_openSky.outdoorView, devdocs/INDOOR_OPEN_SKY.md "Outdoor view"): this frame's view distance
+    // (0 without it) and the sky's fog uniform the faces, models and billboards fade into (last frame's sky).
+    float m_outdoorViewDistance = 0.0f;
+    // The indoor hole view ([debug] indoor_hole_view, tools/indoor_hole_sweep.py) has replaced the open sky and fog.
+    bool m_holeViewApplied = false;
+    SkyFogUniformValues m_outdoorSkyFog = {};
+    // The far plane: the outdoor view distance, else the indoor 50 000.
+    float cameraFarClipDistance() const;
+    bool m_skyRendererInitializeAttempted = false;
+    float m_lastSkyStateElapsedTime = -1.0f;
     bgfx::ProgramHandle m_billboardProgramHandle;
     bgfx::VertexBufferHandle m_bloodSplatVertexBufferHandle;
     bgfx::TextureHandle m_bloodSplatTextureHandle;
@@ -828,6 +1010,24 @@ private:
     uint32_t m_bloodSplatVertexCount = 0;
     uint64_t m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
     std::vector<TexturedBatch> m_texturedBatches;
+    std::vector<TexturedDrawGroup> m_texturedDrawGroups;
+    // The groups' index lists and the main view's draws; the merged list's buffer (re-uploaded when the drawn
+    // batches change).
+    IndoorFaceDrawPlan m_faceDrawPlan;
+    bgfx::DynamicIndexBufferHandle m_mergedFaceIndexBufferHandle = BGFX_INVALID_HANDLE;
+    // This frame's flag per batch: drawn in the main view's opaque faces.
+    std::vector<uint8_t> m_mainViewDrawnBatches;
+    // Each drawn opaque face's bounds and polygon at its current pose (invalid when not one) and a plan grid of
+    // them, for the faces that can meet at one depth.
+    struct FaceDrawBounds
+    {
+        bx::Vec3 min = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 max = {0.0f, 0.0f, 0.0f};
+        IndoorFaceShape shape;
+        bool valid = false;
+    };
+    std::vector<FaceDrawBounds> m_faceDrawBounds;
+    std::unordered_map<uint64_t, std::vector<uint32_t>> m_faceDrawGrid;
     WaterRenderer m_waterRenderer;
     bool m_waterGeometryDirty = true;
     bool m_waterResourcesInitialized = false;
@@ -841,6 +1041,12 @@ private:
     std::unordered_set<BillboardTextureLookupKey, BillboardTextureLookupKeyHash>
         m_runtimeBillboardLoadWarningKeys;
     uint64_t m_texturedBatchGeometryRevision = std::numeric_limits<uint64_t>::max();
+    // The face attributes and the map and event surface revisions the textured batches were built with. A change of the
+    // map's revision alone (face bits set by the world: a destructible's faces hidden) updates the changed faces in
+    // place (updateFaceAttributeChanges); an event's surface change (evt.SetFacetBit, evt.SetTexture) rebuilds.
+    std::vector<uint32_t> m_builtFaceAttributes;
+    uint64_t m_builtMapSurfaceRevision = 0;
+    uint64_t m_builtEventSurfaceRevision = 0;
     uint64_t m_bakedStaticLightRevision = std::numeric_limits<uint64_t>::max();
     std::vector<uint8_t> m_bakedStaticLightEnabledStates;
     // Every sector's ambient level the vertices were baked with (evt.SetSectorAmbient changes it).
@@ -851,6 +1057,8 @@ private:
     bool m_bakedStaticColoredLights = true;
     std::unordered_map<uint64_t, BillboardLightingCacheEntry> m_billboardLightingCache;
     std::vector<ModelSectorCacheEntry> m_modelSectorCache;
+    // Face geometry for the models' sector lookups, kept between frames (only its entry states are reset each frame).
+    IndoorFaceGeometryCache m_modelSectorGeometryCache;
     WorldFxRenderResources m_worldFxRenderResources;
     EffectRenderer m_effectRenderer;
     ShieldDomeRenderer m_shieldDomeRenderer;
@@ -872,6 +1080,7 @@ private:
     float m_cameraPositionZ;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
+    GameplayTalkCamera m_talkCamera;
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
@@ -899,5 +1108,20 @@ private:
     uint64_t m_lastInspectUpdateTick = 0;
     mutable uint32_t m_lastVisibilityDiagnosticsLogTick = 0;
     GameplayWorldPickRequest m_cachedGameplayWorldPickRequest = {};
+
+    // The portal debug view (IndoorRendererPortalDebug.cpp).
+    // The view a pass draws into: its own debug pass view while `portals gpu` is on, else normalView.
+    uint16_t portalDebugPassView(IndoorDebugPass pass, uint16_t normalView) const;
+    void preparePortalDebugPassViews(int width, int height, const float *pViewMatrix, const float *pProjectionMatrix);
+    void collectPortalDebugStats(const std::vector<uint8_t> &visibleSectorMask, const float *pViewMatrix,
+        const float *pProjectionMatrix, const bx::Vec3 &eye);
+    void renderPortalDebugOverlay(uint16_t viewId, const std::vector<uint8_t> &visibleSectorMask);
+    IndoorPortalDebugSettings m_portalDebug;
+    IndoorPortalDebugStats m_portalDebugStats;
+    bool m_portalDebugPassViewsBound = false;
+    // Each textured batch's faces (from m_faceBatchIndices), rebuilt with the batches.
+    std::vector<std::vector<uint32_t>> m_portalDebugBatchFaces;
+    uint64_t m_portalDebugBatchFacesRevision = std::numeric_limits<uint64_t>::max();
+    size_t m_portalDebugBatchFacesBatchCount = 0;
 };
 }

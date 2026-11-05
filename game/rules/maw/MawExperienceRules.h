@@ -58,11 +58,10 @@ private:
 
 // What a kill gives one member (zzzMaw_Experience.lua, zzMaw-Monsters.lua:2090-2101): the share `experience` times the
 // monster's HP over the HP of a monster of the member's level (their experience level, at most the party's total
-// level), at most (level + 1) x 1000. `banked` is the share before that cap.
+// level), at most (level + 1) x 1000. The bolster bank takes the same capped award (MAW 21e29d54).
 struct MawMemberKillExperience
 {
     double award = 0;
-    double banked = 0;
 };
 
 MawMemberKillExperience mawMemberKillExperience(

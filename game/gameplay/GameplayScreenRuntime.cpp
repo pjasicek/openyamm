@@ -709,7 +709,8 @@ bool GameplayScreenRuntime::mobileFlightControlsAvailable() const
     const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     const Party *pParty = pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
 
-    if (pWorldRuntime != nullptr && pWorldRuntime->partyClimbingLadder())
+    // On a ladder, or swimming in deep water (devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md "Controls").
+    if (pWorldRuntime != nullptr && (pWorldRuntime->partyClimbingLadder() || pWorldRuntime->partySwimming()))
     {
         return true;
     }
@@ -1075,6 +1076,11 @@ GameplayUiController::InventoryNestedOverlayState &GameplayScreenRuntime::invent
 GameplayUiController::HouseShopOverlayState &GameplayScreenRuntime::houseShopOverlay() const
 {
     return m_session.gameplayScreenState().houseShopOverlay();
+}
+
+GameplayUiController::TransportScheduleState &GameplayScreenRuntime::transportSchedule() const
+{
+    return uiController().transportSchedule();
 }
 
 GameplayUiController::HouseShopVisitState &GameplayScreenRuntime::houseShopVisit() const
@@ -1767,6 +1773,12 @@ void GameplayScreenRuntime::closeCharacterScreen()
 
 void GameplayScreenRuntime::handleDialogueCloseRequest()
 {
+    if (transportSchedule().active)
+    {
+        closeTransportSchedule();
+        return;
+    }
+
     if (houseBankState().inputActive())
     {
         returnToHouseBankMainDialogShared();
@@ -1859,6 +1871,11 @@ void GameplayScreenRuntime::handleDialogueCloseRequest()
         closeActiveEventDialog();
         interactionState().activateInspectLatch = true;
     }
+}
+
+void GameplayScreenRuntime::closeTransportSchedule()
+{
+    uiController().closeTransportSchedule();
 }
 
 void GameplayScreenRuntime::closeHouseShopOverlay()
@@ -2417,6 +2434,13 @@ void GameplayScreenRuntime::executeActiveDialogAction()
     sceneAdapter().executeActiveDialogAction();
 }
 
+void GameplayScreenRuntime::executeDialogAction(const EventDialogAction &action)
+{
+    m_dialogActionOverride = action;
+    sceneAdapter().executeActiveDialogAction();
+    m_dialogActionOverride.reset();
+}
+
 void GameplayScreenRuntime::executeActiveDialogAction(
     const ActiveDialogContextBuilder &contextBuilder,
     const ActiveDialogActionCallback &beforeCloseContinuation,
@@ -2437,6 +2461,7 @@ void GameplayScreenRuntime::executeActiveDialogAction(
     }
 
     GameplayDialogController::Context context = contextBuilder(*pEventRuntimeState);
+    context.actionOverride = m_dialogActionOverride;
     const GameplayDialogController::Result result =
         m_session.gameplayDialogController().executeActiveDialogAction(context);
 
@@ -2923,6 +2948,19 @@ void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId spee
         return;
     }
 
+    const uint32_t repeatIntervalMs =
+        m_pSettings != nullptr ? uint32_t(std::max(m_pSettings->repeatedVoiceLineIntervalMs, 0)) : 0;
+
+    if (isRepeatedSpeechReaction(
+            uiRuntime().portraitPresentationState(),
+            memberIndex,
+            speechId,
+            nowTicks,
+            repeatIntervalMs))
+    {
+        return;
+    }
+
     const SpeechReactionEntry *pReaction = m_pAudioSystem != nullptr ? m_pAudioSystem->findSpeechReaction(speechId) : nullptr;
     bool speechPlayed = false;
 
@@ -2944,6 +2982,13 @@ void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId spee
             presentationState.memberSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
             presentationState.memberCombatSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
         }
+
+        if (memberIndex >= presentationState.memberSpeechLastPlayedTicks.size())
+        {
+            presentationState.memberSpeechLastPlayedTicks.resize(memberIndex + 1);
+        }
+
+        presentationState.memberSpeechLastPlayedTicks[memberIndex][speechId] = nowTicks;
 
         if (!bypassSpeechCooldown(speechId))
         {
@@ -2977,6 +3022,12 @@ void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId spee
     {
         triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
     }
+}
+
+bool GameplayScreenRuntime::isMemberSpeechPlaying(size_t memberIndex, SpeechId speechId) const
+{
+    return m_pAudioSystem != nullptr
+        && m_pAudioSystem->isSpeechPlaying(speechSpeakerKey(memberIndex, speechId), speechId);
 }
 
 void GameplayScreenRuntime::playCantRestHereReaction()

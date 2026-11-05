@@ -660,15 +660,22 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
             request.spendMana = false;
             request.applyRecovery = true;
 
-            // The party's rules may hand the scroll back (MAW: a solo traveller's).
-            if (!runtime.tryCastSpellRequest(request, pSpellEntry->name)
-                || pParty->rules().spells.keepsScroll(*pParty, useResult.spellId))
+            if (!runtime.tryCastSpellRequest(request, pSpellEntry->name))
             {
                 return true;
             }
 
-            heldItem = {};
-            pParty->clearHeldItemForQueries();
+            // The party's rules may hand the scroll back (MAW: a solo traveller's): it goes back to the caster's bag,
+            // or stays in hand when the bag is full. The character screen closes below either way, so a click on the
+            // spell's destination map cannot reach the inventory under it (Sort, Drop).
+            Character *pCaster = pParty->member(memberIndex);
+
+            if (!pParty->rules().spells.keepsScroll(*pParty, useResult.spellId)
+                || (pCaster != nullptr && pCaster->addInventoryItem(heldItem.item)))
+            {
+                heldItem = {};
+                pParty->clearHeldItemForQueries();
+            }
         }
     }
     else if (useResult.action == InventoryItemUseAction::UseDimensionDoorScroll)
@@ -816,7 +823,6 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
 
 bool GameplayItemService::useQuickItemSlot(GameplayScreenRuntime &runtime, size_t memberIndex, size_t slot)
 {
-    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
     Party *pParty = runtime.party();
     Character *pMember = pParty != nullptr ? pParty->member(memberIndex) : nullptr;
 
@@ -834,7 +840,34 @@ bool GameplayItemService::useQuickItemSlot(GameplayScreenRuntime &runtime, size_
         return false;
     }
 
-    // The slot hands its item over as a held item; one the player holds already would be lost.
+    const int bagCount = std::max(1, pParty->rules().items.bagCount(*pParty));
+    // The owner's bags first, then the rest of the party's.
+    const std::optional<QuickItemSlots::PartyLocation> found =
+        QuickItemSlots::findPartyItem(*pParty, memberIndex, quickSlot, bagCount);
+
+    if (!found)
+    {
+        runtime.setStatusBarEvent("No " + pDefinition->name + " left");
+        return false;
+    }
+
+    return useCarriedItem(runtime, memberIndex, *found);
+}
+
+bool GameplayItemService::useCarriedItem(
+    GameplayScreenRuntime &runtime,
+    size_t memberIndex,
+    const QuickItemSlots::PartyLocation &location)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr || pParty->member(memberIndex) == nullptr)
+    {
+        return false;
+    }
+
+    // The item is handed over as a held item; one the player holds already would be lost.
     if (heldItem.active)
     {
         runtime.setStatusBarEvent("Put down the held item first");
@@ -842,20 +875,14 @@ bool GameplayItemService::useQuickItemSlot(GameplayScreenRuntime &runtime, size_
     }
 
     const int bagCount = std::max(1, pParty->rules().items.bagCount(*pParty));
-    // The owner's bags first, then the rest of the party's.
-    const std::optional<QuickItemSlots::PartyLocation> found =
-        QuickItemSlots::findPartyItem(*pParty, memberIndex, quickSlot, bagCount);
-    const std::optional<QuickItemSlots::Location> location =
-        found ? std::optional<QuickItemSlots::Location>(found->location) : std::nullopt;
-    const size_t carrierIndex = found ? found->memberIndex : memberIndex;
+    const size_t carrierIndex = location.memberIndex;
+    const QuickItemSlots::Location &cell = location.location;
     Character *pCarrier = pParty->member(carrierIndex);
     InventoryItem item;
 
-    if (!location || pCarrier == nullptr
-        || !InventoryBags::takeFromBag(*pParty, carrierIndex, location->bag, bagCount, location->gridX,
-            location->gridY, item))
+    if (pCarrier == nullptr
+        || !InventoryBags::takeFromBag(*pParty, carrierIndex, cell.bag, bagCount, cell.gridX, cell.gridY, item))
     {
-        runtime.setStatusBarEvent("No " + pDefinition->name + " left");
         return false;
     }
 
@@ -869,8 +896,8 @@ bool GameplayItemService::useQuickItemSlot(GameplayScreenRuntime &runtime, size_
     {
         std::optional<InventoryItem> replaced;
 
-        if (InventoryBags::placeInBag(*pParty, carrierIndex, location->bag, bagCount, heldItem.item, location->gridX,
-                location->gridY, replaced)
+        if (InventoryBags::placeInBag(*pParty, carrierIndex, cell.bag, bagCount, heldItem.item, cell.gridX,
+                cell.gridY, replaced)
             && !replaced)
         {
             heldItem = {};
@@ -1152,6 +1179,7 @@ bool GameplayItemService::openWorkbenchForHeldMaterial(GameplayScreenRuntime &ru
     bench.craftingTab = true;
     bench.crafting.target = target;
     bench.crafting.material = material;
+    bench.crafting.choice = 0;
     bench.crafting.searchActive = false;
     bench.crafting.clearResult();
     runtime.characterScreen().dollJewelryOverlayOpen = false;
@@ -1173,9 +1201,11 @@ bool GameplayItemService::applyCraft(GameplayScreenRuntime &runtime, bool all)
     CraftPlan applied;
     std::optional<InventoryItem> overflow;
     const bool done = CraftingRuntime::apply(*pParty, *bench.target, *bench.material,
-        all ? GameplayCraftingBenchView::MaxBatchApplications : 1, all && bench.cheapestGems, rules, *tables, applied,
-        overflow);
+        all ? GameplayCraftingBenchView::MaxBatchApplications : 1, all && bench.cheapestGems, bench.choice, rules,
+        *tables, applied, overflow);
     bench.confirmPending = false;
+    // The item changed, and so did what there is to pick.
+    bench.choice = 0;
 
     if (!done)
     {
@@ -1543,8 +1573,6 @@ void GameplayItemService::updateReadableScrollOverlayForHeldItem(
     const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
     Party *pParty = activeParty(m_session);
     const GameplayUiController::HeldInventoryItemState &heldItem = uiController.heldInventoryItem();
-    const ReadableScrollTable *pReadableScrollTable =
-        m_session.hasDataRepository() ? &m_session.data().readableScrollTable() : nullptr;
 
     if (!isLeftMousePressed
         || !heldItem.active
@@ -1556,25 +1584,41 @@ void GameplayItemService::updateReadableScrollOverlayForHeldItem(
         return;
     }
 
+    showReadableScroll(runtime, memberIndex, heldItem.item);
+}
+
+bool GameplayItemService::showReadableScroll(
+    GameplayScreenRuntime &runtime,
+    size_t memberIndex,
+    const InventoryItem &item)
+{
+    const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
+    Party *pParty = activeParty(m_session);
+
+    if (pItemTable == nullptr || pParty == nullptr)
+    {
+        return false;
+    }
+
     const InventoryItemUseAction useAction =
         InventoryItemUseRuntime::classifyItemUse(
-            heldItem.item,
+            item,
             *pItemTable,
             &m_session.data().mergedPotionSettingTable(),
             &m_session.data().mergedReagentSettingTable());
 
     if (useAction != InventoryItemUseAction::ReadMessageScroll)
     {
-        return;
+        return false;
     }
 
     const InventoryItemUseResult useResult =
         InventoryItemUseRuntime::useItemOnMember(
             *pParty,
             memberIndex,
-            heldItem.item,
+            item,
             *pItemTable,
-            pReadableScrollTable,
+            &m_session.data().readableScrollTable(),
             &m_session.data().mergedPotionSettingTable(),
             &m_session.data().mergedReagentSettingTable());
 
@@ -1582,13 +1626,16 @@ void GameplayItemService::updateReadableScrollOverlayForHeldItem(
         || useResult.action != InventoryItemUseAction::ReadMessageScroll
         || useResult.readableBody.empty())
     {
-        return;
+        return false;
     }
 
+    GameplayUiController::ReadableScrollOverlayState &overlay =
+        m_session.gameplayUiController().readableScrollOverlay();
     overlay.active = true;
     overlay.title = useResult.readableTitle;
     overlay.body = useResult.readableBody;
-    learnRecipeScroll(runtime, *pParty, memberIndex, heldItem.item.objectDescriptionId);
+    learnRecipeScroll(runtime, *pParty, memberIndex, item.objectDescriptionId);
+    return true;
 }
 
 bool GameplayItemService::identifyInspectedItem(

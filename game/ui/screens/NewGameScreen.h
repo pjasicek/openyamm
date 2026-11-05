@@ -4,7 +4,9 @@
 #include "game/content/RulesetDefinition.h"
 #include "game/data/GameDataRepository.h"
 #include "game/party/Party.h"
+#include "game/party/SpeechIds.h"
 #include "game/ui/MenuDesignScreen.h"
+#include "game/ui/screens/PartyCreationSheet.h"
 #include "game/ui/UiLayoutManager.h"
 
 #include <SDL3/SDL.h>
@@ -105,12 +107,81 @@ public:
         std::vector<std::string> optionalSkills;
         std::vector<std::string> selectedOptionalSkills;
         bool nameEditing = false;
+        // The player typed the name: a new portrait or Default keeps it.
+        bool nameTyped = false;
         std::string nameEditBuffer;
         std::string statusMessage;
     };
 
+    // The party creation sheet's popups (approach C2, level_generation/ui/party_creation_study_20261101).
+    enum class SheetPopup
+    {
+        None,
+        Portrait,
+        Voice,
+        Class,
+        MasteryTable,
+        PartyBoard,
+    };
+
+    // A right-button explanation (attributes, the class) drawn over the sheet.
+    struct CreationHelp
+    {
+        std::string title;
+        std::string body;
+        std::vector<std::pair<std::string, uint32_t>> lines;
+        Rect anchor;
+    };
+
     void drawScreen(float deltaSeconds) override;
     void drawContinentSelection(float deltaSeconds);
+    void drawCharacterCreation(float deltaSeconds);
+    void drawCreationHeader();
+    void drawCreationRoster(bool input);
+    void drawCreationIdentity(bool input);
+    void drawCreationAttributes(bool input);
+    void drawCreationRaceCard(bool input);
+    void drawCreationSkills(bool input, float deltaSeconds);
+    void drawCreationDoll(bool input);
+    // Returns false when Cancel left the screen.
+    bool drawCreationFooter(bool input);
+    void drawCreationSkillCard(size_t slotIndex, const std::string &skill, const Rect &anchor);
+    void drawCreationHelp();
+    void drawPortraitPicker();
+    void drawVoicePicker();
+    void drawClassPicker();
+    void drawMasteryTablePopup();
+    void drawPartyBoard();
+    // The veil and frame of a popup over the sheet (mockup pixels); returns false when its Close button or Escape
+    // closed it. The content area starts below the title row.
+    bool drawPopupFrame(const std::string &title, float x, float y, float width, float height);
+    // A class line's skill table for a race: rows the line learns, columns the class and its promotions; returns its
+    // height in mockup pixels.
+    float drawClassLineTable(float x, float y, float width, uint32_t raceId, const std::string &className,
+                             uint32_t startingClassId);
+    // Mockup pixels (1600x900) to screen pixels, and a mockup rect on screen.
+    float sheetPx(float browserPixels) const;
+    Rect sheetRect(float x, float y, float width, float height) const;
+    // Text in a screen rect at the mockup's CSS size; align -1 left, 0 centre, 1 right.
+    void sheetText(const Rect &rect, const std::string &text, const std::string &font, float cssPixels,
+                   uint32_t color, int align = -1);
+    float sheetTextWidth(const std::string &text, const std::string &font, float cssPixels);
+    void glyph(const std::string &name, const Rect &rect, uint32_t color);
+    void horizontalGradient(const Rect &rect, uint32_t left, uint32_t right);
+    void verticalGradient(const Rect &rect, uint32_t top, uint32_t bottom);
+    void playCreationVoiceLine(int voiceId, SpeechId speech);
+    // The voice's number as players see it: the lowest portrait whose own voice it is (portrait #N speaks with
+    // Voice N), or the voice id plus one for a voice no portrait owns.
+    int voiceDisplayNumber(int voiceId) const;
+    void openSheetPopup(SheetPopup popup);
+    void chooseCandidateForActiveSlot(size_t candidateIndex);
+    void removePartySlotAt(size_t slotIndex);
+    bool toggleOptionalSkillForSlot(size_t slotIndex, const std::string &skillName);
+    bool stateComplete(const CreationState &state) const;
+    size_t requiredSkillCount(const CreationState &state) const;
+    std::array<RaceStatLine, CreationStatCount> raceStatLinesForState(const CreationState &state) const;
+    CreationPartyMember creationPartyMember(const CreationState &state) const;
+    std::vector<CreationPartyMember> creationPartyMembers() const;
     void drawRulesetSwitch();
     void drawRulesPanel();
     // One rule setting: name and control on a line, description below; returns the y after it.
@@ -130,7 +201,6 @@ public:
     void saveActivePartyState();
     void switchActivePartySlot(size_t slotIndex);
     void addPartySlot();
-    void removePartySlot();
     void resetStateForCandidate(size_t candidateIndex);
     void rebuildCandidates();
     void refreshSkillChoices(bool applyCandidateDefaults);
@@ -164,9 +234,6 @@ public:
     bool isGodLichState(const CreationState &state) const;
     bool isGodLichSelected() const;
     std::array<int, static_cast<size_t>(StatId::Count)> statsForRace(const std::string &raceName) const;
-    void cycleCandidate(int direction);
-    void cycleClass(int direction);
-    void cycleVoice(int direction);
     void resetCurrentState(bool applyCandidateDefaults = false);
     void confirmCreation();
     void cancelCreation();
@@ -181,7 +248,6 @@ public:
     std::optional<TexturePixelsBgra> buildCreationPreviewDollPixels(
         const CharacterDollEntry &entry,
         const CharacterDollTypeEntry *pDollType);
-    void playVoicePreview();
 
     GameAudioSystem *m_pGameAudioSystem = nullptr;
     const GameDataRepository *m_pGameData = nullptr;
@@ -220,6 +286,25 @@ public:
     std::string m_creationPreviewDollCacheKey;
     std::optional<TexturePixelsBgra> m_creationPreviewDollPixels;
     bool m_characterCreationInitialized = false;
+    SheetPopup m_sheetPopup = SheetPopup::None;
+    float m_popupScroll = 0;
+    float m_popupContentHeight = 0;
+    // The class picker's mastery table scrolls on its own.
+    float m_tableScroll = 0;
+    // The race card scrolls when a race has more rules than fit; a new race starts at the top.
+    float m_raceCardScroll = 0;
+    uint32_t m_raceCardRaceId = 0;
+    float m_tableContentHeight = 0;
+    // The portrait grid's filter: 0 everyone, 1 men, 2 women.
+    int m_portraitFilter = 0;
+    uint32_t m_classPreviewId = 0;
+    // The skill under the pointer and for how long, for the skill card.
+    std::string m_hoverSkill;
+    size_t m_hoverSkillSlot = 0;
+    Rect m_hoverSkillAnchor;
+    float m_hoverSkillSeconds = 0;
+    float m_frameSeconds = 0;
+    CreationHelp m_help;
     bool m_escapePressed = false;
     bool m_returnPressed = false;
 };

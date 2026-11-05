@@ -3,3 +3,20 @@ name: MM6
 sourceGame: mm6
 start:
   map: oute3.odm
+# Monsters wider than 60 meet the level indoors, and plan their routes, at radius 60: the original engine let a body
+# through any doorway its centre fitted, and its dungeons have 128-wide passages (devdocs/ACTOR_PURSUIT_AND_REACH.md).
+actorMovement:
+  levelRadiusLimit: 60
+# The certificate the party receives the first time it finishes the story (WinGameScreen, CompletionCertificates.h):
+# the original game's certificate background with the OpenYAMM mark; layout in its 640 x 480 units.
+completion:
+  qbit: 784 # Enroth finished (hive_mmmerge.lua, the good ending)
+  continent: Enroth
+  art: 6winbg
+  headline: Congratulations!
+  text: >-
+    The Kreegan Hive lies in ruins and the demons who preyed on Enroth are broken. The kingdom of the Ironfists can
+    heal at last, and its people will long remember the heroes who walked into the heart of the Hive and returned.
+  layout:
+    text: [100, 80, 540, 410]
+    mark: [320, 422, 20]

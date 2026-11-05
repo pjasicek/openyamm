@@ -18,11 +18,11 @@ steps:
               - {name: Sword, level: 4, mastery: 1}
             equipment: {main_hand: 1}
   - ruleset_banks: {mm6: 0, completed_maps: [6d01.blv]}
-  # The Oracle's topic: the first tier's map (party level 100), kept until its rift is cleared.
+  # The Oracle's topic: the first tier's map (party level 80), kept until its rift is cleared.
   - execute_event: {id: 10040}
   - assert:
       inventory_any_member: [{item_id: 290, count: 1}]
-      ruleset: {id: maw, dimension_quest: {tier: 100, given: true, cleared: false, done: false}}
+      ruleset: {id: maw, dimension_quest: {tier: 80, given: true, cleared: false, done: false}}
   - execute_event: {id: 10040}
   - assert:
       inventory_any_member: [{item_id: 290, count: 1}]
@@ -41,11 +41,11 @@ steps:
   - assert:
       ruleset: {id: maw, dimension_run: {map: 6d01.blv, completed: true}}
   - assert:
-      ruleset: {id: maw, dimension_quest: {tier: 100, given: true, cleared: true}}
+      ruleset: {id: maw, dimension_quest: {tier: 80, given: true, cleared: true}}
       inventory_any_member: [{item_id: 290, count: 0}]
   - execute_event: {id: 10040}
   - assert:
-      ruleset: {id: maw, dimension_quest: {tier: 120, given: false, cleared: false, done: false}}
+      ruleset: {id: maw, dimension_quest: {tier: 110, given: false, cleared: false, done: false}}
   # With the quest done, a map of power 10 and two of four affixes active: the dungeon opens at monster level 120 and
   # up, and clearing it gives the next map.
   - ruleset_banks: {mm6: 0, completed_maps: [6d02.blv], dimension_quest_done: true}

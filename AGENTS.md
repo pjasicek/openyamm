@@ -69,6 +69,9 @@ These rules apply to all AI-generated contributions in this repository.
 - For per-world monster data add-ons: modifiers (`modifiers.yml`: true aim, never staggers, blink and the rest) are in
   [Monster modifiers](devdocs/MONSTER_MODIFIERS.md); energy shields and faction relations (`shields.yml`,
   `relations.yml`) are in [Energy shields and relations](devdocs/ENERGY_SHIELDS_AND_RELATIONS.md).
+- For completion certificates (a world's `world.yml` `completion` block with the original certificate art, the
+  OpenYAMM composite in `engine/ui/certificates.yml` and the automatic `certificates/` PNGs), start with
+  [Completion certificates](level_generation/ui/certificates_20261031/README.md).
 - A world's own decorations (rows in its declared `decorations` range, its decoration sprites and bindings) go in its
   world package, never into the engine's `decoration_data.txt`: see
   [World decoration contributions](devdocs/WORLD_DECORATION_CONTRIBUTIONS.md).
@@ -96,6 +99,10 @@ These rules apply to all AI-generated contributions in this repository.
 - For rotating movers (hinged doors, levers, pivot traps, hatches: a door's opt-in `mover` block in the scene) and
   climbable ladders in BLV maps (the scene's `ladders`), start with
   [Indoor rotating movers and ladders](devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).
+- For breakable walls, boards and props on BLV maps (scene `destructibles`, the `evt.DamageDestructible` family, MM9's
+  DestructableBrush/Prop conversion), start with [Indoor destructibles](devdocs/INDOOR_DESTRUCTIBLES.md).
+  Pulsing lights (MM9's GlowingLight, scene `pulsing_lights`): [Indoor pulsing lights](devdocs/INDOOR_PULSING_LIGHTS.md).
+  Placed ambient sounds (MM9's AmbientSound, scene `ambient_sounds`): [Ambient sounds](devdocs/AMBIENT_SOUNDS.md).
 
 ### Native Game Visual Checks
 
@@ -307,6 +314,15 @@ These rules apply to all AI-generated contributions in this repository.
   [runtime staging bundle](level_generation/ui/menu_study_20260928/runtime_stage/README.md).
   It preserves blank graphics, Fondamento/Arrus/Lucida fonts, layout YAML drafts and integration contracts.
   This is an approved design handoff; native menu activation remains separate work.
+- The party creation screen is the user-chosen **C2** layout (2026-11-01): a roster rail, an identity/attributes/race
+  strip, the learnable skills in three columns coloured by best mastery (grey Normal, white Expert, turquoise Master,
+  gold Grandmaster) and a full-height paperdoll, with portrait/voice/class pickers, a mastery table and a party board;
+  no skill planner. Start with the [party creation study](level_generation/ui/party_creation_study_20261101/README.md)
+  and its native implementation notes.
+- Potions and scrolls in play: the [basebar popups](level_generation/ui/potion_scroll_popups_20261102/README.md)
+  (2026-11-02): the frame's end ornaments carry carved sockets (socket v2), whose scroll (left) and potion (right)
+  buttons open paused lists of what the party carries. The per-portrait quick item rings of the earlier radial study
+  are a setting, off by default.
 
 ### Decoration And Effect Restoration
 
@@ -407,10 +423,14 @@ missing world hooks. Prefer fixing the shared path or the world hook over adding
   references only; import into normal world/mod architecture instead of reproducing MMerge's memory-hook runtime shape.
 - Keep restored merge-owned/global icons in `assets_dev/engine/icons_x2` and restored MM6–MM8 NPC portraits in
   `assets_dev/worlds/mm*/icons_x2`; keep lowercase filenames and 0644 permissions. `engine/icon_packages.txt`
-  declares the authoritative package tiers; MM9 retains its native `worlds/mm9/icons` scope. Original MM6–MM8
+  declares the authoritative package tiers; MM9's icons are x2 in `worlds/mm9/icons_x2` (installed by
+  `tools/mm9_import_discovery/install_mm9_item_art_x2.py` and `import_mm9_items.py`). Original MM6–MM8
   icons are archived outside runtime mounts under `assets_legacy/icons_20260926/`. Do not repopulate their retired
   `icons` folders. See `level_generation/ui/hud_inventory/runtime_install_20260926/README.md` for receipts and
   source mapping.
+- For the MM9 rework (rebuilding every MM9 map as native ODM/BLV with MM6–MM8 density, 3D creatures from the MM9
+  models, walk-in shops, Fleet Foot instead of Fly), start with [MM9 rework](devdocs/mm9_rework/README.md). It
+  holds the plan, the user's decisions and a triage of which `devdocs/mm9/` records are current, stale or superseded.
 - For Legends of Might and Magic content (LoMM maps rebuilt as standalone BLV dungeons, new monster candidates, the
   git-ignored `reference/legends_of_mm/` install), start with [LoMM content](devdocs/lomm/README.md).
 - Follow `MM9_RUDE_SCR_INTEGRATION.md` for MM9 RUDE, dialogue-linked SCR, item, promotion, skill, and service work.

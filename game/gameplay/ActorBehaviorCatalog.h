@@ -37,8 +37,10 @@ public:
     void addBehavior(const std::string &id, const std::string &sourcePath, const std::string &source);
     void setMonsterDefault(int16_t monsterId, const std::string &behaviorId);
     void setMonsterTactics(int16_t monsterId, const ActorTacticsFacts &tactics);
-    // The monster modifiers that are tactics (kites_party: the ranged band). False, with error, for a monster whose
-    // tactics already set a ranged band: one of the two must go.
+    // The monster modifiers that are tactics (kites_party: the ranged band; skirmisher: the skirmish footwork;
+    // reposition: a holder's moves to see its target and back-offs), and the
+    // MM9 AI profiles (mm9_ai). False, with error, for a monster whose tactics already set a ranged band: one of the
+    // two must go.
     bool applyMonsterModifiers(const MonsterModifierTable &modifiers, std::string &error);
 
     const std::string &worldId() const;
@@ -50,6 +52,9 @@ public:
     bool hasMonsterDefaults() const;
     const ActorTacticsFacts *tacticsForMonster(int16_t monsterId) const;
     bool hasTactics() const;
+    // The MM9 AI profile of a monster row (modifier mm9_ai), null for every other monster.
+    const Mm9AiProfile *mm9AiProfileForMonster(int16_t monsterId) const;
+    bool hasMm9AiProfiles() const;
 
 private:
     bool loadDocument(
@@ -64,5 +69,6 @@ private:
     std::unordered_map<std::string, ActorBehaviorDefinition> m_behaviors;
     std::unordered_map<int16_t, std::string> m_monsterDefaults;
     std::unordered_map<int16_t, ActorTacticsFacts> m_monsterTactics;
+    std::unordered_map<int16_t, Mm9AiProfile> m_monsterMm9AiProfiles;
 };
 }

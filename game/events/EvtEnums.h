@@ -185,12 +185,6 @@ enum class EvtVariable : uint16_t
 
 using EvtFaceAttribute = FaceAttribute;
 
-namespace PseudoHouseId
-{
-constexpr uint32_t ThroneroomWinGood = 600;
-constexpr uint32_t ThroneroomWinEvil = 601;
-}
-
 enum class EvtActorAttribute : uint32_t
 {
     Invisible = 0x00010000,

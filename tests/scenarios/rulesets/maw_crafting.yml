@@ -1,5 +1,5 @@
 id: rulesets.maw_crafting
-title: Ruleset - MAW crafting on the Workbench (gems, Hourglass, cubes, Mirror, merge, Endless Potion, worn items), kept by save and load
+title: Ruleset - MAW crafting on the Workbench (gems, Hourglass, Pearl, cubes, Mirror, merge, Endless Potion, worn items), kept by save and load
 world: mm6
 mode: faithful
 tags: [rulesets, maw, crafting]
@@ -30,12 +30,17 @@ steps:
   # Creator's Hourglass adds a second enchantment; Pandora's Cube refines the sword and refuses a ring.
   - grant_item: {item_id: 1062}
   - craft: {target_item_id: 1, material_item_id: 1062}
+  # The Pearl of Memory removes the enchantment picked (the second), then the Hourglass adds one again.
+  - grant_item: {item_id: 1066}
+  - craft: {target_item_id: 1, material_item_id: 1066, choice: 1}
+  - grant_item: {item_id: 1062}
+  - craft: {target_item_id: 1, material_item_id: 1062}
   - grant_item: {item_id: 1063, count: 2}
   - grant_item: {item_id: 137}
   - craft: {target_item_id: 137, material_item_id: 1063, expect: refused}
   - craft: {target_item_id: 1, material_item_id: 1063}
   - assert:
-      inventory_any_member: [{item_id: 1062, count: 0}, {item_id: 1063, count: 1}]
+      inventory_any_member: [{item_id: 1062, count: 0}, {item_id: 1063, count: 1}, {item_id: 1066, count: 0}]
   # Archibald's Mirror becomes a second carried sword (the worn one counts too).
   - grant_item: {item_id: 1064}
   - craft: {target_item_id: 1, material_item_id: 1064}

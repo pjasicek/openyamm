@@ -416,6 +416,7 @@ void appendAllPartyMemberIndices(const Party &party, std::vector<size_t> &indice
 // yet shrunk, nearest first, then those whose shrinking ends soonest (SP:1674-1703).
 void applySpellSplash(
     IGameplayWorldRuntime &worldRuntime,
+    const SpellRules &spellRules,
     const PartySpellCastRequest &request,
     const SpellSplash &splash,
     const bx::Vec3 &center,
@@ -445,7 +446,8 @@ void applySpellSplash(
             || !worldRuntime.actorRuntimeState(actorIndex, actor)
             || actor.isDead
             || actor.isInvisible
-            || !actor.hostileToParty)
+            || !actor.hostileToParty
+            || spellRules.ignoresCrowdControl(actor.rulesetFacts))
         {
             continue;
         }
@@ -809,7 +811,9 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::SoulDrinker:
             return makeBackendSpellRule(PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect);
         case SpellId::Glamour:
-            return makeBackendSpellRule(PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff);
+            // Party-wide (OpenYAMM, user 2026-11-04; MM8 and MAW target one member): the party's best merchant trades
+            // for everyone, so a single target only mattered when it was the wrong one.
+            return makeBackendSpellRule(PartySpellCastTargetKind::None, PartySpellCastEffectKind::CharacterBuff);
         case SpellId::TravelersBoon:
             return makeBackendSpellRule(PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff);
         case SpellId::Blind:
@@ -1736,7 +1740,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 NoValidTargetText);
         }
 
-        targetPoint = {request.targetX, request.targetY, request.targetZ};
+        targetPoint = resolveFallingSpellTargetPoint(
+            worldRuntime, request.spellId, {request.targetX, request.targetY, request.targetZ});
     }
     else if (rule->targetKind == PartySpellCastTargetKind::InventoryItem)
     {
@@ -1800,22 +1805,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
             if (request.utilityAction == PartySpellUtilityActionKind::None)
             {
-                if (!request.bypassTownPortalFailureChecks && skillMastery < SkillMastery::Grandmaster)
-                {
-                    static thread_local std::mt19937 rng(std::random_device{}());
-                    const int successChancePercent = std::clamp(static_cast<int>(skillLevel) * 10, 0, 100);
-                    std::uniform_int_distribution<int> distribution(1, 100);
-
-                    if (distribution(rng) > successChancePercent)
-                    {
-                        return makeFailureWithRecovery(
-                            PartySpellCastStatus::Failed,
-                            rule->targetKind,
-                            rule->effectKind,
-                            SpellFailedText);
-                    }
-                }
-
+                // No success roll (the original games' skill x 10 %, user 2026-11-04): only hostiles nearby stop it.
                 return makeFailure(
                     request.spellId,
                     PartySpellCastStatus::NeedUtilityUi,
@@ -2023,9 +2013,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
         }
         else if (spellId == SpellId::Glamour)
         {
-            if (request.targetCharacterIndex)
+            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
             {
-                applyBuffToMember(*request.targetCharacterIndex, CharacterBuffId::Glamour);
+                applyBuffToMember(memberIndex, CharacterBuffId::Glamour);
             }
         }
     }
@@ -2753,6 +2743,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             {
                 applySpellSplash(
                     worldRuntime,
+                    spellRules,
                     request,
                     splash,
                     targetPoint,
@@ -3162,6 +3153,36 @@ std::optional<int> PartySpellSystem::healAmount(
                                                       : std::nullopt;
 }
 
+// Meteor Shower and Starburst rain down on the point itself rather than flying towards it. The far point's height is
+// kept low, the party's feet or the far point, whichever is lower: the outdoor cast and the marker lift it to the
+// ground under it, so a far mountain top or a flying party does not burst it in the air.
+bx::Vec3 PartySpellSystem::resolveFallingSpellTargetPoint(
+    const IGameplayWorldRuntime &worldRuntime,
+    uint32_t spellId,
+    const bx::Vec3 &targetPoint)
+{
+    if (!isSpellId(spellId, SpellId::MeteorShower) && !isSpellId(spellId, SpellId::Starburst))
+    {
+        return targetPoint;
+    }
+
+    const float dx = targetPoint.x - worldRuntime.partyX();
+    const float dy = targetPoint.y - worldRuntime.partyY();
+    const float distance = std::sqrt(dx * dx + dy * dy);
+
+    if (distance <= FallingSpellTargetRange)
+    {
+        return targetPoint;
+    }
+
+    const float scale = FallingSpellTargetRange / distance;
+    return {
+        worldRuntime.partyX() + dx * scale,
+        worldRuntime.partyY() + dy * scale,
+        std::min(worldRuntime.partyFootZ(), targetPoint.z)
+    };
+}
+
 bool PartySpellSystem::isActorWithinSpellTargetRange(const IGameplayWorldRuntime &worldRuntime, size_t actorIndex)
 {
     GameplayRuntimeActorState actor = {};
@@ -3232,7 +3253,9 @@ std::optional<size_t> PartySpellSystem::quickCastActorTarget(
         const float dy = actor.preciseY - worldRuntime.partyY();
         const float dz = actor.preciseZ - worldRuntime.partyFootZ();
 
-        if (dx * dx + dy * dy + dz * dz > MaxDistance * MaxDistance)
+        // Not a monster no crowd control holds (MAW's Unstoppable bosses, castCCSpell).
+        if (dx * dx + dy * dy + dz * dz > MaxDistance * MaxDistance
+            || spellRules.ignoresCrowdControl(actor.rulesetFacts))
         {
             continue;
         }

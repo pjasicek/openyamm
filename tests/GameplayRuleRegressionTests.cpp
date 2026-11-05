@@ -31,10 +31,14 @@
 #include "game/maps/TerrainTileData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorFogProfile.h"
+#include "game/events/MechanismAudio.h"
+#include "game/maps/MechanismAudioYml.h"
 #include "game/outdoor/OutdoorMechanismRuntime.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/party/Party.h"
+#include "game/gameplay/GameplayProjectileService.h"
+#include "game/rules/ClassRules.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/JournalQuestTable.h"
@@ -58,6 +62,7 @@
 #include <optional>
 #include <random>
 #include <set>
+#include <span>
 #include <sstream>
 #include <utility>
 #include <vector>
@@ -1126,6 +1131,65 @@ TEST_CASE("outdoor mechanism pivot transform is shared by runtime points and BMo
     }
 }
 
+TEST_CASE("MM9 door sounds: a scene sounds block round-trips and a closing door creaks then shuts")
+{
+    using OpenYAMM::Game::EventRuntimeState;
+    using OpenYAMM::Game::EvtMechanismState;
+    using OpenYAMM::Game::MechanismAudioProfile;
+    using OpenYAMM::Game::RuntimeMechanismState;
+
+    MechanismAudioProfile profile = {};
+    std::string error;
+    REQUIRE(OpenYAMM::Game::parseMechanismAudioProfile(
+        YAML::Load("{position: {x: 1, y: 2, z: 3}, open_start: Door/door01open.wav, "
+                   "close_start: Door/door01creak.wav, close_stop: Door/door01close.wav}"),
+        profile,
+        error));
+    CHECK_EQ(profile.openStartSound, "Door/door01open.wav");
+    CHECK_EQ(profile.closeStartSound, "Door/door01creak.wav");
+    CHECK_EQ(profile.closeStopSound, "Door/door01close.wav");
+    CHECK(profile.positional);
+    CHECK_EQ(profile.z, 3);
+    CHECK_FALSE(OpenYAMM::Game::parseMechanismAudioProfile(YAML::Load("{open_start: [a]}"), profile, error));
+
+    YAML::Emitter emitter;
+    emitter << YAML::BeginMap << YAML::Key << "sounds" << YAML::Value;
+    OpenYAMM::Game::emitMechanismAudioProfile(emitter, profile);
+    emitter << YAML::EndMap;
+    MechanismAudioProfile reread = {};
+    REQUIRE(OpenYAMM::Game::parseMechanismAudioProfile(YAML::Load(emitter.c_str())["sounds"], reread, error));
+    CHECK_EQ(reread.closeStartSound, profile.closeStartSound);
+    CHECK_EQ(reread.closeStopSound, profile.closeStopSound);
+    CHECK_EQ(reread.x, 1);
+
+    OpenYAMM::Game::IndoorMapData map;
+    map.doorSounds = {{5, profile}};
+    CHECK(OpenYAMM::Game::findIndoorDoorSounds(map, 5) != nullptr);
+    CHECK(OpenYAMM::Game::findIndoorDoorSounds(map, 6) == nullptr);
+
+    EventRuntimeState runtimeState = {};
+    RuntimeMechanismState mechanism = {};
+    mechanism.state = static_cast<uint16_t>(EvtMechanismState::Closing);
+    mechanism.isMoving = true;
+    OpenYAMM::Game::queueMechanismMovementAudio(
+        runtimeState, 77, profile, static_cast<uint16_t>(EvtMechanismState::Open), false, mechanism);
+    REQUIRE_EQ(runtimeState.pendingSounds.size(), 2u);
+    CHECK_EQ(runtimeState.pendingSounds[1].soundName, "Door/door01creak.wav");
+    CHECK(runtimeState.pendingSounds[1].soundScope == OpenYAMM::Game::SoundScope::World);
+
+    // still closing: nothing new
+    runtimeState.pendingSounds.clear();
+    OpenYAMM::Game::queueMechanismMovementAudio(
+        runtimeState, 77, profile, static_cast<uint16_t>(EvtMechanismState::Closing), true, mechanism);
+    CHECK(runtimeState.pendingSounds.empty());
+
+    mechanism.state = static_cast<uint16_t>(EvtMechanismState::Closed);
+    mechanism.isMoving = false;
+    OpenYAMM::Game::queueMechanismCompletionAudio(runtimeState, 77, profile, mechanism);
+    REQUIRE_EQ(runtimeState.pendingSounds.size(), 2u);
+    CHECK_EQ(runtimeState.pendingSounds[1].soundName, "Door/door01close.wav");
+}
+
 TEST_CASE("MM9 outdoor mechanism audio follows movement phases")
 {
     using OpenYAMM::Game::EventRuntimeState;
@@ -1145,10 +1209,10 @@ TEST_CASE("MM9 outdoor mechanism audio follows movement phases")
     mechanism.state = static_cast<uint16_t>(EvtMechanismState::Opening);
     mechanism.isMoving = true;
 
-    OpenYAMM::Game::queueOutdoorMechanismMovementAudio(
+    OpenYAMM::Game::queueMechanismMovementAudio(
         runtimeState,
-        900123,
-        definition,
+        OpenYAMM::Game::outdoorMechanismAudioKey(900123),
+        definition.audio,
         static_cast<uint16_t>(EvtMechanismState::Closed),
         false,
         mechanism);
@@ -1165,10 +1229,10 @@ TEST_CASE("MM9 outdoor mechanism audio follows movement phases")
     runtimeState.pendingSounds.clear();
     mechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
     mechanism.isMoving = false;
-    OpenYAMM::Game::queueOutdoorMechanismCompletionAudio(
+    OpenYAMM::Game::queueMechanismCompletionAudio(
         runtimeState,
-        900123,
-        definition,
+        OpenYAMM::Game::outdoorMechanismAudioKey(900123),
+        definition.audio,
         mechanism);
 
     REQUIRE_EQ(runtimeState.pendingSounds.size(), 2u);
@@ -2595,7 +2659,12 @@ TEST_CASE("mm6 Temple of the Fist switch face uses scene-specific switch texture
         sceneLoader.loadFromText(loadSourceFileText("assets_dev/worlds/mm6/maps/6t2.scene.yml"), sceneError);
     REQUIRE_MESSAGE(scene.has_value(), sceneError.c_str());
     OpenYAMM::Game::IndoorSceneData mergedScene = *scene;
-    REQUIRE(mergedScene.initialState.faceAttributeOverrides.empty());
+    // The base scene marks a secret face (tools/secret_faces) but leaves the switch face to the overlay.
+    for (const OpenYAMM::Game::IndoorSceneFaceAttributeOverride &override :
+        mergedScene.initialState.faceAttributeOverrides)
+    {
+        REQUIRE_NE(override.faceIndex, 216);
+    }
 
     REQUIRE_MESSAGE(
         sceneLoader.applyOverlayFromText(
@@ -2738,6 +2807,54 @@ TEST_CASE("liquids scoped to a world override the shared ones there alone and sh
     CHECK(pBrine->wadeSpeed == 1.0f);
     CHECK_FALSE(bad.loadFromYaml("liquids:\n  - {id: x, kind: water, color: [1, 2, 3], applies_to: [face], "
         "wade_speed: 0.6, match: {texture_names: [x]}}\n", error));
+}
+
+TEST_CASE("liquid opacity defaults to opaque and makes see-through faces")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(initializeTestAssetFileSystem(assetFileSystem));
+    const std::optional<std::string> liquidYaml = assetFileSystem.readTextFile("engine/liquids/liquids.yml");
+    REQUIRE(liquidYaml.has_value());
+
+    // Without the key every liquid is opaque, and its faces keep their tint with a full alpha.
+    OpenYAMM::Game::LiquidTable shipped;
+    std::string error;
+    REQUIRE_MESSAGE(shipped.loadFromYaml(*liquidYaml, error), error);
+    for (const char *pTexture : {"6wtrtyl", "7wtrtyl", "wtrtyl", "7slimywtr", "swprrf2", "lavtyl", "tartyl"})
+    {
+        const OpenYAMM::Game::LiquidDefinition *pLiquid = shipped.findMatch(pTexture, 0, false);
+        REQUIRE(pLiquid != nullptr);
+        CHECK(pLiquid->opacity == 1.0f);
+        CHECK(OpenYAMM::Game::liquidFaceColorAbgr(*pLiquid) == pLiquid->colorAbgr);
+        CHECK((pLiquid->colorAbgr >> 24) == 0xffu);
+    }
+
+    OpenYAMM::Game::LiquidTable pools;
+    REQUIRE_MESSAGE(pools.loadFromYaml("liquids:\n  - {id: pool, kind: water, color: [10, 20, 30], "
+        "applies_to: [face], opacity: 0.4, match: {texture_names: [pool]}}\n"
+        "  - {id: full, kind: tar, color: [0, 0, 0], applies_to: [face], opacity: 1, match: {texture_names: [full]}}\n",
+        error), error);
+    const OpenYAMM::Game::LiquidDefinition *pPool = pools.findMatch("pool", 0, false);
+    REQUIRE(pPool != nullptr);
+    CHECK(pPool->opacity == doctest::Approx(0.4f));
+    CHECK(pPool->colorAbgr == 0xff1e140au);
+    CHECK(OpenYAMM::Game::liquidFaceColorAbgr(*pPool) == 0x661e140au);
+    const OpenYAMM::Game::LiquidDefinition *pFull = pools.findMatch("full", 0, false);
+    REQUIRE(pFull != nullptr);
+    CHECK(OpenYAMM::Game::liquidFaceColorAbgr(*pFull) == 0xff000000u);
+
+    // Opacity lies in (0, 1], is a number, and only water and tar faces may be see-through.
+    OpenYAMM::Game::LiquidTable bad;
+    for (const char *pEntry : {"{id: x, kind: water, color: [1, 2, 3], applies_to: [face], opacity: 0, "
+            "match: {texture_names: [x]}}",
+            "{id: x, kind: water, color: [1, 2, 3], applies_to: [face], opacity: 1.5, match: {texture_names: [x]}}",
+            "{id: x, kind: water, color: [1, 2, 3], applies_to: [face], opacity: clear, match: {texture_names: [x]}}",
+            "{id: x, kind: lava, color: [1, 2, 3], applies_to: [face], opacity: 0.5, match: {texture_names: [x]}}",
+            "{id: x, kind: water, color: [1, 2, 3], applies_to: [terrain, face], opacity: 0.5, "
+            "match: {texture_names: [x]}}"})
+    {
+        CHECK_FALSE(bad.loadFromYaml(std::string("liquids:\n  - ") + pEntry + "\n", error));
+    }
 }
 
 TEST_CASE("outdoor terrain descriptors use mm6 and mm7 merged tile tables")
@@ -3439,6 +3556,155 @@ TEST_CASE("monster non-Attack1 projectile does not apply special attack conditio
     const OpenYAMM::Game::Character *pMember = party.member(0);
     REQUIRE(pMember != nullptr);
     CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Paralyzed)));
+}
+
+TEST_CASE("monster spell_conditions leave each spell slot's condition on a spell hit")
+{
+    constexpr uint32_t ActorId = 81;
+    using OpenYAMM::Game::CharacterCondition;
+    using OpenYAMM::Game::GameplayActorAttackAbility;
+
+    const auto hit = [](GameplayActorAttackAbility ability, OpenYAMM::Game::SpellId spellId, int damage)
+    {
+        OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+        MonsterSpecialAttackTestWorldRuntime world = {};
+        world.actorInfo = OpenYAMM::Game::GameplayCombatActorInfo{
+            .actorId = ActorId,
+            .monsterLevel = 30,
+            .attackBonus = 1000,
+            .displayName = "Lich King",
+        };
+        world.actorInfo->spell1Condition = OpenYAMM::Game::MonsterSpecialAttackKind::Weak;
+        world.actorInfo->spell2Condition = OpenYAMM::Game::MonsterSpecialAttackKind::Curse;
+
+        OpenYAMM::Game::GameplayCombatController controller = {};
+        controller.recordPartyProjectileImpact(
+            ActorId,
+            damage,
+            0,
+            static_cast<int>(OpenYAMM::Game::spellIdValue(spellId)),
+            false,
+            OpenYAMM::Game::CombatDamageType::Dark,
+            ability);
+        OpenYAMM::Game::GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+        controller.handleAndClearPendingCombatEvents(context);
+        return party.member(0)->conditions;
+    };
+
+    const auto spell1 = hit(GameplayActorAttackAbility::Spell1, OpenYAMM::Game::SpellId::DarkGrasp, 10);
+    CHECK(spell1.test(static_cast<size_t>(CharacterCondition::Weak)));
+    CHECK_FALSE(spell1.test(static_cast<size_t>(CharacterCondition::Cursed)));
+
+    const auto spell2 = hit(GameplayActorAttackAbility::Spell2, OpenYAMM::Game::SpellId::DarkGrasp, 8);
+    CHECK(spell2.test(static_cast<size_t>(CharacterCondition::Cursed)));
+    CHECK_FALSE(spell2.test(static_cast<size_t>(CharacterCondition::Weak)));
+
+    // A melee blow or a missile is not a spell: no spell condition.
+    const auto missile = hit(GameplayActorAttackAbility::Attack1, OpenYAMM::Game::SpellId::None, 5);
+    CHECK_FALSE(missile.test(static_cast<size_t>(CharacterCondition::Weak)));
+    CHECK_FALSE(missile.test(static_cast<size_t>(CharacterCondition::Cursed)));
+}
+
+TEST_CASE("monster spell_conditions apply on a spell hit that deals no damage")
+{
+    constexpr uint32_t ActorId = 82;
+
+    for (const auto &[kind, condition] : {
+             std::pair {OpenYAMM::Game::MonsterSpecialAttackKind::Fear, OpenYAMM::Game::CharacterCondition::Fear},
+             std::pair {OpenYAMM::Game::MonsterSpecialAttackKind::Paralyze,
+                 OpenYAMM::Game::CharacterCondition::Paralyzed}})
+    {
+        OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+        party.setDebugDamageImmune(true);
+        MonsterSpecialAttackTestWorldRuntime world = {};
+        world.actorInfo = OpenYAMM::Game::GameplayCombatActorInfo{
+            .actorId = ActorId,
+            .monsterLevel = 35,
+            .attackBonus = 1000,
+            .displayName = "Fright",
+        };
+        world.actorInfo->spell1Condition = kind;
+
+        OpenYAMM::Game::GameplayCombatController controller = {};
+        controller.recordPartyProjectileImpact(
+            ActorId,
+            0,
+            0,
+            static_cast<int>(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Fear)),
+            false,
+            OpenYAMM::Game::CombatDamageType::Mind,
+            OpenYAMM::Game::GameplayActorAttackAbility::Spell1);
+        OpenYAMM::Game::GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+        controller.handleAndClearPendingCombatEvents(context);
+
+        const OpenYAMM::Game::Character *pMember = party.member(0);
+        REQUIRE(pMember != nullptr);
+        CHECK(pMember->conditions.test(static_cast<size_t>(condition)));
+        CHECK_EQ(pMember->health, 100);
+    }
+}
+
+TEST_CASE("monster spell hit without spell_conditions leaves no condition")
+{
+    constexpr uint32_t ActorId = 83;
+
+    OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+    MonsterSpecialAttackTestWorldRuntime world = {};
+    world.actorInfo = OpenYAMM::Game::GameplayCombatActorInfo{
+        .actorId = ActorId,
+        .monsterLevel = 100,
+        .attackBonus = 1000,
+        .specialAttackKind = OpenYAMM::Game::MonsterSpecialAttackKind::Paralyze,
+        .specialAttackLevel = 1,
+        .displayName = "Paralyzing Caster",
+    };
+
+    OpenYAMM::Game::GameplayCombatController controller = {};
+    controller.recordPartyProjectileImpact(
+        ActorId,
+        5,
+        0,
+        static_cast<int>(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::DarkGrasp)),
+        false,
+        OpenYAMM::Game::CombatDamageType::Dark,
+        OpenYAMM::Game::GameplayActorAttackAbility::Spell1);
+    OpenYAMM::Game::GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+    controller.handleAndClearPendingCombatEvents(context);
+
+    const OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    CHECK_LT(pMember->health, 100);
+    CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Paralyzed)));
+}
+
+TEST_CASE("monster spell_conditions chance 0 never leaves the condition")
+{
+    constexpr uint32_t ActorId = 84;
+
+    OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+    MonsterSpecialAttackTestWorldRuntime world = {};
+    world.actorInfo = OpenYAMM::Game::GameplayCombatActorInfo{
+        .actorId = ActorId,
+        .monsterLevel = 35,
+        .attackBonus = 1000,
+        .displayName = "Fright",
+    };
+    world.actorInfo->spell1Condition = OpenYAMM::Game::MonsterSpecialAttackKind::Fear;
+    world.actorInfo->spellConditionChance = 0.0f;
+
+    OpenYAMM::Game::GameplayCombatController controller = {};
+    controller.recordPartyProjectileImpact(
+        ActorId,
+        0,
+        0,
+        static_cast<int>(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Fear)),
+        false,
+        OpenYAMM::Game::CombatDamageType::Mind,
+        OpenYAMM::Game::GameplayActorAttackAbility::Spell1);
+    OpenYAMM::Game::GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+    controller.handleAndClearPendingCombatEvents(context);
+
+    CHECK_FALSE(party.member(0)->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Fear)));
 }
 
 TEST_CASE("Pain Reflection reflects monster melee damage from party member")
@@ -4370,11 +4636,16 @@ TEST_CASE("inventory mixing creates reagent potion when held bottle is used on r
     REQUIRE(result.handled);
     CHECK(result.success);
     CHECK(result.heldItemConsumed);
+    CHECK(result.targetItemRemoved);
 
-    const OpenYAMM::Game::InventoryItem *pMixedPotion = pMember->inventoryItemAt(0, 0);
-    REQUIRE(pMixedPotion != nullptr);
-    CHECK_EQ(pMixedPotion->objectDescriptionId, 222u);
-    CHECK_EQ(pMixedPotion->standardEnchantPower, 3u);
+    // The potion goes to the hand at a potion's size: the reagent's one-cell slot cannot hold it.
+    CHECK(pMember->inventoryItemAt(0, 0) == nullptr);
+    REQUIRE(result.heldItemReplacement.has_value());
+    const OpenYAMM::Game::InventoryItem &mixedPotion = *result.heldItemReplacement;
+    CHECK_EQ(mixedPotion.objectDescriptionId, 222u);
+    CHECK_EQ(mixedPotion.standardEnchantPower, 3u);
+    CHECK_EQ(mixedPotion.width, 1u);
+    CHECK_EQ(mixedPotion.height, 2u);
 }
 
 TEST_CASE("inventory mixing accepts merged reagent item ids")
@@ -7117,6 +7388,162 @@ TEST_CASE("level decoration script event id comes from legacy uEventID field")
 
     outdoorEntity.eventIdPrimary = 0;
     CHECK_EQ(outdoorEntity.spriteOverrideKey(7), 7u);
+}
+
+TEST_CASE("MM6 small barrels are stat barrels and old saves refill their cask states")
+{
+    using namespace OpenYAMM::Game;
+    DecorationTable decorationTable;
+    REQUIRE(decorationTable.loadRows(loadSourceTabSeparatedRows("assets_dev/engine/data_tables/decoration_data.txt")));
+
+    // The small barrel's hint reads "Keg", but MMerge lists it with the stat barrels (Icewind Keep, Discord).
+    DecorationEntry smallBarrel = {};
+    smallBarrel.internalName = "smlbarel";
+    smallBarrel.hint = "Keg";
+    const std::optional<InteractiveDecorationBindingSpec> spec =
+        resolveInteractiveDecorationBindingSpec(smallBarrel, "smlbarel");
+    REQUIRE(spec.has_value());
+    CHECK_EQ(spec->family, InteractiveDecorationFamily::Barrel);
+    CHECK_EQ(spec->baseEventId, 268u);
+
+    std::vector<IndoorEntity> entities(3);
+    entities[0].name = "smlbarel";
+    entities[1].name = "smlbarel";
+    entities[1].x = 300;
+    entities[2].name = "bigbarel";
+    entities[2].x = 600;
+
+    // A cask stored 1 until opened and 0 after; a big barrel's colour stays as it was.
+    EventRuntimeState state = {};
+    state.decorVars[0] = 1;
+    state.decorVars[1] = 0;
+    state.decorVars[2] = 4;
+    state.legacySmallBarrelDecorVars = true;
+    refillLegacySmallBarrels(state, std::span<const IndoorEntity>(entities), decorationTable);
+    CHECK_FALSE(state.legacySmallBarrelDecorVars);
+    CHECK_GE(state.decorVars[0], 1);
+    CHECK_LE(state.decorVars[0], 7);
+    CHECK_EQ(state.decorVars[1], 0);
+    CHECK_EQ(state.decorVars[2], 4);
+
+    // Only marked states change.
+    const std::array<uint8_t, 125> refilled = state.decorVars;
+    state.decorVars[0] = 1;
+    refillLegacySmallBarrels(state, std::span<const IndoorEntity>(entities), decorationTable);
+    CHECK_EQ(state.decorVars[0], 1);
+    CHECK_NE(refilled, std::array<uint8_t, 125>{});
+
+    GameSaveData data = {};
+    data.indoorSceneStates["6d15.blv"].eventRuntimeState = EventRuntimeState{};
+    markLegacySmallBarrelDecorVars(data, 144);
+    CHECK_FALSE(data.indoorSceneStates["6d15.blv"].eventRuntimeState->legacySmallBarrelDecorVars);
+    markLegacySmallBarrelDecorVars(data, 143);
+    CHECK(data.indoorSceneStates["6d15.blv"].eventRuntimeState->legacySmallBarrelDecorVars);
+}
+
+TEST_CASE("undead and vampires are immune by race or class, and old saves lose the mistaken Light and Dark")
+{
+    using namespace OpenYAMM::Game;
+    const ClassRules rules;
+    const auto immunities = [&rules](uint32_t raceId, const std::string &className)
+    {
+        Character member = {};
+        member.raceId = raceId;
+        member.className = className;
+        rules.applyClassBonuses(member);
+        return member.magicalImmunities;
+    };
+
+    CHECK(immunities(6, "Necromancer").mind);
+    CHECK(immunities(6, "Necromancer").body);
+    CHECK(immunities(0, "Lich").mind);
+    CHECK(immunities(0, "Lich").body);
+    CHECK(immunities(1, "Knight").mind);
+    CHECK_FALSE(immunities(1, "Knight").body);
+    CHECK(immunities(0, "Nosferatu").mind);
+    CHECK_FALSE(immunities(0, "Knight").mind);
+    CHECK_FALSE(immunities(0, "Knight").body);
+    CHECK_FALSE(immunities(6, "Lich").light);
+    CHECK_FALSE(immunities(6, "Lich").dark);
+
+    Character lich = {};
+    lich.permanentImmunities.light = true;
+    lich.permanentImmunities.dark = true;
+    lich.baseResistances.light = 65000;
+    lich.baseResistances.dark = 65000;
+    lich.baseResistances.fire = 20;
+    GameSaveData data = {};
+    data.party.members = {lich};
+    data.party.adventurersInnMembers.push_back({lich, 0});
+
+    migrateLegacyLichImmunities(data, 144);
+    CHECK(data.party.members[0].permanentImmunities.light);
+
+    migrateLegacyLichImmunities(data, 143);
+    for (const Character *pCharacter : {&data.party.members[0], &data.party.adventurersInnMembers[0].character})
+    {
+        CHECK_FALSE(pCharacter->permanentImmunities.light);
+        CHECK_FALSE(pCharacter->permanentImmunities.dark);
+        CHECK_EQ(pCharacter->baseResistances.light, 0);
+        CHECK_EQ(pCharacter->baseResistances.dark, 0);
+        CHECK_EQ(pCharacter->baseResistances.fire, 20);
+    }
+}
+
+TEST_CASE("regeneration never lifts the dead, and HP alone never clears Dead")
+{
+    using namespace OpenYAMM::Game;
+    PartySeed seed = {};
+    seed.members.resize(2);
+    Party party = {};
+    party.seed(seed);
+
+    Character *pDead = party.member(0);
+    Character *pUnconscious = party.member(1);
+    REQUIRE(pDead != nullptr);
+    REQUIRE(pUnconscious != nullptr);
+    pDead->maxHealth = 50;
+    pDead->health = -30;
+    pDead->conditions.set(static_cast<size_t>(CharacterCondition::Dead));
+    pDead->healthRegenPerSecond = 20.0f;
+    pUnconscious->maxHealth = 50;
+    pUnconscious->health = -2;
+    pUnconscious->endurance = 10;
+    pUnconscious->conditions.set(static_cast<size_t>(CharacterCondition::Unconscious));
+    pUnconscious->healthRegenPerSecond = 20.0f;
+
+    party.updateRecovery(3.0f);
+    CHECK_EQ(pDead->health, -30);
+    CHECK(pDead->conditions.test(static_cast<size_t>(CharacterCondition::Dead)));
+    CHECK_GT(pUnconscious->health, 0);
+
+    // A dead member's HP above zero (old saves, scripts) stays dead through a heal or a hit.
+    pDead->health = 10;
+    CHECK_FALSE(party.healMember(0, 5));
+    party.adjustMemberHealth(0, -1);
+    CHECK(pDead->conditions.test(static_cast<size_t>(CharacterCondition::Dead)));
+    CHECK_FALSE(pDead->conditions.test(static_cast<size_t>(CharacterCondition::Unconscious)));
+
+    REQUIRE(party.reviveMember(0, 1, false));
+    CHECK_FALSE(pDead->conditions.test(static_cast<size_t>(CharacterCondition::Dead)));
+}
+
+TEST_CASE("a party shot holds the turn-based queue for at most two seconds")
+{
+    using namespace OpenYAMM::Game;
+    GameplayProjectileService::ProjectileState projectile = {};
+    projectile.turnBasedPendingAction = true;
+    CHECK(GameplayProjectileService::holdsTurnBasedQueue(projectile));
+    projectile.timeSinceCreatedTicks = 255;
+    CHECK(GameplayProjectileService::holdsTurnBasedQueue(projectile));
+    projectile.timeSinceCreatedTicks = 256;
+    CHECK_FALSE(GameplayProjectileService::holdsTurnBasedQueue(projectile));
+    projectile.timeSinceCreatedTicks = 0;
+    projectile.isExpired = true;
+    CHECK_FALSE(GameplayProjectileService::holdsTurnBasedQueue(projectile));
+    projectile.isExpired = false;
+    projectile.turnBasedPendingAction = false;
+    CHECK_FALSE(GameplayProjectileService::holdsTurnBasedQueue(projectile));
 }
 
 TEST_CASE("fresh map barrel contents use random rolls for indoor and outdoor entities")
