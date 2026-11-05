@@ -26,7 +26,11 @@ set(OPENYAMM_FMT_VERSION "12.1.0")
 set(OPENYAMM_FFMPEG_VERSION "n8.0.1")
 set(OPENYAMM_YAML_CPP_VERSION "0.8.0")
 set(OPENYAMM_LUA_VERSION "5.4.8")
-set(OPENYAMM_LUA_URL "https://www.lua.org/ftp/lua-${OPENYAMM_LUA_VERSION}.tar.gz")
+# lua.org, then its official PUC-Rio mirror (the same tarball; FetchContent tries each URL in turn under the hash).
+set(OPENYAMM_LUA_URL
+    "https://www.lua.org/ftp/lua-${OPENYAMM_LUA_VERSION}.tar.gz"
+    "https://www.tecgraf.puc-rio.br/lua/ftp/lua-${OPENYAMM_LUA_VERSION}.tar.gz"
+)
 set(OPENYAMM_LUA_URL_HASH "SHA256=4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae")
 
 function(openyamm_populate_dependency dependencyName outputSourceDirVariable)
