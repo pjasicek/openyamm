@@ -5229,8 +5229,10 @@ void OutdoorWorldRuntime::initialize(
 
     if (outdoorMapData)
     {
+        // The map's travel edge holds monsters in as it does the party; MAW pulls strays back the same way (OY-176).
         m_outdoorMovementController.emplace(
             *outdoorMapData,
+            m_map.outdoorBounds.enabled ? std::optional<MapBounds>(m_map.outdoorBounds) : std::nullopt,
             outdoorLandMask,
             outdoorDecorationCollisionSet,
             outdoorActorCollisionSet,

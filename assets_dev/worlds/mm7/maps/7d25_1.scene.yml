@@ -1,0 +1,7 @@
+# Celeste's sky faces (7plansky1, IndoorSky) open to the Enhanced sky instead of the projected sky box, whose face seams
+# and ambient occlusion showed the box's edges (OY-339; devdocs/INDOOR_OPEN_SKY.md).
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "7d25.blv"
+sky: {mode: open, sky_texture: 7plansky1}

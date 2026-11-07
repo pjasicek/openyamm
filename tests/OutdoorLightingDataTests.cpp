@@ -386,6 +386,19 @@ TEST_CASE("outdoor lighting probes interpolate visible neighbors without light l
         CHECK(aboveFloor->sun[0] == doctest::Approx(1));
         CHECK(aboveFloor->sky[0] == doctest::Approx(0.35));
     }
+
+    SUBCASE("a probe baked inside a building does not darken a monster that sees it (OY-137)")
+    {
+        data.probes = {
+            {{0, 0, 128}, {0, 0, 0}, {0.001f, 0.001f, 0.001f}, {0, 0, 0}, 0.0f},
+            {{256, 0, 128}, {1, 1, 1}, {0.4f, 0.4f, 0.4f}, {0.1f, 0.1f, 0.1f}, 1.0f},
+        };
+        data.indexProbes();
+        const std::optional<OpenYAMM::Game::OutdoorLightingData::Probe> lit = data.sampleProbe({16, 0, 128}, visible);
+        REQUIRE(lit);
+        CHECK(lit->sky[0] == doctest::Approx(0.4));
+        CHECK(lit->sunVisibility == doctest::Approx(1.0));
+    }
 }
 
 TEST_CASE("outdoor lighting v4 validates measured direct and indirect model sunlight")

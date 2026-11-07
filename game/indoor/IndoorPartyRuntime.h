@@ -32,6 +32,8 @@ public:
     void initializePartyPosition(float x, float y, float z, bool resetParty = true);
     void teleportEyePosition(float x, float y, float z);
     void teleportPartyPosition(float x, float y, float z);
+    // Whether the party's body fits at a foot position: inside the map's rooms and clear of every face.
+    bool partyFitsAt(float x, float y, float footZ) const;
     void translatePartyPosition(float deltaX, float deltaY, float deltaZ);
     // A moving face pushes the party (a rotating mover's push rule): moved, no longer supported, falling from there.
     void pushPartyPosition(float deltaX, float deltaY, float deltaZ);

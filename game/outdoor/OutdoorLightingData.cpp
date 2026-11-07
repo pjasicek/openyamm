@@ -91,10 +91,33 @@ uint64_t probeCellKey(int32_t x, int32_t y)
 
 void OutdoorLightingData::indexProbes()
 {
+    // A probe the bake put inside a building sees neither sky nor sun: it would blacken any actor near a doorway or a
+    // passable model (OY-137). Such probes are left out of the index, so sampling uses the open ones around them. Dark
+    // maps keep theirs: a probe counts as enclosed only against the map's brightest one.
+    const auto ambient = [](const Probe &probe)
+    {
+        return std::max({probe.sky[0], probe.sky[1], probe.sky[2]})
+            + std::max({probe.sunIndirect[0], probe.sunIndirect[1], probe.sunIndirect[2]});
+    };
+    float brightestAmbient = 0.0f;
+
+    for (const Probe &probe : probes)
+    {
+        brightestAmbient = std::max(brightestAmbient, ambient(probe));
+    }
+
+    constexpr float EnclosedAmbientShare = 0.02f;
+    constexpr float EnclosedSunVisibility = 0.01f;
     probesByCell.clear();
     for (uint32_t index = 0; index < probes.size(); ++index)
     {
         const Probe &probe = probes[index];
+
+        if (probe.sunVisibility < EnclosedSunVisibility && ambient(probe) < brightestAmbient * EnclosedAmbientShare)
+        {
+            continue;
+        }
+
         const int32_t x = int32_t(std::floor(probe.position[0] / 512.0f));
         const int32_t y = int32_t(std::floor(probe.position[1] / 512.0f));
         probesByCell[probeCellKey(x, y)].push_back(index);

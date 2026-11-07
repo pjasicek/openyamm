@@ -266,6 +266,10 @@ def main():
     records = []
     charts = []
     groups = {}
+    # A face that exactly repeats another (the same texture on the same corners, as Harmondale's two coincident bell
+    # towers, OY-231) is charted once: both copies would shade each other black. The copy shares the chart.
+    charted_faces = {}
+    duplicate_faces = []
     for bi, model in enumerate(native['bmodels']):
         for fi, face in enumerate(model['faces']):
             points = [Vector(tuple(model['vertices'][i][k] for k in 'xyz'))
@@ -274,6 +278,12 @@ def main():
             records.append(record)
             if len(points) < 3 or face['attributes'] & 0x2000 or not face['texture_name']:
                 continue
+            corners = tuple(tuple(round(p[k]) for k in range(3)) for p in points)
+            face_key = (face['texture_name'].lower(), tuple(sorted(corners)))
+            if face_key in charted_faces:
+                duplicate_faces.append((record, corners, charted_faces[face_key]))
+                continue
+            charted_faces[face_key] = (record, corners)
             basis = face_basis(points)
             if basis is None:
                 continue
@@ -302,6 +312,12 @@ def main():
         chart['record'].update(page=2+pi*2, uvs=light_uv)
         groups.setdefault(pi, []).append(
             (chart['points'], chart['material_uvs'], light_uv, chart['material']))
+    for record, corners, (charted, charted_corners) in duplicate_faces:
+        # The charted face's lightmap coordinates at each of the copy's corners, whatever order it lists them in.
+        uv_at = dict(zip(charted_corners, charted['uvs']))
+        record.update(page=charted['page'], uvs=[uv_at[corner] for corner in corners])
+    if duplicate_faces:
+        print('DUPLICATE FACES SHARING A CHART', len(duplicate_faces), flush=True)
 
     # Each page is a mesh with split face vertices, retaining native triangle fans.
     def make_mesh(name, entries, dimensions):

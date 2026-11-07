@@ -176,6 +176,13 @@ void IndoorPartyRuntime::teleportPartyPosition(float x, float y, float z)
     resetWaterState(false);
 }
 
+bool IndoorPartyRuntime::partyFitsAt(float x, float y, float footZ) const
+{
+    // One unit up, so the floor the point stands on does not count as a face the body is in.
+    const IndoorBodyDimensions body = {};
+    return m_movementController.airborneStateAt(x, y, footZ + 1.0f, body).has_value();
+}
+
 void IndoorPartyRuntime::translatePartyPosition(float deltaX, float deltaY, float deltaZ)
 {
     m_movementState.x += deltaX;

@@ -13664,6 +13664,13 @@ bool IndoorWorldRuntime::swapActorPlaces(size_t actorIndex, std::optional<size_t
             || moved;
     }
 
+    // The party's body is larger than most monsters': where it would not fit (in a wall, under a floor) the swap
+    // does not happen (OY-177).
+    if (!m_pPartyRuntime->partyFitsAt(actor.preciseX, actor.preciseY, actor.preciseZ))
+    {
+        return false;
+    }
+
     const float x = partyX();
     const float y = partyY();
     const float z = partyFootZ();

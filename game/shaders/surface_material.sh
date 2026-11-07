@@ -243,7 +243,9 @@ vec3 surfaceSpecular(vec3 normal, vec3 toCamera, vec3 toLight, float roughness, 
     float distribution = alpha2 / (SURFACE_PI * denominator * denominator);
     float k = alpha * 0.5;
     float visibility = 0.25 / ((nl * (1.0 - k) + k) * (nv * (1.0 - k) + k));
-    vec3 fresnel = f0 + (vec3_splat(1.0) - f0) * pow(1.0 - vh, 5.0);
+    // pow() of a negative base is undefined (NaN on some GPUs, e.g. D3D): with the light at the camera (the party
+    // torch), vh rounds to just above 1 and scattered pixels turn black.
+    vec3 fresnel = f0 + (vec3_splat(1.0) - f0) * pow(max(1.0 - vh, 0.0), 5.0);
     return fresnel * (distribution * visibility * nl);
 }
 
