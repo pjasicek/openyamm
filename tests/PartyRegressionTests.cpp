@@ -2198,3 +2198,46 @@ TEST_CASE("inventory sort leaves items in place when they cannot be repacked")
         CHECK_EQ(member.inventory[itemIndex].gridY, before[itemIndex].gridY);
     }
 }
+
+TEST_CASE("an item an event gives arrives identified (OY-182)")
+{
+    const OpenYAMM::Game::ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
+    const OpenYAMM::Game::ItemDefinition *pScroll = itemTable.get(339);
+    REQUIRE(pScroll != nullptr);
+    REQUIRE(OpenYAMM::Game::ItemRuntime::requiresIdentification(*pScroll));
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setItemTable(&itemTable);
+    REQUIRE(party.tryGrantItem(339));
+
+    bool found = false;
+
+    for (const OpenYAMM::Game::Character &member : party.members())
+    {
+        for (const OpenYAMM::Game::InventoryItem &item : member.inventory)
+        {
+            if (item.objectDescriptionId == 339)
+            {
+                found = true;
+                CHECK(item.identified);
+            }
+        }
+    }
+
+    CHECK(found);
+}
+
+TEST_CASE("an event's item removal takes an equipped item when no bag holds one (OY-172)")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setItemTable(&OpenYAMM::Tests::regressionGameData().itemTable);
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->equipment.bow = 845;
+
+    CHECK(party.removeItemFromMember(0, 845));
+    CHECK_EQ(pMember->equipment.bow, 0u);
+    CHECK_FALSE(party.removeItemFromMember(0, 845));
+}

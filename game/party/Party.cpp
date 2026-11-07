@@ -3617,6 +3617,8 @@ bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
     for (uint32_t itemCount = 0; itemCount < quantity; ++itemCount)
     {
         InventoryItem item = makeInventoryItem(m_pItemTable, objectDescriptionId);
+        // A fixed item that an event, a quest or a start gives comes identified, as in the originals (OY-182).
+        item.identified = true;
 
         bool added = false;
 
@@ -5226,7 +5228,24 @@ bool Party::removeItemFromMember(size_t memberIndex, uint32_t objectDescriptionI
 
     for (uint32_t itemIndex = 0; itemIndex < quantity; ++itemIndex)
     {
-        if (!removeFromAnyBag(*pMember, objectDescriptionId))
+        if (removeFromAnyBag(*pMember, objectDescriptionId))
+        {
+            continue;
+        }
+
+        // Not in a bag: a worn or wielded one goes, as the originals take it from the character too and as the item
+        // checks count it (the Emerald Island judge's longbow: OY-172).
+        bool removedEquipped = false;
+
+        for (uint8_t slotIndex = 0; slotIndex <= uint8_t(EquipmentSlot::Ring6) && !removedEquipped; ++slotIndex)
+        {
+            const EquipmentSlot slot = EquipmentSlot(slotIndex);
+            InventoryItem removedItem = {};
+            removedEquipped = ::OpenYAMM::Game::equippedItemId(pMember->equipment, slot) == objectDescriptionId
+                && takeEquippedItemFromMember(memberIndex, slot, removedItem);
+        }
+
+        if (!removedEquipped)
         {
             return false;
         }

@@ -1,5 +1,7 @@
 #include "game/gameplay/HouseServiceRuntime.h"
 
+#include "game/gameplay/GameplayWorldItemPolicy.h"
+
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/StealingRuntime.h"
 #include "game/items/ItemEnchantTables.h"
@@ -1730,7 +1732,8 @@ bool HouseServiceRuntime::tryBuyStockItem(
         return false;
     }
 
-    if (!party.tryGrantInventoryItemStartingAt(party.activeMemberIndex(), item))
+    // A purchase goes where a pickup would: a tagged bag first (alchemy reagents and bottles, MAW's crafting), OY-257.
+    if (!storePickedUpItem(party, item, &itemTable))
     {
         statusText = "Inventory full.";
 
@@ -1898,7 +1901,7 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     if (stealResult.outcome == StealingOutcomeKind::Success)
     {
-        if (!party.tryGrantInventoryItemStartingAt(party.activeMemberIndex(), item))
+        if (!storePickedUpItem(party, item, &itemTable))
         {
             statusText = "Inventory full.";
 

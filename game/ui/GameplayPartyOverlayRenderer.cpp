@@ -2725,7 +2725,11 @@ std::string resolveItemInspectDetailText(
         return text;
     }
 
-    if (equipStat == "Reagent" && hasMod1Int && mod1Value > 0)
+    // A reagent with a drop level gets its power line from the rules (MAW's, by that level: ItemRules::inspectLines),
+    // so it shows once (OY-250).
+    const bool rulesShowReagentPower = pItemState != nullptr && pItemState->rulesetFields.dropLevel > 0;
+
+    if (equipStat == "Reagent" && hasMod1Int && mod1Value > 0 && !rulesShowReagentPower)
     {
         return "Power: " + std::to_string(mod1Value);
     }
@@ -10635,10 +10639,13 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                             inspectableItem.sourceBag = bag;
                             inspectableItem.textureName = pItemDefinition->iconName;
                             inspectableItem.textureUsesItemIconTransparency = true;
-                            inspectableItem.x = itemRect.x;
-                            inspectableItem.y = itemRect.y;
-                            inspectableItem.width = itemRect.width;
-                            inspectableItem.height = itemRect.height;
+                            // The item's grid cells answer a right-click, as a left-click picks by them, not only
+                            // its icon's opaque pixels (OY-220).
+                            inspectableItem.x = gridMetrics.x + float(item.gridX) * gridMetrics.cellWidth;
+                            inspectableItem.y = gridMetrics.y + float(item.gridY) * gridMetrics.cellHeight;
+                            inspectableItem.width = float(item.width) * gridMetrics.cellWidth;
+                            inspectableItem.height = float(item.height) * gridMetrics.cellHeight;
+                            inspectableItem.wholeAreaHits = true;
                             context.addRenderedInspectableHudItem(inspectableItem);
                         }
                     }

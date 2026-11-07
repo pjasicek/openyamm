@@ -733,6 +733,13 @@ AlchemyMixOutcome AlchemyBenchRuntime::mix(
         outcome.resultItem = *pTarget;
     }
 
+    // The potion takes its own size in the bag, not the bottle's (OY-240).
+    if (outcome.result.targetItemChanged && !outcome.result.targetItemRemoved)
+    {
+        InventoryBags::refitChangedItem(party, targetLocation->memberIndex, targetLocation->bag, bagCount,
+            targetLocation->gridX, targetLocation->gridY, tables.itemTable);
+    }
+
     if (outcome.result.targetItemRemoved)
     {
         InventoryItem removedItem = {};

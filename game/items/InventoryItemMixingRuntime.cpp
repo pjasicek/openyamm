@@ -1,5 +1,6 @@
 #include "game/items/InventoryItemMixingRuntime.h"
 
+#include "game/items/InventoryBags.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/items/ItemRuntime.h"
@@ -470,6 +471,12 @@ InventoryItemMixResult InventoryItemMixingRuntime::tryApplyHeldItemToInventoryIt
     {
         InventoryItem removedItem = {};
         party.takeItemFromMemberInventoryCell(memberIndex, pTargetItem->gridX, pTargetItem->gridY, removedItem);
+    }
+    else if (result.targetItemChanged)
+    {
+        // A bottle mixed into its potion takes the potion's size in the bag (OY-240).
+        InventoryBags::refitChangedItem(party, memberIndex, pMember->rulesetState.currentBag,
+            gameRulesFor(&party).items.bagCount(party), pTargetItem->gridX, pTargetItem->gridY, itemTable);
     }
 
     if (result.failureDamageLevel != 0)

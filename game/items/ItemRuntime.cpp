@@ -360,7 +360,8 @@ std::string ItemRuntime::displayName(
     const StandardItemEnchantTable *pStandardEnchantTable,
     const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
-    if (!item.identified && hasMeaningfulUnidentifiedName(itemDefinition))
+    // An item that needs no identifying (Zokarr's Axe: OY-362) is named as identified, as its tooltip already is.
+    if (!item.identified && requiresIdentification(itemDefinition))
     {
         return itemDefinition.unidentifiedName;
     }

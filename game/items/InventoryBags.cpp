@@ -771,5 +771,62 @@ bool takeFromBag(
     return withBagOpen(party, memberIndex, bag, bagCount,
         [&]() { return party.takeItemFromMemberInventoryCell(memberIndex, gridX, gridY, item); });
 }
+
+bool refitChangedItem(
+    Party &party,
+    size_t memberIndex,
+    uint8_t bag,
+    int bagCount,
+    uint8_t gridX,
+    uint8_t gridY,
+    const ItemTable &itemTable)
+{
+    const Character *pMember = party.member(memberIndex);
+    const InventoryItem *pItem = pMember != nullptr ? itemInBagAt(*pMember, bag, gridX, gridY) : nullptr;
+    const ItemDefinition *pDefinition = pItem != nullptr ? itemTable.get(pItem->objectDescriptionId) : nullptr;
+
+    if (pDefinition == nullptr)
+    {
+        return false;
+    }
+
+    const uint8_t width = std::max<uint8_t>(1, pDefinition->inventoryWidth);
+    const uint8_t height = std::max<uint8_t>(1, pDefinition->inventoryHeight);
+
+    if (pItem->width == width && pItem->height == height)
+    {
+        return true;
+    }
+
+    const uint8_t originX = pItem->gridX;
+    const uint8_t originY = pItem->gridY;
+    InventoryItem item = {};
+
+    if (!takeFromBag(party, memberIndex, bag, bagCount, originX, originY, item))
+    {
+        return false;
+    }
+
+    InventoryItem refitted = item;
+    refitted.width = width;
+    refitted.height = height;
+    std::optional<InventoryItem> replaced;
+
+    // Where it lies when its new size fits there without moving another item, else wherever the party has room.
+    if (!previewPlaceInBag(*party.member(memberIndex), bag, refitted, originX, originY).replacedItem
+        && placeInBag(party, memberIndex, bag, bagCount, refitted, originX, originY, replaced))
+    {
+        return true;
+    }
+
+    if (party.tryGrantInventoryItemStartingAt(memberIndex, refitted))
+    {
+        return true;
+    }
+
+    // No room anywhere: it stays where it was at its old size.
+    placeInBag(party, memberIndex, bag, bagCount, item, originX, originY, replaced);
+    return false;
+}
 }
 }

@@ -219,6 +219,8 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
         }
 
         InventoryItem item = ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
+        // A fixed item that an event gives comes identified, as in the originals (OY-182).
+        item.identified = true;
         receiveGrantedItem(std::move(item));
     }
 

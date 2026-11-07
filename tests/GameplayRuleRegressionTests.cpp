@@ -4597,6 +4597,12 @@ TEST_CASE("inventory mixing creates reagent potion in target bottle")
     REQUIRE(pMixedPotion != nullptr);
     CHECK_EQ(pMixedPotion->objectDescriptionId, 222u);
     CHECK_EQ(pMixedPotion->standardEnchantPower, 3u);
+
+    // It takes the potion's size in the grid, not the bottle's (OY-240).
+    const OpenYAMM::Game::ItemDefinition *pPotion = gameData.itemTable.get(222);
+    REQUIRE(pPotion != nullptr);
+    CHECK_EQ(pMixedPotion->width, std::max<uint8_t>(1, pPotion->inventoryWidth));
+    CHECK_EQ(pMixedPotion->height, std::max<uint8_t>(1, pPotion->inventoryHeight));
 }
 
 TEST_CASE("inventory mixing creates reagent potion when held bottle is used on reagent")
