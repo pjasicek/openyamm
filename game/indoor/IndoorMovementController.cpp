@@ -196,6 +196,42 @@ bool indoorPointInsideFaceOutlineXY(const IndoorFaceGeometryData &geometry, floa
     return inside;
 }
 
+// The face's outline seen from above: the point itself when it lies inside, else the nearest point on an edge.
+bx::Vec3 indoorNearestFaceOutlinePointXY(const IndoorFaceGeometryData &geometry, float x, float y)
+{
+    if (geometry.vertices.empty() || indoorPointInsideFaceOutlineXY(geometry, x, y))
+    {
+        return {x, y, 0.0f};
+    }
+
+    bx::Vec3 nearest = {geometry.vertices.front().x, geometry.vertices.front().y, 0.0f};
+    float nearestDistanceSquared = std::numeric_limits<float>::max();
+    const size_t count = geometry.vertices.size();
+
+    for (size_t index = 0, previous = count - 1; index < count; previous = index++)
+    {
+        const float ax = geometry.vertices[previous].x;
+        const float ay = geometry.vertices[previous].y;
+        const float edgeX = geometry.vertices[index].x - ax;
+        const float edgeY = geometry.vertices[index].y - ay;
+        const float edgeLengthSquared = edgeX * edgeX + edgeY * edgeY;
+        const float t = edgeLengthSquared > 0.0f
+            ? std::clamp(((x - ax) * edgeX + (y - ay) * edgeY) / edgeLengthSquared, 0.0f, 1.0f)
+            : 0.0f;
+        const float pointX = ax + edgeX * t;
+        const float pointY = ay + edgeY * t;
+        const float distanceSquared = (x - pointX) * (x - pointX) + (y - pointY) * (y - pointY);
+
+        if (distanceSquared < nearestDistanceSquared)
+        {
+            nearestDistanceSquared = distanceSquared;
+            nearest = {pointX, pointY, 0.0f};
+        }
+    }
+
+    return nearest;
+}
+
 bool indoorBodyStartsInsideSteepFloorSweepRadius(
     const IndoorFaceGeometryData &geometry,
     const IndoorBodyDimensions &body,
@@ -1650,6 +1686,82 @@ std::optional<IndoorMoveState> IndoorMovementController::airborneStateAt(
     return state;
 }
 
+// A step-up lifts a body walking onto a tread as soon as its lower sphere meets the tread's edge, with its centre still
+// up to a radius short of the tread. Support was otherwise tested at the centre alone, so the body lost the tread on
+// the next step: it dipped between the treads of a stair, and one that stopped there sank back down the edge or, lifted
+// again, bobbed. A grounded body therefore keeps a flat tread its footprint still overlaps while it stands still or
+// keeps heading onto it. One moving away keeps the centre test: walking off a ledge or down a stair drops at once.
+IndoorMoveState IndoorMovementController::holdFootprintSupport(
+    const IndoorMoveState &start,
+    const IndoorMoveState &resolved,
+    const IndoorBodyDimensions &body,
+    bool requireWalkableSupport
+) const
+{
+    constexpr float NoHeadwayDistance = 0.05f;
+    const size_t faceIndex = start.supportFaceIndex;
+
+    if (resolved.grounded || resolved.verticalVelocity > 0.0f || faceIndex >= m_pIndoorMapData->faces.size())
+    {
+        return resolved;
+    }
+
+    const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
+    const std::vector<uint8_t> &supportFaceMask =
+        requireWalkableSupport ? runtimeCache.actorSupportFaceMask : runtimeCache.nonBlockingMechanismFaceMask;
+
+    // Mover faces carry their bodies by their own footprint rule (sampleMechanismSupportFaceWithFootprint).
+    if ((faceIndex < supportFaceMask.size() && supportFaceMask[faceIndex] != 0)
+        || std::find(
+               runtimeCache.mechanismSupportFaceIds.begin(),
+               runtimeCache.mechanismSupportFaceIds.end(),
+               static_cast<uint16_t>(faceIndex)) != runtimeCache.mechanismSupportFaceIds.end())
+    {
+        return resolved;
+    }
+
+    const IndoorFaceGeometryData *pGeometry =
+        m_runtimeGeometryCache.geometryCache.geometryForFace(*m_pIndoorMapData, runtimeCache.vertices, faceIndex);
+
+    if (pGeometry == nullptr
+        || pGeometry->kind != IndoorFaceKind::Floor
+        || !pGeometry->isWalkable
+        || pGeometry->normal.z < FlatTreadNormalZ)
+    {
+        return resolved;
+    }
+
+    const float deltaX = resolved.x - start.x;
+    const float deltaY = resolved.y - start.y;
+    const bool standingStill = deltaX * deltaX + deltaY * deltaY <= NoHeadwayDistance * NoHeadwayDistance;
+    IndoorMoveState held = standingStill ? start : resolved;
+    const bx::Vec3 nearest = indoorNearestFaceOutlinePointXY(*pGeometry, held.x, held.y);
+    const float towardTreadX = nearest.x - held.x;
+    const float towardTreadY = nearest.y - held.y;
+
+    if (towardTreadX * towardTreadX + towardTreadY * towardTreadY >= body.radius * body.radius
+        || (!standingStill && deltaX * towardTreadX + deltaY * towardTreadY <= 0.0f))
+    {
+        return resolved;
+    }
+
+    const float height = calculateIndoorFaceHeight(*pGeometry, held.x, held.y);
+
+    if (std::fabs(height - start.footZ) > GroundSnapSlack || held.footZ < height - GroundSnapSlack)
+    {
+        return resolved;
+    }
+
+    held.footZ = height;
+    held.verticalVelocity = 0.0f;
+    held.grounded = true;
+    held.supportFaceIndex = faceIndex;
+    held.landedThisFrame = false;
+    held.fallStartZ = height;
+    held.fallDistance = 0.0f;
+    return held;
+}
+
 IndoorMoveState IndoorMovementController::resolveMove(
     const IndoorMoveState &state,
     const IndoorBodyDimensions &body,
@@ -1678,6 +1790,11 @@ IndoorMoveState IndoorMovementController::resolveMove(
         return state;
     }
 
+    const bool mayHoldFootprintSupport = state.grounded && !jumpRequested && !flyingActive && !lockVerticalPosition;
+    const auto finishMove = [&](const IndoorMoveState &resolved) -> IndoorMoveState
+    {
+        return mayHoldFootprintSupport ? holdFootprintSupport(state, resolved, body, requireWalkableSupport) : resolved;
+    };
     const int substepCount = indoorMovementSubstepCount(
         state,
         desiredVelocityX,
@@ -1689,7 +1806,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
 
     if (substepCount <= 1)
     {
-        return resolveMoveSingleStep(
+        return finishMove(resolveMoveSingleStep(
             state,
             body,
             desiredVelocityX,
@@ -1709,7 +1826,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
             allowUnsupportedPathRecovery,
             allowBlockedWallRecovery,
             requireWalkableSupport,
-            gravityPerSecond);
+            gravityPerSecond));
     }
 
     const RuntimeGeometryCache &runtimeCache = runtimeGeometryCache();
@@ -1725,7 +1842,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
 
     if (!preflightEyeSectorId)
     {
-        return resolveMoveSingleStep(
+        return finishMove(resolveMoveSingleStep(
             state,
             body,
             desiredVelocityX,
@@ -1745,7 +1862,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
             allowUnsupportedPathRecovery,
             allowBlockedWallRecovery,
             requireWalkableSupport,
-            gravityPerSecond);
+            gravityPerSecond));
     }
 
     IndoorMoveState currentState = state;
@@ -1802,7 +1919,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
         currentState.fallDistance = maxLandingFallDistance;
     }
 
-    return currentState;
+    return finishMove(currentState);
 }
 
 IndoorMoveState IndoorMovementController::resolveFlyingActorMove(
@@ -2036,8 +2153,23 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
     bool fullMoveBlockedByActor = false;
     IndoorWallCollision fullMoveWallCollision = {};
 
+    // A tread the body stepped up onto during this step (the edge step-up in the sweep below). The rest of the step's
+    // movement is resolved at the centre, which is still short of the tread; the body ends the step standing on it.
+    size_t liftedTreadFaceIndex = static_cast<size_t>(-1);
+    float liftedTreadFootZ = 0.0f;
     const auto finalizeFallState = [&](IndoorMoveState result) -> IndoorMoveState
     {
+        if (!result.grounded
+            && liftedTreadFaceIndex != static_cast<size_t>(-1)
+            && result.verticalVelocity <= 0.0f
+            && std::fabs(result.footZ - liftedTreadFootZ) <= GroundSnapSlack)
+        {
+            result.footZ = liftedTreadFootZ;
+            result.verticalVelocity = 0.0f;
+            result.grounded = true;
+            result.supportFaceIndex = liftedTreadFaceIndex;
+        }
+
         if (pDebugInfo != nullptr && pDebugInfo->collisionResponseSucceeded)
         {
             const float distance = pDebugInfo->wantedHorizontalMove
@@ -3671,14 +3803,79 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 calculateIndoorFaceHeight(*pNearestHitGeometry, nearestHit->point.x, nearestHit->point.y);
             const float stepDelta = stepFloorZ - iterativeState.footZ;
 
+            // A step-up is for a body walking onto the tread. One that only falls or slides past the edge, or is
+            // pressed against a wall behind a lip too narrow to take its centre, was lifted with its centre off the
+            // tread; the support test at the centre dropped it on the next step and it met the edge again, an endless
+            // bob (MM9 Sturmford City's ledge at the foot of a wall, its railings). Such a
+            // body stays below and the edge answers it like any other contact, as in the original, where support is
+            // only ever taken under the centre.
+            const auto liftsOntoTread = [&]() -> bool
+            {
+                const float normalLengthXY =
+                    std::sqrt(nearestHit->normal.x * nearestHit->normal.x + nearestHit->normal.y * nearestHit->normal.y);
+                const float towardTreadX = normalLengthXY > 0.0001f ? -nearestHit->normal.x / normalLengthXY : 0.0f;
+                const float towardTreadY = normalLengthXY > 0.0001f ? -nearestHit->normal.y / normalLengthXY : 0.0f;
+
+                if (stepX * stepX + stepY * stepY <= 0.0001f
+                    || (normalLengthXY > 0.0001f && stepX * towardTreadX + stepY * towardTreadY <= 0.0f))
+                {
+                    return false;
+                }
+
+                constexpr float InsideTreadEdgeDistance = 1.0f;
+                const float treadX = nearestHit->point.x + towardTreadX * InsideTreadEdgeDistance;
+                const float treadY = nearestHit->point.y + towardTreadY * InsideTreadEdgeDistance;
+                // Met at a corner, the point inward from the contact lies off the tread (a tread may be split into
+                // several faces of one height): the body passes beside it.
+                constexpr float TreadHeightTolerance = 2.0f;
+                const IndoorFloorSample treadFloor = sampleSupportedFloor(
+                    vertices,
+                    geometryCache,
+                    treadX,
+                    treadY,
+                    stepFloorZ,
+                    TreadHeightTolerance,
+                    TreadHeightTolerance,
+                    body,
+                    static_cast<int16_t>(pNearestHitGeometry->sectorId),
+                    &supportFaceMask);
+
+                if (!treadFloor.hasFloor || std::fabs(treadFloor.height - stepFloorZ) > TreadHeightTolerance)
+                {
+                    return false;
+                }
+
+                return !collidesAtPosition(
+                    vertices,
+                    geometryCache,
+                    treadX,
+                    treadY,
+                    stepFloorZ,
+                    body,
+                    &collisionFaceMask,
+                    &mechanismBlockingFaceMask,
+                    static_cast<int16_t>(pNearestHitGeometry->sectorId),
+                    iterativeState.eyeSectorId >= 0
+                        ? std::optional<int16_t>(iterativeState.eyeSectorId)
+                        : std::nullopt,
+                    nearestHit->faceIndex,
+                    static_cast<size_t>(-1),
+                    treadX - iterativeState.x,
+                    treadY - iterativeState.y,
+                    nullptr);
+            };
+
             if (pNearestHitGeometry->normal.z >= MaximumUphillSlopeNormalZ
                 && stepDelta >= GroundSnapSlack
-                && stepDelta < MaximumStepUpFromCurrentFootZ)
+                && stepDelta < MaximumStepUpFromCurrentFootZ
+                && liftsOntoTread())
             {
                 advancedState.footZ = stepFloorZ;
                 advancedState.verticalVelocity = 0.0f;
                 advancedState.grounded = true;
                 advancedState.supportFaceIndex = nearestHit->faceIndex;
+                liftedTreadFaceIndex = nearestHit->faceIndex;
+                liftedTreadFootZ = stepFloorZ;
                 advancedState.sectorId = static_cast<int16_t>(pNearestHitGeometry->sectorId);
                 advancedState.eyeSectorId = advancedState.sectorId;
                 iterativeVerticalVelocity = 0.0f;

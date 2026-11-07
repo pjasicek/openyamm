@@ -395,6 +395,13 @@ private:
 
     void refreshRuntimeGeometryCache() const;
     const RuntimeGeometryCache &runtimeGeometryCache() const;
+    // A grounded body that stands still or heads onto a flat tread its footprint overlaps keeps standing on it.
+    IndoorMoveState holdFootprintSupport(
+        const IndoorMoveState &start,
+        const IndoorMoveState &resolved,
+        const IndoorBodyDimensions &body,
+        bool requireWalkableSupport
+    ) const;
     const IndoorMapData *m_pIndoorMapData = nullptr;
     const std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     const std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;

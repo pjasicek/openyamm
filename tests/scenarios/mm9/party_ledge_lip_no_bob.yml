@@ -1,0 +1,82 @@
+# The party at a ledge lip it cannot stand on keeps its height (the user's saves BOB_1 and BOB_2, 2026-11-07).
+# In Sturmford City the floor face 4068 (z 19784) is a strip 39 units deep at the foot of a wall, its edge at y 5256,
+# 41 units over the floor north of it; the wall leaves its centre no room on the strip. The edge step-up used to lift
+# the party onto it whenever its lower sphere met the edge, and the support test at the centre dropped it again on the
+# next step: walking into the strip, standing there or running along the wall, the view bobbed about 10 units forever.
+# A step-up now lifts only a body heading onto a tread whose centre can reach it (IndoorMovementController, the
+# swept edge step); here the party stays on the floor below. The samples span more than one old bob cycle.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/party_ledge_lip_no_bob.yml --scenario-no-color
+id: mm9.party_ledge_lip_no_bob
+title: "MM9: walking into, standing at and running along a ledge lip at a wall keeps the party's height"
+world: mm9
+mode: faithful
+tags: [mm9, movement, indoor]
+steps:
+  - new_game_flow:
+      start_map: sturmfordcity.blv
+  - movement_segment:
+      input: forward
+      seconds: 0.9
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 5268.5, y: 5360, z: 19743, yaw_degrees: -90, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 5268.5, y: 5293, z: 19743, yaw_degrees: -90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 2
+      tolerance_z: 0.5
+  - advance_runtime: {seconds: 0.03}
+  - assert:
+      water: {state: dry, foot_z_min: 19742.5, foot_z_max: 19743.5}
+  - advance_runtime: {seconds: 0.03}
+  - assert:
+      water: {foot_z_min: 19742.5, foot_z_max: 19743.5}
+  - advance_runtime: {seconds: 0.03}
+  - assert:
+      water: {foot_z_min: 19742.5, foot_z_max: 19743.5}
+  - advance_runtime: {seconds: 0.03}
+  - assert:
+      water: {foot_z_min: 19742.5, foot_z_max: 19743.5}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      water: {foot_z_min: 19742.5, foot_z_max: 19743.5}
+  # Running west along the wall, slightly into it, the whole way along the strip.
+  - movement_segment:
+      input: forward
+      seconds: 0.8
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 5600, y: 5300, z: 19743, yaw_degrees: -160, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 5025, y: 5293, z: 19743, yaw_degrees: -160, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 0.5
+  - movement_segment:
+      input: forward
+      seconds: 0.85
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 5600, y: 5300, z: 19743, yaw_degrees: -160, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 4989, y: 5293, z: 19743, yaw_degrees: -160, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 0.5
+  - movement_segment:
+      input: forward
+      seconds: 0.9
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 5600, y: 5300, z: 19743, yaw_degrees: -160, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 4953, y: 5293, z: 19743, yaw_degrees: -160, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 0.5
+  - movement_segment:
+      input: forward
+      seconds: 0.95
+      actor_collision: false
+      actor_ai: false
+      start: {map: sturmfordcity.blv, x: 5600, y: 5300, z: 19743, yaw_degrees: -160, pitch: 0}
+      expect_stop: {map: sturmfordcity.blv, x: 4917, y: 5293, z: 19743, yaw_degrees: -160, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 40
+      tolerance_z: 0.5
