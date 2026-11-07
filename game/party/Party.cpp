@@ -6980,7 +6980,6 @@ void Party::updateRecovery(float deltaSeconds, float progressScale)
     }
 
     const float clampedProgressScale = std::max(0.0f, progressScale);
-    updatePersonalShields(deltaSeconds);
 
     for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
     {
@@ -6988,6 +6987,23 @@ void Party::updateRecovery(float deltaSeconds, float progressScale)
         const float recoveryDelta =
             deltaSeconds * clampedProgressScale * std::max(0.0f, member.recoveryProgressMultiplier);
         member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - recoveryDelta);
+    }
+
+    updateRegeneration(deltaSeconds);
+}
+
+void Party::updateRegeneration(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    updatePersonalShields(deltaSeconds);
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        Character &member = m_members[memberIndex];
 
         // The dead, the eradicated and stone do not regenerate (OE Engine::_regenerateHp, MMerge MiscTweaks).
         const bool regenerationBlocked = isDeadOrEradicated(member)

@@ -43,7 +43,7 @@ const KeyList AssertKeys = {
     "input_prompt", "new_game_party_member", "new_game_party_skill", "qbit_set", "qbit_clear", "ruleset",
     "mechanism", "gold", "food", "game_hour", "charges", "dimension_door", "combat_log", "journal_map_note",
     "quick_item_ring", "quick_item_popup", "water", "ai_trace", "autonote", "teacher_ledger", "chest_view",
-    "party_position",
+    "party_position", "turn_based", "member_points", "recovering_members",
     // recorded:
     "scene_kind", "new_game_starting", "new_game_started", "state_dump_party", "state_dump_party_member",
     "state_dump_party_skill", "follower_hired", "follower_left", "gold_received", "starting_items"};
@@ -62,7 +62,10 @@ const std::vector<NestedKeys> AssertBlockKeys = {
     {"party_health", {"full"}},
     {"item_set_bonus", {"member_index", "set_id", "active"}},
     {"actor_count", {"name", "monster_id", "boss", "shrunk", "hurt", "hostile", "min", "max"}},
-    {"buff", {"spell_id", "present", "member_index"}},
+    {"buff", {"spell_id", "present", "member_index", "remaining_min", "remaining_max"}},
+    {"turn_based", {"active", "stage", "front_member", "actor_index", "actor_queued", "actor_effect", "effect_min",
+        "effect_max", "report"}},
+    {"member_points", {"member_index", "spell_points_min", "spell_points_max", "health_min", "health_max"}},
     {"condition", {"name", "present", "member_index"}},
     {"charges", {"started", "hits", "misses", "frenzies", "min_started", "min_hits", "min_misses", "min_frenzies"}},
     {"journal_map_note", {"map", "id", "text", "present"}},
@@ -169,6 +172,7 @@ const std::vector<StepKeys> &stepKeyTable()
             "second_enchant", "special", "rarity", "drop_level", "item_power", "charges", "identified", "equip",
             "roll_level", "boss", "seed", "dimension_map", "legendary"}},
         {ScenarioStepKind::UseItem, {"item_id", "member_index", "expect"}},
+        {ScenarioStepKind::TurnBasedTurns, {"count", "max_seconds"}},
         {ScenarioStepKind::RightClickPortrait, {"item_id", "carrier_index", "member_index", "inventory", "release",
             "expect"}},
         {ScenarioStepKind::CastSpell, {"member_index", "spell_id", "skill", "mastery", "actor_index", "target_member",
@@ -188,7 +192,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::AiTraceDump, {"actor_index", "arena_monster", "decisions_only", "last"}},
         {ScenarioStepKind::SetupShortcut,
             {"kind", "id", "value", "item_id", "source_id", "name", "member_index", "slot", "strongest", "condition",
-                "health"}},
+                "health", "spell_points"}},
         {ScenarioStepKind::SaveCheckpoint, {"name"}},
         {ScenarioStepKind::LoadCheckpoint, {"name"}},
         {ScenarioStepKind::SaveGame, {"name", "required_package_schema", "expect_failure", "block_with_directory"}},
@@ -534,6 +538,12 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "use_item")
     {
         kind = ScenarioStepKind::UseItem;
+        return true;
+    }
+
+    if (value == "turn_based_turns")
+    {
+        kind = ScenarioStepKind::TurnBasedTurns;
         return true;
     }
 

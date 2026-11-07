@@ -39,6 +39,10 @@ public:
         bool canRunAction = false;
         bool quickCastPressed = false;
         bool hasReadyMember = false;
+        // Turn-based mode acts on the press only: a held key would act for the next member too.
+        bool turnBased = false;
+        // The Fast attack repeat setting: the first repeat comes after the short interval, not the key-repeat pause.
+        bool fastRepeat = false;
     };
 
     struct QuickCastActionDecision
@@ -50,6 +54,10 @@ public:
     {
         bool attackPressed = false;
         bool hasReadyMember = false;
+        // Turn-based mode acts on the press only: a held key would act for the next member too.
+        bool turnBased = false;
+        // The Fast attack repeat setting: the first repeat comes after the short interval, not the key-repeat pause.
+        bool fastRepeat = false;
     };
 
     struct AttackActionDecision
@@ -152,6 +160,9 @@ public:
         CharacterAttackResult attack = {};
     };
 
+    // A held Attack or Quick Cast key repeats like an OS key repeat: first after a pause long enough that an ordinary
+    // tap (about 0.2 s) acts once, then at the short interval (OY-189).
+    static constexpr float HeldActionFirstRepeatDelaySeconds = 0.5f;
     static constexpr float HeldActionRepeatDebounceSeconds = 0.14f;
 
     static void updateCooldowns(GameplayScreenState &screenState, float deltaSeconds);

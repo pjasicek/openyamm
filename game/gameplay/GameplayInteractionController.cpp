@@ -2137,6 +2137,8 @@ GameplayInteractionController::updateWorldInteractionFrame(
             GameplayActionController::AttackActionConfig{
                 .attackPressed = worldAttackPressed,
                 .hasReadyMember = hasReadyMember,
+                .turnBased = runtime.turnBasedCombatRuntime().active(),
+                .fastRepeat = runtime.settingsSnapshot().fastAttackRepeat,
             });
 
     if (attackActionDecision.shouldAttemptAttack)

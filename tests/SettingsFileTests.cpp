@@ -246,3 +246,11 @@ TEST_CASE("every function, keypad and punctuation key has a readable binding nam
     // Settings saved before keep loading.
     CHECK_EQ(parseKeyboardBindingName("Scancode_58"), SDL_SCANCODE_F1);
 }
+
+TEST_CASE("the fast attack repeat setting is off by default and loads back on")
+{
+    CHECK_FALSE(GameSettings::createDefault().fastAttackRepeat);
+    const GameSettings loaded = loadText("[profile]\nname=desktop\nversion=5\n[gameplay]\nfast_attack_repeat=true\n");
+    CHECK(loaded.fastAttackRepeat);
+    CHECK(contains(savedNames(loaded), "gameplay.fast_attack_repeat"));
+}

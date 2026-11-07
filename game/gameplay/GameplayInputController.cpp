@@ -949,6 +949,8 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                     .canRunAction = true,
                     .quickCastPressed = isQuickCastPressed,
                     .hasReadyMember = config.hasReadyMember,
+                    .turnBased = context.turnBasedCombatRuntime().active(),
+                    .fastRepeat = context.settingsSnapshot().fastAttackRepeat,
                 });
 
         if (quickCastDecision.shouldBeginQuickCast)

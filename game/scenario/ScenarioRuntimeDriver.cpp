@@ -15,6 +15,7 @@
 #include "game/gameplay/GameplayInputController.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplayScreenState.h"
+#include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/indoor/IndoorWorldRuntime.h"
@@ -193,6 +194,8 @@ struct ScenarioGameApplicationAccess
 
         // The local settings.ini's Immortal cheat would make every party damage check pass or fail by machine.
         application.m_settings.immortal = false;
+        // Held keys repeat as the originals do (combat/realtime_tap_one_attack.yml), whatever the local setting.
+        application.m_settings.fastAttackRepeat = false;
         return true;
     }
 
@@ -224,6 +227,18 @@ struct ScenarioGameApplicationAccess
     static IMapSceneRuntime *mapSceneRuntime(GameApplication &application)
     {
         return application.m_pMapSceneRuntime.get();
+    }
+
+    // The game time a completed turn-based turn takes, applied after the gameplay update as the game's frame does.
+    static void applyTurnBasedGameTime(GameApplication &application)
+    {
+        const float minutes =
+            application.m_gameSession.turnBasedCombatRuntime().consumePendingGameTimeAdvanceMinutes();
+
+        if (minutes > 0.0f)
+        {
+            application.m_gameplayController.advanceTurnBasedGameMinutes(minutes);
+        }
     }
 
     static const IMapSceneRuntime *mapSceneRuntime(const GameApplication &application)
@@ -574,6 +589,7 @@ bool ScenarioRuntimeDriver::holdGameplayAction(KeyboardAction action, float seco
         const float deltaSeconds = std::min(RuntimeStepSeconds, remaining);
         // Use the same input, selection, recovery, targeting and combat path as the live game.
         session.updateGameplay(input, deltaSeconds, false);
+        ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
         IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
         if (pWorldRuntime == nullptr)
         {
@@ -1120,6 +1136,7 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
         {
             GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
             session.updateGameplay(input, deltaSeconds, false);
+            ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
             session.bindCurrentGameplayInputFrame(nullptr);
         }
         else
@@ -3048,6 +3065,7 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure)
     {
         const float deltaSeconds = std::min(RuntimeStepSeconds, remaining);
         session.updateGameplay(input, deltaSeconds, false);
+        ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
         session.bindCurrentGameplayInputFrame(nullptr);
         if (session.sharedInputFrameResult().worldInputBlocked
             || session.sharedWorldInteractionBlockedThisFrame()
@@ -3077,6 +3095,85 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure)
         remaining -= deltaSeconds;
     }
 
+    return true;
+}
+
+const TurnBasedCombatRuntime &ScenarioRuntimeDriver::turnBasedCombat() const
+{
+    return ScenarioGameApplicationAccess::gameSession(m_application).turnBasedCombatRuntime();
+}
+
+bool ScenarioRuntimeDriver::playTurnBasedTurns(int turns, float maxSeconds, int &completed, std::string &failure)
+{
+    completed = 0;
+    GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
+    const TurnBasedCombatRuntime &turnBased = session.turnBasedCombatRuntime();
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
+    if (pWorldRuntime == nullptr || !turnBased.active())
+    {
+        failure = "turn_based_turns needs an active world in turn-based mode";
+        return false;
+    }
+
+    GameplayInputFrame input = {};
+    input.screenWidth = ScenarioViewWidth;
+    input.screenHeight = ScenarioViewHeight;
+    input.pointerX = ScenarioViewWidth * 0.5f;
+    input.pointerY = ScenarioViewHeight * 0.5f;
+    GameplayButtonInputState &pass = input.actions[keyboardActionIndex(KeyboardAction::Pass)];
+    bool inMovement = turnBased.stage() == TurnBasedCombatStage::Movement;
+    float elapsedSeconds = 0.0f;
+
+    while (completed < turns)
+    {
+        if (elapsedSeconds > maxSeconds)
+        {
+            failure = "turn_based_turns completed " + std::to_string(completed) + " of " + std::to_string(turns)
+                + " turns in " + std::to_string(maxSeconds) + " s";
+            return false;
+        }
+
+        // A fresh press of Pass on every other frame the party may pass: the key must come up between presses.
+        const Party *pParty = party();
+        const bool press = !pass.held && pParty != nullptr && turnBased.canPassTurn(*pParty);
+        pass.released = pass.held && !press;
+        pass.held = press;
+        pass.pressed = press;
+
+        session.updateGameplay(input, RuntimeStepSeconds, false);
+        ScenarioGameApplicationAccess::applyTurnBasedGameTime(m_application);
+        session.bindCurrentGameplayInputFrame(nullptr);
+
+        if (!session.sharedInputFrameResult().worldInputBlocked
+            && !session.sharedWorldInteractionBlockedThisFrame()
+            && !session.gameplayScreenState().pendingSpellTarget().active)
+        {
+            pWorldRuntime->updateWorld(RuntimeStepSeconds);
+            IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+
+            if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
+            {
+                static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(RuntimeStepSeconds * 1000.0f);
+            }
+        }
+
+        elapsedSeconds += RuntimeStepSeconds;
+
+        if (!turnBased.active())
+        {
+            failure = "turn-based mode ended during turn_based_turns";
+            return false;
+        }
+
+        const bool movementNow = turnBased.stage() == TurnBasedCombatStage::Movement;
+        completed += movementNow && !inMovement ? 1 : 0;
+        inMovement = movementNow;
+    }
+
+    pass = {};
+    session.updateGameplay(input, 0.0f, false);
+    session.bindCurrentGameplayInputFrame(nullptr);
     return true;
 }
 

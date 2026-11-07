@@ -14,6 +14,7 @@
 #include "game/party/Party.h"
 #include "game/gameplay/CombatLog.h"
 #include "game/rules/maw/MawRules.h"
+#include "game/gameplay/TurnBasedCombatRuntime.h"
 #include "game/scenario/ScenarioRuntimeDriver.h"
 #include "game/tables/ItemTable.h"
 
@@ -4833,6 +4834,47 @@ bool assertPartyGold(
     return true;
 }
 
+// assert recovering_members: N: exactly N party members are recovering from an action (a real-time attack count).
+bool assertRecoveringMembers(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["recovering_members"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsScalar())
+    {
+        failures.push_back(stepLocation(step) + ": recovering_members assertion requires a scalar count");
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    const size_t expected = node.as<size_t>();
+    size_t actual = 0;
+
+    for (const Character &member : context.party.members())
+    {
+        actual += member.recoverySecondsRemaining > 0.0f ? 1 : 0;
+    }
+
+    scenarioLogAssert(context, step, "recovering_members", std::to_string(expected), std::to_string(actual),
+        actual == expected);
+
+    if (actual != expected)
+    {
+        failures.push_back(stepLocation(step) + ": " + std::to_string(actual) + " members recovering, expected "
+            + std::to_string(expected));
+        return false;
+    }
+
+    return true;
+}
+
 // assert quick_item_ring: {open: bool, member_index}: the potion radial's ring, open (at that member's portrait) or not.
 bool assertQuickItemRing(
     ScenarioExecutionContext &context,
@@ -5057,11 +5099,18 @@ bool assertBuff(
     const std::optional<size_t> memberIndex =
         node["member_index"] ? std::optional<size_t>(node["member_index"].as<size_t>()) : std::nullopt;
     bool present = false;
+    // The longest remaining time of the spell's buffs, in game seconds (remaining_min, remaining_max).
+    float remainingSeconds = 0.0f;
 
     for (size_t buff = 0; buff < PartyBuffCount && !memberIndex; ++buff)
     {
         const PartyBuffState *pBuff = party.partyBuff(PartyBuffId(buff));
-        present = present || (pBuff != nullptr && pBuff->spellId == spellId);
+
+        if (pBuff != nullptr && pBuff->spellId == spellId)
+        {
+            present = true;
+            remainingSeconds = std::max(remainingSeconds, pBuff->remainingSeconds);
+        }
     }
 
     for (size_t index = 0; index < party.members().size(); ++index)
@@ -5069,7 +5118,12 @@ bool assertBuff(
         for (size_t buff = 0; buff < CharacterBuffCount && (!memberIndex || *memberIndex == index); ++buff)
         {
             const CharacterBuffState *pBuff = party.characterBuff(index, CharacterBuffId(buff));
-            present = present || (pBuff != nullptr && pBuff->spellId == spellId);
+
+            if (pBuff != nullptr && pBuff->spellId == spellId)
+            {
+                present = true;
+                remainingSeconds = std::max(remainingSeconds, pBuff->remainingSeconds);
+            }
         }
     }
 
@@ -5082,7 +5136,216 @@ bool assertBuff(
         return false;
     }
 
-    return true;
+    if (!present || (!node["remaining_min"] && !node["remaining_max"]))
+    {
+        return true;
+    }
+
+    const float minimum = node["remaining_min"].as<float>(0.0f);
+    const float maximum = node["remaining_max"].as<float>(std::numeric_limits<float>::max());
+    const bool success = remainingSeconds >= minimum && remainingSeconds <= maximum;
+    scenarioLogAssert(context, step, "buff remaining",
+        "[" + std::to_string(minimum) + ", " + std::to_string(maximum) + "] game s",
+        std::to_string(remainingSeconds) + " game s", success);
+
+    if (!success)
+    {
+        failures.push_back(stepLocation(step) + ": buff of spell " + std::to_string(spellId) + " has "
+            + std::to_string(remainingSeconds) + " game seconds left");
+    }
+
+    return success;
+}
+
+const char *turnBasedStageName(TurnBasedCombatStage stage)
+{
+    switch (stage)
+    {
+        case TurnBasedCombatStage::Wait:
+            return "wait";
+        case TurnBasedCombatStage::Attack:
+            return "attack";
+        case TurnBasedCombatStage::Movement:
+            return "movement";
+        case TurnBasedCombatStage::None:
+        default:
+            return "none";
+    }
+}
+
+// assert turn_based: {active, stage, front_member, actor_index, actor_queued, report}: the turn engine's state. The
+// front member is the member whose action the queue waits for ("none" while no member may act); actor_queued tells
+// whether the actor has an entry in the queue; report prints the queue.
+bool assertTurnBased(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["turn_based"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !ensureRuntimeDriver(context, failures) || context.runtimeDriver->party() == nullptr)
+    {
+        failures.push_back(stepLocation(step) + ": turn_based assertion requires a mapping and a party");
+        return false;
+    }
+
+    const TurnBasedCombatRuntime &turnBased = context.runtimeDriver->turnBasedCombat();
+    const Party &party = *context.runtimeDriver->party();
+    bool success = true;
+    const auto check = [&](const std::string &field, const std::string &expected, const std::string &actual)
+    {
+        const bool matched = expected == actual;
+        scenarioLogAssert(context, step, "turn_based." + field, expected, actual, matched);
+
+        if (!matched)
+        {
+            failures.push_back(stepLocation(step) + ": turn_based " + field + " is " + actual + ", expected "
+                + expected);
+            success = false;
+        }
+    };
+
+    if (node["active"])
+    {
+        check("active", node["active"].as<bool>() ? "true" : "false", turnBased.active() ? "true" : "false");
+    }
+
+    if (node["stage"])
+    {
+        check("stage", node["stage"].as<std::string>(), turnBasedStageName(turnBased.stage()));
+    }
+
+    if (node["front_member"])
+    {
+        size_t memberIndex = 0;
+        const bool ready = turnBased.canBeginPlayerAction(party) && turnBased.frontQueueCharacter(memberIndex);
+        check("front_member", node["front_member"].as<std::string>(), ready ? std::to_string(memberIndex) : "none");
+    }
+
+    if (node["actor_queued"])
+    {
+        const size_t actorIndex = node["actor_index"].as<size_t>(0);
+        const std::vector<TurnBasedCombatRuntime::QueueEntry> &queue = turnBased.queue();
+        const bool queued = std::any_of(queue.begin(), queue.end(),
+            [actorIndex](const TurnBasedCombatRuntime::QueueEntry &entry)
+            {
+                return entry.kind == TurnBasedCombatRuntime::QueueEntry::Kind::Actor && entry.id == actorIndex;
+            });
+        check("actor " + std::to_string(actorIndex) + " queued", node["actor_queued"].as<bool>() ? "true" : "false",
+            queued ? "true" : "false");
+    }
+
+    // A monster's spell effect (slow, stun or paralyze): its remaining real-time-equivalent seconds.
+    if (node["actor_effect"])
+    {
+        const size_t actorIndex = node["actor_index"].as<size_t>(0);
+        const std::string effect = node["actor_effect"].as<std::string>();
+        GameplayActorInspectState inspectState = {};
+        GameplayRuntimeActorState runtimeState = {};
+        bool hasRuntimeState = false;
+        std::string failure;
+        std::optional<float> remaining;
+
+        if (context.runtimeDriver->actorInspectState(actorIndex, inspectState, runtimeState, hasRuntimeState, failure))
+        {
+            remaining = effect == "slow" ? std::optional<float>(inspectState.slowRemainingSeconds)
+                : effect == "stun"       ? std::optional<float>(inspectState.stunRemainingSeconds)
+                : effect == "paralyze"   ? std::optional<float>(inspectState.paralyzeRemainingSeconds)
+                                         : std::nullopt;
+        }
+
+        if (!remaining)
+        {
+            failures.push_back(stepLocation(step) + ": turn_based actor_effect needs an actor and slow, stun or "
+                "paralyze");
+            return false;
+        }
+
+        const float minimum = node["effect_min"].as<float>(std::numeric_limits<float>::lowest());
+        const float maximum = node["effect_max"].as<float>(std::numeric_limits<float>::max());
+        const bool matched = *remaining >= minimum && *remaining <= maximum;
+        scenarioLogAssert(context, step, "turn_based.actor_effect." + effect,
+            "[" + std::to_string(minimum) + ", " + std::to_string(maximum) + "]", std::to_string(*remaining), matched);
+
+        if (!matched)
+        {
+            failures.push_back(stepLocation(step) + ": turn_based actor " + std::to_string(actorIndex) + " " + effect
+                + " remaining " + std::to_string(*remaining));
+            success = false;
+        }
+    }
+
+    if (node["report"].as<bool>(false))
+    {
+        std::ostringstream report;
+        report << "turn_based stage=" << turnBasedStageName(turnBased.stage()) << " queue:";
+
+        for (const TurnBasedCombatRuntime::QueueEntry &entry : turnBased.queue())
+        {
+            report << ' ' << (entry.kind == TurnBasedCombatRuntime::QueueEntry::Kind::Character ? "member" : "actor")
+                   << entry.id << '@' << entry.initiative;
+        }
+
+        scenarioLog(context, ScenarioLogColor::Yellow, report.str());
+    }
+
+    return success;
+}
+
+// assert member_points: {member_index, spell_points_min, spell_points_max, health_min, health_max}: a member's
+// current spell points and hit points.
+bool assertMemberPoints(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["member_points"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    const Party *pParty = node.IsMap() && ensureRuntimeDriver(context, failures)
+        ? context.runtimeDriver->party()
+        : nullptr;
+    const Character *pMember = pParty != nullptr ? pParty->member(node["member_index"].as<size_t>(0)) : nullptr;
+
+    if (pMember == nullptr)
+    {
+        failures.push_back(stepLocation(step) + ": member_points assertion requires an existing member");
+        return false;
+    }
+
+    bool success = true;
+    const auto check = [&](const char *pField, int value)
+    {
+        const int minimum = node[std::string(pField) + "_min"].as<int>(std::numeric_limits<int>::min());
+        const int maximum = node[std::string(pField) + "_max"].as<int>(std::numeric_limits<int>::max());
+        const bool matched = value >= minimum && value <= maximum;
+
+        if (node[std::string(pField) + "_min"] || node[std::string(pField) + "_max"])
+        {
+            scenarioLogAssert(context, step, std::string("member_points.") + pField,
+                "[" + std::to_string(minimum) + ", " + std::to_string(maximum) + "]", std::to_string(value), matched);
+        }
+
+        if (!matched)
+        {
+            failures.push_back(stepLocation(step) + ": member " + pMember->name + " has " + std::to_string(value)
+                + " " + pField);
+            success = false;
+        }
+    };
+
+    check("spell_points", pMember->spellPoints);
+    check("health", pMember->health);
+    return success;
 }
 
 // assert condition: {name, present, member_index}: whether a member (any member without member_index) has the
@@ -9997,6 +10260,7 @@ bool runAssert(
     success = assertCondition(context, step, failures) && success;
     success = assertHomingEnds(context, step, failures) && success;
     success = assertPartyGold(context, step, failures) && success;
+    success = assertRecoveringMembers(context, step, failures) && success;
     success = assertPartyFood(context, step, failures) && success;
     success = assertWater(context, step, failures) && success;
     success = assertGameHour(context, step, failures) && success;
@@ -10008,6 +10272,8 @@ bool runAssert(
     success = assertDimensionDoor(context, step, failures) && success;
     success = assertCharges(context, step, failures) && success;
     success = assertCombatLog(context, step, failures) && success;
+    success = assertTurnBased(context, step, failures) && success;
+    success = assertMemberPoints(context, step, failures) && success;
 
     if (step.payload["mechanism"])
     {
@@ -10046,6 +10312,33 @@ bool runAssert(
     success = assertQuestBits(context, step, "qbit_clear", false, failures) && success;
     success = assertRuleset(context, step, failures) && success;
     return success;
+}
+
+// turn_based_turns: {count, max_seconds}: plays turn-based turns through the live input path, the party passing
+// every action and ending every movement phase, until `count` turns reached their movement phase.
+bool runTurnBasedTurns(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    const int turns = step.payload["count"].as<int>(1);
+    const float maxSeconds = step.payload["max_seconds"].as<float>(30.0f * float(std::max(1, turns)));
+    int completed = 0;
+    std::string failure;
+
+    if (!context.runtimeDriver->playTurnBasedTurns(turns, maxSeconds, completed, failure))
+    {
+        failures.push_back(stepLocation(step) + ": " + failure);
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    return true;
 }
 
 bool runSetupShortcut(
@@ -10237,6 +10530,38 @@ bool runSetupShortcut(
         return true;
     }
 
+    // set_member_points: {member_index, health, spell_points}: a member's current hit and spell points.
+    if (kind == "set_member_points")
+    {
+        if (!ensureRuntimeDriver(context, failures))
+        {
+            return false;
+        }
+
+        seedRuntimeDriverFromContext(context);
+        Party *pParty = context.runtimeDriver->party();
+        Character *pMember = pParty != nullptr ? pParty->member(step.payload["member_index"].as<size_t>(0)) : nullptr;
+
+        if (pMember == nullptr)
+        {
+            failures.push_back(stepLocation(step) + ": set_member_points shortcut needs an existing member");
+            return false;
+        }
+
+        if (step.payload["health"])
+        {
+            pMember->health = step.payload["health"].as<int>();
+        }
+
+        if (step.payload["spell_points"])
+        {
+            pMember->spellPoints = step.payload["spell_points"].as<int>();
+        }
+
+        syncContextFromRuntime(context);
+        return true;
+    }
+
     if (kind == "map_transition_prompt")
     {
         if (!step.payload["source_id"] || !step.payload["source_id"].IsScalar())
@@ -10417,6 +10742,9 @@ ScenarioRunResult ScenarioRunner::run(
             break;
         case ScenarioStepKind::UseItem:
             stepSuccess = runUseItem(context, step, result.failures);
+            break;
+        case ScenarioStepKind::TurnBasedTurns:
+            stepSuccess = runTurnBasedTurns(context, step, result.failures);
             break;
         case ScenarioStepKind::RightClickPortrait:
             stepSuccess = runRightClickPortrait(context, step, result.failures);

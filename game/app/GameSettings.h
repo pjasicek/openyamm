@@ -376,6 +376,9 @@ struct GameSettings
     bool meleeHitFlash = false;
     // Small camera turn along the blow on critical hits and kills.
     bool meleeCameraKick = false;
+    // A held Attack or Quick Cast key repeats after 0.14 s, as before 2026-11-07, instead of the original's key-repeat
+    // pause of 0.5 s that lets an ordinary tap act once (OY-189).
+    bool fastAttackRepeat = false;
     // A glow in the item's rarity colour around its icon in the inventory, chest and shop grids (rulesets with item
     // rarities, such as MAW; Common items have none; artifacts, relics and special items glow teal): "off", "hold"
     // (while the Show Item Rarity key, Left Alt, is held) or "always".

@@ -16,6 +16,7 @@
 namespace OpenYAMM::Game
 {
 class CombatLog;
+class TurnBasedCombatRuntime;
 class MawRules;
 struct ScenarioPose
 {
@@ -250,6 +251,12 @@ public:
     std::string activeDialogSummary() const;
     bool advanceRuntime(float seconds, std::string &failure);
     bool advanceGameMinutes(float minutes, std::string &failure);
+    // The turn engine of the running game (turn_based_turns, assert turn_based).
+    const TurnBasedCombatRuntime &turnBasedCombat() const;
+    // Plays `turns` turn-based turns from the live input path: the party presses Pass whenever it may (each ready
+    // member passes, each movement phase ends) and the monsters take their turns. A turn counts when it reaches its
+    // movement phase. False when that takes longer than maxSeconds of game frames or turn-based mode ends.
+    bool playTurnBasedTurns(int turns, float maxSeconds, int &completed, std::string &failure);
     bool executeCombatLoot(
         const ScenarioCombatLootRequest &request,
         ScenarioCombatLootResult &result,

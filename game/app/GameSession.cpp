@@ -1098,7 +1098,12 @@ void GameSession::updateGameplay(
             if (Party *pParty = pWorldRuntime->party())
             {
                 pParty->rules().spells.updateAuras(*pParty, deltaSeconds);
-                pParty->rules().skills.updateRegeneration(*pParty, *pWorldRuntime, deltaSeconds);
+                // Turn-based combat regenerates once per completed turn (GameplayController).
+                if (!m_turnBasedCombatRuntime.active())
+                {
+                    pParty->rules().skills.updateRegeneration(*pParty, *pWorldRuntime, deltaSeconds);
+                }
+
                 pParty->rules().combat.updateCombat(*pParty, *pWorldRuntime, deltaSeconds);
                 pParty->rules().classes.update(*pParty, *pWorldRuntime, deltaSeconds);
             }

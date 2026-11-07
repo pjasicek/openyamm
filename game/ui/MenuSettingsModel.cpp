@@ -261,6 +261,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.meleeCameraKick ? "true" : "false";
     }
+    if (id == "fast_attack_repeat")
+    {
+        return settings.fastAttackRepeat ? "true" : "false";
+    }
     if (id == "sound_volume")
     {
         return std::to_string(settings.soundVolume);
@@ -776,6 +780,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.meleeCameraKick = value == "true";
+        return true;
+    }
+    if (id == "fast_attack_repeat")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.fastAttackRepeat = value == "true";
         return true;
     }
     if (id == "sound_volume")

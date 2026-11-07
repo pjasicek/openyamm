@@ -1,0 +1,30 @@
+id: combat.realtime_tap_one_attack
+title: Real time - an ordinary Attack tap acts for one member; the held key repeats only after its first delay (OY-189)
+world: mm8
+mode: faithful
+tags: [combat, controls, regression]
+steps:
+  - note:
+      text: >-
+        A held Attack repeated every 0.14 s, so a tap of about 0.2 s swung for two members. It now repeats like an OS
+        key: first after 0.5 s (GameplayActionController::HeldActionFirstRepeatDelaySeconds), then every 0.14 s.
+  - new_game_flow:
+      start_map: out01.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: B, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: C, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+          - {name: D, class: Knight, level: 10, skills: [{name: Sword, level: 5, mastery: 1}], equipment: {}}
+  - grant_item: {item_id: 1, member_index: 0, equip: main_hand}
+  - grant_item: {item_id: 1, member_index: 1, equip: main_hand}
+  - grant_item: {item_id: 1, member_index: 2, equip: main_hand}
+  - grant_item: {item_id: 1, member_index: 3, equip: main_hand}
+  - assert: {recovering_members: 0}
+  - press_action: {action: attack, seconds: 0.2}
+  - assert: {recovering_members: 1}
+  # Held past the first delay: the next member swings on the press and another on the first repeat.
+  - press_action: {action: attack, seconds: 0.55}
+  - assert: {recovering_members: 3}

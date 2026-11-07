@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayController.h"
 
+#include "game/rules/GameRules.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 
@@ -120,8 +121,22 @@ bool GameplayController::advanceTurnBasedGameMinutes(float minutes)
         return false;
     }
 
+    // A completed turn is all the time that passes in turn-based combat (OE NextTurn -> _494035_timed_effects): the
+    // clock and buffs and the per-second regeneration advance by the turn's game time.
+    constexpr float GameMinutesPerRealSecond = 0.5f;
+    const float equivalentRealSeconds = minutes / GameMinutesPerRealSecond;
+    Party &party = m_pRuntime->party();
     m_pRuntime->advanceTurnBasedGameMinutes(minutes);
-    m_pRuntime->party().advanceTimedStates(minutes * 60.0f);
+    party.advanceTimedStates(minutes * 60.0f);
+    party.updateRegeneration(equivalentRealSeconds);
+
+    IGameplayWorldRuntime *pWorldRuntime = m_pSession != nullptr ? m_pSession->activeWorldRuntime() : nullptr;
+
+    if (pWorldRuntime != nullptr)
+    {
+        party.rules().skills.updateRegeneration(party, *pWorldRuntime, equivalentRealSeconds);
+    }
+
     return true;
 }
 

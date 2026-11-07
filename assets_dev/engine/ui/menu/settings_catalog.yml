@@ -50,6 +50,12 @@ settings:
   name: Camera kick
   type: toggle
   desc: Nudge the view along the blow on critical hits and kills.
+- id: fast_attack_repeat
+  section: gameplay
+  group: Combat
+  name: Fast attack repeat
+  type: toggle
+  desc: A held Attack or Quick Cast key repeats at once; off, a short tap acts for one character, as in the originals.
 - id: turn_based_monster_speed
   section: gameplay
   group: Turn-based combat

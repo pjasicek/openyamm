@@ -1284,6 +1284,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "fast_attack_repeat"))
+    {
+        bool parsed = settings.fastAttackRepeat;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.fastAttackRepeat = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "video", "blood_splats"))
     {
         bool parsed = settings.bloodSplats;
@@ -2472,6 +2482,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("melee_hit_effects", boolValue(settings.meleeHitEffects));
     serializer.add("melee_hit_flash", boolValue(settings.meleeHitFlash));
     serializer.add("melee_camera_kick", boolValue(settings.meleeCameraKick));
+    serializer.add("fast_attack_repeat", boolValue(settings.fastAttackRepeat));
     serializer.add("context_action_popup", boolValue(settings.contextActionPopup));
     serializer.add("rarity_glow", settings.rarityGlow);
     serializer.add("follower_panel", boolValue(settings.followerPanel));

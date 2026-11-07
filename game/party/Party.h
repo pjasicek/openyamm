@@ -792,7 +792,10 @@ public:
     bool spendSpellPointsOnActiveMember(int amount);
     void advanceTimedStates(float deltaSeconds);
     void updateRecovery(float deltaSeconds, float progressScale = 1.0f);
-    // Personal shields regenerate after their delay without damage (part of updateRecovery).
+    // Per-second HP/SP regeneration (items, spells, skills) and personal shields, part of updateRecovery. Turn-based
+    // combat runs it once per turn for the turn's game time instead (OE NextTurn -> _494035_timed_effects).
+    void updateRegeneration(float deltaSeconds);
+    // Personal shields regenerate after their delay without damage (part of updateRegeneration).
     void updatePersonalShields(float deltaSeconds);
     bool applyRecoveryToMember(size_t memberIndex, float recoverySeconds);
     bool applyRecoveryToActiveMember(float recoverySeconds);

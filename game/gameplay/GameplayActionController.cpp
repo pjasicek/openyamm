@@ -48,6 +48,7 @@ void resetQuickCastRepeatState(GameplayScreenState::QuickSpellState &quickSpellS
 {
     quickSpellState.castRepeatCooldownSeconds = 0.0f;
     quickSpellState.castLatch = false;
+    quickSpellState.castRepeating = false;
     quickSpellState.readyMemberAvailableWhileHeld = false;
 }
 
@@ -904,15 +905,20 @@ GameplayActionController::QuickCastActionDecision GameplayActionController::upda
 
     const bool pressedThisFrame = config.quickCastPressed && !quickSpellState.castLatch;
     const bool repeatReady =
-        config.quickCastPressed
+        !config.turnBased
+        && config.quickCastPressed
         && quickSpellState.castLatch
-        && (quickSpellState.castRepeatCooldownSeconds <= 0.0f || readyMemberTransitionWhileHeld);
+        && (quickSpellState.castRepeatCooldownSeconds <= 0.0f
+            || ((quickSpellState.castRepeating || config.fastRepeat) && readyMemberTransitionWhileHeld));
 
     if (pressedThisFrame || repeatReady)
     {
         quickSpellState.attackFallbackRequested = false;
         quickSpellState.castLatch = true;
-        quickSpellState.castRepeatCooldownSeconds = HeldActionRepeatDebounceSeconds;
+        quickSpellState.castRepeating = repeatReady;
+        quickSpellState.castRepeatCooldownSeconds = repeatReady || config.fastRepeat
+            ? HeldActionRepeatDebounceSeconds
+            : HeldActionFirstRepeatDelaySeconds;
         return QuickCastActionDecision{
             .shouldBeginQuickCast = true,
         };
@@ -961,16 +967,21 @@ GameplayActionController::AttackActionDecision GameplayActionController::updateA
     const bool pressedThisFrame =
         (config.attackPressed || attackTriggeredByQuickCastFallback) && !attackActionState.inspectLatch;
     const bool repeatReady =
-        (config.attackPressed || attackTriggeredByQuickCastFallback)
+        !config.turnBased
+        && (config.attackPressed || attackTriggeredByQuickCastFallback)
         && attackActionState.inspectLatch
-        && (attackActionState.inspectRepeatCooldownSeconds <= 0.0f || readyMemberTransitionWhileHeld);
+        && (attackActionState.inspectRepeatCooldownSeconds <= 0.0f
+            || ((attackActionState.inspectRepeating || config.fastRepeat) && readyMemberTransitionWhileHeld));
 
     quickSpellState.attackFallbackRequested = false;
 
     if (pressedThisFrame || repeatReady)
     {
         attackActionState.inspectLatch = true;
-        attackActionState.inspectRepeatCooldownSeconds = HeldActionRepeatDebounceSeconds;
+        attackActionState.inspectRepeating = repeatReady;
+        attackActionState.inspectRepeatCooldownSeconds = attackActionState.inspectRepeating || config.fastRepeat
+            ? HeldActionRepeatDebounceSeconds
+            : HeldActionFirstRepeatDelaySeconds;
 
         return AttackActionDecision{
             .shouldAttemptAttack = true,
