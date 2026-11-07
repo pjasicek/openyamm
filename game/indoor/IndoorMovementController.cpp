@@ -3734,11 +3734,13 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             pDebugInfo->hitHeightOffset = nearestHit->heightOffset;
         }
 
-        if (nearestHit->type == SweptCollisionHitType::Floor && iterativeVerticalVelocity < 0.0f)
+        if (nearestHit->type == SweptCollisionHitType::Floor && iterativeVerticalVelocity < 0.0f
+            && nearestHit->normal.z > 0.0001f)
         {
             iterativeVerticalVelocity = 0.0f;
         }
-        else if (nearestHit->type == SweptCollisionHitType::Ceiling && iterativeVerticalVelocity > 0.0f)
+        else if (nearestHit->type == SweptCollisionHitType::Ceiling && iterativeVerticalVelocity > 0.0f
+            && nearestHit->normal.z < -0.0001f)
         {
             iterativeVerticalVelocity = 0.0f;
         }
