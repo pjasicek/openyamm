@@ -152,7 +152,11 @@ struct Character
     float recoverySecondsRemaining = 0.0f;
     int armorClassModifier = 0;
     int levelModifier = 0;
+    // Levels that worn items add while equipped ("of Power", +5), rebuilt with the magical bonuses (OY-199).
+    int equippedLevelBonus = 0;
     int ageModifier = 0;
+    // Whole game years since the game began, kept by Party::setGameMinutes (not saved): the character ages with them.
+    uint32_t playedYears = 0;
     std::unordered_set<uint32_t> playerBits;
     uint32_t npcs2 = 0;
     int merchantBonus = 0;
@@ -456,6 +460,8 @@ public:
         std::unordered_map<uint32_t, uint32_t> npcItemOverrides;
         std::unordered_set<uint32_t> unavailableNpcIds;
         std::vector<HiredNpcFollower> hiredNpcFollowers;
+        // The outdoor map the party was last on (MMerge's vars.LastOutdoorMap); older saves have none.
+        std::string lastOutdoorMapFileName;
         // Potion pairs (target << 32 | held) that exploded when mixed, so the alchemy bench can warn.
         std::unordered_set<uint64_t> explosiveMixes;
     };
@@ -532,6 +538,8 @@ public:
     void restoreSnapshot(const Snapshot &snapshot);
     void reset();
     void seed(const PartySeed &seed);
+    const std::string &lastOutdoorMapFileName() const;
+    void setLastOutdoorMapFileName(const std::string &mapFileName);
     void applyMovementEffects(const OutdoorMovementEffects &effects);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
     void setDebugDamageImmune(bool enabled);
@@ -953,6 +961,8 @@ private:
     std::unordered_map<uint32_t, uint32_t> m_npcItemOverrides;
     std::unordered_set<uint32_t> m_unavailableNpcIds;
     std::vector<HiredNpcFollower> m_hiredNpcFollowers;
+    // The outdoor map the party was last on; saved. A defeat in an Arena wakes the party on its continent.
+    std::string m_lastOutdoorMapFileName;
     PartyBuffState m_cartographerWizardEye = {};
     uint32_t m_heldItemIdForQueries = 0;
     std::vector<uint32_t> m_humQBits;

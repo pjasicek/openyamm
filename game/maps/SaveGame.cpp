@@ -22,7 +22,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 154;
+constexpr uint32_t SaveVersion = 156;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -243,6 +243,10 @@ constexpr uint32_t SaveVersionTrainerHints = 152;
 constexpr uint32_t SaveVersionTeacherLedgers = 153;
 // The ruleset's Bow preference (RulesetPreferences::bowDisabled, MAW's disableBow); older saves have the bow on.
 constexpr uint32_t SaveVersionBowDisabled = 154;
+// The party keeps the outdoor map it was last on (Party::Snapshot::lastOutdoorMapFileName); older saves have none.
+constexpr uint32_t SaveVersionLastOutdoorMap = 155;
+// A character's crafting and alchemy bag tags take 32 bits, for a solo character's 25 bags (OY-344); before, 8.
+constexpr uint32_t SaveVersionWideBagTags = 156;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -811,6 +815,30 @@ bool readValue(BinaryReader &reader, CharacterRulesetState &value)
             || (readValue(reader, value.poisonSeconds) && readValue(reader, value.divineProtectionReadyGameMinutes)
                 && readValue(reader, value.legendaryProtectionReadyGameMinutes));
     };
+    const auto readBagTags = [&reader, &value]()
+    {
+        if (reader.version() < SaveVersionMawBagTags)
+        {
+            return true;
+        }
+
+        if (reader.version() >= SaveVersionWideBagTags)
+        {
+            return readValue(reader, value.craftingBags) && readValue(reader, value.alchemyBags);
+        }
+
+        uint8_t crafting = 0;
+        uint8_t alchemy = 0;
+
+        if (!readValue(reader, crafting) || !readValue(reader, alchemy))
+        {
+            return false;
+        }
+
+        value.craftingBags = crafting;
+        value.alchemyBags = alchemy;
+        return true;
+    };
     const auto readBags = [&reader, &value]()
     {
         uint32_t count = 0;
@@ -854,8 +882,7 @@ bool readValue(BinaryReader &reader, CharacterRulesetState &value)
                 && (reader.version() < SaveVersionProgressionMasteries
                     || (readValue(reader, value.progressionStoredMasteries)
                         && readValue(reader, value.soloStoredMasteries)))
-                && (reader.version() < SaveVersionMawBagTags
-                    || (readValue(reader, value.craftingBags) && readValue(reader, value.alchemyBags)))));
+                && readBagTags()));
 }
 
 // One byte for a Standard item; the fields follow only when a ruleset set any.
@@ -1761,6 +1788,7 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.worldCompletionsUntracked);
     writeValue(writer, value.chosenMm9RudeRows);
     writeValue(writer, value.teacherLedgers);
+    writeValue(writer, value.lastOutdoorMapFileName);
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
@@ -1812,7 +1840,8 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && (reader.version() < SaveVersionPartyDaysWithoutRest || readValue(reader, value.awakeDayIndex))
         && readWorldCompletions(reader, value)
         && (reader.version() < SaveVersionChosenMm9RudeRows || readValue(reader, value.chosenMm9RudeRows))
-        && (reader.version() < SaveVersionTeacherLedgers || readValue(reader, value.teacherLedgers));
+        && (reader.version() < SaveVersionTeacherLedgers || readValue(reader, value.teacherLedgers))
+        && (reader.version() < SaveVersionLastOutdoorMap || readValue(reader, value.lastOutdoorMapFileName));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)

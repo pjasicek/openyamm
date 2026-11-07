@@ -652,3 +652,14 @@ TEST_CASE("the Workbench outlook: item power, the gems' reach and what the Hourg
 
     CHECK(standardCraftingRules().craftOutlook(target, craftingContext).empty());
 }
+
+TEST_CASE("a solo character tags bags past the eighth, each tag on its own (OY-344)")
+{
+    OpenYAMM::Game::Character solo = {};
+    CHECK(OpenYAMM::Game::InventoryBags::toggleTag(solo, 20, OpenYAMM::Game::BagTag::Crafting));
+    CHECK(OpenYAMM::Game::InventoryBags::hasTag(solo, 20, OpenYAMM::Game::BagTag::Crafting));
+    CHECK_FALSE(OpenYAMM::Game::InventoryBags::hasTag(solo, 20, OpenYAMM::Game::BagTag::Alchemy));
+    CHECK(OpenYAMM::Game::InventoryBags::toggleTag(solo, 24, OpenYAMM::Game::BagTag::Alchemy));
+    CHECK(OpenYAMM::Game::InventoryBags::hasTag(solo, 24, OpenYAMM::Game::BagTag::Alchemy));
+    CHECK_FALSE(OpenYAMM::Game::InventoryBags::hasTag(solo, 24, OpenYAMM::Game::BagTag::Crafting));
+}

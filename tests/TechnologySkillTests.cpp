@@ -786,6 +786,49 @@ TEST_CASE("a world's floor burn: its damage type, resisted when it says so, and 
     CHECK_EQ(party.member(1)->health, 900);
 }
 
+TEST_CASE("a worn Wetsuit spares its wearer the water damage (OY-309)")
+{
+    Party party = makeParty({makeMember("Ada", "Knight"), makeMember("Bram", "Knight")}, 0);
+
+    for (size_t index = 0; index < 2; ++index)
+    {
+        party.member(index)->maxHealth = 1000;
+        party.member(index)->health = 1000;
+    }
+
+    party.member(1)->equipment.armor = 1406;
+    OutdoorMovementEffects water = {};
+    water.waterDamageTicks = 1;
+    party.applyMovementEffects(water);
+    CHECK_LT(party.member(0)->health, 1000);
+    CHECK_EQ(party.member(1)->health, 1000);
+}
+
+TEST_CASE("an item of Power adds five worn levels (OY-199)")
+{
+    Character member = {};
+    member.level = 10;
+    ItemEnchantRuntime::applySpecialEnchantBonus(member, SpecialItemEnchantKind::Power);
+    CHECK_EQ(member.equippedLevelBonus, 5);
+}
+
+TEST_CASE("characters age with the calendar and with magical ageing (OY-349)")
+{
+    Party party = makeParty({makeMember("Ada", "Knight")}, 0);
+    Character &member = *party.member(0);
+    member.birthYear = 1150;
+    CHECK_EQ(GameMechanics::characterAge(member), 18);
+
+    // Forty years of 12 months of 28 days later.
+    party.setGameMinutes(40.0f * 12.0f * 28.0f * 24.0f * 60.0f + 60.0f);
+    CHECK_EQ(member.playedYears, 40u);
+    CHECK_EQ(GameMechanics::characterAge(member), 58);
+
+    // A ghost's touch adds years.
+    member.ageModifier = 50;
+    CHECK_EQ(GameMechanics::characterAge(member), 108);
+}
+
 TEST_CASE("vendor stock gated by the world's objectives: a tiered lane shows what the party has earned")
 {
     std::vector<std::string> vendorRow(25);

@@ -1676,12 +1676,34 @@ int resolveCharacterSheetBasePrimaryStatValue(
         + resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
 }
 
+// The original's ageing: from 50, 100 and 150 years a primary stat's own value is scaled, Might and Endurance to
+// 75, 40 and 10 %, Intellect and Personality to 150, 100 and 10 %, Speed and Accuracy to 100, 40 and 10 %; Luck keeps
+// its value (OY-349).
+int ageingPercent(const Character &character, uint32_t rawStatId)
+{
+    const int age = GameMechanics::characterAge(character);
+    const int bracket = age >= 150 ? 3 : age >= 100 ? 2 : age >= 50 ? 1 : 0;
+
+    if (bracket == 0)
+    {
+        return 100;
+    }
+
+    static constexpr std::array<std::array<int, 3>, 7> Percents = {{
+        {75, 40, 10}, {150, 100, 10}, {150, 100, 10}, {75, 40, 10}, {100, 40, 10}, {100, 40, 10}, {100, 100, 100}}};
+    const uint32_t statIndex = rawStatId >= 0x27 ? rawStatId - 0x27 : rawStatId - 0x20;
+    return statIndex < Percents.size() ? Percents[statIndex][size_t(bracket - 1)] : 100;
+}
+
 int resolveCharacterSheetActualPrimaryStatValue(
     const Character &character,
     uint32_t rawStatId,
     const CharacterStatBonuses &equippedItemBonuses)
 {
+    const int baseValue = resolveCharacterPrimaryStatBaseValue(character, rawStatId);
+    const int agedBaseValue = baseValue * ageingPercent(character, rawStatId) / 100;
     return resolveCharacterSheetBasePrimaryStatValue(character, rawStatId, equippedItemBonuses)
+        - baseValue + agedBaseValue
         + resolveCharacterPrimaryStatMagicalBonusValue(character, rawStatId)
         - resolveCharacterPrimaryStatEquippedItemBonusValue(equippedItemBonuses, rawStatId);
 }
@@ -2542,8 +2564,9 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
     const int armorActual = std::max(0, armorBase + character.magicalBonuses.armorClass);
     summary.armorClass = makeSheetValue(std::max(0, armorBase), armorActual);
 
-    const int displayedActualLevel = character.levelModifier != 0
-        ? static_cast<int>(levelWithModifier(character.level, character.levelModifier))
+    const int levelBonus = character.levelModifier + character.equippedLevelBonus;
+    const int displayedActualLevel = levelBonus != 0
+        ? static_cast<int>(levelWithModifier(character.level, levelBonus))
         : static_cast<int>(maximumTrainableLevelFromExperience(character, experienceRules));
     summary.level = makeSheetValue(static_cast<int>(character.level), displayedActualLevel);
 
@@ -2631,7 +2654,7 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
 
     if (character.birthYear > 0 && character.birthYear <= static_cast<uint32_t>(CharacterAgeReferenceYear))
     {
-        summary.ageText = std::to_string(CharacterAgeReferenceYear - character.birthYear);
+        summary.ageText = std::to_string(characterAge(character));
     }
     else
     {
@@ -4024,6 +4047,22 @@ std::optional<std::string> GameMechanics::equipRefusalReason(
     }
 
     return ItemRuntime::wearRequirementText(itemDefinition);
+}
+
+int GameMechanics::characterAge(const Character &character)
+{
+    if (character.birthYear == 0)
+    {
+        return std::max(0, character.ageModifier);
+    }
+
+    return std::max(0, CharacterAgeReferenceYear + int(character.playedYears) - int(character.birthYear)
+        + character.ageModifier);
+}
+
+bool GameMechanics::hasWetsuitEquipped(const Character &character)
+{
+    return equippedItemId(character.equipment, EquipmentSlot::Armor) == Mm7WetsuitItemId;
 }
 
 bool GameMechanics::isEquipmentAllowedWithWetsuit(

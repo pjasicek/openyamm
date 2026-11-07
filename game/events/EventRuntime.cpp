@@ -1560,12 +1560,7 @@ SkillMastery normalizeCheckSkillMastery(uint32_t rawMastery)
 
 int resolveCharacterAge(const Character &member)
 {
-    if (member.birthYear > 0 && member.birthYear <= static_cast<uint32_t>(CharacterAgeReferenceYear))
-    {
-        return std::max(0, CharacterAgeReferenceYear - static_cast<int>(member.birthYear) + member.ageModifier);
-    }
-
-    return std::max(0, member.ageModifier);
+    return GameMechanics::characterAge(member);
 }
 
 int resolveMonthFromDayOfYear(int dayOfYear)

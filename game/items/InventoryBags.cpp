@@ -710,20 +710,20 @@ PlacementPreview previewPlaceInBag(
 
 bool hasTag(const Character &character, uint8_t bag, BagTag tag)
 {
-    const uint8_t tags =
+    const uint32_t tags =
         tag == BagTag::Crafting ? character.rulesetState.craftingBags : character.rulesetState.alchemyBags;
-    return bag < 8 && (tags & (1u << bag)) != 0;
+    return bag < 32 && (tags & (1u << bag)) != 0;
 }
 
 bool toggleTag(Character &character, uint8_t bag, BagTag tag)
 {
-    if (bag >= 8)
+    if (bag >= 32)
     {
         return false;
     }
 
-    uint8_t &tags = tag == BagTag::Crafting ? character.rulesetState.craftingBags : character.rulesetState.alchemyBags;
-    tags ^= uint8_t(1u << bag);
+    uint32_t &tags = tag == BagTag::Crafting ? character.rulesetState.craftingBags : character.rulesetState.alchemyBags;
+    tags ^= 1u << bag;
     return (tags & (1u << bag)) != 0;
 }
 

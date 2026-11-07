@@ -479,17 +479,31 @@ size_t findValue(const std::vector<uint8_t> &bytes, const T &value)
 // preview); older ones keep the map after the scene kind, the time before the camera yaw, the ruleset before the
 // random root seed and the name and preview at the end. Moves them back, for a save then stamped with an older version.
 // Saves before version 143 end the party without its completion records; save carries one record named by marker.
+// The party's empty last outdoor map (version 155), after its one completion record (named by marker), the untracked
+// flag and the empty counts of chosen MM9 talk rows and Ledgers of Teachers, so the party ends as before version 155.
+void eraseLastOutdoorMap(std::vector<uint8_t> &bytes, const std::string &marker)
+{
+    const auto markerIt = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
+    REQUIRE(markerIt != bytes.end());
+    const size_t offset = static_cast<size_t>(markerIt - bytes.begin()) + marker.size() + sizeof(float)
+        + sizeof(uint64_t) + sizeof(int64_t) + 2 * sizeof(bool) + 2 * sizeof(uint64_t);
+    uint64_t length = 1;
+    std::memcpy(&length, bytes.data() + offset, sizeof(length));
+    REQUIRE_EQ(length, 0u);
+    eraseBytes(bytes, offset, sizeof(uint64_t));
+}
+
 void eraseWorldCompletions(std::vector<uint8_t> &bytes, const std::string &marker)
 {
     const auto markerIt = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
     REQUIRE(markerIt != bytes.end());
     // The record count and the id's length before the id; game minutes, score, real time and the timed flag after it,
     // then the untracked flag, and the empty counts of chosen MM9 talk rows (version 146) and of bought Ledgers of
-    // Teachers (153) that follow.
+    // Teachers (153) and the empty last outdoor map (155) that follow.
     const size_t offset = static_cast<size_t>(markerIt - bytes.begin()) - 2 * sizeof(uint64_t);
     eraseBytes(bytes, offset,
         2 * sizeof(uint64_t) + marker.size() + sizeof(float) + sizeof(uint64_t) + sizeof(int64_t) + 2 * sizeof(bool)
-            + 2 * sizeof(uint64_t));
+            + 3 * sizeof(uint64_t));
 }
 
 void moveSummaryToLegacyPlaces(
@@ -641,6 +655,8 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     save.ruleset.id = "maw";
     save.ruleset.options.preferences.trainerHints = true;
     save.ruleset.options.preferences.bowDisabled = true;
+    const std::string completionMarker = "completionmarker";
+    save.party.worldCompletions.push_back({completionMarker});
     const std::filesystem::path path = makeTemporaryRoot("bow_preference").replace_extension(".oysav");
     std::string error;
     REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, save, error), error);
@@ -659,6 +675,7 @@ TEST_CASE("saves before the Bow preference load with the bow on")
     eraseBytes(bytes, bowOffset, sizeof(bool));
     --summarySize;
     std::memcpy(bytes.data() + HeaderSize, &summarySize, sizeof(summarySize));
+    eraseLastOutdoorMap(bytes, completionMarker);
     const uint32_t previousVersion = 153;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -1324,4 +1341,31 @@ TEST_CASE("the MAW ruleset's global events leave the base game's events alone")
 
     CHECK(global->hasEvent(65400));
     CHECK(global->hasEvent(65401));
+}
+
+
+TEST_CASE("saves keep the outdoor map the party was last on (OY-303)")
+{
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    save.party.lastOutdoorMapFileName = "oute3.odm";
+    std::string error;
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = roundTrip(save, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    CHECK_EQ(restored->party.lastOutdoorMapFileName, "oute3.odm");
+}
+
+TEST_CASE("saves keep a solo character's bag tags past the eighth bag (OY-344)")
+{
+    OpenYAMM::Game::GameSaveData save = minimalSave();
+    OpenYAMM::Game::Character member;
+    member.name = "Solo";
+    member.rulesetState.craftingBags = 1u << 20;
+    member.rulesetState.alchemyBags = 1u << 24;
+    save.party.members.push_back(member);
+    std::string error;
+    const std::optional<OpenYAMM::Game::GameSaveData> restored = roundTrip(save, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    REQUIRE_EQ(restored->party.members.size(), 1u);
+    CHECK_EQ(restored->party.members[0].rulesetState.craftingBags, 1u << 20);
+    CHECK_EQ(restored->party.members[0].rulesetState.alchemyBags, 1u << 24);
 }

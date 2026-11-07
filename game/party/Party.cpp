@@ -353,6 +353,8 @@ void applyMagicalPrimaryStatResourceBonuses(
         member.personality, member.magicalBonuses.personality + member.permanentBonuses.personality);
     adjustedMember.endurance = primaryStatWithMagicalBonus(
         member.endurance, member.magicalBonuses.endurance + member.permanentBonuses.endurance);
+    // Worn levels ("of Power") count as levels for HP and SP, as the original's level attribute does.
+    adjustedMember.level = uint32_t(std::max<int64_t>(1, int64_t(member.level) + member.equippedLevelBonus));
 
     const int baseMaxHealth = GameMechanics::calculateBaseCharacterMaxHealth(member, pClassMultiplierTable);
     const int adjustedMaxHealth = GameMechanics::calculateBaseCharacterMaxHealth(adjustedMember, pClassMultiplierTable);
@@ -2243,6 +2245,16 @@ void Character::synchronizeInnateAbilitySpells()
     }
 }
 
+const std::string &Party::lastOutdoorMapFileName() const
+{
+    return m_lastOutdoorMapFileName;
+}
+
+void Party::setLastOutdoorMapFileName(const std::string &mapFileName)
+{
+    m_lastOutdoorMapFileName = mapFileName;
+}
+
 std::function<bool(const SpellEntry &)> spellKnownBy(const Character &character)
 {
     return [&character](const SpellEntry &entry)
@@ -2680,6 +2692,7 @@ Party::Snapshot Party::snapshot() const
     snapshot.npcItemOverrides = m_npcItemOverrides;
     snapshot.unavailableNpcIds = m_unavailableNpcIds;
     snapshot.hiredNpcFollowers = m_hiredNpcFollowers;
+    snapshot.lastOutdoorMapFileName = m_lastOutdoorMapFileName;
 
     for (const auto &[houseId, state] : m_houseStockStates)
     {
@@ -2737,6 +2750,7 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_npcItemOverrides = snapshot.npcItemOverrides;
     m_unavailableNpcIds = snapshot.unavailableNpcIds;
     m_hiredNpcFollowers = snapshot.hiredNpcFollowers;
+    m_lastOutdoorMapFileName = snapshot.lastOutdoorMapFileName;
     m_houseStockStates.clear();
 
     for (const HouseStockState &state : snapshot.houseStockStates)
@@ -2816,6 +2830,7 @@ void Party::seed(const PartySeed &seed)
     m_npcItemOverrides.clear();
     m_unavailableNpcIds.clear();
     m_hiredNpcFollowers.clear();
+    m_lastOutdoorMapFileName.clear();
     m_houseStockStates.clear();
     ++m_dialogueEligibilityRevision;
 
@@ -2957,7 +2972,8 @@ void Party::applyMovementEffects(const OutdoorMovementEffects &effects)
     {
         for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
         {
-            if (m_members[memberIndex].waterWalking)
+            // A Wetsuit keeps its wearer from drowning, as in MM7 (OY-309).
+            if (m_members[memberIndex].waterWalking || GameMechanics::hasWetsuitEquipped(m_members[memberIndex]))
             {
                 continue;
             }
@@ -3975,6 +3991,14 @@ void Party::addDayWithoutRest()
 void Party::setGameMinutes(float gameMinutes)
 {
     m_gameMinutes = std::max(0.0f, gameMinutes);
+    // The calendar's year: 12 months of 28 days (OY-349).
+    constexpr float MinutesPerYear = 12.0f * 28.0f * 24.0f * 60.0f;
+    const uint32_t playedYears = uint32_t(m_gameMinutes / MinutesPerYear);
+
+    for (Character &member : m_members)
+    {
+        member.playedYears = playedYears;
+    }
 }
 
 float Party::gameMinutes() const
@@ -7873,6 +7897,7 @@ void Party::rebuildMagicalBonusesFromBuffs()
         member.recoveryProgressMultiplier = 1.0f;
         member.itemSkillBonuses.clear();
         member.equippedItemEffectFlags.clear();
+        member.equippedLevelBonus = 0;
 
         // Potions that add skill levels for a while (MAW's Meditation potion).
         for (const TimedPotionEffect &effect : member.rulesetState.potionEffects)

@@ -484,6 +484,7 @@ void ItemEnchantRuntime::applySpecialEnchantBonus(Character &member, SpecialItem
             break;
 
         case SpecialItemEnchantKind::Power:
+            member.equippedLevelBonus += 5;
             break;
 
         case SpecialItemEnchantKind::AirMagic:

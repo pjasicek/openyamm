@@ -235,6 +235,7 @@ private:
     std::string resolvePartyDefeatRespawnMapFileName() const;
     MapStartDestination resolvePartyDefeatRespawnDestination() const;
     std::string resolvePartyDefeatCutsceneStem() const;
+    std::string partyDefeatContinentMapFileName() const;
     void applyPartyDefeatConsequences();
     bool respawnPartyAfterDefeat(bool initializeView);
     void captureCurrentSceneState();

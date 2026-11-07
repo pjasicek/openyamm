@@ -9286,6 +9286,11 @@ void GameApplication::synchronizeSessionFromRuntime()
     m_gameSession.setCurrentSceneKind(m_pMapSceneRuntime->kind());
     m_gameSession.setCurrentMapFileName(m_pMapSceneRuntime->currentMapFileName());
 
+    if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
+    {
+        m_pMapSceneRuntime->party().setLastOutdoorMapFileName(toLowerCopy(m_pMapSceneRuntime->currentMapFileName()));
+    }
+
     if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor
         && m_pOutdoorPartyRuntime != nullptr
         && m_pOutdoorWorldRuntime != nullptr)
@@ -11692,6 +11697,17 @@ bool GameApplication::startNewSessionFromCharacterCreation(
     );
     renderLoadingOverlayProgress(95);
     completeLoadingOverlay();
+
+    // The new game's first autosave, as MM8 and MMerge make one; it is written once a frame has rendered for its
+    // preview (OY-345). The Noop renderer (headless runs) never renders one.
+    if (bgfx::getRendererType() != bgfx::RendererType::Noop)
+    {
+        if (IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime())
+        {
+            pWorldRuntime->requestTravelAutosave();
+        }
+    }
+
     return true;
 }
 
@@ -13641,12 +13657,15 @@ std::string GameApplication::resolvePartyDefeatRespawnMapFileName() const
 GameApplication::MapStartDestination GameApplication::resolvePartyDefeatRespawnDestination() const
 {
     const std::string currentMapFileName = toLowerCopy(m_gameSession.currentMapFileName());
-    const MapStatsEntry *pCurrentMap = m_gameDataLoader.getMapStats().findByFileName(currentMapFileName);
 
-    if (pCurrentMap != nullptr)
+    // The continent's death maps: in an Arena, those of the continent the party came from.
+    const std::string continentMapFileName = partyDefeatContinentMapFileName();
+    const MapStatsEntry *pContinentMap = m_gameDataLoader.getMapStats().findByFileName(continentMapFileName);
+
+    if (pContinentMap != nullptr)
     {
         const MergedContinentSettingEntry *pContinentSetting =
-            m_gameDataLoader.findMergedContinentSettingsForMap(*pCurrentMap);
+            m_gameDataLoader.findMergedContinentSettingsForMap(*pContinentMap);
 
         if (pContinentSetting != nullptr)
         {
@@ -13658,14 +13677,14 @@ GameApplication::MapStartDestination GameApplication::resolvePartyDefeatRespawnD
                 const MapStatsEntry *pDeathMap1 = !deathMap1.empty()
                     ? m_gameDataLoader.getMapStats().findByFileName(deathMap1)
                     : nullptr;
-                const bool unfinishedMm7Contest = pCurrentMap->worldId == "mm7"
+                const bool unfinishedMm7Contest = pContinentMap->worldId == "mm7"
                     && m_pMapSceneRuntime != nullptr
                     && !m_pMapSceneRuntime->party().hasQuestBit(EmeraldIslandFinishedQBit);
-                const bool useFirstDeathMap = pCurrentMap->worldId == "mm8" && m_pMapSceneRuntime != nullptr
+                const bool useFirstDeathMap = pContinentMap->worldId == "mm8" && m_pMapSceneRuntime != nullptr
                     ? !m_pMapSceneRuntime->party().hasQuestBit(RavenshoreVisitedQBit)
                     : unfinishedMm7Contest
-                        || sameMapFileName(currentMapFileName, deathMap1)
-                        || mapMatchesDeathDestination(*pCurrentMap, currentMapFileName, pDeathMap1);
+                        || sameMapFileName(continentMapFileName, deathMap1)
+                        || mapMatchesDeathDestination(*pContinentMap, continentMapFileName, pDeathMap1);
 
                 if (!deathMap1.empty() && useFirstDeathMap)
                 {
@@ -13714,6 +13733,21 @@ GameApplication::MapStartDestination GameApplication::resolvePartyDefeatRespawnD
     return MapStartDestination{.mapFileName = RavenshoreRespawnMapFile};
 }
 
+// The map whose continent a defeat wakes the party on: the current one, but in an Arena, which the continents' Arena
+// Masters share, the outdoor map the party came from, as MMerge's death map (vars.LastOutdoorMap) does (OY-303).
+std::string GameApplication::partyDefeatContinentMapFileName() const
+{
+    const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+
+    if (pWorldRuntime != nullptr && pWorldRuntime->arenaMap() != nullptr && m_pMapSceneRuntime != nullptr
+        && !m_pMapSceneRuntime->party().lastOutdoorMapFileName().empty())
+    {
+        return m_pMapSceneRuntime->party().lastOutdoorMapFileName();
+    }
+
+    return toLowerCopy(m_gameSession.currentMapFileName());
+}
+
 std::string GameApplication::resolvePartyDefeatCutsceneStem() const
 {
     if (m_pAssetFileSystem == nullptr)
@@ -13721,13 +13755,11 @@ std::string GameApplication::resolvePartyDefeatCutsceneStem() const
         return PartyDefeatCutsceneStem;
     }
 
-    const std::string currentMapFileName = toLowerCopy(m_gameSession.currentMapFileName());
-    const MapStatsEntry *pCurrentMap = m_gameDataLoader.getMapStats().findByFileName(currentMapFileName);
-
-    if (pCurrentMap != nullptr)
+    if (const MapStatsEntry *pContinentMap =
+            m_gameDataLoader.getMapStats().findByFileName(partyDefeatContinentMapFileName()))
     {
         const MergedContinentSettingEntry *pContinentSetting =
-            m_gameDataLoader.findMergedContinentSettingsForMap(*pCurrentMap);
+            m_gameDataLoader.findMergedContinentSettingsForMap(*pContinentMap);
 
         if (pContinentSetting != nullptr && !trimCopy(pContinentSetting->deathMovie).empty())
         {

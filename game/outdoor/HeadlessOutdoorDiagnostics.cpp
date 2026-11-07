@@ -36697,6 +36697,20 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            // The Arena (d42) is Jadame's, but a party that came from Enroth wakes in Enroth (OY-303).
+            GameApplicationTestAccess::mapSceneRuntime(application)->party().setLastOutdoorMapFileName("oute3.odm");
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "d42.blv", failure))
+            {
+                return false;
+            }
+
+            if (GameApplicationTestAccess::resolvePartyDefeatRespawnMapFileName(application) != "oute3.odm")
+            {
+                failure = "Arena defeat of a party from Enroth did not resolve to New Sorpigal";
+                return false;
+            }
+
             return true;
         }
     );

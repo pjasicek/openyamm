@@ -419,6 +419,11 @@ public:
         const CharacterDollTypeEntry *pCharacterDollType,
         std::optional<EquipmentSlot> explicitSlot,
         bool preferOffHand);
+    // MM7's Wetsuit worn as armour: its wearer takes no water damage (OY-309).
+    static bool hasWetsuitEquipped(const Character &character);
+    // A character's age: the game's years so far from the starting year, less the birth year, plus magical ageing
+    // (Character::ageModifier); without a birth year, the ageing alone (OY-349).
+    static int characterAge(const Character &character);
     static bool isEquipmentAllowedWithWetsuit(
         const Character &character,
         const ItemTable *pItemTable,
