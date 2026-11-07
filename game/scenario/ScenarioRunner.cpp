@@ -9190,6 +9190,103 @@ bool assertChestOpened(
     return context.mode != ScenarioMode::Faithful || success;
 }
 
+// chest_view: {open, chest_id}: whether a chest's loot screen is open now (and which chest).
+bool assertChestView(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["chest_view"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !ensureRuntimeDriver(context, failures))
+    {
+        failures.push_back(stepLocation(step) + ": chest_view assertion requires a map and a live runtime");
+        return false;
+    }
+
+    const ScenarioRuntimeDriver &runtimeDriver = *context.runtimeDriver;
+    const IGameplayWorldRuntime *pWorldRuntime = runtimeDriver.worldRuntime();
+    const GameplayChestViewState *pChestView = pWorldRuntime != nullptr ? pWorldRuntime->activeChestView() : nullptr;
+    const bool expectedOpen = node["open"].as<bool>(true);
+    const bool open = pChestView != nullptr;
+    scenarioLogAssert(
+        context,
+        step,
+        "chest_view.open",
+        expectedOpen ? "true" : "false",
+        open ? "true" : "false",
+        open == expectedOpen);
+
+    if (open != expectedOpen)
+    {
+        failures.push_back(stepLocation(step) + ": chest view " + (open ? "open" : "closed") + ", expected "
+            + (expectedOpen ? "open" : "closed"));
+        return false;
+    }
+
+    if (open && node["chest_id"] && pChestView->chestId != node["chest_id"].as<uint32_t>())
+    {
+        failures.push_back(stepLocation(step) + ": chest view shows chest " + std::to_string(pChestView->chestId)
+            + ", expected " + node["chest_id"].as<std::string>());
+        return false;
+    }
+
+    return true;
+}
+
+// party_position: {x, y, radius, z_min, z_max}: the party stands within `radius` (default 64) of (x, y), its feet
+// between z_min and z_max when given.
+bool assertPartyPosition(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["party_position"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !node["x"] || !node["y"] || !ensureRuntimeDriver(context, failures))
+    {
+        failures.push_back(stepLocation(step) + ": party_position assertion requires x, y and a live runtime");
+        return false;
+    }
+
+    const ScenarioPose pose = context.runtimeDriver->currentPose();
+    const float dx = pose.x - node["x"].as<float>();
+    const float dy = pose.y - node["y"].as<float>();
+    const float radius = node["radius"].as<float>(64.0f);
+    const bool inside = dx * dx + dy * dy <= radius * radius
+        && (!node["z_min"] || pose.z >= node["z_min"].as<float>())
+        && (!node["z_max"] || pose.z <= node["z_max"].as<float>());
+    const std::string actual =
+        "(" + std::to_string(pose.x) + ", " + std::to_string(pose.y) + ", " + std::to_string(pose.z) + ")";
+    scenarioLogAssert(
+        context,
+        step,
+        "party_position",
+        "(" + node["x"].as<std::string>() + ", " + node["y"].as<std::string>() + ")",
+        actual,
+        inside);
+
+    if (!inside)
+    {
+        failures.push_back(stepLocation(step) + ": party at " + actual + ", expected within "
+            + std::to_string(radius) + " of (" + node["x"].as<std::string>() + ", " + node["y"].as<std::string>()
+            + ")");
+        return false;
+    }
+
+    return true;
+}
+
 bool assertActorDialogStarted(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -9936,6 +10033,8 @@ bool runAssert(
         &EventRuntimeState::lastMapTransitionCanceled,
         failures) && success;
     success = assertChestOpened(context, step, failures) && success;
+    success = assertChestView(context, step, failures) && success;
+    success = assertPartyPosition(context, step, failures) && success;
     success = assertActorDialogStarted(context, step, failures) && success;
     success = assertPressurePlateTriggered(context, step, failures) && success;
     success = assertDialogueCanceled(context, step, failures) && success;

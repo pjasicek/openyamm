@@ -163,6 +163,14 @@ public:
         float y,
         float footZHint,
         float bodyRadius) const;
+    // The party placed at a point (a map arrival, a teleport): a model floor up to stepUp above the feet, which the
+    // body would otherwise stand inside, holds it, as the stairs under the Castle of Air's door do (OY-392).
+    OutdoorMoveState initializePartyArrivalState(
+        float x,
+        float y,
+        float footZHint,
+        float bodyRadius,
+        float stepUp) const;
     OutdoorMoveState initializeActorStateForBody(
         float x,
         float y,
@@ -271,7 +279,8 @@ private:
         float footZHint,
         float bodyRadius,
         bool actorConditionalBModelSupport,
-        bool preserveFootZ) const;
+        bool preserveFootZ,
+        float arrivalStepUp = 0.0f) const;
     void buildFaceCache();
     void buildFaceSpatialIndex();
     void buildDecorationColliderCache(const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet);

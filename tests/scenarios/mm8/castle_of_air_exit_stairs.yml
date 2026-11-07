@@ -1,0 +1,14 @@
+id: mm8.castle_of_air_exit_stairs
+title: MM8 - leaving the Castle of Air puts the party on the stairs under its door, not inside the castle (OY-392)
+world: mm8
+mode: faithful
+tags: [mm8, outdoor, movement, regression]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+  - load_map: {map: elema.odm}
+  # d27's exit (event 501) arrives at z 3234, 31 units under the stairs' floor (3265): the party stands on the stairs,
+  # not on the castle's inner floor 418 units lower.
+  - set_pose: {map: elema.odm, x: -11771, y: -9444, z: 3234, yaw_degrees: 0}
+  - assert:
+      party_position: {x: -11771, y: -9444, radius: 8, z_min: 3260, z_max: 3270}

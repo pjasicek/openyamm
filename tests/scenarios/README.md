@@ -23,6 +23,10 @@ unknown `kind` now fails when it runs (it was skipped).
 
 When a runner check is added, add its key to the loader's lists in the same change.
 
+`assert: {chest_view: {open, chest_id}}` checks whether a chest's loot screen is open now, and
+`assert: {party_position: {x, y, radius, z_min, z_max}}` that the party stands within `radius` (default 64) of a point
+(`mm7/barrow_downs_teleporting_chest.yml`).
+
 Checks added with this rule: `assert: {gold: N}` (the party's gold), `assert: {mechanism: {...}}` (as
 `assert_mechanism`), `press_action: {action: escape|cancel_dialog, expect: {dialogue_canceled: {...}}}`, and for the
 charge modifier `charge_actor: {actor_index}` and `assert: {charges: {started, hits, misses, min_started, min_hits,

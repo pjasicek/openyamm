@@ -281,7 +281,7 @@ private:
     void pumpLoadingOverlayAnimation();
     void completeLoadingOverlay();
     void cancelLoadingOverlay();
-    void closeTransientGameplayUiForMapMove();
+    void closeTransientGameplayUiForMapMove(bool keepLootView);
     std::filesystem::path settingsFilePath() const;
     bool saveSettings(const GameSettings &settings, std::string &error) const;
     void loadOrCreateSettings();

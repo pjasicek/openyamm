@@ -114,7 +114,8 @@ OutdoorMovementDriver::OutdoorMovementDriver(
 
 void OutdoorMovementDriver::initialize(float x, float y, float footZHint)
 {
-    m_state = m_movementController.initializeStateForBody(x, y, footZHint, m_bodyDimensions.radius);
+    m_state = m_movementController.initializePartyArrivalState(
+        x, y, footZHint, m_bodyDimensions.radius, m_bodyDimensions.maxStepHeight);
     m_partyMovementState = {};
     m_tuning = {};
     m_tuning.maxFlightHeight = m_flightCeiling;

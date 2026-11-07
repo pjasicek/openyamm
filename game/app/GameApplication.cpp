@@ -13004,7 +13004,9 @@ bool GameApplication::processPendingMapMove()
     };
     if (isSameMapTeleport)
     {
-        closeTransientGameplayUiForMapMove();
+        // A chest that teleports its opener (The Barrow Downs) stays open, as in the original: the party is moved
+        // behind the loot screen and can still take the items.
+        closeTransientGameplayUiForMapMove(true);
         const std::string previousMapFileName = m_gameSession.currentMapFileName();
         if (m_pMapSceneRuntime != nullptr
             && m_pMapSceneRuntime->kind() == SceneKind::Outdoor
@@ -13044,7 +13046,7 @@ bool GameApplication::processPendingMapMove()
         ? LoadingOverlayScreen::Presentation::Fullscreen
         : LoadingOverlayScreen::Presentation::DungeonTransition;
     beginLoadingOverlay(loadingPresentation);
-    closeTransientGameplayUiForMapMove();
+    closeTransientGameplayUiForMapMove(false);
 
     EventRuntimeState *pLeavingRuntimeState =
         m_pMapSceneRuntime != nullptr ? m_pMapSceneRuntime->eventRuntimeState() : nullptr;
@@ -13195,11 +13197,15 @@ bool GameApplication::activeViewSavePreviewCapturePending() const
     return false;
 }
 
-void GameApplication::closeTransientGameplayUiForMapMove()
+void GameApplication::closeTransientGameplayUiForMapMove(bool keepLootView)
 {
     IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    const bool lootViewKept = keepLootView
+        && pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
 
-    if (pWorldRuntime != nullptr)
+    if (pWorldRuntime != nullptr && !lootViewKept)
     {
         if (pWorldRuntime->activeChestView() != nullptr)
         {
@@ -13214,15 +13220,18 @@ void GameApplication::closeTransientGameplayUiForMapMove()
         }
     }
 
-    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     m_gameAudioSystem.resumeBackgroundMusic();
     screenRuntime.stopHouseVideoPlayback();
     screenRuntime.closeHouseShopOverlay();
     screenRuntime.closeTransportSchedule();
-    screenRuntime.closeInventoryNestedOverlay();
     screenRuntime.closeActiveDialogForMapMove();
-    screenRuntime.resetLootOverlayInteractionState();
-    screenRuntime.lootSummaryOverlay() = {};
+
+    if (!lootViewKept)
+    {
+        screenRuntime.closeInventoryNestedOverlay();
+        screenRuntime.resetLootOverlayInteractionState();
+        screenRuntime.lootSummaryOverlay() = {};
+    }
 }
 
 bool GameApplication::processPendingArcomageGame()

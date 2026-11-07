@@ -42,7 +42,8 @@ const KeyList AssertKeys = {
     "chest_opened", "actor_dialog_started", "pressure_plate_triggered", "dialogue_canceled", "dialog",
     "input_prompt", "new_game_party_member", "new_game_party_skill", "qbit_set", "qbit_clear", "ruleset",
     "mechanism", "gold", "food", "game_hour", "charges", "dimension_door", "combat_log", "journal_map_note",
-    "quick_item_ring", "quick_item_popup", "water", "ai_trace", "autonote", "teacher_ledger",
+    "quick_item_ring", "quick_item_popup", "water", "ai_trace", "autonote", "teacher_ledger", "chest_view",
+    "party_position",
     // recorded:
     "scene_kind", "new_game_starting", "new_game_started", "state_dump_party", "state_dump_party_member",
     "state_dump_party_skill", "follower_hired", "follower_left", "gold_received", "starting_items"};
@@ -68,6 +69,8 @@ const std::vector<NestedKeys> AssertBlockKeys = {
     {"autonote", {"id", "present"}},
     {"teacher_ledger", {"continent", "bought"}},
     {"quick_item_ring", {"open", "member_index"}},
+    {"chest_view", {"open", "chest_id"}},
+    {"party_position", {"x", "y", "radius", "z_min", "z_max"}},
     {"quick_item_popup", {"kind", "member_index"}},
     {"dimension_door", {"pending", "without_quest"}},
     {"water", {"state", "eye_under", "breath_min", "breath_max", "drowning_ticks_min", "drowning_ticks_max",
