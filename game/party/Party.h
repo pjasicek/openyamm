@@ -841,6 +841,9 @@ public:
     void markArtifactItemFound(uint32_t itemId);
     void clearFoundArtifactItems();
     bool hasArcomageWinAt(uint32_t houseId) const;
+    // Whether winning at this tavern counts toward Arcomage Champion: MM7's Emerald Island tavern (between the MM8
+    // and MM7 ranges) does not, as in the original (OY-308).
+    static bool arcomageTavernCountsForChampion(uint32_t houseId);
     void recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWinAwardId);
     void recordArcomageLoss();
     uint32_t arcomageWinCount() const;

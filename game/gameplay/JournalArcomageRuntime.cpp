@@ -32,6 +32,8 @@ struct ArcomageTavern
     std::string town;
     std::string name;
     bool won = false;
+    // Whether a win here counts toward Arcomage Champion (Emerald Island's tavern does not: OY-308).
+    bool countsForChampion = true;
 };
 } // namespace
 
@@ -52,6 +54,7 @@ std::vector<std::string> buildArcomageTavernTexts(const HouseTable &houseTable, 
         tavern.town = pMap != nullptr ? pMap->name : std::string();
         tavern.name = house.name;
         tavern.won = party.hasArcomageWinAt(houseId);
+        tavern.countsForChampion = Party::arcomageTavernCountsForChampion(houseId);
         tavernsByContinent[pMap != nullptr ? pMap->mergedContinentId : 0].push_back(std::move(tavern));
     }
 
@@ -64,14 +67,17 @@ std::vector<std::string> buildArcomageTavernTexts(const HouseTable &houseTable, 
                 return std::tie(left.town, left.name) < std::tie(right.town, right.name);
             });
         const size_t wonCount = size_t(std::count_if(taverns.begin(), taverns.end(),
-            [](const ArcomageTavern &tavern) { return tavern.won; }));
+            [](const ArcomageTavern &tavern) { return tavern.won && tavern.countsForChampion; }));
+        const size_t countedCount = size_t(std::count_if(taverns.begin(), taverns.end(),
+            [](const ArcomageTavern &tavern) { return tavern.countsForChampion; }));
         texts.push_back(continentName(continentId) + ": " + std::to_string(wonCount) + " of "
-            + std::to_string(taverns.size()) + " taverns won.");
+            + std::to_string(countedCount) + " taverns won.");
 
         for (const ArcomageTavern &tavern : taverns)
         {
             const std::string place = tavern.town.empty() ? tavern.name : tavern.name + ", " + tavern.town;
-            texts.push_back(place + (tavern.won ? ": won" : ": not won yet"));
+            texts.push_back(place + (tavern.won ? ": won" : ": not won yet")
+                + (tavern.countsForChampion ? "" : " (not needed for Champion)"));
         }
     }
 

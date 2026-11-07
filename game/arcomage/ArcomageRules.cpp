@@ -36,6 +36,10 @@ void clearShownCards(ArcomageState &state)
     }
 }
 
+// A production level (quarry, magic, dungeon) never falls below 1: the original keeps it one lower and adds 1 to the
+// income and the shown level (OY-168).
+constexpr int MinimumProductionLevel = 1;
+
 // The change that lowers value by amount, clamped at 0 like every other Arcomage value.
 int clampedLoss(int value, int amount)
 {
@@ -66,13 +70,13 @@ ArcomageRules::SpecialCardEffect ArcomageRules::specialCardEffect(
         // The side with the lower wall loses 1 dungeon and 2 tower; equal walls hit both sides.
         if (player.wall <= enemy.wall)
         {
-            effect.playerDungeon = clampedLoss(player.dungeon, 1);
+            effect.playerDungeon = std::max(MinimumProductionLevel, player.dungeon - 1) - player.dungeon;
             effect.playerTower = clampedLoss(player.tower, 2);
         }
 
         if (player.wall >= enemy.wall)
         {
-            effect.enemyDungeon = clampedLoss(enemy.dungeon, 1);
+            effect.enemyDungeon = std::max(MinimumProductionLevel, enemy.dungeon - 1) - enemy.dungeon;
             effect.enemyTower = clampedLoss(enemy.tower, 2);
         }
     }
@@ -504,6 +508,14 @@ bool ArcomageRules::evaluateCondition(
     return true;
 }
 
+int ArcomageRules::applyLevelChange(int &target, int otherValue, int delta)
+{
+    const int previous = target;
+    applyScalarChange(target, otherValue, delta);
+    target = std::max(MinimumProductionLevel, target);
+    return target - previous;
+}
+
 int ArcomageRules::applyScalarChange(int &target, int otherValue, int delta)
 {
     const int previous = target;
@@ -553,9 +565,9 @@ void ArcomageRules::applyEffectBundle(
     ArcomagePlayerState &player,
     ArcomagePlayerState &enemy)
 {
-    applyScalarChange(player.quarry, enemy.quarry, bundle.playerQuarry);
-    applyScalarChange(player.magic, enemy.magic, bundle.playerMagic);
-    applyScalarChange(player.dungeon, enemy.dungeon, bundle.playerDungeon);
+    applyLevelChange(player.quarry, enemy.quarry, bundle.playerQuarry);
+    applyLevelChange(player.magic, enemy.magic, bundle.playerMagic);
+    applyLevelChange(player.dungeon, enemy.dungeon, bundle.playerDungeon);
     applyScalarChange(player.bricks, enemy.bricks, bundle.playerBricks);
     applyScalarChange(player.gems, enemy.gems, bundle.playerGems);
     applyScalarChange(player.recruits, enemy.recruits, bundle.playerRecruits);
@@ -563,9 +575,9 @@ void ArcomageRules::applyEffectBundle(
     applyScalarChange(player.wall, enemy.wall, bundle.playerWall);
     applyScalarChange(player.tower, enemy.tower, bundle.playerTower);
 
-    applyScalarChange(enemy.quarry, player.quarry, bundle.enemyQuarry);
-    applyScalarChange(enemy.magic, player.magic, bundle.enemyMagic);
-    applyScalarChange(enemy.dungeon, player.dungeon, bundle.enemyDungeon);
+    applyLevelChange(enemy.quarry, player.quarry, bundle.enemyQuarry);
+    applyLevelChange(enemy.magic, player.magic, bundle.enemyMagic);
+    applyLevelChange(enemy.dungeon, player.dungeon, bundle.enemyDungeon);
     applyScalarChange(enemy.bricks, player.bricks, bundle.enemyBricks);
     applyScalarChange(enemy.gems, player.gems, bundle.enemyGems);
     applyScalarChange(enemy.recruits, player.recruits, bundle.enemyRecruits);
@@ -573,12 +585,12 @@ void ArcomageRules::applyEffectBundle(
     applyScalarChange(enemy.wall, player.wall, bundle.enemyWall);
     applyScalarChange(enemy.tower, player.tower, bundle.enemyTower);
 
-    applyScalarChange(player.quarry, enemy.quarry, bundle.bothQuarry);
-    applyScalarChange(enemy.quarry, player.quarry, bundle.bothQuarry);
-    applyScalarChange(player.magic, enemy.magic, bundle.bothMagic);
-    applyScalarChange(enemy.magic, player.magic, bundle.bothMagic);
-    applyScalarChange(player.dungeon, enemy.dungeon, bundle.bothDungeon);
-    applyScalarChange(enemy.dungeon, player.dungeon, bundle.bothDungeon);
+    applyLevelChange(player.quarry, enemy.quarry, bundle.bothQuarry);
+    applyLevelChange(enemy.quarry, player.quarry, bundle.bothQuarry);
+    applyLevelChange(player.magic, enemy.magic, bundle.bothMagic);
+    applyLevelChange(enemy.magic, player.magic, bundle.bothMagic);
+    applyLevelChange(player.dungeon, enemy.dungeon, bundle.bothDungeon);
+    applyLevelChange(enemy.dungeon, player.dungeon, bundle.bothDungeon);
     applyScalarChange(player.bricks, enemy.bricks, bundle.bothBricks);
     applyScalarChange(enemy.bricks, player.bricks, bundle.bothBricks);
     applyScalarChange(player.gems, enemy.gems, bundle.bothGems);

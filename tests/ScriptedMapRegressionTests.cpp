@@ -10047,8 +10047,12 @@ TEST_CASE("the journal's Arcomage notes list every tavern per continent and the 
 
     REQUIRE(!texts.empty());
     CHECK(std::find(texts.begin(), texts.end(), "Jadame: 1 of 11 taverns won.") != texts.end());
-    // Emerald Island's Two Palms Tavern plays Arcomage too, though Antagarich's champion award counts the other 13.
-    CHECK(std::find(texts.begin(), texts.end(), "Antagarich: 0 of 14 taverns won.") != texts.end());
+    // Emerald Island's Two Palms Tavern plays Arcomage too, though Antagarich's champion award counts the other 13: it is
+    // listed, but not counted (OY-308).
+    CHECK(std::find(texts.begin(), texts.end(), "Antagarich: 0 of 13 taverns won.") != texts.end());
+    CHECK(std::count_if(texts.begin(), texts.end(),
+              [](const std::string &text) { return text.ends_with("(not needed for Champion)"); })
+        == 1);
     CHECK(std::find(texts.begin(), texts.end(), "The Vampyre Lounge, The Pit: not won yet") != texts.end());
     CHECK(std::count_if(texts.begin(), texts.end(), [](const std::string &text) { return text.ends_with(": won"); })
         == 1);

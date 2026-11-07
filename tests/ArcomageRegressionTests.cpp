@@ -461,3 +461,25 @@ TEST_CASE("arcomage turn change clears previous shown cards")
     REQUIRE(harness.playCardById(1, *amethystId));
     CHECK_EQ(OpenYAMM::Tests::arcomageShownCardCount(harness.state), 1);
 }
+
+TEST_CASE("arcomage Barracks builds the wall and production levels stay at 1 (OY-128, OY-168)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::ArcomageCardDefinition *pBarracks = gameData.arcomageLibrary.cardByName("Barracks");
+    REQUIRE(pBarracks != nullptr);
+    CHECK_EQ(pBarracks->primary.playerWall, 6);
+    CHECK_EQ(pBarracks->secondary.playerWall, 6);
+
+    OpenYAMM::Tests::ArcomageTestHarness harness = {};
+    REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
+    const std::optional<uint32_t> earthquakeId = harness.cardIdByName("Earthquake");
+    REQUIRE(earthquakeId.has_value());
+    harness.clearHands();
+    REQUIRE(harness.setHand(0, std::vector<uint32_t>{*earthquakeId}));
+    harness.state.players[0].quarry = 1;
+    harness.state.players[1].quarry = 2;
+
+    REQUIRE(harness.playCardById(0, *earthquakeId));
+    CHECK_EQ(harness.state.players[0].quarry, 1);
+    CHECK_EQ(harness.state.players[1].quarry, 1);
+}

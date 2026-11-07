@@ -65,6 +65,8 @@ private:
     static bool drawCard(const ArcomageLibrary &library, size_t playerIndex, ArcomageState &state);
     static void refillAndShuffleDeck(ArcomageState &state);
     static int applyScalarChange(int &target, int otherValue, int delta);
+    // applyScalarChange for a production level (quarry, magic, dungeon), which stays at 1 or more.
+    static int applyLevelChange(int &target, int otherValue, int delta);
     static int applyBuildingDamage(ArcomagePlayerState &player, int delta);
     static void applyEffectBundle(const ArcomageEffectBundle &bundle, ArcomagePlayerState &player, ArcomagePlayerState &enemy);
     static void consumeCardCost(const ArcomageCardDefinition &card, ArcomagePlayerState &player);
