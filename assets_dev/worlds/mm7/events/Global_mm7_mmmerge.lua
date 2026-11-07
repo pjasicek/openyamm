@@ -289,6 +289,38 @@ AppendGlobalEvent(805, function()
     end
 end)
 
+-- OY-274: the exported 806 shows the whole Villain pitch before its refusal (messages append), so a party that
+-- cannot take the quest reads an assignment that never happens. It also accepted only MM7's Crusader bits, while a
+-- merged party may have been promoted to Crusader in Enroth (1635/1636). Check the gate first, then pitch.
+local CrusaderQBits = {1590, 1591, 1635, 1636}
+
+ReplaceGlobalEvent(806, "MMMerge Villain promotion gate", function()
+    if IsQBitSet(QBit(611)) then -- Chose the path of Light
+        MM7.PromotionMessage("I'd certainly love nothing more than to corrupt your obviously pious soul, but I'm afraid "
+            .. "you wouldn't have the stomach to follow through with my teachings.\nYou have chosen the Path of Light, "
+            .. "you will garner no assistance from me.")
+    elseif not IsQBitSet(QBit(612)) then -- Path of Dark not chosen yet
+        MM7.PromotionMessage("Before you make this decision, you have a more pressing, immediate decision you will be "
+            .. "forced to make.\nIf you choose the darker road, you may return to me and complete your training in the "
+            .. "Paladins' arts.")
+    elseif not MM7.AnyQBit(CrusaderQBits) then
+        MM7.PromotionMessage("I cannot improve upon training you do not already have.\nYou must be promoted to "
+            .. "Crusader, in Erathia or in Enroth, before I can train you in the ways of villainy.")
+    else
+        MM7.PromotionMessage("Let's get down to business, shall we?\nI know you are well aware of my standing as the "
+            .. "blackest Villain in Erathia.\nIt requires effort and drive to prove to be this evil-- I hope you have "
+            .. "the mettle for it.\nI would love nothing more than to keep you in my training for years and teach you "
+            .. "the finest parts of being a Villain.\nUnfortunately, I am under pressure to speed up your tutelage.\nTo "
+            .. "this end, I have a direct way to learn the arts of Villainhood.\nThere is a woman, Alice Hargreaves, "
+            .. "who is of noble blood and pure character.\nCapture this woman from her residence in Castle "
+            .. "Gryphonheart. Return here and imprison her in my tower.\nComplete this, and I shall promote all "
+            .. "Crusaders in your group to Villains, and the rest of your group to Honorary Villains.")
+        SetQBit(QBit(538)) -- Capture Alice Hargreaves and return her to William's Tower in the Deyja Moors.
+        evt.SetNPCTopic(357, 0, 807) -- William Setag topic 0: Villain
+        evt.MoveNPC(393, 1158) -- Alice Hargreaves -> Alice Hargreaves
+    end
+end)
+
 ReplaceGlobalEvent(807, "MMMerge Villain promotion", function()
     local result = MM7.CompletePromotion({
         from = 27,

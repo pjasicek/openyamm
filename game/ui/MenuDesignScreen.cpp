@@ -315,7 +315,11 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
     const int faceHeight = std::max(1, fontHeight(font));
     float scale = designScale() * logicalSize / faceHeight;
     std::string encoded = text;
-    if (encoded.find('\n') == std::string::npos && rect.height < logicalSize * designScale() * 1.9f)
+    // One line, shrunk or cut with an ellipsis, unless a second line fits by the draw loop's own rule below: otherwise
+    // the text wrapped, its second line was dropped and the first was centred as if both were drawn (OY-266).
+    const float singleGlyphHeight = logicalSize * designScale();
+    const bool secondLineFits = singleGlyphHeight * 2.2f <= rect.height + 3 * designScale();
+    if (encoded.find('\n') == std::string::npos && !secondLineFits)
     {
         const float width = measureTextWidth(font, encoded, scale);
         const float fit = width > 0 ? std::min(1.0f, std::max(0.85f, rect.width / width)) : 1.0f;

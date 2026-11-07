@@ -1,0 +1,21 @@
+id: mm7.villain_promotion_gate
+title: MM7 - William Setag's Villain topic assigns Alice's capture only to a Crusader party, from Erathia or Enroth (OY-274)
+world: mm7
+mode: faithful
+tags: [mm7, promotions, dialogue, quests]
+steps:
+  - new_game_flow:
+      start_map: 7out02.odm
+  - setup_shortcut: {kind: set_qbit, id: 612, value: true}
+  # Dark path but no Crusader yet: a refusal only, no quest.
+  - speak_npc: {source_id: 357}
+  - select_topic: {action_id: 806}
+  - assert:
+      qbit_clear: [538]
+  - press_action: {action: cancel_dialog}
+  # A Paladin promoted to Crusader in Enroth (MM6 bit 1635) is accepted.
+  - setup_shortcut: {kind: set_qbit, id: 1635, value: true}
+  - speak_npc: {source_id: 357}
+  - select_topic: {action_id: 806}
+  - assert:
+      qbit_set: [538]

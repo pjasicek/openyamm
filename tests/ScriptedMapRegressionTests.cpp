@@ -3110,7 +3110,7 @@ TEST_CASE("mm7 phase1 mmmerge map overlays compile and expose expected event ids
         std::vector<uint16_t> onLoadEventIds;
     };
 
-    const std::array<Case, 24> Cases = {{
+    const std::array<Case, 25> Cases = {{
         {"7out01", "7out01_mmmerge", {65001}, {}},
         {"7out02", "7out02_mmmerge", {37, 301, 65002, 65003}, {65002}},
         {"7out03", "7out03_mmmerge", {65004, 65005, 65006}, {65005, 65006}},
@@ -3135,6 +3135,7 @@ TEST_CASE("mm7 phase1 mmmerge map overlays compile and expose expected event ids
         {"out14", "out14_mmmerge", {65014}, {}},
         {"7nwc", "7nwc_mmmerge", {501}, {}},
         {"mdt15", "mdt15_mmmerge", {65015}, {}},
+        {"mdt10", "mdt10_mmmerge", {65010}, {65010}},
     }};
 
     for (const Case &testCase : Cases)

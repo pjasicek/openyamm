@@ -9,6 +9,7 @@
 
 #include "engine/ImageAssetLoader.h"
 
+#include "game/gameplay/MercenaryRecruitmentRuntime.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/AwardRuntime.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -8982,7 +8983,9 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         bodyResistanceValue = formatSheetValue(summary.bodyResistance);
         awards = "Awards earned: " + std::to_string(frameData->awardCount);
 
-        if (context.rosterTable() != nullptr && pCharacter->rosterId != 0)
+        // A generated mercenary borrows a class's template row, whose blurb is placeholder text: it shows none (OY-181).
+        if (context.rosterTable() != nullptr && pCharacter->rosterId != 0
+            && generatedMercenaryNpcIdForRosterId(pCharacter->rosterId) == 0)
         {
             const RosterEntry *pRosterEntry = context.rosterTable()->get(pCharacter->rosterId);
             adventurersInnBlurb = pRosterEntry != nullptr ? pRosterEntry->blurb : "";
