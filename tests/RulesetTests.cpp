@@ -996,8 +996,8 @@ TEST_CASE("the installed MAW ruleset parses with MAW's own defaults")
     CHECK_FALSE(defaults.preferences.friendlyFire);
     CHECK_FALSE(defaults.preferences.trainerHints);
     CHECK_FALSE(defaults.preferences.bowDisabled);
-    // The loot filter starts on the Regular preset (the approved study, 2026-10-25).
-    CHECK(defaults.preferences.lootFilter.preset == RulesetLootFilterPreset::Regular);
+    // The loot filter starts off; a player picks a preset in Settings (OY-216).
+    CHECK(defaults.preferences.lootFilter.preset == RulesetLootFilterPreset::Off);
 
     // Every offered difficulty has a full row in the Rules panel.
     for (const RulesetDifficulty difficulty : maw->choices.difficulties)
@@ -1167,8 +1167,23 @@ TEST_CASE("the generated MAW patches apply cleanly to the engine tables")
     CHECK_EQ(rowOf("monster_data.txt", "406").at(16), "BrkItemx2");
     CHECK_EQ(rowOf("monster_data.txt", "6").at(11), "Suicidal");
     CHECK_EQ(rowOf("monster_data.txt", "1").at(11), "Wimp");
-    CHECK_EQ(rowOf("hostile.txt", "Zombie").at(1), "4");
-    CHECK_EQ(rowOf("hostile.txt", "Ghoul").at(1), "4");
+    // A monster's attitude toward the party is the Party row's cell in the monster's column.
+    const std::vector<std::string> &hostileHeader = composed["hostile.txt"].front();
+    const std::vector<std::string> partyRelations = rowOf("hostile.txt", "Party");
+    const auto partyRelationTo = [&](const std::string &faction) -> std::string
+    {
+        for (size_t column = 1; column < hostileHeader.size(); ++column)
+        {
+            if (hostileHeader[column] == faction)
+            {
+                return partyRelations.at(column);
+            }
+        }
+
+        return {};
+    };
+    CHECK_EQ(partyRelationTo("Zombie"), "4");
+    CHECK_EQ(partyRelationTo("Ghoul"), "4");
     // Houses that opened at 6 open at 5 (GAPS.md A5.11).
     CHECK_EQ(rowOf("house_data.txt", "1").at(18), "5");
     // Spellbook shops of types 1 and 5 sell one quality higher (GAPS.md E.5).

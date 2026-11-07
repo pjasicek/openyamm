@@ -783,9 +783,14 @@ TEST_CASE("MAW race cards list the race's skill bonuses, resistances and immunit
     Character vampire;
     vampire.raceId = 1;
     const std::vector<std::string> vampireNotes = classes.raceNotes(vampire);
-    REQUIRE_EQ(vampireNotes.size(), 2);
+    REQUIRE_EQ(vampireNotes.size(), 3);
     CHECK_EQ(vampireNotes[0], "Immune to Mind magic.");
-    CHECK_EQ(vampireNotes[1], "Preservation at night and in dungeons.");
+    CHECK_EQ(vampireNotes[1],
+        "Leeches 5% of melee and 2.5% of ranged and spell damage as hit points, twice as much as a Vampire.");
+    CHECK_EQ(vampireNotes[2], "Preservation at night and in dungeons.");
+    // The Vampire class leeches twice the race's share (mawLeech).
+    vampire.className = "Vampire";
+    CHECK_EQ(classes.raceNotes(vampire)[1], "Leeches 10% of melee and 5% of ranged and spell damage as hit points.");
 
     // The table drives the bonuses too: an undead character is immune to Body and Mind, a level-10 dragon resists fire
     // by 120.

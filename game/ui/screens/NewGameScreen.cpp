@@ -976,6 +976,7 @@ void NewGameScreen::refreshSkillChoices(bool applyCandidateDefaults)
     m_state.defaultSkills.clear();
     m_state.optionalSkills.clear();
     m_state.selectedOptionalSkills.clear();
+    m_state.skillPickCount = MaximumOptionalSkillSelections;
 
     if (m_pGameData != nullptr)
     {
@@ -993,6 +994,13 @@ void NewGameScreen::refreshSkillChoices(bool applyCandidateDefaults)
                 || (pRacialAbility != nullptr && std::string_view(pSkillName) == pRacialAbility))
             {
                 m_state.defaultSkills.push_back(pSkillName);
+            }
+            else if (availability == StartingSkillAvailability::None
+                && m_pGameData->classSkillTable().getStartingSkillAvailability(selectedClassName(), pSkillName)
+                    == StartingSkillAvailability::HasByDefault)
+            {
+                // A free skill of the class that the race may not learn is replaced by a pick.
+                ++m_state.skillPickCount;
             }
             else if (availability == StartingSkillAvailability::CanLearn)
             {
@@ -1482,9 +1490,10 @@ bool NewGameScreen::tryToggleOptionalSkill(const std::string &skillName)
         return true;
     }
 
-    if (m_state.selectedOptionalSkills.size() >= MaximumOptionalSkillSelections)
+    if (m_state.selectedOptionalSkills.size() >= m_state.skillPickCount)
     {
-        m_state.statusMessage = "Only two additional skills can be selected.";
+        m_state.statusMessage =
+            "Only " + std::to_string(m_state.skillPickCount) + " additional skills can be selected.";
         return false;
     }
 
@@ -1848,8 +1857,7 @@ void NewGameScreen::confirmCreation()
                 return;
             }
 
-            const size_t requiredSkillCount =
-                std::min(MaximumOptionalSkillSelections, state.optionalSkills.size());
+            const size_t requiredSkillCount = std::min(state.skillPickCount, state.optionalSkills.size());
 
             if (state.selectedOptionalSkills.size() < requiredSkillCount)
             {
@@ -2505,7 +2513,7 @@ bool NewGameScreen::stateComplete(const CreationState &state) const
 
 size_t NewGameScreen::requiredSkillCount(const CreationState &state) const
 {
-    return std::min(MaximumOptionalSkillSelections, state.optionalSkills.size());
+    return std::min(state.skillPickCount, state.optionalSkills.size());
 }
 
 std::array<RaceStatLine, CreationStatCount> NewGameScreen::raceStatLinesForState(const CreationState &state) const

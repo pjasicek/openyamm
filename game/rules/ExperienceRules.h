@@ -54,9 +54,10 @@ public:
     virtual uint64_t experienceForNextLevel(uint32_t level) const;
     // Grants a kill's experience to the party and returns the experience the kill was worth.
     virtual uint32_t grantKillExperience(Party &party, const MonsterKillReward &kill) const;
-    // The experience one member gets from an event's AddValue(Experience, value) on a map of this continent (MAW: more
-    // for a party with levels banked elsewhere, the rest banked). Standard: the value.
-    virtual int64_t eventExperience(Party &party, int64_t value, uint32_t continentId) const;
+    // The experience each of recipientCount members gets from an event's AddValue(Experience, value) on a map of this
+    // continent (MAW: more for a party with levels banked elsewhere, the rest banked once for all of them, so every
+    // recipient gets the same). Standard: the value.
+    virtual int64_t eventExperience(Party &party, int64_t value, uint32_t continentId, size_t recipientCount) const;
     // Extra gold for an NPC topic that paid gold and experience (MAW: gold x L / 100 + 250 L for the levels L banked
     // outside the continent). Standard: none.
     virtual int questGoldBonus(int gold, uint32_t continentId) const;

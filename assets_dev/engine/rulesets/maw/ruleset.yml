@@ -77,14 +77,17 @@ rulesPanel:
   challengeModes:
     none: MAW's rules with no extra challenge.
     doom: >-
-      Monster hits cause conditions, more and stronger monsters spawn, items must be identified before wearing and
-      hirelings are limited. Masteries need skill 6, 12 and 20. Starts with 5,000 gold and bonus experience.
+      Nightmare's rules with stronger monsters, larger groups, more bosses and hits that cause conditions. Items must
+      be identified before wearing, locked chests need Disarm Trap skill and hirelings refuse to join. Masteries need
+      skill 6, 12 and 20, and teachers charge more. Starts with 5,000 gold and bonus experience.
     road_to_insanity: >-
-      Doom's monsters, no map refills, and masteries need skill 8, 16 and 25. Starts with 5,000 gold and bonus
-      experience.
+      A harder Doom: tougher monsters in larger groups, maps never refill or reset, dungeons cap the food you carry
+      and a heavy overkill can disintegrate a character. Teachers, training and spell books cost far more; loot is
+      stronger and gems drop more often. Masteries need skill 8, 16 and 25.
     beyond_madness: >-
-      Insanity, and the party restarts at level 1, maps reach level 500, bosses are seeded and every death counts,
-      including loading during combat. No mercenaries. Horizontal progression; masteries need skill 10, 24 and 40.
+      Road to Insanity, and every character, recruits too, starts at level 1. Maps have fixed levels up to 500,
+      dimension maps replay old dungeons, and the Arena and bounties give no rewards. Every death counts, as does
+      loading or quitting soon after a hit. No mercenaries. Horizontal progression; masteries need skill 10, 24 and 40.
     austerity: >-
       No Legendary or Celestial items and no crafting rewards, weaker enchantments and reagents, flatter bosses and a
       minimum armour value from the armour skills. Combines with any difficulty.
@@ -282,7 +285,9 @@ tables:
     path: content/house_rules_patch.txt
     keyColumn: "row"
     headerRow: 0
-  # Zombies and Ghouls are hostile to the party, not to each other (zzMaw-Monsters.lua:227-230).
+  # Zombies and Ghouls are hostile to the party, not to each other (zzMaw-Monsters.lua:1098-1101). A monster's
+  # attitude toward another faction is the cell in the other faction's row and its own column, so MAW's
+  # HostileTxt[Ghoul][Party] is the Party row's Ghoul column.
   - table: hostile.txt
     mode: override
     path: content/hostile_patch.txt

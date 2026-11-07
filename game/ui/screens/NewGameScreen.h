@@ -106,6 +106,9 @@ public:
         std::vector<std::string> defaultSkills;
         std::vector<std::string> optionalSkills;
         std::vector<std::string> selectedOptionalSkills;
+        // How many optional skills the character picks: two, plus one for each of the class's free skills its race
+        // cannot learn (a MAW dragon Knight picks four: OY-165).
+        size_t skillPickCount = 2;
         bool nameEditing = false;
         // The player typed the name: a new portrait or Default keeps it.
         bool nameTyped = false;

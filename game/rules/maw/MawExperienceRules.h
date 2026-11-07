@@ -23,8 +23,9 @@ public:
     std::string rewardMapProgress(Party &party, const MapKillProgress &progress) const override;
     // EventExperience (zzzMaw_Experience.lua:93-138): value x (1 + L / 100) + 500 L for the levels L banked outside
     // the continent (all of them in Beyond Madness), x 5 / party size for each member; each member's share / party
-    // size goes to the bank.
-    int64_t eventExperience(Party &party, int64_t value, uint32_t continentId) const override;
+    // size goes to the bank. MAW banks every member's share on the next tick, so all of them are scaled by the level
+    // before the reward; here the shares are banked together after the scaling.
+    int64_t eventExperience(Party &party, int64_t value, uint32_t continentId, size_t recipientCount) const override;
     // calculateGold (GLOBAL.lua:5-75).
     int questGoldBonus(int gold, uint32_t continentId) const override;
     // Halls train to round(cap^1.5 / 20) x 10 (/ 10 in Beyond Madness), in two days (TRAINERS_SKILLS.md §3).

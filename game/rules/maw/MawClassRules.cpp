@@ -954,6 +954,12 @@ std::vector<std::string> MawClassRules::raceNotes(const Character &character) co
 
     if (character.raceId == Vampire)
     {
+        // The race's share of mawLeech, doubled for the Vampire classes (zzMaw-Items.lua:3277-3285).
+        const std::string className = canonicalClassName(character.className);
+        notes.push_back(className == "Vampire" || className == "Nosferatu"
+                ? "Leeches 10% of melee and 5% of ranged and spell damage as hit points."
+                : "Leeches 5% of melee and 2.5% of ranged and spell damage as hit points, twice as much as a "
+                  "Vampire.");
         notes.push_back("Preservation at night and in dungeons.");
     }
 

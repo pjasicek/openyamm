@@ -66,7 +66,11 @@ int MawExperienceRules::questGoldBonus(int gold, uint32_t continentId) const
     return gold > 0 ? int(std::floor(gold * partyLevel / 100 + 250 * partyLevel)) : 0;
 }
 
-int64_t MawExperienceRules::eventExperience(Party &party, int64_t value, uint32_t continentId) const
+int64_t MawExperienceRules::eventExperience(
+    Party &party,
+    int64_t value,
+    uint32_t continentId,
+    size_t recipientCount) const
 {
     if (value <= 0)
     {
@@ -78,7 +82,7 @@ int64_t MawExperienceRules::eventExperience(Party &party, int64_t value, uint32_
         : m_rules.state().levelOutside(continentId);
     const double total = double(value) * (1 + partyLevel / 100) + 500 * partyLevel;
     const double partyCount = double(std::max<size_t>(1, party.members().size()));
-    m_rules.state().addBankedExperience(total / partyCount, continentId);
+    m_rules.state().addBankedExperience(total / partyCount * double(recipientCount), continentId);
     return int64_t(std::min(std::floor(total * 5 / partyCount), double(std::numeric_limits<int32_t>::max())));
 }
 

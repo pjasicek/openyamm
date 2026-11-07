@@ -1667,8 +1667,20 @@ TEST_CASE("MAW chests: gold from the map's level, removed potions rerolled, plac
     InventoryItem sword;
     sword.objectDescriptionId = 1;
     CHECK_EQ(items.lootFilterFacts(sword, longsword)->rarity, 1);
+    CHECK_FALSE(items.nameColor(sword).has_value());
     sword.standardEnchantId = 1;
     CHECK_EQ(items.lootFilterFacts(sword, longsword)->rarity, 2);
+    // Its name takes the same colour: one enchantment is Uncommon green, two Rare blue (zzMaw-Items.lua:1741-1747).
+    CHECK_EQ(items.nameColor(sword), std::optional<uint32_t>(0x1eff00));
+    sword.specialEnchantId = 1;
+    CHECK_EQ(items.nameColor(sword), std::optional<uint32_t>(0x0096ff));
+    sword.specialEnchantId = 0;
+    // An item stored as Common and enchanted later still colours by its enchantments (OY-438); Ancient keeps its own.
+    sword.rulesetFields.lootRarity = uint8_t(MawRarity::Common);
+    CHECK_EQ(items.nameColor(sword), std::optional<uint32_t>(0x1eff00));
+    sword.rulesetFields.lootRarity = uint8_t(MawRarity::Ancient);
+    CHECK_EQ(items.nameColor(sword), std::optional<uint32_t>(0xff8000));
+    sword.rulesetFields.lootRarity = 0;
     // A potion has no rarity: it is a kind, switched whole.
     ItemDefinition cureWounds;
     cureWounds.itemId = 222;
@@ -1678,6 +1690,8 @@ TEST_CASE("MAW chests: gold from the map's level, removed potions rerolled, plac
     potion.objectDescriptionId = 222;
     CHECK(items.lootFilterFacts(potion, cureWounds)->kind == RulesetLootKind::Potions);
     CHECK_EQ(items.lootFilterFacts(potion, cureWounds)->rarity, 0);
+    potion.standardEnchantId = 5;
+    CHECK_FALSE(items.nameColor(potion).has_value());
 }
 
 TEST_CASE("MAW item popups: Legendary 19 in the range, resistances as reductions, live counts (L4.6, A2.14)")

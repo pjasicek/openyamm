@@ -745,6 +745,8 @@ skills:
   Axe:
     append: >-
       Each point raises the damage of the axe, Armsmaster and special abilities by 2 % (never less than 1 per point).
+      Dwarves and Minotaurs can wield a one-handed axe in the off hand from Expert; Minotaurs hold a two-handed axe in
+      one hand, and in the off hand from Master.
     normal: "Attack +1 per point"
     expert: "Attack +2, speed +1 % per point"
     master: "Attack +3, speed +1 % per point"

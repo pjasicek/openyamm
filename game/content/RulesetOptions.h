@@ -64,7 +64,8 @@ inline constexpr size_t RulesetLootKindCount = 5;
 
 struct RulesetLootFilter
 {
-    RulesetLootFilterPreset preset = RulesetLootFilterPreset::Regular;
+    // Off until the player picks a preset: nothing a new game drops turns into gold unasked (OY-216).
+    RulesetLootFilterPreset preset = RulesetLootFilterPreset::Off;
     uint8_t goldKinds = 0;
     // A filtered drop stays an item, greyed (no rarity glow), instead of turning into gold.
     bool leaveOnGround = false;

@@ -77,7 +77,8 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
         {
             const std::string file = lowercaseName(map.fileName);
 
-            if (map.mergedContinentId != continentId || !m_rules.mapLevels().lists(file))
+            // The table's unused rows are named "pending" (zdtl02.blv has a MAW level but nothing leads there: OY-159).
+            if (map.mergedContinentId != continentId || !m_rules.mapLevels().lists(file) || map.name == "pending")
             {
                 continue;
             }

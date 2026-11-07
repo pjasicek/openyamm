@@ -2,6 +2,8 @@
 #include "RegressionGameData.h"
 #include "doctest/doctest.h"
 #include "game/content/RulesetOptions.h"
+#include "game/events/EventRuntime.h"
+#include "game/events/ScriptedEventProgram.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 #include "game/rules/GameRules.h"
@@ -12,7 +14,10 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <optional>
+#include <sstream>
 #include <string>
+#include <vector>
 
 using namespace OpenYAMM::Game;
 
@@ -242,4 +247,49 @@ TEST_CASE("experience is 64 bits: MAW characters train past level 1063, Standard
     CHECK_EQ(party.addExperienceToMember(0, 6000000000), Level1064 + 6000000005ull);
     CHECK_EQ(party.member(0)->experience, Level1064 + 6000000005ull);
     CHECK_EQ(party.addExperienceToMember(0, -int64_t(Level1064) * 10), 0u);
+}
+
+TEST_CASE("Beyond Madness: an event's experience is the same for every member, the bank paid once after it")
+{
+    REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(), OpenYAMM::Tests::regressionGameDataFailure().c_str());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    std::ifstream supportFile(std::filesystem::path(OPENYAMM_SOURCE_DIR)
+        / "assets_dev/engine/scripts/common/event_support.lua");
+    std::ostringstream supportLua;
+    supportLua << supportFile.rdbuf();
+    std::string error;
+    const std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
+        supportLua.str() + R"lua(
+RegisterEvent(1, "Quest reward", function()
+    evt.ForPlayer(Players.All)
+    evt.Add(eventSupport.varTag.Experience, 1000)
+end)
+)lua",
+        "@tests/maw_event_experience.lua", ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+
+    MawRules rules(modeOptions(RulesetChallengeMode::BeyondMadness), MawMapLevels{}, installedItemData());
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    party.setRules(&rules.gameRules());
+    const size_t partySize = party.members().size();
+    REQUIRE(partySize > 1);
+    std::vector<uint64_t> before;
+
+    for (const Character &member : party.members())
+    {
+        before.push_back(member.experience);
+    }
+
+    // MAW banks every member's share on the next tick (zzzMaw_Experience.lua:93-126), so the level the reward is
+    // scaled by is the one before it: 1000 x 5 / party size each at level 0, and 1000 banked once all are paid.
+    EventRuntimeState runtimeState = {};
+    EventRuntime eventRuntime = {};
+    REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, runtimeState, &party));
+
+    for (size_t index = 0; index < partySize; ++index)
+    {
+        CHECK_EQ(party.members()[index].experience - before[index], uint64_t(1000 * 5 / partySize));
+    }
+
+    CHECK_EQ(rules.state().bankedExperience, doctest::Approx(1000));
 }

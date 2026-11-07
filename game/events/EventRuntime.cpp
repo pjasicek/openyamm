@@ -3813,12 +3813,14 @@ void EventRuntime::addVariableValue(
             return;
         }
 
+        const int64_t experience = runtimeState.unscaledExperience
+            ? int64_t(value)
+            : pParty->rules().experience.eventExperience(
+                *pParty, value, runtimeState.activeHistoryContinentId, targetMemberIndices.size());
+
         for (size_t memberIndex : targetMemberIndices)
         {
-            pParty->addExperienceToMember(memberIndex, runtimeState.unscaledExperience
-                    ? int64_t(value)
-                    : pParty->rules().experience.eventExperience(
-                        *pParty, value, runtimeState.activeHistoryContinentId));
+            pParty->addExperienceToMember(memberIndex, experience);
         }
 
         if (value > 0)

@@ -33,7 +33,7 @@ int ExperienceRules::questGoldBonus(int, uint32_t) const
     return 0;
 }
 
-int64_t ExperienceRules::eventExperience(Party &, int64_t value, uint32_t) const
+int64_t ExperienceRules::eventExperience(Party &, int64_t value, uint32_t, size_t) const
 {
     return value;
 }

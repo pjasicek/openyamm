@@ -66,6 +66,40 @@ enum class LegendaryAffix : uint16_t
     MeleeSkills = 33,
 };
 
+// The rarity an item shows. An equipment item MAW never rolled (placed in a chest, sold in a shop, carried from the
+// start) ranks as Common plus one tier per enchantment, as MAW's tooltip colours its name (zzMaw-Items.lua:1722-1749)
+// and its loot filter ranks it (IT:933-944).
+MawRarity mawShownRarity(const InventoryItem &item)
+{
+    const MawRarity rarity = MawRarity(item.rulesetFields.lootRarity);
+    const uint32_t id = item.objectDescriptionId;
+    const bool baseItem = (id >= 1 && id <= 151) || (id >= 803 && id <= 936) || (id >= 1603 && id <= 1736);
+
+    if (rarity != MawRarity::None || !baseItem)
+    {
+        return rarity;
+    }
+
+    return MawRarity(1 + (item.standardEnchantId != 0 ? 1 : 0) + (item.specialEnchantId != 0 ? 1 : 0)
+        + (item.rulesetFields.secondStandardEnchantId != 0 ? 1 : 0));
+}
+
+// The rarity an item's name is coloured by: MAW keeps the tiers from Ancient up and otherwise counts the item's
+// enchantments (MawCore/Tooltip.lua:364-391), so an item rolled or crafted Common and enchanted later shows them
+// (OY-438). The loot filter keeps ranking by mawShownRarity.
+MawRarity mawNameRarity(const InventoryItem &item)
+{
+    const MawRarity shown = mawShownRarity(item);
+
+    if (shown == MawRarity::None || shown >= MawRarity::Ancient)
+    {
+        return shown;
+    }
+
+    return MawRarity(1 + (item.standardEnchantId != 0 ? 1 : 0) + (item.specialEnchantId != 0 ? 1 : 0)
+        + (item.rulesetFields.secondStandardEnchantId != 0 ? 1 : 0));
+}
+
 bool isSkillEnchant(int type)
 {
     return type >= FirstSkillEnchant && type <= LastSkillEnchant;
@@ -2029,7 +2063,7 @@ bool MawItemRules::inventorySearch() const
 
 std::optional<uint32_t> MawItemRules::nameColor(const InventoryItem &item) const
 {
-    switch (MawRarity(item.rulesetFields.lootRarity))
+    switch (mawNameRarity(item))
     {
         case MawRarity::Uncommon:
             return 0x1eff00;
@@ -2168,7 +2202,13 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
             }
         }
 
-        if (!pArtifact->onHitType.empty())
+        // Mordred and Spiritslayer, MAW's vampiric artifacts, hit for no extra damage: their line reads "Vampiric", as
+        // MAW's MawArtifactOnHitText has it (OY-428).
+        if (!pArtifact->onHitType.empty() && pArtifact->onHitDamage <= 0)
+        {
+            lines.push_back({"Vampiric", 0xffbe5a});
+        }
+        else if (!pArtifact->onHitType.empty())
         {
             lines.push_back({pArtifact->onHitType + " damage on hit" + (pArtifact->onHitSlow ? ", slows" : ""),
                 0xffbe5a});
@@ -2530,17 +2570,7 @@ std::optional<LootFilterFacts> MawItemRules::lootFilterFacts(
         return std::nullopt;
     }
 
-    MawRarity rarity = MawRarity(item.rulesetFields.lootRarity);
-    const uint32_t id = item.objectDescriptionId;
-    const bool baseItem = (id >= 1 && id <= 151) || (id >= 803 && id <= 936) || (id >= 1603 && id <= 1736);
-
-    // An equipment item MAW never rolled (placed in a chest) ranks as Common plus one tier per enchantment (IT:933-944).
-    if (rarity == MawRarity::None && baseItem)
-    {
-        rarity = MawRarity(1 + (item.standardEnchantId != 0 ? 1 : 0) + (item.specialEnchantId != 0 ? 1 : 0)
-            + (item.rulesetFields.secondStandardEnchantId != 0 ? 1 : 0));
-    }
-
+    const MawRarity rarity = mawShownRarity(item);
     facts.rarity = std::min(int(rarity), LootFilterRarityCount);
     facts.itemLevel = item.rulesetFields.dropLevel;
     facts.alwaysKept = rarity >= MawRarity::Legendary || item.rulesetFields.legendaryAffixId != 0

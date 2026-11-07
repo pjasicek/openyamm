@@ -2369,11 +2369,12 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
         m_rules.mapTable() != nullptr ? m_rules.mapTable()->findByFileName(m_rules.currentMap()) : nullptr;
     const uint32_t continentId = pCurrentMap != nullptr ? pCurrentMap->mergedContinentId : 0;
     party.addGold(reward);
+    const int64_t experience =
+        m_rules.gameRules().experience.eventExperience(party, reward, continentId, party.members().size());
 
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {
-        party.addExperienceToMember(memberIndex, m_rules.gameRules().experience.eventExperience(party, reward,
-            continentId));
+        party.addExperienceToMember(memberIndex, experience);
     }
 
     const std::string text = formatQuestText(questRules.textReward, quest.clearedMapName, reward);
