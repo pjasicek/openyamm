@@ -551,7 +551,8 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
                 : spellName == "enslave"
                 ? GameplayActorControlMode::Enslaved
                 : GameplayActorControlMode::ControlUndead;
-        state.hostileToParty = false;
+        // A berserk monster stays hostile to the party too: it attacks whoever is nearest.
+        state.hostileToParty = spellName == "berserk";
         state.hasDetectedParty = false;
         result.disposition = SharedSpellDisposition::Applied;
         result.effectKind = SharedSpellEffectKind::Control;
@@ -972,17 +973,22 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveFactionTargetPolicy
         return result;
     }
 
+    // A berserk monster attacks whatever is nearest, and every monster may fight it back (MM8: "attacking the nearest
+    // living creature"; the original makes it hostile at long range to all but its own group).
+    const bool berserk = actor.controlMode == GameplayActorControlMode::Berserk
+        || target.controlMode == GameplayActorControlMode::Berserk;
+
     const int factionRelation = m_pMonsterTable != nullptr
         ? m_pMonsterTable->getRelationBetweenMonsters(actorRelationMonsterId, targetRelationMonsterId)
         : 0;
     const bool hostileByFaction = factionRelation > 0;
 
-    if (!hostileByFaction && !hostileToSummon)
+    if (!hostileByFaction && !hostileToSummon && !berserk)
     {
         return result;
     }
 
-    if (hostileToSummon)
+    if (hostileToSummon || berserk)
     {
         if (!actorCanEngageActorTarget(m_pMonsterTable, actor, target))
         {

@@ -1023,6 +1023,38 @@ TEST_CASE("MAW's crafting and alchemy bags take what the party picks up: the pic
     CHECK_FALSE(stored->taggedBag);
 }
 
+TEST_CASE("a solo character's tagged bags on every tab take what the party picks up (OY-344)")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Party party = mawParty(rules, 1);
+    Character &solo = *party.member(0);
+    const int bagCount = rules.gameRules().items.bagCount(party);
+    REQUIRE_EQ(bagCount, 20);
+
+    // Tab III, bag 2 crafting and tab V, bag 4 alchemy, tagged while open; the overview then opens tab I's first.
+    REQUIRE(InventoryBags::openBag(solo, 9, bagCount));
+    CHECK(InventoryBags::toggleTag(solo, 9, BagTag::Crafting));
+    REQUIRE(InventoryBags::openBag(solo, 19, bagCount));
+    CHECK(InventoryBags::toggleTag(solo, 19, BagTag::Alchemy));
+    REQUIRE(InventoryBags::openBag(solo, 0, bagCount));
+
+    const std::optional<StoredPickup> material = storePickedUpItem(party, packItem(1041, 1, 1), &itemTable);
+    REQUIRE(material);
+    CHECK(material->taggedBag);
+    REQUIRE_EQ(InventoryBags::itemsInBag(solo, 9).size(), 1u);
+    CHECK_EQ(InventoryBags::itemsInBag(solo, 9)[0].objectDescriptionId, 1041u);
+
+    const std::optional<StoredPickup> potion = storePickedUpItem(party, packItem(222, 1, 1), &itemTable);
+    REQUIRE(potion);
+    CHECK(potion->taggedBag);
+    REQUIRE_EQ(InventoryBags::itemsInBag(solo, 19).size(), 1u);
+    CHECK_EQ(InventoryBags::itemsInBag(solo, 19)[0].objectDescriptionId, 222u);
+    CHECK(solo.inventory.empty());
+    CHECK_EQ(solo.rulesetState.currentBag, 0);
+}
+
 TEST_CASE("MAW bag tags survive a save (H.10, save 123)")
 {
     GameSaveData save;

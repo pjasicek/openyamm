@@ -357,6 +357,39 @@ TEST_CASE("shared actor service lets party controlled actors target party hostil
     CHECK_FALSE(friendlyResult.canTarget);
 }
 
+TEST_CASE("shared actor service makes a berserk monster and every other monster enemies")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(2)}));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState berserkActor = {};
+    berserkActor.monsterId = 1;
+    berserkActor.hostileToParty = true;
+    berserkActor.controlMode = GameplayActorControlMode::Berserk;
+    berserkActor.height = 128;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState otherActor = {};
+    otherActor.monsterId = 1;
+    otherActor.hostileToParty = true;
+    otherActor.height = 128;
+
+    // Same kind, no faction feud: only the berserk spell makes them fight, both ways.
+    const OpenYAMM::Game::GameplayActorTargetPolicyResult attack =
+        service.resolveActorTargetPolicy(berserkActor, otherActor);
+    CHECK(attack.canTarget);
+    CHECK_EQ(attack.relationToTarget, 4);
+    CHECK(attack.engagementRange > 0.0f);
+    CHECK(service.resolveActorTargetPolicy(otherActor, berserkActor).canTarget);
+    CHECK(service.partyEngagementRange(berserkActor) > 0.0f);
+
+    // Without the spell they stay friends.
+    berserkActor.controlMode = GameplayActorControlMode::None;
+    CHECK_FALSE(service.resolveActorTargetPolicy(berserkActor, otherActor).canTarget);
+}
+
 TEST_CASE("shared actor service respects runtime party hostility overrides")
 {
     MonsterTable monsterTable = {};

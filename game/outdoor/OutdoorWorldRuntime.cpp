@@ -6041,8 +6041,8 @@ void OutdoorWorldRuntime::spawnMonsterDeathDropsForActor(size_t actorIndex, cons
             + gameplayDebugTraceItemSummary(actor.specialItemId, m_pItemTable));
     }
 
-    // Without a corpse, what the rules add to the loot (MAW's crafting drops) lands on the ground or with the party,
-    // from the rolls the corpse would have made.
+    // Without a corpse, what the rules add to the loot (MAW's crafting drops) lands on the ground or with the party
+    // (in a tagged bag first, as a pickup), from the rolls the corpse would have made.
     const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
 
     if (!leaveCorpse && actor.proceduralDeathLoot && pStats != nullptr)
@@ -6063,7 +6063,7 @@ void OutdoorWorldRuntime::spawnMonsterDeathDropsForActor(size_t actorIndex, cons
         {
             const InventoryItem item = corpseExtraInventoryItem(loot.items[itemIndex], *m_pItemTable);
 
-            if (!loot.toParty || m_pParty == nullptr || !m_pParty->tryGrantInventoryItem(item))
+            if (!loot.toParty || m_pParty == nullptr || !storePickedUpItem(*m_pParty, item, m_pItemTable))
             {
                 spawnMonsterDeathDropWorldItem(item, dropX, dropY, dropZ,
                     m_sessionChestSeed ^ actor.actorId * 2654435761u ^ uint32_t(itemIndex * 40503u));

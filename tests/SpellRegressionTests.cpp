@@ -440,6 +440,30 @@ TEST_CASE("shared actor mind spell effects are rejected by mind immunity")
     CHECK_EQ(state.fearRemainingSeconds, 0.0f);
 }
 
+TEST_CASE("shared actor berserk keeps the monster hostile to everyone, charm calms it")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::GameplayActorService service = {};
+    service.bindTables(&gameData.monsterTable, &gameData.spellTable);
+
+    for (const OpenYAMM::Game::SpellId spell : {OpenYAMM::Game::SpellId::Berserk, OpenYAMM::Game::SpellId::Charm})
+    {
+        OpenYAMM::Game::GameplayActorSpellEffectState state = {};
+        state.hostileToParty = true;
+        const OpenYAMM::Game::GameplayActorService::SharedSpellEffectResult result =
+            service.tryApplySharedSpellEffect(OpenYAMM::Game::spellIdValue(spell), 5,
+                OpenYAMM::Game::SkillMastery::Expert, false, true, 0, state);
+
+        CHECK(result.disposition == OpenYAMM::Game::GameplayActorService::SharedSpellDisposition::Applied);
+        const bool berserk = spell == OpenYAMM::Game::SpellId::Berserk;
+        CHECK(state.controlMode
+            == (berserk ? OpenYAMM::Game::GameplayActorControlMode::Berserk
+                        : OpenYAMM::Game::GameplayActorControlMode::Charm));
+        CHECK_EQ(state.hostileToParty, berserk);
+        CHECK_EQ(service.isPartyControlledActor(state.controlMode), !berserk);
+    }
+}
+
 TEST_CASE("shared actor fate buffs the monster regardless of its spirit resistance")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

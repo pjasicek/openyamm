@@ -16991,7 +16991,7 @@ void IndoorWorldRuntime::spawnMonsterDeathDropsForActor(size_t actorIndex, const
         {
             const InventoryItem item = corpseExtraInventoryItem(loot.items[itemIndex], *m_pItemTable);
 
-            if (!loot.toParty || m_pParty == nullptr || !m_pParty->tryGrantInventoryItem(item))
+            if (!loot.toParty || m_pParty == nullptr || !storePickedUpItem(*m_pParty, item, m_pItemTable))
             {
                 spawnMonsterDeathDropItem(item, dropX, dropY, dropZ, actor.sectorId,
                     m_sessionChestSeed ^ uint32_t((actorIndex + 1u) * 2654435761u) ^ uint32_t(itemIndex * 40503u));
