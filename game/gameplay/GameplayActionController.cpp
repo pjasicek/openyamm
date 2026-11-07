@@ -842,7 +842,7 @@ bool cannotCastAttackSpell(
         return false;
     }
 
-    const SpellEntry *pSpellEntry = config.pSpellTable->findByName(attacker.attackSpellName);
+    const SpellEntry *pSpellEntry = config.pSpellTable->findByName(attacker.attackSpellName, spellKnownBy(attacker));
 
     if (pSpellEntry == nullptr)
     {
@@ -1052,6 +1052,24 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         // An attack spell with nothing to aim at swings the weapon instead, as an unaffordable one does.
         if (!noSpellTarget)
         {
+            return result;
+        }
+
+        // Except a spell for a party member (Heal, a cure) when nobody needs it: no blow or arrow either (OY-190).
+        const SpellEntry *pSpellEntry = config.pSpellTable != nullptr
+            ? config.pSpellTable->findByName(pAttacker->attackSpellName, spellKnownBy(*pAttacker))
+            : nullptr;
+        const std::optional<PartySpellDescriptor> descriptor = pSpellEntry != nullptr
+            ? PartySpellSystem::describeSpell(uint32_t(pSpellEntry->id))
+            : std::nullopt;
+
+        if (descriptor && descriptor->targetKind == PartySpellCastTargetKind::Character)
+        {
+            if (config.pRuntime != nullptr)
+            {
+                config.pRuntime->setStatusBarEvent("Nobody needs " + pSpellEntry->name);
+            }
+
             return result;
         }
     }

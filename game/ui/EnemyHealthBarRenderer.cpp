@@ -5,12 +5,38 @@
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/MonsterRules.h"
+#include "game/rules/SkillRules.h"
+#include "game/tables/MonsterTable.h"
 #include "game/ui/GameplayUiSkin.h"
 
 #include <array>
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+// Whether the party's Identify Monster shows this monster's hit points (the rules' reveal at its level).
+bool hitPointsRevealed(const GameplayScreenRuntime &context, size_t actorIndex, int16_t monsterId)
+{
+    const Party *pParty = context.partyReadOnly();
+    const MonsterTable *pMonsterTable = context.monsterTable();
+    const MonsterTable::MonsterStatsEntry *pStats =
+        pMonsterTable != nullptr ? pMonsterTable->findStatsById(monsterId) : nullptr;
+
+    if (pParty == nullptr || pStats == nullptr || context.worldRuntime() == nullptr)
+    {
+        return false;
+    }
+
+    GameplayRuntimeActorState runtimeState = {};
+    const int monsterLevel = context.worldRuntime()->actorRuntimeState(actorIndex, runtimeState)
+            && runtimeState.rulesetFacts.level > 0
+        ? runtimeState.rulesetFacts.level
+        : pStats->level;
+    return gameRulesFor(pParty).skills.identifyMonsterReveal(*pParty, monsterLevel).hitPointsAndArmorClass;
+}
+}
+
 void EnemyHealthBarRenderer::preload(const GameplayScreenRuntime &context)
 {
     GameplayUiRuntime &ui = context.gameplayUiRuntime();
@@ -166,7 +192,10 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
     }
 
     const std::string &valuesMode = context.settingsSnapshot().enemyHealthBarValues;
-    const bool showValues = valuesMode == "all" || (valuesMode == "target" && focused);
+    // The numbers only when Identify Monster reveals hit points, as the inspect panel does (OY-245); asked only for a
+    // bar that would show them.
+    const bool showValues = (valuesMode == "all" || (valuesMode == "target" && focused))
+        && hitPointsRevealed(context, actorIndex, actor.monsterId);
     if (focused || showValues)
     {
         const std::optional<GameplayHudFontHandle> font = ui.findHudFont(GameplayUiSkin::CombatFontName);

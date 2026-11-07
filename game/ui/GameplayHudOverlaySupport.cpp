@@ -1172,7 +1172,7 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
     overlay.quickSpellText = summary.quickSpellText;
 
     if (const SpellEntry *pQuickSpell = context.spellTable() != nullptr && !pCharacter->quickSpellName.empty()
-            ? context.spellTable()->findByName(pCharacter->quickSpellName)
+            ? context.spellTable()->findByName(pCharacter->quickSpellName, spellKnownBy(*pCharacter))
             : nullptr)
     {
         overlay.quickSpellText = gameRulesFor(context.partyReadOnly()).spells.spellName(*pCharacter, *pQuickSpell);

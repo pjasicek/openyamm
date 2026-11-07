@@ -799,7 +799,6 @@ public:
         CombatDamageType damageType,
         uint32_t sourcePartyMemberIndex) override;
     const MapActorState *mapActorState(size_t actorIndex) const;
-    std::optional<GameplayWorldPoint> partyAttackFallbackProjectionPoint(size_t actorIndex) const;
     std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
         size_t actorIndex,
         bool visibleForFallback) const override;

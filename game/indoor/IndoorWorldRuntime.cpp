@@ -16189,6 +16189,7 @@ std::vector<size_t> IndoorWorldRuntime::collectVisibleMapActorIndicesWithinRadiu
 
     RuntimeGeometryCache *pRuntimeGeometry = nullptr;
     std::vector<uint8_t> visibleSectorMask;
+    int16_t startSectorId = -1;
     const auto sectorVisibleForRender = [&visibleSectorMask](int16_t sectorId)
     {
         if (visibleSectorMask.empty())
@@ -16204,7 +16205,6 @@ std::vector<size_t> IndoorWorldRuntime::collectVisibleMapActorIndicesWithinRadiu
     if (m_pIndoorMapData != nullptr)
     {
         pRuntimeGeometry = &runtimeGeometryCache();
-        int16_t startSectorId = -1;
 
         if (!pRuntimeGeometry->vertices.empty())
         {
@@ -16319,6 +16319,16 @@ std::vector<size_t> IndoorWorldRuntime::collectVisibleMapActorIndicesWithinRadiu
                 actorState.preciseX,
                 actorState.preciseY,
                 viewTargetZ))
+        {
+            continue;
+        }
+
+        // Only what the eye reaches: a monster behind a wall of a visible room is spared, as outdoors (OY-304).
+        if (startSectorId >= 0
+            && actorSectorId >= 0
+            && !hasIndoorCombatLineOfSight(
+                {viewX, viewY, viewZ}, startSectorId, {actorState.preciseX, actorState.preciseY, viewTargetZ},
+                actorSectorId))
         {
             continue;
         }
@@ -18035,20 +18045,13 @@ std::vector<GameplayPartyAttackActorFacts> IndoorWorldRuntime::collectPartyAttac
             continue;
         }
 
-        const bx::Vec3 projected = bx::mulH(
-            {
-                runtimeState.preciseX,
-                runtimeState.preciseY,
-                runtimeState.preciseZ + GameMechanics::actorTargetHeight(runtimeState.height),
-            },
-            viewProjectionMatrix);
-        bool visibleForFallback =
-            projected.z >= 0.0f
-            && projected.z <= 1.0f
-            && projected.x >= -1.0f
-            && projected.x <= 1.0f
-            && projected.y >= -1.0f
-            && projected.y <= 1.0f;
+        bool visibleForFallback = GameMechanics::actorBoxInViewport(
+            viewProjectionMatrix,
+            runtimeState.preciseX,
+            runtimeState.preciseY,
+            runtimeState.preciseZ,
+            float(runtimeState.radius),
+            float(runtimeState.height));
         if (visibleForFallback && !partyAttackActorHasLineOfSight(actorIndex))
         {
             visibleForFallback = false;

@@ -340,6 +340,10 @@ public:
         const ItemTable *pItemTable,
         CharacterAttackMode attackMode);
     static float actorTargetHeight(uint16_t actorHeight);
+    // Whether any part of an actor's upright box (its radius, foot to head) projects into the viewport, so a monster cut
+    // by the screen edge counts as on screen (the party's fallback target, OY-154). Row-major bx view-projection.
+    static bool actorBoxInViewport(
+        const float viewProjection[16], float x, float y, float footZ, float radius, float height);
     // Yaw offset of fan member `projectileIndex` when `projectileCount` projectiles spread evenly across
     // `arcRadians`, centred on the aim direction.
     static float projectileFanYawOffsetRadians(uint32_t projectileCount, uint32_t projectileIndex, float arcRadians);

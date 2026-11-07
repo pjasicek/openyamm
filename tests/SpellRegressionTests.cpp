@@ -2620,3 +2620,50 @@ TEST_CASE("party spell scroll override bypasses required spell mastery")
     CHECK(worldRuntime.projectileRequests().front().skillMastery == OpenYAMM::Game::SkillMastery::Master);
     CHECK_EQ(pCaster->spellPoints, initialSpellPoints);
 }
+
+TEST_CASE("cursed caster rolls the curse only on the cast that has its target (OY-141)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["BodyMagic"] = {"BodyMagic", 5, OpenYAMM::Game::SkillMastery::Normal};
+    pCaster->spellPoints = 100;
+    pCaster->conditions.set(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Cursed));
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Heal);
+
+    // Asking for the target never fails the cast, spends mana or recovers: 32 tries would hit a 50 % roll.
+    for (int attempt = 0; attempt < 32; ++attempt)
+    {
+        const OpenYAMM::Game::PartySpellCastResult result =
+            OpenYAMM::Game::PartySpellSystem::castSpell(party, worldRuntime, gameData.spellTable, request);
+        CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::NeedCharacterTarget);
+    }
+
+    CHECK(pCaster->spellPoints == 100);
+    CHECK(pCaster->recoverySecondsRemaining == doctest::Approx(0.0f));
+}
+
+TEST_CASE("a quick spell named Charm resolves to the Charm the caster knows (OY-337)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::SpellEntry *pMindCharm = gameData.spellTable.findById(60);
+    const OpenYAMM::Game::SpellEntry *pVampireCharm = gameData.spellTable.findById(113);
+    REQUIRE(pMindCharm != nullptr);
+    REQUIRE(pVampireCharm != nullptr);
+    REQUIRE(pMindCharm->name == pVampireCharm->name);
+
+    OpenYAMM::Game::Character vampire = {};
+    vampire.learnSpell(113);
+    OpenYAMM::Game::Character mindMage = {};
+    mindMage.learnSpell(60);
+
+    CHECK(gameData.spellTable.findByName("Charm", OpenYAMM::Game::spellKnownBy(vampire)) == pVampireCharm);
+    CHECK(gameData.spellTable.findByName("Charm", OpenYAMM::Game::spellKnownBy(mindMage)) == pMindCharm);
+}

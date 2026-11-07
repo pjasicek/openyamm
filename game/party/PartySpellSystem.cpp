@@ -1320,6 +1320,17 @@ PartySpellCastResult PartySpellSystem::castSpell(
             SpellFailedText);
     }
 
+    // Underwater (MM7's Shoals) nobody casts from memory; scrolls and wands, which spend no mana, still work (OY-350).
+    if (request.spendMana && worldRuntime.isUnderwaterMap())
+    {
+        return makeFailure(
+            request.spellId,
+            PartySpellCastStatus::Failed,
+            PartySpellCastTargetKind::None,
+            PartySpellCastEffectKind::Unsupported,
+            UnderwaterText);
+    }
+
     if (spellIdFromValue(request.spellId) == SpellId::DivineIntervention
         && pCaster->equippedItemEffectFlags.contains("DisableDivineIntervention"))
     {
@@ -1600,26 +1611,6 @@ PartySpellCastResult PartySpellSystem::castSpell(
             "Not enough spell points");
     }
 
-    if (request.spendMana
-        && request.applyRecovery
-        && request.skillLevelOverride == 0
-        && !request.bypassRequiredMastery
-        && spellIdFromValue(request.spellId) != SpellId::None
-        && pCaster->conditions.test(static_cast<size_t>(CharacterCondition::Cursed)))
-    {
-        static thread_local std::mt19937 rng(std::random_device{}());
-
-        if (std::uniform_int_distribution<int>(0, 99)(rng) < 50)
-        {
-            party.spendSpellPoints(request.casterMemberIndex, static_cast<int>(result.manaCost));
-            return makeFailureWithRecovery(
-                PartySpellCastStatus::Failed,
-                rule->targetKind,
-                rule->effectKind,
-                SpellFailedText);
-        }
-    }
-
     bx::Vec3 targetPoint = {0.0f, 0.0f, 0.0f};
     const SpellId spellId = spellIdFromValue(request.spellId);
     // Sunray indoors where the rules allow it (MAW), at any hour; outdoors it keeps its daylight check.
@@ -1831,6 +1822,28 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 rule->targetKind,
                 rule->effectKind,
                 "Need spell UI");
+        }
+    }
+
+    // A cursed caster's roll, once the request has its target: a cast still asking for one rolls only when it is
+    // repeated with the target (OY-141).
+    if (request.spendMana
+        && request.applyRecovery
+        && request.skillLevelOverride == 0
+        && !request.bypassRequiredMastery
+        && spellIdFromValue(request.spellId) != SpellId::None
+        && pCaster->conditions.test(static_cast<size_t>(CharacterCondition::Cursed)))
+    {
+        static thread_local std::mt19937 rng(std::random_device{}());
+
+        if (std::uniform_int_distribution<int>(0, 99)(rng) < 50)
+        {
+            party.spendSpellPoints(request.casterMemberIndex, static_cast<int>(result.manaCost));
+            return makeFailureWithRecovery(
+                PartySpellCastStatus::Failed,
+                rule->targetKind,
+                rule->effectKind,
+                SpellFailedText);
         }
     }
 

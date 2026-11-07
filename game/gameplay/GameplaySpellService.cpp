@@ -107,7 +107,7 @@ GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQu
         return resolution;
     }
 
-    const SpellEntry *pSpellEntry = pSpellTable->findByName(quickSpellName);
+    const SpellEntry *pSpellEntry = pSpellTable->findByName(quickSpellName, spellKnownBy(*pCaster));
 
     if (pSpellEntry == nullptr)
     {

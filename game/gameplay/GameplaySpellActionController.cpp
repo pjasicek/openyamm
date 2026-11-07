@@ -42,8 +42,12 @@ GameplaySpellActionController::AttackCastResult GameplaySpellActionController::t
     }
 
     const SpellTable *pSpellTable = runtime.spellTable();
-    const SpellEntry *pAttackSpellEntry =
-        pSpellTable != nullptr ? pSpellTable->findByName(attackSpellName) : nullptr;
+    const Character *pCaster = runtime.partyReadOnly() != nullptr
+        ? runtime.partyReadOnly()->member(casterMemberIndex)
+        : nullptr;
+    const SpellEntry *pAttackSpellEntry = pSpellTable == nullptr ? nullptr
+        : pCaster != nullptr ? pSpellTable->findByName(attackSpellName, spellKnownBy(*pCaster))
+                             : pSpellTable->findByName(attackSpellName);
 
     if (pAttackSpellEntry == nullptr)
     {

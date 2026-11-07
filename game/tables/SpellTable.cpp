@@ -128,6 +128,7 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
     m_entries.clear();
     m_entryIndexById.clear();
     m_entryIndexByNormalizedName.clear();
+    m_shadowedEntryIndicesByName.clear();
 
     for (const std::vector<std::string> &row : rows)
     {
@@ -173,8 +174,18 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         }
 
         m_entryIndexById[entry.id] = m_entries.size();
-        m_entryIndexByNormalizedName[entry.normalizedName] = m_entries.size();
-        m_entryIndexByNormalizedName[compactName(entry.name)] = m_entries.size();
+
+        for (const std::string &key : {entry.normalizedName, compactName(entry.name)})
+        {
+            const auto [entryIt, inserted] = m_entryIndexByNormalizedName.try_emplace(key, m_entries.size());
+
+            if (!inserted && entryIt->second != m_entries.size())
+            {
+                m_shadowedEntryIndicesByName[key].push_back(entryIt->second);
+                entryIt->second = m_entries.size();
+            }
+        }
+
         m_entries.push_back(std::move(entry));
     }
 
@@ -209,6 +220,38 @@ const SpellEntry *SpellTable::findByName(const std::string &name) const
     }
 
     return &m_entries[entryIt->second];
+}
+
+const SpellEntry *SpellTable::findByName(
+    const std::string &name,
+    const std::function<bool(const SpellEntry &)> &prefer) const
+{
+    const SpellEntry *pEntry = findByName(name);
+
+    if (pEntry == nullptr || prefer(*pEntry))
+    {
+        return pEntry;
+    }
+
+    for (const std::string &key : {canonicalLegacySpellAlias(normalizeName(name)), compactName(name)})
+    {
+        const auto shadowedIt = m_shadowedEntryIndicesByName.find(key);
+
+        if (shadowedIt == m_shadowedEntryIndicesByName.end())
+        {
+            continue;
+        }
+
+        for (const size_t index : shadowedIt->second)
+        {
+            if (prefer(m_entries[index]))
+            {
+                return &m_entries[index];
+            }
+        }
+    }
+
+    return pEntry;
 }
 
 const std::vector<SpellEntry> &SpellTable::entries() const

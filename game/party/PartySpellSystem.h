@@ -163,6 +163,9 @@ struct PartySpellDescriptor
 class PartySpellSystem
 {
 public:
+    // The refusal of a spell cast underwater (OY-350), the original's "You can't do that while underwater".
+    static constexpr const char *UnderwaterText = "You can't do that while underwater";
+
     static std::optional<PartySpellDescriptor> describeSpell(uint32_t spellId);
     // Mana an ordinary cast would spend, or nullopt when the caster lacks the skill for the spell.
     // What the spell costs this caster, under the party's rules.

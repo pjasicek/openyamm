@@ -13,6 +13,8 @@
 #include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/SpellTable.h"
 
+#include <bx/math.h>
+
 #include <algorithm>
 #include <array>
 #include <cctype>
@@ -3366,6 +3368,39 @@ float GameMechanics::actorTargetHeight(uint16_t actorHeight)
 {
     // A fixed minimum can put the aim point above a short creature's collision volume.
     return actorHeight * 0.6f;
+}
+
+bool GameMechanics::actorBoxInViewport(
+    const float viewProjection[16], float x, float y, float footZ, float radius, float height)
+{
+    // The screen rectangle of the box's corners in front of the camera, against the viewport.
+    float minX = std::numeric_limits<float>::max();
+    float maxX = std::numeric_limits<float>::lowest();
+    float minY = std::numeric_limits<float>::max();
+    float maxY = std::numeric_limits<float>::lowest();
+    bool anyInFront = false;
+
+    for (int corner = 0; corner < 8; ++corner)
+    {
+        const bx::Vec3 point = {
+            x + ((corner & 1) != 0 ? radius : -radius),
+            y + ((corner & 2) != 0 ? radius : -radius),
+            footZ + ((corner & 4) != 0 ? height : 0.0f)};
+        const bx::Vec3 projected = bx::mulH(point, viewProjection);
+
+        if (projected.z < 0.0f || projected.z > 1.0f)
+        {
+            continue;
+        }
+
+        anyInFront = true;
+        minX = std::min(minX, projected.x);
+        maxX = std::max(maxX, projected.x);
+        minY = std::min(minY, projected.y);
+        maxY = std::max(maxY, projected.y);
+    }
+
+    return anyInFront && minX <= 1.0f && maxX >= -1.0f && minY <= 1.0f && maxY >= -1.0f;
 }
 
 float GameMechanics::projectileFanYawOffsetRadians(

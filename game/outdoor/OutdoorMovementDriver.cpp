@@ -200,7 +200,10 @@ void OutdoorMovementDriver::update(
     GameplayWorldMovementFrameDiagnostics *pPerformanceDiagnostics)
 {
     const uint64_t totalBeginTickCount = pPerformanceDiagnostics != nullptr ? SDL_GetTicksNS() : 0;
-    const bool jumpPressed = input.jump && !m_jumpHeld;
+    // A held jump key jumps again on landing, as the original's continuous trigger does (OY-219); airborne or flying,
+    // only a fresh press counts.
+    const bool jumpHeldOnGround = m_jumpHeld && !m_state.airborne && !m_partyMovementState.flying;
+    const bool jumpPressed = input.jump && (!m_jumpHeld || jumpHeldOnGround);
     m_jumpHeld = input.jump;
     m_pendingJumpPress = m_pendingJumpPress || jumpPressed;
     const bool flyUpPressed = (input.flyUp && !m_flyUpHeld) || input.flyHeightDelta > 0.0f;
@@ -210,7 +213,7 @@ void OutdoorMovementDriver::update(
     {
         m_partyMovementState.flying = false;
     }
-    else if (!m_partyMovementState.flying && flyUpPressed && canActivateFlying())
+    else if (!m_partyMovementState.flying && (flyUpPressed || m_swimming) && canActivateFlying())
     {
         m_partyMovementState.flying = true;
         m_state.verticalVelocity = 0.0f;
@@ -853,6 +856,11 @@ void OutdoorMovementDriver::setFlying(bool active)
         m_state.fallStartZ = m_state.footZ;
         m_state.fallDistance = 0.0f;
     }
+}
+
+void OutdoorMovementDriver::setSwimming(bool active)
+{
+    m_swimming = active;
 }
 
 void OutdoorMovementDriver::setFlyingAvailable(bool active)

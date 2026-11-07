@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -64,11 +65,16 @@ public:
     bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
     const SpellEntry *findById(int id) const;
     const SpellEntry *findByName(const std::string &name) const;
+    // Rows may share a name (Mind's and the Vampire's Charm): the row of that name the predicate accepts (the spell a
+    // caster knows), else the one findByName returns (OY-337).
+    const SpellEntry *findByName(const std::string &name, const std::function<bool(const SpellEntry &)> &prefer) const;
     const std::vector<SpellEntry> &entries() const;
 
 private:
     std::vector<SpellEntry> m_entries;
     std::unordered_map<int, size_t> m_entryIndexById;
     std::unordered_map<std::string, size_t> m_entryIndexByNormalizedName;
+    // The earlier rows of a name that a later row took over in m_entryIndexByNormalizedName.
+    std::unordered_map<std::string, std::vector<size_t>> m_shadowedEntryIndicesByName;
 };
 }

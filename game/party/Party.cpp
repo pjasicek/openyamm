@@ -15,6 +15,7 @@
 #include "game/tables/JournalQuestTable.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/RosterTable.h"
+#include "game/tables/SpellTable.h"
 #include "game/party/SpellSchool.h"
 #include "game/rules/GameRules.h"
 #include "game/party/SpellIds.h"
@@ -2240,6 +2241,14 @@ void Character::synchronizeInnateAbilitySpells()
             learnSpell(spellRange->first + spellOffset);
         }
     }
+}
+
+std::function<bool(const SpellEntry &)> spellKnownBy(const Character &character)
+{
+    return [&character](const SpellEntry &entry)
+    {
+        return character.knowsSpell(uint32_t(entry.id));
+    };
 }
 
 bool Character::knowsSpell(uint32_t spellId) const

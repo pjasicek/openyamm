@@ -1644,7 +1644,7 @@ std::string quickReferenceSpellName(const Character &character, const SpellTable
         return "None";
     }
 
-    const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findByName(character.quickSpellName) : nullptr;
+    const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findByName(character.quickSpellName, spellKnownBy(character)) : nullptr;
     const std::string ruleName = pSpell != nullptr ? rules.spellName(character, *pSpell) : std::string();
 
     // A class's own name for the spell replaces the table's short name.

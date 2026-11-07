@@ -61,6 +61,8 @@ public:
     void toggleFeatherFall();
     void setRunning(bool active);
     void setDebugFlyingOverride(bool active);
+    // Underwater (MM7's Shoals: OY-350) the party swims: it moves up and down freely, without gravity or falls.
+    void setUnderwater(bool active);
     void setMovementSpeedMultiplier(float multiplier);
     void setBodyDimensions(float radius, float height, float maxStepHeight = 128.0f);
     // Camera height over the feet (world.yml partyMovement.eyeHeight; the MM6-MM8 default otherwise).
@@ -76,5 +78,6 @@ private:
     Party m_party;
     std::string m_movementStatusText;
     bool m_debugFlyingOverride = false;
+    bool m_underwater = false;
 };
 }

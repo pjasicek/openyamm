@@ -16,6 +16,7 @@
 #include <array>
 #include <bitset>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -257,6 +258,11 @@ struct Character
     std::array<TimedPrimaryStatBonus, 6> timedPrimaryStatBonuses = {};
     CharacterRulesetState rulesetState;
 };
+
+struct SpellEntry;
+
+// SpellTable::findByName's choice among spells that share a name (two Charms): the one the character knows (OY-337).
+std::function<bool(const SpellEntry &)> spellKnownBy(const Character &character);
 
 struct AdventurersInnMember
 {

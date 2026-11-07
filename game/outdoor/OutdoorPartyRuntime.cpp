@@ -246,6 +246,13 @@ void OutdoorPartyRuntime::setDebugFlyingOverride(bool active)
     syncSpellMovementStatesFromPartyBuffs();
 }
 
+void OutdoorPartyRuntime::setUnderwater(bool active)
+{
+    m_underwater = active;
+    m_movementDriver.setSwimming(active);
+    syncSpellMovementStatesFromPartyBuffs();
+}
+
 void OutdoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)
 {
     m_movementDriver.setSpeedMultiplier(multiplier);
@@ -271,7 +278,8 @@ void OutdoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()
     m_movementDriver.setFeatherFallActive(m_party.hasPartyBuff(PartyBuffId::FeatherFall));
     m_movementDriver.setWaterWalkActive(m_party.hasPartyBuff(PartyBuffId::WaterWalk));
     m_movementDriver.setLevitateActive(m_party.hasPartyBuff(PartyBuffId::Levitate));
-    m_movementDriver.setFlyingAvailable(m_party.hasPartyBuff(PartyBuffId::Fly) || m_debugFlyingOverride);
+    m_movementDriver.setFlyingAvailable(
+        m_party.hasPartyBuff(PartyBuffId::Fly) || m_debugFlyingOverride || m_underwater);
 }
 
 void OutdoorPartyRuntime::requestJump(std::optional<float> verticalVelocity, float lift)

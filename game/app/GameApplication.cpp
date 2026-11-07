@@ -8208,6 +8208,8 @@ void GameApplication::applyCurrentSettingsToActiveRuntime()
     {
         m_pOutdoorPartyRuntime->setRunning(m_settings.alwaysRun);
         m_pOutdoorPartyRuntime->setDebugFlyingOverride(m_settings.startFlying);
+        m_pOutdoorPartyRuntime->setUnderwater(m_pOutdoorWorldRuntime != nullptr
+            && m_pOutdoorWorldRuntime->isUnderwaterMap());
         m_pOutdoorPartyRuntime->setMovementSpeedMultiplier(m_settings.movementSpeedMultiplier);
         m_pOutdoorPartyRuntime->setCollisionTraceEnabled(
             m_settings.collisionTrace,

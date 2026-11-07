@@ -15471,7 +15471,14 @@ void IndoorRenderer::updateCameraFromInput(
         pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
     const bool turboPressed = input.turboMovementHeld();
     const bool jumpPressed = input.action(KeyboardAction::Jump).held;
-    const bool jumpRequested = allowWorldInput && jumpPressed && !m_jumpHeld;
+    // A held jump key jumps again on landing, as the original's continuous trigger does (OY-219); on a ladder or in
+    // water only a fresh press acts (letting go of the ladder, swimming up).
+    const IndoorPartyRuntime *pJumpPartyRuntime =
+        m_pSceneRuntime != nullptr ? &m_pSceneRuntime->partyRuntime() : nullptr;
+    const bool jumpHeldOnGround = m_jumpHeld && pJumpPartyRuntime != nullptr
+        && pJumpPartyRuntime->movementState().grounded && !pJumpPartyRuntime->climbingLadder()
+        && !pJumpPartyRuntime->swimming();
+    const bool jumpRequested = allowWorldInput && jumpPressed && (!m_jumpHeld || jumpHeldOnGround);
     m_jumpHeld = jumpPressed;
     const bool standardControls = !m_gameplayMouseLookEnabled;
     const bool leftPressed = input.action(KeyboardAction::Left).held;

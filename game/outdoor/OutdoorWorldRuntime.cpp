@@ -17341,23 +17341,6 @@ const OutdoorWorldRuntime::MapActorState *OutdoorWorldRuntime::mapActorState(siz
     return &m_mapActors[actorIndex];
 }
 
-std::optional<GameplayWorldPoint> OutdoorWorldRuntime::partyAttackFallbackProjectionPoint(
-    size_t actorIndex) const
-{
-    const MapActorState *pActor = mapActorState(actorIndex);
-
-    if (pActor == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    return GameplayWorldPoint{
-        .x = pActor->preciseX,
-        .y = pActor->preciseY,
-        .z = pActor->preciseZ + GameMechanics::actorTargetHeight(pActor->height),
-    };
-}
-
 std::optional<GameplayPartyAttackActorFacts> OutdoorWorldRuntime::partyAttackActorFacts(
     size_t actorIndex,
     bool visibleForFallback) const
@@ -17427,27 +17410,20 @@ std::vector<GameplayPartyAttackActorFacts> OutdoorWorldRuntime::collectPartyAtta
 
     for (size_t actorIndex = 0; actorIndex < mapActorCount(); ++actorIndex)
     {
-        const std::optional<GameplayWorldPoint> projectionPoint = partyAttackFallbackProjectionPoint(actorIndex);
+        const MapActorState *pActor = mapActorState(actorIndex);
 
-        if (!projectionPoint)
+        if (pActor == nullptr)
         {
             continue;
         }
 
-        const bx::Vec3 projected = bx::mulH(
-            {
-                projectionPoint->x,
-                projectionPoint->y,
-                projectionPoint->z,
-            },
-            viewProjectionMatrix);
-        bool visibleForFallback =
-            projected.z >= 0.0f
-            && projected.z <= 1.0f
-            && projected.x >= -1.0f
-            && projected.x <= 1.0f
-            && projected.y >= -1.0f
-            && projected.y <= 1.0f;
+        bool visibleForFallback = GameMechanics::actorBoxInViewport(
+            viewProjectionMatrix,
+            pActor->preciseX,
+            pActor->preciseY,
+            pActor->preciseZ,
+            float(pActor->radius),
+            float(pActor->height));
         if (visibleForFallback && !partyAttackActorHasLineOfSight(actorIndex))
         {
             visibleForFallback = false;

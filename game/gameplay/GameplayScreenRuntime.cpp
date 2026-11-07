@@ -1,4 +1,6 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
+
+#include "game/party/PartySpellSystem.h"
 #include "game/ui/GameplayHudCommon.h"
 
 #include "game/app/GameSession.h"
@@ -1665,6 +1667,13 @@ void GameplayScreenRuntime::startInnRest(uint32_t houseId)
 
 void GameplayScreenRuntime::openSpellbookOverlay()
 {
+    // Underwater (MM7's Shoals) the spellbook stays shut, as in the original (OY-350).
+    if (worldRuntime() != nullptr && worldRuntime()->isUnderwaterMap())
+    {
+        setStatusBarEvent(PartySpellSystem::UnderwaterText);
+        return;
+    }
+
     std::optional<GameplayUiController::SpellbookSchool> school;
     const Character *pMember = partyReadOnly() != nullptr ? partyReadOnly()->activeMember() : nullptr;
 
@@ -1689,7 +1698,7 @@ void GameplayScreenRuntime::openSpellbookOverlay()
 
         if (pCaster != nullptr && !pCaster->quickSpellName.empty() && spellTable() != nullptr)
         {
-            const SpellEntry *pSpellEntry = spellTable()->findByName(pCaster->quickSpellName);
+            const SpellEntry *pSpellEntry = spellTable()->findByName(pCaster->quickSpellName, spellKnownBy(*pCaster));
 
             if (pSpellEntry != nullptr)
             {
