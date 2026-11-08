@@ -93,7 +93,9 @@ TEST_CASE("installed icon packages preserve native logical dimensions across all
             const std::optional<std::string> path = findImageAssetPath(fs, package + "/icons", name, directories, paths);
             INFO(package, "/", name);
             REQUIRE(path);
-            CHECK(assetScaleTierFromResolvedPath(*path) == AssetScaleTier::X2);
+            const bool hasX4Override = package == "worlds/mm7"
+                && std::filesystem::is_regular_file(folder.parent_path() / "icons_x4" / name);
+            CHECK(assetScaleTierFromResolvedPath(*path) == (hasX4Override ? AssetScaleTier::X4 : AssetScaleTier::X2));
             ++count;
         }
         CHECK(count > 0);
