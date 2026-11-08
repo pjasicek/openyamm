@@ -52,6 +52,62 @@ MawItemData installedItemData()
 }
 }
 
+TEST_CASE("sparring removes Retaliation paralysis while keeping its damage and recovery")
+{
+    const OpenYAMM::Tests::RegressionGameData &data = OpenYAMM::Tests::regressionGameData();
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    MawRules maw(RulesetOptions{}, MawMapLevels{});
+    Character member;
+    member.className = "Knight";
+    member.maxHealth = 500;
+    member.might = 80;
+    member.skills["Unarmed"] = {"Unarmed", 25, SkillMastery::Expert};
+    member.skills["Retaliation"] = {"Retaliation", 50, SkillMastery::Grandmaster};
+    ActorRulesetFacts target;
+    target.level = 10;
+    CharacterAttackOnMonster context;
+    context.pCharacter = &member;
+    context.pItemTable = &data.itemTable;
+    context.pTargetFacts = &target;
+    context.targetCurrentHp = 100;
+    context.minimumDamage = 20;
+    context.maximumDamage = 20;
+
+    const auto attackWith = [&](uint32_t seed, bool sparring, int stacks)
+    {
+        std::mt19937 rng(seed);
+        member.rulesetState.runtime.retaliationStacks = stacks;
+        context.pRng = &rng;
+        context.sparring = sparring;
+        CharacterAttackResult attack;
+        attack.canAttack = true;
+        attack.hit = true;
+        attack.mode = CharacterAttackMode::Melee;
+        maw.gameRules().combat.resolveCharacterAttack(attack, context);
+        return attack;
+    };
+
+    for (uint32_t seed = 1; seed <= 50; ++seed)
+    {
+        const CharacterAttackResult ordinary = attackWith(seed, false, 3);
+        if (!ordinary.paralyzeTarget)
+        {
+            continue;
+        }
+
+        const CharacterAttackResult sparring = attackWith(seed, true, 3);
+        CHECK_FALSE(sparring.paralyzeTarget);
+        CHECK_EQ(sparring.damage, ordinary.damage);
+        CHECK_EQ(sparring.recoverySeconds, ordinary.recoverySeconds);
+        CHECK_EQ(member.rulesetState.runtime.retaliationStacks, 0);
+        const CharacterAttackResult uncharged = attackWith(seed, false, 0);
+        CHECK_GT(sparring.damage, uncharged.damage);
+        CHECK_LT(sparring.recoverySeconds, uncharged.recoverySeconds);
+        return;
+    }
+    FAIL("Expected a seed that applies Retaliation paralysis in normal combat");
+}
+
 TEST_CASE("A bow's x2 against a kind of monster: Standard doubles the arrow, indoors too; MAW does not (CMB-1, D8)")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();

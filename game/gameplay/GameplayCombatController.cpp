@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/party/PlaythroughStatistics.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/GameplaySparring.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/rules/GameRules.h"
@@ -579,7 +580,8 @@ int personalShieldPassedDamage(
     const GameplayCombatController::PendingCombatEventContext &context,
     const GameplayCombatController::CombatEvent &event,
     const std::optional<GameplayCombatActorInfo> &sourceActor,
-    size_t memberIndex)
+    size_t memberIndex,
+    bool preview = false)
 {
     const Character *pMember = context.party.combatant(memberIndex);
     const MonsterTable *pMonsterTable =
@@ -599,25 +601,26 @@ int personalShieldPassedDamage(
         || event.damageType == CombatDamageType::Energy
         || shieldTechMastery >= SkillMastery::Master;
     int damage = event.damage;
+    bool exposed = pMember->personalShield <= 0.0f;
 
     if (absorbable)
     {
-        const Party::PersonalShieldHit hit = context.party.absorbPersonalShieldHit(memberIndex, damage);
+        const Party::PersonalShieldHit hit = context.party.absorbPersonalShieldHit(memberIndex, damage, preview);
         damage = hit.passedDamage;
+        exposed = exposed || hit.broke;
         const PartyShieldRules &rules = context.party.personalShieldRules();
 
-        if (hit.broke)
+        if (!preview && hit.broke)
         {
             playPersonalShieldSound(context, pMonsterTable, rules.breakSound);
         }
-        else if (hit.absorbed)
+        else if (!preview && hit.absorbed)
         {
             playPersonalShieldSound(context, pMonsterTable, rules.hitSound);
         }
     }
 
-    if (attackerFollowsShieldRules && event.damageType == CombatDamageType::Energy && damage > 0
-        && pMember->personalShield <= 0.0f)
+    if (attackerFollowsShieldRules && event.damageType == CombatDamageType::Energy && damage > 0 && exposed)
     {
         const float multiplier = shieldTechMastery >= SkillMastery::Grandmaster
             ? context.party.personalShieldRules().hardenedExposedMultiplier
@@ -636,7 +639,8 @@ int adjustedIncomingDamageForMember(
     size_t memberIndex,
     bool isPhysicalProjectile,
     int incomingDamage,
-    bool coverHalved = false)
+    bool coverHalved = false,
+    bool recordCombatLog = true)
 {
     std::mt19937 rng = buildMonsterAttackRng(event, memberIndex, animationTicks(context.pRuntime));
     CharacterDamageHit hit = {};
@@ -662,7 +666,7 @@ int adjustedIncomingDamageForMember(
     hit.partyCount = int(std::max<size_t>(1, context.party.members().size()));
     hit.pRng = &rng;
     // What shields absorb is taken where every hit lands (Party::applyDamageToMember).
-    return context.party.rules().combat.damageToCharacter(hit);
+    return context.party.rules().combat.damageToCharacter(hit, recordCombatLog);
 }
 
 float recoverySecondsFromTicks(int ticks)
@@ -1625,6 +1629,11 @@ void GameplayCombatController::handlePartyAttackPresentation(
         }
     }
 
+    if (attack.sparring)
+    {
+        return;
+    }
+
     const std::string status = formatPartyAttackStatusText(
         attack.attackerName,
         displayedActorName(attack.targetName),
@@ -1889,6 +1898,13 @@ void GameplayCombatController::handlePendingCombatEvents(
 
         if (event.type != CombatEventType::MonsterMeleeImpact
             && event.type != CombatEventType::PartyProjectileImpact)
+        {
+            continue;
+        }
+
+        const bool sparringSource = isSparringSource(context.pWorldRuntime, event.sourceId);
+        if (sparringSource && (!context.pWorldRuntime->eventRuntimeState()->sparring->active
+            || event.type != CombatEventType::MonsterMeleeImpact || event.affectsAllParty))
         {
             continue;
         }
@@ -2198,7 +2214,7 @@ void GameplayCombatController::handlePendingCombatEvents(
 
             // After the evasion roll, so an evaded hit leaves the personal shield untouched.
             const int shieldedDamage = pTargetMember != nullptr && targetMemberIndex && !evaded
-                ? personalShieldPassedDamage(context, event, sourceActor, *targetMemberIndex)
+                ? personalShieldPassedDamage(context, event, sourceActor, *targetMemberIndex, sparringSource)
                 : event.damage;
             const int adjustedDamage =
                 pTargetMember != nullptr && targetMemberIndex
@@ -2211,9 +2227,21 @@ void GameplayCombatController::handlePendingCombatEvents(
                             *targetMemberIndex,
                             isPhysicalProjectile,
                             shieldedDamage,
-                            coverHalved)
+                            coverHalved,
+                            !sparringSource)
                         : 0)
                     : event.damage;
+
+            if (sparringSource)
+            {
+                if (targetMemberIndex && !evaded)
+                {
+                    const int damage = context.party.rules().combat.absorbCharacterDamage(
+                        context.party, *targetMemberIndex, adjustedDamage, true);
+                    scoreSparringHit(*context.pWorldRuntime, context.pRuntime, false, damage);
+                }
+                continue;
+            }
 
             if (targetMemberIndex && !evaded)
             {

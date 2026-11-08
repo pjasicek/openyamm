@@ -2428,7 +2428,8 @@ void MawCombatRules::applyRetaliation(CharacterAttackResult &attack, const Chara
     std::uniform_real_distribution<double> unit(0.0, 1.0);
 
     // Not an Unstoppable boss (stage_retaliation, DM:891).
-    if (unit(*context.pRng) < 0.25 * stacks && !mawIgnoresCrowdControl(*context.pTargetFacts))
+    if (unit(*context.pRng) < 0.25 * stacks && !context.sparring
+        && !mawIgnoresCrowdControl(*context.pTargetFacts))
     {
         attack.paralyzeTarget = true;
         attack.paralyzeSeconds =
@@ -2491,7 +2492,7 @@ std::optional<CoverOutcome> MawCombatRules::coverMonsterAttack(Party &party, con
     return CoverOutcome {*coverer, solo};
 }
 
-int MawCombatRules::absorbCharacterDamage(Party &party, size_t memberIndex, int damage) const
+int MawCombatRules::absorbCharacterDamage(Party &party, size_t memberIndex, int damage, bool preview) const
 {
     Character *pMember = party.member(memberIndex);
 
@@ -2505,11 +2506,14 @@ int MawCombatRules::absorbCharacterDamage(Party &party, size_t memberIndex, int 
     {
         const MawManaShieldResult shielded = mawManaShield(
             damage, pMember->spellPoints, skillLevel(*pMember, "ManaShield"), skillMastery(*pMember, "ManaShield"));
-        pMember->spellPoints -= shielded.spellPointsSpent;
+        if (!preview)
+        {
+            pMember->spellPoints -= shielded.spellPointsSpent;
+        }
         damage = std::max(0, shielded.damage);
     }
 
-    return divineProtection(party, memberIndex, legendaryProtection(party, memberIndex, damage));
+    return preview ? damage : divineProtection(party, memberIndex, legendaryProtection(party, memberIndex, damage));
 }
 
 int MawCombatRules::legendaryProtection(Party &party, size_t memberIndex, int damage) const

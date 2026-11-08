@@ -64,6 +64,7 @@ public:
         bool hadMeleeTarget = false;
         bool killed = false;
         bool targetStrongEnemy = false;
+        bool sparring = false;
     };
 
     // A party hit that deals no damage after resistances counts as a miss unless it stuns the target.

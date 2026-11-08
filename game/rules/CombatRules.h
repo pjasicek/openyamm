@@ -129,6 +129,7 @@ struct CharacterAttackOnMonster
     int monstersNearTarget = 0;
     // Whether the target is hostile to the party (a hit with friendly fire on is not; MAW's Assassination).
     bool targetHostile = true;
+    bool sparring = false;
     int partyCount = 1;
     std::mt19937 *pRng = nullptr;
 };
@@ -263,8 +264,8 @@ public:
     CombatRules();
     virtual ~CombatRules() = default;
 
-    int damageToMonster(MonsterDamageHit &hit) const;
-    int damageToCharacter(CharacterDamageHit &hit) const;
+    int damageToMonster(MonsterDamageHit &hit, bool recordCombatLog = true) const;
+    int damageToCharacter(CharacterDamageHit &hit, bool recordCombatLog = true) const;
     // Whether a monster's melee blow or arrow passes the target's armour (Standard: level and attack bonus against
     // armour class).
     virtual bool monsterAttackLands(const MonsterAttackOnCharacter &attack) const;
@@ -376,7 +377,7 @@ public:
     virtual std::optional<CoverOutcome> coverMonsterAttack(Party &party, const MonsterAttackCover &attack) const;
     // The part of a hit that reaches the member's HP after the rules' own shields, which may spend the member's
     // spell points (MAW's Mana Shield). Standard: all of it.
-    virtual int absorbCharacterDamage(Party &party, size_t memberIndex, int damage) const;
+    virtual int absorbCharacterDamage(Party &party, size_t memberIndex, int damage, bool preview = false) const;
     // After a hit took a member's HP (MAW: a deep overkill kills or eradicates). Standard: nothing.
     virtual void characterDamaged(Party &party, size_t memberIndex) const;
     // Each frame of play: combat state that lapses with time (MAW's Retaliation stacks). Standard: none.

@@ -125,6 +125,7 @@ struct ScenarioPartyAttackRequest
     size_t actorIndex = 0;
     size_t memberIndex = 0;
     int count = 1;
+    bool atPartyPose = false;
     // Conditions the member has for these attacks; they are lifted again afterwards.
     std::vector<CharacterCondition> conditions;
     // The member's attack spell for these attacks (restored afterwards); when set, the attacks go through the
@@ -248,6 +249,7 @@ public:
         std::string &failure);
     bool setPose(const ScenarioPose &pose, std::string &failure);
     ScenarioPose currentPose() const;
+    std::string statusText() const;
     bool simulateMovementSegment(
         const ScenarioMovementCommand &command,
         ScenarioMovementResult &result,

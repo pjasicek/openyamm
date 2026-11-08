@@ -75,7 +75,7 @@ public:
     // Mana Shield, when switched on, takes its share of the hit from the member's spell points; a Seraphim's Divine
     // Protection turns a killing blow into a heal of a quarter of their HP and leaves them 1 HP, once every five
     // minutes (§7.6).
-    int absorbCharacterDamage(Party &party, size_t memberIndex, int damage) const override;
+    int absorbCharacterDamage(Party &party, size_t memberIndex, int damage, bool preview = false) const override;
     // Retaliation stacks lapse 10 seconds after the cover that stored them.
     // Also MAW's real-time poison (IT:1495-1569): every second a poisoned member loses ceil(full HP x 1, 0.5 or
     // 0.25 %) by the poison's strength, x bolster / 100 (x2 in Road to Insanity and Beyond Madness, /2 alone), never

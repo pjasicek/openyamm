@@ -18,10 +18,10 @@ namespace
 {
 // The stages go to the combat trace and to the combat log while either is on; with both off nothing is recorded.
 template <typename Hit>
-int runRecorded(const DamagePipeline<Hit> &pipeline, Hit &hit, bool onCharacter)
+int runRecorded(const DamagePipeline<Hit> &pipeline, Hit &hit, bool onCharacter, bool recordCombatLog)
 {
     CombatLog *pLog = boundCombatLog();
-    const bool logging = pLog != nullptr && pLog->recording();
+    const bool logging = recordCombatLog && pLog != nullptr && pLog->recording();
 
     if (!gameplayCombatTraceEnabled() && !logging)
     {
@@ -281,7 +281,7 @@ std::optional<CoverOutcome> CombatRules::coverMonsterAttack(Party &, const Monst
     return std::nullopt;
 }
 
-int CombatRules::absorbCharacterDamage(Party &, size_t, int damage) const
+int CombatRules::absorbCharacterDamage(Party &, size_t, int damage, bool) const
 {
     return damage;
 }
@@ -377,14 +377,14 @@ bool CombatRules::characterMissileHits(const CharacterMissileOnMonster &missile)
         *missile.pRng);
 }
 
-int CombatRules::damageToMonster(MonsterDamageHit &hit) const
+int CombatRules::damageToMonster(MonsterDamageHit &hit, bool recordCombatLog) const
 {
-    return runRecorded(m_damageToMonster, hit, false);
+    return runRecorded(m_damageToMonster, hit, false, recordCombatLog);
 }
 
-int CombatRules::damageToCharacter(CharacterDamageHit &hit) const
+int CombatRules::damageToCharacter(CharacterDamageHit &hit, bool recordCombatLog) const
 {
-    return runRecorded(m_damageToCharacter, hit, true);
+    return runRecorded(m_damageToCharacter, hit, true, recordCombatLog);
 }
 
 const DamagePipeline<MonsterDamageHit> &CombatRules::damageToMonsterStages() const

@@ -4,6 +4,7 @@
 #include "game/events/EvtEnums.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/NpcFollowerTypes.h"
+#include "game/gameplay/GameplaySparring.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/events/MechanismAudioProfile.h"
 #include "game/party/Party.h"
@@ -712,6 +713,7 @@ struct EventRuntimeState
     bool legacySmallBarrelDecorVars = false;
     std::optional<ActiveDecorationContext> activeDecorationContext;
     std::optional<ActiveHookContext> activeHookContext;
+    std::optional<GameplaySparringState> sparring;
     std::vector<std::string> messages;
     std::vector<std::string> statusMessages;
     std::vector<uint32_t> openedChestIds;
