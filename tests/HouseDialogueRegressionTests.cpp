@@ -41,6 +41,133 @@
 #include <unordered_map>
 #include <vector>
 
+TEST_CASE("scripted NPC dialogue closes honor exit vetoes, preserve outer hooks and do not close a replacement talk")
+{
+    using namespace OpenYAMM::Game;
+    class HookWorld : public OpenYAMM::Tests::PartySpellTestWorldRuntime
+    {
+    public:
+        std::optional<ScriptedEventProgram> program;
+        int exits = 0;
+        bool executeEventHooks(EventRuntimeHookKind kind) override
+        {
+            if (kind == EventRuntimeHookKind::NpcExit)
+            {
+                ++exits;
+            }
+            EventRuntime runtime;
+            return runtime.executeHooks(std::nullopt, program, kind, *eventRuntimeState(), party());
+        }
+    } world;
+    std::ifstream support(std::filesystem::path(OPENYAMM_SOURCE_DIR)
+        / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(support.good());
+    const std::string source = std::string(std::istreambuf_iterator<char>(support), {}) + R"lua(
+RegisterGlobalEvent(9045, "Leave", function()
+    evt.Add(Gold, 7)
+    evt.CloseDialog()
+end)
+RegisterGlobalEvent(9046, "Another talk", function()
+    evt.CloseDialog()
+    evt.SpeakNPC(42)
+end)
+RegisterGlobalNpcExitHook(9047, "Choice", function(context)
+    if evt.GetGlobalVar("block") == 1 then evt.SetHookBlocked(true) end
+end)
+)lua";
+    std::string error;
+    world.program = ScriptedEventProgram::loadFromLuaText(source, "@npc_exit.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(world.program.has_value(), error.c_str());
+    world.bindGlobalEventProgram(&world.program);
+    Party party;
+    PartySeed seed;
+    seed.members.resize(1);
+    party.seed(seed);
+    world.bindParty(&party);
+    EventRuntimeState state;
+    world.bindEventRuntimeState(&state);
+    EventRuntimeState::PendingDialogueContext pending;
+    pending.kind = DialogueContextKind::NpcTalk;
+    pending.sourceId = 41;
+    state.pendingDialogueContext = pending;
+    EventDialogContent dialog;
+    dialog.isActive = true;
+    dialog.sourceId = 41;
+    EventDialogAction action;
+    action.kind = EventDialogActionKind::NpcTopic;
+    action.id = 9045;
+    dialog.actions.push_back(action);
+    GameplayUiController ui;
+    size_t selection = 0;
+    GameplayDialogController controller;
+    GameplayDialogController::Context context{ui, state, dialog, selection};
+    context.pParty = &party;
+    context.pWorldRuntime = &world;
+    context.pGlobalEventProgram = &world.program;
+
+    SUBCASE("a topic leaves without reopening and keeps its committed reward")
+    {
+        const GameplayDialogController::Result result = controller.executeActiveDialogAction(context);
+        CHECK(result.shouldCloseActiveDialog);
+        CHECK_FALSE(result.shouldOpenPendingEventDialog);
+        CHECK_FALSE(state.pendingDialogueClose);
+        CHECK_EQ(party.gold(), seed.gold + 7);
+        CHECK_EQ(world.exits, 1);
+    }
+    SUBCASE("an exit veto blocks both player and topic exits without losing the outer damage hook")
+    {
+        state.namedGlobalVars["block"] = 1;
+        EventRuntimeState::ActiveHookContext outer;
+        outer.kind = EventRuntimeHookKind::MonsterDamage;
+        outer.actorIndex = 19;
+        outer.damageOverride = 23;
+        state.activeHookContext = outer;
+        CHECK_FALSE(controller.handleDialogueCloseRequest(context).shouldCloseActiveDialog);
+        REQUIRE(state.activeHookContext.has_value());
+        CHECK_EQ(state.activeHookContext->kind, EventRuntimeHookKind::MonsterDamage);
+        CHECK_EQ(state.activeHookContext->damageOverride, 23);
+        CHECK_FALSE(state.lastDialogueCanceled.has_value());
+        const GameplayDialogController::Result result = controller.executeActiveDialogAction(context);
+        CHECK_FALSE(result.shouldCloseActiveDialog);
+        CHECK(result.shouldOpenPendingEventDialog);
+        CHECK_FALSE(state.pendingDialogueClose);
+        state.namedGlobalVars["block"] = 0;
+        CHECK(controller.handleDialogueCloseRequest(context).shouldCloseActiveDialog);
+    }
+    SUBCASE("a newly queued NPC talk survives a close request from the old topic")
+    {
+        dialog.actions.front().id = 9046;
+        const GameplayDialogController::Result result = controller.executeActiveDialogAction(context);
+        CHECK_FALSE(result.shouldCloseActiveDialog);
+        CHECK(result.shouldOpenPendingEventDialog);
+        REQUIRE(state.pendingDialogueContext.has_value());
+        CHECK_EQ(state.pendingDialogueContext->sourceId, 42);
+        CHECK_FALSE(state.pendingDialogueClose);
+    }
+    SUBCASE("a house resident's exit veto runs before returning to the house services")
+    {
+        REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(),
+            OpenYAMM::Tests::regressionGameDataFailure().c_str());
+        const OpenYAMM::Tests::RegressionGameData &data = OpenYAMM::Tests::regressionGameData();
+        context.pHouseTable = &data.houseTable;
+        context.pNpcDialogTable = &data.npcDialogTable;
+        state.dialogueState.hostHouseId = 260;
+        state.pendingDialogueContext->hostHouseId = 260;
+        state.namedGlobalVars["block"] = 1;
+        const GameplayDialogController::CloseDialogRequestResult blocked =
+            controller.handleDialogueCloseRequest(context);
+        CHECK_FALSE(blocked.shouldCloseActiveDialog);
+        CHECK_FALSE(blocked.shouldOpenPendingEventDialog);
+        CHECK_EQ(state.pendingDialogueContext->sourceId, 41);
+        state.namedGlobalVars["block"] = 0;
+        const GameplayDialogController::CloseDialogRequestResult allowed =
+            controller.handleDialogueCloseRequest(context);
+        CHECK(allowed.shouldOpenPendingEventDialog);
+        CHECK_EQ(state.pendingDialogueContext->kind, DialogueContextKind::HouseService);
+        CHECK_EQ(world.exits, 2);
+    }
+}
+
 namespace
 {
 constexpr uint32_t TempleHouseId = 303;

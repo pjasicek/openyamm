@@ -10,6 +10,7 @@ namespace OpenYAMM::Game
 struct MapDeltaData;
 struct GameplayMonsterSpawnRequest;
 struct InventoryItem;
+class SpellTable;
 
 // evt.FireMissile: a world missile (a monster_projectiles.yml token) from one point to another, over flightSeconds
 // (0: at its object's speed). It passes the party, whose damage the event deals itself, and bursts at the target, or on
@@ -33,6 +34,11 @@ class ISceneEventContext
 {
 public:
     virtual ~ISceneEventContext() = default;
+
+    virtual const SpellTable *spellTable() const
+    {
+        return nullptr;
+    }
 
     virtual float currentGameMinutes() const = 0;
     virtual const MapDeltaData *mapDeltaData() const = 0;

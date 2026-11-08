@@ -330,6 +330,10 @@ public:
 
     const std::string &mapName() const override;
     const MonsterTable *monsterTable() const override;
+    const SpellTable *spellTable() const override
+    {
+        return m_pSpellTable;
+    }
     const MapStatsEntry *arenaMap() const override
     {
         return m_map && m_map->runtimeRestrictions.isArena && m_map->arena ? &*m_map : nullptr;

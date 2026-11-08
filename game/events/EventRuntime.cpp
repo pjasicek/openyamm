@@ -23,6 +23,7 @@
 #include "game/tables/HouseTable.h"
 #include "game/tables/JournalQuestTable.h"
 #include "game/tables/NpcDialogTable.h"
+#include "game/tables/SpellTable.h"
 
 #include <algorithm>
 #include <cctype>
@@ -4768,6 +4769,7 @@ void prepareRuntimeStateForEventExecution(
     if (clearPendingOutputs)
     {
         runtimeState.pendingDialogueContext.reset();
+        runtimeState.pendingDialogueClose = false;
         runtimeState.pendingMapMove.reset();
         runtimeState.pendingMovie.reset();
         runtimeState.pendingReturnToMainMenu = false;
@@ -6213,6 +6215,49 @@ int luaForgetPartyMemberSpell(lua_State *pLuaState)
     Character *pMember = pParty != nullptr && memberIndex ? pParty->member(*memberIndex) : nullptr;
     lua_pushboolean(pLuaState, pMember != nullptr && pMember->forgetSpell(spellId));
     return 1;
+}
+
+const SpellEntry *luaSpellEntry(lua_State *pLuaState, int argument)
+{
+    const lua_Integer id = luaL_checkinteger(pLuaState, argument);
+    const ISceneEventContext *pScene = readonlySceneEventContext(executionContextFromLua(pLuaState));
+    const SpellTable *pSpells = pScene != nullptr ? pScene->spellTable() : nullptr;
+    return pSpells != nullptr && id > 0 && id <= std::numeric_limits<int>::max()
+        ? pSpells->findById(int(id)) : nullptr;
+}
+
+int luaLearnPartyMemberSpell(lua_State *pLuaState)
+{
+    Party *pParty = writableParty(pLuaState);
+    const std::optional<size_t> memberIndex = luaMemberIndexArgument(pLuaState, 1);
+    Character *pMember = pParty != nullptr && memberIndex ? pParty->member(*memberIndex) : nullptr;
+    const SpellEntry *pSpell = luaSpellEntry(pLuaState, 2);
+    lua_pushboolean(pLuaState, pMember != nullptr && pSpell != nullptr && pMember->learnSpell(pSpell->id));
+    return 1;
+}
+
+int luaGetSpellName(lua_State *pLuaState)
+{
+    if (const SpellEntry *pSpell = luaSpellEntry(pLuaState, 1))
+    {
+        lua_pushlstring(pLuaState, pSpell->name.data(), pSpell->name.size());
+    }
+    else
+    {
+        lua_pushnil(pLuaState);
+    }
+    return 1;
+}
+
+int luaCloseDialog(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    // Only a topic can request a close; read-only listings, timers and map events cannot leave stale UI output.
+    if (pContext != nullptr && !pContext->readonly && !pContext->allowStandaloneMapEventDialogueContext)
+    {
+        pContext->pRuntimeState->pendingDialogueClose = true;
+    }
+    return 0;
 }
 
 int luaRemovePartyMemberItem(lua_State *pLuaState)
@@ -10229,6 +10274,9 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "ReplacePartyInventoryItems", luaReplacePartyInventoryItems);
     registerLuaFunction(pLuaState, "PartyMemberKnowsSpell", luaPartyMemberKnowsSpell);
     registerLuaFunction(pLuaState, "ForgetPartyMemberSpell", luaForgetPartyMemberSpell);
+    registerLuaFunction(pLuaState, "LearnPartyMemberSpell", luaLearnPartyMemberSpell);
+    registerLuaFunction(pLuaState, "GetSpellName", luaGetSpellName);
+    registerLuaFunction(pLuaState, "CloseDialog", luaCloseDialog);
     registerLuaFunction(pLuaState, "RemovePartyMemberItem", luaRemovePartyMemberItem);
     registerLuaFunction(pLuaState, "ApplyLichTransformation", luaApplyLichTransformation);
     registerLuaFunction(pLuaState, "SkillResetCost", luaSkillResetCost);
@@ -10757,6 +10805,7 @@ bool EventRuntimeState::hasFacetInvisibleOverride(uint32_t faceId) const
 
 void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
 {
+    runtimeState.pendingDialogueClose = false;
     runtimeState.actorHostilityRequests.clear();
     runtimeState.actorGroupHostilityRequests.clear();
     runtimeState.dialogueState = {};

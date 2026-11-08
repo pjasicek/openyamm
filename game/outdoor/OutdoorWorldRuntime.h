@@ -711,6 +711,10 @@ public:
     int mapId() const;
     const std::string &mapName() const override;
     const MonsterTable *monsterTable() const override;
+    const SpellTable *spellTable() const override
+    {
+        return m_pSpellTable;
+    }
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
     GameplayWorldPoint chooseBountyHuntSpawnPoint(uint32_t seed) const override;
     bool isIndoorMap() const override;
