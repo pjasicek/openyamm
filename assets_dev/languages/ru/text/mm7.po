@@ -1,0 +1,1550 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenYAMM\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/Global_mm7_mmmerge.lua:110
+msgid "The hatchling eats the food."
+msgstr "Птенец дракона съедает еду."
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/Global_mm7_mmmerge.lua:92
+msgid "The hatchling is hungry, but you need five food to feed it."
+msgstr ""
+"Птенец дракона голоден, но, чтобы накормить его, нужно пять единиц еды."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/common/mm7_common.lua:111 assets_dev/worlds/mm7/events/common/mm7_common.lua:122 assets_dev/worlds/mm7/events/maps/7d22.lua:199
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:278 assets_dev/worlds/mm7/events/maps/7d24_mmmerge.lua:10 assets_dev/worlds/mm7/events/maps/7d27.lua:339
+#: assets_dev/worlds/mm7/events/maps/7d30.lua:532 assets_dev/worlds/mm7/events/maps/7d32.lua:488 assets_dev/worlds/mm7/events/maps/7d33.lua:425
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:431 assets_dev/worlds/mm7/events/maps/7d33.lua:436 assets_dev/worlds/mm7/events/maps/7d33.lua:462
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:496 assets_dev/worlds/mm7/events/maps/d03.lua:101 assets_dev/worlds/mm7/events/maps/mdt10.lua:172
+#: assets_dev/worlds/mm7/events/maps/mdt10.lua:178 assets_dev/worlds/mm7/events/maps/mdt10.lua:183
+msgid "The Door is Locked"
+msgstr "Дверь заперта"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d05.lua:184 assets_dev/worlds/mm7/events/maps/7d05.lua:186
+msgid "Leave the Arena"
+msgstr "Покинуть Арену"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:190 assets_dev/worlds/mm7/events/maps/7d06.lua:192
+msgid "Leave the Temple of the Moon"
+msgstr "Покинуть храм Луны"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:101 assets_dev/worlds/mm7/events/maps/7d06.lua:105 assets_dev/worlds/mm7/events/maps/7d06.lua:107
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:111 assets_dev/worlds/mm7/events/maps/7d06.lua:113 assets_dev/worlds/mm7/events/maps/7d06.lua:117
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:119 assets_dev/worlds/mm7/events/maps/7d06.lua:123 assets_dev/worlds/mm7/events/maps/7d06.lua:125
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:129 assets_dev/worlds/mm7/events/maps/7d06.lua:131 assets_dev/worlds/mm7/events/maps/7d06.lua:135
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:137 assets_dev/worlds/mm7/events/maps/7d06.lua:141 assets_dev/worlds/mm7/events/maps/7d06.lua:143
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:147 assets_dev/worlds/mm7/events/maps/7d06.lua:149 assets_dev/worlds/mm7/events/maps/7d06.lua:153
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:155 assets_dev/worlds/mm7/events/maps/7d06.lua:159 assets_dev/worlds/mm7/events/maps/7d06.lua:161
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:165 assets_dev/worlds/mm7/events/maps/7d06.lua:167 assets_dev/worlds/mm7/events/maps/7d06.lua:171
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:173 assets_dev/worlds/mm7/events/maps/7d06.lua:177 assets_dev/worlds/mm7/events/maps/7d06.lua:179
+#: assets_dev/worlds/mm7/events/maps/7d06.lua:183 assets_dev/worlds/mm7/events/maps/7d06.lua:95 assets_dev/worlds/mm7/events/maps/7d06.lua:99
+#: assets_dev/worlds/mm7/events/maps/7d07.lua:202 assets_dev/worlds/mm7/events/maps/7d07.lua:231 assets_dev/worlds/mm7/events/maps/7d07.lua:233
+#: assets_dev/worlds/mm7/events/maps/7d07.lua:262 assets_dev/worlds/mm7/events/maps/7d07.lua:264 assets_dev/worlds/mm7/events/maps/7d07.lua:265
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:208 assets_dev/worlds/mm7/events/maps/7d12.lua:237 assets_dev/worlds/mm7/events/maps/7d12.lua:239
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:268 assets_dev/worlds/mm7/events/maps/7d12.lua:270 assets_dev/worlds/mm7/events/maps/7d12.lua:299
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:301 assets_dev/worlds/mm7/events/maps/7d12.lua:330 assets_dev/worlds/mm7/events/maps/7d12.lua:332
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:333 assets_dev/worlds/mm7/events/maps/7d14.lua:217 assets_dev/worlds/mm7/events/maps/7d14.lua:251
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:253 assets_dev/worlds/mm7/events/maps/7d14.lua:258 assets_dev/worlds/mm7/events/maps/7d19.lua:311
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:340 assets_dev/worlds/mm7/events/maps/7d19.lua:342 assets_dev/worlds/mm7/events/maps/7d19.lua:343
+#: assets_dev/worlds/mm7/events/maps/7d20.lua:156 assets_dev/worlds/mm7/events/maps/7d20.lua:159 assets_dev/worlds/mm7/events/maps/7d20.lua:185
+#: assets_dev/worlds/mm7/events/maps/7d20.lua:188 assets_dev/worlds/mm7/events/maps/7d20.lua:370 assets_dev/worlds/mm7/events/maps/7d20.lua:372
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:227 assets_dev/worlds/mm7/events/maps/7d24.lua:229 assets_dev/worlds/mm7/events/maps/7d29.lua:294
+#: assets_dev/worlds/mm7/events/maps/7d29.lua:296 assets_dev/worlds/mm7/events/maps/7d29.lua:386 assets_dev/worlds/mm7/events/maps/7d29.lua:416
+#: assets_dev/worlds/mm7/events/maps/7d29.lua:418 assets_dev/worlds/mm7/events/maps/7d29.lua:422 assets_dev/worlds/mm7/events/maps/7d32.lua:379
+#: assets_dev/worlds/mm7/events/maps/7d32.lua:408 assets_dev/worlds/mm7/events/maps/7d32.lua:410 assets_dev/worlds/mm7/events/maps/7d32.lua:439
+#: assets_dev/worlds/mm7/events/maps/7d32.lua:441 assets_dev/worlds/mm7/events/maps/7d32.lua:470 assets_dev/worlds/mm7/events/maps/7d32.lua:472
+#: assets_dev/worlds/mm7/events/maps/7d32.lua:473 assets_dev/worlds/mm7/events/maps/7d33.lua:357 assets_dev/worlds/mm7/events/maps/7d33.lua:386
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:388 assets_dev/worlds/mm7/events/maps/7d33.lua:417 assets_dev/worlds/mm7/events/maps/7d33.lua:419
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:420 assets_dev/worlds/mm7/events/maps/7d37.lua:225 assets_dev/worlds/mm7/events/maps/7d37.lua:254
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:256 assets_dev/worlds/mm7/events/maps/7d37.lua:285 assets_dev/worlds/mm7/events/maps/7d37.lua:287
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:316 assets_dev/worlds/mm7/events/maps/7d37.lua:318 assets_dev/worlds/mm7/events/maps/7d37.lua:347
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:349 assets_dev/worlds/mm7/events/maps/7d37.lua:351 assets_dev/worlds/mm7/events/maps/t02.lua:448
+#: assets_dev/worlds/mm7/events/maps/t02.lua:477 assets_dev/worlds/mm7/events/maps/t02.lua:479 assets_dev/worlds/mm7/events/maps/t02.lua:508
+#: assets_dev/worlds/mm7/events/maps/t02.lua:510 assets_dev/worlds/mm7/events/maps/t02.lua:539 assets_dev/worlds/mm7/events/maps/t02.lua:541
+#: assets_dev/worlds/mm7/events/maps/t02.lua:570 assets_dev/worlds/mm7/events/maps/t02.lua:572 assets_dev/worlds/mm7/events/maps/t02.lua:573
+msgid "Bookcase"
+msgstr "Книжный шкаф"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d07.lua:347 assets_dev/worlds/mm7/events/maps/7d07.lua:349 assets_dev/worlds/mm7/events/maps/7d07.lua:351
+#: assets_dev/worlds/mm7/events/maps/7d07.lua:353 assets_dev/worlds/mm7/events/maps/7d07.lua:355 assets_dev/worlds/mm7/events/maps/7d07.lua:357
+#: assets_dev/worlds/mm7/events/maps/7d07.lua:359 assets_dev/worlds/mm7/events/maps/7d07.lua:361 assets_dev/worlds/mm7/events/maps/7d07.lua:363
+#: assets_dev/worlds/mm7/events/maps/7d07.lua:365 assets_dev/worlds/mm7/events/maps/7d07.lua:367 assets_dev/worlds/mm7/events/maps/7d07.lua:369
+msgid "Leave Thunderfist Mountain"
+msgstr "Покинуть гору Громовой Кулак"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d08.lua:266 assets_dev/worlds/mm7/events/maps/7d08.lua:282 assets_dev/worlds/mm7/events/maps/7d08.lua:284
+#: assets_dev/worlds/mm7/events/maps/7d08.lua:300 assets_dev/worlds/mm7/events/maps/7d17.lua:198 assets_dev/worlds/mm7/events/maps/7d17.lua:214
+#: assets_dev/worlds/mm7/events/maps/7d17.lua:216 assets_dev/worlds/mm7/events/maps/7d17.lua:232 assets_dev/worlds/mm7/events/maps/7d17.lua:234
+#: assets_dev/worlds/mm7/events/maps/7d17.lua:250 assets_dev/worlds/mm7/events/maps/7d24.lua:231 assets_dev/worlds/mm7/events/maps/7d24.lua:247
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:249 assets_dev/worlds/mm7/events/maps/7d24.lua:265 assets_dev/worlds/mm7/events/maps/7d34.lua:171
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:187 assets_dev/worlds/mm7/events/maps/7d34.lua:189 assets_dev/worlds/mm7/events/maps/7d34.lua:205
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:207 assets_dev/worlds/mm7/events/maps/7d34.lua:223 assets_dev/worlds/mm7/events/maps/7d36.lua:150
+#: assets_dev/worlds/mm7/events/maps/7d36.lua:166 assets_dev/worlds/mm7/events/maps/7d36.lua:168 assets_dev/worlds/mm7/events/maps/7d36.lua:184
+#: assets_dev/worlds/mm7/events/maps/7d36.lua:186 assets_dev/worlds/mm7/events/maps/7d36.lua:202
+msgid "Ore Vein"
+msgstr "Рудная жила"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d08.lua:275 assets_dev/worlds/mm7/events/maps/7d08.lua:293 assets_dev/worlds/mm7/events/maps/7d17.lua:207
+#: assets_dev/worlds/mm7/events/maps/7d17.lua:225 assets_dev/worlds/mm7/events/maps/7d17.lua:243 assets_dev/worlds/mm7/events/maps/7d24.lua:240
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:258 assets_dev/worlds/mm7/events/maps/7d34.lua:180 assets_dev/worlds/mm7/events/maps/7d34.lua:198
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:216 assets_dev/worlds/mm7/events/maps/7d36.lua:159 assets_dev/worlds/mm7/events/maps/7d36.lua:177
+#: assets_dev/worlds/mm7/events/maps/7d36.lua:195
+msgid "Cave In !"
+msgstr "Обвал!"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d08.lua:324 assets_dev/worlds/mm7/events/maps/7d08.lua:326 assets_dev/worlds/mm7/events/maps/7d08.lua:328
+#: assets_dev/worlds/mm7/events/maps/7d08.lua:330
+msgid "Exit the Tularean Caves"
+msgstr "Выйти из Тулареанских пещер"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d10.lua:216 assets_dev/worlds/mm7/events/maps/7d10.lua:218 assets_dev/worlds/mm7/events/maps/7d10.lua:220
+#: assets_dev/worlds/mm7/events/maps/7d10.lua:223
+msgid "Leave the Breeding Zone"
+msgstr "Покинуть Инкубатор"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d10.lua:102 assets_dev/worlds/mm7/events/maps/7d10.lua:104 assets_dev/worlds/mm7/events/maps/7d10.lua:107
+#: assets_dev/worlds/mm7/events/maps/7d10.lua:71 assets_dev/worlds/mm7/events/maps/7d10.lua:74 assets_dev/worlds/mm7/events/maps/7d10.lua:76
+#: assets_dev/worlds/mm7/events/maps/7d10.lua:79 assets_dev/worlds/mm7/events/maps/7d10.lua:81 assets_dev/worlds/mm7/events/maps/7d10.lua:84
+#: assets_dev/worlds/mm7/events/maps/7d10.lua:90 assets_dev/worlds/mm7/events/maps/7d10.lua:93 assets_dev/worlds/mm7/events/maps/7d10.lua:99
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:85 assets_dev/worlds/mm7/events/maps/7d12.lua:89 assets_dev/worlds/mm7/events/maps/7d16.lua:78
+#: assets_dev/worlds/mm7/events/maps/7d16.lua:82 assets_dev/worlds/mm7/events/maps/7d19.lua:202 assets_dev/worlds/mm7/events/maps/7d19.lua:205
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:119 assets_dev/worlds/mm7/events/maps/7d24.lua:121 assets_dev/worlds/mm7/events/maps/7d24.lua:123
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:125 assets_dev/worlds/mm7/events/maps/7d24.lua:127 assets_dev/worlds/mm7/events/maps/7d24.lua:129
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:131 assets_dev/worlds/mm7/events/maps/7d24.lua:133 assets_dev/worlds/mm7/events/maps/7out01.lua:450
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:452 assets_dev/worlds/mm7/events/maps/7out03.lua:666 assets_dev/worlds/mm7/events/maps/7out03.lua:669
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:671 assets_dev/worlds/mm7/events/maps/7out03.lua:679 assets_dev/worlds/mm7/events/maps/7out03.lua:681
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:689 assets_dev/worlds/mm7/events/maps/7out03.lua:691 assets_dev/worlds/mm7/events/maps/7out03.lua:699
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:701 assets_dev/worlds/mm7/events/maps/7out03.lua:719 assets_dev/worlds/mm7/events/maps/t03.lua:105
+#: assets_dev/worlds/mm7/events/maps/t03.lua:109 assets_dev/worlds/mm7/events/maps/t03.lua:111 assets_dev/worlds/mm7/events/maps/t03.lua:115
+#: assets_dev/worlds/mm7/events/maps/t03.lua:117 assets_dev/worlds/mm7/events/maps/t03.lua:121 assets_dev/worlds/mm7/events/maps/t03.lua:123
+#: assets_dev/worlds/mm7/events/maps/t03.lua:127 assets_dev/worlds/mm7/events/maps/t03.lua:129 assets_dev/worlds/mm7/events/maps/t03.lua:132
+#: assets_dev/worlds/mm7/events/maps/t03.lua:134 assets_dev/worlds/mm7/events/maps/t03.lua:138 assets_dev/worlds/mm7/events/maps/t03.lua:140
+#: assets_dev/worlds/mm7/events/maps/t03.lua:145
+msgid "Button"
+msgstr "Кнопка"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d10.lua:86 assets_dev/worlds/mm7/events/maps/7d10.lua:88 assets_dev/worlds/mm7/events/maps/7d12.lua:343
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:352 assets_dev/worlds/mm7/events/maps/7d24.lua:215 assets_dev/worlds/mm7/events/maps/7d24.lua:217
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:219 assets_dev/worlds/mm7/events/maps/7d24.lua:221 assets_dev/worlds/mm7/events/maps/7d24.lua:223
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:225 assets_dev/worlds/mm7/events/maps/7d25.lua:400 assets_dev/worlds/mm7/events/maps/7d25.lua:411
+#: assets_dev/worlds/mm7/events/maps/d02.lua:206 assets_dev/worlds/mm7/events/maps/d02.lua:214
+msgid "Take a Drink"
+msgstr "Выпить напиток"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d11.lua:531 assets_dev/worlds/mm7/events/maps/7d11.lua:533 assets_dev/worlds/mm7/events/maps/7d11.lua:535
+#: assets_dev/worlds/mm7/events/maps/7d11.lua:543
+msgid "Leave the Walls of Mist"
+msgstr "Покинуть Стены тумана"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:160 assets_dev/worlds/mm7/events/maps/7d12.lua:162 assets_dev/worlds/mm7/events/maps/7d12.lua:172
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:174 assets_dev/worlds/mm7/events/maps/7d18.lua:103 assets_dev/worlds/mm7/events/maps/7d18.lua:111
+#: assets_dev/worlds/mm7/events/maps/7d18.lua:113 assets_dev/worlds/mm7/events/maps/7d18.lua:121 assets_dev/worlds/mm7/events/maps/7d19.lua:239
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:241 assets_dev/worlds/mm7/events/maps/7d19.lua:243 assets_dev/worlds/mm7/events/maps/7d19.lua:245
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:247 assets_dev/worlds/mm7/events/maps/7d19.lua:249 assets_dev/worlds/mm7/events/maps/7d24.lua:135
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:137 assets_dev/worlds/mm7/events/maps/7d24.lua:139 assets_dev/worlds/mm7/events/maps/7d24.lua:141
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:143 assets_dev/worlds/mm7/events/maps/7d24.lua:145 assets_dev/worlds/mm7/events/maps/7d24.lua:147
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:149 assets_dev/worlds/mm7/events/maps/7d24.lua:151 assets_dev/worlds/mm7/events/maps/7d24.lua:153
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:155 assets_dev/worlds/mm7/events/maps/7d24.lua:157 assets_dev/worlds/mm7/events/maps/7d24.lua:159
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:161 assets_dev/worlds/mm7/events/maps/7d24.lua:163 assets_dev/worlds/mm7/events/maps/7d24.lua:165
+#: assets_dev/worlds/mm7/events/maps/7d29.lua:330 assets_dev/worlds/mm7/events/maps/7d29.lua:332 assets_dev/worlds/mm7/events/maps/7d29.lua:334
+#: assets_dev/worlds/mm7/events/maps/7d29.lua:336 assets_dev/worlds/mm7/events/maps/7d29.lua:338 assets_dev/worlds/mm7/events/maps/7d29.lua:340
+#: assets_dev/worlds/mm7/events/maps/7d29.lua:342 assets_dev/worlds/mm7/events/maps/7d29.lua:344 assets_dev/worlds/mm7/events/maps/7d31.lua:279
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:281 assets_dev/worlds/mm7/events/maps/7d31.lua:283 assets_dev/worlds/mm7/events/maps/7d31.lua:285
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:287 assets_dev/worlds/mm7/events/maps/7d31.lua:289 assets_dev/worlds/mm7/events/maps/7d31.lua:291
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:293 assets_dev/worlds/mm7/events/maps/7d31.lua:295 assets_dev/worlds/mm7/events/maps/7d31.lua:297
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:299 assets_dev/worlds/mm7/events/maps/7d31.lua:301 assets_dev/worlds/mm7/events/maps/7d31.lua:303
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:305 assets_dev/worlds/mm7/events/maps/7d31.lua:307 assets_dev/worlds/mm7/events/maps/7d31.lua:309
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:311 assets_dev/worlds/mm7/events/maps/7d31.lua:313 assets_dev/worlds/mm7/events/maps/7d31.lua:315
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:317 assets_dev/worlds/mm7/events/maps/7d31.lua:319 assets_dev/worlds/mm7/events/maps/7d31.lua:321
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:149 assets_dev/worlds/mm7/events/maps/7d37.lua:151 assets_dev/worlds/mm7/events/maps/7d37.lua:153
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:155 assets_dev/worlds/mm7/events/maps/7d37.lua:157 assets_dev/worlds/mm7/events/maps/7d37.lua:159
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:161 assets_dev/worlds/mm7/events/maps/7d37.lua:163 assets_dev/worlds/mm7/events/maps/7d37.lua:165
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:167 assets_dev/worlds/mm7/events/maps/7d37.lua:169 assets_dev/worlds/mm7/events/maps/7d37.lua:171
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:173 assets_dev/worlds/mm7/events/maps/7d37.lua:175
+msgid "Cabinet"
+msgstr "Шкафчик"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:347
+msgid "Not Very Refreshing"
+msgstr "Не слишком освежающий"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:351 assets_dev/worlds/mm7/events/maps/7d24.lua:216 assets_dev/worlds/mm7/events/maps/7d24.lua:220
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:224 assets_dev/worlds/mm7/events/maps/d02.lua:210 assets_dev/worlds/mm7/events/maps/d02.lua:213
+msgid "Refreshing"
+msgstr "Освежающий"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d12.lua:359 assets_dev/worlds/mm7/events/maps/7d12.lua:361
+msgid "Exit Clanker's Lab"
+msgstr "Выйти из лаборатории Кланкера"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d13.lua:190 assets_dev/worlds/mm7/events/maps/7d13.lua:192 assets_dev/worlds/mm7/events/maps/7d13.lua:194
+#: assets_dev/worlds/mm7/events/maps/7d13.lua:196 assets_dev/worlds/mm7/events/maps/7d13.lua:198 assets_dev/worlds/mm7/events/maps/7d13.lua:200
+#: assets_dev/worlds/mm7/events/maps/7d13.lua:202 assets_dev/worlds/mm7/events/maps/7d13.lua:204
+msgid "Pillar"
+msgstr "Колонна"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:123 assets_dev/worlds/mm7/events/maps/7d14.lua:127 assets_dev/worlds/mm7/events/maps/7d19.lua:164
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:167
+msgid "Switch"
+msgstr "Переключатель"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:250 assets_dev/worlds/mm7/events/maps/7d37.lua:350
+msgid "There are no items that interest you"
+msgstr "Здесь нет интересующих вас предметов"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:294 assets_dev/worlds/mm7/events/maps/7d14.lua:296
+msgid "Leave the School of Sorcery"
+msgstr "Покинуть школу Волшебства"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:101 assets_dev/worlds/mm7/events/maps/7d14.lua:103 assets_dev/worlds/mm7/events/maps/7d14.lua:105
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:112 assets_dev/worlds/mm7/events/maps/7d14.lua:116 assets_dev/worlds/mm7/events/maps/7d14.lua:118
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:121 assets_dev/worlds/mm7/events/maps/7d14.lua:85 assets_dev/worlds/mm7/events/maps/7d14.lua:87
+#: assets_dev/worlds/mm7/events/maps/7d14.lua:89 assets_dev/worlds/mm7/events/maps/7d14.lua:93 assets_dev/worlds/mm7/events/maps/7d14.lua:95
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:360 assets_dev/worlds/mm7/events/maps/7d31.lua:365 assets_dev/worlds/mm7/events/maps/mdk01.lua:198
+#: assets_dev/worlds/mm7/events/maps/mdk01.lua:206 assets_dev/worlds/mm7/events/maps/mdk02.lua:159 assets_dev/worlds/mm7/events/maps/mdk02.lua:167
+#: assets_dev/worlds/mm7/events/maps/mdk02.lua:169 assets_dev/worlds/mm7/events/maps/mdk02.lua:177 assets_dev/worlds/mm7/events/maps/mdk03.lua:172
+#: assets_dev/worlds/mm7/events/maps/mdk03.lua:180 assets_dev/worlds/mm7/events/maps/mdk03.lua:182 assets_dev/worlds/mm7/events/maps/mdk03.lua:190
+#: assets_dev/worlds/mm7/events/maps/mdk04.lua:153 assets_dev/worlds/mm7/events/maps/mdk04.lua:161 assets_dev/worlds/mm7/events/maps/mdk04.lua:163
+#: assets_dev/worlds/mm7/events/maps/mdk04.lua:171 assets_dev/worlds/mm7/events/maps/mdk05.lua:153 assets_dev/worlds/mm7/events/maps/mdk05.lua:161
+#: assets_dev/worlds/mm7/events/maps/mdk05.lua:163 assets_dev/worlds/mm7/events/maps/mdk05.lua:171 assets_dev/worlds/mm7/events/maps/mdr01.lua:182
+#: assets_dev/worlds/mm7/events/maps/mdr01.lua:190 assets_dev/worlds/mm7/events/maps/mdr02.lua:163 assets_dev/worlds/mm7/events/maps/mdr02.lua:171
+#: assets_dev/worlds/mm7/events/maps/mdr02.lua:173 assets_dev/worlds/mm7/events/maps/mdr02.lua:181 assets_dev/worlds/mm7/events/maps/mdr03.lua:153
+#: assets_dev/worlds/mm7/events/maps/mdr03.lua:161 assets_dev/worlds/mm7/events/maps/mdr03.lua:163 assets_dev/worlds/mm7/events/maps/mdr03.lua:171
+#: assets_dev/worlds/mm7/events/maps/mdr04.lua:158 assets_dev/worlds/mm7/events/maps/mdr04.lua:166 assets_dev/worlds/mm7/events/maps/mdr04.lua:168
+#: assets_dev/worlds/mm7/events/maps/mdr04.lua:176 assets_dev/worlds/mm7/events/maps/mdr05.lua:168 assets_dev/worlds/mm7/events/maps/mdr05.lua:176
+#: assets_dev/worlds/mm7/events/maps/mdr05.lua:178 assets_dev/worlds/mm7/events/maps/mdr05.lua:186 assets_dev/worlds/mm7/events/maps/mdt01.lua:172
+#: assets_dev/worlds/mm7/events/maps/mdt01.lua:180 assets_dev/worlds/mm7/events/maps/mdt02.lua:168 assets_dev/worlds/mm7/events/maps/mdt02.lua:176
+#: assets_dev/worlds/mm7/events/maps/mdt02.lua:178 assets_dev/worlds/mm7/events/maps/mdt02.lua:186 assets_dev/worlds/mm7/events/maps/mdt03.lua:163
+#: assets_dev/worlds/mm7/events/maps/mdt03.lua:171 assets_dev/worlds/mm7/events/maps/mdt03.lua:173 assets_dev/worlds/mm7/events/maps/mdt03.lua:181
+#: assets_dev/worlds/mm7/events/maps/mdt04.lua:168 assets_dev/worlds/mm7/events/maps/mdt04.lua:176 assets_dev/worlds/mm7/events/maps/mdt04.lua:178
+#: assets_dev/worlds/mm7/events/maps/mdt04.lua:186 assets_dev/worlds/mm7/events/maps/mdt05.lua:158 assets_dev/worlds/mm7/events/maps/mdt05.lua:166
+#: assets_dev/worlds/mm7/events/maps/mdt05.lua:168 assets_dev/worlds/mm7/events/maps/mdt05.lua:176
+msgid "Lever"
+msgstr "Рычаг"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d15.lua:261 assets_dev/worlds/mm7/events/maps/7d15.lua:263 assets_dev/worlds/mm7/events/maps/7d15.lua:265
+#: assets_dev/worlds/mm7/events/maps/7d15.lua:267
+msgid "Leave Watchtower 6"
+msgstr "Покинуть Сторожевую башню 6"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d16.lua:207 assets_dev/worlds/mm7/events/maps/7d16.lua:210
+msgid "Leave the Vampire Family House"
+msgstr "Покинуть Семейный дом вампиров"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d17.lua:256 assets_dev/worlds/mm7/events/maps/7d17.lua:258
+msgid "Leave the Tidewater Caverns"
+msgstr "Покинуть Приливные пещеры"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d17.lua:87
+msgid "You Successfully disarm the trap"
+msgstr "Вы успешно обезвредили ловушку"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d18.lua:319
+msgid "This Door has Been Locked"
+msgstr "Эта дверь была заперта"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d18.lua:340 assets_dev/worlds/mm7/events/maps/7d18.lua:342
+msgid "Leave Lord Markham's Manor"
+msgstr "Покинуть поместье лорда Мархэма"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:193 assets_dev/worlds/mm7/events/maps/7d19.lua:196
+msgid "Drawer"
+msgstr "Выдвижной ящик"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:345 assets_dev/worlds/mm7/events/maps/7d19.lua:355 assets_dev/worlds/mm7/events/maps/7out02.lua:772
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:778 assets_dev/worlds/mm7/events/maps/7out03.lua:723 assets_dev/worlds/mm7/events/maps/7out03.lua:731
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:597 assets_dev/worlds/mm7/events/maps/7out04.lua:607 assets_dev/worlds/mm7/events/maps/7out05.lua:448
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:458 assets_dev/worlds/mm7/events/maps/7out06.lua:449 assets_dev/worlds/mm7/events/maps/7out06.lua:458
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:440 assets_dev/worlds/mm7/events/maps/7out13.lua:459 assets_dev/worlds/mm7/events/maps/7out13.lua:463
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:472 assets_dev/worlds/mm7/events/maps/7out15.lua:143 assets_dev/worlds/mm7/events/maps/7out15.lua:145
+#: assets_dev/worlds/mm7/events/maps/out09.lua:207 assets_dev/worlds/mm7/events/maps/out09.lua:226 assets_dev/worlds/mm7/events/maps/out09.lua:230
+#: assets_dev/worlds/mm7/events/maps/out09.lua:239 assets_dev/worlds/mm7/events/maps/out10.lua:376 assets_dev/worlds/mm7/events/maps/out10.lua:385
+#: assets_dev/worlds/mm7/events/maps/out11.lua:394 assets_dev/worlds/mm7/events/maps/out11.lua:403 assets_dev/worlds/mm7/events/maps/out12.lua:240
+#: assets_dev/worlds/mm7/events/maps/out12.lua:243 assets_dev/worlds/mm7/events/maps/out14.lua:608 assets_dev/worlds/mm7/events/maps/out14.lua:627
+#: assets_dev/worlds/mm7/events/maps/out14.lua:631 assets_dev/worlds/mm7/events/maps/out14.lua:640 assets_dev/worlds/mm7/events/maps/t01.lua:159
+#: assets_dev/worlds/mm7/events/maps/t01.lua:165 assets_dev/worlds/mm7/events/maps/t02.lua:133 assets_dev/worlds/mm7/events/maps/t02.lua:135
+#: assets_dev/worlds/mm7/events/maps/t03.lua:235 assets_dev/worlds/mm7/events/maps/t03.lua:245
+msgid "Altar"
+msgstr "Алтарь"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:353
+msgid "You have Purified the Altar"
+msgstr "Вы совершили обряд очищения Алтаря"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d19.lua:369 assets_dev/worlds/mm7/events/maps/7d19.lua:373
+msgid "Leave the Grand Temple of the Moon"
+msgstr "Покинуть Великий храм Луны"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d20.lua:371
+msgid "You see nothing of interest"
+msgstr "Вы не видите ничего интересного"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d20.lua:374 assets_dev/worlds/mm7/events/maps/7d20.lua:376
+msgid "Leave the Mercenary Guild"
+msgstr "Покинуть гильдию Наемников"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d21.lua:198 assets_dev/worlds/mm7/events/maps/7d21.lua:200
+msgid "Leave the White Cliff Caves"
+msgstr "Покинуть Пещеры Белого утеса"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:177 assets_dev/worlds/mm7/events/maps/7d22.lua:179 assets_dev/worlds/mm7/events/maps/7out01.lua:255
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:263 assets_dev/worlds/mm7/events/maps/7out01.lua:270 assets_dev/worlds/mm7/events/maps/7out01.lua:279
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:281 assets_dev/worlds/mm7/events/maps/7out01.lua:291 assets_dev/worlds/mm7/events/maps/7out01.lua:293
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:305 assets_dev/worlds/mm7/events/maps/7out01.lua:307 assets_dev/worlds/mm7/events/maps/7out01.lua:325
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:751 assets_dev/worlds/mm7/events/maps/7out02.lua:760 assets_dev/worlds/mm7/events/maps/7out02.lua:782
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:799 assets_dev/worlds/mm7/events/maps/7out02.lua:824 assets_dev/worlds/mm7/events/maps/7out02.lua:832
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:466 assets_dev/worlds/mm7/events/maps/7out03.lua:483 assets_dev/worlds/mm7/events/maps/7out03.lua:485
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:496 assets_dev/worlds/mm7/events/maps/7out03.lua:498 assets_dev/worlds/mm7/events/maps/7out03.lua:509
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:511 assets_dev/worlds/mm7/events/maps/7out03.lua:536 assets_dev/worlds/mm7/events/maps/7out03.lua:553
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:564 assets_dev/worlds/mm7/events/maps/7out04.lua:396 assets_dev/worlds/mm7/events/maps/7out04.lua:413
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:352 assets_dev/worlds/mm7/events/maps/7out05.lua:369 assets_dev/worlds/mm7/events/maps/7out05.lua:371
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:382 assets_dev/worlds/mm7/events/maps/7out05.lua:384 assets_dev/worlds/mm7/events/maps/7out05.lua:395
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:397 assets_dev/worlds/mm7/events/maps/7out05.lua:408 assets_dev/worlds/mm7/events/maps/7out05.lua:410
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:422 assets_dev/worlds/mm7/events/maps/7out05.lua:424 assets_dev/worlds/mm7/events/maps/7out05.lua:444
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:474 assets_dev/worlds/mm7/events/maps/7out06.lua:491 assets_dev/worlds/mm7/events/maps/7out06.lua:493
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:495 assets_dev/worlds/mm7/events/maps/7out13.lua:358 assets_dev/worlds/mm7/events/maps/7out13.lua:369
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:371 assets_dev/worlds/mm7/events/maps/7out13.lua:382 assets_dev/worlds/mm7/events/maps/7out13.lua:384
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:395 assets_dev/worlds/mm7/events/maps/out10.lua:280 assets_dev/worlds/mm7/events/maps/out10.lua:291
+#: assets_dev/worlds/mm7/events/maps/out10.lua:293 assets_dev/worlds/mm7/events/maps/out10.lua:304 assets_dev/worlds/mm7/events/maps/out10.lua:306
+#: assets_dev/worlds/mm7/events/maps/out10.lua:332 assets_dev/worlds/mm7/events/maps/out10.lua:350 assets_dev/worlds/mm7/events/maps/out10.lua:358
+#: assets_dev/worlds/mm7/events/maps/out10.lua:360 assets_dev/worlds/mm7/events/maps/out10.lua:368 assets_dev/worlds/mm7/events/maps/out11.lua:370
+#: assets_dev/worlds/mm7/events/maps/out11.lua:381 assets_dev/worlds/mm7/events/maps/out11.lua:383 assets_dev/worlds/mm7/events/maps/out11.lua:390
+#: assets_dev/worlds/mm7/events/maps/out12.lua:179 assets_dev/worlds/mm7/events/maps/out12.lua:186 assets_dev/worlds/mm7/events/maps/out14.lua:314
+#: assets_dev/worlds/mm7/events/maps/out14.lua:321 assets_dev/worlds/mm7/events/maps/out14.lua:323 assets_dev/worlds/mm7/events/maps/out14.lua:340
+#: assets_dev/worlds/mm7/events/maps/out14.lua:342 assets_dev/worlds/mm7/events/maps/out14.lua:353 assets_dev/worlds/mm7/events/maps/out14.lua:355
+#: assets_dev/worlds/mm7/events/maps/out14.lua:366
+msgid "Drink from the Well"
+msgstr "Испить из колодца"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:178
+msgid "Refreshing !"
+msgstr "Освежает!"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:212 assets_dev/worlds/mm7/events/maps/7d22.lua:218 assets_dev/worlds/mm7/events/maps/7d22.lua:220
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:226 assets_dev/worlds/mm7/events/maps/7d22.lua:228 assets_dev/worlds/mm7/events/maps/7d22.lua:234
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:236 assets_dev/worlds/mm7/events/maps/7d22.lua:242 assets_dev/worlds/mm7/events/maps/7d22.lua:244
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:250 assets_dev/worlds/mm7/events/maps/7d22.lua:252 assets_dev/worlds/mm7/events/maps/7d22.lua:258
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:615 assets_dev/worlds/mm7/events/maps/7out02.lua:623 assets_dev/worlds/mm7/events/maps/7out02.lua:625
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:633 assets_dev/worlds/mm7/events/maps/7out02.lua:635 assets_dev/worlds/mm7/events/maps/7out02.lua:643
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:645 assets_dev/worlds/mm7/events/maps/7out02.lua:653 assets_dev/worlds/mm7/events/maps/7out02.lua:655
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:663 assets_dev/worlds/mm7/events/maps/7out02.lua:665 assets_dev/worlds/mm7/events/maps/7out02.lua:673
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:675 assets_dev/worlds/mm7/events/maps/7out02.lua:683 assets_dev/worlds/mm7/events/maps/7out02.lua:685
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:693 assets_dev/worlds/mm7/events/maps/7out03.lua:579 assets_dev/worlds/mm7/events/maps/7out03.lua:587
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:589 assets_dev/worlds/mm7/events/maps/7out03.lua:597 assets_dev/worlds/mm7/events/maps/7out03.lua:599
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:607 assets_dev/worlds/mm7/events/maps/7out03.lua:609 assets_dev/worlds/mm7/events/maps/7out03.lua:617
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:619 assets_dev/worlds/mm7/events/maps/7out03.lua:627 assets_dev/worlds/mm7/events/maps/7out03.lua:629
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:637 assets_dev/worlds/mm7/events/maps/7out03.lua:639 assets_dev/worlds/mm7/events/maps/7out03.lua:647
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:649 assets_dev/worlds/mm7/events/maps/7out03.lua:657 assets_dev/worlds/mm7/events/maps/7out03.lua:799
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:432 assets_dev/worlds/mm7/events/maps/7out04.lua:440 assets_dev/worlds/mm7/events/maps/7out04.lua:442
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:450 assets_dev/worlds/mm7/events/maps/7out04.lua:452 assets_dev/worlds/mm7/events/maps/7out04.lua:460
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:462 assets_dev/worlds/mm7/events/maps/7out04.lua:470 assets_dev/worlds/mm7/events/maps/7out04.lua:472
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:480 assets_dev/worlds/mm7/events/maps/7out04.lua:482 assets_dev/worlds/mm7/events/maps/7out04.lua:490
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:492 assets_dev/worlds/mm7/events/maps/7out04.lua:500 assets_dev/worlds/mm7/events/maps/7out04.lua:502
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:510 assets_dev/worlds/mm7/events/maps/7out04.lua:512 assets_dev/worlds/mm7/events/maps/7out04.lua:520
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:522 assets_dev/worlds/mm7/events/maps/7out04.lua:530 assets_dev/worlds/mm7/events/maps/7out04.lua:532
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:540 assets_dev/worlds/mm7/events/maps/7out04.lua:641 assets_dev/worlds/mm7/events/maps/out11.lua:230
+#: assets_dev/worlds/mm7/events/maps/out11.lua:302 assets_dev/worlds/mm7/events/maps/out11.lua:310 assets_dev/worlds/mm7/events/maps/out11.lua:312
+#: assets_dev/worlds/mm7/events/maps/out11.lua:320 assets_dev/worlds/mm7/events/maps/out11.lua:322 assets_dev/worlds/mm7/events/maps/out11.lua:330
+#: assets_dev/worlds/mm7/events/maps/out11.lua:332 assets_dev/worlds/mm7/events/maps/out11.lua:340 assets_dev/worlds/mm7/events/maps/out11.lua:342
+#: assets_dev/worlds/mm7/events/maps/out11.lua:350 assets_dev/worlds/mm7/events/maps/out11.lua:352 assets_dev/worlds/mm7/events/maps/out11.lua:360
+#: assets_dev/worlds/mm7/events/maps/out14.lua:400 assets_dev/worlds/mm7/events/maps/out14.lua:508 assets_dev/worlds/mm7/events/maps/out14.lua:516
+#: assets_dev/worlds/mm7/events/maps/out14.lua:518 assets_dev/worlds/mm7/events/maps/out14.lua:526 assets_dev/worlds/mm7/events/maps/out14.lua:528
+#: assets_dev/worlds/mm7/events/maps/out14.lua:536 assets_dev/worlds/mm7/events/maps/out14.lua:538 assets_dev/worlds/mm7/events/maps/out14.lua:546
+#: assets_dev/worlds/mm7/events/maps/out14.lua:548 assets_dev/worlds/mm7/events/maps/out14.lua:556 assets_dev/worlds/mm7/events/maps/out14.lua:558
+#: assets_dev/worlds/mm7/events/maps/out14.lua:566 assets_dev/worlds/mm7/events/maps/out14.lua:568 assets_dev/worlds/mm7/events/maps/out14.lua:576
+#: assets_dev/worlds/mm7/events/maps/out14.lua:578 assets_dev/worlds/mm7/events/maps/out14.lua:586 assets_dev/worlds/mm7/events/maps/out14.lua:588
+#: assets_dev/worlds/mm7/events/maps/out14.lua:596 assets_dev/worlds/mm7/events/maps/out14.lua:598 assets_dev/worlds/mm7/events/maps/out14.lua:606
+msgid "Fruit Tree"
+msgstr "Плодовое дерево"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:216 assets_dev/worlds/mm7/events/maps/7d22.lua:224 assets_dev/worlds/mm7/events/maps/7d22.lua:232
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:240 assets_dev/worlds/mm7/events/maps/7d22.lua:248 assets_dev/worlds/mm7/events/maps/7d22.lua:256
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:621 assets_dev/worlds/mm7/events/maps/7out02.lua:631 assets_dev/worlds/mm7/events/maps/7out02.lua:641
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:651 assets_dev/worlds/mm7/events/maps/7out02.lua:661 assets_dev/worlds/mm7/events/maps/7out02.lua:671
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:681 assets_dev/worlds/mm7/events/maps/7out02.lua:691 assets_dev/worlds/mm7/events/maps/7out03.lua:585
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:595 assets_dev/worlds/mm7/events/maps/7out03.lua:605 assets_dev/worlds/mm7/events/maps/7out03.lua:615
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:625 assets_dev/worlds/mm7/events/maps/7out03.lua:635 assets_dev/worlds/mm7/events/maps/7out03.lua:645
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:655 assets_dev/worlds/mm7/events/maps/7out03.lua:796 assets_dev/worlds/mm7/events/maps/7out04.lua:438
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:448 assets_dev/worlds/mm7/events/maps/7out04.lua:458 assets_dev/worlds/mm7/events/maps/7out04.lua:468
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:478 assets_dev/worlds/mm7/events/maps/7out04.lua:488 assets_dev/worlds/mm7/events/maps/7out04.lua:498
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:508 assets_dev/worlds/mm7/events/maps/7out04.lua:518 assets_dev/worlds/mm7/events/maps/7out04.lua:528
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:538 assets_dev/worlds/mm7/events/maps/7out04.lua:638 assets_dev/worlds/mm7/events/maps/out11.lua:227
+#: assets_dev/worlds/mm7/events/maps/out11.lua:308 assets_dev/worlds/mm7/events/maps/out11.lua:318 assets_dev/worlds/mm7/events/maps/out11.lua:328
+#: assets_dev/worlds/mm7/events/maps/out11.lua:338 assets_dev/worlds/mm7/events/maps/out11.lua:348 assets_dev/worlds/mm7/events/maps/out11.lua:358
+#: assets_dev/worlds/mm7/events/maps/out14.lua:397 assets_dev/worlds/mm7/events/maps/out14.lua:514 assets_dev/worlds/mm7/events/maps/out14.lua:524
+#: assets_dev/worlds/mm7/events/maps/out14.lua:534 assets_dev/worlds/mm7/events/maps/out14.lua:544 assets_dev/worlds/mm7/events/maps/out14.lua:554
+#: assets_dev/worlds/mm7/events/maps/out14.lua:564 assets_dev/worlds/mm7/events/maps/out14.lua:574 assets_dev/worlds/mm7/events/maps/out14.lua:584
+#: assets_dev/worlds/mm7/events/maps/out14.lua:594 assets_dev/worlds/mm7/events/maps/out14.lua:604
+msgid "You received an apple"
+msgstr "Вы получили яблоко"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d22.lua:312 assets_dev/worlds/mm7/events/maps/7d22.lua:314
+msgid "Leave the Hall Under the Hill"
+msgstr "Покинуть чертог под холмом"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d23.lua:824
+msgid "Power Restored"
+msgstr "Мощность изменена"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d23.lua:848 assets_dev/worlds/mm7/events/maps/7d23.lua:862 assets_dev/worlds/mm7/events/maps/7d23_mmmerge.lua:15
+msgid "Leave the Lincoln"
+msgstr "Покинуть Линкольн"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d23.lua:861 assets_dev/worlds/mm7/events/maps/7d23_mmmerge.lua:10
+msgid "You must all be wearing your wetsuits to exit the ship"
+msgstr "Для выхода с корабля все должны надеть легкие водолазные костюмы"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:269
+msgid "___d___d"
+msgstr "айц_и_д_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:397 assets_dev/worlds/mm7/events/maps/7d24.lua:399 assets_dev/worlds/mm7/events/maps/7d24.lua:401
+#: assets_dev/worlds/mm7/events/maps/7d24.lua:403
+msgid "Leave Stone City"
+msgstr "Покинуть Каменный город"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d24_mmmerge.lua:11 assets_dev/worlds/mm7/events/maps/7d30_mmmerge.lua:5 assets_dev/worlds/mm7/events/maps/d03_mmmerge.lua:5
+msgid "Enter the Throne Room"
+msgstr "Войти в тронный зал"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d25.lua:262
+msgid "eut__i_n"
+msgstr "нде_шос_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d25.lua:286 assets_dev/worlds/mm7/events/maps/7d26.lua:326 assets_dev/worlds/mm7/events/maps/7out02.lua:105
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1127 assets_dev/worlds/mm7/events/maps/7out02.lua:1136 assets_dev/worlds/mm7/events/maps/7out02.lua:1145
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1154 assets_dev/worlds/mm7/events/maps/7out02.lua:116 assets_dev/worlds/mm7/events/maps/7out02.lua:1163
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1172 assets_dev/worlds/mm7/events/maps/7out02.lua:1181 assets_dev/worlds/mm7/events/maps/7out02.lua:1190
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1199 assets_dev/worlds/mm7/events/maps/7out02.lua:1208 assets_dev/worlds/mm7/events/maps/7out02.lua:1217
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1226 assets_dev/worlds/mm7/events/maps/7out02.lua:1235 assets_dev/worlds/mm7/events/maps/7out02.lua:127
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:138 assets_dev/worlds/mm7/events/maps/7out02.lua:149 assets_dev/worlds/mm7/events/maps/7out02.lua:160
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:171 assets_dev/worlds/mm7/events/maps/7out02.lua:182 assets_dev/worlds/mm7/events/maps/7out02.lua:193
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:204 assets_dev/worlds/mm7/events/maps/7out02.lua:215 assets_dev/worlds/mm7/events/maps/7out02.lua:226
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:237 assets_dev/worlds/mm7/events/maps/7out02.lua:248 assets_dev/worlds/mm7/events/maps/7out02.lua:259
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:270 assets_dev/worlds/mm7/events/maps/7out02.lua:281 assets_dev/worlds/mm7/events/maps/7out03.lua:903
+msgid "This Door is Locked"
+msgstr "Эта дверь заперта"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d25.lua:409
+msgid "+25 to all Stats(Temporary)"
+msgstr "+25 ко всем параметрам (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d25.lua:413 assets_dev/worlds/mm7/events/maps/7d25.lua:415
+msgid "Leave Celeste"
+msgstr "Покинуть Небеса"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d25.lua:417 assets_dev/worlds/mm7/events/maps/7d25.lua:419
+msgid "Enter the Walls of Mist"
+msgstr "Войти в Стены Тумана"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d25.lua:421 assets_dev/worlds/mm7/events/maps/7d25.lua:423
+msgid "Enter Castle Lambent"
+msgstr "Войти в Светящийся замок"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d26.lua:241
+msgid "srhtfnut"
+msgstr "оиш_ьйк_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d26.lua:382 assets_dev/worlds/mm7/events/maps/7d26.lua:384
+msgid "Leave the Pit"
+msgstr "Покинуть Бездну"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d26.lua:390 assets_dev/worlds/mm7/events/maps/7d26.lua:392
+msgid "Enter the Breeding Zone"
+msgstr "Войти в Инкубатор"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d26.lua:394 assets_dev/worlds/mm7/events/maps/7d26.lua:396 assets_dev/worlds/mm7/events/maps/7d26.lua:398
+#: assets_dev/worlds/mm7/events/maps/7d26.lua:400
+msgid "Enter Castle Gloaming"
+msgstr "Войти в Сумеречный замок"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d27.lua:347 assets_dev/worlds/mm7/events/maps/7d27.lua:349
+msgid "Leave the Hive"
+msgstr "Покинуть Улей"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d29.lua:563
+msgid "The door is blocked"
+msgstr "Дверь заблокирована"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d29.lua:639 assets_dev/worlds/mm7/events/maps/7d29.lua:641
+msgid "Leave Castle Harmondale"
+msgstr "Покинуть замок Хармондейл"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d30.lua:557 assets_dev/worlds/mm7/events/maps/7d30.lua:559
+msgid "Leave Castle Lambent"
+msgstr "Покинуть Светящийся замок"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:240 assets_dev/worlds/mm7/events/maps/7d31.lua:257
+msgid "Vault"
+msgstr "Подземелье"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:372 assets_dev/worlds/mm7/events/maps/7d31.lua:374 assets_dev/worlds/mm7/events/maps/7d31.lua:376
+#: assets_dev/worlds/mm7/events/maps/7d31.lua:378
+msgid "Leave Fort Riverstride"
+msgstr "Покинуть Форт Риверстрайд"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d32.lua:517 assets_dev/worlds/mm7/events/maps/7d32.lua:519 assets_dev/worlds/mm7/events/maps/7d32.lua:521
+#: assets_dev/worlds/mm7/events/maps/7d32.lua:523
+msgid "Leave Castle Navan"
+msgstr "Покинуть замок Наван"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:440 assets_dev/worlds/mm7/events/maps/7d33.lua:445 assets_dev/worlds/mm7/events/maps/7d33.lua:447
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:452 assets_dev/worlds/mm7/events/maps/7d37.lua:353 assets_dev/worlds/mm7/events/maps/7d37.lua:358
+#: assets_dev/worlds/mm7/events/maps/7d37_mmmerge.lua:19
+msgid "Portrait"
+msgstr "Портрет"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:490 assets_dev/worlds/mm7/events/maps/7d33.lua:492 assets_dev/worlds/mm7/events/maps/7d33.lua:494
+#: assets_dev/worlds/mm7/events/maps/7d33.lua:501
+msgid "Leave Castle Gryphonheart"
+msgstr "Покинуть замок Грифонхарт"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:301 assets_dev/worlds/mm7/events/maps/7d34.lua:303
+msgid "Leave the Red Dwarf Mines"
+msgstr "Покинуть копи красных гномов"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:101 assets_dev/worlds/mm7/events/maps/7d34.lua:103 assets_dev/worlds/mm7/events/maps/7d34.lua:105
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:107 assets_dev/worlds/mm7/events/maps/7d34.lua:109 assets_dev/worlds/mm7/events/maps/7d34.lua:111
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:113 assets_dev/worlds/mm7/events/maps/7d34.lua:115 assets_dev/worlds/mm7/events/maps/7d34.lua:117
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:119 assets_dev/worlds/mm7/events/maps/7d34.lua:121 assets_dev/worlds/mm7/events/maps/7d34.lua:123
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:125 assets_dev/worlds/mm7/events/maps/7d34.lua:127 assets_dev/worlds/mm7/events/maps/7d34.lua:129
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:131 assets_dev/worlds/mm7/events/maps/7d34.lua:133 assets_dev/worlds/mm7/events/maps/7d34.lua:135
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:137 assets_dev/worlds/mm7/events/maps/7d34.lua:139 assets_dev/worlds/mm7/events/maps/7d34.lua:141
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:91 assets_dev/worlds/mm7/events/maps/7d34.lua:93 assets_dev/worlds/mm7/events/maps/7d34.lua:95
+#: assets_dev/worlds/mm7/events/maps/7d34.lua:97 assets_dev/worlds/mm7/events/maps/7d34.lua:99
+msgid "Mine Car"
+msgstr "Вагонетка"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d35.lua:239 assets_dev/worlds/mm7/events/maps/7d35.lua:241 assets_dev/worlds/mm7/events/maps/7d35.lua:243
+#: assets_dev/worlds/mm7/events/maps/7d35.lua:245 assets_dev/worlds/mm7/events/maps/7d36.lua:212 assets_dev/worlds/mm7/events/maps/7d36.lua:214
+#: assets_dev/worlds/mm7/events/maps/7d36.lua:216 assets_dev/worlds/mm7/events/maps/7d36.lua:218 assets_dev/worlds/mm7/events/maps/7d36_mmmerge.lua:5
+#: assets_dev/worlds/mm7/events/maps/mdt09.lua:162 assets_dev/worlds/mm7/events/maps/mdt09.lua:164 assets_dev/worlds/mm7/events/maps/mdt12.lua:150
+#: assets_dev/worlds/mm7/events/maps/mdt12.lua:152 assets_dev/worlds/mm7/events/maps/mdt12.lua:154 assets_dev/worlds/mm7/events/maps/mdt12.lua:156
+msgid "Leave the Cave"
+msgstr "Покинуть пещеру"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7d37.lua:360 assets_dev/worlds/mm7/events/maps/7d37.lua:362
+msgid "Leave the Haunted Mansion"
+msgstr "Покинуть Дом с привидениями"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm7/events/maps/7nwc_mmmerge.lua:10 assets_dev/worlds/mm7/events/maps/7nwc_mmmerge.lua:9
+msgid "Leave The Strange Temple"
+msgstr "Покинуть Странный храм"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:200
+msgid "Anvil"
+msgstr "Наковальня"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:202
+msgid "Cart"
+msgstr "Тележка"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:212 assets_dev/worlds/mm7/events/maps/7out03.lua:761 assets_dev/worlds/mm7/events/maps/7out06.lua:599
+msgid "Guilds"
+msgstr "Гильдии"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:245 assets_dev/worlds/mm7/events/maps/7out01.lua:247
+msgid "Enter The Temple of the Moon"
+msgstr "Войти в Храм Луны"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:249 assets_dev/worlds/mm7/events/maps/7out01.lua:251
+msgid "Enter the Dragon's Cave"
+msgstr "Войти в Пещеру дракона"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:258
+msgid "+50 Fire Resistance temporary."
+msgstr "+50 Устойчивость к Огню (временно)."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:278
+msgid "+5 Hit points restored."
+msgstr "+5 единиц здоровья восстановлено."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:289
+msgid "+5 Spell points restored."
+msgstr "+5 очков магии восстановлено."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out01.lua:72
+msgid "Welcome to Emerald Isle"
+msgstr "Добро пожаловать на Изумрудный остров"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1241 assets_dev/worlds/mm7/events/maps/7out03.lua:370
+msgid "Hut"
+msgstr "Хижина"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1251 assets_dev/worlds/mm7/events/maps/7out02.lua:1266 assets_dev/worlds/mm7/events/maps/7out02_mmmerge.lua:9
+msgid "Enter Castle Harmondale"
+msgstr "Войти в замок Хармондейл"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:1268 assets_dev/worlds/mm7/events/maps/7out02.lua:1270
+msgid "Enter the White Cliff Caves"
+msgstr "Войти в пещеры Белого утеса"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:739
+msgid "North to the Tularean Forest"
+msgstr "на север к Тулареанскому лесу"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:741
+msgid "West to Erathia"
+msgstr "на запад к Эрафии"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:743
+msgid "South to Barrow Downs"
+msgstr "на юг к Курганам"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:745
+msgid "East"
+msgstr "Восток"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:755
+msgid "+ 10 Might (Temporary)"
+msgstr "+10 Силы (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:766
+msgid "pohuwwba"
+msgstr "вс_внзпу"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:774 assets_dev/worlds/mm7/events/maps/7out03.lua:730 assets_dev/worlds/mm7/events/maps/7out04.lua:606
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:457 assets_dev/worlds/mm7/events/maps/7out15.lua:144 assets_dev/worlds/mm7/events/maps/out09.lua:238
+#: assets_dev/worlds/mm7/events/maps/out10.lua:384 assets_dev/worlds/mm7/events/maps/out11.lua:402
+msgid "You Pray"
+msgstr "Вы молитесь"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:801 assets_dev/worlds/mm7/events/maps/7out02.lua:822 assets_dev/worlds/mm7/events/maps/7out03.lua:540
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:551 assets_dev/worlds/mm7/events/maps/7out03.lua:566 assets_dev/worlds/mm7/events/maps/7out03.lua:577
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:417 assets_dev/worlds/mm7/events/maps/7out04.lua:428 assets_dev/worlds/mm7/events/maps/7out06.lua:579
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:591 assets_dev/worlds/mm7/events/maps/out10.lua:336 assets_dev/worlds/mm7/events/maps/out10.lua:348
+msgid "Drink from the Fountain"
+msgstr "Напиться из фонтана"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:804 assets_dev/worlds/mm7/events/maps/7out02.lua:807 assets_dev/worlds/mm7/events/maps/7out02.lua:821
+msgid "You probably shouldn't do that."
+msgstr "Скорее всего, вам не следовало этого делать."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:817
+msgid "Maybe that wasn't such a good idea."
+msgstr "Может быть это была не такая уж хорошая мысль."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:828
+msgid "+2 Accuracy (Permanent)"
+msgstr "+2 Меткости (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:952 assets_dev/worlds/mm7/events/maps/7out02.lua:954
+msgid "Hatch"
+msgstr "Люк"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:969 assets_dev/worlds/mm7/events/maps/7out02.lua:977 assets_dev/worlds/mm7/events/maps/7out02.lua:979
+#: assets_dev/worlds/mm7/events/maps/7out02.lua:987 assets_dev/worlds/mm7/events/maps/7out02.lua:989 assets_dev/worlds/mm7/events/maps/7out02.lua:997
+msgid "Signal Fire Pit"
+msgstr "Шахта сигнального огня"
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:384 assets_dev/worlds/mm7/events/maps/7out03.lua:386 assets_dev/worlds/mm7/events/maps/7out03.lua:388
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:390 assets_dev/worlds/mm7/events/maps/7out03.lua:392 assets_dev/worlds/mm7/events/maps/7out03.lua:394
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:396 assets_dev/worlds/mm7/events/maps/7out03.lua:398 assets_dev/worlds/mm7/events/maps/7out03.lua:400
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:402 assets_dev/worlds/mm7/events/maps/7out03.lua:404 assets_dev/worlds/mm7/events/maps/7out03.lua:406
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:408 assets_dev/worlds/mm7/events/maps/7out03.lua:410 assets_dev/worlds/mm7/events/maps/7out03.lua:412
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:414 assets_dev/worlds/mm7/events/maps/7out03.lua:416 assets_dev/worlds/mm7/events/maps/7out03.lua:418
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:420 assets_dev/worlds/mm7/events/maps/7out03.lua:422 assets_dev/worlds/mm7/events/maps/7out03.lua:424
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:426 assets_dev/worlds/mm7/events/maps/7out03.lua:428 assets_dev/worlds/mm7/events/maps/7out03.lua:430
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:432 assets_dev/worlds/mm7/events/maps/7out03.lua:434 assets_dev/worlds/mm7/events/maps/7out03.lua:436
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:438 assets_dev/worlds/mm7/events/maps/7out03.lua:440 assets_dev/worlds/mm7/events/maps/7out03.lua:442
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:444 assets_dev/worlds/mm7/events/maps/7out03.lua:446 assets_dev/worlds/mm7/events/maps/7out03.lua:448
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:450 assets_dev/worlds/mm7/events/maps/7out03.lua:452 assets_dev/worlds/mm7/events/maps/7out03.lua:458
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:460 assets_dev/worlds/mm7/events/maps/7out03.lua:462 assets_dev/worlds/mm7/events/maps/7out04.lua:314
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:316 assets_dev/worlds/mm7/events/maps/7out04.lua:318 assets_dev/worlds/mm7/events/maps/7out04.lua:320
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:322 assets_dev/worlds/mm7/events/maps/7out04.lua:324 assets_dev/worlds/mm7/events/maps/7out04.lua:326
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:328 assets_dev/worlds/mm7/events/maps/7out04.lua:330 assets_dev/worlds/mm7/events/maps/7out04.lua:332
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:334 assets_dev/worlds/mm7/events/maps/7out04.lua:336 assets_dev/worlds/mm7/events/maps/7out04.lua:338
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:340 assets_dev/worlds/mm7/events/maps/7out04.lua:342 assets_dev/worlds/mm7/events/maps/7out04.lua:344
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:346 assets_dev/worlds/mm7/events/maps/7out04.lua:348 assets_dev/worlds/mm7/events/maps/7out04.lua:350
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:352 assets_dev/worlds/mm7/events/maps/7out04.lua:354 assets_dev/worlds/mm7/events/maps/7out04.lua:356
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:358 assets_dev/worlds/mm7/events/maps/7out04.lua:360 assets_dev/worlds/mm7/events/maps/7out04.lua:362
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:364 assets_dev/worlds/mm7/events/maps/7out04.lua:366 assets_dev/worlds/mm7/events/maps/7out04.lua:368
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:370 assets_dev/worlds/mm7/events/maps/7out04.lua:372 assets_dev/worlds/mm7/events/maps/7out04.lua:374
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:376 assets_dev/worlds/mm7/events/maps/7out04.lua:378 assets_dev/worlds/mm7/events/maps/7out04.lua:380
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:382 assets_dev/worlds/mm7/events/maps/7out04.lua:384 assets_dev/worlds/mm7/events/maps/7out04.lua:386
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:388 assets_dev/worlds/mm7/events/maps/7out04.lua:390 assets_dev/worlds/mm7/events/maps/7out04.lua:392
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:254 assets_dev/worlds/mm7/events/maps/7out05.lua:256 assets_dev/worlds/mm7/events/maps/7out05.lua:258
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:260 assets_dev/worlds/mm7/events/maps/7out05.lua:262 assets_dev/worlds/mm7/events/maps/7out05.lua:264
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:266 assets_dev/worlds/mm7/events/maps/7out05.lua:268 assets_dev/worlds/mm7/events/maps/7out05.lua:270
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:272 assets_dev/worlds/mm7/events/maps/7out05.lua:274 assets_dev/worlds/mm7/events/maps/7out05.lua:276
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:278 assets_dev/worlds/mm7/events/maps/7out05.lua:280 assets_dev/worlds/mm7/events/maps/7out05.lua:282
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:284 assets_dev/worlds/mm7/events/maps/7out05.lua:286 assets_dev/worlds/mm7/events/maps/7out05.lua:288
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:290 assets_dev/worlds/mm7/events/maps/7out05.lua:292 assets_dev/worlds/mm7/events/maps/7out05.lua:294
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:296 assets_dev/worlds/mm7/events/maps/7out05.lua:298 assets_dev/worlds/mm7/events/maps/7out05.lua:300
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:302 assets_dev/worlds/mm7/events/maps/7out05.lua:304 assets_dev/worlds/mm7/events/maps/7out05.lua:306
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:308 assets_dev/worlds/mm7/events/maps/7out05.lua:310 assets_dev/worlds/mm7/events/maps/7out05.lua:312
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:314 assets_dev/worlds/mm7/events/maps/7out05.lua:316 assets_dev/worlds/mm7/events/maps/7out05.lua:318
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:320 assets_dev/worlds/mm7/events/maps/7out05.lua:322 assets_dev/worlds/mm7/events/maps/7out05.lua:324
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:326 assets_dev/worlds/mm7/events/maps/7out05.lua:336 assets_dev/worlds/mm7/events/maps/7out05.lua:338
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:348 assets_dev/worlds/mm7/events/maps/7out06.lua:110 assets_dev/worlds/mm7/events/maps/7out06.lua:236
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:238 assets_dev/worlds/mm7/events/maps/7out06.lua:240 assets_dev/worlds/mm7/events/maps/7out06.lua:242
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:244 assets_dev/worlds/mm7/events/maps/7out06.lua:246 assets_dev/worlds/mm7/events/maps/7out06.lua:248
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:250 assets_dev/worlds/mm7/events/maps/7out06.lua:252 assets_dev/worlds/mm7/events/maps/7out06.lua:254
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:256 assets_dev/worlds/mm7/events/maps/7out06.lua:258 assets_dev/worlds/mm7/events/maps/7out06.lua:260
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:262 assets_dev/worlds/mm7/events/maps/7out06.lua:264 assets_dev/worlds/mm7/events/maps/7out06.lua:266
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:268 assets_dev/worlds/mm7/events/maps/7out06.lua:270 assets_dev/worlds/mm7/events/maps/7out06.lua:272
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:274 assets_dev/worlds/mm7/events/maps/7out06.lua:276 assets_dev/worlds/mm7/events/maps/7out06.lua:278
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:280 assets_dev/worlds/mm7/events/maps/7out06.lua:282 assets_dev/worlds/mm7/events/maps/7out06.lua:284
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:286 assets_dev/worlds/mm7/events/maps/7out06.lua:288 assets_dev/worlds/mm7/events/maps/7out06.lua:290
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:292 assets_dev/worlds/mm7/events/maps/7out06.lua:294 assets_dev/worlds/mm7/events/maps/7out06.lua:296
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:298 assets_dev/worlds/mm7/events/maps/7out06.lua:300 assets_dev/worlds/mm7/events/maps/7out06.lua:302
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:304 assets_dev/worlds/mm7/events/maps/7out06.lua:306 assets_dev/worlds/mm7/events/maps/7out06.lua:308
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:318 assets_dev/worlds/mm7/events/maps/7out06.lua:320 assets_dev/worlds/mm7/events/maps/7out06.lua:330
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:268 assets_dev/worlds/mm7/events/maps/7out13.lua:270 assets_dev/worlds/mm7/events/maps/7out13.lua:272
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:274 assets_dev/worlds/mm7/events/maps/7out13.lua:276 assets_dev/worlds/mm7/events/maps/7out13.lua:278
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:280 assets_dev/worlds/mm7/events/maps/7out13.lua:282 assets_dev/worlds/mm7/events/maps/7out13.lua:284
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:286 assets_dev/worlds/mm7/events/maps/7out13.lua:288 assets_dev/worlds/mm7/events/maps/7out13.lua:290
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:292 assets_dev/worlds/mm7/events/maps/7out13.lua:294 assets_dev/worlds/mm7/events/maps/7out13.lua:296
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:298 assets_dev/worlds/mm7/events/maps/7out13.lua:300 assets_dev/worlds/mm7/events/maps/7out13.lua:302
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:304 assets_dev/worlds/mm7/events/maps/7out13.lua:306 assets_dev/worlds/mm7/events/maps/7out13.lua:308
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:310 assets_dev/worlds/mm7/events/maps/7out13.lua:312 assets_dev/worlds/mm7/events/maps/7out13.lua:314
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:316 assets_dev/worlds/mm7/events/maps/7out13.lua:318 assets_dev/worlds/mm7/events/maps/7out13.lua:320
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:322 assets_dev/worlds/mm7/events/maps/7out13.lua:324 assets_dev/worlds/mm7/events/maps/7out13.lua:326
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:328 assets_dev/worlds/mm7/events/maps/7out13.lua:330 assets_dev/worlds/mm7/events/maps/7out13.lua:332
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:334 assets_dev/worlds/mm7/events/maps/7out13.lua:336 assets_dev/worlds/mm7/events/maps/7out13.lua:338
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:340 assets_dev/worlds/mm7/events/maps/7out13.lua:342 assets_dev/worlds/mm7/events/maps/7out13.lua:344
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:354 assets_dev/worlds/mm7/events/maps/7out15.lua:101 assets_dev/worlds/mm7/events/maps/7out15.lua:103
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:105 assets_dev/worlds/mm7/events/maps/7out15.lua:107 assets_dev/worlds/mm7/events/maps/7out15.lua:109
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:111 assets_dev/worlds/mm7/events/maps/7out15.lua:113 assets_dev/worlds/mm7/events/maps/7out15.lua:115
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:117 assets_dev/worlds/mm7/events/maps/7out15.lua:119 assets_dev/worlds/mm7/events/maps/7out15.lua:121
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:123 assets_dev/worlds/mm7/events/maps/7out15.lua:125 assets_dev/worlds/mm7/events/maps/7out15.lua:127
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:129 assets_dev/worlds/mm7/events/maps/7out15.lua:131 assets_dev/worlds/mm7/events/maps/7out15.lua:133
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:135 assets_dev/worlds/mm7/events/maps/7out15.lua:137 assets_dev/worlds/mm7/events/maps/7out15.lua:139
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:61 assets_dev/worlds/mm7/events/maps/7out15.lua:63 assets_dev/worlds/mm7/events/maps/7out15.lua:65
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:67 assets_dev/worlds/mm7/events/maps/7out15.lua:69 assets_dev/worlds/mm7/events/maps/7out15.lua:71
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:73 assets_dev/worlds/mm7/events/maps/7out15.lua:75 assets_dev/worlds/mm7/events/maps/7out15.lua:77
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:79 assets_dev/worlds/mm7/events/maps/7out15.lua:81 assets_dev/worlds/mm7/events/maps/7out15.lua:83
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:85 assets_dev/worlds/mm7/events/maps/7out15.lua:87 assets_dev/worlds/mm7/events/maps/7out15.lua:89
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:91 assets_dev/worlds/mm7/events/maps/7out15.lua:93 assets_dev/worlds/mm7/events/maps/7out15.lua:95
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:97 assets_dev/worlds/mm7/events/maps/7out15.lua:99 assets_dev/worlds/mm7/events/maps/out09.lua:107
+#: assets_dev/worlds/mm7/events/maps/out09.lua:109 assets_dev/worlds/mm7/events/maps/out09.lua:111 assets_dev/worlds/mm7/events/maps/out09.lua:113
+#: assets_dev/worlds/mm7/events/maps/out09.lua:115 assets_dev/worlds/mm7/events/maps/out09.lua:117 assets_dev/worlds/mm7/events/maps/out09.lua:119
+#: assets_dev/worlds/mm7/events/maps/out09.lua:121 assets_dev/worlds/mm7/events/maps/out09.lua:123 assets_dev/worlds/mm7/events/maps/out09.lua:125
+#: assets_dev/worlds/mm7/events/maps/out09.lua:127 assets_dev/worlds/mm7/events/maps/out09.lua:129 assets_dev/worlds/mm7/events/maps/out09.lua:131
+#: assets_dev/worlds/mm7/events/maps/out09.lua:133 assets_dev/worlds/mm7/events/maps/out09.lua:135 assets_dev/worlds/mm7/events/maps/out09.lua:137
+#: assets_dev/worlds/mm7/events/maps/out09.lua:139 assets_dev/worlds/mm7/events/maps/out09.lua:141 assets_dev/worlds/mm7/events/maps/out09.lua:143
+#: assets_dev/worlds/mm7/events/maps/out09.lua:145 assets_dev/worlds/mm7/events/maps/out09.lua:147 assets_dev/worlds/mm7/events/maps/out09.lua:149
+#: assets_dev/worlds/mm7/events/maps/out09.lua:151 assets_dev/worlds/mm7/events/maps/out09.lua:153 assets_dev/worlds/mm7/events/maps/out09.lua:155
+#: assets_dev/worlds/mm7/events/maps/out09.lua:157 assets_dev/worlds/mm7/events/maps/out09.lua:159 assets_dev/worlds/mm7/events/maps/out09.lua:161
+#: assets_dev/worlds/mm7/events/maps/out09.lua:163 assets_dev/worlds/mm7/events/maps/out09.lua:165 assets_dev/worlds/mm7/events/maps/out09.lua:167
+#: assets_dev/worlds/mm7/events/maps/out09.lua:169 assets_dev/worlds/mm7/events/maps/out09.lua:171 assets_dev/worlds/mm7/events/maps/out09.lua:173
+#: assets_dev/worlds/mm7/events/maps/out09.lua:175 assets_dev/worlds/mm7/events/maps/out09.lua:177 assets_dev/worlds/mm7/events/maps/out09.lua:179
+#: assets_dev/worlds/mm7/events/maps/out09.lua:181 assets_dev/worlds/mm7/events/maps/out10.lua:198 assets_dev/worlds/mm7/events/maps/out10.lua:200
+#: assets_dev/worlds/mm7/events/maps/out10.lua:202 assets_dev/worlds/mm7/events/maps/out10.lua:204 assets_dev/worlds/mm7/events/maps/out10.lua:206
+#: assets_dev/worlds/mm7/events/maps/out10.lua:208 assets_dev/worlds/mm7/events/maps/out10.lua:210 assets_dev/worlds/mm7/events/maps/out10.lua:212
+#: assets_dev/worlds/mm7/events/maps/out10.lua:214 assets_dev/worlds/mm7/events/maps/out10.lua:216 assets_dev/worlds/mm7/events/maps/out10.lua:218
+#: assets_dev/worlds/mm7/events/maps/out10.lua:220 assets_dev/worlds/mm7/events/maps/out10.lua:222 assets_dev/worlds/mm7/events/maps/out10.lua:224
+#: assets_dev/worlds/mm7/events/maps/out10.lua:226 assets_dev/worlds/mm7/events/maps/out10.lua:228 assets_dev/worlds/mm7/events/maps/out10.lua:230
+#: assets_dev/worlds/mm7/events/maps/out10.lua:232 assets_dev/worlds/mm7/events/maps/out10.lua:234 assets_dev/worlds/mm7/events/maps/out10.lua:236
+#: assets_dev/worlds/mm7/events/maps/out10.lua:238 assets_dev/worlds/mm7/events/maps/out10.lua:240 assets_dev/worlds/mm7/events/maps/out10.lua:242
+#: assets_dev/worlds/mm7/events/maps/out10.lua:244 assets_dev/worlds/mm7/events/maps/out10.lua:246 assets_dev/worlds/mm7/events/maps/out10.lua:248
+#: assets_dev/worlds/mm7/events/maps/out10.lua:250 assets_dev/worlds/mm7/events/maps/out10.lua:252 assets_dev/worlds/mm7/events/maps/out10.lua:254
+#: assets_dev/worlds/mm7/events/maps/out10.lua:256 assets_dev/worlds/mm7/events/maps/out10.lua:258 assets_dev/worlds/mm7/events/maps/out10.lua:260
+#: assets_dev/worlds/mm7/events/maps/out10.lua:262 assets_dev/worlds/mm7/events/maps/out10.lua:264 assets_dev/worlds/mm7/events/maps/out10.lua:266
+#: assets_dev/worlds/mm7/events/maps/out10.lua:268 assets_dev/worlds/mm7/events/maps/out10.lua:270 assets_dev/worlds/mm7/events/maps/out10.lua:272
+#: assets_dev/worlds/mm7/events/maps/out10.lua:274 assets_dev/worlds/mm7/events/maps/out10.lua:276 assets_dev/worlds/mm7/events/maps/out11.lua:117
+#: assets_dev/worlds/mm7/events/maps/out11.lua:119 assets_dev/worlds/mm7/events/maps/out11.lua:121 assets_dev/worlds/mm7/events/maps/out11.lua:123
+#: assets_dev/worlds/mm7/events/maps/out11.lua:125 assets_dev/worlds/mm7/events/maps/out11.lua:127 assets_dev/worlds/mm7/events/maps/out11.lua:129
+#: assets_dev/worlds/mm7/events/maps/out11.lua:131 assets_dev/worlds/mm7/events/maps/out11.lua:133 assets_dev/worlds/mm7/events/maps/out11.lua:135
+#: assets_dev/worlds/mm7/events/maps/out11.lua:137 assets_dev/worlds/mm7/events/maps/out11.lua:139 assets_dev/worlds/mm7/events/maps/out11.lua:141
+#: assets_dev/worlds/mm7/events/maps/out11.lua:143 assets_dev/worlds/mm7/events/maps/out11.lua:145 assets_dev/worlds/mm7/events/maps/out11.lua:148
+#: assets_dev/worlds/mm7/events/maps/out11.lua:150 assets_dev/worlds/mm7/events/maps/out11.lua:152 assets_dev/worlds/mm7/events/maps/out11.lua:154
+#: assets_dev/worlds/mm7/events/maps/out11.lua:156 assets_dev/worlds/mm7/events/maps/out11.lua:158 assets_dev/worlds/mm7/events/maps/out11.lua:160
+#: assets_dev/worlds/mm7/events/maps/out11.lua:162 assets_dev/worlds/mm7/events/maps/out11.lua:164 assets_dev/worlds/mm7/events/maps/out11.lua:166
+#: assets_dev/worlds/mm7/events/maps/out11.lua:168 assets_dev/worlds/mm7/events/maps/out11.lua:170 assets_dev/worlds/mm7/events/maps/out11.lua:172
+#: assets_dev/worlds/mm7/events/maps/out11.lua:174 assets_dev/worlds/mm7/events/maps/out11.lua:176 assets_dev/worlds/mm7/events/maps/out11.lua:178
+#: assets_dev/worlds/mm7/events/maps/out11.lua:180 assets_dev/worlds/mm7/events/maps/out11.lua:182 assets_dev/worlds/mm7/events/maps/out11.lua:184
+#: assets_dev/worlds/mm7/events/maps/out11.lua:186 assets_dev/worlds/mm7/events/maps/out11.lua:188 assets_dev/worlds/mm7/events/maps/out11.lua:190
+#: assets_dev/worlds/mm7/events/maps/out11.lua:192 assets_dev/worlds/mm7/events/maps/out11.lua:194 assets_dev/worlds/mm7/events/maps/out11.lua:204
+#: assets_dev/worlds/mm7/events/maps/out12.lua:101 assets_dev/worlds/mm7/events/maps/out12.lua:103 assets_dev/worlds/mm7/events/maps/out12.lua:105
+#: assets_dev/worlds/mm7/events/maps/out12.lua:107 assets_dev/worlds/mm7/events/maps/out12.lua:109 assets_dev/worlds/mm7/events/maps/out12.lua:111
+#: assets_dev/worlds/mm7/events/maps/out12.lua:113 assets_dev/worlds/mm7/events/maps/out12.lua:115 assets_dev/worlds/mm7/events/maps/out12.lua:117
+#: assets_dev/worlds/mm7/events/maps/out12.lua:119 assets_dev/worlds/mm7/events/maps/out12.lua:121 assets_dev/worlds/mm7/events/maps/out12.lua:123
+#: assets_dev/worlds/mm7/events/maps/out12.lua:125 assets_dev/worlds/mm7/events/maps/out12.lua:127 assets_dev/worlds/mm7/events/maps/out12.lua:129
+#: assets_dev/worlds/mm7/events/maps/out12.lua:131 assets_dev/worlds/mm7/events/maps/out12.lua:133 assets_dev/worlds/mm7/events/maps/out12.lua:135
+#: assets_dev/worlds/mm7/events/maps/out12.lua:137 assets_dev/worlds/mm7/events/maps/out12.lua:139 assets_dev/worlds/mm7/events/maps/out12.lua:141
+#: assets_dev/worlds/mm7/events/maps/out12.lua:143 assets_dev/worlds/mm7/events/maps/out12.lua:145 assets_dev/worlds/mm7/events/maps/out12.lua:147
+#: assets_dev/worlds/mm7/events/maps/out12.lua:149 assets_dev/worlds/mm7/events/maps/out12.lua:151 assets_dev/worlds/mm7/events/maps/out12.lua:153
+#: assets_dev/worlds/mm7/events/maps/out12.lua:155 assets_dev/worlds/mm7/events/maps/out12.lua:157 assets_dev/worlds/mm7/events/maps/out12.lua:159
+#: assets_dev/worlds/mm7/events/maps/out12.lua:161 assets_dev/worlds/mm7/events/maps/out12.lua:163 assets_dev/worlds/mm7/events/maps/out12.lua:165
+#: assets_dev/worlds/mm7/events/maps/out12.lua:167 assets_dev/worlds/mm7/events/maps/out12.lua:169 assets_dev/worlds/mm7/events/maps/out12.lua:171
+#: assets_dev/worlds/mm7/events/maps/out12.lua:173 assets_dev/worlds/mm7/events/maps/out12.lua:175 assets_dev/worlds/mm7/events/maps/out12.lua:97
+#: assets_dev/worlds/mm7/events/maps/out12.lua:99 assets_dev/worlds/mm7/events/maps/out14.lua:224 assets_dev/worlds/mm7/events/maps/out14.lua:226
+#: assets_dev/worlds/mm7/events/maps/out14.lua:228 assets_dev/worlds/mm7/events/maps/out14.lua:230 assets_dev/worlds/mm7/events/maps/out14.lua:232
+#: assets_dev/worlds/mm7/events/maps/out14.lua:234 assets_dev/worlds/mm7/events/maps/out14.lua:236 assets_dev/worlds/mm7/events/maps/out14.lua:238
+#: assets_dev/worlds/mm7/events/maps/out14.lua:240 assets_dev/worlds/mm7/events/maps/out14.lua:242 assets_dev/worlds/mm7/events/maps/out14.lua:244
+#: assets_dev/worlds/mm7/events/maps/out14.lua:246 assets_dev/worlds/mm7/events/maps/out14.lua:248 assets_dev/worlds/mm7/events/maps/out14.lua:250
+#: assets_dev/worlds/mm7/events/maps/out14.lua:252 assets_dev/worlds/mm7/events/maps/out14.lua:254 assets_dev/worlds/mm7/events/maps/out14.lua:256
+#: assets_dev/worlds/mm7/events/maps/out14.lua:258 assets_dev/worlds/mm7/events/maps/out14.lua:260 assets_dev/worlds/mm7/events/maps/out14.lua:262
+#: assets_dev/worlds/mm7/events/maps/out14.lua:264 assets_dev/worlds/mm7/events/maps/out14.lua:266 assets_dev/worlds/mm7/events/maps/out14.lua:268
+#: assets_dev/worlds/mm7/events/maps/out14.lua:270 assets_dev/worlds/mm7/events/maps/out14.lua:272 assets_dev/worlds/mm7/events/maps/out14.lua:274
+#: assets_dev/worlds/mm7/events/maps/out14.lua:276 assets_dev/worlds/mm7/events/maps/out14.lua:278 assets_dev/worlds/mm7/events/maps/out14.lua:280
+#: assets_dev/worlds/mm7/events/maps/out14.lua:282 assets_dev/worlds/mm7/events/maps/out14.lua:284 assets_dev/worlds/mm7/events/maps/out14.lua:286
+#: assets_dev/worlds/mm7/events/maps/out14.lua:288 assets_dev/worlds/mm7/events/maps/out14.lua:290 assets_dev/worlds/mm7/events/maps/out14.lua:292
+#: assets_dev/worlds/mm7/events/maps/out14.lua:294 assets_dev/worlds/mm7/events/maps/out14.lua:296 assets_dev/worlds/mm7/events/maps/out14.lua:298
+#: assets_dev/worlds/mm7/events/maps/out14.lua:300 assets_dev/worlds/mm7/events/maps/out14.lua:310
+msgid "Chest "
+msgstr "Сундук"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:492
+msgid "+2 Might (Permanent)"
+msgstr "+2 Силы (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:505
+msgid "+20 Body Resistance (Temporary)"
+msgstr "+20 Устойчивость к Телу (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:518 assets_dev/worlds/mm7/events/maps/7out03.lua:525 assets_dev/worlds/mm7/events/maps/7out03.lua:535
+msgid "Disease Cured"
+msgstr "Болезнь вылечена"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:547
+msgid "+50 Might (Temporary)"
+msgstr "+50 Силы (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:560
+msgid "+10 Accuracy (Temporary)"
+msgstr "+10 Меткости (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:573
+msgid "+5 Personality (Temporary)"
+msgstr "+5 Силы духа (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:726
+msgid "+10 Luck(Permanent)"
+msgstr "+10 Удачи (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:735
+msgid "ininhil_"
+msgstr "__оеарич"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:741 assets_dev/worlds/mm7/events/maps/7out06.lua:603 assets_dev/worlds/mm7/events/maps/out14.lua:654
+msgid "Docks"
+msgstr "Доки"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:743
+msgid "Plaza"
+msgstr "Рыночная площадь"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:749
+msgid "East to Harmondale"
+msgstr "На восток к Хармондейлу"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:751
+msgid "North to Deyja Moors"
+msgstr "На север к болотам Дейи"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:753
+msgid "West to Tatalia"
+msgstr "На запад к Таталии"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:755
+msgid "South to the Bracada Desert"
+msgstr "На юг к пустыне Бракада"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:763 assets_dev/worlds/mm7/events/maps/7out06.lua:605 assets_dev/worlds/mm7/events/maps/7out13.lua:411
+msgid "Stables"
+msgstr "Конюшни"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:765
+msgid "Sewer"
+msgstr "Канализация"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:889 assets_dev/worlds/mm7/events/maps/7out03.lua:891 assets_dev/worlds/mm7/events/maps/7out03.lua:914
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:916 assets_dev/worlds/mm7/events/maps/7out03.lua:918 assets_dev/worlds/mm7/events/maps/7out03.lua:920
+msgid "Enter The Erathian Sewer"
+msgstr "Спуститься в Эрафийскую канализацию"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:893 assets_dev/worlds/mm7/events/maps/7out03.lua:895 assets_dev/worlds/mm7/events/maps/7out03.lua:910
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:912
+msgid "Enter Fort Riverstride"
+msgstr "Войти в Форт Риверстрайд"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out03.lua:897 assets_dev/worlds/mm7/events/maps/7out03.lua:899
+msgid "Enter Castle Gryphonheart"
+msgstr "Войти в замок Грифонхарт"
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/maps/7out03_mmmerge.lua:6
+msgid "Bracada Desert"
+msgstr "Пустыня Бракада"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:424
+msgid "+50 Earth Resistance (Temporary)"
+msgstr "+50 Устойчивости к Земле (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:603
+msgid "+10 Water, Fire, and Air Resistance(Permanent)"
+msgstr "+10 Устойчивости к Воде, Огню и Воздуху (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:611
+msgid "redditoh"
+msgstr "псттйаро"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:758 assets_dev/worlds/mm7/events/maps/7out04.lua:760
+msgid "Barrel"
+msgstr "Бочка"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:762 assets_dev/worlds/mm7/events/maps/7out04.lua:764
+msgid "Enter Castle Navan"
+msgstr "Войти в замок Наван"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out04.lua:766 assets_dev/worlds/mm7/events/maps/7out04.lua:773 assets_dev/worlds/mm7/events/maps/7out04_mmmerge.lua:14
+msgid "Enter Clanker's Laboratory"
+msgstr "Войти в лабораторию Кланкера"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:378
+msgid "+2 Intellect (Permanent)"
+msgstr "+2 Интеллекта (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:391
+msgid "+10 Personality (Temporary)"
+msgstr "+10 Силы духа (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:404
+msgid "+10 Fire Resistance (Temporary)"
+msgstr "+10 Устойчивость к Огню (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:413
+msgid "You Feel Great!!"
+msgstr "Вы отлично себя чувствуете!"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:418
+msgid "Haven't you had enough ?"
+msgstr "Разве вам не хватило?"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:420
+msgid "Do you think that's such a good idea ?"
+msgstr "Вы думаете, это такая хорошая мысль?"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:432 assets_dev/worlds/mm7/events/maps/7out05.lua:438
+msgid "+5 Fire Resistance (Permanent)"
+msgstr "+5 Устойчивости к Огню (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:454
+msgid "+10 Mind, Earth, and Body Resistance(Permanent)"
+msgstr "+10 Устойчивость к Мысли, Земле и Телу (постоянно)"
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:462
+msgid " a_eetcoa"
+msgstr "еио_ыоцз"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:523 assets_dev/worlds/mm7/events/maps/7out05.lua:525
+msgid "Enter the Hall of the Pit"
+msgstr "Войти во Врата Бездны"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:527 assets_dev/worlds/mm7/events/maps/7out05.lua:529 assets_dev/worlds/mm7/events/maps/7out05.lua:539
+#: assets_dev/worlds/mm7/events/maps/7out05.lua:546
+msgid "Enter Watchtower 6"
+msgstr "Войти в Cторожевую башню 6"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:124
+msgid "Dock"
+msgstr "Док"
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:462
+msgid " ts_rehmu"
+msgstr "рлтпйлве"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:503 assets_dev/worlds/mm7/events/maps/7out06.lua:553 assets_dev/worlds/mm7/events/maps/out12.lua:198
+#: assets_dev/worlds/mm7/events/maps/out12.lua:235
+msgid "You make a wish"
+msgstr "Вы загадываете желание"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:556 assets_dev/worlds/mm7/events/maps/7out06.lua:577 assets_dev/worlds/mm7/events/maps/7out13.lua:415
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:436
+msgid "Drink"
+msgstr "Напиток"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:559 assets_dev/worlds/mm7/events/maps/7out06.lua:562 assets_dev/worlds/mm7/events/maps/7out06.lua:576
+msgid "hmmm, You decide against it."
+msgstr "что ж, это ваше решение."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:572
+msgid "Suddenly, You Don't Feel too Well"
+msgstr "Внезапно вы чувствуете себя нехорошо"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:587
+msgid "+25 Intellect and Personality (Temporary)"
+msgstr "+25 Интеллекта и Силы духа (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:597
+msgid "Tavern"
+msgstr "Таверна"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:607
+msgid "To Main Square"
+msgstr "К главной площади"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:617 assets_dev/worlds/mm7/events/maps/7out06.lua:619
+msgid "Enter the School of Sorcery"
+msgstr "Войти в Школу волшебства"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out06.lua:621 assets_dev/worlds/mm7/events/maps/7out06.lua:623
+msgid "Enter the Red Dwarf Mines"
+msgstr "Войти в копи красных гномов"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:365
+msgid "+20 AC (Temporary)"
+msgstr "+20 Класс брони (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:378
+msgid "+20 Air Resistance (Temporary)"
+msgstr "+20 Устойчивости к Воздуху (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:391
+msgid "+2 Speed (Permanent)"
+msgstr "+2 Скорости (постоянно)"
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:397
+msgid "The Mercenary Guild "
+msgstr "Гильдия наемников"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:405
+msgid "East to Steadwick"
+msgstr "На восток к Стедвику"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:407
+msgid "Wharf"
+msgstr "Верфь"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:418 assets_dev/worlds/mm7/events/maps/7out13.lua:421 assets_dev/worlds/mm7/events/maps/7out13.lua:435
+msgid "You decide it would be a bad idea to try that again."
+msgstr "Вы решаете, что было бы глупостью пробовать снова."
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:431
+msgid "You do not feel well."
+msgstr "Вы чувствуете себя нехорошо."
+
+# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:438
+msgid "North "
+msgstr "Север"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:476
+msgid "e_laru_a"
+msgstr "_нл_плу_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:517 assets_dev/worlds/mm7/events/maps/7out13.lua:519
+msgid "Enter the Wine Cellar"
+msgstr "Войти в винный погреб"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:521 assets_dev/worlds/mm7/events/maps/7out13.lua:557
+msgid "Enter the Mercenary Guild"
+msgstr "Войти в гильдию Наемников"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:559 assets_dev/worlds/mm7/events/maps/7out13.lua:561
+msgid "Enter the Tidewater Caverns"
+msgstr "Войти в Приливные пещеры"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:563 assets_dev/worlds/mm7/events/maps/7out13.lua:565
+msgid "Enter Lord Markham's Manor"
+msgstr "Войти в поместье лорда Мархэма"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out13.lua:567 assets_dev/worlds/mm7/events/maps/7out13.lua:569 assets_dev/worlds/mm7/events/maps/out12.lua:265
+#: assets_dev/worlds/mm7/events/maps/out12.lua:267 assets_dev/worlds/mm7/events/maps/out12.lua:269 assets_dev/worlds/mm7/events/maps/out12.lua:271
+#: assets_dev/worlds/mm7/events/maps/out12.lua:273 assets_dev/worlds/mm7/events/maps/out12.lua:275
+msgid "Enter the Cave"
+msgstr "Войти в пещеру"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:148
+msgid "Nothing Seems to have happened"
+msgstr "Похоже, ничего не произошло"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/7out15.lua:151 assets_dev/worlds/mm7/events/maps/7out15.lua:153
+msgid "Enter the Lincoln"
+msgstr "Войти в Линкольн"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/d01.lua:322 assets_dev/worlds/mm7/events/maps/d01.lua:324 assets_dev/worlds/mm7/events/maps/d01.lua:326
+#: assets_dev/worlds/mm7/events/maps/d01.lua:328 assets_dev/worlds/mm7/events/maps/d01.lua:330 assets_dev/worlds/mm7/events/maps/d01.lua:332
+msgid "Leave the Erathian Sewer"
+msgstr "Покинуть эрафийскую канализацию"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/d02.lua:216 assets_dev/worlds/mm7/events/maps/d02.lua:218
+msgid "Leave the Maze"
+msgstr "Покинуть лабиринт"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/d04.lua:123 assets_dev/worlds/mm7/events/maps/d04.lua:125
+msgid "Lift"
+msgstr "Подъемник"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/mdk01.lua:187 assets_dev/worlds/mm7/events/maps/mdk01.lua:196 assets_dev/worlds/mm7/events/maps/mdr01.lua:171
+#: assets_dev/worlds/mm7/events/maps/mdr01.lua:180 assets_dev/worlds/mm7/events/maps/mdt01.lua:161 assets_dev/worlds/mm7/events/maps/mdt01.lua:170
+msgid "Key Hole"
+msgstr "Замочная скважина"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/mdk01.lua:208 assets_dev/worlds/mm7/events/maps/mdk01.lua:210 assets_dev/worlds/mm7/events/maps/mdk01.lua:212
+#: assets_dev/worlds/mm7/events/maps/mdk01.lua:218 assets_dev/worlds/mm7/events/maps/mdk02.lua:179 assets_dev/worlds/mm7/events/maps/mdk02.lua:185
+#: assets_dev/worlds/mm7/events/maps/mdk02.lua:187 assets_dev/worlds/mm7/events/maps/mdk02.lua:193 assets_dev/worlds/mm7/events/maps/mdk03.lua:192
+#: assets_dev/worlds/mm7/events/maps/mdk03.lua:198 assets_dev/worlds/mm7/events/maps/mdk03.lua:200 assets_dev/worlds/mm7/events/maps/mdk03.lua:206
+#: assets_dev/worlds/mm7/events/maps/mdk04.lua:173 assets_dev/worlds/mm7/events/maps/mdk04.lua:179 assets_dev/worlds/mm7/events/maps/mdk04.lua:181
+#: assets_dev/worlds/mm7/events/maps/mdk04.lua:187 assets_dev/worlds/mm7/events/maps/mdk05.lua:173 assets_dev/worlds/mm7/events/maps/mdk05.lua:179
+#: assets_dev/worlds/mm7/events/maps/mdk05.lua:181 assets_dev/worlds/mm7/events/maps/mdk05.lua:187 assets_dev/worlds/mm7/events/maps/mdr01.lua:192
+#: assets_dev/worlds/mm7/events/maps/mdr01.lua:194 assets_dev/worlds/mm7/events/maps/mdr01.lua:196 assets_dev/worlds/mm7/events/maps/mdr01.lua:202
+#: assets_dev/worlds/mm7/events/maps/mdr02.lua:183 assets_dev/worlds/mm7/events/maps/mdr02.lua:189 assets_dev/worlds/mm7/events/maps/mdr02.lua:191
+#: assets_dev/worlds/mm7/events/maps/mdr02.lua:197 assets_dev/worlds/mm7/events/maps/mdr03.lua:173 assets_dev/worlds/mm7/events/maps/mdr03.lua:179
+#: assets_dev/worlds/mm7/events/maps/mdr03.lua:181 assets_dev/worlds/mm7/events/maps/mdr03.lua:187 assets_dev/worlds/mm7/events/maps/mdr04.lua:178
+#: assets_dev/worlds/mm7/events/maps/mdr04.lua:184 assets_dev/worlds/mm7/events/maps/mdr04.lua:186 assets_dev/worlds/mm7/events/maps/mdr04.lua:192
+#: assets_dev/worlds/mm7/events/maps/mdr05.lua:188 assets_dev/worlds/mm7/events/maps/mdr05.lua:194 assets_dev/worlds/mm7/events/maps/mdr05.lua:196
+#: assets_dev/worlds/mm7/events/maps/mdr05.lua:202 assets_dev/worlds/mm7/events/maps/mdt01.lua:182 assets_dev/worlds/mm7/events/maps/mdt01.lua:184
+#: assets_dev/worlds/mm7/events/maps/mdt01.lua:186 assets_dev/worlds/mm7/events/maps/mdt01.lua:192 assets_dev/worlds/mm7/events/maps/mdt02.lua:188
+#: assets_dev/worlds/mm7/events/maps/mdt02.lua:194 assets_dev/worlds/mm7/events/maps/mdt02.lua:196 assets_dev/worlds/mm7/events/maps/mdt02.lua:202
+#: assets_dev/worlds/mm7/events/maps/mdt03.lua:183 assets_dev/worlds/mm7/events/maps/mdt03.lua:189 assets_dev/worlds/mm7/events/maps/mdt03.lua:191
+#: assets_dev/worlds/mm7/events/maps/mdt03.lua:197 assets_dev/worlds/mm7/events/maps/mdt04.lua:188 assets_dev/worlds/mm7/events/maps/mdt04.lua:194
+#: assets_dev/worlds/mm7/events/maps/mdt04.lua:196 assets_dev/worlds/mm7/events/maps/mdt04.lua:202 assets_dev/worlds/mm7/events/maps/mdt05.lua:178
+#: assets_dev/worlds/mm7/events/maps/mdt05.lua:184 assets_dev/worlds/mm7/events/maps/mdt05.lua:186 assets_dev/worlds/mm7/events/maps/mdt05.lua:192
+msgid "Leave the Dwarven Barrow"
+msgstr "Покинуть курган гномов"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/mdt10.lua:186 assets_dev/worlds/mm7/events/maps/mdt10.lua:188
+msgid "Leave to tower"
+msgstr "Перейти в башню"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/mdt11.lua:146 assets_dev/worlds/mm7/events/maps/mdt11.lua:148
+msgid "Leave the Hidden tomb"
+msgstr "Покинуть тайную гробницу"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out09.lua:193
+msgid "The Grand Temple of the Moon"
+msgstr "Великий храм Луны"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out09.lua:195
+msgid "The Grand Temple of the Sun"
+msgstr "Великий храм Солнца"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out09.lua:199 assets_dev/worlds/mm7/events/maps/out09.lua:201 assets_dev/worlds/mm7/events/maps/out09.lua:203
+#: assets_dev/worlds/mm7/events/maps/out09.lua:205
+msgid "Jump into the Well"
+msgstr "Прыгнуть в колодец"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out09.lua:235
+msgid "+10 Accuracy and Speed(Permanent)"
+msgstr "+10 Меткости и Скорости (постоянно)"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm7/events/maps/out09.lua:243
+msgid " _vehlgpe"
+msgstr " ч_ь___и_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out09.lua:257 assets_dev/worlds/mm7/events/maps/out09.lua:259
+msgid "Enter the Grand Temple of the Moon"
+msgstr "Войти в Великий храм Луны"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out09.lua:261 assets_dev/worlds/mm7/events/maps/out09.lua:263
+msgid "Enter the Grand Temple of the Sun"
+msgstr "Войти в Великий храм Солнца"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:287
+msgid "+2 Skill Points"
+msgstr "+2 очка навыков"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:300
+msgid "+2 Personality (Permanent)"
+msgstr "+2 Силы духа (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:318 assets_dev/worlds/mm7/events/maps/out10.lua:329
+msgid "+20 All Resistances (Temporary)"
+msgstr "+20 Устойчивость ко всем стихиям (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:344
+msgid "+50 Intellect and Personality (Temporary)"
+msgstr "+50 Интеллекта и Силы духа (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:353
+msgid "+50 Spell Points"
+msgstr "+50 очков магии"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:363
+msgid "+50 Hit Points"
+msgstr "+50 единиц здоровья"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:381
+msgid "+10 Personality and Intellect(Permanent)"
+msgstr "+10 Силы духа и Интеллекта (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:389
+msgid "fi_eo_od"
+msgstr "нк__нзй_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:408 assets_dev/worlds/mm7/events/maps/out10.lua:410 assets_dev/worlds/mm7/events/maps/out10.lua:416
+#: assets_dev/worlds/mm7/events/maps/out10.lua:418 assets_dev/worlds/mm7/events/maps/out10.lua:420 assets_dev/worlds/mm7/events/maps/out10.lua:422
+#: assets_dev/worlds/mm7/events/maps/out10.lua:424 assets_dev/worlds/mm7/events/maps/out10.lua:426
+msgid "Enter Thunderfist Mountain"
+msgstr "Войти в гору Громовой Кулак"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out10.lua:412 assets_dev/worlds/mm7/events/maps/out10.lua:414
+msgid "Enter The Maze"
+msgstr "Войти в Лабиринт"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:364
+msgid "Dwarven Barrow"
+msgstr "Гора гномов"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:366
+msgid "Mansion"
+msgstr "Особняк"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:377
+msgid "+25 Fire Resistance (Temporary)"
+msgstr "+25 Устойчивость к Огню (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:389
+msgid "Paralysis Relieved"
+msgstr "Паралич отступил"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:399
+msgid "+10 Endurance and Might(Permanent)"
+msgstr "+10 Выносливости и Силы (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:407
+msgid "ivg_whn_"
+msgstr "ыаб_ае__"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:413 assets_dev/worlds/mm7/events/maps/out11.lua:415 assets_dev/worlds/mm7/events/maps/out11_mmmerge.lua:5
+msgid "Enter Stone City"
+msgstr "Войти в Каменный город"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:417 assets_dev/worlds/mm7/events/maps/out11.lua:419
+msgid "Enter Mansion"
+msgstr "Войти в особняк"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out11.lua:421 assets_dev/worlds/mm7/events/maps/out11.lua:423 assets_dev/worlds/mm7/events/maps/out11.lua:425
+#: assets_dev/worlds/mm7/events/maps/out11.lua:427 assets_dev/worlds/mm7/events/maps/out11.lua:429 assets_dev/worlds/mm7/events/maps/out11.lua:431
+msgid "Enter Dwarven Barrow"
+msgstr "Войти в курган гномов"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out12.lua:190
+msgid "Tunnel Entrance"
+msgstr "Вход в туннель"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out12.lua:247
+msgid "veoseo_l"
+msgstr "йме__мс_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out12.lua:261 assets_dev/worlds/mm7/events/maps/out12.lua:263
+msgid "Enter Colony Zod"
+msgstr "Войти в Колонию Зод"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:317
+msgid "+25 Hit Points"
+msgstr "+25 единиц здоровья"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:349
+msgid "+20 Water Resistance (Temporary)"
+msgstr "+20 Устойчивости к Воде (временно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:362
+msgid "+2 Endurance (Permanent)"
+msgstr "+2 Выносливости (постоянно)"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:370
+msgid "Titan Stronghold"
+msgstr "Цитадель Титана"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:644
+msgid "__dn_r_n"
+msgstr "че-_рен_"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:652
+msgid "East to the Tularean Forest"
+msgstr "На восток к Тулареанскому лесу"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:656 assets_dev/worlds/mm7/events/maps/out14.lua:658
+msgid "Enter the The Titan Stronghold"
+msgstr "Войти в цитадель Титана"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:660 assets_dev/worlds/mm7/events/maps/out14.lua:662
+msgid "Enter the Temple of Baa"
+msgstr "Войти в храм Баа"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/out14.lua:664 assets_dev/worlds/mm7/events/maps/out14.lua:666
+msgid "Enter the Hall under the Hill"
+msgstr "Войти в чертог под холмом"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/t01.lua:466 assets_dev/worlds/mm7/events/maps/t01.lua:468
+msgid "Leave the Temple of Light"
+msgstr "Покинуть храм Света"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/t02.lua:617 assets_dev/worlds/mm7/events/maps/t02.lua:619
+msgid "Leave to Temple of Dark"
+msgstr "Перейти в храм Тьмы"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/t03.lua:243
+msgid "You have Desecrated the altar"
+msgstr "Вы осквернили алтарь"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/t03.lua:251 assets_dev/worlds/mm7/events/maps/t03.lua:253
+msgid "Leave the Grand Temple of the Sun"
+msgstr "Покинуть Великий храм Солнца"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/t04.lua:173 assets_dev/worlds/mm7/events/maps/t04.lua:175
+msgid "Leave the Hall of the Pit"
+msgstr "Покинуть врата в Бездну"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev/worlds/mm7/events/maps/t04.lua:177 assets_dev/worlds/mm7/events/maps/t04.lua:181
+msgid "Enter the Pit"
+msgstr "Войти в Бездну"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm7/world.yml:17
+msgid ""
+"With the Oscillation Overthruster recovered, the Gate to the Ancients stands open. The war over the ancients' legacy is over, Harmondale stands proud among the kingdoms, and Antagarich looks to a brighter age."
+msgstr ""
+"Волновой Разрушитель возвращен, и Врата Древних открыты. Война за наследие Древних окончена, Хармондейл гордо стоит среди королевств, а Антагрич смотрит навстречу светлому веку."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm7/world.yml:22
+msgid ""
+"With the Oscillation Overthruster recovered, the Heavenly Forge burns again in the depths of the Pit, and its ancient weapons answer to the Dark and to the lords of Harmondale who served it. Antagarich will not forget the new power rising in its midst."
+msgstr ""
+"Волновой Разрушитель возвращен, и в глубинах Бездны вновь пылает Небесная Кузница; ее древнее оружие подчиняется Тьме и владыкам Хармондейла, что служили ей. Антагрич не забудет новую силу, что поднимается в его сердце."
+
+# imported from worlds_mm7_localization_ru_world_strings.tsv
+msgctxt "world:mm7"
+msgid "Drink from the Fountain"
+msgstr "Напиться из фонтана"
+
+# imported from worlds_mm7_localization_ru_world_strings.tsv
+msgctxt "world:mm7"
+msgid "Take a Drink"
+msgstr "Выпить напиток"
+
+# imported from worlds_mm7_localization_ru_world_strings.tsv
+msgctxt "world:mm7"
+msgid "You Pray"
+msgstr "Вы молитесь"
+
+# machine translation (Claude), review
+#~ msgid "MMMerge Harmondale scavenger advertisement"
+#~ msgstr "MMMerge: объявление о Гонке за мусором в Хармондейле"
+
+# machine translation (Claude), review
+#~ msgid "MMMerge Erathia scavenger advertisement"
+#~ msgstr "MMMerge: объявление о Гонке за мусором в Эрафии"
+
+# machine translation (Claude), review
+#~ msgid "MMMerge Shoals surfacing travel"
+#~ msgstr "MMMerge: всплытие с Мелководья"
+
+# machine translation (Claude), review
+#~ msgid "MMMerge Evenmorn obelisk treasure clock"
+#~ msgstr "MMMerge: часы сокровища обелиска Эвенморна"
+
+# machine translation (Claude), review
+#~ msgid "MMMerge Evenmorn Dimension Door proximity"
+#~ msgstr "MMMerge: близость Двери Измерений на Эвенморне"

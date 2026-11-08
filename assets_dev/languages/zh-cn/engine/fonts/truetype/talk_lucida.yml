@@ -1,0 +1,10 @@
+# The MM9 talk bar's face in Chinese: LXGW WenKai (SIL OFL) at the metrics of lucida.
+file: lxgwwenkai.ttf
+metrics: freetype
+logical_height: 17
+baseline: 13
+glyph_scale: 0.78
+encoding: utf-8
+characters_file: lxgwwenkai.charset.txt
+# Large text (the main menu title) is drawn magnified from 64 px atlases: 3,400 glyphs at 96 px take 150 MB.
+max_raster_height: 64

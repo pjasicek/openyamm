@@ -1,0 +1,2928 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenYAMM\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/Global_mm6_mmmerge.lua:318
+msgid ""
+"Your party has already completed this quest. Eligible companions are promoted to "
+msgstr ""
+"Wasza drużyna wykonała już to zadanie. Towarzysze, którym to przysługuje, otrzymują awans na klasę "
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/Global_mm6_mmmerge.lua:369
+msgid ""
+"Though your rise to high priest status was almost unseemly quick, I have never seen finer high priests in all my years.\n"
+"I am grateful for all you've done for myself and for Enroth."
+msgstr ""
+"Choć wasze wyniesienie do godności arcykapłanów nastąpiło niemal niestosownie szybko, przez wszystkie te lata nie widziałem lepszych arcykapłanów.\n"
+"Jestem wdzięczny za wszystko, co uczyniliście dla mnie i dla Enroth."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:348 assets_dev/worlds/mm6/events/maps/outc2.lua:215
+msgid ""
+"You hand the Sacred Chalice to the monks of the temple who ensconce it in the main altar."
+msgstr ""
+"Przynieśliście Święty Kielich mnichom ze świątyni, którzy schowali go w głównym ołatrzu."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:361 assets_dev/worlds/mm6/events/maps/outc2.lua:226
+msgid "The stone cutter and carpenter begin rebuilding the temple."
+msgstr "Murarz i stolarz rozpoczeli odbudowę świątyni."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:469
+msgid "+{amount} {stat} permanent"
+msgstr "+{amount} {stat} na stałe"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/common/mm6_common.lua:474
+msgid "Shrine of {name}"
+msgstr "Kapliczka: {name}"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:156 assets_dev/worlds/mm6/events/maps/6d01.lua:164
+msgid "B"
+msgstr "B"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:166 assets_dev/worlds/mm6/events/maps/6d01.lua:174
+msgid "C"
+msgstr "C"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:176 assets_dev/worlds/mm6/events/maps/6d01.lua:185
+msgid "D"
+msgstr "D"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:198 assets_dev/worlds/mm6/events/maps/6d01.lua:207
+msgid "F"
+msgstr "F"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:217 assets_dev/worlds/mm6/events/maps/6d01.lua:226
+msgid "H"
+msgstr "H"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:239 assets_dev/worlds/mm6/events/maps/6d01.lua:249
+msgid "J"
+msgstr "J"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:251 assets_dev/worlds/mm6/events/maps/6d01.lua:259
+msgid "K"
+msgstr "K"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:261 assets_dev/worlds/mm6/events/maps/6d01.lua:269
+msgid "L"
+msgstr "L"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:287 assets_dev/worlds/mm6/events/maps/6d01.lua:295
+msgid "O"
+msgstr "O"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:297 assets_dev/worlds/mm6/events/maps/6d01.lua:338
+msgid "P"
+msgstr "P"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:384 assets_dev/worlds/mm6/events/maps/6d01.lua:386
+msgid "Exit Door"
+msgstr "Drzwi wyjściowe"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d01.lua:403 assets_dev/worlds/mm6/events/maps/6d01.lua:406 assets_dev/worlds/mm6/events/maps/6d03.lua:46
+#: assets_dev/worlds/mm6/events/maps/6d03.lua:50 assets_dev/worlds/mm6/events/maps/6d03.lua:73 assets_dev/worlds/mm6/events/maps/6d03.lua:77
+#: assets_dev/worlds/mm6/events/maps/6d03.lua:87 assets_dev/worlds/mm6/events/maps/6d03.lua:91 assets_dev/worlds/mm6/events/maps/6d03.lua:93
+#: assets_dev/worlds/mm6/events/maps/6d03.lua:97 assets_dev/worlds/mm6/events/maps/6d05.lua:43 assets_dev/worlds/mm6/events/maps/6d05.lua:46
+#: assets_dev/worlds/mm6/events/maps/6d06.lua:126 assets_dev/worlds/mm6/events/maps/6d06.lua:129 assets_dev/worlds/mm6/events/maps/6d06.lua:155
+#: assets_dev/worlds/mm6/events/maps/6d06.lua:158 assets_dev/worlds/mm6/events/maps/6d06.lua:95 assets_dev/worlds/mm6/events/maps/6d06.lua:98
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:101 assets_dev/worlds/mm6/events/maps/6d07.lua:171 assets_dev/worlds/mm6/events/maps/6d07.lua:192
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:98 assets_dev/worlds/mm6/events/maps/6d08.lua:134 assets_dev/worlds/mm6/events/maps/6d08.lua:137
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:122 assets_dev/worlds/mm6/events/maps/6d10.lua:125 assets_dev/worlds/mm6/events/maps/6d10.lua:127
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:130 assets_dev/worlds/mm6/events/maps/6d11.lua:123 assets_dev/worlds/mm6/events/maps/6d11.lua:126
+#: assets_dev/worlds/mm6/events/maps/6d11.lua:128 assets_dev/worlds/mm6/events/maps/6d11.lua:131 assets_dev/worlds/mm6/events/maps/6d11.lua:145
+#: assets_dev/worlds/mm6/events/maps/6d11.lua:148 assets_dev/worlds/mm6/events/maps/6d11.lua:170 assets_dev/worlds/mm6/events/maps/6d11.lua:173
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:114 assets_dev/worlds/mm6/events/maps/6d14.lua:117 assets_dev/worlds/mm6/events/maps/6d14.lua:84
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:87 assets_dev/worlds/mm6/events/maps/6d14.lua:89 assets_dev/worlds/mm6/events/maps/6d14.lua:92
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:194 assets_dev/worlds/mm6/events/maps/6d16.lua:198 assets_dev/worlds/mm6/events/maps/6d17.lua:241
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:244 assets_dev/worlds/mm6/events/maps/6d19.lua:139 assets_dev/worlds/mm6/events/maps/6d19.lua:142
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:39 assets_dev/worlds/mm6/events/maps/6d19.lua:42 assets_dev/worlds/mm6/events/maps/6d19.lua:44
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:47 assets_dev/worlds/mm6/events/maps/6d19.lua:49 assets_dev/worlds/mm6/events/maps/6d19.lua:58
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:60 assets_dev/worlds/mm6/events/maps/6d19.lua:69 assets_dev/worlds/mm6/events/maps/6d19.lua:71
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:76 assets_dev/worlds/mm6/events/maps/6d19.lua:89 assets_dev/worlds/mm6/events/maps/6d19.lua:92
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:42 assets_dev/worlds/mm6/events/maps/6t2.lua:45 assets_dev/worlds/mm6/events/maps/6t5.lua:84
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:88 assets_dev/worlds/mm6/events/maps/6t6.lua:108 assets_dev/worlds/mm6/events/maps/6t6.lua:112
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:114 assets_dev/worlds/mm6/events/maps/6t6.lua:118 assets_dev/worlds/mm6/events/maps/6t6.lua:120
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:124 assets_dev/worlds/mm6/events/maps/6t6.lua:126 assets_dev/worlds/mm6/events/maps/6t6.lua:130
+#: assets_dev/worlds/mm6/events/maps/6t8.lua:51 assets_dev/worlds/mm6/events/maps/6t8.lua:55 assets_dev/worlds/mm6/events/maps/6t8.lua:61
+#: assets_dev/worlds/mm6/events/maps/6t8.lua:66 assets_dev/worlds/mm6/events/maps/6t8.lua:68 assets_dev/worlds/mm6/events/maps/6t8.lua:72
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:142 assets_dev/worlds/mm6/events/maps/cd1.lua:145 assets_dev/worlds/mm6/events/maps/hive.lua:121
+#: assets_dev/worlds/mm6/events/maps/hive.lua:126 assets_dev/worlds/mm6/events/maps/hive.lua:176 assets_dev/worlds/mm6/events/maps/hive.lua:179
+#: assets_dev/worlds/mm6/events/maps/hive.lua:186 assets_dev/worlds/mm6/events/maps/hive.lua:189 assets_dev/worlds/mm6/events/maps/hive.lua:191
+#: assets_dev/worlds/mm6/events/maps/hive.lua:194 assets_dev/worlds/mm6/events/maps/hive.lua:230 assets_dev/worlds/mm6/events/maps/hive.lua:233
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:130 assets_dev/worlds/mm6/events/maps/pyramid.lua:134 assets_dev/worlds/mm6/events/maps/pyramid.lua:136
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:140 assets_dev/worlds/mm6/events/maps/pyramid.lua:403 assets_dev/worlds/mm6/events/maps/pyramid.lua:406
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:431 assets_dev/worlds/mm6/events/maps/pyramid.lua:434 assets_dev/worlds/mm6/events/maps/zddb06.lua:62
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:77
+msgid "Switch"
+msgstr "Przełącznik"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:148
+msgid "You've Rescued a child!  How patriarchal of you"
+msgstr "Uratowaliście dziecko!  Cóż za szlachetność."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:185 assets_dev/worlds/mm6/events/maps/6d02.lua:187 assets_dev/worlds/mm6/events/maps/6d02.lua:82
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:84 assets_dev/worlds/mm6/events/maps/cd1.lua:175 assets_dev/worlds/mm6/events/maps/cd1.lua:179
+msgid "Teleporter"
+msgstr "Teleport"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:101 assets_dev/worlds/mm6/events/maps/6d02.lua:103 assets_dev/worlds/mm6/events/maps/6d02.lua:107
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:109 assets_dev/worlds/mm6/events/maps/6d02.lua:113 assets_dev/worlds/mm6/events/maps/6d02.lua:115
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:119 assets_dev/worlds/mm6/events/maps/6d02.lua:121 assets_dev/worlds/mm6/events/maps/6d02.lua:125
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:127 assets_dev/worlds/mm6/events/maps/6d02.lua:131 assets_dev/worlds/mm6/events/maps/6d02.lua:133
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:138 assets_dev/worlds/mm6/events/maps/6d02.lua:140 assets_dev/worlds/mm6/events/maps/6d02.lua:145
+#: assets_dev/worlds/mm6/events/maps/6d02.lua:97 assets_dev/worlds/mm6/events/maps/6t8.lua:177 assets_dev/worlds/mm6/events/maps/6t8.lua:182
+#: assets_dev/worlds/mm6/events/maps/6t8_mmmerge.lua:12 assets_dev/worlds/mm6/events/maps/cd3.lua:221 assets_dev/worlds/mm6/events/maps/cd3.lua:225
+msgid "Cage"
+msgstr "Klatka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d03.lua:54 assets_dev/worlds/mm6/events/maps/6d16.lua:151 assets_dev/worlds/mm6/events/maps/6t1.lua:115
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:139 assets_dev/worlds/mm6/events/maps/6t1.lua:155 assets_dev/worlds/mm6/events/maps/6t1.lua:62
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:73 assets_dev/worlds/mm6/events/maps/6t1.lua:84 assets_dev/worlds/mm6/events/maps/6t1.lua:99
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:109 assets_dev/worlds/mm6/events/maps/cd1.lua:96 assets_dev/worlds/mm6/events/maps/oute3.lua:378
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:148
+msgid "The door is locked."
+msgstr "Drzwi są zamnkięte."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:117 assets_dev/worlds/mm6/events/maps/6d04.lua:131 assets_dev/worlds/mm6/events/maps/6d04.lua:185
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:198
+msgid "All wards must be destroyed."
+msgstr "Wszystkie pieczęcie muszą zostać zniszczone."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:125 assets_dev/worlds/mm6/events/maps/6d04.lua:138 assets_dev/worlds/mm6/events/maps/6d04.lua:192
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:204
+msgid "The Door is warded."
+msgstr "Drzwi są zapieczętowane."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:228 assets_dev/worlds/mm6/events/maps/6d04.lua:244 assets_dev/worlds/mm6/events/maps/6d04.lua:342
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:358 assets_dev/worlds/mm6/events/maps/6d04.lua:372 assets_dev/worlds/mm6/events/maps/6d04.lua:388
+msgid "Stone Face"
+msgstr "Kamienna twarz"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:237 assets_dev/worlds/mm6/events/maps/6d04.lua:351 assets_dev/worlds/mm6/events/maps/6d04.lua:381
+msgid "\"Ah, delicious amber!\""
+msgstr "\"Ach, wspaniały bursztyn!\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:241 assets_dev/worlds/mm6/events/maps/6d04.lua:355 assets_dev/worlds/mm6/events/maps/6d04.lua:385
+msgid "All must have amber.  Take life force!"
+msgstr "Wszyscy muszą mieć bursztyn.  Biercie życiową siłę!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:285
+msgid "The chest is locked."
+msgstr "Skrzynia jest zamknięta."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:324
+msgid "Magically Refreshing!"
+msgstr "Magicznie odświeżające!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d04.lua:390 assets_dev/worlds/mm6/events/maps/6d04.lua:392 assets_dev/worlds/mm6/events/maps/6d08.lua:320
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:322 assets_dev/worlds/mm6/events/maps/6d08.lua:392 assets_dev/worlds/mm6/events/maps/6d08.lua:394
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:396 assets_dev/worlds/mm6/events/maps/6d08.lua:398 assets_dev/worlds/mm6/events/maps/6d08.lua:400
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:402 assets_dev/worlds/mm6/events/maps/6d08.lua:404 assets_dev/worlds/mm6/events/maps/6d08.lua:406
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:408 assets_dev/worlds/mm6/events/maps/6d08.lua:410 assets_dev/worlds/mm6/events/maps/6d08.lua:522
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:524 assets_dev/worlds/mm6/events/maps/6d08.lua:526 assets_dev/worlds/mm6/events/maps/6d08.lua:528
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:530 assets_dev/worlds/mm6/events/maps/6d08.lua:532 assets_dev/worlds/mm6/events/maps/6d08.lua:534
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:536 assets_dev/worlds/mm6/events/maps/6d08.lua:538 assets_dev/worlds/mm6/events/maps/6d08.lua:540
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:542 assets_dev/worlds/mm6/events/maps/6d08.lua:544 assets_dev/worlds/mm6/events/maps/6d08.lua:546
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:548 assets_dev/worlds/mm6/events/maps/zdtl01.lua:46 assets_dev/worlds/mm6/events/maps/zdtl01.lua:48
+msgid "Bag"
+msgstr "Torba"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:254 assets_dev/worlds/mm6/events/maps/6d05.lua:256 assets_dev/worlds/mm6/events/maps/6d05.lua:258
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:260 assets_dev/worlds/mm6/events/maps/6d05.lua:262 assets_dev/worlds/mm6/events/maps/6d05.lua:264
+msgid "Black liquid filled barrel"
+msgstr "Czarny płyn wypełnia beczkę"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:271
+msgid "The bones feel weird (+5 Might permanent)"
+msgstr "Kości wydają się dziwne (+5 do mocy na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:276 assets_dev/worlds/mm6/events/maps/6d05.lua:426 assets_dev/worlds/mm6/events/maps/6d05.lua:436
+msgid "No effect"
+msgstr "Bez efektu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:415 assets_dev/worlds/mm6/events/maps/6d05.lua:416 assets_dev/worlds/mm6/events/maps/6d05.lua:417
+msgid "The door will not budge"
+msgstr "Drzwi nawet nie drgną"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:423
+msgid "The bones feel weird (+5 Poison resistance permanent)"
+msgstr "Kości wydają się dziwne (+5 do odporności na truciznę na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:433
+msgid "The bones feel weird (+5 Magic resistance permanent)"
+msgstr "Kości wydają się dziwne (+5 do odporności na magię na stałe)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:266 assets_dev/worlds/mm6/events/maps/6d05.lua:277 assets_dev/worlds/mm6/events/maps/6d05.lua:48
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:50
+msgid "Glowing dinosaur bones"
+msgstr "Rozjarzone kości dinozaurów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:52 assets_dev/worlds/mm6/events/maps/6d05.lua:55 assets_dev/worlds/mm6/events/maps/6d06.lua:108
+#: assets_dev/worlds/mm6/events/maps/6d06.lua:120 assets_dev/worlds/mm6/events/maps/6d06.lua:160 assets_dev/worlds/mm6/events/maps/6d06.lua:172
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:100 assets_dev/worlds/mm6/events/maps/6d10.lua:103 assets_dev/worlds/mm6/events/maps/6d10.lua:105
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:108 assets_dev/worlds/mm6/events/maps/6d10.lua:192 assets_dev/worlds/mm6/events/maps/6d10.lua:197
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:199 assets_dev/worlds/mm6/events/maps/6d10.lua:204 assets_dev/worlds/mm6/events/maps/6d15.lua:114
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:117 assets_dev/worlds/mm6/events/maps/6d15.lua:65 assets_dev/worlds/mm6/events/maps/6d15.lua:70
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:72 assets_dev/worlds/mm6/events/maps/6d15.lua:76 assets_dev/worlds/mm6/events/maps/6d18.lua:101
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:104 assets_dev/worlds/mm6/events/maps/6d18.lua:106 assets_dev/worlds/mm6/events/maps/6d18.lua:109
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:111 assets_dev/worlds/mm6/events/maps/6d18.lua:114 assets_dev/worlds/mm6/events/maps/6d18.lua:116
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:120 assets_dev/worlds/mm6/events/maps/6d18.lua:122 assets_dev/worlds/mm6/events/maps/6d18.lua:125
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:127 assets_dev/worlds/mm6/events/maps/6d18.lua:130 assets_dev/worlds/mm6/events/maps/6d18.lua:132
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:135 assets_dev/worlds/mm6/events/maps/6d18.lua:137 assets_dev/worlds/mm6/events/maps/6d18.lua:140
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:142 assets_dev/worlds/mm6/events/maps/6d18.lua:145 assets_dev/worlds/mm6/events/maps/6d18.lua:147
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:150 assets_dev/worlds/mm6/events/maps/6d18.lua:152 assets_dev/worlds/mm6/events/maps/6d18.lua:155
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:157 assets_dev/worlds/mm6/events/maps/6d18.lua:203 assets_dev/worlds/mm6/events/maps/6d18.lua:205
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:208 assets_dev/worlds/mm6/events/maps/6d18.lua:210 assets_dev/worlds/mm6/events/maps/6d18.lua:213
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:215 assets_dev/worlds/mm6/events/maps/6d18.lua:218 assets_dev/worlds/mm6/events/maps/6d18.lua:220
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:223 assets_dev/worlds/mm6/events/maps/6d18.lua:225 assets_dev/worlds/mm6/events/maps/6d18.lua:228
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:230 assets_dev/worlds/mm6/events/maps/6d18.lua:232 assets_dev/worlds/mm6/events/maps/6d18.lua:234
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:236 assets_dev/worlds/mm6/events/maps/6d18.lua:238 assets_dev/worlds/mm6/events/maps/6d18.lua:240
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:242 assets_dev/worlds/mm6/events/maps/6d18.lua:244 assets_dev/worlds/mm6/events/maps/6d18.lua:246
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:248 assets_dev/worlds/mm6/events/maps/6d18.lua:250 assets_dev/worlds/mm6/events/maps/6d18.lua:252
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:254 assets_dev/worlds/mm6/events/maps/6d18.lua:256 assets_dev/worlds/mm6/events/maps/6d18.lua:268
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:271 assets_dev/worlds/mm6/events/maps/6d18.lua:273 assets_dev/worlds/mm6/events/maps/6d18.lua:276
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:278 assets_dev/worlds/mm6/events/maps/6d18.lua:281 assets_dev/worlds/mm6/events/maps/6d18.lua:283
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:286 assets_dev/worlds/mm6/events/maps/6d18.lua:288 assets_dev/worlds/mm6/events/maps/6d18.lua:291
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:293 assets_dev/worlds/mm6/events/maps/6d18.lua:297 assets_dev/worlds/mm6/events/maps/6d18.lua:299
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:302 assets_dev/worlds/mm6/events/maps/6d18.lua:91 assets_dev/worlds/mm6/events/maps/6d18.lua:94
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:96 assets_dev/worlds/mm6/events/maps/6d18.lua:99 assets_dev/worlds/mm6/events/maps/6d18_mmmerge.lua:14
+#: assets_dev/worlds/mm6/events/maps/6t3.lua:117 assets_dev/worlds/mm6/events/maps/6t3.lua:120 assets_dev/worlds/mm6/events/maps/6t3.lua:135
+#: assets_dev/worlds/mm6/events/maps/6t3.lua:141 assets_dev/worlds/mm6/events/maps/6t3.lua:143 assets_dev/worlds/mm6/events/maps/6t3.lua:149
+#: assets_dev/worlds/mm6/events/maps/6t3.lua:151 assets_dev/worlds/mm6/events/maps/6t3.lua:154 assets_dev/worlds/mm6/events/maps/6t3.lua:156
+#: assets_dev/worlds/mm6/events/maps/6t3.lua:159 assets_dev/worlds/mm6/events/maps/6t3.lua:165 assets_dev/worlds/mm6/events/maps/6t3.lua:168
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:416 assets_dev/worlds/mm6/events/maps/cd2.lua:439 assets_dev/worlds/mm6/events/maps/znwc.lua:304
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:307
+msgid "Lever"
+msgstr "Dźwignia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:68 assets_dev/worlds/mm6/events/maps/6d05.lua:81 assets_dev/worlds/mm6/events/maps/6t3.lua:128
+#: assets_dev/worlds/mm6/events/maps/hive.lua:269 assets_dev/worlds/mm6/events/maps/hive.lua:82 assets_dev/worlds/mm6/events/maps/hive_mmmerge.lua:122
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:103 assets_dev/worlds/mm6/events/maps/pyramid.lua:148 assets_dev/worlds/mm6/events/maps/pyramid.lua:419
+msgid "The door is locked"
+msgstr "Drzwi są zamknięte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:116 assets_dev/worlds/mm6/events/maps/6d05.lua:118 assets_dev/worlds/mm6/events/maps/6d05.lua:150
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:152 assets_dev/worlds/mm6/events/maps/6d05.lua:184 assets_dev/worlds/mm6/events/maps/6d05.lua:186
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:218 assets_dev/worlds/mm6/events/maps/6d05.lua:220 assets_dev/worlds/mm6/events/maps/6d05.lua:252
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:279 assets_dev/worlds/mm6/events/maps/6d05.lua:311 assets_dev/worlds/mm6/events/maps/6d05.lua:84
+msgid "Gold vein"
+msgstr "Żyła złota"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:123 assets_dev/worlds/mm6/events/maps/6d05.lua:130 assets_dev/worlds/mm6/events/maps/6d05.lua:157
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:164 assets_dev/worlds/mm6/events/maps/6d05.lua:191 assets_dev/worlds/mm6/events/maps/6d05.lua:198
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:225 assets_dev/worlds/mm6/events/maps/6d05.lua:232 assets_dev/worlds/mm6/events/maps/6d05.lua:284
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:291 assets_dev/worlds/mm6/events/maps/6d05.lua:318 assets_dev/worlds/mm6/events/maps/6d05.lua:325
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:352 assets_dev/worlds/mm6/events/maps/6d05.lua:359 assets_dev/worlds/mm6/events/maps/6d05.lua:386
+#: assets_dev/worlds/mm6/events/maps/6d05.lua:393 assets_dev/worlds/mm6/events/maps/6d05.lua:89 assets_dev/worlds/mm6/events/maps/6d05.lua:96
+msgid "Cave-in!"
+msgstr "Zapadnia!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d06.lua:202 assets_dev/worlds/mm6/events/maps/6d06.lua:205 assets_dev/worlds/mm6/events/maps/6d09.lua:105
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:108 assets_dev/worlds/mm6/events/maps/6d09.lua:176 assets_dev/worlds/mm6/events/maps/6d09.lua:179
+msgid "Double Door"
+msgstr "Podwójne drzwi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d06.lua:309 assets_dev/worlds/mm6/events/maps/6t2.lua:73 assets_dev/worlds/mm6/events/maps/6t5.lua:56
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:303
+msgid "The door won't budge"
+msgstr "Drzwi ani drgną"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:330 assets_dev/worlds/mm6/events/maps/6d07.lua:339 assets_dev/worlds/mm6/events/maps/6d07.lua:349
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:357
+msgid "Mural"
+msgstr "Fresk"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:103 assets_dev/worlds/mm6/events/maps/6d07.lua:105 assets_dev/worlds/mm6/events/maps/6d07.lua:107
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:109 assets_dev/worlds/mm6/events/maps/6d07.lua:111 assets_dev/worlds/mm6/events/maps/6d07.lua:113
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:115 assets_dev/worlds/mm6/events/maps/6d07.lua:117 assets_dev/worlds/mm6/events/maps/6d07.lua:119
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:121 assets_dev/worlds/mm6/events/maps/6d07.lua:123 assets_dev/worlds/mm6/events/maps/6d07.lua:125
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:127 assets_dev/worlds/mm6/events/maps/6d07.lua:129 assets_dev/worlds/mm6/events/maps/6d07.lua:131
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:133 assets_dev/worlds/mm6/events/maps/6d07.lua:74 assets_dev/worlds/mm6/events/maps/6d07.lua:76
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:78 assets_dev/worlds/mm6/events/maps/6d07.lua:80 assets_dev/worlds/mm6/events/maps/6d07.lua:82
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:84 assets_dev/worlds/mm6/events/maps/6d07.lua:86 assets_dev/worlds/mm6/events/maps/6d07.lua:88
+#: assets_dev/worlds/mm6/events/maps/6d07.lua:90 assets_dev/worlds/mm6/events/maps/6d07.lua:92 assets_dev/worlds/mm6/events/maps/6d17.lua:100
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:102 assets_dev/worlds/mm6/events/maps/6d17.lua:104 assets_dev/worlds/mm6/events/maps/6d17.lua:106
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:108 assets_dev/worlds/mm6/events/maps/6d17.lua:110 assets_dev/worlds/mm6/events/maps/6d17.lua:112
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:114 assets_dev/worlds/mm6/events/maps/6d17.lua:128 assets_dev/worlds/mm6/events/maps/6d17.lua:130
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:140 assets_dev/worlds/mm6/events/maps/6d17.lua:142 assets_dev/worlds/mm6/events/maps/6d17.lua:144
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:146 assets_dev/worlds/mm6/events/maps/6d17.lua:148 assets_dev/worlds/mm6/events/maps/6d17.lua:150
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:152 assets_dev/worlds/mm6/events/maps/6d17.lua:154 assets_dev/worlds/mm6/events/maps/6d17.lua:156
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:158 assets_dev/worlds/mm6/events/maps/6d17.lua:160 assets_dev/worlds/mm6/events/maps/6d17.lua:162
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:164 assets_dev/worlds/mm6/events/maps/6d17.lua:166 assets_dev/worlds/mm6/events/maps/6d17.lua:168
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:170 assets_dev/worlds/mm6/events/maps/6d17.lua:172 assets_dev/worlds/mm6/events/maps/6d17.lua:174
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:176 assets_dev/worlds/mm6/events/maps/6d17.lua:178 assets_dev/worlds/mm6/events/maps/6d17.lua:180
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:182 assets_dev/worlds/mm6/events/maps/6d17.lua:184 assets_dev/worlds/mm6/events/maps/6d17.lua:186
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:224 assets_dev/worlds/mm6/events/maps/6d17.lua:226 assets_dev/worlds/mm6/events/maps/6d17.lua:246
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:248 assets_dev/worlds/mm6/events/maps/6d17.lua:250 assets_dev/worlds/mm6/events/maps/6d17.lua:253
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:255 assets_dev/worlds/mm6/events/maps/6d17.lua:258 assets_dev/worlds/mm6/events/maps/6d17.lua:260
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:263 assets_dev/worlds/mm6/events/maps/6d17.lua:265 assets_dev/worlds/mm6/events/maps/6d17.lua:268
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:92 assets_dev/worlds/mm6/events/maps/6d17.lua:94 assets_dev/worlds/mm6/events/maps/6d17.lua:96
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:98
+msgid "Wooden Door"
+msgstr "Drewniane drzwi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:176 assets_dev/worlds/mm6/events/maps/6d08.lua:184 assets_dev/worlds/mm6/events/maps/6d08.lua:186
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:193 assets_dev/worlds/mm6/events/maps/6d08.lua:195 assets_dev/worlds/mm6/events/maps/6d08.lua:202
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:204 assets_dev/worlds/mm6/events/maps/6d08.lua:211 assets_dev/worlds/mm6/events/maps/6d08.lua:213
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:220 assets_dev/worlds/mm6/events/maps/6d08.lua:222 assets_dev/worlds/mm6/events/maps/6d08.lua:229
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:231 assets_dev/worlds/mm6/events/maps/6d08.lua:238 assets_dev/worlds/mm6/events/maps/6d08.lua:240
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:247 assets_dev/worlds/mm6/events/maps/6d08.lua:249 assets_dev/worlds/mm6/events/maps/6d08.lua:256
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:258 assets_dev/worlds/mm6/events/maps/6d08.lua:267 assets_dev/worlds/mm6/events/maps/6d08.lua:269
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:278 assets_dev/worlds/mm6/events/maps/6d08.lua:280 assets_dev/worlds/mm6/events/maps/6d08.lua:295
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:297 assets_dev/worlds/mm6/events/maps/6d08.lua:312 assets_dev/worlds/mm6/events/maps/6d08.lua:329
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:332 assets_dev/worlds/mm6/events/maps/6d08.lua:334 assets_dev/worlds/mm6/events/maps/6d08.lua:337
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:344 assets_dev/worlds/mm6/events/maps/6d08.lua:347 assets_dev/worlds/mm6/events/maps/6d08.lua:349
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:352 assets_dev/worlds/mm6/events/maps/6d08.lua:354 assets_dev/worlds/mm6/events/maps/6d08.lua:357
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:359 assets_dev/worlds/mm6/events/maps/6d08.lua:362
+msgid "Suspicious Floor"
+msgstr "Podejrzana podłoga"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:191 assets_dev/worlds/mm6/events/maps/6d08.lua:200 assets_dev/worlds/mm6/events/maps/6d08.lua:245
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:254
+msgid "Click!"
+msgstr "Klik!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:209 assets_dev/worlds/mm6/events/maps/6d08.lua:218 assets_dev/worlds/mm6/events/maps/6d08.lua:265
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:276
+msgid "Ca-Click!"
+msgstr "Ka-klik!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:227 assets_dev/worlds/mm6/events/maps/6d08.lua:236 assets_dev/worlds/mm6/events/maps/6d08.lua:286
+msgid "Snick!"
+msgstr "Snik!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:290
+msgid "Magic Gate Open"
+msgstr "Magiczne drzwi otwarte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:298 assets_dev/worlds/mm6/events/maps/6d08.lua:331 assets_dev/worlds/mm6/events/maps/6d08.lua:336
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:341 assets_dev/worlds/mm6/events/maps/6d08.lua:346 assets_dev/worlds/mm6/events/maps/6d08.lua:351
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:356 assets_dev/worlds/mm6/events/maps/6d08.lua:361 assets_dev/worlds/mm6/events/maps/pyramid.lua:132
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:138
+msgid "Trap!"
+msgstr "Pułapka!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:324 assets_dev/worlds/mm6/events/maps/6d08.lua:327
+msgid "Poisoned Spike"
+msgstr "Zatruty kolec"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:339 assets_dev/worlds/mm6/events/maps/6d08.lua:342
+msgid "Unstable rock"
+msgstr "Niestabilna skała"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:412 assets_dev/worlds/mm6/events/maps/6d08.lua:424 assets_dev/worlds/mm6/events/maps/6d08.lua:426
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:438 assets_dev/worlds/mm6/events/maps/6d08.lua:440 assets_dev/worlds/mm6/events/maps/6d08.lua:452
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:454 assets_dev/worlds/mm6/events/maps/6d08.lua:466 assets_dev/worlds/mm6/events/maps/6d08_mmmerge.lua:22
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:116 assets_dev/worlds/mm6/events/maps/6d17.lua:118
+msgid "Magic Door"
+msgstr "Magiczne drzwi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:414 assets_dev/worlds/mm6/events/maps/6d08.lua:428 assets_dev/worlds/mm6/events/maps/6d08.lua:442
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:456 assets_dev/worlds/mm6/events/maps/6d08_mmmerge.lua:6
+msgid "Incorrect"
+msgstr "Nieprawidłowa"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:421
+msgid ""
+"\"You cannot see me, hear me or touch me.  I lie behind the stars and alter what is real, I am what you really fear, Close your eyes and come I near. What am I?\""
+msgstr ""
+"\"Ani mnie nie dojrzysz, nie usłyszysz, nie poczujesz. Spoczywam między gwiazdami i prawdę przekuję, i choćbyś nie wiem, jak przede mną uciekał - zamknij oczy, a wnet strach odczujesz. Czym jestem?\""
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:422 assets_dev/worlds/mm6/events/maps/6d08.lua:436 assets_dev/worlds/mm6/events/maps/6d08.lua:450
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:464 assets_dev/worlds/mm6/events/maps/6d08_mmmerge.lua:20 assets_dev/worlds/mm6/events/maps/pyramid.lua:281
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:306 assets_dev/worlds/mm6/events/maps/pyramid.lua:331 assets_dev/worlds/mm6/events/maps/pyramid.lua:356
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:381 assets_dev/worlds/mm6/events/maps/pyramid.lua:93 assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:44
+#: assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:85
+msgid "Answer?  "
+msgstr "Odpowiedź?  "
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:422
+msgid "dark"
+msgstr "ciemność"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:435
+msgid ""
+"\"I go through an apple, or point out your way, I fit in a bow, then a target, to stay. What am I?\""
+msgstr ""
+"\"Przebiję się przez jabłko, a może i wskażę ci drogę, w łuku takoż się zmieszczę, w celu wytrwać mogę. Czym jestem?\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:436
+msgid "an arrow"
+msgstr "strzała"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:436
+msgid "arrow"
+msgstr "strzala"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:449
+msgid ""
+"\"What consumes rocks, levels mountains, destroys wood, pushes the clouds across the sky, and can make a young one old?\""
+msgstr ""
+"\"Coś, przed czym nic w świecie nie uciecze, co gnie żelazo, przegryza miecze, pożera ptaki, zwierzęta, ziele, najtwardszy kamień na mąkę miele, królów nie szczędzi, rozwala mury, poniża nawet najwyższe góry?\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:450
+msgid "time"
+msgstr "czas"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:463
+msgid ""
+"\"Alive without breath, as cold as death, never thirsty ever drinking, all in mail never clinking, ever travelling, never walking, mouth ever moving, never talking.  What am I? \""
+msgstr "\"Nie oddycham a żyję, nie pragnę a wciąż piję.  Czym jestem? \""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:464
+msgid "a fish"
+msgstr "rybą"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:464
+msgid "fish"
+msgstr "ryba"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:487
+msgid "Magical Wall"
+msgstr "Magiczna Ściana"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:489 assets_dev/worlds/mm6/events/maps/6d08.lua:496 assets_dev/worlds/mm6/events/maps/6d08.lua:498
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:505 assets_dev/worlds/mm6/events/maps/6d08.lua:507 assets_dev/worlds/mm6/events/maps/6d08.lua:514
+#: assets_dev/worlds/mm6/events/maps/6d08.lua:516 assets_dev/worlds/mm6/events/maps/6d08.lua:520 assets_dev/worlds/mm6/events/maps/zddb02.lua:22
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:30 assets_dev/worlds/mm6/events/maps/zddb03.lua:22 assets_dev/worlds/mm6/events/maps/zddb03.lua:30
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:448 assets_dev/worlds/mm6/events/maps/zddb10.lua:453 assets_dev/worlds/mm6/events/maps/zddb10.lua:455
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:460 assets_dev/worlds/mm6/events/maps/zddb10.lua:462 assets_dev/worlds/mm6/events/maps/zddb10.lua:467
+msgid "Sack"
+msgstr "Worek"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:118
+msgid "You are not smart enough!"
+msgstr "Nie jesteście wystarczająco sprytni!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:189 assets_dev/worlds/mm6/events/maps/6d09.lua:198 assets_dev/worlds/mm6/events/maps/6d09.lua:200
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:202 assets_dev/worlds/mm6/events/maps/6d09.lua:204 assets_dev/worlds/mm6/events/maps/6d09.lua:206
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:208 assets_dev/worlds/mm6/events/maps/6d09.lua:210 assets_dev/worlds/mm6/events/maps/6d09.lua:212
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:214 assets_dev/worlds/mm6/events/maps/6d09.lua:232 assets_dev/worlds/mm6/events/maps/6d09.lua:234
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:236 assets_dev/worlds/mm6/events/maps/6d09.lua:238 assets_dev/worlds/mm6/events/maps/6d09.lua:369
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:371 assets_dev/worlds/mm6/events/maps/6d10.lua:214 assets_dev/worlds/mm6/events/maps/6d10.lua:216
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:218 assets_dev/worlds/mm6/events/maps/6d10.lua:220 assets_dev/worlds/mm6/events/maps/6d10.lua:222
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:224 assets_dev/worlds/mm6/events/maps/6d10.lua:226 assets_dev/worlds/mm6/events/maps/6d10.lua:228
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:230 assets_dev/worlds/mm6/events/maps/6d10.lua:232 assets_dev/worlds/mm6/events/maps/6d10.lua:234
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:236 assets_dev/worlds/mm6/events/maps/6d15.lua:143 assets_dev/worlds/mm6/events/maps/6d15.lua:145
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:274 assets_dev/worlds/mm6/events/maps/6d16.lua:276 assets_dev/worlds/mm6/events/maps/6d16.lua:310
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:312 assets_dev/worlds/mm6/events/maps/6d16.lua:336 assets_dev/worlds/mm6/events/maps/6d16.lua:338
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:352 assets_dev/worlds/mm6/events/maps/6d16.lua:354 assets_dev/worlds/mm6/events/maps/6d16.lua:356
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:358 assets_dev/worlds/mm6/events/maps/6t2.lua:47 assets_dev/worlds/mm6/events/maps/6t2.lua:49
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:51 assets_dev/worlds/mm6/events/maps/6t2.lua:53 assets_dev/worlds/mm6/events/maps/6t4.lua:104
+#: assets_dev/worlds/mm6/events/maps/6t4.lua:92 assets_dev/worlds/mm6/events/maps/sewer.lua:104 assets_dev/worlds/mm6/events/maps/sewer.lua:106
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:745 assets_dev/worlds/mm6/events/maps/zddb08.lua:747
+msgid "Cabinet"
+msgstr "Szafka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:240 assets_dev/worlds/mm6/events/maps/6d09.lua:242 assets_dev/worlds/mm6/events/maps/6d09.lua:245
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:291 assets_dev/worlds/mm6/events/maps/6d09.lua:295 assets_dev/worlds/mm6/events/maps/6d09.lua:297
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:301 assets_dev/worlds/mm6/events/maps/6d09.lua:303 assets_dev/worlds/mm6/events/maps/6d09.lua:307
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:309 assets_dev/worlds/mm6/events/maps/6d09.lua:313 assets_dev/worlds/mm6/events/maps/6d09.lua:315
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:319 assets_dev/worlds/mm6/events/maps/6d09.lua:321 assets_dev/worlds/mm6/events/maps/6d09.lua:325
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:327 assets_dev/worlds/mm6/events/maps/6d09.lua:331 assets_dev/worlds/mm6/events/maps/6d09.lua:333
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:337 assets_dev/worlds/mm6/events/maps/6d09.lua:339 assets_dev/worlds/mm6/events/maps/6d09.lua:343
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:345 assets_dev/worlds/mm6/events/maps/6d09.lua:349 assets_dev/worlds/mm6/events/maps/6d09.lua:351
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:355 assets_dev/worlds/mm6/events/maps/6d09.lua:357 assets_dev/worlds/mm6/events/maps/6d09.lua:361
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:363 assets_dev/worlds/mm6/events/maps/6d09.lua:367
+msgid "Bookshelves"
+msgstr "Półki"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:243
+msgid "\"You thumb through the books, but find nothing of interest.\""
+msgstr "\"Przeglądasz książki, ale nie znajdujesz niczego interesującego.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:263 assets_dev/worlds/mm6/events/maps/6d09.lua:273 assets_dev/worlds/mm6/events/maps/6d09.lua:275
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:285
+msgid "Pool"
+msgstr "Zbiornik"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:271 assets_dev/worlds/mm6/events/maps/sewer.lua:183
+msgid "+10 Hit points restored."
+msgstr "+10 punktów życia przywróconych."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:283 assets_dev/worlds/mm6/events/maps/oute2.lua:357
+msgid "+10 Spell points restored."
+msgstr "+10 punktów magii przywróconych."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d09.lua:78 assets_dev/worlds/mm6/events/maps/6d09.lua:87 assets_dev/worlds/mm6/events/maps/6d09.lua:95
+msgid "The Door is Locked"
+msgstr "Te drzwi są zamknięte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:207 assets_dev/worlds/mm6/events/maps/6d18.lua:379
+msgid "The Door won't budge."
+msgstr "Drzwi ani drgną."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:243
+msgid "Caught!"
+msgstr "Złapany!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:253
+msgid "Rats!"
+msgstr "Szczury!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d10.lua:258
+msgid "Are those footsteps?"
+msgstr "To są ślady stóp?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d11.lua:158 assets_dev/worlds/mm6/events/maps/6d11.lua:160 assets_dev/worlds/mm6/events/maps/6d11.lua:166
+#: assets_dev/worlds/mm6/events/maps/6d11.lua:168
+msgid "Wall"
+msgstr "Ściana"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d11.lua:264
+msgid "This Door won't budge."
+msgstr "Te drzwi ani drgną."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:42 assets_dev/worlds/mm6/events/maps/6d12.lua:44 assets_dev/worlds/mm6/events/maps/6d12.lua:46
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:48 assets_dev/worlds/mm6/events/maps/6d12.lua:50 assets_dev/worlds/mm6/events/maps/6d12.lua:52
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:54 assets_dev/worlds/mm6/events/maps/6d12.lua:56 assets_dev/worlds/mm6/events/maps/6d12.lua:58
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:60 assets_dev/worlds/mm6/events/maps/6d12.lua:62 assets_dev/worlds/mm6/events/maps/6d12.lua:64
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:66 assets_dev/worlds/mm6/events/maps/6d12.lua:68 assets_dev/worlds/mm6/events/maps/6d12.lua:74
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:76 assets_dev/worlds/mm6/events/maps/6d12.lua:82 assets_dev/worlds/mm6/events/maps/6d12.lua:84
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:86 assets_dev/worlds/mm6/events/maps/6d12.lua:88 assets_dev/worlds/mm6/events/maps/6d12.lua:90
+#: assets_dev/worlds/mm6/events/maps/6d12.lua:92
+msgid "Skull Door"
+msgstr "Czaszkowe drzwi"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:118 assets_dev/worlds/mm6/events/maps/6d13.lua:128 assets_dev/worlds/mm6/events/maps/6d13.lua:138
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:148 assets_dev/worlds/mm6/events/maps/6d13.lua:158 assets_dev/worlds/mm6/events/maps/6d13.lua:168
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:183
+msgid "You search the tree and find something."
+msgstr "Przeszukaliście drzewo i znaleźliście coś."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:123 assets_dev/worlds/mm6/events/maps/6d13.lua:133 assets_dev/worlds/mm6/events/maps/6d13.lua:143
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:153 assets_dev/worlds/mm6/events/maps/6d13.lua:163 assets_dev/worlds/mm6/events/maps/6d13.lua:173
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:188
+msgid "You find nothing."
+msgstr "Nic tu nie ma."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:191 assets_dev/worlds/mm6/events/maps/6d13.lua:221 assets_dev/worlds/mm6/events/maps/6d13_mmmerge.lua:29
+msgid "Evil Altar"
+msgstr "Zły ołtarz"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:206 assets_dev/worlds/mm6/events/maps/6d13_mmmerge.lua:19
+msgid "+5 Personality permanent to Druids and Clerics."
+msgstr "+5 do osobowości na stałe dla druidów i kleryków."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:224 assets_dev/worlds/mm6/events/maps/6d14.lua:268 assets_dev/worlds/mm6/events/maps/6d14.lua:306
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:311 assets_dev/worlds/mm6/events/maps/zddb10.lua:444 assets_dev/worlds/mm6/events/maps/zddb10.lua:470
+msgid "The door will not budge."
+msgstr "Drzwi nawet nie drgną."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:247 assets_dev/worlds/mm6/events/maps/6d13.lua:273 assets_dev/worlds/mm6/events/maps/6d13.lua:275
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:293 assets_dev/worlds/mm6/events/maps/6d13.lua:46 assets_dev/worlds/mm6/events/maps/6d13.lua:49
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:51 assets_dev/worlds/mm6/events/maps/6d13.lua:54 assets_dev/worlds/mm6/events/maps/6d13.lua:70
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:73
+msgid "Strange rock"
+msgstr "Dziwna skała"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:47 assets_dev/worlds/mm6/events/maps/6d13.lua:52 assets_dev/worlds/mm6/events/maps/6d13.lua:71
+msgid "The rock shifts at your touch."
+msgstr "Skała przemieszcza się pod waszym dotykiem."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:176 assets_dev/worlds/mm6/events/maps/6d13.lua:179 assets_dev/worlds/mm6/events/maps/6d13.lua:56
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:59 assets_dev/worlds/mm6/events/maps/6d13.lua:75 assets_dev/worlds/mm6/events/maps/6d13.lua:78
+msgid "Monolith"
+msgstr "Monolit"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:177 assets_dev/worlds/mm6/events/maps/6d13.lua:57 assets_dev/worlds/mm6/events/maps/6d13.lua:76
+msgid "The monolith feels strange to the touch."
+msgstr "Monolit jest dziwny w dotyku."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:111 assets_dev/worlds/mm6/events/maps/6d13.lua:114 assets_dev/worlds/mm6/events/maps/6d13.lua:116
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:124 assets_dev/worlds/mm6/events/maps/6d13.lua:126 assets_dev/worlds/mm6/events/maps/6d13.lua:134
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:136 assets_dev/worlds/mm6/events/maps/6d13.lua:144 assets_dev/worlds/mm6/events/maps/6d13.lua:146
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:154 assets_dev/worlds/mm6/events/maps/6d13.lua:156 assets_dev/worlds/mm6/events/maps/6d13.lua:164
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:166 assets_dev/worlds/mm6/events/maps/6d13.lua:174 assets_dev/worlds/mm6/events/maps/6d13.lua:181
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:189 assets_dev/worlds/mm6/events/maps/6d13.lua:61 assets_dev/worlds/mm6/events/maps/6d13.lua:64
+msgid "Strange tree"
+msgstr "Dziwne drzewo"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:112 assets_dev/worlds/mm6/events/maps/6d13.lua:62
+msgid "The tree shakes at your touch."
+msgstr "Drzewo kołysze się pod waszym dotykiem."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:80 assets_dev/worlds/mm6/events/maps/6d13.lua:83
+msgid "Nice Flower"
+msgstr "ładny kwiatek"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:81
+msgid "The flowers smell nice."
+msgstr "Kwiatek pachnie ładnie."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:85 assets_dev/worlds/mm6/events/maps/6d13.lua:88
+msgid "Druid statue"
+msgstr "Statua druida"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:86
+msgid "The statue shifts as your touch it."
+msgstr "Statua przemieszcza się pod waszym dotykiem."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:101 assets_dev/worlds/mm6/events/maps/6d13.lua:98
+msgid "Sacred Pool"
+msgstr "Święta sadzawka"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6d13.lua:99
+msgid "The pool shimmers as you touch it."
+msgstr "Sadzawka lśni pod waszym dotykiem."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:147 assets_dev/worlds/mm6/events/maps/6d14.lua:151 assets_dev/worlds/mm6/events/maps/6d14.lua:153
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:161 assets_dev/worlds/mm6/events/maps/6d14.lua:163 assets_dev/worlds/mm6/events/maps/6d14.lua:171
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:173 assets_dev/worlds/mm6/events/maps/6d14.lua:181 assets_dev/worlds/mm6/events/maps/6d14.lua:183
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:191 assets_dev/worlds/mm6/events/maps/6d14.lua:193 assets_dev/worlds/mm6/events/maps/6d14.lua:201
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:203 assets_dev/worlds/mm6/events/maps/6d14.lua:211 assets_dev/worlds/mm6/events/maps/6d14.lua:213
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:221 assets_dev/worlds/mm6/events/maps/6d14.lua:223 assets_dev/worlds/mm6/events/maps/6d14.lua:231
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:233 assets_dev/worlds/mm6/events/maps/6d14.lua:241 assets_dev/worlds/mm6/events/maps/6d14.lua:243
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:251 assets_dev/worlds/mm6/events/maps/6d14.lua:253 assets_dev/worlds/mm6/events/maps/6d14.lua:261
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:271 assets_dev/worlds/mm6/events/maps/6d14.lua:273 assets_dev/worlds/mm6/events/maps/6d14.lua:275
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:283 assets_dev/worlds/mm6/events/maps/6d14.lua:285 assets_dev/worlds/mm6/events/maps/6d14.lua:293
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:295 assets_dev/worlds/mm6/events/maps/6d14.lua:303 assets_dev/worlds/mm6/events/maps/6d14.lua:319
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:323 assets_dev/worlds/mm6/events/maps/6d14.lua:325 assets_dev/worlds/mm6/events/maps/6d14.lua:329
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:331 assets_dev/worlds/mm6/events/maps/6d14.lua:335 assets_dev/worlds/mm6/events/maps/6d14.lua:337
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:341 assets_dev/worlds/mm6/events/maps/zddb10.lua:171 assets_dev/worlds/mm6/events/maps/zddb10.lua:188
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:190 assets_dev/worlds/mm6/events/maps/zddb10.lua:288 assets_dev/worlds/mm6/events/maps/zddb10.lua:290
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:307 assets_dev/worlds/mm6/events/maps/zddb10.lua:309 assets_dev/worlds/mm6/events/maps/zddb10.lua:326
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:328 assets_dev/worlds/mm6/events/maps/zddb10.lua:345 assets_dev/worlds/mm6/events/maps/zddb10.lua:347
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:364 assets_dev/worlds/mm6/events/maps/zddb10.lua:366 assets_dev/worlds/mm6/events/maps/zddb10.lua:383
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:385 assets_dev/worlds/mm6/events/maps/zddb10.lua:402 assets_dev/worlds/mm6/events/maps/zddb10.lua:404
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:421
+msgid "Burial niche"
+msgstr "Nisza grobelna"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:148
+msgid "Fumes make you feel sick."
+msgstr "Opary sprawiają, że czujesz się źle."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:155 assets_dev/worlds/mm6/events/maps/6d14.lua:165 assets_dev/worlds/mm6/events/maps/6d14.lua:175
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:185 assets_dev/worlds/mm6/events/maps/6d14.lua:195 assets_dev/worlds/mm6/events/maps/6d14.lua:205
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:215 assets_dev/worlds/mm6/events/maps/6d14.lua:225 assets_dev/worlds/mm6/events/maps/6d14.lua:235
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:245 assets_dev/worlds/mm6/events/maps/6d14.lua:255 assets_dev/worlds/mm6/events/maps/6d14.lua:277
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:287 assets_dev/worlds/mm6/events/maps/6d14.lua:297
+msgid "You find something among the bones."
+msgstr "Znajdujesz coś pomiędzy koścmi."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:160 assets_dev/worlds/mm6/events/maps/6d14.lua:170 assets_dev/worlds/mm6/events/maps/6d14.lua:180
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:190 assets_dev/worlds/mm6/events/maps/6d14.lua:200 assets_dev/worlds/mm6/events/maps/6d14.lua:210
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:220 assets_dev/worlds/mm6/events/maps/6d14.lua:230 assets_dev/worlds/mm6/events/maps/6d14.lua:240
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:250 assets_dev/worlds/mm6/events/maps/6d14.lua:260 assets_dev/worlds/mm6/events/maps/6d14.lua:272
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:282 assets_dev/worlds/mm6/events/maps/6d14.lua:292 assets_dev/worlds/mm6/events/maps/6d14.lua:302
+msgid "The niche is empty."
+msgstr "Nisza jest pusta."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:267 assets_dev/worlds/mm6/events/maps/6d14.lua:269 assets_dev/worlds/mm6/events/maps/6d15.lua:257
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:259
+msgid "Gate"
+msgstr "Brama"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:315 assets_dev/worlds/mm6/events/maps/6d14.lua:317
+msgid "Exit."
+msgstr "Wyjście."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:68 assets_dev/worlds/mm6/events/maps/6d14.lua:70 assets_dev/worlds/mm6/events/maps/6d14.lua:72
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:74 assets_dev/worlds/mm6/events/maps/6d14.lua:76 assets_dev/worlds/mm6/events/maps/6d14.lua:78
+msgid "Elevator"
+msgstr "Winda"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:100 assets_dev/worlds/mm6/events/maps/6d14.lua:102 assets_dev/worlds/mm6/events/maps/6d14.lua:104
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:106 assets_dev/worlds/mm6/events/maps/6d14.lua:108 assets_dev/worlds/mm6/events/maps/6d14.lua:110
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:112 assets_dev/worlds/mm6/events/maps/6d14.lua:305 assets_dev/worlds/mm6/events/maps/6d14.lua:308
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:310 assets_dev/worlds/mm6/events/maps/6d14.lua:313 assets_dev/worlds/mm6/events/maps/6d14.lua:80
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:82 assets_dev/worlds/mm6/events/maps/6d14.lua:94 assets_dev/worlds/mm6/events/maps/6d14.lua:96
+#: assets_dev/worlds/mm6/events/maps/6d14.lua:98 assets_dev/worlds/mm6/events/maps/zddb10.lua:440 assets_dev/worlds/mm6/events/maps/zddb10.lua:446
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:469 assets_dev/worlds/mm6/events/maps/zddb10.lua:471 assets_dev/worlds/mm6/events/maps/zddb10.lua:473
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:479 assets_dev/worlds/mm6/events/maps/zddb10.lua:70 assets_dev/worlds/mm6/events/maps/zddb10.lua:72
+#: assets_dev/worlds/mm6/events/maps/zdtl02.lua:23 assets_dev/worlds/mm6/events/maps/zdtl02.lua:25 assets_dev/worlds/mm6/events/maps/zdtl02.lua:27
+#: assets_dev/worlds/mm6/events/maps/zdtl02.lua:29 assets_dev/worlds/mm6/events/maps/zdtl02.lua:31 assets_dev/worlds/mm6/events/maps/zdtl02.lua:33
+#: assets_dev/worlds/mm6/events/maps/zdtl02.lua:35 assets_dev/worlds/mm6/events/maps/zdtl02.lua:37 assets_dev/worlds/mm6/events/maps/zdtl02.lua:39
+#: assets_dev/worlds/mm6/events/maps/zdtl02.lua:41
+msgid "Door."
+msgstr "Drzwi."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:177 assets_dev/worlds/mm6/events/maps/6d15.lua:185 assets_dev/worlds/mm6/events/maps/6d15.lua:187
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:195 assets_dev/worlds/mm6/events/maps/6d15.lua:197 assets_dev/worlds/mm6/events/maps/6d15.lua:205
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:207 assets_dev/worlds/mm6/events/maps/6d15.lua:215 assets_dev/worlds/mm6/events/maps/6d15.lua:217
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:225 assets_dev/worlds/mm6/events/maps/6d15.lua:227 assets_dev/worlds/mm6/events/maps/6d15.lua:235
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:237 assets_dev/worlds/mm6/events/maps/6d15.lua:245 assets_dev/worlds/mm6/events/maps/6d15.lua:247
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:255
+msgid "Bed"
+msgstr "Łózko"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:179 assets_dev/worlds/mm6/events/maps/6d15.lua:189 assets_dev/worlds/mm6/events/maps/6d15.lua:199
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:209 assets_dev/worlds/mm6/events/maps/6d15.lua:219 assets_dev/worlds/mm6/events/maps/6d15.lua:229
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:239 assets_dev/worlds/mm6/events/maps/6d15.lua:249
+msgid "You find something around the bed."
+msgstr "Znajdujesz coś na łózku."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:184 assets_dev/worlds/mm6/events/maps/6d15.lua:194 assets_dev/worlds/mm6/events/maps/6d15.lua:204
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:214 assets_dev/worlds/mm6/events/maps/6d15.lua:224 assets_dev/worlds/mm6/events/maps/6d15.lua:234
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:244 assets_dev/worlds/mm6/events/maps/6d15.lua:254
+msgid "The bed(s) are empty."
+msgstr "Łózko jest puste."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:258
+msgid "The gate will not budge."
+msgstr "Brama ani drgnie."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d15.lua:66 assets_dev/worlds/mm6/events/maps/6d15.lua:73
+msgid "Something rumbles off in the distance."
+msgstr "Coś dudni w oddali."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:109 assets_dev/worlds/mm6/events/maps/6d16.lua:113 assets_dev/worlds/mm6/events/maps/6d16.lua:128
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:132
+msgid "The door is double locked."
+msgstr "Drzwi są podwójnie zamknięte."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:211 assets_dev/worlds/mm6/events/maps/6d16.lua:225 assets_dev/worlds/mm6/events/maps/6d16.lua:239
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:253 assets_dev/worlds/mm6/events/maps/6d16.lua:267
+msgid "You are pulled through the door!"
+msgstr "Zostaliście przepchnięci przez drzwi!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:364 assets_dev/worlds/mm6/events/maps/6d16.lua:370 assets_dev/worlds/mm6/events/maps/6d16.lua:372
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:377
+msgid "Chest of Drawers"
+msgstr "Skrzynia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:366
+msgid "You have found two keys!"
+msgstr "Znaleźliście dwa klucze!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:374
+msgid "You have found a key!"
+msgstr "Znaleźliście klucz!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d16.lua:380
+msgid "This door won't open."
+msgstr "Drzwi się nie otworzą."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:322 assets_dev/worlds/mm6/events/maps/6d17.lua:332
+msgid "Wolf Altar"
+msgstr "Ołtarz Wilka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d17.lua:345
+msgid "You find a Pearl."
+msgstr "Znaleźliście."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:174 assets_dev/worlds/mm6/events/maps/6d18.lua:200
+msgid "The Door is locked"
+msgstr "Drzwi są zamknięte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:496 assets_dev/worlds/mm6/events/maps/6d18.lua:520 assets_dev/worlds/mm6/events/maps/pyramid.lua:568
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:572 assets_dev/worlds/mm6/events/maps/pyramid.lua:574 assets_dev/worlds/mm6/events/maps/pyramid.lua:578
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:580 assets_dev/worlds/mm6/events/maps/pyramid.lua:584 assets_dev/worlds/mm6/events/maps/pyramid.lua:586
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:590 assets_dev/worlds/mm6/events/maps/pyramid.lua:592 assets_dev/worlds/mm6/events/maps/pyramid.lua:596
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:598 assets_dev/worlds/mm6/events/maps/pyramid.lua:602 assets_dev/worlds/mm6/events/maps/pyramid.lua:604
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:608 assets_dev/worlds/mm6/events/maps/pyramid.lua:610 assets_dev/worlds/mm6/events/maps/pyramid.lua:614
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:616 assets_dev/worlds/mm6/events/maps/pyramid.lua:620 assets_dev/worlds/mm6/events/maps/pyramid.lua:622
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:626 assets_dev/worlds/mm6/events/maps/pyramid.lua:628 assets_dev/worlds/mm6/events/maps/pyramid.lua:632
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:634 assets_dev/worlds/mm6/events/maps/pyramid.lua:638
+msgid "Bookcase"
+msgstr "Biblioteczka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d18.lua:499 assets_dev/worlds/mm6/events/maps/6t1.lua:359
+msgid "Found something!"
+msgstr "Znaleźliście coś!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:116 assets_dev/worlds/mm6/events/maps/6d19.lua:120 assets_dev/worlds/mm6/events/maps/6d19.lua:122
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:126 assets_dev/worlds/mm6/events/maps/6d19.lua:128 assets_dev/worlds/mm6/events/maps/6d19.lua:132
+msgid "Chandelier"
+msgstr "Świecznik"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:152
+msgid "+50 Intellect permanent."
+msgstr "+50 do intelektu na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d19.lua:80
+msgid "Uh oh...."
+msgstr "Uch och...."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6d20.lua:103 assets_dev/worlds/mm6/events/maps/6d20.lua:107 assets_dev/worlds/mm6/events/maps/6d20.lua:109
+#: assets_dev/worlds/mm6/events/maps/6d20.lua:113 assets_dev/worlds/mm6/events/maps/6d20.lua:115 assets_dev/worlds/mm6/events/maps/6d20.lua:119
+#: assets_dev/worlds/mm6/events/maps/6d20.lua:121 assets_dev/worlds/mm6/events/maps/6d20.lua:125 assets_dev/worlds/mm6/events/maps/6d20.lua:127
+#: assets_dev/worlds/mm6/events/maps/6d20.lua:131 assets_dev/worlds/mm6/events/maps/6d20.lua:133 assets_dev/worlds/mm6/events/maps/6d20.lua:137
+msgid "Barrel"
+msgstr "Beczka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:173 assets_dev/worlds/mm6/events/maps/6t1.lua:179 assets_dev/worlds/mm6/events/maps/6t1.lua:181
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:187 assets_dev/worlds/mm6/events/maps/6t1.lua:194 assets_dev/worlds/mm6/events/maps/6t1.lua:200
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:315 assets_dev/worlds/mm6/events/maps/6t1.lua:321 assets_dev/worlds/mm6/events/maps/cd2.lua:333
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:360 assets_dev/worlds/mm6/events/maps/cd2.lua:407 assets_dev/worlds/mm6/events/maps/cd2.lua:414
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:441 assets_dev/worlds/mm6/events/maps/cd2.lua:448 assets_dev/worlds/mm6/events/maps/cd2.lua:450
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:473
+msgid "Sign"
+msgstr "Znak"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:177
+msgid ""
+"\"A silver sign reads: As the winds blow, the seasons change, and only at the end of all can the doors be opened.\""
+msgstr ""
+"\"Na srebrnej tabliczce napisano: Gdy wiatr dmie, zmieniaja się pory roku i tylko na końcu wszystkiego drzwi mogą zaostać otwarte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:185
+msgid ""
+"\"A copper sign reads: As the winds blow, the seasons change, and only at the end of all can the doors be opened.\""
+msgstr ""
+"\"Na miedzianej tabliczce napisano: Gdy wiatr dmie, zmieniaja się pory roku i tylko na końcu wszystkiego drzwi mogą zaostać otwarte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:198
+msgid ""
+"\"A lapis sign reads: As the winds blow, the seasons change, and only at the end of all can the doors be opened.\""
+msgstr ""
+"\"Na lazurowej tabliczce napisano: Gdy wiatr dmie, zmieniaja się pory roku i tylko na końcu wszystkiego drzwi mogą zaostać otwarte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:215 assets_dev/worlds/mm6/events/maps/6t1.lua:262 assets_dev/worlds/mm6/events/maps/6t1.lua:278
+msgid "The door clicks."
+msgstr "Drzwi kliknęły."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:225 assets_dev/worlds/mm6/events/maps/6t1.lua:234 assets_dev/worlds/mm6/events/maps/6t1.lua:255
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:272 assets_dev/worlds/mm6/events/maps/6t1.lua:283
+msgid "Zap!"
+msgstr "Zzzt!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:319
+msgid ""
+"\"A wooden sign reads: As the winds blow, the seasons change, and only at the end of all can the doors be opened.\""
+msgstr ""
+"\"Na drewnianej tabliczce napisano: Gdy wiatr dmie, zmieniaja się pory roku i tylko na końcu wszystkiego drzwi mogą zaostać otwarte.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:331
+msgid "The haunted sounds of tortured souls assail your ears."
+msgstr "Upiorne głosy torturowanych dusz bombardują wasze uszy"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:365
+msgid "Refreshing."
+msgstr "Odświeżające."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6t1.lua:370
+msgid " +20 Hit points restored."
+msgstr " +20 punktów życia przywróconych."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:37 assets_dev/worlds/mm6/events/maps/6t2.lua:40
+msgid "Flickering Torch"
+msgstr "Migocząca pochodnia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:39
+msgid "You pull the torch and it shifts in your hand"
+msgstr "Pociągnęliście pochodnie i poruszyła się"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:55 assets_dev/worlds/mm6/events/maps/6t2.lua:57
+msgid "Full sack"
+msgstr "Pełny worek"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:62
+msgid "The skulls seem to sap your might"
+msgstr "Czaszka wydaje się wyssysać waszą siłę"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:65 assets_dev/worlds/mm6/events/maps/6t2.lua:70
+msgid "Evil Crystal"
+msgstr "Zły Kryszał"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t2.lua:69
+msgid "You have destroyed the evil crystal"
+msgstr "Zniszczyliście zły kryształ"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t3.lua:126 assets_dev/worlds/mm6/events/maps/6t3.lua:133
+msgid "Cell"
+msgstr "Cela"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:102 assets_dev/worlds/mm6/events/maps/6t5.lua:127
+msgid "Altar of Might"
+msgstr "Ołtarz Mocy"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:108 assets_dev/worlds/mm6/events/maps/6t5.lua:125 assets_dev/worlds/mm6/events/maps/6t5.lua:134
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:157 assets_dev/worlds/mm6/events/maps/6t5.lua:175 assets_dev/worlds/mm6/events/maps/6t5.lua:185
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:203 assets_dev/worlds/mm6/events/maps/6t5.lua:213 assets_dev/worlds/mm6/events/maps/6t5.lua:231
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:241 assets_dev/worlds/mm6/events/maps/6t5.lua:263 assets_dev/worlds/mm6/events/maps/sewer.lua:122
+msgid "Ouch!"
+msgstr "Auć!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:119 assets_dev/worlds/mm6/events/maps/6t5.lua:137 assets_dev/worlds/mm6/events/maps/6t5.lua:146
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:160 assets_dev/worlds/mm6/events/maps/6t5.lua:169 assets_dev/worlds/mm6/events/maps/6t5.lua:188
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:197 assets_dev/worlds/mm6/events/maps/6t5.lua:216 assets_dev/worlds/mm6/events/maps/6t5.lua:225
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:244 assets_dev/worlds/mm6/events/maps/6t5.lua:257
+msgid "You kneel at the altar for a moment of silent prayer."
+msgstr "Uklękneliście przy ołtarzu aby odmówić cichą modlitwę."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:129 assets_dev/worlds/mm6/events/maps/6t5.lua:149
+msgid "Altar of Life"
+msgstr "Ołtarz Życia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:151 assets_dev/worlds/mm6/events/maps/6t5.lua:177
+msgid "Altar of Endurance"
+msgstr "Ołtarz Wytrzymałości"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:179 assets_dev/worlds/mm6/events/maps/6t5.lua:205
+msgid "Altar of Accuracy"
+msgstr "Ołtarz Celności"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:207 assets_dev/worlds/mm6/events/maps/6t5.lua:233
+msgid "Altar of Speed"
+msgstr "Ołtarz Szybkości"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:235 assets_dev/worlds/mm6/events/maps/6t5.lua:265
+msgid "Altar of Luck"
+msgstr "Ołtarz Szczęścia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:267 assets_dev/worlds/mm6/events/maps/6t5.lua:273 assets_dev/worlds/mm6/events/maps/pyramid.lua:496
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:502 assets_dev/worlds/mm6/events/maps/pyramid.lua:504 assets_dev/worlds/mm6/events/maps/pyramid.lua:510
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:512 assets_dev/worlds/mm6/events/maps/pyramid.lua:518 assets_dev/worlds/mm6/events/maps/pyramid.lua:528
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:534 assets_dev/worlds/mm6/events/maps/pyramid.lua:536 assets_dev/worlds/mm6/events/maps/pyramid.lua:542
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:544 assets_dev/worlds/mm6/events/maps/pyramid.lua:550 assets_dev/worlds/mm6/events/maps/pyramid.lua:552
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:558
+msgid "Plaque"
+msgstr "Płyta"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:271
+msgid ""
+"\"Life above all, Accuracy before Might, Endurance before Speed, and finally, Luck.\""
+msgstr ""
+"\"Życie ponad wszystkim, celność przed mocą, wytrzymałość przed szybkością, a na końcu szczęście.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t5.lua:287 assets_dev/worlds/mm6/events/maps/6t5.lua:297
+msgid "Altar of the Moon"
+msgstr "Ołtarz Księżyca"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:173 assets_dev/worlds/mm6/events/maps/6t6.lua:176 assets_dev/worlds/mm6/events/maps/sewer.lua:215
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:219
+msgid "Cylinder"
+msgstr "Cylinder"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:178 assets_dev/worlds/mm6/events/maps/6t6.lua:185 assets_dev/worlds/mm6/events/maps/6t6_mmmerge.lua:10
+msgid "Oracle Memory Crystal"
+msgstr "Kryształ pamięci Wyroczni"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:220 assets_dev/worlds/mm6/events/maps/6t6.lua:228
+msgid "Altar of Fire"
+msgstr "Ołtarz Ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:224 assets_dev/worlds/mm6/events/maps/6t6.lua:227
+msgid "Trial by Fire"
+msgstr "Próba Ognia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:230 assets_dev/worlds/mm6/events/maps/6t6.lua:238
+msgid "Altar of Cold"
+msgstr "Ołtarz Zimna"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:234 assets_dev/worlds/mm6/events/maps/6t6.lua:237
+msgid "Trial by Cold"
+msgstr "Próba Zimna"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:240 assets_dev/worlds/mm6/events/maps/6t6.lua:244 assets_dev/worlds/mm6/events/maps/6t6.lua:247
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:248
+msgid "Altar of Pain"
+msgstr "Ołtarz Cierpienia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:255
+msgid "+10 Fire resistance permanent."
+msgstr "+10 do odporności na ogień na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:262 assets_dev/worlds/mm6/events/maps/6t6.lua:277 assets_dev/worlds/mm6/events/maps/6t6.lua:292
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:307
+msgid "You're not worthy!"
+msgstr "Nie zasługujecie na to!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:265 assets_dev/worlds/mm6/events/maps/6t6.lua:278
+msgid "Shrine of Air"
+msgstr "Kapliczka Powietrza"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:270
+msgid "+10 Electric resistance permanent."
+msgstr "+10 do odporności na powietrze na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:280 assets_dev/worlds/mm6/events/maps/6t6.lua:293
+msgid "Shrine of Water"
+msgstr "Kapliczka Wody"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:285
+msgid "+10 Cold resistance permanent."
+msgstr "+10 do odporności na wodę na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:295 assets_dev/worlds/mm6/events/maps/6t6.lua:308
+msgid "Shrine of Earth"
+msgstr "Kapliczka Ziemi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t6.lua:300 assets_dev/worlds/mm6/events/maps/outb1.lua:261
+msgid "+10 Magic resistance permanent."
+msgstr "+10 do odporności na ziemię na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:272 assets_dev/worlds/mm6/events/maps/6t7.lua:400 assets_dev/worlds/mm6/events/maps/6t7.lua:408
+msgid "Baa Head Two"
+msgstr "Głowa Baa Dwa"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:274 assets_dev/worlds/mm6/events/maps/6t7.lua:280 assets_dev/worlds/mm6/events/maps/cd2.lua:234
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:242
+msgid "Podium"
+msgstr "Podium"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:278
+msgid ""
+"\"Expert Perception is the key and the doors of Baa will let you be.                                                                                                                                                                                                                  The Spiral then each head, talk to Baa or you'll be dead.\""
+msgstr ""
+"\"Ekspercka percepcja to klucz, aby drzwi Baa otworzyć móc                                                                                                                                                                                                                  Potem wedle osi każdy niech każdy jakoś się kręci, bo bez widzenia Baa nie będzie po was nawet pamięci.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:298 assets_dev/worlds/mm6/events/maps/6t7.lua:306
+msgid "Chest Is locked."
+msgstr "Skrzynia jest zamknięta."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:332 assets_dev/worlds/mm6/events/maps/6t7.lua:336
+msgid "Book Case"
+msgstr "Biblioteczka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:394 assets_dev/worlds/mm6/events/maps/6t7.lua:398
+msgid "Baa Head One"
+msgstr "Głowa Baa Jeden"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:395
+msgid "Baa One here."
+msgstr "Baa Jeden tutaj."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:403 assets_dev/worlds/mm6/events/maps/6t7.lua:413 assets_dev/worlds/mm6/events/maps/6t7.lua:423
+msgid "Baa!  Baa!"
+msgstr "Bee!  Bee!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:406
+msgid "Baa Two ready."
+msgstr "Baa Dwa gotowy."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:410 assets_dev/worlds/mm6/events/maps/6t7.lua:418
+msgid "Baa Head Three"
+msgstr "Głowa Baa Trzy"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:416
+msgid "Baa Three standing by."
+msgstr "Baa Trzy czeka."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:420 assets_dev/worlds/mm6/events/maps/6t7.lua:431
+msgid "Baa Head Four"
+msgstr "Głowa Baa Cztery"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:426
+msgid "Baa Four is a go."
+msgstr "Baa Cztery rusza."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:433 assets_dev/worlds/mm6/events/maps/6t7.lua:447
+msgid "Almighty Head of Baa."
+msgstr "Wszechmogąca Głowa Baa."
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:435
+msgid "You're not worthy of Baa!"
+msgstr "Nie jesteście warci Baa!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:440
+msgid "\"Follow Baa!  +50,000 Experience.\""
+msgstr "\"Wyznajecie Baa!  +50,000 Doświadczenia.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:446
+msgid "Go forth and spread the word of Baa!"
+msgstr "Idźcie dalej i głoście słowo Baa!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t7.lua:449 assets_dev/worlds/mm6/events/maps/6t7.lua:451
+msgid "Lava pool"
+msgstr "Zbiornik lawy"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/6t8.lua:149
+msgid "A teleporter!"
+msgstr "Teleporter!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:148 assets_dev/worlds/mm6/events/maps/sci-fi.lua:91
+msgid "The door won't budge."
+msgstr "Drzwi ani drgną."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:244
+msgid ""
+"\"Etched into the tree a message reads:                                                                                                                                                                                                                              The first is half the forth plus one, better hurry or you'll be done!\""
+msgstr ""
+"\"Wytrawiona na drzewie wiadomość brzmi:                                                                                                                                                                                                                              Pierwsza jest piątą z jeszcze jedną. Pospiesz się lepiej, bo wspomnienia bledną!\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:253
+msgid ""
+"\"Etched into the tree a message reads:                                                                                                                                                                                                                              The second is next to the third, oh so pretty like a bird!\""
+msgstr ""
+"\"Wytrawiona na drzewie wiadomość brzmi:                                                                                                                                                                                                                              Druga stoi przed trzecią. Ach, obie niczym ptaki zaraz wzlecą!\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:262
+msgid ""
+"\"Etched into the tree a message reads:                                                                                                                                                                                                                              The third is the first of twenty six, A through Z you'll have to mix!\""
+msgstr ""
+"\"Wytrawiona na drzewie wiadomość brzmi:                                                                                                                                                                                                                              Trzecia jest pierwszą wśród trzydziestu trzech, między A i Ż szukaj, wstrzymując dech!\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:271
+msgid ""
+"\"Etched into the tree a message reads:                                                                                                                                                                                                                              The fifth is twice the second, five letters in all I reckon!\""
+msgstr ""
+"\"Wytrawiona na drzewie wiadomość brzmi:                                                                                                                                                                                                                              Piąta to dwa razy tyle, co druga - wskazówka to mądra, choć niezbyt długa.\""
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:280
+msgid ""
+"\"Etched into the tree a message reads:                                                                                                                                                                                                                              The forth is eight from the end, Archibald really is your friend!\""
+msgstr ""
+"\"Wytrawiona na drzewie wiadomość brzmi:                                                                                                                                                                                                                              Czwarta stoi jako ósma od końca, rzec się ośmielę. Pamiętajcie - Archibald naprawdę jest waszym przyjacielem!\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:286 assets_dev/worlds/mm6/events/maps/cd1.lua:295 assets_dev/worlds/mm6/events/maps/cd1_mmmerge.lua:6
+msgid "Wrong!"
+msgstr "Źle!"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:291
+msgid "\"Who told you!  Alright, you may pass!\""
+msgstr "\"Kto wam powiedział!  Dobrze, możecie przejść!\""
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:300 assets_dev/worlds/mm6/events/maps/cd1_mmmerge.lua:12
+msgid "Ok!"
+msgstr "Dobrze!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:312 assets_dev/worlds/mm6/events/maps/cd1.lua:319 assets_dev/worlds/mm6/events/maps/cd1.lua:323
+#: assets_dev/worlds/mm6/events/maps/cd1_mmmerge.lua:24
+msgid "Restricted area - Keep out."
+msgstr "Teren prywatny - Wstęp wzbroniony."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:313 assets_dev/worlds/mm6/events/maps/cd1.lua:320 assets_dev/worlds/mm6/events/maps/cd1.lua:324
+#: assets_dev/worlds/mm6/events/maps/cd1_mmmerge.lua:25
+msgid "JBARD"
+msgstr "JBARD"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:313 assets_dev/worlds/mm6/events/maps/cd1.lua:320 assets_dev/worlds/mm6/events/maps/cd1.lua:324
+#: assets_dev/worlds/mm6/events/maps/cd1_mmmerge.lua:25
+msgid "What's the password?"
+msgstr "Jak brzmi hasło?"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/cd1.lua:313 assets_dev/worlds/mm6/events/maps/cd1.lua:320 assets_dev/worlds/mm6/events/maps/cd1.lua:324
+#: assets_dev/worlds/mm6/events/maps/cd1_mmmerge.lua:25
+msgid "jbard"
+msgstr "jbard"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:121 assets_dev/worlds/mm6/events/maps/cd2.lua:123
+msgid "Door "
+msgstr "Drzwi "
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:180 assets_dev/worlds/mm6/events/maps/cd2.lua:189 assets_dev/worlds/mm6/events/maps/cd2.lua:198
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:207 assets_dev/worlds/mm6/events/maps/cd2.lua:216 assets_dev/worlds/mm6/events/maps/cd2.lua:228
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:254 assets_dev/worlds/mm6/events/maps/cd2.lua:267 assets_dev/worlds/mm6/events/maps/cd2.lua:279
+msgid "The way has been cleared"
+msgstr "Droga została oczyszczona"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:236
+msgid "The Book of Liches is destroyed"
+msgstr "Księga Liszy jest zniszczona"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:241
+msgid "The Book is destroyed"
+msgstr "Księga jest zniszczony"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:350
+msgid "The fires of the dead shall burn forever"
+msgstr "Ognie umarłych będą płonąć wiecznie"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:412 assets_dev/worlds/mm6/events/maps/cd2.lua:446
+msgid "The crimson embers will lead the way"
+msgstr "Purpurowy żar wskazuje drogę"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:525 assets_dev/worlds/mm6/events/maps/cd2.lua:527
+msgid "Forcefield"
+msgstr "Pole siłowe"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:526
+msgid "Your way is blocked."
+msgstr "Wasza droga jest zablokowana."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:544 assets_dev/worlds/mm6/events/maps/cd2.lua:560 assets_dev/worlds/mm6/events/maps/cd2.lua:576
+#: assets_dev/worlds/mm6/events/maps/cd2_mmmerge.lua:24
+msgid "Steal from the dead?"
+msgstr "Okraść zmarłego?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:545 assets_dev/worlds/mm6/events/maps/cd2.lua:561 assets_dev/worlds/mm6/events/maps/cd2.lua:577
+#: assets_dev/worlds/mm6/events/maps/cd2_mmmerge.lua:25
+msgid "Steal (Yes/No)?"
+msgstr "Okraść (Tak/Nie)?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:545 assets_dev/worlds/mm6/events/maps/cd2.lua:561 assets_dev/worlds/mm6/events/maps/cd2.lua:577
+#: assets_dev/worlds/mm6/events/maps/cd2_mmmerge.lua:25 assets_dev/worlds/mm6/events/maps/cd3.lua:127 assets_dev/worlds/mm6/events/maps/cd3.lua:249
+#: assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:30 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:60
+msgid "Y"
+msgstr "T"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd2.lua:586
+msgid "How Clever!  +20 Skill points"
+msgstr "Sprytnie!  +20 punktów biegłości"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:108 assets_dev/worlds/mm6/events/maps/cd3.lua:131 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:32
+msgid "Guardian of Kriegspire"
+msgstr "Strażnik Kriegspire"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:110 assets_dev/worlds/mm6/events/maps/cd3.lua:115 assets_dev/worlds/mm6/events/maps/cd3.lua:229
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:234 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:11 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:36
+#: assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:42 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:5
+msgid "Get Lost!"
+msgstr "Przepadnij!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:126 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:29
+msgid ""
+"\"The Guardian of Kriegspire proclaims, 'For 50,000 gold, the secret will be revealed!'\""
+msgstr ""
+"\"Strażnik Kriegspire ogłasza, 'Za 50,000 sztuk złota sekret zostanie odkryty!'\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:127 assets_dev/worlds/mm6/events/maps/cd3.lua:249 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:30
+#: assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:60
+msgid "Accept (Yes/No)?"
+msgstr "Zaakceptować (Tak/Nie)?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:227 assets_dev/worlds/mm6/events/maps/cd3.lua:251 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:62
+msgid "Curator of Kriegspire"
+msgstr "Opiekun Kriegspire"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/cd3.lua:248 assets_dev/worlds/mm6/events/maps/cd3_mmmerge.lua:59
+msgid ""
+"\"The Curator of Kriegspire proclaims, 'For 10,000 gold you shall be healed.'\""
+msgstr ""
+"\"Opiekun Kriegspire ogłasza, 'Za 10,000 sztuk złota zostaniecie uzdrowieni.'\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/hive.lua:125
+msgid "Flush system deactivated"
+msgstr "System oczyszczania deaktywowany"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/hive.lua:134
+msgid "Flush system activated."
+msgstr "System oczyszczania aktywny."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/hive.lua:152
+msgid "The Door Won't Budge"
+msgstr "Drzwi ani drgną."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/hive.lua:160
+msgid " +20 Hit Points"
+msgstr " +20 punktów życia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/hive.lua:237
+msgid "Flush sequence complete."
+msgstr "Sekwencja oczyszczania zakończona."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/hive.lua:244
+msgid "Flush sequence in progress."
+msgstr "System oczyszczania w trakcie."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/hive.lua:252 assets_dev/worlds/mm6/events/maps/hive.lua:254
+msgid "Protected"
+msgstr "Ochronione"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/hive.lua:258
+msgid "Warning!  Flush system activated!"
+msgstr "Ostrzeżenie!  System oczyszczania aktywny!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:124 assets_dev/worlds/mm6/events/maps/oracle.lua:372 assets_dev/worlds/mm6/events/maps/oracle.lua:437
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:502
+msgid "Insert Memory module to activate Melian."
+msgstr "Włóż moduł pamięci aby aktywować Meliana."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:278 assets_dev/worlds/mm6/events/maps/oracle.lua:28 assets_dev/worlds/mm6/events/maps/oracle.lua:308
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:34
+msgid "Panel"
+msgstr "Panel"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:292
+msgid "Power on.  Status:  All systems functional."
+msgstr "Moc włączona.  Status:  Wszystkie systemy funkcjonują."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:306
+msgid "Power off.  Status:  All systems shut down."
+msgstr "Moc wyłączona.  Status:  Wszystkie systemy wyłączone."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:32
+msgid "Stand by…"
+msgstr "Odsunąć się…"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:315 assets_dev/worlds/mm6/events/maps/oracle.lua:380 assets_dev/worlds/mm6/events/maps/oracle.lua:445
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:67
+msgid "\"+100,000 Experience\""
+msgstr "\"+100,000 doświadczenia.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:114 assets_dev/worlds/mm6/events/maps/oracle.lua:326 assets_dev/worlds/mm6/events/maps/oracle.lua:362
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:391 assets_dev/worlds/mm6/events/maps/oracle.lua:427 assets_dev/worlds/mm6/events/maps/oracle.lua:456
+#: assets_dev/worlds/mm6/events/maps/oracle.lua:492 assets_dev/worlds/mm6/events/maps/oracle.lua:78
+msgid "Memory module restored."
+msgstr "Moduł pamięci przywrócony"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:43 assets_dev/worlds/mm6/events/maps/outa1.lua:47 assets_dev/worlds/mm6/events/maps/outa1.lua:49
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:63 assets_dev/worlds/mm6/events/maps/outa2.lua:159 assets_dev/worlds/mm6/events/maps/outa2.lua:171
+#: assets_dev/worlds/mm6/events/maps/outa3.lua:40 assets_dev/worlds/mm6/events/maps/outa3.lua:44 assets_dev/worlds/mm6/events/maps/outb1.lua:256
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:266 assets_dev/worlds/mm6/events/maps/outb1.lua:268 assets_dev/worlds/mm6/events/maps/outb1.lua:276
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:278 assets_dev/worlds/mm6/events/maps/outb1.lua:291 assets_dev/worlds/mm6/events/maps/outb2.lua:763
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:774 assets_dev/worlds/mm6/events/maps/outb2.lua:776 assets_dev/worlds/mm6/events/maps/outb2.lua:785
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:787 assets_dev/worlds/mm6/events/maps/outb2.lua:797 assets_dev/worlds/mm6/events/maps/outb3.lua:129
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:142 assets_dev/worlds/mm6/events/maps/outb3.lua:144 assets_dev/worlds/mm6/events/maps/outb3.lua:160
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:162 assets_dev/worlds/mm6/events/maps/outb3.lua:172 assets_dev/worlds/mm6/events/maps/outc1.lua:390
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:399 assets_dev/worlds/mm6/events/maps/outc1.lua:401 assets_dev/worlds/mm6/events/maps/outc1.lua:409
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:411 assets_dev/worlds/mm6/events/maps/outc1.lua:419 assets_dev/worlds/mm6/events/maps/outc1.lua:421
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:429 assets_dev/worlds/mm6/events/maps/outc1.lua:431 assets_dev/worlds/mm6/events/maps/outc1.lua:441
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:443 assets_dev/worlds/mm6/events/maps/outc1.lua:453 assets_dev/worlds/mm6/events/maps/outc2.lua:724
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:734 assets_dev/worlds/mm6/events/maps/outc3.lua:682 assets_dev/worlds/mm6/events/maps/outc3.lua:695
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:448 assets_dev/worlds/mm6/events/maps/outd1.lua:458 assets_dev/worlds/mm6/events/maps/outd1.lua:460
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:463 assets_dev/worlds/mm6/events/maps/outd1.lua:465 assets_dev/worlds/mm6/events/maps/outd1.lua:478
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:480 assets_dev/worlds/mm6/events/maps/outd1.lua:493 assets_dev/worlds/mm6/events/maps/outd2.lua:666
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:679 assets_dev/worlds/mm6/events/maps/outd2.lua:681 assets_dev/worlds/mm6/events/maps/outd2.lua:694
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:373 assets_dev/worlds/mm6/events/maps/outd3.lua:381 assets_dev/worlds/mm6/events/maps/outd3.lua:383
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:388 assets_dev/worlds/mm6/events/maps/outd3.lua:390 assets_dev/worlds/mm6/events/maps/outd3.lua:400
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:528 assets_dev/worlds/mm6/events/maps/oute3.lua:538 assets_dev/worlds/mm6/events/maps/oute3.lua:540
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:550 assets_dev/worlds/mm6/events/maps/oute3.lua:552 assets_dev/worlds/mm6/events/maps/oute3.lua:561
+msgid "Drink from Fountain"
+msgstr "Napij się z fontanny"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:58
+msgid "+50 Seven Statistic temporary."
+msgstr "+50 do siedmiu statystyk tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:65 assets_dev/worlds/mm6/events/maps/outa1.lua:77 assets_dev/worlds/mm6/events/maps/outb1.lua:293
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:305 assets_dev/worlds/mm6/events/maps/outb3.lua:197 assets_dev/worlds/mm6/events/maps/outb3.lua:226
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:717 assets_dev/worlds/mm6/events/maps/outc3.lua:746 assets_dev/worlds/mm6/events/maps/outd2.lua:726
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:738
+msgid "Pedestal"
+msgstr "Piedestał"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa1.lua:99
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            Itotecthothesaip"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                            Niżrskoód_iiu_ło"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa2.lua:162 assets_dev/worlds/mm6/events/maps/outa2.lua:169
+msgid "+100 Power temporary."
+msgstr "+100 do mocy tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa2.lua:179
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            nhrh_aherheatvdi"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             a__acadregemskeg"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa3.lua:42
+msgid "Rejuvination!"
+msgstr "Odnowienie!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outa3.lua:52
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            _etecpe__ersoede"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             _opńhr_ynom_taśę"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:196
+msgid "You are not a follower of Baa.  Begone!"
+msgstr "Nie jesteście wyznawcami Baa. Odejdźcie!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:214 assets_dev/worlds/mm6/events/maps/outb1.lua:216
+msgid "Demon Lair"
+msgstr "Leże demonów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:219
+msgid "You feel Strange."
+msgstr "Dziwnie się czujesz."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:245
+msgid "+30 Level temporary.  Look Out!"
+msgstr "+30 do poziomu tymczasowo.  Uwaga!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:271
+msgid "+40 Armor class temporary."
+msgstr "+40 do klasy pancerza tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:286
+msgid "+5 Elemental resistance permanent."
+msgstr "+5 do odporności na żywioły na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb1.lua:319
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            t_haat_lt__en_lc"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             sdocobc____jam,_"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:222 assets_dev/worlds/mm6/events/maps/outb2.lua:285 assets_dev/worlds/mm6/events/maps/outb2.lua:348
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:411 assets_dev/worlds/mm6/events/maps/outb2.lua:474 assets_dev/worlds/mm6/events/maps/outb2.lua:537
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:600 assets_dev/worlds/mm6/events/maps/outc3.lua:167 assets_dev/worlds/mm6/events/maps/outc3.lua:230
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:293 assets_dev/worlds/mm6/events/maps/outc3.lua:356 assets_dev/worlds/mm6/events/maps/outc3.lua:419
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:482 assets_dev/worlds/mm6/events/maps/outc3.lua:545 assets_dev/worlds/mm6/events/maps/outd2.lua:166
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:241 assets_dev/worlds/mm6/events/maps/outd2.lua:304 assets_dev/worlds/mm6/events/maps/outd2.lua:367
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:430 assets_dev/worlds/mm6/events/maps/outd2.lua:493 assets_dev/worlds/mm6/events/maps/outd2.lua:556
+msgid "No one is here.  The Circus has moved."
+msgstr "Nikogo tu nie ma. Cyrk się przeniósł."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:747
+msgid "+50 Luck temporary."
+msgstr "+50 do szczęścia tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:756
+msgid "+5 Magic resistance permanent."
+msgstr "+5 do odporności na magię na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:769
+msgid "+5 Intellect and Personality permanent."
+msgstr "+5 do intelektu i osobowości na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:780
+msgid "+30 Magic resistance temporary."
+msgstr "+30 do odporności na magię tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:795
+msgid "+50 Spell points restored."
+msgstr "+50 punktów magii przywróconych."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb2.lua:827
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            hd_scawehSfdewee"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             m__ów_iptpSełi_c"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/outb2_1.lua:3
+msgid "Blackshire guard hostility fixup"
+msgstr "Czarne Hrabstwo: poprawka wrogości strażników"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:137
+msgid "+10 Elemental resistance permanent."
+msgstr "+10 do odporności na żywioły na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:155
+msgid "+10 Seven statistics permanent."
+msgstr "+10 do siedmiu statystyk na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:170
+msgid "+50 Hit points temporary."
+msgstr "+50 do punktów życia tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:174 assets_dev/worlds/mm6/events/maps/outb3.lua:195 assets_dev/worlds/mm6/events/maps/outb3_mmmerge.lua:49
+msgid "Shrine of the Gods"
+msgstr "Kapliczka Bogów"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:194 assets_dev/worlds/mm6/events/maps/outb3_mmmerge.lua:48
+msgid "+20 to all stats permanent."
+msgstr "+20 do wszystkich statystyk na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outb3.lua:240
+msgid ""
+"\"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            erbthieaeuu,_o'd\""
+msgstr ""
+"\"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             oppwakęorrłjyezi\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:206 assets_dev/worlds/mm6/events/maps/outc1.lua:207 assets_dev/worlds/mm6/events/maps/outc1.lua:208
+msgid "Rockham/Free Haven"
+msgstr "Rockham/Bezpieczna Przystań"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:372 assets_dev/worlds/mm6/events/maps/outc1.lua:384 assets_dev/worlds/mm6/events/maps/outc2.lua:718
+msgid "Look Out!"
+msgstr "Uwaga!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:394
+msgid "+20 Accuracy and Speed temporary."
+msgstr "+20 do celności i szybkości tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:404
+msgid "+20 Armor class temporary."
+msgstr "+20 do klay pancerza tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:414
+msgid "+10 Level temporary."
+msgstr "+10 do poziomu tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:424
+msgid "+30 Might temporary."
+msgstr "+30 do mocy tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:436
+msgid "+5 Might permanent."
+msgstr "+5 do mocy na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:448
+msgid "+5 Endurance permanent."
+msgstr "+5 do wytrzymałości na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc1.lua:488
+msgid ""
+"\"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            _ay,enis_nn_ans.\""
+msgstr ""
+"\"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             cóó_nażduzo_.ńa_\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:632 assets_dev/worlds/mm6/events/maps/outc2.lua:633 assets_dev/worlds/mm6/events/maps/outc2.lua:634
+msgid "Guild of Water"
+msgstr "Gildia Wody"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:648 assets_dev/worlds/mm6/events/maps/outc2.lua:649 assets_dev/worlds/mm6/events/maps/outc2.lua:650
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:656 assets_dev/worlds/mm6/events/maps/outc2.lua:657 assets_dev/worlds/mm6/events/maps/outc2.lua:658
+msgid "Rockham"
+msgstr "Rockham"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:672 assets_dev/worlds/mm6/events/maps/outc2.lua:673 assets_dev/worlds/mm6/events/maps/outc2.lua:674
+msgid "Whitecap"
+msgstr "Białe Wzgórze"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:732
+msgid "+25 Hit points restored."
+msgstr "+25 punktów życia przywróconych."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:736 assets_dev/worlds/mm6/events/maps/outc2.lua:739 assets_dev/worlds/mm6/events/maps/oute2.lua:395
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:399 assets_dev/worlds/mm6/events/maps/oute2.lua:401 assets_dev/worlds/mm6/events/maps/oute2.lua:403
+msgid "Drink from Trough."
+msgstr "Napij się z koryta."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:738
+msgid "Hic…"
+msgstr "Hik…"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc2.lua:779
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            lg____gtS_cln;__"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             złłwypandeńf__gw"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:690
+msgid "+2 Endurance permenant."
+msgstr "+2 do wytrzymałości na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outc3.lua:760
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            aoflo'h.hbtid_p_"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             enns_iri.dcuPias"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:441
+msgid "+20 Intellect and Personality temporary."
+msgstr "+20 do intelektu i osobowości tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:456
+msgid "+25 Spell points restored."
+msgstr "+25 punktów magii przywrócono."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:462
+msgid "WOW!"
+msgstr "ŁAŁ!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:473
+msgid "+2 Accuracy permanent."
+msgstr "+2 do celności na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:488
+msgid "+2 Speed permanent."
+msgstr "+2 do szybkości na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:517 assets_dev/worlds/mm6/events/maps/outd1.lua:538
+msgid "Circle of Stones"
+msgstr "Kamienny krąg"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:562 assets_dev/worlds/mm6/events/maps/outd1.lua:576 assets_dev/worlds/mm6/events/maps/outd1.lua:590
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:512 assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua:12 assets_dev/worlds/mm6/events/maps/oute1.lua:145
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:673
+msgid "The Sword won't budge!"
+msgstr "Miecz ani drgnie!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd1.lua:609
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            nnaifnt_ieif_tu_"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             joocjtee__ano_dk"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/outd1_1.lua:3
+msgid "Silver Cove guard hostility fixup"
+msgstr "Srebrna Zatoka: poprawka wrogości strażników"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:561 assets_dev/worlds/mm6/events/maps/outd2.lua:562 assets_dev/worlds/mm6/events/maps/outd2.lua:563
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:150 assets_dev/worlds/mm6/events/maps/outd3.lua:151 assets_dev/worlds/mm6/events/maps/outd3.lua:152
+msgid "Ironfist Castle"
+msgstr "Zamek Ironfist"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:565 assets_dev/worlds/mm6/events/maps/outd2.lua:566 assets_dev/worlds/mm6/events/maps/outd2.lua:567
+msgid "Freehaven"
+msgstr "Bezpieczna Przystań"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:569 assets_dev/worlds/mm6/events/maps/outd2.lua:570 assets_dev/worlds/mm6/events/maps/outd2.lua:571
+msgid "Circus (Winter)"
+msgstr "Cyrk (Zima)"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:656
+msgid "+20 Might temporary."
+msgstr "+20 do mocy tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:674
+msgid "+2 Intellect permanent."
+msgstr "+2 do intelektu na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:689
+msgid "+2 Personality permanent."
+msgstr "+2 do osobowości na stałe."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:711 assets_dev/worlds/mm6/events/maps/outd2.lua:724
+msgid "Drink from Fountain of Magic"
+msgstr "Napij się z Fontanny Magii"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:718
+msgid "+20 Spell points restored."
+msgstr "+20 punktów magii przywróconych."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd2.lua:746
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            d_re_e_Hpfotyhz_"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             _ccheamśUS,kdwka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:173 assets_dev/worlds/mm6/events/maps/outd3.lua:192 assets_dev/worlds/mm6/events/maps/outd3.lua:439
+msgid ""
+"The prince has been kidnapped!  No visitors will be admitted until this crisis has been resolved!"
+msgstr ""
+"Książę został porwany!  Żaden odwiedzający nie będzie wpuszczony dopóki kryzys nie zostanie zażegnany!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:185
+msgid ""
+"\"Well, thanks for sneaking me out of the Castle.  Sorry about the circus thing—I hope I wasn’t too much trouble to find.  I’ll go in myself so no one will see that it was you who kidnapped me.  Thanks again, and goodbye.  I’ll remember this, and I owe you a favor! \""
+msgstr ""
+"\"Cóż, dzieki za przemycenie mnie na zewnątrz zamku.  Przepraszam za to zamieszanie z cyrkiem - mam nadzieję, że nie mieliście problemów ze znalezieniem go.  Wrócę sam, żeby nikt nie domyslił się, że to wy mnie porwaliście.  Dzięki jeszcze raz i do zobaczenia.  Zapamiętam to, jestem winien wam przysługę! \""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:376
+msgid "+10 Speed temporary."
+msgstr "+10 do szybkości tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:386
+msgid "+10 Accuracy temporary."
+msgstr "+10 do celności tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:398
+msgid "+10 Hit Points restored."
+msgstr "+10 punktów życia przywróconych."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:419 assets_dev/worlds/mm6/events/maps/outd3.lua:422 assets_dev/worlds/mm6/events/maps/outd3.lua:424
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:426 assets_dev/worlds/mm6/events/maps/outd3.lua:428 assets_dev/worlds/mm6/events/maps/outd3.lua:431
+msgid "Keep Off!"
+msgstr "Nie wchodzić!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:482 assets_dev/worlds/mm6/events/maps/outd3_mmmerge.lua:86
+msgid "All Hit points restored."
+msgstr "Wszystkie punkty życia przywrócone."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/outd3.lua:541
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            _t_staoi_on_oiz_"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             zynósn,ćkt_cnyiz"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/outd3_1.lua:3
+msgid "Castle Ironfist guard hostility fixup"
+msgstr "Zamek Ironfist: poprawka wrogości strażników"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:116 assets_dev/worlds/mm6/events/maps/oute1.lua:127 assets_dev/worlds/mm6/events/maps/oute1.lua:129
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:137 assets_dev/worlds/mm6/events/maps/oute2.lua:350 assets_dev/worlds/mm6/events/maps/oute2.lua:359
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:361 assets_dev/worlds/mm6/events/maps/oute2.lua:370 assets_dev/worlds/mm6/events/maps/oute2.lua:372
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:383
+msgid "Drink from Fountain."
+msgstr "Napij się z fontanny."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:122
+msgid "+20 Elemental resistance temporary."
+msgstr "+20 do odporności na żywioły tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:126 assets_dev/worlds/mm6/events/maps/oute1.lua:136
+msgid "Refreshing"
+msgstr "Orzeźwiające"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:132
+msgid "+20 Magic resistance temporary."
+msgstr "+20 do odporności na magię tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute1.lua:159
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            oon_htfdorstusl_"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             i,ydta__razjig_a"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:172
+msgid "Welcome to Misty Islands"
+msgstr "Witamy na Mglistych Wyspach"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:270 assets_dev/worlds/mm6/events/maps/oute2.lua:281 assets_dev/worlds/mm6/events/maps/oute2.lua:292
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:303 assets_dev/worlds/mm6/events/maps/oute2.lua:314 assets_dev/worlds/mm6/events/maps/oute2.lua:325
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:336 assets_dev/worlds/mm6/events/maps/oute2.lua:347
+msgid "There doesn't seem to be anymore apples."
+msgstr "Nie wygląda na to, żeby były tu jeszcze jakieś jabłka."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:365
+msgid "+10 Intellect and Personality temporary."
+msgstr "+10 do intelektu i osobowości tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:378
+msgid "+5 Elemental resistance temporary."
+msgstr "+5 do odporności na żywioły tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:388
+msgid "+20 Luck temporary."
+msgstr "+20 do szczęścia tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute2.lua:433
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            f_oteh__fe_h__e_"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             e__,__kżytaeerdł"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/oute2_1.lua:3
+msgid "Misty Islands guard hostility fixup"
+msgstr "Mgliste Wyspy: poprawka wrogości strażników"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:121
+msgid "Welcome to New Sorpigal"
+msgstr "Witamy w Nowym Sorpigalu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:359 assets_dev/worlds/mm6/events/maps/oute3.lua:361
+msgid "Rock"
+msgstr "Kamień"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:428 assets_dev/worlds/mm6/events/maps/oute3.lua:439 assets_dev/worlds/mm6/events/maps/oute3.lua:450
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:461 assets_dev/worlds/mm6/events/maps/oute3.lua:472 assets_dev/worlds/mm6/events/maps/oute3.lua:483
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:494 assets_dev/worlds/mm6/events/maps/oute3.lua:505 assets_dev/worlds/mm6/events/maps/oute3.lua:516
+msgid "You pick an apple."
+msgstr "Zerwaliście jabłko."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:536
+msgid "+5 Hit points restored."
+msgstr "Przywrócono 5 punktów życia."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:548
+msgid "+5 Spell points restored."
+msgstr "Przywrócono 5 punktów magii."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:555
+msgid "+10 Might temporary."
+msgstr "+10 do mocy tymczasowo."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:588 assets_dev/worlds/mm6/events/maps/oute3.lua:595 assets_dev/worlds/mm6/events/maps/oute3.lua:602
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:609 assets_dev/worlds/mm6/events/maps/oute3.lua:616 assets_dev/worlds/mm6/events/maps/oute3.lua:623
+msgid ""
+"Your purse feels much lighter as you foolishly throw your money into the well."
+msgstr ""
+"Wasza sakiewka wydaje się dużo lżejsza po tym jak idiotycznie wrzuciliście swoje pieniądze do studni."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/oute3.lua:714
+msgid ""
+"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            _nrh__tf__cehr__"
+msgstr ""
+"Powierzchnia obelisku jest bardzo ciepła w dotyku. Wiadomość znika z oczu, jak tylko odsuwacie dłoń:                                                                                                                                                             mak_sptałkn_śary"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/oute3_1.lua:3
+msgid "New Sorpigal guard hostility fixup"
+msgstr "Nowe Sorpigal: poprawka wrogości strażników"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:101 assets_dev/worlds/mm6/events/maps/pyramid.lua:112
+msgid "Back Door"
+msgstr "Tylne drzwi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:107 assets_dev/worlds/mm6/events/maps/pyramid.lua:240 assets_dev/worlds/mm6/events/maps/pyramid.lua:410
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:423
+msgid "Door won't budge."
+msgstr "Drzwi ani drgną."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:146 assets_dev/worlds/mm6/events/maps/pyramid.lua:153
+msgid "Water Temple"
+msgstr "Wodna Świątynia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:162 assets_dev/worlds/mm6/events/maps/pyramid.lua:166 assets_dev/worlds/mm6/events/maps/pyramid.lua:170
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:174 assets_dev/worlds/mm6/events/maps/pyramid.lua:178 assets_dev/worlds/mm6/events/maps/pyramid.lua:182
+msgid "Radiation Damage!"
+msgstr "Obrażenia popromienne!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:187
+msgid "Crystal Skull absorbs radiation damage."
+msgstr "Kryształowa Czaszka absorbuje obrażenia popromienne."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:190 assets_dev/worlds/mm6/events/maps/pyramid.lua:192 assets_dev/worlds/mm6/events/maps/pyramid.lua:260
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:283 assets_dev/worlds/mm6/events/maps/pyramid.lua:285 assets_dev/worlds/mm6/events/maps/pyramid.lua:308
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:310 assets_dev/worlds/mm6/events/maps/pyramid.lua:333 assets_dev/worlds/mm6/events/maps/pyramid.lua:335
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:358 assets_dev/worlds/mm6/events/maps/pyramid.lua:360 assets_dev/worlds/mm6/events/maps/pyramid.lua:383
+#: assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:46
+msgid "Cleansing Pool"
+msgstr "Zbiornik oczyszczający"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:198
+msgid "Main Power failed.  Emergency power on."
+msgstr "Główne zasilanie padło.  Włączono zasilanie awaryjne."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:216
+msgid "Main Power restored."
+msgstr "Głównie zasilanie przywrócone."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:254
+msgid "Picture"
+msgstr "Obraz"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:280
+msgid "What is the first mate's code?"
+msgstr "Jaki jest kod oficera statku?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:305
+msgid "What is the navigator's code?"
+msgstr "Jaki jest kod nawigatora?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:330
+msgid "What is the communication officer's code?"
+msgstr "Jaki jest kod oficera komunikacji?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:355
+msgid "What is the engineer's code?"
+msgstr "Jaki jest kod inżyniera?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:380
+msgid "What is the doctor's code?"
+msgstr "Jaki jest kod lekarza?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:417 assets_dev/worlds/mm6/events/maps/pyramid.lua:429
+msgid "Flame Door"
+msgstr "Płomienne drzwi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:441 assets_dev/worlds/mm6/events/maps/pyramid.lua:446 assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:120
+msgid "Control Room Entry"
+msgstr "Wejście do Pomieszczenia Kontroli"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:459 assets_dev/worlds/mm6/events/maps/pyramid.lua:476
+msgid "The chest is locked"
+msgstr "Skrzynia jest zamknięte"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:500
+msgid ""
+"Warning!  Sensor array controls are strictly off limits to unauthorized personnel!  Use of the Sign of Sight is restricted to communications technicians only!  A mild electric shock will be transmitted to violators."
+msgstr ""
+"Ostrzeżenie!  Kontrola zestawu sensorów jest całkowicie niedostępna dla nieautoryzowanego personelu!  Użycie Znaku Wzroku jest zastrzeżone tylko dla techników komunikacyjnych!  Umiarkowany wstrząs elektryczny będzie wystrzelony w naruszycieli."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:508
+msgid ""
+"Warning!  Cargo lift controls are strictly off limits to unauthorized personnel!  Use of the Sign of the Scarab is restricted to supply officers only!  A mild electric shock will be transmitted to violators."
+msgstr ""
+"Ostrzeżenie!  Kontrola windy dostawczej jest całkowicie niedostępna dla nieautoryzowanego personelu!  Użycie Znaku Skarabeusza jest zastrzeżone tylko dla oficerów zaopatrzenia!   Umiarkowany wstrząs elektryczny będzie wystrzelony w naruszycieli."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:516
+msgid "The entrance to the central pyramid lies to the South."
+msgstr "Wejście do centralnej piramidy leży na południu."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:532
+msgid "Only the one bearing the key may speak the code."
+msgstr "Tylko ten, który ma klucz może wypowiedzieć kod."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:540
+msgid "The Well of VARN must be keyed last."
+msgstr "Studnia VARNu musi być aktywowana jako ostatnia."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:548
+msgid "Warning!  Power Fluctuations!  Alert Engineering immediately!"
+msgstr "Ostrzeżenie!  Wahanie mocy!  Natychmiast ostrzec Inżynierie!"
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:556
+msgid ""
+"\"In case of energy leak, bathe in one of the medicated pools placed for your safety and convenience.\""
+msgstr ""
+"\"W wypadku wycieku energii, przemyjcie się w jednym z leczniczych zbiorników umieszczonych dla waszego bezpieczeństwa i wygody.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:644
+msgid ""
+"\"With painstaking care, you are able to decipher the message of the hieroglyphs:                                                                                                                                                     Though the Crossing of the Void be a long and arduous journey, the land you find at the end will be sweet and unspoiled by ancestors or the Enemy.  Take heart that your children's children will live in a perfect world free of war, free of famine, and free of fear.  Remember your sacred duty to care for the Ship on her long Voyage and ensure her safe arrival in the Promised Land.  Tend well the Guardian and house it securely away from the ship lest both be lost in a single misfortune.\""
+msgstr ""
+"\"Poświęciwszy wiele uwagi udaje wam się odszyfrować informację zapisaną hieroglifami:                                                                                                                                                     Mimo iż Przeprawa przez Pustkę to długa i nużąca podróż to ziemie na końcu będą wspaniałe i nienaruszone przez przodków i Nieprzyjaciela.  Nabierzcie otuchy, dzieci waszych dzieci będą żyły w idealnym świecie, wolnym od wojen, klęsk i strachu. Pamiętajcie o waszym świętym obowiązku by opiekować się Statkiem podczas tej Podróży i zagwarantować bezpieczne przybycie do Ziemi Obiecanej.  Dbajcie dobrze o strażnika i umieśćcie go bezpiecznie z daleka od statku aby nie zagubił się przypadkiem.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:652
+msgid ""
+"\"With painstaking care, you are able to decipher the message of the hieroglyphs, intermixed with diagrams of devils:                                                                                          Remember our Enemy, children, and never underestimate the danger they pose.  Though you will never see one during your journey, you must be forever vigilant against invasion from the Void once the Voyage has ended.  Mighty beyond words, the Enemy is nonetheless vulnerable after a Crossing, for their numbers are small and their defenses weak.  Use the energy weapons carried on the Ship to defeat them, and never, ever engage the Enemy with lesser weapons, or you will surely perish.\""
+msgstr ""
+"Poświęciwszy wiele uwagi udaje wam się odszyfrować informację zapisaną hieroglifami, wymieszane z diagramami diabłów:                                                                                          Pamiętajcie o naszym Wrogu, dzieci, i nigdy nie umniejszajcie zagrożenia jakie niosą. Mimo, iż nigdy nie zobaczycie żadnego z nich podczas podróży, zawsze musicie zachować czujność w razie inwazji z Pustki, po dotarciu do celu podróży. Nieopisanie potężny, Wróg jest mimo to wrażliwy poza Przeprawą, gdzie ich liczba jest mała, a obrona słaba. Użyjcie broni energetycznej przywiezionej na statku aby pokonać Nieprzyjaciela i nigdy, przenigdy nie angażujcie się w walkę używając słabszych broni, gdyż na pewno zginiecie.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:69 assets_dev/worlds/mm6/events/maps/pyramid.lua:95 assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:87
+msgid "Well of VARN"
+msgstr "Studnia VARNu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:262 assets_dev/worlds/mm6/events/maps/pyramid.lua:287 assets_dev/worlds/mm6/events/maps/pyramid.lua:312
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:337 assets_dev/worlds/mm6/events/maps/pyramid.lua:362 assets_dev/worlds/mm6/events/maps/pyramid.lua:71
+#: assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:14 assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:51
+msgid "Incorrect."
+msgstr "Błędna."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:81 assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:63
+msgid "The waters part."
+msgstr "Wodne części."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:87 assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:78
+msgid "Access Denied.  All codes must be entered first."
+msgstr "Odmowa dostępu.  Najpierw muszą być podane wszystkie kody."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:92 assets_dev/worlds/mm6/events/maps/pyramid_mmmerge.lua:84
+msgid "What is the Captain's code?"
+msgstr "Jaki jest kod kapitana?"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:114 assets_dev/worlds/mm6/events/maps/pyramid.lua:116 assets_dev/worlds/mm6/events/maps/pyramid.lua:122
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:124 assets_dev/worlds/mm6/events/maps/pyramid.lua:126 assets_dev/worlds/mm6/events/maps/pyramid.lua:128
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:142 assets_dev/worlds/mm6/events/maps/pyramid.lua:144 assets_dev/worlds/mm6/events/maps/pyramid.lua:238
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:244 assets_dev/worlds/mm6/events/maps/pyramid.lua:408 assets_dev/worlds/mm6/events/maps/pyramid.lua:415
+#: assets_dev/worlds/mm6/events/maps/pyramid.lua:97 assets_dev/worlds/mm6/events/maps/pyramid.lua:99
+msgid "Picture Door"
+msgstr "Namalowane drzwi"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:220 assets_dev/worlds/mm6/events/maps/sci-fi.lua:222 assets_dev/worlds/mm6/events/maps/sci-fi.lua:224
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:226 assets_dev/worlds/mm6/events/maps/sci-fi.lua:228 assets_dev/worlds/mm6/events/maps/sci-fi.lua:230
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:232 assets_dev/worlds/mm6/events/maps/sci-fi.lua:234 assets_dev/worlds/mm6/events/maps/sci-fi.lua:236
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:238 assets_dev/worlds/mm6/events/maps/sci-fi.lua:240 assets_dev/worlds/mm6/events/maps/sci-fi.lua:244
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:246 assets_dev/worlds/mm6/events/maps/sci-fi.lua:248 assets_dev/worlds/mm6/events/maps/sci-fi.lua:250
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:252 assets_dev/worlds/mm6/events/maps/sci-fi.lua:254 assets_dev/worlds/mm6/events/maps/sci-fi.lua:256
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:554 assets_dev/worlds/mm6/events/maps/sci-fi.lua:556 assets_dev/worlds/mm6/events/maps/sci-fi.lua:558
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:560 assets_dev/worlds/mm6/events/maps/sci-fi.lua:562 assets_dev/worlds/mm6/events/maps/sci-fi.lua:564
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:566 assets_dev/worlds/mm6/events/maps/sci-fi.lua:568 assets_dev/worlds/mm6/events/maps/sci-fi.lua:570
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:572
+msgid "Storage Container"
+msgstr "Kontener z magazynu"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:457 assets_dev/worlds/mm6/events/maps/sci-fi.lua:464 assets_dev/worlds/mm6/events/maps/sci-fi.lua:466
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:473 assets_dev/worlds/mm6/events/maps/sci-fi.lua:475 assets_dev/worlds/mm6/events/maps/sci-fi.lua:482
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:484 assets_dev/worlds/mm6/events/maps/sci-fi.lua:491 assets_dev/worlds/mm6/events/maps/sci-fi.lua:493
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:500 assets_dev/worlds/mm6/events/maps/sci-fi.lua:502 assets_dev/worlds/mm6/events/maps/sci-fi.lua:509
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:511 assets_dev/worlds/mm6/events/maps/sci-fi.lua:518 assets_dev/worlds/mm6/events/maps/sci-fi.lua:520
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:527 assets_dev/worlds/mm6/events/maps/sci-fi.lua:529 assets_dev/worlds/mm6/events/maps/sci-fi.lua:537
+#: assets_dev/worlds/mm6/events/maps/sci-fi_mmmerge.lua:20
+msgid "Computer Terminal"
+msgstr "Terminal komputerowy"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:462
+msgid ""
+"\"Hello and welcome to this self-guided tour of the Varn Planetary Control Facility.  We gladly welcome all visitors.  As you arrive at each key area, be sure to check any of our display screens for more information.  Enjoy your tour!\""
+msgstr ""
+"\"Witamy w tym automatycznym przewodniku po Planetarnym ośrodku kontrolnym klasy VARN. Z radością witamy wszystkich odwiedzających. W każdej kluczowej lokacji sprawdźcie wszystkie z naszych wyświetlanych ekranów po dodatkowe informacje. Życzymy miłej podróży!\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:471
+msgid ""
+"\"This is the main equipment storage and repair facility.  By now, you may have noticed several floating Drone-bots.  They are responsible both for maintaining the key systems of this facility as well as sanitation.  If a unit becomes damaged, it is brought here to be repaired.\""
+msgstr ""
+"\"To jest magazyn z podstawowym wyposażeniem oraz oddział naprawczy. Do teraz prawdopodobnie zauważyliście kilka lewitujących dron. Są one odpowiedzialne zarówno za zarządzanie kluczowymi zasobami systemu tego oddziału a także za warunki sanitarne. Jeśli jakaś jednostka zostanie uszkodzona, jest transportowana tutaj na naprawę.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:480
+msgid ""
+"\"The room to your left is the main meeting hall.  Visiting dignitaries from around the world have feasted at banquets held in their honor.  In fact, it is said that at his 21st birthday party King Sheridan nearly choked to death on a piece of mogred, but was saved by a serving girl who he later married and made his Queen.  Ahh, l’amour.\""
+msgstr ""
+"\"Pomieszczenie po waszej prawej to główna hala spotkań. Odwiedzający dygnitarze z całego świata ucztowali na bankietach na swoją cześć. Po prawdzie, mówi się, że w trakcie swoich 21 urodzin król Sheridan prawie udławił się na śmierć kawałkiem mogreda, ale został uratowany przez służącą, którą później poślubił i uczynił swoją królową.  Ach, ta miłość.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:489
+msgid ""
+"\"Chief Engineer Wilson’s Personal Log.  I have locked myself in Storage Room #6 but currently have no means of escape.  The drone-bots have gone mad and have started killing everyone in sight.  I was able to access the main control terminal on Level Four despite warnings of a hazardous leak, and I sent a distress signal, but since we have not had contact with any of the colonies for several weeks, I do not believe that a rescue is possible.  I have also managed to seal this facility so that the drones can not escape.  It is my hope that the colonists will be able to mount some sort of defense by the time my encryption codes are broken.  Tell Emma I love her.  Wilson out.\""
+msgstr ""
+"\"Osobisty dziennik głównego inżyniera Wilsona.  Zabarykadowałem się w Magazynie #6, ale na razie jestem bez szans na ucieczkę. Drony oszalały i zaczęły zabijać każdego w zasięgu. Udało mi się uzyskać dostęp do głównego terminalu kontrolnego na poziomie czwartym, mimo ostrzeżeń o niebezpieczeństwie wycieku, i wysłałem sygnał o zagrożeniu, ale odkąd straciliśmy kontakt z innymi koloniami kilka tygodni temu, nie wierzę, że ratunek jest możliwy. Zdołałem zapieczętować ten ośrodek aby drony nie mogły się wydostać. Mam nadzieję, że koloniści będą w stanie stworzyć jakąś obronę do czasu aż moje zaszyfrowane kody zostaną złamane. Powiedzcie Emmie, że ją kocham. Koniec wpisu.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:498
+msgid ""
+"\"We apologize for any inconvenience, but we ask that all personnel evacuate the facility at this time.  Please do not be alarmed.  Thank you.\""
+msgstr ""
+"\"Przepraszamy za wszelkie niedogodności, jednak zmuszeni jesteśmy prosić cały personel o ewakuacje ośrodka w tej chwili. Prosimy zachować spokój. Dziękujemy.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:507
+msgid ""
+"\"Before entering the Planetary Reaction Chamber, please request a pair of Safety Goggles from one of our Drones.  During peak hours of operation, this facility can generate enough power to produce a light bright enough to be seen from space.  Please avoid looking directly into the light.\""
+msgstr ""
+"\"Zanim wejdziecie do Komora Generatora Planetarnego, prosimy o odebranie pary gogli ochronnych od jednej z dron. Podczas szczytowych godzin operacji ośrodek może wytwarzać taką moc, która wytwarza światło wystarczająco jasne by mogło być widziane z kosmosu. Prosimy unikać patrzenia bezpośrednio na światło.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:516
+msgid ""
+"\"Alert, environmental controls are offline on Level Four, Sections 18 through 96.  Access restricted to drones until further notice.\""
+msgstr ""
+"\"Alarm, kontrole środowiskowe są wyłączone na poziomie czwartym, sekcje od 18 do 96. Dostep dla dron zastrzeżony dopóki nie nadejdą kolejne informacje.\""
+
+# imported from PL (MMMerge localization)
+# fan text corrected (Claude)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:525
+msgid ""
+"\"Warning, intruder alert, Level Four, Section.  All drones proceed to Level Four to intercept intruders.  Reactor is offline.  Encryption integrity at 2.064%.  Warning, intruder alert, Level Four…\""
+msgstr ""
+"\"Ostrzeżenie, intruzi, poziom czwarty, sekcja. Wszystkie drony mają być wysłane na poziom czwarty aby odeprzeć intruzów. Reaktor jest wyłączony. Zgodność szyfrowania na 2.064%. Ostrzeżenie, intruzi, poziom czwarty…\""
+
+# imported from PL (MMMerge localization)
+# address made plural (Claude)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:535 assets_dev/worlds/mm6/events/maps/sci-fi_mmmerge.lua:16
+msgid ""
+"\"Blaster weapons provide an effective, accurate ranged attack.  To operate the blaster, hold the grip comfortably in your hand, point the barrel at your target, and gently squeeze the trigger.  Should the weapon misfire, do not look into the barrel- give the weapon to an instructor and let them fix the problem.  Never point a blaster at something you do not want to vaporize.\""
+msgstr ""
+"\"Miotacze umożliwiają efektywny i celny atak dystansowy. Aby operować miotaczem, chwyćcie wygodnie rączkę, wycelujcie lufą w cel i delikatnie wciśnijcie spust Jeśli broń się zatnie, nie zaglądajcie do wnętrza lufy - zanieście ją do instruktora i pozwólcie mu naprawić usterkę. Nigdy nie celujcie miotaczem w coś, czego nie chcecie zdezintegrować.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sci-fi.lua:540 assets_dev/worlds/mm6/events/maps/sci-fi.lua:545 assets_dev/worlds/mm6/events/maps/sci-fi.lua:550
+msgid "It's a short circuit!"
+msgstr "To krótkie spięcie!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:108 assets_dev/worlds/mm6/events/maps/sewer.lua:144 assets_dev/worlds/mm6/events/maps/sewer.lua:227
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:231 assets_dev/worlds/mm6/events/maps/sewer.lua:233 assets_dev/worlds/mm6/events/maps/sewer.lua:237
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:239 assets_dev/worlds/mm6/events/maps/sewer.lua:243 assets_dev/worlds/mm6/events/maps/sewer.lua:245
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:249
+msgid "Sewer Grate"
+msgstr "Kratownica kanalizacyjna"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:111 assets_dev/worlds/mm6/events/maps/sewer.lua:132 assets_dev/worlds/mm6/events/maps/sewer.lua:136
+msgid "Something's stashed here!"
+msgstr "Coś tu jest rozbite!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/sewer.lua:95 assets_dev/worlds/mm6/events/maps/sewer.lua:98
+msgid "Torch"
+msgstr "Pochodnia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:24 assets_dev/worlds/mm6/events/maps/zddb03.lua:24
+msgid "You find jerked beef in the sack (+10 food)."
+msgstr "W worku znaleźliście suszoną wołowinę (+10 jedzenia)."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:29 assets_dev/worlds/mm6/events/maps/zddb03.lua:29
+msgid "The sack is empty."
+msgstr "Worek jest pusty."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:32 assets_dev/worlds/mm6/events/maps/zddb02.lua:40 assets_dev/worlds/mm6/events/maps/zddb03.lua:32
+#: assets_dev/worlds/mm6/events/maps/zddb03.lua:40
+msgid "Stew filled bowl."
+msgstr "Miska wypełniona gulaszem."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:34
+msgid "The stew tasts good - you feel better (+5 hits)."
+msgstr "Gulasz jest pyszny - czujesz się lepiej (+5 pż)."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:39 assets_dev/worlds/mm6/events/maps/zddb03.lua:39
+msgid "The bowl is empty."
+msgstr "Miska jest pusta."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:42 assets_dev/worlds/mm6/events/maps/zddb02.lua:44 assets_dev/worlds/mm6/events/maps/zddb03.lua:42
+#: assets_dev/worlds/mm6/events/maps/zddb03.lua:44
+msgid "Crates filled with wood chips."
+msgstr "Skrzynie wypełnione wiórami."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:43 assets_dev/worlds/mm6/events/maps/zddb03.lua:43
+msgid "There is of nothing of value in the crates."
+msgstr "Nie ma nic wartościowego w tych skrzyniach."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:46 assets_dev/worlds/mm6/events/maps/zddb02.lua:54 assets_dev/worlds/mm6/events/maps/zddb03.lua:46
+#: assets_dev/worlds/mm6/events/maps/zddb03.lua:54
+msgid "Mead filled barrel."
+msgstr "Beczka wypełniona miodem."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:48 assets_dev/worlds/mm6/events/maps/zddb03.lua:48
+msgid "You drink the mead and are feeling good."
+msgstr "Pijesz miód i czujesz się bardzo dobrze."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb02.lua:53 assets_dev/worlds/mm6/events/maps/zddb03.lua:53
+msgid "The mead barrel is empty."
+msgstr "Beczka z miodem jest pusta."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb03.lua:34
+msgid "The stew tastes good - you feel better (+5 hits)."
+msgstr "Gulasz jest pyszny - czujesz sięlepiej (+5 pż)."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb04.lua:23 assets_dev/worlds/mm6/events/maps/zddb04.lua:27
+msgid "Bench"
+msgstr "Ławka"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb04.lua:26
+msgid "You find a small wooden dowl."
+msgstr "Znaleźliście mały drewniany kołek."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb05.lua:27
+msgid "The air smells stale and makes you cough."
+msgstr "Powietrze jest stęchłe i wywołuje kaszel."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb05.lua:33
+msgid "Poisonous spores force you back."
+msgstr "Trujące zarodniki powstrzymują was."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb05.lua:39 assets_dev/worlds/mm6/events/maps/zddb05.lua:46
+msgid "Crumbling boulder."
+msgstr "Miażdzący głaz."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb05.lua:41
+msgid "The vent brings in fresh air."
+msgstr "Otwór wentylacyjny wpuszcza świeże powietrze."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb05.lua:48 assets_dev/worlds/mm6/events/maps/zddb05.lua:51
+msgid "Small switch."
+msgstr "Mały przełącznik."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb05.lua:67
+msgid ""
+"\"A small nymph comes out of a hole in the floor thanking you for clearing the spores, he shakes your hand vigorously then disappears down the hole (which somehow disappears after him). +500 experience.\""
+msgstr ""
+"\"Mała nimfa wychodzi z dziury w podłodze, dziękuje wam za oczyszczenie zarodników, potrząsa energicznie waszymi dłońmi a nastepęnie znika w dziurze (która to jakimś cudem znika zaraz za nią). +500 punktów doświadczenia.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:130 assets_dev/worlds/mm6/events/maps/zddb06.lua:132
+msgid "Boulders."
+msgstr "Głazy."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:131
+msgid "This cave-in blocks any further access into the mine."
+msgstr "Te zapadnięte bloki blokują dalszy dostęp do kopalni."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:136 assets_dev/worlds/mm6/events/maps/zddb06.lua:149
+msgid "Small rocks and debris fall from above. "
+msgstr "Małe skały i odłamki spadają z góry. "
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:30 assets_dev/worlds/mm6/events/maps/zddb06.lua:58 assets_dev/worlds/mm6/events/maps/zddb06.lua:60
+msgid "Looks like an earthquake hit this mine."
+msgstr "Wygląda na to, że tę kopalnię dotknęło trzęsienie ziemi."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:34
+msgid "The mine shakes and shifts around you."
+msgstr "Kopalnia drży i osypuje się wokół was."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:38 assets_dev/worlds/mm6/events/maps/zddb06.lua:46 assets_dev/worlds/mm6/events/maps/zddb06.lua:48
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:56
+msgid "Water filled barrel."
+msgstr "Beczka wypełniona wodą."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:40 assets_dev/worlds/mm6/events/maps/zddb06.lua:50
+msgid "Even though the water is dirty it still refreshes."
+msgstr "Mimo iż woda jest brudna, dalej jest odświeżająca."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:45 assets_dev/worlds/mm6/events/maps/zddb06.lua:55
+msgid "The dirty water leaves a bad taste in your mouth."
+msgstr "Brudna woda pozostawia ochydny smak w waszych ustach."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:59
+msgid "The doors seem stuck."
+msgstr "Drzwi zdają się zablokowane."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:64
+msgid "As you pull the lever rocks fall from above."
+msgstr "Jak tylko poruszacie dźwignią, skały spadają z góry."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:143 assets_dev/worlds/mm6/events/maps/zddb06.lua:156 assets_dev/worlds/mm6/events/maps/zddb06.lua:72
+msgid "You were fast enough to dodge the bigger rocks."
+msgstr "Byliście wystarczająco szybcy, aby uniknąć większych skał."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:76
+msgid "The switch is locked in place."
+msgstr "Przełącznik jest zablokowany w miejscu."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:111 assets_dev/worlds/mm6/events/maps/zddb06.lua:113 assets_dev/worlds/mm6/events/maps/zddb06.lua:128
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:79 assets_dev/worlds/mm6/events/maps/zddb06.lua:94 assets_dev/worlds/mm6/events/maps/zddb06.lua:96
+msgid "Mine"
+msgstr "Kopalnia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:100 assets_dev/worlds/mm6/events/maps/zddb06.lua:117 assets_dev/worlds/mm6/events/maps/zddb06.lua:83
+msgid "You mine the gold with no problem."
+msgstr "Bez problemu wydobywacie złoto."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:103 assets_dev/worlds/mm6/events/maps/zddb06.lua:120 assets_dev/worlds/mm6/events/maps/zddb06.lua:86
+msgid "Some loose debris overhead falls on you."
+msgstr "Parę luźnych odpadków z góry spada na was."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb06.lua:110 assets_dev/worlds/mm6/events/maps/zddb06.lua:127 assets_dev/worlds/mm6/events/maps/zddb06.lua:93
+msgid "The vein dried up."
+msgstr "Żyła się skończyła."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:102
+msgid "Hundreds of snakes crawl out of the floor and bite you."
+msgstr "Setki węży wydostaje się z podłogi i gryzie was."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:108
+msgid "A voice hisses -Walk the path of the snake-."
+msgstr "Głos syczy -Kroczcie ścieżką węża-."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:121
+msgid ""
+"\"A voice whispers -I am the spirit of the swamp, congratulations, take what you may and leave in peace-\""
+msgstr ""
+"\"Głos szepcze -Jestem duchem bagna, gratulacje, weźcie po co przyszliście i odejdźcie w pokoju-\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:29
+msgid "There is a strong smell of gas pervading the air."
+msgstr "Mocny zapach gazu rozprzestrzenia się w powietrzu."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:33 assets_dev/worlds/mm6/events/maps/zddb07.lua:41
+msgid "Small glittering pool."
+msgstr "Mała świecąca sadzawka."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:35
+msgid "The water cools you down."
+msgstr "Woda was ochładza."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:40
+msgid "\"You drink the water, with no effect.\""
+msgstr "\"Pijesz wodę, ale nie odczuwasz żadnego efetku.\""
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:43 assets_dev/worlds/mm6/events/maps/zddb07.lua:78 assets_dev/worlds/mm6/events/maps/zddb10.lua:54
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:58 assets_dev/worlds/mm6/events/maps/zddb10.lua:60 assets_dev/worlds/mm6/events/maps/zddb10.lua:64
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:74 assets_dev/worlds/mm6/events/maps/zddb10.lua:80
+msgid "Switch."
+msgstr "Przełącznik."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:45
+msgid "The torches Ignite and so does the swamp gas."
+msgstr "Pochodnie zapalają się, tak samo jak gaz błotny."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:77
+msgid "The switch does not work."
+msgstr "Przełącznik nie działa."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb07.lua:82 assets_dev/worlds/mm6/events/maps/zddb07.lua:89 assets_dev/worlds/mm6/events/maps/zddb07.lua:96
+msgid "Swamp gas forces you back couching and gagging."
+msgstr "Bagienne opary zmuszają was do odwrotu, przykulonch i we mdłościach."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:133 assets_dev/worlds/mm6/events/maps/zddb08.lua:727
+msgid "Table with implements atop."
+msgstr "Stół z przyrządami na blacie."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:150 assets_dev/worlds/mm6/events/maps/zddb08.lua:181 assets_dev/worlds/mm6/events/maps/zddb08.lua:212
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:243 assets_dev/worlds/mm6/events/maps/zddb08.lua:274 assets_dev/worlds/mm6/events/maps/zddb08.lua:305
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:336 assets_dev/worlds/mm6/events/maps/zddb08.lua:367 assets_dev/worlds/mm6/events/maps/zddb08.lua:398
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:429 assets_dev/worlds/mm6/events/maps/zddb08.lua:460 assets_dev/worlds/mm6/events/maps/zddb08.lua:491
+msgid "You refine the crystal you harvested (+200 to its value)."
+msgstr "Oczyszczacie kryształ, który zdobyliście (+200 do jego wartości)."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:37 assets_dev/worlds/mm6/events/maps/zddb08.lua:39
+msgid "Shard filled caskets."
+msgstr "Wypełnione odłamkami szkatułki."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:38
+msgid "Barrel is filled with crystal shards (worthless)."
+msgstr "Beczka jest wypełniona kryształowymi odłamkami (bezwartościowe)."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:41 assets_dev/worlds/mm6/events/maps/zddb08.lua:43
+msgid "Sacks."
+msgstr "Torby."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:42
+msgid "The sacks are filled with flawed crystal shards (worthless)."
+msgstr ""
+"Torby są wypełnione wadliwymi kryształowymi odłamkami (bezwartościowe)."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:101 assets_dev/worlds/mm6/events/maps/zddb08.lua:107 assets_dev/worlds/mm6/events/maps/zddb08.lua:109
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:115 assets_dev/worlds/mm6/events/maps/zddb08.lua:117 assets_dev/worlds/mm6/events/maps/zddb08.lua:123
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:125 assets_dev/worlds/mm6/events/maps/zddb08.lua:131 assets_dev/worlds/mm6/events/maps/zddb08.lua:45
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:51 assets_dev/worlds/mm6/events/maps/zddb08.lua:53 assets_dev/worlds/mm6/events/maps/zddb08.lua:59
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:61 assets_dev/worlds/mm6/events/maps/zddb08.lua:67 assets_dev/worlds/mm6/events/maps/zddb08.lua:69
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:729 assets_dev/worlds/mm6/events/maps/zddb08.lua:732 assets_dev/worlds/mm6/events/maps/zddb08.lua:749
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:75 assets_dev/worlds/mm6/events/maps/zddb08.lua:755 assets_dev/worlds/mm6/events/maps/zddb08.lua:77
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:83 assets_dev/worlds/mm6/events/maps/zddb08.lua:85 assets_dev/worlds/mm6/events/maps/zddb08.lua:91
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:93 assets_dev/worlds/mm6/events/maps/zddb08.lua:99
+msgid "Crystal."
+msgstr "Kryształ."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:103 assets_dev/worlds/mm6/events/maps/zddb08.lua:111 assets_dev/worlds/mm6/events/maps/zddb08.lua:119
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:127 assets_dev/worlds/mm6/events/maps/zddb08.lua:47 assets_dev/worlds/mm6/events/maps/zddb08.lua:55
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:63 assets_dev/worlds/mm6/events/maps/zddb08.lua:71 assets_dev/worlds/mm6/events/maps/zddb08.lua:751
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:79 assets_dev/worlds/mm6/events/maps/zddb08.lua:87 assets_dev/worlds/mm6/events/maps/zddb08.lua:95
+msgid "You mine the crystal in its raw form (+300 gold)."
+msgstr "Wydobywacie kryształ w jego surowej formie (+300 sztuk złota)."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:515
+msgid "You see a scattered of refining tools and small crystal shavings."
+msgstr ""
+"Widzicie rozrzucone narzędzia do oczyszczania i małe krystaliczne wióry."
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:730
+msgid " This razor sharp crystal is too immature to harvest."
+msgstr ""
+" Ten ostry jak brzytwa kryształ jest jeszcze zbyt niedojrzały, żeby go zebrać."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:736
+msgid "Someone has gone to a lot of trouble carving all these murals"
+msgstr "Ktoś nabawił się sporych kłopotów rzeźbiąc te wszystkie freski"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:740 assets_dev/worlds/mm6/events/maps/zddb08.lua:743
+msgid "Carved mural."
+msgstr "Rzeźbiony fresk."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:741
+msgid "You study the mural and get a good feeling inside."
+msgstr "Oglądacie fresk i czujecie się miło."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb08.lua:746
+msgid "The cabinet is filled with old and broken harvesting tools."
+msgstr ""
+"Szafka jest wypełniona starymi i zniszczonymi narzędziami do zbierania."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:105 assets_dev/worlds/mm6/events/maps/zddb10.lua:107 assets_dev/worlds/mm6/events/maps/zddb10.lua:109
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:111
+msgid "Chest."
+msgstr "Skrzynia."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:119
+msgid "You get a bad feeling from the bones."
+msgstr "Macie złe odczucie co do tych kości."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:124 assets_dev/worlds/mm6/events/maps/zddb10.lua:126
+msgid "Iron Maiden"
+msgstr "Żelazna Dziewica"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:125
+msgid "There's nothing but spikes in the Iron maiden."
+msgstr "Nie ma tu nic poza kolcami w żelaznej dziewicy."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:128 assets_dev/worlds/mm6/events/maps/zddb10.lua:140 assets_dev/worlds/mm6/events/maps/zddb10.lua:142
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:155 assets_dev/worlds/mm6/events/maps/zddb10.lua:157 assets_dev/worlds/mm6/events/maps/zddb10.lua:169
+msgid "Button"
+msgstr "Przycisk"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:175 assets_dev/worlds/mm6/events/maps/zddb10.lua:199 assets_dev/worlds/mm6/events/maps/zddb10.lua:294
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:313 assets_dev/worlds/mm6/events/maps/zddb10.lua:332 assets_dev/worlds/mm6/events/maps/zddb10.lua:351
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:370 assets_dev/worlds/mm6/events/maps/zddb10.lua:389 assets_dev/worlds/mm6/events/maps/zddb10.lua:408
+msgid "You search the Burial niche and find some gold."
+msgstr "Przeszukujecie miejsce pochówku i znajdujecie trochę złota."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:178 assets_dev/worlds/mm6/events/maps/zddb10.lua:210 assets_dev/worlds/mm6/events/maps/zddb10.lua:297
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:316 assets_dev/worlds/mm6/events/maps/zddb10.lua:335 assets_dev/worlds/mm6/events/maps/zddb10.lua:354
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:373 assets_dev/worlds/mm6/events/maps/zddb10.lua:392 assets_dev/worlds/mm6/events/maps/zddb10.lua:411
+msgid "The bones seems to charge with electricity !!."
+msgstr "Kości zdają się być naładowane elektrycznością !!."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:181 assets_dev/worlds/mm6/events/maps/zddb10.lua:221 assets_dev/worlds/mm6/events/maps/zddb10.lua:300
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:319 assets_dev/worlds/mm6/events/maps/zddb10.lua:338 assets_dev/worlds/mm6/events/maps/zddb10.lua:357
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:376 assets_dev/worlds/mm6/events/maps/zddb10.lua:395 assets_dev/worlds/mm6/events/maps/zddb10.lua:414
+msgid "These are really old bones...really old."
+msgstr "To są bardzo stare kości...na prawdę stare."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:184 assets_dev/worlds/mm6/events/maps/zddb10.lua:236 assets_dev/worlds/mm6/events/maps/zddb10.lua:303
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:322 assets_dev/worlds/mm6/events/maps/zddb10.lua:341 assets_dev/worlds/mm6/events/maps/zddb10.lua:360
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:379 assets_dev/worlds/mm6/events/maps/zddb10.lua:398 assets_dev/worlds/mm6/events/maps/zddb10.lua:417
+msgid "You gain knowledge from these ancient bones."
+msgstr "Dzięki tym kościom zdobywacie wiedzę."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:423 assets_dev/worlds/mm6/events/maps/zddb10.lua:428
+msgid "Long dead adventurer."
+msgstr "Długo martwy poszukiwać przygód."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:425
+msgid "You search the body and find some gold."
+msgstr "Przeszukujecie ciało i znajdujecie trochę złota."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:430 assets_dev/worlds/mm6/events/maps/zddb10.lua:433
+msgid "Skeleton in a cage."
+msgstr "Szkielet w klace."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:431
+msgid "The skeleton grabs for you."
+msgstr "Szkielet przyciąga waszą uwagę."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:436
+msgid "A strange force reaches out of the wall and grabs you."
+msgstr "Dziwna moc dochodzi ze ściany i przykuwa waszą uwagę."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:450 assets_dev/worlds/mm6/events/maps/zddb10.lua:457 assets_dev/worlds/mm6/events/maps/zddb10.lua:464
+msgid "You find some half decent food in the sack."
+msgstr "W worku znajdujecie trochę w miarę dobrego jedzenia."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:477
+msgid "A scrawled message on the brick reads   2=1  3=2  1=3"
+msgstr "Na cegle nagryzmolono wiadomość:   2=1  3=2  1=3"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:55 assets_dev/worlds/mm6/events/maps/zddb10.lua:61
+msgid "With some muscle you move the switch down."
+msgstr "Przy odrobinie wysiłku poruszasz przełącznik."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:66 assets_dev/worlds/mm6/events/maps/zddb10.lua:68
+msgid "Crates."
+msgstr "Skrzynie."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:67
+msgid "The crates are all empty."
+msgstr "Wszystkie skrzynie są puste."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:76
+msgid "You flip the switch and hear grating off in the distance."
+msgstr "Wciskacie przełącznik i słyszycie unoszącą się kratę w oddali."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:118 assets_dev/worlds/mm6/events/maps/zddb10.lua:122 assets_dev/worlds/mm6/events/maps/zddb10.lua:82
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:84
+msgid "Old bones."
+msgstr "Stare kości."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:100 assets_dev/worlds/mm6/events/maps/zddb10.lua:103 assets_dev/worlds/mm6/events/maps/zddb10.lua:86
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:93 assets_dev/worlds/mm6/events/maps/zddb10.lua:95 assets_dev/worlds/mm6/events/maps/zddb10.lua:98
+msgid "Wall with missing bricks."
+msgstr "Mur z brakującymi cegłami."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zddb10.lua:101 assets_dev/worlds/mm6/events/maps/zddb10.lua:91 assets_dev/worlds/mm6/events/maps/zddb10.lua:96
+msgid "Something slimey moves behind this brick wall."
+msgstr "Coś porusza się słabo za tym ceglanym murem."
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/zdtl01.lua:34 assets_dev/worlds/mm6/events/maps/zdtl01.lua:36
+msgid "Dresser"
+msgstr "Kredens"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:374 assets_dev/worlds/mm6/events/maps/znwc.lua:401
+msgid "Shelves"
+msgstr "Półki"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:377 assets_dev/worlds/mm6/events/maps/znwc.lua:408 assets_dev/worlds/mm6/events/maps/znwc.lua:486
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:507 assets_dev/worlds/mm6/events/maps/znwc.lua:541 assets_dev/worlds/mm6/events/maps/znwc.lua:548
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:556 assets_dev/worlds/mm6/events/maps/znwc.lua:568
+msgid "You found something!"
+msgstr "Znaleźliście coś!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:403 assets_dev/worlds/mm6/events/maps/znwc.lua:453
+msgid "Potions for sale"
+msgstr "Mikstury na sprzedaż"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:405
+msgid "Not enough gold"
+msgstr "Za mało złota"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:455 assets_dev/worlds/mm6/events/maps/znwc.lua:477
+msgid "Pantry"
+msgstr "Spiżarnia"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:467
+msgid "Bad Food!"
+msgstr "Złe jedzenie!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:471
+msgid "Hic!"
+msgstr "Hik!"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:479 assets_dev/worlds/mm6/events/maps/znwc.lua:481
+msgid "Counter"
+msgstr "Lada"
+
+# imported from PL (MMMerge localization)
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:504 assets_dev/worlds/mm6/events/maps/znwc.lua:524 assets_dev/worlds/mm6/events/maps/znwc.lua:538
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:543 assets_dev/worlds/mm6/events/maps/znwc.lua:545 assets_dev/worlds/mm6/events/maps/znwc.lua:550
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:552 assets_dev/worlds/mm6/events/maps/znwc.lua:554 assets_dev/worlds/mm6/events/maps/znwc.lua:559
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:561 assets_dev/worlds/mm6/events/maps/znwc.lua:563 assets_dev/worlds/mm6/events/maps/znwc.lua:565
+#: assets_dev/worlds/mm6/events/maps/znwc.lua:569
+msgid "Desk"
+msgstr "Biurko"
+
+# machine translation (Claude), review
+#: assets_dev/worlds/mm6/world.yml:17
+msgid ""
+"The Kreegan Hive lies in ruins and the demons who preyed on Enroth are broken. The kingdom of the Ironfists can heal at last, and its people will long remember the heroes who walked into the heart of the Hive and returned."
+msgstr ""
+"Ul Kreegan leży w gruzach, a demony, które żerowały na Enroth, zostały rozbite. Królestwo Ironfistów może wreszcie się uleczyć, a jego mieszkańcy długo będą pamiętać bohaterów, którzy weszli do samego serca Ula i powrócili."
+
+# machine translation (Claude), review
+#~ msgid "Nicolai Kidnap"
+#~ msgstr "Porwanie Nicolaia"
+
+# machine translation (Claude), review
+#~ msgid "Dragon Tower"
+#~ msgstr "Smocza Wieża"

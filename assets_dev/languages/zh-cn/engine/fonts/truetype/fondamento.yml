@@ -1,0 +1,10 @@
+# 中文字体：霞鹜文楷（OFL）。logical_height/baseline 与原英文字体一致，glyph_scale 让汉字字形缩小以匹配拉丁字母的视觉高度。
+file: lxgwwenkai.ttf
+metrics: freetype
+logical_height: 32
+baseline: 25
+glyph_scale: 0.86
+encoding: utf-8
+characters_file: lxgwwenkai.charset.txt
+# Large text (the main menu title) is drawn magnified from 64 px atlases: 3,400 glyphs at 96 px take 150 MB.
+max_raster_height: 64
