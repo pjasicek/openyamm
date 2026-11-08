@@ -9375,7 +9375,8 @@ int Party::food() const
 
 bool Party::arcomageTavernCountsForChampion(uint32_t houseId)
 {
-    return houseId <= LastMm8ArcomageHouseId || houseId >= FirstMm7ArcomageHouseId;
+    return (houseId >= FirstMm8ArcomageHouseId && houseId <= LastMm8ArcomageHouseId)
+        || (houseId >= FirstMm7ArcomageHouseId && houseId <= LastMm7ArcomageHouseId);
 }
 
 void Party::recordArcomageWin(uint32_t houseId, int goldReward, uint32_t firstWinAwardId)
