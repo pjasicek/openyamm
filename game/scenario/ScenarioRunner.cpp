@@ -10112,6 +10112,13 @@ bool assertActorVisible(
     };
     success = checkRuntimeField("current_hp", std::to_string(inspectState.currentHp)) && success;
     success = checkRuntimeField("max_hp", std::to_string(inspectState.maxHp)) && success;
+    success = checkRuntimeField("spell1", inspectState.spell1Name) && success;
+    success = checkRuntimeField("spell2", inspectState.spell2Name) && success;
+    success = checkRuntimeField("spell1_skill", std::to_string(inspectState.spell1SkillLevel)) && success;
+    success = checkRuntimeField("spell2_skill", std::to_string(inspectState.spell2SkillLevel)) && success;
+    success = checkRuntimeField("spell1_mastery", std::to_string(int(inspectState.spell1SkillMastery))) && success;
+    success = checkRuntimeField("spell2_mastery", std::to_string(int(inspectState.spell2SkillMastery))) && success;
+    success = checkRuntimeField("heroism", boolText(inspectState.heroismRemainingSeconds > 0)) && success;
 
     for (const char *pKey : {"hostile_to_party", "has_detected_party", "combat_targeting_party"})
     {

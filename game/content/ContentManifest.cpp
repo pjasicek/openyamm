@@ -115,6 +115,16 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
     manifest.id = normalizeWorldId(scalarStringOrDefault(root, "id", manifest.id));
     manifest.name = scalarStringOrDefault(root, "name", manifest.name);
     manifest.sourceGame = scalarStringOrDefault(root, "sourceGame", manifest.sourceGame);
+    if (root["actorProfiles"])
+    {
+        if (!root["actorProfiles"].IsScalar()
+            || !isSafePackageRelativePath(root["actorProfiles"].as<std::string>()))
+        {
+            errorMessage = "world.yml actorProfiles must be a relative path inside the world package";
+            return false;
+        }
+        manifest.actorProfilesPath = root["actorProfiles"].as<std::string>();
+    }
     manifest.contentSchemaVersion = scalarUint32OrDefault(root, "contentSchemaVersion", 1);
 
     if (manifest.contentSchemaVersion == 0)

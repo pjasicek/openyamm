@@ -1645,3 +1645,85 @@ TEST_CASE("saves keep a solo character's bag tags past the eighth bag (OY-344)")
     CHECK_EQ(restored->party.members[0].rulesetState.craftingBags, 1u << 20);
     CHECK_EQ(restored->party.members[0].rulesetState.alchemyBags, 1u << 24);
 }
+
+TEST_CASE("save format 173 keeps actor profiles with the last outdoor map and wide bag tags")
+{
+    using namespace OpenYAMM::Game;
+    GameSaveData save = minimalSave();
+    save.party.lastOutdoorMapFileName = "7out02.odm";
+    Character member;
+    member.name = "Merge regression";
+    member.rulesetState.craftingBags = 1u << 20;
+    member.rulesetState.alchemyBags = 1u << 24;
+    save.party.members.push_back(member);
+    save.hasOutdoorRuntimeState = true;
+    OutdoorWorldRuntime::MapActorState outdoor;
+    outdoor.actorProfile = "mm7.test_heroism_caster";
+    save.outdoorWorld.mapActors.push_back(outdoor);
+    save.hasIndoorSceneState = true;
+    save.indoorScene.mapDeltaData = MapDeltaData{};
+    MapDeltaActor indoor;
+    indoor.actorProfile = "mm7.test_troll_geomancer";
+    save.indoorScene.mapDeltaData->actors.push_back(indoor);
+    std::string error;
+    const auto loaded = roundTrip(save, error);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    CHECK_EQ(loaded->sourceSaveVersion, 173u);
+    CHECK_EQ(loaded->party.lastOutdoorMapFileName, "7out02.odm");
+    REQUIRE_EQ(loaded->party.members.size(), 1u);
+    CHECK_EQ(loaded->party.members[0].rulesetState.craftingBags, 1u << 20);
+    CHECK_EQ(loaded->party.members[0].rulesetState.alchemyBags, 1u << 24);
+    REQUIRE_EQ(loaded->outdoorWorld.mapActors.size(), 1u);
+    CHECK_EQ(loaded->outdoorWorld.mapActors[0].actorProfile, "mm7.test_heroism_caster");
+    REQUIRE(loaded->indoorScene.mapDeltaData.has_value());
+    REQUIRE_EQ(loaded->indoorScene.mapDeltaData->actors.size(), 1u);
+    CHECK_EQ(loaded->indoorScene.mapDeltaData->actors[0].actorProfile, "mm7.test_troll_geomancer");
+}
+
+TEST_CASE("save format 172 reads actor records without actor profile fields")
+{
+    using namespace OpenYAMM::Game;
+    GameSaveData save = minimalSave();
+    save.party.lastOutdoorMapFileName = "7out01.odm";
+    Character member;
+    member.name = "Upstream";
+    member.rulesetState.alchemyBags = 1u << 24;
+    save.party.members.push_back(member);
+    save.hasOutdoorRuntimeState = true;
+    OutdoorWorldRuntime::MapActorState outdoor;
+    outdoor.actorProfile = "format173_outdoor_marker";
+    save.outdoorWorld.mapActors.push_back(outdoor);
+    save.hasIndoorSceneState = true;
+    save.indoorScene.mapDeltaData = MapDeltaData{};
+    MapDeltaActor indoor;
+    indoor.actorProfile = "format173_indoor_marker";
+    save.indoorScene.mapDeltaData->actors.push_back(indoor);
+    const auto path = makeTemporaryRoot("upstream172").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(saveGameDataToPath(path, save, error), error);
+    auto bytes = readBytes(path);
+    // Version 173 differs from 172 only by these two actor profile strings in this fixture.
+    for (const std::string marker : {outdoor.actorProfile, indoor.actorProfile})
+    {
+        const auto found = std::search(bytes.begin(), bytes.end(), marker.begin(), marker.end());
+        REQUIRE(found != bytes.end());
+        const auto offset = size_t(found-bytes.begin());
+        REQUIRE_GE(offset, sizeof(uint64_t));
+        eraseBytes(bytes, offset-sizeof(uint64_t), sizeof(uint64_t)+marker.size());
+    }
+    const uint32_t version = 172;
+    std::memcpy(bytes.data()+8, &version, sizeof(version));
+    writeBytes(path, bytes);
+    const auto loaded = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    CHECK_EQ(loaded->sourceSaveVersion, 172u);
+    CHECK_EQ(loaded->party.lastOutdoorMapFileName, "7out01.odm");
+    REQUIRE_EQ(loaded->party.members.size(), 1u);
+    CHECK_EQ(loaded->party.members[0].rulesetState.alchemyBags, 1u << 24);
+    REQUIRE_EQ(loaded->outdoorWorld.mapActors.size(), 1u);
+    CHECK(loaded->outdoorWorld.mapActors[0].actorProfile.empty());
+    REQUIRE(loaded->indoorScene.mapDeltaData.has_value());
+    REQUIRE_EQ(loaded->indoorScene.mapDeltaData->actors.size(), 1u);
+    CHECK(loaded->indoorScene.mapDeltaData->actors[0].actorProfile.empty());
+}

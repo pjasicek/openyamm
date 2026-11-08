@@ -45,6 +45,7 @@ struct MapDeltaLocationTime
 struct MapDeltaActor
 {
     std::string name;
+    std::string actorProfile;
     int16_t npcId = 0;
     int32_t mm9RudeId = 0;
     uint32_t mm9SourceObjectIndex = 0;

@@ -561,6 +561,7 @@ endif()
 add_test(NAME openyamm_unit_tests COMMAND openyamm_unit_tests)
 
 add_executable(openyamm_runtime_tests
+    ActorProfileTests.cpp
     UnitTestMain.cpp
     RegressionGameData.cpp
     NewGameScreenTests.cpp

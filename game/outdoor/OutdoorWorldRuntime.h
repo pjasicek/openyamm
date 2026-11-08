@@ -224,6 +224,7 @@ public:
 
     struct MapActorState
     {
+        std::string actorProfile;
         uint32_t actorId = 0;
         // The monster that last hit it; it fights that one back (not saved).
         std::optional<uint32_t> lastActorAttackerId;

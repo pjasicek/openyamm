@@ -1569,6 +1569,7 @@ bool parseOutdoorActor(
         || !readScalarNode(actorNode, "mm9_guard", actor.mm9Guard, errorMessage, false)
             || !readScalarNode(actorNode, "draw_scale", actor.drawScale, errorMessage, false)
         || !readScalarNode(actorNode, "initial_yaw_units", actor.initialYawUnits, errorMessage, false)
+        || !readScalarNode(actorNode, "actor_profile", actor.actorProfile, errorMessage, false)
         || !readScalarNode(actorNode, "immobile", actor.immobile, errorMessage, false)
         || !readScalarNode(actorNode, "leash_radius", actor.leashRadius, errorMessage, false)
         || !readScalarNode(actorNode, "dormant", actor.dormant, errorMessage, false)

@@ -22,7 +22,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 172;
+constexpr uint32_t SaveVersion = 173;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -289,6 +289,8 @@ constexpr uint32_t SaveVersionIndoorArmageddon = 170;
 constexpr uint32_t SaveVersionSpriteObjectKeys = 171;
 // RulesetOptions::otherWorldsLoot; older games keep loot from every world.
 constexpr uint32_t SaveVersionOtherWorldsLoot = 172;
+// Actors' world-declared profiles (devdocs/ACTOR_PROFILES.md).
+constexpr uint32_t SaveVersionActorProfiles = 173;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -3535,6 +3537,7 @@ void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
     writeValue(writer, value.mm9Ai);
     writeValue(writer, value.drawScale);
     writeValue(writer, value.posed);
+    writeValue(writer, value.actorProfile);
 }
 
 bool readHitPoints(BinaryReader &reader, int32_t &value)
@@ -3632,7 +3635,8 @@ bool readValue(BinaryReader &reader, MapDeltaActor &value)
         && (reader.version() < SaveVersionActorPatrol || readValue(reader, value.patrolPoints))
         && (reader.version() < SaveVersionActorMm9AiPlacement || readValue(reader, value.mm9Ai))
         && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
-        && (reader.version() < SaveVersionActorPosed || readValue(reader, value.posed));
+        && (reader.version() < SaveVersionActorPosed || readValue(reader, value.posed))
+        && (reader.version() < SaveVersionActorProfiles || readValue(reader, value.actorProfile));
 }
 
 void writeValue(BinaryWriter &writer, const MapDeltaSpriteObject &value)
@@ -4169,6 +4173,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.mm9Ai);
     writeValue(writer, value.drawScale);
     writeValue(writer, value.patrolPoints);
+    writeValue(writer, value.actorProfile);
 }
 
 // Versions 133-168 saved the reach of a far hit after provokedByParty; it is read and dropped.
@@ -4341,7 +4346,8 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionOutdoorNearby || readValue(reader, value.nearby))
         && (reader.version() < SaveVersionOutdoorSpawnMm9AiPlacement || readValue(reader, value.mm9Ai))
         && (reader.version() < SaveVersionActorDrawScale || readValue(reader, value.drawScale))
-        && (reader.version() < SaveVersionOutdoorSpawnPatrol || readValue(reader, value.patrolPoints));
+        && (reader.version() < SaveVersionOutdoorSpawnPatrol || readValue(reader, value.patrolPoints))
+        && (reader.version() < SaveVersionActorProfiles || readValue(reader, value.actorProfile));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ChestItemState &value)

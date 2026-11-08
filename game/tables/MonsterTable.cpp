@@ -1,6 +1,9 @@
 #include "game/tables/MonsterTable.h"
 
 #include "game/tables/MergedBaseTables.h"
+#include "game/tables/SpellTable.h"
+#include <yaml-cpp/yaml.h>
+#include <stdexcept>
 #include "game/BinaryReader.h"
 #include "game/StringUtils.h"
 
@@ -1115,6 +1118,7 @@ const MonsterEntry *MonsterTable::findByDisplayEntryId(int id) const
 
 bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>> &rows)
 {
+    clearActorProfiles();
     m_statsById.clear();
     m_statsIdByPictureName.clear();
 
@@ -1236,6 +1240,13 @@ bool MonsterTable::applyKindFlagsFromBolsterMonsterTable(const MergedBolsterMons
         }
 
         statsIt->second.kindFlags = monsterKindFlagsFromBolsterMonsterEntry(entry);
+    }
+
+    // Actor profiles copied their base rows before the kinds were known; a profile is still that monster's kind.
+    for (auto &[id, profile] : m_actorProfiles)
+    {
+        const auto base = m_statsById.find(int(profile.stats.id));
+        profile.stats.kindFlags = base != m_statsById.end() ? base->second.kindFlags : 0;
     }
 
     return true;
@@ -1474,10 +1485,217 @@ const MonsterTable::MeleeHitMaterial *MonsterTable::findMeleeHitMaterial(int16_t
         : &m_meleeHitMaterials.front();
 }
 
-const MonsterTable::MonsterStatsEntry *MonsterTable::findStatsById(int16_t monsterId) const
+const MonsterTable::MonsterStatsEntry *MonsterTable::findStatsById(
+    int16_t monsterId, const std::string &actorProfile) const
 {
+    if (!actorProfile.empty())
+    {
+        const auto profile = m_actorProfiles.find(actorProfile);
+        return profile != m_actorProfiles.end() && profile->second.stats.id == monsterId
+            ? &profile->second.stats : nullptr;
+    }
     const auto iterator = m_statsById.find(monsterId);
     return iterator != m_statsById.end() ? &iterator->second : nullptr;
+}
+
+void MonsterTable::clearActorProfiles()
+{
+    m_actorProfiles.clear();
+    m_mapActorProfiles.clear();
+}
+
+std::string MonsterTable::defaultActorProfile(const std::string &mapFileName, int16_t monsterId) const
+{
+    const auto map = m_mapActorProfiles.find(toLowerCopy(mapFileName));
+    if (map == m_mapActorProfiles.end())
+    {
+        return {};
+    }
+    const auto profile = map->second.find(monsterId);
+    return profile != map->second.end() ? profile->second : std::string{};
+}
+
+bool MonsterTable::retaliatesAgainstParty(const std::string &actorProfile) const
+{
+    const auto profile = m_actorProfiles.find(actorProfile);
+    return profile == m_actorProfiles.end() || profile->second.retaliatesAgainstParty;
+}
+
+bool MonsterTable::loadActorProfiles(const std::string &text, const std::string &worldId,
+    const SpellTable &spells, std::string &errorMessage)
+{
+    errorMessage.clear();
+    std::string context = worldId + " actor profiles";
+    try
+    {
+        const YAML::Node root = YAML::Load(text);
+        const auto checkKeys = [](const YAML::Node &node, const std::vector<std::string> &allowed)
+        {
+            if (!node.IsMap())
+            {
+                throw std::runtime_error("expected a map");
+            }
+            std::vector<std::string> seen;
+            for (const auto &entry : node)
+            {
+                const std::string key = entry.first.as<std::string>();
+                if (std::find(allowed.begin(), allowed.end(), key) == allowed.end())
+                {
+                    throw std::runtime_error("unknown field " + key);
+                }
+                if (std::find(seen.begin(), seen.end(), key) != seen.end())
+                {
+                    throw std::runtime_error("duplicate field " + key);
+                }
+                seen.push_back(key);
+            }
+        };
+        checkKeys(root, {"schema", "profiles", "map_defaults"});
+        if (root["schema"].as<std::string>() != "openyamm.actorProfiles.v1" || !root["profiles"].IsMap())
+        {
+            throw std::runtime_error("expected openyamm.actorProfiles.v1 and a profiles map");
+        }
+        // Stage contributions: one invalid entry must not leave a partially installed catalogue.
+        auto profiles = m_actorProfiles;
+        auto defaults = m_mapActorProfiles;
+        for (const auto &entry : root["profiles"])
+        {
+            const std::string id = entry.first.as<std::string>();
+            const YAML::Node node = entry.second;
+            context = worldId + " actor profile " + id + " line " + std::to_string(node.Mark().line + 1);
+            if (!id.starts_with(worldId + ".") || profiles.contains(id))
+            {
+                throw std::runtime_error("profile id must be unique and prefixed by its world id");
+            }
+            checkKeys(node, {"monster", "name", "on_hit", "spell1", "spell2", "attack1_element",
+                "attack2_element", "party_damage_reaction", "indoor_encounter_radius"});
+            const int monsterId = node["monster"].as<int>();
+            const MonsterStatsEntry *pBase = monsterId > 0 && monsterId <= INT16_MAX
+                ? findStatsById(int16_t(monsterId)) : nullptr;
+            if (pBase == nullptr)
+            {
+                throw std::runtime_error("monster must name a mounted monster row");
+            }
+            ActorProfile profile;
+            profile.stats = *pBase;
+            MonsterStatsEntry &stats = profile.stats;
+            if (const YAML::Node radius = node["indoor_encounter_radius"])
+            {
+                const int value = radius.as<int>();
+                if (value <= 0 || value > UINT16_MAX)
+                {
+                    throw std::runtime_error("indoor_encounter_radius must be between 1 and 65535");
+                }
+                stats.indoorEncounterRadius = static_cast<uint16_t>(value);
+            }
+            if (node["name"])
+            {
+                stats.name = node["name"].as<std::string>();
+                if (stats.name.empty())
+                {
+                    throw std::runtime_error("name must not be empty");
+                }
+            }
+            if (node["on_hit"])
+            {
+                const std::string kind = node["on_hit"].as<std::string>();
+                if (kind != "none" && kind != "poison1")
+                {
+                    throw std::runtime_error("on_hit must be none or poison1");
+                }
+                stats.specialAttackKind = kind == "none"
+                    ? MonsterSpecialAttackKind::None : MonsterSpecialAttackKind::PoisonWeak;
+                stats.specialAttackLevel = kind == "none" ? 0 : 1;
+                stats.specialAttackDescriptor = kind == "none" ? "" : "poison1";
+            }
+            for (const bool second : {false, true})
+            {
+                const YAML::Node spell = node[second ? "spell2" : "spell1"];
+                if (spell)
+                {
+                    checkKeys(spell, {"id", "chance", "skill", "mastery"});
+                    const int spellId = spell["id"].as<int>();
+                    const int chance = spell["chance"].as<int>();
+                    const int skill = spell["skill"].as<int>();
+                    const int mastery = spell["mastery"].as<int>();
+                    const SpellEntry *pSpell = spells.findById(spellId);
+                    if ((spellId != 0 && pSpell == nullptr) || chance < 0 || chance > 100
+                        || skill < (spellId != 0 ? 1 : 0) || skill > 255
+                        || mastery < (spellId != 0 ? 1 : 0) || mastery > 4
+                        || (spellId == 0 && (chance != 0 || skill != 0 || mastery != 0)))
+                    {
+                        throw std::runtime_error("spell needs a mounted id, chance 0-100, skill 1-255, mastery 1-4"
+                            " (id 0 clears a slot with all other values 0)");
+                    }
+                    (second ? stats.hasSpell2 : stats.hasSpell1) = spellId != 0;
+                    // AI keys follow the same normalization as the stock monster spell descriptors.
+                    (second ? stats.spell2Name : stats.spell1Name) = pSpell != nullptr ? pSpell->normalizedName : "";
+                    (second ? stats.spell2Descriptor : stats.spell1Descriptor) = pSpell != nullptr ? pSpell->name : "";
+                    (second ? stats.spell2UseChance : stats.spell1UseChance) = chance;
+                    (second ? stats.spell2SkillLevel : stats.spell1SkillLevel) = uint32_t(skill);
+                    (second ? stats.spell2SkillMastery : stats.spell1SkillMastery) = SkillMastery(mastery);
+                }
+                const YAML::Node element = node[second ? "attack2_element" : "attack1_element"];
+                if (element)
+                {
+                    const std::string value = element.as<std::string>();
+                    const std::vector<std::string> elements = {"Physical", "Fire", "Air", "Water", "Earth",
+                        "Spirit", "Mind", "Body", "Light", "Dark", "Energy"};
+                    if (std::find(elements.begin(), elements.end(), value) == elements.end())
+                    {
+                        throw std::runtime_error("unknown attack element " + value);
+                    }
+                    (second ? stats.attack2Type : stats.attack1Type) = value;
+                }
+            }
+            stats.attackStyle = classifyAttackStyle(stats);
+            if (node["party_damage_reaction"])
+            {
+                const std::string reaction = node["party_damage_reaction"].as<std::string>();
+                if (reaction != "retaliate" && reaction != "stay_friendly")
+                {
+                    throw std::runtime_error("party_damage_reaction must be retaliate or stay_friendly");
+                }
+                profile.retaliatesAgainstParty = reaction == "retaliate";
+            }
+            profiles.emplace(id, std::move(profile));
+        }
+        if (root["map_defaults"])
+        {
+            if (!root["map_defaults"].IsMap())
+            {
+                throw std::runtime_error("map_defaults must be a map");
+            }
+            for (const auto &entry : root["map_defaults"])
+            {
+                const std::string map = toLowerCopy(entry.first.as<std::string>());
+                context = worldId + " actor profiles map " + map;
+                if ((!map.ends_with(".blv") && !map.ends_with(".odm"))
+                    || map.find_first_of("/\\:") != std::string::npos || !entry.second.IsSequence())
+                {
+                    throw std::runtime_error("map_defaults needs a map filename and a sequence of profile ids");
+                }
+                for (const YAML::Node &idNode : entry.second)
+                {
+                    const std::string id = idNode.as<std::string>();
+                    const auto profile = profiles.find(id);
+                    if (!id.starts_with(worldId + ".") || profile == profiles.end()
+                        || !defaults[map].emplace(int16_t(profile->second.stats.id), id).second)
+                    {
+                        throw std::runtime_error("unknown profile or duplicate map/monster default: " + id);
+                    }
+                }
+            }
+        }
+        m_actorProfiles = std::move(profiles);
+        m_mapActorProfiles = std::move(defaults);
+        return true;
+    }
+    catch (const std::exception &error)
+    {
+        errorMessage = context + ": " + error.what();
+        return false;
+    }
 }
 
 const std::vector<MonsterTable::MonsterDeathDropEntry> &MonsterTable::deathDropsForMonsterId(

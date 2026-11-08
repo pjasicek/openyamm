@@ -229,6 +229,7 @@ private:
     bool loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterProjectileTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadObjectTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadActorProfiles(const Engine::AssetFileSystem &assetFileSystem);
     bool loadSpellTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadItemTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadItemEnchantTables(const Engine::AssetFileSystem &assetFileSystem);
