@@ -3,6 +3,7 @@
 #include "game/tables/MonsterTable.h"
 
 #include <array>
+#include <cstdint>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -12,6 +13,7 @@
 namespace OpenYAMM::Game
 {
 struct MapStatsEntry;
+enum class MawBossAffix : uint8_t;
 
 // The MAW ruleset's map data (rulesets/maw/data/map_levels.yml): each map's monster level band, the horizontal
 // starter maps and the Beyond Madness level of each map. Keyed by lowercase map file name.
@@ -46,6 +48,8 @@ public:
     bool isMadnessStartingMap(const std::string &mapFileName) const;
     // The fixed Beyond Madness level of a map, or 0 when it has none.
     int madnessLevel(const std::string &mapFileName) const;
+    // Applies to generation and combat, including hidden and composite boss abilities.
+    bool bossAffixAllowed(const std::string &mapFileName, MawBossAffix affix) const;
 
 private:
     struct StoryBand
@@ -72,6 +76,7 @@ private:
     std::unordered_set<std::string> m_horizontalStarterMaps;
     std::unordered_set<std::string> m_madnessStartingMaps;
     std::unordered_map<std::string, int> m_madnessLevels;
+    std::unordered_map<std::string, uint32_t> m_excludedBossAffixes;
 };
 
 // What a map's monster levels depend on besides the monster table.

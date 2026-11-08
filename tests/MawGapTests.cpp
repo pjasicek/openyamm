@@ -3352,3 +3352,64 @@ TEST_CASE("Only MAW outlines items in their rarity colour; Standard MMerge has n
     CHECK_FALSE(standardGameRules().items.glowsItemRarity());
     CHECK(rules.gameRules().items.glowsItemRarity());
 }
+
+
+TEST_CASE("a map that excludes Swapper suppresses every Swapper combat path and Omnipotent Swapper offspring")
+{
+    MawMapLevels maps;
+    std::string error;
+    REQUIRE_MESSAGE(maps.loadFromYaml(readSource("assets_dev/engine/rulesets/maw/data/map_levels.yml")
+        + "\nboss_affix_exclusions:\n  exclusiontest.blv: [Swapper]\n", error), error);
+    for (const std::string map : {"exclusiontest.blv", "control.blv"})
+    {
+        CAPTURE(map);
+        const bool restricted = map == "exclusiontest.blv";
+        for (const MawBossAffix affix : {MawBossAffix::Swapper, MawBossAffix::Cryptic, MawBossAffix::Omnipotent})
+        {
+            CAPTURE(int(affix));
+            MawRules rules(RulesetOptions{}, maps, installedItemData());
+            rules.setCurrentMap(map);
+            BossTestWorld world;
+            world.setMapName(map);
+            auto actor = bossActor(1, 195, affix, 1000);
+            actor.rulesetFacts.crypticAffix = affix == MawBossAffix::Cryptic ? uint8_t(MawBossAffix::Swapper) : 0;
+            const size_t boss = world.addActor(actor);
+            world.addActor(bossActor(2, 193, MawBossAffix::None, 300));
+            const CombatRules &combat = rules.gameRules().combat;
+            CHECK_EQ(combat.deflectsPartyHit(world, boss), !restricted);
+            CHECK_EQ(world.swaps.size(), restricted ? 0u : 1u);
+            world.swaps.clear();
+            PartySeed seed;
+            seed.members.resize(1);
+            seed.members[0].maxHealth = 10000;
+            seed.members[0].health = 10000;
+            Party party;
+            party.seed(seed);
+            party.setRules(&rules.gameRules());
+            combat.applyMonsterHitEffects(party, &world, 0, actor.rulesetFacts, 1, 10, CombatDamageType::Physical);
+            CHECK_EQ(world.swaps.size(), restricted ? 0u : 1u);
+            const size_t puller = world.addActor(bossActor(3, 195, MawBossAffix::Puller, 2000));
+            world.launches.clear();
+            combat.applyMonsterHitEffects(party, &world, 0, world.actor(puller).rulesetFacts, 3, 10,
+                CombatDamageType::Physical);
+            CHECK_EQ(world.launches.size(), 1u);
+        }
+        MawRules rules(RulesetOptions{}, maps, installedItemData());
+        rules.setCurrentMap(map);
+        BossTestWorld world;
+        world.setMapName(map);
+        const size_t god = world.addActor(bossActor(1, 195, MawBossAffix::Omnipotent, 800));
+        const MonsterRules &monsters = rules.gameRules().monsters;
+        monsters.updateMonsters(world, 0.016f);
+        world.actor(god).isDead = true;
+        world.actor(god).currentHp = 0;
+        monsters.updateMonsters(world, 0.016f);
+        CHECK_EQ(world.spawns.size(), restricted ? 14u : 15u);
+        size_t swappers = 0;
+        for (const auto &spawn : world.spawns)
+        {
+            swappers += spawn.bossAffix == uint8_t(MawBossAffix::Swapper) ? 1 : 0;
+        }
+        CHECK_EQ(swappers, restricted ? 0u : 1u);
+    }
+}

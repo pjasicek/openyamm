@@ -3678,7 +3678,8 @@ void MawCombatRules::applyMonsterHitEffects(
 
     // A Swapper trades places with the party; a Puller jumps the party at itself (evt.Jump: ZAngle 128 of a 2048-step
     // turn, speed 1000).
-    if (hasAffix(attacker, MawBossAffix::Swapper) && attackerIndex)
+    if (hasAffix(attacker, MawBossAffix::Swapper) && attackerIndex
+        && m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), MawBossAffix::Swapper))
     {
         pWorld->swapActorPlaces(*attackerIndex, std::nullopt);
         pWorld->actorRuntimeState(*attackerIndex, attackerState);
@@ -3698,7 +3699,8 @@ bool MawCombatRules::deflectsPartyHit(IGameplayWorldRuntime &world, size_t actor
 {
     GameplayRuntimeActorState boss = {};
 
-    if (!world.actorRuntimeState(actorIndex, boss) || !hasAffix(boss.rulesetFacts, MawBossAffix::Swapper))
+    if (!m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), MawBossAffix::Swapper)
+        || !world.actorRuntimeState(actorIndex, boss) || !hasAffix(boss.rulesetFacts, MawBossAffix::Swapper))
     {
         return false;
     }

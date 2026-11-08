@@ -453,3 +453,60 @@ TEST_CASE("MAW Dragon Fear lasts by its Dragon Ability mastery, without Ascensio
     cast.nowSeconds = 8;
     CHECK(rules.gameRules().spells.crowdControlSeconds(cast).value_or(0) == doctest::Approx(4));
 }
+
+
+TEST_CASE("a map's boss affix exclusion removes Swapper from rolled, forced and Cryptic bosses")
+{
+    MawMapLevels maps;
+    std::string error;
+    REQUIRE_MESSAGE(maps.loadFromYaml(readSource("assets_dev/engine/rulesets/maw/data/map_levels.yml")
+        + "\nboss_affix_exclusions:\n  exclusiontest.blv: [Swapper]\n", error), error);
+    CHECK_FALSE(maps.bossAffixAllowed("EXCLUSIONTEST.BLV", MawBossAffix::Swapper));
+    CHECK(maps.bossAffixAllowed("control.blv", MawBossAffix::Swapper));
+    CHECK(maps.bossAffixAllowed("exclusiontest.blv", MawBossAffix::Puller));
+    MawRules restricted(RulesetOptions{}, maps, installedItemData());
+    restricted.setCurrentMap("exclusiontest.blv");
+    MawRules control(RulesetOptions{}, maps, installedItemData());
+    control.setCurrentMap("control.blv");
+    MawRules original(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    original.setCurrentMap("control.blv");
+    bool controlSwapper = false;
+    bool controlHiddenSwapper = false;
+    for (uint64_t seed = 1; seed <= 4000; ++seed)
+    {
+        for (const MawBossAffix forced : {MawBossAffix::None, MawBossAffix::Cryptic, MawBossAffix::Swapper})
+        {
+            ActorRulesetFacts facts = bossFacts(MawBossAffix::None);
+            REQUIRE(restricted.gameRules().monsters.makeBoss(facts, seed, uint8_t(forced)));
+            CHECK_NE(facts.bossAffix, uint8_t(MawBossAffix::Swapper));
+            CHECK_NE(facts.crypticAffix, uint8_t(MawBossAffix::Swapper));
+        }
+        ActorRulesetFacts other = bossFacts(MawBossAffix::None);
+        ActorRulesetFacts before = other;
+        REQUIRE(control.gameRules().monsters.makeBoss(other, seed, 0));
+        REQUIRE(original.gameRules().monsters.makeBoss(before, seed, 0));
+        CHECK_EQ(other.bossAffix, before.bossAffix);
+        CHECK_EQ(other.crypticAffix, before.crypticAffix);
+        CHECK_EQ(other.level, before.level);
+        CHECK_EQ(other.bossHealthMultiplier, before.bossHealthMultiplier);
+        controlSwapper |= other.bossAffix == uint8_t(MawBossAffix::Swapper);
+        controlHiddenSwapper |= other.crypticAffix == uint8_t(MawBossAffix::Swapper);
+    }
+    CHECK(controlSwapper);
+    CHECK(controlHiddenSwapper);
+}
+
+TEST_CASE("MAW boss exclusions reject invalid affix names and value shapes")
+{
+    MawMapLevels maps;
+    std::string error;
+    const std::string base = "bands: {test.blv: [1, 1, 1]}\nhorizontal_starter_maps: []\n"
+        "madness: {starting_maps: [], levels: {}}\n";
+    CHECK_FALSE(maps.loadFromYaml(base + "boss_affix_exclusions: {test.blv: [Swappr]}\n", error));
+    CHECK(error.find("unknown excluded boss affix") != std::string::npos);
+    CHECK_FALSE(maps.loadFromYaml(base + "boss_affix_exclusions: {test.blv: Swapper}\n", error));
+    REQUIRE_MESSAGE(maps.loadFromYaml(base + "boss_affix_exclusions: {TEST.BLV: [swapper]}\n", error), error);
+    CHECK_FALSE(maps.bossAffixAllowed("test.blv", MawBossAffix::Swapper));
+    REQUIRE(maps.loadFromYaml(base, error));
+    CHECK(maps.bossAffixAllowed("test.blv", MawBossAffix::Swapper));
+}
