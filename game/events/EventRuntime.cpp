@@ -5811,12 +5811,22 @@ int luaGetCurrentScreen(lua_State *pLuaState)
     return 1;
 }
 
+// The map_stats name of the map the party is on ("Oak Hill Cottage"), the name Xeen's scripts compare.
 int luaGetCurrentMapName(lua_State *pLuaState)
 {
     const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
     const IGameplayWorldRuntime *pWorldRuntime = dynamic_cast<const IGameplayWorldRuntime *>(pSceneEventContext);
     lua_pushstring(pLuaState, pWorldRuntime != nullptr ? pWorldRuntime->mapName().c_str() : "");
+    return 1;
+}
+
+// The map's file name (oakhome.blv), as MMExtension's Map.Name: what scripts ported from MM6-MM8 mods compare (kill
+// quests checking the map, CrossContinents' "7" prefix). Empty where no runtime state is bound.
+int luaGetCurrentMapFileName(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    lua_pushstring(pLuaState, pRuntimeState != nullptr ? pRuntimeState->mapFileName.c_str() : "");
     return 1;
 }
 
@@ -10750,6 +10760,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "IsMapActorWithinPartyDistance", luaIsMapActorWithinPartyDistance);
     registerLuaFunction(pLuaState, "GetCurrentScreen", luaGetCurrentScreen);
     registerLuaFunction(pLuaState, "GetCurrentMapName", luaGetCurrentMapName);
+    registerLuaFunction(pLuaState, "GetCurrentMapFileName", luaGetCurrentMapFileName);
     registerLuaFunction(pLuaState, "GetCurrentContinent", luaGetCurrentContinent);
     registerLuaFunction(pLuaState, "SaveCurrentLocation", luaSaveCurrentLocation);
     registerLuaFunction(pLuaState, "HasSavedLocation", luaHasSavedLocation);
