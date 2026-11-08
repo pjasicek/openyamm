@@ -1331,6 +1331,7 @@ bool MonsterTable::loadUniqueNamesFromRows(const std::vector<std::vector<std::st
 
     m_uniqueNames.clear();
     m_uniqueNames.resize(maxIndex + 1);
+    m_uniqueNameBosses.assign(maxIndex + 1, false);
 
     for (const std::vector<std::string> &row : rows)
     {
@@ -1349,6 +1350,7 @@ bool MonsterTable::loadUniqueNamesFromRows(const std::vector<std::vector<std::st
         if (index < m_uniqueNames.size())
         {
             m_uniqueNames[index] = row[1];
+            m_uniqueNameBosses[index] = row.size() > 2 && row[2] == "boss";
         }
     }
 
@@ -1526,6 +1528,12 @@ std::optional<std::string> MonsterTable::findDisplayNameByInternalName(const std
     }
 
     return m_displayNames[iterator->second].displayName;
+}
+
+bool MonsterTable::isUniqueNameBoss(int32_t uniqueNameIndex) const
+{
+    return uniqueNameIndex > 0 && size_t(uniqueNameIndex) < m_uniqueNameBosses.size()
+        && m_uniqueNameBosses[size_t(uniqueNameIndex)];
 }
 
 std::optional<std::string> MonsterTable::getUniqueName(int32_t uniqueNameIndex) const
