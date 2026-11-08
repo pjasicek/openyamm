@@ -16908,6 +16908,8 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     }
 
     state.actorId = pActor->actorId;
+    state.npcId = uint32_t(std::max<int16_t>(0, pActor->npcId));
+    state.group = pActor->group;
     state.yawRadians = pActor->yawRadians;
     state.animationState = ActorAiAnimationState(pActor->animation);
     state.animationTimeTicks = pActor->animationTimeTicks;
@@ -22032,7 +22034,9 @@ std::vector<size_t> OutdoorWorldRuntime::spawnMonsters(const GameplayMonsterSpaw
 {
     std::vector<size_t> spawned;
 
-    if (m_pMonsterTable == nullptr || request.count == 0)
+    if (m_pMonsterTable == nullptr || request.count == 0
+        || request.npcId > uint32_t(std::numeric_limits<int16_t>::max())
+        || (request.npcId != 0 && request.count != 1))
     {
         return spawned;
     }
@@ -22124,6 +22128,7 @@ std::vector<size_t> OutdoorWorldRuntime::spawnMonsters(const GameplayMonsterSpaw
             actor.moveSpeed = *request.moveSpeed;
         }
 
+        actor.npcId = int16_t(request.npcId);
         actor.specialItemId = request.carriedItemId;
         actor.proceduralDeathLoot = request.dropsLoot;
         actor.mm9Ai = request.mm9Ai;
