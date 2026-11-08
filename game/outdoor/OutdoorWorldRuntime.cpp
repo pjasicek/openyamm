@@ -18038,7 +18038,9 @@ void OutdoorWorldRuntime::queueMonsterKilledEvent(size_t actorIndex, int16_t mon
 {
     if (m_monsterKilledHooksEnabled && monsterId > 0)
     {
-        m_pendingMonsterKilledEvents.push_back({uint32_t(actorIndex), uint32_t(monsterId), byParty});
+        const int16_t npcId = actorIndex < m_mapActors.size() ? m_mapActors[actorIndex].npcId : 0;
+        m_pendingMonsterKilledEvents.push_back(
+            {uint32_t(actorIndex), uint32_t(monsterId), byParty, uint32_t(std::max<int16_t>(npcId, 0))});
     }
 }
 

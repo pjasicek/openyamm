@@ -14935,6 +14935,18 @@ bool IndoorWorldRuntime::executeEventHooks(EventRuntimeHookKind kind)
     return true;
 }
 
+namespace
+{
+// The NPC of a map actor (0 for none), which monster damage and death hooks hand to scripts: a story monster is asked
+// for by it (Amber's archmage Magnus, Julius Cheeser, the escaped butler).
+uint32_t indoorActorNpcId(const MapDeltaData *pMapDeltaData, size_t actorIndex)
+{
+    return pMapDeltaData != nullptr && actorIndex < pMapDeltaData->actors.size()
+        ? uint32_t(std::max<int16_t>(pMapDeltaData->actors[actorIndex].npcId, 0))
+        : 0;
+}
+}
+
 int IndoorWorldRuntime::applyMonsterDamageEventHooks(
     size_t actorIndex,
     int16_t monsterId,
@@ -14953,6 +14965,7 @@ int IndoorWorldRuntime::applyMonsterDamageEventHooks(
     hookContext.kind = EventRuntimeHookKind::MonsterDamage;
     hookContext.actorIndex = static_cast<uint32_t>(actorIndex);
     hookContext.monsterId = static_cast<uint32_t>(monsterId);
+    hookContext.npcId = indoorActorNpcId(mapDeltaData(), actorIndex);
     hookContext.damage = damage;
     hookContext.damageType = evtDamageTypeFromCombatDamageType(damageType);
     hookContext.byParty = byParty;
@@ -14997,6 +15010,7 @@ void IndoorWorldRuntime::notifyMonsterKilledEventHooks(size_t actorIndex, int16_
     hookContext.actorIndex = static_cast<uint32_t>(actorIndex);
     hookContext.monsterId = static_cast<uint32_t>(monsterId);
     hookContext.byParty = killedByParty;
+    hookContext.npcId = indoorActorNpcId(pMapDeltaData, actorIndex);
     pEventRuntimeState->activeHookContext = hookContext;
     executeEventHooks(EventRuntimeHookKind::MonsterKilled);
     pEventRuntimeState->activeHookContext.reset();

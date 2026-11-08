@@ -5496,10 +5496,9 @@ int luaTurnGroup(lua_State *pLuaState)
 // evt.GetMapActorPosition(actorIndex): x, y, z of the actor's feet, or nil for no such actor.
 int luaGetMapActorPosition(lua_State *pLuaState)
 {
-    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
-    const ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
-        ? pExecutionContext->pSceneEventContext
-        : nullptr;
+    // A read: also in a read-only handler (a topic's can-show, which may ask how near an actor is).
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
     const size_t actorIndex = static_cast<size_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
     float x = 0.0f;
     float y = 0.0f;

@@ -702,6 +702,8 @@ public:
         uint32_t actorIndex = 0;
         uint32_t monsterId = 0;
         bool byParty = false;   // the party dealt the killing blow (MapActorState::killedByParty)
+        // The actor's NPC (0 for none): hooks ask for a story monster by it.
+        uint32_t npcId = 0;
     };
 
     void setMonsterKilledHooksEnabled(bool enabled);
