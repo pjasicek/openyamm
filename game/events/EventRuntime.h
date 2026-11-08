@@ -841,6 +841,8 @@ struct EventRuntimeState
     std::vector<ActorEffectRequest> actorEffectRequests;
     std::vector<WorldModelRequest> worldModelRequests;
     std::optional<PendingDialogueContext> pendingDialogueContext;
+    // A topic's one-shot request to leave its talk. Runtime output only, never serialized.
+    bool pendingDialogueClose = false;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingMovie> pendingMovie;
     // Transient requests the session takes each frame (never saved).
