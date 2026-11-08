@@ -966,6 +966,19 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
         return false;
     }
 
+    std::vector<MawBossAffix> allowed;
+    for (const MawBossAffix candidate : RolledBossAffixes)
+    {
+        if (m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), candidate))
+        {
+            allowed.push_back(candidate);
+        }
+    }
+    if (allowed.empty())
+    {
+        return false;
+    }
+
     const MawModelConfig config = mawModelConfig(m_rules.options(), 5);
     RandomStream stats(randomStreamKey(seed, RandomDomain::BossStats));
     RandomStream affix(randomStreamKey(seed, RandomDomain::BossAffix));
@@ -977,8 +990,9 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
     const double flatten = config.austerity ? 4 : 1;
     facts.level = bossLevel(facts.level, baseLevel, facts.bossLevelDraw);
     facts.bossAffix = forcedAffix != 0
+            && m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), MawBossAffix(forcedAffix))
         ? forcedAffix
-        : uint8_t(RolledBossAffixes[affix.uniform(0, uint32_t(RolledBossAffixes.size() - 1))]);
+        : uint8_t(allowed[affix.uniform(0, uint32_t(allowed.size() - 1))]);
     // A script's health scale stays on top of the boss's.
     facts.bossHealthMultiplier *=
         float(2.5 * (1 + cappedLevel / BossLevelCap / flatten) * (1 + 0.5 * healthDraw / flatten));
@@ -1060,14 +1074,18 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
 
         for (const MawBossAffix candidate : RolledBossAffixes)
         {
-            if (candidate != MawBossAffix::Cryptic)
+            if (candidate != MawBossAffix::Cryptic
+                && m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), candidate))
             {
                 pool.push_back(candidate);
             }
         }
 
         RandomStream hidden(randomStreamKey(seed, RandomDomain::BossAffix, uint64_t(MawBossAffix::Cryptic)));
-        facts.crypticAffix = uint8_t(pool[hidden.uniform(0, uint32_t(pool.size() - 1))]);
+        if (!pool.empty())
+        {
+            facts.crypticAffix = uint8_t(pool[hidden.uniform(0, uint32_t(pool.size() - 1))]);
+        }
     }
 
     return true;
@@ -1975,7 +1993,7 @@ void MawMonsterRules::hatchBoss(IGameplayWorldRuntime &world, uint32_t actorId, 
         for (const MawBossAffix affix : RolledBossAffixes)
         {
             // Not the later four (OmnipotentExcluded, zzMaw-Monsters.lua:4149-4154).
-            if (!omnipotentCovers(affix))
+            if (!omnipotentCovers(affix) || !m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), affix))
             {
                 continue;
             }

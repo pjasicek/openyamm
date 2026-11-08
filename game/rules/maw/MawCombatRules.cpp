@@ -4218,7 +4218,8 @@ void MawCombatRules::applyMonsterHitEffects(
     // another player's is its own game's to move, and struck there the host's party is not moved in its place.
     const bool ownBodyStruck = pWorld->party() == &party;
 
-    if (hasAffix(attacker, MawBossAffix::Swapper) && attackerIndex && ownBodyStruck)
+    if (hasAffix(attacker, MawBossAffix::Swapper) && attackerIndex && ownBodyStruck
+        && m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), MawBossAffix::Swapper))
     {
         pWorld->swapActorPlaces(*attackerIndex, std::nullopt);
         pWorld->actorRuntimeState(*attackerIndex, attackerState);
@@ -4238,7 +4239,8 @@ bool MawCombatRules::deflectsPartyHit(IGameplayWorldRuntime &world, size_t actor
 {
     GameplayRuntimeActorState boss = {};
 
-    if (!world.actorRuntimeState(actorIndex, boss) || !hasAffix(boss.rulesetFacts, MawBossAffix::Swapper))
+    if (!m_rules.mapLevels().bossAffixAllowed(m_rules.currentMap(), MawBossAffix::Swapper)
+        || !world.actorRuntimeState(actorIndex, boss) || !hasAffix(boss.rulesetFacts, MawBossAffix::Swapper))
     {
         return false;
     }
