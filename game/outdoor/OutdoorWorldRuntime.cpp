@@ -18561,6 +18561,8 @@ void OutdoorWorldRuntime::placeRulesetMapMonsters()
             .pFacts = &actor.rulesetFacts,
             .uniqueNameId = int32_t(actor.uniqueNameId),
             .scripted = m_actorBehaviors.scripted(actorIndex, actor.monsterId),
+            .forcedBoss = m_pMonsterTable->isUniqueNameBoss(int32_t(actor.uniqueNameId)),
+            .group = actor.group,
         });
     }
 

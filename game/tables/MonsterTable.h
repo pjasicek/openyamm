@@ -269,6 +269,8 @@ public:
     const MonsterEntry *findByDisplayEntryId(int id) const;
     std::optional<std::string> findDisplayNameByInternalName(const std::string &internalName) const;
     std::optional<std::string> getUniqueName(int32_t uniqueNameIndex) const;
+    // place_mon.txt's third column "boss": a ruleset with bosses makes this unique monster one (MAW).
+    bool isUniqueNameBoss(int32_t uniqueNameIndex) const;
     // Relations: a world's relations.yml add-on (relationAddOns) decides where it has a rule, then the current map's
     // own cells of hostile.txt (setMapFactionRelation), else hostile.txt.
     int getRelationToParty(int16_t monsterId) const;
@@ -343,6 +345,7 @@ private:
     std::vector<int16_t> m_entryIndexByDisplayId;
     std::unordered_map<std::string, size_t> m_displayNameIndexByPictureName;
     std::vector<std::string> m_uniqueNames;
+    std::vector<bool> m_uniqueNameBosses;
     std::unordered_map<int, MonsterStatsEntry> m_statsById;
     std::unordered_map<int, std::vector<MonsterDeathDropEntry>> m_deathDropsByMonsterId;
     std::unordered_map<std::string, int> m_statsIdByPictureName;

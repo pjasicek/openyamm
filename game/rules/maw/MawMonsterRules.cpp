@@ -864,6 +864,33 @@ bool MawMonsterRules::placeMapBosses(
         bossCount = int(std::ceil(bossCount * (1 + *density / 100)));
     }
 
+    // A unique monster place_mon marks a boss always is one, and the rest of its group never: the leader of a pack
+    // is its one boss (Amber Island's Julius Cheeser and his wererats). Not MAW's own: its port made him a boss by
+    // script, on top of the random picks.
+    std::vector<uint32_t> forcedGroups;
+
+    for (size_t index = 0; index < monsters.size(); ++index)
+    {
+        MapMonsterPlacement &monster = monsters[index];
+
+        if (monster.forcedBoss && monster.pStats != nullptr && monster.pFacts != nullptr && monster.pFacts->level > 0)
+        {
+            changed = makeBoss(*monster.pFacts, randomStreamKey(rootSeed, RandomDomain::BossStats, map, resets,
+                index), 0, baseLevelOf(monster)) || changed;
+
+            if (monster.group != 0)
+            {
+                forcedGroups.push_back(monster.group);
+            }
+        }
+    }
+
+    const auto inForcedGroup = [&forcedGroups](const MapMonsterPlacement &monster)
+    {
+        return monster.group != 0
+            && std::find(forcedGroups.begin(), forcedGroups.end(), monster.group) != forcedGroups.end();
+    };
+
     // A dimension map may make any unnamed A or B monster a boss before the usual C-tier picks.
     if (const std::optional<double> chance = m_rules.mapAffix(mapFileName, MawMapAffix::BecomeBoss))
     {
@@ -874,7 +901,8 @@ bool MawMonsterRules::placeMapBosses(
         {
             const MapMonsterPlacement &monster = monsters[index];
 
-            if (bossCandidate(monster) && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier != 3
+            if (bossCandidate(monster) && !inForcedGroup(monster)
+                && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier != 3
                 && unitDraw(roll) < *chance / 100)
             {
                 changed = makeBoss(*monster.pFacts, randomStreamKey(rootSeed, RandomDomain::BossStats, map, resets,
@@ -889,7 +917,8 @@ bool MawMonsterRules::placeMapBosses(
     {
         const MapMonsterPlacement &monster = monsters[index];
 
-        if (bossCandidate(monster) && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier == 3
+        if (bossCandidate(monster) && !inForcedGroup(monster)
+            && mawMonsterFamily(context.pMonsterTable, monster.pStats->id).tier == 3
             && monster.pFacts->bossAffix == 0)
         {
             candidates.push_back(index);

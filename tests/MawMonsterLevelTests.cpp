@@ -417,6 +417,54 @@ TEST_CASE("MAW picks bosses among a map's hostile unnamed C-tier monsters")
     CHECK_EQ(bosses, 2u);
 }
 
+TEST_CASE("MAW makes a place_mon boss its group's one boss")
+{
+    const MonsterTable monsters = exampleMonsters();
+    const MonsterTable::MonsterStatsEntry *pStrong = monsters.findStatsById(195);
+    REQUIRE(pStrong != nullptr);
+    MapStatsEntry map = {};
+    map.fileName = "7out01.odm";
+    GameplayBolsterRuntimeContext context = {};
+    context.pMap = &map;
+    context.pMonsterTable = &monsters;
+    const auto place = [&](RulesetDifficulty difficulty, std::vector<ActorRulesetFacts> &facts)
+    {
+        RulesetOptions options;
+        options.difficulty = difficulty;
+        MawRules rules(options, MawMapLevels{});
+        rules.setRandomRootSeed(1234);
+        std::vector<MapMonsterPlacement> placements;
+        for (size_t index = 0; index < facts.size(); ++index)
+        {
+            facts[index] = {.level = 24, .familyLevel = 17, .tier = 3};
+            // Index 0 leads the pack of group 33 (indices 0-99): named, its place_mon row marked a boss.
+            placements.push_back({.pStats = pStrong, .named = index == 0, .hostile = true, .pFacts = &facts[index],
+                .uniqueNameId = index == 0 ? 166 : 0, .forcedBoss = index == 0, .group = index < 100 ? 33u : 0u});
+        }
+        return rules.gameRules().monsters.placeMapMonsters(context, placements);
+    };
+
+    std::vector<ActorRulesetFacts> facts(400);
+    // Normal has no bosses at all (the leader still levels as a unique monster).
+    place(RulesetDifficulty::Normal, facts);
+    CHECK_EQ(facts[0].bossAffix, 0);
+
+    REQUIRE(place(RulesetDifficulty::Maw, facts));
+    CHECK_NE(facts[0].bossAffix, 0);
+    size_t others = 0;
+    for (size_t index = 1; index < facts.size(); ++index)
+    {
+        CAPTURE(index);
+        if (facts[index].bossAffix != 0)
+        {
+            CHECK_GE(index, 100u);
+            ++others;
+        }
+    }
+    // The random picks still happen outside the pack: ceil((400 - 30) / 150).
+    CHECK_EQ(others, 3u);
+}
+
 TEST_CASE("MAW Nightmare rules: food for saving and no teleports near enemies")
 {
     RulesetOptions options;
