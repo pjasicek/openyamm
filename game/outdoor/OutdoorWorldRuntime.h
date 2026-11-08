@@ -228,6 +228,7 @@ public:
 
     struct MapActorState
     {
+        std::string actorProfile;
         uint32_t actorId = 0;
         // The player whose party this monster deals with: the nearest one that can still act
         // (assignActorPartyPlayers, each AI step). Always the local player in a game of one party; not saved.

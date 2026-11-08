@@ -89,6 +89,7 @@ const std::vector<NestedKeys> AssertBlockKeys = {
         "hostile_to_party", "report_state", "near", "far", "faces", "has_aim_target", "has_detected_party",
         "combat_targeting_party", "shield_raised", "shield_fraction", "hp", "hp_below", "got_hit", "over_water",
         "room_matches_place",
+        "spell1", "spell2", "spell1_skill", "spell2_skill", "spell1_mastery", "spell2_mastery", "heroism",
         // recorded:
         "world", "party", "yaw", "pitch", "actor_pos"}},
     {"ai_trace", {"actor_index", "arena_monster", "decision", "event", "target", "detail", "min_count", "max_count",

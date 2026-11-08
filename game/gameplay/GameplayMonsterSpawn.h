@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <optional>
 #include <random>
+#include <string>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -48,6 +49,7 @@ struct GameplayMonsterSpawnRequest
     std::optional<Mm9AiPlacementRecord> mm9Ai;
     // Waypoints every monster walks in turn while it has nothing to fight (a scene actor's patrol).
     std::vector<std::array<int32_t, 3>> patrolPoints;
+    std::string actorProfile;
 };
 
 // The monster id of one spawned monster: the family's A, B or C as the weights pick, or the request's own id.

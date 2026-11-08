@@ -212,6 +212,7 @@ struct WorldManifest
     std::string id = "mm8";
     std::string name = "MM8";
     std::string sourceGame = "mm8";
+    std::string actorProfilesPath;
     WorldStartDefinition start;
     WorldPartyDeathDefinition partyDeath;
     // world.yml autosave: `departure` (default, MM8): the autosave is written on the map being left, before its exit
