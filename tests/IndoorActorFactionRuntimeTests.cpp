@@ -10,8 +10,13 @@
 #include "game/indoor/IndoorWorldRuntime.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "tests/RegressionGameData.h"
+#include "tests/TestActorProfiles.h"
+#include "game/rules/maw/MawRules.h"
+#include "game/tables/MonsterProjectileTable.h"
 
 #include <filesystem>
+#include <cmath>
+#include <tuple>
 #include <fstream>
 #include <iterator>
 
@@ -51,6 +56,7 @@ struct FixtureActor
     int z = 0;
     int16_t sectorId = -1;
     uint32_t attributes = 0;
+    std::string profile;
 };
 
 // GW_3's victim upstairs and allies in the sealed lower room. Start without its bad cached detection.
@@ -81,13 +87,19 @@ struct GoblinwatchFactionFixture
     std::unique_ptr<IndoorPartyRuntime> partyRuntime;
     IndoorWorldRuntime world;
 
-    explicit GoblinwatchFactionFixture(const std::vector<FixtureActor> &actors = Gw3Actors)
+    explicit GoblinwatchFactionFixture(const std::vector<FixtureActor> &actors = Gw3Actors, bool profiles = false)
     {
         REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(), OpenYAMM::Tests::regressionGameDataFailure());
         const std::filesystem::path tables =
             std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/data_tables";
         REQUIRE(monsters.loadEntriesFromRows(readTable(tables / "monster_descriptors.txt")));
         REQUIRE(monsters.loadStatsFromRows(readTable(tables / "monster_data.txt")));
+        if (profiles)
+        {
+            std::string error;
+            REQUIRE_MESSAGE(monsters.loadActorProfiles(OpenYAMM::Tests::TestActorProfilesYaml, "mm7",
+                data.spellTable, error), error);
+        }
         const std::filesystem::path root = std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm6/maps";
         std::optional<IndoorMapData> loadedMap = IndoorMapDataLoader{}.loadFromBytes(readFixture(root / "6d01.blv"));
         REQUIRE(loadedMap);
@@ -106,6 +118,7 @@ struct GoblinwatchFactionFixture
             const MonsterTable::MonsterStatsEntry *pStats = monsters.findStatsById(fixtureActor.monsterId);
             REQUIRE(pStats != nullptr);
             MapDeltaActor actor = {};
+            actor.actorProfile = fixtureActor.profile;
             actor.monsterId = fixtureActor.monsterId;
             actor.monsterInfoId = fixtureActor.monsterId;
             actor.hp = pStats->hitPoints;
@@ -128,10 +141,27 @@ struct GoblinwatchFactionFixture
         mapStats.fileName = "6d01.blv";
         mapStats.worldId = "mm6";
         mapStats.name = "Goblinwatch";
-        world.initialize(mapStats, monsters, objects, data.itemTable, chests,
-            &partyRuntime->party(), partyRuntime.get(), &delta, &events, &actorService, nullptr, &map);
+        if (profiles)
+        {
+            static const MonsterProjectileTable projectiles;
+            world.initialize(mapStats, monsters, projectiles, objects, data.spellTable, data.itemTable, chests,
+                &partyRuntime->party(), partyRuntime.get(), &delta, &events, &actorService, nullptr,
+                nullptr, nullptr, nullptr, &map);
+        }
+        else
+        {
+            world.initialize(mapStats, monsters, objects, data.itemTable, chests,
+                &partyRuntime->party(), partyRuntime.get(), &delta, &events, &actorService, nullptr, &map);
+        }
         REQUIRE_EQ(world.mapActorCount(), actors.size());
         REQUIRE_EQ(world.snapshot().mapActorAiStates[1].sectorId, 24);
+    }
+
+    void setHostile(size_t actorIndex, bool hostile)
+    {
+        events->actorHostilityRequests[uint32_t(actorIndex)] = hostile;
+        world.applyEventRuntimeState();
+        events->actorHostilityRequests.clear();
     }
 
     bool hostile(size_t actorIndex) const
@@ -338,3 +368,142 @@ TEST_CASE("mm6 maps load their own faction relations into the monster table and 
     CHECK(monsters.getRelationBetweenMonsters(631, 517) == 2);
     CHECK(monsters.getRelationBetweenMonsters(517, 631) == 1);
 }
+
+TEST_CASE("indoor actor profile keeps a stay-friendly actor friendly through melee spells and faction retaliation")
+{
+    GoblinwatchFactionFixture fixture({
+        {405, -152, 4225, 0, 3, 0, "mm7.test_stay_friendly"},
+        {405, 1671, 3845, -632, 24, 0},
+    }, true);
+    fixture.setHostile(0, false);
+    fixture.setHostile(1, false);
+    auto controlled = fixture.world.snapshot();
+    controlled.mapActorAiStates[0].spellEffects.fearRemainingSeconds = 10;
+    fixture.world.restoreSnapshot(controlled);
+    const int hp = fixture.delta->actors[0].hp;
+    fixture.hit(0);
+    CHECK_EQ(fixture.delta->actors[0].hp, hp - 1);
+    CHECK_EQ(fixture.world.snapshot().mapActorAiStates[0].spellEffects.fearRemainingSeconds, 0);
+    CHECK_FALSE(fixture.hostile(0));
+    CHECK_FALSE(fixture.hostile(1));
+    REQUIRE(fixture.world.applyPartySpellToActor(0, 39, 10, SkillMastery::Expert, 10,
+        1356, 4589, 96, 0, false));
+    CHECK(fixture.delta->actors[0].hp < hp - 1);
+    CHECK_FALSE(fixture.hostile(0));
+    CHECK_FALSE(fixture.hostile(1));
+    fixture.hit(1);
+    CHECK(fixture.hostile(1));
+    CHECK_FALSE(fixture.hostile(0));
+    const auto saved = fixture.world.snapshot();
+    fixture.world.restoreSnapshot(saved);
+    fixture.world.applyMapReentryReset();
+    fixture.hit(0);
+    CHECK_FALSE(fixture.hostile(0));
+    REQUIRE(fixture.world.applyPartyAttackMeleeDamage(0, 100000, {1356, 4589, 96}, ShieldAttackTier::Physical));
+    CHECK_EQ(fixture.delta->actors[0].hp, 0);
+}
+
+
+TEST_CASE("indoor actor profiles feed native Heroism and Power Cure without resetting health on refresh")
+{
+    bool maw = false;
+    SUBCASE("Standard") { maw = false; }
+    SUBCASE("MAW") { maw = true; }
+    for (const auto &[monster, profile, spell1, spell2, element, heal] : {
+        std::tuple{405, "mm7.test_heroism_caster", 51, 0, CombatDamageType::Physical, 0},
+        std::tuple{58, "mm7.test_troll_clubman", 77, 0, CombatDamageType::Physical, 25},
+        std::tuple{59, "mm7.test_troll_geomancer", 77, 37, CombatDamageType::Earth, 35},
+        std::tuple{60, "mm7.test_troll_emberlord", 77, 2, CombatDamageType::Fire, 45}})
+    {
+        CAPTURE(profile);
+        CAPTURE(maw);
+        GoblinwatchFactionFixture fixture({
+            {int16_t(monster), 2300, 3750, -768, 24, DetectionAttributes, profile},
+            {405, 1671, 3845, -632, 24, 0},
+        }, true);
+        MawRules rules(RulesetOptions{}, MawMapLevels{});
+        if (maw)
+        {
+            fixture.partyRuntime->party().setRules(&rules.gameRules());
+            fixture.world.refreshRulesetMonsters();
+        }
+        fixture.partyRuntime->teleportPartyPosition(2300, 3400, -768);
+        fixture.setHostile(0, true);
+        fixture.delta->actors[0].hp = 1;
+        auto snapshot = fixture.world.snapshot();
+        auto &caster = snapshot.mapActorAiStates[0];
+        CHECK_EQ(caster.spell1Id, spell1);
+        CHECK_EQ(caster.spell2Id, spell2);
+        CHECK_EQ(caster.attack1DamageType, element);
+        caster.motionState = ActorAiMotionState::Attacking;
+        caster.animationState = ActorAiAnimationState::AttackRanged;
+        caster.queuedAttackAbility = GameplayActorAttackAbility::Spell1;
+        caster.actionSeconds = 0;
+        caster.attackCooldownSeconds = 0;
+        caster.attackImpactTriggered = false;
+        fixture.world.restoreSnapshot(snapshot);
+        fixture.world.updateActorAi(1.0f / 128.0f);
+        const auto after = fixture.world.snapshot();
+        const auto effects = after.mapActorAiStates[0].spellEffects;
+        if (spell1 == 51)
+        {
+            CHECK(effects.heroismRemainingSeconds > 0);
+            CHECK_EQ(effects.heroismPower, 9);
+            GameplayActorSpellEffectState expired = effects;
+            fixture.actorService.updateSpellEffectTimers(expired, effects.heroismRemainingSeconds + 1, true);
+            CHECK_EQ(expired.heroismRemainingSeconds, 0);
+            CHECK_EQ(expired.heroismPower, 0);
+        }
+        else
+        {
+            CHECK_EQ(fixture.delta->actors[0].hp, std::min(1 + heal,
+                fixture.monsters.findStatsById(int16_t(monster), profile)->hitPoints));
+        }
+        const int hp = fixture.delta->actors[0].hp;
+        fixture.world.refreshRulesetMonsters();
+        fixture.world.restoreSnapshot(fixture.world.snapshot());
+        CHECK_EQ(fixture.delta->actors[0].hp, hp);
+        const auto reentered = fixture.world.snapshot().mapActorAiStates[0];
+        CHECK_EQ(reentered.actorProfile, profile);
+        CHECK_EQ(reentered.spell1Id, spell1);
+        CHECK_EQ(reentered.spellEffects.heroismPower, effects.heroismPower);
+        CHECK_EQ(reentered.spellEffects.heroismRemainingSeconds, effects.heroismRemainingSeconds);
+        if (maw)
+        {
+            RulesetOptions harder;
+            harder.difficulty = RulesetDifficulty::Hell;
+            rules.setOptions(harder);
+            const auto oldBolster = reentered.bolster;
+            REQUIRE(oldBolster);
+            const float share = float(hp) / oldBolster->maxHp;
+            fixture.world.refreshRulesetMonsters();
+            const auto changed = fixture.world.snapshot().mapActorAiStates[0];
+            REQUIRE(changed.bolster);
+            CHECK_EQ(fixture.delta->actors[0].hp,
+                std::max(1, int(std::lround(share * changed.bolster->maxHp))));
+            CHECK_EQ(changed.spellEffects.heroismPower, effects.heroismPower);
+        }
+        fixture.world.applyMapReentryReset();
+        GameplayActorInspectState inspected;
+        REQUIRE(fixture.world.actorInspectState(0, 0, inspected));
+        CHECK_EQ(fixture.delta->actors[0].hp, inspected.maxHp);
+    }
+}
+
+TEST_CASE("indoor actor profile on-hit data reaches combat independently of the shared basilisk table")
+{
+    GoblinwatchFactionFixture fixture({
+        {88, -152, 4225, 0, 3, 0, "mm7.test_bogling"},
+        {89, 1671, 3845, -632, 24, 0, "mm7.test_bog_dweller"},
+        {90, 2300, 3750, -768, 24, 0, "mm7.test_bog_elder"},
+    }, true);
+    for (uint32_t index = 0; index < 3; ++index)
+    {
+        const auto info = fixture.world.combatActorInfoById(index);
+        REQUIRE(info);
+        CHECK_EQ(info->specialAttackKind, index == 2 ? MonsterSpecialAttackKind::PoisonWeak
+            : MonsterSpecialAttackKind::None);
+    }
+    CHECK_EQ(fixture.monsters.findStatsById(88)->specialAttackKind, MonsterSpecialAttackKind::Paralyze);
+}
+

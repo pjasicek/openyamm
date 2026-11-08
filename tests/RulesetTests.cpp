@@ -1867,6 +1867,143 @@ TEST_CASE("saves of version 192 load their two pouches, with an empty quest pouc
     CHECK(restored->party.pouches[size_t(ItemPouch::Quest)].empty());
 }
 
+TEST_CASE("stock save format keeps actor profiles with the last outdoor map")
+{
+    using namespace OpenYAMM::Game;
+    GameSaveData save = minimalSave();
+    save.party.lastOutdoorMapFileName = "7out02.odm";
+    Character member;
+    member.name = "Merge regression";
+    BattleOrder upkeep;
+    upkeep.spellName = "Heroism";
+    upkeep.place = BattleOrderPlace::Outdoors;
+    upkeep.renewBelowMinutes = 45;
+    member.upkeepOrders.push_back(upkeep);
+    save.playthroughId = "amber-profile-roundtrip";
+    save.playthroughPlayedSeconds = 4321;
+    save.party.members.push_back(member);
+    save.hasOutdoorRuntimeState = true;
+    OutdoorWorldRuntime::MapActorState outdoor;
+    outdoor.actorProfile = "mm7.test_heroism_caster";
+    save.outdoorWorld.mapActors.push_back(outdoor);
+    save.hasIndoorSceneState = true;
+    save.indoorScene.mapDeltaData = MapDeltaData{};
+    MapDeltaActor indoor;
+    indoor.actorProfile = "mm7.test_troll_geomancer";
+    save.indoorScene.mapDeltaData->actors.push_back(indoor);
+    std::string error;
+    const auto loaded = roundTrip(save, error);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    CHECK_EQ(loaded->playthroughId, save.playthroughId);
+    CHECK_EQ(loaded->playthroughPlayedSeconds, save.playthroughPlayedSeconds);
+    CHECK_EQ(loaded->party.lastOutdoorMapFileName, "7out02.odm");
+    REQUIRE_EQ(loaded->party.members.size(), 1u);
+    CHECK(loaded->party.members[0].upkeepOrders == member.upkeepOrders);
+    REQUIRE_EQ(loaded->outdoorWorld.mapActors.size(), 1u);
+    CHECK_EQ(loaded->outdoorWorld.mapActors[0].actorProfile, "mm7.test_heroism_caster");
+    REQUIRE(loaded->indoorScene.mapDeltaData.has_value());
+    REQUIRE_EQ(loaded->indoorScene.mapDeltaData->actors.size(), 1u);
+    CHECK_EQ(loaded->indoorScene.mapDeltaData->actors[0].actorProfile, "mm7.test_troll_geomancer");
+}
+
+TEST_CASE("save format 179 reads actor records without actor profile fields")
+{
+    using namespace OpenYAMM::Game;
+    GameSaveData save = minimalSave();
+    save.party.lastOutdoorMapFileName = "7out01.odm";
+    Character member;
+    member.name = "Upstream";
+    save.party.members.push_back(member);
+    save.hasOutdoorRuntimeState = true;
+    OutdoorWorldRuntime::MapActorState outdoor;
+    outdoor.actorProfile.clear();
+    save.outdoorWorld.mapActors.push_back(outdoor);
+    save.hasIndoorSceneState = true;
+    save.indoorScene.mapDeltaData = MapDeltaData{};
+    MapDeltaActor indoor;
+    indoor.actorProfile.clear();
+    save.indoorScene.mapDeltaData->actors.push_back(indoor);
+    const auto path = makeTemporaryRoot("upstream179").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(saveGameDataToPath(path, save, error), error);
+    const auto loaded = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    CHECK_EQ(loaded->party.lastOutdoorMapFileName, "7out01.odm");
+    REQUIRE_EQ(loaded->party.members.size(), 1u);
+    REQUIRE_EQ(loaded->outdoorWorld.mapActors.size(), 1u);
+    CHECK(loaded->outdoorWorld.mapActors[0].actorProfile.empty());
+    REQUIRE(loaded->indoorScene.mapDeltaData.has_value());
+    REQUIRE_EQ(loaded->indoorScene.mapDeltaData->actors.size(), 1u);
+    CHECK(loaded->indoorScene.mapDeltaData->actors[0].actorProfile.empty());
+}
+
+TEST_CASE("stock save profile bindings preserve actor slots and unrelated script state")
+{
+    using namespace OpenYAMM::Game;
+    GameSaveData save = minimalSave();
+    save.hasOutdoorRuntimeState = true;
+    save.outdoorWorld.eventRuntimeState.emplace();
+    auto &vars = save.outdoorWorld.eventRuntimeState->namedMapVars;
+    vars["Amber.Quest.Progress"] = 7;
+    vars["OpenYAMM.ActorProfile/999/stale.profile"] = 59;
+    OutdoorWorldRuntime::MapActorState actor;
+    actor.monsterId = 59;
+    actor.actorId = 100;
+    actor.actorProfile = "mm7.troll_warrior";
+    actor.currentHp = 0;
+    save.outdoorWorld.mapActors.push_back(actor);
+    actor.actorId = 101;
+    actor.actorProfile = "mm7.plain_troll";
+    actor.currentHp = 123;
+    save.outdoorWorld.mapActors.push_back(actor);
+    actor.actorId = 102;
+    actor.actorProfile.clear();
+    save.outdoorWorld.mapActors.push_back(actor);
+    save.outdoorWorldStates["visited.odm"] = save.outdoorWorld;
+    save.hasIndoorSceneState = true;
+    save.indoorScene.mapDeltaData.emplace();
+    MapDeltaActor indoor;
+    indoor.monsterId = 59;
+    indoor.actorProfile = "mm7.placed_troll";
+    indoor.hp = 0;
+    save.indoorScene.mapDeltaData->actors.push_back(indoor);
+    save.indoorSceneStates["visited.blv"] = save.indoorScene;
+    std::string error;
+    const auto loaded = roundTrip(save, error);
+    REQUIRE_MESSAGE(loaded, error);
+    REQUIRE_EQ(loaded->outdoorWorld.mapActors.size(), 3u);
+    CHECK_EQ(loaded->outdoorWorld.mapActors[0].actorProfile, "mm7.troll_warrior");
+    CHECK_EQ(loaded->outdoorWorld.mapActors[0].currentHp, 0);
+    CHECK_EQ(loaded->outdoorWorld.mapActors[1].actorProfile, "mm7.plain_troll");
+    CHECK_EQ(loaded->outdoorWorld.mapActors[1].currentHp, 123);
+    CHECK(loaded->outdoorWorld.mapActors[2].actorProfile.empty());
+    CHECK_EQ(loaded->outdoorWorldStates.at("visited.odm").mapActors[0].actorProfile, "mm7.troll_warrior");
+    REQUIRE(loaded->indoorScene.mapDeltaData);
+    CHECK_EQ(loaded->indoorScene.mapDeltaData->actors[0].actorProfile, "mm7.placed_troll");
+    CHECK_EQ(loaded->indoorScene.mapDeltaData->actors[0].hp, 0);
+    CHECK_EQ(loaded->indoorSceneStates.at("visited.blv").mapDeltaData->actors[0].actorProfile,
+        "mm7.placed_troll");
+    REQUIRE(loaded->outdoorWorld.eventRuntimeState);
+    const auto &loadedVars = loaded->outdoorWorld.eventRuntimeState->namedMapVars;
+    CHECK(std::none_of(loadedVars.begin(), loadedVars.end(), [](const auto &entry)
+    {
+        return entry.first.starts_with("OpenYAMM.ActorProfile/");
+    }));
+    CHECK_EQ(loaded->outdoorWorld.eventRuntimeState->namedMapVars.at("Amber.Quest.Progress"), 7);
+    CHECK_EQ(vars.size(), 2u); // Writing leaves the live event state untouched.
+    CHECK_FALSE(save.indoorScene.eventRuntimeState);
+    // A removed actor/profile must not inherit the previous save's metadata on the next write.
+    GameSaveData next = *loaded;
+    next.outdoorWorld.mapActors.erase(next.outdoorWorld.mapActors.begin());
+    next.outdoorWorld.mapActors[0].actorProfile.clear();
+    const auto reloaded = roundTrip(next, error);
+    REQUIRE_MESSAGE(reloaded, error);
+    REQUIRE_EQ(reloaded->outdoorWorld.mapActors.size(), 2u);
+    CHECK(reloaded->outdoorWorld.mapActors[0].actorProfile.empty());
+    CHECK(reloaded->outdoorWorld.mapActors[1].actorProfile.empty());
+}
+
 // eraseSoloRun gives back a save of the version before the solo run: it loads, with a hireling (a character outside
 // the party's members) too.
 TEST_CASE("saves before the solo run load as party games")
