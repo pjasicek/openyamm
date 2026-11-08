@@ -5518,6 +5518,110 @@ int luaGetMapActorPosition(lua_State *pLuaState)
     return 3;
 }
 
+// evt.GetMapActorHealth(actorIndex): the actor's current and maximum hit points as the rules made them (what the
+// monster inspect shows), or nil for no such actor; a read, also in read-only handlers. A script that ends a fight at
+// a share of a monster's health asks this instead of the hit points a map placed it with.
+int luaGetMapActorHealth(lua_State *pLuaState)
+{
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const IGameplayWorldRuntime *pWorldRuntime =
+        dynamic_cast<const IGameplayWorldRuntime *>(readonlySceneEventContext(pExecutionContext));
+    const size_t actorIndex = static_cast<size_t>(std::max<lua_Integer>(0, luaL_checkinteger(pLuaState, 1)));
+    GameplayActorInspectState state = {};
+
+    if (pWorldRuntime == nullptr || !pWorldRuntime->actorInspectState(actorIndex, 0, state))
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    lua_pushinteger(pLuaState, state.currentHp);
+    lua_pushinteger(pLuaState, state.maxHp);
+    return 2;
+}
+
+int luaHealMapActor(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    const lua_Integer amount = luaL_checkinteger(pLuaState, 2);
+    GameplayActorInspectState health;
+    const bool living = pWorld != nullptr && actorIndex >= 0 && amount > 0
+        && pWorld->actorInspectState(size_t(actorIndex), 0, health) && health.currentHp > 0
+        && health.maxHp > health.currentHp;
+    const int heal = living ? int(std::min<lua_Integer>(amount, health.maxHp - health.currentHp)) : 0;
+    lua_pushboolean(pLuaState, living && pWorld->healMapActor(size_t(actorIndex), heal));
+    return 1;
+}
+
+// Remove a ground item without granting it or its gold. Indices are the current world's item indices;
+// callers removing several authored items must work backwards. The expected id guards against stale indices.
+int luaRemoveMapItem(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    const lua_Integer index = luaL_checkinteger(pLuaState, 1);
+    const lua_Integer expectedItemId = luaL_checkinteger(pLuaState, 2);
+    GameplayWorldItemInspectState item;
+    const bool matches = pWorld != nullptr && index >= 0 && expectedItemId > 0
+        && uint64_t(expectedItemId) <= std::numeric_limits<uint32_t>::max()
+        && pWorld->worldItemInspectState(size_t(index), item)
+        && item.item.objectDescriptionId == uint32_t(expectedItemId);
+    lua_pushboolean(pLuaState, matches && pWorld->takeWorldItemInspectState(size_t(index), item));
+    return 1;
+}
+
+// Read identities from the live world, including actors created after the initial map fill. Unspecified filters
+// retain dead and hidden actors so a quest can distinguish death from absence without accidentally respawning one.
+int luaGetMapActors(lua_State *pLuaState)
+{
+    luaL_checktype(pLuaState, 1, LUA_TTABLE);
+    const auto filter = [&](const char *pKey) -> std::optional<uint32_t>
+    {
+        lua_getfield(pLuaState, 1, pKey);
+        if (lua_isnil(pLuaState, -1))
+        {
+            lua_pop(pLuaState, 1);
+            return std::nullopt;
+        }
+        const lua_Integer value = luaL_checkinteger(pLuaState, -1);
+        lua_pop(pLuaState, 1);
+        if (value < 0 || uint64_t(value) > std::numeric_limits<uint32_t>::max())
+        {
+            luaL_error(pLuaState, "GetMapActors: invalid %s", pKey);
+        }
+        return uint32_t(value);
+    };
+    const std::optional<uint32_t> npc = filter("npcId");
+    const std::optional<uint32_t> group = filter("group");
+    const std::optional<uint32_t> monster = filter("monsterId");
+    lua_getfield(pLuaState, 1, "alive");
+    const std::optional<bool> alive = lua_isnil(pLuaState, -1)
+        ? std::nullopt : std::optional<bool>(luaEventBoolean(pLuaState, -1));
+    lua_pop(pLuaState, 1);
+    const IGameplayWorldRuntime *pWorld = dynamic_cast<const IGameplayWorldRuntime *>(
+        readonlySceneEventContext(executionContextFromLua(pLuaState)));
+    lua_newtable(pLuaState);
+    int result = 0;
+    for (size_t index = 0; pWorld != nullptr && index < pWorld->mapActorCount(); ++index)
+    {
+        GameplayRuntimeActorState actor;
+        if (!pWorld->actorRuntimeState(index, actor)
+            || (npc && actor.npcId != *npc) || (group && actor.group != *group)
+            || (monster && actor.monsterId != int64_t(*monster))
+            || (alive && (!actor.isDead && actor.currentHp > 0) != *alive))
+        {
+            continue;
+        }
+        lua_pushinteger(pLuaState, lua_Integer(index));
+        lua_rawseti(pLuaState, -2, ++result);
+    }
+    return 1;
+}
+
 // evt.SetActorBehavior(actorIndex, behaviorId): attaches an actor behaviour script (engine/behaviors) to a placed
 // actor; safe to call from on-load events, which re-run on every load.
 int luaSetActorBehavior(lua_State *pLuaState)
@@ -9115,10 +9219,11 @@ bool luaValueToYaml(lua_State *pLuaState, int index, int depth, YAML::Node &node
 
 // evt.SummonMonstersById{monster, x, y, z, count = n | {min, max}, tiers = {A, B, C}, radius, group, name,
 // hpScale, levelBonus, boss, speed, item, hostile, loot, seed, yawDegrees, patrol = {{x, y, z}, ...}, mm9 = {...},
-// effect, effectScale}: MAW's pseudoSpawnpoint. patrol and mm9 are a scene actor's patrol and mm9_ai (the MM9
-// placement: its wander path, script and ScriptParams, such as script_params = "1" for a Greater Demon's spawn-in),
-// given to every monster. effect is a world effect played where each monster stands as it appears (MM9's
-// DoClientFX on a spawned creature: an Imp gate's blue fire). Returns the count placed and their actor indices.
+// effect, effectScale, npcId, profile}: MAW's pseudoSpawnpoint. patrol and mm9 are a scene actor's patrol and mm9_ai
+// (the MM9 placement: its wander path, script and ScriptParams, such as script_params = "1" for a Greater Demon's
+// spawn-in), given to every monster. effect is a world effect played where each monster stands as it appears (MM9's
+// DoClientFX on a spawned creature: an Imp gate's blue fire). npcId gives a single summoned actor an NPC identity and
+// profile its actor profile. Returns the count placed and their actor indices.
 int luaSummonMonstersById(lua_State *pLuaState)
 {
     LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
@@ -9255,6 +9360,19 @@ int luaSummonMonstersById(lua_State *pLuaState)
     const std::string effectId = sanitizeEventString(luaStringField(pLuaState, 1, "effect", ""));
     lua_getfield(pLuaState, 1, "effectScale");
     const float effectScale = lua_isnil(pLuaState, -1) ? 1.0f : float(luaL_checknumber(pLuaState, -1));
+    lua_pop(pLuaState, 1);
+    lua_getfield(pLuaState, 1, "npcId");
+    const lua_Integer npcId = luaL_optinteger(pLuaState, -1, 0);
+    lua_pop(pLuaState, 1);
+    const NpcDialogTable *pNpcs = pExecutionContext->pEventRuntime->npcDialogTable();
+    if (npcId < 0 || npcId > std::numeric_limits<int16_t>::max()
+        || (npcId != 0 && (request.count != 1 || pNpcs == nullptr || pNpcs->getNpc(uint32_t(npcId)) == nullptr)))
+    {
+        return luaL_error(pLuaState, "SummonMonstersById: npcId needs one actor and a valid NPC in the mounted table");
+    }
+    request.npcId = uint32_t(npcId);
+    lua_getfield(pLuaState, 1, "profile");
+    request.actorProfile = luaL_optstring(pLuaState, -1, "");
     lua_pop(pLuaState, 1);
     const std::vector<size_t> spawned = pExecutionContext->pSceneEventContext->spawnMonsters(request);
     EventRuntimeState *pRuntimeState = effectId.empty() ? nullptr : writableRuntimeState(pLuaState);

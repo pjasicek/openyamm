@@ -6648,14 +6648,16 @@ bool runInteractActor(
         return false;
     }
 
-    if (!step.payload["actor_index"] || !step.payload["actor_index"].IsScalar())
+    const bool byIndex = step.payload["actor_index"] && step.payload["actor_index"].IsScalar();
+    const bool byNpc = step.payload["npc_id"] && step.payload["npc_id"].IsScalar();
+    if (!byIndex && !byNpc)
     {
         if (context.mode != ScenarioMode::Faithful)
         {
             return true;
         }
 
-        failures.push_back(stepLocation(step) + ": interact_actor requires scalar field 'actor_index'");
+        failures.push_back(stepLocation(step) + ": interact_actor requires 'actor_index' or 'npc_id'");
         return false;
     }
 
@@ -6689,8 +6691,31 @@ bool runInteractActor(
     }
 
     std::string failure;
-    const ScenarioInteractionResult interaction =
-        context.runtimeDriver->activateActor(step.payload["actor_index"].as<size_t>(), failure);
+    size_t actorIndex = byIndex ? step.payload["actor_index"].as<size_t>() : 0;
+    // Recorded interactions may also carry npc_id as an annotation. Their explicit actor_index keeps priority.
+    if (byNpc && !byIndex)
+    {
+        const uint32_t npcId = step.payload["npc_id"].as<uint32_t>();
+        const IGameplayWorldRuntime *pWorld = std::as_const(*context.runtimeDriver).worldRuntime();
+        size_t matches = 0;
+        for (size_t index = 0; pWorld != nullptr && index < pWorld->mapActorCount(); ++index)
+        {
+            GameplayRuntimeActorState actor;
+            if (npcId != 0 && pWorld->actorRuntimeState(index, actor) && actor.npcId == npcId
+                && !actor.isDead && actor.currentHp > 0 && !actor.isInvisible)
+            {
+                actorIndex = index;
+                ++matches;
+            }
+        }
+        if (matches != 1)
+        {
+            failures.push_back(stepLocation(step) + ": interact_actor npc_id=" + std::to_string(npcId)
+                + " needs exactly one living visible actor, found " + std::to_string(matches));
+            return false;
+        }
+    }
+    const ScenarioInteractionResult interaction = context.runtimeDriver->activateActor(actorIndex, failure);
 
     // activated: false expects the actor to refuse the use (no dialogue, no event): an MM9 dog.
     if (step.payload["activated"] && step.payload["activated"].IsScalar() && !step.payload["activated"].as<bool>())

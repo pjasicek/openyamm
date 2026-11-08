@@ -23,6 +23,10 @@ unknown `kind` now fails when it runs (it was skipped).
 
 When a runner check is added, add its key to the loader's lists in the same change.
 
+`interact_actor: {npc_id: N}` clicks the unique living, visible actor with that NPC identity on the current map.
+It fails when no actor or multiple actors match. An explicit `actor_index` takes priority when both keys are present,
+preserving recorded scenarios where `npc_id` is descriptive metadata.
+
 `assert: {chest_view: {open, chest_id}}` checks whether a chest's loot screen is open now, and
 `assert: {party_position: {x, y, radius, z_min, z_max}}` that the party stands within `radius` (default 64) of a point
 (`mm7/barrow_downs_teleporting_chest.yml`).

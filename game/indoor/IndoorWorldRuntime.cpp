@@ -15563,6 +15563,8 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     }
 
     const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    state.npcId = uint32_t(std::max<int16_t>(0, actor.npcId));
+    state.group = actor.group;
     const bool isInvisible =
         (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0;
     const int16_t resolvedMonsterId = resolveIndoorActorStatsId(actor);
@@ -17420,7 +17422,9 @@ std::vector<size_t> IndoorWorldRuntime::spawnMonsters(const GameplayMonsterSpawn
     std::vector<size_t> spawned;
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
-    if (m_pMonsterTable == nullptr || pMapDeltaData == nullptr || request.count == 0)
+    if (m_pMonsterTable == nullptr || pMapDeltaData == nullptr || request.count == 0
+        || request.npcId > uint32_t(std::numeric_limits<int16_t>::max())
+        || (request.npcId != 0 && request.count != 1))
     {
         return spawned;
     }
@@ -17465,6 +17469,8 @@ std::vector<size_t> IndoorWorldRuntime::spawnMonsters(const GameplayMonsterSpawn
 
         MapDeltaActor actor = {};
         actor.diagnosticSourceActorIndex = pMapDeltaData->actors.size();
+        actor.npcId = int16_t(request.npcId);
+        actor.actorProfile = profile;
         actor.spawnedAfterFill = !m_firstFillOpen;
         actor.name = pStats->name;
         actor.attributes = defaultActorAttributes(request.hostile);
@@ -19243,7 +19249,10 @@ bool IndoorWorldRuntime::healMapActor(size_t actorIndex, int amount)
 
     MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
     const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
-    const int maxHp = aiState.bolster ? aiState.bolster->maxHp : actor.hp;
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable != nullptr
+        ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(actor), actor.actorProfile) : nullptr;
+    const int maxHp = aiState.bolster ? aiState.bolster->maxHp
+        : pStats != nullptr ? pStats->hitPoints : actor.hp;
 
     if (actor.hp <= 0 || actor.hp >= maxHp || aiState.motionState == ActorAiMotionState::Dying
         || aiState.motionState == ActorAiMotionState::Dead)
@@ -19251,7 +19260,7 @@ bool IndoorWorldRuntime::healMapActor(size_t actorIndex, int amount)
         return false;
     }
 
-    actor.hp = std::min(maxHp, actor.hp + amount);
+    actor.hp += std::min(maxHp - actor.hp, amount);
     return true;
 }
 

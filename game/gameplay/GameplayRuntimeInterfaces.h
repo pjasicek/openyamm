@@ -265,6 +265,8 @@ struct GameplayRuntimeActorState
     float heldTargetX = 0.0f;
     float heldTargetY = 0.0f;
     float heldTargetZ = 0.0f;
+    uint32_t npcId = 0;
+    uint32_t group = 0;
 };
 
 struct GameplayCombatFeedbackEvent

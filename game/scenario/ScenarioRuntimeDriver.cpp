@@ -2779,6 +2779,13 @@ ScenarioInteractionResult ScenarioRuntimeDriver::activateActor(size_t actorIndex
     }
 
     result.hit = buildScenarioActorHit(actorIndex, inspectState);
+    GameplayRuntimeActorState actor;
+    if (pWorldRuntime->actorRuntimeState(actorIndex, actor))
+    {
+        result.hit.actor->npcId = actor.npcId;
+        result.hit.actor->actorGroup = actor.group;
+        result.hit.actor->isFriendly = !actor.hostileToParty;
+    }
     result.picked = true;
     result.activated = pWorldRuntime->activateWorldHit(result.hit);
 

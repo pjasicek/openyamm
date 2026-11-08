@@ -49,6 +49,8 @@ struct GameplayMonsterSpawnRequest
     std::optional<Mm9AiPlacementRecord> mm9Ai;
     // Waypoints every monster walks in turn while it has nothing to fight (a scene actor's patrol).
     std::vector<std::array<int32_t, 3>> patrolPoints;
+    // An authored NPC identity on a single spawned actor; 0 keeps ordinary monster summons unchanged.
+    uint32_t npcId = 0;
     std::string actorProfile;
 };
 
