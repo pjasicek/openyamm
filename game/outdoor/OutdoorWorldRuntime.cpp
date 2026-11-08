@@ -4727,6 +4727,8 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
         return {};
     }
 
+    const auto source = std::find_if(m_itemSourceData.lootContainers.begin(), m_itemSourceData.lootContainers.end(),
+        [chestId](const MapLootContainerSource &entry) { return entry.containerId == chestId && entry.rollEquipment; });
     return buildMaterializedChestView(
         chestId,
         m_chests[chestId],
@@ -4736,7 +4738,8 @@ OutdoorWorldRuntime::ChestViewState OutdoorWorldRuntime::buildChestView(uint32_t
         m_pChestTable,
         m_pItemTable,
         m_pParty,
-        m_map.worldId);
+        m_map.worldId,
+        source != m_itemSourceData.lootContainers.end() ? &*source : nullptr);
 }
 
 void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
@@ -5091,7 +5094,8 @@ void OutdoorWorldRuntime::initialize(
     GameplayFxService *pGameplayFxService,
     const MergedBolsterMapTable *pMergedBolsterMapTable,
     const MergedBolsterMonsterTable *pMergedBolsterMonsterTable,
-    const MapItemSourceData *pItemSourceData
+    const MapItemSourceData *pItemSourceData,
+    bool rollPlacedEquipmentLoot
 )
 {
     m_worldItemSpotter.reset();
@@ -5218,7 +5222,7 @@ void OutdoorWorldRuntime::initialize(
     m_nextWorldItemId = 1;
     m_armageddonState = {};
 
-    materializeMapDeltaWorldItems();
+    materializeMapDeltaWorldItems(rollPlacedEquipmentLoot);
     materializeSemanticWorldItems();
     settleRestingWorldItems();
     applyInitialWeatherProfile();
@@ -5664,7 +5668,7 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
     return true;
 }
 
-void OutdoorWorldRuntime::materializeMapDeltaWorldItems()
+void OutdoorWorldRuntime::materializeMapDeltaWorldItems(bool rollPlacedEquipmentLoot)
 {
     if (m_pOutdoorMapDeltaData == nullptr || m_pItemTable == nullptr || m_pObjectTable == nullptr)
     {
@@ -5673,8 +5677,12 @@ void OutdoorWorldRuntime::materializeMapDeltaWorldItems()
 
     std::mt19937 rng(std::random_device{}());
 
-    for (const MapDeltaSpriteObject &spriteObject : m_pOutdoorMapDeltaData->spriteObjects)
+    const auto &spriteObjects = m_pOutdoorMapDeltaData->spriteObjects;
+    const auto &rollIndices = m_itemSourceData.placedEquipmentLootIndices;
+    const bool rollEquipment = rollPlacedEquipmentLoot && !rollIndices.empty() && m_pParty != nullptr;
+    for (size_t index = 0; index < spriteObjects.size(); ++index)
     {
+        const MapDeltaSpriteObject &spriteObject = spriteObjects[index];
         if (!hasContainingItemPayload(spriteObject.rawContainingItem))
         {
             continue;
@@ -5736,6 +5744,19 @@ void OutdoorWorldRuntime::materializeMapDeltaWorldItems()
         worldItem.item.height = pItemDefinition->inventoryHeight;
         ItemGenerator::assignPlacedPotionPower(worldItem.item, *m_pItemTable, rng);
         ItemGenerator::assignSpecialItemEnchants(worldItem.item, *pItemDefinition);
+        if (rollEquipment && std::find(rollIndices.begin(), rollIndices.end(), index) != rollIndices.end()
+            && ItemEnchantRuntime::isEnchantable(*pItemDefinition) && !ItemRuntime::isRareItem(*pItemDefinition)
+            && std::all_of(spriteObject.rawContainingItem.begin() + sizeof(uint32_t),
+                spriteObject.rawContainingItem.end(), [](uint8_t byte) { return byte == 0; }))
+        {
+            const ItemRollTables tables{*m_pItemTable, *m_pStandardItemEnchantTable, *m_pSpecialItemEnchantTable};
+            const ItemGenerationRequest request{
+                .treasureLevel = m_mapTreasureLevel,
+                .allowRareItems = false,
+                .worldId = m_map.worldId,
+            };
+            gameRulesFor(m_pParty).items.rollEnchantments(worldItem.item, *pItemDefinition, tables, request, m_pParty, rng);
+        }
         worldItem.goldAmount = pItemDefinition->isGold() ? static_cast<uint32_t>(std::max(0, rawGoldAmount)) : 0;
         worldItem.isGold = worldItem.goldAmount > 0;
         worldItem.objectDescriptionId = objectDescriptionId;
