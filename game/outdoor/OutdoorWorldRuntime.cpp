@@ -10,6 +10,7 @@
 #include "game/gameplay/Mm9ActorRules.h"
 #include "game/gameplay/ActorAiTrace.h"
 #include "game/gameplay/PartyHostileAlert.h"
+#include "game/gameplay/GameplaySparring.h"
 #include "game/gameplay/ScriptedActorMoves.h"
 #include "game/gameplay/ActorVocalizationRules.h"
 #include "game/audio/ActorAudioRules.h"
@@ -7045,7 +7046,7 @@ void OutdoorWorldRuntime::applyFireSpikeTrapTriggerResult(
         return;
     }
 
-    if (result.applyActorImpact)
+    if (result.applyActorImpact && !isSparringOpponent(this, result.actorIndex))
     {
         const size_t triggeredActorIndex = result.actorIndex;
         const int damage = trap.sourceKind == ProjectileState::SourceKind::Party
@@ -9132,7 +9133,7 @@ void OutdoorWorldRuntime::burnWithImmolation(PlayerId player, const Party &party
     {
         MapActorState &actor = m_mapActors[actorIndex];
 
-        if (isActorUnavailableForCombat(actor))
+        if (isActorUnavailableForCombat(actor) || isSparringOpponent(this, actorIndex))
         {
             continue;
         }
@@ -16638,7 +16639,10 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
         }
     }
 
-    if (frameResult.directPartyDamage)
+    const EventRuntimeState *pEvents = eventRuntimeState();
+    const bool partyProjectileDuringSparring = projectile.sourceKind == ProjectileState::SourceKind::Party
+        && pEvents != nullptr && pEvents->sparring && pEvents->sparring->active;
+    if (frameResult.directPartyDamage && !partyProjectileDuringSparring)
     {
         if (m_pGameplayCombatController != nullptr)
         {
@@ -16656,7 +16660,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
         }
     }
 
-    if (frameResult.directActorImpact && frameResult.directActorImpact->actorIndex < m_mapActors.size())
+    if (frameResult.directActorImpact && frameResult.directActorImpact->actorIndex < m_mapActors.size()
+        && !isSparringOpponent(this, frameResult.directActorImpact->actorIndex))
     {
         const GameplayProjectileService::ProjectileDirectActorImpact &impact =
             *frameResult.directActorImpact;
@@ -16847,7 +16852,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
         const int blastDamage = areaImpact.impact.partyDamage > 0 ? areaImpact.impact.partyDamage
             : struckParty ? resolveProjectilePartyImpactDamage(projectile) : 0;
 
-        if (m_pGameplayCombatController != nullptr && blastDamage > 0
+        if (m_pGameplayCombatController != nullptr && blastDamage > 0 && !partyProjectileDuringSparring
             && (!projectile.eventMissile || projectile.eventMissileStrikesParty))
         {
             if (struckParty && collision.partyPlayer != LocalPlayer
@@ -16896,7 +16901,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
             }
         }
 
-        if (areaImpact.impact.hitParty)
+        if (areaImpact.impact.hitParty && !partyProjectileDuringSparring)
         {
             if (m_pGameplayCombatController != nullptr)
             {
@@ -16921,7 +16926,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
         for (const GameplayProjectileService::ProjectileAreaImpactActorHit &actorHit :
              areaImpact.impact.actorHits)
         {
-            if (actorHit.actorIndex >= m_mapActors.size())
+            if (actorHit.actorIndex >= m_mapActors.size() || isSparringOpponent(this, actorHit.actorIndex))
             {
                 continue;
             }
@@ -18874,7 +18879,7 @@ bool OutdoorWorldRuntime::applyReflectedDamageToActor(
             continue;
         }
 
-        if (isActorUnavailableForCombat(actor))
+        if (isActorUnavailableForCombat(actor) || isSparringOpponent(this, actorIndex))
         {
             return false;
         }
@@ -19562,7 +19567,8 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
     bool allowZeroDamageHit,
     bool melee)
 {
-    if (actorIndex >= m_mapActors.size()
+    if (actorIndex >= m_mapActors.size() || isSparringOpponent(this, actorIndex)
+        || isSparringSource(this, sourceActorId)
         || damage < 0
         || (damage == 0 && !allowZeroDamageHit))
     {
@@ -20605,7 +20611,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     bool hitReaction,
     bool melee)
 {
-    if (actorIndex >= m_mapActors.size() || damage <= 0)
+    if (actorIndex >= m_mapActors.size() || damage <= 0 || isSparringOpponent(this, actorIndex))
     {
         return false;
     }
@@ -21418,6 +21424,12 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
     if (isActorUnavailableForCombat(actor))
     {
         return false;
+    }
+
+    if (isSparringOpponent(this, actorIndex))
+    {
+        // Casting is allowed, but the sparring opponent takes no spell damage or control effects.
+        return true;
     }
 
     const MonsterTable::MonsterStatsEntry *pStats =

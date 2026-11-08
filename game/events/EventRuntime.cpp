@@ -5340,6 +5340,56 @@ int luaSetMapActorPosition(lua_State *pLuaState)
     return 1;
 }
 
+int luaStartSparring(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    const lua_Integer index = luaL_checkinteger(pLuaState, 1);
+    const lua_Integer partyGoal = luaL_checkinteger(pLuaState, 2);
+    const lua_Integer opponentGoal = luaL_checkinteger(pLuaState, 3);
+    const lua_Integer winEvent = luaL_checkinteger(pLuaState, 4);
+    const lua_Integer lossEvent = luaL_checkinteger(pLuaState, 5);
+    EventRuntimeState *pEvents = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+    GameplayRuntimeActorState actor;
+    if (pEvents == nullptr || pWorld->isIndoorMap() || (pEvents->sparring && pEvents->sparring->active) || index < 0
+        || partyGoal <= 0 || partyGoal > std::numeric_limits<int>::max()
+        || opponentGoal <= 0 || opponentGoal > std::numeric_limits<int>::max()
+        || winEvent <= 0 || winEvent > std::numeric_limits<uint16_t>::max()
+        || lossEvent <= 0 || lossEvent > std::numeric_limits<uint16_t>::max()
+        || !pWorld->actorRuntimeState(size_t(index), actor) || actor.isDead || actor.isInvisible)
+    {
+        lua_pushboolean(pLuaState, false);
+        return 1;
+    }
+
+    const std::optional<GameplayCombatActorInfo> opponent = pWorld->combatActorInfoById(actor.actorId);
+    pEvents->sparring = GameplaySparringState{
+        .actorIndex = size_t(index),
+        .actorId = actor.actorId,
+        .opponentName = opponent ? opponent->displayName : "Opponent",
+        .partyGoal = int(partyGoal),
+        .opponentGoal = int(opponentGoal),
+        .winEvent = uint16_t(winEvent),
+        .lossEvent = uint16_t(lossEvent),
+    };
+    lua_pushboolean(pLuaState, true);
+    return 1;
+}
+
+int luaEndSparring(lua_State *pLuaState)
+{
+    LuaExecutionContext *pContext = executionContextFromLua(pLuaState);
+    IGameplayWorldRuntime *pWorld = pContext != nullptr && !pContext->readonly
+        ? dynamic_cast<IGameplayWorldRuntime *>(pContext->pSceneEventContext) : nullptr;
+    EventRuntimeState *pEvents = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
+    if (pEvents != nullptr && pEvents->sparring)
+    {
+        pEvents->sparring->active = false;
+    }
+    return 0;
+}
+
 // evt.MoveActorTo(actorIndex, x, y, z[, arrivalEvent[, run]]): the map actor walks (run: runs) to the point by the
 // path planner, whatever it would do by itself, and stops there; its arrival runs arrivalEvent (0 or left out: none)
 // at the world's next update, with the hook context's actor index (EventRuntimeState::ScriptedActorMove). A new move
@@ -10926,6 +10976,8 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "FloorHeight", luaFloorHeight);
     registerLuaFunction(pLuaState, "GetEnemyDetectorState", luaGetEnemyDetectorState);
     registerLuaFunction(pLuaState, "SetMapActorPosition", luaSetMapActorPosition);
+    registerLuaFunction(pLuaState, "StartSparring", luaStartSparring);
+    registerLuaFunction(pLuaState, "EndSparring", luaEndSparring);
     registerLuaFunction(pLuaState, "KillMapActor", luaKillMapActor);
     registerLuaFunction(pLuaState, "ReviveMapActor", luaReviveMapActor);
     registerLuaFunction(pLuaState, "GetMapActorHp", luaGetMapActorHp);
@@ -10943,6 +10995,9 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetMm9ActorCanReceiveDamage", luaSetMm9ActorCanReceiveDamage);
     registerLuaFunction(pLuaState, "GetMapActorMonsterId", luaGetMapActorMonsterId);
     registerLuaFunction(pLuaState, "GetMapActorPosition", luaGetMapActorPosition);
+    registerLuaFunction(pLuaState, "GetMapActorHealth", luaGetMapActorHealth);
+    registerLuaFunction(pLuaState, "HealMapActor", luaHealMapActor);
+    registerLuaFunction(pLuaState, "GetMapActors", luaGetMapActors);
     registerLuaFunction(pLuaState, "TurnActor", luaTurnActor);
     registerLuaFunction(pLuaState, "TurnGroup", luaTurnGroup);
     registerLuaFunction(pLuaState, "WakeActor", luaWakeActor);

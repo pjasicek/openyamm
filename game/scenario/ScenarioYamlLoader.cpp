@@ -45,7 +45,7 @@ const KeyList AssertKeys = {
     "quick_item_ring", "quick_item_popup", "implants_shown", "water", "ai_trace", "autonote", "teacher_ledger", "sprite_hidden",
     "sprite_shown",
     "chest_view", "decoration_clip", "party_position", "turn_based", "member_points", "light", "scripted_fog",
-    "recovering_members",
+    "recovering_members", "sparring", "status_text",
     // recorded:
     "scene_kind", "new_game_starting", "new_game_started", "state_dump_party", "state_dump_party_member",
     "state_dump_party_skill", "follower_hired", "follower_left", "gold_received", "starting_items"};
@@ -96,7 +96,8 @@ const std::vector<NestedKeys> AssertBlockKeys = {
         "max_in_window", "within_seconds", "after", "before", "report"}},
     {"mechanism", MechanismKeys},
     {"runtime_event_variable", {"id", "value", "min", "max", "member_index"}},
-    {"combat_log", {"min_entries", "dealt_min", "taken_min", "with_stages_min", "loot_min", "critical_min"}},
+    {"combat_log", {"entries", "min_entries", "dealt_min", "taken_min", "with_stages_min", "loot_min", "critical_min"}},
+    {"sparring", {"active", "party_score", "opponent_score"}},
     {"ruleset", {"id", "difficulty", "progression", "challenge_mode", "rolled_items_min", "report_items",
         "crafted_items_min", "potion_effects_min", "potion_effects_max", "member_classes", "dimension_run",
         "dimension_quest", "madness_pending", "madness_deaths", "map_cleared", "map_slain_min",
@@ -172,6 +173,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::DamageActor, {"actor_index", "amount", "tier", "skip_dead", "all", "spare", "expect",
             "monster_ids", "name"}},
         {ScenarioStepKind::PartyAttack, {"actor_index", "member_index", "count", "conditions", "record", "ratio_to",
+            "at_party_pose",
             "damage_ratio", "applied_ratio", "recovery_ratio", "min_hit_rate", "max_hit_rate", "min_average",
             "max_average", "report", "attack_spell", "min_weapon_attacks", "max_weapon_attacks", "player", "kill"}},
         {ScenarioStepKind::SetRuleset, {"options"}},

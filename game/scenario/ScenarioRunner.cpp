@@ -3757,6 +3757,7 @@ bool runPartyAttack(ScenarioExecutionContext &context, const ScenarioStep &step,
     request.count = step.payload["count"].as<int>(100);
     request.player = PlayerId(step.payload["player"].as<int>(LocalPlayer));
     request.kill = step.payload["kill"].as<bool>(false);
+    request.atPartyPose = step.payload["at_party_pose"].as<bool>(false);
 
     if (step.payload["attack_spell"])
     {
@@ -6198,6 +6199,12 @@ bool assertCombatLog(
     size_t withStages = 0;
     size_t critical = 0;
     const std::deque<CombatLogEntry> &entries = context.runtimeDriver->combatLog().entries();
+    if (node["entries"] && entries.size() != node["entries"].as<size_t>())
+    {
+        failures.push_back(stepLocation(step) + ": combat_log expected " + node["entries"].as<std::string>()
+            + " entries, found " + std::to_string(entries.size()));
+        return false;
+    }
     for (const CombatLogEntry &entry : entries)
     {
         (entry.kind == CombatLogKind::Dealt ? dealt : entry.kind == CombatLogKind::Taken ? taken : loot) += 1;
@@ -6220,6 +6227,44 @@ bool assertCombatLog(
         }
     }
 
+    return true;
+}
+
+bool assertSparring(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node match = step.payload["sparring"];
+    const YAML::Node status = step.payload["status_text"];
+    if (status)
+    {
+        const std::string actual = context.runtimeDriver ? context.runtimeDriver->statusText() : std::string{};
+        if (actual != status.as<std::string>())
+        {
+            failures.push_back(stepLocation(step) + ": unexpected status text '" + actual + "'");
+            return false;
+        }
+    }
+    if (!match)
+    {
+        return true;
+    }
+
+    const EventRuntimeState *pEvents = context.runtimeDriver ? context.runtimeDriver->eventRuntimeState() : nullptr;
+    const GameplaySparringState *pMatch = pEvents != nullptr && pEvents->sparring ? &*pEvents->sparring : nullptr;
+    if ((match["active"] && match["active"].as<bool>() != (pMatch != nullptr && pMatch->active))
+        || (match["party_score"] && (pMatch == nullptr || match["party_score"].as<int>() != pMatch->partyScore))
+        || (match["opponent_score"]
+            && (pMatch == nullptr || match["opponent_score"].as<int>() != pMatch->opponentScore)))
+    {
+        const std::string score = pMatch != nullptr
+            ? std::to_string(pMatch->partyScore) + "/" + std::to_string(pMatch->opponentScore)
+                + (pMatch->active ? " active" : " finished")
+            : "no match";
+        failures.push_back(stepLocation(step) + ": unexpected sparring state: " + score);
+        return false;
+    }
     return true;
 }
 
@@ -12673,6 +12718,7 @@ bool runAssert(
     success = assertAiTrace(context, step, failures) && success;
     success = assertProjectiles(context, step, failures) && success;
     success = assertPartyHealth(context, step, failures) && success;
+    success = assertSparring(context, step, failures) && success;
     success = assertBuff(context, step, failures) && success;
     success = assertCondition(context, step, failures) && success;
     success = assertHomingEnds(context, step, failures) && success;

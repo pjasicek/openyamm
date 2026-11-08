@@ -1148,6 +1148,11 @@ bool ScenarioRuntimeDriver::pressQuickLoad(
     return true;
 }
 
+std::string ScenarioRuntimeDriver::statusText() const
+{
+    return ScenarioGameApplicationAccess::gameSession(m_application).gameplayScreenRuntime().statusBarEventText();
+}
+
 bool ScenarioRuntimeDriver::setPose(const ScenarioPose &pose, std::string &failure)
 {
     if (!pose.mapFileName.empty()
@@ -2758,11 +2763,13 @@ bool ScenarioRuntimeDriver::partyAttack(
             restoreOrders();
             return false;
         }
-        // Within reach of a blow, one step off the actor.
+        // The batch attack probe defaults to one step off the actor. At the party pose, use the real range and HUD.
+        const bool present = request.atPartyPose || request.attackSpell.has_value();
+        const ScenarioPose pose = request.atPartyPose ? currentPose() : ScenarioPose{};
         const GameplayActionController::PartyAttackExecutionResult outcome =
             screenRuntime.playerCommands().attack(request.player, GameplayActionController::PartyAttackConfig{
-                .pRuntime = request.attackSpell ? &screenRuntime : nullptr,
-                .pSpellService = request.attackSpell ? &screenRuntime.spellService() : nullptr,
+                .pRuntime = present ? &screenRuntime : nullptr,
+                .pSpellService = present ? &screenRuntime.spellService() : nullptr,
                 .pWorldRuntime = pWorldRuntime,
                 .pParty = pParty,
                 .pItemTable = &data.getItemTable(),
@@ -2770,8 +2777,11 @@ bool ScenarioRuntimeDriver::partyAttack(
                 .pMonsterTable = &data.getMonsterTable(),
                 .pSpecialItemEnchantTable = &data.getSpecialItemEnchantTable(),
                 .directTargetActorIndex = request.actorIndex,
-                .partyPosition = {state.preciseX + 64.0f, state.preciseY, state.preciseZ},
+                .partyPosition = request.atPartyPose
+                    ? GameplayActionController::WorldPoint{pose.x, pose.y, pose.z}
+                    : GameplayActionController::WorldPoint{state.preciseX + 64.0f, state.preciseY, state.preciseZ},
                 .randomSeed = uint32_t(attack + 1) * 2654435761u,
+                .arrowProjectileObjectId = request.atPartyPose ? 545u : 0u, // The stock arrow projectile.
             });
         GameplayRuntimeActorState after = {};
         pWorldRuntime->actorRuntimeState(request.actorIndex, after);
@@ -4841,6 +4851,11 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, 
         }
 
         advanceIndoorScene(deltaSeconds);
+        if (IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+            pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
+        {
+            session.gameplayScreenRuntime().ensurePendingEventDialogPresented(true);
+        }
 
         presentGrantedEventItems();
 

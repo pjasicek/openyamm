@@ -132,6 +132,7 @@ struct ScenarioPartyAttackRequest
     PlayerId player = LocalPlayer;
     // The attacks are meant to kill: the step ends well with the blow that does, and no damage is measured.
     bool kill = false;
+    bool atPartyPose = false;
     // Conditions the member has for these attacks; they are lifted again afterwards.
     std::vector<CharacterCondition> conditions;
     // The member's attack spell for these attacks (restored afterwards); when set, the attacks go through the
@@ -262,6 +263,7 @@ public:
         std::string &failure);
     bool setPose(const ScenarioPose &pose, std::string &failure);
     ScenarioPose currentPose() const;
+    std::string statusText() const;
     bool simulateMovementSegment(
         const ScenarioMovementCommand &command,
         ScenarioMovementResult &result,
