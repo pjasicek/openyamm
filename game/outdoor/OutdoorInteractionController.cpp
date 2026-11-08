@@ -1,3 +1,4 @@
+#include "engine/BgfxContext.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "engine/Localization.h"
 #include "game/rules/GameRules.h"
@@ -2987,6 +2988,10 @@ bool OutdoorInteractionController::hitTestActorBillboard(
     bool &usedBillboardHit)
 {
     usedBillboardHit = false;
+    if (!Engine::BgfxContext::isBgfxInitialized())
+    {
+        return false;
+    }
     if (pRuntimeActor != nullptr && view.m_pOutdoorWorldRuntime != nullptr)
     {
         const size_t actorIndex = size_t(pRuntimeActor - view.m_pOutdoorWorldRuntime->mapActorState(0));
@@ -4121,7 +4126,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                     : pActorState->displayName;
                 bestHit.distance = distance;
                 bestHit.isFriendly = !pActorState->hostileToParty;
-                bestHit.npcId = pPreviewBillboard != nullptr ? pPreviewBillboard->npcId : 0;
+                bestHit.npcId = pPreviewBillboard != nullptr ? pPreviewBillboard->npcId : pActorState->npcId;
                 bestHit.actorGroup = pPreviewBillboard != nullptr ? pPreviewBillboard->group : pActorState->group;
                 bestHit.runtimeActorIndex = actorIndex;
                 bestHit.spawnSummary.clear();
