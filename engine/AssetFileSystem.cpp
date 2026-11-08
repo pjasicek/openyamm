@@ -1958,7 +1958,7 @@ bool AssetFileSystem::loadIconPackagePolicy()
     }
     std::istringstream stream(*text);
     std::string line;
-    std::unordered_set<std::string> packages;
+    bool hasEngine = false;
     while (std::getline(stream, line))
     {
         std::istringstream fields(line);
@@ -1974,19 +1974,21 @@ bool AssetFileSystem::loadIconPackagePolicy()
         const bool validWorld = package.starts_with("worlds/") && package.size() > 7
             && package.find('/', 7) == std::string::npos && package.find("..") == std::string::npos;
         if ((!validWorld && package != "engine") || !tier || (fields >> extra)
-            || !packages.insert(package).second)
+            || std::find(m_iconPackages.begin(), m_iconPackages.end(), std::pair(package, *tier))
+                != m_iconPackages.end())
         {
             std::cerr << "Invalid icon package policy: " << line << '\n';
             return false;
         }
         m_iconPackages.emplace_back(package, *tier);
+        hasEngine = hasEngine || package == "engine";
     }
-    if (!packages.contains("engine"))
+    if (!hasEngine)
     {
         std::cerr << "Icon package policy must declare the engine root\n";
         return false;
     }
-    // Match ordinary package precedence: active world, base, then the other declared worlds.
+    // Match ordinary package precedence. Multiple declared tiers within one package retain their file order.
     std::stable_sort(m_iconPackages.begin(), m_iconPackages.end(), [this](const auto &left, const auto &right)
     {
         const auto priority = [this](const std::string &package)

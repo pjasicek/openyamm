@@ -1370,6 +1370,40 @@ TEST_CASE("AssetFileSystem authoritative icon packages isolate restored and reta
     std::filesystem::remove_all(temporaryRoot);
 }
 
+TEST_CASE("AssetFileSystem reads mixed declared icon tiers in package order")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assets = temporaryRoot / "assets";
+    writeZipFile(assets / "packs/engine.core.zip", {
+        {"icon_packages.txt", "engine x2\nworlds/mm7 x4\nworlds/mm7 x2\n"},
+        {"icons_x2/engine_only.png", "engine"},
+    });
+    writeZipFile(assets / "packs/mm7.core.zip", {
+        {"icons_x4/coin.png", "coin x4"},
+        {"icons_x2/coin.png", "coin x2"},
+        {"icons_x2/portrait.png", "portrait x2"},
+        {"icons/retired.png", "native"},
+    });
+    writeCorePackIndex(assets, {"engine", "mm7"});
+    {
+        AssetFileSystem fs;
+        REQUIRE(fs.initialize(temporaryRoot, assets, AssetScaleTier::X1, AssetScaleProfile{}, "mm7"));
+        CHECK(fs.readTextFile("Data/icons/coin.png") == std::optional<std::string>("coin x4"));
+        CHECK(fs.readTextFile("worlds/mm7/icons/coin.png") == std::optional<std::string>("coin x4"));
+        CHECK(fs.readTextFile("Data/icons/portrait.png") == std::optional<std::string>("portrait x2"));
+        CHECK(fs.readTextFile("Data/icons/engine_only.png") == std::optional<std::string>("engine"));
+        CHECK_FALSE(fs.readTextFile("Data/icons/retired.png"));
+        const auto coinPath = fs.resolveExistingFilePath("Data/icons/coin.png");
+        REQUIRE(coinPath);
+        CHECK(assetScaleTierFromResolvedPath(*coinPath) == AssetScaleTier::X4);
+        const auto portraitPath = fs.resolveExistingFilePath("Data/icons/portrait.png");
+        REQUIRE(portraitPath);
+        CHECK(assetScaleTierFromResolvedPath(*portraitPath) == AssetScaleTier::X2);
+    }
+    std::filesystem::remove_all(temporaryRoot);
+}
+
 TEST_CASE("AssetFileSystem cached lookups refresh and follow changed mounts")
 {
     using namespace OpenYAMM::Engine;
