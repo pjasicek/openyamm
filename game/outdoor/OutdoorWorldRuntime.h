@@ -701,7 +701,8 @@ public:
         GameplayFxService *pGameplayFxService = nullptr,
         const MergedBolsterMapTable *pMergedBolsterMapTable = nullptr,
         const MergedBolsterMonsterTable *pMergedBolsterMonsterTable = nullptr,
-        const MapItemSourceData *pItemSourceData = nullptr
+        const MapItemSourceData *pItemSourceData = nullptr,
+        bool rollPlacedEquipmentLoot = false
     );
 
     bool isInitialized() const;
@@ -1693,7 +1694,7 @@ private:
         uint16_t &height,
         std::string &objectName,
         std::string &objectSpriteName) const;
-    void materializeMapDeltaWorldItems();
+    void materializeMapDeltaWorldItems(bool rollPlacedEquipmentLoot);
     void materializeSemanticWorldItems();
     bool groundMm9WorldItemPlacement(WorldItemState &worldItem) const;
     bool groundMm9ActorPlacement(MapActorState &actor);

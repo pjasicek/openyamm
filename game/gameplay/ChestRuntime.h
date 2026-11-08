@@ -18,6 +18,7 @@ class ItemTable;
 class Party;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
+struct MapLootContainerSource;
 
 struct ChestTrapOpenContext
 {
@@ -62,7 +63,8 @@ GameplayChestViewState buildMaterializedChestView(
     const ChestTable *pChestTable,
     const ItemTable *pItemTable,
     Party *pParty,
-    const std::string &worldId);
+    const std::string &worldId,
+    const MapLootContainerSource *pSource = nullptr);
 
 bool takeChestItem(GameplayChestViewState &view, size_t itemIndex, GameplayChestItemState &item);
 bool takeChestItemAt(GameplayChestViewState &view, uint8_t gridX, uint8_t gridY, GameplayChestItemState &item);
