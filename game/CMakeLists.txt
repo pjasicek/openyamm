@@ -78,6 +78,7 @@ add_library(openyamm_game STATIC
     gameplay/LootContainerRuntime.cpp
     gameplay/CombatLog.cpp
     gameplay/GameplayCombatController.cpp
+    gameplay/GameplaySparring.cpp
     gameplay/GameplayController.cpp
     gameplay/CorpseLootRuntime.cpp
     gameplay/GameplayLootFilter.cpp
