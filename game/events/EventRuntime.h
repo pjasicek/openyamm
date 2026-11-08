@@ -870,7 +870,9 @@ public:
         uint16_t topicId,
         const EventRuntimeState &runtimeState,
         const Party *pParty,
-        const ISceneEventContext *pSceneEventContext = nullptr
+        const ISceneEventContext *pSceneEventContext = nullptr,
+        // the title the handler named with evt.TopicTitle, left as it is when it named none
+        std::string *pTitle = nullptr
     ) const;
     bool executeHooks(
         const std::optional<ScriptedEventProgram> &localProgram,

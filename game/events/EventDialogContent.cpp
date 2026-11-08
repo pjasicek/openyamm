@@ -1642,12 +1642,15 @@ EventDialogContent buildEventDialogContent(
                     const ISceneEventContext *pSceneEventContext =
                         dynamic_cast<const ISceneEventContext *>(pWorldRuntime);
 
+                    std::string scriptedTitle;
+
                     if (!eventRuntime.canShowTopic(
                             globalProgram,
                             static_cast<uint16_t>(topic.id),
                             npcRuntimeState,
                             pParty,
-                            pSceneEventContext))
+                            pSceneEventContext,
+                            &scriptedTitle))
                     {
                         continue;
                     }
@@ -1673,7 +1676,7 @@ EventDialogContent buildEventDialogContent(
                     }
 
                     action.id = topic.id;
-                    action.label = Engine::localize(topic.topic);
+                    action.label = scriptedTitle.empty() ? Engine::localize(topic.topic) : scriptedTitle;
                     dialog.actions.push_back(std::move(action));
                 }
 

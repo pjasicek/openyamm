@@ -176,6 +176,109 @@ TEST_CASE("an item an event gives waits for the hand-over through the events tha
     CHECK_EQ(runtimeState.grantedItems.front().objectDescriptionId, 244u);
 }
 
+TEST_CASE("evt.GetCurrentMapName gives the map's file name, which the scripts compare")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9007, \"Map name\", function()\n"
+        "    evt.StatusText(evt.GetCurrentMapName())\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@map_name_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    runtimeState.mapFileName = "oakhome.blv";
+
+    CHECK(eventRuntime.executeEventById(std::nullopt, program, 9007, runtimeState, nullptr));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
+    CHECK_EQ(runtimeState.statusMessages.front(), "oakhome.blv");
+}
+
+TEST_CASE("evt.QuestGold scales a sum as the party's rules scale quest gold; evt.TopicTitle names a listed topic")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9020, \"Sums\", function()\n"
+        "    evt.StatusText(tostring(evt.QuestGold(1000)) .. \" \" .. tostring(evt.QuestGold(0)))\n"
+        "end)\n"
+        "RegisterCanShowTopic(9021, function()\n"
+        "    evt.TopicTitle((\"Pay: Ransom (%dg)\"):format(evt.QuestGold(1000)))\n"
+        "    return true\n"
+        "end)\n"
+        "RegisterCanShowTopic(9022, function() return true end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@quest_gold_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    const auto title = [&](uint16_t topicId, const Party &party)
+    {
+        std::string named = "row";
+        CHECK(eventRuntime.canShowTopic(program, topicId, runtimeState, &party, nullptr, &named));
+        return named;
+    };
+    Party party = {};
+    PartySeed seed = {};
+    Character member = {};
+    member.name = "Ada";
+    seed.members = {member};
+    party.seed(seed);
+
+    // The standard rules add nothing.
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9020, runtimeState, &party));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 1u);
+    CHECK_EQ(runtimeState.statusMessages.back(), "1000 0");
+    CHECK_EQ(title(9021, party), "Pay: Ransom (1000g)");
+    // A handler that names no title leaves the caller's.
+    CHECK_EQ(title(9022, party), "row");
+
+    // MAW's calculateGold: gold * level / 100 + 250 * level on top, level 83.
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    rules.state().continentLevels[1] = 83;     // levels banked on another continent (levelOutside)
+    party.setRules(&rules.gameRules());
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9020, runtimeState, &party));
+    const int scaled = 1000 + rules.gameRules().experience.questGoldBonus(1000, runtimeState.activeHistoryContinentId);
+    CHECK_GT(scaled, 1000);
+    CHECK_EQ(runtimeState.statusMessages.back(), std::to_string(scaled) + " 0");
+    CHECK_EQ(title(9021, party), "Pay: Ransom (" + std::to_string(scaled) + "g)");
+}
+
+TEST_CASE("a topic's can-show handler reads a map actor's position (read-only scene)")
+{
+    // A captive offers a topic only while the party stands near his actor.
+    struct ActorScene : MissileScene
+    {
+        bool mapActorPosition(size_t actorIndex, float &x, float &y, float &z) const override
+        {
+            if (actorIndex != 17)
+            {
+                return false;
+            }
+            x = -4709.0f;
+            y = -929.0f;
+            z = -770.0f;
+            return true;
+        }
+    };
+    const std::string source = eventSupportText() + "\n"
+        "RegisterCanShowTopic(9023, function()\n"
+        "    local x, y, z = evt.GetMapActorPosition(17)\n"
+        "    evt.TopicTitle(x and (\"%d %d %d\"):format(x, y, z) or \"none\")\n"
+        "    return x ~= nil\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@actor_position_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    ActorScene scene;
+    std::string title;
+    CHECK(eventRuntime.canShowTopic(program, 9023, runtimeState, nullptr, &scene, &title));
+    CHECK_EQ(title, "-4709 -929 -770");
+}
+
 TEST_CASE("evt.SetSectorAmbient overrides a sector's ambient level until a negative level restores the map's")
 {
     const std::string source = eventSupportText() + "\n"

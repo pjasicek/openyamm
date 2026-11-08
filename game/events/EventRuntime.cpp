@@ -4722,6 +4722,8 @@ struct LuaExecutionContext
     PartySelector selector = {};
     std::optional<std::string> pendingMessageText;
     std::optional<bool> canShowTopicVisible;
+    // evt.TopicTitle in a can-show handler (EventRuntime::canShowTopic pTitle).
+    std::optional<std::string> canShowTopicTitle;
     size_t initialMessageCount = 0;
     uint16_t currentEventId = 0;
     bool readonly = false;
@@ -4994,6 +4996,7 @@ int luaBeginCanShowTopic(lua_State *pLuaState)
         pExecutionContext->selector = {};
         pExecutionContext->pendingMessageText.reset();
         pExecutionContext->canShowTopicVisible.reset();
+        pExecutionContext->canShowTopicTitle.reset();
     }
 
     return 0;
@@ -7759,6 +7762,22 @@ int luaSetNpcGreeting(lua_State *pLuaState)
     return 0;
 }
 
+// evt.TopicTitle(title), in a topic's can-show handler: the title the NPC dialog lists the topic under this time
+// instead of its npc_topic.txt one (a price at the party's scale). The handler runs read-only and again whenever the
+// dialog lists its topics, so nothing is stored.
+int luaTopicTitle(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const char *pTitle = luaL_checkstring(pLuaState, 1);
+
+    if (pExecutionContext != nullptr && pTitle[0] != 0)
+    {
+        pExecutionContext->canShowTopicTitle = std::string(pTitle);
+    }
+
+    return 0;
+}
+
 int luaSetNpcName(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -9276,6 +9295,21 @@ int luaRulesetInfo(lua_State *pLuaState)
     return 1;
 }
 
+// evt.QuestGold(gold): a sum of gold at the party's rules' quest scale on the current continent - the sum plus
+// ExperienceRules::questGoldBonus, which dialogs add to a topic paying gold with experience. Scripts scale with it the
+// sums the party pays or a topic pays alone (MAW's calculateGold); 0 and less stay as they are.
+int luaQuestGold(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    const lua_Integer gold = luaL_checkinteger(pLuaState, 1);
+    const int bonus = gold > 0
+        ? gameRulesFor(readableParty(pLuaState)).experience.questGoldBonus(int(gold),
+            pRuntimeState != nullptr ? pRuntimeState->activeHistoryContinentId : 0)
+        : 0;
+    lua_pushinteger(pLuaState, gold + bonus);
+    return 1;
+}
+
 // evt.ArenaMonster(wave): the monster family the rules' Endless Arena brings in this wave, or 0.
 int luaArenaMonster(lua_State *pLuaState)
 {
@@ -10283,6 +10317,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "StatusText", luaStatusText);
     registerLuaFunction(pLuaState, "SetUnscaledExperience", luaSetUnscaledExperience);
     registerLuaFunction(pLuaState, "RulesetInfo", luaRulesetInfo);
+    registerLuaFunction(pLuaState, "QuestGold", luaQuestGold);
     registerLuaFunction(pLuaState, "CountItems", luaCountItems);
     registerLuaFunction(pLuaState, "ArenaMonster", luaArenaMonster);
     registerLuaFunction(pLuaState, "RulesTopic", luaRulesTopic);
@@ -10298,6 +10333,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SummonRandomItem", luaSummonRandomItem);
     registerLuaFunction(pLuaState, "SummonGold", luaSummonGold);
     registerLuaFunction(pLuaState, "SetNPCTopic", luaSetNpcTopic);
+    registerLuaFunction(pLuaState, "TopicTitle", luaTopicTitle);
     registerLuaFunction(pLuaState, "MoveNPC", luaMoveNpc);
     registerLuaFunction(pLuaState, "GiveItem", luaGiveItem);
     registerLuaFunction(pLuaState, "ChangeEvent", luaChangeEvent);
@@ -11322,7 +11358,8 @@ bool EventRuntime::canShowTopic(
     uint16_t topicId,
     const EventRuntimeState &runtimeState,
     const Party *pParty,
-    const ISceneEventContext *pSceneEventContext
+    const ISceneEventContext *pSceneEventContext,
+    std::string *pTitle
 ) const
 {
     if (topicId == 0 || !globalProgram)
@@ -11358,6 +11395,11 @@ bool EventRuntime::canShowTopic(
     if (!invokeLuaHandler(*this, iterator->second, executionContext, std::nullopt, &visible))
     {
         return false;
+    }
+
+    if (pTitle != nullptr && executionContext.canShowTopicTitle)
+    {
+        *pTitle = *executionContext.canShowTopicTitle;
     }
 
     return visible.value_or(true);
