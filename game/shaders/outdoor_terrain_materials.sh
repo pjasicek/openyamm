@@ -281,9 +281,12 @@ void main()
         plain)))) * occlusion;
     if (glossy)
     {
-        // The sun at the ambient level's complement: the unbaked terrain's sun term (outdoorSunlight).
-        vec3 toSun = normalize(u_outdoorSunlight.xyz);
-        float sun = max(1.0 - u_outdoorSunlight.w, 0.0);
+        // The sun at the ambient level's complement: the unbaked terrain's sun term (outdoorSunlight). At night and
+        // in full fog buildOutdoorSunlight gives no sun direction at all: no sun glint then (normalizing the zero
+        // vector made every glossy layer NaN, drawn black).
+        float sunLength = length(u_outdoorSunlight.xyz);
+        vec3 toSun = u_outdoorSunlight.xyz / max(sunLength, 0.000001);
+        float sun = sunLength > 0.0 ? max(1.0 - u_outdoorSunlight.w, 0.0) : 0.0;
         litColor += (specular + vec3_splat(sun * terrainSpecular(specularNormal, toCamera, toSun, specularRoughness)
             * specularStrength)) * occlusion;
     }
