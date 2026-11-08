@@ -8489,7 +8489,8 @@ void Party::clearFoundArtifactItems()
 
 bool Party::arcomageTavernCountsForChampion(uint32_t houseId)
 {
-    return houseId <= LastMm8ArcomageHouseId || houseId >= FirstMm7ArcomageHouseId;
+    return (houseId >= FirstMm8ArcomageHouseId && houseId <= LastMm8ArcomageHouseId)
+        || (houseId >= FirstMm7ArcomageHouseId && houseId <= LastMm7ArcomageHouseId);
 }
 
 bool Party::hasArcomageWinAt(uint32_t houseId) const
