@@ -4,6 +4,7 @@
 #include "game/content/ContentManifest.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/items/InventoryBags.h"
@@ -15,6 +16,7 @@
 #include "game/ui/GameplayUiRuntime.h"
 
 #include "tests/RegressionGameData.h"
+#include "tests/PartySpellTestHarness.h"
 
 #include <doctest/doctest.h>
 
@@ -23,6 +25,65 @@
 #include <cmath>
 #include <filesystem>
 #include <string>
+
+TEST_CASE("map UI reset preserves the real cursor item before a second event reward displaces it")
+{
+    using namespace OpenYAMM;
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    Game::GameDataRepository data;
+    data.bind(loader);
+    const Game::ItemTable &items = data.itemTable();
+    Game::Party party;
+    party.seed(Game::Party::createDefaultSeed());
+    party.setItemTable(&items);
+    Tests::PartySpellTestWorldRuntime world;
+    world.bindParty(&party);
+    Game::GameSession session;
+    session.bindDataRepository(&data);
+    session.bindActiveWorldRuntime(&world);
+    Game::GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
+    Game::EventRuntimeState events;
+    events.grantedItemIds.push_back(992);
+    Game::GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(runtime, events, items);
+    REQUIRE(runtime.heldInventoryItem().active);
+    const Game::InventoryItem garnet = runtime.heldInventoryItem().item;
+    runtime.heldInventoryItem().grabCellOffsetX = 1;
+    runtime.heldInventoryItem().grabOffsetX = 12.5f;
+    // Both views shut down on a map change, and the new view bootstraps the same session UI.
+    for (int reset = 0; reset < 3; ++reset)
+    {
+        runtime.clearUiControllerRuntimeState();
+        REQUIRE(runtime.heldInventoryItem().active);
+        CHECK(runtime.heldInventoryItem().item == garnet);
+        CHECK_EQ(runtime.heldInventoryItem().grabCellOffsetX, 1);
+        CHECK_EQ(runtime.heldInventoryItem().grabOffsetX, doctest::Approx(12.5f));
+        CHECK_EQ(party.heldItemIdForQueries(), 992);
+    }
+    events.grantedItemIds.push_back(1173);
+    Game::GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(runtime, events, items);
+    CHECK_EQ(party.inventoryItemCount(992), 1);
+    CHECK_EQ(party.inventoryItemCount(1173), 0);
+    REQUIRE(runtime.heldInventoryItem().active);
+    CHECK_EQ(runtime.heldInventoryItem().item.objectDescriptionId, 1173);
+    CHECK_EQ(party.heldItemIdForQueries(), 1173);
+    Game::GameSaveData emptyHandSave;
+    session.restoreHeldInventoryItemFromSaveData(emptyHandSave);
+    CHECK_FALSE(runtime.heldInventoryItem().active);
+    CHECK_EQ(party.heldItemIdForQueries(), 0);
+    Game::GameSaveData occupiedHandSave;
+    occupiedHandSave.heldInventoryItemActive = true;
+    occupiedHandSave.heldInventoryItem = garnet;
+    session.restoreHeldInventoryItemFromSaveData(occupiedHandSave);
+    REQUIRE(runtime.heldInventoryItem().active);
+    CHECK(runtime.heldInventoryItem().item == garnet);
+    CHECK_EQ(party.heldItemIdForQueries(), 992);
+    session.clear();
+    CHECK_FALSE(runtime.heldInventoryItem().active);
+}
 
 TEST_CASE("dimensional travel shows four portals with a column of the screen as each one's hover region")
 {
