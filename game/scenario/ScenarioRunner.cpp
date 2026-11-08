@@ -2392,6 +2392,15 @@ bool loadMap(
     context.currentMapFileName = mapFileName;
     scenarioLog(context, ScenarioLogColor::Green, "LOAD data complete map=" + mapFileName);
 
+    // The native map loader already ran these events with its real scene. Do not replay them in a shadow
+    // party without a world: scene-dependent handlers cannot execute there, and their state is not authoritative.
+    if (context.runtimeDriver && context.runtimeDriver->hasActiveRuntime()
+        && lowerAscii(context.runtimeDriver->currentMapFileName()) == lowerAscii(mapFileName))
+    {
+        syncContextFromRuntime(context);
+        return true;
+    }
+
     const std::optional<MapAssetInfo> &selectedMap = context.gameDataLoader.getSelectedMap();
     if (selectedMap && selectedMap->eventRuntimeState)
     {

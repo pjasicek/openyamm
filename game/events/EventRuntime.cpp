@@ -10380,6 +10380,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "GetGlobalVar", luaGetGlobalVar);
     registerLuaFunction(pLuaState, "SetGlobalVar", luaSetGlobalVar);
     registerLuaFunction(pLuaState, "GetHeldItemId", luaGetHeldItemId);
+    registerLuaFunction(pLuaState, "RemoveMapItem", luaRemoveMapItem);
     registerLuaFunction(pLuaState, "SetHeldItem", luaSetHeldItem);
     registerLuaFunction(pLuaState, "ClearHeldItem", luaClearHeldItem);
     registerLuaFunction(pLuaState, "GetPartyMemberCount", luaGetPartyMemberCount);
