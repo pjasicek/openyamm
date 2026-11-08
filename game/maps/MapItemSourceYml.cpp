@@ -256,7 +256,8 @@ bool readLootContainer(
         && readScalar(node, "should_repopulate", source.shouldRepopulate, errorMessage)
         && readFixedItems(node, source.fixedItems, errorMessage)
         && readScalar(node, "remove_when_empty", source.removeWhenEmpty, errorMessage)
-        && readScalar(node, "random_records", source.randomRecords, errorMessage, false);
+        && readScalar(node, "random_records", source.randomRecords, errorMessage, false)
+        && readScalar(node, "roll_equipment", source.rollEquipment, errorMessage, false);
     if (!parsed)
     {
         return false;
@@ -264,6 +265,12 @@ bool readLootContainer(
     if (source.randomRecords == 0 || source.randomRecords + source.fixedItems.size() > 81)
     {
         errorMessage = "loot container random_records must be positive and fit the chest";
+        return false;
+    }
+    if (source.rollEquipment && (!source.random || source.goldOnly || source.randomTreasureLevel < 1
+        || source.randomTreasureLevel > 6 || node["random_item_pool"] || node["random_item_count"]))
+    {
+        errorMessage = "an equipment roll requires random treasure of level 1-6 without a fixed random item pool";
         return false;
     }
     if (!node["random_item_pool"] && !node["random_item_count"])

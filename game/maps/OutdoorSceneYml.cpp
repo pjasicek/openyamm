@@ -2564,6 +2564,20 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
+    if (const YAML::Node indicesNode = rootNode["roll_placed_equipment_loot"])
+    {
+        try
+        {
+            sceneData.itemSources.placedEquipmentLootIndices = indicesNode.as<std::vector<uint32_t>>();
+        }
+        catch (const YAML::Exception &exception)
+        {
+            errorMessage = std::string("roll_placed_equipment_loot must be a sequence of sprite object indices: ")
+                + exception.what();
+            return false;
+        }
+    }
+
     if (!parseOptionalSceneProfile(rootNode, sceneData.sceneProfile, errorMessage))
     {
         return false;

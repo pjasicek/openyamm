@@ -3287,7 +3287,9 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
-    if (!parseArenaDefinition(rootNode, sceneData.arena, errorMessage))
+    if (!parseArenaDefinition(rootNode, sceneData.arena, errorMessage)
+        || !readScalarNode(rootNode, "roll_placed_weapon_loot", sceneData.itemSources.rollPlacedWeaponLoot,
+            errorMessage, false))
     {
         return false;
     }

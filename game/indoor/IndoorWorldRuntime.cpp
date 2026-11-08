@@ -3860,6 +3860,59 @@ void IndoorWorldRuntime::dropRestingWorldItemsToFloor()
     }
 }
 
+void IndoorWorldRuntime::rollPlacedWeaponLoot()
+{
+    if (!m_itemSourceData.rollPlacedWeaponLoot || !m_map || m_pParty == nullptr || m_pItemTable == nullptr)
+    {
+        return;
+    }
+
+    MapDeltaData *pMapDelta = mapDeltaData();
+    const StandardItemEnchantTable *pStandardEnchants = m_pParty->standardItemEnchantTable();
+    const SpecialItemEnchantTable *pSpecialEnchants = m_pParty->specialItemEnchantTable();
+
+    if (pMapDelta == nullptr || pStandardEnchants == nullptr || pSpecialEnchants == nullptr)
+    {
+        return;
+    }
+
+    const ItemRollTables tables{*m_pItemTable, *pStandardEnchants, *pSpecialEnchants};
+    const ItemGenerationRequest request{
+        .treasureLevel = m_map->treasureLevel,
+        .allowRareItems = false,
+        .worldId = m_map->worldId,
+    };
+    std::mt19937 rng(std::random_device{}());
+
+    for (MapDeltaSpriteObject &object : pMapDelta->spriteObjects)
+    {
+        // Legacy plain placements contain only the item id. Keep authored bonuses and runtime drops intact.
+        InventoryItem item;
+        if ((object.attributes & SpriteAttrRemoved) != 0 || object.heldItem || object.semanticLootContainer
+            || !object.semanticSourceId.empty()
+            || !readIndoorHeldItemPayload(object.rawContainingItem, m_pItemTable, item)
+            || std::any_of(object.rawContainingItem.begin() + sizeof(uint32_t), object.rawContainingItem.end(),
+                [](uint8_t byte) { return byte != 0; }))
+        {
+            continue;
+        }
+
+        const ItemDefinition *pDefinition = m_pItemTable->get(item.objectDescriptionId);
+        if (pDefinition == nullptr || ItemRuntime::isRareItem(*pDefinition))
+        {
+            continue;
+        }
+
+        const ItemEnchantCategory category = ItemEnchantRuntime::categoryForItem(*pDefinition);
+        if (category == ItemEnchantCategory::OneHandedWeapon || category == ItemEnchantCategory::TwoHandedWeapon
+            || category == ItemEnchantCategory::Missile)
+        {
+            gameRulesFor(m_pParty).items.rollEnchantments(item, *pDefinition, tables, request, m_pParty, rng);
+            object.heldItem = item;
+        }
+    }
+}
+
 void IndoorWorldRuntime::materializeSemanticWorldItems()
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -23837,6 +23890,8 @@ IndoorWorldRuntime::ChestViewState IndoorWorldRuntime::buildChestView(uint32_t c
         return {};
     }
 
+    const auto source = std::find_if(m_itemSourceData.lootContainers.begin(), m_itemSourceData.lootContainers.end(),
+        [chestId](const MapLootContainerSource &entry) { return entry.containerId == chestId && entry.rollEquipment; });
     return buildMaterializedChestView(
         chestId,
         pMapDeltaData->chests[chestId],
@@ -23846,7 +23901,8 @@ IndoorWorldRuntime::ChestViewState IndoorWorldRuntime::buildChestView(uint32_t c
         m_pChestTable,
         m_pItemTable,
         m_pParty,
-        mapWorldId());
+        mapWorldId(),
+        source != m_itemSourceData.lootContainers.end() ? &*source : nullptr);
 }
 
 void IndoorWorldRuntime::activateChestView(uint32_t chestId)

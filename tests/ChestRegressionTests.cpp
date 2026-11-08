@@ -8,7 +8,9 @@
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/maps/MapDeltaData.h"
+#include "game/maps/MapItemSourceData.h"
 #include "game/maps/OutdoorSceneYml.h"
+#include "game/rules/maw/MawRules.h"
 #include "game/tables/ChestTable.h"
 
 #include "tests/RegressionGameData.h"
@@ -446,6 +448,33 @@ TEST_CASE("fixed chest gold with authored amount materializes as lootable gold")
     CHECK_EQ(pGoldItem->itemId, LargeGoldItemId);
     CHECK_EQ(pGoldItem->goldAmount, GoldAmount);
     CHECK_EQ(pGoldItem->goldRollCount, 1u);
+}
+
+TEST_CASE("an authored equipment chest holds one equipment roll and its fixed gold under MAW")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeChestTestParty(gameData);
+    MawRules rules({}, {});
+    party.setRules(&rules.gameRules());
+    const ChestTable chestTable = makeChestTable(9, 9);
+    MapDeltaChest chest;
+    chest.inventoryMatrix.assign(140, 0);
+    writeRawChestItemId(chest, 0, 197);
+    writeRawChestItemInt32(chest, 0, 0x0c, 116);
+    writeRawChestItemId(chest, 1, -3);
+    const MapLootContainerSource source{.gold = 116, .rollEquipment = true};
+
+    const GameplayChestViewState view = buildMaterializedChestView(
+        6, chest, 3, 0, 1234, &chestTable, &gameData.itemTable, &party, "mm7", &source);
+    const GameplayChestItemState *pGold = firstGoldChestItem(view);
+    REQUIRE(pGold != nullptr);
+    CHECK_EQ(pGold->goldAmount, 116);
+    REQUIRE(view.items.size() == 2);
+    const GameplayChestItemState &equipment = view.items[view.items.front().isGold ? 1 : 0];
+    const ItemDefinition *pDefinition = gameData.itemTable.get(equipment.itemId);
+    REQUIRE(pDefinition != nullptr);
+    CHECK(ItemEnchantRuntime::isEnchantable(*pDefinition));
 }
 
 TEST_CASE("fixed chest gold with zero authored amount receives deterministic legacy fallback")

@@ -264,6 +264,7 @@ public:
         const std::optional<ScriptedEventProgram> *pLocalEventProgram,
         const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
     void bindActorBehaviorCatalog(const ActorBehaviorCatalog *pCatalog);
+    void rollPlacedWeaponLoot();
     ActorBehaviorRuntime *actorBehaviorRuntime() override;
     const ActorBehaviorRuntime *actorBehaviorRuntime() const override;
     GameplayActorShields *actorShields() override
