@@ -1,3 +1,4 @@
+#include "engine/BgfxContext.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "engine/Localization.h"
 #include "game/rules/GameRules.h"
@@ -2986,6 +2987,10 @@ bool OutdoorInteractionController::hitTestActorBillboard(
     bool &usedBillboardHit)
 {
     usedBillboardHit = false;
+    if (!Engine::BgfxContext::isBgfxInitialized())
+    {
+        return false;
+    }
     if (pRuntimeActor != nullptr && view.m_pOutdoorWorldRuntime != nullptr)
     {
         const size_t actorIndex = size_t(pRuntimeActor - view.m_pOutdoorWorldRuntime->mapActorState(0));
@@ -4112,7 +4117,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                     : pActorState->displayName;
                 bestHit.distance = distance;
                 bestHit.isFriendly = !pActorState->hostileToParty;
-                bestHit.npcId = pPreviewBillboard != nullptr ? pPreviewBillboard->npcId : 0;
+                bestHit.npcId = pPreviewBillboard != nullptr ? pPreviewBillboard->npcId : pActorState->npcId;
                 bestHit.actorGroup = pPreviewBillboard != nullptr ? pPreviewBillboard->group : pActorState->group;
                 bestHit.runtimeActorIndex = actorIndex;
                 bestHit.spawnSummary.clear();
@@ -4769,6 +4774,7 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
         resolvedRuntimeActorIndex && view.m_pOutdoorWorldRuntime != nullptr
             ? view.m_pOutdoorWorldRuntime->mapActorState(*resolvedRuntimeActorIndex)
             : nullptr;
+    const int16_t resolvedNpcId = pResolvedActorState != nullptr ? pResolvedActorState->npcId : inspectHit.npcId;
     const uint32_t resolvedMonsterId = pResolvedActorState != nullptr && pResolvedActorState->monsterId > 0
                                            ? static_cast<uint32_t>(pResolvedActorState->monsterId)
                                            : 0;
@@ -4876,7 +4882,7 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
             });
     }
 
-    if (inspectHit.kind == "actor" && inspectHit.npcId > 0)
+    if (inspectHit.kind == "actor" && resolvedNpcId > 0)
     {
         if (inspectHitTargetsLivingHostileActor(view, inspectHit))
         {
@@ -4896,8 +4902,8 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(OutdoorGameView 
         GameplayDialogController::Context context =
             createGameplayDialogContext(view, *pEventRuntimeState, "activate_actor_npc_dialog");
         const GameplayDialogController::Result result = view.m_gameSession.gameplayDialogController().openNpcDialogue(
-            context, static_cast<uint32_t>(inspectHit.npcId), 0, resolvedRuntimeActorIndex32);
-        pEventRuntimeState->lastActivationResult = "npc " + std::to_string(inspectHit.npcId) + " engaged";
+            context, static_cast<uint32_t>(resolvedNpcId), 0, resolvedRuntimeActorIndex32);
+        pEventRuntimeState->lastActivationResult = "npc " + std::to_string(resolvedNpcId) + " engaged";
 
         if (result.shouldOpenPendingEventDialog)
         {
