@@ -5594,8 +5594,18 @@ int luaGetCurrentScreen(lua_State *pLuaState)
     return 1;
 }
 
+// The map's file name (oakhome.blv), as MMExtension's Map.Name and the scripts that compare it expect; the world
+// runtime's mapName() is the map_stats display name ("Oak Hill Cottage"), the fallback where no runtime state is bound.
 int luaGetCurrentMapName(lua_State *pLuaState)
 {
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+
+    if (pRuntimeState != nullptr && !pRuntimeState->mapFileName.empty())
+    {
+        lua_pushstring(pLuaState, pRuntimeState->mapFileName.c_str());
+        return 1;
+    }
+
     const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
     const IGameplayWorldRuntime *pWorldRuntime = dynamic_cast<const IGameplayWorldRuntime *>(pSceneEventContext);
