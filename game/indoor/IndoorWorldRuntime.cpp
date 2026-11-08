@@ -20647,6 +20647,8 @@ void IndoorWorldRuntime::placeRulesetMapMonsters()
             .pFacts = &actor.rulesetFacts,
             .uniqueNameId = actor.uniqueNameIndex,
             .scripted = pStats != nullptr && m_actorBehaviors.scripted(actorIndex, int16_t(pStats->id)),
+            .forcedBoss = m_pMonsterTable->isUniqueNameBoss(actor.uniqueNameIndex),
+            .group = actor.group,
         });
     }
 
