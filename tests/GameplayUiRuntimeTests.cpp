@@ -303,3 +303,30 @@ TEST_CASE("MAW bag overview: identify and repair act on the inspected item's bag
     CHECK_NE(GameplayScreenController::itemInspectInteractionKey(openBagOverlay),
         GameplayScreenController::itemInspectInteractionKey(otherBagOverlay));
 }
+
+TEST_CASE("town portal takes the continent of a map outside the merge's map id ranges from bolster_maps")
+{
+    using namespace OpenYAMM;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    Game::GameDataRepository data;
+    data.bind(loader);
+    Game::GameplayUiRuntime ui;
+    ui.bindDataRepository(&data);
+
+    REQUIRE(ui.ensureTownPortalDestinationsLoaded("7out02.odm", ""));
+    const std::string antagarich = ui.townPortalBackgroundTextureName();
+    REQUIRE(ui.ensureTownPortalDestinationsLoaded("out01.odm", ""));
+    CHECK_NE(ui.townPortalBackgroundTextureName(), antagarich);
+
+    // MM7's Strange Temple: map id 207, past the merge's Enroth range, continent 2 (Antagarich) in bolster_maps
+    const Game::MapStatsEntry *pTemple = data.mapStats().findByFileName("7nwc.blv");
+    REQUIRE(pTemple != nullptr);
+    CHECK_GT(pTemple->id, 203);
+    CHECK_EQ(pTemple->mergedContinentId, 2u);
+    REQUIRE(ui.ensureTownPortalDestinationsLoaded("7nwc.blv", ""));
+    CHECK_EQ(ui.townPortalBackgroundTextureName(), antagarich);
+}

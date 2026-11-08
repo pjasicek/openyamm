@@ -149,6 +149,17 @@ constexpr std::array<TownPortalContinentGroup, 4> TownPortalContinentGroups = {{
 
 std::string townPortalGroupNameForMap(const MapStatsEntry &mapEntry)
 {
+    // A map's continent from bolster_maps decides; maps without one fall back to the merge's map id ranges.
+    if (mapEntry.mergedContinentId == 2)
+    {
+        return "Antagrich";
+    }
+
+    if (mapEntry.mergedContinentId == 3)
+    {
+        return "TPEnroth";
+    }
+
     if (mapEntry.id >= 62 && mapEntry.id <= 136)
     {
         return "Antagrich";
